@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal2",
-    "name": "wheat cereal",
+    "name": { "str": "wheat cereal" },
     "weight": "52 g",
     "color": "yellow",
     "spoils_in": "90 days",
@@ -239,7 +239,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pancakes",
-    "name": { "str": "pancake" },
+    "name": { "str": "pancake", "str_pl": "pancakes" },
     "weight": "40 g",
     "color": "brown",
     "spoils_in": "10 days",
@@ -262,6 +262,36 @@
     "id": "fruit_pancakes",
     "copy-from": "pancakes",
     "name": { "str": "fruit pancake" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "apple pancake" } },
+      { "type": "COMPONENT_ID", "condition": "apricot", "name": { "str": "apricot pancake" } },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "banana pancake" } },
+      { "type": "COMPONENT_ID", "condition": "blackberries", "name": { "str": "blackberry pancake" } },
+      { "type": "COMPONENT_ID", "condition": "blueberries", "name": { "str": "blueberry pancake" } },
+      { "type": "COMPONENT_ID", "condition": "cherries", "name": { "str": "cherry pancake" } },
+      { "type": "COMPONENT_ID", "condition": "cranberries", "name": { "str": "cranberry pancake" } },
+      { "type": "COMPONENT_ID", "condition": "grapefruit", "name": { "str": "grapefruit pancake" } },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "grape pancake" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "kiwi pancake" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "melon pancake" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str": "orange pancake" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str": "papaya pancake" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "peach pancake" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "pear pancake" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "plum pancake" } },
+      { "type": "COMPONENT_ID", "condition": "pomegranate", "name": { "str": "pomegranate pancake" } },
+      { "type": "COMPONENT_ID", "condition": "raspberries", "name": { "str": "raspberry pancake" } },
+      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": { "str": "rose hips pancake" } },
+      { "type": "COMPONENT_ID", "condition": "strawberries", "name": { "str": "strawberry pancake" } },
+      { "type": "COMPONENT_ID", "condition": "huckleberries", "name": { "str": "huckleberry pancake" } },
+      { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str": "mulberry pancake" } },
+      { "type": "COMPONENT_ID", "condition": "elderberries", "name": { "str": "elderberry pancake" } },
+      { "type": "COMPONENT_ID", "condition": "watermelon", "name": { "str": "watermelon pancake" } },
+      { "type": "COMPONENT_ID", "condition": "rhubarb", "name": { "str": "rhubarb pancake" } },
+      { "type": "COMPONENT_ID", "condition": "lemon", "name": { "str": "lemon pancake" } },
+      { "type": "COMPONENT_ID", "condition": "can_peach", "name": { "str": "peach pancake" } },
+      { "type": "COMPONENT_ID", "condition": "apple_canned", "name": { "str": "fruit pancake" } }
+    ],
     "weight": "80 g",
     "color": "brown",
     "calories": 113,
@@ -294,7 +324,7 @@
   {
     "type": "COMESTIBLE",
     "id": "waffles",
-    "name": "waffle",
+    "name": { "str": "waffle" },
     "weight": "75 g",
     "color": "yellow",
     "spoils_in": "10 days",
@@ -313,7 +343,37 @@
   {
     "type": "COMESTIBLE",
     "id": "fruit_waffles",
-    "name": "fruit waffle",
+    "name": { "str": "fruit waffle" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "apple waffle" } },
+      { "type": "COMPONENT_ID", "condition": "apricot", "name": { "str": "apricot waffle" } },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "banana waffle" } },
+      { "type": "COMPONENT_ID", "condition": "blackberries", "name": { "str": "blackberry waffle" } },
+      { "type": "COMPONENT_ID", "condition": "blueberries", "name": { "str": "blueberry waffle" } },
+      { "type": "COMPONENT_ID", "condition": "cherries", "name": { "str": "cherry waffle" } },
+      { "type": "COMPONENT_ID", "condition": "cranberries", "name": { "str": "cranberry waffle" } },
+      { "type": "COMPONENT_ID", "condition": "grapefruit", "name": { "str": "grapefruit waffle" } },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "grape waffle" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "kiwi waffle" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "melon waffle" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str": "orange waffle" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str": "papaya waffle" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "peach waffle" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "pear waffle" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "plum waffle" } },
+      { "type": "COMPONENT_ID", "condition": "pomegranate", "name": { "str": "pomegranate waffle" } },
+      { "type": "COMPONENT_ID", "condition": "raspberries", "name": { "str": "raspberry waffle" } },
+      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": { "str": "rose hips waffle" } },
+      { "type": "COMPONENT_ID", "condition": "strawberries", "name": { "str": "strawberry waffle" } },
+      { "type": "COMPONENT_ID", "condition": "huckleberries", "name": { "str": "huckleberry waffle" } },
+      { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str": "mulberry waffle" } },
+      { "type": "COMPONENT_ID", "condition": "elderberries", "name": { "str": "elderberry waffle" } },
+      { "type": "COMPONENT_ID", "condition": "watermelon", "name": { "str": "watermelon waffle" } },
+      { "type": "COMPONENT_ID", "condition": "rhubarb", "name": { "str": "rhubarb waffle" } },
+      { "type": "COMPONENT_ID", "condition": "lemon", "name": { "str": "lemon waffle" } },
+      { "type": "COMPONENT_ID", "condition": "can_peach", "name": { "str": "peach waffle" } },
+      { "type": "COMPONENT_ID", "condition": "apple_canned", "name": { "str": "fruit waffle" } }
+    ],
     "weight": "156 g",
     "color": "yellow",
     "spoils_in": "10 days",
@@ -333,7 +393,7 @@
   {
     "type": "COMESTIBLE",
     "id": "crackers",
-    "name": "cracker",
+    "name": { "str": "cracker" },
     "weight": "56 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -354,7 +414,37 @@
   {
     "type": "COMESTIBLE",
     "id": "pie",
-    "name": "fruit pie",
+    "name": { "str": "fruit pie" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "apple pie" } },
+      { "type": "COMPONENT_ID", "condition": "apricot", "name": { "str": "apricot pie" } },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "banana pie" } },
+      { "type": "COMPONENT_ID", "condition": "blackberries", "name": { "str": "blackberry pie" } },
+      { "type": "COMPONENT_ID", "condition": "blueberries", "name": { "str": "blueberry pie" } },
+      { "type": "COMPONENT_ID", "condition": "cherries", "name": { "str": "cherry pie" } },
+      { "type": "COMPONENT_ID", "condition": "cranberries", "name": { "str": "cranberry pie" } },
+      { "type": "COMPONENT_ID", "condition": "grapefruit", "name": { "str": "grapefruit pie" } },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "grape pie" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "kiwi pie" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "melon pie" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str": "orange pie" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str": "papaya pie" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "peach pie" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "pear pie" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "plum pie" } },
+      { "type": "COMPONENT_ID", "condition": "pomegranate", "name": { "str": "pomegranate pie" } },
+      { "type": "COMPONENT_ID", "condition": "raspberries", "name": { "str": "raspberry pie" } },
+      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": { "str": "rose hips pie" } },
+      { "type": "COMPONENT_ID", "condition": "strawberries", "name": { "str": "strawberry pie" } },
+      { "type": "COMPONENT_ID", "condition": "huckleberries", "name": { "str": "huckleberry pie" } },
+      { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str": "mulberry pie" } },
+      { "type": "COMPONENT_ID", "condition": "elderberries", "name": { "str": "elderberry pie" } },
+      { "type": "COMPONENT_ID", "condition": "watermelon", "name": { "str": "watermelon pie" } },
+      { "type": "COMPONENT_ID", "condition": "rhubarb", "name": { "str": "rhubarb pie" } },
+      { "type": "COMPONENT_ID", "condition": "lemon", "name": { "str": "lemon pie" } },
+      { "type": "COMPONENT_ID", "condition": "can_peach", "name": { "str": "peach pie" } },
+      { "type": "COMPONENT_ID", "condition": "apple_canned", "name": { "str": "fruit pie" } }
+    ],
     "weight": "125 g",
     "color": "brown",
     "spoils_in": "3 days",
@@ -377,7 +467,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pizza_cheese",
-    "name": "cheese pizza",
+    "name": { "str": "cheese pizza" },
     "weight": "170 g",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -399,6 +489,141 @@
     "type": "COMESTIBLE",
     "id": "granola",
     "name": { "str": "granola", "str_pl": "granola" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "apple granola", "str_pl": "apple granola" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "apricot",
+        "name": { "str": "apricot granola", "str_pl": "apricot granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "banana",
+        "name": { "str": "banana granola", "str_pl": "banana granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blackberries",
+        "name": { "str": "blackberry granola", "str_pl": "blackberry granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blueberries",
+        "name": { "str": "blueberry granola", "str_pl": "blueberry granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cherries",
+        "name": { "str": "cherry granola", "str_pl": "cherry granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cranberries",
+        "name": { "str": "cranberry granola", "str_pl": "cranberry granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapefruit",
+        "name": { "str": "grapefruit granola", "str_pl": "grapefruit granola" }
+      },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "grape granola", "str_pl": "grape granola" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "kiwi granola", "str_pl": "kiwi granola" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "melon granola", "str_pl": "melon granola" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "orange",
+        "name": { "str": "orange granola", "str_pl": "orange granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "papaya",
+        "name": { "str": "papaya granola", "str_pl": "papaya granola" }
+      },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "peach granola", "str_pl": "peach granola" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "pear granola", "str_pl": "pear granola" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "plum granola", "str_pl": "plum granola" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pomegranate",
+        "name": { "str": "pomegranate granola", "str_pl": "pomegranate granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "raspberries",
+        "name": { "str": "raspberry granola", "str_pl": "raspberry granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rose_hips",
+        "name": { "str": "rose hips granola", "str_pl": "rose hips granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "strawberries",
+        "name": { "str": "strawberry granola", "str_pl": "strawberry granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "huckleberries",
+        "name": { "str": "huckleberry granola", "str_pl": "huckleberry granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mulberries",
+        "name": { "str": "mulberry granola", "str_pl": "mulberry granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "elderberries",
+        "name": { "str": "elderberry granola", "str_pl": "elderberry granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "watermelon",
+        "name": { "str": "watermelon granola", "str_pl": "watermelon granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rhubarb",
+        "name": { "str": "rhubarb granola", "str_pl": "rhubarb granola" }
+      },
+      { "type": "COMPONENT_ID", "condition": "lemon", "name": { "str": "lemon granola", "str_pl": "lemon granola" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "can_peach",
+        "name": { "str": "peach granola", "str_pl": "peach granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "apple_canned",
+        "name": { "str": "fruit granola", "str_pl": "fruit granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "dry_fruit",
+        "name": { "str": "dried fruit granola", "str_pl": "dried fruit granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "chocolate",
+        "name": { "str": "choco-chunk granola", "str_pl": "choco-chunk granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "candy",
+        "name": { "str": "peanut butter candy granola", "str_pl": "peanut butter candy granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "candy2",
+        "name": { "str": "chocolate candy granola", "str_pl": "chocolate candy granola" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "coffee",
+        "name": { "str": "cocoa-coffee granola", "str_pl": "cocoa-coffee granola" }
+      }
+    ],
     "weight": "32 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -421,7 +646,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pie_maple",
-    "name": "maple pie",
+    "name": { "str": "maple pie" },
     "weight": "74 g",
     "color": "brown",
     "spoils_in": "3 days",
@@ -463,7 +688,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cloutie_dumpling",
-    "name": "cloutie dumpling",
+    "name": { "str": "cloutie dumpling" },
     "weight": "91 g",
     "color": "brown",
     "spoils_in": "2 days",
@@ -483,7 +708,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brioche",
-    "name": "brioche",
+    "name": { "str": "brioche" },
     "weight": "77 g",
     "color": "brown",
     "spoils_in": "10 days",
@@ -506,7 +731,12 @@
     "id": "sponge_cake",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": "sponge cake",
+    "name": { "str": "sponge cake" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "honey", "name": { "str": "honey sponge cake" } },
+      { "type": "COMPONENT_ID", "condition": "owlbear", "name": { "str": "owlbear sponge cake" } },
+      { "type": "COMPONENT_ID", "condition": "syrup", "name": { "str": "maple sponge cake" } }
+    ],
     "description": "Plain, fluffy cake for the proletariat.",
     "container": "box_small",
     "weight": "68 g",
@@ -525,7 +755,12 @@
   {
     "id": "space_cake",
     "type": "COMESTIBLE",
-    "name": "space cake",
+    "name": { "str": "space cake" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "honey", "name": { "str": "honey space cake" } },
+      { "type": "COMPONENT_ID", "condition": "owlbear", "name": { "str": "owlbear space cake" } },
+      { "type": "COMPONENT_ID", "condition": "syrup", "name": { "str": "maple space cake" } }
+    ],
     "copy-from": "sponge_cake",
     "description": "This cake's destiny is to take you on a gnarly trip.",
     "fun": 12,
@@ -534,7 +769,7 @@
   {
     "id": "brownie",
     "type": "COMESTIBLE",
-    "name": "brownie",
+    "name": { "str": "brownie" },
     "copy-from": "sponge_cake",
     "description": "A rich chocolate brownie, just like how grandma used to bake them.",
     "weight": "45 g",
@@ -544,7 +779,7 @@
   {
     "id": "brownie_weed",
     "type": "COMESTIBLE",
-    "name": "'special' brownie",
+    "name": { "str": "'special' brownie" },
     "copy-from": "brownie",
     "description": "This is definitely not how grandma used to bake them.",
     "fun": 15,
