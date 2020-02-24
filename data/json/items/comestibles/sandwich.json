@@ -153,11 +153,31 @@
     "id": "sandwich_sauce",
     "name": { "str": "boring sandwich", "str_pl": "boring sandwiches" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "mayonnaise", "name": { "str": "mayonnaise sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "ketchup", "name": { "str": "ketchup sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "pesto", "name": { "str": "pesto sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "mustard", "name": { "str": "mustard sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "sauce", "name": { "str": "marinara sandwich" } }
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mayonnaise",
+        "name": { "str": "mayonnaise sandwich", "str_pl": "mayonnaise sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "ketchup",
+        "name": { "str": "ketchup sandwich", "str_pl": "ketchup sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pesto",
+        "name": { "str": "pesto sandwich", "str_pl": "pesto sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mustard",
+        "name": { "str": "mustard sandwich", "str_pl": "mustard sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sauce",
+        "name": { "str": "marinara sandwich", "str_pl": "marinara sandwiches" }
+      }
     ],
     "copy-from": "bread",
     "proportional": { "weight": 2.0, "calories": 2.0, "volume": 2.0 },
@@ -174,39 +194,143 @@
     "id": "sandwich_veggy",
     "name": { "str": "vegetable sandwich", "str_pl": "vegetable sandwiches" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "dandelion", "name": { "str": "dandelion sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "broccoli", "name": { "str": "broccoli sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "cabbage", "name": { "str": "cabbage sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "corn sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "cattail", "name": { "str": "cattail sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str": "carrot sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "celery", "name": { "str": "celery sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "corn sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "cucumber", "name": { "str": "cucumber sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "lettuce", "name": { "str": "lettuce sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "onion", "name": { "str": "onion sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "potato_baked", "name": { "str": "baked potato sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "irradiated_potato", "name": { "str": "radical potato sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "pumpkin", "name": { "str": "pumpkin sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "rhubarb", "name": { "str": "rhubarb sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "beet", "name": { "str": "sugar beet sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str": "tomato sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "plant marrow", "name": { "str": "plant marrow sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "spinach", "name": { "str": "spinach sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str": "zucchini sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "sauerkraut", "name": { "str": "sauerkraut sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "baked dahlia", "name": { "str": "baked dahlia sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "pine nut", "name": { "str": "pine nut sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "morel", "name": { "str": "morel sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "mushroom", "name": { "str": "mushroom sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "veggy aspic", "name": { "str": "veggy aspic sandwich" } },
-      { "type": "COMPONENT_ID", "condition": "pickle", "name": { "str": "pickle sandwich" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "dandelion",
+        "name": { "str": "dandelion sandwich", "str_pl": "dandelion sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "broccoli",
+        "name": { "str": "broccoli sandwich", "str_pl": "broccoli sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cabbage",
+        "name": { "str": "cabbage sandwich", "str_pl": "cabbage sandwiches" }
+      },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "corn sandwich", "str_pl": "corn sandwiches" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cattail",
+        "name": { "str": "cattail sandwich", "str_pl": "cattail sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "carrot",
+        "name": { "str": "carrot sandwich", "str_pl": "carrot sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "celery",
+        "name": { "str": "celery sandwich", "str_pl": "celery sandwiches" }
+      },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "corn sandwich", "str_pl": "corn sandwiches" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cucumber",
+        "name": { "str": "cucumber sandwich", "str_pl": "cucumber sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "lettuce",
+        "name": { "str": "lettuce sandwich", "str_pl": "lettuce sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "onion",
+        "name": { "str": "onion sandwich", "str_pl": "onion sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "potato_baked",
+        "name": { "str": "baked potato sandwich", "str_pl": "baked potato sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "irradiated_potato",
+        "name": { "str": "radical potato sandwich", "str_pl": "radical potato sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pumpkin",
+        "name": { "str": "pumpkin sandwich", "str_pl": "pumpkin sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rhubarb",
+        "name": { "str": "rhubarb sandwich", "str_pl": "rhubarb sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "beet",
+        "name": { "str": "sugar beet sandwich", "str_pl": "sugar beet sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "tomato",
+        "name": { "str": "tomato sandwich", "str_pl": "tomato sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "plant marrow",
+        "name": { "str": "plant marrow sandwich", "str_pl": "plant marrow sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "spinach",
+        "name": { "str": "spinach sandwich", "str_pl": "spinach sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "zucchini",
+        "name": { "str": "zucchini sandwich", "str_pl": "zucchini sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sauerkraut",
+        "name": { "str": "sauerkraut sandwich", "str_pl": "sauerkraut sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "baked dahlia",
+        "name": { "str": "baked dahlia sandwich", "str_pl": "baked dahlia sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pine nut",
+        "name": { "str": "pine nut sandwich", "str_pl": "pine nut sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "morel",
+        "name": { "str": "morel sandwich", "str_pl": "morel sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mushroom",
+        "name": { "str": "mushroom sandwich", "str_pl": "mushroom sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "veggy aspic",
+        "name": { "str": "veggy aspic sandwich", "str_pl": "veggy aspic sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pickle",
+        "name": { "str": "pickle sandwich", "str_pl": "pickle sandwiches" }
+      },
       {
         "type": "COMPONENT_ID",
         "condition": "sauerkraut_onion",
         "name": { "str": "sauerkraut and sautee'd onion sandwich" }
       },
-      { "type": "COMPONENT_ID", "condition": "pickled veggy", "name": { "str": "pickled veggy sandwich" } }
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pickled veggy",
+        "name": { "str": "pickled veggy sandwich", "str_pl": "pickled veggy sandwiches" }
+      }
     ],
     "weight": "289 g",
     "color": "light_gray",
