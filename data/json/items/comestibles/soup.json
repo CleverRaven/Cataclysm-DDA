@@ -4,9 +4,9 @@
     "id": "broth",
     "name": { "str": "broth" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "mushroom", "name": { "str": "mushroom %s" } },
-      { "type": "COMPONENT_ID", "condition": "morel", "name": { "str": "morel %s" } },
-      { "type": "COMPONENT_ID", "condition": "egg", "name": { "str": "egg %s" } },
+      { "type": "COMPONENT_ID", "condition": "mushroom", "name": { "str": "mushroom %s", "str_pl": "mushroom %s" } },
+      { "type": "COMPONENT_ID", "condition": "morel", "name": { "str": "morel %s", "str_pl": "morel %s" } },
+      { "type": "COMPONENT_ID", "condition": "egg", "name": { "str": "egg %s", "str_pl": "egg %s" } },
       {
         "type": "COMPONENT_ID",
         "condition": "dandelion",
@@ -89,13 +89,10 @@
     "id": "soup_veggy",
     "name": { "str": "vegetable soup" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "mushroom", "name": { "str": "mushroom soup" } },
-      { "type": "COMPONENT_ID", "condition": "morel", "name": { "str": "morel soup" } },
-      { "type": "COMPONENT_ID", "condition": "egg", "name": { "str": "egg soup" } },
       {
         "type": "COMPONENT_ID",
         "condition": "dandelion",
-        "name": { "str": "dandelion soup", "str_pl": "dandelion soup" }
+        "name": { "str": "dandelion %s", "str_pl": "dandelion %s" }
       },
       { "type": "COMPONENT_ID", "condition": "salsify", "name": { "str": "salsify soup", "str_pl": "salsify soup" } },
       {
