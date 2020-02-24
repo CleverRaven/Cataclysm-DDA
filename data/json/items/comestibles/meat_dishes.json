@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sausage_raw",
-    "name": "raw sausage",
+    "name": { "str": "raw sausage" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "raw Mannwurst" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "sinister %s", "str_pl": "sinister %s" } }
@@ -28,7 +28,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sausage",
-    "name": "sausage",
+    "name": { "str": "sausage" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "Mannwurst" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "sinister %s", "str_pl": "sinister %s" } }
@@ -44,7 +44,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sausage_cooked",
-    "name": "cooked sausage",
+    "name": { "str": "cooked sausage" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "cooked Mannwurst" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "sinister %s", "str_pl": "sinister %s" } }
@@ -103,7 +103,7 @@
   {
     "type": "COMESTIBLE",
     "id": "royal_beef",
-    "name": "royal beef",
+    "name": { "str": "royal beef" },
     "weight": "446 g",
     "color": "white",
     "spoils_in": "3 days 8 hours",
@@ -112,7 +112,7 @@
     "symbol": "%",
     "healthy": 10,
     "calories": 637,
-    "description": "A chunk of meat with a coat of royal jelly over it.  It's a lot like a honey-baked ham.",
+    "description": "A chunk of meat w// a coat of royal jelly over it.  It's a lot like a honey-baked ham.",
     "price": 21000,
     "material": "flesh",
     "volume": "500 ml",
@@ -145,8 +145,8 @@
     "id": "sausage_wasteland",
     "copy-from": "sausage_raw",
     "type": "COMESTIBLE",
-    "name": "wasteland sausage",
-    "description": "Lean sausage made from heavily salt-cured offal, with natural gut casing.  Waste not, want not.",
+    "name": { "str": "wasteland sausage" },
+    "description": "Lean sausage made from heavily salt-cured offal, w// natural gut casing.  Waste not, want not.",
     "parasites": 0,
     "healthy": 0,
     "spoils_in": 1176,
@@ -158,7 +158,7 @@
     "id": "sausage_wasteland_raw",
     "copy-from": "sausage_raw",
     "type": "COMESTIBLE",
-    "name": "raw wasteland sausage",
+    "name": { "str": "raw wasteland sausage" },
     "description": "Lean raw sausage made from heavily salt-cured offal, ready to be smoked.",
     "healthy": 0,
     "quench": -7,
@@ -189,7 +189,7 @@
   {
     "type": "COMESTIBLE",
     "id": "glazed_tenderloin",
-    "name": "glazed tenderloins",
+    "name": { "str": "glazed tenderloins" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "grisly %s", "str_pl": "grisly %s" } } ],
     "weight": "205 g",
     "color": "brown",
@@ -199,7 +199,7 @@
     "quench": 3,
     "healthy": 2,
     "calories": 560,
-    "description": "A tender piece of meat perfectly seasoned with a thin sweet glaze and its veggie accompaniments.  A gourmet dish that is both healthy, sweet and delicious.",
+    "description": "A tender piece of meat perfectly seasoned w// a thin sweet glaze and its veggie accompaniments.  A gourmet dish that is both healthy, sweet and delicious.",
     "price": 4000,
     "material": [ "flesh", "veggy" ],
     "primary_material": "flesh",
@@ -212,7 +212,7 @@
   {
     "type": "COMESTIBLE",
     "id": "currywurst",
-    "name": "currywurst",
+    "name": { "str": "currywurst" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "cheapskate %s", "str_pl": "cheapskate %s" } },
       {
@@ -241,10 +241,16 @@
   {
     "type": "COMESTIBLE",
     "id": "meat_aspic",
-    "name": "aspic",
+    "name": { "str": "aspic" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "abomination %s", "str_pl": "abomination %s" } },
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "amoral %s", "str_pl": "amoral %s" } }
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "amoral %s", "str_pl": "amoral %s" } },
+      { "type": "COMPONENT_ID", "condition": "chicken", "name": { "str": "chicken %s", "str_pl": "chicken %s" } },
+      { "type": "COMPONENT_ID", "condition": "clam", "name": { "str": "clam %s", "str_pl": "clam %s" } },
+      { "type": "COMPONENT_ID", "condition": "sardine", "name": { "str": "sardine %s", "str_pl": "sardine %s" } },
+      { "type": "COMPONENT_ID", "condition": "fish", "name": { "str": "fish %s", "str_pl": "fish %s" } },
+      { "type": "COMPONENT_ID", "condition": "salmon", "name": { "str": "salmon %s", "str_pl": "salmon %s" } },
+      { "type": "COMPONENT_ID", "condition": "herring", "name": { "str": "herring %s", "str_pl": "herring %s" } }
     ],
     "weight": "154 g",
     "color": "red",
@@ -270,7 +276,7 @@
     "color": "light_gray",
     "spoils_in": "360 days",
     "quench": -3,
-    "description": "Dehydrated fish flakes.  With proper storage, this dried food will remain edible for an incredibly long time.",
+    "description": "Dehydrated fish flakes.  w// proper storage, this dried food will remain edible for an incredibly long time.",
     "price": 500,
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ]
@@ -334,7 +340,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lunchmeat",
-    "name": "lunch meat",
+    "name": { "str": "lunch meat" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "loathsome %s", "str_pl": "loathsome %s" } } ],
     "weight": "56 g",
     "color": "red",
@@ -378,7 +384,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lutefisk",
-    "name": "lutefisk",
+    "name": { "str": "lutefisk" },
     "weight": "175 g",
     "color": "light_gray",
     "spoils_in": "360 days",
@@ -423,7 +429,7 @@
     "type": "COMESTIBLE",
     "id": "debug_nutrition",
     "copy-from": "can_spam",
-    "name": "holy SPAM of debugging",
+    "name": { "str": "holy SPAM of debugging" },
     "calories": 2100,
     "description": "A mysterious lump of SPAM that contains just enough calories and vitamins to feed you for a day.  For debug use only.",
     "//": "This is used for the all_nutrient_starve_test.",
@@ -432,7 +438,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_sardine",
-    "name": "canned sardine",
+    "name": { "str": "canned sardine" },
     "weight": "200 g",
     "color": "light_gray",
     "spoils_in": "1 day",
@@ -475,7 +481,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pemmican",
-    "name": "pemmican",
+    "name": { "str": "pemmican" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "prepper %s", "str_pl": "prepper %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "pernicious %s", "str_pl": "pernicious %s" } }
@@ -498,10 +504,32 @@
   {
     "type": "COMESTIBLE",
     "id": "macaroni_helper",
-    "name": "hamburger helper",
+    "name": { "str": "hamburger helper" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "hobo helper" },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "heinous %s", "str_pl": "heinous %s" } }
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "heinous %s", "str_pl": "heinous %s" } },
+      { "type": "COMPONENT_ID", "condition": "tuna", "name": { "str": "tuna helper", "str_pl": "tuna helper" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fish",
+        "name": { "str": "\"tuna\" helper", "str_pl": "\"tuna\" helper" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "salmon",
+        "name": { "str": "\"tuna\" helper", "str_pl": "\"tuna\" helper" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "chicken",
+        "name": { "str": "chicken helper", "str_pl": "chicken helper" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "bratwurst",
+        "name": { "str": "Hamburg helper", "str_pl": "Hamburg helper" }
+      },
+      { "type": "COMPONENT_ID", "condition": "spam", "name": { "str": "humble helper", "str_pl": "humble helper" } }
     ],
     "weight": "170 g",
     "color": "red",
@@ -512,7 +540,7 @@
     "quench": 13,
     "healthy": 1,
     "calories": 393,
-    "description": "Some mac and cheese with ground meat added, enhancing the flavor and the nutritional value.",
+    "description": "Some mac and cheese w// ground meat added, enhancing the flavor and the nutritional value.",
     "price": 490,
     "material": [ "wheat", "flesh", "milk" ],
     "volume": "250 ml",
@@ -523,7 +551,7 @@
   {
     "type": "COMESTIBLE",
     "id": "ravioli",
-    "name": "ravioli",
+    "name": { "str": "ravioli" },
     "weight": "170 g",
     "color": "light_red",
     "spoils_in": "2 days",
@@ -580,7 +608,7 @@
     "symbol": "%",
     "quench": -8,
     "calories": 283,
-    "description": "Greasy Prospector improved pork and beans with hickory smoked pig fat chunks.",
+    "description": "Greasy Prospector improved pork and beans w// hickory smoked pig fat chunks.",
     "price": 200,
     "material": [ "flesh", "bean" ],
     "volume": "500 ml",
@@ -600,7 +628,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 305,
-    "description": "Now with 95 percent fewer dolphins!",
+    "description": "Now w// 95 percent fewer dolphins!",
     "price": 200,
     "material": "flesh",
     "volume": "250 ml",
@@ -628,7 +656,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_chicken",
-    "name": "canned chicken",
+    "name": { "str": "canned chicken" },
     "weight": "217 g",
     "color": "pink",
     "spoils_in": "1 day",
@@ -685,7 +713,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_chowder",
-    "name": "clam chowder",
+    "name": { "str": "clam chowder" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "meat", "name": "meat chowder" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": "monster chowder" }
@@ -718,7 +746,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 373,
-    "description": "Slow-cooked beans with meat.  Tasty and very filling.",
+    "description": "Slow-cooked beans w// meat.  Tasty and very filling.",
     "price": 700,
     "material": [ "bean", "flesh" ],
     "volume": "1 L",
@@ -741,7 +769,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 313,
-    "description": "Delicious fried rice with meat.  Tasty and very filling.",
+    "description": "Delicious fried rice w// meat.  Tasty and very filling.",
     "price": 700,
     "material": [ "veggy", "flesh" ],
     "volume": "1 L",
@@ -769,7 +797,7 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 414,
-    "description": "Slow-cooked beans and rice with meat and seasonings.  Tasty and very filling.",
+    "description": "Slow-cooked beans and rice w// meat and seasonings.  Tasty and very filling.",
     "price": 750,
     "material": [ "veggy", "bean", "flesh" ],
     "volume": "375 ml",
@@ -781,7 +809,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pie_meat",
-    "name": "meat pie",
+    "name": { "str": "meat pie" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "prick pie" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "malignant %s", "str_pl": "malignant %s" } }
@@ -795,7 +823,7 @@
     "quench": 5,
     "healthy": 1,
     "calories": 400,
-    "description": "A delicious baked pie with a delicious meat filling.",
+    "description": "A delicious baked pie w// a delicious meat filling.",
     "price": 1350,
     "material": [ "wheat", "flesh" ],
     "volume": "2 L",
@@ -807,8 +835,54 @@
   {
     "type": "COMESTIBLE",
     "id": "pizza_meat",
-    "name": "meat pizza",
+    "name": { "str": "meat pizza" },
     "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "bacon", "name": { "str": "bacon pizza", "str_pl": "bacon pizza" } },
+      { "type": "COMPONENT_ID", "condition": "can_spam", "name": { "str": "SPAM pizza", "str_pl": "SPAM pizza" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "lunchmeat",
+        "name": { "str": "lunchmeat pizza", "str_pl": "lunchmeat pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fried_spam",
+        "name": { "str": "fried SPAM pizza", "str_pl": "fried SPAM pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "chicken",
+        "name": { "str": "chicken pizza", "str_pl": "chicken pizza" }
+      },
+      { "type": "COMPONENT_ID", "condition": "fish", "name": { "str": "fish pizza", "str_pl": "fish pizza" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fish_smoked",
+        "name": { "str": "smoked fish pizza", "str_pl": "smoked fish pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "can_herring",
+        "name": { "str": "pickled herring pizza", "str_pl": "pickled herring pizza" }
+      },
+      { "type": "COMPONENT_ID", "condition": "salmon", "name": { "str": "salmon pizza", "str_pl": "salmon pizza" } },
+      { "type": "COMPONENT_ID", "condition": "tuna", "name": { "str": "tuna pizza", "str_pl": "tuna pizza" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sardine",
+        "name": { "str": "sardine pizza", "str_pl": "sardine pizza" }
+      },
+      { "type": "COMPONENT_ID", "condition": "clam", "name": { "str": "clam pizza", "str_pl": "clam pizza" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cracklins",
+        "name": { "str": "cracklin pizza", "str_pl": "cracklin pizza" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sausage",
+        "name": { "str": "sausage pizza", "str_pl": "sausage pizza" }
+      },
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "poser pizza" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "miserable %s", "str_pl": "miserable %s" } }
     ],
@@ -819,7 +893,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 566,
-    "description": "A meat pizza, for all the carnivores out there.  Chock-full of minced meat and heavily seasoned.",
+    "description": "A meat pizza, for all the carnivores out there.  Chock full of minced meat and heavily seasoned.",
     "price": 1090,
     "material": [ "wheat", "flesh" ],
     "volume": "1 L",
@@ -831,12 +905,12 @@
   {
     "type": "COMESTIBLE",
     "id": "pizza_supreme",
-    "name": "supreme pizza",
+    "name": { "str": "supreme pizza" },
     "copy-from": "pizza_meat",
     "color": "light_red",
     "weight": "300 g",
     "calories": 641,
-    "description": "A supreme pizza with ALL the toppings.",
+    "description": "A supreme pizza w// ALL the toppings.",
     "price": 1500,
     "material": [ "wheat", "flesh", "veggy", "milk" ],
     "fun": 11,
@@ -849,8 +923,68 @@
     "conditional_names": [
       {
         "type": "COMPONENT_ID",
+        "condition": "salmon",
+        "name": { "str": "scrambled eggs w/ salmon", "str_pl": "scrambled eggs w/ salmon" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sardine",
+        "name": { "str": "scrambled eggs w/ sardines", "str_pl": "scrambled eggs w/ sardines" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "herring",
+        "name": { "str": "scrambled eggs w// herring", "str_pl": "scrambled eggs w/ herring" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "tuna",
+        "name": { "str": "scrambled eggs w/ tuna", "str_pl": "scrambled eggs w/ tuna" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cracklins",
+        "name": { "str": "scrambled eggs w/ cracklins", "str_pl": "scrambled eggs w/ cracklins" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fish",
+        "name": { "str": "scrambled eggs w/ fish", "str_pl": "scrambled eggs w/ fish" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "herring",
+        "name": { "str": "scrambled eggs w/ herring", "str_pl": "scrambled eggs w/ herring" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "meat",
+        "name": { "str": "scrambled eggs w/ steak", "str_pl": "scrambled eggs w/ steak" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "bacon",
+        "name": { "str": "scrambled eggs w/ bacon", "str_pl": "scrambled eggs w/ bacon" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sausage",
+        "name": { "str": "scrambled eggs w/ sausage", "str_pl": "scrambled eggs w/ sausage" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "bratwurst",
+        "name": { "str": "scrambled eggs w/ bratwurst", "str_pl": "scrambled eggs w/ bratwurst" }
+      },
+      {
+        "type": "COMPONENT_ID",
         "condition": "mutant",
         "name": { "str": "\"deluxe\" scrambled eggs", "str_pl": "\"deluxe\" scrambled eggs" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "spam",
+        "name": { "str": "scrambled eggs w/ SPAM", "str_pl": "scrambled eggs w/ SPAM" }
       }
     ],
     "weight": "198 g",
@@ -860,7 +994,7 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 279,
-    "description": "Fluffy and delicious scrambled eggs made more delicious with the addition of other tasty ingredients.",
+    "description": "Fluffy and delicious scrambled eggs made more delicious w// the addition of other tasty ingredients.",
     "price": 700,
     "material": [ "egg", "flesh" ],
     "volume": "250 ml",
@@ -872,7 +1006,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meat_canned",
-    "name": "canned meat",
+    "name": { "str": "canned meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "soylent slice" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
@@ -889,7 +1023,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meat_salted",
-    "name": "salted meat slice",
+    "name": { "str": "salted meat slice" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "salted simpleton slice" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
@@ -921,7 +1055,7 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 226,
-    "description": "Spaghetti covered with a thick meat sauce.  Yum!",
+    "description": "Spaghetti covered w// a thick meat sauce.  Yum!",
     "price": 1000,
     "material": [ "wheat", "flesh" ],
     "volume": "1750 ml",
@@ -933,7 +1067,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lasagne",
-    "name": "lasagne",
+    "name": { "str": "lasagne" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "Luigi %s", "str_pl": "Luigi %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "monster %s", "str_pl": "monster %s" } }
@@ -946,7 +1080,7 @@
     "quench": 5,
     "healthy": 1,
     "calories": 226,
-    "description": "A very old type of pasta made with several layers of lasagne sheets alternated with cheese, sauces and meats.",
+    "description": "A very old type of pasta made w// several layers of lasagne sheets alternated w// cheese, sauces and meats.",
     "price": 1000,
     "material": [ "flesh", "wheat", "milk" ],
     "primary_material": "processed_food",
@@ -972,7 +1106,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cheeseburger",
-    "name": "cheeseburger",
+    "name": { "str": "cheeseburger" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "chump %s", "str_pl": "chump %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "chilling %s", "str_pl": "chilling %s" } }
@@ -984,7 +1118,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 380,
-    "description": "A sandwich of minced meat and cheese with condiments.  The apex of pre-Cataclysm culinary achievement.",
+    "description": "A sandwich of minced meat and cheese w// condiments.  The apex of pre-Cataclysm culinary achievement.",
     "price": 1000,
     "material": [ "flesh", "wheat", "milk" ],
     "primary_material": "processed_food",
@@ -996,7 +1130,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hamburger",
-    "name": "hamburger",
+    "name": { "str": "hamburger" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "bobburger" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "horrible %s", "str_pl": "horrible %s" } }
@@ -1008,7 +1142,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 258,
-    "description": "A sandwich of minced meat with condiments.",
+    "description": "A sandwich of minced meat w// condiments.",
     "price": 900,
     "material": [ "flesh", "wheat" ],
     "volume": "500 ml",
@@ -1019,7 +1153,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sloppyjoe",
-    "name": "sloppy joe",
+    "name": { "str": "sloppy joe" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "manwich", "str_pl": "manwiches" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "suspicious %s", "str_pl": "suspicious %s" } }
@@ -1042,8 +1176,9 @@
   {
     "type": "COMESTIBLE",
     "id": "taco",
-    "name": "taco",
+    "name": { "str": "taco" },
     "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "chicken", "name": { "str": "chicken %s", "str_pl": "chicken %s" } },
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "tio %s", "str_pl": "tio %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "terrifying %s", "str_pl": "terrifying %s" } }
     ],
@@ -1065,7 +1200,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meat_pickled",
-    "name": "pickled meat",
+    "name": { "str": "pickled meat", "str_pl": "pickled meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "pickled punk" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
@@ -1083,7 +1218,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_meat",
-    "name": "dehydrated meat",
+    "name": { "str": "dehydrated meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "%s, human", "str_pl": "%s, human" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
@@ -1093,7 +1228,7 @@
     "color": "red",
     "spoils_in": "360 days",
     "quench": -3,
-    "description": "Dehydrated meat flakes.  With proper storage, this dried food will remain edible for an incredibly long time.",
+    "description": "Dehydrated meat flakes.  w// proper storage, this dried food will remain edible for an incredibly long time.",
     "price": 900,
     "material": "flesh",
     "primary_material": "cured_meat",
@@ -1103,7 +1238,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_meat",
-    "name": "rehydrated meat",
+    "name": { "str": "rehydrated meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "%s, human", "str_pl": "%s, human" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "%s, mutant", "str_pl": "%s, mutant" } }
@@ -1118,9 +1253,9 @@
   {
     "type": "COMESTIBLE",
     "id": "haggis",
-    "name": { "str": "haggis", "str_pl": "haggises" },
+    "name": { "str": "haggis", "str_pl": "haggii" },
     "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "human %s", "str_pl": "human %s" } } ],
-    "//": "That's whisky without an 'e' because we're talking about Scotch whisky.",
+    "//": "That's whisky w//out an 'e' because we're talking about Scotch whisky.",
     "weight": "156 g",
     "color": "brown",
     "spoils_in": "15 days",
@@ -1129,7 +1264,7 @@
     "quench": 2,
     "healthy": 1,
     "calories": 441,
-    "description": "This traditional Scottish savory pudding is made of meat and offal mixed with oatmeal, which is sewn into an animal's stomach and boiled.  Surprisingly tasty and quite filling, it is best served with boiled root vegetables and strong whisky.",
+    "description": "This traditional Scottish savory pudding is made of meat and offal mixed w// oatmeal, which is sewn into an animal's stomach and boiled.  Surprisingly tasty and quite filling, it is best served w// boiled root vegetables and strong whisky.",
     "price": 750,
     "material": [ "wheat", "flesh" ],
     "volume": "250 ml",
@@ -1180,6 +1315,34 @@
     "type": "COMESTIBLE",
     "id": "sashimi",
     "name": { "str": "sashimi", "str_pl": "sashimi" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str": "sashimi w/ carrot", "str_pl": "sashimi w/ carrot" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cucumber",
+        "name": { "str": "sashimi w/ cucumber", "str_pl": "sashimi w/ cucumber" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "celery",
+        "name": { "str": "sashimi w/ celery", "str_pl": "sashimi w/ celery" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "veggy",
+        "name": { "str": "sashimi w/ plant marrow", "str_pl": "sashimi w/ plant marrow" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "tofu",
+        "name": { "str": "sashimi w/ tofu", "str_pl": "sashimi w/ tofu" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wild_veggy",
+        "name": { "str": "sashimi w/ wild vegetables", "str_pl": "sashimi w/ wild vegetables" }
+      }
+    ],
     "copy-from": "fish_cooked",
     "color": "white",
     "spoils_in": "12 hours",
@@ -1193,7 +1356,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_meat_tainted",
-    "name": "dehydrated tainted meat",
+    "name": { "str": "dehydrated tainted meat" },
     "copy-from": "meat_tainted",
     "weight": "85 g",
     "color": "red",
@@ -1210,7 +1373,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pelmeni",
-    "name": "pelmeni",
+    "name": { "str": "pelmeni" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perilous %s", "str_pl": "perilous %s" } } ],
     "weight": "151 g",
     "color": "light_red",
@@ -1231,7 +1394,7 @@
   {
     "type": "COMESTIBLE",
     "id": "homemade_burrito",
-    "name": "homemade burrito",
+    "name": { "str": "homemade burrito" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "bone-chilling burrito" } ],
     "weight": "142 g",
     "color": "brown",
