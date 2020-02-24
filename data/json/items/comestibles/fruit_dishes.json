@@ -192,16 +192,8 @@
     "name": { "str": "cooked fruit", "str_pl": "cooked fruit" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "cooked apple" } },
-      {
-        "type": "COMPONENT_ID",
-        "condition": "apricot",
-        "name": { "str": "cooked apricot" }
-      },
-      {
-        "type": "COMPONENT_ID",
-        "condition": "banana",
-        "name": { "str": "cooked banana" }
-      },
+      { "type": "COMPONENT_ID", "condition": "apricot", "name": { "str": "cooked apricot" } },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "cooked banana" } },
       {
         "type": "COMPONENT_ID",
         "condition": "blackberries",
@@ -230,11 +222,7 @@
       { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "cooked grapes", "str_pl": "cooked grapes" } },
       { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "cooked kiwi", "str_pl": "cooked kiwi" } },
       { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "cooked melon", "str_pl": "cooked melon" } },
-      {
-        "type": "COMPONENT_ID",
-        "condition": "orange",
-        "name": { "str": "cooked orange" }
-      },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str": "cooked orange" } },
       {
         "type": "COMPONENT_ID",
         "condition": "papaya",
@@ -441,11 +429,7 @@
       { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "dried peach", "str_pl": "dried peach" } },
       { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "dried pear" } },
       { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "prunes", "str_pl": "prunes" } },
-      {
-        "type": "COMPONENT_ID",
-        "condition": "pomegranate",
-        "name": { "str": "dried pomegranate" }
-      },
+      { "type": "COMPONENT_ID", "condition": "pomegranate", "name": { "str": "dried pomegranate" } },
       {
         "type": "COMPONENT_ID",
         "condition": "raspberries",
