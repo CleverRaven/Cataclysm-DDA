@@ -307,7 +307,7 @@
   {
     "id": "glowstick_lit",
     "type": "TOOL",
-    "name": "active glowstick",
+    "name": { "str": "active glowstick" },
     "description": "This is an active glowstick and is producing light.  It will last for a few hours before burning out.",
     "weight": "29 g",
     "volume": "250 ml",
@@ -347,7 +347,7 @@
     "id": "handflare_lit",
     "copy-from": "handflare",
     "type": "TOOL",
-    "name": "active flare",
+    "name": { "str": "active flare" },
     "description": "This burning magnesium flare is producing light.  It will last for about a half hour before burning out.",
     "color": "white",
     "turns_per_charge": 6,
