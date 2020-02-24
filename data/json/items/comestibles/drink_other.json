@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauce_red",
-    "name": { "str": "red sauce" "str_pl": "red sauce" },
+    "name": { "str": "red sauce", "str_pl": "red sauce" },
     "weight": "64 g",
     "color": "red",
     "spoils_in": "3 days",
