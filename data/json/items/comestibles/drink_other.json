@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauce_red",
-    "name": { "str": "red sauce" },
+    "name": { "str": "red sauce" "str_pl": "red sauce" },
     "weight": "64 g",
     "color": "red",
     "spoils_in": "3 days",
@@ -258,7 +258,6 @@
     "charges": 16,
     "phase": "liquid",
     "fun": -25,
-    "flags": [  ],
     "vitamins": [  ],
     "freezing_point": 14
   },
@@ -277,7 +276,6 @@
     "copy-from": "cooking_oil",
     "description": "Thin yellow animal oil used for cooking.",
     "material": [ "flesh", "oil" ],
-    "flags": [  ]
   },
   {
     "type": "COMESTIBLE",
