@@ -605,7 +605,7 @@ std::string worldfactory::pick_random_name()
     return get_next_valid_worldname();
 }
 
-int worldfactory::show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world )
+int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLDPTR world )
 {
     get_options().set_world_options( &world->WORLD_OPTIONS );
     const std::string action = get_options().show( false, true );
@@ -615,10 +615,6 @@ int worldfactory::show_worldgen_tab_options( const catacurses::window &win, WORL
 
     } else if( action == "NEXT_TAB" ) {
         return 1;
-
-    } else if( action == "HELP_KEYBINDINGS" ) {
-        draw_worldgen_tabs( win, 1 );
-        catacurses::refresh();
 
     } else if( action == "QUIT" ) {
         return -999;
