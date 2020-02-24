@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "testcomest",
-    "name": "diet pill",
+    "name": { "str": "diet pill" },
     "weight": "100 g",
     "color": "red",
     "spoils_in": "4 days 4 hours",
@@ -18,7 +18,7 @@
     "type": "COMESTIBLE",
     "id": "slime_scrap",
     "category": "other",
-    "name": "blob glob",
+    "name": { "str": "blob glob" },
     "weight": "238 g",
     "color": "dark_gray",
     "use_action": "POISON",
@@ -33,7 +33,7 @@
   {
     "type": "COMESTIBLE",
     "id": "honeycomb",
-    "name": "honey comb",
+    "name": { "str": "honey comb" },
     "weight": "150 g",
     "color": "yellow",
     "use_action": "HONEYCOMB",
@@ -128,7 +128,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mycus_fruit",
-    "name": { "str": "mycus fruit" },
+    "name": { "str": "mycus fruit", "str_pl": "mycus fruits" },
     "weight": "354 g",
     "color": "light_gray",
     "use_action": "MYCUS",
@@ -219,7 +219,7 @@
   {
     "type": "COMESTIBLE",
     "id": "paper",
-    "name": "paper",
+    "name": { "str": "paper" },
     "category": "spare_parts",
     "weight": "3 g",
     "color": "white",
@@ -236,7 +236,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cardboard",
-    "name": "cardboard",
+    "name": { "str": "cardboard" },
     "looks_like": "paper",
     "category": "spare_parts",
     "weight": "10 g",
@@ -391,7 +391,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_edamame",
-    "name": "raw edamame",
+    "name": { "str": "raw edamame" },
     "copy-from": "seed",
     "weight": "160 g",
     "symbol": ".",
@@ -637,7 +637,7 @@
     "description": "Some grass, edible by grazers and ruminants only.  Seeing this item is a bug.",
     "price": 0,
     "material": "veggy",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": "TRADER_AVOID",
     "volume": "250 ml"
   },
   {
@@ -653,13 +653,13 @@
     "description": "Some underbrush, edible by ruminants only.  Seeing this item is a bug.",
     "price": 0,
     "material": "veggy",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": "TRADER_AVOID",
     "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
     "id": "nectar",
-    "name": { "str": "nectar" },
+    "name": { "str": "nectar", "str_pl": "nectars" },
     "weight": "100 g",
     "color": "green",
     "comestible_type": "FOOD",
