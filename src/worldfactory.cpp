@@ -159,6 +159,8 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
             if( curtab < 0 ) {
                 if( !query_yn( _( "Do you want to abort World Generation?" ) ) ) {
                     curtab = lasttab;
+                    catacurses::clear();
+                    catacurses::refresh();
                 }
             }
         }
