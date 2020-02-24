@@ -23,7 +23,7 @@
   {
     "type": "COMESTIBLE",
     "id": "banana",
-    "name": "banana",
+    "name": { "str": "banana" },
     "weight": "118 g",
     "color": "yellow",
     "spoils_in": "5 days",
@@ -43,7 +43,7 @@
   {
     "type": "COMESTIBLE",
     "id": "orange",
-    "name": "orange",
+    "name": { "str": "orange" },
     "weight": "140 g",
     "color": "light_red",
     "spoils_in": "21 days",
@@ -64,7 +64,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lemon",
-    "name": "lemon",
+    "name": { "str": "lemon" },
     "weight": "84 g",
     "color": "yellow",
     "spoils_in": "21 days",
@@ -253,7 +253,7 @@
   {
     "type": "COMESTIBLE",
     "id": "juice_pulp",
-    "name": "juice pulp",
+    "name": { "str": "juice pulp" },
     "weight": "62 g",
     "color": "light_red",
     "spoils_in": "2 days 12 hours",
@@ -274,7 +274,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pear",
-    "name": "pear",
+    "name": { "str": "pear" },
     "weight": "148 g",
     "color": "yellow",
     "spoils_in": "4 days",
@@ -295,7 +295,7 @@
   {
     "type": "COMESTIBLE",
     "id": "grapefruit",
-    "name": "grapefruit",
+    "name": { "str": "grapefruit" },
     "weight": "246 g",
     "color": "yellow",
     "spoils_in": 336,
@@ -337,7 +337,7 @@
   {
     "type": "COMESTIBLE",
     "id": "plums",
-    "name": "plum",
+    "name": { "str": "plum" },
     "weight": "66 g",
     "color": "magenta",
     "spoils_in": "2 days 12 hours",
@@ -379,7 +379,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pineapple",
-    "name": "pineapple",
+    "name": { "str": "pineapple" },
     "weight": "174 g",
     "color": "brown",
     "spoils_in": "3 days",
@@ -402,7 +402,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coconut",
-    "name": "coconut",
+    "name": { "str": "coconut" },
     "weight": "84 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -443,7 +443,7 @@
   {
     "type": "COMESTIBLE",
     "id": "watermelon",
-    "name": "watermelon",
+    "name": { "str": "watermelon" },
     "weight": "161 g",
     "color": "green",
     "spoils_in": "7 days 12 hours",
@@ -467,7 +467,7 @@
   {
     "type": "COMESTIBLE",
     "id": "melon",
-    "name": "melon",
+    "name": { "str": "melon" },
     "//": "based on a canteloupe",
     "weight": "165 g",
     "color": "light_green",
@@ -512,7 +512,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mango",
-    "name": "mango",
+    "name": { "str": "mango" },
     "weight": "174 g",
     "color": "red",
     "spoils_in": "5 days",
@@ -535,7 +535,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pomegranate",
-    "name": "pomegranate",
+    "name": { "str": "pomegranate" },
     "weight": "184 g",
     "color": "red",
     "spoils_in": 336,
@@ -557,7 +557,7 @@
   {
     "type": "COMESTIBLE",
     "id": "papaya",
-    "name": "papaya",
+    "name": { "str": "papaya" },
     "weight": "243 g",
     "color": "yellow",
     "spoils_in": "5 days",
@@ -579,7 +579,7 @@
   {
     "type": "COMESTIBLE",
     "id": "kiwi",
-    "name": "kiwi",
+    "name": { "str": "kiwi" },
     "weight": "74 g",
     "color": "brown",
     "spoils_in": "7 days",
@@ -622,7 +622,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cholla_bud",
-    "name": "cholla bud",
+    "name": { "str": "cholla bud" },
     "weight": "92 g",
     "color": "red",
     "spoils_in": "6 days 16 hours",
@@ -643,7 +643,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cactus_pad",
-    "name": "cactus pad",
+    "name": { "str": "cactus pad" },
     "weight": "149 g",
     "color": "green",
     "spoils_in": "1 days",
