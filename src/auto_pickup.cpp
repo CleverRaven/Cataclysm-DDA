@@ -427,36 +427,51 @@ void rule::test_pattern() const
         vMatchingItems.push_back( sItemName );
     }
 
-    const int iOffsetX = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    const int iOffsetY = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
-                               0 );
-
     int iStartPos = 0;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 8;
-    const int iContentWidth = FULL_SCREEN_WIDTH - 30;
+    int iContentHeight = 0;
+    int iContentWidth = 0;
 
-    const catacurses::window w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth,
-            point( iOffsetX, iOffsetY ) );
-    const catacurses::window w_test_rule_content = catacurses::newwin( iContentHeight,
-            iContentWidth - 2,
-            point( 1 + iOffsetX, 1 + iOffsetY ) );
+    catacurses::window w_test_rule_border;
+    catacurses::window w_test_rule_content;
+
+    ui_adaptor ui;
+
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int iOffsetX = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+        const int iOffsetY = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
+                                   0 );
+        iContentHeight = FULL_SCREEN_HEIGHT - 8;
+        iContentWidth = FULL_SCREEN_WIDTH - 30;
+
+        w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth,
+                             point( iOffsetX, iOffsetY ) );
+        w_test_rule_content = catacurses::newwin( iContentHeight,
+                              iContentWidth - 2,
+                              point( 1 + iOffsetX, 1 + iOffsetY ) );
+
+        ui.position_from_window( w_test_rule_border );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
     int nmatch = vMatchingItems.size();
     const std::string buf = string_format( ngettext( "%1$d item matches: %2$s",
                                            "%1$d items match: %2$s",
                                            nmatch ), nmatch, sRule );
-    draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
-    center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
-                  _( "Won't display content or suffix matches" ) );
-    wrefresh( w_test_rule_border );
 
     int iLine = 0;
 
     input_context ctxt( "AUTO_PICKUP_TEST" );
     ctxt.register_updown();
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    while( true ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
+        center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
+                      _( "Won't display content or suffix matches" ) );
+        wrefresh( w_test_rule_border );
+
         // Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
             for( int j = 0; j < 79; j++ ) {
@@ -487,6 +502,10 @@ void rule::test_pattern() const
         }
 
         wrefresh( w_test_rule_content );
+    } );
+
+    while( true ) {
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
@@ -499,7 +518,7 @@ void rule::test_pattern() const
             if( iLine < 0 ) {
                 iLine = vMatchingItems.size() - 1;
             }
-        } else {
+        } else if( action == "QUIT" ) {
             break;
         }
     }
