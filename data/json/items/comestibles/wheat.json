@@ -239,7 +239,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pancakes",
-    "name": { "str": "pancake", "str_pl": "pancakes" },
+    "name": { "str": "pancake" },
     "weight": "40 g",
     "color": "brown",
     "spoils_in": "10 days",
