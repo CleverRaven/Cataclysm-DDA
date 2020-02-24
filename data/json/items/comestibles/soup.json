@@ -2,7 +2,46 @@
   {
     "type": "COMESTIBLE",
     "id": "broth",
-    "name": "broth",
+    "name": { "str": "broth" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "mushroom", "name": { "str": "mushroom %s" } },
+      { "type": "COMPONENT_ID", "condition": "morel", "name": { "str": "morel %s" } },
+      { "type": "COMPONENT_ID", "condition": "egg", "name": { "str": "egg %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "dandelion",
+        "name": { "str": "dandelion %s", "str_pl": "dandelion %s" }
+      },
+      { "type": "COMPONENT_ID", "condition": "salsify", "name": { "str": "salsify %s", "str_pl": "salsify %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fiddlehead",
+        "name": { "str": "fiddlehead %s", "str_pl": "fiddlehead %s" }
+      },
+      { "type": "COMPONENT_ID", "condition": "broccoli", "name": { "str": "broccoli %s", "str_pl": "broccoli %s" } },
+      { "type": "COMPONENT_ID", "condition": "cabbage", "name": { "str": "cabbage %s", "str_pl": "cabbage %s" } },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "corn %s", "str_pl": "corn %s" } },
+      { "type": "COMPONENT_ID", "condition": "cattail", "name": { "str": "cattail %s", "str_pl": "cattail %s" } },
+      { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str": "carrot %s", "str_pl": "carrot %s" } },
+      { "type": "COMPONENT_ID", "condition": "celery", "name": { "str": "celery %s", "str_pl": "celery %s" } },
+      { "type": "COMPONENT_ID", "condition": "cucumber", "name": { "str": "cucumber %s", "str_pl": "cucumber %s" } },
+      { "type": "COMPONENT_ID", "condition": "lettuce", "name": { "str": "lettuce %s", "str_pl": "lettuce %s" } },
+      { "type": "COMPONENT_ID", "condition": "onion", "name": { "str": "onion %s", "str_pl": "onion %s" } },
+      { "type": "COMPONENT_ID", "condition": "alien", "name": { "str": "alien %s", "str_pl": "alien %s" } },
+      { "type": "COMPONENT_ID", "condition": "potato", "name": { "str": "potato %s", "str_pl": "potato %s" } },
+      { "type": "COMPONENT_ID", "condition": "pumpkin", "name": { "str": "pumpkin %s", "str_pl": "pumpkin %s" } },
+      { "type": "COMPONENT_ID", "condition": "rhubarb", "name": { "str": "rhubarb %s", "str_pl": "rhubarb %s" } },
+      { "type": "COMPONENT_ID", "condition": "beet", "name": { "str": "sugar beet %s", "str_pl": "sugar beet %s" } },
+      { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str": "tomato %s", "str_pl": "tomato %s" } },
+      { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str": "vegetable %s", "str_pl": "vegetable %s" } },
+      { "type": "COMPONENT_ID", "condition": "spinach", "name": { "str": "spinach %s", "str_pl": "spinach %s" } },
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str": "zucchini %s", "str_pl": "zucchini %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wild_carrot",
+        "name": { "str": "wild root %s", "str_pl": "wild root %s" }
+      }
+    ],
     "weight": "253 g",
     "color": "yellow",
     "spoils_in": "6 days 16 hours",
@@ -24,7 +63,7 @@
   {
     "type": "COMESTIBLE",
     "id": "broth_bone",
-    "name": "bone broth",
+    "name": { "str": "bone broth" },
     "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "human %s", "str_pl": "human %s" } } ],
     "weight": "267 g",
     "color": "yellow",
@@ -48,7 +87,66 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_veggy",
-    "name": "vegetable soup",
+    "name": { "str": "vegetable soup" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "mushroom", "name": { "str": "mushroom soup" } },
+      { "type": "COMPONENT_ID", "condition": "morel", "name": { "str": "morel soup" } },
+      { "type": "COMPONENT_ID", "condition": "egg", "name": { "str": "egg soup" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "dandelion",
+        "name": { "str": "dandelion soup", "str_pl": "dandelion soup" }
+      },
+      { "type": "COMPONENT_ID", "condition": "salsify", "name": { "str": "salsify soup", "str_pl": "salsify soup" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fiddlehead",
+        "name": { "str": "fiddlehead soup", "str_pl": "fiddlehead soup" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "broccoli",
+        "name": { "str": "broccoli soup", "str_pl": "broccoli soup" }
+      },
+      { "type": "COMPONENT_ID", "condition": "cabbage", "name": { "str": "cabbage soup", "str_pl": "cabbage soup" } },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "corn soup", "str_pl": "corn soup" } },
+      { "type": "COMPONENT_ID", "condition": "cattail", "name": { "str": "cattail soup", "str_pl": "cattail soup" } },
+      { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str": "carrot soup", "str_pl": "carrot soup" } },
+      { "type": "COMPONENT_ID", "condition": "celery", "name": { "str": "celery soup", "str_pl": "celery soup" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cucumber",
+        "name": { "str": "cucumber soup", "str_pl": "cucumber soup" }
+      },
+      { "type": "COMPONENT_ID", "condition": "lettuce", "name": { "str": "lettuce soup", "str_pl": "lettuce soup" } },
+      { "type": "COMPONENT_ID", "condition": "onion", "name": { "str": "onion soup", "str_pl": "onion soup" } },
+      { "type": "COMPONENT_ID", "condition": "alien", "name": { "str": "alien soup", "str_pl": "alien soup" } },
+      { "type": "COMPONENT_ID", "condition": "potato", "name": { "str": "potato soup", "str_pl": "potato soup" } },
+      { "type": "COMPONENT_ID", "condition": "pumpkin", "name": { "str": "pumpkin soup", "str_pl": "pumpkin soup" } },
+      { "type": "COMPONENT_ID", "condition": "rhubarb", "name": { "str": "rhubarb soup", "str_pl": "rhubarb soup" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "beet",
+        "name": { "str": "sugar beet soup", "str_pl": "sugar beet soup" }
+      },
+      { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str": "tomato soup", "str_pl": "tomato soup" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "veggy",
+        "name": { "str": "vegetable soup", "str_pl": "vegetable soup" }
+      },
+      { "type": "COMPONENT_ID", "condition": "spinach", "name": { "str": "spinach soup", "str_pl": "spinach soup" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "zucchini",
+        "name": { "str": "zucchini soup", "str_pl": "zucchini soup" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "wild_carrot",
+        "name": { "str": "wild root soup", "str_pl": "wild root soup" }
+      }
+    ],
     "weight": "254 g",
     "color": "red",
     "spoils_in": "5 days",
@@ -71,8 +169,9 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_meat",
-    "name": "meat soup",
+    "name": { "str": "meat soup" },
     "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "chicken", "name": { "str": "chicken soup", "str_pl": "chicken soup" } },
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "sap soup" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } }
     ],
@@ -98,7 +197,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_fish",
-    "name": "fish soup",
+    "name": { "str": "fish soup" },
     "weight": "265 g",
     "color": "light_gray",
     "spoils_in": "5 days",
@@ -121,8 +220,17 @@
   {
     "type": "COMESTIBLE",
     "id": "curry_veggy",
-    "name": "curry",
-    "name_plural": "curries",
+    "name": { "str": "curry", "str_pl": "curries" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "mushroom", "name": { "str": "mushroom %s", "str_pl": "mushroom %s" } },
+      { "type": "COMPONENT_ID", "condition": "morel", "name": { "str": "morel %s", "str_pl": "morel %s" } },
+      { "type": "COMPONENT_ID", "condition": "tofu", "name": { "str": "tofu %s", "str_pl": "tofu %s" } },
+      { "type": "COMPONENT_ID", "condition": "lentil", "name": { "str": "lentil %s", "str_pl": "lentil %s" } },
+      { "type": "COMPONENT_ID", "condition": "bean", "name": { "str": "bean %s", "str_pl": "bean %s" } },
+      { "type": "COMPONENT_ID", "condition": "edamame", "name": { "str": "edamame %s", "str_pl": "edamame %s" } },
+      { "type": "COMPONENT_ID", "condition": "rice", "name": { "str": "%s rice", "str_pl": "%s rice" } },
+      { "type": "COMPONENT_ID", "condition": "veggy", "name": { "str": "vegetable %s", "str_pl": "vegetable %s" } }
+    ],
     "weight": "263 g",
     "color": "red",
     "spoils_in": "5 days",
@@ -145,8 +253,7 @@
   {
     "type": "COMESTIBLE",
     "id": "curry_meat",
-    "name": "curry with meat",
-    "name_plural": "curries with meat",
+    "name": { "str": "curry with meat", "str_pl": "curries with meat" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "creature curry", "str_pl": "creature curries" } } ],
     "weight": "289 g",
     "color": "red",
@@ -170,7 +277,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_woods",
-    "name": "woods soup",
+    "name": { "str": "woods soup" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "Mirkwood soup" } ],
     "weight": "250 g",
     "color": "red",
@@ -194,7 +301,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_chicken",
-    "name": "chicken noodle soup",
+    "name": { "str": "chicken noodle soup" },
     "weight": "261 g",
     "color": "light_gray",
     "spoils_in": "5 days",
@@ -218,7 +325,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_mushroom",
-    "name": "mushroom soup",
+    "name": { "str": "mushroom soup" },
     "weight": "266 g",
     "color": "light_gray",
     "spoils_in": "5 days",
@@ -241,7 +348,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_tomato",
-    "name": "tomato soup",
+    "name": { "str": "tomato soup" },
     "weight": "257 g",
     "color": "red",
     "spoils_in": "6 days 16 hours",
@@ -263,8 +370,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_dumplings",
-    "name": "chicken and dumplings",
-    "name_plural": "chicken and dumplings",
+    "name": { "str": "chicken and dumplings", "str_pl": "chicken and dumplings" },
     "weight": "263 g",
     "color": "light_gray",
     "spoils_in": "6 days 16 hours",
@@ -288,7 +394,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_cullenskink",
-    "name": "cullen skink",
+    "name": { "str": "cullen skink" },
     "weight": "261 g",
     "color": "white",
     "spoils_in": "5 days",
