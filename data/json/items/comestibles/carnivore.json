@@ -158,7 +158,7 @@
     "copy-from": "mutant_meat",
     "type": "COMESTIBLE",
     "cooks_like": "mutant_human_cooked",
-    "name": { "str": "chunk of mutant humanoid meat", "str_pl" "chunks mutant humanoid meat" },
+    "name": { "str": "chunk of mutant humanoid meat", "str_pl": "chunks mutant humanoid meat" },
     "description": "Freshly butchered from the body of a heavily mutated creature that was unsettlingly humanoid in appearance.  It has odd bits of fur and other tissue lodged in it that clearly don't belong.  You'd have to be crazy or starving to eat this.",
     "material": "hflesh"
   },
@@ -447,7 +447,7 @@
     "copy-from": "lung",
     "looks_like": "offal",
     "name": { "str": "raw liver", "str_pl": "raw liver" },
-    "//": "Large critters drop stacks of liver"
+    "//": "Large critters drop stacks of liver",
     "description": "The liver from an animal.  Although many dislike the texture, it's one of the more vitamin rich parts of the animal.  It is very good in sausages, but maybe a little less appetizing when cooked on its own.",
     "quench": -4,
     "calories": 92,
