@@ -1573,6 +1573,9 @@ bool game::do_turn()
             .wait_message( "%s", *progress )
             .on_top( true )
             .show();
+
+            catacurses::refresh();
+            refresh_display();
         }
     }
 

@@ -13,6 +13,8 @@
 #include "color.h"
 #include "string_formatter.h"
 
+class ui_adaptor;
+
 /**
  * UI class for displaying messages or querying player input with popups.
  *
@@ -212,6 +214,9 @@ class query_popup
             std::string text;
             point pos;
         };
+
+        std::weak_ptr<ui_adaptor> adaptor;
+        std::shared_ptr<ui_adaptor> create_or_get_adaptor();
 
         // UI caches
         mutable catacurses::window win;
