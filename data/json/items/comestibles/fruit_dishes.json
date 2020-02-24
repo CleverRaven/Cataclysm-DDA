@@ -20,7 +20,77 @@
   {
     "type": "COMESTIBLE",
     "id": "fruit_leather",
-    "name": "fruit leather",
+    "name": { "str": "fruit leather", "str_pl": "fruit leather" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "apple %s", "str_pl": "apple %s" } },
+      { "type": "COMPONENT_ID", "condition": "apricot", "name": { "str": "apricot %s", "str_pl": "apricot %s" } },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "banana %s", "str_pl": "banana %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blackberries",
+        "name": { "str": "blackberry %s", "str_pl": "blackberry %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blueberries",
+        "name": { "str": "blueberry %s", "str_pl": "blueberry %s" }
+      },
+      { "type": "COMPONENT_ID", "condition": "cherries", "name": { "str": "cherry %s", "str_pl": "cherry %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cranberries",
+        "name": { "str": "cranberry %s", "str_pl": "cranberry %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapefruit",
+        "name": { "str": "grapefruit %s", "str_pl": "grapefruit %s" }
+      },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "grape %s", "str_pl": "grape %s" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "kiwi %s", "str_pl": "kiwi %s" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "melon %s", "str_pl": "melon %s" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str": "orange %s", "str_pl": "orange %s" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str": "papaya %s", "str_pl": "papaya %s" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "peach %s", "str_pl": "peach %s" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "pear %s", "str_pl": "pear %s" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "plum %s", "str_pl": "plum %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pomegranate",
+        "name": { "str": "pomegranate %s", "str_pl": "pomegranate %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "raspberries",
+        "name": { "str": "raspberry %s", "str_pl": "raspberry %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rose_hips",
+        "name": { "str": "rose hips %s", "str_pl": "rose hips %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "strawberries",
+        "name": { "str": "strawberry %s", "str_pl": "strawberry %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "huckleberries",
+        "name": { "str": "huckleberry %s", "str_pl": "huckleberry %s" }
+      },
+      { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str": "mulberry %s", "str_pl": "mulberry %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "elderberries",
+        "name": { "str": "elderberry %s", "str_pl": "elderberry %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "watermelon",
+        "name": { "str": "watermelon %s", "str_pl": "watermelon %s" }
+      }
+    ],
     "weight": "34 g",
     "color": "pink",
     "spoils_in": "360 days",
@@ -41,7 +111,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blueberries_cooked",
-    "name": { "str": "cooked blueberry", "str_pl": "cooked blueberries" },
+    "name": { "str": "cooked blueberries", "str_pl": "cooked blueberries" },
     "copy-from": "blueberries",
     "color": "blue",
     "spoils_in": "3 days 18 hours",
@@ -77,7 +147,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_pineapple",
-    "name": "canned pineapple",
+    "name": { "str": "canned pineapple", "str_pl": "canned pineapple" },
     "weight": "268 g",
     "color": "yellow",
     "spoils_in": "1 day",
@@ -119,7 +189,106 @@
   {
     "type": "COMESTIBLE",
     "id": "fruit_cooked",
-    "name": "cooked fruit",
+    "name": { "str": "cooked fruit", "str_pl": "cooked fruit" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "cooked apple", "str_pl": "cooked apples" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "apricot",
+        "name": { "str": "cooked apricot", "str_pl": "cooked apricots" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "banana",
+        "name": { "str": "cooked banana", "str_pl": "cooked bananas" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blackberries",
+        "name": { "str": "cooked blackberries", "str_pl": "cooked blackberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blueberries",
+        "name": { "str": "cooked blueberries", "str_pl": "cooked blueberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cherries",
+        "name": { "str": "cooked cherries", "str_pl": "cooked cherries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cranberries",
+        "name": { "str": "cooked cranberries", "str_pl": "cooked cranberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapefruit",
+        "name": { "str": "cooked grapefruit", "str_pl": "cooked grapefruits" }
+      },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "cooked grapes", "str_pl": "cooked grapes" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "cooked kiwi", "str_pl": "cooked kiwi" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "cooked melon", "str_pl": "cooked melon" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "orange",
+        "name": { "str": "cooked orange", "str_pl": "cooked oranges" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "papaya",
+        "name": { "str": "cooked papaya", "str_pl": "cooked papayas" }
+      },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "cooked peach", "str_pl": "cooked peaches" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "cooked pear", "str_pl": "cooked pears" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "cooked plums", "str_pl": "cooked plums" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pomegranate",
+        "name": { "str": "cooked pomegranate", "str_pl": "cooked pomegranates" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "raspberries",
+        "name": { "str": "cooked raspberries", "str_pl": "cooked raspberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rose_hips",
+        "name": { "str": "cooked rose hips", "str_pl": "cooked rose hips" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "strawberries",
+        "name": { "str": "cooked strawberries", "str_pl": "cooked strawberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "huckleberries",
+        "name": { "str": "cooked huckleberries", "str_pl": "cooked huckleberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mulberries",
+        "name": { "str": "cooked mulberries", "str_pl": "cooked mulberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "elderberries",
+        "name": { "str": "cooked elderberries", "str_pl": "cooked elderberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "watermelon",
+        "name": { "str": "cooked watermelon", "str_pl": "cooked watermelon" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "coconut",
+        "name": { "str": "cooked coconut", "str_pl": "cooked coconuts" }
+      }
+    ],
     "weight": "150 g",
     "color": "red",
     "spoils_in": "3 days 18 hours",
@@ -140,7 +309,81 @@
   {
     "type": "COMESTIBLE",
     "id": "jam_fruit",
-    "name": "fruit jam",
+    "name": { "str": "fruit jam", "str_pl": "fruit jam" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "apple jam", "str_pl": "apple jam" } },
+      { "type": "COMPONENT_ID", "condition": "apricot", "name": { "str": "apricot jam", "str_pl": "apricot jam" } },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "banana jam", "str_pl": "banana jam" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blackberries",
+        "name": { "str": "blackberry jam", "str_pl": "blackberry jam" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blueberries",
+        "name": { "str": "blueberry jam", "str_pl": "blueberry jam" }
+      },
+      { "type": "COMPONENT_ID", "condition": "cherries", "name": { "str": "cherry jam", "str_pl": "cherry jam" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cranberries",
+        "name": { "str": "cranberry jam", "str_pl": "cranberry jam" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapefruit",
+        "name": { "str": "grapefruit jam", "str_pl": "grapefruit jam" }
+      },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "grape jam", "str_pl": "grape jam" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "kiwi jam", "str_pl": "kiwi jam" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "melon jam", "str_pl": "melon jam" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str": "orange jam", "str_pl": "orange jam" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str": "papaya jam", "str_pl": "papaya jam" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "peach jam", "str_pl": "peach jam" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "pear jam", "str_pl": "pear jam" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "plum jam", "str_pl": "plum jam" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pomegranate",
+        "name": { "str": "pomegranate jam", "str_pl": "pomegranate jam" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "raspberries",
+        "name": { "str": "raspberry jam", "str_pl": "raspberry jam" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rose_hips",
+        "name": { "str": "rose hips jam", "str_pl": "rose hips jam" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "strawberries",
+        "name": { "str": "strawberry jam", "str_pl": "strawberry jam" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "huckleberries",
+        "name": { "str": "huckleberry jam", "str_pl": "huckleberry jam" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mulberries",
+        "name": { "str": "mulberry jam", "str_pl": "mulberry jam" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "elderberries",
+        "name": { "str": "elderberry jam", "str_pl": "elderberry jam" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "watermelon",
+        "name": { "str": "watermelon jam", "str_pl": "watermelon jam" }
+      }
+    ],
     "weight": "15 g",
     "color": "red",
     "spoils_in": "10 days",
@@ -161,6 +404,89 @@
     "type": "COMESTIBLE",
     "id": "dry_fruit",
     "name": { "str": "dehydrated fruit", "str_pl": "dehydrated fruit" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "dried apple", "str_pl": "dried apples" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "apricot",
+        "name": { "str": "dried apricot", "str_pl": "dried apricots" }
+      },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "dried banana", "str_pl": "dried bananas" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blackberries",
+        "name": { "str": "dried blackberries", "str_pl": "dried blackberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blueberries",
+        "name": { "str": "dried blueberries", "str_pl": "dried blueberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cherries",
+        "name": { "str": "dried cherries", "str_pl": "dried cherries" }
+      },
+      { "type": "COMPONENT_ID", "condition": "cranberries", "name": { "str": "craisins", "str_pl": "craisins" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapefruit",
+        "name": { "str": "dried grapefruit", "str_pl": "dried grapefruit" }
+      },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "raisins", "str_pl": "raisins" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "dried kiwi", "str_pl": "dried kiwi" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "dried melon", "str_pl": "dried melon" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str": "dried orange" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str": "dried papaya", "str_pl": "dried papaya" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "dried peach", "str_pl": "dried peach" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "dried pear" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "prunes", "str_pl": "prunes" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pomegranate",
+        "name": { "str": "dried pomegranate", "str_pl": "dried pomegranate" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "raspberries",
+        "name": { "str": "dried raspberries", "str_pl": "dried raspberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rose_hips",
+        "name": { "str": "dried rose hips", "str_pl": "dried rose hips" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "strawberries",
+        "name": { "str": "dried strawberries", "str_pl": "dried strawberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "huckleberries",
+        "name": { "str": "dried huckleberries", "str_pl": "dried huckleberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mulberries",
+        "name": { "str": "dried mulberries", "str_pl": "dried mulberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "elderberries",
+        "name": { "str": "dried elderberries", "str_pl": "dried elderberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "watermelon",
+        "name": { "str": "dried watermelon", "str_pl": "dried watermelon" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "coconut",
+        "name": { "str": "dried coconut", "str_pl": "dried coconut" }
+      }
+    ],
     "weight": "75 g",
     "color": "magenta",
     "spoils_in": "360 days",
@@ -200,6 +526,88 @@
     "type": "COMESTIBLE",
     "id": "apple_sugar",
     "name": { "str": "fruit slice" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "sliced apple", "str_pl": "sliced apple" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "apricot",
+        "name": { "str": "sliced apricot", "str_pl": "sliced apricot" }
+      },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "sliced banana", "str_pl": "sliced banana" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blackberries",
+        "name": { "str": "sliced blackberries", "str_pl": "sliced blackberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blueberries",
+        "name": { "str": "sliced blueberries", "str_pl": "sliced blueberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cherries",
+        "name": { "str": "sliced cherries", "str_pl": "sliced cherries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cranberries",
+        "name": { "str": "sliced cranberries", "str_pl": "sliced cranberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapefruit",
+        "name": { "str": "sliced grapefruit", "str_pl": "sliced grapefruit" }
+      },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "sliced grapes", "str_pl": "sliced grapes" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "sliced kiwi", "str_pl": "sliced kiwi" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "sliced melon", "str_pl": "sliced melon" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str": "sliced orange", "str_pl": "sliced orange" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str": "sliced papaya", "str_pl": "sliced papaya" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "sliced peach", "str_pl": "sliced peach" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "sliced pear", "str_pl": "sliced pear" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "sliced plums", "str_pl": "sliced plums" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pomegranate",
+        "name": { "str": "sliced pomegranate", "str_pl": "sliced pomegranate" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "raspberries",
+        "name": { "str": "sliced raspberries", "str_pl": "sliced raspberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rose_hips",
+        "name": { "str": "sliced rose hips", "str_pl": "sliced rose hips" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "strawberries",
+        "name": { "str": "sliced strawberries", "str_pl": "sliced strawberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "huckleberries",
+        "name": { "str": "sliced huckleberries", "str_pl": "sliced huckleberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mulberries",
+        "name": { "str": "sliced mulberries", "str_pl": "sliced mulberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "elderberries",
+        "name": { "str": "sliced elderberries", "str_pl": "sliced elderberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "watermelon",
+        "name": { "str": "sliced watermelon", "str_pl": "sliced watermelon" }
+      }
+    ],
     "weight": "42 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",
@@ -221,6 +629,88 @@
     "type": "COMESTIBLE",
     "id": "apple_canned",
     "name": { "str": "canned fruit", "str_pl": "canned fruit" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "canned apple", "str_pl": "canned apple" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "apricot",
+        "name": { "str": "canned apricot", "str_pl": "canned apricot" }
+      },
+      { "type": "COMPONENT_ID", "condition": "banana", "name": { "str": "canned banana", "str_pl": "canned banana" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blackberries",
+        "name": { "str": "canned blackberries", "str_pl": "canned blackberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blueberries",
+        "name": { "str": "canned blueberries", "str_pl": "canned blueberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cherries",
+        "name": { "str": "canned cherries", "str_pl": "canned cherries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cranberries",
+        "name": { "str": "canned cranberries", "str_pl": "canned cranberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapefruit",
+        "name": { "str": "canned grapefruit", "str_pl": "canned grapefruit" }
+      },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "canned grapes", "str_pl": "canned grapes" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "canned kiwi", "str_pl": "canned kiwi" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "canned melon", "str_pl": "canned melon" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str": "canned orange", "str_pl": "canned orange" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str": "canned papaya", "str_pl": "canned papaya" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "canned peach", "str_pl": "canned peach" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "canned pear", "str_pl": "canned pear" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "canned plums", "str_pl": "canned plums" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pomegranate",
+        "name": { "str": "canned pomegranate", "str_pl": "canned pomegranate" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "raspberries",
+        "name": { "str": "canned raspberries", "str_pl": "canned raspberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rose_hips",
+        "name": { "str": "canned rose hips", "str_pl": "canned rose hips" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "strawberries",
+        "name": { "str": "canned strawberries", "str_pl": "canned strawberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "huckleberries",
+        "name": { "str": "canned huckleberries", "str_pl": "canned huckleberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "mulberries",
+        "name": { "str": "canned mulberries", "str_pl": "canned mulberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "elderberries",
+        "name": { "str": "canned elderberries", "str_pl": "canned elderberries" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "watermelon",
+        "name": { "str": "canned watermelon", "str_pl": "canned watermelon" }
+      }
+    ],
     "weight": "170 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",
@@ -229,7 +719,7 @@
     "symbol": "%",
     "quench": 3,
     "healthy": 1,
-    "calories": 275,
+    "calories": 367,
     "description": "This sodden mass of preserved fruit was boiled and canned in an earlier life.  Bland, mushy and losing color.",
     "price": 220,
     "material": "fruit",
