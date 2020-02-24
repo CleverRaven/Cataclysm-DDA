@@ -1543,8 +1543,7 @@ bool monster::pickup_at(const tripoint& p, item_location &target)
     inv.push_back(*target.get_item());
     item *stored_item = &inv.back();
 
-    //Get volumes and weight of the stack or item
-    units::volume vol = target->volume();
+    //Get weight of the stack or item
     units::mass weight = target->weight();
     units::mass capacity = this->weight_capacity();
 
@@ -1554,7 +1553,6 @@ bool monster::pickup_at(const tripoint& p, item_location &target)
     
     if (charges >= 1) {
         //Adjust volume and weight for units in a stack
-        units::volume vol_each = vol / charges;
         units::mass weigh_each = weight / charges;
         amount_taken = charges + (weigh_each / capacity);
 
