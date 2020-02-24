@@ -3,7 +3,7 @@
     "id": "protein_drink",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
-    "name": "protein drink",
+    "name": { "str": "protein drink" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "soylent green drink" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perturbing %s", "str_pl": "perturbing %s" } }
@@ -14,8 +14,8 @@
     "price": 200,
     "symbol": "~",
     "color": "light_gray",
-    "spoils_in": "2 days",
     "phase": "liquid",
+    "spoils_in": "2 days",
     "container": "bottle_plastic",
     "material": "water",
     "calories": 100,
@@ -77,8 +77,84 @@
     "id": "protein_shake",
     "copy-from": "protein_drink",
     "type": "COMESTIBLE",
-    "name": "protein shake",
+    "name": { "str": "protein shake" },
     "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "apple %s", "str_pl": "apple %s" } },
+      { "type": "COMPONENT_ID", "condition": "apricot", "name": { "str": "apricot %s", "str_pl": "apricot %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "banana",
+        "name": { "str": "banana %s", "str_pl": "banana fruit leather" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blackberries",
+        "name": { "str": "blackberry %s", "str_pl": "blackberries %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "blueberries",
+        "name": { "str": "blueberry %s", "str_pl": "blueberry %s" }
+      },
+      { "type": "COMPONENT_ID", "condition": "cherries", "name": { "str": "cherry %s", "str_pl": "cherry %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cranberries",
+        "name": { "str": "cranberry %s", "str_pl": "cranberry %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grapefruit",
+        "name": { "str": "grapefruit %s", "str_pl": "grapefruit %s" }
+      },
+      { "type": "COMPONENT_ID", "condition": "grapes", "name": { "str": "grape %s", "str_pl": "grape %s" } },
+      { "type": "COMPONENT_ID", "condition": "kiwi", "name": { "str": "kiwi %s", "str_pl": "kiwi %s" } },
+      { "type": "COMPONENT_ID", "condition": "melon", "name": { "str": "melon %s", "str_pl": "melon %s" } },
+      { "type": "COMPONENT_ID", "condition": "orange", "name": { "str": "orange %s", "str_pl": "orange %s" } },
+      { "type": "COMPONENT_ID", "condition": "papaya", "name": { "str": "papaya %s", "str_pl": "papaya %s" } },
+      { "type": "COMPONENT_ID", "condition": "peach", "name": { "str": "peach %s", "str_pl": "peach %s" } },
+      { "type": "COMPONENT_ID", "condition": "pear", "name": { "str": "pear %s", "str_pl": "pear %s" } },
+      { "type": "COMPONENT_ID", "condition": "plums", "name": { "str": "plum %s", "str_pl": "plums %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pomegranate",
+        "name": { "str": "pomegranate %s", "str_pl": "pomegranate %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "raspberries",
+        "name": { "str": "raspberries %s", "str_pl": "raspberries %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "rose_hips",
+        "name": { "str": "rose hips %s", "str_pl": "rose hips %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "strawberries",
+        "name": { "str": "strawberries %s", "str_pl": "strawberries %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "huckleberries",
+        "name": { "str": "huckleberries %s", "str_pl": "huckleberries %s" }
+      },
+      { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str": "mulberry %s", "str_pl": "mulberry %s" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "elderberries",
+        "name": { "str": "elderberry %s", "str_pl": "elderberry %s" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "watermelon",
+        "name": { "str": "watermelon %s", "str_pl": "watermelon %s" }
+      },
+      { "type": "COMPONENT_ID", "condition": "rhubarb", "name": { "str": "rhubarb %s", "str_pl": "rhubarb %s" } },
+      { "type": "COMPONENT_ID", "condition": "lemon", "name": { "str": "lemon %s", "str_pl": "lemon %s" } },
+      { "type": "COMPONENT_ID", "condition": "can_peach", "name": { "str": "peach %s", "str_pl": "peach %s" } },
+      { "type": "COMPONENT_ID", "condition": "apple_canned", "name": { "str": "fruit %s", "str_pl": "%s" } },
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "soylent green shake" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perturbing %s", "str_pl": "perturbing %s" } }
     ],
@@ -96,7 +172,7 @@
     "id": "protein_shake_fortified",
     "copy-from": "protein_shake",
     "type": "COMESTIBLE",
-    "name": "fortified protein shake",
+    "name": { "str": "fortified protein shake" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": "fortified soylent green shake" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "perturbing %s", "str_pl": "perturbing %s" } }
