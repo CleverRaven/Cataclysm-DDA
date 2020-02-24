@@ -72,10 +72,7 @@
                           { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
                           { "item": "sundress", "prob": 45, "damage": [ 1, 4 ] },
                           {
-                            "collection": [
-                              { "item": "dress_wedding", "damage": [ 1, 4 ] },
-                              { "item": "veil_wedding", "damage": [ 1, 4 ] }
-                            ],
+                            "collection": [ { "item": "dress_wedding", "damage": [ 1, 4 ] }, { "item": "veil_wedding", "damage": [ 1, 4 ] } ],
                             "prob": 5
                           }
                         ]
