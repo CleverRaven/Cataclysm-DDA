@@ -1037,7 +1037,7 @@
     "type": "COMESTIBLE",
     "id": "single_pot_whiskey",
     "copy-from": "whiskey",
-    "name": { "str": "single pot still Irish whiskey", "str_pl": "single pot still Irish whiskey"  },
+    "name": { "str": "single pot still Irish whiskey", "str_pl": "single pot still Irish whiskey" },
     "description": "A whiskey made from a mixed mash of malted and unmalted barley.",
     "price": 2600,
     "fun": 20
