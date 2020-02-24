@@ -378,7 +378,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": "AR-10",
+    "name": { "str": "AR-10" },
     "description": "Somewhat similar to the later AR-15, the AR-10 is a gas operated, rotating bolt rifle chambered for 7.62x51mm rounds.",
     "weight": "3290 g",
     "volume": "2 L",
