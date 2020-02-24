@@ -2255,12 +2255,12 @@ void monster::drop_items_on_death()
 
     // Adds all items in the monsters inventory to be dropped.
     // TODO: Apply random damage to items ? Modify them in some way ?
-    if( !inv.empty() )
+    items.insert(items.end(), inv.begin(), inv.end());
         for( const item &itm : inv ) {
             items.push_back( itm );
         }
 
-    inv.erase( inv.begin(), inv.end() );
+    inv.clear();
 
     const auto dropped = g->m.spawn_items( pos(), items );
 

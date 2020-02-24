@@ -279,8 +279,8 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
 
 std::map<item *, const tripoint> monster::find_loot_in_radius( const tripoint &target, int radius )
 {
-    bool steals_food = has_flag( MF_STEALS_FOOD );
-    bool steals_shiny = has_flag( MF_STEALS_SHINY );
+    const bool steals_food = has_flag( MF_STEALS_FOOD );
+    const bool steals_shiny = has_flag( MF_STEALS_SHINY );
     bool suitable = false;
     std::map<item *, const tripoint> lootable;
 
@@ -295,7 +295,7 @@ std::map<item *, const tripoint> monster::find_loot_in_radius( const tripoint &t
                 suitable = false;
 
                 //Does monster try to steal food and is it actually food?
-                if( steals_food && ( itm.is_comestible() && itm.get_comestible()->comesttype == "FOOD" ) ) {
+                if( steals_food && itm.is_comestible() && itm.get_comestible()->comesttype == "FOOD" ) {
                     if( !itm.rotten() ) {
                         suitable = true;
                     }
@@ -331,13 +331,13 @@ bool monster::eat_from_inventory()
     auto it = inv.begin();
     for( item &itm : inv ) {
         //Is food?
-        if( ( itm.is_comestible() && itm.get_comestible()->comesttype == "FOOD" ) ) {
+        if( itm.is_comestible() && itm.get_comestible()->comesttype == "FOOD" ) {
             if( itm.charges > 1 ) {
                 itm.mod_charges( -1 );
             }
 
             if( g->u.sees( *this ) ) {
-                add_msg( m_warning, "%1$s eats some of %2$s!", name().c_str(), itm.display_name() );
+                add_msg( m_warning, "%1$s eats some of %2$s!", name(), itm.display_name() );
             }
 
             //Remove item
@@ -404,8 +404,8 @@ void monster::plan()
     const int fears_hostile_near = type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
 
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
-    bool steals_food = has_flag( MF_STEALS_FOOD );
-    bool will_steal = has_flag( MF_STEALS_FOOD ) || has_flag( MF_STEALS_SHINY );
+    const bool steals_food = has_flag( MF_STEALS_FOOD );
+    const bool will_steal = has_flag( MF_STEALS_FOOD ) || has_flag( MF_STEALS_SHINY );
 
     bool swarms = has_flag( MF_SWARMS );
 
@@ -464,7 +464,7 @@ void monster::plan()
     }
 
     //Check if steals, must be idle and have no target in sight.
-    if( ( friendly >= 0 || target != nullptr ) && !fleeing && !has_effect( effect_looting ) ) {
+    if( ( friendly >= 0 || target == nullptr ) && !fleeing && !has_effect( effect_looting ) ) {
         //If stealing monster, inventory is empty and with a bit of luck...we search for loot.
         if( will_steal && inv.empty() && one_in( 100 ) ) {
             //Find all lootable items within radius
@@ -1540,7 +1540,7 @@ bool monster::pickup_at( const tripoint &p, item_location &target )
         return false;
     }
 
-    inv.push_back( *target.get_item() );
+    inv.push_back( *target );
     item *stored_item = &inv.back();
 
     //Get weight of the stack or item
@@ -1557,7 +1557,7 @@ bool monster::pickup_at( const tripoint &p, item_location &target )
         amount_taken = charges + ( weigh_each / capacity );
 
         //Caps the amount taken to avoid taking large stacks.
-        //TODO: better way to cap the amount taken?
+        amount_taken = std::min( amount_taken, 2 );
         if( amount_taken > 2 ) {
             amount_taken = 2;
         }
@@ -1578,7 +1578,7 @@ bool monster::pickup_at( const tripoint &p, item_location &target )
     if( amount_taken >= 1 ) {
         //Notify the player
         if( g->u.sees( *this ) ) {
-            add_msg( m_warning, "%1$s grabs %2$s!", name().c_str(), stored_item->display_name() );
+            add_msg( m_warning, "%1$s grabs %2$s!", name(), stored_item->display_name() );
         }
 
 
@@ -1590,7 +1590,7 @@ bool monster::pickup_at( const tripoint &p, item_location &target )
     }
 
 
-    add_msg( m_warning, "%1$s fails to grab %2$s!", name().c_str(), target->display_name() );
+    add_msg( m_warning, "%1$s fails to grab %2$s!", name(), target->display_name() );
     return false;
 }
 
