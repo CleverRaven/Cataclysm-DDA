@@ -1091,15 +1091,23 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
 int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world )
 {
-    const int iTooltipHeight = 1;
-    const int iContentHeight = TERMY - 3 - iTooltipHeight;
-    const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
+    catacurses::window w_confirmation;
 
-    const char *line_of_32_underscores = "________________________________";
+    ui_adaptor ui;
 
-    catacurses::window w_confirmation = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
-                                        point( 1 + iOffsetX, iTooltipHeight + 2 ) );
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int iTooltipHeight = 1;
+        const int iContentHeight = TERMY - 3 - iTooltipHeight;
+        const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
+        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
+
+        w_confirmation = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
+                                             point( 1 + iOffsetX, iTooltipHeight + 2 ) );
+
+        ui.position_from_window( win );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
     int namebar_y = 1;
     int namebar_x = 3 + utf8_width( _( "World Name:" ) );
@@ -1117,9 +1125,11 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 
     // do not switch IME mode now, but restore previous mode on return
     ime_sentry sentry( ime_sentry::keep );
-    do {
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_worldgen_tabs( win, 2 );
+
         mvwprintz( w_confirmation, point( 2, namebar_y ), c_white, _( "World Name:" ) );
-        mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, line_of_32_underscores );
         fold_and_print( w_confirmation, point( 2, 3 ), getmaxx( w_confirmation ) - 2, c_light_gray,
                         _( "Press <color_yellow>%s</color> to pick a random name for your world." ),
                         ctxt.get_desc( "PICK_RANDOM_WORLDNAME" ) );
@@ -1128,64 +1138,56 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                         _( "Press <color_yellow>%s</color> when you are satisfied with the world as it is and are ready "
                            "to continue, or <color_yellow>%s</color> to go back and review your world." ),
                         ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
-        if( !noname ) {
+        if( noname ) {
+            mvwprintz( w_confirmation, point( namebar_x, namebar_y ), h_light_gray,
+                       _( "________NO NAME ENTERED!________" ) );
+        } else {
             mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, worldname );
             wprintz( w_confirmation, h_light_gray, "_" );
-        }
-        if( noname ) {
-            mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, line_of_32_underscores );
-            noname = false;
+            for( int underscores = 31 - utf8_width( worldname );
+                 underscores > 0; --underscores ) {
+                wprintz( w_confirmation, c_light_gray, "_" );
+            }
         }
 
         wrefresh( win );
         wrefresh( w_confirmation );
-        catacurses::refresh();
+    } );
+
+    do {
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
         if( action == "NEXT_TAB" ) {
             if( worldname.empty() ) {
-                mvwprintz( w_confirmation, point( namebar_x, namebar_y ), h_light_gray,
-                           _( "________NO NAME ENTERED!________" ) );
                 noname = true;
-                wrefresh( w_confirmation );
+                ui_manager::redraw();
                 if( !query_yn( _( "Are you SURE you're finished?  World name will be randomly generated." ) ) ) {
-                    werase( w_confirmation );
+                    noname = false;
                     continue;
                 } else {
+                    noname = false;
                     world->world_name = pick_random_name();
                     if( !valid_worldname( world->world_name ) ) {
                         continue;
                     }
-                    catacurses::clear();
-                    catacurses::refresh();
                     return 1;
                 }
             } else if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
-                // erase entire window to avoid overlapping of query with possible popup about invalid worldname
-                werase( w_confirmation );
-                wrefresh( w_confirmation );
-                catacurses::clear();
-                catacurses::refresh();
-
                 if( valid_worldname( worldname ) ) {
                     world->world_name = worldname;
-                    catacurses::refresh();
                     return 1;
                 } else {
                     continue;
                 }
             } else {
-                werase( w_confirmation );
                 continue;
             }
         } else if( action == "PREV_TAB" ) {
             world->world_name = worldname;
             return -1;
         } else if( action == "PICK_RANDOM_WORLDNAME" ) {
-            mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, line_of_32_underscores );
             world->world_name = worldname = pick_random_name();
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            draw_worldgen_tabs( win, 2 );
         } else if( action == "QUIT" ) {
             // Cache the current name just in case they say No to the exit query.
             world->world_name = worldname;
@@ -1211,9 +1213,6 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                 wrap.append( newtext );
                 worldname = wrap.str();
             }
-            mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, line_of_32_underscores );
-            mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, worldname );
-            wprintz( w_confirmation, h_light_gray, "_" );
         }
     } while( true );
 
