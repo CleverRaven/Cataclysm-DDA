@@ -527,7 +527,7 @@
     "id": "apple_sugar",
     "name": { "str": "fruit slice" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "sliced apple" },
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str": "sliced apple" } },
       {
         "type": "COMPONENT_ID",
         "condition": "apricot",
