@@ -91,7 +91,7 @@
     "copy-from": "rifle_base",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": "AI AS50",
+    "name": { "str": "AI AS50" },
     "description": ".50 caliber anti-materiel rifle made by Accuracy International.  With high accuracy for long range target and high fire rate, this weapon is still being used by Greek national guard.",
     "weight": "13330 g",
     "volume": "3500 ml",
