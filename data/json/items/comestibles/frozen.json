@@ -5,7 +5,7 @@
     "name": { "str": "milkshake", "str_pl": "milkshake" },
     "//": "they bring the boys to the yard",
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "candy", "name": { "str": "candy milkshake" }, "str_pl": "candy milkshake" },
+      { "type": "COMPONENT_ID", "condition": "candy", "name": { "str": "candy milkshake", "str_pl": "candy milkshake" } },
       {
         "type": "COMPONENT_ID",
         "condition": "chocolate",
@@ -24,8 +24,7 @@
       {
         "type": "COMPONENT_ID",
         "condition": "blueberries",
-        "name": { "str": "blueberry milkshake" },
-        "str_pl": "blueberry milkshake"
+        "name": { "str": "blueberry milkshake", "str_pl": "blueberry milkshake" }
       },
       {
         "type": "COMPONENT_ID",
