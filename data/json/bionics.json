@@ -222,7 +222,7 @@
   {
     "id": "bio_climate",
     "type": "bionic",
-    "name": "Internal Climate Control",
+    "name": { "str": "Internal Climate Control" },
     "description": "Throughout your body lies a network of thermal piping, which eases the effects of high and low ambient temperatures when activated.",
     "occupied_bodyparts": [
       [ "TORSO", 8 ],
@@ -423,7 +423,7 @@
   {
     "id": "bio_face_mask",
     "type": "bionic",
-    "name": "Facial Distortion",
+    "name": { "str": "Facial Distortion" },
     "description": "Through controlled application of electrochemical impulses, you are capable of altering your facial structure so as to subtly affect the reactions of others.  This grants a bonus to all social interactions.",
     "occupied_bodyparts": [ [ "HEAD", 3 ], [ "MOUTH", 1 ] ]
   },
@@ -452,14 +452,14 @@
   {
     "id": "bio_fingerhack",
     "type": "bionic",
-    "name": "Fingerhack",
+    "name": { "str": "Fingerhack" },
     "description": "One of your fingers has an electrohack surgically embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits.",
     "occupied_bodyparts": [ [ "HAND_R", 2 ] ]
   },
   {
     "id": "bio_flashbang",
     "type": "bionic",
-    "name": "Flashbang Generator",
+    "name": { "str": "Flashbang Generator" },
     "description": "Light emitting diodes surgically integrated into your skin can release a flash comparable to a flashbang grenade, blinding nearby enemies.  Speakers integrated into your body mimic the loud sound, deafening those nearby.",
     "occupied_bodyparts": [ [ "TORSO", 20 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "act_cost": "10 kJ"
@@ -488,14 +488,14 @@
   {
     "id": "bio_glowy",
     "type": "bionic",
-    "name": "Glowy Thing",
+    "name": { "str": "Glowy Thing" },
     "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slightest.",
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
     "id": "bio_geiger",
     "type": "bionic",
-    "name": "Integrated Dosimeter",
+    "name": { "str": "Integrated Dosimeter" },
     "description": "Small radiation sensors have been surgically implanted throughout your body, allowing you to analyze your level of absorbed radiation.  They will also alert you whenever exposed to environmental radiation.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "act_cost": "100 J"
@@ -522,7 +522,7 @@
   {
     "id": "bio_heat_absorb",
     "type": "bionic",
-    "name": "Heat Drain",
+    "name": { "str": "Heat Drain" },
     "description": "While fighting unarmed against a warm-blooded opponent, there is a chance that a successful hit will drain body heat, inflicting a small amount of extra damage, and increasing your power reserves slightly.",
     "occupied_bodyparts": [
       [ "TORSO", 12 ],
@@ -563,7 +563,7 @@
   {
     "id": "bio_hydraulics",
     "type": "bionic",
-    "name": "Hydraulic Muscles",
+    "name": { "str": "Hydraulic Muscles" },
     "description": "While activated, your muscles will be greatly enhanced, increasing your strength by 20.",
     "occupied_bodyparts": [ [ "TORSO", 4 ], [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 14 ], [ "LEG_R", 14 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
@@ -574,7 +574,7 @@
   {
     "id": "bio_infrared",
     "type": "bionic",
-    "name": "Infrared Vision",
+    "name": { "str": "Infrared Vision" },
     "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark or through smoke.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
@@ -594,7 +594,7 @@
   {
     "id": "bio_itchy",
     "type": "bionic",
-    "name": "Itchy Metal Thing",
+    "name": { "str": "Itchy Metal Thing" },
     "description": "A bionic of some sort, so badly installed that you cannot even tell what it was originally supposed to be.  Sometimes it itches horribly.",
     "occupied_bodyparts": [ [ "TORSO", 3 ], [ "HEAD", 2 ], [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
@@ -602,7 +602,7 @@
   {
     "id": "bio_laser",
     "type": "bionic",
-    "name": "Finger-Mounted Laser",
+    "name": { "str": "Finger-Mounted Laser" },
     "description": "One of your fingers has a small high-powered laser surgically embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires.",
     "occupied_bodyparts": [ [ "HAND_R", 1 ] ],
     "act_cost": "30 kJ",
@@ -631,7 +631,7 @@
   {
     "id": "bio_lighter",
     "type": "bionic",
-    "name": "Finger Lighter",
+    "name": { "str": "Finger Lighter" },
     "description": "The index fingers of both hands have powerful fire starters which extend from the tip.",
     "occupied_bodyparts": [ [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
     "fake_item": "fake_firestarter",
@@ -640,7 +640,7 @@
   {
     "id": "bio_lockpick",
     "type": "bionic",
-    "name": "Fingerpick",
+    "name": { "str": "Fingerpick" },
     "description": "One of your fingers has an electronic lockpick surgically embedded in it.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user.",
     "occupied_bodyparts": [ [ "HAND_R", 2 ] ],
     "act_cost": "50 J"
@@ -716,7 +716,7 @@
   {
     "id": "bio_night_vision",
     "type": "bionic",
-    "name": "Implanted Night Vision",
+    "name": { "str": "Implanted Night Vision" },
     "description": "When active, this bionic will amplify existing light, allowing you to see in the dark.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
@@ -856,7 +856,7 @@
   {
     "id": "bio_razors",
     "type": "bionic",
-    "name": "Fingertip Razors",
+    "name": { "str": "Fingertip Razors" },
     "description": "You possess razor-sharp claws underneath your fingernails that do a small amount of unarmed slashing damage whenever your fingertips are uncovered.",
     "occupied_bodyparts": [ [ "HAND_L", 2 ], [ "HAND_R", 2 ] ],
     "fake_item": "fake_razor",
@@ -1070,7 +1070,7 @@
   {
     "id": "bio_tools",
     "type": "bionic",
-    "name": "Integrated Toolset",
+    "name": { "str": "Integrated Toolset" },
     "description": "Surgically implanted in your hands and fingers is a set of tools - screwdriver, hammer, wrench, hacksaw, drill, welder, and heating elements.  You can use this in place of many tools when crafting.",
     "occupied_bodyparts": [ [ "HAND_L", 3 ], [ "HAND_R", 3 ] ],
     "fake_item": "toolset",
@@ -1080,7 +1080,7 @@
   {
     "id": "bio_tools_extend",
     "type": "bionic",
-    "name": "Extended Toolset",
+    "name": { "str": "Extended Toolset" },
     "description": "Extend or withdraw your integrated toolset to cut metal, pry things, or other stuff.  This takes up your hands.",
     "fake_item": "toolset_extended",
     "included": true,
@@ -1089,7 +1089,7 @@
   {
     "id": "bio_torsionratchet",
     "type": "bionic",
-    "name": "Joint Torsion Ratchet",
+    "name": { "str": "Joint Torsion Ratchet" },
     "description": "Your joints have been surgically equipped with torsion ratchets that slowly generate power when you move.  Whilst this is toggled, moving will require more effort, though more power will be generated.",
     "occupied_bodyparts": [ [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 12 ], [ "LEG_R", 12 ] ],
     "fuel_options": [ "muscle" ],
@@ -1100,7 +1100,7 @@
   {
     "id": "bio_jointservo",
     "type": "bionic",
-    "name": "Joint Servo",
+    "name": { "str": "Joint Servo" },
     "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  They are optimized for running, but walking also requires less effort when this bionic is online.  However, when it's offline it will hamper your movement, as you struggle against its moving parts.",
     "occupied_bodyparts": [ [ "LEG_L", 12 ], [ "LEG_R", 12 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
@@ -1127,7 +1127,7 @@
   {
     "id": "bio_ups",
     "type": "bionic",
-    "name": "Internal Unified Power System",
+    "name": { "str": "Internal Unified Power System" },
     "description": "You have a Unified Power System wired into your power banks.  Objects that run on a UPS can now draw directly from your bionic power supply.",
     "occupied_bodyparts": [ [ "TORSO", 5 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
@@ -1143,7 +1143,7 @@
   {
     "id": "bio_watch",
     "type": "bionic",
-    "name": "Internal Chronometer",
+    "name": { "str": "Internal Chronometer" },
     "description": "You have been equipped with an internal atomic clock, ensuring that you will always know the current time.  Additionally, it includes a silent alarm clock function.",
     "occupied_bodyparts": [ [ "HEAD", 1 ] ]
   },
@@ -1158,7 +1158,7 @@
   {
     "id": "bio_fuel_cell_gasoline",
     "type": "bionic",
-    "name": "Gasoline Fuel Cell CBM",
+    "name": { "str": "Gasoline Fuel Cell CBM" },
     "description": "A small gasoline fuel cell fixed to your scapula.  Despite its limited energy output compared to other fuel cells, this device still produces a significant amount of heat dissipated through a heat exhaust protruding from your back.  A diffuse network of bio-plastic bladders has been meshed with your circulatory system and serves as a fuel tank.",
     "occupied_bodyparts": [ [ "TORSO", 8 ] ],
     "encumbrance": [ [ "TORSO", 5 ] ],
@@ -1172,7 +1172,7 @@
   {
     "id": "bio_syringe",
     "type": "bionic",
-    "name": "Intravenous Needletip",
+    "name": { "str": "Intravenous Needletip" },
     "description": "The flesh of the inside of your middle finger has been replaced with a tube leading into your arteries, with a retractable needle extending out of the tip of the finger when clenched.  This lets you pump intravenous drugs like morphine directly into your bloodstream without needing to carry a syringe.",
     "occupied_bodyparts": [ [ "HAND_L", 1 ] ]
   },
@@ -1188,7 +1188,7 @@
   {
     "id": "bio_shock_absorber",
     "type": "bionic",
-    "name": "Kinetic Shock Absorbers",
+    "name": { "str": "Kinetic Shock Absorbers" },
     "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
     "occupied_bodyparts": [ [ "TORSO", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
