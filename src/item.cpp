@@ -4742,9 +4742,8 @@ bool item::goes_bad() const
 
 bool item::goes_bad_after_opening() const
 {
-    // returns true if this item goes bad, or if this item is a preserving container and its contents can go bad.
     return goes_bad() || ( type->container && type->container->preserves &&
-                           contents.front().goes_bad() );
+                           !contents.empty() && contents.front().goes_bad() );
 }
 
 time_duration item::get_shelf_life() const
