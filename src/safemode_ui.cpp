@@ -500,37 +500,51 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         }
     }
 
-    const int offset_x = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    const int offset_y = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
-                               0 );
-
     int start_pos = 0;
-    const int content_height = FULL_SCREEN_HEIGHT - 8;
-    const int content_width = FULL_SCREEN_WIDTH - 30;
+    int content_height = 0;
+    int content_width = 0;
 
-    const catacurses::window w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
-            point( offset_x, offset_y ) );
-    const catacurses::window w_test_rule_content = catacurses::newwin( content_height,
-            content_width - 2,
-            point( 1 + offset_x, 1 + offset_y ) );
+    catacurses::window w_test_rule_border;
+    catacurses::window w_test_rule_content;
+
+    ui_adaptor ui;
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int offset_x = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+        const int offset_y = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
+                                   0 );
+
+        content_height = FULL_SCREEN_HEIGHT - 8;
+        content_width = FULL_SCREEN_WIDTH - 30;
+
+        w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
+                             point( offset_x, offset_y ) );
+        w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
+                              point( 1 + offset_x, 1 + offset_y ) );
+
+        ui.position_from_window( w_test_rule_border );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
 
     int nmatch = creature_list.size();
     const std::string buf = string_format( ngettext( "%1$d monster matches: %2$s",
                                            "%1$d monsters match: %2$s",
                                            nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
-    draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
-    center_print( w_test_rule_border, content_height + 1, red_background( c_white ),
-                  _( "Lists monsters regardless of their attitude." ) );
-
-    wrefresh( w_test_rule_border );
 
     int line = 0;
 
     input_context ctxt( "SAFEMODE_TEST" );
     ctxt.register_updown();
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    while( true ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
+        center_print( w_test_rule_border, content_height + 1, red_background( c_white ),
+                      _( "Lists monsters regardless of their attitude." ) );
+
+        wrefresh( w_test_rule_border );
+
         // Clear the lines
         for( int i = 0; i < content_height; i++ ) {
             for( int j = 0; j < 79; j++ ) {
@@ -557,6 +571,10 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         }
 
         wrefresh( w_test_rule_content );
+    } );
+
+    while( true ) {
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
@@ -569,7 +587,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
             if( line < 0 ) {
                 line = creature_list.size() - 1;
             }
-        } else {
+        } else if( action == "QUIT" ) {
             break;
         }
     }
