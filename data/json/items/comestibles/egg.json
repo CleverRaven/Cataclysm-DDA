@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_bird",
-    "name": "bird egg",
+    "name": { "str": "bird egg" },
     "weight": "57 g",
     "color": "brown",
     "spoils_in": "7 days",
@@ -25,7 +25,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_chicken",
-    "name": "chicken egg",
+    "name": { "str": "chicken egg" },
     "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_CHICKEN",
     "rot_spawn_chance": 70
@@ -33,21 +33,21 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_grouse",
-    "name": "grouse egg",
+    "name": { "str": "grouse egg" },
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_GROUSE"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_crow",
-    "name": "crow egg",
+    "name": { "str": "crow egg" },
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_CROW"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_duck",
-    "name": "duck egg",
+    "name": { "str": "duck egg" },
     "copy-from": "egg_chicken",
     "calories": 130,
     "volume": "83 ml",
@@ -58,7 +58,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_goose_canadian",
-    "name": "goose egg",
+    "name": { "str": "goose egg" },
     "copy-from": "egg_chicken",
     "calories": 266,
     "volume": "125 ml",
@@ -69,7 +69,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_turkey",
-    "name": "turkey egg",
+    "name": { "str": "turkey egg" },
     "copy-from": "egg_chicken",
     "volume": "83 ml",
     "weight": "79 g",
@@ -80,21 +80,21 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_pheasant",
-    "name": "pheasant egg",
+    "name": { "str": "pheasant egg" },
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_PHEASANT"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_cockatrice",
-    "name": "cockatrice egg",
+    "name": { "str": "cockatrice egg" },
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_COCKATRICE"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_reptile",
-    "name": "reptile egg",
+    "name": { "str": "reptile egg" },
     "weight": "60 g",
     "color": "white",
     "spoils_in": "28 days",
@@ -134,7 +134,7 @@
   {
     "type": "COMESTIBLE",
     "id": "spider_egg",
-    "name": "spider egg",
+    "name": { "str": "spider egg" },
     "copy-from": "egg_chicken",
     "color": "white",
     "symbol": "%",
@@ -150,7 +150,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_roach",
-    "name": "roach egg",
+    "name": { "str": "roach egg" },
     "copy-from": "spider_egg",
     "color": "white",
     "symbol": "%",
@@ -165,7 +165,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_roach_plague",
-    "name": "roach egg",
+    "name": { "str": "roach egg" },
     "copy-from": "egg_roach",
     "healthy": -10,
     "rot_spawn": "GROUP_EGG_ROACH_PLAGUE"
@@ -173,7 +173,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_locust",
-    "name": "insect egg",
+    "name": { "str": "insect egg" },
     "copy-from": "spider_egg",
     "color": "green",
     "symbol": "o",
@@ -187,7 +187,7 @@
   {
     "type": "COMESTIBLE",
     "id": "razorclaw_roe",
-    "name": "razorclaw roe",
+    "name": { "str": "razorclaw roe" },
     "weight": "236 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -206,7 +206,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_fish",
-    "name": "roe",
+    "name": { "str": "roe" },
     "weight": "24 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -227,7 +227,7 @@
   {
     "type": "COMESTIBLE",
     "id": "powder_eggs",
-    "name": { "str": "powdered egg" },
+    "name": { "str": "powdered egg", "str_pl": "powdered eggs" },
     "weight": "7 g",
     "color": "yellow",
     "container": "bottle_plastic_small",
@@ -249,6 +249,58 @@
     "type": "COMESTIBLE",
     "id": "scrambled_eggs",
     "name": { "str": "scrambled eggs", "str_pl": "scrambled eggs" },
+    "conditional_names": [
+      {
+        "type": "COMPONENT_ID",
+        "condition": "reptile",
+        "name": { "str": "scrambled reptile eggs", "str_pl": "scrambled reptile eggs" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "chicken",
+        "name": { "str": "scrambled chicken eggs", "str_pl": "scrambled chicken eggs" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "grouse",
+        "name": { "str": "scrambled grouse eggs", "str_pl": "scrambled grouse eggs" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "crow",
+        "name": { "str": "scrambled crow eggs", "str_pl": "scrambled crow eggs" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "duck",
+        "name": { "str": "scrambled duck eggs", "str_pl": "scrambled duck eggs" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "goose",
+        "name": { "str": "scrambled goose eggs", "str_pl": "scrambled goose eggs" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "turkey",
+        "name": { "str": "scrambled turkey eggs", "str_pl": "scrambled turkey eggs" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pheasant",
+        "name": { "str": "scrambled pheasant eggs", "str_pl": "scrambled pheasant eggs" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cockatrice",
+        "name": { "str": "scrambled cockatrice eggs", "str_pl": "scrambled cockatrice eggs" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "owlbear",
+        "name": { "str": "grilled owlbear egg yolk", "str_pl": "grilled owlbear egg yolk" }
+      }
+    ],
     "copy-from": "egg_chicken",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -265,11 +317,23 @@
     "type": "COMESTIBLE",
     "id": "boiled_egg",
     "name": { "str": "boiled egg" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "chicken", "name": { "str": "boiled reptile egg" } },
+      { "type": "COMPONENT_ID", "condition": "chicken", "name": { "str": "boiled chicken egg" } },
+      { "type": "COMPONENT_ID", "condition": "grouse", "name": { "str": "boiled grouse egg" } },
+      { "type": "COMPONENT_ID", "condition": "crow", "name": { "str": "boiled crow egg" } },
+      { "type": "COMPONENT_ID", "condition": "duck", "name": { "str": "boiled duck egg" } },
+      { "type": "COMPONENT_ID", "condition": "goose", "name": { "str": "boiled goose egg" } },
+      { "type": "COMPONENT_ID", "condition": "turkey", "name": { "str": "boiled turkey egg" } },
+      { "type": "COMPONENT_ID", "condition": "pheasant", "name": { "str": "boiled pheasant egg" } },
+      { "type": "COMPONENT_ID", "condition": "cockatrice", "name": { "str": "boiled cockatrice egg" } },
+      { "type": "COMPONENT_ID", "condition": "owlbear", "name": { "str": "boiled owlbear egg yolk" } }
+    ],
     "copy-from": "egg_chicken",
     "color": "white",
     "symbol": "o",
     "quench": -1,
-    "description": "A hard-boiled egg, still in its shell.  Portable and nutritious!",
+    "description": "A hard boiled egg, still in its shell.  Portable and nutritious!",
     "price": 95,
     "material": "egg",
     "fun": 2,
@@ -278,7 +342,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pickled_egg",
-    "name": "pickled egg",
+    "name": { "str": "pickled egg" },
     "copy-from": "egg_chicken",
     "color": "white",
     "spoils_in": "30 days",
