@@ -304,7 +304,7 @@
     "healthy": -2,
     "addiction_potential": 5,
     "calories": 79,
-    "description": "A distilled alcoholic beverage made from fermenting molasses.  Drinking it might make you feel like a pirate.  Or not.",
+    "description": "An distilled alcoholic beverage made from fermenting molasses.  Drinking it might make you feel like a pirate.  Or not.",
     "price": 2300,
     "material": "alcohol",
     "volume": "250 ml",
@@ -553,7 +553,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_screwdriver",
-    "name": "screwdriver cocktail",
+    "name": { "str": "screwdriver cocktail" }
     "weight": "258 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -953,7 +953,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_strawberry_surprise",
-    "name": "strawberry surprise",
+    "name": { "str": "strawberry surprise" }
     "weight": "43 g",
     "color": "pink",
     "addiction_type": "alcohol",
@@ -1037,7 +1037,8 @@
     "type": "COMESTIBLE",
     "id": "single_pot_whiskey",
     "copy-from": "whiskey",
-    "name": { "str": "single pot still Irish whiskey", "str_pl": "single pot still Irish whiskey" },
+    "name": { "str": "single pot still Irish whiskey" }
+    "name_plural": "single pot still Irish whiskey",
     "description": "A whiskey made from a mixed mash of malted and unmalted barley.",
     "price": 2600,
     "fun": 20
@@ -1091,7 +1092,7 @@
     "id": "bristol_sherry",
     "copy-from": "sherry",
     "name": { "str": "Bristol Cream", "str_pl": "Bristol Cream" },
-    "description": "A fine sherry that has been aged in American oak casks and bottled in Bristol, England.",
+    "description": "A fine sherry that was been aged in American oak casks and bottled in Bristol, England.",
     "price": 2800,
     "fun": 18
   },
@@ -1107,7 +1108,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_hobo",
-    "name": "fancy hobo",
+    "name": { "str": "fancy hobo" }
     "weight": "50 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -1134,7 +1135,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_kalimotxo",
-    "name": "kalimotxo",
+    "name": { "str": "kalimotxo" }
     "weight": "250 g",
     "color": "red",
     "addiction_type": "alcohol",
@@ -1161,7 +1162,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_beeknees",
-    "name": "bee's knees",
+    "name": { "str": "bee's knees" }
     "weight": "248 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -1186,7 +1187,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_wsour",
-    "name": "whiskey sour",
+    "name": { "str": "whiskey sour" }
     "weight": "249 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -1211,7 +1212,7 @@
   {
     "type": "COMESTIBLE",
     "id": "honey_gold",
-    "name": "honeygold brew",
+    "name": { "str": "honeygold brew" }
     "weight": "259 g",
     "color": "yellow",
     "use_action": "ALCOHOL_WEAK",
@@ -1235,7 +1236,7 @@
   {
     "type": "COMESTIBLE",
     "id": "honey_ant",
-    "name": "honey ball",
+    "name": { "str": "honey ball" }
     "weight": "178 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -1260,7 +1261,7 @@
   {
     "type": "COMESTIBLE",
     "id": "eggnog_spiked",
-    "name": "spiked eggnog",
+    "name": { "str": "spiked eggnog" }
     "weight": "132 g",
     "color": "white",
     "addiction_type": "alcohol",
@@ -1289,7 +1290,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_martini",
-    "name": "martini",
+    "name": { "str": "martini" }
     "weight": "49600 mg",
     "color": "white",
     "addiction_type": "alcohol",
