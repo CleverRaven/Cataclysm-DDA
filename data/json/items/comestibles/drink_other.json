@@ -275,7 +275,7 @@
     ],
     "copy-from": "cooking_oil",
     "description": "Thin yellow animal oil used for cooking.",
-    "material": [ "flesh", "oil" ],
+    "material": [ "flesh", "oil" ]
   },
   {
     "type": "COMESTIBLE",
