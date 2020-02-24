@@ -228,6 +228,12 @@
   },
   {
     "type": "effect_type",
+    "id": "looting",
+    "name": [ "Monster is looting" ],
+    "desc": [ "AI tag used for monster looting.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "targeted",
     "name": [ "Turret is Targeted" ],
     "desc": [ "AI tag used for turret targeting sounds.  This is a bug if you have it." ]

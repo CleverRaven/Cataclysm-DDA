@@ -309,6 +309,7 @@ static const efftype_id effect_jetinjector( "jetinjector" );
 static const efftype_id effect_lack_sleep( "lack_sleep" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_looting("looting");
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_melatonin_supplements( "melatonin" );
 static const efftype_id effect_masked_scent( "masked_scent" );

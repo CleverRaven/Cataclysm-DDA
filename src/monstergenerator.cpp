@@ -167,6 +167,8 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_STUN_IMMUNE: return "STUN_IMMUNE";
         case MF_LOUDMOVES: return "LOUDMOVES";
         case MF_DROPS_AMMO: return "DROPS_AMMO";
+        case MF_STEALS_FOOD: return "STEALS_FOOD";
+        case MF_STEALS_SHINY: return "STEALS_SHINY";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;

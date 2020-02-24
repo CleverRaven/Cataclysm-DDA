@@ -5137,6 +5137,7 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
             case MATT_FOLLOW:
             case MATT_FPASSIVE:
             case MATT_IGNORE:
+            case MATT_LOOT:
             case MATT_FLEE:
                 return A_NEUTRAL;
             // player does not want to harm those.

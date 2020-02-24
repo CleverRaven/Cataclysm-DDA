@@ -28,6 +28,7 @@
 #include "units.h"
 #include "point.h"
 #include "value_ptr.h"
+#include "item_location.h"
 
 class JsonObject;
 class JsonIn;
@@ -62,6 +63,7 @@ enum monster_attitude {
     MATT_FOLLOW,
     MATT_ATTACK,
     MATT_ZLAVE,
+    MATT_LOOT,
     NUM_MONSTER_ATTITUDES
 };
 
@@ -211,6 +213,13 @@ class monster : public Creature
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
+
+        // How good the food is for given creature to loot.
+        bool eat_from_inventory();
+        item_location select_desired_loot(std::map<item*, const tripoint> &loot);
+        std::map<item*, const tripoint> find_loot_in_radius(const tripoint &target, int radius = 12);
+
+
         void plan();
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
@@ -253,6 +262,17 @@ class monster : public Creature
          * @return true if something was attacked, false otherwise
          */
         bool attack_at( const tripoint &p );
+
+        /**
+         * Pickup item at the given location.
+         *
+         * Will only pickup item if target location matches item location
+         *
+         * @return true if something was picked up, false otherwise
+         */
+        bool pickup_at(const tripoint& p, item_location &target);
+
+       
 
         /**
          * Try to smash/bash/destroy your way through the terrain at p.
@@ -538,6 +558,7 @@ class monster : public Creature
         std::map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
         tripoint position;
+        item_location item_goal;
         bool dead;
         /** Legacy loading logic for monsters that are packing ammo. **/
         void normalize_ammo( int old_ammo );

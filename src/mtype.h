@@ -171,6 +171,8 @@ enum m_flag : int {
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
     MF_DROPS_AMMO,          // This monster drops ammo. Check to make sure starting_ammo paramter is present for this monster type!
+    MF_STEALS_FOOD,         // This monster steals food.
+    MF_STEALS_SHINY,        // This monster steals items made of shiny materials.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
