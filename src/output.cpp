@@ -639,6 +639,8 @@ int popup( const std::string &text, PopupFlags flags )
 
     if( flags & PF_NO_WAIT ) {
         pop.show();
+        catacurses::refresh();
+        refresh_display();
         return UNKNOWN_UNICODE;
     } else {
         pop.context( "POPUP_WAIT" );
