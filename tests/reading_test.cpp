@@ -36,6 +36,9 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 
     GIVEN( "a fun book" ) {
         item &book = dummy.i_add( item( "novel_western" ) );
+        REQUIRE( book.type->book != nullptr );
+        REQUIRE( book.type->book->fun > 0 );
+        int book_fun = book.type->book->fun;
 
         WHEN( "player neither loves nor hates books" ) {
             REQUIRE( !dummy.has_trait( trait_LOVES_BOOKS ) );
@@ -43,7 +46,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 
             THEN( "the book is a normal amount of fun" ) {
                 CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == 4 );
+                CHECK( dummy.book_fun_for( book, dummy ) == book_fun );
             }
         }
 
@@ -53,7 +56,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 
             THEN( "the book is extra fun" ) {
                 CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == 5 );
+                CHECK( dummy.book_fun_for( book, dummy ) == book_fun + 1 );
             }
         }
 
@@ -71,13 +74,16 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
     GIVEN( "a fun book that is also inspirational" ) {
         item &book = dummy.i_add( item( "holybook_pastafarian" ) );
         REQUIRE( book.has_flag( flag_INSPIRATIONAL ) );
+        REQUIRE( book.type->book != nullptr );
+        REQUIRE( book.type->book->fun > 0 );
+        int book_fun = book.type->book->fun;
 
         WHEN( "player is not spiritual" ) {
             REQUIRE( !dummy.has_trait( trait_SPIRITUAL ) );
 
             THEN( "the book is a normal amount of fun" ) {
                 CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == 1 );
+                CHECK( dummy.book_fun_for( book, dummy ) == book_fun );
             }
         }
 
@@ -87,7 +93,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 
             THEN( "the book is thrice the fun" ) {
                 CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == 3 );
+                CHECK( dummy.book_fun_for( book, dummy ) == book_fun * 3 );
             }
         }
     }
@@ -128,45 +134,41 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 {
     avatar dummy;
 
+    // Note: read_speed() returns number of moves;
+    // 60000 == 60 seconds
     WHEN( "player has average intelligence" ) {
         REQUIRE( dummy.get_int() == 8 );
 
         THEN( "reading speed is normal" ) {
-            CHECK( 60 == dummy.read_speed() / to_moves<int>( 1_seconds ) );
+            CHECK( dummy.read_speed() == 60000 );
         }
     }
 
     WHEN( "player has below-average intelligence" ) {
 
-        THEN( "reading speed is slower" ) {
+        THEN( "reading speed gets slower as intelligence decreases" ) {
             dummy.int_max = 7;
-            CHECK( 63 == dummy.read_speed() / to_moves<int>( 1_seconds ) );
-        }
-
-        THEN( "even slower as intelligence decreases" ) {
+            CHECK( dummy.read_speed() == 63000 );
             dummy.int_max = 6;
-            CHECK( 66 == dummy.read_speed() / to_moves<int>( 1_seconds ) );
+            CHECK( dummy.read_speed() == 66000 );
             dummy.int_max = 5;
-            CHECK( 69 == dummy.read_speed() / to_moves<int>( 1_seconds ) );
+            CHECK( dummy.read_speed() == 69000 );
             dummy.int_max = 4;
-            CHECK( 72 == dummy.read_speed() / to_moves<int>( 1_seconds ) );
+            CHECK( dummy.read_speed() == 72000 );
         }
     }
 
     WHEN( "player has above-average intelligence" ) {
 
-        THEN( "reading speed is faster" ) {
+        THEN( "reading speed gets faster as intelligence increases" ) {
             dummy.int_max = 9;
-            CHECK( 57 == dummy.read_speed() / to_moves<int>( 1_seconds ) );
-        }
-
-        AND_THEN( "even faster as intelligence increases" ) {
+            CHECK( dummy.read_speed() == 57000 );
             dummy.int_max = 10;
-            CHECK( 54 == dummy.read_speed() / to_moves<int>( 1_seconds ) );
+            CHECK( dummy.read_speed() == 54000 );
             dummy.int_max = 12;
-            CHECK( 48 == dummy.read_speed() / to_moves<int>( 1_seconds ) );
+            CHECK( dummy.read_speed() == 48000 );
             dummy.int_max = 14;
-            CHECK( 42 == dummy.read_speed() / to_moves<int>( 1_seconds ) );
+            CHECK( dummy.read_speed() == 42000 );
         }
     }
 }
@@ -180,7 +182,7 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
  * INT 10: 28 minutes
  *
  */
-TEST_CASE( "estimated reading time for a book", "[reading][time][!mayfail]" )
+TEST_CASE( "estimated reading time for a book", "[reading][book][time][!mayfail]" )
 {
     avatar dummy;
     int book_time;
