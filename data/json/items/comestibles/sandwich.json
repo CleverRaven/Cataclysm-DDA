@@ -152,6 +152,13 @@
     "type": "COMESTIBLE",
     "id": "sandwich_sauce",
     "name": { "str": "boring sandwich", "str_pl": "boring sandwiches" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "mayonnaise", "name": { "str": "mayonnaise sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "ketchup", "name": { "str": "ketchup sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "pesto", "name": { "str": "pesto sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "mustard", "name": { "str": "mustard sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "sauce", "name": { "str": "marinara sandwich" } }
+    ],
     "copy-from": "bread",
     "proportional": { "weight": 2.0, "calories": 2.0, "volume": 2.0 },
     "color": "brown",
@@ -166,6 +173,41 @@
     "type": "COMESTIBLE",
     "id": "sandwich_veggy",
     "name": { "str": "vegetable sandwich", "str_pl": "vegetable sandwiches" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "dandelion", "name": { "str": "dandelion sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "broccoli", "name": { "str": "broccoli sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "cabbage", "name": { "str": "cabbage sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "corn sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "cattail", "name": { "str": "cattail sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str": "carrot sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "celery", "name": { "str": "celery sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "corn sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "cucumber", "name": { "str": "cucumber sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "lettuce", "name": { "str": "lettuce sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "onion", "name": { "str": "onion sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "potato_baked", "name": { "str": "baked potato sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "irradiated_potato", "name": { "str": "radical potato sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "pumpkin", "name": { "str": "pumpkin sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "rhubarb", "name": { "str": "rhubarb sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "beet", "name": { "str": "sugar beet sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "tomato", "name": { "str": "tomato sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "plant marrow", "name": { "str": "plant marrow sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "spinach", "name": { "str": "spinach sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "zucchini", "name": { "str": "zucchini sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "sauerkraut", "name": { "str": "sauerkraut sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "baked dahlia", "name": { "str": "baked dahlia sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "pine nut", "name": { "str": "pine nut sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "morel", "name": { "str": "morel sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "mushroom", "name": { "str": "mushroom sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "veggy aspic", "name": { "str": "veggy aspic sandwich" } },
+      { "type": "COMPONENT_ID", "condition": "pickle", "name": { "str": "pickle sandwich" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sauerkraut_onion",
+        "name": { "str": "sauerkraut and sautee'd onion sandwich" }
+      },
+      { "type": "COMPONENT_ID", "condition": "pickled veggy", "name": { "str": "pickled veggy sandwich" } }
+    ],
     "weight": "289 g",
     "color": "light_gray",
     "spoils_in": "2 days",
@@ -188,6 +230,80 @@
     "id": "sandwich_t",
     "name": { "str": "meat sandwich", "str_pl": "meat sandwiches" },
     "conditional_names": [
+      {
+        "type": "COMPONENT_ID",
+        "condition": "pickled fish",
+        "name": { "str": "pickled fish sandwich", "str_pl": "pickled fish sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "bacon",
+        "name": { "str": "bacon sandwich", "str_pl": "bacon sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "can_spam",
+        "name": { "str": "SPAM sandwich", "str_pl": "SPAM sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "lunchmeat",
+        "name": { "str": "lunchmeat sandwich", "str_pl": "lunchmeat sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fried_spam",
+        "name": { "str": "fried SPAM sandwich", "str_pl": "fied SPAM sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "chicken",
+        "name": { "str": "chicken sandwich", "str_pl": "chicken sandwiches" }
+      },
+      { "type": "COMPONENT_ID", "condition": "fish", "name": { "str": "fish sandwich", "str_pl": "fish sandwiches" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fish_smoked",
+        "name": { "str": "smoked fish sandwich", "str_pl": "smoked fish sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "can_herring",
+        "name": { "str": "pickled herring sandwich", "str_pl": "pickled herring sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "salmon",
+        "name": { "str": "salmon sandwich", "str_pl": "salmon sandwiches" }
+      },
+      { "type": "COMPONENT_ID", "condition": "tuna", "name": { "str": "tuna sandwich", "str_pl": "tuna sandwiches" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sardine",
+        "name": { "str": "sardine sandwich", "str_pl": "sardine sandwiches" }
+      },
+      { "type": "COMPONENT_ID", "condition": "clam", "name": { "str": "clam sandwich", "str_pl": "clam sandwiches" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "fish_pickled",
+        "name": { "str": "pickled fish sandwich", "str_pl": "pickled fish sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "cracklins",
+        "name": { "str": "cracklin sandwich", "str_pl": "cracklin sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "meat aspic",
+        "name": { "str": "meat aspic sandwich", "str_pl": "meat aspic sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sausage",
+        "name": { "str": "sausage sandwich", "str_pl": "sausage sandwiches" }
+      },
+      { "type": "COMPONENT_ID", "condition": "bratwurst", "name": { "str": "bratwich", "str_pl": "bratwiches" } },
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } }
     ],
@@ -323,7 +439,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blt",
-    "name": "BLT",
+    "name": { "str": "BLT" },
     "weight": "220 g",
     "color": "brown",
     "spoils_in": "2 days 12 hours",
