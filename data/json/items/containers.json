@@ -1138,7 +1138,7 @@
     "name": { "str": "condom" },
     "description": "A gentleman's balloon.  A single use life preventer.  A thumbless latex mitten.  This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
     "weight": "5 g",
-    "volume": "1 ml",
+    "volume": "15 ml",
     "price": 0,
     "to_hit": -5,
     "rigid": false,
