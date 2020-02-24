@@ -78,7 +78,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
     {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
-    {monster_attitude::MATT_LOOT,{translate_marker("Looting!"),def_c_blue}},
+    {monster_attitude::MATT_LOOT, {translate_marker( "Looting!" ), def_c_blue}},
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
 
@@ -540,8 +540,8 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
     }
 
-    if (!inv.empty()) {
-        mvwprintz(w, point(column, ++vStart), c_white, _("It is carrying something!"));
+    if( !inv.empty() ) {
+        mvwprintz( w, point( column, ++vStart ), c_white, _( "It is carrying something!" ) );
     }
 
     std::string effects = get_effect_status();
@@ -661,8 +661,8 @@ std::string monster::extended_description() const
         {flies(), pgettext( "Fly as an action", "fly" )},
         {can_dig(), pgettext( "Dig as an action", "dig" )},
         {climbs(), pgettext( "Climb as an action", "climb" )},
-        {m_flag::MF_STEALS_FOOD, pgettext("Steal food as an action", "steal")},
-        {m_flag::MF_STEALS_SHINY, pgettext("Steal shiny items as an action", "steal")}
+        {m_flag::MF_STEALS_FOOD, pgettext( "Steal food as an action", "steal" )},
+        {m_flag::MF_STEALS_SHINY, pgettext( "Steal shiny items as an action", "steal" )}
     } );
 
     describe_flags( _( "<bad>In fight it can %s.</bad>" ), {
@@ -1032,10 +1032,11 @@ monster_attitude monster::attitude( const Character *u ) const
         if( get_hp() != get_hp_max() ) {
             return MATT_FLEE;
         } else {
-            if (has_effect(effect_looting))
+            if( has_effect( effect_looting ) ) {
                 return MATT_LOOT;
-             else 
+            } else {
                 return MATT_IGNORE;
+            }
         }
     }
 
@@ -2225,14 +2226,15 @@ void monster::drop_items_on_death()
         return;
     }
 
-    if (type->death_drops.empty() && inv.empty()) {
+    if( type->death_drops.empty() && inv.empty() ) {
         return;
     }
 
     std::vector<item> items;
-    
-    if (!type->death_drops.empty())
-        items = item_group::items_from(type->death_drops, calendar::start_of_cataclysm);
+
+    if( !type->death_drops.empty() ) {
+        items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm );
+    }
 
     // This block removes some items, according to item spawn scaling factor
     const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
@@ -2253,12 +2255,12 @@ void monster::drop_items_on_death()
 
     // Adds all items in the monsters inventory to be dropped.
     // TODO: Apply random damage to items ? Modify them in some way ?
-    if (!inv.empty())
-        for (const item &itm : inv) {
-            items.push_back(itm);
+    if( !inv.empty() )
+        for( const item &itm : inv ) {
+            items.push_back( itm );
         }
 
-    inv.erase(inv.begin(), inv.end());
+    inv.erase( inv.begin(), inv.end() );
 
     const auto dropped = g->m.spawn_items( pos(), items );
 

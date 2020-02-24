@@ -216,8 +216,8 @@ class monster : public Creature
 
         // How good the food is for given creature to loot.
         bool eat_from_inventory();
-        item_location select_desired_loot(std::map<item*, const tripoint> &loot);
-        std::map<item*, const tripoint> find_loot_in_radius(const tripoint &target, int radius = 12);
+        item_location select_desired_loot( std::map<item *, const tripoint> &loot );
+        std::map<item *, const tripoint> find_loot_in_radius( const tripoint &target, int radius = 12 );
 
 
         void plan();
@@ -274,9 +274,9 @@ class monster : public Creature
          *
          * @return true if something was picked up, false otherwise
          */
-        bool pickup_at(const tripoint& p, item_location &target);
+        bool pickup_at( const tripoint &p, item_location &target );
 
-       
+
 
         /**
          * Try to smash/bash/destroy your way through the terrain at p.
