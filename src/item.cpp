@@ -4740,6 +4740,13 @@ bool item::goes_bad() const
     return is_food() && get_comestible()->spoils != 0_turns;
 }
 
+bool item::goes_bad_after_opening() const
+{
+    // returns true if this item goes bad, or if this item is a preserving container and its contents can go bad.
+    return goes_bad() || ( type->container && type->container->preserves &&
+                           contents.front().goes_bad() );
+}
+
 time_duration item::get_shelf_life() const
 {
     if( goes_bad() ) {
