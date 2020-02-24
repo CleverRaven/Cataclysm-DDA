@@ -436,7 +436,7 @@
     "type": "AMMO",
     "id": "120mm_HEAT",
     "price": 999999,
-    "name": "120mm HEAT",
+    "name": { "str": "120mm HEAT" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A 120mm high-explosive anti-tank round.  It could ruin anyone's whole day.",
