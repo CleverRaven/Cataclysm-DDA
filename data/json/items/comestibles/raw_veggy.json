@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "barley",
-    "name": "barley",
+    "name": { "str": "barley" },
     "weight": "211 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -22,7 +22,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bee_balm",
-    "name": "bee balm",
+    "name": { "str": "bee balm" },
     "description": "A snow-white flower also known as wild bergamot.  Smells faintly of mint.",
     "comestible_type": "FOOD",
     "calories": 9,
@@ -77,7 +77,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cabbage",
-    "name": "cabbage",
+    "name": { "str": "cabbage" },
     "weight": "139 g",
     "color": "white",
     "spoils_in": "10 days",
@@ -178,7 +178,7 @@
   {
     "type": "COMESTIBLE",
     "id": "celery",
-    "name": "celery",
+    "name": { "str": "celery" },
     "weight": "107 g",
     "color": "light_green",
     "spoils_in": "6 days 6 hours",
@@ -236,7 +236,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chili_pepper",
-    "name": "chili pepper",
+    "name": { "str": "chili pepper" },
     "weight": "53 g",
     "color": "red",
     "spoils_in": "30 days",
@@ -256,7 +256,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cucumber",
-    "name": "cucumber",
+    "name": { "str": "cucumber" },
     "weight": "330 g",
     "color": "green",
     "spoils_in": "6 days 6 hours",
@@ -276,7 +276,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dahlia_root",
-    "name": "dahlia root",
+    "name": { "str": "dahlia root" },
     "weight": "190 g",
     "color": "brown",
     "spoils_in": "30 days",
@@ -301,8 +301,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 109,
-    "//": "Serving Size is 1 cup of sliced roots. Salsify grows in bountiful clumps, it's a weed.",
     "description": "An herb with a small purple flower.  The roots are nutritious, but tough and bland until cooked.",
+    "//": "Serving Size is 1 cup of sliced roots. Salsify grows in bountiful clumps, it's a weed.",
     "price": 75,
     "material": "veggy",
     "volume": "250 ml",
@@ -347,7 +347,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dogbane",
-    "name": "dogbane",
+    "name": { "str": "dogbane" },
     "description": "A stalk of dogbane.  It has very fibrous stems and is mildly poisonous.",
     "comestible_type": "FOOD",
     "use_action": "BLECH",
@@ -365,7 +365,7 @@
   {
     "type": "COMESTIBLE",
     "id": "garlic",
-    "name": "garlic bulb",
+    "name": { "str": "garlic bulb" },
     "weight": "14 g",
     "color": "white",
     "spoils_in": "360 days",
@@ -405,7 +405,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lettuce",
-    "name": "lettuce",
+    "name": { "str": "lettuce" },
     "weight": "38 g",
     "color": "light_green",
     "spoils_in": "10 days",
@@ -425,7 +425,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mugwort",
-    "name": "mugwort",
+    "name": { "str": "mugwort" },
     "description": "A stalk of mugwort.  Smells wonderful.",
     "comestible_type": "FOOD",
     "spoils_in": "10 days",
@@ -442,7 +442,7 @@
   {
     "type": "COMESTIBLE",
     "id": "onion",
-    "name": "onion",
+    "name": { "str": "onion" },
     "weight": "150 g",
     "color": "white",
     "spoils_in": "30 days",
@@ -463,7 +463,7 @@
   {
     "type": "COMESTIBLE",
     "id": "plant_sac",
-    "name": "fungal fluid sac",
+    "name": { "str": "fungal fluid sac" },
     "weight": "278 g",
     "color": "light_green",
     "spoils_in": "3 days 8 hours",
@@ -473,7 +473,7 @@
     "symbol": "%",
     "quench": 18,
     "healthy": -1,
-    "calories": 35,
+    "calories": 40,
     "description": "A fluid bladder from a fungus based lifeform.  Not very nutritious, but fine to eat anyway.",
     "price": 0,
     "material": "veggy",
@@ -504,7 +504,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pumpkin",
-    "name": "pumpkin",
+    "name": { "str": "pumpkin" },
     "weight": "123 g",
     "color": "light_red",
     "spoils_in": "60 days",
@@ -548,7 +548,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rhubarb",
-    "name": "rhubarb",
+    "name": { "str": "rhubarb" },
     "weight": "129 g",
     "color": "red",
     "spoils_in": "6 days 16 hours",
@@ -568,7 +568,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sugar_beet",
-    "name": "sugar beet",
+    "name": { "str": "sugar beet" },
     "weight": "143 g",
     "color": "brown",
     "spoils_in": "95 days",
@@ -629,7 +629,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy",
-    "name": "plant marrow",
+    "name": { "str": "plant marrow" },
     "weight": "119 g",
     "color": "green",
     "spoils_in": "3 days 8 hours",
@@ -651,7 +651,7 @@
     "id": "veggy_tainted",
     "//": "Note: Legacy item ID, this is not actually a vegetable at all anymore.",
     "category": "other",
-    "name": "alien fungus chunk",
+    "name": { "str": "alien fungus chunk" },
     "copy-from": "veggy",
     "looks_like": "mushroom",
     "spoils_in": "40 hours",
@@ -673,7 +673,7 @@
   {
     "type": "COMESTIBLE",
     "id": "zucchini",
-    "name": "zucchini",
+    "name": { "str": "zucchini" },
     "weight": "196 g",
     "color": "light_green",
     "spoils_in": "5 days",
@@ -692,7 +692,7 @@
   {
     "type": "COMESTIBLE",
     "id": "canola",
-    "name": "canola",
+    "name": { "str": "canola" },
     "description": "A pretty stalk of canola.  Its seeds can be pressed into oil.",
     "comestible_type": "FOOD",
     "calories": 9,
