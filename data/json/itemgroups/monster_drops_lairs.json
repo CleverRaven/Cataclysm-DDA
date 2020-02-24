@@ -267,5 +267,15 @@
       [ "can_sealer", 10 ],
       [ "remotevehcontrol", 8 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "cow",
+    "items": [ [ "cow_bell", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "dog_cop",
+    "items": [ [ "kevlar_harness", 1 ] ]
   }
 ]

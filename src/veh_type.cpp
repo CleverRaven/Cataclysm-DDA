@@ -449,7 +449,7 @@ void vpart_info::finalize()
 
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle
-        if( e.second.location == "on_roof" ) {
+        if( e.second.location == part_location_onroof ) {
             e.second.z_order = 9;
             e.second.list_order = 3;
         } else if( e.second.location == "on_cargo" ) {

@@ -2,7 +2,7 @@
   {
     "id": "380_FMJ",
     "type": "AMMO",
-    "name": ".380 ACP FMJ",
+    "name": { "str": ".380 ACP FMJ" },
     "description": ".380 ACP ammunition with a brass jacketed 95gr bullet.  Popular in pocket pistols for over a century, it is often considered the weakest caliber to consider carrying.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "weight": "6 g",
     "volume": "250 ml",
@@ -26,7 +26,7 @@
     "id": "380_JHP",
     "copy-from": "380_FMJ",
     "type": "AMMO",
-    "name": ".380 ACP JHP",
+    "name": { "str": ".380 ACP JHP" },
     "description": ".380 ACP ammunition with a 95gr jacketed hollow point bullet.  It is a popular round for small concealable backup pistols, and often the weakest recommended defensive caliber.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "relative": { "damage": 2, "pierce": -2 }
   },
@@ -34,7 +34,7 @@
     "id": "380_p",
     "copy-from": "380_FMJ",
     "type": "AMMO",
-    "name": ".380 ACP +P",
+    "name": { "str": ".380 ACP +P" },
     "description": "Overpressure .380 ACP ammunition with a 90gr jacketed hollow point bullet.  These defensive loadings are designed to maximize performance and tend to be more accurate than practice ammo.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
     "price": 190,
     "price_postapoc": 3800,
@@ -46,7 +46,7 @@
     "id": "bp_380_FMJ",
     "copy-from": "380_FMJ",
     "type": "AMMO",
-    "name": ".380 ACP FMJ, black powder",
+    "name": { "str": ".380 ACP FMJ, black powder" },
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -55,7 +55,7 @@
     "id": "bp_380_JHP",
     "copy-from": "380_JHP",
     "type": "AMMO",
-    "name": ".380 ACP JHP, black powder",
+    "name": { "str": ".380 ACP JHP, black powder" },
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -64,7 +64,7 @@
     "id": "reloaded_380_FMJ",
     "copy-from": "380_FMJ",
     "type": "AMMO",
-    "name": ".380 ACP FMJ, reloaded",
+    "name": { "str": ".380 ACP FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -73,7 +73,7 @@
     "id": "reloaded_380_JHP",
     "copy-from": "380_JHP",
     "type": "AMMO",
-    "name": ".380 ACP JHP, reloaded",
+    "name": { "str": ".380 ACP JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -82,7 +82,7 @@
     "id": "reloaded_380_p",
     "copy-from": "380_p",
     "type": "AMMO",
-    "name": ".380 ACP +P, reloaded",
+    "name": { "str": ".380 ACP +P, reloaded" },
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

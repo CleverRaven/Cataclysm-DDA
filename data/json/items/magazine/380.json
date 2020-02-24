@@ -54,7 +54,7 @@
     "id": "mac11mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": "MAC-11 magazine",
+    "name": { "str": "MAC-11 magazine" },
     "description": "A cheap 32-round steel box magazine for use with the MAC-11 SMG.",
     "weight": "200 g",
     "volume": "737ml",

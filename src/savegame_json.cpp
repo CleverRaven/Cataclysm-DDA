@@ -2685,35 +2685,35 @@ void vehicle::deserialize( JsonIn &jsin )
         }
     }
 
-    for( const vpart_reference &vp : get_any_parts( "TURRET" ) ) {
+    for( const vpart_reference &vp : get_any_parts( flag_TURRET ) ) {
         install_part( vp.mount(), vpart_turret_mount, false );
 
         //Forcibly set turrets' targeting mode to manual if no turret control unit is present on turret's tile on loading save
-        if( !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
+        if( !has_part( global_part_pos3( vp.part() ), flag_TURRET_CONTROLS ) ) {
             vp.part().enabled = false;
         }
         //Set turret control unit's state equal to turret's targeting mode on loading save
-        for( const vpart_reference &turret_part : get_any_parts( "TURRET_CONTROLS" ) ) {
+        for( const vpart_reference &turret_part : get_any_parts( flag_TURRET_CONTROLS ) ) {
             turret_part.part().enabled = vp.part().enabled;
         }
     }
 
     // Add vehicle mounts to cars that are missing them.
-    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
+    for( const vpart_reference &vp : get_any_parts( flag_NEEDS_WHEEL_MOUNT_LIGHT ) ) {
         if( vp.info().has_flag( flag_STEERABLE ) ) {
             install_part( vp.mount(), vpart_wheel_mount_light_steerable, false );
         } else {
             install_part( vp.mount(), vpart_wheel_mount_light, false );
         }
     }
-    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
+    for( const vpart_reference &vp : get_any_parts( flag_NEEDS_WHEEL_MOUNT_MEDIUM ) ) {
         if( vp.info().has_flag( flag_STEERABLE ) ) {
             install_part( vp.mount(), vpart_wheel_mount_medium_steerable, false );
         } else {
             install_part( vp.mount(), vpart_wheel_mount_medium, false );
         }
     }
-    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
+    for( const vpart_reference &vp : get_any_parts( flag_NEEDS_WHEEL_MOUNT_HEAVY ) ) {
         if( vp.info().has_flag( flag_STEERABLE ) ) {
             install_part( vp.mount(), vpart_wheel_mount_heavy_steerable, false );
         } else {
