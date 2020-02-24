@@ -168,7 +168,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chocpretzels",
-    "name": { "str": "chocolate-covered pretzel" },
+    "name": { "str": "chocolate-covered pretzels", "str_pl": "chocolate-covered pretzels" },
     "weight": "96 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -188,7 +188,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chocolate",
-    "name": { "str": "chocolate bar" },
+    "name": { "str": "bar chocolate", "str_pl": "bar chocolate" },
     "weight": "34 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -244,7 +244,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy",
-    "name": { "str": "peanut butter candy", "str_pl": "peanut butter candies" },
+    "name": { "str": "peanut butter candy", "str_pl": "peanut butter candy" },
     "weight": "39 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -265,7 +265,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy2",
-    "name": { "str": "chocolate candy", "str_pl": "chocolate candies" },
+    "name": { "str": "chocolate candy", "str_pl": "chocolate candy" },
     "weight": "57 g",
     "color": "red",
     "spoils_in": "360 days",
@@ -274,7 +274,7 @@
     "symbol": "%",
     "healthy": -1,
     "calories": 287,
-    "description": "A handful of colorful chocolate filled candies.",
+    "description": "A handful of colorful chocolate filled candy.",
     "price": 180,
     "material": "junk",
     "volume": "250 ml",
@@ -326,7 +326,7 @@
   {
     "type": "COMESTIBLE",
     "id": "maple_candy",
-    "name": { "str": "maple syrup candy", "str_pl": "maple syrup candies" },
+    "name": { "str": "maple syrup candy", "str_pl": "maple syrup candy" },
     "weight": "18 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -347,7 +347,7 @@
   {
     "type": "COMESTIBLE",
     "id": "grahmcrackers",
-    "name": { "str": "graham cracker" },
+    "name": { "str": "graham crackers", "str_pl": "graham crackers" },
     "weight": "31 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -606,7 +606,7 @@
   {
     "type": "COMESTIBLE",
     "id": "choco_coffee_beans",
-    "name": { "str": "chocolate-covered coffee bean" },
+    "name": { "str": "chocolate-covered coffee beans", "str_pl": "chocolate-covered coffee beans" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -660,7 +660,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mintpatties",
-    "name": { "str": "peppermint patty", "str_pl": "peppermint patties" },
+    "name": { "str": "peppermint patties", "str_pl": "peppermint patties" },
     "weight": "43 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -700,7 +700,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candycigarette",
-    "name": { "str": "candy cigarette" },
+    "name": { "str": "candy cigarettes", "str_pl": "candy cigarettes" },
     "weight": "18 g",
     "color": "white",
     "spoils_in": "180 days",
@@ -762,7 +762,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal",
-    "name": { "str": "sugary cereal" },
+    "name": { "str": "sugary cereal", "str_pl": "sugary cereal" },
     "weight": "38 g",
     "color": "yellow",
     "spoils_in": "90 days",
@@ -782,7 +782,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal3",
-    "name": { "str": "corn cereal" },
+    "name": { "str": "corn cereal", "str_pl": "corn cereal" },
     "weight": "39 g",
     "color": "yellow",
     "spoils_in": "90 days",
@@ -989,7 +989,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fchicken",
-    "name": { "str": "deep-fried chicken" },
+    "name": { "str": "deep-fried chicken", "str_pl": "deep-fried chicken" },
     "weight": "168 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -1009,7 +1009,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chilidogs",
-    "name": { "str": "chili dogs", "str_pl": "chili dogs" },
+    "name": { "str": "chili dog", "str_pl": "chili dogs" },
     "weight": "318 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -1096,7 +1096,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_cheese",
-    "name": { "str": "cheese spread" },
+    "name": { "str": "cheese spread", "str_pl": "cheese spread" },
     "weight": "30 g",
     "color": "yellow",
     "spoils_in": "4 days",
@@ -1138,7 +1138,7 @@
   {
     "type": "COMESTIBLE",
     "id": "onion_rings",
-    "name": { "str": "onion ring" },
+    "name": { "str": "onion rings", "str_pl": "onion rings" },
     "weight": "166 g",
     "color": "brown",
     "spoils_in": "3 days",
@@ -1158,7 +1158,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hotdogs_frozen",
-    "name": { "str": "uncooked hot dog", "str_pl": "uncooked hot dogs" },
+    "name": { "str": "uncooked hot dog" },
     "weight": "43 g",
     "color": "red",
     "spoils_in": "11 days 16 hours",
@@ -1209,7 +1209,7 @@
   {
     "type": "COMESTIBLE",
     "id": "maltballs",
-    "name": { "str": "malted milk ball" },
+    "name": { "str": "malted milk balls", "str_pl": "malted milk balls" },
     "weight": "40 g",
     "color": "brown",
     "spoils_in": "180 days",
