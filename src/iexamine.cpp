@@ -2512,8 +2512,6 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
 }
 //arc furnace end
 
-void iexamine::fireplace( player &p, const tripoint &examp );
-
 void iexamine::autoclave_empty( player &p, const tripoint &examp )
 {
     furn_id cur_autoclave_type = g->m.furn( examp );
