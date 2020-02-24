@@ -32,6 +32,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "point.h"
 #include "wcwidth.h"
@@ -340,16 +341,16 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
 void scrollable_text( const catacurses::window &w, const std::string &title,
                       const std::string &text )
 {
-    const int width = getmaxx( w );
-    const int height = getmaxy( w );
+    scrollable_text( [&w]() {
+        return w;
+    }, title, text );
+}
+
+void scrollable_text( const std::function<catacurses::window()> &init_window,
+                      const std::string &title, const std::string &text )
+{
     constexpr int text_x = 1;
     constexpr int text_y = 1;
-    const int text_w = width - 2;
-    const int text_h = height - 2;
-    if( text_w <= 0 || text_h <= 0 ) {
-        debugmsg( "Oops, the window is too small to display anything!" );
-        return;
-    }
 
     input_context ctxt( "SCROLLABLE_TEXT" );
     ctxt.register_action( "UP" );
@@ -360,12 +361,32 @@ void scrollable_text( const catacurses::window &w, const std::string &title,
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    const std::vector<std::string> lines = foldstring( text, text_w );
+    catacurses::window w;
+    int width = 0;
+    int height = 0;
+    int text_w = 0;
+    int text_h = 0;
+    std::vector<std::string> lines;
     int beg_line = 0;
-    const int max_beg_line = std::max( 0, static_cast<int>( lines.size() ) - text_h );
+    int max_beg_line = 0;
 
-    std::string action;
-    do {
+    ui_adaptor ui;
+    const auto screen_resize_cb = [&]( ui_adaptor & ui ) {
+        w = init_window();
+
+        width = getmaxx( w );
+        height = getmaxy( w );
+        text_w = std::max( 0, width - 2 );
+        text_h = std::max( 0, height - 2 );
+
+        lines = foldstring( text, text_w );
+        max_beg_line = std::max( 0, static_cast<int>( lines.size() ) - text_h );
+
+        ui.position_from_window( w );
+    };
+    screen_resize_cb( ui );
+    ui.on_screen_resize( screen_resize_cb );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         draw_border( w, BORDER_COLOR, title, c_black_white );
         for( int line = beg_line, pos_y = text_y; line < std::min<int>( beg_line + text_h, lines.size() );
@@ -376,6 +397,11 @@ void scrollable_text( const catacurses::window &w, const std::string &title,
         scrollbar().offset_x( width - 1 ).offset_y( text_y ).content_size( lines.size() )
         .viewport_pos( std::min( beg_line, max_beg_line ) ).viewport_size( text_h ).apply( w );
         wrefresh( w );
+    } );
+
+    std::string action;
+    do {
+        ui_manager::redraw();
 
         action = ctxt.handle_input();
         if( action == "UP" ) {
@@ -639,6 +665,8 @@ int popup( const std::string &text, PopupFlags flags )
 
     if( flags & PF_NO_WAIT ) {
         pop.show();
+        catacurses::refresh();
+        refresh_display();
         return UNKNOWN_UNICODE;
     } else {
         pop.context( "POPUP_WAIT" );

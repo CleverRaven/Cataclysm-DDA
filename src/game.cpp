@@ -138,6 +138,7 @@
 #include "ret_val.h"
 #include "tileray.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "int_id.h"
 #include "string_id.h"
@@ -1496,7 +1497,7 @@ bool game::do_turn()
                 }
                 sounds::process_sound_markers( &u );
                 if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH ) {
-                    draw();
+                    ui_manager::redraw();
                 }
 
                 if( handle_action() ) {
@@ -1593,7 +1594,7 @@ bool game::do_turn()
     mon_info_update();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
-        draw();
+        ui_manager::redraw();
         refresh_display();
     }
 
@@ -1606,7 +1607,7 @@ bool game::do_turn()
 
     if( player_is_sleeping ) {
         if( calendar::once_every( 30_minutes ) || !player_was_sleeping ) {
-            draw();
+            ui_manager::redraw();
             //Putting this in here to save on checking
             if( calendar::once_every( 1_hours ) ) {
                 add_artifact_dreams( );
@@ -1628,6 +1629,9 @@ bool game::do_turn()
             .wait_message( "%s", *progress )
             .on_top( true )
             .show();
+
+            catacurses::refresh();
+            refresh_display();
         }
     }
 
@@ -2766,7 +2770,6 @@ void game::load( const save_t &name )
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     u.reset();
-    draw();
 }
 
 void game::load_world_modfiles( loading_ui &ui )
