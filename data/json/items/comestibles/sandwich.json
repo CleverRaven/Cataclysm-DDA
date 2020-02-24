@@ -253,7 +253,7 @@
       {
         "type": "COMPONENT_ID",
         "condition": "fried_spam",
-        "name": { "str": "fried SPAM sandwich", "str_pl": "fied SPAM sandwiches" }
+        "name": { "str": "fried SPAM sandwich", "str_pl": "fried SPAM sandwiches" }
       },
       {
         "type": "COMPONENT_ID",
