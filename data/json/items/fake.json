@@ -11,7 +11,7 @@
     "id": "arcfurnace",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "arc furnace"
+    "name": { "str": "arc furnace" }
   },
   {
     "id": "fake_burrowing",
