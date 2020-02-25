@@ -4349,6 +4349,17 @@ static player &best_installer( player &p, player &null_player, int difficulty )
     return p;
 }
 
+template<typename ...Args>
+inline void popup_player_or_npc( player &p, const char *player_mes, const char *npc_mes,
+                                 Args &&... args )
+{
+    if( p.is_player() ) {
+        popup( player_mes, std::forward<Args>( args )... );
+    } else {
+        popup( p.replace_with_npc_name( string_format( npc_mes, std::forward<Args>( args )... ) ) );
+    }
+}
+
 void iexamine::autodoc( player &p, const tripoint &examp )
 {
     enum options {
