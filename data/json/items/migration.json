@@ -988,5 +988,10 @@
     "id": "40mm_casing",
     "type": "MIGRATION",
     "replace": "40x46mm_m118_casing"
+  },
+  {
+    "id": "sig552",
+    "type": "MIGRATION",
+    "replace": "sig553"
   }
 ]
