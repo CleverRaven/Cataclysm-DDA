@@ -2,7 +2,7 @@
   {
     "id": "anvil",
     "type": "TOOL",
-    "name": "anvil",
+    "name": { "str": "anvil" },
     "description": "This is an enormously heavy block of oddly shaped steel with a chisel-like projection set into the corner.  It's used in most metalworking fabrication recipes.",
     "weight": "54000 g",
     "volume": "4 L",
