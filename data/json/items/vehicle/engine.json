@@ -209,7 +209,7 @@
     "copy-from": "engine_steam",
     "type": "ENGINE",
     "name": "medium steam engine",
-    "description": "A medium sized steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed cycle system.",
+    "description": "A medium-sized steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed cycle system.",
     "weight": "280000 g",
     "volume": "57500 ml",
     "price": 870000,

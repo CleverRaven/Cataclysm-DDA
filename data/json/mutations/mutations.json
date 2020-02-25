@@ -154,7 +154,8 @@
     "changes_to": [ "FASTHEALER2", "REGEN_LIZ" ],
     "category": [ "MEDICAL" ],
     "healing_awake": 0.2,
-    "healing_resting": 0.5
+    "healing_resting": 0.5,
+    "mending_modifier": 2.0
   },
   {
     "type": "mutation",
@@ -360,7 +361,7 @@
     "points": 3,
     "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
     "map_memory_capacity_multiplier": 2,
-    "skill_rust_multiplier": 0.66,
+    "skill_rust_multiplier": 1.33,
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FORGETFUL" ]
@@ -773,7 +774,8 @@
     "description": "You heal a little slower than most; sleeping will heal less HP.",
     "starting_trait": true,
     "types": [ "HEALING" ],
-    "healing_resting": -0.25
+    "healing_resting": -0.25,
+    "mending_modifier": 0.5
   },
   {
     "type": "mutation",
@@ -785,7 +787,8 @@
     "valid": false,
     "purifiable": false,
     "types": [ "HEALING" ],
-    "healing_resting": -0.66
+    "healing_resting": -0.66,
+    "mending_modifier": 0.33
   },
   {
     "type": "mutation",
@@ -797,7 +800,8 @@
     "valid": false,
     "purifiable": false,
     "types": [ "HEALING" ],
-    "healing_resting": -0.9
+    "healing_resting": -0.9,
+    "mending_modifier": 0.1
   },
   {
     "type": "mutation",
@@ -1050,7 +1054,7 @@
     "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
     "social_modifiers": { "lie": -5 },
     "map_memory_capacity_multiplier": 0.5,
-    "skill_rust_multiplier": 1.33,
+    "skill_rust_multiplier": 0.66,
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT" ],
     "cancels": [ "GOODMEMORY" ]
@@ -1534,7 +1538,8 @@
     "changes_to": [ "REGEN" ],
     "category": [ "PLANT" ],
     "healing_awake": 0.66,
-    "healing_resting": 0.5
+    "healing_resting": 0.5,
+    "mending_modifier": 4.0
   },
   {
     "type": "mutation",
@@ -1546,7 +1551,8 @@
     "prereqs": [ "FASTHEALER2" ],
     "category": [ "SLIME", "TROGLOBITE" ],
     "healing_awake": 2.0,
-    "healing_resting": 1.5
+    "healing_resting": 1.5,
+    "mending_modifier": 16.0
   },
   {
     "type": "mutation",
@@ -1559,7 +1565,8 @@
     "cancels": [ "ROT1", "ROT2", "ROT3" ],
     "prereqs": [ "FASTHEALER" ],
     "threshreq": [ "THRESH_LIZARD" ],
-    "category": [ "LIZARD" ]
+    "category": [ "LIZARD" ],
+    "mending_modifier": 20.0
   },
   {
     "type": "mutation",

@@ -36,7 +36,7 @@
     "id": "shot_paper_slug",
     "copy-from": "shot_paper_00",
     "type": "AMMO",
-    "name": ".62 paper cartridge",
+    "name": { "str": ".62 paper cartridge" },
     "description": "A paper cartridge containing a premeasured amount of black powder and a .605 inch lead ball.",
     "relative": { "range": 12, "pierce": 4 },
     "delete": { "effects": [ "SHOT" ] },

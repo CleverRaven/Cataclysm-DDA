@@ -1557,13 +1557,11 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
 void basecamp::abandon_camp()
 {
     validate_assignees();
-    npc_ptr random_guy;
     for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs( 10 ) ) {
         npc_companion_mission c_mission = guy->get_companion_mission();
         if( c_mission.role_id != base_camps::id ) {
             continue;
         }
-        random_guy = guy;
         const std::string return_msg = _( "responds to the emergency recall…" );
         finish_return( *guy, false, return_msg, "menial", 0, true );
     }
@@ -1571,7 +1569,7 @@ void basecamp::abandon_camp()
         talk_function::stop_guard( *guy );
     }
     overmap_buffer.remove_camp( *this );
-    g->m.remove_submap_camp( random_guy->pos() );
+    g->m.remove_submap_camp( bb_pos );
     add_msg( m_info, _( "You abandon %s." ), name );
 }
 
@@ -3607,7 +3605,7 @@ std::string camp_car_description( vehicle *car )
 {
     std::string entry = string_format( _( "Name:     %s\n" ), right_justify( car->name, 25 ) );
     entry += _( "----          Engines          ----\n" );
-    for( const vpart_reference &vpr : car->get_any_parts( "ENGINE" ) ) {
+    for( const vpart_reference &vpr : car->get_any_parts( flag_ENGINE ) ) {
         const vehicle_part &pt = vpr.part();
         const vpart_info &vp = pt.info();
         entry += string_format( _( "Engine:   %s\n" ), right_justify( vp.name(), 25 ) );

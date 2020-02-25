@@ -90,14 +90,14 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
         const int price = it.price( true );
         int val = np.value( it );
         if( np.wants_to_sell( it, val, price ) ) {
-            result.emplace_back( np, i->front(), val, i->size() );
+            result.emplace_back( np, i->front(), val, static_cast<int>( i->size() ) );
         }
     }
 
     if(
         np.will_exchange_items_freely() &&
         !np.weapon.is_null() &&
-        !np.weapon.has_flag( "NO_UNWIELD" )
+        !np.weapon.has_flag( flag_NO_UNWIELD )
     ) {
         result.emplace_back( np, np.weapon, np.value( np.weapon ), false );
     }
@@ -171,7 +171,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         check_item( item_location( seller, &i->front() ), i->size() );
     }
 
-    if( !seller.weapon.has_flag( "NO_UNWIELD" ) ) {
+    if( !seller.weapon.has_flag( flag_NO_UNWIELD ) ) {
         check_item( item_location( seller, &seller.weapon ), 1 );
     }
 

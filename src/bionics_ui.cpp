@@ -59,6 +59,8 @@ char get_free_invlet( player &p )
 static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                    bionic_menu_mode mode )
 {
+    input_context ctxt( "BIONICS" );
+
     werase( window );
     std::string fuel_string;
     bool found_fuel = false;
@@ -130,18 +132,24 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     mvwputch( window, point( pwr_str_pos - 1, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
     center_print( window, 0, c_light_red, _( " BIONICS " ) );
 
+    std::string desc_append = string_format(
+                                  _( "[%s] Reassign, [%s] Switch tabs, [%s] Toggle fuel saving mode, [%s] Toggle auto start mode" ),
+                                  ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
+                                  ctxt.get_desc( "TOGGLE_AUTO_START" ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
         fuel_string.clear();
     } else if( mode == ACTIVATING ) {
-        desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode, <color_yellow>A</color> to toggle auto start mode." );
+        desc = string_format( _( "<color_green>Activating</color> [%s] Examine, %s" ),
+                              ctxt.get_desc( "TOGGLE_EXAMINE" ), desc_append );
     } else if( mode == EXAMINING ) {
-        desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode, <color_yellow>A</color> to toggle auto start mode." );
+        desc = string_format( _( "<color_light_blue>Examining</color> [%s] Activate, %s" ),
+                              ctxt.get_desc( "TOGGLE_EXAMINE" ), desc_append );
     }
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_white, desc );
+    int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_light_gray, desc );
     fold_and_print( window, point( 1, ++lines_count ), pwr_str_pos - 2, c_white, fuel_string );
     wrefresh( window );
 }
@@ -777,8 +785,8 @@ void player::power_bionics()
                     continue;
                 } else {
                     popup( _( "You can not activate %s!\n"
-                              "To read a description of %s, press '!', then '%c'." ), bio_data.name,
-                           bio_data.name, tmp->invlet );
+                              "To read a description of %s, press '%s', then '%c'." ), bio_data.name,
+                           bio_data.name, ctxt.get_desc( "TOGGLE_EXAMINE" ), tmp->invlet );
                     redraw = true;
                 }
             } else if( menu_mode == EXAMINING ) {

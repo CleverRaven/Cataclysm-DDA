@@ -72,7 +72,6 @@ enum m_size : int;
 enum class side : int;
 class body_part_set;
 
-using itype_id = std::string;
 struct fire_data;
 struct damage_instance;
 struct damage_unit;
@@ -134,13 +133,17 @@ struct iteminfo {
         /** Whether to print a sign on positive values */
         bool bShowPlus;
 
+        /** Flag indicating decimal with three points of precision.  */
+        bool three_decimal;
+
         enum flags {
             no_flags = 0,
             is_decimal = 1 << 0, ///< Print as decimal rather than integer
-            no_newline = 1 << 1, ///< Do not follow with a newline
-            lower_is_better = 1 << 2, ///< Lower values are better for this stat
-            no_name = 1 << 3, ///< Do not print the name
-            show_plus = 1 << 4, ///< Use a + sign for positive values
+            is_three_decimal = 1 << 1, ///< Print as decimal with three points of precision
+            no_newline = 1 << 2, ///< Do not follow with a newline
+            lower_is_better = 1 << 3, ///< Lower values are better for this stat
+            no_name = 1 << 4, ///< Do not print the name
+            show_plus = 1 << 5, ///< Use a + sign for positive values
         };
 
         /**
@@ -1135,7 +1138,7 @@ class item : public visitable<item>
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
-        float get_freeze_point() const; // Farenheit
+        float get_freeze_point() const; // Fahrenheit
 
         // If this is food, returns itself.  If it contains food, return that
         // contents.  Otherwise, returns nullptr.

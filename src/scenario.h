@@ -119,4 +119,6 @@ struct scen_blacklist {
     void finalize();
 };
 
+void reset_scenarios_blacklist();
+
 #endif

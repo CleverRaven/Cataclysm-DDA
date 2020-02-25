@@ -2,7 +2,7 @@
   {
     "type": "furniture",
     "id": "f_hay",
-    "name": "hay",
+    "name": "bale of hay",
     "description": "A bale of hay.  You could sleep on it, if desperate.",
     "symbol": "#",
     "bgcolor": "brown",

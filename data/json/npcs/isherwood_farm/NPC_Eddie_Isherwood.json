@@ -164,8 +164,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_EDDIE_CARLOS",
-    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forage set up.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_forage", "type": "general", "context": "meeting", "value": "yes" } },
+    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forge set up.",
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_forge", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

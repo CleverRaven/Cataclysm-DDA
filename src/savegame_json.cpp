@@ -93,15 +93,10 @@
 #include "requirements.h"
 #include "stats_tracker.h"
 #include "vpart_position.h"
+#include "cata_string_consts.h"
 
 struct oter_type_t;
 struct mutation_branch;
-
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
-static const efftype_id effect_riding( "riding" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -455,7 +450,7 @@ void Character::load( const JsonObject &data )
         matype_id temp_selected_style;
         data.read( "style_selected", temp_selected_style );
         if( !temp_selected_style.is_valid() ) {
-            temp_selected_style = matype_id( "style_none" );
+            temp_selected_style = style_none;
         }
         martial_arts_data = character_martial_arts( temp_styles, temp_selected_style,
                             temp_keep_hands_free );
@@ -484,8 +479,8 @@ void Character::load( const JsonObject &data )
         backlog.push_front( temp );
     }
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
-                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
+                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
         requirement_data fetch_reqs;
         data.read( "fetch_data", fetch_reqs );
         const requirement_id req_id( backlog.front().str_values.back() );
@@ -721,8 +716,8 @@ void Character::store( JsonOut &json ) const
 
     // handling for storing activity requirements
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
-                    destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
+            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
+                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
         requirement_data things_to_fetch = requirement_id( backlog.front().str_values.back() ).obj();
         json.member( "fetch_data", things_to_fetch );
     }
@@ -914,22 +909,22 @@ void player::load( const JsonObject &data )
     data.read( "automoveroute", auto_move_route );
 
     // Add the earplugs.
-    if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
-        add_bionic( bionic_id( "bio_earplugs" ) );
+    if( has_bionic( bio_ears ) && !has_bionic( bio_earplugs ) ) {
+        add_bionic( bio_earplugs );
     }
 
     // Add the blindfold.
-    if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
-        add_bionic( bionic_id( "bio_blindfold" ) );
+    if( has_bionic( bio_sunglasses ) && !has_bionic( bio_blindfold ) ) {
+        add_bionic( bio_blindfold );
     }
 
-    // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_HYPEROPIC ) ) {
-        remove_mutation( trait_HYPEROPIC );
-    }
-
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_MYOPIC ) ) {
-        remove_mutation( trait_MYOPIC );
+    // Fixes bugged characters for CBM's preventing mutations.
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( has_trait( mid ) ) {
+                remove_mutation( mid );
+            }
+        }
     }
 
     if( data.has_array( "faction_warnings" ) ) {
@@ -2480,7 +2475,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         if( pid.str() == "wheel_underbody" ) {
-            pid = vpart_id( "wheel_wide" );
+            pid = vpart_wheel_wide;
         } else {
             data.throw_error( "bad vehicle part", "id" );
         }
@@ -2522,8 +2517,8 @@ void vehicle_part::deserialize( JsonIn &jsin )
     }
 
     // with VEHICLE tag migrate fuel tanks only if amount field exists
-    if( base.has_flag( "VEHICLE" ) ) {
-        if( data.has_int( "amount" ) && ammo_capacity() > 0 && legacy_fuel != "battery" ) {
+    if( base.has_flag( flag_VEHICLE ) ) {
+        if( data.has_int( "amount" ) && ammo_capacity() > 0 && legacy_fuel != fuel_type_battery ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
 
@@ -2688,39 +2683,39 @@ void vehicle::deserialize( JsonIn &jsin )
         }
     }
 
-    for( const vpart_reference &vp : get_any_parts( "TURRET" ) ) {
-        install_part( vp.mount(), vpart_id( "turret_mount" ), false );
+    for( const vpart_reference &vp : get_any_parts( flag_TURRET ) ) {
+        install_part( vp.mount(), vpart_turret_mount, false );
 
         //Forcibly set turrets' targeting mode to manual if no turret control unit is present on turret's tile on loading save
-        if( !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
+        if( !has_part( global_part_pos3( vp.part() ), flag_TURRET_CONTROLS ) ) {
             vp.part().enabled = false;
         }
         //Set turret control unit's state equal to turret's targeting mode on loading save
-        for( const vpart_reference &turret_part : get_any_parts( "TURRET_CONTROLS" ) ) {
+        for( const vpart_reference &turret_part : get_any_parts( flag_TURRET_CONTROLS ) ) {
             turret_part.part().enabled = vp.part().enabled;
         }
     }
 
     // Add vehicle mounts to cars that are missing them.
-    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
-        if( vp.info().has_flag( "STEERABLE" ) ) {
-            install_part( vp.mount(), vpart_id( "wheel_mount_light_steerable" ), false );
+    for( const vpart_reference &vp : get_any_parts( flag_NEEDS_WHEEL_MOUNT_LIGHT ) ) {
+        if( vp.info().has_flag( flag_STEERABLE ) ) {
+            install_part( vp.mount(), vpart_wheel_mount_light_steerable, false );
         } else {
-            install_part( vp.mount(), vpart_id( "wheel_mount_light" ), false );
+            install_part( vp.mount(), vpart_wheel_mount_light, false );
         }
     }
-    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
-        if( vp.info().has_flag( "STEERABLE" ) ) {
-            install_part( vp.mount(), vpart_id( "wheel_mount_medium_steerable" ), false );
+    for( const vpart_reference &vp : get_any_parts( flag_NEEDS_WHEEL_MOUNT_MEDIUM ) ) {
+        if( vp.info().has_flag( flag_STEERABLE ) ) {
+            install_part( vp.mount(), vpart_wheel_mount_medium_steerable, false );
         } else {
-            install_part( vp.mount(), vpart_id( "wheel_mount_medium" ), false );
+            install_part( vp.mount(), vpart_wheel_mount_medium, false );
         }
     }
-    for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
-        if( vp.info().has_flag( "STEERABLE" ) ) {
-            install_part( vp.mount(), vpart_id( "wheel_mount_heavy_steerable" ), false );
+    for( const vpart_reference &vp : get_any_parts( flag_NEEDS_WHEEL_MOUNT_HEAVY ) ) {
+        if( vp.info().has_flag( flag_STEERABLE ) ) {
+            install_part( vp.mount(), vpart_wheel_mount_heavy_steerable, false );
         } else {
-            install_part( vp.mount(), vpart_id( "wheel_mount_heavy" ), false );
+            install_part( vp.mount(), vpart_wheel_mount_heavy, false );
         }
     }
 

@@ -148,5 +148,29 @@
     "type": "item_group",
     "//": "Horse vehicle items",
     "items": [ [ "horse_tack", 50 ], [ "yoke_harness", 50 ], [ "reins_tackle", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "maps",
+    "items": [ { "item": "roadmap", "prob": 33 }, { "item": "touristmap", "prob": 33 }, { "item": "survivormap", "prob": 33 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tobacco_products",
+    "items": [
+      [ "cig", 60 ],
+      [ "tobacco", 20 ],
+      [ "chaw", 20 ],
+      [ "cigar", 10 ],
+      [ "ecig", 10 ],
+      [ "advanced_ecig", 8 ],
+      [ "nicotine_liquid", 15 ],
+      [ "pipe_tobacco", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "spiral",
+    "items": [ [ "spiral_stone", 20 ], [ "vortex_stone", 2 ] ]
   }
 ]

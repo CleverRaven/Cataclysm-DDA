@@ -32,10 +32,9 @@
 #include "type_id.h"
 #include "point.h"
 #include "vpart_position.h"
+#include "cata_string_consts.h"
 
 using efficiency_stat = statistics<int>;
-
-const efftype_id effect_blind( "blind" );
 
 static void clear_game( const ter_id &terrain )
 {
@@ -86,7 +85,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     }
 
     // We ignore battery when setting fuel because it uses designated "tanks"
-    actually_used.erase( "battery" );
+    actually_used.erase( fuel_type_battery );
 
     // Currently only one liquid fuel supported
     REQUIRE( actually_used.size() <= 1 );
@@ -105,8 +104,8 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
         vehicle_part &pt = vp.part();
 
         if( pt.is_battery() ) {
-            pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult );
-            ret[ "battery" ] += pt.ammo_capacity() * veh_fuel_mult;
+            pt.ammo_set( fuel_type_battery, pt.ammo_capacity() * veh_fuel_mult );
+            ret[ fuel_type_battery ] += pt.ammo_capacity() * veh_fuel_mult;
         } else if( pt.is_tank() && liquid_fuel != "null" ) {
             float qty = pt.ammo_capacity() * veh_fuel_mult;
             qty *= std::max( item::find_type( liquid_fuel )->stack_size, 1 );
@@ -119,7 +118,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     }
 
     // We re-add battery because we want it accounted for, just not in the section above
-    actually_used.insert( "battery" );
+    actually_used.insert( fuel_type_battery );
     for( auto iter = ret.begin(); iter != ret.end(); ) {
         if( iter->second <= 0 || actually_used.count( iter->first ) == 0 ) {
             iter = ret.erase( iter );
@@ -199,7 +198,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
         veh_ptr->get_items( vp.part_index() ).clear();
         vp.part().ammo_consume( vp.part().ammo_remaining(), vp.pos() );
     }
-    for( const vpart_reference vp : veh.get_avail_parts( "OPENABLE" ) ) {
+    for( const vpart_reference vp : veh.get_avail_parts( flag_OPENABLE ) ) {
         veh.close( vp.part_index() );
     }
 
@@ -355,29 +354,29 @@ static void test_vehicle(
     const int pavement_target_smooth_stops = 0, const int dirt_target_smooth_stops = 0 )
 {
     SECTION( type + " on pavement" ) {
-        test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_pavement" ), -1,
+        test_efficiency( vproto_id( type ), expected_mass, ter_pavement, -1,
                          pavement_target );
     }
     SECTION( type + " on dirt" ) {
-        test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_dirt" ), -1, dirt_target );
+        test_efficiency( vproto_id( type ), expected_mass, ter_dirt, -1, dirt_target );
     }
     SECTION( type + " on pavement, full stop every 5 turns" ) {
-        test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_pavement" ), 5,
+        test_efficiency( vproto_id( type ), expected_mass, ter_pavement, 5,
                          pavement_target_w_stops );
     }
     SECTION( type + " on dirt, full stop every 5 turns" ) {
-        test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_dirt" ), 5,
+        test_efficiency( vproto_id( type ), expected_mass, ter_dirt, 5,
                          dirt_target_w_stops );
     }
     if( pavement_target_smooth_stops > 0 ) {
         SECTION( type + " on pavement, alternating 5 turns of acceleration and 5 turns of decceleration" ) {
-            test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_pavement" ), 5,
+            test_efficiency( vproto_id( type ), expected_mass, ter_pavement, 5,
                              pavement_target_smooth_stops, true );
         }
     }
     if( dirt_target_smooth_stops > 0 ) {
         SECTION( type + " on dirt, alternating 5 turns of acceleration and 5 turns of decceleration" ) {
-            test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_dirt" ), 5,
+            test_efficiency( vproto_id( type ), expected_mass, ter_dirt, 5,
                              dirt_target_smooth_stops, true );
         }
     }
