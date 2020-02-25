@@ -148,7 +148,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
     offered_swap = true;
     // TODO: Gray out if not enough hands
     if( u.is_armed() ) {
-        amenu.addentry( WIELD, !u.weapon.has_flag( flag_NO_UNWIELD ), 'w',
+        amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
                         _( "Dispose of %s and wield %s" ), u.weapon.display_name(),
                         it.display_name() );
     } else {
@@ -419,7 +419,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     if( min != -1 ) {
         if( veh != nullptr && get_items_from == prompt ) {
-            const cata::optional<vpart_reference> carg = vp.part_with_feature( flag_CARGO, false );
+            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
             const bool veh_has_items = carg && !veh->get_items( carg->part_index() ).empty();
             const bool map_has_items = g->m.has_items( p );
             if( veh_has_items && map_has_items ) {
@@ -433,12 +433,12 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             }
         }
         if( get_items_from == from_cargo ) {
-            const cata::optional<vpart_reference> carg = vp.part_with_feature( flag_CARGO, false );
+            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
             cargo_part = carg ? carg->part_index() : -1;
             from_vehicle = cargo_part >= 0;
         } else {
             // Nothing to change, default is to pick from ground anyway.
-            if( g->m.has_flag( flag_SEALED, p ) ) {
+            if( g->m.has_flag( "SEALED", p ) ) {
                 return;
             }
         }
@@ -493,9 +493,9 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         }
 
         // Bail out if this square cannot be auto-picked-up
-        if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ) {
+        if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
             return;
-        } else if( g->m.has_flag( flag_SEALED, p ) ) {
+        } else if( g->m.has_flag( "SEALED", p ) ) {
             return;
         }
     }

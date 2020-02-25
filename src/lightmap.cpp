@@ -458,7 +458,7 @@ void map::generate_lightmap( const int zlev )
             if( !inbounds( pp ) ) {
                 continue;
             }
-            if( vp.has_feature( VPFLAG_CARGO ) && !vp.has_feature( flag_COVERED ) ) {
+            if( vp.has_feature( VPFLAG_CARGO ) && !vp.has_feature( "COVERED" ) ) {
                 add_light_from_items( pp, v->get_items( static_cast<int>( p ) ).begin(),
                                       v->get_items( static_cast<int>( p ) ).end() );
             }
@@ -1188,10 +1188,10 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         const tripoint mirror_pos = vp.pos();
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
-        if( !vp.info().has_flag( flag_CAMERA ) &&
+        if( !vp.info().has_flag( "CAMERA" ) &&
             seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
             continue;
-        } else if( !vp.info().has_flag( flag_CAMERA_CONTROL ) ) {
+        } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
             mirrors.emplace_back( static_cast<int>( vp.part_index() ) );
         } else {
             if( square_dist( origin, mirror_pos ) <= 1 && veh->camera_on ) {
@@ -1201,7 +1201,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     }
 
     for( int mirror : mirrors ) {
-        bool is_camera = veh->part_info( mirror ).has_flag( flag_CAMERA );
+        bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
         if( is_camera && cam_control < 0 ) {
             continue; // Player not at camera control, so cameras don't work
         }

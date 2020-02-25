@@ -69,6 +69,7 @@ struct trap;
 
 enum direction : unsigned;
 enum class special_item_type : int;
+using itype_id = std::string;
 template<typename T>
 class visitable;
 struct regional_settings;

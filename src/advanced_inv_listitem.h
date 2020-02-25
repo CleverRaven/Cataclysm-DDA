@@ -18,6 +18,7 @@ class item_category;
 class advanced_inv_listitem
 {
     public:
+        using itype_id = std::string;
         /**
          * Index of the item in the itemstack.
          */
