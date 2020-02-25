@@ -1,6 +1,6 @@
 [
   {
-    "abstract": "paperback_novel",
+    "abstract": "book_fict_soft_tpl",
     "type": "BOOK",
     "name": "paperback abstract",
     "description": "An ordinary paperback book.  Or is it?  It is.",
@@ -17,6 +17,30 @@
     "time": 15,
     "chapters": 16,
     "fun": 2
+  },
+  {
+    "abstract": "book_nonf_tpl",
+    "type": "BOOK",
+    "name": "Generic Nonfiction Book",
+    "description": "template for a manuscript purporting to be factual",
+    "intelligence": 5,
+    "symbol": "?",
+    "looks_like": "story_book",
+    "color": "light_blue",
+    "time": 20
+  },
+  {
+    "abstract": "book_nonf_hard_tpl",
+    "type": "BOOK",
+    "name": "Nonfiction Book",
+    "description": "template for hard bound nonfiction book",
+    "weight": "1000 g",
+    "volume": "1100 ml",
+    "price": 1450,
+    "price_postapoc": 2900,
+    "material": [ "paper", "cardboard" ],
+    "bashing": 2,
+    "copy-from": "book_nonf_tpl"
   },
   {
     "abstract": "paperback_occult",
@@ -46,7 +70,7 @@
     "//": "these are books are tiny",
     "weight": "200 g",
     "volume": "400 ml",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "relative": { "price": -351, "price_post": -800, "time": -4, "chapters": -8, "intelligence": -1 }
   },
   {
@@ -54,7 +78,7 @@
     "type": "BOOK",
     "name": "Lorn and Loan Romance Novel",
     "description": "Lorn and Loan Press marketed romance paperbacks to a variety of alt demographics, especially those with a penchant for eyeliner.  The books are billed as \"provocative,\" but words like \"malingering\" and \"turgid\" also come to mind.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "relative": { "price_post": -400, "intelligence": 1, "fun": -1 }
   },
   {
@@ -62,7 +86,7 @@
     "type": "BOOK",
     "name": "Vanilla Romance Novel",
     "description": "Vanilla Media is a mainstream publisher providing romantic literature to everyday readers of taste.  These stories contain explicit details only in the odd chapters, and invariably end with a conventionally uplifting moral.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "relative": { "price_post": -100, "intelligence": -1 }
   },
   {
@@ -70,7 +94,7 @@
     "type": "BOOK",
     "name": "The Everyman Library",
     "description": "The Everyman Library is an imprint of Vanilla Media that publishes stories about private eyes, cowboys, quarterbacks, and mobsters.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "relative": { "price_post": -100, "intelligence": -1 }
   },
   {
@@ -78,7 +102,7 @@
     "type": "BOOK",
     "name": "Tween Topics",
     "description": "Tween Topics is an imprint of Vanilla Media that publishes stories that appeal to the youth of today.  Or, failing that, the parents of said youth.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "relative": { "price_post": -400, "intelligence": 1, "fun": -1 }
   },
   {
@@ -86,7 +110,7 @@
     "type": "BOOK",
     "name": "Quiddity Books",
     "description": "Quiddity publishes books for young adults.  They offer stories about self-discovery, personal identity, and contemporary trends.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "relative": { "price_post": -400, "chapters": 9 }
   },
   {
@@ -94,7 +118,7 @@
     "type": "BOOK",
     "name": "Satire Template",
     "description": "template for mass produced satirical fiction",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "relative": { "intelligence": 3, "price": 249, "time": 5 }
   },
   {
@@ -446,7 +470,7 @@
     "type": "BOOK",
     "name": "adventure novel",
     "description": "The stirring tale of a race against time, in search of a lost city located in the dark heart of the African continent.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "price": 850,
     "time": "20 m",
     "fun": 3
@@ -456,7 +480,7 @@
     "type": "BOOK",
     "name": "buddy novel",
     "description": "A gripping tale of two friends struggling to survive on the streets of New York City.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "244 g",
     "volume": "500 ml",
     "price": 650,
@@ -491,7 +515,7 @@
     "id": "novel_crime",
     "type": "BOOK",
     "name": "crime novel",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "description": "After their diamond heist goes wrong, the surviving criminals begin to suspect that one of them is a police informant.",
     "intelligence": 6,
     "time": "20 m",
@@ -511,14 +535,14 @@
     "type": "BOOK",
     "name": { "str": "Murdered by the Grapevine", "str_pl": "copies of Murdered by the Grapevine" },
     "description": "This cheap paperback tells the story of a mob boss done in by mere suspicion.  She never breaks a confidence, never rats out an accomplice, and never turns her back on a friend.  Nonetheless her grip on the reigns of the underworld is eroded by rumor and paranoia.",
-    "copy-from": "paperback_novel"
+    "copy-from": "book_fict_soft_tpl"
   },
   {
     "id": "novel_crime_midnight",
     "type": "BOOK",
     "name": { "str": "Midnight Cop", "str_pl": "copies of Midnight Cop" },
     "description": "In this bare-knuckled potboiler, a ruthless police detective schemes to shut down local crime lords by pitting them against each other.  When long-simmering resentments finally flare the city learns why they call it \"the dead of night.\"",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "relative": { "time": 5, "chapters": -8 }
   },
   {
@@ -526,7 +550,7 @@
     "type": "BOOK",
     "name": "drama novel",
     "description": "A real book for real adults.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 7,
     "time": "25 m",
     "chapters": 28,
@@ -537,7 +561,7 @@
     "type": "BOOK",
     "name": "erotic novel",
     "description": "A hackneyed fictional narrative concealing low-grade literary smut.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "200 g",
     "volume": "500 ml",
     "time": "18 m",
@@ -548,7 +572,7 @@
     "type": "BOOK",
     "name": "experimental novel",
     "description": "A bizarre play about the philosophy of existential absurdity.  Or maybe it's about two guys waiting for their friend to show up.  It's confusing.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "142 g",
     "volume": "500 ml",
     "intelligence": 7,
@@ -560,7 +584,7 @@
     "type": "BOOK",
     "name": "fantasy novel",
     "description": "Basic sword & sorcery.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "227 g",
     "volume": "1 L",
     "intelligence": 7,
@@ -573,7 +597,7 @@
     "type": "BOOK",
     "name": "horror novel",
     "description": "Maybe not the best reading material considering the situation.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "227 g",
     "intelligence": 7,
     "time": "18 m",
@@ -585,7 +609,7 @@
     "type": "BOOK",
     "name": "mystery novel",
     "description": "A detective investigates an unusual murder in a secluded location.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 7,
     "time": "18 m",
     "chapters": 28,
@@ -596,7 +620,7 @@
     "type": "BOOK",
     "name": "pulp novel",
     "description": "A hardboiled detective tale filled with hard hitting action and intrigue.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 6,
     "time": "18 m",
     "chapters": 24,
@@ -607,14 +631,14 @@
     "type": "BOOK",
     "name": "Planet of the Murderous Squids that Time Forgot!",
     "description": "In this psychedelic adventure novel of cosmic exploration, an elderly assassin discovers a planet too good to be true. Only once it is too late does she discover the harrowing truth at the center of \"The Planet of the Murderous Squids that Time Forgot!\"",
-    "copy-from": "paperback_novel"
+    "copy-from": "book_fict_soft_tpl"
   },
   {
     "id": "novel_road",
     "type": "BOOK",
     "name": "road novel",
     "description": "A tale about a group of friends who wander the USA in the 1960s against a backdrop of jazz, poetry and drug use.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "244 g",
     "volume": "500 ml",
     "time": "20 m",
@@ -625,7 +649,7 @@
     "type": "BOOK",
     "name": "romance novel",
     "description": "Drama and mild smut.",
-    "copy-from": "paperback_novel"
+    "copy-from": "book_fict_soft_tpl"
   },
   {
     "id": "paperback_romance_circuses",
@@ -933,7 +957,7 @@
     "type": "BOOK",
     "name": "sports novel",
     "description": "The dramatic tale of a small-time boxer who gets a rare chance to fight the heavy-weight champion, and seize his one chance to make a better life for himself while impressing the cute girl who works in the pet store.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 7,
     "time": "20 m",
     "chapters": 28,
@@ -944,7 +968,7 @@
     "type": "BOOK",
     "name": "spy novel",
     "description": "A tale of intrigue and espionage amongst Nazis, no, Commies, no, Iraqis!",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 5,
     "time": "18 m",
     "chapters": 20,
@@ -955,14 +979,14 @@
     "type": "BOOK",
     "name": { "str": "Come Fly the Treacherous Skies", "str_pl": "copies of Come Fly the Treacherous Skies" },
     "description": "This tale of intrigue betrays the story of a debonair mechanic driven by a lust for revenge.  As she uncovers a sophisticated network of amateur pilots turned smugglers, the good guys and the bad guys begin to all look the same.",
-    "copy-from": "paperback_novel"
+    "copy-from": "book_fict_soft_tpl"
   },
   {
     "id": "novel_spy_rocketsci",
     "type": "BOOK",
     "name": { "str": "Lies, Damn Lies, and Rocket Science", "str_pl": "copies of Lies, Damn Lies, and Rocket Science" },
     "description": "This spy novel tells the story of a jaded rocket scientist looking for redemption in all the wrong places.  As selling state secrets becomes her career, she learns there isn't much of difference between a double-agent and a triple-agent.",
-    "copy-from": "paperback_novel"
+    "copy-from": "book_fict_soft_tpl"
   },
   {
     "id": "novel_swash",
@@ -971,7 +995,7 @@
     "description": "An exciting seventeenth century tale of how an enslaved Irish doctor and his comrades-in-chains escape and become heroic pirates of the Robin Hood variety.",
     "weight": "582 g",
     "volume": "750 ml",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 7,
     "time": "20 m",
     "chapters": 28,
@@ -982,7 +1006,7 @@
     "type": "BOOK",
     "name": { "str": "The Black Freighter", "str_pl": "copies of The Black Freighter" },
     "description": "Who watches the watchmen?  Pirate Jenny, that's who!",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "relative": { "fun": 2, "chapters": -8 }
   },
   {
@@ -990,7 +1014,7 @@
     "type": "BOOK",
     "name": { "str": "Captain Gosgold and the Sea Rovers of Buzzards Bay", "str_pl": "copies of The Sea Rovers" },
     "description": "This lengthy paperback novel describes the ocean exploits of Captain Gosgold.  The British consider him an outlaw, but in America he is a patriot.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "time": "12 m",
     "relative": { "weight": 186, "price": 250, "chapters": 8 }
   },
@@ -999,14 +1023,14 @@
     "type": "BOOK",
     "name": { "str": "The Code of the Buccaneer", "str_pl": "copies of The Buccaneer" },
     "description": "The cover of this paperback pirate story shows a shirtless man and a near shirtless woman.  Clearly it is not a dress code.",
-    "copy-from": "paperback_novel"
+    "copy-from": "book_fict_soft_tpl"
   },
   {
     "id": "novel_thriller",
     "type": "BOOK",
     "name": "thriller novel",
     "description": "A suspenseful tale of betrayal and revenge.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 5,
     "time": "18 m",
     "chapters": 20,
@@ -1017,7 +1041,7 @@
     "type": "BOOK",
     "name": "tragedy novel",
     "description": "The story of two young lovers whose feuding families threaten to keep them apart.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "263 g",
     "volume": "1 L",
     "intelligence": 7,
@@ -1029,7 +1053,7 @@
     "type": "BOOK",
     "name": "war novel",
     "description": "A thrilling narrative of survival in a prisoner of war camp during the Second World War, filled with riveting subplots about rat farming and dysentery.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "weight": "686 g",
     "intelligence": 7,
     "time": "20 m",
@@ -1049,7 +1073,7 @@
     "type": "BOOK",
     "name": "western novel",
     "description": "The classic tale of a gunfighting stranger who comes to a small settlement and is hired to help the townsfolk defend themselves from a band of marauding outlaws.",
-    "copy-from": "paperback_novel",
+    "copy-from": "book_fict_soft_tpl",
     "intelligence": 5,
     "time": "20 m",
     "chapters": 28,
