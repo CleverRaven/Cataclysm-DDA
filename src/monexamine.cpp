@@ -668,13 +668,14 @@ void monexamine::tie_or_untie( monster &z )
 
 void monexamine::milk_source( monster &source_mon )
 {
-    auto milked_item = source_mon.ammo.find( "milk_raw" );
-    if( milked_item == source_mon.ammo.end() ) {
-        add_msg( m_info, _( "The %s has no milk." ), source_mon.get_name() );
+    std::string milked_item = source_mon.type->starting_ammo.begin()->first;
+    auto milkable_ammo = source_mon.ammo.find( milked_item );
+    if( milkable_ammo == source_mon.ammo.end() ) {
+        debugmsg( "The %s has no milkable %s.", source_mon.get_name(), milked_item );
         return;
     }
-    if( milked_item->second > 0 ) {
-        const int moves = to_moves<int>( time_duration::from_minutes( milked_item->second / 2 ) );
+    if( milkable_ammo->second > 0 ) {
+        const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
         g->u.assign_activity( ACT_MILK, moves, -1 );
         g->u.activity.coords.push_back( g->m.getabs( source_mon.pos() ) );
         // pin the cow in place if it isn't already

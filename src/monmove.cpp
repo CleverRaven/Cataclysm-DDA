@@ -576,7 +576,6 @@ void monster::move()
     if( wandf > 0 ) {
         wandf--;
     }
-
     //Hallucinations have a chance of disappearing each turn
     if( is_hallucination() && one_in( 25 ) ) {
         die( nullptr );
@@ -631,9 +630,7 @@ void monster::move()
         if( !local_attack_data.enabled ) {
             continue;
         }
-
         // Cooldowns are decremented in monster::process_turn
-
         if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
             if( !sp_type.second->call( *this ) ) {
                 continue;
@@ -647,7 +644,6 @@ void monster::move()
             reset_special( special_name );
         }
     }
-
     // Check if they're dragging a foe and find their hapless victim
     player *dragged_foe = find_dragged_foe();
 

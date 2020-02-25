@@ -362,40 +362,34 @@ void monster::try_reproduce()
 
 void monster::refill_udders()
 {
-    auto milked_item = type->starting_ammo.find( "milk_raw " );
-    if( milked_item == type->starting_ammo.end() ) {
-        milked_item = type->starting_ammo.find( "milk" );
-        if( milked_item == type->starting_ammo.end() ) {
-            // this may be a sheep from a very old save.
-            // sheep didnt use to be milkable, but now they have that flag,
-            // but the old save would keep their old blank starting ammo.
-            // cant modify the type, and cant get what their starting ammo should be.
-            // so just let the sheep remain milkless
-            return;
-        }
+    if( type->starting_ammo.empty() ) {
+        std::cout << "starting ammo empty" << std::endl;
+        debugmsg( "monster %s has no starting ammo to refill udders", get_name() );
+        return;
+    }
+    std::cout << "refill udders started for " << get_name() << std::endl;
+    if( ammo.empty() ) {
+        // legacy animals got empty ammo map, fill them up now if needed.
+        ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
     }
     auto current_milk = ammo.find( "milk_raw" );
     if( current_milk == ammo.end() ) {
         current_milk = ammo.find( "milk" );
-        if( current_milk == ammo.end() ) {
-            debugmsg( "%s has neither milk nor raw milk in its udders", get_name() );
-            return;
-        } else {
-            // take this opportunity to update udders to raw_milk
-            std::swap( ammo["milk_raw"], current_milk->second );
+        if( current_milk != ammo.end() ) {
+            // take this opportunity to update milk udders to raw_milk
+            ammo["milk_raw"] = current_milk->second;
             // Erase old key-value from map
             ammo.erase( current_milk );
-            current_milk = ammo.find( "milk_raw" );
         }
     }
     // if we got here, we got milk.
-    if( current_milk->second == milked_item->second ) {
+    if( current_milk->second == type->starting_ammo.begin()->second ) {
         // already full up
         return;
     }
     if( calendar::turn - udder_timer > 1_days ) {
         // no point granularizing this really, you milk once a day.
-        current_milk->second = milked_item->second;
+        ammo.begin()->second = type->starting_ammo.begin()->second;
         udder_timer = calendar::turn;
     }
 }
