@@ -5123,7 +5123,10 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
             if( !here->merge_charges( itm ) ) {
                 return cata::nullopt;
             } else {
-                return cata::optional<vehicle_stack::iterator>( istack.get_iterator_from_pointer( here ) );
+                return cata::optional<vehicle_stack::iterator>( std::find_if( istack.begin(),
+                istack.end(), [&]( const item & it ) {
+                    return &it == here;
+                } ) );
             }
         }
     }
@@ -5137,20 +5140,21 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
 
         itm_copy.contents.clear();
     }
-
-    const vehicle_stack::iterator new_pos = p.items.insert( itm_copy );
+    p.items.emplace_back( MAPBUFFER.insert_item( itm_copy ) );
     if( itm_copy.needs_processing() ) {
-        active_items.add( *new_pos, p.mount );
+        active_items.add( *p.items.back(), p.mount );
     }
 
     invalidate_mass();
-    return cata::optional<vehicle_stack::iterator>( new_pos );
+    return cata::optional<vehicle_stack::iterator>( p.items.end() );
 }
 
 bool vehicle::remove_item( int part, item *it )
 {
-    const cata::colony<item> &veh_items = parts[part].items;
-    const cata::colony<item>::const_iterator iter = veh_items.get_iterator_from_pointer( it );
+    const auto &veh_items = parts[part].items;
+    const auto iter = std::find_if( veh_items.begin(), veh_items.end(), [&]( auto & iter ) {
+        return &*iter == it;
+    } );
     if( iter == veh_items.end() ) {
         return false;
     }
@@ -5160,12 +5164,15 @@ bool vehicle::remove_item( int part, item *it )
 
 vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_iterator it )
 {
-    cata::colony<item> &veh_items = parts[part].items;
+    auto &veh_items = parts[part].items;
 
     // remove from the active items cache (if it isn't there does nothing)
     active_items.remove( &*it );
 
     invalidate_mass();
+
+    MAPBUFFER.erase_item( *static_cast<std::vector<cata::colony<item>::iterator>::const_iterator>
+                          ( it ) );
     return veh_items.erase( it );
 }
 
@@ -6028,7 +6035,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         leak_fuel( parts [ p ] );
 
         for( const auto &e : parts[p].items ) {
-            g->m.add_item_or_charges( global_part_pos3( p ), e );
+            g->m.add_item_or_charges( global_part_pos3( p ), *e );
         }
         parts[p].items.clear();
 
@@ -6101,9 +6108,13 @@ bool vehicle::restore( const std::string &data )
 {
     std::istringstream veh_data( data );
     try {
-        JsonIn json( veh_data );
+        JsonIn jsin( veh_data );
+        JsonObject json = jsin.get_object();
         parts.clear();
-        json.read( parts );
+        for( JsonObject jo : json.get_array( "parts" ) ) {
+            parts.emplace_back();
+            parts.back().load( jo, MAPBUFFER );
+        }
     } catch( const JsonError &e ) {
         debugmsg( "Error restoring vehicle: %s", e.c_str() );
         return false;

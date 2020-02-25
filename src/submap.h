@@ -47,13 +47,14 @@ struct spawn_point {
 
 template<int sx, int sy>
 struct maptile_soa {
-    ter_id             ter[sx][sy];  // Terrain on each square
-    furn_id            frn[sx][sy];  // Furniture on each square
-    std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
-    cata::colony<item> itm[sx][sy];  // Items on each square
-    field              fld[sx][sy];  // Field on each square
-    trap_id            trp[sx][sy];  // Trap on each square
-    int                rad[sx][sy];  // Irradiation of each square
+    ter_id                                    ter[sx][sy];  // Terrain on each square
+    furn_id                                   frn[sx][sy];  // Furniture on each square
+    std::uint8_t
+    lum[sx][sy];  // Number of items emitting light on each square
+    std::vector<cata::colony<item>::iterator> itm[sx][sy];  // Items on each square
+    field                                     fld[sx][sy];  // Field on each square
+    trap_id                                   trp[sx][sy];  // Trap on each square
+    int                                       rad[sx][sy];  // Irradiation of each square
 
     void swap_soa_tile( const point &p1, const point &p2 );
     void swap_soa_tile( const point &p, maptile_soa<1, 1> &other );
@@ -141,7 +142,7 @@ class submap : maptile_soa<SEEX, SEEY>
             // the count below 255.
             int count = 0;
             for( const auto &it : itm[p.x][p.y] ) {
-                if( it.is_emissive() ) {
+                if( it->is_emissive() ) {
                     count++;
                 }
             }
@@ -152,11 +153,11 @@ class submap : maptile_soa<SEEX, SEEY>
         }
 
         // TODO: Replace this as it essentially makes itm public
-        cata::colony<item> &get_items( const point &p ) {
+        std::vector<cata::colony<item>::iterator> &get_items( const point &p ) {
             return itm[p.x][p.y];
         }
 
-        const cata::colony<item> &get_items( const point &p ) const {
+        const std::vector<cata::colony<item>::iterator> &get_items( const point &p ) const {
             return itm[p.x][p.y];
         }
 
@@ -219,8 +220,8 @@ class submap : maptile_soa<SEEX, SEEY>
 
         void rotate( int turns );
 
-        void store( JsonOut &jsout ) const;
-        void load( JsonIn &jsin, const std::string &member_name, int version );
+        void store( JsonOut &jsout, mapbuffer &buffer ) const;
+        void load( JsonIn &jsin, const std::string &member_name, int version, mapbuffer &buffer );
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
@@ -341,7 +342,7 @@ struct maptile {
 
         // Assumes there is at least one item
         const item &get_uppermost_item() const {
-            return *std::prev( sm->get_items( pos() ).cend() );
+            return **std::prev( sm->get_items( pos() ).cend() );
         }
 };
 

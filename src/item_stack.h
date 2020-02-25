@@ -3,6 +3,7 @@
 #define ITEM_STACK_H
 
 #include <cstddef>
+#include <vector>
 
 #include "colony.h"
 #include "item.h" // IWYU pragma: keep
@@ -18,16 +19,62 @@
 // subclass, e.g. not begin()/end() or range loops.
 class item_stack
 {
+    private:
+        class item_stack_const_iterator : public std::vector<cata::colony<item>::iterator>::const_iterator
+        {
+            public:
+                item_stack_const_iterator() : std::vector<cata::colony<item>::iterator>::const_iterator() {};
+
+                item_stack_const_iterator( const std::vector<cata::colony<item>::iterator>::const_iterator &it ) :
+                    std::vector<cata::colony<item>::iterator>::const_iterator( it ) {};
+
+                item_stack_const_iterator( const std::vector<cata::colony<item>::iterator>::const_iterator &&it ) :
+                    std::vector<cata::colony<item>::iterator>::const_iterator( it ) {};
+
+                cata::colony<item>::const_iterator::reference operator*() const {
+                    return *std::vector<cata::colony<item>::iterator>::const_iterator::operator*();
+                }
+
+                cata::colony<item>::const_iterator::pointer operator->() const {
+                    return std::vector<cata::colony<item>::iterator>::const_iterator::operator->()->operator->();
+                }
+        };
+
+        class item_stack_iterator : public std::vector<cata::colony<item>::iterator>::iterator
+        {
+            public:
+                item_stack_iterator() : std::vector<cata::colony<item>::iterator>::iterator() {};
+
+                item_stack_iterator( const std::vector<cata::colony<item>::iterator>::iterator &it ) :
+                    std::vector<cata::colony<item>::iterator>::iterator( it ) {};
+
+                item_stack_iterator( std::vector<cata::colony<item>::iterator>::iterator &&it ) :
+                    std::vector<cata::colony<item>::iterator>::iterator( it ) {};
+
+                operator item_stack_const_iterator() const {
+                    return item_stack_const_iterator( std::vector<cata::colony<item>::iterator>::const_iterator(
+                                                          *this ) );
+                }
+
+                cata::colony<item>::iterator::reference operator*() const {
+                    return *std::vector<cata::colony<item>::iterator>::iterator::operator*();
+                }
+
+                cata::colony<item>::iterator::pointer operator->() const {
+                    return std::vector<cata::colony<item>::iterator>::iterator::operator->()->operator->();
+                }
+        };
+
     protected:
-        cata::colony<item> *items;
+        std::vector<cata::colony<item>::iterator> *items;
 
     public:
-        using iterator = cata::colony<item>::iterator;
-        using const_iterator = cata::colony<item>::const_iterator;
-        using reverse_iterator = cata::colony<item>::reverse_iterator;
-        using const_reverse_iterator = cata::colony<item>::const_reverse_iterator;
+        using iterator = item_stack_iterator;
+        using const_iterator = item_stack_const_iterator;
+        using reverse_iterator = std::reverse_iterator<item_stack_iterator>;
+        using const_reverse_iterator = std::reverse_iterator<item_stack_const_iterator>;
 
-        item_stack( cata::colony<item> *items ) : items( items ) { }
+        item_stack( std::vector<cata::colony<item>::iterator> *items ) : items( items ) { }
 
         size_t size() const;
         bool empty() const;
@@ -36,12 +83,6 @@ class item_stack
         virtual void clear();
         // Will cause a debugmsg if there is not exactly one item at the location
         item &only_item();
-
-        // While iterators to colonies are stable, indexes are not.
-        // These functions should only be used for serialization/deserialization
-        iterator get_iterator_from_pointer( item *it );
-        iterator get_iterator_from_index( size_t idx );
-        size_t get_index_from_iterator( const const_iterator &it );
 
         iterator begin();
         iterator end();

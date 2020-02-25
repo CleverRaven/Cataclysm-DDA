@@ -657,25 +657,25 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     // fetch the appropriate item stack
     point offset;
     submap *sub = g->m.get_submap_at( *cur, offset );
-    cata::colony<item> &stack = sub->get_items( offset );
+    auto &stack = sub->get_items( offset );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
-        if( filter( *iter ) ) {
+        if( filter( **iter ) ) {
             // remove from the active items cache (if it isn't there does nothing)
-            sub->active_items.remove( &*iter );
+            sub->active_items.remove( & **iter );
 
             // if necessary remove item from the luminosity map
-            sub->update_lum_rem( offset, *iter );
+            sub->update_lum_rem( offset, **iter );
 
             // finally remove the item
-            res.push_back( *iter );
+            res.push_back( **iter );
             iter = stack.erase( iter );
 
             if( --count == 0 ) {
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, res );
+            remove_internal( filter, **iter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -722,18 +722,18 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
 
     vehicle_part &part = cur->veh.parts[ idx ];
     for( auto iter = part.items.begin(); iter != part.items.end(); ) {
-        if( filter( *iter ) ) {
+        if( filter( **iter ) ) {
             // remove from the active items cache (if it isn't there does nothing)
-            cur->veh.active_items.remove( &*iter );
+            cur->veh.active_items.remove( & **iter );
 
-            res.push_back( *iter );
+            res.push_back( **iter );
             iter = part.items.erase( iter );
 
             if( --count == 0 ) {
                 return res;
             }
         } else {
-            remove_internal( filter, *iter, count, res );
+            remove_internal( filter, **iter, count, res );
             if( count == 0 ) {
                 return res;
             }

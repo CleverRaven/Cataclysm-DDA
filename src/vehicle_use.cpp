@@ -20,6 +20,7 @@
 #include "itype.h"
 #include "json.h"
 #include "map.h"
+#include "mapbuffer.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -800,7 +801,11 @@ bool vehicle::fold_up()
     try {
         std::ostringstream veh_data;
         JsonOut json( veh_data );
-        json.write( parts );
+        json.start_array();
+        for( const vehicle_part &pt : parts ) {
+            pt.store( json, MAPBUFFER );
+        }
+        json.end_array();
         bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
     } catch( const JsonError &e ) {
         debugmsg( "Error storing vehicle: %s", e.c_str() );

@@ -41,6 +41,7 @@
 #include "json.h"
 #include "kill_tracker.h"
 #include "mission.h"
+#include "mapbuffer.h"
 #include "monster.h"
 #include "morale.h"
 #include "mtype.h"
@@ -2418,9 +2419,8 @@ void item::serialize( JsonOut &json ) const
 /*
  * vehicle_part
  */
-void vehicle_part::deserialize( JsonIn &jsin )
+void vehicle_part::load( JsonObject &data, mapbuffer &buffer )
 {
-    JsonObject data = jsin.get_object();
     vpart_id pid;
     data.read( "id", pid );
 
@@ -2505,7 +2505,11 @@ void vehicle_part::deserialize( JsonIn &jsin )
         carry_names.push( ja.get_string( index ) );
     }
     data.read( "crew_id", crew_id );
-    data.read( "items", items );
+    for( const JsonValue jv : data.get_array( "items" ) ) {
+        item temp;
+        jv.read( temp );
+        items.emplace_back( buffer.insert_item( temp ) );
+    }
     data.read( "target_first_x", target.first.x );
     data.read( "target_first_y", target.first.y );
     data.read( "target_first_z", target.first.z );
@@ -2540,15 +2544,15 @@ void vehicle_part::deserialize( JsonIn &jsin )
 
     // legacy turrets loaded ammo via a pseudo CARGO space
     if( is_turret() && !items.empty() ) {
-        const int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const item & rhs ) {
-            return lhs + rhs.charges;
+        const int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const auto & rhs ) {
+            return lhs + rhs->charges;
         } );
-        ammo_set( items.begin()->ammo_current(), qty );
+        ammo_set( ( *items.begin() )->ammo_current(), qty );
         items.clear();
     }
 }
 
-void vehicle_part::serialize( JsonOut &json ) const
+void vehicle_part::store( JsonOut &json, mapbuffer &buffer ) const
 {
     json.start_object();
     json.member( "id", id.str() );
@@ -2572,7 +2576,13 @@ void vehicle_part::serialize( JsonOut &json ) const
     }
     json.member( "passenger_id", passenger_id );
     json.member( "crew_id", crew_id );
-    json.member( "items", items );
+    json.member( "items" );
+    json.start_array();
+    for( const cata::colony<item>::iterator &it : items ) {
+        json.write( *it );
+        buffer.erase_item( it );
+    }
+    json.end_array();
     if( target.first != tripoint_min ) {
         json.member( "target_first_x", target.first.x );
         json.member( "target_first_y", target.first.y );
@@ -2610,7 +2620,7 @@ static void serialize( const label &val, JsonOut &json )
 /*
  * Load vehicle from a json blob that might just exceed player in size.
  */
-void vehicle::deserialize( JsonIn &jsin )
+void vehicle::load( JsonIn &jsin, mapbuffer &buffer )
 {
     JsonObject data = jsin.get_object();
 
@@ -2661,7 +2671,10 @@ void vehicle::deserialize( JsonIn &jsin )
     }
     data.read( "theft_time", theft_time );
 
-    data.read( "parts", parts );
+    for( JsonObject jo : data.get_array( "parts" ) ) {
+        parts.emplace_back();
+        parts.back().load( jo, buffer );
+    }
 
     // we persist the pivot anchor so that if the rules for finding
     // the pivot change, existing vehicles do not shift around.
@@ -2676,9 +2689,7 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "autodrive_local_target", autodrive_local_target );
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
-        auto it = vp.part().items.begin();
-        auto end = vp.part().items.end();
-        for( ; it != end; ++it ) {
+        for( const auto it : vp.part().items ) {
             if( it->needs_processing() ) {
                 active_items.add( *it, vp.mount() );
             }
@@ -2779,7 +2790,7 @@ void vehicle::deserialize( JsonIn &jsin )
     set_legacy_state( "reactor_on", "REACTOR" );
 }
 
-void vehicle::serialize( JsonOut &json ) const
+void vehicle::store( JsonOut &json, mapbuffer &buffer ) const
 {
     json.start_object();
     json.member( "type", type );
@@ -2803,7 +2814,12 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "owner", owner );
     json.member( "old_owner", old_owner );
     json.member( "theft_time", theft_time );
-    json.member( "parts", parts );
+    json.member( "parts" );
+    json.start_array();
+    for( const vehicle_part &part : parts ) {
+        part.store( json, buffer );
+    }
+    json.end_array();
     json.member( "tags", tags );
     json.member( "labels", labels );
     json.member( "zones" );
@@ -3555,7 +3571,7 @@ void stats_tracker::deserialize( JsonIn &jsin )
     jo.read( "initial_scores", initial_scores );
 }
 
-void submap::store( JsonOut &jsout ) const
+void submap::store( JsonOut &jsout, mapbuffer &buffer ) const
 {
     jsout.member( "turn_last_touched", last_touched );
     jsout.member( "temperature", temperature );
@@ -3654,7 +3670,12 @@ void submap::store( JsonOut &jsout ) const
             }
             jsout.write( i );
             jsout.write( j );
-            jsout.write( itm[i][j] );
+            jsout.start_array();
+            for( const auto &it : itm[i][j] ) {
+                jsout.write( *it );
+                buffer.erase_item( it );
+            }
+            jsout.end_array();
         }
     }
     jsout.end_array();
@@ -3734,7 +3755,7 @@ void submap::store( JsonOut &jsout ) const
     for( auto &elem : vehicles ) {
         // json lib doesn't know how to turn a vehicle * into a vehicle,
         // so we have to iterate manually.
-        jsout.write( *elem );
+        elem->store( jsout, buffer );
     }
     jsout.end_array();
 
@@ -3774,7 +3795,7 @@ void submap::store( JsonOut &jsout ) const
     }
 }
 
-void submap::load( JsonIn &jsin, const std::string &member_name, int version )
+void submap::load( JsonIn &jsin, const std::string &member_name, int version, mapbuffer &buffer )
 {
     bool rubpow_update = version < 22;
     if( member_name == "turn_last_touched" ) {
@@ -3795,13 +3816,13 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                     if( tid == "t_rubble" ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_rubble" );
-                        itm[i][j].insert( rock );
-                        itm[i][j].insert( rock );
+                        itm[i][j].emplace_back( buffer.insert_item( rock ) );
+                        itm[i][j].emplace_back( buffer.insert_item( rock ) );
                     } else if( tid == "t_wreckage" ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_wreckage" );
-                        itm[i][j].insert( chunk );
-                        itm[i][j].insert( chunk );
+                        itm[i][j].emplace_back( buffer.insert_item( chunk ) );
+                        itm[i][j].emplace_back( buffer.insert_item( chunk ) );
                     } else if( tid == "t_ash" ) {
                         ter[i][j] = ter_id( "t_dirt" );
                         frn[i][j] = furn_id( "f_ash" );
@@ -3886,16 +3907,16 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                     tmp.legacy_fast_forward_time();
                 }
 
-                tmp.visit_items( [ this, &p ]( item * it ) {
+                tmp.visit_items( [ this, &p, &buffer ]( item * it ) {
                     for( auto &e : it->magazine_convert() ) {
-                        itm[p.x][p.y].insert( e );
+                        itm[p.x][p.y].emplace_back( buffer.insert_item( e ) );
                     }
                     return VisitResponse::NEXT;
                 } );
 
-                const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
+                itm[p.x][p.y].emplace_back( buffer.insert_item( tmp ) );
                 if( tmp.needs_processing() ) {
-                    active_items.add( *it, p );
+                    active_items.add( *itm[p.x][p.y].back(), p );
                 }
             }
         }
@@ -4004,7 +4025,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         jsin.start_array();
         while( !jsin.end_array() ) {
             std::unique_ptr<vehicle> tmp = std::make_unique<vehicle>();
-            jsin.read( *tmp );
+            tmp->load( jsin, buffer );
             vehicles.push_back( std::move( tmp ) );
         }
     } else if( member_name == "partial_constructions" ) {

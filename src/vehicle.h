@@ -41,6 +41,7 @@ class nc_color;
 class player;
 class npc;
 class map;
+class mapbuffer;
 class vehicle;
 class vehicle_part_range;
 class JsonIn;
@@ -126,7 +127,8 @@ class vehicle_stack : public item_stack
         vehicle *myorigin;
         int part_num;
     public:
-        vehicle_stack( cata::colony<item> *newstack, point newloc, vehicle *neworigin, int part ) :
+        vehicle_stack( std::vector<cata::colony<item>::iterator> *newstack, point newloc,
+                       vehicle *neworigin, int part ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
         iterator erase( const_iterator it ) override;
         void insert( const item &newitem ) override;
@@ -397,7 +399,7 @@ struct vehicle_part {
         mutable const vpart_info *info_cache = nullptr;
 
         item base;
-        cata::colony<item> items; // inventory
+        std::vector<cata::colony<item>::iterator> items; // inventory
 
         /** Preferred ammo type when multiple are available */
         itype_id ammo_pref = "null";
@@ -412,8 +414,8 @@ struct vehicle_part {
         /** Get part definition common to all parts of this type */
         const vpart_info &info() const;
 
-        void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void store( JsonOut &json, mapbuffer &buffer ) const;
+        void load( JsonObject &json, mapbuffer &buffer );
 
         const item &get_base() const;
         void set_base( const item &new_base );
@@ -733,8 +735,8 @@ class vehicle
         void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
                     float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero, float damage_size = 0 );
 
-        void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void store( JsonOut &json, mapbuffer &buffer ) const;
+        void load( JsonIn &jsin, mapbuffer &buffer );
         // Vehicle parts list - all the parts on a single tile
         int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
                              int hl = -1, bool detail = false ) const;

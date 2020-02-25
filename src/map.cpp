@@ -87,9 +87,12 @@
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
-static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
-static field              nulfield;          // Returned when &field_at() is asked for an OOB value
-static level_cache        nullcache;         // Dummy cache for z-levels outside bounds
+static std::vector<cata::colony<item>::iterator>
+nulitems;  // Returned when &i_at() is asked for an OOB value
+static field
+nulfield;  // Returned when &field_at() is asked for an OOB value
+static level_cache
+nullcache; // Dummy cache for z-levels outside bounds
 
 // Map stack methods.
 map_stack::iterator map_stack::erase( map_stack::const_iterator it )
@@ -3920,13 +3923,19 @@ map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator it 
 
     current_submap->update_lum_rem( l, *it );
 
+    MAPBUFFER.erase_item( *static_cast<std::vector<cata::colony<item>::iterator>::const_iterator>
+                          ( it ) );
+
     return current_submap->get_items( l ).erase( it );
 }
 
 void map::i_rem( const tripoint &p, item *it )
 {
     map_stack map_items = i_at( p );
-    map_stack::const_iterator iter = map_items.get_iterator_from_pointer( it );
+    map_stack::const_iterator iter = std::find_if( map_items.begin(),
+    map_items.end(), [&]( const item & it2 ) {
+        return &it2 == it;
+    } );
     if( iter != map_items.end() ) {
         i_rem( p, iter );
     }
@@ -3937,9 +3946,11 @@ void map::i_clear( const tripoint &p )
     point l;
     submap *const current_submap = get_submap_at( p, l );
 
-    for( item &it : current_submap->get_items( l ) ) {
+    for( const auto &it : current_submap->get_items( l ) ) {
         // remove from the active items cache (if it isn't there does nothing)
-        current_submap->active_items.remove( &it );
+        current_submap->active_items.remove( &*it );
+        // remove from map buffer
+        MAPBUFFER.erase_item( it );
     }
     if( current_submap->active_items.empty() ) {
         submaps_with_active_items.erase( tripoint( abs_sub.x + p.x / SEEX, abs_sub.y + p.y / SEEY, p.z ) );
@@ -4176,15 +4187,16 @@ item &map::add_item( const tripoint &p, item new_item )
     current_submap->is_uniform = false;
     current_submap->update_lum_add( l, new_item );
 
-    const map_stack::iterator new_pos = current_submap->get_items( l ).insert( new_item );
+    auto &items = current_submap->get_items( l );
+    items.emplace_back( MAPBUFFER.insert_item( new_item ) );
     if( new_item.needs_processing() ) {
         if( current_submap->active_items.empty() ) {
             submaps_with_active_items.insert( tripoint( abs_sub.x + p.x / SEEX, abs_sub.y + p.y / SEEY, p.z ) );
         }
-        current_submap->active_items.add( *new_pos, l );
+        current_submap->active_items.add( *items.back(), l );
     }
 
-    return *new_pos;
+    return *items.back();
 }
 
 item map::water_from( const tripoint &p )
@@ -4233,19 +4245,21 @@ void map::make_active( item_location &loc )
     item *target = loc.get_item();
 
     // Trust but verify, don't let stinking callers set items active when they shouldn't be.
-    if( !target->needs_processing() ) {
+    if( !target || !target->needs_processing() ) {
         return;
     }
     point l;
     submap *const current_submap = get_submap_at( loc.position(), l );
-    cata::colony<item> &item_stack = current_submap->get_items( l );
-    cata::colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
+    auto &items = current_submap->get_items( l );
+    auto iter = std::find_if( items.begin(), items.end(), [&]( const auto & it ) {
+        return &*it == target;
+    } );
 
     if( current_submap->active_items.empty() ) {
         submaps_with_active_items.insert( tripoint( abs_sub.x + loc.position().x / SEEX,
                                           abs_sub.y + loc.position().y / SEEY, loc.position().z ) );
     }
-    current_submap->active_items.add( *iter, l );
+    current_submap->active_items.add( **iter, l );
 }
 
 void map::update_lum( item_location &loc, bool add )
@@ -4275,7 +4289,9 @@ static bool process_item( item_stack &items, safe_reference<item> &item_ref,
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
-            items.erase( items.get_iterator_from_pointer( item_ref.get() ) );
+            items.erase( std::find_if( items.begin(), items.end(), [&]( const item & it ) {
+                return &it == &*item_ref;
+            } ) );
         }
         return true;
     }
@@ -6702,8 +6718,7 @@ bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
     }
 }
 
-template <typename Container>
-void map::remove_rotten_items( Container &items, const tripoint &pnt )
+void map::remove_rotten_items( item_stack &items, const tripoint &pnt )
 {
     const tripoint abs_pnt = getabs( pnt );
     for( auto it = items.begin(); it != items.end(); ) {
@@ -7040,7 +7055,8 @@ void map::actualize( const tripoint &grid )
             }
             // plants contain a seed item which must not be removed under any circumstances
             if( !furn.has_flag( flag_DONT_REMOVE_ROTTEN ) ) {
-                remove_rotten_items( tmpsub->get_items( { x, y } ), pnt );
+                map_stack items{ &tmpsub->get_items( { x, y } ), pnt, this };
+                remove_rotten_items( items, pnt );
             }
 
             const auto trap_here = tmpsub->get_trap( p );

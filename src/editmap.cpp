@@ -356,7 +356,7 @@ cata::optional<tripoint> editmap::edit()
             if( Creature *const critter = g->critter_at( target ) ) {
                 edit_critter( *critter );
             } else if( g->m.veh_at( target ) ) {
-                edit_veh();
+                // edit_veh();
             }
         } else if( action == "EDIT_OVERMAP" ) {
             edit_mapgen();
@@ -1213,7 +1213,9 @@ void editmap::edit_itm()
         update_view_with_help( "", "" );
         ilmenu.query();
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
-            item &it = *items.get_iterator_from_index( ilmenu.ret );
+            auto iter = items.begin();
+            std::advance( iter, ilmenu.ret );
+            item &it = *iter;
             uilist imenu;
             imenu.w_x = ilmenu.w_x;
             imenu.w_y = ilmenu.w_height;
@@ -1307,10 +1309,10 @@ void editmap::edit_critter( Creature &critter )
     }
 }
 
-void editmap::edit_veh()
-{
-    edit_json( g->m.veh_at( target )->vehicle() );
-}
+// void editmap::edit_veh()
+// {
+//     edit_json( g->m.veh_at( target )->vehicle() );
+// }
 
 /*
  *  Calculate target_list based on origin and target class variables, and shapetype.

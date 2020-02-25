@@ -101,7 +101,7 @@ class map_stack : public item_stack
         tripoint location;
         map *myorigin;
     public:
-        map_stack( cata::colony<item> *newstack, tripoint newloc, map *neworigin ) :
+        map_stack( std::vector<cata::colony<item>::iterator> *newstack, tripoint newloc, map *neworigin ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
         void insert( const item &newitem ) override;
         iterator erase( const_iterator it ) override;
@@ -1496,8 +1496,7 @@ class map
          * @param items items to remove
          * @param p The point on this map where the items are, used for rot calculation.
          */
-        template <typename Container>
-        void remove_rotten_items( Container &items, const tripoint &p );
+        void remove_rotten_items( item_stack &items, const tripoint &p );
         /**
          * Checks to see if the item that is rotting away generates a creature when it does.
          * @param item item that is spawning creatures

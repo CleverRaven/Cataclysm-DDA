@@ -7,6 +7,8 @@
 #include <memory>
 #include <string>
 
+#include "colony.h"
+#include "item.h"
 #include "point.h"
 
 class submap;
@@ -57,6 +59,21 @@ class mapbuffer
         submap *lookup_submap( int x, int y, int z );
         submap *lookup_submap( const tripoint &p );
 
+        /**
+         * Insert an item into the colony holding all the item instances of the map buffer.
+         * Calling this without placing the returned iterator into a maptile or vehicle part is an
+         * error.
+         */
+        cata::colony<item>::iterator insert_item( const item &new_item );
+        cata::colony<item>::iterator insert_item( item &&new_item );
+
+        /**
+         * Erase an item from the colony holding all the item instances of the map buffer.
+         * Failure to erase an item from the buffer when removing it from a maptile or vehicle part
+         * is an error, and will trigger a debug message when the buffer is deconstructed.
+         */
+        void erase_item( const cata::colony<item>::const_iterator &it );
+
     private:
         using submap_map_t = std::map<tripoint, submap *>;
 
@@ -78,6 +95,7 @@ class mapbuffer
                         const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
                         bool delete_after_save );
         submap_map_t submaps;
+        cata::colony<item> items;
 };
 
 extern mapbuffer MAPBUFFER;

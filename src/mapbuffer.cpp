@@ -49,6 +49,10 @@ void mapbuffer::reset()
         delete elem.second;
     }
     submaps.clear();
+
+    if( !items.empty() ) {
+        debugmsg( "mapbuffer items non-empty on destruction" );
+    }
 }
 
 bool mapbuffer::add_submap( const tripoint &p, submap *sm )
@@ -112,6 +116,21 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
     }
 
     return iter->second;
+}
+
+cata::colony<item>::iterator mapbuffer::insert_item( const item &new_item )
+{
+    return items.insert( new_item );
+}
+
+cata::colony<item>::iterator mapbuffer::insert_item( item &&new_item )
+{
+    return items.insert( new_item );
+}
+
+void mapbuffer::erase_item( const cata::colony<item>::const_iterator &it )
+{
+    items.erase( it );
 }
 
 void mapbuffer::save( bool delete_after_save )
@@ -230,7 +249,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
             jsout.write( submap_addr.z );
             jsout.end_array();
 
-            sm->store( jsout );
+            sm->store( jsout, *this );
 
             jsout.end_object();
 
@@ -297,7 +316,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 jsin.end_array();
                 submap_coordinates = tripoint( locx, locy, locz );
             } else {
-                sm->load( jsin, submap_member_name, version );
+                sm->load( jsin, submap_member_name, version, *this );
             }
         }
 
