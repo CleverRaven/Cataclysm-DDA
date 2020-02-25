@@ -30,8 +30,7 @@
   {
     "type": "GENERIC",
     "id": "vehicle_controls",
-    "name": "vehicle controls",
-    "name_plural": "sets of vehicle controls",
+    "name": { "str": "vehicle controls", "str_pl": "sets of vehicle controls" },
     "description": "A set of various vehicle controls.  Useful for crafting.",
     "weight": "6000 g",
     "to_hit": -4,
@@ -115,8 +114,7 @@
   {
     "type": "GENERIC",
     "id": "robot_controls",
-    "name": "robot driving unit",
-    "name_plural": "robot driving units",
+    "name": { "str": "robot driving unit" },
     "description": "A set of servos, microcontrollers and other devices, together capable of driving an unmanned vehicle.  Its AI is not functional, but it should still have some sort of maintenance mode.",
     "weight": "2000 g",
     "color": "white",

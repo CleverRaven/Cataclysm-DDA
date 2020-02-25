@@ -135,8 +135,7 @@
   {
     "id": "sheath",
     "type": "ARMOR",
-    "name": "sheath",
-    "name_plural": "sheathes",
+    "name": { "str": "sheath", "str_pl": "sheathes" },
     "description": "A leather sheath for holding knives and other small blades.  It is easy to use without much practice.  Activate to sheathe/draw a weapon.",
     "weight": "200 g",
     "volume": "500 ml",

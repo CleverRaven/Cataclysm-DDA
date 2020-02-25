@@ -60,8 +60,7 @@
     "id": "software_train_data",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": "train data",
-    "name_plural": "train data",
+    "name": { "str": "train data", "str_pl": "train data" },
     "description": "Logistical data on subterranean train routes and schedules.",
     "price": 200
   },

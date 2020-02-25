@@ -173,9 +173,6 @@ void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
     m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
 }
 
-#define autorotate(x) mapgen_rotate(m, terrain_type, x)
-#define autorotate_down() mapgen_rotate(m, terrain_type, true)
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ///// builtin terrain-specific mapgen functions. big multi-overmap-tile terrains are located in
 ///// mapgen_functions_big.cpp

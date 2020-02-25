@@ -2772,11 +2772,16 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     // Keep track of how many items have been damaged, and what the first one is
     bool item_was_damaged = false;
     int items_damaged = 0;
+    int items_destroyed = 0;
     std::string damaged_item_name;
 
     std::vector<item> contents;
-    auto items = i_at( p );
+    map_stack items = i_at( p );
     for( auto i = items.begin(); i != items.end(); ) {
+        if( i->made_of( LIQUID ) ) {
+            i++;
+            continue;
+        }
         if( i->active ) {
             // Get the explosion item actor
             if( i->type->get_use( "explosion" ) != nullptr ) {
@@ -2854,17 +2859,23 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
             }
 
             i = i_rem( p, i );
+            items_destroyed++;
         } else {
             i++;
         }
     }
 
     // Let the player know that the item was damaged if they can see it.
-    if( items_damaged > 1 && g->u.sees( p ) ) {
-        add_msg( m_bad, _( "The %s damages several items!" ), cause_message );
+    if( items_destroyed > 1 && g->u.sees( p ) ) {
+        add_msg( m_bad, _( "The %s destroys several items!" ), cause_message );
+    } else if( items_destroyed == 1 && items_damaged == 1 && g->u.sees( p ) )  {
+        //~ %1$s: the cause of destruction, %2$s: destroyed item name
+        add_msg( m_bad, _( "The %1$s destroys the %2$s!" ), cause_message, damaged_item_name );
+    } else if( items_damaged > 1 && g->u.sees( p ) ) {
+        add_msg( m_bad, _( "The %s damages several items." ), cause_message );
     } else if( items_damaged == 1 && g->u.sees( p ) )  {
         //~ %1$s: the cause of damage, %2$s: damaged item name
-        add_msg( m_bad, _( "The %1$s damages the %2$s!" ), cause_message, damaged_item_name );
+        add_msg( m_bad, _( "The %1$s damages the %2$s." ), cause_message, damaged_item_name );
     }
 
     for( const item &it : contents ) {
@@ -5595,6 +5606,12 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     }
 }
 
+void map::drawsq( const catacurses::window &w, player &u, const tripoint &p,
+                  bool invert, bool show_items ) const
+{
+    drawsq( w, u, p, invert, show_items, u.pos() + u.view_offset, false, false, false );
+}
+
 void map::drawsq( const catacurses::window &w, player &u, const tripoint &p, const bool invert_arg,
                   const bool show_items_arg, const tripoint &view_center,
                   const bool low_light, const bool bright_light, const bool inorder ) const
@@ -7714,33 +7731,19 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     for( int z = minz; z <= maxz; z++ ) {
         build_outside_cache( z );
         seen_cache_dirty |= build_transparency_cache( z );
+        seen_cache_dirty |= build_vision_transparency_cache( zlev );
         seen_cache_dirty |= build_floor_cache( z );
         do_vehicle_caching( z );
-    }
-
-    const tripoint &p = g->u.pos();
-    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
-    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
-        if( loc == p ) {
-            // The tile player is standing on should always be transparent
-            if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
-                get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
-            }
-        } else if( is_crouching && coverage( loc ) >= 30 ) {
-            // If we're crouching behind an obstacle, we can't see past it.
-            get_cache( loc.z ).transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
-            get_cache( loc.z ).transparency_cache_dirty = true;
-            seen_cache_dirty = true;
-        }
     }
 
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();
     }
     // Initial value is illegal player position.
+    const tripoint &p = g->u.pos();
     static tripoint player_prev_pos;
     if( seen_cache_dirty || player_prev_pos != p ) {
-        build_seen_cache( g->u.pos(), zlev );
+        build_seen_cache( p, zlev );
         player_prev_pos = p;
     }
     if( !skip_lightmap ) {
@@ -8239,6 +8242,7 @@ level_cache::level_cache()
     std::fill_n( &outside_cache[0][0], map_dimensions, false );
     std::fill_n( &floor_cache[0][0], map_dimensions, false );
     std::fill_n( &transparency_cache[0][0], map_dimensions, 0.0f );
+    std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );

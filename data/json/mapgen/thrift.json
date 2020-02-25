@@ -48,6 +48,7 @@
         "E": "t_dirtfloor",
         "G": "t_dirtfloor",
         "g": "t_door_glass_c",
+        "o": "t_carpet_purple",
         "r": "t_pavement",
         "y": "t_pavement_y",
         "|": "t_wall_w",

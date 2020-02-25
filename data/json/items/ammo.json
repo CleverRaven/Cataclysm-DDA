@@ -417,7 +417,7 @@
     "type": "AMMO",
     "id": "66mm_HEAT",
     "price": 0,
-    "name": "66mm HEAT",
+    "name": { "str": "66mm HEAT" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A 60mm high-explosive anti-tank round.  It could blow through up to two feet of concrete.",
@@ -436,7 +436,7 @@
     "type": "AMMO",
     "id": "120mm_HEAT",
     "price": 999999,
-    "name": "120mm HEAT",
+    "name": { "str": "120mm HEAT" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A 120mm high-explosive anti-tank round.  It could ruin anyone's whole day.",
@@ -475,22 +475,6 @@
       "energy": 4000,
       "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1, "fiery": true, "size_factor": 0.15 }
     }
-  },
-  {
-    "type": "AMMO",
-    "id": "22_casing_new",
-    "category": "spare_parts",
-    "price": 100,
-    "name": { "str": "unused .22 casing" },
-    "symbol": "=",
-    "color": "yellow",
-    "description": "An unfired, like-new .22 round casing, with the primer still intact.",
-    "material": [ "powder", "brass" ],
-    "volume": "250 ml",
-    "weight": "1 g",
-    "ammo_type": "components",
-    "count": 200,
-    "effects": [ "COOKOFF" ]
   },
   {
     "type": "AMMO",

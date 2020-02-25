@@ -70,7 +70,7 @@
   {
     "id": "bio_lightning",
     "type": "GUN",
-    "name": "Chain Lightning",
+    "name": { "str": "Chain Lightning" },
     "description": "this a pseudo item",
     "volume": "3 L",
     "price": 0,
