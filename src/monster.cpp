@@ -541,7 +541,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     if( !inv.empty() ) {
-        mvwprintz( w, point( column, ++vStart ), c_white, _( "It is carrying something!" ) );
+        mvwprintz( w, point( column, ++vStart ), c_white, _( "It is carrying something." ) );
     }
 
     std::string effects = get_effect_status();
