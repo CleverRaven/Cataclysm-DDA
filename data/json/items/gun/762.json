@@ -4,7 +4,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "AKM",
+    "name": { "str": "AKM" },
     "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
     "weight": "3300 g",
     "volume": "1750 ml",

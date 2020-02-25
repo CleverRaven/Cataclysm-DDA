@@ -158,7 +158,7 @@
     "id": "j22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Jennings J-22 magazine",
+    "name": { "str": "Jennings J-22 magazine" },
     "description": "A cheap 6-round steel box magazine for the Jennings J-22.",
     "weight": "55 g",
     "volume": "27ml",

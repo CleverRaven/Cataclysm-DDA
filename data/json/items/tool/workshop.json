@@ -42,7 +42,7 @@
   {
     "id": "acetylene_machine",
     "type": "TOOL",
-    "name": "acetylene-gas machine",
+    "name": { "str": "acetylene-gas machine" },
     "symbol": "&",
     "color": "light_gray",
     "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",

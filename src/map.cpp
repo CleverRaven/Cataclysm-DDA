@@ -849,7 +849,7 @@ void map::register_vehicle_zone( vehicle *veh, const int zlev )
 bool map::deregister_vehicle_zone( zone_data &zone )
 {
     if( const cata::optional<vpart_reference> vp = veh_at( getlocal(
-                zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
+                zone.get_start_point() ) ).part_with_feature( flag_CARGO, false ) ) {
         auto bounds = vp->vehicle().loot_zones.equal_range( vp->mount() );
         for( auto it = bounds.first; it != bounds.second; it++ ) {
             if( &zone == &( it->second ) ) {
@@ -2117,7 +2117,7 @@ bool map::can_put_items( const tripoint &p ) const
         return true;
     }
     const optional_vpart_position vp = veh_at( p );
-    return static_cast<bool>( vp.part_with_feature( "CARGO", true ) );
+    return static_cast<bool>( vp.part_with_feature( flag_CARGO, true ) );
 }
 
 bool map::can_put_items_ter_furn( const tripoint &p ) const
@@ -2588,7 +2588,7 @@ bool map::has_nearby_table( const tripoint &p, int radius )
         if( has_flag( flag_FLAT_SURF, pt ) ) {
             return true;
         }
-        if( vp && ( vp->vehicle().has_part( "KITCHEN" ) || vp->vehicle().has_part( "FLAT_SURF" ) ) ) {
+        if( vp && ( vp->vehicle().has_part( flag_KITCHEN ) || vp->vehicle().has_part( flag_FLAT_SURF ) ) ) {
             return true;
         }
     }
@@ -2602,7 +2602,7 @@ bool map::has_nearby_chair( const tripoint &p, int radius )
         if( has_flag( flag_CAN_SIT, pt ) ) {
             return true;
         }
-        if( vp && vp->vehicle().has_part( "SEAT" ) ) {
+        if( vp && vp->vehicle().has_part( flag_SEAT ) ) {
             return true;
         }
     }
@@ -2767,8 +2767,12 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     std::string damaged_item_name;
 
     std::vector<item> contents;
-    auto items = i_at( p );
+    map_stack items = i_at( p );
     for( auto i = items.begin(); i != items.end(); ) {
+        if( i->made_of( LIQUID ) ) {
+            i++;
+            continue;
+        }
         if( i->active ) {
             // Get the explosion item actor
             if( i->type->get_use( "explosion" ) != nullptr ) {
@@ -4343,7 +4347,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     }
 
     if( cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true ) >= 0 &&
-        cur_veh.has_part( "RECHARGE", true ) ) {
+        cur_veh.has_part( flag_RECHARGE, true ) ) {
         for( auto &n : cur_veh.get_items( part ) ) {
             if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                 continue;
@@ -4482,7 +4486,7 @@ void map::process_items_in_vehicles( submap &current_submap, const int gridz,
 void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, const int /*gridz*/,
                                     map::map_process_func processor, const std::string &signal )
 {
-    const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
+    const bool engine_heater_is_on = cur_veh.has_part( flag_E_HEATER, true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
         vp.part().process_contents( vp.pos(), engine_heater_is_on );
     }
@@ -4631,7 +4635,7 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id &type,
         return ret;
     }
 
-    if( const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( "CARGO", true ) ) {
+    if( const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( flag_CARGO, true ) ) {
         std::list<item> tmp = use_amount_stack( vp->vehicle().get_items( vp->part_index() ), type,
                                                 quantity, filter );
         ret.splice( ret.end(), tmp );
@@ -4777,13 +4781,13 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             continue;
         }
 
-        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET", true );
-        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
-        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
-        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
-        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
-        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
-        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
+        const cata::optional<vpart_reference> kpart = vp.part_with_feature( flag_FAUCET, true );
+        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( flag_WELDRIG, true );
+        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( flag_CRAFTRIG, true );
+        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( flag_FORGE, true );
+        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( flag_KILN, true );
+        const cata::optional<vpart_reference> chempart = vp.part_with_feature( flag_CHEMLAB, true );
+        const cata::optional<vpart_reference> cargo = vp.part_with_feature( flag_CARGO, true );
 
         if( kpart ) { // we have a faucet, now to see what to drain
             itype_id ftype = "null";
@@ -7714,33 +7718,19 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     for( int z = minz; z <= maxz; z++ ) {
         build_outside_cache( z );
         seen_cache_dirty |= build_transparency_cache( z );
+        seen_cache_dirty |= build_vision_transparency_cache( zlev );
         seen_cache_dirty |= build_floor_cache( z );
         do_vehicle_caching( z );
-    }
-
-    const tripoint &p = g->u.pos();
-    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
-    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
-        if( loc == p ) {
-            // The tile player is standing on should always be transparent
-            if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
-                get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
-            }
-        } else if( is_crouching && coverage( loc ) >= 30 ) {
-            // If we're crouching behind an obstacle, we can't see past it.
-            get_cache( loc.z ).transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
-            get_cache( loc.z ).transparency_cache_dirty = true;
-            seen_cache_dirty = true;
-        }
     }
 
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();
     }
     // Initial value is illegal player position.
+    const tripoint &p = g->u.pos();
     static tripoint player_prev_pos;
     if( seen_cache_dirty || player_prev_pos != p ) {
-        build_seen_cache( g->u.pos(), zlev );
+        build_seen_cache( p, zlev );
         player_prev_pos = p;
     }
     if( !skip_lightmap ) {
@@ -8239,6 +8229,7 @@ level_cache::level_cache()
     std::fill_n( &outside_cache[0][0], map_dimensions, false );
     std::fill_n( &floor_cache[0][0], map_dimensions, false );
     std::fill_n( &transparency_cache[0][0], map_dimensions, 0.0f );
+    std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );

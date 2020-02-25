@@ -1836,7 +1836,7 @@ input_context touch_input_context;
 
 std::string get_quick_shortcut_name( const std::string &category )
 {
-    if( category == "DEFAULTMODE" && g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), g->u.pos() ) &&
+    if( category == "DEFAULTMODE" && g->check_zone( zone_type_NO_AUTO_PICKUP, g->u.pos() ) &&
         get_option<bool>( "ANDROID_SHORTCUT_ZONE" ) ) {
         return "DEFAULTMODE____SHORTCUTS";
     }
@@ -2650,19 +2650,19 @@ static void CheckMessages()
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
                                 const int veh_part = vp ? vp->part_index() : -1;
-                                if( veh->part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
+                                if( veh->part_with_feature( veh_part, flag_CONTROLS, true ) >= 0 ) {
                                     actions.insert( ACTION_CONTROL_VEHICLE );
                                 }
-                                const int openablepart = veh->part_with_feature( veh_part, "OPENABLE", true );
+                                const int openablepart = veh->part_with_feature( veh_part, flag_OPENABLE, true );
                                 if( openablepart >= 0 && veh->is_open( openablepart ) && ( dx != 0 ||
                                         dy != 0 ) ) { // an open door adjacent to us
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const int curtainpart = veh->part_with_feature( veh_part, "CURTAIN", true );
+                                const int curtainpart = veh->part_with_feature( veh_part, flag_CURTAIN, true );
                                 if( curtainpart >= 0 && veh->is_open( curtainpart ) && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const int cargopart = veh->part_with_feature( veh_part, "CARGO", true );
+                                const int cargopart = veh->part_with_feature( veh_part, flag_CARGO, true );
                                 if( cargopart >= 0 && ( !veh->get_items( cargopart ).empty() ) ) {
                                     actions.insert( ACTION_PICKUP );
                                 }

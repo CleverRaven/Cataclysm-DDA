@@ -17,6 +17,7 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "craft_command.h"
+#include "crafting_gui.h"
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
@@ -172,7 +173,7 @@ static float workbench_crafting_speed_multiplier( const item &craft, const tripo
         allowed_mass = f.workbench->allowed_mass;
         allowed_volume = f.workbench->allowed_volume;
     } else if( const cata::optional<vpart_reference> vp = g->m.veh_at(
-                   loc ).part_with_feature( "WORKBENCH", true ) ) {
+                   loc ).part_with_feature( flag_WORKBENCH, true ) ) {
         // Vehicle workbench
         const vpart_info &vp_info = vp->part().info();
         if( const cata::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
@@ -454,7 +455,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
             }
         }
 
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( flag_CARGO,
                 true ) ) {
             for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
                 if( is_container_eligible_for_crafting( it, false ) ) {
@@ -641,7 +642,7 @@ static item_location set_item_map( const tripoint &loc, item &newit )
  */
 static item_location set_item_map_or_vehicle( const player &p, const tripoint &loc, item &newit )
 {
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( flag_CARGO,
             false ) ) {
 
         if( const cata::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
@@ -709,7 +710,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                 target = adj;
             }
         } else if( const cata::optional<vpart_reference> vp = g->m.veh_at(
-                       adj ).part_with_feature( "WORKBENCH", true ) ) {
+                       adj ).part_with_feature( flag_WORKBENCH, true ) ) {
             if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
                 if( wb_info->multiplier > best_bench_multi ) {
                     best_bench_multi = wb_info->multiplier;

@@ -1034,7 +1034,7 @@ bool player::has_alarm_clock() const
 {
     return ( has_item_with_flag( flag_ALARMCLOCK, true ) ||
              ( g->m.veh_at( pos() ) &&
-               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
+               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( flag_ALARMCLOCK ) ) ) ||
              has_bionic( bio_watch ) );
 }
 
@@ -1042,7 +1042,7 @@ bool player::has_watch() const
 {
     return ( has_item_with_flag( flag_WATCH, true ) ||
              ( g->m.veh_at( pos() ) &&
-               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
+               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( flag_WATCH ) ) ) ||
              has_bionic( bio_watch ) );
 }
 
@@ -1773,14 +1773,14 @@ int player::impact( const int force, const tripoint &p )
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
         target_name = vp->vehicle().disp_name();
-        if( vp.part_with_feature( "SHARP", true ) ) {
+        if( vp.part_with_feature( flag_SHARP, true ) ) {
             // Now we're actually getting impaled
             cut = force; // Lots of fun
         }
 
         mod = slam ? 1.0f : fall_damage_mod();
         armor_eff = 0.25f; // Not much
-        if( !slam && vp->part_with_feature( "ROOF", true ) ) {
+        if( !slam && vp->part_with_feature( flag_ROOF, true ) ) {
             // Roof offers better landing than frame or pavement
             // TODO: Make this not happen with heavy duty/plated roof
             effective_force /= 2;
@@ -4414,8 +4414,8 @@ void player::try_to_sleep( const time_duration &dur )
                          ter_at_pos == t_improvised_shelter ||
                          trap_at_pos.comfort > static_cast<int>( comfort_level::neutral ) ||
                          in_shell || websleeping || watersleep ||
-                         vp.part_with_feature( "SEAT", true ) ||
-                         vp.part_with_feature( "BED", true ) ) ) {
+                         vp.part_with_feature( flag_SEAT, true ) ||
+                         vp.part_with_feature( flag_BED, true ) ) ) {
         add_msg_if_player( m_good, _( "This is a comfortable place to sleep." ) );
     } else if( !plantsleep && !fungaloid_cosplay && !watersleep ) {
         if( !vp && ter_at_pos != t_floor ) {
@@ -5682,91 +5682,4 @@ std::set<tripoint> player::get_path_avoid() const
     // TODO: Add known traps in a way that doesn't destroy performance
 
     return ret;
-}
-
-std::pair<std::string, nc_color> player::get_hunger_description() const
-{
-    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
-    const units::volume contains = stomach.contains();
-    const units::volume cap = stomach.capacity( *this );
-    std::string hunger_string;
-    nc_color hunger_color = c_white;
-    // i ate just now!
-    const bool just_ate = stomach.time_since_ate() < 15_minutes;
-    // i ate a meal recently enough that i shouldn't need another meal
-    const bool recently_ate = stomach.time_since_ate() < 3_hours;
-    if( calorie_deficit ) {
-        if( contains >= cap ) {
-            hunger_string = _( "Engorged" );
-            hunger_color = c_green;
-        } else if( contains > cap * 3 / 4 ) {
-            hunger_string = _( "Sated" );
-            hunger_color = c_green;
-        } else if( just_ate && contains > cap / 2 ) {
-            hunger_string = _( "Full" );
-            hunger_color = c_green;
-        } else if( just_ate ) {
-            hunger_string = _( "Hungry" );
-            hunger_color = c_yellow;
-        } else if( recently_ate ) {
-            hunger_string = _( "Very Hungry" );
-            hunger_color = c_yellow;
-        } else if( get_bmi() < character_weight_category::emaciated ) {
-            hunger_string = _( "Starving!" );
-            hunger_color = c_red;
-        } else if( get_bmi() < character_weight_category::underweight ) {
-            hunger_string = _( "Near starving" );
-            hunger_color = c_red;
-        } else {
-            hunger_string = _( "Famished" );
-            hunger_color = c_light_red;
-        }
-    } else {
-        if( contains >= cap * 5 / 6 ) {
-            hunger_string = _( "Engorged" );
-            hunger_color = c_green;
-        } else if( contains > cap * 11 / 20 ) {
-            hunger_string = _( "Sated" );
-            hunger_color = c_green;
-        } else if( recently_ate && contains >= cap * 3 / 8 ) {
-            hunger_string = _( "Full" );
-            hunger_color = c_green;
-        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 && recently_ate ) ||
-                   ( just_ate && contains > 0_ml && contains < cap * 3 / 8 ) ) {
-            hunger_string = _( "Peckish" );
-            hunger_color = c_dark_gray;
-        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
-            hunger_string.clear();
-        } else {
-            if( get_bmi() > character_weight_category::overweight ) {
-                hunger_string = _( "Hungry" );
-            } else {
-                hunger_string = _( "Very Hungry" );
-            }
-            hunger_color = c_yellow;
-        }
-    }
-
-    return std::make_pair( hunger_string, hunger_color );
-}
-
-std::pair<std::string, nc_color> player::get_pain_description() const
-{
-    auto pain = Creature::get_pain_description();
-    nc_color pain_color = pain.second;
-    std::string pain_string;
-    // get pain color
-    if( get_perceived_pain() >= 60 ) {
-        pain_color = c_red;
-    } else if( get_perceived_pain() >= 40 ) {
-        pain_color = c_light_red;
-    }
-    // get pain string
-    if( ( has_trait( trait_SELFAWARE ) || has_effect( effect_got_checked ) ) &&
-        get_perceived_pain() > 0 ) {
-        pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
-    } else if( get_perceived_pain() > 0 ) {
-        pain_string = pain.first;
-    }
-    return std::make_pair( pain_string, pain_color );
 }

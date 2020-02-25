@@ -21,7 +21,7 @@
     "id": "reloaded_shot_00",
     "copy-from": "shot_00",
     "type": "AMMO",
-    "name": "00 shot, reloaded",
+    "name": { "str": "00 shot, reloaded" },
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -66,7 +66,7 @@
     "id": "bp_shot_00",
     "copy-from": "shot_00",
     "type": "AMMO",
-    "name": "00 shot, black powder",
+    "name": { "str": "00 shot, black powder" },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -91,7 +91,7 @@
   {
     "id": "shot_00",
     "type": "AMMO",
-    "name": "00 shot",
+    "name": { "str": "00 shot" },
     "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -173,7 +173,7 @@
     "id": "shot_scrap",
     "copy-from": "shot_00",
     "type": "AMMO",
-    "name": "00 shot, scrap loaded",
+    "name": { "str": "00 shot, scrap loaded" },
     "description": "A shotgun shell filled with whatever was lying around.  They are more damaging than birdshot, but fairly inaccurate.",
     "proportional": { "price": 0.4, "damage": 0.6, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -183,7 +183,7 @@
     "id": "bp_shot_scrap",
     "copy-from": "shot_scrap",
     "type": "AMMO",
-    "name": "00 shot, black powder, scrap loaded",
+    "name": { "str": "00 shot, black powder, scrap loaded" },
     "proportional": { "price": 0.6, "damage": 0.8 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

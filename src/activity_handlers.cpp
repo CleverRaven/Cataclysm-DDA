@@ -2362,7 +2362,7 @@ struct weldrig_hack {
             return false;
         }
 
-        part = veh->part_with_feature( part, "WELDRIG", true );
+        part = veh->part_with_feature( part, flag_WELDRIG, true );
         return part >= 0;
     }
 
@@ -4103,7 +4103,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
         if( have_fertilizer() ) {
             iexamine::fertilize_plant( p, tile, fertilizer );
             if( !have_fertilizer() ) {
-                add_msg( m_info, _( "You have run out of %s" ), fertilizer );
+                add_msg( m_info, _( "You have run out of %s." ), item::nname( fertilizer ) );
             }
         }
     };

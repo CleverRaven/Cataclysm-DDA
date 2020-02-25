@@ -64,7 +64,7 @@ turret_data vehicle::turret_query( const vehicle_part &pt ) const
 
 turret_data vehicle::turret_query( const tripoint &pos )
 {
-    auto res = get_parts_at( pos, "TURRET", part_status_flag::any );
+    auto res = get_parts_at( pos, flag_TURRET, part_status_flag::any );
     return !res.empty() ? turret_query( *res.front() ) : turret_data();
 }
 
@@ -331,7 +331,7 @@ void vehicle::turrets_set_targeting()
             turrets[sel]->enabled = false;
         }
 
-        for( const vpart_reference &vp : get_avail_parts( "TURRET_CONTROLS" ) ) {
+        for( const vpart_reference &vp : get_avail_parts( flag_TURRET_CONTROLS ) ) {
             vehicle_part &e = vp.part();
             if( e.mount == turrets[sel]->mount ) {
                 e.enabled = turrets[sel]->enabled;

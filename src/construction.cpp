@@ -690,7 +690,7 @@ construction_id construction_menu( const bool blueprint )
             }
             if( !blueprint ) {
                 if( player_can_build( g->u, total_inv, constructs[select] ) ) {
-                    if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+                    if( !player_can_see_to_build( g->u, constructs[select] ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
                         place_construction( constructs[select] );
@@ -745,7 +745,22 @@ bool player_can_build( player &p, const inventory &inv, const construction &con 
     if( !p.meets_skill_requirements( con ) ) {
         return false;
     }
+
     return con.requirements->can_make_with_inventory( inv, is_crafting_component );
+}
+
+bool player_can_see_to_build( player &p, const std::string &desc )
+{
+    if( p.fine_detail_vision_mod() < 4 || p.has_trait( trait_DEBUG_HS ) ) {
+        return true;
+    }
+    std::vector<construction *> cons = constructions_by_desc( desc );
+    for( construction *&con : cons ) {
+        if( con->dark_craftable ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool can_construct( const std::string &desc )
@@ -1090,8 +1105,7 @@ static vpart_id vpart_from_item( const std::string &item_id )
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
-    static const vpart_id frame_id( "frame_vertical_2" );
-    return frame_id;
+    return vpart_frame_vertical_2;
 }
 
 void construct::done_vehicle( const tripoint &p )
@@ -1457,6 +1471,7 @@ void load_construction( const JsonObject &jo )
     con.vehicle_start = jo.get_bool( "vehicle_start", false );
 
     con.on_display = jo.get_bool( "on_display", true );
+    con.dark_craftable = jo.get_bool( "dark_craftable", false );
 
     constructions.push_back( con );
     construction_id_map.emplace( con.str_id, con.id );

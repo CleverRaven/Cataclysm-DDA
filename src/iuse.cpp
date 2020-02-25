@@ -5591,7 +5591,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         g->m.destroy_vehicle( veh );
         return 0;
     }
-    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
+    const bool can_float = size( veh->get_avail_parts( flag_FLOATS ) ) > 2;
 
     const auto invalid_pos = []( const tripoint & pp, bool can_float ) {
         return ( g->m.has_flag_ter( TFLAG_DEEP_WATER, pp ) && !can_float ) ||
@@ -8068,7 +8068,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
     if( !veh.is_locked || !veh.has_security_working() ) {
         return true;
     }
-    const bool advanced = !empty( veh.get_avail_parts( "REMOTE_CONTROLS" ) );
+    const bool advanced = !empty( veh.get_avail_parts( flag_REMOTE_CONTROLS ) );
     if( advanced && veh.is_alarm_on ) {
         p.add_msg_if_player( m_bad, _( "This vehicle's security system has locked you out!" ) );
         return false;
@@ -8225,7 +8225,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
             }
         }
     } else if( choice == 1 ) {
-        const auto rctrl_parts = veh->get_avail_parts( "REMOTE_CONTROLS" );
+        const auto rctrl_parts = veh->get_avail_parts( flag_REMOTE_CONTROLS );
         // Revert to original behaviour if we can't find remote controls.
         if( empty( rctrl_parts ) ) {
             veh->use_controls( pos );
@@ -8537,7 +8537,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             it->contents.erase( dish_it );
             it->erase_var( "RECIPE" );
-
+            it->convert( "multi_cooker" );
             if( is_delicious ) {
                 p->add_msg_if_player( m_good,
                                       _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
@@ -8619,7 +8619,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 p->add_msg_if_player( m_good,
                                       _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
-                it->active = true;
+                it->convert( "multi_cooker_filled" ).active = true;
                 it->ammo_consume( charges_to_start, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus

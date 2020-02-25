@@ -34,6 +34,7 @@
     "pre_note": "Mark a spot for crafting.  Crafting tasks next to this tile will automatically use this location instead of attempting to craft in your hands, with the usual crafting speed penalty for working on the ground.  Does not prevent using a proper workbench, if available.  Deconstruct or smash to remove.",
     "pre_special": "check_empty",
     "post_flags": [ "keep_items" ],
+    "dark_craftable": true,
     "post_terrain": "f_ground_crafting_spot"
   },
   {
@@ -3040,6 +3041,7 @@
     "pre_note": "Firewood or other flammable materials on a nearby tile marked in this way may be used to automatically refuel fires.  This will be done to maintain light during long-running tasks that require it such as crafting or reading, but not (for example) if you are simply waiting nearby.",
     "pre_special": "check_no_trap",
     "post_special": "done_mark_firewood",
+    "dark_craftable": true,
     "post_flags": [ "keep_items" ]
   },
   {
@@ -3052,6 +3054,7 @@
     "pre_note": "Mark a spot for target practice.  Firing will automatically target the first practice target location found in gun range, if no enemies are around.",
     "pre_special": "check_no_trap",
     "post_special": "done_mark_practice_target",
+    "dark_craftable": true,
     "post_flags": [ "keep_items" ]
   },
   {

@@ -97,7 +97,7 @@
     "id": "flash_acc_on",
     "type": "GUNMOD",
     "name": { "str": "tactical flashlight (on)", "str_pl": "tactical flashlights (on)" },
-    "description": "A compact flashlight which is attatched to the side of your weapon, not powerful, but good enough for tight hallways.",
+    "description": "A compact flashlight which is attached to the side of your weapon, not powerful, but good enough for tight hallways.",
     "weight": "250 g",
     "volume": "125 ml",
     "integral_volume": 0,
