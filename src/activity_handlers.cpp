@@ -2980,6 +2980,7 @@ void activity_handlers::read_finish( player_activity *act, player *p )
 {
     if( !act->targets.front() ) {
         debugmsg( "Lost target of ACT_READ" );
+        return;
     }
     if( p->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( p );
