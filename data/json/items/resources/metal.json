@@ -231,7 +231,7 @@
     "id": "steel_chunk",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": "chunk of steel",
+    "name": { "str": "chunk of steel" },
     "description": "A misshapen chunk of steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
     "weight": "250 g",
     "volume": "250 ml",

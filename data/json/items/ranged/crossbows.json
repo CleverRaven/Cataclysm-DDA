@@ -223,7 +223,7 @@
     "type": "AMMO",
     "id": "bolt_cf",
     "price": 2000,
-    "name": "carbon fiber hunting bolt",
+    "name": { "str": "carbon fiber hunting bolt" },
     "symbol": "=",
     "color": "green",
     "looks_like": "bolt_steel",

@@ -72,7 +72,7 @@
     "id": "shotcanister_bearing",
     "price": 1000,
     "price_postapoc": 1000,
-    "name": "bearing shotcanister",
+    "name": { "str": "bearing shotcanister" },
     "symbol": "=",
     "color": "green",
     "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade bearings, stabilizing its flight pattern a tiny bit.",
