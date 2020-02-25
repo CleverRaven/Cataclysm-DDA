@@ -1021,5 +1021,13 @@
     "healthy": 0,
     "fun": 0,
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "demihuman_stomach_boiled",
+    "copy-from": "small_hstomach_boiled",
+    "name": "boiled human stomach",
+    "description": "A small boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
+    "material": "hflesh"
   }
 ]
