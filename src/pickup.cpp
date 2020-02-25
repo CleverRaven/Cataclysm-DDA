@@ -517,6 +517,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     std::vector<std::list<item_stack::iterator>> stacked_here;
     for( item_stack::iterator it : here ) {
         bool found_stack = false;
+        // an NPC may have dropped an item, then later died, the faction is now invalid.
+        if( !it->get_owner().is_null() && !g->faction_manager_ptr->get( it->get_owner(), false ) ) {
+            it->remove_owner();
+            it->remove_old_owner();
+        }
         for( std::list<item_stack::iterator> &stack : stacked_here ) {
             if( stack.front()->display_stacked_with( *it ) ) {
                 stack.push_back( it );

@@ -2372,6 +2372,17 @@ void npc::die( Creature *nkiller )
                     elem->remove_owner();
                     elem->remove_old_owner();
                 }
+                // broadcast a signal to any items this NPC may have dropped nearby to clear their ownership too
+                // this will also validate when the items are interacted with
+                // but may as well solve what we can now.
+                for( const tripoint tri_elem : g->m.points_in_radius( pos(), 60 ) ) {
+                    for( item &elem : g->m.i_at( tri_elem ) ) {
+                        if( !elem.get_owner().is_null() && !g->faction_manager_ptr->get( elem.get_owner(), false ) ) {
+                            elem.remove_owner();
+                            elem.remove_old_owner();
+                        }
+                    }
+                }
             }
             my_fac->remove_member( getID() );
         }
