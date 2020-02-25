@@ -54,7 +54,7 @@
     "id": "sig40mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "SIG Pro .40 magazine",
+    "name": { "str": "SIG Pro .40 magazine" },
     "description": "A compact and reliable magazine for use with the SIG Pro .40 pistol.",
     "weight": "90 g",
     "volume": "250 ml",
