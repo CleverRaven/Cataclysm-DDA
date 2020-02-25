@@ -625,8 +625,8 @@ void Character::suffer_in_sunlight()
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        vitamin_mod( vitamin_vitA, 1, true );
-        vitamin_mod( vitamin_vitC, 1, true );
+        vitamin_mod( vitamin_id( "vitA" ), 1, true );
+        vitamin_mod( vitamin_id( "vitC" ), 1, true );
     }
 
     if( x_in_y( sunlight_nutrition, 12000 ) ) {
@@ -645,7 +645,7 @@ void Character::suffer_in_sunlight()
     }
 
     if( has_trait( trait_SUNBURN ) && one_in( 10 ) ) {
-        if( !( weapon.has_flag( flag_RAIN_PROTECT ) ) ) {
+        if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
             add_msg_if_player( m_bad, _( "The sunlight burns your skin!" ) );
             if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
                 wake_up();
@@ -696,7 +696,7 @@ void Character::suffer_from_albinism()
         }
     }
     // Umbrellas can keep the sun off the skin
-    if( weapon.has_flag( flag_RAIN_PROTECT ) ) {
+    if( weapon.has_flag( "RAIN_PROTECT" ) ) {
         return;
     }
     //calculate total coverage of skin
@@ -796,8 +796,8 @@ void Character::suffer_from_other_mutations()
     }
 
     if( x_in_y( root_vitamins, 576 ) ) {
-        vitamin_mod( vitamin_iron, 1, true );
-        vitamin_mod( vitamin_calcium, 1, true );
+        vitamin_mod( vitamin_id( "iron" ), 1, true );
+        vitamin_mod( vitamin_id( "calcium" ), 1, true );
         mod_healthy_mod( 5, 50 );
     }
 

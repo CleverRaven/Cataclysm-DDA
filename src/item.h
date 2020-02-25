@@ -72,6 +72,7 @@ enum m_size : int;
 enum class side : int;
 class body_part_set;
 
+using itype_id = std::string;
 struct fire_data;
 struct damage_instance;
 struct damage_unit;
@@ -1138,7 +1139,7 @@ class item : public visitable<item>
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
-        float get_freeze_point() const; // Farenheit
+        float get_freeze_point() const; // Fahrenheit
 
         // If this is food, returns itself.  If it contains food, return that
         // contents.  Otherwise, returns nullptr.

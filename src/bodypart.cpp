@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "pldata.h"
 
 side opposite_side( side s )
 {

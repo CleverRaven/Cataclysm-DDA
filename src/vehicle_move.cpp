@@ -463,7 +463,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             return ret;
         }
         // we just ran into a fish, so move it out of the way
-        if( g->m.has_flag( flag_SWIMMABLE, critter->pos() ) ) {
+        if( g->m.has_flag( "SWIMMABLE", critter->pos() ) ) {
             tripoint end_pos = critter->pos();
             tripoint start_pos;
             const int angle = move.dir() + 45 * ( parts[part].mount.x > pivot_point().x ? -1 : 1 );

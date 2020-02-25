@@ -1412,7 +1412,7 @@ static void cast_spell()
         return;
     }
 
-    if( sp.energy_source() == hp_energy && !u.has_quality( quality_CUT ) ) {
+    if( sp.energy_source() == hp_energy && !u.has_quality( qual_CUT ) ) {
         add_msg( m_bad, _( "You cannot cast Blood Magic without a cutting implement." ) );
         return;
     }

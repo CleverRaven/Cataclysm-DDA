@@ -32,7 +32,6 @@
 #include "pimpl.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 namespace npc_factions
 {
@@ -416,7 +415,7 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
 faction *faction_manager::get( const faction_id &id, const bool complain )
 {
     if( id.is_null() ) {
-        return get( faction_no_faction );
+        return get( faction_id( "no_faction" ) );
     }
     for( auto &elem : factions ) {
         if( elem.first == id ) {
@@ -707,7 +706,7 @@ void faction_manager::display() const
         }
         std::vector<const faction *> valfac; // Factions that we know of.
         for( const auto &elem : g->faction_manager_ptr->all() ) {
-            if( elem.second.known_by_u && elem.second.id != faction_your_followers ) {
+            if( elem.second.known_by_u && elem.second.id != faction_id( "your_followers" ) ) {
                 valfac.push_back( &elem.second );
             }
         }

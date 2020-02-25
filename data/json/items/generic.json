@@ -123,7 +123,7 @@
     "type": "GENERIC",
     "id": "log_immersion27",
     "copy-from": "file",
-    "name": "INCIDENT REPORT: IMMERSION-27A",
+    "name": { "str": "INCIDENT REPORT: IMMERSION-27A" },
     "description": "A white piece of paper, with the logo of XEDRA printed on its upper left corner.  It seems to be an internal report of some kind.",
     "snippet_category": "log_immersion27"
   },
@@ -131,14 +131,14 @@
     "type": "GENERIC",
     "id": "report_t_substrate",
     "copy-from": "log_immersion27",
-    "name": "MATERIAL: T-SUBSTRATE",
+    "name": { "str": "MATERIAL: T-SUBSTRATE" },
     "snippet_category": "t-substrate"
   },
   {
     "type": "GENERIC",
     "id": "HAADF_t_substrate",
     "copy-from": "log_immersion27",
-    "name": "HAADF MICROGRAPH: T-SUBSTRATE",
+    "name": { "str": "HAADF MICROGRAPH: T-SUBSTRATE" },
     "snippet_category": "HAADF_t-substrate"
   },
   {
@@ -1808,6 +1808,7 @@
     "type": "GENERIC",
     "id": "poppy_bud",
     "name": "poppy bud",
+    "category": "chems",
     "description": "A poppy bud.  Contains some substances commonly produced by a mutated poppy flower.",
     "weight": "30 g",
     "to_hit": -3,

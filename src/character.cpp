@@ -68,6 +68,7 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 
+
 // *INDENT-OFF*
 Character::Character() :
 
@@ -1939,6 +1940,7 @@ int Character::best_nearby_lifting_assist() const
 
 int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 {
+    const quality_id LIFT( "LIFT" );
     int mech_lift = 0;
     if( is_mounted() ) {
         auto mons = mounted_creature.get();
@@ -1946,9 +1948,9 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
             mech_lift = mons->mech_str_addition() + 10;
         }
     }
-    return std::max( { this->max_quality( quality_LIFT ), mech_lift,
-                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( quality_LIFT ),
-                       vehicle_selector( world_pos, 4, true, true ).max_quality( quality_LIFT )
+    return std::max( { this->max_quality( LIFT ), mech_lift,
+                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
+                       vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
                      } );
 }
 
@@ -2284,7 +2286,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
 ret_val<bool> Character::can_unwield( const item &it ) const
 {
-    if( it.has_flag( flag_NO_UNWIELD ) ) {
+    if( it.has_flag( "NO_UNWIELD" ) ) {
         return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
     }
 
@@ -2845,7 +2847,7 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
      * for the purposes of the layer penalty system. (normally an item has a minimum
      * layering_encumbrance of 2 )
      */
-    if( it.has_flag( flag_SEMITANGIBLE ) ) {
+    if( it.has_flag( "SEMITANGIBLE" ) ) {
         encumber_val = 0;
         layering_encumbrance = 0;
     }
@@ -3502,34 +3504,67 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
-    int hunger = get_hunger();
+    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
+    const units::volume contains = stomach.contains();
+    const units::volume cap = stomach.capacity( *this );
     std::string hunger_string;
     nc_color hunger_color = c_white;
-    if( hunger >= 300 && get_starvation() > 2500 ) {
-        hunger_color = c_red;
-        hunger_string = _( "Starving!" );
-    } else if( hunger >= 300 && get_starvation() > 1100 ) {
-        hunger_color = c_light_red;
-        hunger_string = _( "Near starving" );
-    } else if( hunger > 250 ) {
-        hunger_color = c_light_red;
-        hunger_string = _( "Famished" );
-    } else if( hunger > 100 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Very hungry" );
-    } else if( hunger > 40 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Hungry" );
-    } else if( hunger < -60 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Engorged" );
-    } else if( hunger < -20 ) {
-        hunger_color = c_green;
-        hunger_string = _( "Sated" );
-    } else if( hunger < 0 ) {
-        hunger_color = c_green;
-        hunger_string = _( "Full" );
+    // i ate just now!
+    const bool just_ate = stomach.time_since_ate() < 15_minutes;
+    // i ate a meal recently enough that i shouldn't need another meal
+    const bool recently_ate = stomach.time_since_ate() < 3_hours;
+    if( calorie_deficit ) {
+        if( contains >= cap ) {
+            hunger_string = _( "Engorged" );
+            hunger_color = c_green;
+        } else if( contains > cap * 3 / 4 ) {
+            hunger_string = _( "Sated" );
+            hunger_color = c_green;
+        } else if( just_ate && contains > cap / 2 ) {
+            hunger_string = _( "Full" );
+            hunger_color = c_green;
+        } else if( just_ate ) {
+            hunger_string = _( "Hungry" );
+            hunger_color = c_yellow;
+        } else if( recently_ate ) {
+            hunger_string = _( "Very Hungry" );
+            hunger_color = c_yellow;
+        } else if( get_bmi() < character_weight_category::emaciated ) {
+            hunger_string = _( "Starving!" );
+            hunger_color = c_red;
+        } else if( get_bmi() < character_weight_category::underweight ) {
+            hunger_string = _( "Near starving" );
+            hunger_color = c_red;
+        } else {
+            hunger_string = _( "Famished" );
+            hunger_color = c_light_red;
+        }
+    } else {
+        if( contains >= cap * 5 / 6 ) {
+            hunger_string = _( "Engorged" );
+            hunger_color = c_green;
+        } else if( contains > cap * 11 / 20 ) {
+            hunger_string = _( "Sated" );
+            hunger_color = c_green;
+        } else if( recently_ate && contains >= cap * 3 / 8 ) {
+            hunger_string = _( "Full" );
+            hunger_color = c_green;
+        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 && recently_ate ) ||
+                   ( just_ate && contains > 0_ml && contains < cap * 3 / 8 ) ) {
+            hunger_string = _( "Peckish" );
+            hunger_color = c_dark_gray;
+        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
+            hunger_string.clear();
+        } else {
+            if( get_bmi() > character_weight_category::overweight ) {
+                hunger_string = _( "Hungry" );
+            } else {
+                hunger_string = _( "Very Hungry" );
+            }
+            hunger_color = c_yellow;
+        }
     }
+
     return std::make_pair( hunger_string, hunger_color );
 }
 
@@ -3600,6 +3635,27 @@ int Character::get_fatigue() const
 int Character::get_sleep_deprivation() const
 {
     return sleep_deprivation;
+}
+
+std::pair<std::string, nc_color> Character::get_pain_description() const
+{
+    const std::pair<std::string, nc_color> pain = Creature::get_pain_description();
+    nc_color pain_color = pain.second;
+    std::string pain_string;
+    // get pain color
+    if( get_perceived_pain() >= 60 ) {
+        pain_color = c_red;
+    } else if( get_perceived_pain() >= 40 ) {
+        pain_color = c_light_red;
+    }
+    // get pain string
+    if( ( has_trait( trait_SELFAWARE ) || has_effect( effect_got_checked ) ) &&
+        get_perceived_pain() > 0 ) {
+        pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
+    } else if( get_perceived_pain() > 0 ) {
+        pain_string = pain.first;
+    }
+    return std::make_pair( pain_string, pain_color );
 }
 
 bool Character::is_deaf() const
@@ -3948,6 +4004,7 @@ void Character::update_needs( int rate_multiplier )
                 // 5. If rate_multiplier is > 1, fatigue_roll will be higher and this will work out.
                 mod_sleep_deprivation( fatigue_roll * 5 );
             }
+
 
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
@@ -5373,7 +5430,7 @@ nc_color Character::symbol_color() const
 bool Character::is_immune_field( const field_type_id &fid ) const
 {
     // Obviously this makes us invincible
-    if( has_trait( trait_DEBUG_NODMG ) ) {
+    if( has_trait( debug_nodmg ) ) {
         return true;
     }
     // Check to see if we are immune
@@ -7453,7 +7510,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
                  m_info );
     }
 
-    return armor.mod_damage( armor.has_flag( flag_FRAGILE ) ?
+    return armor.mod_damage( armor.has_flag( "FRAGILE" ) ?
                              rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
 }
 
@@ -7751,8 +7808,8 @@ void Character::rooted()
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         g->m.has_flag( flag_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
         if( one_in( 96 ) ) {
-            vitamin_mod( vitamin_iron, 1, true );
-            vitamin_mod( vitamin_calcium, 1, true );
+            vitamin_mod( vitamin_id( "iron" ), 1, true );
+            vitamin_mod( vitamin_id( "calcium" ), 1, true );
         }
         if( get_thirst() <= -2000 && x_in_y( 75, 425 ) ) {
             mod_thirst( -1 );
@@ -8305,26 +8362,26 @@ int Character::bonus_item_warmth( body_part bp ) const
 bool Character::can_use_floor_warmth() const
 {
     return in_sleep_state() ||
-           has_activity( ACT_WAIT ) ||
-           has_activity( ACT_WAIT_NPC ) ||
-           has_activity( ACT_WAIT_STAMINA ) ||
-           has_activity( ACT_AUTODRIVE ) ||
-           has_activity( ACT_READ ) ||
-           has_activity( ACT_SOCIALIZE ) ||
-           has_activity( ACT_MEDITATE ) ||
-           has_activity( ACT_FISH ) ||
-           has_activity( ACT_GAME ) ||
-           has_activity( ACT_HAND_CRANK ) ||
-           has_activity( ACT_HEATING ) ||
-           has_activity( ACT_VIBE ) ||
-           has_activity( ACT_TRY_SLEEP ) ||
-           has_activity( ACT_OPERATION ) ||
-           has_activity( ACT_TREE_COMMUNION ) ||
-           has_activity( ACT_EAT_MENU ) ||
-           has_activity( ACT_CONSUME_FOOD_MENU ) ||
-           has_activity( ACT_CONSUME_DRINK_MENU ) ||
-           has_activity( ACT_CONSUME_MEDS_MENU ) ||
-           has_activity( ACT_STUDY_SPELL );
+           has_activity( activity_id( "ACT_WAIT" ) ) ||
+           has_activity( activity_id( "ACT_WAIT_NPC" ) ) ||
+           has_activity( activity_id( "ACT_WAIT_STAMINA" ) ) ||
+           has_activity( activity_id( "ACT_AUTODRIVE" ) ) ||
+           has_activity( activity_id( "ACT_READ" ) ) ||
+           has_activity( activity_id( "ACT_SOCIALIZE" ) ) ||
+           has_activity( activity_id( "ACT_MEDITATE" ) ) ||
+           has_activity( activity_id( "ACT_FISH" ) ) ||
+           has_activity( activity_id( "ACT_GAME" ) ) ||
+           has_activity( activity_id( "ACT_HAND_CRANK" ) ) ||
+           has_activity( activity_id( "ACT_HEATING" ) ) ||
+           has_activity( activity_id( "ACT_VIBE" ) ) ||
+           has_activity( activity_id( "ACT_TRY_SLEEP" ) ) ||
+           has_activity( activity_id( "ACT_OPERATION" ) ) ||
+           has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ||
+           has_activity( activity_id( "ACT_EAT_MENU" ) ) ||
+           has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ||
+           has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ||
+           has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ||
+           has_activity( activity_id( "ACT_STUDY_SPELL" ) );
 }
 
 int Character::floor_bedding_warmth( const tripoint &pos )
