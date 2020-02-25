@@ -10,12 +10,12 @@
     "encumbrance_text": "Dodging and melee is hampered.",
     "main_part": "chest",
     "opposite_part": "chest",
-    "hit_size": 45,
+    "hit_size": 15,
     "hit_size_relative": [ 20, 33.33, 36.57 ],
     "hit_difficulty": 1,
     "side": "both",
     "legacy_id": "CHEST",
-    "bionic_slots": 80
+    "bionic_slots": 30
   },
   {
     "id": "abdomen",
@@ -28,12 +28,12 @@
     "encumbrance_text": "Dodging and melee is hampered.",
     "main_part": "abdomen",
     "opposite_part": "abdomen",
-    "hit_size": 45,
+    "hit_size": 20,
     "hit_size_relative": [ 20, 33.33, 36.57 ],
     "hit_difficulty": 1,
     "side": "both",
     "legacy_id": "ABDOMEN",
-    "bionic_slots": 80
+    "bionic_slots": 30
   },
   {
     "id": "pelvis",
@@ -46,12 +46,12 @@
     "encumbrance_text": "Dodging and melee is hampered.",
     "main_part": "pelvis",
     "opposite_part": "pelvis",
-    "hit_size": 45,
+    "hit_size": 10,
     "hit_size_relative": [ 20, 33.33, 36.57 ],
     "hit_difficulty": 1,
     "side": "both",
     "legacy_id": "PELVIS",
-    "bionic_slots": 80
+    "bionic_slots": 20
   },
   {
     "id": "head",
