@@ -14,7 +14,7 @@
     "primary_material": "dried_vegetable",
     "symbol": ".",
     "color": "brown",
-    "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED" ]
+    "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "RAW" ]
   },
   {
     "abstract": "seed_fruit",
@@ -115,6 +115,9 @@
     "type": "COMESTIBLE",
     "name": { "str": "grape seeds", "str_pl": "grape seeds" },
     "description": "Some grape seeds.",
+    "quench": -1,
+    "fun": -2,
+    "calories": 20,
     "seed_data": { "plant_name": "grape", "fruit": "grapes", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
@@ -191,8 +194,11 @@
     "copy-from": "seed",
     "price": 50,
     "name": { "str": "cotton seeds", "str_pl": "cotton seeds" },
-    "description": "Some cotton seeds.  Can be processed to produce an edible oil.",
+    "description": "Some cotton seeds.  Can be processed to produce an edible oil.  They contain a toxin that can build up in your system if eaten.",
     "weight": "5 g",
+    "calories": 120,
+    "healthy": -6,
+    "fun": -2,
     "charges": 8,
     "stack_size": 40,
     "seed_data": { "plant_name": "cotton", "fruit": "cotton_boll", "byproducts": [ "withered" ], "grow": "130 days" }
@@ -375,13 +381,12 @@
     "color": "green",
     "use_action": "SEED",
     "quench": -1,
-    "healthy": 1,
-    "calories": 17,
+    "fun": -1,
+    "calories": 20,
     "description": "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
     "price": 100,
     "weight": "2 g",
     "charges": 2,
-    "flags": [ "RAW" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "91 days" }
   },
   {
@@ -473,7 +478,10 @@
     "copy-from": "seed",
     "name": { "str": "canola seeds", "str_pl": "canola seeds" },
     "color": "green",
-    "description": "Some canola seeds.  You could press them into oil.",
+    "calories": 30,
+    "healthy": -3,
+    "fun": -2,
+    "description": "Some canola seeds.  You could press them into oil.  They are mildly toxic otherwise.",
     "charges": 2,
     "seed_data": { "plant_name": "canola", "fruit": "seed_canola", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -485,7 +493,8 @@
     "weight": "2 g",
     "color": "green",
     "use_action": "SEED",
-    "calories": 17,
+    "calories": 30,
+    "fun": -1,
     "description": "Some raw pumpkin seeds.  Could be fried and eaten.",
     "price": 100,
     "charges": 2,
@@ -499,7 +508,7 @@
     "weight": "2 g",
     "color": "green",
     "use_action": "SEED",
-    "calories": 17,
+    "calories": 60,
     "description": "Some raw sunflower seeds.  Could be pressed into oil.",
     "price": 100,
     "charges": 2,
