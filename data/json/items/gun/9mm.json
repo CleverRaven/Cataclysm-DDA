@@ -631,7 +631,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": "M17",
+    "name": { "str": "M17" },
     "description": "The M17 is a semi-automatic, short recoil operated pistol derived from the SIG Sauer P320.",
     "weight": "840 g",
     "volume": "500 ml",
