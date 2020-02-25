@@ -52,13 +52,13 @@ bool monster::wander()
 bool monster::is_immune_field( const field_type_id &fid ) const
 {
     if( fid == fd_fungal_haze ) {
-        return has_flag( MF_NO_BREATHE ) || type->in_species( species_FUNGUS );
+        return has_flag( MF_NO_BREATHE ) || type->in_species( FUNGUS );
     }
     if( fid == fd_fungicidal_gas ) {
-        return !type->in_species( species_FUNGUS );
+        return !type->in_species( FUNGUS );
     }
     if( fid == fd_insecticidal_gas ) {
-        return !type->in_species( species_INSECT ) && !type->in_species( species_SPIDER );
+        return !type->in_species( INSECT ) && !type->in_species( SPIDER );
     }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
@@ -89,10 +89,10 @@ bool monster::will_move_to( const tripoint &p ) const
 {
     if( g->m.impassable( p ) ) {
         if( digging() ) {
-            if( !g->m.has_flag( flag_BURROWABLE, p ) ) {
+            if( !g->m.has_flag( "BURROWABLE", p ) ) {
                 return false;
             }
-        } else if( !( can_climb() && g->m.has_flag( flag_CLIMBABLE, p ) ) ) {
+        } else if( !( can_climb() && g->m.has_flag( "CLIMBABLE", p ) ) ) {
             return false;
         }
     }
@@ -101,11 +101,11 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( digs() && !g->m.has_flag( flag_DIGGABLE, p ) && !g->m.has_flag( flag_BURROWABLE, p ) ) {
+    if( digs() && !g->m.has_flag( "DIGGABLE", p ) && !g->m.has_flag( "BURROWABLE", p ) ) {
         return false;
     }
 
-    if( has_flag( MF_AQUATIC ) && !g->m.has_flag( flag_SWIMMABLE, p ) ) {
+    if( has_flag( MF_AQUATIC ) && !g->m.has_flag( "SWIMMABLE", p ) ) {
         return false;
     }
 
@@ -163,7 +163,7 @@ bool monster::will_move_to( const tripoint &p ) const
         // Some things are only avoided if we're not attacking
         if( attitude( &g->u ) != MATT_ATTACK ) {
             // Sharp terrain is ignored while attacking
-            if( avoid_simple && g->m.has_flag( flag_SHARP, p ) &&
+            if( avoid_simple && g->m.has_flag( "SHARP", p ) &&
                 !( type->size == MS_TINY || flies() ) ) {
                 return false;
             }
@@ -462,7 +462,7 @@ void monster::plan()
             friendly = 100;
             for( auto critter : g->m.get_creatures_in_radius( pos(), 6 ) ) {
                 monster *mon = dynamic_cast<monster *>( critter );
-                if( mon != nullptr && mon->type->in_species( species_ZOMBIE ) ) {
+                if( mon != nullptr && mon->type->in_species( ZOMBIE ) ) {
                     anger = 100;
                 } else {
                     anger = 0;
@@ -546,19 +546,14 @@ static float get_stagger_adjust( const tripoint &source, const tripoint &destina
     return std::max( 0.01f, initial_dist - new_dist );
 }
 
-/**
- * Returns true if the given square presents a possibility of drowning for the monster: it's deep water, it's liquid,
- * the monster can drown, and there is no boardable vehicle part present.
- */
-bool monster::is_aquatic_danger( const tripoint &at_pos )
-{
-    return g->m.has_flag_ter( TFLAG_DEEP_WATER, at_pos ) && g->m.has_flag( flag_LIQUID, at_pos ) &&
-           can_drown() && !g->m.veh_at( at_pos ).part_with_feature( flag_BOARDABLE, false );
-}
-
 bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
 {
-    if( is_aquatic_danger( at_pos ) && one_in( chance ) ) {
+    if( g->m.has_flag( "LIQUID", at_pos ) && can_drown() && one_in( chance ) ) {
+        // if there's a vehicle here with a boardable part, the monster is on it
+        // and not drowning
+        if( g->m.veh_at( at_pos ).part_with_feature( "BOARDABLE", false ) ) {
+            return false;
+        }
         die( nullptr );
         if( g->u.sees( at_pos ) ) {
             add_msg( _( "The %s drowns!" ), name() );
@@ -581,7 +576,6 @@ void monster::move()
     if( wandf > 0 ) {
         wandf--;
     }
-
     //Hallucinations have a chance of disappearing each turn
     if( is_hallucination() && one_in( 25 ) ) {
         die( nullptr );
@@ -636,9 +630,7 @@ void monster::move()
         if( !local_attack_data.enabled ) {
             continue;
         }
-
         // Cooldowns are decremented in monster::process_turn
-
         if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
             if( !sp_type.second->call( *this ) ) {
                 continue;
@@ -652,7 +644,6 @@ void monster::move()
             reset_special( special_name );
         }
     }
-
     // Check if they're dragging a foe and find their hapless victim
     player *dragged_foe = find_dragged_foe();
 
@@ -667,9 +658,11 @@ void monster::move()
         }
     }
 
-    // if the monster is in a deep water tile, it has a chance to drown
-    if( die_if_drowning( pos(), 10 ) ) {
-        return;
+    // The monster is in a deep water tile and has a chance to drown
+    if( g->m.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ) {
+        if( die_if_drowning( pos(), 10 ) ) {
+            return;
+        }
     }
 
     if( moves < 0 ) {
@@ -697,7 +690,7 @@ void monster::move()
 
     // don't move if a passenger in a moving vehicle
     auto vp = g->m.veh_at( pos() );
-    bool harness_part = static_cast<bool>( g->m.veh_at( pos() ).part_with_feature( flag_ANIMAL_CTRL,
+    bool harness_part = static_cast<bool>( g->m.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
                                            true ) );
     if( vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
         moves = 0;
@@ -1135,40 +1128,40 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     const int source_cost = g->m.move_cost( f );
     const int dest_cost = g->m.move_cost( t );
     // Digging and flying monsters ignore terrain cost
-    if( flies() || ( digging() && g->m.has_flag( flag_DIGGABLE, t ) ) ) {
+    if( flies() || ( digging() && g->m.has_flag( "DIGGABLE", t ) ) ) {
         movecost = 100;
         // Swimming monsters move super fast in water
     } else if( swims() ) {
-        if( g->m.has_flag( flag_SWIMMABLE, f ) ) {
+        if( g->m.has_flag( "SWIMMABLE", f ) ) {
             movecost += 25;
         } else {
             movecost += 50 * g->m.move_cost( f );
         }
-        if( g->m.has_flag( flag_SWIMMABLE, t ) ) {
+        if( g->m.has_flag( "SWIMMABLE", t ) ) {
             movecost += 25;
         } else {
             movecost += 50 * g->m.move_cost( t );
         }
     } else if( can_submerge() ) {
         // No-breathe monsters have to walk underwater slowly
-        if( g->m.has_flag( flag_SWIMMABLE, f ) ) {
+        if( g->m.has_flag( "SWIMMABLE", f ) ) {
             movecost += 250;
         } else {
             movecost += 50 * g->m.move_cost( f );
         }
-        if( g->m.has_flag( flag_SWIMMABLE, t ) ) {
+        if( g->m.has_flag( "SWIMMABLE", t ) ) {
             movecost += 250;
         } else {
             movecost += 50 * g->m.move_cost( t );
         }
         movecost /= 2;
     } else if( climbs() ) {
-        if( g->m.has_flag( flag_CLIMBABLE, f ) ) {
+        if( g->m.has_flag( "CLIMBABLE", f ) ) {
             movecost += 150;
         } else {
             movecost += 50 * g->m.move_cost( f );
         }
-        if( g->m.has_flag( flag_CLIMBABLE, t ) ) {
+        if( g->m.has_flag( "CLIMBABLE", t ) ) {
             movecost += 150;
         } else {
             movecost += 50 * g->m.move_cost( t );
@@ -1255,7 +1248,7 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    bool flat_ground = g->m.has_flag( flag_ROAD, p ) || g->m.has_flag( flag_FLAT, p );
+    bool flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
     if( flat_ground ) {
         bool can_bash_ter = g->m.is_bashable_ter( p );
         bool try_bash_ter = one_in( 50 );
@@ -1415,14 +1408,14 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
 
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = g->critter_at( destination, is_hallucination() );
-    if( g->m.has_flag( flag_CLIMBABLE, destination ) ) {
+    if( g->m.has_flag( "CLIMBABLE", destination ) ) {
         if( g->m.impassable( destination ) && critter == nullptr ) {
             if( flies() ) {
                 moves -= 100;
                 force = true;
                 if( g->u.sees( *this ) ) {
                     add_msg( _( "The %1$s flies over the %2$s." ), name(),
-                             g->m.has_flag_furn( flag_CLIMBABLE, p ) ? g->m.furnname( p ) :
+                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
                              g->m.tername( p ) );
                 }
             } else if( climbs() ) {
@@ -1430,7 +1423,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                 force = true;
                 if( g->u.sees( *this ) ) {
                     add_msg( _( "The %1$s climbs over the %2$s." ), name(),
-                             g->m.has_flag_furn( flag_CLIMBABLE, p ) ? g->m.furnname( p ) :
+                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
                              g->m.tername( p ) );
                 }
             }
@@ -1498,17 +1491,15 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     if( type->size != MS_TINY && on_ground ) {
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
-        if( g->m.has_flag( flag_SHARP, pos() ) && !one_in( 4 ) &&
-            get_armor_cut( bp_torso ) < sharp_damage ) {
+        if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) && get_armor_cut( bp_torso ) < sharp_damage ) {
             apply_damage( nullptr, bp_torso, sharp_damage );
         }
-        if( g->m.has_flag( flag_ROUGH, pos() ) && one_in( 6 ) &&
-            get_armor_cut( bp_torso ) < rough_damage ) {
+        if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) && get_armor_cut( bp_torso ) < rough_damage ) {
             apply_damage( nullptr, bp_torso, rough_damage );
         }
     }
 
-    if( g->m.has_flag( flag_UNSTABLE, destination ) && on_ground ) {
+    if( g->m.has_flag( "UNSTABLE", destination ) && on_ground ) {
         add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
@@ -1525,10 +1516,10 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         return true;
     }
     if( !will_be_water && ( digs() || can_dig() ) ) {
-        underwater = g->m.has_flag( flag_DIGGABLE, pos() );
+        underwater = g->m.has_flag( "DIGGABLE", pos() );
     }
     // Diggers turn the dirt into dirtmound
-    if( digging() && g->m.has_flag( flag_DIGGABLE, pos() ) ) {
+    if( digging() && g->m.has_flag( "DIGGABLE", pos() ) ) {
         int factor = 0;
         switch( type->size ) {
             case MS_TINY:
@@ -1821,12 +1812,14 @@ void monster::knock_back_to( const tripoint &to )
     }
 
     // If we're still in the function at this point, we're actually moving a tile!
-    // die_if_drowning will kill the monster if necessary, but if the deep water
-    // tile is on a vehicle, we should check for swimmers out of water
-    if( !die_if_drowning( to ) && has_flag( MF_AQUATIC ) ) {
-        die( nullptr );
-        if( u_see ) {
-            add_msg( _( "The %s flops around and dies!" ), name() );
+    if( g->m.has_flag_ter( TFLAG_DEEP_WATER, to ) ) {
+        // die_if_drowning will kill the monster if necessary, but if the deep water
+        // tile is on a vehicle, we should check for swimmers out of water
+        if( !die_if_drowning( to ) && has_flag( MF_AQUATIC ) ) {
+            die( nullptr );
+            if( u_see ) {
+                add_msg( _( "The %s flops around and dies!" ), name() );
+            }
         }
     }
 
