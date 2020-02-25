@@ -9419,8 +9419,6 @@ bool item::has_infinite_charges() const
 skill_id item::contextualize_skill( const skill_id &id ) const
 {
     if( id->is_contextual_skill() ) {
-
-
         if( id == weapon_skill ) {
             if( is_gun() ) {
                 return gun_skill();
