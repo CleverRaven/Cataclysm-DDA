@@ -417,7 +417,7 @@
     "type": "AMMO",
     "id": "66mm_HEAT",
     "price": 0,
-    "name": "66mm HEAT",
+    "name": { "str": "66mm HEAT" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A 60mm high-explosive anti-tank round.  It could blow through up to two feet of concrete.",
