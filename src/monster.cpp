@@ -363,11 +363,9 @@ void monster::try_reproduce()
 void monster::refill_udders()
 {
     if( type->starting_ammo.empty() ) {
-        std::cout << "starting ammo empty" << std::endl;
         debugmsg( "monster %s has no starting ammo to refill udders", get_name() );
         return;
     }
-    std::cout << "refill udders started for " << get_name() << std::endl;
     if( ammo.empty() ) {
         // legacy animals got empty ammo map, fill them up now if needed.
         ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
