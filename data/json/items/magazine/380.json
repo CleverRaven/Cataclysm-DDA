@@ -37,7 +37,7 @@
     "id": "rugerlcpmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Ruger LCP magazine",
+    "name": { "str": "Ruger LCP magazine" },
     "description": "A standard 6-round capacity magazine for the Ruger LCP pistol.",
     "weight": "65 g",
     "volume": "60ml",
