@@ -1,18 +1,11 @@
 #pragma once
 #ifndef ADVANCED_INV_LISTITEM_H
 #define ADVANCED_INV_LISTITEM_H
-#include "cursesdef.h"
-#include "units.h"
-#include "advanced_inv_area.h"
-#include "color.h"
-#include "player.h"
 
-#include <array>
-#include <functional>
+#include "advanced_inv_area.h"
+
 #include <list>
 #include <string>
-#include <vector>
-#include <utility>
 
 // see item_factory.h
 class item_category;
