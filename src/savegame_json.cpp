@@ -1931,7 +1931,7 @@ void monster::load( const JsonObject &data )
     data.read( "dragged_foe_id", dragged_foe_id );
 
     if( data.has_int( "ammo" ) && !type->starting_ammo.empty() ) {
-        // Legacy loading for ammo.z
+        // Legacy loading for ammo.
         normalize_ammo( data.get_int( "ammo" ) );
     } else {
         data.read( "ammo", ammo );
