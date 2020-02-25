@@ -5419,7 +5419,14 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "stomach", 1 ], [ "stomach_large", 1 ], [ "hstomach", 1 ], [ "hstomach_large", 1 ], [ "demihuman_stomach", 1 ], [ "demihuman_stomach_large", 1 ] ],
+      [
+        [ "stomach", 1 ],
+        [ "stomach_large", 1 ],
+        [ "hstomach", 1 ],
+        [ "hstomach_large", 1 ],
+        [ "demihuman_stomach", 1 ],
+        [ "demihuman_stomach_large", 1 ]
+      ],
       [ [ "offal", 1 ], [ "liver", 2 ], [ "lung", 2 ], [ "kidney", 2 ] ],
       [ [ "oatmeal", 2 ], [ "buckwheat", 1 ] ]
     ]
@@ -5442,7 +5449,14 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "stomach", 2 ], [ "stomach_large", 1 ], [ "hstomach", 2 ], [ "hstomach_large", 1 ], [ "demihuman_stomach", 2 ], [ "demihuman_stomach_large", 1 ] ],
+      [
+        [ "stomach", 2 ],
+        [ "stomach_large", 1 ],
+        [ "hstomach", 2 ],
+        [ "hstomach_large", 1 ],
+        [ "demihuman_stomach", 2 ],
+        [ "demihuman_stomach_large", 1 ]
+      ],
       [ [ "offal", 2 ], [ "liver", 4 ], [ "lung", 4 ], [ "kidney", 4 ] ],
       [ [ "oatmeal", 4 ], [ "buckwheat", 1 ] ]
     ]
