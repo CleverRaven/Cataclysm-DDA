@@ -281,26 +281,20 @@ std::map<item *, const tripoint> monster::find_loot_in_radius( const tripoint &t
 {
     const bool steals_food = has_flag( MF_STEALS_FOOD );
     const bool steals_shiny = has_flag( MF_STEALS_SHINY );
-    bool suitable = false;
     std::map<item *, const tripoint> lootable;
 
-    //Check all tiles nearby within radius
     for( const tripoint &p : g->m.points_in_radius( target, radius ) ) {
-        //Check if we can see some items on the tile
         if( g->m.sees_some_items( p, *this ) ) {
-            //A candidate tile with some items!
             auto items = g->m.i_at( p );
-            //Check all items on tile
+
             for( item &itm : items ) {
-                suitable = false;
+                bool suitable = false;
 
                 //Does monster try to steal food and is it actually food?
-                if( steals_food && itm.is_comestible() && itm.get_comestible()->comesttype == "FOOD" ) {
-                    if( !itm.rotten() ) {
-                        suitable = true;
-                    }
+                if( steals_food && itm.is_comestible() && itm.get_comestible()->comesttype == "FOOD" &&
+                    !itm.rotten() ) {
 
-                    //TODO: Sanity checks here on what we're trying to loot.
+                    suitable = true;
                 }
 
                 //Does monster steal shiny items?
@@ -314,7 +308,6 @@ std::map<item *, const tripoint> monster::find_loot_in_radius( const tripoint &t
 
                     suitable = true;
                 }
-
 
                 if( suitable ) {
                     lootable.insert( std::make_pair( &itm, p ) );
@@ -332,16 +325,17 @@ bool monster::eat_from_inventory()
     for( item &itm : inv ) {
         //Is food?
         if( itm.is_comestible() && itm.get_comestible()->comesttype == "FOOD" ) {
+            if( g->u.sees( *this ) ) {
+                add_msg( m_warning, _( "%1$s eats some of %2$s!" ), name(), itm.display_name() );
+            }
+
             if( itm.charges > 1 ) {
                 itm.mod_charges( -1 );
+            } else {
+                //Remove item
+                inv.erase( it );
             }
 
-            if( g->u.sees( *this ) ) {
-                add_msg( m_warning, "%1$s eats some of %2$s!", name(), itm.display_name() );
-            }
-
-            //Remove item
-            inv.erase( it );
             mod_moves( -50 );
             return true;
         }
@@ -372,12 +366,9 @@ item_location monster::select_desired_loot( std::map<item *, const tripoint> &lo
 
         //Closest is preferable here...
         if( d < desired_range ) {
-            //Ensure that can also see the target...
-            if( sees( p ) ) {
-                desired_i = i;
-                desired_p = p;
-                desired_range = d;
-            }
+            desired_i = i;
+            desired_p = p;
+            desired_range = d;
         }
     }
 
@@ -472,10 +463,9 @@ void monster::plan()
 
             if( !lootable_items.empty() ) {
                 item_goal = select_desired_loot( lootable_items );
-
-
                 set_dest( item_goal.position() );
                 add_effect( effect_looting, 50_turns );
+
             }
         } //Monster has something in inventory, will steal and with some luck...
         else if( will_steal && !inv.empty() && one_in( 500 ) ) {
@@ -1529,68 +1519,65 @@ bool monster::attack_at( const tripoint &p )
 
 bool monster::pickup_at( const tripoint &p, item_location &target )
 {
-    //If called through normal pathfinding, then clear looting effect
-    if( p == goal ) {
-        remove_effect( effect_looting );
-
-    }
-
-    //Item has moved...
-    if( p != target.position() ) {
+    if( p != goal && has_effect( effect_looting ) ) {
         return false;
     }
 
-    inv.push_back( *target );
-    item *stored_item = &inv.back();
+    if( target.get_item() == nullptr ) {
+        return false;
+    }
+
+    int charges_to_pick = target->charges;
+
+    if( charges_to_pick <= 0 ) {
+        return false;
+    }
+
+    int charges_picked;
 
     //Get weight of the stack or item
     units::mass weight = target->weight();
     units::mass capacity = this->weight_capacity();
 
-    int amount_taken = 1;
+    //Adjust volume and weight for units in a stack
+    units::mass weight_each = weight / charges_to_pick;
+    charges_picked = std::min( target->charges, ( int )( capacity / weight_each ) );
 
-    int charges = target->charges;
+    //Caps the amount taken to avoid taking large stacks.
+    charges_picked = std::min( charges_picked, 2 );
+    if( charges_picked > 2 ) {
+        charges_picked = 2;
+    }
 
-    if( charges >= 1 ) {
-        //Adjust volume and weight for units in a stack
-        units::mass weigh_each = weight / charges;
-        amount_taken = charges + ( weigh_each / capacity );
+    //Add item to inventory and adjust charges
+    inv.push_back( *target );
+    target->mod_charges( -charges_picked );
+    inv.back().charges = charges_picked;
 
-        //Caps the amount taken to avoid taking large stacks.
-        amount_taken = std::min( amount_taken, 2 );
-        if( amount_taken > 2 ) {
-            amount_taken = 2;
-        }
-
-        target->mod_charges( -amount_taken );
-        inv.back().charges = amount_taken;
-
-        //If we've taken all the stack, let's remove the item
-        if( amount_taken == charges ) {
-            target.remove_item();
-        }
-    } else {
-        //Remove item from ground
+    //If we've taken all the stack, let's remove the item
+    if( charges_picked == charges_to_pick ) {
         target.remove_item();
     }
 
+    //Whether we succeed or not, let's remove the effect.
+    if( has_effect( effect_looting ) ) {
+        remove_effect( effect_looting );
+    }
+
     //Successfully taken any?
-    if( amount_taken >= 1 ) {
+    if( charges_picked >= 1 ) {
         //Notify the player
         if( g->u.sees( *this ) ) {
-            add_msg( m_warning, "%1$s grabs %2$s!", name(), stored_item->display_name() );
+            add_msg( m_warning, _( "%1$s grabs %2$s!" ), name(), inv.back().display_name() );
         }
-
 
         mod_moves( -100 );
         return true;
-    } else {
-        //Failed to take any items, so remove the last item added to inventory.
-        inv.pop_back();
     }
 
-
-    add_msg( m_warning, "%1$s fails to grab %2$s!", name(), target->display_name() );
+    //Failed to take any items, so remove the last item added to inventory.
+    inv.pop_back();
+    add_msg( m_warning, _( "%1$s fails to grab %2$s!" ), name(), target->display_name() );
     return false;
 }
 

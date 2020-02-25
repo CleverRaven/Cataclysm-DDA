@@ -2226,15 +2226,11 @@ void monster::drop_items_on_death()
         return;
     }
 
-    if( type->death_drops.empty() && inv.empty() ) {
+    if( type->death_drops.empty() ) {
         return;
     }
 
-    std::vector<item> items;
-
-    if( !type->death_drops.empty() ) {
-        items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm );
-    }
+    std::vector<item> items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm );
 
     // This block removes some items, according to item spawn scaling factor
     const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
@@ -2252,15 +2248,6 @@ void monster::drop_items_on_death()
         }
         items = remaining;
     }
-
-    // Adds all items in the monsters inventory to be dropped.
-    // TODO: Apply random damage to items ? Modify them in some way ?
-    items.insert(items.end(), inv.begin(), inv.end());
-        for( const item &itm : inv ) {
-            items.push_back( itm );
-        }
-
-    inv.clear();
 
     const auto dropped = g->m.spawn_items( pos(), items );
 
