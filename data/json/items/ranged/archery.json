@@ -255,7 +255,7 @@
     "type": "AMMO",
     "id": "arrow_cf",
     "price": 2000,
-    "name": "carbon fiber hunting arrow",
+    "name": { "str": "carbon fiber hunting arrow" },
     "symbol": "=",
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
