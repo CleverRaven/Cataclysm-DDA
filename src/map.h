@@ -32,7 +32,6 @@
 #include "point.h"
 #include "mapdata.h"
 #include "vehicle_group.h"
-#include "player.h"
 
 struct furn_t;
 struct ter_t;
@@ -336,9 +335,7 @@ class map
                      bool low_light = false, bool bright_light = false,
                      bool inorder = false ) const;
         void drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                     bool invert = false, bool show_items = true ) const {
-            drawsq( w, u, p, invert, show_items, u.pos() + u.view_offset, false, false, false );
-        }
+                     bool invert = false, bool show_items = true ) const;
 
         /**
          * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.

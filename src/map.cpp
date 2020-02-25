@@ -5599,6 +5599,12 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     }
 }
 
+void map::drawsq( const catacurses::window &w, player &u, const tripoint &p,
+                  bool invert, bool show_items ) const
+{
+    drawsq( w, u, p, invert, show_items, u.pos() + u.view_offset, false, false, false );
+}
+
 void map::drawsq( const catacurses::window &w, player &u, const tripoint &p, const bool invert_arg,
                   const bool show_items_arg, const tripoint &view_center,
                   const bool low_light, const bool bright_light, const bool inorder ) const
