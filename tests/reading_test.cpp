@@ -1,10 +1,12 @@
-#include "cata_string_consts.h"
 #include "avatar.h"
+#include "cata_string_consts.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
-#include "morale.h"
 #include "itype.h"
+#include "morale.h"
+#include "player_helpers.h"
+#include "skill.h"
 #include "type_id.h"
 
 TEST_CASE( "identifying unread books", "[reading][book][identify]" )
@@ -36,7 +38,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 
     GIVEN( "a fun book" ) {
         item &book = dummy.i_add( item( "novel_western" ) );
-        REQUIRE( book.type->book != nullptr );
+        REQUIRE( book.type->book );
         REQUIRE( book.type->book->fun > 0 );
         int book_fun = book.type->book->fun;
 
@@ -74,7 +76,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
     GIVEN( "a fun book that is also inspirational" ) {
         item &book = dummy.i_add( item( "holybook_pastafarian" ) );
         REQUIRE( book.has_flag( flag_INSPIRATIONAL ) );
-        REQUIRE( book.type->book != nullptr );
+        REQUIRE( book.type->book );
         REQUIRE( book.type->book->fun > 0 );
         int book_fun = book.type->book->fun;
 
@@ -104,23 +106,41 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
  * time to learn skill from it (both incrementally and a level-up)
  *
  */
+static int read_awhile( avatar &dummy, int turn_interrupt )
+{
+    int turns = 0;
+    while( dummy.activity.id() == activity_id( "ACT_READ" ) ) {
+        if( turns >= turn_interrupt ) {
+            return turns;
+        }
+        ++turns;
+        dummy.moves = 100;
+        dummy.activity.do_turn( dummy );
+    }
+    return turns;
+}
+
 TEST_CASE( "reading a book to learn a skill", "[reading][book][skill][!mayfail]" )
 {
     avatar dummy;
 
     GIVEN( "player has identified a skill book" ) {
         item &book = dummy.i_add( item( "mag_throwing" ) );
-        REQUIRE( book.type->book != nullptr );
+        REQUIRE( book.type->book );
         skill_id skill = book.type->book->skill;
         dummy.do_read( book );
         REQUIRE( dummy.has_identified( book.typeId() ) );
 
         AND_GIVEN( "they have not learned the skill yet" ) {
             REQUIRE( dummy.get_skill_level( skill ) == 0 );
+            REQUIRE( dummy.get_skill_level_object( skill ).can_train() );
 
             WHEN( "they study the book a while" ) {
                 int amount = dummy.time_to_read( book, dummy ); // 384000
-                dummy.do_read( book ); // FIXME: This doesn't read until leveled
+                dummy.read( book ); // read continuously?
+                REQUIRE( dummy.activity );
+                int turns_read = read_awhile( dummy, amount );
+                CHECK( turns_read == 1000 );
 
                 THEN( "their skill should increase" ) {
                     CHECK( dummy.get_skill_level( skill ) == 1 );
@@ -135,12 +155,12 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
     avatar dummy;
 
     // Note: read_speed() returns number of moves;
-    // 60000 == 60 seconds
+    // 6000 == 60 seconds
     WHEN( "player has average intelligence" ) {
         REQUIRE( dummy.get_int() == 8 );
 
         THEN( "reading speed is normal" ) {
-            CHECK( dummy.read_speed() == 60000 );
+            CHECK( dummy.read_speed() == 6000 );
         }
     }
 
@@ -148,13 +168,13 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 
         THEN( "reading speed gets slower as intelligence decreases" ) {
             dummy.int_max = 7;
-            CHECK( dummy.read_speed() == 63000 );
+            CHECK( dummy.read_speed() == 6300 );
             dummy.int_max = 6;
-            CHECK( dummy.read_speed() == 66000 );
+            CHECK( dummy.read_speed() == 6600 );
             dummy.int_max = 5;
-            CHECK( dummy.read_speed() == 69000 );
+            CHECK( dummy.read_speed() == 6900 );
             dummy.int_max = 4;
-            CHECK( dummy.read_speed() == 72000 );
+            CHECK( dummy.read_speed() == 7200 );
         }
     }
 
@@ -162,13 +182,13 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 
         THEN( "reading speed gets faster as intelligence increases" ) {
             dummy.int_max = 9;
-            CHECK( dummy.read_speed() == 57000 );
+            CHECK( dummy.read_speed() == 5700 );
             dummy.int_max = 10;
-            CHECK( dummy.read_speed() == 54000 );
+            CHECK( dummy.read_speed() == 5400 );
             dummy.int_max = 12;
-            CHECK( dummy.read_speed() == 48000 );
+            CHECK( dummy.read_speed() == 4800 );
             dummy.int_max = 14;
-            CHECK( dummy.read_speed() == 42000 );
+            CHECK( dummy.read_speed() == 4200 );
         }
     }
 }
@@ -190,7 +210,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time][!mayfail]
 
     GIVEN( "a book requiring average intelligence" ) {
         item &book = dummy.i_add( item( "black_box_transcript" ) );
-        REQUIRE( book.type->book != nullptr );
+        REQUIRE( book.type->book );
         REQUIRE( book.type->book->intel == 8 );
         book_time = book.type->book->time; // in minutes
 
@@ -228,4 +248,76 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time][!mayfail]
         }
     }
 }
+
+
+TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
+{
+    avatar dummy;
+    std::vector<std::string> reasons;
+    std::vector<std::string> expect_reasons;
+
+    SECTION( "you cannot read what is not readable" ) {
+        item &rag = dummy.i_add( item( "rag" ) );
+
+        dummy.get_book_reader( rag, reasons );
+        expect_reasons = { "Your rag is not good reading material." };
+        CHECK( reasons == expect_reasons );
+    }
+
+    GIVEN( "some known books and enough light to read" ) {
+        item &child = dummy.i_add( item( "child_book" ) );
+        item &western = dummy.i_add( item( "novel_western" ) );
+        item &alpha = dummy.i_add( item( "recipe_alpha" ) );
+
+        dummy.do_read( child );
+        dummy.do_read( western );
+        dummy.do_read( alpha );
+
+        // Atomic lamp to always have sufficient light
+        item &lamp = dummy.i_add( item( "atomic_lamp" ) );
+
+        THEN( "you cannot read while illiterate" ) {
+            dummy.toggle_trait( trait_ILLITERATE );
+            REQUIRE( dummy.has_trait( trait_ILLITERATE ) );
+
+            dummy.get_book_reader( western, reasons );
+            expect_reasons = { "You're illiterate!" };
+            CHECK( reasons == expect_reasons );
+        }
+
+        THEN( "you cannot read while farsighted without reading glasses" ) {
+            dummy.toggle_trait( trait_HYPEROPIC );
+            REQUIRE( dummy.has_trait( trait_HYPEROPIC ) );
+
+            dummy.get_book_reader( western, reasons );
+            expect_reasons = { "Your eyes won't focus without reading glasses." };
+            CHECK( reasons == expect_reasons );
+        }
+
+        THEN( "you cannot read without enough skill to understand the book" ) {
+            dummy.set_skill_level( skill_id( "cooking" ), 7 );
+
+            dummy.get_book_reader( alpha, reasons );
+            expect_reasons = { "cooking 8 needed to understand.  You have 7" };
+            CHECK( reasons == expect_reasons );
+        }
+    }
+}
+
+/*
+ * Other tests to consider:
+ *
+ * - Special reading materials: guide books / maps, magic books, martial arts
+ *
+ * avatar::get_book_reader()
+ * - Reading while driving
+ * - Poor lighting
+ * - Morale too low to read
+ * - NPC reading or listening, for fun or to learn
+ * - NPC reading to deaf player
+ *
+ * in avatar::read()
+ * - Trying to read martial arts books with low stamina
+ *
+ **/
 
