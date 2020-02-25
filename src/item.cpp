@@ -1048,7 +1048,7 @@ bool item::is_owned_by( const Character &c, bool available_to_take ) const
 
 bool item::is_old_owner( const Character &c, bool available_to_take ) const
 {
-    if( old_owner.is_null() ) {
+    if( get_old_owner().is_null() ) {
         return available_to_take;
     }
     if( !c.get_faction() ) {
@@ -1060,11 +1060,11 @@ bool item::is_old_owner( const Character &c, bool available_to_take ) const
 
 std::string item::get_owner_name() const
 {
-    if( !g->faction_manager_ptr->get( owner ) ) {
+    if( !g->faction_manager_ptr->get( get_owner() ) ) {
         debugmsg( "item::get_owner_name() item %s has no valid nor null faction id ", tname() );
         return "no owner";
     }
-    return g->faction_manager_ptr->get( owner )->name;
+    return g->faction_manager_ptr->get( get_owner() )->name;
 }
 
 void item::set_owner( const Character &c )
@@ -1078,12 +1078,24 @@ void item::set_owner( const Character &c )
 
 faction_id item::get_owner() const
 {
+    validate_ownership();
     return owner;
 }
 
 faction_id item::get_old_owner() const
 {
+    validate_ownership();
     return old_owner;
+}
+
+void item::validate_ownership() const
+{
+    if( !old_owner.is_null() && !g->faction_manager_ptr->get( old_owner, false ) ) {
+        remove_old_owner();
+    }
+    if( !owner.is_null() && !g->faction_manager_ptr->get( owner, false ) ) {
+        remove_owner();
+    }
 }
 
 static void insert_separation_line( std::vector<iteminfo> &info )
