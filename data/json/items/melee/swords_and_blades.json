@@ -4,7 +4,7 @@
     "id": "sword_wood",
     "symbol": "!",
     "color": "brown",
-    "name": "2-by-sword",
+    "name": { "str": "2-by-sword" },
     "description": "A two by four with a cross guard and whittled down point; not much for slashing, but much better than your bare hands.",
     "material": "wood",
     "volume": "1250 ml",

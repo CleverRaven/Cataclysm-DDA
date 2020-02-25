@@ -40,7 +40,7 @@
     "id": "ammolink50",
     "copy-from": "ammolink",
     "type": "GENERIC",
-    "name": ".50 ammo belt linkage",
+    "name": { "str": ".50 ammo belt linkage" },
     "use_action": { "type": "ammobelt", "belt": "belt50" }
   }
 ]
