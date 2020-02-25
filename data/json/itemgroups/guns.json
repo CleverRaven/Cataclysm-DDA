@@ -244,8 +244,6 @@
       { "item": "rm51_assault_rifle", "prob": 25, "charges-min": 0, "charges-max": 50 },
       { "item": "rm614_lmg", "prob": 10, "charges-min": 0, "charges-max": 100 },
       { "item": "rm88_battle_rifle", "prob": 25, "charges-min": 0, "charges-max": 50 },
-      { "item": "sig553", "prob": 5, "charges-min": 0, "charges-max": 30 },
-      { "item": "sig550", "prob": 3, "charges-min": 0, "charges-max": 30 },
       { "item": "scar_l", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "scar_h", "prob": 50, "charges-min": 0, "charges-max": 20 },
       { "item": "m110a1", "prob": 50, "charges-min": 0, "charges-max": 20 },
