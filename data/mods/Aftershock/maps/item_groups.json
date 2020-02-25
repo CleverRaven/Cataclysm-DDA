@@ -94,7 +94,8 @@
       [ "afs_bag_of_holding", 1 ],
       [ "afs_atomic_smartphone", 5 ],
       [ "laser_pack", 10 ],
-      [ "ftk93", 5 ]
+      [ "ftk93", 5 ],
+      [ "atomic_butterchurn", 5 ]
     ]
   },
   {
@@ -130,7 +131,7 @@
   {
     "id": "kitchen",
     "type": "item_group",
-    "items": [ [ "afs_atompot", 1 ] ]
+    "items": [ [ "afs_atompot", 1 ], [ "atomic_butterchurn", 1 ] ]
   },
   {
     "id": "oven",
@@ -175,7 +176,7 @@
   {
     "id": "hardware",
     "type": "item_group",
-    "items": [ [ "afs_power_cutter", 5 ] ]
+    "items": [ [ "afs_power_cutter", 5 ], [ "atomic_butterchurn", 1 ] ]
   },
   {
     "id": "hardware_bulk",

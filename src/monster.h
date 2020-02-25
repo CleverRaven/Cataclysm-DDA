@@ -107,6 +107,7 @@ class monster : public Creature
         void try_upgrade( bool pin_time );
         void try_reproduce();
         void try_biosignature();
+        void refill_udders();
         void spawn( const tripoint &p );
         m_size get_size() const override;
         units::mass get_weight() const override;
@@ -548,6 +549,7 @@ class monster : public Creature
         cata::optional<time_point> baby_timer;
         bool biosignatures;
         cata::optional<time_point> biosig_timer;
+        time_point udder_timer;
         monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;

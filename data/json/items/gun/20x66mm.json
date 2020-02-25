@@ -22,7 +22,7 @@
     "dispersion": 285,
     "durability": 9,
     "clip_size": 5,
-    "barrel_length": 3,
+    "barrel_length": "750 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],

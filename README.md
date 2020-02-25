@@ -31,6 +31,12 @@ Ncurses and tiles version available in [official repos](https://src.fedoraprojec
 
 `sudo dnf install cataclysm-dda`
 
+### Debian / Ubuntu
+
+Ncurses and tiles version available in [official repos](https://tracker.debian.org/pkg/cataclysm-dda)
+
+`sudo apt install cataclysm-dda-curses cataclysm-dda-sdl`
+
 ## Compile
 
 Please read [COMPILING.md](doc/COMPILING/COMPILING.md) - it covers general information and more specific recipes for Linux, OS X, Windows and BSD. See [COMPILER_SUPPORT.md](doc/COMPILING/COMPILER_SUPPORT.md) for details on which compilers we support. And you can always dig for more information in [doc/](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc).

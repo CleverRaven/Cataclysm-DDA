@@ -19,7 +19,7 @@
     "dispersion": 180,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -42,8 +42,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "Beretta ARX-160",
-    "name_plural": "Beretta ARX-160",
+    "name": { "str": "Beretta ARX-160", "str_pl": "Beretta ARX-160" },
     "//": "Total unloaded weight of gun 3000 grams.  Current weight of folding stock 200 grams.",
     "description": "The Beretta ARX-160 was a Phase II contender in the United States Army Individual Carbine competition to replace the M4 carbine.  It failed to replace it, but it is widely used by military all around the world.  This version is chambered for 7.62x39mm.",
     "weight": "3450 g",
@@ -59,7 +58,7 @@
     "dispersion": 160,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "default_mods": [ "folding_stock" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -98,7 +97,7 @@
     "dispersion": 90,
     "durability": 8,
     "clip_size": 10,
-    "barrel_length": 2,
+    "barrel_length": "500 ml",
     "built_in_mods": [ "inter_bayonet" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],

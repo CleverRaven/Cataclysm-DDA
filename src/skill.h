@@ -110,7 +110,7 @@ class SkillLevel
 {
         int _level = 0;
         int _exercise = 0;
-        time_point _lastPracticed = calendar::turn_zero;
+        time_point _lastPracticed = calendar::turn;
         bool _isTraining = true;
         int _highestLevel = 0;
 
@@ -150,7 +150,7 @@ class SkillLevel
 
         void train( int amount, bool skip_scaling = false );
         bool isRusting() const;
-        bool rust( bool charged_bio_mem );
+        bool rust( bool charged_bio_mem, int character_rate );
         void practice();
         bool can_train() const;
 
