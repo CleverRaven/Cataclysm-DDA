@@ -2,7 +2,7 @@
   {
     "id": "5x50dart",
     "type": "AMMO",
-    "name": "RA110 5x50mm flechette",
+    "name": { "str": "RA110 5x50mm flechette" },
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator.",
     "weight": "8 g",
     "volume": "250 ml",
@@ -26,7 +26,7 @@
     "id": "5x50heavy",
     "copy-from": "5x50dart",
     "type": "AMMO",
-    "name": "RA119 5x50mm penetrator",
+    "name": { "str": "RA119 5x50mm penetrator" },
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm RA119 penetrator round features a biodegradable sabot and a single, fin-stabilized tungsten alloy projectile.",
     "weight": "9 g",
     "price": 1688,
