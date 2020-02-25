@@ -9166,14 +9166,10 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             return 0;
         }
         const std::function<bool( const tripoint & )> adjacent_capturable = []( const tripoint & pnt ) {
-            monster *mon_ptr = g->critter_at<monster>( pnt );
-            if( mon_ptr == nullptr ) {
-                return false;
-            }
-            monster &f = *mon_ptr;
-            return ( f.get_size() <= Creature::size_map.find( capacity )->second ) );
+            const monster *mon_ptr = g->critter_at<monster>( pnt );
+            return mon_ptr != nullptr;
         };
-        const std::string query = string_format( _( "Capture what with the %s?" ), it->tname() );
+        const std::string query = string_format( _( "Grab which creature to place in the %s?" ), it->tname() );
         const cata::optional<tripoint> target_ = choose_adjacent_highlight( query,
             _( "There is no creature nearby you can capture." ), adjacent_capturable, false );
         if( !target_ ) {
@@ -9182,7 +9178,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         }
         const tripoint target = *target_;
 
-        // Capture the thing, if it's on the same square.
+        // Capture the thing, if it's on the target square.
         if( const monster *const mon_ptr = g->critter_at<monster>( target ) ) {
             const monster &f = *mon_ptr;
 
