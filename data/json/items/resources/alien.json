@@ -17,7 +17,7 @@
     "id": "alien_pod_resin",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": "alien resin pod",
+    "name": { "str": "alien resin pod" },
     "description": "This is a large pod, the size of a keg, filled with gooey alien resin.  Squeezing it firmly causes resin to squirt from the broken stalk at the end, hardening within a few seconds of being exposed to the air.",
     "weight": "70000 g",
     "volume": "22000 ml",

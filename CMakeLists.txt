@@ -221,12 +221,18 @@ IF(MSVC)
 ELSE()
     SET(CATA_WARNINGS
       "-Werror -Wall -Wextra \
+       -Wformat-signedness \
+       -Wlogical-op \
        -Wmissing-declarations \
        -Wmissing-noreturn \
+       -Wnon-virtual-dtor \
        -Wold-style-cast \
        -Woverloaded-virtual \
-       -Wsuggest-override \
        -Wpedantic \
+       -Wredundant-decls \
+       -Wsuggest-override \
+       -Wunused-macros \
+       -Wzero-as-null-pointer-constant \
        -Wno-unknown-warning-option")
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")

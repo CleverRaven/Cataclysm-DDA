@@ -20,8 +20,9 @@
 #include "units.h"
 #include "color.h"
 #include "optional.h"
-#include "cata_string_consts.h"
 
+static const std::string part_location_structure( "structure" );
+static const itype_id fuel_type_muscle( "muscle" );
 
 std::string vehicle::disp_name() const
 {
@@ -170,7 +171,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
             }
         }
 
-        if( part_flag( pl[i], flag_CARGO ) ) {
+        if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
             partname += string_format( _( " (vol: %s/%s %s)" ),
                                        format_volume( stored_volume( pl[i] ) ),
@@ -178,7 +179,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
                                        volume_units_abbr() );
         }
 
-        bool armor = part_flag( pl[i], flag_ARMOR );
+        bool armor = part_flag( pl[i], "ARMOR" );
         std::string left_sym;
         std::string right_sym;
         if( armor ) {

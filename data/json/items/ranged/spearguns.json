@@ -24,7 +24,7 @@
     "type": "AMMO",
     "id": "c_fishspear",
     "price": 32000,
-    "name": "carbon fiber fishing spear",
+    "name": { "str": "carbon fiber fishing spear" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "An underwater fishing spear made from carbon fiber.  It's very light, but doesn't have much range.  Stands a bad chance of remaining intact once fired.",

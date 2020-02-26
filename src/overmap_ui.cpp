@@ -478,7 +478,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     // Whether showing hordes is currently enabled
     const bool showhordes = uistate.overmap_show_hordes;
 
-    const oter_id forest = oter_forest.id();
+    const oter_id forest = oter_str_id( "forest" ).id();
 
     std::string sZoneName;
     tripoint tripointZone = tripoint( -1, -1, -1 );
@@ -1477,7 +1477,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             } else {
                 const oter_id oter = overmap_buffer.ter( curs );
                 // going to or coming from a water tile
-                if( is_river_or_lake( oter ) || g->m.has_flag( flag_SWIMMABLE, g->u.pos() ) ) {
+                if( is_river_or_lake( oter ) || g->m.has_flag( "SWIMMABLE", g->u.pos() ) ) {
                     ptype.amphibious = true;
                 }
             }

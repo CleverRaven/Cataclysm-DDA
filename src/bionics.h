@@ -21,6 +21,8 @@ class player;
 class JsonObject;
 class JsonIn;
 class JsonOut;
+using itype_id = std::string;
+
 struct bionic_data {
     bionic_data();
 

@@ -120,6 +120,7 @@ construction_id construction_menu( bool blueprint );
 void complete_construction( player *p );
 bool can_construct( const construction &con, const tripoint &p );
 bool player_can_build( player &p, const inventory &inv, const construction &con );
+bool player_can_see_to_build( player &p, const std::string &desc );
 void check_constructions();
 void finalize_constructions();
 

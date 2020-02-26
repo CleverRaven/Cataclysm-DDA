@@ -12,7 +12,6 @@
 #include "profession.h"
 #include "translations.h"
 #include "rng.h"
-#include "cata_string_consts.h"
 
 namespace
 {
@@ -301,11 +300,11 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
         const bool present = std::find( professions.begin(), professions.end(),
                                         p.ident() ) != professions.end();
         if( blacklist || professions.empty() ) {
-            if( !present && !p.has_flag( flag_SCEN_ONLY ) ) {
+            if( !present && !p.has_flag( "SCEN_ONLY" ) ) {
                 res.push_back( p.ident() );
             }
         } else if( extra_professions ) {
-            if( present || !p.has_flag( flag_SCEN_ONLY ) ) {
+            if( present || !p.has_flag( "SCEN_ONLY" ) ) {
                 res.push_back( p.ident() );
             }
         } else if( present ) {

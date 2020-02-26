@@ -6,7 +6,7 @@
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
-    "name": "BB gun",
+    "name": { "str": "BB gun" },
     "description": "Popular among children.  It's fairly accurate, but BBs deal nearly no damage.",
     "price": 8000,
     "//": "You could get a Red Ryder at walmart for $32, but you'd shoot your eye out x_-",

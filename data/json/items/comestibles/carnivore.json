@@ -747,7 +747,7 @@
     "type": "COMESTIBLE",
     "id": "tallow_tainted",
     "name": { "str": "tainted tallow", "str_pl": "blocks of tainted tallow" },
-    "category": "other",
+    "category": "chems",
     "weight": "128 g",
     "color": "light_gray",
     "use_action": "POISON",

@@ -690,10 +690,15 @@ construction_id construction_menu( const bool blueprint )
             }
             if( !blueprint ) {
                 if( player_can_build( g->u, total_inv, constructs[select] ) ) {
-                    place_construction( constructs[select] );
-                    uistate.last_construction = constructs[select];
+                    if( !player_can_see_to_build( g->u, constructs[select] ) ) {
+                        add_msg( m_info, _( "It is too dark to construct right now." ) );
+                    } else {
+                        place_construction( constructs[select] );
+                        uistate.last_construction = constructs[select];
+                    }
                     exit = true;
                 } else {
+                    popup( _( "You can't build that!" ) );
                     draw_grid( w_con, w_list_width + w_list_x0 );
                     update_info = true;
                 }
@@ -733,7 +738,6 @@ bool player_can_build( player &p, const inventory &inv, const std::string &desc 
 
 bool player_can_build( player &p, const inventory &inv, const construction &con )
 {
-
     if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
@@ -742,14 +746,21 @@ bool player_can_build( player &p, const inventory &inv, const construction &con 
         return false;
     }
 
-    const bool can_build = con.requirements->can_make_with_inventory( inv, is_crafting_component );
-    if( !can_build ) {
-        popup( _( "You can't build that!" ) );
-    } else if( g->u.fine_detail_vision_mod() > 4 && !con.dark_craftable ) {
-        popup( _( "It is too dark to construct right now." ) );
-        return false;
+    return con.requirements->can_make_with_inventory( inv, is_crafting_component );
+}
+
+bool player_can_see_to_build( player &p, const std::string &desc )
+{
+    if( p.fine_detail_vision_mod() < 4 || p.has_trait( trait_DEBUG_HS ) ) {
+        return true;
     }
-    return can_build;
+    std::vector<construction *> cons = constructions_by_desc( desc );
+    for( construction *&con : cons ) {
+        if( con->dark_craftable ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool can_construct( const std::string &desc )
@@ -1066,7 +1077,7 @@ void construct::done_grave( const tripoint &p )
                 g->u.getID(), it.get_mtype()->id, it.get_corpse_name() );
         }
     }
-    if( g->u.has_quality( quality_CUT ) ) {
+    if( g->u.has_quality( qual_CUT ) ) {
         iuse::handle_ground_graffiti( g->u, nullptr, _( "Inscribe something on the grave?" ), p );
     } else {
         add_msg( m_neutral,
@@ -1094,7 +1105,8 @@ static vpart_id vpart_from_item( const std::string &item_id )
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
-    return vpart_frame_vertical_2;
+    static const vpart_id frame_id( "frame_vertical_2" );
+    return frame_id;
 }
 
 void construct::done_vehicle( const tripoint &p )

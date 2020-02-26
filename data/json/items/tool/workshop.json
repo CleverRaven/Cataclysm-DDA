@@ -42,7 +42,7 @@
   {
     "id": "acetylene_machine",
     "type": "TOOL",
-    "name": "acetylene-gas machine",
+    "name": { "str": "acetylene-gas machine" },
     "symbol": "&",
     "color": "light_gray",
     "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",
@@ -56,7 +56,7 @@
   {
     "id": "angle_grinder",
     "type": "TOOL",
-    "name": "angle grinder",
+    "name": { "str": "angle grinder" },
     "description": "This widespread powertool is often used for removing excess material or polishing surfaces.",
     "weight": "2780 g",
     "volume": "1750 ml",
@@ -899,7 +899,7 @@
   {
     "id": "welder",
     "type": "TOOL",
-    "name": "arc welder",
+    "name": { "str": "arc welder" },
     "description": "This is a battery powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.",
     "weight": "4200 g",
     "volume": "2500 ml",

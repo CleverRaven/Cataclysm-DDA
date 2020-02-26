@@ -304,8 +304,8 @@ static void mx_helicopter( map &m, const tripoint &abs_sub )
                                        1 );
 
     const auto controls_at = []( vehicle * wreckage, const tripoint & pos ) {
-        return !wreckage->get_parts_at( pos, flag_CONTROLS, part_status_flag::any ).empty() ||
-               !wreckage->get_parts_at( pos, flag_CTRL_ELECTRONIC, part_status_flag::any ).empty();
+        return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
+               !wreckage->get_parts_at( pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
     };
 
     if( wreckage != nullptr ) {
