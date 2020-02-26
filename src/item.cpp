@@ -1036,7 +1036,7 @@ bool item::is_owned_by( const Character &c, bool available_to_take ) const
     // owner.is_null() implies faction_id( "no_faction" ) which shouldnt happen, or no owner at all.
     // either way, certain situations this means the thing is available to take.
     // in other scenarios we actaully really want to check for id == id, even for no_faction
-    if( owner.is_null() ) {
+    if( get_owner().is_null() ) {
         return available_to_take;
     }
     if( !c.get_faction() ) {
@@ -1048,7 +1048,7 @@ bool item::is_owned_by( const Character &c, bool available_to_take ) const
 
 bool item::is_old_owner( const Character &c, bool available_to_take ) const
 {
-    if( old_owner.is_null() ) {
+    if( get_old_owner().is_null() ) {
         return available_to_take;
     }
     if( !c.get_faction() ) {
@@ -1060,11 +1060,11 @@ bool item::is_old_owner( const Character &c, bool available_to_take ) const
 
 std::string item::get_owner_name() const
 {
-    if( !g->faction_manager_ptr->get( owner ) ) {
+    if( !g->faction_manager_ptr->get( get_owner() ) ) {
         debugmsg( "item::get_owner_name() item %s has no valid nor null faction id ", tname() );
         return "no owner";
     }
-    return g->faction_manager_ptr->get( owner )->name;
+    return g->faction_manager_ptr->get( get_owner() )->name;
 }
 
 void item::set_owner( const Character &c )
@@ -1078,12 +1078,24 @@ void item::set_owner( const Character &c )
 
 faction_id item::get_owner() const
 {
+    validate_ownership();
     return owner;
 }
 
 faction_id item::get_old_owner() const
 {
+    validate_ownership();
     return old_owner;
+}
+
+void item::validate_ownership() const
+{
+    if( !old_owner.is_null() && !g->faction_manager_ptr->get( old_owner, false ) ) {
+        remove_old_owner();
+    }
+    if( !owner.is_null() && !g->faction_manager_ptr->get( owner, false ) ) {
+        remove_owner();
+    }
 }
 
 static void insert_separation_line( std::vector<iteminfo> &info )
@@ -1106,7 +1118,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( idescription != item_vars.end() ) {
             info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
         } else {
-            if( has_flag( flag_MAGIC_FOCUS ) ) {
+            if( has_flag( "MAGIC_FOCUS" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "This item is a <info>magical focus</info>.  "
                                              "You can cast spells with it in your hand." ) ) );
@@ -1438,7 +1450,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( food_item->has_flag( flag_CANNIBALISM ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
-        if( !g->u.has_trait_flag( flag_CANNIBAL ) ) {
+        if( !g->u.has_trait_flag( trait_flag_CANNIBAL ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This food contains <bad>human flesh</bad>." ) );
         } else {
@@ -2556,7 +2568,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 {
     auto name_quality = [&info]( const std::pair<quality_id, int> &q ) {
         std::string str;
-        if( q.first == quality_JACK || q.first == quality_LIFT ) {
+        if( q.first == qual_JACK || q.first == qual_LIFT ) {
             str = string_format( _( "Has level <info>%1$d %2$s</info> quality and "
                                     "is rated at <info>%3$d</info> %4$s" ),
                                  q.second, q.first.obj().name,
@@ -2736,7 +2748,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     if( is_armor() && g->u.has_trait( trait_WOOLALLERGY ) &&
-        ( made_of( material_wool ) || item_tags.count( flag_wooled ) ) ) {
+        ( made_of( material_id( "wool" ) ) || item_tags.count( "wooled" ) ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This clothing will give you an <bad>allergic "
                                      "reaction</bad>." ) ) );
@@ -3460,7 +3472,7 @@ nc_color item::color_in_inventory() const
     } else if( has_flag( flag_LITCIG ) ) {
         ret = c_red;
     } else if( is_armor() && u.has_trait( trait_WOOLALLERGY ) &&
-               ( made_of( material_wool ) || item_tags.count( flag_wooled ) ) ) {
+               ( made_of( material_id( "wool" ) ) || item_tags.count( "wooled" ) ) ) {
         ret = c_red;
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
@@ -5204,7 +5216,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
 
 bool item::is_money() const
 {
-    return ammo_types().count( ammo_money );
+    return ammo_types().count( ammotype( "money" ) );
 }
 
 bool item::count_by_charges() const
@@ -5703,7 +5715,7 @@ bool item::is_gun() const
 
 bool item::is_firearm() const
 {
-    static const std::string primitive_flag( flag_PRIMITIVE_RANGED_WEAPON );
+    static const std::string primitive_flag( "PRIMITIVE_RANGED_WEAPON" );
     return is_gun() && !has_flag( primitive_flag );
 }
 
@@ -6397,7 +6409,7 @@ gun_type_type item::gun_type() const
     // TODO: move to JSON and remove extraction of this from "GUN" (via skill id)
     //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
     if( gun_skill() == skill_archery ) {
-        if( ammo_types().count( ammo_bolt ) || typeId() == "bullet_crossbow" ) {
+        if( ammo_types().count( ammotype( "bolt" ) ) || typeId() == "bullet_crossbow" ) {
             return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
         } else {
             return gun_type_type( translate_marker_context( "gun_type_type", "bow" ) );
@@ -8669,14 +8681,14 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
-                if( corpse->in_species( species_ROBOT ) ) {
+                if( corpse->in_species( ROBOT ) ) {
                     add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
                 } else {
                     add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
                 }
             }
         } else {
-            if( corpse->in_species( species_ROBOT ) ) {
+            if( corpse->in_species( ROBOT ) ) {
                 carrier->add_msg_if_player( m_warning,
                                             _( "Oh dear god, a robot you're carrying has started moving!" ) );
             } else {
@@ -9419,7 +9431,7 @@ bool item::has_infinite_charges() const
 skill_id item::contextualize_skill( const skill_id &id ) const
 {
     if( id->is_contextual_skill() ) {
-        if( id == skill_weapon ) {
+        if( id == weapon_skill ) {
             if( is_gun() ) {
                 return gun_skill();
             } else if( is_melee() ) {

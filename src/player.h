@@ -65,6 +65,7 @@ class JsonOut;
 struct dealt_projectile_attack;
 class dispersion_sources;
 
+using itype_id = std::string;
 using faction_id = string_id<faction>;
 struct trap;
 class profession;
@@ -508,10 +509,6 @@ class player : public Character
         bool eat( item &food, bool force = false );
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
-
-        std::pair<std::string, nc_color> get_hunger_description() const override;
-
-        std::pair<std::string, nc_color> get_pain_description() const override;
 
         int get_lift_assist() const;
 

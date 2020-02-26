@@ -59,7 +59,7 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "Hi, looks like you are building a forage setup.",
+        "text": "Hi, looks like you are building a forge setup.",
         "topic": "TALK_ISHERWOOD_CARLOS_TALK1",
         "effect": { "u_add_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" }
       },

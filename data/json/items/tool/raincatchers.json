@@ -2,7 +2,7 @@
   {
     "id": "birchbark_funnel",
     "type": "TOOL",
-    "name": "birchbark funnel",
+    "name": { "str": "birchbark funnel" },
     "description": "This is a small birchbark funnel.  Place it above an outdoor container to collect rainwater.",
     "weight": "3 g",
     "volume": "250ml",

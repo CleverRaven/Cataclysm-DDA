@@ -1765,7 +1765,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of_any( Creature::cmat_flesh ) ) {
                 dam += 3;
             }
-            if( z.made_of( material_veggy ) ) {
+            if( z.made_of( material_id( "veggy" ) ) ) {
                 dam += 12;
             }
             if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
@@ -1805,7 +1805,7 @@ void map::monster_in_field( monster &z )
                     z.moves -= rng( 10, 20 );
                 }
                 // Plants suffer from smoke even worse
-                if( z.made_of( material_veggy ) ) {
+                if( z.made_of( material_id( "veggy" ) ) ) {
                     z.moves -= rng( 1, cur.get_field_intensity() * 12 );
                 }
             }
@@ -1822,7 +1822,7 @@ void map::monster_in_field( monster &z )
                 } else {
                     z.add_effect( effect_stunned, rng( 1_turns, 5_turns ) );
                 }
-                if( z.made_of( material_veggy ) ) {
+                if( z.made_of( material_id( "veggy" ) ) ) {
                     z.moves -= rng( cur.get_field_intensity() * 5, cur.get_field_intensity() * 12 );
                     dam += cur.get_field_intensity() * rng( 8, 14 );
                 }
@@ -1864,7 +1864,7 @@ void map::monster_in_field( monster &z )
                     z.moves -= rng( 0, 15 );
                     dam += rng( 0, 12 );
                 }
-                if( z.made_of( material_veggy ) ) {
+                if( z.made_of( material_id( "veggy" ) ) ) {
                     z.moves -= rng( cur.get_field_intensity() * 5, cur.get_field_intensity() * 12 );
                     dam *= cur.get_field_intensity();
                 }
@@ -1879,7 +1879,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of_any( Creature::cmat_flesh ) ) {
                 dam += 3;
             }
-            if( z.made_of( material_veggy ) ) {
+            if( z.made_of( material_id( "veggy" ) ) ) {
                 dam += 12;
             }
             if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
@@ -1910,7 +1910,7 @@ void map::monster_in_field( monster &z )
             if( z.made_of_any( Creature::cmat_flesh ) ) {
                 dam += 3;
             }
-            if( z.made_of( material_veggy ) ) {
+            if( z.made_of( material_id( "veggy" ) ) ) {
                 dam += 12;
             }
             if( z.made_of( LIQUID ) || z.made_of_any( Creature::cmat_flammable ) ) {
@@ -1937,7 +1937,7 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_fungal_haze ) {
-            if( !z.type->in_species( species_FUNGUS ) &&
+            if( !z.type->in_species( FUNGUS ) &&
                 !z.type->has_flag( MF_NO_BREATHE ) &&
                 !z.make_fungus() ) {
                 // Don't insta-kill jabberwocks, that's silly
@@ -1947,14 +1947,14 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_fungicidal_gas ) {
-            if( z.type->in_species( species_FUNGUS ) ) {
+            if( z.type->in_species( FUNGUS ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );
             }
         }
         if( cur_field_type == fd_insecticidal_gas ) {
-            if( z.type->in_species( species_INSECT ) || z.type->in_species( species_SPIDER ) ) {
+            if( z.type->in_species( INSECT ) || z.type->in_species( SPIDER ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );

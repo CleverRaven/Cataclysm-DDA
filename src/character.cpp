@@ -68,6 +68,7 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 
+
 // *INDENT-OFF*
 Character::Character() :
 
@@ -183,7 +184,7 @@ field_type_id Character::gibType() const
 
 bool Character::in_species( const species_id &spec ) const
 {
-    return spec == species_HUMAN;
+    return spec == HUMAN;
 }
 
 bool Character::is_warm() const
@@ -231,7 +232,7 @@ std::string Character::disp_name( bool possessive, bool capitalize_first ) const
 {
     if( !possessive ) {
         if( is_player() ) {
-            return pgettext( "not possessive", capitalize_first ? "You" : "you" );
+            return capitalize_first ? _( "You" ) : _( "you" );
         }
         return name;
     } else {
@@ -1939,6 +1940,7 @@ int Character::best_nearby_lifting_assist() const
 
 int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 {
+    const quality_id LIFT( "LIFT" );
     int mech_lift = 0;
     if( is_mounted() ) {
         auto mons = mounted_creature.get();
@@ -1946,9 +1948,9 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
             mech_lift = mons->mech_str_addition() + 10;
         }
     }
-    return std::max( { this->max_quality( quality_LIFT ), mech_lift,
-                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( quality_LIFT ),
-                       vehicle_selector( world_pos, 4, true, true ).max_quality( quality_LIFT )
+    return std::max( { this->max_quality( LIFT ), mech_lift,
+                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
+                       vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
                      } );
 }
 
@@ -2138,8 +2140,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_failure( _( "Putting on a %s would be tricky." ), it.tname() );
     }
 
-    if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_wool ) ||
-                                            it.item_tags.count( flag_wooled ) ) ) {
+    if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_id( "wool" ) ) ||
+                                            it.item_tags.count( "wooled" ) ) ) {
         return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
 
@@ -2158,8 +2160,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( it.covers( bp_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
-            !it.made_of( material_wool ) && !it.made_of( material_cotton ) &&
-            !it.made_of( material_nomex ) && !it.made_of( material_leather ) &&
+            !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
+            !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
               has_trait( trait_ANTLERS ) ) ) {
             return ret_val<bool>::make_failure( _( "Cannot wear a helmet over %s." ),
@@ -2284,7 +2286,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
 ret_val<bool> Character::can_unwield( const item &it ) const
 {
-    if( it.has_flag( flag_NO_UNWIELD ) ) {
+    if( it.has_flag( "NO_UNWIELD" ) ) {
         return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
     }
 
@@ -2619,9 +2621,9 @@ void Character::do_skill_rust()
         SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
-            ( ( has_trait_flag( flag_PRED2 ) && calendar::once_every( 8_hours ) ) ||
-              ( has_trait_flag( flag_PRED3 ) && calendar::once_every( 4_hours ) ) ||
-              ( has_trait_flag( flag_PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
+            ( ( has_trait_flag( "PRED2" ) && calendar::once_every( 8_hours ) ) ||
+              ( has_trait_flag( "PRED3" ) && calendar::once_every( 4_hours ) ) ||
+              ( has_trait_flag( "PRED4" ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
             if( one_in( 13 ) ) {
                 // They've already passed the roll to avoid rust at
@@ -2845,7 +2847,7 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
      * for the purposes of the layer penalty system. (normally an item has a minimum
      * layering_encumbrance of 2 )
      */
-    if( it.has_flag( flag_SEMITANGIBLE ) ) {
+    if( it.has_flag( "SEMITANGIBLE" ) ) {
         encumber_val = 0;
         layering_encumbrance = 0;
     }
@@ -2928,7 +2930,7 @@ bool Character::in_climate_control()
         if( w.active && w.is_power_armor() ) {
             return true;
         }
-        if( worn_with_flag( flag_CLIMATE_CONTROL ) ) {
+        if( worn_with_flag( "CLIMATE_CONTROL" ) ) {
             return true;
         }
     }
@@ -2963,13 +2965,13 @@ int Character::get_wind_resistance( body_part bp ) const
 
     for( auto &i : worn ) {
         if( i.covers( bp ) ) {
-            if( i.made_of( material_leather ) || i.made_of( material_plastic ) ||
-                i.made_of( material_bone ) ||
-                i.made_of( material_chitin ) || i.made_of( material_nomex ) ) {
+            if( i.made_of( material_id( "leather" ) ) || i.made_of( material_id( "plastic" ) ) ||
+                i.made_of( material_id( "bone" ) ) ||
+                i.made_of( material_id( "chitin" ) ) || i.made_of( material_id( "nomex" ) ) ) {
                 penalty = 10; // 90% effective
-            } else if( i.made_of( material_cotton ) ) {
+            } else if( i.made_of( material_id( "cotton" ) ) ) {
                 penalty = 30;
-            } else if( i.made_of( material_wool ) ) {
+            } else if( i.made_of( material_id( "wool" ) ) ) {
                 penalty = 40;
             } else {
                 penalty = 1; // 99% effective
@@ -3502,34 +3504,67 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
-    int hunger = get_hunger();
+    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
+    const units::volume contains = stomach.contains();
+    const units::volume cap = stomach.capacity( *this );
     std::string hunger_string;
     nc_color hunger_color = c_white;
-    if( hunger >= 300 && get_starvation() > 2500 ) {
-        hunger_color = c_red;
-        hunger_string = _( "Starving!" );
-    } else if( hunger >= 300 && get_starvation() > 1100 ) {
-        hunger_color = c_light_red;
-        hunger_string = _( "Near starving" );
-    } else if( hunger > 250 ) {
-        hunger_color = c_light_red;
-        hunger_string = _( "Famished" );
-    } else if( hunger > 100 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Very hungry" );
-    } else if( hunger > 40 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Hungry" );
-    } else if( hunger < -60 ) {
-        hunger_color = c_yellow;
-        hunger_string = _( "Engorged" );
-    } else if( hunger < -20 ) {
-        hunger_color = c_green;
-        hunger_string = _( "Sated" );
-    } else if( hunger < 0 ) {
-        hunger_color = c_green;
-        hunger_string = _( "Full" );
+    // i ate just now!
+    const bool just_ate = stomach.time_since_ate() < 15_minutes;
+    // i ate a meal recently enough that i shouldn't need another meal
+    const bool recently_ate = stomach.time_since_ate() < 3_hours;
+    if( calorie_deficit ) {
+        if( contains >= cap ) {
+            hunger_string = _( "Engorged" );
+            hunger_color = c_green;
+        } else if( contains > cap * 3 / 4 ) {
+            hunger_string = _( "Sated" );
+            hunger_color = c_green;
+        } else if( just_ate && contains > cap / 2 ) {
+            hunger_string = _( "Full" );
+            hunger_color = c_green;
+        } else if( just_ate ) {
+            hunger_string = _( "Hungry" );
+            hunger_color = c_yellow;
+        } else if( recently_ate ) {
+            hunger_string = _( "Very Hungry" );
+            hunger_color = c_yellow;
+        } else if( get_bmi() < character_weight_category::emaciated ) {
+            hunger_string = _( "Starving!" );
+            hunger_color = c_red;
+        } else if( get_bmi() < character_weight_category::underweight ) {
+            hunger_string = _( "Near starving" );
+            hunger_color = c_red;
+        } else {
+            hunger_string = _( "Famished" );
+            hunger_color = c_light_red;
+        }
+    } else {
+        if( contains >= cap * 5 / 6 ) {
+            hunger_string = _( "Engorged" );
+            hunger_color = c_green;
+        } else if( contains > cap * 11 / 20 ) {
+            hunger_string = _( "Sated" );
+            hunger_color = c_green;
+        } else if( recently_ate && contains >= cap * 3 / 8 ) {
+            hunger_string = _( "Full" );
+            hunger_color = c_green;
+        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 && recently_ate ) ||
+                   ( just_ate && contains > 0_ml && contains < cap * 3 / 8 ) ) {
+            hunger_string = _( "Peckish" );
+            hunger_color = c_dark_gray;
+        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
+            hunger_string.clear();
+        } else {
+            if( get_bmi() > character_weight_category::overweight ) {
+                hunger_string = _( "Hungry" );
+            } else {
+                hunger_string = _( "Very Hungry" );
+            }
+            hunger_color = c_yellow;
+        }
     }
+
     return std::make_pair( hunger_string, hunger_color );
 }
 
@@ -3553,7 +3588,7 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
 
 void Character::mod_thirst( int nthirst )
 {
-    if( has_trait_flag( flag_NO_THIRST ) ) {
+    if( has_trait_flag( "NO_THIRST" ) ) {
         return;
     }
     set_thirst( std::max( -100, thirst + nthirst ) );
@@ -3600,6 +3635,27 @@ int Character::get_fatigue() const
 int Character::get_sleep_deprivation() const
 {
     return sleep_deprivation;
+}
+
+std::pair<std::string, nc_color> Character::get_pain_description() const
+{
+    const std::pair<std::string, nc_color> pain = Creature::get_pain_description();
+    nc_color pain_color = pain.second;
+    std::string pain_string;
+    // get pain color
+    if( get_perceived_pain() >= 60 ) {
+        pain_color = c_red;
+    } else if( get_perceived_pain() >= 40 ) {
+        pain_color = c_light_red;
+    }
+    // get pain string
+    if( ( has_trait( trait_SELFAWARE ) || has_effect( effect_got_checked ) ) &&
+        get_perceived_pain() > 0 ) {
+        pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
+    } else if( get_perceived_pain() > 0 ) {
+        pain_string = pain.first;
+    }
+    return std::make_pair( pain_string, pain_color );
 }
 
 bool Character::is_deaf() const
@@ -3948,6 +4004,7 @@ void Character::update_needs( int rate_multiplier )
                 // 5. If rate_multiplier is > 1, fatigue_roll will be higher and this will work out.
                 mod_sleep_deprivation( fatigue_roll * 5 );
             }
+
 
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
@@ -4315,7 +4372,7 @@ void Character::check_needs_extremes()
 void Character::get_sick()
 {
     // NPCs are too dumb to handle infections now
-    if( is_npc() || has_trait_flag( flag_NO_DISEASE ) ) {
+    if( is_npc() || has_trait_flag( "NO_DISEASE" ) ) {
         // In a shocking twist, disease immunity prevents diseases.
         return;
     }
@@ -5373,7 +5430,7 @@ nc_color Character::symbol_color() const
 bool Character::is_immune_field( const field_type_id &fid ) const
 {
     // Obviously this makes us invincible
-    if( has_trait( trait_DEBUG_NODMG ) ) {
+    if( has_trait( debug_nodmg ) ) {
         return true;
     }
     // Check to see if we are immune
@@ -5443,34 +5500,34 @@ bool Character::is_immune_damage( const damage_type dt ) const
         case DT_TRUE:
             return false;
         case DT_BIOLOGICAL:
-            return has_effect_with_flag( flag_EFFECT_BIO_IMMUNE ) ||
-                   worn_with_flag( flag_BIO_IMMUNE );
+            return has_effect_with_flag( "EFFECT_BIO_IMMUNE" ) ||
+                   worn_with_flag( "BIO_IMMUNE" );
         case DT_BASH:
-            return has_effect_with_flag( flag_EFFECT_BASH_IMMUNE ) ||
-                   worn_with_flag( flag_BASH_IMMUNE );
+            return has_effect_with_flag( "EFFECT_BASH_IMMUNE" ) ||
+                   worn_with_flag( "BASH_IMMUNE" );
         case DT_CUT:
-            return has_effect_with_flag( flag_EFFECT_CUT_IMMUNE ) ||
-                   worn_with_flag( flag_CUT_IMMUNE );
+            return has_effect_with_flag( "EFFECT_CUT_IMMUNE" ) ||
+                   worn_with_flag( "CUT_IMMUNE" );
         case DT_ACID:
             return has_trait( trait_ACIDPROOF ) ||
-                   has_effect_with_flag( flag_EFFECT_ACID_IMMUNE ) ||
-                   worn_with_flag( flag_ACID_IMMUNE );
+                   has_effect_with_flag( "EFFECT_ACID_IMMUNE" ) ||
+                   worn_with_flag( "ACID_IMMUNE" );
         case DT_STAB:
-            return has_effect_with_flag( flag_EFFECT_STAB_IMMUNE ) ||
-                   worn_with_flag( flag_STAB_IMMUNE );
+            return has_effect_with_flag( "EFFECT_STAB_IMMUNE" ) ||
+                   worn_with_flag( "STAB_IMMUNE" );
         case DT_HEAT:
             return has_trait( trait_M_SKIN2 ) ||
                    has_trait( trait_M_SKIN3 ) ||
-                   has_effect_with_flag( flag_EFFECT_HEAT_IMMUNE ) ||
-                   worn_with_flag( flag_HEAT_IMMUNE );
+                   has_effect_with_flag( "EFFECT_HEAT_IMMUNE" ) ||
+                   worn_with_flag( "HEAT_IMMUNE" );
         case DT_COLD:
-            return has_effect_with_flag( flag_EFFECT_COLD_IMMUNE ) ||
-                   worn_with_flag( flag_COLD_IMMUNE );
+            return has_effect_with_flag( "EFFECT_COLD_IMMUNE" ) ||
+                   worn_with_flag( "COLD_IMMUNE" );
         case DT_ELECTRIC:
             return has_active_bionic( bio_faraday ) ||
-                   worn_with_flag( flag_ELECTRIC_IMMUNE ) ||
+                   worn_with_flag( "ELECTRIC_IMMUNE" ) ||
                    has_artifact_with( AEP_RESIST_ELECTRICITY ) ||
-                   has_effect_with_flag( flag_EFFECT_ELECTRIC_IMMUNE );
+                   has_effect_with_flag( "EFFECT_ELECTRIC_IMMUNE" );
         default:
             return true;
     }
@@ -5479,7 +5536,7 @@ bool Character::is_immune_damage( const damage_type dt ) const
 bool Character::is_rad_immune() const
 {
     bool has_helmet = false;
-    return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( flag_RAD_PROOF );
+    return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( "RAD_PROOF" );
 }
 
 int Character::throw_range( const item &it ) const
@@ -5509,7 +5566,7 @@ int Character::throw_range( const item &it ) const
                                         static_cast<int>(
                                             tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1_liter;
-    static const std::set<material_id> affected_materials = { material_iron, material_steel };
+    static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bio_railgun ) && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
     }
@@ -5527,7 +5584,7 @@ int Character::throw_range( const item &it ) const
     return ret;
 }
 
-const std::vector<material_id> Character::fleshy = { material_flesh, material_hflesh };
+const std::vector<material_id> Character::fleshy = { material_id( "flesh" ), material_id( "hflesh" ) };
 bool Character::made_of( const material_id &m ) const
 {
     // TODO: check for mutations that change this.
@@ -5645,7 +5702,7 @@ bool Character::sees_with_specials( const Creature &critter ) const
 {
     // electroreceptors grants vision of robots and electric monsters through walls
     if( has_trait( trait_ELECTRORECEPTORS ) &&
-        ( critter.in_species( species_ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
+        ( critter.in_species( ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
         return true;
     }
 
@@ -6408,7 +6465,7 @@ void Character::set_rad( int new_rad )
 
 void Character::mod_rad( int mod )
 {
-    if( has_trait_flag( flag_NO_RADIATION ) ) {
+    if( has_trait_flag( "NO_RADIATION" ) ) {
         return;
     }
     set_rad( std::max( 0, get_rad() + mod ) );
@@ -7453,7 +7510,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
                  m_info );
     }
 
-    return armor.mod_damage( armor.has_flag( flag_FRAGILE ) ?
+    return armor.mod_damage( armor.has_flag( "FRAGILE" ) ?
                              rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
 }
 
@@ -7751,8 +7808,8 @@ void Character::rooted()
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         g->m.has_flag( flag_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
         if( one_in( 96 ) ) {
-            vitamin_mod( vitamin_iron, 1, true );
-            vitamin_mod( vitamin_calcium, 1, true );
+            vitamin_mod( vitamin_id( "iron" ), 1, true );
+            vitamin_mod( vitamin_id( "calcium" ), 1, true );
         }
         if( get_thirst() <= -2000 && x_in_y( 75, 425 ) ) {
             mod_thirst( -1 );
@@ -7899,7 +7956,7 @@ bool Character::covered_with_flag( const std::string &flag, const body_part_set 
 
 bool Character::is_waterproof( const body_part_set &parts ) const
 {
-    return covered_with_flag( flag_WATERPROOF, parts );
+    return covered_with_flag( "WATERPROOF", parts );
 }
 
 void Character::update_morale()
@@ -8259,7 +8316,7 @@ int Character::warmth( body_part bp ) const
             warmth = i.get_warmth();
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
-            if( !i.made_of( material_wool ) ) {
+            if( !i.made_of( material_id( "wool" ) ) ) {
                 warmth *= 1.0 - 0.66 * body_wetness[bp] / drench_capacity[bp];
             }
             ret += warmth;
@@ -8286,17 +8343,17 @@ int Character::bonus_item_warmth( body_part bp ) const
 
     // If the player is not wielding anything big, check if hands can be put in pockets
     if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 500_ml ) {
-        ret += bestwarmth( worn, flag_POCKETS );
+        ret += bestwarmth( worn, "POCKETS" );
     }
 
     // If the player's head is not encumbered, check if hood can be put up
     if( bp == bp_head && encumb( bp_head ) < 10 ) {
-        ret += bestwarmth( worn, flag_HOOD );
+        ret += bestwarmth( worn, "HOOD" );
     }
 
     // If the player's mouth is not encumbered, check if collar can be put up
     if( bp == bp_mouth && encumb( bp_mouth ) < 10 ) {
-        ret += bestwarmth( worn, flag_COLLAR );
+        ret += bestwarmth( worn, "COLLAR" );
     }
 
     return ret;
@@ -8305,26 +8362,26 @@ int Character::bonus_item_warmth( body_part bp ) const
 bool Character::can_use_floor_warmth() const
 {
     return in_sleep_state() ||
-           has_activity( ACT_WAIT ) ||
-           has_activity( ACT_WAIT_NPC ) ||
-           has_activity( ACT_WAIT_STAMINA ) ||
-           has_activity( ACT_AUTODRIVE ) ||
-           has_activity( ACT_READ ) ||
-           has_activity( ACT_SOCIALIZE ) ||
-           has_activity( ACT_MEDITATE ) ||
-           has_activity( ACT_FISH ) ||
-           has_activity( ACT_GAME ) ||
-           has_activity( ACT_HAND_CRANK ) ||
-           has_activity( ACT_HEATING ) ||
-           has_activity( ACT_VIBE ) ||
-           has_activity( ACT_TRY_SLEEP ) ||
-           has_activity( ACT_OPERATION ) ||
-           has_activity( ACT_TREE_COMMUNION ) ||
-           has_activity( ACT_EAT_MENU ) ||
-           has_activity( ACT_CONSUME_FOOD_MENU ) ||
-           has_activity( ACT_CONSUME_DRINK_MENU ) ||
-           has_activity( ACT_CONSUME_MEDS_MENU ) ||
-           has_activity( ACT_STUDY_SPELL );
+           has_activity( activity_id( "ACT_WAIT" ) ) ||
+           has_activity( activity_id( "ACT_WAIT_NPC" ) ) ||
+           has_activity( activity_id( "ACT_WAIT_STAMINA" ) ) ||
+           has_activity( activity_id( "ACT_AUTODRIVE" ) ) ||
+           has_activity( activity_id( "ACT_READ" ) ) ||
+           has_activity( activity_id( "ACT_SOCIALIZE" ) ) ||
+           has_activity( activity_id( "ACT_MEDITATE" ) ) ||
+           has_activity( activity_id( "ACT_FISH" ) ) ||
+           has_activity( activity_id( "ACT_GAME" ) ) ||
+           has_activity( activity_id( "ACT_HAND_CRANK" ) ) ||
+           has_activity( activity_id( "ACT_HEATING" ) ) ||
+           has_activity( activity_id( "ACT_VIBE" ) ) ||
+           has_activity( activity_id( "ACT_TRY_SLEEP" ) ) ||
+           has_activity( activity_id( "ACT_OPERATION" ) ) ||
+           has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ||
+           has_activity( activity_id( "ACT_EAT_MENU" ) ) ||
+           has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ||
+           has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ||
+           has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ||
+           has_activity( activity_id( "ACT_STUDY_SPELL" ) );
 }
 
 int Character::floor_bedding_warmth( const tripoint &pos )
@@ -8573,10 +8630,10 @@ bool Character::has_fire( const int quantity ) const
 
     if( g->m.has_nearby_fire( pos() ) ) {
         return true;
-    } else if( has_item_with_flag( flag_FIRE ) ) {
+    } else if( has_item_with_flag( "FIRE" ) ) {
         return true;
-    } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
-        auto firestarters = all_items_with_flag( flag_FIRESTARTER );
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
         for( auto &i : firestarters ) {
             if( has_charges( i->typeId(), quantity ) ) {
                 return true;
@@ -8632,10 +8689,10 @@ void Character::use_fire( const int quantity )
 
     if( g->m.has_nearby_fire( pos() ) ) {
         return;
-    } else if( has_item_with_flag( flag_FIRE ) ) {
+    } else if( has_item_with_flag( "FIRE" ) ) {
         return;
-    } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
-        auto firestarters = all_items_with_flag( flag_FIRESTARTER );
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
         for( auto &i : firestarters ) {
             if( has_charges( i->typeId(), quantity ) ) {
                 use_charges( i->typeId(), quantity );

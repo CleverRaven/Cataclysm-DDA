@@ -176,7 +176,7 @@ bool player::handle_gun_damage( item &it )
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
     int effective_durability = firing.durability;
-    if( is_underwater() && !it.has_flag( flag_WATERPROOF_GUN ) && one_in( effective_durability ) ) {
+    if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( effective_durability ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
                                _( "<npcname>'s %s misfires with a wet click!" ),
                                it.tname() );
@@ -353,7 +353,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     // usage of any attached bipod is dependent upon terrain
-    bool bipod = g->m.has_flag_ter_or_furn( flag_MOUNTABLE, pos() );
+    bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() );
     if( !bipod ) {
         if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
             bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
@@ -593,7 +593,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     auto &impact = proj.impact;
     auto &proj_effects = proj.proj_effects;
 
-    static const std::set<material_id> ferric = { material_iron, material_steel };
+    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
     bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                       !throw_assist;
@@ -611,14 +611,14 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
                    static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
     impact.add_damage( DT_BASH, std::min( weight / 100.0_gram, stats_mod ) );
 
-    if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
+    if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
         proj_effects.insert( "ACT_ON_RANGED_HIT" );
         thrown.active = true;
     }
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
-    const bool shatter = !thrown.active && thrown.made_of( material_glass ) &&
+    const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
                          rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100;
 
     // Item will burst upon landing, destroying the item, and spilling its contents
@@ -664,7 +664,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         du.res_pen += skill_level / 2.0f;
     }
     // handling for tangling thrown items
-    if( thrown.has_flag( flag_TANGLE ) ) {
+    if( thrown.has_flag( "TANGLE" ) ) {
         proj_effects.insert( "TANGLE" );
     }
 
@@ -2189,14 +2189,14 @@ static void cycle_action( item &weap, const tripoint &pos )
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
     const optional_vpart_position vp = g->m.veh_at( pos );
     std::vector<vehicle_part *> cargo;
-    if( vp && weap.has_flag( flag_VEHICLE ) ) {
+    if( vp && weap.has_flag( "VEHICLE" ) ) {
         cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
     }
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
-        if( weap.has_flag( flag_RELOAD_EJECT ) || weap.gunmod_find( "brass_catcher" ) ) {
-            weap.contents.push_back( item( casing ).set_flag( flag_CASING ) );
+        if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
+            weap.contents.push_back( item( casing ).set_flag( "CASING" ) );
         } else {
             if( cargo.empty() ) {
                 g->m.add_item_or_charges( eject, item( casing ) );
@@ -2214,7 +2214,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( "brass_catcher" ) ) {
-            linkage.set_flag( flag_CASING );
+            linkage.set_flag( "CASING" );
             weap.contents.push_back( linkage );
         } else if( cargo.empty() ) {
             g->m.add_item_or_charges( eject, linkage );

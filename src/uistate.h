@@ -25,6 +25,8 @@ class uistatedata
 {
         /**** this will set a default value on startup, however to save, see below ****/
     private:
+        // not needed for compilation, but keeps syntax plugins happy
+        using itype_id = std::string;
         enum side { left  = 0, right = 1, NUM_PANES = 2 };
     public:
         int ags_pay_gas_selected_pump = 0;

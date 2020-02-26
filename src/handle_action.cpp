@@ -408,8 +408,9 @@ static void pldrive( int x, int y )
         return;
     }
     if( !remote ) {
-        const bool has_animal_controls = veh->part_with_feature( part, flag_CONTROL_ANIMAL, true ) >= 0;
-        const bool has_controls = veh->part_with_feature( part, flag_CONTROLS, true ) >= 0;
+        static const itype_id fuel_type_animal( "animal" );
+        const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;
+        const bool has_controls = veh->part_with_feature( part, "CONTROLS", true ) >= 0;
         const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
                                 veh->has_harnessed_animal();
         if( !has_controls && !has_animal_controls ) {
@@ -422,7 +423,7 @@ static void pldrive( int x, int y )
             return;
         }
     } else {
-        if( empty( veh->get_avail_parts( flag_REMOTE_CONTROLS ) ) ) {
+        if( empty( veh->get_avail_parts( "REMOTE_CONTROLS" ) ) ) {
             add_msg( m_info, _( "Can't drive this vehicle remotely.  It has no working controls." ) );
             return;
         }
@@ -708,7 +709,7 @@ static void smash()
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             const int vol = u.weapon.volume() / units::legacy_volume_factor;
-            if( u.weapon.made_of( material_glass ) &&
+            if( u.weapon.made_of( material_id( "glass" ) ) &&
                 rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
                 for( auto &elem : u.weapon.contents ) {
@@ -1032,7 +1033,7 @@ static void loot()
     player &u = g->u;
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = u.has_item_with_flag( flag_FERTILIZER );
+    const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
 
     // Manually update vehicle cache.
     // In theory this would be handled by the related activity (activity_on_turn_move_loot())
@@ -1411,7 +1412,7 @@ static void cast_spell()
         return;
     }
 
-    if( sp.energy_source() == hp_energy && !u.has_quality( quality_CUT ) ) {
+    if( sp.energy_source() == hp_energy && !u.has_quality( qual_CUT ) ) {
         add_msg( m_bad, _( "You cannot cast Blood Magic without a cutting implement." ) );
         return;
     }

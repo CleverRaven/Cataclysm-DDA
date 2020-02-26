@@ -139,6 +139,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             if( has_init_filter ) {
                 inv_s.set_filter( init_filter );
                 has_init_filter = false;
+                inv_s.update( need_refresh );
             }
             // Set position after filter to keep cursor at the right position
             if( init_selection ) {
@@ -1518,7 +1519,7 @@ static item_location autodoc_internal( player &u, player &patient,
         } else {
             const inventory &crafting_inv = u.crafting_inventory();
             std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
-                return it.has_quality( quality_ANESTHESIA );
+                return it.has_quality( qual_ANESTHESIA );
             } );
             std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
                 return it.has_flag( flag_ANESTHESIA ); // legacy
@@ -1615,7 +1616,7 @@ class bionic_install_preset: public inventory_selector_preset
             } else if( it->has_flag( flag_NO_STERILE ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." );
-            } else if( it->has_fault( fault_bionic_salvaged ) ) {
+            } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed.  Please reset to factory state." );
             } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM already installed" );

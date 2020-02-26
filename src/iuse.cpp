@@ -149,19 +149,19 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         std::vector<monster *> &monster_vec, std::vector<player *> &player_vec );
 
 static const std::vector<std::string> camera_ter_whitelist_flags = {
-    flag_HIDE_PLACE, flag_FUNGUS, flag_TREE, flag_PERMEABLE, flag_SHRUB,
-    flag_PLACE_ITEM, flag_GROWTH_HARVEST, flag_GROWTH_MATURE, flag_GOES_UP,
-    flag_GOES_DOWN, flag_RAMP, flag_SHARP, flag_SIGN, flag_CLIMBABLE
+    "HIDE_PLACE", "FUNGUS", "TREE", "PERMEABLE", "SHRUB",
+    "PLACE_ITEM", "GROWTH_HARVEST", "GROWTH_MATURE", "GOES_UP",
+    "GOES_DOWN", "RAMP", "SHARP", "SIGN", "CLIMBABLE"
 };
 static const std::vector<ter_str_id> camera_ter_whitelist_types = {
-    ter_pit_covered, ter_grave_new, ter_grave, ter_pit,
-    ter_pit_shallow, ter_pit_corpsed, ter_pit_spiked,
-    ter_pit_spiked_covered, ter_pit_glass, ter_pit_glass, ter_utility_light
+    ter_str_id( "t_pit_covered" ), ter_str_id( "t_grave_new" ), ter_str_id( "t_grave" ), ter_str_id( "t_pit" ),
+    ter_str_id( "t_pit_shallow" ), ter_str_id( "t_pit_corpsed" ), ter_str_id( "t_pit_spiked" ),
+    ter_str_id( "t_pit_spiked_covered" ), ter_str_id( "t_pit_glass" ), ter_str_id( "t_pit_glass" ), ter_str_id( "t_utility_light" )
 };
 
 void remove_radio_mod( item &it, player &p )
 {
-    if( !it.has_flag( flag_RADIO_MOD ) ) {
+    if( !it.has_flag( "RADIO_MOD" ) ) {
         return;
     }
     p.add_msg_if_player( _( "You remove the radio modification from your %s!" ), it.tname() );
@@ -179,7 +179,7 @@ void remove_radio_mod( item &it, player &p )
 static bool check_litcig( player &u )
 {
     auto cigs = u.items_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_LITCIG );
+        return it.active && it.has_flag( "LITCIG" );
     } );
     if( cigs.empty() ) {
         return true;
@@ -463,7 +463,7 @@ int iuse::fungicide( player *p, item *it, bool, const tripoint & )
                 if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                     monster &critter = *mon_ptr;
                     if( g->u.sees( dest ) &&
-                        !critter.type->in_species( species_FUNGUS ) ) {
+                        !critter.type->in_species( FUNGUS ) ) {
                         add_msg( m_warning, _( "The %s is covered in tiny spores!" ),
                                  critter.name() );
                     }
@@ -674,7 +674,7 @@ int iuse::poison( player *p, item *it, bool, const tripoint & )
 
     // NPCs have a magical sense of what is inedible
     // Players can abuse the crafting menu instead...
-    if( !it->has_flag( flag_HIDDEN_POISON ) &&
+    if( !it->has_flag( "HIDDEN_POISON" ) &&
         ( p->is_npc() ||
           !p->query_yn( _( "Are you sure you want to eat this?  It looks poisonous…" ) ) ) ) {
         return 0;
@@ -1462,7 +1462,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
     }
 
     auto filter = []( const item & itm ) {
-        return itm.has_flag( flag_RADIO_MODABLE );
+        return itm.has_flag( "RADIO_MODABLE" );
     };
 
     // note: if !p->is_npc() then p is avatar
@@ -1498,7 +1498,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
             return 0;
     }
 
-    if( modded.has_flag( flag_RADIO_MOD ) && modded.has_flag( newtag ) ) {
+    if( modded.has_flag( "RADIO_MOD" ) && modded.has_flag( newtag ) ) {
         p->add_msg_if_player( _( "This item has been modified this way already." ) );
         return 0;
     }
@@ -1855,7 +1855,7 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
     if( success > 0 ) {
         p->add_msg_if_player( m_good, _( "You carefully prepare the CBM for sterilization." ) );
-        bionic.get_item()->unset_flag( flag_NO_PACKED );
+        bionic.get_item()->unset_flag( "NO_PACKED" );
     } else {
         p->add_msg_if_player( m_bad, _( "You fail to properly prepare the CBM." ) );
     }
@@ -2326,7 +2326,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     // The iexamine function for crate supplies a hammer object.
     // So this stops the player (A)ctivating a Hammer with a Crowbar in their backpack
     // then managing to open a door.
-    const int pry_level = it->get_quality( quality_PRY );
+    const int pry_level = it->get_quality( quality_id( "PRY" ) );
 
     if( pry_level < pry_quality ) {
         p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ),
@@ -2520,7 +2520,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     constexpr double baseline_dig_quality = 3;
 
     // Get the dig quality of the tool.
-    const int quality = it->get_quality( quality_DIG );
+    const int quality = it->get_quality( qual_DIG );
 
     // Dig quality affects the dig rate linearly relative to baseline dig quality
     const double tool_dig_rate = dig_rate_kg_min * quality / baseline_dig_quality;
@@ -2578,7 +2578,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     const bool can_deepen = g->m.has_flag( flag_DIGGABLE_CAN_DEEPEN, dig_point );
     const bool grave = g->m.ter( dig_point ) == t_grave;
 
-    if( !p->crafting_inventory().has_quality( quality_DIG, 2 ) ) {
+    if( !p->crafting_inventory().has_quality( qual_DIG, 2 ) ) {
         if( can_deepen ) {
             p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
             return 0;
@@ -3448,7 +3448,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     monster *const mon = g->critter_at<monster>( dest, true );
-                    if( mon && ( mon->type->in_species( species_INSECT ) || mon->is_hallucination() ) ) {
+                    if( mon && ( mon->type->in_species( INSECT ) || mon->is_hallucination() ) ) {
                         mon->die_in_explosion( nullptr );
                     }
                 }
@@ -3786,7 +3786,7 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
             continue;
         }
         monster &critter = *mon_ptr;
-        if( critter.type->in_species( species_ZOMBIE ) && critter.friendly == 0 &&
+        if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 &&
             rng( 0, 500 ) > critter.get_hp() ) {
             converts++;
             critter.anger = 0;
@@ -4611,7 +4611,7 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
 static int chop_moves( player *p, item *it )
 {
     // quality of tool
-    const int quality = it->get_quality( quality_AXE );
+    const int quality = it->get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
     const int attr = it->has_flag( flag_POWERED ) ? p->dex_cur : p->str_cur;
@@ -5591,7 +5591,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         g->m.destroy_vehicle( veh );
         return 0;
     }
-    const bool can_float = size( veh->get_avail_parts( flag_FLOATS ) ) > 2;
+    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
 
     const auto invalid_pos = []( const tripoint & pp, bool can_float ) {
         return ( g->m.has_flag_ter( TFLAG_DEEP_WATER, pp ) && !can_float ) ||
@@ -5946,7 +5946,7 @@ int iuse::seed( player *p, item *it, bool, const tripoint & )
 bool iuse::robotcontrol_can_target( player *p, const monster &m )
 {
     return !m.is_dead()
-           && m.type->in_species( species_ROBOT )
+           && m.type->in_species( ROBOT )
            && m.friendly == 0
            && rl_dist( p->pos(), m.pos() ) <= 10;
 }
@@ -6027,7 +6027,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             p->moves -= to_moves<int>( 1_seconds );
             int f = 0; //flag to check if you have robotic allies
             for( monster &critter : g->all_monsters() ) {
-                if( critter.friendly != 0 && critter.type->in_species( species_ROBOT ) ) {
+                if( critter.friendly != 0 && critter.type->in_species( ROBOT ) ) {
                     p->add_msg_if_player( _( "A following %s goes into passive mode." ),
                                           critter.name() );
                     critter.add_effect( effect_docile, 1_turns, num_bp, true );
@@ -7097,7 +7097,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                 creature = guy;
                 player_vec.push_back( guy );
             } else {
-                if( mon->is_hallucination() || mon->type->in_species( species_HALLUCINATION ) ) {
+                if( mon->is_hallucination() || mon->type->in_species( HALLUCINATION ) ) {
                     continue; // do not include hallucinations
                 }
                 pose = _( "stands" );
@@ -7506,7 +7506,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
                     // shoot past small monsters and hallucinations
                     if( trajectory_point != aim_point && ( z.type->size <= MS_SMALL || z.is_hallucination() ||
-                                                           z.type->in_species( species_HALLUCINATION ) ) ) {
+                                                           z.type->in_species( HALLUCINATION ) ) ) {
                         continue;
                     }
                     if( !aim_bounds.is_point_inside( trajectory_point ) ) {
@@ -7518,7 +7518,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     }
                     // get an special message if the target is a hallucination
                     if( trajectory_point == aim_point && ( z.is_hallucination() ||
-                                                           z.type->in_species( species_HALLUCINATION ) ) ) {
+                                                           z.type->in_species( HALLUCINATION ) ) ) {
                         p->add_msg_if_player( _( "Strange… there's nothing in the center of picture?" ) );
                     }
                 } else if( guy ) {
@@ -8068,7 +8068,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
     if( !veh.is_locked || !veh.has_security_working() ) {
         return true;
     }
-    const bool advanced = !empty( veh.get_avail_parts( flag_REMOTE_CONTROLS ) );
+    const bool advanced = !empty( veh.get_avail_parts( "REMOTE_CONTROLS" ) );
     if( advanced && veh.is_alarm_on ) {
         p.add_msg_if_player( m_bad, _( "This vehicle's security system has locked you out!" ) );
         return false;
@@ -8130,7 +8130,7 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
         if( rl_dist( center, v->global_pos3() ) < 40 &&
-            v->fuel_left( fuel_type_battery, true ) > 0 &&
+            v->fuel_left( "battery", true ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
               ( !advanced && !empty( v->get_avail_parts( ctrl ) ) ) ) ) {
             vehs.push_back( v );
@@ -8171,7 +8171,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
         } else if( remote == nullptr ) {
             p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
             stop = true;
-        } else if( remote->fuel_left( fuel_type_battery, true ) == 0 ) {
+        } else if( remote->fuel_left( "battery", true ) == 0 ) {
             p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
             stop = true;
         }
@@ -8225,7 +8225,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
             }
         }
     } else if( choice == 1 ) {
-        const auto rctrl_parts = veh->get_avail_parts( flag_REMOTE_CONTROLS );
+        const auto rctrl_parts = veh->get_avail_parts( "REMOTE_CONTROLS" );
         // Revert to original behaviour if we can't find remote controls.
         if( empty( rctrl_parts ) ) {
             veh->use_controls( pos );
@@ -8309,7 +8309,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             it->erase_var( "CYCLETIME" );
             for( item &bio : it->contents ) {
                 if( bio.is_bionic() && !bio.has_flag( flag_NO_PACKED ) ) {
-                    bio.unset_flag( flag_NO_STERILE );
+                    bio.unset_flag( "NO_STERILE" );
                 }
             }
         } else {
@@ -8537,7 +8537,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             it->contents.erase( dish_it );
             it->erase_var( "RECIPE" );
-
+            it->convert( "multi_cooker" );
             if( is_delicious ) {
                 p->add_msg_if_player( m_good,
                                       _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
@@ -8619,7 +8619,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 p->add_msg_if_player( m_good,
                                       _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
-                it->active = true;
+                it->convert( "multi_cooker_filled" ).active = true;
                 it->ammo_consume( charges_to_start, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
@@ -8644,9 +8644,9 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 has_tools = false;
             }
 
-            if( !cinv.has_quality( quality_SCREW_FINE ) ) {
+            if( !cinv.has_quality( qual_SCREW_FINE ) ) {
                 p->add_msg_if_player( m_warning, _( "You need an item with %s of 1 or more to disassemble this." ),
-                                      quality_SCREW_FINE.obj().name );
+                                      qual_SCREW_FINE.obj().name );
                 has_tools = false;
             }
 
@@ -9319,7 +9319,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
                                        crafting_inv.charges_of( "detergent" ) );
 
     const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
-        return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
+        return location->has_flag( "FILTHY" ) && ( ( soft_items && location->is_soft() ) ||
                 ( hard_items && !location->is_soft() ) );
     } );
     auto make_raw_stats = [available_water, available_cleanser](

@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "bee_sting",
-    "name": "bee sting",
+    "name": { "str": "bee sting" },
     "description": "A six-inch stinger from a giant bee.  Makes a mediocre melee weapon.",
     "weight": "540 g",
     "to_hit": -1,

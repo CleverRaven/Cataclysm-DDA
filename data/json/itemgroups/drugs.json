@@ -147,5 +147,10 @@
       [ "flu_shot", 5 ],
       [ "syringe", 8 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "meth_ingredients",
+    "items": [ [ "dayquil", 2 ], [ "aspirin", 40 ], [ "adderall", 5 ], [ "energy_drink", 2 ], [ "caffeine", 20 ] ]
   }
 ]

@@ -72,6 +72,7 @@ enum m_size : int;
 enum class side : int;
 class body_part_set;
 
+using itype_id = std::string;
 struct fire_data;
 struct damage_instance;
 struct damage_unit;
@@ -1963,17 +1964,18 @@ class item : public visitable<item>
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
         int get_gun_ups_drain() const;
+        void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;
         }
-        inline void remove_old_owner() {
+        inline void remove_old_owner() const {
             old_owner = faction_id::NULL_ID();
         }
         inline void set_owner( const faction_id &new_owner ) {
             owner = new_owner;
         }
         void set_owner( const Character &c );
-        inline void remove_owner() {
+        inline void remove_owner() const {
             owner = faction_id::NULL_ID();
         }
         faction_id get_owner() const;
@@ -2183,9 +2185,9 @@ class item : public visitable<item>
          */
         phase_id current_phase = static_cast<phase_id>( 0 );
         // The faction that owns this item.
-        faction_id owner = faction_id::NULL_ID();
+        mutable faction_id owner = faction_id::NULL_ID();
         // The faction that previously owned this item
-        faction_id old_owner = faction_id::NULL_ID();
+        mutable faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
         light_emission light = nolight;
 

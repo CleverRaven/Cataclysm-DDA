@@ -52,13 +52,13 @@ bool monster::wander()
 bool monster::is_immune_field( const field_type_id &fid ) const
 {
     if( fid == fd_fungal_haze ) {
-        return has_flag( MF_NO_BREATHE ) || type->in_species( species_FUNGUS );
+        return has_flag( MF_NO_BREATHE ) || type->in_species( FUNGUS );
     }
     if( fid == fd_fungicidal_gas ) {
-        return !type->in_species( species_FUNGUS );
+        return !type->in_species( FUNGUS );
     }
     if( fid == fd_insecticidal_gas ) {
-        return !type->in_species( species_INSECT ) && !type->in_species( species_SPIDER );
+        return !type->in_species( INSECT ) && !type->in_species( SPIDER );
     }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
@@ -89,10 +89,10 @@ bool monster::will_move_to( const tripoint &p ) const
 {
     if( g->m.impassable( p ) ) {
         if( digging() ) {
-            if( !g->m.has_flag( flag_BURROWABLE, p ) ) {
+            if( !g->m.has_flag( "BURROWABLE", p ) ) {
                 return false;
             }
-        } else if( !( can_climb() && g->m.has_flag( flag_CLIMBABLE, p ) ) ) {
+        } else if( !( can_climb() && g->m.has_flag( "CLIMBABLE", p ) ) ) {
             return false;
         }
     }
@@ -101,11 +101,11 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( digs() && !g->m.has_flag( flag_DIGGABLE, p ) && !g->m.has_flag( flag_BURROWABLE, p ) ) {
+    if( digs() && !g->m.has_flag( "DIGGABLE", p ) && !g->m.has_flag( "BURROWABLE", p ) ) {
         return false;
     }
 
-    if( has_flag( MF_AQUATIC ) && !g->m.has_flag( flag_SWIMMABLE, p ) ) {
+    if( has_flag( MF_AQUATIC ) && !g->m.has_flag( "SWIMMABLE", p ) ) {
         return false;
     }
 
@@ -163,7 +163,7 @@ bool monster::will_move_to( const tripoint &p ) const
         // Some things are only avoided if we're not attacking
         if( attitude( &g->u ) != MATT_ATTACK ) {
             // Sharp terrain is ignored while attacking
-            if( avoid_simple && g->m.has_flag( flag_SHARP, p ) &&
+            if( avoid_simple && g->m.has_flag( "SHARP", p ) &&
                 !( type->size == MS_TINY || flies() ) ) {
                 return false;
             }
@@ -462,7 +462,7 @@ void monster::plan()
             friendly = 100;
             for( auto critter : g->m.get_creatures_in_radius( pos(), 6 ) ) {
                 monster *mon = dynamic_cast<monster *>( critter );
-                if( mon != nullptr && mon->type->in_species( species_ZOMBIE ) ) {
+                if( mon != nullptr && mon->type->in_species( ZOMBIE ) ) {
                     anger = 100;
                 } else {
                     anger = 0;
@@ -1135,40 +1135,40 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     const int source_cost = g->m.move_cost( f );
     const int dest_cost = g->m.move_cost( t );
     // Digging and flying monsters ignore terrain cost
-    if( flies() || ( digging() && g->m.has_flag( flag_DIGGABLE, t ) ) ) {
+    if( flies() || ( digging() && g->m.has_flag( "DIGGABLE", t ) ) ) {
         movecost = 100;
         // Swimming monsters move super fast in water
     } else if( swims() ) {
-        if( g->m.has_flag( flag_SWIMMABLE, f ) ) {
+        if( g->m.has_flag( "SWIMMABLE", f ) ) {
             movecost += 25;
         } else {
             movecost += 50 * g->m.move_cost( f );
         }
-        if( g->m.has_flag( flag_SWIMMABLE, t ) ) {
+        if( g->m.has_flag( "SWIMMABLE", t ) ) {
             movecost += 25;
         } else {
             movecost += 50 * g->m.move_cost( t );
         }
     } else if( can_submerge() ) {
         // No-breathe monsters have to walk underwater slowly
-        if( g->m.has_flag( flag_SWIMMABLE, f ) ) {
+        if( g->m.has_flag( "SWIMMABLE", f ) ) {
             movecost += 250;
         } else {
             movecost += 50 * g->m.move_cost( f );
         }
-        if( g->m.has_flag( flag_SWIMMABLE, t ) ) {
+        if( g->m.has_flag( "SWIMMABLE", t ) ) {
             movecost += 250;
         } else {
             movecost += 50 * g->m.move_cost( t );
         }
         movecost /= 2;
     } else if( climbs() ) {
-        if( g->m.has_flag( flag_CLIMBABLE, f ) ) {
+        if( g->m.has_flag( "CLIMBABLE", f ) ) {
             movecost += 150;
         } else {
             movecost += 50 * g->m.move_cost( f );
         }
-        if( g->m.has_flag( flag_CLIMBABLE, t ) ) {
+        if( g->m.has_flag( "CLIMBABLE", t ) ) {
             movecost += 150;
         } else {
             movecost += 50 * g->m.move_cost( t );
@@ -1255,7 +1255,7 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    bool flat_ground = g->m.has_flag( flag_ROAD, p ) || g->m.has_flag( flag_FLAT, p );
+    bool flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
     if( flat_ground ) {
         bool can_bash_ter = g->m.is_bashable_ter( p );
         bool try_bash_ter = one_in( 50 );
@@ -1415,14 +1415,14 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
 
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = g->critter_at( destination, is_hallucination() );
-    if( g->m.has_flag( flag_CLIMBABLE, destination ) ) {
+    if( g->m.has_flag( "CLIMBABLE", destination ) ) {
         if( g->m.impassable( destination ) && critter == nullptr ) {
             if( flies() ) {
                 moves -= 100;
                 force = true;
                 if( g->u.sees( *this ) ) {
                     add_msg( _( "The %1$s flies over the %2$s." ), name(),
-                             g->m.has_flag_furn( flag_CLIMBABLE, p ) ? g->m.furnname( p ) :
+                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
                              g->m.tername( p ) );
                 }
             } else if( climbs() ) {
@@ -1430,7 +1430,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                 force = true;
                 if( g->u.sees( *this ) ) {
                     add_msg( _( "The %1$s climbs over the %2$s." ), name(),
-                             g->m.has_flag_furn( flag_CLIMBABLE, p ) ? g->m.furnname( p ) :
+                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
                              g->m.tername( p ) );
                 }
             }
@@ -1498,17 +1498,15 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     if( type->size != MS_TINY && on_ground ) {
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
-        if( g->m.has_flag( flag_SHARP, pos() ) && !one_in( 4 ) &&
-            get_armor_cut( bp_torso ) < sharp_damage ) {
+        if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) && get_armor_cut( bp_torso ) < sharp_damage ) {
             apply_damage( nullptr, bp_torso, sharp_damage );
         }
-        if( g->m.has_flag( flag_ROUGH, pos() ) && one_in( 6 ) &&
-            get_armor_cut( bp_torso ) < rough_damage ) {
+        if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) && get_armor_cut( bp_torso ) < rough_damage ) {
             apply_damage( nullptr, bp_torso, rough_damage );
         }
     }
 
-    if( g->m.has_flag( flag_UNSTABLE, destination ) && on_ground ) {
+    if( g->m.has_flag( "UNSTABLE", destination ) && on_ground ) {
         add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
@@ -1525,10 +1523,10 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         return true;
     }
     if( !will_be_water && ( digs() || can_dig() ) ) {
-        underwater = g->m.has_flag( flag_DIGGABLE, pos() );
+        underwater = g->m.has_flag( "DIGGABLE", pos() );
     }
     // Diggers turn the dirt into dirtmound
-    if( digging() && g->m.has_flag( flag_DIGGABLE, pos() ) ) {
+    if( digging() && g->m.has_flag( "DIGGABLE", pos() ) ) {
         int factor = 0;
         switch( type->size ) {
             case MS_TINY:
