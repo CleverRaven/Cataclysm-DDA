@@ -487,7 +487,7 @@
     "entries": [
       { "item": "manual_archery", "prob": 1 }, { "item": "book_archery", "prob": 1 }
     ]
-  }
+  },
   {
     "id": "SUS_book_nonf_hard_dodge",
     "type": "item_group",
