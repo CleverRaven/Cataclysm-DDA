@@ -979,7 +979,7 @@
     "copy-from": "fat",
     "type": "COMESTIBLE",
     "name": "chunk of demihuman fat",
-    "name_plural": "chunks of human fat",
+    "name_plural": "chunks of demihuman fat",
     "description": "Freshly harvested from a human body.",
     "material": "hflesh"
   },
