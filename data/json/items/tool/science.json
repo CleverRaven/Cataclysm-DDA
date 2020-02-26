@@ -36,7 +36,7 @@
   {
     "id": "chemistry_set",
     "type": "TOOL",
-    "name": "chemistry set",
+    "name": { "str": "chemistry set" },
     "description": "This is a chemistry set stored in a box.  The contents include glass containers, hoses, metal wire, a hotplate, and safety glasses.  It might be used to craft some chemistry projects if you're so inclined.",
     "weight": "5200 g",
     "volume": "4500 ml",

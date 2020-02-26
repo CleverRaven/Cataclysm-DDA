@@ -51,7 +51,7 @@
   {
     "id": "char_forge",
     "type": "TOOL",
-    "name": "charcoal forge",
+    "name": { "str": "charcoal forge" },
     "description": "This is a portable, charcoal fired, metalworking forge.  If combined with the right tools, you could use this for metalworking.",
     "weight": "8600 g",
     "volume": "8 L",
@@ -117,7 +117,7 @@
   {
     "id": "crucible_clay",
     "type": "TOOL",
-    "name": "clay crucible",
+    "name": { "str": "clay crucible" },
     "description": "This is a primitive metalworking crucible made of clay.  You could use it for metalworking.",
     "weight": "1642 g",
     "volume": "2500 ml",
@@ -213,7 +213,7 @@
     "id": "link_sheet",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": "chainmail sheet",
+    "name": { "str": "chainmail sheet" },
     "description": "This is a sheet of riveted chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
     "weight": "1000 g",
     "volume": "500 ml",

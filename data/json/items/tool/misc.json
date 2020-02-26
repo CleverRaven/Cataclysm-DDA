@@ -2,7 +2,7 @@
   {
     "id": "airhorn",
     "type": "TOOL",
-    "name": "compressed air horn",
+    "name": { "str": "compressed air horn" },
     "description": "This is a small can of compressed air attached to a plastic horn.  Pressing the button on top causes it to emit a loud honking sound.",
     "weight": "467 g",
     "volume": "250 ml",
@@ -225,7 +225,7 @@
     "id": "horn_car",
     "type": "TOOL",
     "category": "veh_parts",
-    "name": "car horn",
+    "name": { "str": "car horn" },
     "description": "This is a car horn meant to be attached to a car's electrical system.",
     "weight": "270 g",
     "volume": "500 ml",
