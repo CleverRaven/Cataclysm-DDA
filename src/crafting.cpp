@@ -2241,8 +2241,8 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
         item act_item = newit;
 
         if( act_item.has_temperature() ) {
-            // TODO Maybe need to process rot before setting temperature.
             act_item.set_item_temperature( temp_to_kelvin( g->weather.get_temperature( loc ) ) );
+			act_item.reset_temp_check();
         }
 
         // Refitted clothing disassembles into refitted components (when applicable)
