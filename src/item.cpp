@@ -8288,7 +8288,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
 
     item_internal::scoped_goes_bad_cache _( this );
     bool process_rot = goes_bad() && !preserved;
-    time_duration smallest_interval = 10_minutes;
+    const time_duration smallest_interval = 10_minutes;
 
     time_point time = last_temp_check;
     if( now - time > 1_hours ) {
@@ -9137,7 +9137,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         // process temperature and rot at most once every 100_turns (10 min)
         // note we're also gated by item::processing_speed
         const time_point now = calendar::turn;
-        time_duration smallest_interval = 10_minutes;
+        const time_duration smallest_interval = 10_minutes;
         if( now - last_temp_check < smallest_interval && specific_energy > 0 ) {
             return false;
         }
