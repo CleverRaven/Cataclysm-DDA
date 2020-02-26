@@ -26,7 +26,7 @@
     "id": "shotcanister_pebble",
     "price": 1000,
     "price_postapoc": 1000,
-    "name": "pebble shotcanister",
+    "name": { "str": "pebble shotcanister" },
     "symbol": "=",
     "color": "green",
     "description": "This small paper canister resembling a crude shotshell is filled to the brim with tiny pebbles.  Damage is pathetic but flight is much more stable than scrap",

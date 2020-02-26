@@ -17,7 +17,7 @@
     "id": "button_plastic",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": "plastic button",
+    "name": { "str": "plastic button" },
     "description": "A plastic button, usually found on clothing.",
     "weight": "1 g",
     "volume": "20 ml",
