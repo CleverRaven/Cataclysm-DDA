@@ -2242,7 +2242,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
 
         if( act_item.has_temperature() ) {
             act_item.set_item_temperature( temp_to_kelvin( g->weather.get_temperature( loc ) ) );
-			act_item.reset_temp_check();
+            act_item.reset_temp_check();
         }
 
         // Refitted clothing disassembles into refitted components (when applicable)
