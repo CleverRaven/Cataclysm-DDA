@@ -23,7 +23,7 @@
     "id": "betavoltaic",
     "category": "spare_parts",
     "price": 10000,
-    "name": "betavoltaic cell",
+    "name": { "str": "betavoltaic cell" },
     "symbol": "=",
     "color": "green",
     "description": "Harness the power of radiation in your own home!  This looks similar to a D-cell battery, but actually contains folded layers of radioactive material inside.  It can produce electricity for several years at a steady voltage… but it's barely enough to power a small LED, and these batteries were worth hundreds of dollars.  Mostly they're a good way to brag to your neighbors that you have a nuclear power source in your house.",

@@ -83,7 +83,7 @@
   {
     "id": "brick_kiln",
     "type": "TOOL",
-    "name": "brick kiln",
+    "name": { "str": "brick kiln" },
     "description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
     "weight": "9600 g",
     "volume": "9 L",
@@ -315,7 +315,7 @@
   {
     "id": "jack",
     "type": "TOOL",
-    "name": "bottle jack",
+    "name": { "str": "bottle jack" },
     "description": "A portable hydraulic bottle jack used for lifting vehicles.",
     "material": "steel",
     "symbol": ";",

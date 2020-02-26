@@ -18,7 +18,7 @@
   {
     "id": "anvil_bronze",
     "type": "TOOL",
-    "name": "bronze anvil",
+    "name": { "str": "bronze anvil" },
     "description": "This is a block of oddly shaped bronze with a chisel-like projection set into the corner.  It's used in most metalworking fabrication recipes.",
     "weight": "2180 g",
     "volume": "2500 ml",

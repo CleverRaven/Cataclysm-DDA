@@ -549,7 +549,7 @@
     "id": "burette",
     "type": "TOOL",
     "category": "tools",
-    "name": "burette",
+    "name": { "str": "burette" },
     "description": "A tall glass column with a stopcock at the end.  If you're serious about chemistry, you probably have a tattoo of one of these somewhere.",
     "weight": "300 g",
     "volume": "1000ml",
