@@ -232,7 +232,7 @@ std::string Character::disp_name( bool possessive, bool capitalize_first ) const
 {
     if( !possessive ) {
         if( is_player() ) {
-            return pgettext( "not possessive", capitalize_first ? "You" : "you" );
+            return capitalize_first ? _( "You" ) : _( "you" );
         }
         return name;
     } else {
