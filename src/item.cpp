@@ -8275,14 +8275,14 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
         temp += 5;
     }
 
-    time_point time;
+    time_point time = last_temp_check;
     
     const bool preserved = type->container && type->container->preserves;
     
     item_internal::scoped_goes_bad_cache _( this );
     bool process_rot = goes_bad() && !preserved;
     time_duration smallest_interval = 10_minutes;
-    
+	
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
