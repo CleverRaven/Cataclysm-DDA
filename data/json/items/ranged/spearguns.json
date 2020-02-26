@@ -45,7 +45,7 @@
     "type": "AMMO",
     "id": "m_fishspear",
     "price": 16000,
-    "name": "metal fishing spear",
+    "name": { "str": "metal fishing spear" },
     "symbol": "=",
     "color": "light_gray",
     "description": "An underwater fishing spear made from metal.  It's light, but doesn't have much range.  Stands a very good chance of remaining intact once fired.",

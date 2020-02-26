@@ -250,7 +250,7 @@
     "id": "steel_lump",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": "lump of steel",
+    "name": { "str": "lump of steel" },
     "description": "A heavy formed piece of steel.  Useful for some crafting recipes.",
     "weight": "1000 g",
     "volume": "250 ml",
