@@ -19,7 +19,7 @@
   {
     "type": "GENERIC",
     "id": "beeper",
-    "name": "back-up beeper",
+    "name": { "str": "back-up beeper" },
     "description": "This is a safety device intended to warn passersby of a vehicle moving in reverse, but the usage of it now seems terribly unwise.",
     "weight": "360 g",
     "symbol": ";",

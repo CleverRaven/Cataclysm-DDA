@@ -577,7 +577,7 @@
     "id": "wire_barbed",
     "symbol": ";",
     "color": "light_gray",
-    "name": "barbed wire",
+    "name": { "str": "barbed wire" },
     "description": "A length of stiff wire, covered in sharp barbs.",
     "price": 20000,
     "price_postapoc": 500,
