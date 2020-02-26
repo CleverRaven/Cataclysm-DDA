@@ -225,7 +225,6 @@
         "condition": "celery",
         "name": { "str": "celery sandwich", "str_pl": "celery sandwiches" }
       },
-      { "type": "COMPONENT_ID", "condition": "corn", "name": { "str": "corn sandwich", "str_pl": "corn sandwiches" } },
       {
         "type": "COMPONENT_ID",
         "condition": "cucumber",
