@@ -1386,7 +1386,7 @@ bool avatar::set_movement_mode( const move_mode_id &mode )
         }
     }
 
-    add_msg( text_to_show.translated() );
+    add_msg( "%s", text_to_show.translated() );
 
     current_move_mode = mode;
 
