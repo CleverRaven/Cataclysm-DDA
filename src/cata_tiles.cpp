@@ -2205,7 +2205,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         // and then draw the override terrain
         const ter_id &t2 = overridden ? override->second : t;
         if( t2 ) {
-            // both the current and neighbouring overrides may change the appearance
+            // both the current and neighboring overrides may change the appearance
             // of the tile, so always re-calculate it.
             int subtile = 0;
             int rotation = 0;
@@ -2369,7 +2369,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         // and then draw the override furniture
         const furn_id &f2 = overridden ? override->second : f;
         if( f2 ) {
-            // both the current and neighbouring overrides may change the appearance
+            // both the current and neighboring overrides may change the appearance
             // of the tile, so always re-calculate it.
             const auto furn = [&]( const tripoint & q, const bool invis ) -> furn_id {
                 const auto it = furniture_override.find( q );
@@ -2443,7 +2443,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         // and then draw the override trap
         const trap_id &tr2 = overridden ? override->second : tr;
         if( tr2 ) {
-            // both the current and neighbouring overrides may change the appearance
+            // both the current and neighboring overrides may change the appearance
             // of the tile, so always re-calculate it.
             const auto tr_at = [&]( const tripoint & q, const bool invis ) -> trap_id {
                 const auto it = trap_override.find( q );

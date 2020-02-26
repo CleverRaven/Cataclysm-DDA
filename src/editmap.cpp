@@ -50,7 +50,6 @@
 #include "shadowcasting.h"
 #include "string_id.h"
 #include "colony.h"
-#include "cata_string_consts.h"
 
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
 static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
@@ -643,7 +642,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     }
     map_stack target_stack = g->m.i_at( target );
     const int target_stack_size = target_stack.size();
-    if( !g->m.has_flag( flag_CONTAINER, target ) && target_stack_size > 0 ) {
+    if( !g->m.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
         trim_and_print( w_info, point( 1, off ), getmaxx( w_info ), c_light_gray,
                         _( "There is a %s there." ),
                         target_stack.begin()->tname() );

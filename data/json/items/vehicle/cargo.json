@@ -125,7 +125,7 @@
     "id": "animal_locker",
     "type": "GENERIC",
     "copy-from": "livestock_carrier",
-    "name": "animal locker",
+    "name": { "str": "animal locker" },
     "description": "A locker used to contain animals safely during transportation if installed properly.  There is room for animal food and other animal care goods.  It is meant to hold medium or smaller animals for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": "10000 g",
     "volume": "31250 ml"

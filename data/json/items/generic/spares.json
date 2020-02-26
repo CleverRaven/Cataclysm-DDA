@@ -34,7 +34,7 @@
     "id": "filter_air",
     "copy-from": "spare_part",
     "type": "GENERIC",
-    "name": "air filter",
+    "name": { "str": "air filter" },
     "description": "A plastic box containing crêped paper used to filter the air supply for combustion engines or other industrial equipment.",
     "material": [ "plastic", "paper" ],
     "weight": "360 g",

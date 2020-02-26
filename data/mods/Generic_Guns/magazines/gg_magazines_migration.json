@@ -19,6 +19,8 @@
       "hptcf380mag_10rd",
       "taurus_spectrum_mag",
       "m1911mag_10rd_38super",
+      "m9mag",
+      "makarovmag",
       "glock40mag",
       "sig40mag",
       "bhp40mag",
@@ -56,11 +58,6 @@
     "id": [ "deaglemag", "hptjhpmag", "lw12mag", "8x40_10_mag" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_mag"
-  },
-  {
-    "id": [ "m9mag", "makarovmag" ],
-    "type": "MIGRATION",
-    "replace": "pistol_medium"
   },
   {
     "id": [

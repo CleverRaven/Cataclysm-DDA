@@ -2,7 +2,7 @@
   {
     "id": "bathroom_scale",
     "type": "TOOL",
-    "name": "bathroom scale",
+    "name": { "str": "bathroom scale" },
     "symbol": "■",
     "color": "light_gray",
     "description": "This is a small bathroom scale, meant to weigh a person while naked.",
