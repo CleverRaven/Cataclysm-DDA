@@ -215,7 +215,8 @@ class monster : public Creature
         float rate_target( Creature &c, float best, bool smart = false ) const;
 
         // How good the food is for given creature to loot.
-        bool eat_from_inventory();
+        bool eat_from_inventory( int amount = 1 );
+        bool is_item_lootable( const item &itm );
         item_location select_desired_loot( std::map<item *, const tripoint> &loot );
         std::map<item *, const tripoint> find_loot_in_radius( const tripoint &target, int radius = 12 );
 
@@ -580,6 +581,14 @@ class monster : public Creature
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
+
+        /** Variables for monsters that steal **/
+        bool loots = false;
+        bool lootables_requires_all = false;
+        std::vector<std::string> lootable_categories;
+        std::vector<std::string> lootable_materials;
+        std::vector<std::string> lootable_comestibles;
+        std::vector<std::string> lootable_itemgroups;
 
         player *find_dragged_foe();
         void nursebot_operate( player *dragged_foe );

@@ -1764,7 +1764,8 @@
     "vision_night": 5,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED", "STEALS_FOOD" ]
+	"loots": {	"item_group": [ "forage_spring", "forage_summer", "forage_autumn" ], "require_all":false },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED", "EATS_FOOD" ]
   },
   {
     "id": "mon_rat_king",

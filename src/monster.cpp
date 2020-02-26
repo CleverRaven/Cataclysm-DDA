@@ -138,6 +138,13 @@ monster::monster( const mtype_id &id ) : monster()
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
+
+    loots = type->loots;
+    lootables_requires_all = type->lootables_requires_all;
+    lootable_categories = type->lootable_categories;
+    lootable_materials = type->lootable_materials;
+    lootable_comestibles = type->lootable_comestibles;
+    lootable_itemgroups = type->lootable_itemgroups;
 }
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
@@ -661,8 +668,7 @@ std::string monster::extended_description() const
         {flies(), pgettext( "Fly as an action", "fly" )},
         {can_dig(), pgettext( "Dig as an action", "dig" )},
         {climbs(), pgettext( "Climb as an action", "climb" )},
-        {m_flag::MF_STEALS_FOOD, pgettext( "Steal food as an action", "steal" )},
-        {m_flag::MF_STEALS_SHINY, pgettext( "Steal shiny items as an action", "steal" )}
+        {m_flag::MF_EATS_FOOD, pgettext( "Eats as an action", "eat" )}
     } );
 
     describe_flags( _( "<bad>In fight it can %s.</bad>" ), {

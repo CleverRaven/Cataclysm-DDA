@@ -46,6 +46,8 @@
 #include "item.h"
 #include "itype.h"
 #include "item_location.h"
+#include "item_category.h"
+#include "item_group.h"
 
 #define MONSTER_FOLLOW_DIST 8
 #define MONSTER_LOOT_DIST 16
@@ -277,10 +279,57 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     return INT_MAX;
 }
 
+bool monster::is_item_lootable( const item &itm )
+{
+    bool lootable = false;
+
+    //TODO: Definitely find a better way to do the below, too much repeatability
+
+    if( !lootable_categories.empty() )
+        for( std::string tag : lootable_categories ) {
+            if( itm.get_category().name() == tag ) {
+                lootable = true;
+            } else {
+                if( lootables_requires_all ) {
+                    return false;
+                }
+            }
+        }
+
+    if( !lootable_materials.empty() )
+        for( std::string tag : lootable_materials ) {
+            if( itm.made_of( material_id( tag ) ) ) {
+                lootable = true;
+            } else {
+                if( lootables_requires_all ) {
+                    return false;
+                }
+            }
+        }
+
+    if( !lootable_comestibles.empty() )
+        for( std::string tag : lootable_comestibles ) {
+            if( itm.get_comestible()->comesttype == tag ) {
+                lootable = true;
+            } else {
+                if( lootables_requires_all ) {
+                    return false;
+                }
+            }
+        }
+
+    if( !lootable_itemgroups.empty() )
+        for( std::string tag : lootable_itemgroups ) {
+            if( item_group::group_contains_item( tag, itm.typeId() ) ) {
+                lootable = true;
+            }
+        }
+
+    return lootable;
+}
+
 std::map<item *, const tripoint> monster::find_loot_in_radius( const tripoint &target, int radius )
 {
-    const bool steals_food = has_flag( MF_STEALS_FOOD );
-    const bool steals_shiny = has_flag( MF_STEALS_SHINY );
     std::map<item *, const tripoint> lootable;
 
     for( const tripoint &p : g->m.points_in_radius( target, radius ) ) {
@@ -290,24 +339,7 @@ std::map<item *, const tripoint> monster::find_loot_in_radius( const tripoint &t
             for( item &itm : items ) {
                 bool suitable = false;
 
-                //Does monster try to steal food and is it actually food?
-                if( steals_food && itm.is_comestible() && itm.get_comestible()->comesttype == "FOOD" &&
-                    !itm.rotten() ) {
-
-                    suitable = true;
-                }
-
-                //Does monster steal shiny items?
-                if( steals_shiny &&
-                    ( itm.made_of( material_id( "gold" ) ) ||
-                      itm.made_of( material_id( "silver" ) ) ||
-                      itm.made_of( material_id( "diamond" ) ) ||
-                      itm.made_of( material_id( "platinum" ) ) ) ) {
-
-                    //TODO: Sanity checks on what we're trying to loot here
-
-                    suitable = true;
-                }
+                suitable = is_item_lootable( itm );
 
                 if( suitable ) {
                     lootable.insert( std::make_pair( &itm, p ) );
@@ -319,20 +351,25 @@ std::map<item *, const tripoint> monster::find_loot_in_radius( const tripoint &t
     return lootable;
 }
 
-bool monster::eat_from_inventory()
+bool monster::eat_from_inventory( int amount )
 {
     auto it = inv.begin();
     for( item &itm : inv ) {
-        //Is food?
+
+        //Is food? We make a broad assumption here that anything the monster has in its inventory and...
+        // is considered food is a viable item to eat. Perhaps some monsters would consume items instead.
         if( itm.is_comestible() && itm.get_comestible()->comesttype == "FOOD" ) {
+            if( itm.charges < amount ) {
+                continue;
+            }
+
             if( g->u.sees( *this ) ) {
                 add_msg( m_warning, _( "%1$s eats some of %2$s!" ), name(), itm.display_name() );
             }
 
-            if( itm.charges > 1 ) {
-                itm.mod_charges( -1 );
+            if( itm.charges > amount ) {
+                itm.mod_charges( -amount );
             } else {
-                //Remove item
                 inv.erase( it );
             }
 
@@ -395,8 +432,6 @@ void monster::plan()
     const int fears_hostile_near = type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
 
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
-    const bool steals_food = has_flag( MF_STEALS_FOOD );
-    const bool will_steal = has_flag( MF_STEALS_FOOD ) || has_flag( MF_STEALS_SHINY );
 
     bool swarms = has_flag( MF_SWARMS );
 
@@ -457,7 +492,7 @@ void monster::plan()
     //Check if steals, must be idle and have no target in sight.
     if( ( friendly >= 0 || target == nullptr ) && !fleeing && !has_effect( effect_looting ) ) {
         //If stealing monster, inventory is empty and with a bit of luck...we search for loot.
-        if( will_steal && inv.empty() && one_in( 100 ) ) {
+        if( loots && inv.empty() && one_in( 100 ) ) {
             //Find all lootable items within radius
             std::map<item *, const tripoint> lootable_items = find_loot_in_radius( pos(), MONSTER_LOOT_DIST );
 
@@ -467,14 +502,12 @@ void monster::plan()
                 add_effect( effect_looting, 50_turns );
 
             }
-        } //Monster has something in inventory, will steal and with some luck...
-        else if( will_steal && !inv.empty() && one_in( 500 ) ) {
-            //If a food stealer, then eat something.
-            if( steals_food ) {
-                if( !eat_from_inventory() ) {
-                    //TODO: Do we need to do something if fails?
-                }
+        } //Monster has something in inventory, will loot and with some luck...
+        else if( loots && !inv.empty() && one_in( 500 ) ) {
+            if( has_flag( MF_EATS_FOOD ) ) {
+                eat_from_inventory();
             }
+
         }
     }
 
@@ -1036,8 +1069,8 @@ void monster::move()
             }
         }
     }
+
     const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
-    const bool will_steal = has_flag( MF_STEALS_FOOD ) || has_flag( MF_STEALS_SHINY );
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     const tripoint local_next_step = g->m.getlocal( next_step );
@@ -1046,7 +1079,7 @@ void monster::move()
             ( !pacified && attack_at( local_next_step ) ) ||
             ( !pacified && can_open_doors && g->m.open_door( local_next_step, !g->m.is_outside( pos() ) ) ) ||
             ( !pacified && bash_at( local_next_step ) ) ||
-            ( !pacified && will_steal && pickup_at( local_next_step, item_goal ) ) ||
+            ( !pacified && loots && pickup_at( local_next_step, item_goal ) ) ||
             ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
             move_to( local_next_step, false, get_stagger_adjust( pos(), destination, local_next_step ) );
 
@@ -1541,13 +1574,11 @@ bool monster::pickup_at( const tripoint &p, item_location &target )
 
     //Adjust volume and weight for units in a stack
     units::mass weight_each = weight / charges_to_pick;
-    charges_picked = std::min( target->charges, ( int )( capacity / weight_each ) );
+    charges_picked = std::min( target->charges,  int( capacity / weight_each ) );
 
     //Caps the amount taken to avoid taking large stacks.
+    //TODO: Allow this to be adjusted in JSON
     charges_picked = std::min( charges_picked, 2 );
-    if( charges_picked > 2 ) {
-        charges_picked = 2;
-    }
 
     //Add item to inventory and adjust charges
     inv.push_back( *target );
@@ -1567,8 +1598,10 @@ bool monster::pickup_at( const tripoint &p, item_location &target )
     //Successfully taken any?
     if( charges_picked >= 1 ) {
         //Notify the player
-        if( g->u.sees( *this ) ) {
+        if( g->u.sees( *this ) && !has_flag( MF_EATS_FOOD ) ) {
             add_msg( m_warning, _( "%1$s grabs %2$s!" ), name(), inv.back().display_name() );
+        } else {
+            return eat_from_inventory( charges_picked );
         }
 
         mod_moves( -100 );

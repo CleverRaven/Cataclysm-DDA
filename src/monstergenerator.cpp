@@ -168,8 +168,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_STUN_IMMUNE: return "STUN_IMMUNE";
         case MF_LOUDMOVES: return "LOUDMOVES";
         case MF_DROPS_AMMO: return "DROPS_AMMO";
-        case MF_STEALS_FOOD: return "STEALS_FOOD";
-        case MF_STEALS_SHINY: return "STEALS_SHINY";
+        case MF_EATS_FOOD: return "EATS_FOOD";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -829,6 +828,43 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
                   "null" );
         reproduces = true;
+    }
+
+
+    //Items that are stolen
+    if( jo.has_member( "loots" ) ) {
+        loots = true;
+
+        JsonObject lootables = jo.get_object( "loots" );
+
+        if( lootables.has_bool( "require_all" ) ) {
+            lootables_requires_all = lootables.get_bool( "require_all" );
+        }
+
+        if( lootables.has_array( "categories" ) ) {
+            for( const std::string line : lootables.get_array( "categories" ) ) {
+                lootable_categories.push_back( line );
+            }
+        }
+
+        if( lootables.has_array( "materials" ) ) {
+            for( const std::string line : lootables.get_array( "materials" ) ) {
+                lootable_materials.push_back( line );
+            }
+        }
+
+        if( lootables.has_array( "comestible_type" ) ) {
+            for( const std::string line : lootables.get_array( "comestible_type" ) ) {
+                lootable_comestibles.push_back( line );
+            }
+        }
+
+        if( lootables.has_array( "item_group" ) ) {
+            for( const std::string line : lootables.get_array( "item_group" ) ) {
+                lootable_itemgroups.push_back( line );
+            }
+        }
+
     }
 
     if( jo.has_member( "baby_flags" ) ) {

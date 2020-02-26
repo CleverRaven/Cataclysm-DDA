@@ -169,8 +169,7 @@ enum m_flag : int {
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
     MF_DROPS_AMMO,          // This monster drops ammo. Check to make sure starting_ammo paramter is present for this monster type!
-    MF_STEALS_FOOD,         // This monster steals food.
-    MF_STEALS_SHINY,        // This monster steals items made of shiny materials.
+    MF_EATS_FOOD,           // This monster eats food.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -296,6 +295,15 @@ struct mtype {
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster
         mon_action_defend sp_defense;
+
+        // Monster stealable variables
+        bool loots = false;
+        bool lootables_requires_all;
+        std::vector<std::string> lootable_categories;
+        std::vector<std::string> lootable_materials;
+        std::vector<std::string> lootable_comestibles;
+        std::vector<std::string> lootable_itemgroups;
+
 
         // Monster upgrade variables
         int half_life;
