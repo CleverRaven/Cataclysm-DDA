@@ -33,7 +33,6 @@
 #include "optional.h"
 #include "player_activity.h"
 #include "string_formatter.h"
-#include "cata_string_consts.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -302,11 +301,11 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
 
     const auto create_activity = [&]() {
         if( source_veh != nullptr ) {
-            g->u.assign_activity( ACT_FILL_LIQUID );
+            g->u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( g->u.activity, *source_veh, part_num, liquid );
             return true;
         } else if( source_pos != nullptr ) {
-            g->u.assign_activity( ACT_FILL_LIQUID );
+            g->u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( g->u.activity, *source_pos, liquid );
             return true;
         } else if( source_mon != nullptr ) {

@@ -109,7 +109,7 @@
     "id": "g_carpet",
     "category": "other",
     "price": 120,
-    "name": "green carpet",
+    "name": { "str": "green carpet" },
     "symbol": "}",
     "color": "green",
     "description": "A roll of green carpet.",

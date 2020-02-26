@@ -93,6 +93,7 @@ enum target_mode : int;
 
 struct special_game;
 
+using itype_id = std::string;
 class avatar;
 class event_bus;
 class kill_tracker;

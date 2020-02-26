@@ -97,7 +97,6 @@ WARNINGS = \
   -Wold-style-cast \
   -Woverloaded-virtual \
   -Wpedantic \
-  -Wredundant-decls \
   -Wsuggest-override \
   -Wunused-macros \
   -Wzero-as-null-pointer-constant \
@@ -486,6 +485,10 @@ endif
 ifneq (,$(findstring mingw32,$(CROSS)))
   DEFINES += -DCROSS_LINUX
   TARGETSYSTEM=WINDOWS
+endif
+
+ifneq ($(TARGETSYSTEM),WINDOWS)
+  WARNINGS += -Wredundant-decls
 endif
 
 # Global settings for Windows targets

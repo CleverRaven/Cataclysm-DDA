@@ -1077,7 +1077,7 @@ void construct::done_grave( const tripoint &p )
                 g->u.getID(), it.get_mtype()->id, it.get_corpse_name() );
         }
     }
-    if( g->u.has_quality( quality_CUT ) ) {
+    if( g->u.has_quality( qual_CUT ) ) {
         iuse::handle_ground_graffiti( g->u, nullptr, _( "Inscribe something on the grave?" ), p );
     } else {
         add_msg( m_neutral,
@@ -1105,7 +1105,8 @@ static vpart_id vpart_from_item( const std::string &item_id )
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
-    return vpart_frame_vertical_2;
+    static const vpart_id frame_id( "frame_vertical_2" );
+    return frame_id;
 }
 
 void construct::done_vehicle( const tripoint &p )

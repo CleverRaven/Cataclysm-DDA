@@ -22,7 +22,6 @@ class npc_template;
 #include "type_id.h"
 #include "units.h"
 #include "optional.h"
-#include "cata_string_consts.h"
 
 class Character;
 class item;
@@ -34,6 +33,7 @@ enum hp_part : int;
 enum body_part : int;
 class JsonObject;
 
+using itype_id = std::string;
 struct furn_t;
 struct itype;
 class item_location;
@@ -502,23 +502,23 @@ class salvage_actor : public iuse_actor
 
         /** Materials it can cut */
         std::set<material_id> material_whitelist = {
-            material_acidchitin,
-            material_alien_resin,
-            material_bone,
-            material_chitin,
-            material_cotton,
-            material_faux_fur,
-            material_fur,
-            material_kevlar,
-            material_kevlar_rigid,
-            material_leather,
-            material_lycra,
-            material_neoprene,
-            material_nomex,
-            material_nylon,
-            material_plastic,
-            material_wood,
-            material_wool
+            material_id( "acidchitin" ),
+            material_id( "alien_resin" ),
+            material_id( "bone" ),
+            material_id( "chitin" ),
+            material_id( "cotton" ),
+            material_id( "faux_fur" ),
+            material_id( "fur" ),
+            material_id( "kevlar" ),
+            material_id( "kevlar_rigid" ),
+            material_id( "leather" ),
+            material_id( "lycra" ),
+            material_id( "neoprene" ),
+            material_id( "nomex" ),
+            material_id( "nylon" ),
+            material_id( "plastic" ),
+            material_id( "wood" ),
+            material_id( "wool" )
         };
 
         bool try_to_cut_up( player &p, item &it ) const;
@@ -549,14 +549,14 @@ class inscribe_actor : public iuse_actor
 
         // Materials it can write on
         std::set<material_id> material_whitelist = {
-            material_wood,
-            material_plastic,
-            material_glass,
-            material_chitin,
-            material_iron,
-            material_steel,
-            material_silver,
-            material_bone
+            material_id( "wood" ),
+            material_id( "plastic" ),
+            material_id( "glass" ),
+            material_id( "chitin" ),
+            material_id( "iron" ),
+            material_id( "steel" ),
+            material_id( "silver" ),
+            material_id( "bone" )
         };
 
         // How will the inscription be described

@@ -1303,7 +1303,7 @@ void furn_t::check() const
     if( !close.is_valid() ) {
         debugmsg( "invalid furniture %s for closing %s", close.c_str(), id.c_str() );
     }
-    if( has_flag( flag_EMITTER ) ) {
+    if( has_flag( "EMITTER" ) ) {
         if( emissions.empty() ) {
             debugmsg( "furn %s has the EMITTER flag, but no emissions were set", id.c_str() );
         } else {

@@ -528,11 +528,11 @@ bool avatar::create( character_type type, const std::string &tempname )
             it.item_counter = 450; // Give it some time to dry off
         }
         // TODO: debugmsg if food that isn't a seed is inedible
-        if( it.has_flag( flag_no_auto_equip ) ) {
-            it.unset_flag( flag_no_auto_equip );
+        if( it.has_flag( "no_auto_equip" ) ) {
+            it.unset_flag( "no_auto_equip" );
             inv.push_back( it );
-        } else if( it.has_flag( flag_auto_wield ) ) {
-            it.unset_flag( flag_auto_wield );
+        } else if( it.has_flag( "auto_wield" ) ) {
+            it.unset_flag( "auto_wield" );
             if( !is_armed() ) {
                 wield( it );
             } else {
@@ -1436,9 +1436,9 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
             std::string buffer_worn;
             std::string buffer_inventory;
             for( const auto &it : prof_items ) {
-                if( it.has_flag( flag_no_auto_equip ) ) {
+                if( it.has_flag( "no_auto_equip" ) ) {
                     buffer_inventory += it.display_name() + "\n";
-                } else if( it.has_flag( flag_auto_wield ) ) {
+                } else if( it.has_flag( "auto_wield" ) ) {
                     buffer_wielded += it.display_name() + "\n";
                 } else if( it.is_armor() ) {
                     buffer_worn += it.display_name() + "\n";
@@ -1661,7 +1661,7 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
         std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
         for( const auto &e : recipe_dict ) {
             const auto &r = e.second;
-            if( r.has_flag( flag_SECRET ) ) {
+            if( r.has_flag( "SECRET" ) ) {
                 continue;
             }
             //Find out if the current skill and its level is in the requirement list
@@ -1814,8 +1814,8 @@ struct {
             }
         }
 
-        if( !cities_enabled && a->has_flag( flag_CITY_START ) != b->has_flag( flag_CITY_START ) ) {
-            return a->has_flag( flag_CITY_START ) < b->has_flag( flag_CITY_START );
+        if( !cities_enabled && a->has_flag( "CITY_START" ) != b->has_flag( "CITY_START" ) ) {
+            return a->has_flag( "CITY_START" ) < b->has_flag( "CITY_START" );
         } else if( sort_by_points ) {
             return a->point_cost() < b->point_cost();
         } else {
@@ -1898,7 +1898,7 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
             std::stable_sort( sorted_scens.begin(), sorted_scens.end(), scenario_sorter );
 
             // If city size is 0 but the current scenario requires cities reset the scenario
-            if( !scenario_sorter.cities_enabled && g->scen->has_flag( flag_CITY_START ) ) {
+            if( !scenario_sorter.cities_enabled && g->scen->has_flag( "CITY_START" ) ) {
                 reset_scenario( u, sorted_scens[0] );
                 points.init_from_options();
                 points.skill_points -= sorted_scens[cur_id]->point_cost();
@@ -1963,7 +1963,7 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
 
         const std::string scenDesc = sorted_scens[cur_id]->description( u.male );
 
-        if( sorted_scens[cur_id]->has_flag( flag_CITY_START ) && !scenario_sorter.cities_enabled ) {
+        if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
             const std::string scenUnavailable =
                 _( "This scenario is not available in this world due to city size settings." );
             fold_and_print( w_description, point_zero, TERMX - 2, c_red, scenUnavailable );
@@ -1983,12 +1983,11 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
                        "                                             " );
             nc_color col;
             if( g->scen != sorted_scens[i] ) {
-                if( sorted_scens[i] == sorted_scens[cur_id] && ( sorted_scens[i]->has_flag( flag_CITY_START ) &&
+                if( sorted_scens[i] == sorted_scens[cur_id] && ( sorted_scens[i]->has_flag( "CITY_START" ) &&
                         !scenario_sorter.cities_enabled ) ) {
                     col = h_dark_gray;
-                } else if( sorted_scens[i] != sorted_scens[cur_id] &&
-                           ( sorted_scens[i]->has_flag( flag_CITY_START ) &&
-                             !scenario_sorter.cities_enabled ) ) {
+                } else if( sorted_scens[i] != sorted_scens[cur_id] && ( sorted_scens[i]->has_flag( "CITY_START" ) &&
+                           !scenario_sorter.cities_enabled ) ) {
                     col = c_dark_gray;
                 } else {
                     col = ( sorted_scens[i] == sorted_scens[cur_id] ? h_light_gray : c_light_gray );
@@ -2038,45 +2037,45 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
         mvwprintz( w_flags, point_zero, COL_HEADER, _( "Scenario Flags:" ) );
         wprintz( w_flags, c_light_gray, ( "\n" ) );
 
-        if( sorted_scens[cur_id]->has_flag( flag_SPR_START ) ) {
+        if( sorted_scens[cur_id]->has_flag( "SPR_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Spring start" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
-        } else if( sorted_scens[cur_id]->has_flag( flag_SUM_START ) ) {
+        } else if( sorted_scens[cur_id]->has_flag( "SUM_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Summer start" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
-        } else if( sorted_scens[cur_id]->has_flag( flag_AUT_START ) ) {
+        } else if( sorted_scens[cur_id]->has_flag( "AUT_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Autumn start" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
-        } else if( sorted_scens[cur_id]->has_flag( flag_WIN_START ) ) {
+        } else if( sorted_scens[cur_id]->has_flag( "WIN_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Winter start" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
-        } else if( sorted_scens[cur_id]->has_flag( flag_SUM_ADV_START ) ) {
+        } else if( sorted_scens[cur_id]->has_flag( "SUM_ADV_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Next summer start" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
 
-        if( sorted_scens[cur_id]->has_flag( flag_INFECTED ) ) {
+        if( sorted_scens[cur_id]->has_flag( "INFECTED" ) ) {
             wprintz( w_flags, c_light_gray, _( "Infected player" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
-        if( sorted_scens[cur_id]->has_flag( flag_BAD_DAY ) ) {
+        if( sorted_scens[cur_id]->has_flag( "BAD_DAY" ) ) {
             wprintz( w_flags, c_light_gray, _( "Drunk and sick player" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
-        if( sorted_scens[cur_id]->has_flag( flag_FIRE_START ) ) {
+        if( sorted_scens[cur_id]->has_flag( "FIRE_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Fire nearby" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
-        if( sorted_scens[cur_id]->has_flag( flag_SUR_START ) ) {
+        if( sorted_scens[cur_id]->has_flag( "SUR_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Zombies nearby" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
-        if( sorted_scens[cur_id]->has_flag( flag_HELI_CRASH ) ) {
+        if( sorted_scens[cur_id]->has_flag( "HELI_CRASH" ) ) {
             wprintz( w_flags, c_light_gray, _( "Various limb wounds" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
         if( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
-            sorted_scens[cur_id]->has_flag( flag_LONE_START ) ) {
+            sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
@@ -2101,7 +2100,7 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
                 cur_id = scens_length - 1;
             }
         } else if( action == "CONFIRM" ) {
-            if( sorted_scens[cur_id]->has_flag( flag_CITY_START ) && !scenario_sorter.cities_enabled ) {
+            if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
                 continue;
             }
             reset_scenario( u, sorted_scens[cur_id] );

@@ -2,7 +2,7 @@
   {
     "id": "advanced_ecig",
     "type": "TOOL",
-    "name": "advanced electronic cigarette",
+    "name": { "str": "advanced electronic cigarette" },
     "description": "An advanced version of the electronic cigarette.  A less harmful way to get your nicotine fix than regular cigarettes, but still addictive.  It needs batteries and nicotine liquid to function.",
     "category": "drugs",
     "weight": "200 g",

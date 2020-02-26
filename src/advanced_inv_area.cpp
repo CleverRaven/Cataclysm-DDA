@@ -40,7 +40,6 @@
 #include <iterator>
 #include <utility>
 #include <numeric>
-#include "cata_string_consts.h"
 
 int advanced_inv_area::get_item_count() const
 {
@@ -81,7 +80,7 @@ void advanced_inv_area::init()
             off = g->u.grab_point;
             // Reset position because offset changed
             pos = g->u.pos() + off;
-            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( flag_CARGO,
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO",
                     false ) ) {
                 veh = &vp->vehicle();
                 vstor = vp->part_index();
@@ -123,7 +122,7 @@ void advanced_inv_area::init()
         case AIM_NORTH:
         case AIM_NORTHEAST: {
             const cata::optional<vpart_reference> vp =
-                g->m.veh_at( pos ).part_with_feature( flag_CARGO, false );
+                g->m.veh_at( pos ).part_with_feature( "CARGO", false );
             if( vp ) {
                 veh = &vp->vehicle();
                 vstor = vp->part_index();
@@ -399,7 +398,7 @@ void advanced_inv_area::set_container_position()
     // update the absolute position
     pos = g->u.pos() + off;
     // update vehicle information
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( flag_CARGO,
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO",
             false ) ) {
         veh = &vp->vehicle();
         vstor = vp->part_index();
