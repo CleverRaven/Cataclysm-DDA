@@ -184,7 +184,7 @@
     "id": "horn_bicycle",
     "type": "TOOL",
     "category": "veh_parts",
-    "name": "bicycle horn",
+    "name": { "str": "bicycle horn" },
     "description": "This is a simple bulb horn, found on many bicycles.  Use to honk.  Honk honk.",
     "weight": "170 g",
     "volume": "500 ml",
