@@ -145,7 +145,7 @@
     "type": "AMMO",
     "id": "arrow_wood_heavy",
     "price": 400,
-    "name": "makeshift wooden arrow",
+    "name": { "str": "makeshift wooden arrow" },
     "symbol": "=",
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
