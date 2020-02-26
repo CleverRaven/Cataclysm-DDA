@@ -34,7 +34,7 @@
   {
     "type": "GENERIC",
     "id": "bat",
-    "name": "baseball bat",
+    "name": { "str": "baseball bat" },
     "description": "A sturdy wood bat.  Makes a great melee weapon.",
     "weight": "1133 g",
     "to_hit": 3,
@@ -123,7 +123,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
-    "name": "battle axe",
+    "name": { "str": "battle axe" },
     "description": "This is a dull, cheaply made replica of a massive axe designed for warfare.",
     "price": 1050,
     "price_postapoc": 300,
@@ -267,7 +267,7 @@
   {
     "type": "GENERIC",
     "id": "bwirebat",
-    "name": "barbed wire bat",
+    "name": { "str": "barbed wire bat" },
     "description": "A baseball bat wrapped with barbed wire.  A brutal melee weapon.",
     "weight": "1420 g",
     "to_hit": 3,

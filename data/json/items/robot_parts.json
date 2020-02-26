@@ -64,7 +64,7 @@
   {
     "type": "GENERIC",
     "id": "ai_module_basic",
-    "name": "basic AI core",
+    "name": { "str": "basic AI core" },
     "description": "A very basic AI core with minimal cognitive abilities.",
     "weight": "125 g",
     "copy-from": "ai_module"

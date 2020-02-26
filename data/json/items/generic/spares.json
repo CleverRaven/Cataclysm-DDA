@@ -56,7 +56,7 @@
     "id": "filter_liquid",
     "copy-from": "spare_part",
     "type": "GENERIC",
-    "name": "automotive filter",
+    "name": { "str": "automotive filter" },
     "description": "A steel can containing filter paper designed for automotive use.",
     "material": [ "steel", "paper" ],
     "weight": "480 g",
