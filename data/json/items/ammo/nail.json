@@ -3,12 +3,12 @@
     "id": "combatnail",
     "copy-from": "nail",
     "type": "AMMO",
-    "name": "flechette",
+    "name": { "str": "flechette" },
     "description": "A tiny steel dart.  Can be fired from a nail gun or similar weapon or used when crafting ammunition",
     "material": "steel",
     "symbol": "=",
     "color": "dark_gray",
-    "proportional": { "price": 3, "damage": 3, "pierce": 3 }
+    "proportional": { "price": 3, "damage": 3.0, "pierce": 3.0 }
   },
   {
     "id": "nail",

@@ -49,7 +49,7 @@
     "id": "shotcanister_flechette",
     "price": 1000,
     "price_postapoc": 1000,
-    "name": "flechette shotcanister",
+    "name": { "str": "flechette shotcanister" },
     "symbol": "=",
     "color": "green",
     "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade flechettes, giving it some armor piercing capabilities.",
