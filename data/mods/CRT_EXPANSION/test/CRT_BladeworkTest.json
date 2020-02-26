@@ -38,7 +38,7 @@
         "description": "Additional DMG, and Arpen per stack.  Max of 6 stacks",
         "unarmed_allowed": false,
         "melee_allowed": true,
-        "skill_requirements": [ { "name": "melee, "level": 3 } ],
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "buff_duration": 1,
         "max_stacks": 6,
         "flat_bonuses": [ [ "damage", "stab", 1 ], [ "damage", "cut", 1 ], [ "arpen", "cut", 1 ], [ "arpen", "stab", 1 ]  ]
