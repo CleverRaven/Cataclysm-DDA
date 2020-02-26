@@ -55,7 +55,7 @@
     "type": "GENERIC",
     "id": "v_airjack_item",
     "symbol": "&",
-    "name": "airjack",
+    "name": { "str": "airjack" },
     "color": "dark_gray",
     "description": "An extendable metal pylon used to replace a portable jack.  If mounted to a vehicle, it could be used to lift it up.",
     "weight": "21000 g",
