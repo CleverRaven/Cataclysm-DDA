@@ -8285,12 +8285,12 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     const bool preserved = type->container && type->container->preserves;
-    
+
     item_internal::scoped_goes_bad_cache _( this );
     bool process_rot = goes_bad() && !preserved;
     time_duration smallest_interval = 10_minutes;
-	
-	time_point time = last_temp_check;
+
+    time_point time = last_temp_check;
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
@@ -8362,11 +8362,11 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
                     // No need to track item that will be gone
-					last_temp_check = time;
+                    last_temp_check = time;
                     return;
                 }
             }
-            
+
             last_temp_check = time;
         }
     }
@@ -8375,7 +8375,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     // and items that are held near the player
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
-        if( process_rot ){
+        if( process_rot ) {
             calc_rot( now, temp );
         }
         last_temp_check = now;
