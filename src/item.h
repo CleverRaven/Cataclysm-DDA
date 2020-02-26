@@ -145,8 +145,6 @@ struct iteminfo {
             lower_is_better = 1 << 3, ///< Lower values are better for this stat
             no_name = 1 << 4, ///< Do not print the name
             show_plus = 1 << 5, ///< Use a + sign for positive values
-
-
         };
 
         /**
@@ -1141,7 +1139,7 @@ class item : public visitable<item>
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
-        float get_freeze_point() const; // Farenheit
+        float get_freeze_point() const; // Fahrenheit
 
         // If this is food, returns itself.  If it contains food, return that
         // contents.  Otherwise, returns nullptr.
@@ -1966,17 +1964,18 @@ class item : public visitable<item>
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
         int get_gun_ups_drain() const;
+        void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;
         }
-        inline void remove_old_owner() {
+        inline void remove_old_owner() const {
             old_owner = faction_id::NULL_ID();
         }
         inline void set_owner( const faction_id &new_owner ) {
             owner = new_owner;
         }
         void set_owner( const Character &c );
-        inline void remove_owner() {
+        inline void remove_owner() const {
             owner = faction_id::NULL_ID();
         }
         faction_id get_owner() const;
@@ -2184,9 +2183,9 @@ class item : public visitable<item>
          */
         phase_id current_phase = static_cast<phase_id>( 0 );
         // The faction that owns this item.
-        faction_id owner = faction_id::NULL_ID();
+        mutable faction_id owner = faction_id::NULL_ID();
         // The faction that previously owned this item
-        faction_id old_owner = faction_id::NULL_ID();
+        mutable faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
         light_emission light = nolight;
 

@@ -216,6 +216,10 @@ class monster : public Creature
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
                             const tripoint &nearby_destination ); // shove vehicles out of the way
+
+        // check if the given square could drown a drownable monster
+        bool is_aquatic_danger( const tripoint &at_pos );
+
         // check if a monster at a position will drown and kill it if necessary
         // returns true if the monster dies
         // chance is the one_in( chance ) that the monster will drown

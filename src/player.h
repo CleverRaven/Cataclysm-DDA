@@ -510,10 +510,6 @@ class player : public Character
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
 
-        std::pair<std::string, nc_color> get_hunger_description() const override;
-
-        std::pair<std::string, nc_color> get_pain_description() const override;
-
         int get_lift_assist() const;
 
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,

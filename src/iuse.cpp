@@ -8537,7 +8537,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             it->contents.erase( dish_it );
             it->erase_var( "RECIPE" );
-
+            it->convert( "multi_cooker" );
             if( is_delicious ) {
                 p->add_msg_if_player( m_good,
                                       _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
@@ -8619,7 +8619,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 p->add_msg_if_player( m_good,
                                       _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
-                it->active = true;
+                it->convert( "multi_cooker_filled" ).active = true;
                 it->ammo_consume( charges_to_start, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus

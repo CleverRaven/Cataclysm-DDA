@@ -317,8 +317,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tofu",
-    "name": "tofu",
-    "name_plural": "tofu",
+    "name": { "str": "tofu", "str_pl": "tofu" },
     "weight": "85 g",
     "color": "white",
     "spoils_in": "4 days",
@@ -644,8 +643,7 @@
   {
     "type": "COMESTIBLE",
     "id": "underbrush",
-    "name": "underbrush",
-    "name_plural": "underbrushes",
+    "name": { "str": "underbrush", "str_pl": "underbrushes" },
     "weight": "100 g",
     "color": "green",
     "comestible_type": "FOOD",
@@ -655,7 +653,7 @@
     "description": "Some underbrush, edible by ruminants only.  Seeing this item is a bug.",
     "price": 0,
     "material": "veggy",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
   },
   {

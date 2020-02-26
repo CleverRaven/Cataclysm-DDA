@@ -402,6 +402,12 @@ static void WinCreate()
     SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 6 );
     SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
 
+    // Fix Back button crash on Android 9
+#if defined(SDL_HINT_ANDROID_TRAP_BACK_BUTTON )
+    const bool trap_back_button = get_option<bool>( "ANDROID_TRAP_BACK_BUTTON" );
+    SDL_SetHint( SDL_HINT_ANDROID_TRAP_BACK_BUTTON, trap_back_button ? "1" : "0" );
+#endif
+
     // Prevent mouse|touch input confusion
 #if defined(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH)
     SDL_SetHint( SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "1" );
@@ -3885,7 +3891,7 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     //different default font with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + "fixedsys.ttf";
+        typeface = PATH_INFO::fontdir() + "unifont.ttf";
         dbg( D_INFO ) << "Using fallback font [" + typeface + "] found in font dir.";
     }
     dbg( D_INFO ) << "Loading truetype font [" + typeface + "].";

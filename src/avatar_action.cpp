@@ -1124,9 +1124,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
 // If it's a gun, some gunmods can also be loaded
 void avatar_action::unload( avatar &you )
 {
-    item_location loc;
-
-    loc = g->inv_map_splice( [&you]( const item & it ) {
+    item_location loc = g->inv_map_splice( [&you]( const item & it ) {
         return you.rate_action_unload( it ) == HINT_GOOD;
     }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
 

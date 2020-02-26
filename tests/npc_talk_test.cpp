@@ -532,6 +532,7 @@ TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
 {
     dialogue d;
     prep_test( d );
+    g->u.cash = 800;
 
     d.add_topic( "TALK_TEST_TRUE_FALSE_CONDITIONAL" );
     gen_response_lines( d, 3 );

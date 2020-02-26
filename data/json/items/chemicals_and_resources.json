@@ -2,7 +2,7 @@
   {
     "id": "anesthetic",
     "type": "AMMO",
-    "name": "anesthetic",
+    "name": { "str": "anesthetic" },
     "category": "chems",
     "description": "A variety of powerful hypnotic, analgesic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.  You can reload an anesthesia kit with it.",
     "weight": "714 mg",
@@ -387,8 +387,7 @@
   {
     "type": "COMESTIBLE",
     "id": "water_acid_weak",
-    "name": "weak acid water",
-    "name_plural": "weak acid water",
+    "name": { "str": "weak acid water", "str_pl": "weak acid water" },
     "weight": "255 g",
     "color": "light_green",
     "flags": [ "ACID" ],

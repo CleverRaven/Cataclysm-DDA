@@ -1038,7 +1038,6 @@ static const std::string flag_FLOTATION( "FLOTATION" );
 static const std::string flag_FLOWER( "FLOWER" );
 static const std::string flag_FORAGE_HALLU( "FORAGE_HALLU" );
 static const std::string flag_FORAGE_POISON( "FORAGE_POISON" );
-static const std::string flag_FRAGILE( "FRAGILE" );
 static const std::string flag_FRAGILE_MELEE( "FRAGILE_MELEE" );
 static const std::string flag_FREEZERBURN( "FREEZERBURN" );
 static const std::string flag_FROZEN( "FROZEN" );
@@ -1364,7 +1363,7 @@ static const matype_id style_wingchun( "style_wingchun" );
 static const matype_id style_zui_quan( "style_zui_quan" );
 
 static const species_id ABERRATION( "ABERRATION" );
-static const species_id BLOB( "BLOB" );
+static const species_id species_BLOB( "BLOB" );
 static const species_id FISH( "FISH" );
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id HALLUCINATION( "HALLUCINATION" );

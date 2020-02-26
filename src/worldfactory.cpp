@@ -34,8 +34,6 @@
 
 using namespace std::placeholders;
 
-#define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
-
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 

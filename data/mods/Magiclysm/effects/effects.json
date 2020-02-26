@@ -63,7 +63,7 @@
   {
     "type": "effect_type",
     "id": "protect_env",
-    "name": [ "Enviromental Protection" ],
+    "name": [ "Environmental Protection" ],
     "desc": [ "You are protected by an energy field." ],
     "apply_message": "You are protected by an energy field.",
     "remove_message": "Your energy field fades.",

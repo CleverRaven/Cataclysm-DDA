@@ -34,7 +34,6 @@ struct tripoint;
 
 static item_action nullaction;
 
-
 static char key_bound_to( const input_context &ctxt, const item_action_id &act )
 {
     auto keys = ctxt.keys_bound_to( act );

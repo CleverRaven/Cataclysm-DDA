@@ -41,8 +41,6 @@
 #include <string>
 #include <exception>
 
-#define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
-
 bool trigdist;
 bool use_tiles;
 bool log_from_top;
@@ -2156,6 +2154,12 @@ void options_manager::add_options_android()
        );
 
     add_empty_line();
+
+    add( "ANDROID_TRAP_BACK_BUTTON", "android", translate_marker( "Trap Back button" ),
+         translate_marker( "If true, the back button will NOT back out of the app and will be passed to the application as SDL_SCANCODE_AC_BACK.  Requires restart." ),
+         // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
+         android_get_default_setting( "Trap Back button", true )
+       );
 
     add( "ANDROID_AUTO_KEYBOARD", "android", translate_marker( "Auto-manage virtual keyboard" ),
          translate_marker( "If true, automatically show/hide the virtual keyboard when necessary based on context. If false, virtual keyboard must be toggled manually." ),

@@ -661,6 +661,14 @@
     "magazine_well": 2
   },
   {
+    "id": "multi_cooker_filled",
+    "type": "TOOL",
+    "copy-from": "multi_cooker",
+    "name": { "str": "multi cooker - cooking" },
+    "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish in it.",
+    "delete": { "qualities": [ [ "CONTAIN", 1 ] ] }
+  },
+  {
     "id": "oil_cooker",
     "type": "TOOL",
     "name": "lamp oil cooker",
