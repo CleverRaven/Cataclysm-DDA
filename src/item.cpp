@@ -4772,6 +4772,7 @@ void item::set_relative_rot( double val )
     if( goes_bad() ) {
         rot = get_shelf_life() * val;
     }
+	debugmsg( "Set relative rot to %d.", to_turns<int>(rot) );
 }
 
 void item::set_rot( time_duration val )
@@ -8287,14 +8288,13 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
         temp += 5;
     }
 
-    time_point time = last_temp_check;
-    
     const bool preserved = type->container && type->container->preserves;
     
     item_internal::scoped_goes_bad_cache _( this );
     bool process_rot = goes_bad() && !preserved;
     time_duration smallest_interval = 10_minutes;
 	
+	time_point time = last_temp_check;
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
@@ -8381,14 +8381,14 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
         if( process_rot ){
             calc_rot( now, temp );
         }
-        last_temp_check = time;
+        last_temp_check = now;
         return;
     }
 
     // Just now created items will get here.
     if( specific_energy < 0 ) {
         set_item_temperature( temp_to_kelvin( temp ) );
-        last_temp_check = time;
+        last_temp_check = now;
     }
 }
 
