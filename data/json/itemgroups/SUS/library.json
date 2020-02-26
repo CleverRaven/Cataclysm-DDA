@@ -357,9 +357,14 @@
     "id": "SUS_book_nonf_hard",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "a single nonfiction book that is hard bound.",
+    "//2": "Returns a single nonfiction book that is hard bound. Note that this may or may not be a skill training book.",
     "subtype": "distribution",
-    "entries": [ { "group": "SUS_book_nonf_hard_dodge", "prob": 1 }, { "group": "SUS_book_nonf_hard_spirit", "prob": 1 }, { "group": "SUS_book_nonf_hard_arch", "prob": 1 } ]
+    "entries": [
+      { "group": "SUS_book_nonf_hard_dodge", "prob": 1 }, 
+      { "group": "SUS_book_nonf_hard_spirit", "prob": 1 }, 
+      { "group": "SUS_book_nonf_hard_homemk", "prob": 1 }, 
+      { "group": "SUS_book_nonf_hard_arch", "prob": 1 } 
+    ]
   },
   {
     "id": "SUS_book_nonf_zine",
@@ -426,6 +431,23 @@
       { "item": "mag_throwing", "prob": 1 },
       { "item": "mag_archery", "prob": 1 },
       { "item": "mag_gaming", "prob": 2 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_hard_homemk",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "Returns a book about homemaking.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_nonf_hard_homemk_anythingcan", "prob": 1 },
+      { "item": "book_nonf_hard_homemk_grtrms", "prob": 1 },
+      { "item": "book_nonf_hard_homemk_handshome", "prob": 1 },
+      { "item": "book_nonf_hard_homemk_loverms", "prob": 1 },
+      { "item": "book_nonf_hard_homemk_nyparti", "prob": 1 },
+      { "item": "book_nonf_hard_homemk_outkitchn", "prob": 1 },
+      { "item": "book_nonf_hard_homemk_plantshome", "prob": 1 },
+      { "item": "book_nonf_hard_homemk_wmencolor", "prob": 1 }
     ]
   },
   {

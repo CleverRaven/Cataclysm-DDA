@@ -40,7 +40,17 @@
     "price_postapoc": 2900,
     "material": [ "paper", "cardboard" ],
     "bashing": 2,
+    "chapters": 18,
     "copy-from": "book_nonf_tpl"
+  },
+  {
+    "abstract": "book_nonf_hard_homemk_tpl",
+    "type": "BOOK",
+    "name": "Homemaking Book",
+    "description": "This is a template for books about homemaking, style, home decor, and home economics.",
+    "weight": "1100 g",
+    "copy-from": "book_nonf_hard_tpl",
+    "relative": { "intelligence": -1, "price_postapoc": -1600, "chapters": 2 }
   },
   {
     "abstract": "paperback_occult",

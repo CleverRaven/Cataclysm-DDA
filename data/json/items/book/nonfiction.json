@@ -1,0 +1,70 @@
+[
+  {
+    "id": "book_nonf_hard_homemk_anythingcan",
+    "type": "BOOK",
+    "name": "Anything Can Be Beautiful",
+    "description": "Stylist, designer, and glitter goddess, Tiffynie Blust looks at the world one mantra in mind: anything can be beautiful.",
+    "weight": "771 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_homemk_grtrms",
+    "type": "BOOK",
+    "name": "The Greatest Rooms of the Century",
+    "description": "A stunning collection of the best living spaces created and commissioned by the most influential people in interior design.",
+    "weight": "3016 g",
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "relative": { "chapters": 30 }
+  },
+  {
+    "id": "book_nonf_hard_homemk_handshome",
+    "type": "BOOK",
+    "name": "The Hands-On Home",
+    "description": "An ecologically-minded take on modern homemaking, this is a practical guide to maximising your time in the kitchen and beyond.",
+    "weight": "1334 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_homemk_loverms",
+    "type": "BOOK",
+    "name": "Rooms We Love",
+    "description": "This is a guide on how to affordably decorate rooms to suit your personality. In the book, we visit rooms inspired by the needs of each homeowner and will see how they transformed their rooms.",
+    "weight": "699 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_homemk_nyparti",
+    "type": "BOOK",
+    "name": "New York Parties",
+    "description": "Visit the homes of savvy tastemakers from the worlds of fashion, finance, and design, with this book of lavish photography.",
+    "weight": "1606 g",
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "fun": 1
+  },
+  {
+    "id": "book_nonf_hard_homemk_outkitchn",
+    "type": "BOOK",
+    "name": "Best Signature Outdoor Kitchens",
+    "description": "Outdoor space is one of the hottest amenities being considered by new and existing homeowners. This book will show you how to turn any deck, patio, or other outside area into a great place to cook.",
+    "weight": "617 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_homemk_plantshome",
+    "type": "BOOK",
+    "name": "The Art of Using Plants to Transform Your Home",
+    "description": "Bring gorgeous greenery into your life with this delightful guide to decorating your living space with a wide variety of plants. Illustrated examples enable you to easily transform every corner of your interior space.",
+    "weight": "580 g",
+    "copy-from": "book_nonf_hard_homemk_tpl"
+  },
+  {
+    "id": "book_nonf_hard_homemk_wmencolor",
+    "type": "BOOK",
+    "name": "Woman of Color",
+    "description": "This is a collection of essays and advice on style, beauty, and motherhood. Part memoir, part lifestyle guide, this book reflects the author's experience growing up as a woman of color in Brooklyn.",
+    "weight": "658 g",
+    "copy-from": "book_nonf_hard_homemk_tpl",
+    "fun": 1,
+    "relative": { "chapters": -14 }
+  }
+]
