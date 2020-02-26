@@ -3,7 +3,7 @@
     "abstract": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "abstract map",
+    "name": { "str": "abstract map" },
     "description": "seeing this is a bug",
     "weight": "30 g",
     "volume": "250 ml",

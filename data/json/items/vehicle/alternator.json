@@ -32,7 +32,7 @@
     "id": "alternator_bicycle",
     "copy-from": "vehicle_alternator",
     "type": "GENERIC",
-    "name": "bicycle alternator",
+    "name": { "str": "bicycle alternator" },
     "description": "A very lightweight alternator used to power a bicycle's headlights.",
     "weight": "1100 g",
     "volume": "1 L",

@@ -175,7 +175,7 @@
     "id": "wp22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Walther P22 magazine",
+    "name": { "str": "Walther P22 magazine" },
     "description": "A 10-round box magazine for the Walther P22.",
     "weight": "25 g",
     "volume": "126 ml",

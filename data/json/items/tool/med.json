@@ -2,7 +2,7 @@
   {
     "id": "anesthetic_kit",
     "type": "TOOL",
-    "name": "anesthesia kit",
+    "name": { "str": "anesthesia kit" },
     "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
     "weight": "100 g",
     "volume": "3250 ml",
@@ -19,7 +19,7 @@
   {
     "id": "autoclave",
     "type": "TOOL",
-    "name": "autoclave",
+    "name": { "str": "autoclave" },
     "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  It requires a massive amount of power, so standard batteries will not power it sufficiently.",
     "weight": "34500 g",
     "volume": "76 L",
