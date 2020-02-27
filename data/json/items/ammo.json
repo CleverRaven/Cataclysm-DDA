@@ -96,7 +96,7 @@
     "id": "sinew",
     "category": "spare_parts",
     "price": 0,
-    "name": "sinew",
+    "name": { "str": "sinew" },
     "symbol": "=",
     "color": "light_red",
     "looks_like": "thread",
@@ -499,7 +499,7 @@
     "id": "gunpowder_shotgun",
     "copy-from": "gunpowder",
     "price": 3000,
-    "name": "smokeless shotgun powder",
+    "name": { "str": "smokeless shotgun powder" },
     "description": "Firearm-quality gunpowder, intended for use in shotgun shells."
   },
   {
@@ -507,7 +507,7 @@
     "id": "gunpowder_pistol",
     "copy-from": "gunpowder",
     "price": 3000,
-    "name": "smokeless pistol powder",
+    "name": { "str": "smokeless pistol powder" },
     "description": "Firearm-quality gunpowder, intended for use in pistol ammunition."
   },
   {
@@ -515,7 +515,7 @@
     "id": "gunpowder_magnum_pistol",
     "copy-from": "gunpowder",
     "price": 3000,
-    "name": "smokeless magnum powder",
+    "name": { "str": "smokeless magnum powder" },
     "description": "Firearm-quality gunpowder intended for use in magnum pistol ammunition."
   },
   {
@@ -523,7 +523,7 @@
     "id": "gunpowder_rifle",
     "copy-from": "gunpowder",
     "price": 3000,
-    "name": "smokeless rifle powder",
+    "name": { "str": "smokeless rifle powder" },
     "description": "Firearm-quality gunpowder intended for use in rifle ammunition."
   },
   {
@@ -531,7 +531,7 @@
     "id": "gunpowder_large_rifle",
     "copy-from": "gunpowder",
     "price": 3000,
-    "name": "smokeless overbore rifle powder",
+    "name": { "str": "smokeless overbore rifle powder" },
     "description": "Firearm-quality gunpowder intended for use in large rifle ammunition."
   },
   {
@@ -580,7 +580,7 @@
     "id": "shotgun_primer",
     "category": "spare_parts",
     "price": 3000,
-    "name": "shotgun primer",
+    "name": { "str": "shotgun primer" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a shotgun shell.",
@@ -596,7 +596,7 @@
     "id": "smpistol_primer",
     "category": "spare_parts",
     "price": 4000,
-    "name": "small pistol primer",
+    "name": { "str": "small pistol primer" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a small caliber pistol round.",
@@ -628,7 +628,7 @@
     "id": "smrifle_primer",
     "category": "spare_parts",
     "price": 6000,
-    "name": "small rifle primer",
+    "name": { "str": "small rifle primer" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a small caliber rifle round.",
