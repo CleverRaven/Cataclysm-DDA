@@ -41,7 +41,6 @@
 #include <algorithm>
 #include <iterator>
 #include <type_traits>
-#include "cata_string_consts.h"
 
 /** The maximum distance from the screen edge, to snap a window to it */
 static const size_t max_win_snap_distance = 4;
@@ -651,7 +650,7 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
         }
     } else if( location.where() == item_location::type::vehicle ) {
         const cata::optional<vpart_reference> vp = g->m.veh_at(
-                    location.position() ).part_with_feature( flag_CARGO, true );
+                    location.position() ).part_with_feature( "CARGO", true );
         assert( vp );
 
         auto items = vp->vehicle().get_items( vp->part_index() );
@@ -1185,8 +1184,7 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( flag_CARGO,
-            true );
+    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
     if( !vp ) {
         return;
     }

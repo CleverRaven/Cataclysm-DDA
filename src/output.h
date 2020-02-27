@@ -14,7 +14,8 @@
 #include "catacharset.h"
 #include "color.h"
 #include "enums.h"
-#include "player.h"
+#include "item.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
@@ -454,16 +455,6 @@ template<typename ...Args>
 inline void full_screen_popup( const char *mes, Args &&... args )
 {
     popup( string_format( mes, std::forward<Args>( args )... ), PF_FULLSCREEN );
-}
-template<typename ...Args>
-inline void popup_player_or_npc( player &p, const char *player_mes, const char *npc_mes,
-                                 Args &&... args )
-{
-    if( p.is_player() ) {
-        popup( player_mes, std::forward<Args>( args )... );
-    } else {
-        popup( p.replace_with_npc_name( string_format( npc_mes, std::forward<Args>( args )... ) ) );
-    }
 }
 
 /*@}*/

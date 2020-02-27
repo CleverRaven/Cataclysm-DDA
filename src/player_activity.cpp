@@ -4,7 +4,6 @@
 
 #include "activity_handlers.h"
 #include "activity_type.h"
-#include "cata_string_consts.h"
 #include "construction.h"
 #include "map.h"
 #include "game.h"
@@ -13,6 +12,7 @@
 #include "avatar.h"
 #include "itype.h"
 #include "skill.h"
+#include "cata_string_consts.h"
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 

@@ -352,11 +352,13 @@ class Character : public Creature, public visitable<Character>
         virtual int get_thirst() const;
         /** Gets character's minimum hunger and thirst */
         int stomach_capacity() const;
-        virtual std::pair<std::string, nc_color> get_thirst_description() const;
-        virtual std::pair<std::string, nc_color> get_hunger_description() const;
-        virtual std::pair<std::string, nc_color> get_fatigue_description() const;
-        virtual int get_fatigue() const;
-        virtual int get_sleep_deprivation() const;
+        std::pair<std::string, nc_color> get_thirst_description() const;
+        std::pair<std::string, nc_color> get_hunger_description() const;
+        std::pair<std::string, nc_color> get_fatigue_description() const;
+        int get_fatigue() const;
+        int get_sleep_deprivation() const;
+
+        std::pair<std::string, nc_color> get_pain_description() const override;
 
         /** Modifiers for need values exclusive to characters */
         virtual void mod_stored_kcal( int nkcal );

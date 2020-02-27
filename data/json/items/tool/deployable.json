@@ -2,7 +2,7 @@
   {
     "id": "brazier",
     "type": "TOOL",
-    "name": "brazier",
+    "name": { "str": "brazier" },
     "description": "A large metal stand used to contain a fire.  Fires set in a brazier will not spread to surrounding flammable objects.",
     "weight": "5000 g",
     "volume": "2500 ml",

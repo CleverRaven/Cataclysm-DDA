@@ -1,10 +1,13 @@
 #include "character_martial_arts.h"
 
 #include "action.h"
+#include "character.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "output.h"
 #include "cata_string_consts.h"
+
+using itype_id = std::string;
 
 character_martial_arts::character_martial_arts()
 {

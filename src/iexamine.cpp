@@ -108,7 +108,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
 {
     // Select an item to which it is possible to apply a diamond coating
     auto loc = g->inv_map_splice( []( const item & e ) {
-        return ( e.is_melee( DT_CUT ) || e.is_melee( DT_STAB ) ) && e.made_of( material_steel ) &&
+        return ( e.is_melee( DT_CUT ) || e.is_melee( DT_STAB ) ) && e.made_of( material_id( "steel" ) ) &&
                !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD );
     }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
 
@@ -136,7 +136,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     p.invalidate_crafting_inventory();
 
     // Apply flag to item
-    loc->item_tags.insert( flag_DIAMOND );
+    loc->item_tags.insert( "DIAMOND" );
     add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
     p.mod_moves( -to_turns<int>( 10_seconds ) );
 }
@@ -149,7 +149,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     bool table_exists = false;
     tripoint spawn_point;
     for( const auto &valid_location : g->m.points_in_radius( examp, 1 ) ) {
-        if( g->m.ter( valid_location ) == ter_nanofab_body ) {
+        if( g->m.ter( valid_location ) == ter_str_id( "t_nanofab_body" ) ) {
             spawn_point = valid_location;
             table_exists = true;
             break;
@@ -188,7 +188,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     p.invalidate_crafting_inventory();
 
     if( new_item.is_armor() && new_item.has_flag( flag_VARSIZE ) ) {
-        new_item.item_tags.insert( flag_FIT );
+        new_item.item_tags.insert( "FIT" );
     }
 
     g->m.add_item_or_charges( spawn_point, new_item );
@@ -881,9 +881,9 @@ void iexamine::intercom( player &p, const tripoint &examp )
 void iexamine::rubble( player &p, const tripoint &examp )
 {
     int moves;
-    if( p.has_quality( quality_DIG, 3 ) || p.has_trait( trait_BURROW ) ) {
+    if( p.has_quality( qual_DIG, 3 ) || p.has_trait( trait_BURROW ) ) {
         moves = to_moves<int>( 1_minutes );
-    } else if( p.has_quality( quality_DIG, 2 ) ) {
+    } else if( p.has_quality( qual_DIG, 2 ) ) {
         moves = to_moves<int>( 2_minutes );
     } else {
         add_msg( m_info, _( "If only you had a shovel…" ) );
@@ -1262,7 +1262,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 {
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
-        return temporary_item.has_quality( quality_PRY, 1 );
+        return temporary_item.has_quality( qual_PRY, 1 );
     } );
 
     if( prying_items.empty() ) {
@@ -1273,7 +1273,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     // Sort by their quality level.
     std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
-        return a->get_quality( quality_PRY ) > b->get_quality( quality_PRY );
+        return a->get_quality( qual_PRY ) > b->get_quality( qual_PRY );
     } );
 
     //~ %1$s: terrain/furniture name, %2$s: prying tool name
@@ -1669,7 +1669,7 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
         return;
     }
 
-    bool can_get_root = p.has_quality( quality_DIG ) || p.has_trait( trait_BURROW );
+    bool can_get_root = p.has_quality( qual_DIG ) || p.has_trait( trait_BURROW );
 
     if( can_get_root ) {
         if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
@@ -2129,7 +2129,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
 ret_val<bool> iexamine::can_fertilize( player &p, const tripoint &tile,
                                        const itype_id &fertilizer )
 {
-    if( !g->m.has_flag_furn( flag_PLANT, tile ) ) {
+    if( !g->m.has_flag_furn( "PLANT", tile ) ) {
         return ret_val<bool>::make_failure( _( "Tile isn't a plant" ) );
     }
     if( g->m.i_at( tile ).size() > 1 ) {
@@ -2267,7 +2267,7 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
         return;
     }
 
-    static const std::set<material_id> kilnable{ material_wood, material_bone };
+    static const std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ) };
     bool fuel_present = false;
     auto items = g->m.i_at( examp );
     for( const item &i : items ) {
@@ -2396,7 +2396,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         return;
     }
 
-    static const std::set<material_id> arcfurnaceable{ material_cac2powder };
+    static const std::set<material_id> arcfurnaceable{ material_id( "cac2powder" ) };
     bool fuel_present = false;
     auto items = g->m.i_at( examp );
     for( const item &i : items ) {
@@ -2511,8 +2511,6 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
     add_msg( _( "It has finished burning, yielding %d calcium carbide." ), result.charges );
 }
 //arc furnace end
-
-void iexamine::fireplace( player &p, const tripoint &examp );
 
 void iexamine::autoclave_empty( player &p, const tripoint &examp )
 {
@@ -3199,7 +3197,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
     if( harvest_common( p, examp, false, false ) ) {
         g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
     }
-    if( !p.has_quality( quality_DIG ) ) {
+    if( !p.has_quality( qual_DIG ) ) {
         p.add_msg_if_player( m_info, _( "You have no tool to dig with…" ) );
         return;
     }
@@ -3226,12 +3224,12 @@ static item_location maple_tree_sap_container()
 
 void iexamine::tree_maple( player &p, const tripoint &examp )
 {
-    if( !p.has_quality( quality_DRILL ) ) {
+    if( !p.has_quality( qual_DRILL ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
     }
 
-    if( !p.has_quality( quality_HAMMER ) ) {
+    if( !p.has_quality( qual_HAMMER ) ) {
         add_msg( m_info,
                  _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
         return;
@@ -3304,7 +3302,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
     switch( selectmenu.ret ) {
         case REMOVE_TAP: {
-            if( !p.has_quality( quality_HAMMER ) ) {
+            if( !p.has_quality( qual_HAMMER ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
                 return;
             }
@@ -3788,7 +3786,7 @@ static int getNearPumpCount( const tripoint &p )
     int result = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
         const auto t = g->m.ter( tmp );
-        if( t == ter_gas_pump || t == ter_gas_pump_a ) {
+        if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
             result++;
         }
     }
@@ -3802,7 +3800,7 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
     gas_units = 0;
 
     for( const tripoint &tmp : g->m.points_in_radius( center, SEEX * 2 ) ) {
-        if( g->m.ter( tmp ) != ter_gas_tank ) {
+        if( g->m.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
             continue;
         }
 
@@ -3848,7 +3846,7 @@ static int findBestGasDiscount( player &p )
     for( size_t i = 0; i < p.inv.size(); i++ ) {
         item &it = p.inv.find_item( i );
 
-        if( it.has_flag( flag_GAS_DISCOUNT ) ) {
+        if( it.has_flag( "GAS_DISCOUNT" ) ) {
 
             int q = getGasDiscountCardQuality( it );
             if( q > discount ) {
@@ -3908,7 +3906,7 @@ cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int nu
     int k = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
         const auto t = g->m.ter( tmp );
-        if( ( t == ter_gas_pump || t == ter_gas_pump_a ) && number == k++ ) {
+        if( ( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) && number == k++ ) {
             return tmp;
         }
     }
@@ -3972,11 +3970,11 @@ static void turnOnSelectedPump( const tripoint &p, int number )
     int k = 0;
     for( const tripoint &tmp : g->m.points_in_radius( p, 12 ) ) {
         const auto t = g->m.ter( tmp );
-        if( t == ter_gas_pump || t == ter_gas_pump_a ) {
+        if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
             if( number == k++ ) {
-                g->m.ter_set( tmp, ter_gas_pump_a );
+                g->m.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
             } else {
-                g->m.ter_set( tmp, ter_gas_pump );
+                g->m.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
             }
         }
     }
@@ -4351,6 +4349,17 @@ static player &best_installer( player &p, player &null_player, int difficulty )
     return p;
 }
 
+template<typename ...Args>
+inline void popup_player_or_npc( player &p, const char *player_mes, const char *npc_mes,
+                                 Args &&... args )
+{
+    if( p.is_player() ) {
+        popup( player_mes, std::forward<Args>( args )... );
+    } else {
+        popup( p.replace_with_npc_name( string_format( npc_mes, std::forward<Args>( args )... ) ) );
+    }
+}
+
 void iexamine::autodoc( player &p, const tripoint &examp )
 {
     enum options {
@@ -4453,7 +4462,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     } else {
         const inventory &crafting_inv = p.crafting_inventory();
         std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
-            return it.has_quality( quality_ANESTHESIA );
+            return it.has_quality( qual_ANESTHESIA );
         } );
         std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_flag( flag_ANESTHESIA ); // legacy
@@ -5649,7 +5658,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
                 pgettext( "in progress craft", "You start working on the %s." ),
                 pgettext( "in progress craft", "<npcname> starts working on the %s." ),
                 selected_craft->tname() );
-            p.assign_activity( ACT_CRAFT );
+            p.assign_activity( activity_id( "ACT_CRAFT" ) );
             p.activity.targets.push_back( crafts[amenu2.ret] );
             p.activity.values.push_back( 0 ); // Not a long craft
             break;

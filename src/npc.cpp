@@ -140,7 +140,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
     }
 
     for( item &e : worn ) {
-        if( e.has_flag( flag_VARSIZE ) ) {
+        if( e.has_flag( "VARSIZE" ) ) {
             e.item_tags.insert( "FIT" );
         }
     }
@@ -437,7 +437,7 @@ faction_id npc::get_fac_id() const
 faction *npc::get_faction() const
 {
     if( !my_fac ) {
-        return g->faction_manager_ptr->get( faction_no_faction );
+        return g->faction_manager_ptr->get( faction_id( "no_faction" ) );
     }
     return my_fac;
 }
@@ -515,7 +515,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     }
     who.worn.clear();
     for( item &it : ret ) {
-        if( it.has_flag( flag_VARSIZE ) ) {
+        if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
         if( who.can_wear( it ).success() ) {
@@ -569,7 +569,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     while( qty-- != 0 ) {
         item tmp = random_item_from( type, "misc" ).in_its_container();
         if( !tmp.is_null() ) {
-            if( !one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
+            if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
                 tmp.item_tags.insert( "FIT" );
             }
             if( who.can_pickVolume( tmp ) ) {
@@ -579,7 +579,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     }
 
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
-        return e.has_flag( flag_TRADER_AVOID );
+        return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
     for( auto &it : res ) {
         it.set_owner( who );
@@ -804,7 +804,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     // Check for conditions that disqualify us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         fail_reasons.emplace_back( _( "I can't read!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
+    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
@@ -844,7 +844,7 @@ void npc::finish_read( item &book )
     const skill_id &skill = reading->skill;
     // NPCs dont need to identify the book or learn recipes yet.
     // NPCs dont read to other NPCs yet.
-    const bool display_messages = my_fac->id == faction_your_followers && g->u.sees( pos() );
+    const bool display_messages = my_fac->id == faction_id( "your_followers" ) && g->u.sees( pos() );
     bool continuous = false; //whether to continue reading or not
     std::set<std::string> little_learned; // NPCs who learned a little about the skill
     std::set<std::string> cant_learn;
@@ -993,7 +993,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
 
     // Splints ignore limits, but only when being equipped on a broken part
     // TODO: Drop splints when healed
-    if( it.has_flag( flag_SPLINT ) ) {
+    if( it.has_flag( "SPLINT" ) ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
@@ -1029,7 +1029,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
             auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item & armor ) {
                 return armor.covers( bp );
             } );
-            if( iter != worn.end() && !( is_limb_broken( bp_to_hp( bp ) ) && iter->has_flag( flag_SPLINT ) ) ) {
+            if( iter != worn.end() && !( is_limb_broken( bp_to_hp( bp ) ) && iter->has_flag( "SPLINT" ) ) ) {
                 took_off = takeoff( *iter );
                 break;
             }
@@ -1278,7 +1278,7 @@ void npc::mutiny()
     // feel for you, but also reduces their respect for you.
     my_fac->likes_u = std::max( 0, my_fac->likes_u / 2 + 10 );
     my_fac->respects_u -= 5;
-    set_fac( faction_amf );
+    set_fac( faction_id( "amf" ) );
     say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
     if( seen ) {
         my_fac->known_by_u = true;
@@ -1346,7 +1346,7 @@ void npc::make_angry()
     }
 
     // Make associated faction, if any, angry at the player too.
-    if( my_fac && my_fac->id != faction_no_faction && my_fac->id != faction_amf ) {
+    if( my_fac && my_fac->id != faction_id( "no_faction" ) && my_fac->id != faction_id( "amf" ) ) {
         my_fac->likes_u = std::min( -15, my_fac->likes_u - 5 );
         my_fac->respects_u = std::min( -15, my_fac->respects_u - 5 );
     }
@@ -1654,7 +1654,7 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) || it.made_of( LIQUID ) ) {
+    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) || it.made_of( LIQUID ) ) {
         // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
     }
@@ -1865,7 +1865,7 @@ bool npc::is_ally( const player &p ) const
         return true;
     }
     if( p.is_player() ) {
-        if( my_fac && my_fac->id == faction_your_followers ) {
+        if( my_fac && my_fac->id == faction_id( "your_followers" ) ) {
             return true;
         }
         if( faction_api_version < 2 ) {
@@ -2673,7 +2673,7 @@ void npc::on_load()
     has_new_items = true;
 
     // for spawned npcs
-    if( g->m.has_flag( flag_UNSTABLE, pos() ) ) {
+    if( g->m.has_flag( "UNSTABLE", pos() ) ) {
         add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );

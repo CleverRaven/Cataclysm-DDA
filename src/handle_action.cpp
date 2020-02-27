@@ -408,8 +408,9 @@ static void pldrive( int x, int y )
         return;
     }
     if( !remote ) {
-        const bool has_animal_controls = veh->part_with_feature( part, flag_CONTROL_ANIMAL, true ) >= 0;
-        const bool has_controls = veh->part_with_feature( part, flag_CONTROLS, true ) >= 0;
+        static const itype_id fuel_type_animal( "animal" );
+        const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;
+        const bool has_controls = veh->part_with_feature( part, "CONTROLS", true ) >= 0;
         const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
                                 veh->has_harnessed_animal();
         if( !has_controls && !has_animal_controls ) {
@@ -422,7 +423,7 @@ static void pldrive( int x, int y )
             return;
         }
     } else {
-        if( empty( veh->get_avail_parts( flag_REMOTE_CONTROLS ) ) ) {
+        if( empty( veh->get_avail_parts( "REMOTE_CONTROLS" ) ) ) {
             add_msg( m_info, _( "Can't drive this vehicle remotely.  It has no working controls." ) );
             return;
         }
@@ -486,7 +487,7 @@ static void open()
             }
         } else {
             // If there are any OPENABLE parts here, they must be already open
-            if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( flag_OPENABLE,
+            if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
                     true ) ) {
                 const std::string name = already_open->info().name();
                 add_msg( m_info, _( "That %s is already open." ), name );
@@ -708,7 +709,7 @@ static void smash()
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             const int vol = u.weapon.volume() / units::legacy_volume_factor;
-            if( u.weapon.made_of( material_glass ) &&
+            if( u.weapon.made_of( material_id( "glass" ) ) &&
                 rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
                 for( auto &elem : u.weapon.contents ) {
@@ -1032,32 +1033,32 @@ static void loot()
     player &u = g->u;
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = u.has_item_with_flag( flag_FERTILIZER );
+    const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
 
     // Manually update vehicle cache.
     // In theory this would be handled by the related activity (activity_on_turn_move_loot())
     // but with a stale cache we never get that far.
     mgr.cache_vzones();
 
-    flags |= g->check_near_zone( zone_type_LOOT_UNSORTED, u.pos() ) ? SortLoot : 0;
-    if( g->check_near_zone( zone_type_FARM_PLOT, u.pos() ) ) {
+    flags |= g->check_near_zone( zone_type_id( "LOOT_UNSORTED" ), u.pos() ) ? SortLoot : 0;
+    if( g->check_near_zone( zone_type_id( "FARM_PLOT" ), u.pos() ) ) {
         flags |= FertilizePlots;
         flags |= MultiFarmPlots;
     }
-    flags |= g->check_near_zone( zone_type_CONSTRUCTION_BLUEPRINT,
+    flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                                  u.pos() ) ? ConstructPlots : 0;
 
-    flags |= g->check_near_zone( zone_type_CHOP_TREES, u.pos() ) ? Multichoptrees : 0;
-    flags |= g->check_near_zone( zone_type_LOOT_WOOD, u.pos() ) ? Multichopplanks : 0;
-    flags |= g->check_near_zone( zone_type_VEHICLE_DECONSTRUCT,
+    flags |= g->check_near_zone( zone_type_id( "CHOP_TREES" ), u.pos() ) ? Multichoptrees : 0;
+    flags |= g->check_near_zone( zone_type_id( "LOOT_WOOD" ), u.pos() ) ? Multichopplanks : 0;
+    flags |= g->check_near_zone( zone_type_id( "VEHICLE_DECONSTRUCT" ),
                                  u.pos() ) ? Multideconvehicle : 0;
-    flags |= g->check_near_zone( zone_type_VEHICLE_REPAIR, u.pos() ) ? Multirepairvehicle : 0;
-    flags |= g->check_near_zone( zone_type_LOOT_CORPSE, u.pos() ) ? MultiButchery : 0;
+    flags |= g->check_near_zone( zone_type_id( "VEHICLE_REPAIR" ), u.pos() ) ? Multirepairvehicle : 0;
+    flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ), u.pos() ) ? MultiButchery : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
-                 mgr.get_name_from_type( zone_type_LOOT_UNSORTED ),
-                 mgr.get_name_from_type( zone_type_FARM_PLOT ) );
+                 mgr.get_name_from_type( zone_type_id( "LOOT_UNSORTED" ) ),
+                 mgr.get_name_from_type( zone_type_id( "FARM_PLOT" ) ) );
         return;
     }
 
@@ -1277,7 +1278,7 @@ static void fire()
             return;
         }
 
-        if( vp.part_with_feature( flag_CONTROLS, true ) ) {
+        if( vp.part_with_feature( "CONTROLS", true ) ) {
             if( vp->vehicle().turrets_aim_and_fire() ) {
                 return;
             }
@@ -1411,7 +1412,7 @@ static void cast_spell()
         return;
     }
 
-    if( sp.energy_source() == hp_energy && !u.has_quality( quality_CUT ) ) {
+    if( sp.energy_source() == hp_energy && !u.has_quality( qual_CUT ) ) {
         add_msg( m_bad, _( "You cannot cast Blood Magic without a cutting implement." ) );
         return;
     }

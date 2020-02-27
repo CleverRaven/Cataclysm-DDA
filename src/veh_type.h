@@ -23,6 +23,8 @@
 #include "point.h"
 #include "translations.h"
 
+using itype_id = std::string;
+
 class JsonObject;
 class Character;
 
