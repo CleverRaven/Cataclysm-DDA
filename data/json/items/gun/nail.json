@@ -4,7 +4,7 @@
     "copy-from": "gun_base",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": "coilgun",
+    "name": { "str": "coilgun" },
     "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
     "description": "A homemade gun, using electromagnets to accelerate a ferromagnetic projectile to high velocity.  Powered by UPS.",
     "weight": "3341 g",

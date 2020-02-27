@@ -104,7 +104,7 @@
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
-    "name": "double speargun",
+    "name": { "str": "double speargun" },
     "description": "A double-loading underwater fishing implement designed to fire a specialized type of spear using tension in a rubber band.  While highly effective when used underwater, it is nearly useless on dry land.",
     "price": 17500,
     "material": [ "wood", "plastic" ],

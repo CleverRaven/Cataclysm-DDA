@@ -116,7 +116,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "handheld laser cannon",
+    "name": { "str": "handheld laser cannon" },
     "description": "This is a laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.",
     "weight": "5140 g",
     "volume": "1500 ml",
