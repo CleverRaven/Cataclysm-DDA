@@ -2837,7 +2837,7 @@
     "id": "broken_turret_rifle",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken M249 autonomous CROWS II" },
+    "name": { "str": "broken M249 autonomous CROWS II", "str_pl": "broken M249 autonomous CROWS II turrets" },
     "weight": "75 kg",
     "copy-from": "broken_turret"
   },
