@@ -8313,10 +8313,12 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
         }
 
         // Process the past of this item since the last time it was processed
-        while( time < now - 1_hours ) {
+        while( now - time > 1_hours ) {
             // Get the environment temperature
             time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
             time += time_delta;
+			
+			//debugmsg( "Rot from %d to %d", to_turn<int>(last_temp_check), to_turn<int>(time) );
 
             //Use weather if above ground, use map temp if below
             double env_temperature = 0;
@@ -8352,12 +8354,12 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             if( now - time > 2_days ) {
                 // This value shouldn't be there anymore after the loop is done so we don't bother with the set_item_temperature()
                 temperature = static_cast<int>( 100000 * temp_to_kelvin( env_temperature ) );
-            } else if( time - last_temp_check > smallest_interval ) {
+            } else {
                 calc_temp( env_temperature, insulation, time );
             }
 
             // Calculate item rot from item temperature
-            if( process_rot && time - last_temp_check > smallest_interval ) {
+            if( process_rot ) {
                 calc_rot( time, env_temperature );
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
