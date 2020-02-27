@@ -98,7 +98,7 @@
     "type": "technique",
     "id": "tec_crt_blade_rapid",
     "name": "Tipped Intent",
-    "skill_requirements": [ { { "name": "melee", "level": 1 } ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.77 ] ],
