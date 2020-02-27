@@ -292,7 +292,7 @@
     "id": "glowstick_dead",
     "type": "TOOL",
     "category": "other",
-    "name": "dead glowstick",
+    "name": { "str": "dead glowstick" },
     "description": "This is a spent glowstick.  It is essentially trash.",
     "weight": "29 g",
     "volume": "250 ml",
