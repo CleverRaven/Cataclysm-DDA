@@ -46,7 +46,7 @@
   {
     "id": "cow_bell",
     "type": "TOOL",
-    "name": "cow bell",
+    "name": { "str": "cow bell" },
     "description": "A brass cow bell.  Potentially useful in so many ways.",
     "weight": "566 g",
     "volume": "1 L",

@@ -66,7 +66,7 @@
   {
     "id": "cot",
     "type": "TOOL",
-    "name": "cot",
+    "name": { "str": "cot" },
     "description": "This is a military style fold up cot.  While it may not be quite as comfortable as a bed, it's better than slumming it on the ground.",
     "weight": "6164 g",
     "volume": "2 L",

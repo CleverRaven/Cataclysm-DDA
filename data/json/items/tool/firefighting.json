@@ -4,7 +4,7 @@
     "id": "crash_axe",
     "symbol": ";",
     "color": "light_gray",
-    "name": "crash axe",
+    "name": { "str": "crash axe" },
     "looks_like": "hatchet",
     "//": "Same stats as a hatchet, except it has prying instead of hammering.",
     "description": "A short lightweight emergency tool with a quarter circular blade, a short pick opposite the blade and an insulated handle.  Used on airplanes to chop down or pry walls or cabinets to gain access in case of fire.",

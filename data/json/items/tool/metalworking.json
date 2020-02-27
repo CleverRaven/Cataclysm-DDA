@@ -102,7 +102,7 @@
   {
     "id": "crucible",
     "type": "TOOL",
-    "name": "crucible",
+    "name": { "str": "crucible" },
     "description": "This is a small metalworking crucible.  It's used in some metalworking fabrication recipes.",
     "weight": "1400 g",
     "volume": "2 L",
@@ -132,7 +132,7 @@
   {
     "id": "forge",
     "type": "TOOL",
-    "name": "electric forge",
+    "name": { "str": "electric forge" },
     "description": "This is a portable electric metalworking forge, powered by batteries.  Combined with the right tools, you could use this for metalworking.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
     "weight": "10000 g",
     "volume": "6 L",

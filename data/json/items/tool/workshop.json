@@ -229,7 +229,7 @@
   {
     "id": "elec_jackhammer",
     "type": "TOOL",
-    "name": "electric jackhammer",
+    "name": { "str": "electric jackhammer" },
     "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
     "weight": "40000 g",
     "volume": "5 L",
@@ -380,7 +380,7 @@
   {
     "id": "kiln",
     "type": "TOOL",
-    "name": "electric kiln",
+    "name": { "str": "electric kiln" },
     "description": "This is a portable electric kiln, powered by batteries.  It is designed for firing bricks, but you could use it to fire anything made of clay.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
     "weight": "12000 g",
     "volume": "7500 ml",
@@ -627,7 +627,7 @@
   {
     "id": "polisher",
     "type": "TOOL",
-    "name": "electric polisher",
+    "name": { "str": "electric polisher" },
     "description": "An electric polisher which can be used to buff metal surfaces until they are reflective like a mirror.",
     "weight": "1000 g",
     "volume": "3500 ml",

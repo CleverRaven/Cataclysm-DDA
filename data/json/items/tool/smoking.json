@@ -35,7 +35,7 @@
   {
     "id": "crackpipe",
     "type": "TOOL",
-    "name": "crack pipe",
+    "name": { "str": "crack pipe" },
     "description": "This is a fine glass tube with a bulb with a bowl on one end.  It's used to partake of certain illicit substances.",
     "weight": "242 g",
     "volume": "250 ml",
