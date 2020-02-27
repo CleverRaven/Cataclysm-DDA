@@ -49,7 +49,7 @@
   {
     "id": "bio_laser_gun",
     "type": "GUN",
-    "name": "laser finger",
+    "name": { "str": "laser finger" },
     "description": "this a pseudo item",
     "volume": "3 L",
     "price": 0,
