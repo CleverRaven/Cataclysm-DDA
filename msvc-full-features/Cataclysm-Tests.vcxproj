@@ -22,7 +22,7 @@
     <ProjectGuid>{0005F1C3-0BCC-4980-8C62-4A8B91C116BA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Cataclysm-Tests</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
