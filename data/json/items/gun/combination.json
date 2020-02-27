@@ -6,7 +6,7 @@
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
-    "name": "combination gun",
+    "name": { "str": "combination gun" },
     "description": "A break action firearm comprised of a .30-06 barrel over two 12 gauge smooth bore barrels.  Historically used by egomaniac hunters in Africa, now used by their egomaniac descendants in New England.",
     "price": 259500,
     "material": [ "steel", "wood" ],

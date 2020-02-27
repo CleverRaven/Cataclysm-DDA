@@ -156,7 +156,7 @@
     "looks_like": "sw_619",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "handmade six-shooter",
+    "name": { "str": "handmade six-shooter" },
     "description": "A homemade 6-shot revolver.  While it's not as good as the pre-Cataclysm manufactured weapons, it's a decent piece of work, all things considered.",
     "weight": "1333 g",
     "volume": "750 ml",

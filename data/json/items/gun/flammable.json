@@ -4,7 +4,7 @@
     "copy-from": "flamethrower_base",
     "looks_like": "m79",
     "type": "GUN",
-    "name": "flamethrower",
+    "name": { "str": "flamethrower" },
     "description": "A large flamethrower with substantial gas reserves.  Very menacing and deadly.",
     "weight": "1587 g",
     "volume": "4 L",
