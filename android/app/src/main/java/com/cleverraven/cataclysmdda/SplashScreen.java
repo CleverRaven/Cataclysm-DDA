@@ -63,7 +63,7 @@ public class SplashScreen extends Activity {
                 installDialog = new ProgressDialog(this);
                 installDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 boolean clean_install = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("installed", "").isEmpty();
-                installDialog.setTitle(getString(clean_install ? R.string.installing : R.string.upgrading));
+                installDialog.setTitle(getString(clean_install ? R.string.installTitle : R.string.upgradeTitle));
                 installDialog.setIndeterminate(true);
                 installDialog.setCancelable(false);
                 return installDialog;
