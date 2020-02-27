@@ -229,11 +229,13 @@ ELSE()
        -Wold-style-cast \
        -Woverloaded-virtual \
        -Wpedantic \
-       -Wredundant-decls \
        -Wsuggest-override \
        -Wunused-macros \
        -Wzero-as-null-pointer-constant \
        -Wno-unknown-warning-option")
+    IF (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
+        SET(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
+    ENDIF()
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")
