@@ -537,6 +537,7 @@
     "covers": [ "TORSO" ],
     "coverage": 20,
     "encumbrance": 2,
+    "max_encumbrance": 5,
     "material_thickness": 2,
     "storage": "3 L",
     "use_action": {
