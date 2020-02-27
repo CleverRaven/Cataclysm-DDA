@@ -112,7 +112,7 @@
     "id": "bowling_ball",
     "symbol": "*",
     "color": "blue",
-    "name": "bowling ball",
+    "name": { "str": "bowling ball" },
     "description": "A large, heavy ball.  Before the apocalypse, its main purpose was to be rolled along waxed floors.",
     "category": "other",
     "price": 30,
