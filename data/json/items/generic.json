@@ -2846,7 +2846,7 @@
     "id": "broken_crows_m240",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken M240 autonomous CROWS II" },
+    "name": { "str": "broken M240 autonomous CROWS II", "str_pl": "broken M240 autonomous CROWS II turrets" },
     "weight": "75 kg",
     "copy-from": "broken_turret"
   },
