@@ -50,7 +50,7 @@
   {
     "id": "camp_chair",
     "type": "TOOL",
-    "name": "camp chair",
+    "name": { "str": "camp chair" },
     "description": "Folded camp chair, deploy to sit down.",
     "weight": "1000 g",
     "volume": "2500 ml",

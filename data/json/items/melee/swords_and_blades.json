@@ -276,7 +276,7 @@
     "id": "cavalry_sabre",
     "type": "TOOL",
     "category": "weapons",
-    "name": "cavalry saber",
+    "name": { "str": "cavalry saber" },
     "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight but a deadly slashing weapon.",
     "weight": "910 g",
     "volume": "1250 ml",

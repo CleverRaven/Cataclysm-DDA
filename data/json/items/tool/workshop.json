@@ -130,7 +130,7 @@
   {
     "id": "clamp",
     "type": "TOOL",
-    "name": "clamp",
+    "name": { "str": "clamp" },
     "description": "This clamp is useful for keeping things still, especially if you have several of them.",
     "weight": "320 g",
     "volume": "500 ml",
@@ -146,7 +146,7 @@
   {
     "id": "claw_bar",
     "type": "TOOL",
-    "name": "claw bar",
+    "name": { "str": "claw bar" },
     "description": "This is a small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "340 g",
     "volume": "375 ml",
@@ -164,7 +164,7 @@
   {
     "id": "con_mix",
     "type": "TOOL",
-    "name": "concrete mixer",
+    "name": { "str": "concrete mixer" },
     "description": "A portable concrete mixer.  It is still large and heavy, but it can be operated solo, and runs on batteries.  It also has a heater built in.",
     "weight": "9071 g",
     "volume": "5 L",
@@ -189,7 +189,7 @@
   {
     "id": "cordless_drill",
     "type": "TOOL",
-    "name": "cordless drill",
+    "name": { "str": "cordless drill" },
     "description": "This is a cordless battery-powered drill with a selection of drill bits.",
     "weight": "2721 g",
     "volume": "750 ml",
