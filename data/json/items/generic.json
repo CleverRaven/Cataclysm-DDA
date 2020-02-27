@@ -2855,7 +2855,7 @@
     "id": "broken_turret_bmg",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken M2 autonomous CROWS II" },
+    "name": { "str": "broken M2 autonomous CROWS II", "str_pl": "broken M2 autonomous CROWS II turrets" },
     "weight": "100 kg",
     "copy-from": "broken_turret"
   },
