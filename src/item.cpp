@@ -8317,8 +8317,6 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             // Get the environment temperature
             time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
             time += time_delta;
-			
-			//debugmsg( "Rot from %d to %d", to_turn<int>(last_temp_check), to_turn<int>(time) );
 
             //Use weather if above ground, use map temp if below
             double env_temperature = 0;
