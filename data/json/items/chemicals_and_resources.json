@@ -1374,7 +1374,7 @@
     "id": "rosin",
     "type": "AMMO",
     "category": "chems",
-    "name": "rosin",
+    "name": { "str": "rosin" },
     "description": "This is a chunk of yellowish rosin, usable as a flux for soldering.",
     "weight": "1 g",
     "volume": "10 ml",
