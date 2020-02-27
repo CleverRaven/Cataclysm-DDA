@@ -1286,11 +1286,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.push_back( iteminfo( "BASE", space + _( "max rot (turns): " ),
                                           "", iteminfo::lower_is_better,
                                           to_turns<int>( food->get_shelf_life() ) ) );
-                info.push_back( iteminfo( "BASE", _( "last temp: " ),
-                                          "", iteminfo::lower_is_better,
-                                          to_turn<int>( food->last_temp_check ) ) );
             }
             if( food && food->has_temperature() ) {
+				info.push_back( iteminfo( "BASE", _( "last temp: " ),
+                                          "", iteminfo::lower_is_better,
+                                          to_turn<int>( food->last_temp_check ) ) );
                 info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
                                           food->temperature ) );
                 info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "",
