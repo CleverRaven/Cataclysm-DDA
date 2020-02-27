@@ -110,6 +110,7 @@ public class SplashScreen extends Activity {
 
         private AlertDialog installationAlert;
         private AlertDialog settingsAlert;
+        private AlertDialog helpAlert;
 
         @Override
         protected void onPreExecute() {
@@ -133,6 +134,17 @@ public class SplashScreen extends Activity {
                 installationAlert.show();
             }
 
+            helpAlert = new AlertDialog.Builder(SplashScreen.this)
+                .setTitle(getString(R.string.helpTitle))
+                .setCancelable(false)
+                .setMessage(getString(R.string.helpMessage))
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        settingsAlert.show();
+                        return;
+                    }
+                }).create();
+
             settingsAlert = new AlertDialog.Builder(SplashScreen.this)
                 .setTitle("Settings")
                 .setMultiChoiceItems(SplashScreen.this.mSettingsNames, SplashScreen.this.mSettingsValues, new DialogInterface.OnMultiChoiceClickListener() {
@@ -146,6 +158,12 @@ public class SplashScreen extends Activity {
                         for (int i = 0; i < mSettingsNames.length; ++i)
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean(SplashScreen.this.mSettingsNames[i].toString(), SplashScreen.this.mSettingsValues[i]).commit();
                         SplashScreen.this.startGameActivity(false);
+                        return;
+                    }
+                })
+                .setNeutralButton("Show help", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        helpAlert.show();
                         return;
                     }
                 }).create();
