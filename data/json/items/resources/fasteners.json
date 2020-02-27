@@ -79,7 +79,7 @@
     "id": "zipper_short_plastic",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": "short plastic zipper",
+    "name": { "str": "short plastic zipper" },
     "description": "A short zipper made from plastic, usually found on footwear or clothing pockets.",
     "weight": "4 g",
     "volume": "4 ml",

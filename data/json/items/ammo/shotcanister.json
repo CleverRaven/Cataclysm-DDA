@@ -4,7 +4,7 @@
     "id": "shotcanister_scrap",
     "price": 1000,
     "price_postapoc": 1000,
-    "name": "scrap shotcanister",
+    "name": { "str": "scrap shotcanister" },
     "symbol": "=",
     "color": "green",
     "description": "This small paper canister resembling a crude shotshell is filled to the brim with assorted pieces of scrap metal.",

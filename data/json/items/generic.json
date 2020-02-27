@@ -2615,7 +2615,7 @@
   {
     "id": "shrapnel",
     "type": "AMMO",
-    "name": "shrapnel",
+    "name": { "str": "shrapnel" },
     "description": "A twisted shard of jagged metal.",
     "weight": "5 g",
     "volume": "250 ml",
