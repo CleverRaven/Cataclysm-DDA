@@ -4112,7 +4112,7 @@ needs_rates Character::calc_needs_rates() const
 
     rates.thirst = get_option< float >( "PLAYER_THIRST_RATE" );
     rates.thirst *= 1.0f + mutation_value( "thirst_modifier" );
-    if( worn_with_flag( flag_SLOWS_THIRST ) ) {
+    if( worn_with_flag( "SLOWS_THIRST" ) ) {
         rates.thirst *= 0.7f;
     }
 
@@ -4996,7 +4996,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
                 for( const item &items_it : items ) {
-                    if( items_it.has_flag( flag_SLEEP_AID ) ) {
+                    if( items_it.has_flag( "SLEEP_AID" ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                         comfort_response.aid = &items_it;
@@ -5033,7 +5033,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
         if( comfort_response.aid == nullptr ) {
             const map_stack items = g->m.i_at( p );
             for( const item &items_it : items ) {
-                if( items_it.has_flag( flag_SLEEP_AID ) ) {
+                if( items_it.has_flag( "SLEEP_AID" ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                     comfort_response.aid = &items_it;
