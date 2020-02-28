@@ -20,8 +20,8 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
         item &book1 = dummy.i_add( item( "novel_western" ) );
         item &book2 = dummy.i_add( item( "mag_throwing" ) );
 
-        REQUIRE( !dummy.has_identified( book1.typeId() ) );
-        REQUIRE( !dummy.has_identified( book2.typeId() ) );
+        REQUIRE_FALSE( dummy.has_identified( book1.typeId() ) );
+        REQUIRE_FALSE( dummy.has_identified( book2.typeId() ) );
 
         WHEN( "they read the books for the first time" ) {
             dummy.do_read( book1 );
@@ -46,8 +46,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
         int book_fun = book.type->book->fun;
 
         WHEN( "player neither loves nor hates books" ) {
-            REQUIRE( !dummy.has_trait( trait_LOVES_BOOKS ) );
-            REQUIRE( !dummy.has_trait( trait_HATES_BOOKS ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_LOVES_BOOKS ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_HATES_BOOKS ) );
 
             THEN( "the book is a normal amount of fun" ) {
                 CHECK( dummy.fun_to_read( book ) == true );
@@ -84,7 +84,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
         int book_fun = book.type->book->fun;
 
         WHEN( "player is not spiritual" ) {
-            REQUIRE( !dummy.has_trait( trait_SPIRITUAL ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_SPIRITUAL ) );
 
             THEN( "the book is a normal amount of fun" ) {
                 CHECK( dummy.fun_to_read( book ) == true );
@@ -157,7 +157,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
     item &western = dummy.i_add( item( "novel_western" ) );
     item &alpha = dummy.i_add( item( "recipe_alpha" ) );
 
-    // Ensure the books have expected attributes
+    // Ensure the books are actually books
     REQUIRE( child.type->book );
     REQUIRE( western.type->book );
     REQUIRE( alpha.type->book );
@@ -168,11 +168,12 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
     int moves_alpha = alpha.type->book->time * to_moves<int>( 1_minutes );
 
     GIVEN( "some unidentified books and plenty of light" ) {
-        item &lamp = dummy.i_add( item( "atomic_lamp" ) );
-        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
+        REQUIRE_FALSE( dummy.has_identified( child.typeId() ) );
+        REQUIRE_FALSE( dummy.has_identified( western.typeId() ) );
 
-        REQUIRE( !dummy.has_identified( child.typeId() ) );
-        REQUIRE( !dummy.has_identified( western.typeId() ) );
+        // Get some light
+        dummy.i_add( item( "atomic_lamp" ) );
+        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         THEN( "identifying books takes 1/10th of the normal reading time" ) {
             CHECK( dummy.time_to_read( western, dummy ) == moves_western / 10 );
@@ -181,9 +182,6 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
     }
 
     GIVEN( "some identified books and plenty of light" ) {
-        item &lamp = dummy.i_add( item( "atomic_lamp" ) );
-        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
-
         // Identify the books
         dummy.do_read( child );
         dummy.do_read( western );
@@ -191,6 +189,10 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
         REQUIRE( dummy.has_identified( child.typeId() ) );
         REQUIRE( dummy.has_identified( western.typeId() ) );
         REQUIRE( dummy.has_identified( alpha.typeId() ) );
+
+        // Get some light
+        dummy.i_add( item( "atomic_lamp" ) );
+        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         WHEN( "player has average intelligence" ) {
             dummy.int_max = 8;
@@ -244,6 +246,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 
     SECTION( "you cannot read what is not readable" ) {
         item &rag = dummy.i_add( item( "rag" ) );
+        REQUIRE_FALSE( rag.is_book() );
 
         CHECK( dummy.get_book_reader( rag, reasons ) == nullptr );
         expect_reasons = { "Your rag is not good reading material." };
@@ -259,11 +262,13 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
     }
 
     GIVEN( "some identified books and plenty of light" ) {
+        // Identify the books
         dummy.do_read( child );
         dummy.do_read( western );
         dummy.do_read( alpha );
 
-        item &lamp = dummy.i_add( item( "atomic_lamp" ) );
+        // Get some light
+        dummy.i_add( item( "atomic_lamp" ) );
         REQUIRE( dummy.fine_detail_vision_mod() == 1 );
 
         THEN( "you cannot read while illiterate" ) {
