@@ -61,12 +61,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "177pel",
-    "name": "pellets",
-    "default": "177pel"
-  },
-  {
-    "type": "ammunition_type",
     "id": "rock",
     "name": "rocks",
     "default": "rock"
