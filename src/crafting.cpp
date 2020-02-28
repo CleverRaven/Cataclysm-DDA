@@ -1151,12 +1151,12 @@ void player::complete_craft( item &craft, const tripoint &loc )
             newit_counter++;
         }
 
-        
+
 
         if( food_contained.has_temperature() ) {
-			if( food_contained.goes_bad() ) {
-				food_contained.set_relative_rot( relative_rot );
-			}
+            if( food_contained.goes_bad() ) {
+                food_contained.set_relative_rot( relative_rot );
+            }
             food_contained.reset_temp_check();
             if( should_heat ) {
                 food_contained.heat_up();
@@ -1190,12 +1190,12 @@ void player::complete_craft( item &craft, const tripoint &loc )
     if( making.has_byproducts() ) {
         std::vector<item> bps = making.create_byproducts( batch_size );
         for( auto &bp : bps ) {
-            
+
             if( bp.has_temperature() ) {
-				if( bp.goes_bad() ) {
-					bp.set_relative_rot( relative_rot );
-				}
-				bp.reset_temp_check();
+                if( bp.goes_bad() ) {
+                    bp.set_relative_rot( relative_rot );
+                }
+                bp.reset_temp_check();
                 if( should_heat ) {
                     bp.heat_up();
                 } else {
