@@ -78,8 +78,8 @@
 #define COL_NOTE_MAJOR      c_green   // Important note
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
-#define HIGH_STAT 14 // The point after which stats cost double
-#define MAX_STAT 20 // The point after which stats can not be increased further
+#define HIGH_STAT 12 // The point after which stats cost double
+#define MAX_STAT 14 // The point after which stats can not be increased further
 
 #define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
 
