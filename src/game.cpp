@@ -8240,10 +8240,14 @@ void game::butcher()
         }
         break;
         case BUTCHER_SALVAGE: {
-            // Pick index of first item in the salvage stack
-            item *const target = &*salvage_stacks[indexer_index].first;
-            item_location item_loc( map_cursor( u.pos() ), target );
-            salvage_iuse->cut_up( u, *salvage_tool, item_loc );
+            if( !salvage_iuse || !salvage_tool ) {
+                debugmsg( "null salve_iuse or salvage_tool" );
+            } else {
+                // Pick index of first item in the salvage stack
+                item *const target = &*salvage_stacks[indexer_index].first;
+                item_location item_loc( map_cursor( u.pos() ), target );
+                salvage_iuse->cut_up( u, *salvage_tool, item_loc );
+            }
         }
         break;
     }
