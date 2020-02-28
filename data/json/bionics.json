@@ -4,7 +4,7 @@
     "type": "bionic",
     "name": { "str": "Adrenaline Pump" },
     "description": "A stimulator system has been surgically implanted alongside your adrenal glands, allowing you to trigger your body's adrenaline response at the cost of some bionic power.",
-    "occupied_bodyparts": [ [ "TORSO", 6 ] ],
+    "occupied_bodyparts": [ [ "ABDOMEN", 6 ] ],
     "act_cost": "5 J"
   },
   {
@@ -12,7 +12,7 @@
     "type": "bionic",
     "name": { "str": "Active Defense System" },
     "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy, reducing their ability to deal damage.  Bullets will be deflected more than melee weapons and those in turn more than massive objects.",
-    "occupied_bodyparts": [ [ "TORSO", 10 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 4 ], [ "ABDOMEN", 4 ], [ "PELVIS", 2 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 10,
     "react_cost": 10,
@@ -23,7 +23,7 @@
     "type": "bionic",
     "name": { "str": "Alarm System" },
     "description": "A motion-detecting alarm system will notice almost all movement within a fifteen-foot radius, and will silently alert you.  This is very useful during sleep, or if you suspect a cloaked pursuer.",
-    "occupied_bodyparts": [ [ "TORSO", 2 ], [ "HEAD", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 2 ], [ "HEAD", 1 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "1 J",
     "react_cost": "1 J",
@@ -83,9 +83,9 @@
     "type": "bionic",
     "name": { "str": "Alloy Plating - Torso" },
     "description": "The flesh on your torso has been surgically replaced by alloy plating, protecting it from physical trauma.",
-    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "bash_protec": [ [ "TORSO", 3 ] ],
-    "cut_protec": [ [ "TORSO", 3 ] ],
+    "occupied_bodyparts": [ [ "ABDOMEN", 5 ], [ "ABDOMEN", 5 ] ],
+    "bash_protec": [ [ "CHEST", 3 ], [ "ABDOMEN", 3 ] ],
+    "cut_protec": [ [ "CHEST", 3 ], [ "ABDOMEN", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -93,7 +93,7 @@
     "type": "bionic",
     "name": { "str": "Battery System" },
     "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to drain charge from a battery.  Can be toggled on and off at will.",
-    "occupied_bodyparts": [ [ "TORSO", 25 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 10 ], [ "ABDOMEN", 15 ] ],
     "fuel_options": [ "battery" ],
     "fuel_efficiency": 1,
     "fuel_capacity": 2000,
@@ -134,7 +134,7 @@
     "type": "bionic",
     "name": { "str": "Blood Analysis" },
     "description": "Small sensors have been surgically implanted in your heart, allowing you to analyze your blood.  This will detect many illnesses, drugs, and other conditions.",
-    "occupied_bodyparts": [ [ "TORSO", 5 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 5 ] ],
     "act_cost": "100 J"
   },
   {
@@ -142,7 +142,7 @@
     "type": "bionic",
     "name": { "str": "Blood Filter" },
     "description": "A filtration system in your heart allows you to actively filter out chemical impurities, primarily drugs.  It will have limited impact on viruses.  Note that it is not a targeted filter; ALL drugs in your system will be affected.",
-    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 10 ] ],
     "act_cost": "600 J"
   },
   {
@@ -150,7 +150,7 @@
     "type": "bionic",
     "name": { "str": "Cable Charger System" },
     "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a power source via jumper cable.",
-    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "occupied_bodyparts": [ [ "PELVIS", 7 ] ],
     "is_remote_fueled": true,
     "time": 1,
     "fuel_efficiency": 1,
@@ -162,7 +162,9 @@
     "name": { "str": "Subdermal Carbon Filament" },
     "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This reduces bashing damage by 2 and cutting damage by 4.",
     "occupied_bodyparts": [
-      [ "TORSO", 5 ],
+      [ "CHEST", 2 ],
+      [ "ABDOMEN", 2 ],
+      [ "PELVIS", 1 ],
       [ "HEAD", 2 ],
       [ "ARM_L", 2 ],
       [ "ARM_R", 2 ],
@@ -174,7 +176,9 @@
       [ "FOOT_R", 1 ]
     ],
     "bash_protec": [
-      [ "TORSO", 2 ],
+      [ "CHEST", 2 ],
+      [ "ABDOMEN", 2 ],
+      [ "PELVIS", 2 ],
       [ "HEAD", 2 ],
       [ "ARM_L", 2 ],
       [ "ARM_R", 2 ],
@@ -186,7 +190,9 @@
       [ "FOOT_R", 2 ]
     ],
     "cut_protec": [
-      [ "TORSO", 4 ],
+      [ "CHEST", 4 ],
+      [ "ABDOMEN", 4 ],
+      [ "PELVIS", 4 ],
       [ "HEAD", 4 ],
       [ "ARM_L", 4 ],
       [ "ARM_R", 4 ],
@@ -204,7 +210,7 @@
     "type": "bionic",
     "name": { "str": "Chain Lightning" },
     "description": "Your body is equipped with a chain lightning generator, allowing you to emit a blast of lightning at a target, leaving a trail of lightning in its wake, jumping to additional targets within 4 tiles of the previous target.",
-    "occupied_bodyparts": [ [ "TORSO", 16 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 8 ], [ "ABDOMEN", 8 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ] ],
     "act_cost": "100 kJ",
     "fake_item": "bio_lightning",
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
@@ -225,7 +231,9 @@
     "name": { "str": "Internal Climate Control" },
     "description": "Throughout your body lies a network of thermal piping, which eases the effects of high and low ambient temperatures when activated.",
     "occupied_bodyparts": [
-      [ "TORSO", 8 ],
+      [ "CHEST", 3 ],
+      [ "ABDOMEN", 3 ],
+      [ "PELVIS", 2 ],
       [ "HEAD", 2 ],
       [ "ARM_L", 2 ],
       [ "ARM_R", 2 ],
@@ -247,8 +255,9 @@
     "name": { "str": "Cloaking System" },
     "description": "This high-power system uses a set of cameras and LEDs to make you blend into your background, rendering you fully invisible to normal vision.  However, you may be detected by infrared, sonar, etc.",
     "occupied_bodyparts": [
-      [ "TORSO", 15 ],
-      [ "HEAD", 2 ],
+      [ "CHEST", 6 ],
+      [ "ABDOMEN", 6 ],
+      [ "PELVIS", 3 ],
       [ "ARM_L", 3 ],
       [ "ARM_R", 3 ],
       [ "HAND_L", 1 ],
@@ -287,7 +296,7 @@
     "type": "bionic",
     "name": { "str": "Wired Reflexes" },
     "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity.",
-    "occupied_bodyparts": [ [ "TORSO", 6 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 3 ], [ "ABDOMEN", 3 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ],
     "stat_bonus": [ [ "DEX", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
@@ -296,7 +305,7 @@
     "type": "bionic",
     "name": { "str": "Expanded Digestive System" },
     "description": "You have been outfitted with three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illness, and can sometimes eat rotten food.",
-    "occupied_bodyparts": [ [ "TORSO", 20 ] ],
+    "occupied_bodyparts": [ [ "ABDOMEN", 12 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -304,7 +313,7 @@
     "type": "bionic",
     "name": { "str": "Acidic Discharge" },
     "description": "A malfunctioning bionic which occasionally discharges acid into your muscles, causing sharp pain and minor damage.",
-    "occupied_bodyparts": [ [ "TORSO", 3 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 2 ], [ "ABDOMEN", 1 ], [ "PELVIS", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -312,7 +321,7 @@
     "type": "bionic",
     "name": { "str": "Electrical Discharge" },
     "description": "A malfunctioning bionic which occasionally discharges electricity through your body, causing pain and brief paralysis but no damage.",
-    "occupied_bodyparts": [ [ "TORSO", 6 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 3 ], [ "ABDOMEN", 3 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -320,7 +329,7 @@
     "type": "bionic",
     "name": { "str": "Electrical Drain" },
     "description": "A malfunctioning bionic.  It doesn't perform any useful function, but will occasionally draw power from your batteries.",
-    "occupied_bodyparts": [ [ "TORSO", 2 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 2 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -363,7 +372,7 @@
     "type": "bionic",
     "name": { "str": "Ethanol Burner" },
     "description": "You burn alcohol as fuel in an extremely efficient reaction.",
-    "occupied_bodyparts": [ [ "TORSO", 26 ] ],
+    "occupied_bodyparts": [ [ "ABDOMEN", 14 ] ],
     "fuel_options": [ "chem_ethanol", "chem_methanol", "denat_alcohol" ],
     "fuel_capacity": 500,
     "fuel_efficiency": 0.5,
@@ -376,7 +385,7 @@
     "type": "bionic",
     "name": { "str": "Aero-Evaporator" },
     "description": "This unit draws moisture from the surrounding air, which slowly trickles directly into your blood stream.  It may fail in very dry environments.",
-    "occupied_bodyparts": [ [ "TORSO", 5 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 5 ] ],
     "react_cost": "60 J",
     "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
@@ -433,7 +442,9 @@
     "name": { "str": "Dielectric Capacitance System" },
     "description": "Throughout your body lies a network of miniature piezoelectric capacitors which can be charged with bionic power to temporarily protect you from external electrical discharge.",
     "occupied_bodyparts": [
-      [ "TORSO", 8 ],
+      [ "CHEST", 3 ],
+      [ "ABDOMEN", 3 ],
+      [ "PELVIS", 2 ],
       [ "HEAD", 2 ],
       [ "ARM_L", 2 ],
       [ "ARM_R", 2 ],
@@ -461,7 +472,7 @@
     "type": "bionic",
     "name": { "str": "Flashbang Generator" },
     "description": "Light emitting diodes surgically integrated into your skin can release a flash comparable to a flashbang grenade, blinding nearby enemies.  Speakers integrated into your body mimic the loud sound, deafening those nearby.",
-    "occupied_bodyparts": [ [ "TORSO", 20 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 10 ], [ "CHEST", 7 ], [ "CHEST", 3 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "act_cost": "10 kJ"
   },
   {
@@ -497,7 +508,7 @@
     "type": "bionic",
     "name": { "str": "Integrated Dosimeter" },
     "description": "Small radiation sensors have been surgically implanted throughout your body, allowing you to analyze your level of absorbed radiation.  They will also alert you whenever exposed to environmental radiation.",
-    "occupied_bodyparts": [ [ "TORSO", 2 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 1 ], [ "ABDOMEN", 1 ], [ "PELVIS", 1 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "act_cost": "100 J"
   },
   {
@@ -505,7 +516,7 @@
     "type": "bionic",
     "name": { "str": "Respirator" },
     "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
-    "occupied_bodyparts": [ [ "TORSO", 8 ], [ "HEAD", 2 ], [ "MOUTH", 2 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 6 ], [ "ABDOMEN", 2 ], [ "HEAD", 2 ], [ "MOUTH", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -525,7 +536,9 @@
     "name": { "str": "Heat Drain" },
     "description": "While fighting unarmed against a warm-blooded opponent, there is a chance that a successful hit will drain body heat, inflicting a small amount of extra damage, and increasing your power reserves slightly.",
     "occupied_bodyparts": [
-      [ "TORSO", 12 ],
+      [ "CHEST", 4 ],
+      [ "ABDOMEN", 6 ],
+      [ "PELVIS", 2 ],
       [ "HEAD", 3 ],
       [ "ARM_L", 3 ],
       [ "ARM_R", 3 ],
@@ -544,7 +557,9 @@
     "name": { "str": "Thermal Dissipation" },
     "description": "Powerful heatsinks and supermaterials are surgically woven into your flesh.  While powered, this system will prevent heat damage up to 2000 degrees Fahrenheit.  Note that this does not affect your internal temperature.",
     "occupied_bodyparts": [
-      [ "TORSO", 10 ],
+      [ "CHEST", 4 ],
+      [ "ABDOMEN", 6 ],
+      [ "PELVIS", 4 ],
       [ "HEAD", 2 ],
       [ "ARM_L", 2 ],
       [ "ARM_R", 2 ],
@@ -565,7 +580,7 @@
     "type": "bionic",
     "name": { "str": "Hydraulic Muscles" },
     "description": "While activated, your muscles will be greatly enhanced, increasing your strength by 20.",
-    "occupied_bodyparts": [ [ "TORSO", 4 ], [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 14 ], [ "LEG_R", 14 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 2 ], [ "ABDOMEN", 1 ], [ "PELVIS", 1 ], [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 14 ], [ "LEG_R", 14 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
@@ -596,7 +611,7 @@
     "type": "bionic",
     "name": { "str": "Itchy Metal Thing" },
     "description": "A bionic of some sort, so badly installed that you cannot even tell what it was originally supposed to be.  Sometimes it itches horribly.",
-    "occupied_bodyparts": [ [ "TORSO", 3 ], [ "HEAD", 2 ], [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 3 ], [ "HEAD", 2 ], [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -614,7 +629,7 @@
     "type": "bionic",
     "name": { "str": "Leaky Bionic" },
     "description": "This botched piece of bionic hardware slowly leaks electrolytic compounds, piezoelectric nanomaterials, and other high-tech contaminants into your bloodstream.  Needless to say, this is not good for your health.",
-    "occupied_bodyparts": [ [ "TORSO", 5 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 3 ], [ "ABDOMEN", 2 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -622,7 +637,7 @@
     "type": "bionic",
     "name": { "str": "Leukocyte Breeder System" },
     "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off.",
-    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 7 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY", "BIONIC_NPC_USABLE" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
@@ -677,7 +692,7 @@
     "type": "bionic",
     "name": { "str": "Metabolic Interchange" },
     "description": "Your digestive system and power supply are interconnected; bionic energy is replenished by burning calories.  Can be toggled on and off at will.",
-    "occupied_bodyparts": [ [ "TORSO", 25 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 10 ], [ "ABDOMEN", 15 ] ],
     "fuel_options": [ "metabolism" ],
     "fuel_efficiency": 0.25,
     "time": 1,
@@ -688,7 +703,7 @@
     "type": "bionic",
     "name": { "str": "Weather Reader" },
     "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather.  It also passively tells you the local air temperature.",
-    "occupied_bodyparts": [ [ "TORSO", 1 ], [ "HEAD", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 1 ], [ "HEAD", 1 ] ],
     "act_cost": "10 J"
   },
   {
@@ -696,7 +711,7 @@
     "type": "bionic",
     "name": { "str": "Repair Nanobots" },
     "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage at 1 HP per minute and stopping bleeding at the cost of extra power and stored calories.",
-    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 5 ], [ "ABDOMEN", 5 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "80 J",
     "react_cost": "4 J",
@@ -707,7 +722,7 @@
     "type": "bionic",
     "name": { "str": "Artificial Night Generator" },
     "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",
-    "occupied_bodyparts": [ [ "TORSO", 16 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 8 ], [ "ABDOMEN", 6 ], [ "PELVIS", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "9 kJ",
     "react_cost": "9 kJ",
@@ -729,7 +744,7 @@
     "type": "bionic",
     "name": { "str": "Noisemaker" },
     "description": "A malfunctioning bionic.  It will occasionally emit a loud burst of noise.",
-    "occupied_bodyparts": [ [ "TORSO", 4 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 4 ], [ "ABDOMEN", 1 ], [ "PELVIS", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -774,7 +789,7 @@
     "type": "bionic",
     "name": { "str": "Power Armor Interface" },
     "description": "Interfaces your power system with the internal charging port on suits of power armor, allowing them to draw from your bionic power banks.",
-    "occupied_bodyparts": [ [ "TORSO", 4 ], [ "HEAD", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 2 ], [ "ABDOMEN", 2 ], [ "HEAD", 1 ] ],
     "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
     "react_cost": 1,
     "time": 1
@@ -784,7 +799,7 @@
     "type": "bionic",
     "name": { "str": "Power Armor Interface Mk. II" },
     "description": "Interfaces your power system with the internal charging port on suits of power armor, allowing them to draw from your bionic power banks.  Twice as efficient as the Mk. I model.",
-    "occupied_bodyparts": [ [ "TORSO", 3 ], [ "HEAD", 2 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 2 ], [ "ABDOMEN", 1 ], [ "HEAD", 2 ] ],
     "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
     "react_cost": 1,
     "time": 2
@@ -810,7 +825,7 @@
     "type": "bionic",
     "name": { "str": "Power Overload" },
     "description": "Damaged power circuits cause short-circuiting inside your muscles when your batteries are above 75% capacity, causing greatly reduced strength.  This has no effect if you have no internal batteries.",
-    "occupied_bodyparts": [ [ "TORSO", 3 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 1 ], [ "ABDOMEN", 1 ], [ "PELVIS", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -818,7 +833,7 @@
     "type": "bionic",
     "name": { "str": "Probability Travel" },
     "description": "Increases your body's wavelength, allowing you to quantum tunnel through walls, reappearing on the other side.  Power drain in standby is minimal, but each tile tunneled through costs 250 bionic power.",
-    "occupied_bodyparts": [ [ "TORSO", 20 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 8 ], [ "ABDOMEN", 7 ], [ "PELVIS", 5 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "3 J",
     "react_cost": "3 J",
