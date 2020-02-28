@@ -93,7 +93,7 @@
   {
     "id": "smoxygen_tank",
     "type": "TOOL",
-    "name": "emergency oxygen pack",
+    "name": { "str": "emergency oxygen pack" },
     "description": "This is a small tank of compressed medical oxygen with a folding regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "1134 g",
     "volume": "750 ml",

@@ -33,7 +33,7 @@
   {
     "id": "fire_drill",
     "type": "TOOL",
-    "name": "fire drill",
+    "name": { "str": "fire drill" },
     "description": "This fire drill is a simple item for starting fires; it is made from two pieces of wood and some string.  Since it is constructed out of simple materials, it's slow and rather difficult to get a fire started using this tool.",
     "weight": "240 g",
     "volume": "250 ml",
@@ -192,7 +192,7 @@
   {
     "id": "tinderbox",
     "type": "TOOL",
-    "name": "ember carrier",
+    "name": { "str": "ember carrier" },
     "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  It can nurture a smoldering ember for a long time, to start fires without modern tools.",
     "weight": "500 g",
     "volume": "500 ml",

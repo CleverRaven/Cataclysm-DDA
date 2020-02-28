@@ -61,7 +61,7 @@
   {
     "id": "e_tool",
     "type": "TOOL",
-    "name": "entrenching tool",
+    "name": { "str": "entrenching tool" },
     "description": "This is a stout collapsible spade.  It's commonly used by military forces and favored by hikers for digging.",
     "weight": "628 g",
     "volume": "1 L",
@@ -78,7 +78,7 @@
   {
     "id": "etched_skull",
     "type": "TOOL",
-    "name": "etched human skull",
+    "name": { "str": "etched human skull" },
     "description": "This is a human skull with strange etchings covering it.",
     "weight": "311 g",
     "volume": "750 ml",
@@ -92,7 +92,7 @@
     "id": "flamable_arrow",
     "type": "TOOL",
     "category": "ammo",
-    "name": "flammable arrow",
+    "name": { "str": "flammable arrow" },
     "description": "This arrow has a rag soaked in a flammable liquid wrapped around the shaft near the head.  You need to light it before shooting.",
     "weight": "150 g",
     "volume": "250 ml",
@@ -109,7 +109,7 @@
   {
     "id": "fur_rollmat",
     "type": "TOOL",
-    "name": "fur rollmat",
+    "name": { "str": "fur rollmat" },
     "description": "This is a bedroll made of pelts which can be rolled up for transport.  It insulates you from the floor, making it easier to sleep.  Use it to unroll and place on the ground.",
     "weight": "1800 g",
     "volume": "3 L",
