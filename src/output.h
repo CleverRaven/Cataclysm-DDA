@@ -327,6 +327,8 @@ void display_table( const catacurses::window &w, const std::string &title, int c
                     const std::vector<std::string> &data );
 void scrollable_text( const catacurses::window &w, const std::string &title,
                       const std::string &text );
+void scrollable_text( const std::function<catacurses::window()> &init_window,
+                      const std::string &title, const std::string &text );
 std::string name_and_value( const std::string &name, int value, int field_width );
 std::string name_and_value( const std::string &name, const std::string &value, int field_width );
 
