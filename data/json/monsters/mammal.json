@@ -1764,7 +1764,7 @@
     "vision_night": 5,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "death_function": [ "NORMAL" ],
-	"loots": {	"item_group": [ "forage_spring", "forage_summer", "forage_autumn" ], "require_all":false },
+	"loots": { "item_group": [ "forage_spring", "forage_summer", "forage_autumn" ], "requires_all": false, "paths_to": true },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED", "EATS_FOOD" ]
   },
   {

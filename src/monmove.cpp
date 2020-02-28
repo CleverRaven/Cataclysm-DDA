@@ -279,58 +279,32 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     return INT_MAX;
 }
 
-bool monster::is_item_lootable( const item &itm )
+template<typename L, typename P>
+static bool monster::is_item_lootable( const item &itm, const L &list, const P &predicate,
+                                       bool requires_all )
 {
-    bool lootable = false;
+    bool allowed = false;
 
-    //TODO: Definitely find a better way to do the below, too much repeatability
-
-    if( !lootable_categories.empty() )
-        for( std::string tag : lootable_categories ) {
-            if( itm.get_category().name() == tag ) {
-                lootable = true;
-            } else {
-                if( lootables_requires_all ) {
-                    return false;
-                }
+    for( auto tag : list ) {
+        if( predicate( itm, tag ) ) {
+            if( !requires_all ) {
+                allowed = true;
+                continue;
+            }
+        } else {
+            if( requires_all ) {
+                allowed = false;
+                break;
             }
         }
+    }
 
-    if( !lootable_materials.empty() )
-        for( std::string tag : lootable_materials ) {
-            if( itm.made_of( material_id( tag ) ) ) {
-                lootable = true;
-            } else {
-                if( lootables_requires_all ) {
-                    return false;
-                }
-            }
-        }
-
-    if( !lootable_comestibles.empty() )
-        for( std::string tag : lootable_comestibles ) {
-            if( itm.get_comestible()->comesttype == tag ) {
-                lootable = true;
-            } else {
-                if( lootables_requires_all ) {
-                    return false;
-                }
-            }
-        }
-
-    if( !lootable_itemgroups.empty() )
-        for( std::string tag : lootable_itemgroups ) {
-            if( item_group::group_contains_item( tag, itm.typeId() ) ) {
-                lootable = true;
-            }
-        }
-
-    return lootable;
+    return allowed;
 }
 
 std::map<item *, const tripoint> monster::find_loot_in_radius( const tripoint &target, int radius )
 {
-    std::map<item *, const tripoint> lootable;
+    std::map<item *, const tripoint> lootable_inrad;
 
     for( const tripoint &p : g->m.points_in_radius( target, radius ) ) {
         if( g->m.sees_some_items( p, *this ) ) {
@@ -339,16 +313,31 @@ std::map<item *, const tripoint> monster::find_loot_in_radius( const tripoint &t
             for( item &itm : items ) {
                 bool suitable = false;
 
-                suitable = is_item_lootable( itm );
+                suitable = is_item_lootable( itm, lootable.categories, []( const item & itm,
+                const std::string & tag ) {
+                    return itm.get_category().name() == tag;
+                }, lootable.requires_all );
+                suitable = is_item_lootable( itm, lootable.materials, []( const item & itm,
+                const material_id & tag ) {
+                    return itm.made_of( tag );
+                }, lootable.requires_all );
+                suitable = is_item_lootable( itm, lootable.comestibles, []( const item & itm,
+                const std::string & tag ) {
+                    return itm.get_comestible()->comesttype == tag;
+                }, lootable.requires_all );
+                suitable = is_item_lootable( itm, lootable.itemsgroups, []( const item & itm,
+                const std::string & tag ) {
+                    return item_group::group_contains_item( tag, itm.typeId() );
+                }, false );
 
                 if( suitable ) {
-                    lootable.insert( std::make_pair( &itm, p ) );
+                    lootable_inrad.insert( std::make_pair( &itm, p ) );
                 }
             }
         }
     }
 
-    return lootable;
+    return lootable_inrad;
 }
 
 bool monster::eat_from_inventory( int amount )
@@ -492,18 +481,18 @@ void monster::plan()
     //Check if steals, must be idle and have no target in sight.
     if( ( friendly >= 0 || target == nullptr ) && !fleeing && !has_effect( effect_looting ) ) {
         //If stealing monster, inventory is empty and with a bit of luck...we search for loot.
-        if( loots && inv.empty() && one_in( 100 ) ) {
+        if( lootable.loots && inv.empty() && one_in( 100 ) ) {
             //Find all lootable items within radius
-            std::map<item *, const tripoint> lootable_items = find_loot_in_radius( pos(), MONSTER_LOOT_DIST );
+            std::map<item *, const tripoint> lootable_items = find_loot_in_radius( pos(),
+                    lootable.paths_to ? MONSTER_LOOT_DIST : 1 );
 
             if( !lootable_items.empty() ) {
                 item_goal = select_desired_loot( lootable_items );
                 set_dest( item_goal.position() );
                 add_effect( effect_looting, 50_turns );
-
             }
         } //Monster has something in inventory, will loot and with some luck...
-        else if( loots && !inv.empty() && one_in( 500 ) ) {
+        else if( lootable.loots && !inv.empty() && one_in( 500 ) ) {
             if( has_flag( MF_EATS_FOOD ) ) {
                 eat_from_inventory();
             }
@@ -1079,7 +1068,7 @@ void monster::move()
             ( !pacified && attack_at( local_next_step ) ) ||
             ( !pacified && can_open_doors && g->m.open_door( local_next_step, !g->m.is_outside( pos() ) ) ) ||
             ( !pacified && bash_at( local_next_step ) ) ||
-            ( !pacified && loots && pickup_at( local_next_step, item_goal ) ) ||
+            ( !pacified && lootable.loots && pickup_at( local_next_step, item_goal ) ) ||
             ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
             move_to( local_next_step, false, get_stagger_adjust( pos(), destination, local_next_step ) );
 

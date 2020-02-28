@@ -139,12 +139,7 @@ monster::monster( const mtype_id &id ) : monster()
         battery_item = cata::make_value<item>( mech_bat_item );
     }
 
-    loots = type->loots;
-    lootables_requires_all = type->lootables_requires_all;
-    lootable_categories = type->lootable_categories;
-    lootable_materials = type->lootable_materials;
-    lootable_comestibles = type->lootable_comestibles;
-    lootable_itemgroups = type->lootable_itemgroups;
+    lootable = type->loot;
 }
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )

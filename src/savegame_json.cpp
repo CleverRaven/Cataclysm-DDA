@@ -1908,7 +1908,7 @@ void monster::load( const JsonObject &data )
     data.read( "destination", destination );
     goal = pos() + destination;
 
-    data.read("item_goal", item_goal);
+    data.read( "item_goal", item_goal );
 
     upgrades = data.get_bool( "upgrades", type->upgrades );
     upgrade_time = data.get_int( "upgrade_time", -1 );
@@ -1998,7 +1998,7 @@ void monster::store( JsonOut &json ) const
     }
     // Store the relative position of the goal so it loads correctly after a map shift.
     json.member( "destination", goal - pos() );
-    json.member("item_goal", goal);
+    json.member( "item_goal", item_goal );
     json.member( "ammo", ammo );
     json.member( "underwater", underwater );
     json.member( "upgrades", upgrades );

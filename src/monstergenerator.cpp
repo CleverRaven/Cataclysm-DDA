@@ -831,40 +831,29 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
 
-    //Items that are stolen
+    //Items that are looted by the monster.
     if( jo.has_member( "loots" ) ) {
-        loots = true;
-
         JsonObject lootables = jo.get_object( "loots" );
 
-        if( lootables.has_bool( "require_all" ) ) {
-            lootables_requires_all = lootables.get_bool( "require_all" );
+        for( const std::string line : lootables.get_array( "categories" ) ) {
+            loot.categories.push_back( line );
         }
 
-        if( lootables.has_array( "categories" ) ) {
-            for( const std::string line : lootables.get_array( "categories" ) ) {
-                lootable_categories.push_back( line );
-            }
+        for( const std::string line : lootables.get_array( "materials" ) ) {
+            loot.materials.push_back( material_id( line ) );
         }
 
-        if( lootables.has_array( "materials" ) ) {
-            for( const std::string line : lootables.get_array( "materials" ) ) {
-                lootable_materials.push_back( line );
-            }
+        for( const std::string line : lootables.get_array( "comestible_type" ) ) {
+            loot.comestibles.push_back( line );
         }
 
-        if( lootables.has_array( "comestible_type" ) ) {
-            for( const std::string line : lootables.get_array( "comestible_type" ) ) {
-                lootable_comestibles.push_back( line );
-            }
+        for( const std::string line : lootables.get_array( "item_group" ) ) {
+            loot.itemsgroups.push_back( line );
         }
 
-        if( lootables.has_array( "item_group" ) ) {
-            for( const std::string line : lootables.get_array( "item_group" ) ) {
-                lootable_itemgroups.push_back( line );
-            }
-        }
-
+        loot.requires_all = lootables.get_bool( "requires_all" );
+        loot.paths_to = lootables.get_bool( "paths_to" );
+        loot.loots = true;
     }
 
     if( jo.has_member( "baby_flags" ) ) {

@@ -20,6 +20,7 @@
 
 class Creature;
 class monster;
+
 template <typename E> struct enum_traits;
 struct dealt_projectile_attack;
 struct species_type;
@@ -193,6 +194,16 @@ struct mon_effect_data {
         chance( nchance ) {}
 };
 
+struct mlootable {
+    std::vector<std::string> categories;
+    std::vector<material_id> materials;
+    std::vector<std::string> comestibles;
+    std::vector<std::string> itemsgroups;
+    bool requires_all = false;
+    bool paths_to = false;
+    bool loots = false;
+};
+
 struct mtype {
     private:
         friend class MonsterGenerator;
@@ -297,12 +308,7 @@ struct mtype {
         mon_action_defend sp_defense;
 
         // Monster stealable variables
-        bool loots = false;
-        bool lootables_requires_all;
-        std::vector<std::string> lootable_categories;
-        std::vector<std::string> lootable_materials;
-        std::vector<std::string> lootable_comestibles;
-        std::vector<std::string> lootable_itemgroups;
+        mlootable loot;
 
 
         // Monster upgrade variables
