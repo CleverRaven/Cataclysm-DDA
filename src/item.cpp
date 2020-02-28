@@ -1288,7 +1288,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           to_turns<int>( food->get_shelf_life() ) ) );
             }
             if( food && food->has_temperature() ) {
-				info.push_back( iteminfo( "BASE", _( "last temp: " ),
+                info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                           "", iteminfo::lower_is_better,
                                           to_turn<int>( food->last_temp_check ) ) );
                 info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
