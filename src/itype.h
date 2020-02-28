@@ -590,6 +590,10 @@ struct islot_gunmod : common_ranged_data {
 
     /** Increases base gun UPS consumption by this many times per shot */
     float ups_charges_multiplier = 1.0f;
+
+    /** Increases base gun UPS consumption by this value per shot */
+    int ups_charges_modifier = 0;
+
     /** Increases gun weight by this many times */
     float weight_multiplier = 1.0f;
 
@@ -866,6 +870,7 @@ struct itype {
 
         std::string snippet_category;
         translation description; // Flavor text
+        std::vector<std::string> ascii_picture;
 
         // The container it comes in
         cata::optional<itype_id> default_container;

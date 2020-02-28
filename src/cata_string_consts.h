@@ -1178,6 +1178,7 @@ static const std::string flag_SMOKABLE( "SMOKABLE" );
 static const std::string flag_SMOKED( "SMOKED" );
 static const std::string flag_SPEAR( "SPEAR" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
+static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_SPR_START( "SPR_START" );
 static const std::string flag_STR_DRAW( "STR_DRAW" );
 static const std::string flag_STURDY( "STURDY" );
@@ -1337,7 +1338,7 @@ static const matype_id style_wingchun( "style_wingchun" );
 static const matype_id style_zui_quan( "style_zui_quan" );
 
 static const species_id ABERRATION( "ABERRATION" );
-static const species_id BLOB( "BLOB" );
+static const species_id species_BLOB( "BLOB" );
 static const species_id FISH( "FISH" );
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id HALLUCINATION( "HALLUCINATION" );
@@ -1380,7 +1381,7 @@ static const faction_id no_faction( "no_faction" );
 static const std::string errstring( "ERROR" );
 
 static const ammotype ammo_bolt( "bolt" );
-static const ammotype ammo_battery( "ammo_battery" );
+static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_reactor_slurry( "reactor_slurry" );
 static const ammotype ammo_plutonium( "plutonium" );
 

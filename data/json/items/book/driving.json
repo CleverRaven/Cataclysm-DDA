@@ -20,7 +20,7 @@
   {
     "id": "mag_cars",
     "type": "BOOK",
-    "name": "Top Gear magazine",
+    "name": { "str": "Top Gear magazine" },
     "description": "Lots of articles about cars and driving techniques.",
     "weight": "60 g",
     "volume": "250 ml",

@@ -155,7 +155,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JESSE_CARLOS",
-    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forage set up.",
+    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forge set up.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

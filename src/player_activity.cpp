@@ -158,11 +158,18 @@ void player_activity::do_turn( player &p )
         p.drop_invalid_inventory();
         return;
     }
-
+    const bool travel_activity = id() == "ACT_TRAVELLING";
     // This might finish the activity (set it to null)
     type->call_do_turn( this, &p );
     // Activities should never excessively drain stamina.
-    if( p.get_stamina() < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
+    // adjusted stamina because
+    // autotravel doesn't reduce stamina after do_turn()
+    // it just sets a destination, clears the activity, then moves afterwards
+    // so set stamina -1 if that is the case
+    // to simulate that the next step will surely use up some stamina anyway
+    // this is to ensure that resting will occur when travelling overburdened
+    const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
+    if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
             p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }

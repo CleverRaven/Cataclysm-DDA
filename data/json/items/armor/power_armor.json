@@ -82,7 +82,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "power armor hauling frame",
-    "description": "A heavy duty hauling frame designed to interface with power armor.",
+    "description": "A heavy-duty hauling frame designed to interface with power armor.",
     "weight": "1640 g",
     "volume": "12 L",
     "price": 1000000,

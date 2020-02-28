@@ -1468,6 +1468,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
 static void draw_sound_labels( const avatar &u, const catacurses::window &w )
 {
     werase( w );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     if( !u.is_deaf() ) {
         mvwprintz( w, point( 8, 0 ), c_yellow, to_string( u.volume ) );
@@ -2341,13 +2342,13 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
 
             col_offset = column_widths[0] + 2;
             int col_width = column_widths[1] - 4;
-            mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.press_x( "TOGGLE_PANEL" ),
+            mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
                        col_width ) + ":" );
             mvwprintz( w, point( col_offset, 2 ), c_white, _( "Toggle panels on/off" ) );
-            mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.press_x( "MOVE_PANEL" ),
+            mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
                        col_width ) + ":" );
             mvwprintz( w, point( col_offset, 4 ), c_white, _( "Change display order" ) );
-            mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.press_x( "QUIT" ),
+            mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
                        col_width ) + ":" );
             mvwprintz( w, point( col_offset, 6 ), c_white, _( "Exit" ) );
         }

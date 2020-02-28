@@ -14,7 +14,8 @@
 #include "catacharset.h"
 #include "color.h"
 #include "enums.h"
-#include "player.h"
+#include "item.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
@@ -310,6 +311,7 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  */
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text );
+std::string trim_by_length( const std::string &text, int width );
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const point &begin,
                             const int width, const nc_color base_color, const char *const mes, Args &&... args )
@@ -453,16 +455,6 @@ template<typename ...Args>
 inline void full_screen_popup( const char *mes, Args &&... args )
 {
     popup( string_format( mes, std::forward<Args>( args )... ), PF_FULLSCREEN );
-}
-template<typename ...Args>
-inline void popup_player_or_npc( player &p, const char *player_mes, const char *npc_mes,
-                                 Args &&... args )
-{
-    if( p.is_player() ) {
-        popup( player_mes, std::forward<Args>( args )... );
-    } else {
-        popup( p.replace_with_npc_name( string_format( npc_mes, std::forward<Args>( args )... ) ) );
-    }
 }
 
 /*@}*/

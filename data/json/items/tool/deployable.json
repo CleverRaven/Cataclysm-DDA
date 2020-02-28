@@ -2,7 +2,7 @@
   {
     "id": "brazier",
     "type": "TOOL",
-    "name": "brazier",
+    "name": { "str": "brazier" },
     "description": "A large metal stand used to contain a fire.  Fires set in a brazier will not spread to surrounding flammable objects.",
     "weight": "5000 g",
     "volume": "2500 ml",
@@ -50,7 +50,7 @@
   {
     "id": "camp_chair",
     "type": "TOOL",
-    "name": "camp chair",
+    "name": { "str": "camp chair" },
     "description": "Folded camp chair, deploy to sit down.",
     "weight": "1000 g",
     "volume": "2500 ml",
@@ -66,7 +66,7 @@
   {
     "id": "cot",
     "type": "TOOL",
-    "name": "cot",
+    "name": { "str": "cot" },
     "description": "This is a military style fold up cot.  While it may not be quite as comfortable as a bed, it's better than slumming it on the ground.",
     "weight": "6164 g",
     "volume": "2 L",
