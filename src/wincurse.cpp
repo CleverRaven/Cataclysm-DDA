@@ -163,7 +163,8 @@ static void create_backbuffer()
     bmi.bmiHeader.biSizeImage    = WindowWidth * WindowHeight * 1;
     bmi.bmiHeader.biClrUsed      = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
     bmi.bmiHeader.biClrImportant = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
-    backbit = CreateDIBSection( 0, &bmi, DIB_RGB_COLORS, reinterpret_cast<void **>( &dcbits ), nullptr, 0 );
+    backbit = CreateDIBSection( 0, &bmi, DIB_RGB_COLORS, reinterpret_cast<void **>( &dcbits ), nullptr,
+                                0 );
     DeleteObject( SelectObject( backbuffer, backbit ) ); //load the buffer into DC
 }
 
@@ -465,7 +466,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                     }
                     if( tmp ) {
                         const std::wstring utf16 = widen( cell.ch );
-                        ExtTextOutW( backbuffer, drawx, drawy, 0, nullptr, utf16.c_str(), utf16.length(), nullptr  );
+                        ExtTextOutW( backbuffer, drawx, drawy, 0, nullptr, utf16.c_str(), utf16.length(), nullptr );
                     }
                 } else {
                     switch( static_cast<unsigned char>( win->line[j].chars[i].ch[0] ) ) {
