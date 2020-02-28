@@ -1,15 +1,16 @@
+#include <cstdio>
+#include <vector>
+
 #include "avatar.h"
 #include "cata_string_consts.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "map.h"
 #include "morale.h"
 #include "player_helpers.h"
 #include "skill.h"
 #include "type_id.h"
-#include "vehicle.h"
 
 TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {
@@ -109,6 +110,7 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 
     // Note: read_speed() returns number of moves;
     // 6000 == 60 seconds
+
     WHEN( "player has average intelligence" ) {
         REQUIRE( dummy.get_int() == 8 );
 
@@ -228,19 +230,10 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
             }
         }
     }
-
-    GIVEN( "some identified books but barely enough light" ) {
-        // 1.0 == ideal lighting, 4.0 == maximum for reading
-        // REQUIRE( dummy.fine_detail_vision_mod() > 4 );
-
-    }
-
 }
 
 TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 {
-    // TODO: Check for unreachable NPC code after L256 of src/avatar.cpp : get_book_reader
-
     avatar dummy;
     std::vector<std::string> reasons;
     std::vector<std::string> expect_reasons;
@@ -301,75 +294,23 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 
         THEN( "you cannot read boring books when your morale is too low" ) {
             dummy.add_morale( MORALE_FEELING_BAD, -50, -100 );
-            REQUIRE( !dummy.has_morale_to_read() );
+            REQUIRE_FALSE( dummy.has_morale_to_read() );
 
             CHECK( dummy.get_book_reader( alpha, reasons ) == nullptr );
             expect_reasons = { "What's the point of studying?  (Your morale is too low!)" };
             CHECK( reasons == expect_reasons );
         }
 
-        /********
-         * FIXME: This one is causing a segfault
-        THEN( "you cannot read while driving a vehicle" ) {
-            const tripoint test_origin( 0, 0, 0 );
-            vehicle *bike = g->m.add_vehicle( vproto_id( "bicycle" ), test_origin, 0, 0, 0 );
-            bike->start_engines( true );
-            REQUIRE( bike->player_in_control( dummy ) );
+        WHEN( "there is nothing preventing you from reading" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_ILLITERATE ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_HYPEROPIC ) );
+            REQUIRE_FALSE( dummy.in_vehicle );
+            REQUIRE( dummy.has_morale_to_read() );
 
-            dummy.get_book_reader( child, reasons );
-            expect_reasons = { "It's a bad idea to read while driving!" };
-            CHECK( reasons == expect_reasons );
-        }
-        */
-    }
-}
-
-
-/*
- * FIXME: Need to figure out how to read the book for a long enough period of
- * time to learn skill from it (both incrementally and a level-up)
- *
- */
-static int read_awhile( avatar &dummy, int turn_interrupt )
-{
-    int turns = 0;
-    while( dummy.activity.id() == activity_id( "ACT_READ" ) ) {
-        if( turns >= turn_interrupt ) {
-            return turns;
-        }
-        ++turns;
-        dummy.moves = 100;
-        dummy.activity.do_turn( dummy );
-    }
-    return turns;
-}
-
-TEST_CASE( "reading a book to learn a skill", "[reading][book][skill][!mayfail]" )
-{
-    avatar dummy;
-
-    GIVEN( "player has identified a skill book" ) {
-        item &book = dummy.i_add( item( "mag_throwing" ) );
-        REQUIRE( book.type->book );
-        skill_id skill = book.type->book->skill;
-        dummy.do_read( book );
-        REQUIRE( dummy.has_identified( book.typeId() ) );
-
-        AND_GIVEN( "they have not learned the skill yet" ) {
-            REQUIRE( dummy.get_skill_level( skill ) == 0 );
-            REQUIRE( dummy.get_skill_level_object( skill ).can_train() );
-
-            WHEN( "they study the book a while" ) {
-                int amount = dummy.time_to_read( book, dummy ); // 384000
-                dummy.read( book ); // read continuously?
-                // This gives {?}
-                // REQUIRE( dummy.activity );
-                int turns_read = read_awhile( dummy, amount );
-                CHECK( turns_read == 1000 );
-
-                THEN( "their skill should increase" ) {
-                    CHECK( dummy.get_skill_level( skill ) == 1 );
-                }
+            THEN( "you can read!" ) {
+                CHECK( dummy.get_book_reader( western, reasons ) != nullptr );
+                expect_reasons = {};
+                CHECK( reasons == expect_reasons );
             }
         }
     }
