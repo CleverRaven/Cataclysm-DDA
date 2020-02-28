@@ -476,7 +476,7 @@
       [ [ "paper", 1 ] ],
       [ [ "balance_small", 1 ] ],
       [ [ "melting_point", 1 ] ],
-      [ [ "box_medium", 1 ] ]
+      [ [ "box_medium", 1 ], [ "box_large", 1 ] ]
     ]
   },
   {
