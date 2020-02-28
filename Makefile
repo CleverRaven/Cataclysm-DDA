@@ -219,12 +219,6 @@ ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
-# Which standard library to use (e.g. libstdc++ or libc++)
-ifdef USE_LIBCXX
-  OTHERS += -stdlib=$(USE_LIBCXX)
-  LDFLAGS += -stdlib=$(USE_LIBCXX)
-endif
-
 # This sets CXX and so must be up here
 ifdef CLANG
   # Allow setting specific CLANG version
@@ -232,6 +226,13 @@ ifdef CLANG
     CLANGCMD = clang++
   else
     CLANGCMD = $(CLANG)
+  endif
+  ifeq ($(NATIVE), osx)
+    USE_LIBCXX = 1
+  endif
+  ifdef USE_LIBCXX
+    OTHERS += -stdlib=libc++
+    LDFLAGS += -stdlib=libc++
   endif
   ifdef CCACHE
     CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
