@@ -253,7 +253,8 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
         CHECK( reasons == expect_reasons );
     }
 
-    SECTION( "you cannot read without enough light" ) {
+    SECTION( "you cannot read in darkness" ) {
+        dummy.add_env_effect( efftype_id( "darkness" ), bp_eyes, 3, 1_hours );
         REQUIRE( dummy.fine_detail_vision_mod() > 4 );
 
         CHECK( dummy.get_book_reader( child, reasons ) == nullptr );
