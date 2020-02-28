@@ -2,7 +2,7 @@
   {
     "id": "crowbar",
     "type": "TOOL",
-    "name": "crowbar",
+    "name": { "str": "crowbar" },
     "description": "This is a hefty prying tool.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "500 g",
     "volume": "1 L",
@@ -85,9 +85,9 @@
   {
     "id": "pseudo_bio_picklock",
     "type": "TOOL",
-    "name": "bio lockpick",
+    "name": { "str": "bio lockpick" },
     "description": "this a pseudo item",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "symbol": ";",
     "color": "light_gray",

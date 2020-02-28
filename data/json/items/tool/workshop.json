@@ -56,7 +56,7 @@
   {
     "id": "angle_grinder",
     "type": "TOOL",
-    "name": "angle grinder",
+    "name": { "str": "angle grinder" },
     "description": "This widespread powertool is often used for removing excess material or polishing surfaces.",
     "weight": "2780 g",
     "volume": "1750 ml",
@@ -83,7 +83,7 @@
   {
     "id": "brick_kiln",
     "type": "TOOL",
-    "name": "brick kiln",
+    "name": { "str": "brick kiln" },
     "description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
     "weight": "9600 g",
     "volume": "9 L",
@@ -130,7 +130,7 @@
   {
     "id": "clamp",
     "type": "TOOL",
-    "name": "clamp",
+    "name": { "str": "clamp" },
     "description": "This clamp is useful for keeping things still, especially if you have several of them.",
     "weight": "320 g",
     "volume": "500 ml",
@@ -146,7 +146,7 @@
   {
     "id": "claw_bar",
     "type": "TOOL",
-    "name": "claw bar",
+    "name": { "str": "claw bar" },
     "description": "This is a small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "340 g",
     "volume": "375 ml",
@@ -164,7 +164,7 @@
   {
     "id": "con_mix",
     "type": "TOOL",
-    "name": "concrete mixer",
+    "name": { "str": "concrete mixer" },
     "description": "A portable concrete mixer.  It is still large and heavy, but it can be operated solo, and runs on batteries.  It also has a heater built in.",
     "weight": "9071 g",
     "volume": "5 L",
@@ -189,7 +189,7 @@
   {
     "id": "cordless_drill",
     "type": "TOOL",
-    "name": "cordless drill",
+    "name": { "str": "cordless drill" },
     "description": "This is a cordless battery-powered drill with a selection of drill bits.",
     "weight": "2721 g",
     "volume": "750 ml",
@@ -229,7 +229,7 @@
   {
     "id": "elec_jackhammer",
     "type": "TOOL",
-    "name": "electric jackhammer",
+    "name": { "str": "electric jackhammer" },
     "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
     "weight": "40000 g",
     "volume": "5 L",
@@ -315,7 +315,7 @@
   {
     "id": "jack",
     "type": "TOOL",
-    "name": "bottle jack",
+    "name": { "str": "bottle jack" },
     "description": "A portable hydraulic bottle jack used for lifting vehicles.",
     "material": "steel",
     "symbol": ";",
@@ -380,7 +380,7 @@
   {
     "id": "kiln",
     "type": "TOOL",
-    "name": "electric kiln",
+    "name": { "str": "electric kiln" },
     "description": "This is a portable electric kiln, powered by batteries.  It is designed for firing bricks, but you could use it to fire anything made of clay.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
     "weight": "12000 g",
     "volume": "7500 ml",
@@ -627,7 +627,7 @@
   {
     "id": "polisher",
     "type": "TOOL",
-    "name": "electric polisher",
+    "name": { "str": "electric polisher" },
     "description": "An electric polisher which can be used to buff metal surfaces until they are reflective like a mirror.",
     "weight": "1000 g",
     "volume": "3500 ml",
@@ -899,7 +899,7 @@
   {
     "id": "welder",
     "type": "TOOL",
-    "name": "arc welder",
+    "name": { "str": "arc welder" },
     "description": "This is a battery powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.",
     "weight": "4200 g",
     "volume": "2500 ml",

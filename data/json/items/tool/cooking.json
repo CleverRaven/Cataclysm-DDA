@@ -3,7 +3,7 @@
     "id": "atomic_coffeepot",
     "type": "GENERIC",
     "category": "tools",
-    "name": "atomic coffee maker",
+    "name": { "str": "atomic coffee maker" },
     "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee.  Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
     "weight": "6102 g",
     "volume": "1000 ml",
@@ -91,7 +91,7 @@
   {
     "id": "char_purifier",
     "type": "TOOL",
-    "name": "charcoal water purifier",
+    "name": { "str": "charcoal water purifier" },
     "description": "Using this item on a container full of water will purify the water using layered charcoal.  Once the charcoal has purified enough water, it will become unusable and can be disassembled and recycled.  Water taken from uncertain sources like a river may be dirty.",
     "weight": "1820 g",
     "volume": "3750 ml",
@@ -110,7 +110,7 @@
   {
     "id": "char_smoker",
     "type": "TOOL",
-    "name": "charcoal smoker",
+    "name": { "str": "charcoal smoker" },
     "description": "This is a portable charcoal smoker.  Good for weekend barbecuing and preserving meat with smoke.",
     "weight": "2600 g",
     "volume": "5 L",
@@ -127,7 +127,7 @@
   {
     "id": "charcoal_cooker",
     "type": "TOOL",
-    "name": "charcoal cooker",
+    "name": { "str": "charcoal cooker" },
     "description": "This is a little metal tank for holding charcoal with a pilot light attached.  You could use it for cooking food.",
     "weight": "405 g",
     "volume": "1250 ml",
@@ -195,7 +195,7 @@
   {
     "id": "coffeemaker",
     "type": "TOOL",
-    "name": "coffeemaker",
+    "name": { "str": "coffeemaker" },
     "description": "This is a heating element with pot and frame for holding coffee or other powders.  It's got a battery compartment for use when the power goes out.  You can use it to make coffee, or other drinks if you so choose.",
     "weight": "3100 g",
     "volume": "750 ml",
