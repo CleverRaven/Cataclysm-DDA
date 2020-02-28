@@ -35,7 +35,9 @@ struct enum_traits<add_type> {
 
 enum hp_part : int {
     hp_head = 0,
-    hp_torso,
+    hp_chest,
+    hp_abdomen,
+    hp_pelvis,
     hp_arm_l,
     hp_arm_r,
     hp_leg_l,

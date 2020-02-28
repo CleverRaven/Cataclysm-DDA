@@ -54,7 +54,9 @@ std::string enum_to_string<hp_part>( hp_part data )
     switch( data ) {
         // *INDENT-OFF*
         case hp_part::hp_head: return "head";
-        case hp_part::hp_torso: return "torso";
+        case hp_part::hp_chest: return "chest";
+        case hp_part::hp_abdomen: return "abdomen";
+        case hp_part::hp_pelvis: return "pelvis";
         case hp_part::hp_arm_l: return "arm_l";
         case hp_part::hp_arm_r: return "arm_r";
         case hp_part::hp_leg_l: return "leg_l";
@@ -79,7 +81,9 @@ generic_factory<body_part_struct> body_part_factory( "body part" );
 static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
     static const std::unordered_map<std::string, body_part> body_parts = {
-        { "TORSO", bp_torso },
+        { "CHEST", bp_chest },
+        { "ABDOMEN", bp_abdomen },
+        { "PELVIS", bp_pelvis },
         { "HEAD", bp_head },
         { "EYES", bp_eyes },
         { "MOUTH", bp_mouth },
@@ -146,7 +150,9 @@ body_part get_body_part_token( const std::string &id )
 const bodypart_ids &convert_bp( body_part bp )
 {
     static const std::vector<bodypart_ids> body_parts = {
-        bodypart_ids( "torso" ),
+        bodypart_ids( "chest" ),
+        bodypart_ids( "abdomen" ),
+        bodypart_ids( "pelvis" ),
         bodypart_ids( "head" ),
         bodypart_ids( "eyes" ),
         bodypart_ids( "mouth" ),
@@ -160,7 +166,7 @@ const bodypart_ids &convert_bp( body_part bp )
         bodypart_ids( "foot_r" ),
         bodypart_ids( "num_bp" ),
     };
-    if( bp > num_bp || bp < bp_torso ) {
+    if( bp > num_bp || bp < bp_chest ) {
         debugmsg( "Invalid body part token %d", bp );
         return body_parts[ num_bp ];
     }

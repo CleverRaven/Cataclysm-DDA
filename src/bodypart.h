@@ -17,7 +17,9 @@ template <typename E> struct enum_traits;
 
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {
-    bp_torso = 0,
+    bp_chest = 0,
+    bp_abdomen,
+    bp_pelvis,
     bp_head,
     bp_eyes,
     bp_mouth,
@@ -53,10 +55,14 @@ struct enum_traits<side> {
  * Contains all valid @ref body_part values in the order they are
  * defined in. Use this to iterate over them.
  */
-constexpr std::array<body_part, 12> all_body_parts = {{
-        bp_torso, bp_head, bp_eyes, bp_mouth,
-        bp_arm_l, bp_arm_r, bp_hand_l, bp_hand_r,
-        bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
+constexpr std::array<body_part, 14> all_body_parts = {{
+        bp_chest, bp_abdomen,
+	bp_pelvis, bp_head, 
+	bp_eyes, bp_mouth,
+        bp_arm_l, bp_arm_r, 
+	bp_hand_l, bp_hand_r,
+        bp_leg_l, bp_leg_r, 
+	bp_foot_l, bp_foot_r
     }
 };
 
