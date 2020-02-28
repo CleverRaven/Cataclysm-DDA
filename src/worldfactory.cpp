@@ -382,8 +382,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     mapLines[3] = true;
 
     std::map<int, std::vector<std::string> > world_pages;
-    unsigned int worldnum = 0;
-    for( unsigned int i = 0; i < num_pages; ++i ) {
+    size_t worldnum = 0;
+    for( size_t i = 0; i < num_pages; ++i ) {
         for( int j = 0; j < iContentHeight && worldnum < world_names.size(); ++j ) {
             world_pages[i].push_back( world_names[ worldnum++ ] );
         }
