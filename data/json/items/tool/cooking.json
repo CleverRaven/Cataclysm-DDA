@@ -37,7 +37,7 @@
     "id": "can_sealer",
     "type": "GENERIC",
     "category": "tools",
-    "name": "can sealer",
+    "name": { "str": "can sealer" },
     "description": "A hand crank powered cast steel machine designed to automatically seal tin cans.",
     "weight": "9800 g",
     "volume": "5 L",

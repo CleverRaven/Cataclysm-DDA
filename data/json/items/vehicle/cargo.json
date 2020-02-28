@@ -34,7 +34,7 @@
   {
     "id": "cargo_lock",
     "type": "GENERIC",
-    "name": "cargo lock set",
+    "name": { "str": "cargo lock set" },
     "description": "A set of locks designed to be installed on a vehicle.",
     "symbol": "+",
     "color": "dark_gray",
@@ -65,7 +65,7 @@
   {
     "type": "GENERIC",
     "id": "cargo_rack",
-    "name": "cargo carrier",
+    "name": { "str": "cargo carrier" },
     "description": "A heavy frame outfitted with tie-downs and attachment points for carrying cargo.",
     "weight": "80000 g",
     "to_hit": -4,
