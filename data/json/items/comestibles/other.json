@@ -412,6 +412,7 @@
     "name": { "str": "dried lentils", "str_pl": "dried lentils" },
     "weight": "132 g",
     "color": "light_gray",
+    "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": ",",
     "quench": -10,
