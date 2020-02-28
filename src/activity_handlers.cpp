@@ -60,6 +60,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "uistate.h"
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vpart_position.h"

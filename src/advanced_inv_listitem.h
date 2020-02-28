@@ -2,13 +2,14 @@
 #ifndef ADVANCED_INV_LISTITEM_H
 #define ADVANCED_INV_LISTITEM_H
 
-#include "advanced_inv_area.h"
-
 #include <list>
 #include <string>
 
 // see item_factory.h
+class item;
 class item_category;
+
+enum aim_location : char;
 
 /**
  * Entry that is displayed in a adv. inv. pane. It can either contain a
