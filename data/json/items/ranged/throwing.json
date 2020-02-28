@@ -49,7 +49,7 @@
     "id": "net",
     "type": "AMMO",
     "category": "weapons",
-    "name": "net",
+    "name": { "str": "net" },
     "description": "A mesh of string and weights, traditionally used to catch fish, and to entangle opponents in combat.",
     "weight": "1100 g",
     "volume": "1500 ml",

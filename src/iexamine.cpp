@@ -2512,8 +2512,6 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
 }
 //arc furnace end
 
-void iexamine::fireplace( player &p, const tripoint &examp );
-
 void iexamine::autoclave_empty( player &p, const tripoint &examp )
 {
     furn_id cur_autoclave_type = g->m.furn( examp );
@@ -3848,7 +3846,7 @@ static int findBestGasDiscount( player &p )
     for( size_t i = 0; i < p.inv.size(); i++ ) {
         item &it = p.inv.find_item( i );
 
-        if( it.has_flag( flag_GAS_DISCOUNT ) ) {
+        if( it.has_flag( "GAS_DISCOUNT" ) ) {
 
             int q = getGasDiscountCardQuality( it );
             if( q > discount ) {
@@ -4349,6 +4347,17 @@ static player &best_installer( player &p, player &null_player, int difficulty )
     }
 
     return p;
+}
+
+template<typename ...Args>
+inline void popup_player_or_npc( player &p, const char *player_mes, const char *npc_mes,
+                                 Args &&... args )
+{
+    if( p.is_player() ) {
+        popup( player_mes, std::forward<Args>( args )... );
+    } else {
+        popup( p.replace_with_npc_name( string_format( npc_mes, std::forward<Args>( args )... ) ) );
+    }
 }
 
 void iexamine::autodoc( player &p, const tripoint &examp )

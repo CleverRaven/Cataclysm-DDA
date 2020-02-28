@@ -34,6 +34,8 @@ using bodytype_id = std::string;
 class JsonArray;
 class JsonObject;
 
+using itype_id = std::string;
+
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
 enum class mon_trigger {

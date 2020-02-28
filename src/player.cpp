@@ -461,7 +461,7 @@ int player::run_cost( int base_cost, bool diag ) const
     }
     const bool flatground = movecost < 105;
     // The "FLAT" tag includes soft surfaces, so not a good fit.
-    const bool on_road = flatground && g->m.has_flag( flag_ROAD, pos() );
+    const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
     const bool on_fungus = g->m.has_flag_ter_or_furn( "FUNGUS", pos() );
 
     if( !is_mounted() ) {
@@ -549,7 +549,7 @@ int player::run_cost( int base_cost, bool diag ) const
             movecost += 8;
         }
 
-        if( has_trait( trait_ROOTS3 ) && g->m.has_flag( flag_DIGGABLE, pos() ) ) {
+        if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
             movecost += 10 * footwear_factor();
         }
 
@@ -843,19 +843,19 @@ std::list<item *> player::get_radio_items()
     const invslice &stacks = inv.slice();
     for( auto &stack : stacks ) {
         item &stack_iter = stack->front();
-        if( stack_iter.has_flag( flag_RADIO_ACTIVATION ) ) {
+        if( stack_iter.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &stack_iter );
         }
     }
 
     for( auto &elem : worn ) {
-        if( elem.has_flag( flag_RADIO_ACTIVATION ) ) {
+        if( elem.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &elem );
         }
     }
 
     if( is_armed() ) {
-        if( weapon.has_flag( flag_RADIO_ACTIVATION ) ) {
+        if( weapon.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &weapon );
         }
     }
@@ -1070,7 +1070,7 @@ void player::pause()
                     bp_hand_r
                 }
             }, true );
-        } else if( g->m.has_flag( flag_SWIMMABLE, pos() ) ) {
+        } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
             drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
         }
     }
@@ -1220,6 +1220,8 @@ bool player::is_dead_state() const
 
 void player::on_dodge( Creature *source, float difficulty )
 {
+    static const matec_id tec_none( "tec_none" );
+
     // Each avoided hit consumes an available dodge
     // When no more available we are likely to fail player::dodge_roll
     dodges_left--;
@@ -1240,7 +1242,7 @@ void player::on_dodge( Creature *source, float difficulty )
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
         matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
 
-        if( tec != matec_tec_none && !is_dead_state() ) {
+        if( tec != tec_none && !is_dead_state() ) {
             if( get_stamina() < get_stamina_max() / 3 ) {
                 add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
             } else {
@@ -1911,7 +1913,7 @@ void player::knock_back_to( const tripoint &to )
     }
 
     // If we're still in the function at this point, we're actually moving a tile!
-    if( g->m.has_flag( flag_LIQUID, to ) && g->m.has_flag( TFLAG_DEEP_WATER, to ) ) {
+    if( g->m.has_flag( "LIQUID", to ) && g->m.has_flag( TFLAG_DEEP_WATER, to ) ) {
         if( !is_npc() ) {
             avatar_action::swim( g->m, g->u, to );
         }
@@ -2378,7 +2380,7 @@ void player::process_items()
     item *cloak = nullptr;
     item *power_armor = nullptr;
     std::vector<item *> active_worn_items;
-    bool weapon_active = weapon.has_flag( flag_USE_UPS ) &&
+    bool weapon_active = weapon.has_flag( "USE_UPS" ) &&
                          weapon.charges < weapon.type->maximum_charges();
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
@@ -2390,18 +2392,18 @@ void player::process_items()
         } else if( identifier == "adv_UPS_off" ) {
             ch_UPS += it.ammo_remaining() / 0.6;
         }
-        if( it.has_flag( flag_USE_UPS ) && it.charges < it.type->maximum_charges() ) {
+        if( it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
             active_held_items.push_back( index );
         }
     }
     bool update_required = get_check_encumbrance();
     for( item &w : worn ) {
-        if( w.has_flag( flag_USE_UPS ) &&
+        if( w.has_flag( "USE_UPS" ) &&
             w.charges < w.type->maximum_charges() ) {
             active_worn_items.push_back( &w );
         }
         if( w.active ) {
-            if( cloak == nullptr && w.has_flag( flag_ACTIVE_CLOAKING ) ) {
+            if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
                 cloak = &w;
             }
             // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
@@ -2612,7 +2614,7 @@ bool player::consume_med( item &target )
 
     // TODO: Get the target it was used on
     // Otherwise injecting someone will give us addictions etc.
-    if( target.has_flag( flag_NO_INGEST ) ) {
+    if( target.has_flag( "NO_INGEST" ) ) {
         const auto &comest = *target.get_comestible();
         // Assume that parenteral meds don't spoil, so don't apply rot
         modify_health( comest );
@@ -2810,7 +2812,7 @@ item::reload_option player::select_ammo( const item &base,
 
     uilist menu;
     menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) :
-                               base.has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
+                               base.has_flag( "RELOAD_AND_SHOOT" ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
                                base.tname() );
     menu.w_width = -1;
     menu.w_height = -1;
@@ -3009,7 +3011,7 @@ item::reload_option player::select_ammo( const item &base,
                 }
                 return false;
             }
-    } cb( opts, draw_row, last_key, default_to, !base.has_flag( flag_RELOAD_ONE ) );
+    } cb( opts, draw_row, last_key, default_to, !base.has_flag( "RELOAD_ONE" ) );
     menu.callback = &cb;
 
     menu.query();
@@ -3042,8 +3044,9 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
     }
 
     bool ammo_match_found = false;
+    int ammo_search_range = is_mounted() ? -1 : 1;
     for( const auto e : opts ) {
-        for( item_location &ammo : find_ammo( *e, empty ) ) {
+        for( item_location &ammo : find_ammo( *e, empty, ammo_search_range ) ) {
             // don't try to unload frozen liquids
             if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
@@ -3053,11 +3056,11 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
                       : ammo->typeId();
             if( e->can_reload_with( id ) ) {
                 // Speedloaders require an empty target.
-                if( !ammo->has_flag( flag_SPEEDLOADER ) || e->ammo_remaining() < 1 ) {
+                if( !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
                     ammo_match_found = true;
                 }
             }
-            if( can_reload( *e, id ) || e->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+            if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
         }
@@ -3134,11 +3137,11 @@ ret_val<bool> player::can_wield( const item &it ) const
                    _( "You need at least one arm to even consider wielding something." ) );
     }
 
-    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( flag_RESTRICT_HANDS ) ) ) {
-        if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
+    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+        if( worn_with_flag( "RESTRICT_HANDS" ) ) {
             return ret_val<bool>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
-        } else if( it.has_flag( flag_ALWAYS_TWOHAND ) ) {
+        } else if( it.has_flag( "ALWAYS_TWOHAND" ) ) {
             return ret_val<bool>::make_failure( _( "The %s can't be wielded with only one arm." ),
                                                 it.tname() );
         } else {
@@ -3457,7 +3460,7 @@ int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
     // We have the ammo in our hands right now
     int mv = item_handling_cost( obj, true, 0 );
 
-    if( ammo.has_flag( flag_MAG_BULKY ) ) {
+    if( ammo.has_flag( "MAG_BULKY" ) ) {
         mv *= 1.5; // bulky magazines take longer to insert
     }
 
@@ -3477,7 +3480,7 @@ int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
     mv += cost / ( 1.0f + std::min( get_skill_level( sk ) * 0.1f, 1.0f ) );
 
-    if( it.has_flag( flag_STR_RELOAD ) ) {
+    if( it.has_flag( "STR_RELOAD" ) ) {
         /** @EFFECT_STR reduces reload time of some weapons */
         mv -= get_str() * 20;
     }
@@ -3565,7 +3568,7 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
                                             _( "You can't take off power armor while wearing other power armor components." ) :
                                             _( "<npcname> can't take off power armor while wearing other power armor components." ) );
     }
-    if( it.has_flag( flag_NO_TAKEOFF ) ) {
+    if( it.has_flag( "NO_TAKEOFF" ) ) {
         return ret_val<bool>::make_failure( !is_npc() ?
                                             _( "You can't take that item off." ) :
                                             _( "<npcname> can't take that item off." ) );
@@ -3678,7 +3681,7 @@ bool player::unload( item &it )
     std::vector<item *> opts( 1, &it );
 
     for( auto e : it.gunmods() ) {
-        if( e->is_gun() && !e->has_flag( flag_NO_UNLOAD ) &&
+        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
             ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
             msgs.emplace_back( e->tname() );
             opts.emplace_back( e );
@@ -3705,8 +3708,8 @@ bool player::unload( item &it )
         return false;
     }
 
-    if( target->has_flag( flag_NO_UNLOAD ) ) {
-        if( target->has_flag( flag_RECHARGE ) || target->has_flag( flag_USE_UPS ) ) {
+    if( target->has_flag( "NO_UNLOAD" ) ) {
+        if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
             add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
         } else {
             add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
@@ -3773,6 +3776,9 @@ bool player::unload( item &it )
 
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
+        if( target->is_filthy() ) {
+            ammo.set_flag( "FILTHY" );
+        }
 
         if( ammo.made_of_from_type( LIQUID ) ) {
             if( !this->add_or_drop_with_msg( ammo ) ) {
@@ -3842,7 +3848,7 @@ hint_rating player::rate_action_unload( const item &it ) const
         return HINT_GOOD;
     }
 
-    if( it.has_flag( flag_NO_UNLOAD ) ) {
+    if( it.has_flag( "NO_UNLOAD" ) ) {
         return HINT_CANT;
     }
 
@@ -3851,7 +3857,7 @@ hint_rating player::rate_action_unload( const item &it ) const
     }
 
     for( auto e : it.gunmods() ) {
-        if( e->is_gun() && !e->has_flag( flag_NO_UNLOAD ) &&
+        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
             ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
             return HINT_GOOD;
         }
@@ -4055,7 +4061,7 @@ bool player::gunmod_remove( item &gun, item &mod )
 std::pair<int, int> player::gunmod_installation_odds( const item &gun, const item &mod ) const
 {
     // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
-    if( !mod.has_flag( flag_INSTALL_DIFFICULT ) || has_trait( trait_DEBUG_HS ) ) {
+    if( !mod.has_flag( "INSTALL_DIFFICULT" ) || has_trait( trait_DEBUG_HS ) ) {
         return std::make_pair( 100, 0 );
     }
 
@@ -4198,7 +4204,7 @@ bool player::fun_to_read( const item &book ) const
           has_trait( trait_SAPIOVORE ) ) &&
         book.typeId() == "cookbook_human" ) {
         return true;
-    } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( flag_INSPIRATIONAL ) ) {
+    } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         return true;
     } else {
         return book_fun_for( book, *this ) > 0;
@@ -4218,7 +4224,7 @@ int player::book_fun_for( const item &book, const player &p ) const
           p.has_trait( trait_SAPIOVORE ) ) &&
         book.typeId() == "cookbook_human" ) {
         fun_bonus = abs( fun_bonus );
-    } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( flag_INSPIRATIONAL ) ) {
+    } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         fun_bonus = abs( fun_bonus * 3 );
     }
 
@@ -4567,9 +4573,8 @@ float player::fine_detail_vision_mod( const tripoint &p ) const
 bool player::natural_attack_restricted_on( body_part bp ) const
 {
     for( auto &i : worn ) {
-        if( i.covers( bp ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
-            !i.has_flag( flag_SEMITANGIBLE ) &&
-            !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
+        if( i.covers( bp ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) && !i.has_flag( "SEMITANGIBLE" ) &&
+            !i.has_flag( "PERSONAL" ) && !i.has_flag( "AURA" ) ) {
             return true;
         }
     }
@@ -4746,7 +4751,7 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
 bool player::has_magazine_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [&at]( const item & it ) {
-        return !it.has_flag( flag_NO_RELOAD ) &&
+        return !it.has_flag( "NO_RELOAD" ) &&
                ( ( it.is_magazine() && it.ammo_types().count( at ) ) ||
                  ( it.is_gun() && it.magazine_integral() && it.ammo_types().count( at ) ) ||
                  ( it.is_gun() && it.magazine_current() != nullptr &&
@@ -4761,11 +4766,11 @@ std::string player::weapname( unsigned int truncate ) const
         std::string str = string_format( "(%s) %s", weapon.gun_current_mode().tname(), weapon.type_name() );
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
-        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( flag_RELOAD_AND_SHOOT );
+        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
 
         const auto mods = weapon.gunmods();
         bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item * e ) {
-            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( flag_RELOAD_AND_SHOOT );
+            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" );
         } );
 
         if( base || aux ) {
@@ -4781,7 +4786,7 @@ std::string player::weapname( unsigned int truncate ) const
             str += ")";
 
             for( auto e : mods ) {
-                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                     str += " (" + std::to_string( e->ammo_remaining() );
                     if( e->magazine_integral() ) {
                         str += "/" + std::to_string( e->ammo_capacity() );
@@ -5679,91 +5684,4 @@ std::set<tripoint> player::get_path_avoid() const
     // TODO: Add known traps in a way that doesn't destroy performance
 
     return ret;
-}
-
-std::pair<std::string, nc_color> player::get_hunger_description() const
-{
-    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
-    const units::volume contains = stomach.contains();
-    const units::volume cap = stomach.capacity( *this );
-    std::string hunger_string;
-    nc_color hunger_color = c_white;
-    // i ate just now!
-    const bool just_ate = stomach.time_since_ate() < 15_minutes;
-    // i ate a meal recently enough that i shouldn't need another meal
-    const bool recently_ate = stomach.time_since_ate() < 3_hours;
-    if( calorie_deficit ) {
-        if( contains >= cap ) {
-            hunger_string = _( "Engorged" );
-            hunger_color = c_green;
-        } else if( contains > cap * 3 / 4 ) {
-            hunger_string = _( "Sated" );
-            hunger_color = c_green;
-        } else if( just_ate && contains > cap / 2 ) {
-            hunger_string = _( "Full" );
-            hunger_color = c_green;
-        } else if( just_ate ) {
-            hunger_string = _( "Hungry" );
-            hunger_color = c_yellow;
-        } else if( recently_ate ) {
-            hunger_string = _( "Very Hungry" );
-            hunger_color = c_yellow;
-        } else if( get_bmi() < character_weight_category::emaciated ) {
-            hunger_string = _( "Starving!" );
-            hunger_color = c_red;
-        } else if( get_bmi() < character_weight_category::underweight ) {
-            hunger_string = _( "Near starving" );
-            hunger_color = c_red;
-        } else {
-            hunger_string = _( "Famished" );
-            hunger_color = c_light_red;
-        }
-    } else {
-        if( contains >= cap * 5 / 6 ) {
-            hunger_string = _( "Engorged" );
-            hunger_color = c_green;
-        } else if( contains > cap * 11 / 20 ) {
-            hunger_string = _( "Sated" );
-            hunger_color = c_green;
-        } else if( recently_ate && contains >= cap * 3 / 8 ) {
-            hunger_string = _( "Full" );
-            hunger_color = c_green;
-        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 && recently_ate ) ||
-                   ( just_ate && contains > 0_ml && contains < cap * 3 / 8 ) ) {
-            hunger_string = _( "Peckish" );
-            hunger_color = c_dark_gray;
-        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
-            hunger_string.clear();
-        } else {
-            if( get_bmi() > character_weight_category::overweight ) {
-                hunger_string = _( "Hungry" );
-            } else {
-                hunger_string = _( "Very Hungry" );
-            }
-            hunger_color = c_yellow;
-        }
-    }
-
-    return std::make_pair( hunger_string, hunger_color );
-}
-
-std::pair<std::string, nc_color> player::get_pain_description() const
-{
-    auto pain = Creature::get_pain_description();
-    nc_color pain_color = pain.second;
-    std::string pain_string;
-    // get pain color
-    if( get_perceived_pain() >= 60 ) {
-        pain_color = c_red;
-    } else if( get_perceived_pain() >= 40 ) {
-        pain_color = c_light_red;
-    }
-    // get pain string
-    if( ( has_trait( trait_SELFAWARE ) || has_effect( effect_got_checked ) ) &&
-        get_perceived_pain() > 0 ) {
-        pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
-    } else if( get_perceived_pain() > 0 ) {
-        pain_string = pain.first;
-    }
-    return std::make_pair( pain_string, pain_color );
 }

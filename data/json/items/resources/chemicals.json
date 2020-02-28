@@ -19,7 +19,7 @@
     "id": "dye_powder",
     "type": "AMMO",
     "category": "chems",
-    "name": "cloth dye powder",
+    "name": { "str": "cloth dye powder" },
     "description": "This is a powdered colorful cloth dye, which can be used to dye many fabrics if combined with water and some mordant.",
     "container": "bottle_plastic_small",
     "weight": "1540 mg",

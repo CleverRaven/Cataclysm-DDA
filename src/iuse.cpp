@@ -161,7 +161,7 @@ static const std::vector<ter_str_id> camera_ter_whitelist_types = {
 
 void remove_radio_mod( item &it, player &p )
 {
-    if( !it.has_flag( flag_RADIO_MOD ) ) {
+    if( !it.has_flag( "RADIO_MOD" ) ) {
         return;
     }
     p.add_msg_if_player( _( "You remove the radio modification from your %s!" ), it.tname() );
@@ -179,7 +179,7 @@ void remove_radio_mod( item &it, player &p )
 static bool check_litcig( player &u )
 {
     auto cigs = u.items_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_LITCIG );
+        return it.active && it.has_flag( "LITCIG" );
     } );
     if( cigs.empty() ) {
         return true;
@@ -674,7 +674,7 @@ int iuse::poison( player *p, item *it, bool, const tripoint & )
 
     // NPCs have a magical sense of what is inedible
     // Players can abuse the crafting menu instead...
-    if( !it->has_flag( flag_HIDDEN_POISON ) &&
+    if( !it->has_flag( "HIDDEN_POISON" ) &&
         ( p->is_npc() ||
           !p->query_yn( _( "Are you sure you want to eat this?  It looks poisonous…" ) ) ) ) {
         return 0;
@@ -1462,7 +1462,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
     }
 
     auto filter = []( const item & itm ) {
-        return itm.has_flag( flag_RADIO_MODABLE );
+        return itm.has_flag( "RADIO_MODABLE" );
     };
 
     // note: if !p->is_npc() then p is avatar
@@ -1498,7 +1498,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
             return 0;
     }
 
-    if( modded.has_flag( flag_RADIO_MOD ) && modded.has_flag( newtag ) ) {
+    if( modded.has_flag( "RADIO_MOD" ) && modded.has_flag( newtag ) ) {
         p->add_msg_if_player( _( "This item has been modified this way already." ) );
         return 0;
     }
@@ -8537,7 +8537,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             it->contents.erase( dish_it );
             it->erase_var( "RECIPE" );
-
+            it->convert( "multi_cooker" );
             if( is_delicious ) {
                 p->add_msg_if_player( m_good,
                                       _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
@@ -8619,7 +8619,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 p->add_msg_if_player( m_good,
                                       _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
-                it->active = true;
+                it->convert( "multi_cooker_filled" ).active = true;
                 it->ammo_consume( charges_to_start, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
@@ -9319,7 +9319,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
                                        crafting_inv.charges_of( "detergent" ) );
 
     const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
-        return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
+        return location->has_flag( "FILTHY" ) && ( ( soft_items && location->is_soft() ) ||
                 ( hard_items && !location->is_soft() ) );
     } );
     auto make_raw_stats = [available_water, available_cleanser](

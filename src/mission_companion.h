@@ -71,7 +71,6 @@ namespace talk_function
 
 //Identifies which mission set the NPC draws from
 void companion_mission( npc &p );
-void basecamp_mission( npc &p );
 
 // Display the available missions and let the player choose one
 bool display_and_choose_opts( mission_data &mission_key, const tripoint &omt_pos,

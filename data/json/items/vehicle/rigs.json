@@ -43,7 +43,7 @@
     "id": "kitchen_unit",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
-    "name": "RV kitchen unit",
+    "name": { "str": "RV kitchen unit" },
     "description": "A vehicle mountable electric range and sink unit with integrated tool storage for cooking utensils."
   },
   {

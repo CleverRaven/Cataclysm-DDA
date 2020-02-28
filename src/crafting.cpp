@@ -17,6 +17,7 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "craft_command.h"
+#include "crafting_gui.h"
 #include "debug.h"
 #include "flag.h"
 #include "game.h"

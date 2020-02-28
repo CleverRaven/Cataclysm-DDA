@@ -18,6 +18,7 @@ class item;
 class JsonObject;
 class time_duration;
 
+using itype_id = std::string; // From itype.h
 class Character;
 
 enum class recipe_filter_flags : int {

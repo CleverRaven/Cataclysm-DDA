@@ -500,9 +500,9 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( HUMAN ) &&
                           !corpse.in_species( ZOMBIE ) );
-    if( is_human && !( u.has_trait_flag( flag_CANNIBAL ) ||
-                       u.has_trait_flag( flag_PSYCHOPATH ) ||
-                       u.has_trait_flag( flag_SAPIOVORE ) ) ) {
+    if( is_human && !( u.has_trait_flag( trait_flag_CANNIBAL ) ||
+                       u.has_trait_flag( trait_flag_PSYCHOPATH ) ||
+                       u.has_trait_flag( trait_flag_SAPIOVORE ) ) ) {
 
         if( u.is_player() ) {
             if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
@@ -1879,6 +1879,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
     const bool is_bolt = ammo.ammo_type() == ammo_bolt;
+    const bool ammo_is_filthy = ammo.is_filthy();
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
@@ -1886,6 +1887,11 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     }
 
     std::string msg = _( "You reload the %s." );
+
+    if( ammo_is_filthy ) {
+        reloadable.set_flag( "FILTHY" );
+    }
+
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
         msg =
             _( "You manage to loosen some debris and make your %s somewhat operational." );
@@ -2974,6 +2980,7 @@ void activity_handlers::read_finish( player_activity *act, player *p )
 {
     if( !act->targets.front() ) {
         debugmsg( "Lost target of ACT_READ" );
+        return;
     }
     if( p->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( p );
@@ -4097,7 +4104,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
         if( have_fertilizer() ) {
             iexamine::fertilize_plant( p, tile, fertilizer );
             if( !have_fertilizer() ) {
-                add_msg( m_info, _( "You have run out of %s" ), fertilizer );
+                add_msg( m_info, _( "You have run out of %s." ), item::nname( fertilizer ) );
             }
         }
     };
