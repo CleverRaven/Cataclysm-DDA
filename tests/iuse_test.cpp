@@ -29,7 +29,7 @@ static player &get_sanitized_player( )
     return dummy;
 }
 
-TEST_CASE( "use_eyedrops" )
+TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
     player &dummy = get_sanitized_player();
 
@@ -76,7 +76,7 @@ static monster *find_adjacent_monster( const tripoint &pos )
     return nullptr;
 }
 
-TEST_CASE( "use_manhack" )
+TEST_CASE( "manhack", "[iuse][manhack]" )
 {
     player &dummy = get_sanitized_player();
 
@@ -99,3 +99,113 @@ TEST_CASE( "use_manhack" )
     REQUIRE( new_manhack->type->id == mtype_id( "mon_manhack" ) );
     g->clear_zombies();
 }
+
+TEST_CASE( "antifungal", "[iuse][antifungal]" )
+{
+    player &dummy = get_sanitized_player();
+    item &antifungal = dummy.i_add( item( "antifungal", 0, item::default_charges_tag{} ) );
+
+    GIVEN( "player has a fungal infection" ) {
+        dummy.add_effect( efftype_id( "fungus" ), 1_hours );
+        REQUIRE( dummy.has_effect( efftype_id( "fungus" ) ) );
+        WHEN( "they take an antifungal drug" ) {
+            dummy.invoke_item( &antifungal );
+            THEN( "it cures the fungal infection" ) {
+                REQUIRE_FALSE( dummy.has_effect( efftype_id( "fungus" ) ) );
+            }
+        }
+    }
+
+    GIVEN( "player has fungal spores" ) {
+        dummy.add_effect( efftype_id( "spores" ), 1_hours );
+        REQUIRE( dummy.has_effect( efftype_id( "spores" ) ) );
+        WHEN( "they take an antifungal drug" ) {
+            dummy.invoke_item( &antifungal );
+            THEN( "it has no effect on the spores" ) {
+                REQUIRE( dummy.has_effect( efftype_id( "spores" ) ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
+{
+    player &dummy = get_sanitized_player();
+    item &antiparasitic = dummy.i_add( item( "antiparasitic", 0, item::default_charges_tag{} ) );
+
+    GIVEN( "player has parasite infections" ) {
+        dummy.add_effect( efftype_id( "dermatik" ), 1_hours );
+        dummy.add_effect( efftype_id( "tapeworm" ), 1_hours );
+        dummy.add_effect( efftype_id( "bloodworms" ), 1_hours );
+        dummy.add_effect( efftype_id( "brainworms" ), 1_hours );
+        dummy.add_effect( efftype_id( "paincysts" ), 1_hours );
+
+        REQUIRE( dummy.has_effect( efftype_id( "dermatik" ) ) );
+        REQUIRE( dummy.has_effect( efftype_id( "tapeworm" ) ) );
+        REQUIRE( dummy.has_effect( efftype_id( "bloodworms" ) ) );
+        REQUIRE( dummy.has_effect( efftype_id( "brainworms" ) ) );
+        REQUIRE( dummy.has_effect( efftype_id( "paincysts" ) ) );
+
+        WHEN( "they use an antiparasitic drug" ) {
+            dummy.invoke_item( &antiparasitic );
+
+            THEN( "it cures all parasite infections" ) {
+                CHECK_FALSE( dummy.has_effect( efftype_id( "dermatik" ) ) );
+                CHECK_FALSE( dummy.has_effect( efftype_id( "tapeworm" ) ) );
+                CHECK_FALSE( dummy.has_effect( efftype_id( "bloodworms" ) ) );
+                CHECK_FALSE( dummy.has_effect( efftype_id( "brainworms" ) ) );
+                CHECK_FALSE( dummy.has_effect( efftype_id( "paincysts" ) ) );
+            }
+        }
+    }
+
+    GIVEN( "player has a fungal infection" ) {
+        dummy.add_effect( efftype_id( "fungus" ), 1_hours );
+        REQUIRE( dummy.has_effect( efftype_id( "fungus" ) ) );
+
+        WHEN( "they use an antiparasitic drug" ) {
+            dummy.invoke_item( &antiparasitic );
+
+            THEN( "it has no effect on the fungal infection" ) {
+                REQUIRE( dummy.has_effect( efftype_id( "fungus" ) ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant][!mayfail]" )
+{
+    player &dummy = get_sanitized_player();
+    item &anticonvulsant = dummy.i_add( item( "diazepam", 0, item::default_charges_tag{} ) );
+
+    GIVEN( "player has the shakes" ) {
+        //REQUIRE( efftype_id( "shakes" ).is_valid() );
+        //REQUIRE_FALSE( dummy.is_immune_effect( efftype_id( "shakes" ) ) );
+        dummy.add_effect( efftype_id( "shakes" ), 1_hours );
+
+        // FIXME: Why is this failing?
+        REQUIRE( dummy.has_effect( efftype_id( "shakes" ) ) );
+
+        WHEN( "they use an anticonvulsant drug" ) {
+            dummy.invoke_item( &anticonvulsant );
+
+            THEN( "it cures the shakes" ) {
+                REQUIRE_FALSE( dummy.has_effect( efftype_id( "shakes" ) ) );
+            }
+
+            AND_THEN( "it has side-effects that wear off after a while" ) {
+                REQUIRE( dummy.has_effect( efftype_id( "valium" ) ) );
+                REQUIRE( dummy.has_effect( efftype_id( "high" ) ) );
+                REQUIRE( dummy.has_effect( efftype_id( "took_anticonvulsant_visible" ) ) );
+
+                // Actual duration depends on strength, tolerance, and lightweight attributes
+                // with some randomness, but always less than 10 hours total
+                dummy.moves -= to_moves<int>( 24_hours );
+                REQUIRE_FALSE( dummy.has_effect( efftype_id( "valium" ) ) );
+                REQUIRE_FALSE( dummy.has_effect( efftype_id( "high" ) ) );
+                REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_anticonvulsant_visible" ) ) );
+            }
+        }
+    }
+}
+
