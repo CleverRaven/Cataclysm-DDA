@@ -194,12 +194,21 @@ void help::display_help()
                     } );
 
                     if( !i18n_help_texts.empty() ) {
-                        scrollable_text( w_help_border, _( " HELP " ),
+                        ui.on_screen_resize( nullptr );
+
+                        const auto get_w_help_border = [&]() {
+                            init_windows( ui );
+                            return w_help_border;
+                        };
+
+                        scrollable_text( get_w_help_border, _( " HELP " ),
                                          std::accumulate( i18n_help_texts.begin() + 1, i18n_help_texts.end(),
                                                           i18n_help_texts.front(),
                         []( const std::string & lhs, const std::string & rhs ) {
                             return lhs + "\n\n" + rhs;
                         } ) );
+
+                        ui.on_screen_resize( init_windows );
                     }
                     action = "CONFIRM";
                     break;
