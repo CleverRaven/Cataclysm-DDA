@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "camera_control",
-    "name": "camera display",
+    "name": { "str": "camera display" },
     "description": "A set of small monitors.  Required to view cameras' output.",
     "weight": "11234 g",
     "to_hit": -3,
