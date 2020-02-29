@@ -1317,7 +1317,7 @@
     "type": "GENERIC",
     "category": "other",
     "price": 1000,
-    "name": "cobalt-60 pellet",
+    "name": { "str": "cobalt-60 pellet" },
     "symbol": "=",
     "color": "green",
     "description": "Radioactive material that used to be a part of some nuclear industry equipment.  You are yet to find some use for it.",
