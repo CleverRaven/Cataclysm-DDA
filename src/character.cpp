@@ -5232,7 +5232,7 @@ hp_part Character::body_window( const std::string &menu_header,
             } else if( current_hp < maximal_hp * 0.5 ) {
                 hp_str = colorize( _( "Bad" ), c_light_red );
             } else if( current_hp < maximal_hp * 0.75 ) {
-                hp_str = colorize( _( "Less Good" ), c_light_green );
+                hp_str = colorize( _( "Okay" ), c_light_green );
             } else {
                 hp_str = colorize( _( "Good" ), c_green );
             }
