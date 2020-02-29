@@ -269,7 +269,7 @@
     "id": "sheet_nylon",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": "synthetic fabric sheet",
+    "name": { "str": "synthetic fabric sheet" },
     "description": "A sheet of synthetic fabric, suitable for making clothing.",
     "weight": "3 g",
     "volume": "300 ml",

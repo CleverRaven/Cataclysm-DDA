@@ -3,7 +3,7 @@
     "type": "AMMO",
     "id": "fishspear",
     "price": 4000,
-    "name": "wooden fishing spear",
+    "name": { "str": "wooden fishing spear" },
     "symbol": "=",
     "color": "brown",
     "description": "An underwater fishing spear made from wood tipped with steel.  It's very light, but doesn't have much range.  Stands a below average chance of remaining intact once fired.",
