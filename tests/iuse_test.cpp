@@ -12,6 +12,7 @@
 #include "calendar.h"
 #include "inventory.h"
 #include "item.h"
+#include "itype.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "point.h"
@@ -250,6 +251,49 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen]" )
                 CHECK( dummy.get_painkiller() == 4 );
             }
         }
+    }
+}
+TEST_CASE( "caffeine", "[iuse][caffeine]" )
+{
+    avatar dummy;
+    item &coffee = dummy.i_add( item( "coffee", 0, item::default_charges_tag{} ) );
+
+    SECTION( "caffeine does not give stimulant effect, but reduces fatigue" ) {
+        int fatigue_before = dummy.get_fatigue();
+        REQUIRE( dummy.get_stim() == 0 );
+
+        dummy.invoke_item( &coffee );
+        REQUIRE( dummy.get_stim() == 0 );
+        REQUIRE( dummy.get_fatigue() == fatigue_before - 3 * coffee.get_comestible()->stim );
+    }
+    // TODO: Atomic coffee also irradiates you
+}
+
+TEST_CASE( "royal jelly", "[iuse][royal_jelly]" )
+{
+    avatar dummy;
+    item &jelly = dummy.i_add( item( "royal_jelly", 0, item::default_charges_tag{} ) );
+
+    SECTION( "royal jelly gives cure-all effect" ) {
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "cureall" ) ) );
+
+        dummy.invoke_item( &jelly );
+        CHECK( dummy.has_effect( efftype_id( "cureall" ) ) );
+    }
+}
+
+TEST_CASE( "xanax", "[iuse][xanax]" )
+{
+    avatar dummy;
+    item &xanax = dummy.i_add( item( "xanax", 0, item::default_charges_tag{} ) );
+
+    SECTION( "xanax gives xanax and visible xanax effect" ) {
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax" ) ) );
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax_visible" ) ) );
+
+        dummy.invoke_item( &xanax );
+        CHECK( dummy.has_effect( efftype_id( "took_xanax" ) ) );
+        CHECK( dummy.has_effect( efftype_id( "took_xanax_visible" ) ) );
     }
 }
 
