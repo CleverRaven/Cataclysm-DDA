@@ -250,7 +250,7 @@
   {
     "id": "hacksaw",
     "type": "TOOL",
-    "name": "hacksaw",
+    "name": { "str": "hacksaw" },
     "description": "This is a sturdy saw, useful for cutting through metal objects.",
     "weight": "952 g",
     "volume": "1 L",
@@ -267,7 +267,7 @@
   {
     "id": "hammer",
     "type": "TOOL",
-    "name": "hammer",
+    "name": { "str": "hammer" },
     "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
     "weight": "566 g",
     "volume": "500 ml",
@@ -284,7 +284,7 @@
   {
     "id": "hand_drill",
     "type": "TOOL",
-    "name": "hand drill",
+    "name": { "str": "hand drill" },
     "description": "A primitive manual drill with a single drill bit.  It is slow and it will exhaust you quickly.",
     "weight": "907 g",
     "volume": "250 ml",
@@ -400,7 +400,7 @@
   {
     "id": "large_repairkit",
     "type": "TOOL",
-    "name": "gunsmith repair kit",
+    "name": { "str": "gunsmith repair kit" },
     "description": "This is a complete toolkit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 25 charges of battery power per use.",
     "weight": "9860 g",
     "volume": "2500 ml",

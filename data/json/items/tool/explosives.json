@@ -585,7 +585,7 @@
     "id": "grenade",
     "type": "TOOL",
     "category": "weapons",
-    "name": "grenade",
+    "name": { "str": "grenade" },
     "description": "This is a military-grade fragmentary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes; throwing it would be a good idea.",
     "weight": "397 g",
     "volume": "250 ml",

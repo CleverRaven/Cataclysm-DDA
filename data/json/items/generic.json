@@ -2505,14 +2505,14 @@
     "type": "TOOL",
     "symbol": ",",
     "color": "yellow",
-    "name": "gold gas discount card",
+    "name": { "str": "gold gas discount card" },
     "description": "This card gives you a good discount on the purchase of gasoline.",
     "category": "other",
     "price": 500,
     "material": "plastic",
     "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2" ],
     "weight": "6 g",
-    "volume": 0,
+    "volume": "5 ml",
     "to_hit": -3
   },
   {

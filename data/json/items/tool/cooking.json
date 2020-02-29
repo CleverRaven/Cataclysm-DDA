@@ -265,7 +265,7 @@
   {
     "id": "esbit_stove",
     "type": "TOOL",
-    "name": "hexamine stove",
+    "name": { "str": "hexamine stove" },
     "description": "Known as an Esbit stove, this is a lightweight, folding stove designed to use small hexamine tablets for cooking.",
     "weight": "180 g",
     "volume": "750 ml",
@@ -335,7 +335,7 @@
   {
     "id": "gasoline_cooker",
     "type": "TOOL",
-    "name": "gasoline cooker",
+    "name": { "str": "gasoline cooker" },
     "description": "This is a simple heater powered by gasoline.  It is designed for cooking food.",
     "weight": "1944 g",
     "volume": "1250 ml",
@@ -355,10 +355,10 @@
   {
     "id": "heatpack",
     "type": "TOOL",
-    "name": "heat pack",
+    "name": { "str": "heat pack" },
     "description": "This is a chemical heat pack.  It's used to treat sports injuries and heat food.  It is usable only once.",
     "weight": "226 g",
-    "volume": 0,
+    "volume": "100 ml",
     "price": 100,
     "to_hit": 1,
     "bashing": 1,
@@ -387,7 +387,7 @@
   {
     "id": "hobo_stove",
     "type": "TOOL",
-    "name": "hobo stove",
+    "name": { "str": "hobo stove" },
     "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
     "weight": "500 g",
     "volume": "250 ml",
@@ -405,7 +405,7 @@
   {
     "id": "hotplate",
     "type": "TOOL",
-    "name": "hotplate",
+    "name": { "str": "hotplate" },
     "description": "This is a small heating element on a stand, powered by batteries.  It is indispensable for cooking and chemistry.  Try not to burn yourself.",
     "weight": "2835 g",
     "volume": "1250 ml",

@@ -34,7 +34,7 @@
   {
     "id": "hoe",
     "type": "TOOL",
-    "name": "hoe",
+    "name": { "str": "hoe" },
     "description": "This is a farming implement.  You can use it to turn tillable land into a slow-to-cross pile of dirt, or dig a shallow pit.",
     "weight": "1088 g",
     "volume": "3500 ml",
