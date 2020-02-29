@@ -186,8 +186,9 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
     const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
 
         // Sort items by category first, if we can.
-        if ( a.loc->get_category() != b.loc->get_category() )
+        if( a.loc->get_category() != b.loc->get_category() ) {
             return a.loc->get_category() < b.loc->get_category();
+        }
 
         // If categories are equal, sort by name.
         return a.loc->display_name() < b.loc->display_name();
