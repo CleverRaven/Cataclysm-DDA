@@ -8,6 +8,7 @@
     "difficulty": 2,
     "skills_required": [ "cooking", 2 ],
     "time": "30 m",
+    "batch_time_factors": [ 70, 4 ],
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
