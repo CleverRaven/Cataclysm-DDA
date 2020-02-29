@@ -1027,15 +1027,27 @@ std::string JsonIn::get_string()
 // These functions get -INT_MIN and -INT64_MIN while very carefully avoiding any overflow.
 constexpr static uint64_t neg_INT_MIN()
 {
-    int x = std::numeric_limits<int>::min() + std::numeric_limits<int>::max();
-    return x < 0 ? static_cast<uint64_t>( std::numeric_limits<int>::max() ) + ( -x ) :
-           static_cast<uint64_t>( std::numeric_limits<int>::max() ) - x;
+    static_assert( sizeof( int ) <= sizeof( int64_t ),
+                   "neg_INT_MIN() assumed sizeof( int ) <= sizeof( int64_t )" );
+    constexpr int x = std::numeric_limits<int>::min() + std::numeric_limits<int>::max();
+    static_assert( x >= 0 || x + std::numeric_limits<int>::max() >= 0,
+                   "neg_INT_MIN assumed INT_MIN + INT_MAX >= -INT_MAX" );
+    if( x < 0 ) {
+        return static_cast<uint64_t>( std::numeric_limits<int>::max() ) + static_cast<uint64_t>( -x );
+    } else {
+        return static_cast<uint64_t>( std::numeric_limits<int>::max() ) - static_cast<uint64_t>( x );
+    }
 }
 constexpr static uint64_t neg_INT64_MIN()
 {
-    int x = std::numeric_limits<int64_t>::min() + std::numeric_limits<int64_t>::max();
-    return x < 0 ? static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) + ( -x ) :
-           static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) - x;
+    constexpr int64_t x = std::numeric_limits<int64_t>::min() + std::numeric_limits<int64_t>::max();
+    static_assert( x >= 0 || x + std::numeric_limits<int64_t>::max() >= 0,
+                   "neg_INT64_MIN assumed INT64_MIN + INT64_MAX >= -INT64_MAX" );
+    if( x < 0 ) {
+        return static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) + static_cast<uint64_t>( -x );
+    } else {
+        return static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) - static_cast<uint64_t>( x );
+    }
 }
 
 number_sci_notation JsonIn::get_any_int()
@@ -1057,6 +1069,8 @@ number_sci_notation JsonIn::get_any_int()
 
 int JsonIn::get_int()
 {
+    static_assert( sizeof( int ) <= sizeof( int64_t ),
+                   "JsonIn::get_int() assumed sizeof( int ) <= sizeof( int64_t )" );
     number_sci_notation n = get_any_int();
     if( !n.negative && n.number > static_cast<uint64_t>( std::numeric_limits<int>::max() ) ) {
         error( "Found a number greater than " + std::to_string( std::numeric_limits<int>::max() ) +
@@ -1065,7 +1079,20 @@ int JsonIn::get_int()
         error( "Found a number less than " + std::to_string( std::numeric_limits<int>::min() ) +
                " which is unsupported in this context." );
     }
-    return static_cast<int>( n.number ) * ( n.negative ? -1 : 1 );
+    if( n.negative ) {
+        static_assert( neg_INT_MIN() <= static_cast<uint64_t>( std::numeric_limits<int>::max() )
+                       || neg_INT_MIN() - static_cast<uint64_t>( std::numeric_limits<int>::max() )
+                       <= static_cast<uint64_t>( std::numeric_limits<int>::max() ),
+                       "JsonIn::get_int() assumed -INT_MIN - INT_MAX <= INT_MAX" );
+        if( n.number > static_cast<uint64_t>( std::numeric_limits<int>::max() ) ) {
+            const uint64_t x = n.number - static_cast<uint64_t>( std::numeric_limits<int>::max() );
+            return -std::numeric_limits<int>::max() - static_cast<int>( x );
+        } else {
+            return -static_cast<int>( n.number );
+        }
+    } else {
+        return static_cast<int>( n.number );
+    }
 }
 
 unsigned int JsonIn::get_uint()
@@ -1092,7 +1119,20 @@ int64_t JsonIn::get_int64()
         error( "Integers less than "
                + std::to_string( std::numeric_limits<int64_t>::min() ) + " not supported." );
     }
-    return static_cast<int64_t>( n.number ) * ( n.negative ? -1LL : 1LL );
+    if( n.negative ) {
+        static_assert( neg_INT64_MIN() <= static_cast<uint64_t>( std::numeric_limits<int64_t>::max() )
+                       || neg_INT64_MIN() - static_cast<uint64_t>( std::numeric_limits<int64_t>::max() )
+                       <= static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ),
+                       "JsonIn::get_int64() assumed -INT64_MIN - INT64_MAX <= INT64_MAX" );
+        if( n.number > static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) ) {
+            const uint64_t x = n.number - static_cast<uint64_t>( std::numeric_limits<int64_t>::max() );
+            return -std::numeric_limits<int64_t>::max() - static_cast<int64_t>( x );
+        } else {
+            return -static_cast<int64_t>( n.number );
+        }
+    } else {
+        return static_cast<int64_t>( n.number );
+    }
 }
 
 uint64_t JsonIn::get_uint64()
