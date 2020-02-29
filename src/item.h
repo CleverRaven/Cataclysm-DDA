@@ -32,7 +32,6 @@
 #include "units.h"
 #include "visitable.h"
 #include "gun_mode.h"
-#include "point.h"
 
 class item;
 class material_type;
@@ -51,6 +50,7 @@ class Character;
 class player;
 class recipe;
 class relic;
+struct tripoint;
 struct itype;
 struct islot_comestible;
 
