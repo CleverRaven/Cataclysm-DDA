@@ -32,7 +32,7 @@
   {
     "id": "horse_tack",
     "type": "TOOL",
-    "name": "horse tack",
+    "name": { "str": "horse tack" },
     "description": "A saddle, bridle, and associated tack that can be placed on a tamed animal that is capable of being ridden.",
     "weight": "2 kg",
     "volume": "7 L",

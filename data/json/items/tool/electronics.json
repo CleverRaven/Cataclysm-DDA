@@ -292,7 +292,7 @@
     "id": "hand_crank_charger",
     "type": "TOOL",
     "category": "tools",
-    "name": "hand-crank charger",
+    "name": { "str": "hand-crank charger" },
     "description": "This is a hand-powered battery charger.  It has an adjustable receptacle designed to accept a wide variety of rechargeable battery cells.",
     "weight": "2000 g",
     "volume": "500 ml",
@@ -405,7 +405,7 @@
   {
     "id": "portable_game",
     "type": "TOOL",
-    "name": "handheld game system",
+    "name": { "str": "handheld game system" },
     "description": "This is a portable games console in working condition, with a backlit screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires batteries.",
     "weight": "200 g",
     "volume": "500 ml",
