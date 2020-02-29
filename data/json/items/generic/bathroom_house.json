@@ -102,7 +102,7 @@
   },
   {
     "id": "comb_pocket",
-    "name": "comb",
+    "name": { "str": "comb" },
     "type": "GENERIC",
     "description": "A grooming tool with teeth for straightening your hair.",
     "symbol": "/",

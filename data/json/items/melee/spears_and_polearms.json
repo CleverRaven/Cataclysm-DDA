@@ -168,7 +168,7 @@
   {
     "type": "GENERIC",
     "id": "spear_copper",
-    "name": "copper spear",
+    "name": { "str": "copper spear" },
     "description": "A stout wooden pole with a spearhead worked from copper.",
     "weight": "1450 g",
     "to_hit": 1,
