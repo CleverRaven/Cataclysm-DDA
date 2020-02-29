@@ -1130,8 +1130,8 @@ void debug()
             new_fac_id += temp->name;
             // create a new "lone wolf" faction for this one NPC
             faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( temp->name,
-                                    faction_id( new_fac_id ), faction_no_faction );
-            temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
+                                    faction_id( new_fac_id ), faction_id( "no_faction" ) );
+            temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
             g->load_npcs();
         }
         break;

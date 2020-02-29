@@ -2,7 +2,7 @@
   {
     "id": "crude_firestarter",
     "type": "TOOL",
-    "name": "electric firestarter",
+    "name": { "str": "electric firestarter" },
     "description": "This is a crudely made electric firestarter, which can function as an inefficient lighter.",
     "weight": "14 g",
     "volume": "250 ml",
@@ -50,7 +50,7 @@
   {
     "id": "fire_drill_large",
     "type": "TOOL",
-    "name": "camp fire drill",
+    "name": { "str": "camp fire drill" },
     "description": "This stout fire drill is a simple item for starting fires; it is made from two pieces of wood and some string.  Since it is constructed out of simple materials, it's slow and rather difficult to get a fire started using this tool.",
     "weight": "1280 g",
     "volume": "1250 ml",

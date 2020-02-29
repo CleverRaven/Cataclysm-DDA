@@ -51,7 +51,7 @@
     "id": "tac50mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": "TAC-50 magazine",
+    "name": { "str": "TAC-50 magazine" },
     "description": "5-round box magazine for McMillan TAC-50.",
     "weight": "730 g",
     "volume": "500 ml",

@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 
-#include "type_id.h"
+using itype_id = std::string;
 
 struct tripoint;
 class JsonObject;

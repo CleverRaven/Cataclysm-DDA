@@ -815,7 +815,7 @@ bool vehicle::fold_up()
         bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
 
-    g->m.add_item_or_charges( g->u.pos(), bicycle );
+    g->m.add_item_or_charges( global_part_pos3( 0 ), bicycle );
     g->m.destroy_vehicle( this );
 
     // TODO: take longer to fold bigger vehicles
@@ -826,7 +826,7 @@ bool vehicle::fold_up()
 
 double vehicle::engine_cold_factor( const int e ) const
 {
-    if( !part_info( engines[e] ).has_flag( flag_E_COLD_START ) ) {
+    if( !part_info( engines[e] ).has_flag( "E_COLD_START" ) ) {
         return 0.0;
     }
 
@@ -840,7 +840,7 @@ double vehicle::engine_cold_factor( const int e ) const
 
 int vehicle::engine_start_time( const int e ) const
 {
-    if( !is_engine_on( e ) || part_info( engines[e] ).has_flag( flag_E_STARTS_INSTANTLY ) ||
+    if( !is_engine_on( e ) || part_info( engines[e] ).has_flag( "E_STARTS_INSTANTLY" ) ||
         !engine_fuel_left( e ) ) {
         return 0;
     }
@@ -880,10 +880,10 @@ bool vehicle::start_engine( const int e )
     if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
-            if( einfo.has_flag( flag_MUSCLE_ARMS ) && ( g->u.get_working_arm_count() < 2 ) ) {
+            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.get_working_arm_count() < 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
                 return false;
-            } else if( einfo.has_flag( flag_MUSCLE_LEGS ) && ( g->u.get_working_leg_count() < 2 ) ) {
+            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() < 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken leg." ), eng.name() );
                 return false;
             }
@@ -1294,7 +1294,7 @@ void vehicle::operate_planter()
                     break;
                 } else if( g->m.ter( loc ) == t_dirtmound ) {
                     g->m.set( loc, t_dirt, f_plant_seed );
-                } else if( !g->m.has_flag( flag_PLOWABLE, loc ) ) {
+                } else if( !g->m.has_flag( "PLOWABLE", loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), DT_BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
@@ -1341,7 +1341,7 @@ void vehicle::operate_scoop()
             }
             item *that_item_there = nullptr;
             map_stack items = g->m.i_at( position );
-            if( g->m.has_flag( flag_SEALED, position ) ) {
+            if( g->m.has_flag( "SEALED", position ) ) {
                 // Ignore it. Street sweepers are not known for their ability to harvest crops.
                 continue;
             }
@@ -1402,7 +1402,7 @@ void vehicle::alarm()
  */
 void vehicle::open( int part_index )
 {
-    if( !part_info( part_index ).has_flag( flag_OPENABLE ) ) {
+    if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
         debugmsg( "Attempted to open non-openable part %d (%s) on a %s!", part_index,
                   parts[ part_index ].name(), name );
     } else {
@@ -1417,7 +1417,7 @@ void vehicle::open( int part_index )
  */
 void vehicle::close( int part_index )
 {
-    if( !part_info( part_index ).has_flag( flag_OPENABLE ) ) {
+    if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
         debugmsg( "Attempted to close non-closeable part %d (%s) on a %s!", part_index,
                   parts[ part_index ].name(), name );
     } else {
@@ -1523,7 +1523,7 @@ void vehicle::use_washing_machine( int p )
     // Get all the items that can be used as detergent
     const inventory &inv = g->u.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
-        return it.has_flag( flag_DETERGENT ) && inv.has_charges( it.typeId(), 5 );
+        return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
     } );
 
     auto items = get_items( p );
@@ -1838,7 +1838,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     std::vector<std::string> menu_items;
     std::vector<uilist_entry> options_message;
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
-    const bool items_are_sealed = g->m.has_flag( flag_SEALED, pos );
+    const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
     auto turret = turret_query( pos );
 

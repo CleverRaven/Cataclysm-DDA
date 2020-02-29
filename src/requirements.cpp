@@ -27,7 +27,8 @@
 #include "item.h"
 #include "visitable.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static std::map<requirement_id, requirement_data> requirements_all;
 
@@ -1026,7 +1027,7 @@ requirement_data requirement_data::disassembly_requirements() const
     []( std::vector<item_comp> &cov ) {
         cov.erase( std::remove_if( cov.begin(), cov.end(),
         []( const item_comp & comp ) {
-            return !comp.recoverable || item( comp.type ).has_flag( flag_UNRECOVERABLE );
+            return !comp.recoverable || item( comp.type ).has_flag( "UNRECOVERABLE" );
         } ), cov.end() );
         return cov.empty();
     } ), ret.components.end() );

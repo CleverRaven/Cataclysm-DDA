@@ -118,7 +118,7 @@ constexpr time_duration CORPSE_ROT_TIME = 24_hours;
 #define MAX_SKILL 10
 
 // Maximum (effective) level for a stat.
-#define MAX_STAT 20
+#define MAX_STAT 14
 
 // Maximum range at which ranged attacks can be executed.
 #define RANGE_HARD_CAP 60

@@ -13,6 +13,7 @@
 #include "translations.h"
 #include "type_id.h"
 
+using itype_id = std::string;
 class JsonObject;
 
 // Could be reused for butchery

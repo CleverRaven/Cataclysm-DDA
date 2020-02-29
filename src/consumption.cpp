@@ -632,7 +632,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( flag_CANNIBAL ) ) {
+    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( "CANNIBAL" ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
@@ -1245,8 +1245,8 @@ hint_rating Character::rate_action_eat( const item &it ) const
 bool Character::can_feed_reactor_with( const item &it ) const
 {
     static const std::set<ammotype> acceptable = {{
-            ammo_reactor_slurry,
-            ammo_plutonium
+            ammotype( "reactor_slurry" ),
+            ammotype( "plutonium" )
         }
     };
 

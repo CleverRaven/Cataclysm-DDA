@@ -44,7 +44,6 @@
 #include "point.h"
 #include "string_id.h"
 #include "safemode_ui.h"
-#include "cata_string_consts.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -56,9 +55,9 @@
 #   if defined(_WIN32) && !defined(_MSC_VER)
 #       include "mingw.thread.h"
 #   endif
-#endif
 
-#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#   define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#endif
 
 weather_type previous_weather;
 int prev_hostiles = 0;
@@ -71,6 +70,18 @@ auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 activity_id act;
 std::pair<std::string, std::string> engine_external_id_and_variant;
+
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+
+static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
+static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_wind( "wind" );
+static const itype_id fuel_type_battery( "battery" );
 
 struct sound_event {
     int volume;
@@ -361,7 +372,7 @@ void sounds::process_sound_markers( player *p )
             if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
                 p->add_effect( effect_deaf, std::min( 4_minutes,
                                                       time_duration::from_turns( felt_volume - 130 ) / 8 ) );
-                if( !p->has_trait( trait_NOPAIN ) ) {
+                if( !p->has_trait( trait_id( "NOPAIN" ) ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->get_pain() < 10 ) {
                         p->mod_pain( rng( 0, 2 ) );
@@ -446,7 +457,7 @@ void sounds::process_sound_markers( player *p )
         }
 
         if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) &&
-            !p->has_bionic( bio_watch ) ) {
+            !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
             // if we don't have effect_sleep but we're in_sleep_state, either
             // we were trying to fall asleep for so long our alarm is now going
             // off or something disturbed us while trying to sleep
@@ -1249,104 +1260,104 @@ void sfx::do_footstep()
         int heard_volume = sfx::get_heard_volume( g->u.pos() );
         const auto terrain = g->m.ter( g->u.pos() ).id();
         static const std::set<ter_str_id> grass = {
-            ter_grass,
-            ter_shrub,
-            ter_shrub_peanut,
-            ter_shrub_peanut_harvested,
-            ter_shrub_blueberry,
-            ter_shrub_blueberry_harvested,
-            ter_shrub_strawberry,
-            ter_shrub_strawberry_harvested,
-            ter_shrub_blackberry,
-            ter_shrub_blackberry_harvested,
-            ter_shrub_huckleberry,
-            ter_shrub_huckleberry_harvested,
-            ter_shrub_raspberry,
-            ter_shrub_raspberry_harvested,
-            ter_shrub_grape,
-            ter_shrub_grape_harvested,
-            ter_shrub_rose,
-            ter_shrub_rose_harvested,
-            ter_shrub_hydrangea,
-            ter_shrub_hydrangea_harvested,
-            ter_shrub_lilac,
-            ter_shrub_lilac_harvested,
-            ter_underbrush,
-            ter_underbrush_harvested_spring,
-            ter_underbrush_harvested_summer,
-            ter_underbrush_harvested_autumn,
-            ter_underbrush_harvested_winter,
-            ter_moss,
-            ter_grass_white,
-            ter_grass_long,
-            ter_grass_tall,
-            ter_grass_dead,
-            ter_grass_golf,
-            ter_golf_hole,
-            ter_trunk,
-            ter_stump,
+            ter_str_id( "t_grass" ),
+            ter_str_id( "t_shrub" ),
+            ter_str_id( "t_shrub_peanut" ),
+            ter_str_id( "t_shrub_peanut_harvested" ),
+            ter_str_id( "t_shrub_blueberry" ),
+            ter_str_id( "t_shrub_blueberry_harvested" ),
+            ter_str_id( "t_shrub_strawberry" ),
+            ter_str_id( "t_shrub_strawberry_harvested" ),
+            ter_str_id( "t_shrub_blackberry" ),
+            ter_str_id( "t_shrub_blackberry_harvested" ),
+            ter_str_id( "t_shrub_huckleberry" ),
+            ter_str_id( "t_shrub_huckleberry_harvested" ),
+            ter_str_id( "t_shrub_raspberry" ),
+            ter_str_id( "t_shrub_raspberry_harvested" ),
+            ter_str_id( "t_shrub_grape" ),
+            ter_str_id( "t_shrub_grape_harvested" ),
+            ter_str_id( "t_shrub_rose" ),
+            ter_str_id( "t_shrub_rose_harvested" ),
+            ter_str_id( "t_shrub_hydrangea" ),
+            ter_str_id( "t_shrub_hydrangea_harvested" ),
+            ter_str_id( "t_shrub_lilac" ),
+            ter_str_id( "t_shrub_lilac_harvested" ),
+            ter_str_id( "t_underbrush" ),
+            ter_str_id( "t_underbrush_harvested_spring" ),
+            ter_str_id( "t_underbrush_harvested_summer" ),
+            ter_str_id( "t_underbrush_harvested_autumn" ),
+            ter_str_id( "t_underbrush_harvested_winter" ),
+            ter_str_id( "t_moss" ),
+            ter_str_id( "t_grass_white" ),
+            ter_str_id( "t_grass_long" ),
+            ter_str_id( "t_grass_tall" ),
+            ter_str_id( "t_grass_dead" ),
+            ter_str_id( "t_grass_golf" ),
+            ter_str_id( "t_golf_hole" ),
+            ter_str_id( "t_trunk" ),
+            ter_str_id( "t_stump" ),
         };
         static const std::set<ter_str_id> dirt = {
-            ter_dirt,
-            ter_dirtmound,
-            ter_dirtmoundfloor,
-            ter_sand,
-            ter_clay,
-            ter_dirtfloor,
-            ter_palisade_gate_o,
-            ter_sandbox,
-            ter_claymound,
-            ter_sandmound,
-            ter_rootcellar,
-            ter_railroad_rubble,
-            ter_railroad_track,
-            ter_railroad_track_h,
-            ter_railroad_track_v,
-            ter_railroad_track_d,
-            ter_railroad_track_d1,
-            ter_railroad_track_d2,
-            ter_railroad_tie,
-            ter_railroad_tie_d,
-            ter_railroad_tie_d,
-            ter_railroad_tie_h,
-            ter_railroad_tie_v,
-            ter_railroad_tie_d,
-            ter_railroad_track_on_tie,
-            ter_railroad_track_h_on_tie,
-            ter_railroad_track_v_on_tie,
-            ter_railroad_track_d_on_tie,
-            ter_railroad_tie,
-            ter_railroad_tie_h,
-            ter_railroad_tie_v,
-            ter_railroad_tie_d1,
-            ter_railroad_tie_d2,
+            ter_str_id( "t_dirt" ),
+            ter_str_id( "t_dirtmound" ),
+            ter_str_id( "t_dirtmoundfloor" ),
+            ter_str_id( "t_sand" ),
+            ter_str_id( "t_clay" ),
+            ter_str_id( "t_dirtfloor" ),
+            ter_str_id( "t_palisade_gate_o" ),
+            ter_str_id( "t_sandbox" ),
+            ter_str_id( "t_claymound" ),
+            ter_str_id( "t_sandmound" ),
+            ter_str_id( "t_rootcellar" ),
+            ter_str_id( "t_railroad_rubble" ),
+            ter_str_id( "t_railroad_track" ),
+            ter_str_id( "t_railroad_track_h" ),
+            ter_str_id( "t_railroad_track_v" ),
+            ter_str_id( "t_railroad_track_d" ),
+            ter_str_id( "t_railroad_track_d1" ),
+            ter_str_id( "t_railroad_track_d2" ),
+            ter_str_id( "t_railroad_tie" ),
+            ter_str_id( "t_railroad_tie_d" ),
+            ter_str_id( "t_railroad_tie_d" ),
+            ter_str_id( "t_railroad_tie_h" ),
+            ter_str_id( "t_railroad_tie_v" ),
+            ter_str_id( "t_railroad_tie_d" ),
+            ter_str_id( "t_railroad_track_on_tie" ),
+            ter_str_id( "t_railroad_track_h_on_tie" ),
+            ter_str_id( "t_railroad_track_v_on_tie" ),
+            ter_str_id( "t_railroad_track_d_on_tie" ),
+            ter_str_id( "t_railroad_tie" ),
+            ter_str_id( "t_railroad_tie_h" ),
+            ter_str_id( "t_railroad_tie_v" ),
+            ter_str_id( "t_railroad_tie_d1" ),
+            ter_str_id( "t_railroad_tie_d2" ),
         };
         static const std::set<ter_str_id> metal = {
-            ter_ov_smreb_cage,
-            ter_metal_floor,
-            ter_grate,
-            ter_bridge,
-            ter_elevator,
-            ter_guardrail_bg_dp,
-            ter_slide,
-            ter_conveyor,
-            ter_machinery_light,
-            ter_machinery_heavy,
-            ter_machinery_old,
-            ter_machinery_electronic,
+            ter_str_id( "t_ov_smreb_cage" ),
+            ter_str_id( "t_metal_floor" ),
+            ter_str_id( "t_grate" ),
+            ter_str_id( "t_bridge" ),
+            ter_str_id( "t_elevator" ),
+            ter_str_id( "t_guardrail_bg_dp" ),
+            ter_str_id( "t_slide" ),
+            ter_str_id( "t_conveyor" ),
+            ter_str_id( "t_machinery_light" ),
+            ter_str_id( "t_machinery_heavy" ),
+            ter_str_id( "t_machinery_old" ),
+            ter_str_id( "t_machinery_electronic" ),
         };
         static const std::set<ter_str_id> water = {
-            ter_water_moving_sh,
-            ter_water_moving_dp,
-            ter_water_sh,
-            ter_water_dp,
-            ter_swater_sh,
-            ter_swater_dp,
-            ter_water_pool,
-            ter_sewage,
+            ter_str_id( "t_water_moving_sh" ),
+            ter_str_id( "t_water_moving_dp" ),
+            ter_str_id( "t_water_sh" ),
+            ter_str_id( "t_water_dp" ),
+            ter_str_id( "t_swater_sh" ),
+            ter_str_id( "t_swater_dp" ),
+            ter_str_id( "t_water_pool" ),
+            ter_str_id( "t_sewage" ),
         };
         static const std::set<ter_str_id> chain_fence = {
-            ter_chainfence,
+            ter_str_id( "t_chainfence" ),
         };
         if( !g->u.wearing_something_on( bp_foot_l ) ) {
             play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0, 0.8, 1.2 );

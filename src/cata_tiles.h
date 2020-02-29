@@ -28,6 +28,8 @@ class player;
 class pixel_minimap;
 class JsonObject;
 
+using itype_id = std::string;
+
 extern void set_displaybuffer_rendertarget();
 
 /** Structures */

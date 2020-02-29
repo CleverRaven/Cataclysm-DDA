@@ -3,7 +3,7 @@
     "id": "awl_bone",
     "type": "GENERIC",
     "category": "tools",
-    "name": "bone sewing awl",
+    "name": { "str": "bone sewing awl" },
     "description": "This is a crude sharpened bone awl; those were used for leatherworking before metal was discovered.  It can also serve as an improvised stabbing weapon, but will break quickly.",
     "weight": "200 g",
     "volume": "250 ml",
@@ -62,7 +62,7 @@
   {
     "id": "needle_bone",
     "type": "TOOL",
-    "name": "bone needle",
+    "name": { "str": "bone needle" },
     "description": "This is sharp needle made from a bone.  It would be useful for making rough clothing and items.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
     "weight": "85 g",
     "volume": "250 ml",
@@ -89,7 +89,7 @@
   {
     "id": "needle_curved",
     "type": "TOOL",
-    "name": "curved needle",
+    "name": { "str": "curved needle" },
     "description": "A curved sharp needle made of steel.  Its rounded shape allows it to make stitches that only pierce one side of the material.  While unsuitable for most tailoring projects, it's a necessity for stitching neoprene.",
     "weight": "85 g",
     "volume": "250 ml",

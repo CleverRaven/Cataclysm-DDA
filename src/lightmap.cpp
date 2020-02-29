@@ -143,6 +143,40 @@ bool map::build_transparency_cache( const int zlev )
     return true;
 }
 
+bool map::build_vision_transparency_cache( const int zlev )
+{
+    auto &map_cache = get_cache( zlev );
+    auto &transparency_cache = map_cache.transparency_cache;
+    auto &vision_transparency_cache = map_cache.vision_transparency_cache;
+
+    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
+
+    const tripoint &p = g->u.pos();
+
+    if( p.z != zlev ) {
+        return false;
+    }
+
+    bool dirty = false;
+
+    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
+    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
+        if( loc == p ) {
+            // The tile player is standing on should always be visible
+            if( ( has_furn( p ) && !furn( p )->transparent ) || !ter( p )->transparent ) {
+                vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
+            }
+        } else if( is_crouching && coverage( loc ) >= 30 ) {
+            // If we're crouching behind an obstacle, we can't see past it.
+            vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            map_cache.transparency_cache_dirty = true;
+            dirty = true;
+        }
+    }
+
+    return dirty;
+}
+
 void map::apply_character_light( player &p )
 {
     if( p.has_effect( effect_onfire ) ) {
@@ -670,9 +704,9 @@ template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
          bool( *check )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
 void cast_zlight_segment(
-    const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<T> &output_caches,
+    const array_of_grids_of<const T> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &offset, int offset_distance,
     T numerator = 1.0f, int row = 1,
     float start_major = 0.0f, float end_major = 1.0f,
@@ -684,9 +718,9 @@ template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
          bool( *check )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
 void cast_zlight_segment(
-    const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<T> &output_caches,
+    const array_of_grids_of<const T> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &offset, const int offset_distance,
     const T numerator, const int row,
     float start_major, const float end_major,
@@ -877,9 +911,9 @@ template<typename T, T( *calc )( const T &, const T &, const int & ),
          bool( *check )( const T &, const T & ),
          T( *accumulate )( const T &, const T &, const int & )>
 void cast_zlight(
-    const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<T> &output_caches,
+    const array_of_grids_of<const T> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, const int offset_distance, const T numerator )
 {
     // Down
@@ -928,16 +962,15 @@ void cast_zlight(
 // I can't figure out how to make implicit instantiation work when the parameters of
 // the template-supplied function pointers are involved, so I'm explicitly instantiating instead.
 template void cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-    const std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<float> &output_caches,
+    const array_of_grids_of<const float> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, int offset_distance, float numerator );
 
 template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
-    const std::array<fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS>
-    &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const array_of_grids_of<fragment_cloud> &output_caches,
+    const array_of_grids_of<const fragment_cloud> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, int offset_distance, fragment_cloud numerator );
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
@@ -1103,7 +1136,7 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
 void map::build_seen_cache( const tripoint &origin, const int target_z )
 {
     auto &map_cache = get_cache( target_z );
-    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.transparency_cache;
+    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vision_transparency_cache;
     float ( &seen_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.seen_cache;
     float ( &camera_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.camera_cache;
 
@@ -1121,12 +1154,12 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_cache, transparency_cache, origin.xy(), 0 );
     } else {
         // Cache the caches (pointers to them)
-        std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> transparency_caches;
-        std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> seen_caches;
-        std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> floor_caches;
+        array_of_grids_of<const float> transparency_caches;
+        array_of_grids_of<float> seen_caches;
+        array_of_grids_of<const bool> floor_caches;
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             auto &cur_cache = get_cache( z );
-            transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
+            transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
             seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
             floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
             std::uninitialized_fill_n(
@@ -1155,10 +1188,10 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         const tripoint mirror_pos = vp.pos();
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
-        if( !vp.info().has_flag( flag_CAMERA ) &&
+        if( !vp.info().has_flag( "CAMERA" ) &&
             seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
             continue;
-        } else if( !vp.info().has_flag( flag_CAMERA_CONTROL ) ) {
+        } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
             mirrors.emplace_back( static_cast<int>( vp.part_index() ) );
         } else {
             if( square_dist( origin, mirror_pos ) <= 1 && veh->camera_on ) {
@@ -1168,7 +1201,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     }
 
     for( int mirror : mirrors ) {
-        bool is_camera = veh->part_info( mirror ).has_flag( flag_CAMERA );
+        bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
         if( is_camera && cam_control < 0 ) {
             continue; // Player not at camera control, so cameras don't work
         }
