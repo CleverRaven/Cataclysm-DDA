@@ -9,7 +9,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "GUN_DISPERSION_DIVIDER",
-    "info": "Value that divides total weapon dipsersion. 15 means that weapons became 15 times more acurate than default.",
+    "info": "Value that divides total weapon dispersion. 15 means that weapons became 15 times more accurate than default.",
     "stype": "float",
     "value": 18
   },
@@ -127,13 +127,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "SLEEP_DEPRIVATION",
-    "info": "Enables sleep deprivation mechanics. If true, stimulants will only help you so far, and you might have to enforce proper sleep hygiene for a while.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "CBM_SLOTS_ENABLED",
     "info": "Enables CBM slots mechanics. If true CBM slots are enabled.",
     "stype": "bool",
@@ -194,5 +187,19 @@
     "info": "Stats through Kills.  A mod that allows your stats to increase by killing zombies.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "INT_BASED_LEARNING_BASE_VALUE",
+    "info": "The amount of INT which is used as base point for focus adjustments",
+    "stype": "int",
+    "value": 8
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "INT_BASED_LEARNING_FOCUS_ADJUSTMENT",
+    "info": "The amount of focus gained per each INT point above INT_BASED_LEARNING_BASE_VALUE",
+    "stype": "int",
+    "value": 5
   }
 ]

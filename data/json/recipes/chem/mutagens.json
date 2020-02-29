@@ -592,13 +592,7 @@
         [ "pills_sleep", 10 ],
         [ "poppy_sleep", 15 ]
       ],
-      [
-        [ "vitamins", 5 ],
-        [ "iodine", 5 ],
-        [ "disinfectant", 25 ],
-        [ "hflesh_powder", 10 ],
-        [ "protein_powder", 10 ]
-      ]
+      [ [ "vitamins", 5 ], [ "iodine", 5 ], [ "disinfectant", 25 ], [ "protein_powder", 20 ] ]
     ],
     "flags": [ "SECRET" ]
   },

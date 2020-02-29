@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <iterator>
-#include <sstream>
 #include <list>
 #include <memory>
 #include <set>
@@ -29,11 +28,11 @@
 #include "cursesdef.h"
 #include "iuse.h"
 #include "type_id.h"
+#include "cata_string_consts.h"
 
 struct tripoint;
 
 static item_action nullaction;
-static const std::string errstring( "ERROR" );
 
 static char key_bound_to( const input_context &ctxt, const item_action_id &act )
 {
@@ -187,7 +186,7 @@ const item_action &item_action_generator::get_action( const item_action_id &id )
     return nullaction;
 }
 
-void item_action_generator::load_item_action( JsonObject &jo )
+void item_action_generator::load_item_action( const JsonObject &jo )
 {
     item_action ia;
 
@@ -215,15 +214,15 @@ void game::item_action_menu()
     const auto &gen = item_action_generator::generator();
     const action_map &item_actions = gen.get_item_action_map();
 
-    // A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
+    // HACK: A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
     std::vector<item *> pseudos;
     item toolset( "toolset", calendar::turn );
-    if( u.has_active_bionic( bionic_id( "bio_tools" ) ) ) {
+    if( u.has_active_bionic( bio_tools ) ) {
         pseudos.push_back( &toolset );
     }
-    item bio_claws( "bio_claws_weapon", calendar::turn );
-    if( u.has_active_bionic( bionic_id( "bio_claws" ) ) ) {
-        pseudos.push_back( &bio_claws );
+    item bio_claws_item( static_cast<std::string>( bio_claws_weapon ), calendar::turn );
+    if( u.has_active_bionic( bio_claws ) ) {
+        pseudos.push_back( &bio_claws_item );
     }
 
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
@@ -236,8 +235,8 @@ void game::item_action_menu()
     kmenu.input_category = "ITEM_ACTIONS";
     input_context ctxt( "ITEM_ACTIONS" );
     for( const auto &id : item_actions ) {
-        ctxt.register_action( id.first, id.second.name.translated() );
-        kmenu.additional_actions.emplace_back( id.first, id.second.name.translated() );
+        ctxt.register_action( id.first, id.second.name );
+        kmenu.additional_actions.emplace_back( id.first, id.second.name );
     }
     actmenu_cb callback( item_actions );
     kmenu.callback = &callback;
@@ -259,15 +258,13 @@ void game::item_action_menu()
     // Add mapped actions to the menu vector.
     std::transform( iactions.begin(), iactions.end(), std::back_inserter( menu_items ),
     []( const std::pair<item_action_id, item *> &elem ) {
-        std::stringstream ss;
-        ss << elem.second->display_name();
+        std::string ss = elem.second->display_name();
         if( elem.second->ammo_required() ) {
-            ss << " (" << elem.second->ammo_required() << '/'
-               << elem.second->ammo_remaining() << ')';
+            ss += string_format( " (%d/%d)", elem.second->ammo_required(), elem.second->ammo_remaining() );
         }
 
         const auto method = elem.second->get_use( elem.first );
-        return std::make_tuple( method->get_type(), method->get_name(), ss.str() );
+        return std::make_tuple( method->get_type(), method->get_name(), ss );
     } );
     // Sort mapped actions.
     sort_menu( menu_items.begin(), menu_items.end() );
@@ -289,18 +286,18 @@ void game::item_action_menu()
     }
     // Fill the menu.
     for( const auto &elem : menu_items ) {
-        std::stringstream ss;
-        ss << std::get<1>( elem )
-           << std::string( max_len.first - utf8_width( std::get<1>( elem ), true ), ' ' )
-           << std::string( 4, ' ' );
+        std::string ss;
+        ss += std::get<1>( elem );
+        ss += std::string( max_len.first - utf8_width( std::get<1>( elem ), true ), ' ' );
+        ss += std::string( 4, ' ' );
 
-        ss << std::get<2>( elem )
-           << std::string( max_len.second - utf8_width( std::get<2>( elem ), true ), ' ' );
+        ss += std::get<2>( elem );
+        ss += std::string( max_len.second - utf8_width( std::get<2>( elem ), true ), ' ' );
 
         const char bind = key_bound_to( ctxt, std::get<0>( elem ) );
         const bool enabled = assigned_action( std::get<0>( elem ) );
 
-        kmenu.addentry( num, enabled, bind, ss.str() );
+        kmenu.addentry( num, enabled, bind, ss );
         num++;
     }
 

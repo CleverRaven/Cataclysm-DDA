@@ -6,7 +6,6 @@
 
 #include <cstdlib>
 #include <fstream>
-#include <sstream>
 
 #include "cursesdef.h"
 #include "options.h"
@@ -327,7 +326,8 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
                 return 0;
             }
 
-            if( !GetAsyncKeyState( VK_LMENU ) && alt_down ) { // LeftAlt hack
+            // LeftAlt hack
+            if( !GetAsyncKeyState( VK_LMENU ) && alt_down ) {
                 if( int code = end_alt_code() ) {
                     lastchar = code;
                 }
@@ -344,7 +344,8 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
             return 0;
 
         case WM_SYSKEYDOWN:
-            if( GetAsyncKeyState( VK_LMENU ) && !alt_down ) { // LeftAlt hack
+            // LeftAlt hack
+            if( GetAsyncKeyState( VK_LMENU ) && !alt_down ) {
                 begin_alt_code();
             }
             break;
@@ -432,7 +433,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             for( i = 0; i < win->width; i++ ) {
                 const cursecell &cell = win->line[j].chars[i];
                 if( cell.ch.empty() ) {
-                    continue; // second cell of a multi-cell character
+                    // second cell of a multi-cell character
+                    continue;
                 }
                 drawx = ( ( win->pos.x + i ) * fontwidth );
                 drawy = ( ( win->pos.y + j ) * fontheight ); //-j;
@@ -604,7 +606,8 @@ void catacurses::init_interface()
     if( SetCurrentDirectoryW( L"data\\font" ) ) {
         WIN32_FIND_DATAW findData;
         for( HANDLE findFont = FindFirstFileW( L".\\*", &findData ); findFont != INVALID_HANDLE_VALUE; ) {
-            if( !( findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) ) { // Skip folders
+            // Skip folders
+            if( !( findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) ) {
                 AddFontResourceExW( findData.cFileName, FR_PRIVATE, NULL );
             }
             if( !FindNextFileW( findFont, &findData ) ) {
@@ -616,9 +619,10 @@ void catacurses::init_interface()
     }
 
     // Use desired font, if possible
+    assert( !fl.typeface.empty() );
     font = CreateFontW( fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                         DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
-                        PROOF_QUALITY, FF_MODERN, widen( fl.typeface ).c_str() );
+                        PROOF_QUALITY, FF_MODERN, widen( fl.typeface.front() ).c_str() );
 
     // Transparent font backgrounds
     SetBkMode( backbuffer, TRANSPARENT );
@@ -686,7 +690,8 @@ input_event input_manager::get_input_event()
             rval.type = CATA_INPUT_ERROR;
         }
     } else {
-        if( lastchar == 127 ) { // == Unicode DELETE
+        // == Unicode DELETE
+        if( lastchar == 127 ) {
             previously_pressed_key = KEY_BACKSPACE;
             return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
         }

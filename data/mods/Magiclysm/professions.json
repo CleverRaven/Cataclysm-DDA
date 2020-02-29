@@ -28,7 +28,7 @@
     "type": "profession",
     "ident": "druid",
     "name": "Druid",
-    "description": "The ancient circle of druids is gone with the cataclysm.  Nature must thrive.",
+    "description": "The ancient circle of druids is gone with the Cataclysm.  Nature must thrive.",
     "points": 4,
     "items": {
       "both": [ "druid_spellbook", "leathersandals", "robe", "rope_makeshift_30", "hide_bag", "hat_fur", "gloves_wraps_fur" ]
@@ -91,7 +91,7 @@
     "type": "profession",
     "ident": "rabbi_magic2",
     "name": "Rabbi",
-    "description": "You were celebrating with your flock in the temple when the cataclysm struck.  You sure could use a messiah right now!",
+    "description": "You were celebrating with your flock in the temple when the Cataclysm struck.  You sure could use a messiah right now!",
     "points": 0,
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "firstaid" } ],
@@ -182,7 +182,7 @@
     "type": "profession",
     "ident": "novice_necromancer",
     "name": "Novice Necromancer",
-    "description": "You always had to hide your magic, as it was generally not an acceptable type of magic in the wizarding world, but with the cataclysm you need to pull every trick out of the book.",
+    "description": "You always had to hide your magic, as it was generally not an acceptable type of magic in the wizarding world, but with the Cataclysm you need to pull every trick out of the book.",
     "spells": [ { "id": "summon_zombie", "level": 5 }, { "id": "necrotic_gaze", "level": 1 } ],
     "points": 2,
     "skills": [ { "level": 1, "name": "spellcraft" } ],
@@ -197,7 +197,7 @@
     "type": "profession",
     "ident": "novice_stormshaper",
     "name": "Novice Stormshaper",
-    "description": "The son of a weatherman, you were always interested in the weather.  Recently you found it was possible to manipulate the weather yourself through arcane means!  Unfortunately you did not have long to enjoy your power, as events unfolded...",
+    "description": "The son of a weatherman, you were always interested in the weather.  Recently you found it was possible to manipulate the weather yourself through arcane means!  Unfortunately you did not have long to enjoy your power, as events unfolded…",
     "spells": [ { "id": "lightning_bolt", "level": 1 }, { "id": "windrun", "level": 1 } ],
     "points": 0,
     "items": {

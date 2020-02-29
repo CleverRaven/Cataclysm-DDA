@@ -25,7 +25,8 @@ enum advanced_inv_sortby {
     SORTBY_CATEGORY,
     SORTBY_DAMAGE,
     SORTBY_AMMO,
-    SORTBY_SPOILAGE
+    SORTBY_SPOILAGE,
+    SORTBY_PRICE
 };
 /**
  * Displayed pane, what is shown on the screen.
@@ -40,7 +41,7 @@ class advanced_inventory_pane
         bool prev_viewing_cargo = false;
     public:
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
-        void set_area( advanced_inv_area &square, bool in_vehicle_cargo = false ) {
+        void set_area( const advanced_inv_area &square, bool in_vehicle_cargo = false ) {
             prev_area = area;
             prev_viewing_cargo = viewing_cargo;
             area = square.id;

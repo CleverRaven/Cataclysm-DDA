@@ -192,6 +192,7 @@ bool is_directory_stat( const std::string &full_path )
     }
 
     if( S_ISDIR( result.st_mode ) ) {
+        // NOLINTNEXTLINE(readability-simplify-boolean-expr)
         return true;
     }
 

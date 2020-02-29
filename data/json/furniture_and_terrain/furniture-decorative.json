@@ -45,26 +45,7 @@
     "name": "bitts",
     "description": "Paired vertical iron posts mounted on a wharf, pier or quay.  They are used to secure mooring lines, ropes, hawsers, or cables.",
     "symbol": "B",
-    "color": [ "light_gray" ],
-    "move_cost_mod": 2,
-    "coverage": 30,
-    "required_str": 0,
-    "bash": {
-      "str_min": 80,
-      "str_max": 200,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "steel_chunk", "count": [ 5, 10 ] } ]
-    },
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT" ]
-  },
-  {
-    "id": "f_bitts",
-    "type": "furniture",
-    "name": "bitts",
-    "description": "Paired vertical iron posts mounted on a wharf, pier or quay.  They are used to secure mooring lines, ropes, hawsers, or cables.",
-    "symbol": "B",
-    "color": [ "light_gray" ],
+    "color": "light_gray",
     "move_cost_mod": 2,
     "coverage": 30,
     "required_str": 0,
@@ -203,6 +184,40 @@
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "glass_shard", "count": [ 0, 8 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_winter_wreath",
+    "name": "pine wreath",
+    "description": "A decorative wreath for the winter holidays.",
+    "symbol": "o",
+    "color": "light_green",
+    "move_cost_mod": -1,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_decorative_tree",
+    "name": "decorative tree",
+    "description": "A decorative tree for the winter holidays.",
+    "symbol": "+",
+    "color": "light_green",
+    "looks_like": "t_tree_pine",
+    "move_cost_mod": -1,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "pine_bough", "count": [ 4, 6 ] },
+        { "item": "nail", "count": [ 5, 14 ] },
+        { "item": "stick", "count": [ 1, 3 ] }
       ]
     }
   }

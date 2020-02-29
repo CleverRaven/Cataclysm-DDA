@@ -200,6 +200,11 @@ class translation
          */
         bool operator==( const translation &that ) const;
         bool operator!=( const translation &that ) const;
+
+        /**
+         * Only used for migrating old snippet hashes into snippet ids.
+         */
+        cata::optional<int> legacy_hash() const;
     private:
         translation( const std::string &ctxt, const std::string &raw );
         translation( const std::string &raw );

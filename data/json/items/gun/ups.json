@@ -1,9 +1,10 @@
 [
   {
     "id": "emp_gun",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "XM34 EMP projector",
+    "name": { "str": "XM34 EMP projector" },
     "description": "A powerful electrolaser developed by the R&D outfit \"Aerial Labs\".  Especially effective against electronic targets.",
     "weight": "2950 g",
     "volume": "3 L",
@@ -19,7 +20,7 @@
     "pierce": 20,
     "dispersion": 10,
     "durability": 10,
-    "burst": 3,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "loudness": 23,
     "ups_charges": 70,
     "reload": 0,
@@ -34,13 +35,14 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "gatling_mech_laser",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 20,
-    "name": "CMES laser cannon",
+    "name": { "str": "CMES laser cannon" },
     "description": "This is the integral weapon system for the CMES exoskeleton mech-suit, a rotating-barrel active-cooled rapid-fire laser system, can spray death downrange with ease.",
     "weight": "39500 g",
     "volume": "11 L",
@@ -61,13 +63,23 @@
     "reload": 0,
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "MECH_WEAPON", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NEVER_JAMS",
+      "MECH_WEAPON",
+      "NO_UNWIELD",
+      "NO_SALVAGE",
+      "NO_REPAIR",
+      "UNBREAKABLE_MELEE",
+      "NON-FOULING"
+    ]
   },
   {
     "id": "recon_mech_laser",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 2,
-    "name": "RMES marksman system",
+    "name": { "str": "RMES marksman system" },
     "description": "This is the integral weapon system for the RMES exoskeleton mech-suit, a quiet and accurate marksman laser rifle.",
     "weight": "12500 g",
     "volume": "5500 ml",
@@ -87,13 +99,24 @@
     "ups_charges": 180,
     "reload": 0,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "MECH_WEAPON", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NEVER_JAMS",
+      "MECH_WEAPON",
+      "NO_UNWIELD",
+      "NO_SALVAGE",
+      "NO_REPAIR",
+      "UNBREAKABLE_MELEE",
+      "NON-FOULING",
+      "NEEDS_NO_LUBE"
+    ]
   },
   {
     "id": "laser_cannon",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "handheld laser cannon",
+    "name": { "str": "handheld laser cannon" },
     "description": "This is a laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.",
     "weight": "5140 g",
     "volume": "1500 ml",
@@ -123,14 +146,15 @@
       [ "underbarrel mount", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD" ]
+    "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "laser_rifle",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "A7 laser rifle",
-    "description": "A state of the art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Though the cataclysm put that on the ash heap of history, this weapon can still do the same to your foes.",
+    "name": { "str": "A7 laser rifle" },
+    "description": "A state-of-the-art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Though the Cataclysm put that on the ash heap of history, this weapon can still do the same to your foes.",
     "weight": "2950 g",
     "volume": "3 L",
     "price": 1600000,
@@ -145,7 +169,7 @@
     "pierce": 15,
     "dispersion": 10,
     "durability": 8,
-    "burst": 5,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "loudness": 12,
     "ups_charges": 40,
     "reload": 0,
@@ -161,14 +185,15 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "v29",
+    "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": "V29 laser pistol",
-    "description": "The V29 laser pistol was designed in the mid-21st century and was one of the first handheld laser weapons.  It is larger than most traditional handguns, but displays no recoil whatsoever.",
+    "name": { "str": "V29 laser pistol" },
+    "description": "This V29 laser pistol was one of the first handheld laser weapons.  It is larger than most traditional handguns, but displays no recoil whatsoever.",
     "weight": "680 g",
     "volume": "1 L",
     "price": 720000,
@@ -197,6 +222,6 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
   }
 ]

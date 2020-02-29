@@ -1,0 +1,8 @@
+[
+  {
+    "id": "orichalcum_metal_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from glowing metal",
+    "components": [ [ [ "orichalcum_lump", 1 ], [ "orichalcum_sliver", 2 ] ] ]
+  }
+]

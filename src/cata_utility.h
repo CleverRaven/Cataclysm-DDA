@@ -340,7 +340,8 @@ class list_circularizer
 
         /** Return list element at the current location */
         T &cur() const {
-            return ( *_list )[_index]; // list could be null, but it would be a design time mistake and really, the callers fault.
+            // list could be null, but it would be a design time mistake and really, the callers fault.
+            return ( *_list )[_index];
         }
 };
 
@@ -508,5 +509,24 @@ bool return_true( const T & )
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
 
 int modulo( int v, int m );
+
+class on_out_of_scope
+{
+    private:
+        std::function<void()> func;
+    public:
+        on_out_of_scope( const std::function<void()> &func ) : func( func ) {
+        }
+
+        ~on_out_of_scope() {
+            if( func ) {
+                func();
+            }
+        }
+
+        void cancel() {
+            func = nullptr;
+        }
+};
 
 #endif // CAT_UTILITY_H

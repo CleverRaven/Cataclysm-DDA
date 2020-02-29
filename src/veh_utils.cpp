@@ -122,9 +122,13 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
                       vp.install_requirements() :
                       vp.repair_requirements() * pt.damage_level( 4 );
 
+    const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
-    map_inv.form_from_map( who.pos(), PICKUP_RANGE );
-    if( !reqs.can_make_with_inventory( who.crafting_inventory(), is_crafting_component ) ) {
+    // allow NPCs to use welding rigs they cant see ( on the other side of a vehicle )
+    // as they have the handicap of not being able to use the veh interaction menu
+    // or able to drag a welding cart etc.
+    map_inv.form_from_map( who.pos(), PICKUP_RANGE, &who_c, false, !who.is_npc() );
+    if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
                                pt.name() );
         return false;

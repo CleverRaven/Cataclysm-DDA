@@ -56,7 +56,8 @@ class advanced_inv_area
         /** Long name, displayed, translated */
         const std::string name = "fake";
         /** Shorter name (2 letters) */
-        const std::string shortname = "FK"; // FK in my coffee
+        // FK in my coffee
+        const std::string shortname = "FK";
         // absolute position of the map point.
         tripoint pos;
         /** Can we put items there? Only checks if location is valid, not if

@@ -7,14 +7,45 @@
         "name": "dreadful presense",
         "sym": "8",
         "dangerous": true,
-        "effect_id": "eff_frightful_presence",
-        "effect_body_part": "TORSO",
-        "effect_intensity": 1,
-        "effect_min_duration": "2 seconds",
-        "effect_max_duration": "2 seconds"
+        "effects": [
+          {
+            "effect_id": "eff_frightful_presence",
+            "body_part": "TORSO",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "is_environmental": false
+          }
+        ]
       },
-      { "name": "frightful presense", "color": "light_gray", "effect_intensity": 2 },
-      { "name": "terrifying presense", "color": "dark_gray", "effect_intensity": 3 }
+      {
+        "name": "frightful presense",
+        "color": "light_gray",
+        "effects": [
+          {
+            "effect_id": "eff_frightful_presence",
+            "body_part": "TORSO",
+            "intensity": 2,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "terrifying presense",
+        "color": "dark_gray",
+        "effects": [
+          {
+            "effect_id": "eff_frightful_presence",
+            "body_part": "TORSO",
+            "intensity": 3,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "is_environmental": false
+          }
+        ]
+      }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 12,
@@ -44,7 +75,7 @@
     "bodytype": "angel",
     "species": [ "DRAGON" ],
     "volume": "80 L",
-    "weight": 65000,
+    "weight": "65 kg",
     "hp": 180,
     "speed": 150,
     "material": [ "flesh" ],
@@ -92,7 +123,7 @@
     "copy-from": "mon_dragon_black_wyrmling",
     "//": "should be roughly 4000 L, as that's the size of a large cow.",
     "volume": "1000 L",
-    "weight": 1000000,
+    "weight": "1000 kg",
     "hp": 1200,
     "melee_skill": 5,
     "melee_dice": 3,
@@ -113,7 +144,7 @@
     "description": "A black-scaled monstrosity with deep-set eye sockets glowing green with evil.  Its face and skull appear skeletal, and acid drips from its dagger-like jaws.",
     "copy-from": "mon_dragon_black_young",
     "//": "If it were possible, the adult would be about double the size of a young version or so.",
-    "weight": 2200000,
+    "weight": "2200 kg",
     "hp": 3500,
     "melee_dice": 4,
     "melee_dice_sides": 12,
@@ -123,6 +154,7 @@
     "dodge": 3,
     "//": "Large means powerful, but it does not mean fast.",
     "speed": 100,
+    "delete": { "flags": [ "PATH_AVOID_DANGER_2" ] },
     "emit_fields": [ "emit_dragon_adult_fright" ],
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },

@@ -88,5 +88,15 @@
     "id": "saiga30mag_410",
     "type": "MIGRATION",
     "replace": "saiga410mag_30rd"
+  },
+  {
+    "id": "m1991_38smag",
+    "type": "MIGRATION",
+    "replace": "m1911mag_10rd_38super"
+  },
+  {
+    "id": "m1991a1_38super",
+    "type": "MIGRATION",
+    "replace": "m1911a1_38super"
   }
 ]

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "estate_2icb",
-    "comment": "second floor, inner corner B",
+    "//": "second floor, inner corner B",
     "weight": 0,
     "method": "json",
     "object": {

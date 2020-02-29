@@ -54,7 +54,7 @@ class item_action_generator
             return item_actions;
         }
 
-        void load_item_action( JsonObject &jo );
+        void load_item_action( const JsonObject &jo );
         void check_consistency() const;
 };
 

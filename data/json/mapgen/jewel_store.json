@@ -73,13 +73,13 @@
       },
       "toilets": { "9": {  } },
       "place_items": [
-        { "item": "jewelry_front", "x": [ 5, 5 ], "y": [ 10, 13 ], "chance": 75 },
-        { "item": "jewelry_front", "x": [ 18, 18 ], "y": [ 10, 13 ], "chance": 75 },
-        { "item": "jewelry_front", "x": [ 11, 12 ], "y": [ 11, 12 ], "chance": 75 },
-        { "item": "jewelry_front", "x": [ 15, 18 ], "y": [ 18, 18 ], "chance": 50 },
-        { "item": "jewelry_front", "x": [ 18, 18 ], "y": [ 15, 17 ], "chance": 50 },
-        { "item": "jewelry_back", "x": [ 9, 14 ], "y": [ 20, 20 ], "chance": 80, "repeat": [ 1, 2 ] },
-        { "item": "jewelry_safe", "x": [ 18, 18 ], "y": [ 20, 21 ], "chance": 95 },
+        { "item": "jewelry_front", "x": [ 5, 5 ], "y": [ 10, 13 ], "chance": 75, "repeat": [ 1, 4 ] },
+        { "item": "jewelry_front", "x": [ 18, 18 ], "y": [ 10, 13 ], "chance": 75, "repeat": [ 1, 4 ] },
+        { "item": "jewelry_front", "x": [ 11, 12 ], "y": [ 11, 12 ], "chance": 75, "repeat": [ 1, 4 ] },
+        { "item": "jewelry_front", "x": [ 15, 18 ], "y": [ 18, 18 ], "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "jewelry_front", "x": [ 18, 18 ], "y": [ 15, 17 ], "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "jewelry_back", "x": [ 9, 14 ], "y": [ 20, 20 ], "chance": 80, "repeat": [ 1, 4 ] },
+        { "item": "jewelry_safe", "x": [ 18, 18 ], "y": [ 20, 21 ], "chance": 95, "repeat": [ 1, 8 ] },
         { "item": "trash", "x": [ 3, 3 ], "y": [ 17, 18 ], "chance": 50 }
       ],
       "items": {

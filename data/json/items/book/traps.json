@@ -2,8 +2,7 @@
   {
     "id": "howto_traps",
     "type": "BOOK",
-    "name": "How to Trap Anything",
-    "name_plural": "How to Trap Anything",
+    "name": { "str": "How to Trap Anything", "str_pl": "copies of How to Trap Anything" },
     "description": "A worn manual that describes how to set and disarm a wide variety of traps.",
     "weight": "454 g",
     "volume": "500 ml",
@@ -20,8 +19,7 @@
   {
     "id": "mag_traps",
     "type": "BOOK",
-    "name": "Trapper's Life",
-    "name_plural": "Trapper's Life",
+    "name": { "str": "Trapper's Life", "str_pl": "issues of Trapper's Life" },
     "description": "An in-depth magazine about trapping game.  There are lots of articles and diagrams that explain simple trap designs.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -38,7 +36,7 @@
   {
     "id": "manual_traps",
     "type": "BOOK",
-    "name": "The Modern Trapper",
+    "name": { "str": "The Modern Trapper", "str_pl": "copies of The Modern Trapper" },
     "description": "An extensive volume that details numerous methods of trapping game.",
     "weight": "422 g",
     "volume": "500 ml",
@@ -55,9 +53,11 @@
   {
     "id": "textbook_traps",
     "type": "BOOK",
-    "name": "The Compleat Trapper",
-    "name_plural": "The Compleat Trapper",
-    "//": "The spelling is intentionally archaic, as this form is commonly used in the titles of books.",
+    "name": {
+      "//~": "The spelling is intentionally archaic, as this form is commonly used in the titles of books.",
+      "str": "The Compleat Trapper",
+      "str_pl": "copies of The Compleat Trapper"
+    },
     "description": "An in-depth book about trapping game animals, covering methods both modern and ancient.",
     "weight": "1100 g",
     "volume": "2 L",
@@ -76,8 +76,7 @@
   {
     "id": "trappers_companion",
     "type": "BOOK",
-    "name": "The Trapper's Companion",
-    "name_plural": "copies of The Trapper's Companion",
+    "name": { "str": "The Trapper's Companion", "str_pl": "copies of The Trapper's Companion" },
     "description": "A folksy guide to trapping wild game using time-tested methods.  A bit in-depth for the beginner, it can provide a wealth of information to a knowledgeable trapper.",
     "weight": "1920 g",
     "volume": "2 L",

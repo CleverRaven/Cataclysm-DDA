@@ -21,7 +21,7 @@
   {
     "type": "TOOL",
     "id": "jumper_cable_heavy",
-    "name": "heavy-duty cable",
+    "name": { "str": "heavy-duty cable" },
     "description": "A long, thick, heavy-duty cable with power leads on either end.  It looks like you could use it to hook up two vehicles to each other, though you expect the power loss would be noticeable.  Can also link other electrical systems.",
     "volume": "1500 ml",
     "weight": "750 g",

@@ -27,6 +27,7 @@
 #include <cstdio>
 #include <limits>
 
+// NOLINTNEXTLINE(cata-no-long)
 inline std::string to_string( const long n )
 {
     //- and \0
@@ -36,6 +37,7 @@ inline std::string to_string( const long n )
     return buffer;
 }
 
+// NOLINTNEXTLINE(cata-no-long)
 inline std::string to_string( const unsigned long n )
 {
     //- and \0

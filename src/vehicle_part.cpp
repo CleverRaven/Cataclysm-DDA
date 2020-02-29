@@ -24,9 +24,8 @@
 #include "color.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "cata_string_consts.h"
 
-static const itype_id fuel_type_none( "null" );
-static const itype_id fuel_type_battery( "battery" );
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
@@ -70,7 +69,8 @@ item vehicle_part::properties_to_item() const
     if( tmp.has_flag( "CABLE_SPOOL" ) ) {
         const tripoint local_pos = g->m.getlocal( target.first );
         if( !g->m.veh_at( local_pos ) ) {
-            tmp.item_tags.insert( "NO_DROP" ); // That vehicle ain't there no more.
+            // That vehicle ain't there no more.
+            tmp.item_tags.insert( "NO_DROP" );
         }
 
         tmp.set_var( "source_x", target.first.x );
@@ -80,6 +80,9 @@ item vehicle_part::properties_to_item() const
         tmp.active = true;
     }
 
+    // force rationalization of damage values to the middle value of each damage level so
+    // that parts will stack nicely
+    tmp.set_damage( tmp.damage_level( 4 ) * itype::damage_scale );
     return tmp;
 }
 
@@ -558,7 +561,8 @@ bool vehicle::assign_seat( vehicle_part &pt, const npc &who )
     // NPC's can only be assigned to one seat in the vehicle
     for( auto &e : parts ) {
         if( &e == &pt ) {
-            continue; // skip this part
+            // skip this part
+            continue;
         }
 
         if( e.is_seat() ) {

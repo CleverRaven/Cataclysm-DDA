@@ -22,7 +22,10 @@ class player;
 class salvage_actor;
 class repair_item_actor;
 
+using item_filter = std::function<bool( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
 
 class inventory_filter_preset : public inventory_selector_preset
 {
@@ -39,6 +42,12 @@ namespace game_menus
 
 namespace inv
 {
+// item selector for all items in @you's inventory.
+item_location titled_menu( avatar &you, const std::string &title,
+                           const std::string &none_message = "" );
+// item selector for items in @you's inventory with a filter
+item_location titled_filter_menu( item_filter filter, avatar &you,
+                                  const std::string &title, const std::string &none_message = "" );
 
 /**
 * @name Customized inventory menus
@@ -58,9 +67,9 @@ void swap_letters( player &p );
 
 /**
  * Select items to drop.
- * @return A list of pairs of position, quantity.
+ * @return A list of pairs of item_location, quantity.
  */
-std::list<std::pair<int, int>> multidrop( player &p );
+drop_locations multidrop( player &p );
 
 /** Consuming an item. */
 item_location consume( player &p );

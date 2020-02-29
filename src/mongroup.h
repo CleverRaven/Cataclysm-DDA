@@ -160,9 +160,9 @@ struct mongroup {
 class MonsterGroupManager
 {
     public:
-        static void LoadMonsterGroup( JsonObject &jo );
-        static void LoadMonsterBlacklist( JsonObject &jo );
-        static void LoadMonsterWhitelist( JsonObject &jo );
+        static void LoadMonsterGroup( const JsonObject &jo );
+        static void LoadMonsterBlacklist( const JsonObject &jo );
+        static void LoadMonsterWhitelist( const JsonObject &jo );
         static void FinalizeMonsterGroups();
         static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = nullptr );
         static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster );

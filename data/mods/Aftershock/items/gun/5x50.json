@@ -1,0 +1,24 @@
+{
+  "id": "afs_eidolon_derringer",
+  "type": "GUN",
+  "copy-from": "needlepistol",
+  "name": "eidolon derringer",
+  "volume": "500 ml",
+  "description": "A slick, miniature derringer designed as a backup weapon for covert operations and close range assassination.  It will fire up to four 5x50mm penetrators simultaneously, to devastating effect.",
+  "dispersion": 410,
+  "range": -48,
+  "valid_mod_locations": [
+    [ "accessories", 2 ]
+  ],
+  "modes": [
+    [ "DEFAULT", "1 rd.", 1 ],
+    [ "MULTI", "4 rd.", 4 ]
+  ],
+  "clip_size": 4,
+  "flags": [
+    "NEVER_JAMS",
+    "RELOAD_ONE",
+    "NEVER_JAMS",
+    "RELOAD_EJECT"
+  ]
+}

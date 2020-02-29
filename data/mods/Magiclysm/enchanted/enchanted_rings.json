@@ -77,6 +77,22 @@
     "artifact_data": { "charge_type": "ARTC_TIME" }
   },
   {
+    "copy-from": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "id": "mring_dodge_bonus_1",
+    "name": "eel ring",
+    "description": "A thin silver band ring, depicting an eel coiled on itself.  Allows you to dodge an extra attack per turn.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
+  },
+  {
+    "copy-from": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "id": "mring_dodge_bonus_2",
+    "name": "bicephalous eel ring",
+    "description": "A thin gold band ring, depicting a bicephalous eel coiled on itself.  Allows you to dodge two extra attacks per turn.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] }
+  },
+  {
     "copy-from": "mring_copper",
     "type": "TOOL_ARMOR",
     "id": "mring_strength_1",

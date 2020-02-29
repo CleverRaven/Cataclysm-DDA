@@ -9,7 +9,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "-||||||||||||||-        ",
-        "-FwlwL-P#######-4       ",
+        "-FwlwL-P#######-4      Y",
         "-Flwlw#..U.U.U.g        ",
         "-#wlwl@........g        ",
         "-#lwlw#........g        ",
@@ -20,13 +20,13 @@
         "-#wlwl#........g        ",
         "-wlwlw#....BB..g        ",
         "-lwlwl#....TT..g        ",
-        "-##f###....BB..-        ",
+        "-##f###....BB..-       Y",
         "-.............P-rfrrrrrR",
         "-..............-cccccccR",
         "-C.....BB..BB..gccccBccR",
         "-C.....TT..TT..gcccBTBcR",
         "---....BB..BB..gccccBccR",
-        "-<=............gcccccccR",
+        "-<+............gcccccccR",
         "---+-..........GccccBccR",
         "-sll-..BB..BB..gcccBTBcR",
         "-lll-..TT..TT..gccccBccR",
@@ -77,17 +77,18 @@
         "P": "f_indoor_plant",
         "T": "f_table",
         "U": "f_chair",
+        "Y": "f_street_light",
         "s": "f_sink",
         "{": "f_rack"
       },
       "toilets": { "t": {  } },
       "place_items": [
-        { "item": "pizza_display", "x": 6, "y": [ 5, 8 ], "chance": 45, "repeat": [ 3, 4 ] },
-        { "item": "pizza_kitchen", "x": 1, "y": [ 3, 5 ], "chance": 40, "repeat": [ 7, 10 ] },
-        { "item": "pizza_kitchen", "x": 1, "y": [ 8, 9 ], "chance": 42, "repeat": [ 7, 9 ] },
-        { "item": "pizza_fridge", "x": 1, "y": [ 1, 2 ], "chance": 40, "repeat": [ 9, 10 ] },
-        { "item": "pizza_beer", "x": [ 9, 13 ], "y": 1, "chance": 30, "repeat": [ 2, 3 ] },
-        { "item": "pizza_soda", "x": 6, "y": [ 9, 12 ], "chance": 30, "repeat": [ 2, 5 ] },
+        { "item": "pizza_display", "x": 6, "y": [ 5, 8 ], "chance": 65, "repeat": [ 3, 4 ] },
+        { "item": "pizza_kitchen", "x": 1, "y": [ 3, 5 ], "chance": 80, "repeat": [ 7, 10 ] },
+        { "item": "pizza_kitchen", "x": 1, "y": [ 8, 9 ], "chance": 82, "repeat": [ 7, 9 ] },
+        { "item": "pizza_fridge", "x": 1, "y": [ 1, 2 ], "chance": 80, "repeat": [ 9, 10 ] },
+        { "item": "pizza_beer", "x": [ 9, 13 ], "y": 1, "chance": 70, "repeat": [ 2, 3 ] },
+        { "item": "pizza_soda", "x": 6, "y": [ 9, 12 ], "chance": 70, "repeat": [ 2, 5 ] },
         { "item": "pizza_table", "x": [ 11, 12 ], "y": 11, "chance": 25 },
         { "item": "pizza_beer", "x": [ 11, 12 ], "y": 11, "chance": 15, "repeat": [ 1, 2 ] },
         { "item": "pizza_table", "x": [ 7, 8 ], "y": 16, "chance": 25 },
@@ -190,7 +191,7 @@
         "  SbbgTH.TTTT.....R.HTB|",
         "  Sxx|TH.BBBB.........P|",
         "  Sbb|||||||||...|||||||",
-        "  S   |Fl{|$l@...QXQXQX|",
+        "  S  Y|Fl{|$l@...QXQXQX|",
         "  S   |FlO|$l#........Q|",
         "  S   |FlO|$l#........X|",
         "  S   |Fl{|ll#..CRRRRRR|",
@@ -200,7 +201,7 @@
         "|...|   |LLlL|||||||||||",
         "|...DSSSDlllL|W..<|     ",
         "|...|   |||||||D|||     ",
-        "|...|                   "
+        "|...|                  Y"
       ],
       "terrain": {
         " ": [
@@ -263,12 +264,13 @@
         "U": "f_chair",
         "s": "f_sink",
         "W": "f_water_heater",
+        "Y": "f_street_light",
         "{": "f_rack"
       },
       "items": {
         "C": { "item": "pizza_trash", "chance": 50, "repeat": [ 7, 9 ] },
-        "F": { "item": "pizza_fridge", "chance": 40, "repeat": [ 9, 10 ] },
-        "{": { "item": "pizza_kitchen", "chance": 42, "repeat": [ 7, 9 ] },
+        "F": { "item": "pizza_fridge", "chance": 80, "repeat": [ 9, 10 ] },
+        "{": { "item": "pizza_kitchen", "chance": 82, "repeat": [ 7, 9 ] },
         "L": { "item": "pizza_locker", "chance": 55, "repeat": [ 5, 6 ] },
         "$": { "item": "pizza_display", "chance": 45, "repeat": [ 3, 4 ] },
         "T": { "item": "pizza_table", "chance": 25 },
@@ -308,7 +310,7 @@
         ".....   |.........||||||",
         ".....   |.....###>#     ",
         ".....   ------#####     ",
-        ",....                   "
+        ".....                   "
       ],
       "terrain": {
         ".": "t_tar_flat_roof",

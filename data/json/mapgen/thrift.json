@@ -48,6 +48,7 @@
         "E": "t_dirtfloor",
         "G": "t_dirtfloor",
         "g": "t_door_glass_c",
+        "o": "t_carpet_purple",
         "r": "t_pavement",
         "y": "t_pavement_y",
         "|": "t_wall_w",
@@ -76,14 +77,14 @@
         "L": { "item": "cleaning", "chance": 20, "repeat": [ 2, 4 ] }
       },
       "place_items": [
-        { "item": "thrift_misc", "x": [ 9, 12 ], "y": 18, "chance": 35, "repeat": [ 1, 4 ] },
-        { "item": "thrift_misc", "x": [ 15, 17 ], "y": 18, "chance": 35, "repeat": [ 1, 4 ] },
-        { "item": "thrift_misc", "x": [ 5, 12 ], "y": 20, "chance": 35, "repeat": [ 1, 9 ] },
-        { "item": "thrift_misc", "x": [ 15, 17 ], "y": 20, "chance": 35, "repeat": [ 1, 4 ] },
-        { "item": "thrift_misc", "x": 6, "y": [ 11, 14 ], "chance": 35, "repeat": [ 1, 4 ] },
-        { "item": "thrift_misc", "x": 9, "y": [ 11, 14 ], "chance": 35, "repeat": [ 1, 4 ] },
-        { "item": "thrift_misc", "x": 12, "y": [ 11, 12 ], "chance": 35, "repeat": [ 1, 4 ] },
-        { "item": "thrift_books", "x": 21, "y": [ 18, 20 ], "chance": 35, "repeat": [ 1, 3 ] }
+        { "item": "thrift_misc", "x": [ 9, 12 ], "y": 18, "chance": 75, "repeat": [ 1, 6 ] },
+        { "item": "thrift_misc", "x": [ 15, 17 ], "y": 18, "chance": 75, "repeat": [ 1, 6 ] },
+        { "item": "thrift_misc", "x": [ 5, 12 ], "y": 20, "chance": 75, "repeat": [ 1, 9 ] },
+        { "item": "thrift_misc", "x": [ 15, 17 ], "y": 20, "chance": 75, "repeat": [ 1, 6 ] },
+        { "item": "thrift_misc", "x": 6, "y": [ 11, 14 ], "chance": 75, "repeat": [ 1, 6 ] },
+        { "item": "thrift_misc", "x": 9, "y": [ 11, 14 ], "chance": 75, "repeat": [ 1, 6 ] },
+        { "item": "thrift_misc", "x": 12, "y": [ 11, 12 ], "chance": 75, "repeat": [ 1, 6 ] },
+        { "item": "thrift_books", "x": 21, "y": [ 18, 20 ], "chance": 75, "repeat": [ 1, 10 ] }
       ]
     }
   },
