@@ -303,6 +303,48 @@ An object containing ammo that newly spawned monsters start with. This is useful
 "starting_ammo": { "9mm": 100, "40mm_frag": 100 }
 ```
 
+## "loots"
+(object, optional)
+
+An object containing items that the monster will attempt to loot nearby. Example:
+```JSON
+"loots": { "item_group": [ "rings_and_things" ], "materials": [ "gold", "diamond" ], "categories": [ "artifacts" ], "requires_all": false, "paths_to": true }
+```
+
+The above example would allow the monster to actively attempt to loot any item found within the item group 'rings and things' OR any item made of gold or diamond OR any item that falls within the artificats category.
+
+The loots object may have the following members:
+
+### "requires_all"
+(boolean)
+
+If true, requires that all types set in members "materials", "comestible_type" and "categories" match the item.
+
+### "paths_to"
+(boolean)
+
+If false, monster will not move to loot an item. Useful for monsters that don't move much or wander.
+
+### "item_group"
+(array of strings, optional)
+
+Item groups this monster will attempt to loot, for example "rings_and_things"
+
+### "materials"
+(array of strings, optional)
+
+Material types of items this mosnter will attempt to loot, for example: "gold"
+
+### "comestible_type"
+(array of strings, optional)
+
+Comestible types this monster will attempt to loot, for example: "FOOD" or "MED"
+
+### "categories"
+(array of strings, optional)
+
+Item categories this monster will attempt to loot, for example: "spare_parts"
+
 ## "upgrades"
 (boolean or object, optional)
 

@@ -913,6 +913,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```DOGFOOD``` Becomes friendly / tamed with dog food.
 - ```DRIPS_GASOLINE``` Occasionally drips gasoline on move.
 - ```DRIPS_NAPALM``` Occasionally drips napalm on move.
+- ```EATS_FOOD``` Occasionally will eat food items in inventory and lootable food items nearby
 - ```ELECTRIC``` Shocks unarmed attackers.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
 - ```FAT``` May produce fat when butchered.
@@ -964,8 +965,6 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
 - ```SMELLS``` It can smell you.
-- ```STEALS_FOOD``` Will steal and eat food from the ground.
-- ```STEALS_SHINY``` Will steal items shiny items with materials like gold, silver, diamond and platinum.
 - ```STUMBLES``` Stumbles in its movement.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and form loose packs.
