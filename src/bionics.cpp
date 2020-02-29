@@ -18,6 +18,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "debug.h"
+#include "dispersion.h"
 #include "effect.h"
 #include "event_bus.h"
 #include "explosion.h"
