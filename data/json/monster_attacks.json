@@ -6,8 +6,8 @@
     "cooldown": 25,
     "move_cost": 150,
     "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 15, "armor_multiplier": 0.5 } ],
-    "body_parts": [ [ "TORSO", 1 ] ],
-    "effects": [ { "id": "bleed", "duration": 100, "bp": "TORSO" }, { "id": "downed", "duration": 3 } ],
+    "body_parts": [ [ "ABDOMEN", 1 ] ],
+    "effects": [ { "id": "bleed", "duration": 100, "bp": "ABDOMEN" }, { "id": "downed", "duration": 3 } ],
     "hit_dmg_u": "The %1$s impales your torso!",
     "hit_dmg_npc": "The %1$s impales <npcname>'s torso!",
     "no_dmg_msg_u": "The %1$s tries to impale your torso, but fails to penetrate your armor!",
@@ -32,7 +32,9 @@
       [ "MOUTH", 1 ],
       [ "ARM_L", 3 ],
       [ "ARM_R", 3 ],
-      [ "TORSO", 4 ]
+      [ "CHEST", 2 ],
+      [ "ABDOMEN", 2 ],
+      [ "PELVIS", 1 ]
     ],
     "hit_dmg_u": "The %1$s claws at you!",
     "hit_dmg_npc": "The %1$s claws at <npcname>!",
@@ -58,7 +60,9 @@
       [ "MOUTH", 1 ],
       [ "ARM_L", 3 ],
       [ "ARM_R", 3 ],
-      [ "TORSO", 4 ]
+      [ "CHEST", 2 ],
+      [ "ABDOMEN", 2 ],
+      [ "PELVIS", 1 ]
     ],
     "hit_dmg_u": "The %1$s slams into you!",
     "hit_dmg_npc": "The %1$s slams into <npcname>!",
