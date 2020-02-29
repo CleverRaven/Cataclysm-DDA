@@ -220,7 +220,7 @@
   {
     "id": "dehydrator",
     "type": "TOOL",
-    "name": "food dehydrator",
+    "name": { "str": "food dehydrator" },
     "description": "This is a portable electric food dehydrator.  It's powered by batteries, and could be invaluable in preserving food.",
     "weight": "4200 g",
     "volume": "4500 ml",
@@ -312,7 +312,7 @@
     "id": "food_processor",
     "type": "TOOL",
     "category": "tools",
-    "name": "food processor",
+    "name": { "str": "food processor" },
     "description": "This is a kitchen appliance capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
     "weight": "3000 g",
     "volume": "2 L",

@@ -325,7 +325,7 @@
   {
     "id": "handflare",
     "type": "TOOL",
-    "name": "flare",
+    "name": { "str": "flare" },
     "description": "This is a slow-burning magnesium flare.  Use it to strike the striker and light it.  It will produce a bright light for about a half hour.",
     "material": [ "plastic", "powder" ],
     "symbol": ";",

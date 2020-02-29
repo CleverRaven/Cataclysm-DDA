@@ -41,7 +41,7 @@
   {
     "id": "fire_ax",
     "type": "TOOL",
-    "name": "fire axe",
+    "name": { "str": "fire axe" },
     "description": "This is a large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
     "weight": "2520 g",
     "volume": "2 L",
