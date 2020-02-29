@@ -83,7 +83,9 @@
       { "part": "ARM_R", "neutral": 8 },
       { "part": "HAND_L", "neutral": 12 },
       { "part": "HAND_R", "neutral": 12 },
-      { "part": "TORSO", "neutral": 10 }
+      { "part": "CHEST", "neutral": 10 },
+      { "part": "ABDOMEN", "neutral": 10 },
+      { "part": "PELVIS", "neutral": 10 }
     ]
   },
   {
@@ -299,7 +301,9 @@
       { "part": "LEG_R", "neutral": 2 },
       { "part": "ARM_L", "neutral": 2 },
       { "part": "ARM_R", "neutral": 2 },
-      { "part": "TORSO", "neutral": 4 }
+      { "part": "CHEST", "neutral": 4 },
+      { "part": "ABDOMEN", "neutral": 4 },
+      { "part": "PELVIS", "neutral": 4 }
     ],
     "armor": [ { "parts": "ALL", "cut": 1 } ]
   },
@@ -1724,7 +1728,9 @@
       { "part": "ARM_R", "ignored": 18 },
       { "part": "HAND_L", "ignored": 4 },
       { "part": "HAND_R", "ignored": 4 },
-      { "part": "TORSO", "ignored": 40 }
+      { "part": "CHEST", "ignored": 40 },
+      { "part": "ABDOMEN", "ignored": 40 },
+      { "part": "PELVIS", "ignored": 40 }
     ],
     "armor": [ { "parts": "ALL", "cut": 1, "bash": 2 } ]
   },
@@ -1753,7 +1759,9 @@
       { "part": "ARM_R", "ignored": 24 },
       { "part": "HAND_L", "ignored": 6 },
       { "part": "HAND_R", "ignored": 6 },
-      { "part": "TORSO", "ignored": 60 }
+      { "part": "CHEST", "ignored": 60 },
+      { "part": "ABDOMEN", "ignored": 60 },
+      { "part": "PELVIS", "ignored": 60 }
     ],
     "armor": [ { "parts": "ALL", "cut": 2, "bash": 3 } ],
     "speed_modifier": 0.8
@@ -1781,7 +1789,9 @@
       { "part": "ARM_R", "ignored": 24 },
       { "part": "HAND_L", "ignored": 6 },
       { "part": "HAND_R", "ignored": 6 },
-      { "part": "TORSO", "ignored": 60 }
+      { "part": "CHEST", "ignored": 60 },
+      { "part": "ABDOMEN", "ignored": 60 },
+      { "part": "PELVIS", "ignored": 60 }
     ],
     "armor": [ { "parts": "ALL", "cut": 3, "bash": 5 } ],
     "speed_modifier": 0.8
@@ -1809,7 +1819,9 @@
       { "part": "ARM_R", "ignored": 9 },
       { "part": "HAND_L", "ignored": 2 },
       { "part": "HAND_R", "ignored": 2 },
-      { "part": "TORSO", "ignored": 20 }
+      { "part": "CHEST", "ignored": 20 },
+      { "part": "ABDOMEN", "ignored": 15 },
+      { "part": "ABDOMEN", "ignored": 8 }
     ],
     "armor": [ { "parts": "ALL", "cut": 2 } ]
   },
@@ -1836,7 +1848,9 @@
       { "part": "ARM_R", "ignored": 14 },
       { "part": "HAND_L", "ignored": 4 },
       { "part": "HAND_R", "ignored": 4 },
-      { "part": "TORSO", "ignored": 30 }
+      { "part": "CHEST", "ignored": 30 },
+      { "part": "ABDOMEN", "ignored": 30 },
+      { "part": "PELVIS", "ignored": 30 }
     ],
     "armor": [ { "parts": "ALL", "cut": 4 } ],
     "passive_mods": { "dex_mod": -2 }
@@ -1863,7 +1877,9 @@
       { "part": "ARM_R", "good": 19 },
       { "part": "HAND_L", "good": 5 },
       { "part": "HAND_R", "good": 5 },
-      { "part": "TORSO", "good": 40 }
+      { "part": "CHEST", "good": 40 },
+      { "part": "ABDOMEN", "good": 40 },
+      { "part": "PELVIS", "good": 30 }
     ],
     "armor": [ { "parts": "ALL", "cut": 1 } ]
   },
@@ -2020,7 +2036,9 @@
       { "part": "ARM_R", "ignored": 4 },
       { "part": "HAND_L", "ignored": 1 },
       { "part": "HAND_R", "ignored": 1 },
-      { "part": "TORSO", "ignored": 10 }
+      { "part": "CHEST", "ignored": 10 },
+      { "part": "ABDOMEN", "ignored": 10 },
+      { "part": "PELVIS", "ignored": 6 }
     ],
     "armor": [ { "parts": "ALL", "bash": 2, "cut": 2 } ]
   },
@@ -2048,7 +2066,9 @@
       { "part": "ARM_R", "ignored": 8 },
       { "part": "HAND_L", "ignored": 2 },
       { "part": "HAND_R", "ignored": 2 },
-      { "part": "TORSO", "ignored": 18 }
+      { "part": "CHEST", "ignored": 18 },
+      { "part": "ABDOMEN", "ignored": 18 },
+      { "part": "PELVIS", "ignored": 10 }
     ],
     "armor": [ { "parts": "ALL", "bash": 4, "cut": 4 } ],
     "passive_mods": { "dex_mod": -1 }
@@ -2076,10 +2096,14 @@
       { "part": "ARM_R", "ignored": 12 },
       { "part": "HAND_L", "ignored": 3 },
       { "part": "HAND_R", "ignored": 3 },
-      { "part": "TORSO", "ignored": 26 }
+      { "part": "CHEST", "ignored": 26 },
+      { "part": "ABDOMEN", "ignored": 26 },
+      { "part": "PELVIS", "ignored": 15 }
     ],
     "encumbrance_always": [
-      [ "TORSO", 10 ],
+      [ "CHEST", 10 ],
+      [ "ABDOMEN", 10 ],
+      [ "PELVIS", 10 ],
       [ "HEAD", 10 ],
       [ "ARM_L", 10 ],
       [ "ARM_R", 10 ],
@@ -2137,7 +2161,9 @@
     "bodytemp_sleep": 75,
     "description": "Your exoskeleton has hardened considerably--restricting movement, granted--and boasts a fine coat of hairs that put feline whiskers to shame.",
     "encumbrance_always": [
-      [ "TORSO", 10 ],
+      [ "CHEST", 10 ],
+      [ "ABDOMEN", 10 ],
+      [ "PELVIS", 10 ],
       [ "HEAD", 10 ],
       [ "ARM_L", 10 ],
       [ "ARM_R", 10 ],
@@ -2224,7 +2250,9 @@
       { "part": "ARM_R", "neutral": 4 },
       { "part": "HAND_L", "neutral": 1 },
       { "part": "HAND_R", "neutral": 1 },
-      { "part": "TORSO", "neutral": 10 }
+      { "part": "CHEST", "neutral": 10 },
+      { "part": "ABDOMEN", "neutral": 10 },
+      { "part": "PELVIS", "neutral": 6 }
     ],
     "armor": [ { "parts": "ALL", "cut": 1 } ],
     "thirst_modifier": -0.2
@@ -2250,7 +2278,9 @@
       { "part": "ARM_R", "ignored": 14 },
       { "part": "HAND_L", "ignored": 4 },
       { "part": "HAND_R", "ignored": 4 },
-      { "part": "TORSO", "ignored": 30 }
+      { "part": "CHEST", "ignored": 30 },
+      { "part": "ABDOMEN", "ignored": 30 },
+      { "part": "PELVIS", "ignored": 20 }
     ],
     "armor": [ { "parts": "ALL", "cut": 2 } ]
   },
@@ -3846,8 +3876,8 @@
     "visibility": 1,
     "ugliness": 1,
     "mixed_effect": true,
-    "encumbrance_always": [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ] ],
-    "description": "You have grown noticeably taller and broader.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance).",
+    "encumbrance_always": [ [ "CHEST", 10 ], [ "ABDOMEN", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ] ],
+    "description": "You have grown noticeably taller and broader.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 chest,abdomen, and arm encumbrance).",
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
     "cancels": [ "SMALL", "SMALL2" ],
     "changes_to": [ "LARGE_OK", "HUGE" ],
@@ -3889,7 +3919,7 @@
     "passive_mods": { "str_mod": 4 },
     "hp_adjustment": -6,
     "fatigue_modifier": 0.15,
-    "restricts_gear": [ "TORSO", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
+    "restricts_gear": [ "CHEST", "ABDOMEN", "PELVIS", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1
   },
@@ -3909,7 +3939,7 @@
     "leads_to": [ "MUT_TOUGH" ],
     "category": [ "URSINE", "CATTLE" ],
     "passive_mods": { "str_mod": 4 },
-    "restricts_gear": [ "TORSO", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
+    "restricts_gear": [ "CHEST", "ABDOMEN", "PELVIS", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1
   },
@@ -4352,12 +4382,12 @@
     "description": "You have a very large and very beautiful pair of brightly-colored wings.  They can't lift you, and they make balancing tricky, but they certainly catch air and attention!",
     "valid": false,
     "purifiable": false,
-    "encumbrance_always": [ [ "TORSO", 10 ] ],
+    "encumbrance_always": [ [ "CHEST", 10 ] ],
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "threshreq": [ "THRESH_INSECT" ],
     "category": [ "INSECT" ],
-    "restricts_gear": [ "TORSO" ],
+    "restricts_gear": [ "CHEST" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
     "dodge_modifier": -4,
     "movecost_modifier": 0.9
@@ -5047,7 +5077,9 @@
       { "part": "ARM_R", "neutral": 7, "good": 12 },
       { "part": "HAND_L", "neutral": 2, "good": 3 },
       { "part": "HAND_R", "neutral": 2, "good": 3 },
-      { "part": "TORSO", "neutral": 14, "good": 26 }
+      { "part": "CHEST", "neutral": 14, "good": 26 },
+      { "part": "ABDOMEN", "neutral": 14, "good": 26 },
+      { "part": "PELVIS", "neutral": 14, "good": 26 }
     ]
   },
   {
@@ -5072,7 +5104,9 @@
       { "part": "ARM_R", "neutral": 8, "good": 14 },
       { "part": "HAND_L", "neutral": 3, "good": 4 },
       { "part": "HAND_R", "neutral": 3, "good": 4 },
-      { "part": "TORSO", "neutral": 15, "good": 27 }
+      { "part": "CHEST", "neutral": 15, "good": 27 },
+      { "part": "ABDOMEN", "neutral": 14, "good": 26 },
+      { "part": "PELVIS", "neutral": 14, "good": 26 }
     ],
     "armor": [ { "parts": "ALL", "acid": 2 } ]
   },
@@ -5187,7 +5221,7 @@
     "prereqs": [ "PLANTSKIN", "BARK" ],
     "changes_to": [ "VINES2" ],
     "category": [ "PLANT" ],
-    "encumbrance_always": [ [ "TORSO", 10 ] ]
+    "encumbrance_always": [ [ "CHEST", 10 ] ]
   },
   {
     "type": "mutation",
@@ -5210,7 +5244,7 @@
         "hardcoded_effect": true
       }
     ],
-    "encumbrance_always": [ [ "TORSO", 10 ] ]
+    "encumbrance_always": [ [ "CHEST", 10 ] ]
   },
   {
     "type": "mutation",
@@ -5479,7 +5513,7 @@
     "prereqs2": [ "ANTENNAE" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
     "category": [ "INSECT", "SPIDER" ],
-    "restricts_gear": [ "TORSO" ],
+    "restricts_gear": [ "CHEST", "ABDOMEN" ],
     "passive_mods": { "dex_mod": -2 }
   },
   {
@@ -5515,7 +5549,7 @@
     "prereqs2": [ "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
-    "restricts_gear": [ "TORSO" ],
+    "restricts_gear": [ "CHEST" ],
     "passive_mods": { "dex_mod": -4 }
   },
   {
@@ -5661,10 +5695,10 @@
     "cancels": [ "CHITIN3" ],
     "changes_to": [ "SHELL2" ],
     "category": [ "CEPHALOPOD" ],
-    "wet_protection": [ { "part": "TORSO", "ignored": 26 } ],
-    "restricts_gear": [ "TORSO" ],
+    "wet_protection": [ { "part": "CHEST", "ignored": 26 },  { "part": "ABDOMEN", "ignored": 26 }],
+    "restricts_gear": [ "CHEST", "ABDOMEN" ],
     "destroys_gear": true,
-    "armor": [ { "parts": "TORSO", "bash": 6, "cut": 14 } ]
+    "armor": [ { "parts": "CHEST", "bash": 6, "cut": 14 }, { "parts": "ABDOMEN", "bash": 6, "cut": 14 } ]
   },
   {
     "type": "mutation",
@@ -5677,15 +5711,15 @@
     "bodytemp_sleep": 200,
     "mixed_effect": true,
     "description": "Your protective shell has grown large enough to accommodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth and shelter.",
-    "encumbrance_always": [ [ "TORSO", 10 ] ],
+    "encumbrance_always": [ [ "CHEST", 10 ], [ "ABDOMEN", 10 ] ],
     "prereqs": [ "SHELL" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
     "category": [ "CEPHALOPOD" ],
-    "wet_protection": [ { "part": "TORSO", "ignored": 26 } ],
+    "wet_protection": [ { "part": "CHEST", "ignored": 26 }, { "part": "ABDOMEN", "ignored": 26 } ],
     "active": true,
-    "restricts_gear": [ "TORSO" ],
+    "restricts_gear": [ "CHEST", "ABDOMEN" ],
     "destroys_gear": true,
-    "armor": [ { "parts": "TORSO", "bash": 9, "cut": 17 } ]
+    "armor": [ { "parts": "CHEST", "bash": 9, "cut": 17 }, { "parts": "ABDOMEN", "bash": 9, "cut": 17 } ]
   },
   {
     "type": "mutation",
