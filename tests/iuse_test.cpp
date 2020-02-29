@@ -319,13 +319,14 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
         CHECK( dummy.get_stim() == 0 );
     }
 
-    SECTION( "atomic caffeine greatly reduces fatigue, but also irradiates you" ) {
+    SECTION( "atomic caffeine greatly reduces fatigue, but may also irradiate you" ) {
         item &atomic_coffee = dummy.i_add( item( "atomic_coffee", 0, item::default_charges_tag{} ) );
         dummy.invoke_item( &atomic_coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - 12 * atomic_coffee.get_comestible()->stim );
         CHECK( dummy.get_stim() == 0 );
-        // irradiation is random, up to 8 per dose
-        CHECK( dummy.get_rad() > 0 );
+        // irradiation is random, between 0 and 8
+        CHECK( dummy.get_rad() >= 0 );
+        CHECK( dummy.get_rad() <= 8 );
     }
 }
 
@@ -339,21 +340,6 @@ TEST_CASE( "royal jelly", "[iuse][royal_jelly]" )
 
         dummy.invoke_item( &jelly );
         CHECK( dummy.has_effect( efftype_id( "cureall" ) ) );
-    }
-}
-
-TEST_CASE( "xanax", "[iuse][xanax]" )
-{
-    avatar dummy;
-    item &xanax = dummy.i_add( item( "xanax", 0, item::default_charges_tag{} ) );
-
-    SECTION( "xanax gives xanax and visible xanax effects" ) {
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax" ) ) );
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax_visible" ) ) );
-
-        dummy.invoke_item( &xanax );
-        CHECK( dummy.has_effect( efftype_id( "took_xanax" ) ) );
-        CHECK( dummy.has_effect( efftype_id( "took_xanax_visible" ) ) );
     }
 }
 
@@ -415,6 +401,124 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 }
             }
         }
+    }
+}
+
+TEST_CASE( "thorazine", "[iuse][thorazine]" )
+{
+    avatar dummy;
+    dummy.set_fatigue( 0 );
+    item &thorazine = dummy.i_add( item( "thorazine", 0, item::default_charges_tag{} ) );
+
+    GIVEN( "player has hallucination, visuals, and high effects" ) {
+        dummy.add_effect( efftype_id( "hallu" ), 1_hours );
+        dummy.add_effect( efftype_id( "visuals" ), 1_hours );
+        dummy.add_effect( efftype_id( "high" ), 1_hours );
+        REQUIRE( dummy.has_effect( efftype_id( "hallu" ) ) );
+        REQUIRE( dummy.has_effect( efftype_id( "visuals" ) ) );
+        REQUIRE( dummy.has_effect( efftype_id( "high" ) ) );
+
+        WHEN( "they take some thorazine" ) {
+            dummy.invoke_item( &thorazine );
+
+            THEN( "it relieves all those effects with a single dose" ) {
+                REQUIRE_FALSE( dummy.has_effect( efftype_id( "hallu" ) ) );
+                REQUIRE_FALSE( dummy.has_effect( efftype_id( "visuals" ) ) );
+                REQUIRE_FALSE( dummy.has_effect( efftype_id( "high" ) ) );
+
+                AND_THEN( "it causes some fatigue" ) {
+                    CHECK( dummy.get_fatigue() >= 5 );
+                }
+            }
+        }
+    }
+
+    GIVEN( "player has already taken some thorazine" ) {
+        dummy.invoke_item( &thorazine );
+        REQUIRE( dummy.has_effect( efftype_id( "took_thorazine" ) ) );
+
+        WHEN( "they take more thorazine" ) {
+            dummy.invoke_item( &thorazine );
+
+            THEN( "it only causes more fatigue" ) {
+                CHECK( dummy.get_fatigue() >= 20 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "prozac", "[iuse][prozac]" )
+{
+    avatar dummy;
+    item &prozac = dummy.i_add( item( "prozac", 0, item::default_charges_tag{} ) );
+
+    SECTION( "prozac gives prozac and visible prozac effect" ) {
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_prozac" ) ) );
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_prozac_visible" ) ) );
+
+        dummy.invoke_item( &prozac );
+        CHECK( dummy.has_effect( efftype_id( "took_prozac" ) ) );
+        CHECK( dummy.has_effect( efftype_id( "took_prozac_visible" ) ) );
+    }
+
+    SECTION( "taking prozac twice gives a stimulant effect" ) {
+        dummy.set_stim( 0 );
+
+        dummy.invoke_item( &prozac );
+        CHECK( dummy.get_stim() == 0 );
+        dummy.invoke_item( &prozac );
+        CHECK( dummy.get_stim() > 0 );
+    }
+}
+
+TEST_CASE( "inhaler", "[iuse][inhaler]" )
+{
+    avatar dummy;
+    item &inhaler = dummy.i_add( item( "inhaler", 0, item::default_charges_tag{} ) );
+
+    GIVEN( "player is suffering from smoke inhalation" ) {
+        dummy.add_effect( efftype_id( "smoke" ), 1_hours );
+        REQUIRE( dummy.has_effect( efftype_id( "smoke" ) ) );
+
+        THEN( "inhaler relieves it" ) {
+            dummy.invoke_item( &inhaler );
+            CHECK_FALSE( dummy.has_effect( efftype_id( "smoke" ) ) );
+        }
+    }
+
+    GIVEN( "player is suffering from asthma" ) {
+        dummy.add_effect( efftype_id( "asthma" ), 1_hours );
+        REQUIRE( dummy.has_effect( efftype_id( "asthma" ) ) );
+
+        THEN( "inhaler relieves the effects of asthma" ) {
+            dummy.invoke_item( &inhaler );
+            CHECK_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
+        }
+    }
+
+    GIVEN( "player is not suffering from asthma" ) {
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
+
+        THEN( "inhaler reduces fatigue" ) {
+            dummy.set_fatigue( 10 );
+            dummy.invoke_item( &inhaler );
+            CHECK( dummy.get_fatigue() < 10 );
+        }
+    }
+}
+
+TEST_CASE( "xanax", "[iuse][xanax]" )
+{
+    avatar dummy;
+    item &xanax = dummy.i_add( item( "xanax", 0, item::default_charges_tag{} ) );
+
+    SECTION( "xanax gives xanax and visible xanax effects" ) {
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax" ) ) );
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax_visible" ) ) );
+
+        dummy.invoke_item( &xanax );
+        CHECK( dummy.has_effect( efftype_id( "took_xanax" ) ) );
+        CHECK( dummy.has_effect( efftype_id( "took_xanax_visible" ) ) );
     }
 }
 
