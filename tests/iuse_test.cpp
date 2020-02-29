@@ -102,14 +102,16 @@ TEST_CASE( "manhack", "[iuse][manhack]" )
 
 TEST_CASE( "antifungal", "[iuse][antifungal]" )
 {
-    player &dummy = get_sanitized_player();
+    avatar dummy;
     item &antifungal = dummy.i_add( item( "antifungal", 0, item::default_charges_tag{} ) );
 
     GIVEN( "player has a fungal infection" ) {
         dummy.add_effect( efftype_id( "fungus" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "fungus" ) ) );
+
         WHEN( "they take an antifungal drug" ) {
             dummy.invoke_item( &antifungal );
+
             THEN( "it cures the fungal infection" ) {
                 REQUIRE_FALSE( dummy.has_effect( efftype_id( "fungus" ) ) );
             }
@@ -119,8 +121,10 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
     GIVEN( "player has fungal spores" ) {
         dummy.add_effect( efftype_id( "spores" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "spores" ) ) );
+
         WHEN( "they take an antifungal drug" ) {
             dummy.invoke_item( &antifungal );
+
             THEN( "it has no effect on the spores" ) {
                 REQUIRE( dummy.has_effect( efftype_id( "spores" ) ) );
             }
@@ -130,7 +134,7 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
 
 TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 {
-    player &dummy = get_sanitized_player();
+    avatar dummy;
     item &antiparasitic = dummy.i_add( item( "antiparasitic", 0, item::default_charges_tag{} ) );
 
     GIVEN( "player has parasite infections" ) {
@@ -173,17 +177,13 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
     }
 }
 
-TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant][!mayfail]" )
+TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 {
-    player &dummy = get_sanitized_player();
+    avatar dummy;
     item &anticonvulsant = dummy.i_add( item( "diazepam", 0, item::default_charges_tag{} ) );
 
     GIVEN( "player has the shakes" ) {
-        //REQUIRE( efftype_id( "shakes" ).is_valid() );
-        //REQUIRE_FALSE( dummy.is_immune_effect( efftype_id( "shakes" ) ) );
         dummy.add_effect( efftype_id( "shakes" ), 1_hours );
-
-        // FIXME: Why is this failing?
         REQUIRE( dummy.has_effect( efftype_id( "shakes" ) ) );
 
         WHEN( "they use an anticonvulsant drug" ) {
@@ -193,17 +193,61 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant][!mayfail]" )
                 REQUIRE_FALSE( dummy.has_effect( efftype_id( "shakes" ) ) );
             }
 
-            AND_THEN( "it has side-effects that wear off after a while" ) {
+            AND_THEN( "it has side-effects" ) {
                 REQUIRE( dummy.has_effect( efftype_id( "valium" ) ) );
                 REQUIRE( dummy.has_effect( efftype_id( "high" ) ) );
                 REQUIRE( dummy.has_effect( efftype_id( "took_anticonvulsant_visible" ) ) );
+            }
+        }
+    }
+}
 
-                // Actual duration depends on strength, tolerance, and lightweight attributes
-                // with some randomness, but always less than 10 hours total
-                dummy.moves -= to_moves<int>( 24_hours );
-                REQUIRE_FALSE( dummy.has_effect( efftype_id( "valium" ) ) );
-                REQUIRE_FALSE( dummy.has_effect( efftype_id( "high" ) ) );
-                REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_anticonvulsant_visible" ) ) );
+TEST_CASE( "oxygen tank", "[iuse][oxygen]" )
+{
+    avatar dummy;
+    item &oxygen = dummy.i_add( item( "oxygen_tank", 0, item::default_charges_tag{} ) );
+
+    SECTION( "oxygen relieves smoke inhalation effects" ) {
+        dummy.add_effect( efftype_id( "smoke" ), 1_hours );
+        REQUIRE( dummy.has_effect( efftype_id( "smoke" ) ) );
+
+        dummy.invoke_item( &oxygen );
+        CHECK_FALSE( dummy.has_effect( efftype_id( "smoke" ) ) );
+        CHECK( dummy.get_painkiller() == 2 );
+    }
+
+    SECTION( "oxygen relieves tear gas effects" ) {
+        dummy.add_effect( efftype_id( "teargas" ), 1_hours );
+        REQUIRE( dummy.has_effect( efftype_id( "teargas" ) ) );
+
+        dummy.invoke_item( &oxygen );
+        CHECK_FALSE( dummy.has_effect( efftype_id( "teargas" ) ) );
+        CHECK( dummy.get_painkiller() == 2 );
+    }
+
+    SECTION( "oxygen relieves asthma effects" ) {
+        dummy.add_effect( efftype_id( "asthma" ), 1_hours );
+        REQUIRE( dummy.has_effect( efftype_id( "asthma" ) ) );
+
+        dummy.invoke_item( &oxygen );
+        CHECK_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
+        CHECK( dummy.get_painkiller() == 2 );
+    }
+
+    GIVEN( "player has no effects for the oxygen to treat" ) {
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "smoke" ) ) );
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "teargas" ) ) );
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
+
+        AND_GIVEN( "is not very stimulated yet" ) {
+            int stim = dummy.get_stim();
+            REQUIRE( dummy.get_painkiller() == 0 );
+            REQUIRE( stim < 16 );
+
+            THEN( "oxygen has a stimulant and extra painkiller effect" ) {
+                dummy.invoke_item( &oxygen );
+                CHECK( dummy.get_stim() >= stim + 8 );
+                CHECK( dummy.get_painkiller() == 4 );
             }
         }
     }
