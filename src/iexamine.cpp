@@ -1262,7 +1262,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 {
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
-        return temporary_item.has_quality( qual_PRY, 1 );
+        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
     } );
 
     if( prying_items.empty() ) {
@@ -1273,7 +1273,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     // Sort by their quality level.
     std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
-        return a->get_quality( qual_PRY ) > b->get_quality( qual_PRY );
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
     //~ %1$s: terrain/furniture name, %2$s: prying tool name
@@ -3224,12 +3224,12 @@ static item_location maple_tree_sap_container()
 
 void iexamine::tree_maple( player &p, const tripoint &examp )
 {
-    if( !p.has_quality( qual_DRILL ) ) {
+    if( !p.has_quality( quality_id( "DRILL" ) ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
     }
 
-    if( !p.has_quality( qual_HAMMER ) ) {
+    if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
         add_msg( m_info,
                  _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
         return;
@@ -3302,7 +3302,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
     switch( selectmenu.ret ) {
         case REMOVE_TAP: {
-            if( !p.has_quality( qual_HAMMER ) ) {
+            if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
                 return;
             }

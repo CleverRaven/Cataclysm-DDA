@@ -53,7 +53,6 @@
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"
-#include "cata_string_consts.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -502,7 +501,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     // Not many items, just grab them
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
-        g->u.assign_activity( ACT_PICKUP );
+        g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
         if( from_vehicle ) {
             g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), &*here.front() );
         } else {
@@ -988,7 +987,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     }
 
     // At this point we've selected our items, register an activity to pick them up.
-    g->u.assign_activity( ACT_PICKUP );
+    g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
     g->u.activity.coords.push_back( g->u.pos() );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.
