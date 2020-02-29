@@ -761,7 +761,7 @@
     "type": "bionic",
     "name": { "str": "Offensive Defense System" },
     "description": "A thin forcefield surrounds your body, continually draining power.  This field does not deflect attacks, but rather delivers a strong shock, damaging unarmed attackers and those with a conductive weapon.",
-    "occupied_bodyparts": [ [ "TORSO", 10 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 4 ], [ "ABDOMEN", 4 ], [ "PELVIS", 2 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
@@ -844,7 +844,7 @@
     "type": "bionic",
     "name": { "str": "Air Filtration System" },
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
-    "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
+    "occupied_bodyparts": [ [ [ "CHEST", 4 ], [ "MOUTH", 2 ] ],
     "env_protec": [ [ "MOUTH", 7 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
@@ -853,7 +853,7 @@
     "type": "bionic",
     "name": { "str": "Radiation Scrubber System" },
     "description": "A system of advanced piezomechanical blood filters have been surgically implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.",
-    "occupied_bodyparts": [ [ "TORSO", 5 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 2 ], [ "ABDOMEN", 2 ], [ "PELVIS", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ],
     "act_cost": "4500 J"
   },
@@ -882,7 +882,7 @@
     "type": "bionic",
     "name": { "str": "Recycler Unit" },
     "description": "Your digestive system has been outfitted with a series of filters and processors, allowing you to reclaim waste liquid and, to a lesser degree, nutrients.  The net effect is a greatly reduced need to eat and drink.",
-    "occupied_bodyparts": [ [ "TORSO", 15 ] ],
+    "occupied_bodyparts": [ [ "ABDOMEN", 10] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -900,7 +900,7 @@
     "type": "bionic",
     "name": { "str": "Sonic Resonator" },
     "description": "Your entire body may resonate at very high power, creating a short-range shockwave.  While it will not do much damage to creatures, solid objects such as walls and doors will be damaged.",
-    "occupied_bodyparts": [ [ "TORSO", 15 ], [ "HEAD", 1 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 4 ], [ "LEG_R", 4 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 5 ], [ "ABDOMEN", 5 ], [ "PELVIS", 3 ], [ "HEAD", 1 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 4 ], [ "LEG_R", 4 ] ],
     "act_cost": 100
   },
   {
@@ -908,7 +908,7 @@
     "type": "bionic",
     "name": { "str": "Olfactory Mask" },
     "description": "While this system is powered, your body will produce very little odor, making it nearly impossible for creatures to track you by scent.",
-    "occupied_bodyparts": [ [ "TORSO", 3 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 1 ], [ "ABDOMEN", 1 ], [ "PELVIS", 1 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
@@ -930,7 +930,7 @@
     "type": "bionic",
     "name": { "str": "Bionic Short Circuit" },
     "description": "A poorly-wired bionic which fails to serve its intended purpose, this malfunctioning device periodically short-circuits, causing systemic muscle tremors.",
-    "occupied_bodyparts": [ [ "TORSO", 1 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 1 ], [ "ABDOMEN", 1 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -939,7 +939,7 @@
     "name": { "str": "Synaptic Regeneration System" },
     "description": "An electromagnetic stimulator has been surgically implanted on the back of your head and along your spine, continually draining power.  As long as it's active, you won't become sleep deprived; and if you're sleep deprived already, it will boost the rate of recovery while you sleep.",
     "flags": [ "BIONIC_TOGGLED" ],
-    "occupied_bodyparts": [ [ "HEAD", 1 ], [ "TORSO", 1 ] ],
+    "occupied_bodyparts": [ [ "HEAD", 1 ], [ "CHEST", 1 ] ],
     "act_cost": 0,
     "react_cost": "1 kJ",
     "time": 100
@@ -949,7 +949,7 @@
     "type": "bionic",
     "name": { "str": "Electroshock Unit" },
     "description": "While fighting unarmed, or with a weapon that conducts electricity, there is a chance that a successful hit will shock your opponent, inflicting extra damage and disabling them temporarily at the cost of some energy.",
-    "occupied_bodyparts": [ [ "TORSO", 8 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 6 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -957,7 +957,7 @@
     "type": "bionic",
     "name": { "str": "Shockwave Generator" },
     "description": "You generate a powerful shockwave, knocking back all nearby creatures.  Targets are stunned briefly, take damage and additional stun upon impact with impassable terrain, and knockback any creatures they collide with.",
-    "occupied_bodyparts": [ [ "TORSO", 20 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 8 ], [ "ABDOMEN", 8 ] ],
     "act_cost": 250
   },
   {
@@ -982,7 +982,9 @@
     "name": { "str": "Synaptic Accelerator" },
     "description": "Your nervous system has been enhanced with bionic stimulators, giving you a 10% boost to your speed.",
     "occupied_bodyparts": [
-      [ "TORSO", 12 ],
+      [ "CHEST", 5 ],
+      [ "ABDOMEN", 5 ],
+      [ "PELVIS", 2 ],
       [ "ARM_L", 3 ],
       [ "ARM_R", 3 ],
       [ "HAND_L", 1 ],
@@ -999,9 +1001,11 @@
     "type": "bionic",
     "name": { "str": "Wire-Induced Stiffness" },
     "description": "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance.",
-    "occupied_bodyparts": [ [ "TORSO", 2 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 1 ], [ "ABDOMEN", 1 ], [ "PELVIS", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
     "encumbrance": [
-      [ "TORSO", 10 ],
+      [ "CHEST", 10 ],
+      [ "ABDOMEN", 10 ],
+      [ "PELVIS", 10 ],
       [ "ARM_L", 10 ],
       [ "ARM_R", 10 ],
       [ "LEG_L", 10 ],
@@ -1016,7 +1020,7 @@
     "type": "bionic",
     "name": { "str": "Muscle Augmentation" },
     "description": "Your muscular system has been surgically enhanced with myomer fibers, giving you a +2 bonus to strength.",
-    "occupied_bodyparts": [ [ "TORSO", 6 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 2 ],[ "ABDOMEN", 2 ], [ "PELVIS", 2 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ],
     "stat_bonus": [ [ "STR", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
@@ -1051,7 +1055,7 @@
     "type": "bionic",
     "name": { "str": "Teleportation Unit" },
     "description": "This highly experimental unit folds space over short distances, instantly transporting your body up to 25 feet at the cost of much power.  Note that prolonged or frequent use may have dangerous side effects.",
-    "occupied_bodyparts": [ [ "TORSO", 16 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 4 ], [ "LEG_R", 4 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 2 ], [ "ABDOMEN", 3 ], [ "PELVIS", 1 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 4 ], [ "LEG_R", 4 ] ],
     "act_cost": 250
   },
   {
@@ -1069,7 +1073,9 @@
     "name": { "str": "Time Dilation" },
     "description": "At the cost of all stored bionic power, you may increase your body speed and reactions dramatically, essentially freezing time.  You are still delicate, however, and violent or rapid movements may damage you due to friction.",
     "occupied_bodyparts": [
-      [ "TORSO", 12 ],
+      [ "CHEST", 5 ],
+      [ "ABDOMEN", 5 ],
+      [ "PELVIS", 2 ],
       [ "HEAD", 3 ],
       [ "ARM_L", 3 ],
       [ "ARM_R", 3 ],
@@ -1133,7 +1139,7 @@
     "type": "bionic",
     "name": { "str": "Uncanny Dodge" },
     "description": "Your nervous system has been augmented with bionic processors, allowing you to dodge attacks beyond normal human capability, including bullets.",
-    "occupied_bodyparts": [ [ "TORSO", 12 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 5 ], [ "LEG_R", 5 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 4 ], [ "ABDOMEN", 5 ], [ "PELVIS", 3 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 5 ], [ "LEG_R", 5 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "6 J",
     "react_cost": "6 J",
@@ -1144,7 +1150,7 @@
     "type": "bionic",
     "name": { "str": "Internal Unified Power System" },
     "description": "You have a Unified Power System wired into your power banks.  Objects that run on a UPS can now draw directly from your bionic power supply.",
-    "occupied_bodyparts": [ [ "TORSO", 5 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 2 ], [ "ABDOMEN", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -1152,7 +1158,7 @@
     "type": "bionic",
     "name": { "str": "Voice Remodulator" },
     "description": "You will likely spend the rest of your days serving as a walking testament to why you don't opt for the Autodoc's 'Cyborg Identity Package'.  A remodulator unit jammed down your throat has given you a creepy robot voice.",
-    "occupied_bodyparts": [ [ "TORSO", 2 ], [ "MOUTH", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 2 ], [ "MOUTH", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -1175,8 +1181,8 @@
     "type": "bionic",
     "name": { "str": "Gasoline Fuel Cell CBM" },
     "description": "A small gasoline fuel cell fixed to your scapula.  Despite its limited energy output compared to other fuel cells, this device still produces a significant amount of heat dissipated through a heat exhaust protruding from your back.  A diffuse network of bio-plastic bladders has been meshed with your circulatory system and serves as a fuel tank.",
-    "occupied_bodyparts": [ [ "TORSO", 8 ] ],
-    "encumbrance": [ [ "TORSO", 5 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 6 ] ],
+    "encumbrance": [ [ "CHEST", 5 ] ],
     "fuel_options": [ "gasoline" ],
     "fuel_capacity": 500,
     "fuel_efficiency": 0.25,
@@ -1196,7 +1202,7 @@
     "type": "bionic",
     "name": { "str": "Titanium Skeletal Bracing" },
     "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
-    "occupied_bodyparts": [ [ "TORSO", 8 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 4 ], [ "ABDOMEN", 4 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "weight_capacity_bonus": "20 kg",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
@@ -1205,7 +1211,7 @@
     "type": "bionic",
     "name": { "str": "Kinetic Shock Absorbers" },
     "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
-    "occupied_bodyparts": [ [ "TORSO", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
+    "occupied_bodyparts": [ [ "CHEST", 1 ], [ "ABDOMEN", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
