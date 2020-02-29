@@ -5227,8 +5227,12 @@ hp_part Character::body_window( const std::string &menu_header,
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
             hp_str = "==%==";
         } else if( has_trait( trait_NOPAIN ) ) {
-            if( current_hp < maximal_hp / 2 ) {
-                hp_str = colorize( _( "Bad" ), c_red );
+            if( current_hp < maximal_hp * 0.25 ) {
+                hp_str = colorize( _( "Very Bad" ), c_red );
+            } else if( current_hp < maximal_hp * 0.5 ) {
+                hp_str = colorize( _( "Bad" ), c_light_red );
+            } else if( current_hp < maximal_hp * 0.75 ) {
+                hp_str = colorize( _( "Less Good" ), c_light_green );
             } else {
                 hp_str = colorize( _( "Good" ), c_green );
             }
