@@ -16,7 +16,7 @@
     "contains": "2500 ml",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "armor_data": { "covers": [ "CHEST" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -363,7 +363,7 @@
     "contains": "2 L",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "storage": "1 L", "material_thickness": 1 },
+    "armor_data": { "covers": [ "CHEST" ], "coverage": 15, "storage": "1 L", "material_thickness": 1 },
     "flags": [ "BELTED" ]
   },
   {
@@ -977,7 +977,7 @@
     "contains": "1500 ml",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
+    "armor_data": { "covers": [ "CHEST" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1038,7 +1038,7 @@
     "contains": "3 L",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "material_thickness": 2 },
+    "armor_data": { "covers": [ "PELVIS" ], "coverage": 10, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1059,7 +1059,7 @@
     "contains": "5 L",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 2 },
+    "armor_data": { "covers": [ "PELVIS" ], "coverage": 15, "material_thickness": 2 },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {

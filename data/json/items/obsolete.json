@@ -503,7 +503,7 @@
     "material": [ "bone", "leather" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "LEGS", "TORSO" ],
+    "covers": [ "LEGS", "CHEST", "ABDOMEN", "PELVIS" ],
     "coverage": 95,
     "encumbrance": 24,
     "warmth": 20,
