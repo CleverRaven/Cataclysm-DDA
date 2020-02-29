@@ -12,7 +12,7 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "yellow",
-    "covers": [ "TORSO" ],
+    "covers": [ "PELVIS" ],
     "encumbrance": 4,
     "storage": "1 L",
     "use_action": {
@@ -37,7 +37,7 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "covers": [ "TORSO" ],
+    "covers": [ "PELVIS" ],
     "coverage": 5,
     "encumbrance": 2,
     "material_thickness": 5,
@@ -111,7 +111,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "PELVIS" ],
     "coverage": 5,
     "material_thickness": 1,
     "use_action": {
@@ -151,7 +151,7 @@
     "symbol": "[",
     "looks_like": "fireman_belt",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "PELVIS" ],
     "encumbrance": 6,
     "storage": "2 L",
     "use_action": {
@@ -177,7 +177,7 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "PELVIS" ],
     "coverage": 15,
     "encumbrance": 4,
     "storage": "3 L",
@@ -206,7 +206,7 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "PELVIS" ],
     "coverage": 20,
     "storage": "1 L",
     "encumbrance": 10,
@@ -235,7 +235,7 @@
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "yellow",
-    "covers": [ "TORSO" ],
+    "covers": [ "PELVIS" ],
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   }
 ]

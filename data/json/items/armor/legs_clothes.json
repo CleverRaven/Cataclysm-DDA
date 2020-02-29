@@ -53,7 +53,7 @@
     "symbol": "[",
     "looks_like": "pants_ski",
     "color": "green",
-    "covers": [ "TORSO", "LEGS", "FEET" ],
+    "covers": [ "ABDOMEN", "PELVIS", "LEGS", "FEET" ],
     "coverage": 100,
     "encumbrance": 25,
     "storage": "1500 ml",
