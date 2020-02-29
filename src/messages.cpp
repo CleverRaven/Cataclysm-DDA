@@ -477,8 +477,8 @@ void Messages::dialog::init()
     w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
 
     ctxt = input_context( "MESSAGE_LOG" );
-    ctxt.register_action( "UP", translate_marker( "Scroll up" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Scroll down" ) );
+    ctxt.register_action( "UP", to_translation( "Scroll up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "FILTER" );

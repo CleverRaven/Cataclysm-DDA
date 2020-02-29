@@ -397,9 +397,9 @@ static point draw_notes( const tripoint &origin )
         g->refresh_all();
         nmenu.desc_enabled = true;
         nmenu.input_category = "OVERMAP_NOTES";
-        nmenu.additional_actions.emplace_back( "DELETE_NOTE", "" );
-        nmenu.additional_actions.emplace_back( "EDIT_NOTE", "" );
-        nmenu.additional_actions.emplace_back( "MARK_DANGER", "" );
+        nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
+        nmenu.additional_actions.emplace_back( "EDIT_NOTE", translation() );
+        nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
         const input_context ctxt( nmenu.input_category );
         nmenu.text = string_format(
                          _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
@@ -1169,8 +1169,8 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 
     input_context ctxt( "OVERMAP_SEARCH" );
     ctxt.register_leftright();
-    ctxt.register_action( "NEXT_TAB", translate_marker( "Next target" ) );
-    ctxt.register_action( "PREV_TAB", translate_marker( "Previous target" ) );
+    ctxt.register_action( "NEXT_TAB", to_translation( "Next target" ) );
+    ctxt.register_action( "PREV_TAB", to_translation( "Previous target" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );

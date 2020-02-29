@@ -137,7 +137,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
     menu.input_category = "MELEE_STYLE_PICKER";
-    menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
+    menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
     menu.desc_enabled = true;
 
     for( auto &s : styles ) {

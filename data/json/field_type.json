@@ -219,7 +219,7 @@
         "translucency": 0.7,
         "convection_temperature_mod": 300
       },
-      { "name": "fire", "color": "light_red", "light_emitted": 60, "translucency": 0.4 },
+      { "name": { "ctxt": "noun", "str": "fire" }, "color": "light_red", "light_emitted": 60, "translucency": 0.4 },
       { "name": "raging fire", "color": "red", "light_emitted": 160, "translucency": 0.1 }
     ],
     "description_affix": "on",
@@ -514,7 +514,7 @@
     "id": "fd_flame_burst",
     "type": "field_type",
     "legacy_enum_id": 18,
-    "intensity_levels": [ { "name": "fire", "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 } ],
+    "intensity_levels": [ { "name": { "ctxt": "noun", "str": "fire" }, "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 } ],
     "description_affix": "on",
     "has_fire": true,
     "priority": 4,
