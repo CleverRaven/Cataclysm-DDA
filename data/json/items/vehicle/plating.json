@@ -148,7 +148,7 @@
     "id": "chitin_plate",
     "symbol": "]",
     "color": "yellow",
-    "name": "chitin armor kit",
+    "name": { "str": "chitin armor kit" },
     "description": "Light chitin plating made for a vehicle.",
     "price": 1200,
     "material": [ "chitin" ],

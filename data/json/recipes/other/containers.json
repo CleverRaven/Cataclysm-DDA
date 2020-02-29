@@ -142,5 +142,17 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
+  },
+  {
+    "type": "recipe",
+    "result": "box_medium",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cardboard", 90 ] ], [ [ "duct_tape", 100 ] ] ]
   }
 ]

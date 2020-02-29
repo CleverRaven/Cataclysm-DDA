@@ -709,7 +709,7 @@
   {
     "id": "small_repairkit",
     "type": "TOOL",
-    "name": "firearm repair kit",
+    "name": { "str": "firearm repair kit" },
     "description": "This is a portable toolkit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 100 charges of battery power per use.",
     "weight": "2420 g",
     "volume": "1500 ml",
@@ -854,7 +854,7 @@
   {
     "id": "toolset_extended",
     "type": "TOOL",
-    "name": "extended toolset",
+    "name": { "str": "extended toolset" },
     "description": "Your toolset, protruding from your hands.  It can slice, dice, and make everything nice.",
     "symbol": "#",
     "color": "white",

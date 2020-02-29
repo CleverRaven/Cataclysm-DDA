@@ -12,7 +12,7 @@
     "id": "alternator_car",
     "copy-from": "vehicle_alternator",
     "type": "GENERIC",
-    "name": "car alternator",
+    "name": { "str": "car alternator" },
     "description": "A standard alternator used to power vehicle electrical systems.",
     "weight": "4000 g",
     "volume": "2500 ml",

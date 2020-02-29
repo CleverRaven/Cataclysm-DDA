@@ -124,7 +124,7 @@
     "id": "y_carpet",
     "category": "other",
     "price": 120,
-    "name": "yellow carpet",
+    "name": { "str": "yellow carpet" },
     "symbol": "}",
     "color": "yellow",
     "description": "A roll of yellow carpet.",

@@ -44,7 +44,7 @@
   {
     "type": "GENERIC",
     "id": "signed_chit",
-    "name": "chit",
+    "name": { "str": "chit" },
     "description": "This is a slip of paper signed by the issuer.",
     "price": 5,
     "price_postapoc": 320,

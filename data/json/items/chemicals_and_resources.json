@@ -1330,7 +1330,7 @@
     "id": "wooden_bead",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": "wooden bead",
+    "name": { "str": "wooden bead" },
     "description": "This is a wooden bead.  It can be used to craft inscribable jewelry or create a beaded curtain door.",
     "weight": "1 g",
     "volume": "250 ml",

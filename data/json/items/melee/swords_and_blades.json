@@ -1312,7 +1312,7 @@
     "id": "cavalry_sabre_fake",
     "type": "GENERIC",
     "category": "weapons",
-    "name": "cavalry saber",
+    "name": { "str": "cavalry saber" },
     "description": "This is a dull, cheap replica of a curved sword associated with cavalry, from the Early Modern period onwards.",
     "weight": "600 g",
     "volume": "1250 ml",

@@ -1301,10 +1301,10 @@ void player::disp_info()
 
     input_context ctxt( "PLAYER_INFO" );
     ctxt.register_updown();
-    ctxt.register_action( "NEXT_TAB", translate_marker( "Cycle to next category" ) );
-    ctxt.register_action( "PREV_TAB", translate_marker( "Cycle to previous category" ) );
+    ctxt.register_action( "NEXT_TAB", to_translation( "Cycle to next category" ) );
+    ctxt.register_action( "PREV_TAB", to_translation( "Cycle to previous category" ) );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "CONFIRM", translate_marker( "Toggle skill training" ) );
+    ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     std::string action;
 
