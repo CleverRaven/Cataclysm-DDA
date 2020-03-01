@@ -172,6 +172,19 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
+static m_size calculate_size( const Character &c )
+{
+    if( c.has_trait( trait_id( "SMALL2" ) ) || c.has_trait( trait_id( "SMALL_OK" ) ) ||
+        c.has_trait( trait_id( "SMALL" ) ) ) {
+        return MS_SMALL;
+    } else if( c.has_trait( trait_LARGE ) || c.has_trait( trait_LARGE_OK ) ) {
+        return MS_LARGE;
+    } else if( c.has_trait( trait_HUGE ) || c.has_trait( trait_HUGE_OK ) ) {
+        return MS_HUGE;
+    }
+    return MS_MEDIUM;
+}
+
 void Character::mutation_effect( const trait_id &mut )
 {
     if( mut == "GLASSJAW" ) {
@@ -204,6 +217,8 @@ void Character::mutation_effect( const trait_id &mut )
     } else {
         apply_mods( mut, true );
     }
+
+    size_class = calculate_size( *this );
 
     const auto &branch = mut.obj();
     if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
@@ -276,6 +291,8 @@ void Character::mutation_loss_effect( const trait_id &mut )
     } else {
         apply_mods( mut, false );
     }
+
+    size_class = calculate_size( *this );
 
     const auto &branch = mut.obj();
     if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||

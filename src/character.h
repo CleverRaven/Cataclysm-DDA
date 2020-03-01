@@ -1868,6 +1868,8 @@ class Character : public Creature, public visitable<Character>
 
         /**height at character creation*/
         int init_height = 175;
+        /** Size class of character. */
+        m_size size_class = MS_MEDIUM;
 
         // the player's activity level for metabolism calculations
         float activity_level = NO_EXERCISE;
