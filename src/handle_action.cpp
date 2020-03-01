@@ -1081,7 +1081,8 @@ static void loot()
         Multichopplanks = 512,
         Multideconvehicle = 1024,
         Multirepairvehicle = 2048,
-        MultiButchery = 4096
+        MultiButchery = 4096,
+        MultiMining = 8192
     };
 
     player &u = g->u;
@@ -1108,6 +1109,7 @@ static void loot()
                                  u.pos() ) ? Multideconvehicle : 0;
     flags |= g->check_near_zone( zone_type_id( "VEHICLE_REPAIR" ), u.pos() ) ? Multirepairvehicle : 0;
     flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ), u.pos() ) ? MultiButchery : 0;
+    flags |= g->check_near_zone( zone_type_id( "MINING" ), u.pos() ) ? MultiButchery : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1159,6 +1161,10 @@ static void loot()
         menu.addentry_desc( MultiButchery, true, 'B', _( "Butcher corpses" ),
                             _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) );
     }
+    if( flags & MultiButchery ) {
+        menu.addentry_desc( MultiButchery, true, 'M', _( "Mine Area" ),
+                            _( "Auto-mine anything in mining zone - auto-fetch tools." ) );
+    }
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1193,6 +1199,9 @@ static void loot()
             break;
         case MultiButchery:
             u.assign_activity( ACT_MULTIPLE_BUTCHER );
+            break;
+        case MultiMining:
+            u.assign_activity( ACT_MULTIPLE_MINE );
             break;
         default:
             debugmsg( "Unsupported flag" );
