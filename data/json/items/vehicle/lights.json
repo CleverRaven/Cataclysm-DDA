@@ -93,7 +93,7 @@
   {
     "type": "GENERIC",
     "id": "directed_floodlight",
-    "name": "directed floodlight",
+    "name": { "str": "directed floodlight" },
     "description": "A large and heavy light designed to illuminate a wide area in a half-circular cone.",
     "copy-from": "floodlight"
   }

@@ -75,7 +75,7 @@
   {
     "type": "GENERIC",
     "id": "vehicle_dashboard",
-    "name": "dashboard",
+    "name": { "str": "dashboard" },
     "description": "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
     "weight": "2721 g",
     "to_hit": -2,
@@ -91,7 +91,7 @@
     "type": "GENERIC",
     "id": "electronics_controls",
     "copy-from": "vehicle_dashboard",
-    "name": "electronics control unit",
+    "name": { "str": "electronics control unit" },
     "description": "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
     "weight": "1311 g",
     "to_hit": -4,

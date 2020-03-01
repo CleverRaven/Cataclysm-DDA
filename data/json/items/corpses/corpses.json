@@ -22,7 +22,7 @@
     "id": "rmi2_corpse",
     "symbol": "%",
     "color": "white",
-    "name": "desiccated corpse",
+    "name": { "str": "desiccated corpse" },
     "description": "A dead body, badly mangled and desiccated.  It seems whatever killed him did so with a gigantic claw.",
     "category": "other",
     "material": "hflesh",

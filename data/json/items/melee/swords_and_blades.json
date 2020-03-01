@@ -34,7 +34,7 @@
     "id": "sword_crude",
     "symbol": "!",
     "color": "light_gray",
-    "name": "crude sword",
+    "name": { "str": "crude sword" },
     "description": "Several bits of thin scrap metal crudely beat into the semblance of an edge over a wooden sword.  The added weight is unbalanced, but the jagged edge offers a good bit of slashing power.",
     "material": "wood",
     "volume": "2 L",
