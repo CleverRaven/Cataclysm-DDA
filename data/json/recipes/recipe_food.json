@@ -3348,7 +3348,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-      [ [ "any_butter", 8, "LIST" ], [ "lard", 8 ] ],
+      [ [ "any_butter", 8, "LIST" ] ],
       [ [ "sweet_fruit_like", 8, "LIST" ] ],
       [ [ "sugar", 20 ], [ "syrup", 4 ], [ "beet_syrup", 4 ], [ "molasses", 4 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
@@ -3368,7 +3368,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-      [ [ "any_butter", 8, "LIST" ], [ "lard", 8 ] ],
+      [ [ "any_butter", 8, "LIST" ] ],
       [ [ "veggy_any", 8, "LIST" ], [ "wild_herbs", 40 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -3387,7 +3387,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-      [ [ "any_butter", 8, "LIST" ], [ "lard", 8 ] ],
+      [ [ "any_butter", 8, "LIST" ] ],
       [
         [ "meat_red", 1, "LIST" ],
         [ "dry_meat", 1 ],
@@ -3415,7 +3415,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-      [ [ "any_butter", 8, "LIST" ], [ "lard", 8 ] ],
+      [ [ "any_butter", 8, "LIST" ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [ [ "syrup", 5 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]

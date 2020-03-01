@@ -114,7 +114,7 @@
     "tools": [ [ [ "surface_heat", 45, "LIST" ] ] ],
     "components": [
       [ [ "flour", 20 ] ],
-      [ [ "any_butter", 8, "LIST" ], [ "lard", 8 ] ],
+      [ [ "any_butter", 8, "LIST" ] ],
       [ [ "meat_offal", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
