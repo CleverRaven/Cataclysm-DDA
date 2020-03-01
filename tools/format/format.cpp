@@ -132,6 +132,7 @@ static void format( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
         bool tf = jsin.get_bool();
         jsout.write( tf );
     } else if( jsin.test_null() ) {
+        jsin.skip_null();
         jsout.write_null();
     } else {
         std::cerr << "Encountered unrecognized json element \"";
