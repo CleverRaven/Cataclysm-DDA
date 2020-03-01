@@ -1027,6 +1027,7 @@
     "id": "demihuman_stomach_boiled",
     "copy-from": "small_hstomach_boiled",
     "name": "boiled human stomach",
+    "calories": 120,
     "description": "A small boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
     "material": "hflesh"
   }
