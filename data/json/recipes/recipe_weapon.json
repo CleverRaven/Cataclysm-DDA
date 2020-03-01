@@ -1843,6 +1843,28 @@
   },
   {
     "type": "recipe",
+    "result": "bbpr",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 8,
+    "time": "500 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 45 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 10 ] ],
+      [ [ "duct_tape", 200 ], [ "superglue", 2 ] ],
+      [ [ "2x4", 2 ], [ "stick", 2 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "ashot",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",

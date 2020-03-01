@@ -927,6 +927,7 @@ void Item_factory::init()
     add_iuse( "MIND_SPLICER", &iuse::mind_splicer );
     add_iuse( "VIBE", &iuse::vibe );
     add_iuse( "HAND_CRANK", &iuse::hand_crank );
+    add_iuse( "HAND_PUMP_INTEGRAL", &iuse::hand_pump_integral );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASH_SOFT_ITEMS", &iuse::wash_soft_items );
     add_iuse( "WASH_HARD_ITEMS", &iuse::wash_hard_items );
@@ -1609,6 +1610,8 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "reload", slot.reload_time, strict, 0 );
     assign( jo, "reload_noise", slot.reload_noise, strict );
     assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
+    assign( jo, "compressed_air_used", slot.compressed_air_used, strict, 0 );
+    assign( jo, "compressed_air_reservoir", slot.compressed_air_reservoir, strict, 0 );
     assign( jo, "barrel_length", slot.barrel_length, strict, 0_ml );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );

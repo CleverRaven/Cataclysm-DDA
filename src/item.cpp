@@ -3799,7 +3799,15 @@ void item::on_damage( int, damage_type )
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate ) const
 {
     int dirt_level = get_var( "dirt", 0 ) / 2000;
+    int airmax = 0;
+    int air_level = 0;
+    if( is_gun() ) {
+        airmax = type->gun->compressed_air_reservoir;
+        air_level = round( ( ( static_cast<double>( get_var( "air_charge",
+                               0 ) ) ) / ( ( static_cast<double>( airmax ) / 5 ) + 1 ) ) );
+    }
     std::string dirt_symbol;
+    std::string air_symbol;
     // TODO: MATERIALS put this in json
 
     // these symbols are unicode square characeters of different heights, representing a rough
@@ -3827,6 +3835,33 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         default:
             dirt_symbol = "";
     }
+    // same as above (dirt), but for compressed air in the gun
+    if( airmax > 0 ) {
+        switch( air_level ) {
+            case 0:
+                air_symbol = "<color_red>\u2349</color>"; // open circle with slash
+                break;
+            case 1:
+                air_symbol = "<color_light_red>\u25CB</color>"; // open circle
+                break;
+            case 2:
+                air_symbol = "<color_yellow>\u25D4</color>"; // quarter circle
+                break;
+            case 3:
+                air_symbol = "<color_white>\u25D1</color>"; // half circle
+                break;
+            case 4:
+                air_symbol = "<color_white>\u25D5</color>"; // 3q circle
+                break;
+            case 5:
+                air_symbol = "<color_green>\u26AB</color>"; // full circle
+                break;
+            default:
+                air_symbol = "";
+        }
+    } else {
+        air_symbol = "";
+    }
     std::string damtext;
 
     // for portions of string that have <color_ etc in them, this aims to truncate the whole string correctly
@@ -3840,7 +3875,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             truncate_override = utf8_width( damtext, false ) - utf8_width( damtext, true );
         }
     }
-    if( !faults.empty() ) {
+    if( !faults.empty() || airmax > 0 ) {
         bool silent = true;
         for( const auto &fault : faults ) {
             if( !fault->has_flag( flag_SILENT ) ) {
@@ -3849,9 +3884,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             }
         }
         if( silent ) {
-            damtext.insert( 0, dirt_symbol );
+            damtext.insert( 0, dirt_symbol + air_symbol );
         } else {
-            damtext.insert( 0, _( "faulty " ) + dirt_symbol );
+            damtext.insert( 0, _( "faulty " ) + dirt_symbol + air_symbol );
         }
     }
 

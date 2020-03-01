@@ -115,6 +115,7 @@ activity_handlers::do_turn_functions = {
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_VIBE, vibe_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
+    { ACT_HAND_PUMP_INTEGRAL, hand_pump_integral_do_turn },
     { ACT_OXYTORCH, oxytorch_do_turn },
     { ACT_AIM, aim_do_turn },
     { ACT_PICKUP, pickup_do_turn },
@@ -2109,6 +2110,30 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
     if( p->get_fatigue() >= DEAD_TIRED ) {
         act->moves_left = 0;
         add_msg( m_info, _( "You're too exhausted to keep cranking." ) );
+    }
+
+}
+
+void activity_handlers::hand_pump_integral_do_turn( player_activity *act, player *p )
+{
+    item &hand_pump_integral_item = p->i_at( act->position );
+    hand_pump_integral_item.set_var( "air_max",
+                                     hand_pump_integral_item.type->gun->compressed_air_reservoir );
+    if( calendar::once_every( 1_seconds ) && hand_pump_integral_item.get_var( "air_charge",
+            0 ) < hand_pump_integral_item.type->gun->compressed_air_reservoir ) {
+        p->mod_stamina( -500 );
+        if( hand_pump_integral_item.get_var( "air_charge",
+                                             0 ) < hand_pump_integral_item.type->gun->compressed_air_reservoir ) {
+            hand_pump_integral_item.set_var( "air_charge", hand_pump_integral_item.get_var( "air_charge",
+                                             0 ) + 50 );
+        } else {
+            act->moves_left = 0;
+            add_msg( m_info, _( "You've filled the reservoir completely." ) );
+        }
+    }
+    if( p->get_fatigue() >= DEAD_TIRED ) {
+        act->moves_left = 0;
+        add_msg( m_info, _( "You're too exhausted to keep pumping." ) );
     }
 
 }

@@ -936,6 +936,11 @@
   },
   {
     "type": "item_action",
+    "id": "HAND_PUMP_INTEGRAL",
+    "name": "Refill a compressed air reservoir"
+  },
+  {
+    "type": "item_action",
     "id": "VIBE",
     "name": "Well, you know"
   },

@@ -4348,6 +4348,31 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+int iuse::hand_pump_integral( player *p, item *it, bool, const tripoint & )
+{
+    it->set_var( "air_max", it->type->gun->compressed_air_reservoir );
+    if( p->is_npc() ) {
+        return 0;
+    }
+    if( p->get_fatigue() >= DEAD_TIRED ) {
+        p->add_msg_if_player( m_info, _( "You're too exhausted to keep pumping." ) );
+        return 0;
+    }
+    if( it->type->gun->compressed_air_reservoir > 0 )  {
+        int moves = to_moves<int>( 1_seconds );
+        if( it->get_var( "air_charge", 0 ) < it->type->gun->compressed_air_reservoir ) {
+            p->add_msg_if_player( _( "You start pumping the %s to charge its reservoir." ), it->tname() );
+            p->assign_activity( ACT_HAND_PUMP_INTEGRAL, moves, -1, p->get_item_position( it ),
+                                "hand-pumping" );
+        } else {
+            p->add_msg_if_player( _( "The reservoir is full." ) );
+        }
+    } else {
+        p->add_msg_if_player( m_info, _( "This weapon lacks an integral pump." ) );
+    }
+    return 0;
+}
+
 int iuse::vibe( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {

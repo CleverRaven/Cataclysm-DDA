@@ -150,6 +150,24 @@ bool player::handle_gun_damage( item &it )
         return false;
     }
 
+    // begin air gun mechanics
+    const int air_max = it.type->gun->compressed_air_reservoir;
+    const int air_use = it.type->gun->compressed_air_used;
+    int air_charge = it.get_var( "air_charge", 0 );
+    if( air_use > 0 ) {
+        it.set_var( "air_max", air_max );
+        if( air_use > air_charge ) {
+            add_msg_player_or_npc(
+                _( "Your %s is drained of compressed air and won't fire!" ),
+                _( "<npcname>'s %s is drained of compressed air and won't fire!" ),
+                it.tname() );
+            return false;
+        } else {
+            it.set_var( "air_charge", ( air_charge - air_use ) );
+        }
+    }
+    // end air gun mechanics
+
     const auto &curammo_effects = it.ammo_effects();
     const islot_gun &firing = *it.type->gun;
     // misfire chance based on dirt accumulation. Formula is designed to make chance of jam highly unlikely at low dirt levels, but levels increase geometrically as the dirt level reaches max (10,000). The number used is just a figure I found reasonable after plugging the number into excel and changing it until the probability made sense at high, medium, and low levels of dirt.

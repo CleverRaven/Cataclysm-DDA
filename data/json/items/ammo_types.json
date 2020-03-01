@@ -499,6 +499,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "50pellet",
+    "name": "50pellet",
+    "default": "50pellet"
+  },
+  {
+    "type": "ammunition_type",
     "id": "762x25",
     "name": "7.62x25mm",
     "default": "762_25"

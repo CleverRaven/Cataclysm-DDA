@@ -490,6 +490,10 @@ struct islot_gun : common_ranged_data {
      */
     int reload_noise_volume = 0;
 
+    // the amount of compressed air an air gun uses and can potentially contain
+    int compressed_air_used = 0;
+    int compressed_air_reservoir = 0;
+
     /** Maximum aim achievable using base weapon sights */
     int sight_dispersion = 30;
 
