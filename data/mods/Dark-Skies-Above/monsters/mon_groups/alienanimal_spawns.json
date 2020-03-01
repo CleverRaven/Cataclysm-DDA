@@ -1,0 +1,9 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SEWER",
+    "default": "mon_sewer_rat",
+    "is_animal": true,
+    "monsters": [ { "monster": "dks_mon_lurker_sewer", "freq": 10, "cost_multiplier": 2, "pack_size": [ 1, 2 ] } ]
+  }
+]

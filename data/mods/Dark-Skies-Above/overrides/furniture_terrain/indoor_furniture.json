@@ -1,0 +1,64 @@
+[
+  {
+    "//": "todo: add more tech junk to salvage from these things",
+    "type": "terrain",
+    "id": "t_plut_generator",
+    "name": "Edison generator",
+    "description": "This imposing apparatus harnesses 'atmospheric charge', or at least thats what the news said when these things came out.  Pioneered by Elton Moosek and his Bluebox team, these things were immediately snapped up by the government due to their potential to generate near limitless power.  It's not doing much good here though.  Perhaps it could be salvaged for other purposes.",
+    "symbol": "0",
+    "color": "cyan",
+    "looks_like": "t_machinery_electronic",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "explosive": 25,
+      "ter_set": "t_concrete",
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 8, 16 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "e_scrap", "count": [ 12, 24 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 4, 8 ] },
+        { "item": "amplifier", "count": [ 3, 6 ] },
+        { "item": "scrap", "count": [ 8, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dresser",
+    "name": "dresser",
+    "symbol": "{",
+    "description": "Dress yourself for prom, or other occasions.",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 6 }, { "item": "wood_panel", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
+    "max_volume": "2000 L",
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+    }
+  }
+]

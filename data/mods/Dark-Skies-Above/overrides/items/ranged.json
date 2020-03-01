@@ -1,0 +1,18 @@
+[
+  {
+    "id": "longbow",
+    "//": "Tileset whitelist for bows",
+    "type": "GUN",
+    "copy-from": "longbow",
+    "name": { "str": "longbow" },
+    "description": "A six-foot wooden bow that takes a fair amount of strength to draw.  It can be used effectively by those of somewhat above-average strength.  Used mainly in medieval England in wartime, but pierces hide just as well as chainmail."
+  },
+  {
+    "id": "rifle_flintlock",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "copy-from": "rifle_flintlock",
+    "name": { "str": "flintlock rifle" },
+    "description": "This ancient firearm lacks the fire-rate of modern weapons, but packs as much punch as the best of 'em and rewards the skilled shooter with easily-crafted ammunition."
+  }
+]

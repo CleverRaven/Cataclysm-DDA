@@ -1,0 +1,14 @@
+[
+  {
+    "type": "effect_type",
+    "id": "panic",
+    "name": [ "Panicking" ],
+    "desc": [ "You just can't stop shaking and are overwhelmed by fear." ],
+    "apply_message": "An all consuming dread overwhelms your mind and you begin to shake uncontrollably!",
+    "rating": "bad",
+    "remove_message": "Your heartrate slows back to normal!",
+    "miss_messages": [ [ "You shake uncontrollably", 4 ] ],
+    "base_mods": { "dex_mod": [ -2 ], "int_mod": [ -1 ], "per_mod": [ -3 ] },
+    "show_in_info": true
+  }
+]

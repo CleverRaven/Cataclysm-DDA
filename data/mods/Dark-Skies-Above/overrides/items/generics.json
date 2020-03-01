@@ -1,0 +1,16 @@
+[
+  {
+    "id": "brush_toilet",
+    "name": { "str": "toilet brush", "str_pl": "toilet brushes" },
+    "copy-from": "brush_toilet",
+    "type": "GENERIC",
+    "description": "The aliens that have invaded Earth cannot be intimidated or humiliated - at least not meaningfully - so this stiff brush is only useful for scouring toilet bowls."
+  },
+  {
+    "type": "GENERIC",
+    "id": "basketball",
+    "copy-from": "basketball",
+    "name": "basketball",
+    "description": "A high-quality indoor basketball.  You could throw it at your enemies."
+  }
+]
