@@ -1850,7 +1850,8 @@
     "skills_required": [ "gun", 3 ],
     "difficulty": 8,
     "time": "500 m",
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [ [ "textbook_weapwest", 8 ], [ "textbook_armwest", 8 ] ],
     "using": [ [ "welding_standard", 45 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [
