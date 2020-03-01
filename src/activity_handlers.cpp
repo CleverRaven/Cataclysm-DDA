@@ -419,13 +419,17 @@ activity_handlers::finish_functions = {
 bool activity_handlers::resume_for_multi_activities( player &p )
 {
     if( !p.backlog.empty() ) {
+        std::cout << " backlog not empty in resume" << std::endl;
         player_activity &back_act = p.backlog.front();
+        std::cout << " backlog act = " << back_act.id().str() << std::endl;
         if( back_act.is_multi_type() ) {
+            std::cout << "back act is multi type" << std::endl;
             p.assign_activity( p.backlog.front().id() );
             p.backlog.clear();
             return true;
         }
     }
+    std::cout << "return false in resume for multi" << std::endl;
     return false;
 }
 
@@ -1950,7 +1954,12 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     if( it.charges == 0 && it.destroyed_at_zero_charges() ) {
         p->i_rem( &it );
     }
-    resume_for_multi_activities( *p );
+    std::cout << " pickaxe finish" << std::endl;
+    if( resume_for_multi_activities( *p ) ){
+        for( item &elem : g->m.i_at( pos ) ){
+            elem.set_var( "activity_var", p->name );
+        }
+    }
 }
 
 void activity_handlers::pulp_do_turn( player_activity *act, player *p )
@@ -4107,7 +4116,11 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
                               _( "You finish drilling." ),
                               _( "<npcname> finishes drilling." ) );
     act->set_to_null();
-    resume_for_multi_activities( *p );
+    if( resume_for_multi_activities( *p ) ){
+        for( item &elem : g->m.i_at( pos ) ){
+            elem.set_var( "activity_var", p->name );
+        }
+    }
 }
 
 void activity_handlers::dig_do_turn( player_activity *act, player * )

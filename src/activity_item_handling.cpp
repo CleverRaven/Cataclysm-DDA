@@ -1060,6 +1060,7 @@ std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
 
     for( const tripoint &tp : g->m.points_in_radius( dest, 1 ) ) {
         if( tp != p.pos() && g->m.passable( tp ) ) {
+            std::cout << " pos " << std::to_string( tp.x ) << " " << std::to_string( tp.y ) << std::endl;
             passable_tiles.emplace( tp );
         }
     }
@@ -1071,6 +1072,7 @@ std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
         auto route = g->m.route( p.pos(), tp, p.get_pathfinding_settings(), avoid );
 
         if( !route.empty() ) {
+            std::cout << "route not empty" << std::endl;
             return route;
         }
     }
@@ -2926,8 +2928,9 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
                            p.get_item_position( best_rod ), best_rod->tname() );
         p.activity.coord_set = g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );
         return false;
-    } else if( reason == NEEDS_MINING && p.has_quality( quality_id( "DIG_TOOL", 1 ) ) ) {
+    } else if( reason == NEEDS_MINING ) {
         // if have enough batteries to continue etc.
+        p.backlog.push_front( act_id );
         if( mine_activity( p, src_loc ) ){
             return false;
         }
@@ -2977,6 +2980,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
             }
             const std::vector<tripoint> route = route_adjacent( p, src_loc );
             if( route.empty() ) {
+                std::cout << " route empty" << std::endl;
                 // can't get there, can't do anything, skip it
                 continue;
             }
