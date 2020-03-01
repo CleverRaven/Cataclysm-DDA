@@ -4,9 +4,9 @@ A partial conversion mod for Cataclysm: DDA, taking inspiration from XCOM 2, Hal
 # Takeaway Features
 In short, Dark Skies is more difficult than vanilla DDA, and reccomended for players who have some experience under their belt. 
 
- - Many buildings were badly damaged during the Arrival and the ensuing conflict, destroying much of the supplies inside. 
  - Many more people were twisted into hostile mutants by alien bioweapons, now called Strays. They are slightly weaker than a vanilla zombie, but there come in larger groups and have a few nasty variants.
  - Alien soldiers occupy high-value targets and have deployed to the streets in order to reclaim the cities for resources. They can easily dispatch Strays, but are no more friendly to you and much more dangerous.
+ - Many buildings were badly damaged during the Arrival and the ensuing conflict, destroying much of the supplies inside. 
  - Invasive alien species prowl the wilderness, some hostile.
  - WIP: Mutations and CBMs, among other sci-fi native to DDA, have been stripped out, with intent for similar tech to come from reverse engineering alien gear.
  - WIP: NPC missions, building up a resistance, working to secure small victories against the occupation forces.
@@ -14,11 +14,3 @@ In short, Dark Skies is more difficult than vanilla DDA, and reccomended for pla
   
 # Meta
 Being a conversion mod, this mod won't work with most other mods. Likewise, tileset support is probably going to be patchy, however I'll be making good use of looks_like for your viewing pleasure.
-
-## Installing
-This mod should be in repo with the base game, however my personal repository will host bleeding edge builds. If you like that sort of thing:
-
-1. Download the master branch
-2. Place the resulting .zip into your mods folder.
-3. Delete any existing copy of Dark Skies.
-3. Unzip, and enjoy!
