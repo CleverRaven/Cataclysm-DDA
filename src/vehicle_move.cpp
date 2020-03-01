@@ -114,11 +114,13 @@ void vehicle::thrust( int thd )
     if( in_water && can_float() ) {
         // we're good
     } else if( is_floating && !can_float() ) {
+        stop();
         if( pl_ctrl ) {
             add_msg( _( "The %s is too leaky!" ), name );
         }
         return;
     } else if( !valid_wheel_config() ) {
+        stop();
         if( pl_ctrl ) {
             add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
         }
