@@ -1436,11 +1436,8 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
             }
         }
     }
-    if (critter != nullptr ) {
-        add_msg(name());
-    }
 
-    if( critter != nullptr && !force ) {
+    if( critter != nullptr ) {
         return false;
     }
 
