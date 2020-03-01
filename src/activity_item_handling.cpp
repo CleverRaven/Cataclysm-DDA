@@ -1991,17 +1991,17 @@ static void fetch_activity( player &p, const tripoint &src_loc,
                     }
                     it.set_var( "activity_var", p.name );
                     p.i_add( it );
-                    items_there.erase( item_iter );
-                    // If we didn't pick up a whole stack, put the remainder back where it came from.
-                    if( leftovers.charges > 0 ) {
-                        g->m.add_item_or_charges( src_loc, leftovers );
-                    }
                     if( p.is_npc() ) {
                         if( pickup_count == 1 ) {
                             add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), it.tname() );
                         } else {
                             add_msg( _( "%s picks up several items." ), p.disp_name() );
                         }
+                    }
+                    items_there.erase( item_iter );
+                    // If we didn't pick up a whole stack, put the remainder back where it came from.
+                    if( leftovers.charges > 0 ) {
+                        g->m.add_item_or_charges( src_loc, leftovers );
                     }
                     return;
                 }
