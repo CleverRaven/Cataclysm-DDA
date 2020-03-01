@@ -219,6 +219,11 @@ void talk_function::do_construction( npc &p )
     p.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
 }
 
+void talk_function::do_mining( npc &p )
+{
+    p.assign_activity( ACT_MULTIPLE_MINE );
+}
+
 void talk_function::do_read( npc &p )
 {
     p.do_npc_read();

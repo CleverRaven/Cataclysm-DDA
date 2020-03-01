@@ -3258,7 +3258,7 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
     }
 
     p->assign_activity( ACT_JACKHAMMER, moves, -1, p->get_item_position( it ) );
-    p->activity.placement = pnt;
+    p->activity.placement = g->m.getabs( pnt );
     p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
 
@@ -3314,7 +3314,7 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
     }
 
     p->assign_activity( ACT_PICKAXE, moves, -1, p->get_item_position( it ) );
-    p->activity.placement = pnt;
+    p->activity.placement = g->m.getabs( pnt );
     p->add_msg_if_player( _( "You strike the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
     return 0; // handled when the activity finishes

@@ -374,7 +374,6 @@
     "ammo": "gasoline",
     "max_charges": 400,
     "charges_per_use": 10,
-    "use_action": "JACKHAMMER",
     "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
   },
   {

@@ -36,6 +36,16 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_MULTIPLE_MINE",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "mining",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
+  },
+  {
     "id": "ACT_TIDY_UP",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
