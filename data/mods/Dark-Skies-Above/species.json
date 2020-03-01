@@ -3,7 +3,7 @@
     "type": "SPECIES",
     "id": "ALIEN",
     "description": "an alien",
-    "anger_truggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ]
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ]
   },
   {
     "type": "SPECIES",
@@ -27,7 +27,7 @@
     "type": "SPECIES",
     "id": "SPIDERANT",
     "description": "a spiderant",
-    "anger_truggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "footsteps": "clicking."
   }
