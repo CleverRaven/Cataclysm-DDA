@@ -3148,7 +3148,9 @@ bool npc::do_player_activity()
             backlog.pop_front();
             current_activity_id = activity.id();
         } else {
-            add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+            if( is_player_ally() ) {
+                add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+            }
             current_activity_id = activity_id::NULL_ID();
             revert_after_activity();
             // if we loaded after being out of the bubble for a while, we might have more
