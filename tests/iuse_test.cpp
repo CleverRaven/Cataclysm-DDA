@@ -32,7 +32,7 @@ static player &get_sanitized_player( )
     return dummy;
 }
 
-TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
+TEST_CASE( "eyedrops1", "[iuse][eyedrops]" )
 {
     player &dummy = get_sanitized_player();
 
@@ -61,6 +61,32 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 
     test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos == INT_MIN );
+}
+
+TEST_CASE( "eyedrops2", "[iuse][eyedrops]" )
+{
+    avatar dummy;
+
+    item &eyedrops = dummy.i_add( item( "saline", 0, item::default_charges_tag{} ) );
+    int charges_before = eyedrops.charges;
+    REQUIRE( charges_before > 0 );
+
+    GIVEN( "player is boomered" ) {
+        dummy.add_effect( efftype_id( "boomered" ), 1_hours );
+        REQUIRE( dummy.has_effect( efftype_id( "boomered" ) ) );
+
+        WHEN( "they use eye drops" ) {
+            dummy.invoke_item( &eyedrops );
+
+            THEN( "one dose is depleted" ) {
+                CHECK( eyedrops.charges == charges_before - 1 );
+
+                AND_THEN( "it removes the boomered effect" ) {
+                    CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
+                }
+            }
+        }
+    }
 }
 
 static monster *find_adjacent_monster( const tripoint &pos )
@@ -107,6 +133,8 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
 {
     avatar dummy;
     item &antifungal = dummy.i_add( item( "antifungal", 0, item::default_charges_tag{} ) );
+    int charges_before = antifungal.charges;
+    REQUIRE( charges_before > 0 );
 
     GIVEN( "player has a fungal infection" ) {
         dummy.add_effect( efftype_id( "fungus" ), 1_hours );
@@ -115,8 +143,12 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
         WHEN( "they take an antifungal drug" ) {
             dummy.invoke_item( &antifungal );
 
-            THEN( "it cures the fungal infection" ) {
-                CHECK_FALSE( dummy.has_effect( efftype_id( "fungus" ) ) );
+            THEN( "one dose is depleted" ) {
+                CHECK( antifungal.charges == charges_before - 1 );
+
+                AND_THEN( "it cures the fungal infection" ) {
+                    CHECK_FALSE( dummy.has_effect( efftype_id( "fungus" ) ) );
+                }
             }
         }
     }
@@ -128,8 +160,12 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
         WHEN( "they take an antifungal drug" ) {
             dummy.invoke_item( &antifungal );
 
-            THEN( "it has no effect on the spores" ) {
-                CHECK( dummy.has_effect( efftype_id( "spores" ) ) );
+            THEN( "one dose is depleted" ) {
+                CHECK( antifungal.charges == charges_before - 1 );
+
+                AND_THEN( "it has no effect on the spores" ) {
+                    CHECK( dummy.has_effect( efftype_id( "spores" ) ) );
+                }
             }
         }
     }
@@ -139,6 +175,9 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 {
     avatar dummy;
     item &antiparasitic = dummy.i_add( item( "antiparasitic", 0, item::default_charges_tag{} ) );
+
+    int charges_before = antiparasitic.charges;
+    REQUIRE( charges_before > 0 );
 
     GIVEN( "player has parasite infections" ) {
         dummy.add_effect( efftype_id( "dermatik" ), 1_hours );
@@ -156,12 +195,16 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
         WHEN( "they use an antiparasitic drug" ) {
             dummy.invoke_item( &antiparasitic );
 
-            THEN( "it cures all parasite infections" ) {
-                CHECK_FALSE( dummy.has_effect( efftype_id( "dermatik" ) ) );
-                CHECK_FALSE( dummy.has_effect( efftype_id( "tapeworm" ) ) );
-                CHECK_FALSE( dummy.has_effect( efftype_id( "bloodworms" ) ) );
-                CHECK_FALSE( dummy.has_effect( efftype_id( "brainworms" ) ) );
-                CHECK_FALSE( dummy.has_effect( efftype_id( "paincysts" ) ) );
+            THEN( "one dose is depleted" ) {
+                CHECK( antiparasitic.charges == charges_before - 1 );
+
+                AND_THEN( "it cures all parasite infections" ) {
+                    CHECK_FALSE( dummy.has_effect( efftype_id( "dermatik" ) ) );
+                    CHECK_FALSE( dummy.has_effect( efftype_id( "tapeworm" ) ) );
+                    CHECK_FALSE( dummy.has_effect( efftype_id( "bloodworms" ) ) );
+                    CHECK_FALSE( dummy.has_effect( efftype_id( "brainworms" ) ) );
+                    CHECK_FALSE( dummy.has_effect( efftype_id( "paincysts" ) ) );
+                }
             }
         }
     }
@@ -173,8 +216,12 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
         WHEN( "they use an antiparasitic drug" ) {
             dummy.invoke_item( &antiparasitic );
 
-            THEN( "it has no effect on the fungal infection" ) {
-                CHECK( dummy.has_effect( efftype_id( "fungus" ) ) );
+            THEN( "one dose is depleted" ) {
+                CHECK( antiparasitic.charges == charges_before - 1 );
+
+                AND_THEN( "it has no effect on the fungal infection" ) {
+                    CHECK( dummy.has_effect( efftype_id( "fungus" ) ) );
+                }
             }
         }
     }
@@ -185,6 +232,9 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
     avatar dummy;
     item &anticonvulsant = dummy.i_add( item( "diazepam", 0, item::default_charges_tag{} ) );
 
+    int charges_before = anticonvulsant.charges;
+    REQUIRE( charges_before > 0 );
+
     GIVEN( "player has the shakes" ) {
         dummy.add_effect( efftype_id( "shakes" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "shakes" ) ) );
@@ -192,14 +242,18 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
         WHEN( "they use an anticonvulsant drug" ) {
             dummy.invoke_item( &anticonvulsant );
 
-            THEN( "it cures the shakes" ) {
-                CHECK_FALSE( dummy.has_effect( efftype_id( "shakes" ) ) );
-            }
+            THEN( "one dose is depleted" ) {
+                CHECK( anticonvulsant.charges == charges_before - 1 );
 
-            AND_THEN( "it has side-effects" ) {
-                CHECK( dummy.has_effect( efftype_id( "valium" ) ) );
-                CHECK( dummy.has_effect( efftype_id( "high" ) ) );
-                CHECK( dummy.has_effect( efftype_id( "took_anticonvulsant_visible" ) ) );
+                AND_THEN( "it cures the shakes" ) {
+                    CHECK_FALSE( dummy.has_effect( efftype_id( "shakes" ) ) );
+
+                    AND_THEN( "it has side-effects" ) {
+                        CHECK( dummy.has_effect( efftype_id( "valium" ) ) );
+                        CHECK( dummy.has_effect( efftype_id( "high" ) ) );
+                        CHECK( dummy.has_effect( efftype_id( "took_anticonvulsant_visible" ) ) );
+                    }
+                }
             }
         }
     }
@@ -211,6 +265,9 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
     avatar dummy;
     item &oxygen = dummy.i_add( item( "oxygen_tank", 0, item::default_charges_tag{} ) );
 
+    int charges_before = oxygen.charges;
+    REQUIRE( charges_before > 0 );
+
     // Ensure baseline painkiller value to measure painkiller effects
     dummy.set_painkiller( 0 );
     REQUIRE( dummy.get_painkiller() == 0 );
@@ -219,8 +276,9 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
         dummy.add_effect( efftype_id( "smoke" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "smoke" ) ) );
 
-        THEN( "oxygen relieves it" ) {
+        THEN( "a dose of oxygen relieves the smoke inhalation" ) {
             dummy.invoke_item( &oxygen );
+            CHECK( oxygen.charges == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( efftype_id( "smoke" ) ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -233,8 +291,9 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
         dummy.add_effect( efftype_id( "teargas" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "teargas" ) ) );
 
-        THEN( "oxygen relieves the effects of tear gas" ) {
+        THEN( "a dose of oxygen relieves the effects of tear gas" ) {
             dummy.invoke_item( &oxygen );
+            CHECK( oxygen.charges == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( efftype_id( "teargas" ) ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -247,8 +306,9 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
         dummy.add_effect( efftype_id( "asthma" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "asthma" ) ) );
 
-        THEN( "oxygen relieves the effects of asthma" ) {
+        THEN( "a dose of oxygen relieves the effects of asthma" ) {
             dummy.invoke_item( &oxygen );
+            CHECK( oxygen.charges == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -266,8 +326,9 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
             dummy.set_stim( 0 );
             REQUIRE( dummy.get_stim() == 0 );
 
-            THEN( "oxygen is stimulating" ) {
+            THEN( "a dose of oxygen is stimulating" ) {
                 dummy.invoke_item( &oxygen );
+                CHECK( oxygen.charges == charges_before - 1 );
                 // values should match iuse function `oxygen_bottle`
                 CHECK( dummy.get_stim() == 8 );
 
@@ -285,8 +346,9 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
             dummy.set_stim( max_stim );
             REQUIRE( dummy.get_stim() == max_stim );
 
-            THEN( "oxygen has no additional stimulation effects" ) {
+            THEN( "a dose of oxygen has no additional stimulation effects" ) {
                 dummy.invoke_item( &oxygen );
+                CHECK( oxygen.charges == charges_before - 1 );
                 CHECK( dummy.get_stim() == max_stim );
 
                 AND_THEN( "it acts as a mild painkiller" ) {
@@ -426,6 +488,8 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
     avatar dummy;
     dummy.set_fatigue( 0 );
     item &thorazine = dummy.i_add( item( "thorazine", 0, item::default_charges_tag{} ) );
+    int charges_before = thorazine.charges;
+    REQUIRE( charges_before >= 2 );
 
     GIVEN( "player has hallucination, visuals, and high effects" ) {
         dummy.add_effect( efftype_id( "hallu" ), 1_hours );
@@ -439,6 +503,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
             dummy.invoke_item( &thorazine );
 
             THEN( "it relieves all those effects with a single dose" ) {
+                CHECK( thorazine.charges == charges_before - 1 );
                 REQUIRE_FALSE( dummy.has_effect( efftype_id( "hallu" ) ) );
                 REQUIRE_FALSE( dummy.has_effect( efftype_id( "visuals" ) ) );
                 REQUIRE_FALSE( dummy.has_effect( efftype_id( "high" ) ) );
@@ -452,12 +517,14 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 
     GIVEN( "player has already taken some thorazine" ) {
         dummy.invoke_item( &thorazine );
+        REQUIRE( thorazine.charges == charges_before - 1 );
         REQUIRE( dummy.has_effect( efftype_id( "took_thorazine" ) ) );
 
         WHEN( "they take more thorazine" ) {
             dummy.invoke_item( &thorazine );
 
             THEN( "it only causes more fatigue" ) {
+                CHECK( thorazine.charges == charges_before - 2 );
                 CHECK( dummy.get_fatigue() >= 20 );
             }
         }
