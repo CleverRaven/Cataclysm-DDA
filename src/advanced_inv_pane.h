@@ -1,20 +1,16 @@
 #pragma once
 #ifndef ADVANCED_INV_PANE_H
 #define ADVANCED_INV_PANE_H
-#include "cursesdef.h"
-#include "point.h"
-#include "units.h"
-#include "advanced_inv_area.h"
-#include "advanced_inv_listitem.h"
-#include "color.h"
-#include "uistate.h"
 
-#include <array>
+#include "cursesdef.h"
+#include "advanced_inv_listitem.h"
+
 #include <functional>
-#include <list>
+#include <map>
 #include <string>
 #include <vector>
-#include <utility>
+
+enum aim_location : char;
 
 enum advanced_inv_sortby {
     SORTBY_NONE,
@@ -28,6 +24,7 @@ enum advanced_inv_sortby {
     SORTBY_SPOILAGE,
     SORTBY_PRICE
 };
+
 /**
  * Displayed pane, what is shown on the screen.
  */

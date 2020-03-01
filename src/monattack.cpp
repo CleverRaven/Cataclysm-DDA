@@ -19,6 +19,7 @@
 #include "ballistics.h"
 #include "bodypart.h"
 #include "debug.h"
+#include "dispersion.h"
 #include "effect.h"
 #include "timed_event.h"
 #include "field.h"

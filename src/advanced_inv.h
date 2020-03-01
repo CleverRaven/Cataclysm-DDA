@@ -6,14 +6,9 @@
 #include <cstddef>
 #include <array>
 #include <functional>
-#include <list>
-#include <map>
 #include <string>
-#include <vector>
 
 #include "cursesdef.h"
-#include "point.h"
-#include "units.h"
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
