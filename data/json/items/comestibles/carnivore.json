@@ -998,7 +998,7 @@
     "id": "demihuman_lard",
     "name": "demihuman lard",
     "copy-from": "human_tallow",
-    "description": "A smooth white block of dry-rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+    "description": "A smooth white block of dry-rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
   },
   {
     "id": "demihuman_flesh",
@@ -1014,8 +1014,8 @@
     "id": "demihuman_cooked",
     "copy-from": "demihuman_flesh",
     "type": "COMESTIBLE",
-    "name": "cooked creep",
-    "description": "A freshly cooked slice of some unpleasant person.  Tastes great.",
+    "name": "cooked mongrel",
+    "description": "A freshly cooked slice of something close to being a real person.  Tastes like long pig.",
     "proportional": { "price": 1.5 },
     "parasites": 0,
     "healthy": 0,
