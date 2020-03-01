@@ -3,7 +3,6 @@
     "id": "bbprmag",
     "type": "MAGAZINE",
     "name": "big bore pneumatic rifle magazine",
-    "//": "",
     "description": "Home-made 50-round box magazine for a big bore pneumatic rifle.",
     "weight": 727,
     "volume": 2,
