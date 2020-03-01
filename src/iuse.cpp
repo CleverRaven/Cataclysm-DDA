@@ -9478,6 +9478,13 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
             if( !p->wield( *it ) ) {
                 // Will likely happen if the in progress craft is too heavy, or the player is
                 // wielding something that can't be unwielded
+                if( p->is_armed() ) {
+                    add_msg( m_bad, _( "The %s is preventing you from wielding the %s" ), p->weapname(), it->tname() );
+                } else if( p->is_limb_broken( hp_arm_l ) || p->is_limb_broken( hp_arm_r ) ) {
+                    add_msg( m_bad, _( "Your broken arm is preventing you from wielding the %s" ), it->tname() );
+                } else {
+                    add_msg( m_bad, _( "Something is preventing you from wielding the %s" ), it->tname() );
+                }
                 return 0;
             }
             // `it` is no longer the item we are using (note that `player::wielded` is a value).
