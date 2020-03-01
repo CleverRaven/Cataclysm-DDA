@@ -1,0 +1,31 @@
+[
+	{
+		"type": "overmap_biome",
+		"id": "urban", 
+		"weight":100
+	},
+	
+	{
+		"type": "overmap_biome",
+		"id": "suburban",
+		"weight":300
+	},
+	
+	{
+		"type": "overmap_biome",
+		"id": "rural",
+		"weight":1000
+	},
+	
+	{
+		"type": "overmap_biome",
+		"id": "wilderness",
+		"weight":100
+	},
+	
+	{
+		"type": "overmap_biome",
+		"id": "undefined",
+		"weight":100
+	}
+]

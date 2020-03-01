@@ -52,6 +52,7 @@
 #include "npc_class.h"
 #include "omdata.h"
 #include "overlay_ordering.h"
+#include "overmap_biome.h"
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "profession.h"
@@ -332,9 +333,10 @@ void DynamicDataLoader::initialize()
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
-    add( "overmap_connection", &overmap_connections::load );
+    add("overmap_connection", &overmap_connections::load);
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
+    add("overmap_biome", &overmap_biomes::load);
     add( "city_building", &city_buildings::load );
     add( "map_extra", &MapExtras::load );
 
@@ -579,6 +581,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Furniture" ), &set_furn_ids },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::finalize },
             { _( "Overmap terrain" ), &overmap_terrains::finalize },
+            { _( "Overmap biome" ), &overmap_biomes::finalize },
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
             { _( "Overmap locations" ), &overmap_locations::finalize },
@@ -666,6 +669,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation Categories" ), &mutation_category_trait::check_consistency },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
+            { _( "Overmap biomes" ), &overmap_biomes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
             { _( "Overmap locations" ), &overmap_locations::check_consistency },

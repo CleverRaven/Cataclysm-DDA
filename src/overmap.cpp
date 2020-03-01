@@ -35,6 +35,7 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "overmap_biome.h"
 #include "overmap_connection.h"
 #include "overmap_noise.h"
 #include "overmap_location.h"
@@ -1046,13 +1047,49 @@ overmap::overmap( const point &p ) : loc( p )
 {
     const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
-
-    if( rsit == region_settings_map.end() ) {
-        debugmsg( "overmap(%d,%d): can't find region '%s'", p.x, p.y,
-                  rsettings_id.c_str() ); // gonna die now =[
+   
+    // Biomes!
+    // 1. Find all regions and load them.
+    // TODO: Load Json biomes somewhere...
+    // 2. Check which region we should use, our starting region preferably should be...
+    //  the first region spawned. 
+    // 2a. Check neighbors and run some checks to filter our options.
+    
+    //Probably a good idea that we keep a default region.
+    if (rsit == region_settings_map.end()) {
+        debugmsg("overmap(%d,%d): can't find region '%s'", p.x, p.y,
+            rsettings_id.c_str()); // gonna die now =[
     }
-    settings = rsit->second;
+    else {
+        //Multiple default regions, most likely a mod overriding. Should we do anything...?
+        //...Perhaps someone wants to override the starting region? But do they want their region to still appear elsewhere?
+        if (region_settings_map.count(rsettings_id) > 1) {
+            //TODO: Warn?
+        }
+    }
 
+    //1. Check region settings are compatible here, using bool is_region_suitable(region_settings rs, const point &p)
+    t_regional_settings_map_citr it = region_settings_map.begin();
+    while (it != region_settings_map.end()) {
+        std::string id = it->first;
+        std::string biome = it->second.biome;
+        int weight = 100; //TODO: Get the weight
+
+        //Basic check here
+        if (one_in(weight)) {
+            rsit = it;
+            break;
+        } 
+
+        it++;
+
+        //No biome found
+        if (it == region_settings_map.end())
+            it = region_settings_map.begin();
+    }
+
+    //Set the biome to the suitable one
+    settings = rsit->second;
     init_layers();
 }
 
@@ -2845,11 +2882,11 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
-    int op_city_size = get_option<int>( "CITY_SIZE" );
+    int op_city_size = settings.city_spec.city_size;
     if( op_city_size <= 0 ) {
         return;
     }
-    int op_city_spacing = get_option<int>( "CITY_SPACING" );
+    int op_city_spacing = settings.city_spec.city_spacing;
 
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
@@ -4046,6 +4083,14 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
             continue;
         }
 
+        //Biomes: check how many we have already created that have a matching flag.
+        //...if that amount is more than set for that region, then do not place.
+        for (std::pair<std::string, int> special_counts : settings.overmap_feature_flag.special_counts) {
+            if (special.flags.count(special_counts.first) >= special_counts.second) {
+                continue;
+            }
+        }
+
         place_special( special, p, rotation, nearest_city, false, must_be_unexplored );
 
         if( ++iter->instances_placed >= special.occurrences.max ) {
@@ -4110,6 +4155,22 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         if( iter->special_details->flags.count( "LAKE" ) > 0 && !overmap_has_lake ) {
             iter = enabled_specials.erase( iter );
             continue;
+        }
+
+        // Biomes
+        // Intercept the occurrences min/max and use our region settings instead if valid.
+        // Get specials flag, compare against any in our region settings and if we find a match, swap it...
+        // But...what if the occurences set are important too....
+        for (std::pair<std::string, int> ele : settings.overmap_feature_flag.special_counts) {
+            std::string flag = ele.first;
+            int count = ele.second;
+
+            if (iter->special_details->flags.count(flag) > 0) {
+                const int max = iter->special_details->occurrences.max;
+                
+                //TODO: Something...more robust. This feels like a hack.
+                iter->instances_placed = max - count;
+            }
         }
 
         if( iter->special_details->flags.count( "UNIQUE" ) > 0 ) {

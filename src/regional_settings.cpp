@@ -264,6 +264,21 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
                 overmap_feature_flag_settings.whitelist.emplace( line );
             }
         }
+
+        if (overmap_feature_flag_settings_jo.has_array("special_counts")) {
+            JsonArray specials = overmap_feature_flag_settings_jo.get_array("special_counts");
+
+            for (const JsonValue member : specials) {
+                JsonObject o = specials.next_object();
+                std::string flag = o.get_string("flag");
+                int count = o.get_int("count");
+
+                overmap_feature_flag_settings.special_counts.insert(std::make_pair(flag, count));
+
+                debugmsg("Found special counts!");
+            }
+        }
+       
     }
 }
 
@@ -297,70 +312,75 @@ static void load_overmap_lake_settings( const JsonObject &jo,
                                         const bool strict, const bool overlay )
 {
     if( !jo.has_object( "overmap_lake_settings" ) ) {
-        if( strict ) {
-            jo.throw_error( "\"overmap_lake_settings\": { … } required for default" );
-        }
-    } else {
-        JsonObject overmap_lake_settings_jo = jo.get_object( "overmap_lake_settings" );
-        read_and_set_or_throw<double>( overmap_lake_settings_jo, "noise_threshold_lake",
-                                       overmap_lake_settings.noise_threshold_lake, !overlay );
-        read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_size_min",
-                                    overmap_lake_settings.lake_size_min, !overlay );
+if (strict) {
+    jo.throw_error("\"overmap_lake_settings\": { … } required for default");
+}
+    }
+ else {
+ JsonObject overmap_lake_settings_jo = jo.get_object("overmap_lake_settings");
+ read_and_set_or_throw<double>(overmap_lake_settings_jo, "noise_threshold_lake",
+     overmap_lake_settings.noise_threshold_lake, !overlay);
+ read_and_set_or_throw<int>(overmap_lake_settings_jo, "lake_size_min",
+     overmap_lake_settings.lake_size_min, !overlay);
 
-        if( !overmap_lake_settings_jo.has_array( "shore_extendable_overmap_terrain" ) ) {
-            if( !overlay ) {
-                overmap_lake_settings_jo.throw_error( "shore_extendable_overmap_terrain required" );
-            }
-        } else {
-            const std::vector<std::string> from_json =
-                overmap_lake_settings_jo.get_string_array( "shore_extendable_overmap_terrain" );
-            overmap_lake_settings.unfinalized_shore_extendable_overmap_terrain.insert(
-                overmap_lake_settings.unfinalized_shore_extendable_overmap_terrain.end(), from_json.begin(),
-                from_json.end() );
-        }
+ if (!overmap_lake_settings_jo.has_array("shore_extendable_overmap_terrain")) {
+     if (!overlay) {
+         overmap_lake_settings_jo.throw_error("shore_extendable_overmap_terrain required");
+     }
+ }
+ else {
+     const std::vector<std::string> from_json =
+         overmap_lake_settings_jo.get_string_array("shore_extendable_overmap_terrain");
+     overmap_lake_settings.unfinalized_shore_extendable_overmap_terrain.insert(
+         overmap_lake_settings.unfinalized_shore_extendable_overmap_terrain.end(), from_json.begin(),
+         from_json.end());
+ }
 
-        if( !overmap_lake_settings_jo.has_array( "shore_extendable_overmap_terrain_aliases" ) ) {
-            if( !overlay ) {
-                overmap_lake_settings_jo.throw_error( "shore_extendable_overmap_terrain_aliases required" );
-            }
-        } else {
-            oter_str_id alias;
-            for( JsonObject jo :
-                 overmap_lake_settings_jo.get_array( "shore_extendable_overmap_terrain_aliases" ) ) {
-                shore_extendable_overmap_terrain_alias alias;
-                jo.read( "om_terrain", alias.overmap_terrain );
-                jo.read( "alias", alias.alias );
-                alias.match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
-                                   ot_match_type::contains );
-                overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back( alias );
-            }
-        }
+ if (!overmap_lake_settings_jo.has_array("shore_extendable_overmap_terrain_aliases")) {
+     if (!overlay) {
+         overmap_lake_settings_jo.throw_error("shore_extendable_overmap_terrain_aliases required");
+     }
+ }
+ else {
+     oter_str_id alias;
+     for (JsonObject jo :
+     overmap_lake_settings_jo.get_array("shore_extendable_overmap_terrain_aliases")) {
+         shore_extendable_overmap_terrain_alias alias;
+         jo.read("om_terrain", alias.overmap_terrain);
+         jo.read("alias", alias.alias);
+         alias.match_type = jo.get_enum_value<ot_match_type>("om_terrain_match_type",
+             ot_match_type::contains);
+         overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back(alias);
+     }
+ }
     }
 }
 
-static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
-        region_terrain_and_furniture_settings &region_terrain_and_furniture_settings,
-        const bool strict, const bool overlay )
+static void load_region_terrain_and_furniture_settings(const JsonObject &jo,
+    region_terrain_and_furniture_settings &region_terrain_and_furniture_settings,
+    const bool strict, const bool overlay)
 {
-    if( !jo.has_object( "region_terrain_and_furniture" ) ) {
-        if( strict ) {
-            jo.throw_error( "\"region_terrain_and_furniture\": { … } required for default" );
+    if (!jo.has_object("region_terrain_and_furniture")) {
+        if (strict) {
+            jo.throw_error("\"region_terrain_and_furniture\": { … } required for default");
         }
-    } else {
+    }
+    else {
         JsonObject region_terrain_and_furniture_settings_jo =
-            jo.get_object( "region_terrain_and_furniture" );
+            jo.get_object("region_terrain_and_furniture");
 
-        if( !region_terrain_and_furniture_settings_jo.has_object( "terrain" ) ) {
-            if( !overlay ) {
-                region_terrain_and_furniture_settings_jo.throw_error( "terrain required" );
+        if (!region_terrain_and_furniture_settings_jo.has_object("terrain")) {
+            if (!overlay) {
+                region_terrain_and_furniture_settings_jo.throw_error("terrain required");
             }
-        } else {
-            for( const JsonMember region : region_terrain_and_furniture_settings_jo.get_object( "terrain" ) ) {
-                if( region.is_comment() ) {
+        }
+        else {
+            for (const JsonMember region : region_terrain_and_furniture_settings_jo.get_object("terrain")) {
+                if (region.is_comment()) {
                     continue;
                 }
-                for( const JsonMember terrain : region.get_object() ) {
-                    if( terrain.is_comment() ) {
+                for (const JsonMember terrain : region.get_object()) {
+                    if (terrain.is_comment()) {
                         continue;
                     }
                     region_terrain_and_furniture_settings.unfinalized_terrain[region.name()][terrain.name()] =
@@ -369,18 +389,19 @@ static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
             }
         }
 
-        if( !region_terrain_and_furniture_settings_jo.has_object( "furniture" ) ) {
-            if( !overlay ) {
-                region_terrain_and_furniture_settings_jo.throw_error( "furniture required" );
+        if (!region_terrain_and_furniture_settings_jo.has_object("furniture")) {
+            if (!overlay) {
+                region_terrain_and_furniture_settings_jo.throw_error("furniture required");
             }
-        } else {
-            for( const JsonMember template_furniture :
-                 region_terrain_and_furniture_settings_jo.get_object( "furniture" ) ) {
-                if( template_furniture.is_comment() ) {
+        }
+        else {
+            for (const JsonMember template_furniture :
+            region_terrain_and_furniture_settings_jo.get_object("furniture")) {
+                if (template_furniture.is_comment()) {
                     continue;
                 }
-                for( const JsonMember furniture : template_furniture.get_object() ) {
-                    if( furniture.is_comment() ) {
+                for (const JsonMember furniture : template_furniture.get_object()) {
+                    if (furniture.is_comment()) {
                         continue;
                     }
                     region_terrain_and_furniture_settings.unfinalized_furniture[template_furniture.name()][furniture.name()]
@@ -391,12 +412,24 @@ static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
     }
 }
 
-void load_region_settings( const JsonObject &jo )
+void load_region_settings(const JsonObject &jo)
 {
     regional_settings new_region;
-    if( !jo.read( "id", new_region.id ) ) {
-        jo.throw_error( "No 'id' field." );
+    if (!jo.read("id", new_region.id)) {
+        jo.throw_error("No 'id' field.");
     }
+
+    if (!jo.read("biome", new_region.biome)) {
+        new_region.biome = "undefined"; //TODO: Change this.
+    }
+
+    if (!jo.has_object("near_biomes")) {
+
+    }
+    else {
+
+    }
+
     bool strict = new_region.id == "default";
     if( !jo.read( "default_oter", new_region.default_oter ) && strict ) {
         jo.throw_error( "default_oter required for default ( though it should probably remain 'field' )" );
@@ -505,6 +538,13 @@ void load_region_settings( const JsonObject &jo )
         }
     } else {
         JsonObject cjo = jo.get_object( "city" );
+
+        if (!cjo.read("city_size", new_region.city_spec.city_size)) {
+            new_region.city_spec.city_size = get_option<int>("CITY_SIZE");
+        }
+        if (!cjo.read("city_spacing", new_region.city_spec.city_spacing)) {
+            new_region.city_spec.city_spacing = get_option<int>("CITY_SPACING");
+        }
         if( !cjo.read( "shop_radius", new_region.city_spec.shop_radius ) && strict ) {
             jo.throw_error( "city: shop_radius required for default" );
         }

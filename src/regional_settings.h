@@ -37,6 +37,9 @@ class building_bin
 };
 
 struct city_settings {
+    int city_spacing;
+    int city_size;
+
     // About the average US city non-residential, non-park land usage
     int shop_radius = 30;
     int shop_sigma = 20;
@@ -175,6 +178,7 @@ struct overmap_feature_flag_settings {
     bool clear_whitelist = false;
     std::set<std::string> blacklist;
     std::set<std::string> whitelist;
+    std::map<std::string, int> special_counts;
 
     overmap_feature_flag_settings() = default;
 };
@@ -233,7 +237,9 @@ struct region_terrain_and_furniture_settings {
  */
 struct regional_settings {
     std::string id;           //
+    std::string biome;
     oter_str_id default_oter; // 'field'
+    std::unordered_map<std::string, double> near_biomes;
     double river_scale;
     weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
