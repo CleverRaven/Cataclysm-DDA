@@ -79,7 +79,7 @@
     "symbol": "]",
     "color": "light_cyan",
     "name": { "str": "sheet of tempered glass", "str_pl": "sheets of tempered glass" },
-    "description": "A large sheet of tempered glass. Useful for repairing tempered glass windows. this sheet of glass is 6mm thick giving making it more durable ",
+    "description": "A large sheet of tempered glass.  Useful for repairing tempered glass windows.  this sheet of glass is 6mm thick giving making it more durable ",
     "category": "spare_parts",
     "price": 10000,
     "material": "glass",
