@@ -154,7 +154,7 @@
   {
     "id": "bot_antimateriel",
     "type": "TOOL",
-    "name": { "str": "inactive M2HB autonomous CROWS II" },
+    "name": { "str": "inactive M2HB autonomous CROWS II", "str_pl": "inactive M2HB autonomous CROWS II turrets" },
     "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded .50 BMG rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its M2HB.",
     "weight": "172 kg",
     "volume": "30 L",
@@ -228,7 +228,7 @@
   {
     "id": "bot_rifleturret",
     "type": "TOOL",
-    "name": { "str": "inactive autonomous M249 CROWS II" },
+    "name": { "str": "inactive autonomous M249 CROWS II", "str_pl": "inactive autonomous M249 CROWS II turrets" },
     "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 5.56x45mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56x45mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its M249.",
     "weight": "172 kg",
     "volume": "30 L",
@@ -250,7 +250,7 @@
   {
     "id": "bot_crows_m240",
     "type": "TOOL",
-    "name": { "str": "inactive autonomous M240 CROWS II" },
+    "name": { "str": "inactive autonomous M240 CROWS II", "str_pl": "inactive autonomous M240 CROWS II turrets" },
     "description": "This is an inactive turret.  Using this item involves loading the unit with the factory-loaded 7.62x51mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 7.62x51mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its M240.",
     "weight": "172 kg",
     "volume": "30 L",
