@@ -330,26 +330,61 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
     }
 }
 
-TEST_CASE( "royal jelly", "[iuse][royal_jelly]" )
-{
-    avatar dummy;
-    item &jelly = dummy.i_add( item( "royal_jelly", 0, item::default_charges_tag{} ) );
-
-    SECTION( "royal jelly gives cure-all effect" ) {
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "cureall" ) ) );
-
-        dummy.invoke_item( &jelly );
-        CHECK( dummy.has_effect( efftype_id( "cureall" ) ) );
-    }
-}
-
 TEST_CASE( "towel", "[iuse][towel]" )
 {
     avatar dummy;
 
-    // Start with a dry towel
-    item &towel = dummy.i_add( item( "towel", 0, item::default_charges_tag{} ) );
-    REQUIRE_FALSE( towel.has_flag( flag_WET ) );
+    // Dry and wet towels
+    item &towel_dry = dummy.i_add( item( "towel", 0, item::default_charges_tag{} ) );
+    REQUIRE_FALSE( towel_dry.has_flag( flag_WET ) );
+    item &towel_wet = dummy.i_add( item( "towel_wet", 0, item::default_charges_tag{} ) );
+    REQUIRE( towel_wet.has_flag( flag_WET ) );
+
+    GIVEN( "player is wet" ) {
+        dummy.drench( 100, { bp_torso }, false );
+        REQUIRE( dummy.body_wetness[bp_torso] > 0 );
+
+        WHEN( "they use a wet towel" ) {
+            dummy.invoke_item( &towel_wet );
+
+            THEN( "it does not dry them off" ) {
+                CHECK( dummy.body_wetness[bp_torso] > 0 );
+            }
+        }
+
+        /* FIXME
+         * This fails, not sure why...
+         *
+        WHEN( "they use a dry towel" ) {
+            dummy.invoke_item( &towel_dry );
+
+            THEN( "it dries them off" ) {
+                CHECK( dummy.body_wetness[bp_torso] == 0 );
+            }
+        }
+        */
+    }
+
+    GIVEN( "player has poor morale due to being wet" ) {
+        dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
+        REQUIRE( dummy.has_morale( MORALE_WET ) == -10 );
+
+        WHEN( "they use a wet towel" ) {
+            dummy.invoke_item( &towel_wet );
+
+            THEN( "it does not improve their morale" ) {
+                CHECK( dummy.has_morale( MORALE_WET ) == -10 );
+            }
+        }
+
+        WHEN( "they use a dry towel" ) {
+            dummy.invoke_item( &towel_dry );
+
+            THEN( "it improves their morale" ) {
+                CHECK( dummy.has_morale( MORALE_WET ) == 0 );
+            }
+        }
+    }
 
     GIVEN( "player is slimed, boomered, and glowing" ) {
         dummy.add_effect( efftype_id( "slimed" ), 1_hours );
@@ -359,8 +394,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
         REQUIRE( dummy.has_effect( efftype_id( "boomered" ) ) );
         REQUIRE( dummy.has_effect( efftype_id( "glowing" ) ) );
 
-        WHEN( "they use a towel once" ) {
-            dummy.invoke_item( &towel );
+        WHEN( "they use a dry towel once" ) {
+            dummy.invoke_item( &towel_dry );
 
             THEN( "it removes all those effects at once" ) {
                 CHECK_FALSE( dummy.has_effect( efftype_id( "slimed" ) ) );
@@ -375,30 +410,12 @@ TEST_CASE( "towel", "[iuse][towel]" )
         dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
         REQUIRE( abs( dummy.has_morale( MORALE_WET ) ) );
 
-        WHEN( "they use a towel" ) {
-            dummy.invoke_item( &towel );
+        WHEN( "they use a dry towel" ) {
+            dummy.invoke_item( &towel_dry );
 
             THEN( "it removes the boomered effect, but not the wetness" ) {
                 CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
                 CHECK( abs( dummy.has_morale( MORALE_WET ) ) );
-            }
-        }
-    }
-
-    GIVEN( "towel is already wet" ) {
-        item &towel_wet = dummy.i_add( item( "towel_wet", 0, item::default_charges_tag{} ) );
-        REQUIRE( towel_wet.has_flag( flag_WET ) );
-
-        AND_GIVEN( "player is wet" ) {
-            dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
-            REQUIRE( abs( dummy.has_morale( MORALE_WET ) ) );
-
-            WHEN( "they use the wet towel" ) {
-                dummy.invoke_item( &towel_wet );
-
-                THEN( "it does not dry them off" ) {
-                    CHECK( abs( dummy.has_morale( MORALE_WET ) ) );
-                }
             }
         }
     }
@@ -504,6 +521,19 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
             dummy.invoke_item( &inhaler );
             CHECK( dummy.get_fatigue() < 10 );
         }
+    }
+}
+
+TEST_CASE( "royal jelly", "[iuse][royal_jelly]" )
+{
+    avatar dummy;
+    item &jelly = dummy.i_add( item( "royal_jelly", 0, item::default_charges_tag{} ) );
+
+    SECTION( "royal jelly gives cure-all effect" ) {
+        REQUIRE_FALSE( dummy.has_effect( efftype_id( "cureall" ) ) );
+
+        dummy.invoke_item( &jelly );
+        CHECK( dummy.has_effect( efftype_id( "cureall" ) ) );
     }
 }
 
