@@ -36,7 +36,7 @@ void overmap_biome::check() const
 
 void overmap_biome::finalize()
 {
-	//Don't really need to do anything?
+    overmap_biomes_map[name] = *this;
 }
 
 void overmap_biome::load(const JsonObject &jo, const std::string &src)

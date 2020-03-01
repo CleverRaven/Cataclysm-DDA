@@ -1,7 +1,11 @@
 [
   {
     "type": "region_settings",
-    "id": "default",
+    "id": "rural_1",
+	"biome": "rural",
+	"near_biomes": [
+	
+	],
     "default_oter": "field",
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
@@ -440,6 +444,8 @@
       "subway": { "chance": 75, "extras": { "mx_portal": 7, "mx_portal_in": 3 } }
     },
     "city": {
+	  "city_size": 1,
+	  "city_spacing": 8,
       "shop_radius": 60,
       "shop_sigma": 50,
       "park_radius": 60,
@@ -596,7 +602,10 @@
       "clear_blacklist": false,
       "blacklist": [  ],
       "clear_whitelist": true,
-      "whitelist": [ "WILDERNESS", "FARM", "BEE", "ANT", "FUNGAL", "BLOB", "SLIME", "TRIFFID", "MI-GO" ]
+      "whitelist": [ "WILDERNESS", "FARM", "BEE", "ANT", "FUNGAL", "BLOB", "SLIME", "TRIFFID", "MI-GO" ],
+	  "special_counts": [ 
+	  { "flag": "LAB", "count": 1 },
+	  { "flag": "MILITARY", "count": 1 } ]
     }
   }
 ]

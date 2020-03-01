@@ -52,6 +52,8 @@
 #include "string_formatter.h"
 #include "cata_string_consts.h"
 
+
+
 class map_extra;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
@@ -171,6 +173,7 @@ static size_t from_dir( om_direction::type dir )
 
 //const regional_settings default_region_settings;
 t_regional_settings_map region_settings_map;
+t_biomes_map biomes_map;
 
 namespace
 {
@@ -1069,11 +1072,12 @@ overmap::overmap( const point &p ) : loc( p )
     }
 
     //1. Check region settings are compatible here, using bool is_region_suitable(region_settings rs, const point &p)
+    //TODO: Randomize through the array
     t_regional_settings_map_citr it = region_settings_map.begin();
     while (it != region_settings_map.end()) {
         std::string id = it->first;
         std::string biome = it->second.biome;
-        int weight = 100; //TODO: Get the weight
+        int weight = overmap_biomes_map[biome].weight; 
 
         //Basic check here
         if (one_in(weight)) {
@@ -1083,7 +1087,7 @@ overmap::overmap( const point &p ) : loc( p )
 
         it++;
 
-        //No biome found
+        //No biome found, keep on trying forever TODO: Obviously dont do that.
         if (it == region_settings_map.end())
             it = region_settings_map.begin();
     }

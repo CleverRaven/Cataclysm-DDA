@@ -22,8 +22,9 @@ struct overmap_biome {
 
         //Biome weight on OM
         int weight = 100;
+        std::string name = "";
+        bool was_loaded = false;
 
-    
 };
 
 namespace overmap_biomes
@@ -34,5 +35,9 @@ namespace overmap_biomes
     void finalize();
 
 } // namespace overmap_biomes
+
+using t_biomes_map = std::unordered_map<std::string, overmap_biome>;
+using t_biomes_map_citr = t_biomes_map::const_iterator;
+extern t_biomes_map overmap_biomes_map;
 
 #endif // OVERMAP_BIOME_H
