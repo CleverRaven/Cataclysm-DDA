@@ -963,7 +963,6 @@ class player : public Character
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
 
-        m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
         int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;

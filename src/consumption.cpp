@@ -457,8 +457,10 @@ bool Character::vitamin_set( const vitamin_id &vit, int qty )
 
 float Character::metabolic_rate_base() const
 {
-    float hunger_rate = get_option< float >( "PLAYER_HUNGER_RATE" );
-    return hunger_rate * ( 1.0f + mutation_value( "metabolism_modifier" ) );
+    static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
+    float hunger_rate = get_option< float >( hunger_rate_string );
+    static const std::string metabolism_modifier( "metabolism_modifier" );
+    return hunger_rate * ( 1.0f + mutation_value( metabolism_modifier ) );
 }
 
 // TODO: Make this less chaotic to let NPC retroactive catch up work here
