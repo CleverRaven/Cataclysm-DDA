@@ -47,7 +47,7 @@
     "id": "50pellet_steelcore",
     "type": "AMMO",
     "name": ".50 steel core pellet",
-    "description": "A huge .50 pellet for big bore air rifles. This one has a steel core to increase penetration, but it does less tissue damage.",
+    "description": "A huge .50 pellet for big bore air rifles.  This one has a steel core to increase penetration, but it does less tissue damage.",
     "weight": 10,
     "volume": "15 ml",
     "price": 3500,
