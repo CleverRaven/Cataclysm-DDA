@@ -2438,9 +2438,8 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
                 }
             }
         }
-    }
-    zone_type_id zone_type = get_zone_for_act( tripoint_zero, mgr, act_id );
-    if( act_id != ACT_FETCH_REQUIRED ) {
+    } else if( act_id != ACT_FETCH_REQUIRED ) {
+        zone_type_id zone_type = get_zone_for_act( tripoint_zero, mgr, act_id );
         src_set = mgr.get_near( zone_type_id( zone_type ), abspos, ACTIVITY_SEARCH_DISTANCE );
         // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
         if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
