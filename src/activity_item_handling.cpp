@@ -1060,7 +1060,6 @@ std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
 
     for( const tripoint &tp : g->m.points_in_radius( dest, 1 ) ) {
         if( tp != p.pos() && g->m.passable( tp ) ) {
-            std::cout << " pos " << std::to_string( tp.x ) << " " << std::to_string( tp.y ) << std::endl;
             passable_tiles.emplace( tp );
         }
     }
@@ -1072,7 +1071,6 @@ std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
         auto route = g->m.route( p.pos(), tp, p.get_pathfinding_settings(), avoid );
 
         if( !route.empty() ) {
-            std::cout << "route not empty" << std::endl;
             return route;
         }
     }
@@ -1447,19 +1445,17 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         p.activity_vehicle_part_index = -1;
         return activity_reason_info::fail( NO_ZONE );
     }
-    if( act == ACT_MULTIPLE_MINE ){
+    if( act == ACT_MULTIPLE_MINE ) {
         if( !g->m.has_flag( "MINEABLE", src_loc ) ) {
-            std::cout << " does not have mineable flag" << std::endl;
             return activity_reason_info::fail( NO_ZONE );
         }
         std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
-            return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) || ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
+            return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
+                   ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
         } );
         if( mining_inv.empty() ) {
-            std::cout << "fetch mining tool" << std::endl;
             return activity_reason_info::fail( NEEDS_MINING );
         } else {
-            std::cout << " can do mining with tools on person " << std::endl;
             return activity_reason_info::ok( NEEDS_MINING );
         }
     }
@@ -1692,10 +1688,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     // if the requirements arent available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
                                   activity_to_restore, pickup_task, src_loc ) ) {
-        std::cout << "requirements arent nearby in requirements_map" << std::endl;
         return requirement_map;
     }
-    std::cout << "requirements are nearby in requirements_map" << std::endl;
     // if the requirements are already near the work spot and its a construction/crafting task, then no need to fetch anything more.
     if( !pickup_task &&
         are_requirements_nearby( already_there_spots, things_to_fetch_id, p, activity_to_restore,
@@ -1769,7 +1763,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     continue;
                 }
             }
-            std::cout << "temp_map " << map_elem.first << std::endl;
             requirement_map.push_back( std::make_tuple( point_elem, map_elem.first, map_elem.second ) );
         }
     }
@@ -1836,8 +1829,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     for( const std::vector<tool_comp> &elem : tool_comps ) {
         bool line_found = false;
         for( const tool_comp &comp_elem : elem ) {
-            std::cout << "tool comp elem in requirements map loop = " << comp_elem.to_string() << std::endl;
-            std::cout << " elem count  = " << std::to_string( comp_elem.count ) << std::endl;
             if( line_found || comp_elem.count < -1 ) {
                 break;
             }
@@ -1849,7 +1840,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 tripoint pos_here = std::get<0>( *it );
                 itype_id item_here = std::get<1>( *it );
                 int quantity_here = std::get<2>( *it );
-                std::cout << "quantity here = " << std::to_string( quantity_here ) << std::endl;
                 if( comp_elem.type == item_here ) {
                     item_quantity += quantity_here;
                 }
@@ -1915,11 +1905,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 it++;
             }
         }
-    }
-    if( final_map.empty() ){
-        std::cout << "final map empty" << std::endl;
-    } else {
-        std::cout << "final map not empty" << std::endl;
     }
     for( const std::tuple<tripoint, itype_id, int> &elem : final_map ) {
         add_msg( m_debug, "%s is fetching %s from x: %d y: %d ", p.disp_name(), std::get<1>( elem ),
@@ -2081,8 +2066,6 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
                     } else {
                         leftovers.charges = 0;
                     }
-                    std::cout << " 2023" << std::endl;
-                    std::cout << "item name in fetch activity " << it.tname() << std::endl;
                     it.set_var( "activity_var", p.name );
                     p.i_add( it );
                     if( p.is_npc() ) {
@@ -2428,41 +2411,44 @@ static int chop_moves( player &p, item *it )
 static bool mine_activity( player &p, const tripoint &src_loc )
 {
     std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
-        return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) || ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
+        return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
+               ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
     } );
-    if( mining_inv.empty() || p.is_mounted() || p.is_underwater() || g->m.veh_at( src_loc ) || !g->m.has_flag( "MINEABLE", src_loc ) ) {
+    if( mining_inv.empty() || p.is_mounted() || p.is_underwater() || g->m.veh_at( src_loc ) ||
+        !g->m.has_flag( "MINEABLE", src_loc ) ) {
         return false;
     }
     item *chosen_item = nullptr;
     bool powered = false;
     // is it a pickaxe or jackhammer?
-    for( item *elem : mining_inv ){
-        if( chosen_item == nullptr ){
+    for( item *elem : mining_inv ) {
+        if( chosen_item == nullptr ) {
             chosen_item = elem;
-            if( elem->type->can_use( "JACKHAMMER" ) ){
+            if( elem->type->can_use( "JACKHAMMER" ) ) {
                 powered = true;
             }
         } else {
             // prioritise powered tools
-            if( chosen_item->type->can_use( "PICKAXE" ) && elem->type->can_use( "JACKHAMMER" ) ){
+            if( chosen_item->type->can_use( "PICKAXE" ) && elem->type->can_use( "JACKHAMMER" ) ) {
                 chosen_item = elem;
                 powered = true;
                 break;
             }
         }
     }
-    if( chosen_item == nullptr ){
+    if( chosen_item == nullptr ) {
         return false;
     }
     int moves = to_moves<int>( powered ? 30_minutes : 20_minutes );
-    if( !powered ){
+    if( !powered ) {
         moves += ( ( MAX_STAT + 4 ) - std::min( p.str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
     }
     if( g->m.move_cost( src_loc ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
     }
-    p.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves, -1, p.get_item_position( chosen_item ) );
+    p.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves, -1,
+                       p.get_item_position( chosen_item ) );
     p.activity.placement = g->m.getabs( src_loc );
     return true;
 
@@ -2626,7 +2612,6 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
         // but we will check again later, to be sure nothings changed.
         std::vector<std::tuple<tripoint, itype_id, int>> mental_map = requirements_map( p,
                 ACTIVITY_SEARCH_DISTANCE );
-        std::cout << "mental map size in locations for fetch = " << std::to_string( static_cast<int>( mental_map.size() ) ) << std::endl;
         for( const auto &elem : mental_map ) {
             const tripoint &elem_point = std::get<0>( elem );
             src_set.insert( g->m.getabs( elem_point ) );
@@ -2749,16 +2734,8 @@ static requirement_check_result generic_multi_activity_check_requirement( player
             const requirement_id req_id( ran_str );
             requirement_data::save_requirement( reqs, req_id );
             what_we_need = req_id;
-        } else if( reason == NEEDS_MINING ){
-            std::cout << "set what we need as mining standard" << std::endl;
+        } else if( reason == NEEDS_MINING ) {
             what_we_need = requirement_id( "mining_standard" );
-            const requirement_data things_to_fetch = what_we_need.obj();
-            std::vector<std::vector<tool_comp>> tool_comps = things_to_fetch.get_tools();
-            for( const std::vector<tool_comp> &elem : tool_comps ) {
-                for( const auto &elem2 : elem ){
-                    std::cout << "tool comp = " << elem2.to_string() << std::endl;
-                }
-            }
         } else if( reason == NEEDS_TILLING || reason == NEEDS_PLANTING || reason == NEEDS_CHOPPING ||
                    reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING || reason == NEEDS_TREE_CHOPPING ||
                    reason == NEEDS_FISHING ) {
@@ -2793,11 +2770,11 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         }
         bool tool_pickup = reason == NEEDS_TILLING || reason == NEEDS_PLANTING ||
                            reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING ||
-                           reason == NEEDS_TREE_CHOPPING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR || reason == NEEDS_MINING;
+                           reason == NEEDS_TREE_CHOPPING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ||
+                           reason == NEEDS_MINING;
         // is it even worth fetching anything if there isnt enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
                                       act_id, tool_pickup, src_loc ) ) {
-            std::cout << "requirements are not nearby " << std::endl;
             p.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
             if( reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ) {
                 p.activity_vehicle_part_index = -1;
@@ -2931,7 +2908,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     } else if( reason == NEEDS_MINING ) {
         // if have enough batteries to continue etc.
         p.backlog.push_front( act_id );
-        if( mine_activity( p, src_loc ) ){
+        if( mine_activity( p, src_loc ) ) {
             return false;
         }
     } else if( reason == NEEDS_VEH_DECONST ) {
@@ -2962,7 +2939,6 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
     // now we setup the target spots based on whch activity is occuring
     // the set of target work spots - potentally after we have fetched required tools.
     std::unordered_set<tripoint> src_set = generic_multi_activity_locations( p, activity_to_restore );
-    std::cout << "src set size = " << std::to_string( static_cast<int>( src_set.size() ) ) << std::endl;
     // now we have our final set of points
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     // now loop through the work-spot tiles and judge whether its worth travelling to it yet
@@ -2980,7 +2956,6 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
             }
             const std::vector<tripoint> route = route_adjacent( p, src_loc );
             if( route.empty() ) {
-                std::cout << " route empty" << std::endl;
                 // can't get there, can't do anything, skip it
                 continue;
             }

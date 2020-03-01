@@ -419,17 +419,13 @@ activity_handlers::finish_functions = {
 bool activity_handlers::resume_for_multi_activities( player &p )
 {
     if( !p.backlog.empty() ) {
-        std::cout << " backlog not empty in resume" << std::endl;
         player_activity &back_act = p.backlog.front();
-        std::cout << " backlog act = " << back_act.id().str() << std::endl;
         if( back_act.is_multi_type() ) {
-            std::cout << "back act is multi type" << std::endl;
             p.assign_activity( p.backlog.front().id() );
             p.backlog.clear();
             return true;
         }
     }
-    std::cout << "return false in resume for multi" << std::endl;
     return false;
 }
 
@@ -1923,7 +1919,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     item &it = p->i_at( act->position );
     // Invalidate the activity early to prevent a query from mod_pain()
     act->set_to_null();
-    if( p->is_avatar() ){
+    if( p->is_avatar() ) {
         const int helpersize = g->u.get_num_crafting_helpers( 3 );
         if( g->m.is_bashable( pos ) && g->m.has_flag( flag_SUPPORTS_ROOF, pos ) &&
             g->m.ter( pos ) != t_tree ) {
@@ -1954,9 +1950,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     if( it.charges == 0 && it.destroyed_at_zero_charges() ) {
         p->i_rem( &it );
     }
-    std::cout << " pickaxe finish" << std::endl;
-    if( resume_for_multi_activities( *p ) ){
-        for( item &elem : g->m.i_at( pos ) ){
+    if( resume_for_multi_activities( *p ) ) {
+        for( item &elem : g->m.i_at( pos ) ) {
             elem.set_var( "activity_var", p->name );
         }
     }
@@ -4093,10 +4088,12 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
 {
-    sfx::play_activity_sound( "tool", "jackhammer", sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
+    sfx::play_activity_sound( "tool", "jackhammer",
+                              sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a jackhammer at work!
-        sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::destructive_activity, _( "TATATATATATATAT!" ) );
+        sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::destructive_activity,
+                       _( "TATATATATATATAT!" ) );
     }
 }
 
@@ -4106,7 +4103,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
     g->m.destroy( pos, true );
 
-    if( p->is_avatar() ){
+    if( p->is_avatar() ) {
         const int helpersize = g->u.get_num_crafting_helpers( 3 );
         p->mod_stored_nutr( 5 - helpersize );
         p->mod_thirst( 5 - helpersize );
@@ -4116,8 +4113,8 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
                               _( "You finish drilling." ),
                               _( "<npcname> finishes drilling." ) );
     act->set_to_null();
-    if( resume_for_multi_activities( *p ) ){
-        for( item &elem : g->m.i_at( pos ) ){
+    if( resume_for_multi_activities( *p ) ) {
+        for( item &elem : g->m.i_at( pos ) ) {
             elem.set_var( "activity_var", p->name );
         }
     }
