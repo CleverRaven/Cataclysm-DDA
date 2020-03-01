@@ -352,11 +352,13 @@ class Character : public Creature, public visitable<Character>
         virtual int get_thirst() const;
         /** Gets character's minimum hunger and thirst */
         int stomach_capacity() const;
-        virtual std::pair<std::string, nc_color> get_thirst_description() const;
-        virtual std::pair<std::string, nc_color> get_hunger_description() const;
-        virtual std::pair<std::string, nc_color> get_fatigue_description() const;
-        virtual int get_fatigue() const;
-        virtual int get_sleep_deprivation() const;
+        std::pair<std::string, nc_color> get_thirst_description() const;
+        std::pair<std::string, nc_color> get_hunger_description() const;
+        std::pair<std::string, nc_color> get_fatigue_description() const;
+        int get_fatigue() const;
+        int get_sleep_deprivation() const;
+
+        std::pair<std::string, nc_color> get_pain_description() const override;
 
         /** Modifiers for need values exclusive to characters */
         virtual void mod_stored_kcal( int nkcal );
@@ -377,6 +379,9 @@ class Character : public Creature, public visitable<Character>
 
         /**Get bonus to max_hp from excess stored fat*/
         int get_fat_to_hp() const;
+
+        /** Get size class of character **/
+        m_size get_size() const override;
 
         /** Returns either "you" or the player's name. capitalize_first assumes
             that the character's name is already upper case and uses it only for
@@ -762,8 +767,6 @@ class Character : public Creature, public visitable<Character>
 
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
 
-        void serialize_consumption_history( JsonOut jsout ) const;
-        void deserialize_consumption_history( JsonArray jarr );
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
@@ -1865,6 +1868,8 @@ class Character : public Creature, public visitable<Character>
 
         /**height at character creation*/
         int init_height = 175;
+        /** Size class of character. */
+        m_size size_class = MS_MEDIUM;
 
         // the player's activity level for metabolism calculations
         float activity_level = NO_EXERCISE;

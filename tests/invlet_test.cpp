@@ -12,6 +12,7 @@
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
+#include "options_helpers.h"
 #include "options.h"
 #include "player.h"
 #include "map_helpers.h"
@@ -724,25 +725,25 @@ static void merge_invlet_test( player &dummy, inventory_location from )
 
 #define invlet_test_autoletter_off( name, dummy, from, to ) \
     SECTION( std::string( name ) + " (auto letter off)" ) { \
-        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "disabled" ); \
+        override_option opt( "AUTO_INV_ASSIGN", "disabled" ); \
         invlet_test( dummy, from, to ); \
     }
 
 #define stack_invlet_test_autoletter_off( name, dummy, from, to ) \
     SECTION( std::string( name ) + " (auto letter off)" ) { \
-        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "disabled" ); \
+        override_option opt( "AUTO_INV_ASSIGN", "disabled" ); \
         stack_invlet_test( dummy, from, to ); \
     }
 
 #define swap_invlet_test_autoletter_off( name, dummy, loc ) \
     SECTION( std::string( name ) + " (auto letter off)" ) { \
-        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "disabled" ); \
+        override_option opt( "AUTO_INV_ASSIGN", "disabled" ); \
         swap_invlet_test( dummy, loc ); \
     }
 
 #define merge_invlet_test_autoletter_off( name, dummy, from ) \
     SECTION( std::string( name ) + " (auto letter off)" ) { \
-        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "disabled" ); \
+        override_option opt( "AUTO_INV_ASSIGN", "disabled" ); \
         merge_invlet_test( dummy, from ); \
     }
 

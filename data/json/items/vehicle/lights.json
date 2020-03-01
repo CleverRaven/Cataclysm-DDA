@@ -2,7 +2,7 @@
   {
     "id": "car_headlight",
     "type": "GENERIC",
-    "name": "car headlight",
+    "name": { "str": "car headlight" },
     "description": "A vehicle headlight to light up the way.",
     "symbol": ";",
     "color": "white",

@@ -4624,6 +4624,7 @@
     "time": "18 m",
     "charges": 2,
     "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [

@@ -77,10 +77,10 @@
   {
     "id": "recipe_atomic_battery",
     "type": "BOOK",
-    "name": "computer printout",
+    "name": { "str": "computer printout" },
     "description": "One side of this sheet is printed with a meaningless jumble of characters, but the other side shows a complicated, hand-drawn circuit diagram.",
     "weight": "10 g",
-    "volume": 0,
+    "volume": "2 ml",
     "price": 40000,
     "price_postapoc": 100000,
     "material": [ "paper" ],

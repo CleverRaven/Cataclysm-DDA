@@ -45,7 +45,7 @@ class material_type
         float _specific_heat_liquid = 4.186;
         float _specific_heat_solid = 2.108;
         float _latent_heat = 334;
-        int _freeze_point = 32; // Farenheit
+        int _freeze_point = 32; // Fahrenheit
         bool _edible = false;
         bool _rotting = false;
         bool _soft = false;

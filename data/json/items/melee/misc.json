@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "brown",
-    "name": "bullwhip",
+    "name": { "str": "bullwhip" },
     "description": "A long strip of braided leather with a handle on one end.  Originally developed to settle disagreements with cattle, it's better used now for flaying the rotten flesh off of walking corpses.  Great for when a problem comes along.",
     "weight": "3460 g",
     "volume": "2 L",

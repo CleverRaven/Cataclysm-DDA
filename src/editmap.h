@@ -87,7 +87,7 @@ class editmap
         shapetype editshape;
 
         std::vector<tripoint> target_list;
-        cata::optional<std::function<void( const tripoint &p )>> draw_target_override;
+        std::function<void( const tripoint &p )> draw_target_override;
         std::map<std::string, editmap_hilight> hilights;
         bool blink;
         bool altblink;

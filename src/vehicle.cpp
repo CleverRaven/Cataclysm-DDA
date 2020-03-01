@@ -4218,9 +4218,9 @@ std::string vehicle::get_owner_name() const
 {
     if( !g->faction_manager_ptr->get( owner ) ) {
         debugmsg( "vehicle::get_owner_name() vehicle %s has no valid nor null faction id ", disp_name() );
-        return "no owner";
+        return _( "no owner" );
     }
-    return g->faction_manager_ptr->get( owner )->name;
+    return _( g->faction_manager_ptr->get( owner )->name );
 }
 
 void vehicle::set_owner( const Character &c )

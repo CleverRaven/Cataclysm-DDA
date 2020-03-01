@@ -42,7 +42,7 @@
   {
     "id": "acetylene_machine",
     "type": "TOOL",
-    "name": "acetylene-gas machine",
+    "name": { "str": "acetylene-gas machine" },
     "symbol": "&",
     "color": "light_gray",
     "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",
@@ -56,7 +56,7 @@
   {
     "id": "angle_grinder",
     "type": "TOOL",
-    "name": "angle grinder",
+    "name": { "str": "angle grinder" },
     "description": "This widespread powertool is often used for removing excess material or polishing surfaces.",
     "weight": "2780 g",
     "volume": "1750 ml",
@@ -83,7 +83,7 @@
   {
     "id": "brick_kiln",
     "type": "TOOL",
-    "name": "brick kiln",
+    "name": { "str": "brick kiln" },
     "description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
     "weight": "9600 g",
     "volume": "9 L",
@@ -130,7 +130,7 @@
   {
     "id": "clamp",
     "type": "TOOL",
-    "name": "clamp",
+    "name": { "str": "clamp" },
     "description": "This clamp is useful for keeping things still, especially if you have several of them.",
     "weight": "320 g",
     "volume": "500 ml",
@@ -146,7 +146,7 @@
   {
     "id": "claw_bar",
     "type": "TOOL",
-    "name": "claw bar",
+    "name": { "str": "claw bar" },
     "description": "This is a small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "340 g",
     "volume": "375 ml",
@@ -164,7 +164,7 @@
   {
     "id": "con_mix",
     "type": "TOOL",
-    "name": "concrete mixer",
+    "name": { "str": "concrete mixer" },
     "description": "A portable concrete mixer.  It is still large and heavy, but it can be operated solo, and runs on batteries.  It also has a heater built in.",
     "weight": "9071 g",
     "volume": "5 L",
@@ -189,7 +189,7 @@
   {
     "id": "cordless_drill",
     "type": "TOOL",
-    "name": "cordless drill",
+    "name": { "str": "cordless drill" },
     "description": "This is a cordless battery-powered drill with a selection of drill bits.",
     "weight": "2721 g",
     "volume": "750 ml",
@@ -229,7 +229,7 @@
   {
     "id": "elec_jackhammer",
     "type": "TOOL",
-    "name": "electric jackhammer",
+    "name": { "str": "electric jackhammer" },
     "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
     "weight": "40000 g",
     "volume": "5 L",
@@ -250,7 +250,7 @@
   {
     "id": "hacksaw",
     "type": "TOOL",
-    "name": "hacksaw",
+    "name": { "str": "hacksaw" },
     "description": "This is a sturdy saw, useful for cutting through metal objects.",
     "weight": "952 g",
     "volume": "1 L",
@@ -267,7 +267,7 @@
   {
     "id": "hammer",
     "type": "TOOL",
-    "name": "hammer",
+    "name": { "str": "hammer" },
     "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
     "weight": "566 g",
     "volume": "500 ml",
@@ -284,7 +284,7 @@
   {
     "id": "hand_drill",
     "type": "TOOL",
-    "name": "hand drill",
+    "name": { "str": "hand drill" },
     "description": "A primitive manual drill with a single drill bit.  It is slow and it will exhaust you quickly.",
     "weight": "907 g",
     "volume": "250 ml",
@@ -315,7 +315,7 @@
   {
     "id": "jack",
     "type": "TOOL",
-    "name": "bottle jack",
+    "name": { "str": "bottle jack" },
     "description": "A portable hydraulic bottle jack used for lifting vehicles.",
     "material": "steel",
     "symbol": ";",
@@ -380,7 +380,7 @@
   {
     "id": "kiln",
     "type": "TOOL",
-    "name": "electric kiln",
+    "name": { "str": "electric kiln" },
     "description": "This is a portable electric kiln, powered by batteries.  It is designed for firing bricks, but you could use it to fire anything made of clay.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
     "weight": "12000 g",
     "volume": "7500 ml",
@@ -400,7 +400,7 @@
   {
     "id": "large_repairkit",
     "type": "TOOL",
-    "name": "gunsmith repair kit",
+    "name": { "str": "gunsmith repair kit" },
     "description": "This is a complete toolkit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 25 charges of battery power per use.",
     "weight": "9860 g",
     "volume": "2500 ml",
@@ -627,7 +627,7 @@
   {
     "id": "polisher",
     "type": "TOOL",
-    "name": "electric polisher",
+    "name": { "str": "electric polisher" },
     "description": "An electric polisher which can be used to buff metal surfaces until they are reflective like a mirror.",
     "weight": "1000 g",
     "volume": "3500 ml",
@@ -678,7 +678,7 @@
     "name": "screwdriver",
     "description": "This is a Philips-head screwdriver.  It is important for almost all electronics crafting, most mechanics crafting, and has many more uses.",
     "weight": "170 g",
-    "volume": "250 ml",
+    "volume": "40 ml",
     "price": 450,
     "to_hit": -1,
     "bashing": 2,
@@ -709,7 +709,7 @@
   {
     "id": "small_repairkit",
     "type": "TOOL",
-    "name": "firearm repair kit",
+    "name": { "str": "firearm repair kit" },
     "description": "This is a portable toolkit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 100 charges of battery power per use.",
     "weight": "2420 g",
     "volume": "1500 ml",
@@ -854,7 +854,7 @@
   {
     "id": "toolset_extended",
     "type": "TOOL",
-    "name": "extended toolset",
+    "name": { "str": "extended toolset" },
     "description": "Your toolset, protruding from your hands.  It can slice, dice, and make everything nice.",
     "symbol": "#",
     "color": "white",
@@ -899,7 +899,7 @@
   {
     "id": "welder",
     "type": "TOOL",
-    "name": "arc welder",
+    "name": { "str": "arc welder" },
     "description": "This is a battery powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.",
     "weight": "4200 g",
     "volume": "2500 ml",

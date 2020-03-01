@@ -2,7 +2,7 @@
   {
     "id": "damaged_shelter_kit",
     "type": "TOOL",
-    "name": "damaged shelter kit",
+    "name": { "str": "damaged shelter kit" },
     "description": "This is a small shelter, made of sticks and skins.  Use it to place.  This shelter has been damaged, and needs repairs.",
     "weight": "1360 g",
     "volume": "7500 ml",

@@ -19,7 +19,7 @@
   {
     "id": "camera",
     "type": "TOOL",
-    "name": "camera",
+    "name": { "str": "camera" },
     "description": "A point-and-shoot digital camera, with digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.",
     "weight": "907 g",
     "volume": "250 ml",
@@ -50,7 +50,7 @@
   {
     "id": "camera_pro",
     "type": "TOOL",
-    "name": "camera pro",
+    "name": { "str": "professional camera" },
     "description": "A 35 mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
     "weight": "2268 g",
     "volume": "1250 ml",
@@ -131,7 +131,7 @@
   {
     "id": "control_laptop",
     "type": "TOOL",
-    "name": "control laptop",
+    "name": { "str": "control laptop" },
     "description": "A modified laptop, now capable of transmitting in the ultra-high frequencies utilized by robots.  Activate it to command robots from afar.",
     "weight": "2721 g",
     "volume": "1 L",
@@ -153,7 +153,7 @@
   {
     "id": "directional_antenna",
     "type": "TOOL",
-    "name": "directional antenna",
+    "name": { "str": "directional antenna" },
     "description": "This is an antenna designed to pick up signals better when pointed at the source.  You could use this with a radio to receive faint signals.",
     "weight": "454 g",
     "volume": "500 ml",
@@ -185,7 +185,7 @@
   {
     "id": "eink_tablet_pc",
     "type": "TOOL",
-    "name": "e-ink tablet PC",
+    "name": { "str": "e-ink tablet PC" },
     "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
     "weight": "250 g",
     "volume": "250 ml",
@@ -218,7 +218,7 @@
     "id": "electrohack",
     "type": "TOOL",
     "category": "tools",
-    "name": "electrohack",
+    "name": { "str": "electrohack" },
     "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 25 charges of battery power per use.",
     "weight": "114 g",
     "volume": "500 ml",
@@ -292,7 +292,7 @@
     "id": "hand_crank_charger",
     "type": "TOOL",
     "category": "tools",
-    "name": "hand-crank charger",
+    "name": { "str": "hand-crank charger" },
     "description": "This is a hand-powered battery charger.  It has an adjustable receptacle designed to accept a wide variety of rechargeable battery cells.",
     "weight": "2000 g",
     "volume": "500 ml",
@@ -405,7 +405,7 @@
   {
     "id": "portable_game",
     "type": "TOOL",
-    "name": "handheld game system",
+    "name": { "str": "handheld game system" },
     "description": "This is a portable games console in working condition, with a backlit screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires batteries.",
     "weight": "200 g",
     "volume": "500 ml",
