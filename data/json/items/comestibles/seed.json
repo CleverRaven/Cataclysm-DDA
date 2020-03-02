@@ -577,6 +577,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_raw_burdock",
+    "copy-from": "seed",
+    "name": { "str": "burdock seeds", "str_pl": "burdock seeds" },
+    "color": "green",
+    "description": "Some burdock seeds.",
+    "charges": 2,
+    "seed_data": { "plant_name": "burdock", "fruit": "raw_burdock", "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_rhubarb",
     "copy-from": "seed",
     "name": { "str": "rhubarb stems", "str_pl": "rhubarb stems" },
