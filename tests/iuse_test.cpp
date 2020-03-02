@@ -315,35 +315,48 @@ TEST_CASE( "towel", "[iuse][towel]" )
 {
     avatar dummy;
 
-    // Dry and wet towels
-    item &towel_dry = dummy.i_add( item( "towel", 0, item::default_charges_tag{} ) );
-    REQUIRE_FALSE( towel_dry.has_flag( flag_WET ) );
-    item &towel_wet = dummy.i_add( item( "towel_wet", 0, item::default_charges_tag{} ) );
-    REQUIRE( towel_wet.has_flag( flag_WET ) );
+    item &towel = dummy.i_add( item( "towel", 0, item::default_charges_tag{} ) );
 
     GIVEN( "player is wet" ) {
-        dummy.drench( 100, { bp_torso }, false );
+        // Saturate torso, head, and both arms
+        dummy.drench( 100, { bp_torso, bp_head, bp_arm_l, bp_arm_r }, false );
         REQUIRE( dummy.body_wetness[bp_torso] > 0 );
+        REQUIRE( dummy.body_wetness[bp_head] > 0 );
+        REQUIRE( dummy.body_wetness[bp_arm_l] > 0 );
+        REQUIRE( dummy.body_wetness[bp_arm_r] > 0 );
 
-        WHEN( "they use a wet towel" ) {
-            dummy.invoke_item( &towel_wet );
+        // FIXME: Morale alone is the trigger for drying off!
+        // Without the morale modifier, towel_common thinks you're dry
+        dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
 
-            THEN( "it does not dry them off" ) {
-                CHECK( dummy.body_wetness[bp_torso] > 0 );
-            }
-        }
-
-        /* FIXME
-         * This fails, not sure why...
-         *
         WHEN( "they use a dry towel" ) {
-            dummy.invoke_item( &towel_dry );
+            REQUIRE_FALSE( towel.has_flag( flag_WET ) );
+            dummy.invoke_item( &towel );
 
             THEN( "it dries them off" ) {
                 CHECK( dummy.body_wetness[bp_torso] == 0 );
+                CHECK( dummy.body_wetness[bp_head] == 0 );
+                CHECK( dummy.body_wetness[bp_arm_l] == 0 );
+                CHECK( dummy.body_wetness[bp_arm_r] == 0 );
+
+                AND_THEN( "the towel becomes wet" ) {
+                    CHECK( towel.typeId() == "towel_wet" );
+                }
             }
         }
-        */
+
+        WHEN( "they use a wet towel" ) {
+            towel.convert( "towel_wet" );
+            REQUIRE( towel.has_flag( flag_WET ) );
+            dummy.invoke_item( &towel );
+
+            THEN( "it does not dry them off" ) {
+                CHECK( dummy.body_wetness[bp_torso] > 0 );
+                CHECK( dummy.body_wetness[bp_head] > 0 );
+                CHECK( dummy.body_wetness[bp_arm_l] > 0 );
+                CHECK( dummy.body_wetness[bp_arm_r] > 0 );
+            }
+        }
     }
 
     GIVEN( "player has poor morale due to being wet" ) {
@@ -351,7 +364,9 @@ TEST_CASE( "towel", "[iuse][towel]" )
         REQUIRE( dummy.has_morale( MORALE_WET ) == -10 );
 
         WHEN( "they use a wet towel" ) {
-            dummy.invoke_item( &towel_wet );
+            towel.convert( "towel_wet" );
+            REQUIRE( towel.has_flag( flag_WET ) );
+            dummy.invoke_item( &towel );
 
             THEN( "it does not improve their morale" ) {
                 CHECK( dummy.has_morale( MORALE_WET ) == -10 );
@@ -359,10 +374,15 @@ TEST_CASE( "towel", "[iuse][towel]" )
         }
 
         WHEN( "they use a dry towel" ) {
-            dummy.invoke_item( &towel_dry );
+            REQUIRE_FALSE( towel.has_flag( flag_WET ) );
+            dummy.invoke_item( &towel );
 
             THEN( "it improves their morale" ) {
                 CHECK( dummy.has_morale( MORALE_WET ) == 0 );
+
+                AND_THEN( "the towel becomes wet" ) {
+                    CHECK( towel.typeId() == "towel_wet" );
+                }
             }
         }
     }
@@ -375,13 +395,18 @@ TEST_CASE( "towel", "[iuse][towel]" )
         REQUIRE( dummy.has_effect( efftype_id( "boomered" ) ) );
         REQUIRE( dummy.has_effect( efftype_id( "glowing" ) ) );
 
-        WHEN( "they use a dry towel once" ) {
-            dummy.invoke_item( &towel_dry );
+        WHEN( "they use a dry towel" ) {
+            REQUIRE_FALSE( towel.has_flag( flag_WET ) );
+            dummy.invoke_item( &towel );
 
             THEN( "it removes all those effects at once" ) {
                 CHECK_FALSE( dummy.has_effect( efftype_id( "slimed" ) ) );
                 CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
                 CHECK_FALSE( dummy.has_effect( efftype_id( "glowing" ) ) );
+
+                AND_THEN( "the towel becomes soiled" ) {
+                    CHECK( towel.typeId() == "towel_soiled" );
+                }
             }
         }
     }
@@ -392,11 +417,16 @@ TEST_CASE( "towel", "[iuse][towel]" )
         REQUIRE( abs( dummy.has_morale( MORALE_WET ) ) );
 
         WHEN( "they use a dry towel" ) {
-            dummy.invoke_item( &towel_dry );
+            REQUIRE_FALSE( towel.has_flag( flag_WET ) );
+            dummy.invoke_item( &towel );
 
             THEN( "it removes the boomered effect, but not the wetness" ) {
                 CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
                 CHECK( abs( dummy.has_morale( MORALE_WET ) ) );
+
+                AND_THEN( "the towel becomes soiled" ) {
+                    CHECK( towel.typeId() == "towel_soiled" );
+                }
             }
         }
     }
