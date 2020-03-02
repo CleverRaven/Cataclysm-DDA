@@ -59,6 +59,7 @@
     "category": "spare_parts",
     "name": "liquid mercury",
     "description": "Elemental liquid mercury.  Known for its use in thermometers.",
+    "stack_size": 250,
     "volume": "1 ml",
     "phase": "liquid",
     "container": "flask_glass",
