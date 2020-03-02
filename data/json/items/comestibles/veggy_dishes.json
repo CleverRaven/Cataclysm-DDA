@@ -78,7 +78,7 @@
     "description": "Wild burdocks that have been battered and deep-fried.  Very tasty and nutritious.",
     "price": 250,
     "material": "veggy",
-    "volume": "500",
+    "volume": "500 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5
   },
