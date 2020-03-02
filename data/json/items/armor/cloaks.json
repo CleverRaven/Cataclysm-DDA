@@ -1,9 +1,9 @@
 [
   {
     "id": "american_flag",
-    "repairs_like": "miner_hat",
+    "repairs_like": "sheet",
     "type": "ARMOR",
-    "name": "American flag",
+    "name": { "str": "American flag" },
     "description": "A large American flag made to fly in even the worst conditions.",
     "weight": "3404 g",
     "volume": "2 L",
@@ -20,6 +20,27 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "cape_fp",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "name": { "str": "Foodperson's cape" },
+    "description": "A brightly-colored cape emblazoned with the \"Fp\" symbol.",
+    "weight": "900 g",
+    "volume": "3 L",
+    "price": 5000,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "]",
+    "looks_like": "cloak",
+    "color": "pink",
+    "covers": [ "TORSO" ],
+    "coverage": 50,
+    "encumbrance": 4,
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "BELTED" ]
   },
   {
     "id": "cloak",
@@ -109,7 +130,7 @@
     "id": "jedi_cloak",
     "repairs_like": "cloak",
     "type": "ARMOR",
-    "name": "Jedi cloak",
+    "name": { "str": "Jedi cloak" },
     "description": "Long, flowing robes.  Simple and comfortable to wear.  Be sure to tear it off dramatically before fighting any foes!",
     "weight": "1587 g",
     "volume": "2500 ml",
@@ -130,7 +151,7 @@
   {
     "id": "optical_cloak",
     "type": "ARMOR",
-    "name": "FB51 optical cloak",
+    "name": { "str": "FB51 optical cloak" },
     "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  You must be carrying a unified power supply, or UPS, to use it.  Activate to toggle visibility.",
     "weight": "1552 g",
     "volume": "3500 ml",

@@ -3,7 +3,7 @@
     "type": "ammunition_type",
     "id": "ammo_black_powder",
     "//": "a combination flintlock and cap and ball type ammo.  Just roll with it.",
-    "name": "standard pistol ammo",
+    "name": "black powder ammo",
     "default": "black_powder_ball"
   },
   {

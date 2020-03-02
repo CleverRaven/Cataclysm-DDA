@@ -35,13 +35,7 @@
 #include "colony.h"
 #include "player_activity.h"
 #include "regional_settings.h"
-
-static const efftype_id effect_glare( "glare" );
-static const efftype_id effect_snow_glare( "snow_glare" );
-static const efftype_id effect_sleep( "sleep" );
-
-static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
-static const trait_id trait_FEATHERS( "FEATHERS" );
+#include "cata_string_consts.h"
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -65,8 +59,8 @@ void weather_effect::glare( sun_intensity intensity )
 {
     //General prepequisites for glare
     if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
-        g->u.worn_with_flag( "SUN_GLASSES" ) ||
-        g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ||
+        g->u.worn_with_flag( flag_SUN_GLASSES ) ||
+        g->u.has_bionic( bio_sunglasses ) ||
         g->u.is_blind() ) {
         return;
     }
@@ -158,7 +152,8 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
 
         weather_type wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
-        data.wind_amount += get_local_windpower( g->weather.windspeed, overmap_buffer.ter( location ),
+        data.wind_amount += get_local_windpower( g->weather.windspeed,
+                            overmap_buffer.ter( ms_to_omt_copy( location ) ),
                             location,
                             g->weather.winddirection, false ) * to_turns<int>( tick_size );
     }
@@ -637,7 +632,7 @@ std::string weather_forecast( const point &abs_sm_pos )
             day = _( "Today" );
             started_at_night = false;
         }
-        if( d > 0 && started_at_night != d % 2 ) {
+        if( d > 0 && static_cast<int>( started_at_night ) != d % 2 ) {
             day = string_format( pgettext( "Mon Night", "%s Night" ), to_string( day_of_week( c ) ) );
         } else {
             day = to_string( day_of_week( c ) );
@@ -990,13 +985,13 @@ void weather_manager::update_weather()
         const weather_datum wdata = weather_data( weather );
         if( weather != old_weather && wdata.dangerous &&
             g->get_levz() >= 0 && g->m.is_outside( g->u.pos() )
-            && !g->u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
+            && !g->u.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                                 string_format( _( "The weather changed to %s!" ), wdata.name ) );
         }
 
-        if( weather != old_weather && g->u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
-            g->u.assign_activity( activity_id( "ACT_WAIT_WEATHER" ), 0, 0 );
+        if( weather != old_weather && g->u.has_activity( ACT_WAIT_WEATHER ) ) {
+            g->u.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
         }
 
         if( wdata.sight_penalty !=

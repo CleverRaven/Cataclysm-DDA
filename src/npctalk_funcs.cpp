@@ -52,8 +52,6 @@
 
 struct itype;
 
-#define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
-
 void spawn_animal( npc &p, const mtype_id &mon );
 
 void talk_function::nothing( npc & )
@@ -762,6 +760,8 @@ void talk_function::leave( npc &p )
     }
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     p.set_attitude( NPCATT_NULL );
+    p.mission = NPC_MISSION_NULL;
+    p.long_term_goal_action();
 }
 
 void talk_function::stop_following( npc &p )

@@ -1024,11 +1024,11 @@ static activity_reason_info find_base_construction(
     player &p,
     const inventory &inv,
     const tripoint &loc,
-    const cata::optional<size_t> &part_con_idx,
-    const size_t idx,
-    std::set<size_t> &used )
+    const cata::optional<construction_id> &part_con_idx,
+    const construction_id idx,
+    std::set<construction_id> &used )
 {
-    const construction &build = list_constructions[idx];
+    const construction &build = idx.obj();
     //already done?
     const furn_id furn = g->m.furn( loc );
     const ter_id ter = g->m.ter( loc );
@@ -1088,7 +1088,7 @@ static activity_reason_info find_base_construction(
     //we can't immediately build it, looking for pre-req
     used.insert( idx );
     cata::optional<do_activity_reason> reason;
-    size_t pre_req_idx = 0;
+    construction_id pre_req_idx( -1 );
     //first step: try only constructions with the same description
     //second step: try all constructions
     for( int try_num = 0; try_num < 2; ++try_num ) {
@@ -1425,14 +1425,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 corpses.push_back( i );
             }
         }
-        bool has_table_nearby = false;
-        for( const tripoint &pt : g->m.points_in_radius( src_loc, 2 ) ) {
-            if( g->m.has_flag_furn( flag_FLAT_SURF, pt ) || g->m.has_flag( flag_FLAT_SURF, pt ) ||
-                ( ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( flag_KITCHEN ) ||
-                                           g->m.veh_at( pt )->vehicle().has_part( flag_FLAT_SURF ) ) ) ) ) {
-                has_table_nearby = true;
-            }
-        }
         bool b_rack_present = false;
         for( const tripoint &pt : g->m.points_in_radius( src_loc, 2 ) ) {
             if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
@@ -1441,7 +1433,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         }
         if( !corpses.empty() ) {
             if( big_count > 0 && small_count == 0 ) {
-                if( !has_table_nearby || !b_rack_present ) {
+                if( !b_rack_present || !g->m.has_nearby_table( src_loc, 2 ) ) {
                     return activity_reason_info::fail( NO_ZONE );
                 }
                 if( p.has_quality( quality_id( qual_BUTCHER ), 1 ) && ( p.has_quality( qual_SAW_W ) ||
@@ -1487,7 +1479,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         zones = mgr.get_zones( zone_type_CONSTRUCTION_BLUEPRINT,
                                g->m.getabs( src_loc ) );
         const partial_con *part_con = g->m.partial_con_at( src_loc );
-        cata::optional<size_t> part_con_idx;
+        cata::optional<construction_id> part_con_idx;
         if( part_con ) {
             part_con_idx = part_con->id;
         }
@@ -1497,13 +1489,13 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         const inventory pre_inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
         for( const zone_data &zone : zones ) {
             const blueprint_options options = dynamic_cast<const blueprint_options &>( zone.get_options() );
-            const int index = options.get_index();
+            const construction_id index = options.get_index();
             if( !stuff_there.empty() ) {
-                return activity_reason_info::build( BLOCKING_TILE, false, static_cast<size_t>( index ) );
+                return activity_reason_info::build( BLOCKING_TILE, false, index );
             }
-            std::set<size_t> used_idx;
+            std::set<construction_id> used_idx;
             const activity_reason_info act_info = find_base_construction( list_constructions, p, pre_inv,
-                                                  src_loc, part_con_idx, static_cast<size_t>( index ), used_idx );
+                                                  src_loc, part_con_idx, index, used_idx );
             return act_info;
         }
     } else if( act == ACT_MULTIPLE_FARM ) {
@@ -1531,7 +1523,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     const std::string seed = options.get_seed();
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                     // then it means no further work can be done here
-                    if( seed == "No seed" ) {
+                    if( seed.empty() ) {
                         return activity_reason_info::fail( ALREADY_DONE );
                     }
                     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
@@ -1846,7 +1838,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
 }
 
 static void construction_activity( player &p, const zone_data *zone, const tripoint &src_loc,
-                                   const activity_reason_info &act_info, const std::vector<construction> &list_constructions,
+                                   const activity_reason_info &act_info,
                                    activity_id activity_to_restore )
 {
     const blueprint_options options = dynamic_cast<const blueprint_options &>( zone->get_options() );
@@ -1855,7 +1847,7 @@ static void construction_activity( player &p, const zone_data *zone, const tripo
         debugmsg( "no construction selected" );
         return;
     }
-    const construction &built_chosen = list_constructions[*act_info.con_idx];
+    const construction &built_chosen = act_info.con_idx->obj();
     std::list<item> used;
     // create the partial construction struct
     partial_con pc;
@@ -1950,7 +1942,6 @@ static void fetch_activity( player &p, const tripoint &src_loc,
         src_veh = &vp->vehicle();
         src_part = vp->part_index();
     }
-    std::string picked_up;
     const units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     const units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
     // TODO: vehicle_stack and map_stack into one loop.
@@ -2000,18 +1991,17 @@ static void fetch_activity( player &p, const tripoint &src_loc,
                     }
                     it.set_var( "activity_var", p.name );
                     p.i_add( it );
-                    picked_up = it.tname();
+                    if( p.is_npc() ) {
+                        if( pickup_count == 1 ) {
+                            add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), it.tname() );
+                        } else {
+                            add_msg( _( "%s picks up several items." ), p.disp_name() );
+                        }
+                    }
                     items_there.erase( item_iter );
                     // If we didn't pick up a whole stack, put the remainder back where it came from.
                     if( leftovers.charges > 0 ) {
                         g->m.add_item_or_charges( src_loc, leftovers );
-                    }
-                    if( p.is_npc() && !picked_up.empty() ) {
-                        if( pickup_count == 1 ) {
-                            add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), picked_up );
-                        } else {
-                            add_msg( _( "%s picks up several items." ), p.disp_name() );
-                        }
                     }
                     return;
                 }
@@ -2448,9 +2438,8 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
                 }
             }
         }
-    }
-    zone_type_id zone_type = get_zone_for_act( tripoint_zero, mgr, act_id );
-    if( act_id != ACT_FETCH_REQUIRED ) {
+    } else if( act_id != ACT_FETCH_REQUIRED ) {
+        zone_type_id zone_type = get_zone_for_act( tripoint_zero, mgr, act_id );
         src_set = mgr.get_near( zone_type_id( zone_type ), abspos, ACTIVITY_SEARCH_DISTANCE );
         // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
         if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
@@ -2512,7 +2501,6 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
 {
     const tripoint abspos = g->m.getabs( p.pos() );
     zone_manager &mgr = zone_manager::get_manager();
-    const std::vector<construction> &list_constructions = get_constructions();
 
     bool &can_do_it = act_info.can_do;
     const do_activity_reason &reason = act_info.reason;
@@ -2573,7 +2561,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
                 return true;
             }
             // its a construction and we need the components.
-            const construction &built_chosen = list_constructions[ *act_info.con_idx ];
+            const construction &built_chosen = act_info.con_idx->obj();
             what_we_need = built_chosen.requirements;
         } else if( reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ) {
             const vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
@@ -2681,7 +2669,6 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
                                        const tripoint &src, const tripoint &src_loc )
 {
     zone_manager &mgr = zone_manager::get_manager();
-    const std::vector<construction> &list_constructions = get_constructions();
 
     const do_activity_reason &reason = act_info.reason;
     const zone_data *zone = mgr.get_zone_at( src, get_zone_for_act( src_loc, mgr, act_id ) );
@@ -2710,7 +2697,8 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
                 continue;
             }
             iexamine::plant_seed( p, src_loc, itype_id( seed ) );
-            break;
+            p.backlog.push_front( act_id );
+            return false;
         }
     } else if( reason == NEEDS_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
         if( chop_plank_activity( p, src_loc ) ) {
@@ -2729,7 +2717,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
             p.activity.placement = src;
             return false;
         }
-        construction_activity( p, zone, src_loc, act_info, list_constructions, act_id );
+        construction_activity( p, zone, src_loc, act_info, act_id );
         return false;
     } else if( reason == CAN_DO_FETCH && act_id == ACT_TIDY_UP ) {
         if( !tidy_activity( p, src_loc, act_id, ACTIVITY_SEARCH_DISTANCE ) ) {

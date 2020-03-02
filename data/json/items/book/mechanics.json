@@ -23,7 +23,7 @@
     "id": "mag_fieldrepair",
     "copy-from": "book_magazine",
     "type": "BOOK",
-    "name": "army improvised field repairs manual",
+    "name": { "str": "army improvised field repairs manual" },
     "description": "A compact manual with faded print detailing a number of improvised field repairs that can be made to vehicles.",
     "skill": "mechanics"
   },

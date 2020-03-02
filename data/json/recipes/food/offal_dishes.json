@@ -94,7 +94,7 @@
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "liver", 3 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
+      [ [ "fry_oil", 1, "LIST" ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "batter", 4, "LIST" ] ],
       [ [ "salt", 1 ] ],
@@ -166,7 +166,8 @@
     "difficulty": 3,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "stewed_tripe", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ] ]
+    "//": "No frying_oil as a tool, so this must be pan fried, not deep fried",
+    "components": [ [ [ "stewed_tripe", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "fry_oil", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -286,9 +287,9 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "liver", 8 ] ]
+      [ [ "liver", 4 ] ]
     ],
-    "charges": 8,
+    "charges": 4,
     "autolearn": true
   },
   {

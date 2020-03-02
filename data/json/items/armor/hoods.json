@@ -1,7 +1,7 @@
 [
   {
     "id": "beekeeping_hood",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": "beekeeping hood",
     "description": "A beekeeping hood.  Keeps the bees out, but lets fresh air in.  Rather cumbersome to wear, as it is rather bulky and hinders vision.",
@@ -156,7 +156,7 @@
     "id": "hood_xlsurvivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "XL survivor hood",
+    "name": { "str": "XL survivor hood" },
     "description": "A massive customized, heavily armored leather and Kevlar hood, designed to provide comfort and protection from harm.",
     "weight": "1640 g",
     "volume": "4500 ml",

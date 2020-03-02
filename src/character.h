@@ -352,11 +352,13 @@ class Character : public Creature, public visitable<Character>
         virtual int get_thirst() const;
         /** Gets character's minimum hunger and thirst */
         int stomach_capacity() const;
-        virtual std::pair<std::string, nc_color> get_thirst_description() const;
-        virtual std::pair<std::string, nc_color> get_hunger_description() const;
-        virtual std::pair<std::string, nc_color> get_fatigue_description() const;
-        virtual int get_fatigue() const;
-        virtual int get_sleep_deprivation() const;
+        std::pair<std::string, nc_color> get_thirst_description() const;
+        std::pair<std::string, nc_color> get_hunger_description() const;
+        std::pair<std::string, nc_color> get_fatigue_description() const;
+        int get_fatigue() const;
+        int get_sleep_deprivation() const;
+
+        std::pair<std::string, nc_color> get_pain_description() const override;
 
         /** Modifiers for need values exclusive to characters */
         virtual void mod_stored_kcal( int nkcal );
@@ -377,6 +379,9 @@ class Character : public Creature, public visitable<Character>
 
         /**Get bonus to max_hp from excess stored fat*/
         int get_fat_to_hp() const;
+
+        /** Get size class of character **/
+        m_size get_size() const override;
 
         /** Returns either "you" or the player's name. capitalize_first assumes
             that the character's name is already upper case and uses it only for
@@ -458,8 +463,12 @@ class Character : public Creature, public visitable<Character>
         /** Equalizes heat between body parts */
         void temp_equalizer( body_part bp1, body_part bp2 );
 
+        struct comfort_response_t {
+            comfort_level level;
+            const item *aid = nullptr;
+        };
         /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
-        comfort_level base_comfort_value( const tripoint &p ) const;
+        comfort_response_t base_comfort_value( const tripoint &p ) const;
 
         /** Define blood loss (in percents) */
         int blood_loss( body_part bp ) const;
@@ -758,8 +767,6 @@ class Character : public Creature, public visitable<Character>
 
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
 
-        void serialize_consumption_history( JsonOut jsout ) const;
-        void deserialize_consumption_history( JsonArray jarr );
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
@@ -1296,7 +1303,11 @@ class Character : public Creature, public visitable<Character>
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
         /** Returns the player's skill rust rate */
-        int rust_rate( bool return_stat_effect = true ) const;
+        int rust_rate() const;
+
+        // Mental skills and stats
+        /** Returns the player's reading speed */
+        int read_speed( bool return_stat_effect = true ) const;
 
         // --------------- Other Stuff ---------------
 
@@ -1858,6 +1869,8 @@ class Character : public Creature, public visitable<Character>
 
         /**height at character creation*/
         int init_height = 175;
+        /** Size class of character. */
+        m_size size_class = MS_MEDIUM;
 
         // the player's activity level for metabolism calculations
         float activity_level = NO_EXERCISE;

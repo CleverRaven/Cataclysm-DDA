@@ -173,9 +173,6 @@ void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
     m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
 }
 
-#define autorotate(x) mapgen_rotate(m, terrain_type, x)
-#define autorotate_down() mapgen_rotate(m, terrain_type, true)
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ///// builtin terrain-specific mapgen functions. big multi-overmap-tile terrains are located in
 ///// mapgen_functions_big.cpp
@@ -2675,6 +2672,7 @@ void mapgen_tutorial( mapgendata &dat )
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 5 ), "bubblewrap" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 6 ), "grenade" );
         m->spawn_item( point( SEEX * 2 - 3, SEEY + 6 ), "flashlight" );
+        m->spawn_item( point( SEEX * 2 - 3, SEEY + 6 ), "light_disposable_cell" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 7 ), "cig" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 7 ), "codeine" );
         m->spawn_item( point( SEEX * 2 - 3, SEEY + 7 ), "water" );
@@ -3548,7 +3546,7 @@ static void stairs_debug_log( const map *const m, const std::string &msg, const 
             << " tripoint: " << p
             << " terrain: " << p_ter.name()
             << " movecost: " << p_ter.movecost
-            << " furniture: " << m->furn( p )
+            << " furniture: " << m->furn( p ).to_i()
             << " indoors: " << p_ter.has_flag( "INDOORS" )
             << " flat: " << p_ter.has_flag( "FLAT" )
             ;

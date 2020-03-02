@@ -370,7 +370,7 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 m",
+    "time": "1 h",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
@@ -451,6 +451,25 @@
     "using": [ [ "welding_standard", 1 ] ],
     "qualities": [ { "id": "DRILL", "level": 3 } ],
     "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "turret_mount",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 3,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 3 ], [ "steel_standard", 2 ], [ "soldering_standard", 10 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [ [ [ "pipe", 3 ] ], [ [ "motor_tiny", 2 ] ], [ [ "spring", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",

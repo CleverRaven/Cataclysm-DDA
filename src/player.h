@@ -442,8 +442,6 @@ class player : public Character
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
         // Mental skills and stats
-        /** Returns the player's reading speed */
-        int read_speed( bool return_stat_effect = true ) const;
         /** Returns a value used when attempting to convince NPC's of something */
         int talk_skill() const;
         /** Returns a value used when attempting to intimidate NPC's */
@@ -511,10 +509,6 @@ class player : public Character
         bool eat( item &food, bool force = false );
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
-
-        std::pair<std::string, nc_color> get_hunger_description() const override;
-
-        std::pair<std::string, nc_color> get_pain_description() const override;
 
         int get_lift_assist() const;
 
@@ -969,7 +963,6 @@ class player : public Character
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
 
-        m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
         int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;

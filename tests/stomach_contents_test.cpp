@@ -50,6 +50,8 @@ static time_duration time_until_hungry( player &p )
 {
     unsigned int thirty_minutes = 0;
     do {
+        p.set_sleep_deprivation( 0 );
+        p.set_fatigue( 0 );
         pass_time( p, 30_minutes );
         thirty_minutes++;
     } while( p.get_hunger() < 40 ); // hungry
@@ -83,7 +85,7 @@ static void eat_all_nutrients( player &p )
 
 // how long does it take to starve to death
 // player does not thirst or tire or require vitamins
-TEST_CASE( "starve_test" )
+TEST_CASE( "starve_test", "[starve]" )
 {
     // change this bool when editing the test
     const bool print_tests = false;
@@ -113,7 +115,7 @@ TEST_CASE( "starve_test" )
 
 // how long does it take to starve to death with extreme metabolism
 // player does not thirst or tire or require vitamins
-TEST_CASE( "starve_test_hunger3" )
+TEST_CASE( "starve_test_hunger3", "[starve]" )
 {
     // change this bool when editing the test
     const bool print_tests = false;
@@ -130,7 +132,7 @@ TEST_CASE( "starve_test_hunger3" )
     unsigned int day = 0;
     do {
         if( print_tests ) {
-            printf( "day %d: %d\n", day, dummy.get_stored_kcal() );
+            printf( "day %u: %d\n", day, dummy.get_stored_kcal() );
         }
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );
@@ -146,7 +148,7 @@ TEST_CASE( "starve_test_hunger3" )
 }
 
 // does eating enough food per day keep you alive
-TEST_CASE( "all_nutrition_starve_test" )
+TEST_CASE( "all_nutrition_starve_test", "[starve]" )
 {
     // change this bool when editing the test
     const bool print_tests = false;
@@ -160,7 +162,7 @@ TEST_CASE( "all_nutrition_starve_test" )
 
     for( unsigned int day = 0; day <= 20; day++ ) {
         if( print_tests ) {
-            printf( "day %d: %d\n", day, dummy.get_stored_kcal() );
+            printf( "day %u: %d\n", day, dummy.get_stored_kcal() );
         }
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );

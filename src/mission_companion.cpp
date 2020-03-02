@@ -382,8 +382,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                                 point( part_x + MAX_FAC_NAME_SIZE, part_y + TITLE_TAB_HEIGHT + 1 ) );
 
     input_context ctxt( "FACTIONS" );
-    ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Move cursor down" ) );
+    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "PAGE_UP" );
@@ -1253,9 +1253,12 @@ bool talk_function::scavenging_raid_return( npc &p )
         }
     }
     //The loot value needs to be added to the faction - what the player is payed
+    tripoint loot_location = g->u.global_omt_location();
+    // Only check at the ground floor.
+    loot_location.z = 0;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
-        const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "house",
-                              0, false );
+        const tripoint site = overmap_buffer.find_closest( loot_location, "house", 0, false,
+                              ot_match_type::prefix );
         overmap_buffer.reveal( site, 2 );
         loot_building( site );
     }

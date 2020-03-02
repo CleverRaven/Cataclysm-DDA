@@ -107,6 +107,7 @@ class monster : public Creature
         void try_upgrade( bool pin_time );
         void try_reproduce();
         void try_biosignature();
+        void refill_udders();
         void spawn( const tripoint &p );
         m_size get_size() const override;
         units::mass get_weight() const override;
@@ -215,6 +216,10 @@ class monster : public Creature
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
                             const tripoint &nearby_destination ); // shove vehicles out of the way
+
+        // check if the given square could drown a drownable monster
+        bool is_aquatic_danger( const tripoint &at_pos );
+
         // check if a monster at a position will drown and kill it if necessary
         // returns true if the monster dies
         // chance is the one_in( chance ) that the monster will drown
@@ -548,6 +553,7 @@ class monster : public Creature
         cata::optional<time_point> baby_timer;
         bool biosignatures;
         cata::optional<time_point> biosig_timer;
+        time_point udder_timer;
         monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;

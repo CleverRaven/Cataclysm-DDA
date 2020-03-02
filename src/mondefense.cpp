@@ -12,6 +12,7 @@
 #include "bodypart.h"
 #include "creature.h"
 #include "damage.h"
+#include "dispersion.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"

@@ -60,8 +60,6 @@ class map_extra;
 #define MAX_ANT_SIZE 20
 #define MIN_GOO_SIZE 1
 #define MAX_GOO_SIZE 2
-#define MIN_RIFT_SIZE 6
-#define MAX_RIFT_SIZE 16
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
@@ -971,7 +969,7 @@ void overmap_special::finalize()
 
 void overmap_special::check() const
 {
-    std::set<int> invalid_terrains;
+    std::set<oter_id> invalid_terrains;
     std::set<tripoint> points;
 
     for( const auto &elem : terrains ) {
