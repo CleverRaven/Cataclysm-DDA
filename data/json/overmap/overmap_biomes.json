@@ -8,24 +8,24 @@
 	{
 		"type": "overmap_biome",
 		"id": "suburban",
-		"weight":300
+		"weight":50
 	},
 	
 	{
 		"type": "overmap_biome",
 		"id": "rural",
-		"weight":1000
+		"weight":100
 	},
 	
 	{
 		"type": "overmap_biome",
 		"id": "wilderness",
-		"weight":100
+		"weight":500
 	},
 	
 	{
 		"type": "overmap_biome",
 		"id": "undefined",
-		"weight":100
+		"weight":100000
 	}
 ]

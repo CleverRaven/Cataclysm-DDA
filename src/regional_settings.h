@@ -244,6 +244,7 @@ struct regional_settings {
     weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
+
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;
     forest_mapgen_settings forest_composition;

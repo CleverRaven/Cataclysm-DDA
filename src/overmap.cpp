@@ -35,11 +35,11 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "overmap_biome.h"
 #include "overmap_connection.h"
 #include "overmap_noise.h"
 #include "overmap_location.h"
 #include "overmap_types.h"
+#include "overmap_biome.h"
 #include "overmapbuffer.h"
 #include "regional_settings.h"
 #include "rng.h"
@@ -173,7 +173,7 @@ static size_t from_dir( om_direction::type dir )
 
 //const regional_settings default_region_settings;
 t_regional_settings_map region_settings_map;
-t_biomes_map biomes_map;
+t_biomes_map overmap_biomes_map;
 
 namespace
 {
@@ -1052,13 +1052,7 @@ overmap::overmap( const point &p ) : loc( p )
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
    
     // Biomes!
-    // 1. Find all regions and load them.
-    // TODO: Load Json biomes somewhere...
-    // 2. Check which region we should use, our starting region preferably should be...
-    //  the first region spawned. 
-    // 2a. Check neighbors and run some checks to filter our options.
-    
-    //Probably a good idea that we keep a default region.
+    //Probably a good idea that we keep a default region loaded at the very least.
     if (rsit == region_settings_map.end()) {
         debugmsg("overmap(%d,%d): can't find region '%s'", p.x, p.y,
             rsettings_id.c_str()); // gonna die now =[
@@ -1071,16 +1065,67 @@ overmap::overmap( const point &p ) : loc( p )
         }
     }
 
-    //1. Check region settings are compatible here, using bool is_region_suitable(region_settings rs, const point &p)
+    //Get all adjacent overmaps
+    overmap* north = overmap_buffer.get_existing(point(loc.x, loc.y + 1));
+    overmap* south = overmap_buffer.get_existing(point(loc.x, loc.y - 1));
+    overmap* east = overmap_buffer.get_existing(point(loc.x + 1, loc.y));
+    overmap* west = overmap_buffer.get_existing(point(loc.x - 1, loc.y));
+
+    //Build all into a vector
+    std::vector<std::string> adjacent_biomes;
+    
+    //Get neighbours 
+    if (north != NULL)
+        adjacent_biomes.push_back(north->settings.biome);
+    if (south != NULL)
+        adjacent_biomes.push_back(south->settings.biome);
+    if (east != NULL)
+        adjacent_biomes.push_back(east->settings.biome);
+    if (west != NULL)
+        adjacent_biomes.push_back(west->settings.biome);
+
     //TODO: Randomize through the array
     t_regional_settings_map_citr it = region_settings_map.begin();
     while (it != region_settings_map.end()) {
         std::string id = it->first;
         std::string biome = it->second.biome;
-        int weight = overmap_biomes_map[biome].weight; 
+        int weight = 100; //Default weight
 
-        //Basic check here
-        if (one_in(weight)) {
+        //Find biome
+        t_biomes_map_citr biome_it;
+
+        //Check neighbour biomes and ensure compatible
+        //...check corners too!
+        //...what if it has not loaded? Who knows?!! Will it explode?!
+        //TODO: Add to a function
+        //Figure out the multiplier based on nearby biomes
+        double multiplier = 1;
+        for (std::string b : adjacent_biomes) {
+            for (std::pair<std::string, double> element : settings.near_biomes) {
+                if (element.first == b)
+                    multiplier += element.second;
+            }
+        }
+
+        //Always use default region as starting region
+        if (it->second.id == "default" && loc.x == 0 && loc.y == 0) {
+            rsit = it;
+            break;
+        }
+
+        biome_it = overmap_biomes_map.begin();
+        biome_it = overmap_biomes_map.find(biome);
+        if (biome_it != overmap_biomes_map.end()) {
+            weight = biome_it->second.weight;
+            debugmsg("overmap (%d,%d) found weight: %d on biome %s", loc.x, loc.y, weight, biome);
+        }
+        else {
+            debugmsg("overmap (%d,%d) no default weight found, using: %d on biome %s", loc.x, loc.y, weight, biome);
+        }
+        
+        
+        //Basic random chance here to be this biome
+        if (one_in(weight * multiplier)) {
             rsit = it;
             break;
         } 

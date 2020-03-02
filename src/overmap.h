@@ -28,6 +28,7 @@
 #include "point.h"
 #include "rng.h"
 #include "string_id.h"
+#include "overmap_biome.h"
 
 class npc;
 class overmap_connection;

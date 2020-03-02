@@ -2,15 +2,19 @@
 #ifndef OVERMAP_BIOME_H
 #define OVERMAP_BIOME_H
 
-#include <vector>
+#include <map>
+#include <memory>
 #include <string>
+#include <unordered_map>
+#include <vector>
+#include <set>
 
 #include "int_id.h"
 #include "string_id.h"
 
 class JsonObject;
 
-struct overmap_biome {
+class overmap_biome {
     public:
         void load(const JsonObject &jo, const std::string &src);
         void check() const;
@@ -21,10 +25,9 @@ struct overmap_biome {
         string_id<overmap_biome> id;
 
         //Biome weight on OM
-        int weight = 100;
-        std::string name = "";
+        int weight;
+        std::string name;
         bool was_loaded = false;
-
 };
 
 namespace overmap_biomes

@@ -1,6 +1,10 @@
 #include "overmap_biome.h"
 
-#include <algorithm>
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 #include <set>
 
 #include "generic_factory.h"
@@ -10,11 +14,13 @@
 #include "debug.h"
 #include "json.h"
 
+#include "string_id.h"
+#include "int_id.h"
+
 namespace
 {
 
 	generic_factory<overmap_biome> biomes("overmap biome");
-
 } // namespace
 
 template<>
@@ -36,12 +42,14 @@ void overmap_biome::check() const
 
 void overmap_biome::finalize()
 {
-    overmap_biomes_map[name] = *this;
+    name = id.str();
+    overmap_biomes_map.insert(std::make_pair(name, *this));
 }
 
 void overmap_biome::load(const JsonObject &jo, const std::string &src)
 {
-    mandatory(jo, false, "weight", weight);
+    mandatory(jo, was_loaded, "id", id);
+    mandatory(jo, was_loaded, "weight", weight);
 }
 
 void overmap_biomes::load(const JsonObject &jo, const std::string &src)

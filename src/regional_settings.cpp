@@ -423,11 +423,19 @@ void load_region_settings(const JsonObject &jo)
         new_region.biome = "undefined"; //TODO: Change this.
     }
 
-    if (!jo.has_object("near_biomes")) {
+    if (jo.has_array("near_biomes")) {
+        for (JsonArray inner : jo.get_array("near_biomes")) {
 
+            std::string biome = inner.get_string(0);
+            double multiplier = inner.get_float(1);
+
+            debugmsg("Loaded biome %s with near biome %s with multiplier: %f", new_region.biome, biome, multiplier);
+
+            new_region.near_biomes.insert(std::make_pair(biome, multiplier));
+        }
     }
     else {
-
+        jo.throw_error("No 'near_biomes' array.");
     }
 
     bool strict = new_region.id == "default";
