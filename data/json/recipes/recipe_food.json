@@ -5186,7 +5186,7 @@
         [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
-		[ "burdock_cooked", 1 ],
+		    [ "burdock_cooked", 1 ]
       ]
     ]
   },
