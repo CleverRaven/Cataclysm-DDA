@@ -1,0 +1,93 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cemetery_4square_11" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                      1=",
+        "]]]]]]]]   11111111  7$=",
+        "]]]]]]]]              1=",
+        " SMS  ]] 1$$$$$$1$$$$ 7=",
+        "  ]   ]] 1--0---G---$ 7=",
+        "]]]]]]]] 1-TT_,,n,,-$ $=",
+        "      ]] $G,,_,,,,,G$ 7=",
+        "      ]] $G_+_,,T,,G$ $=",
+        " 7    ]] S-,,,,,,,,-$ $=",
+        "      ]]]]+,,,,bbb,G$ $=",
+        "      ]]]]+,,,,,,,,G$ 7=",
+        "      ]] S-,,S,bbb,-$ 7=",
+        " 7    ]] $G,,,,,,,,G$ 1=",
+        "      ]] $G,,_,bbb,G$ 1=",
+        "      ]] 1-,f_,,,,,-$ 7=",
+        "      ]] 1--GG--GG--$ 7=",
+        " 7    ]] 1$$$$$$$$$$$ $=",
+        "     ]]]              $=",
+        "    ]]]]    777  777  7=",
+        "   ]]] ]              $=",
+        "  ]]]7iSi7  777  777  1=",
+        "]]]] 7---7            1=",
+        "$$11 11711 $$177$117$77=",
+        "========================"
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "$": [ "t_shrub", "t_shrub", "t_shrub", "t_underbrush", "t_underbrush", "t_tree_young" ],
+        "+": [ "t_door_locked", "t_door_locked", "t_door_locked", "t_door_locked", "t_door_locked", "t_door_c" ],
+        ",": "t_floor",
+        "-": "t_rock_smooth",
+        ".": "t_pavement",
+        "0": "t_window_domestic",
+        "1": [ "t_tree_young", "t_tree_young", "t_tree_young", "t_tree_young", "t_tree", "t_shrub" ],
+        "7": [ "t_tree", "t_tree", "t_tree_willow" ],
+        ":": "t_pavement_y",
+        "<": "t_stairs_up",
+        "=": "t_rock_wall_half",
+        ">": "t_stairs_down",
+        "G": [ "t_window_stained_green", "t_window_stained_green", "t_window_stained_red", "t_window_stained_blue" ],
+        "O": "t_chainfence_posts",
+        "]": "t_sidewalk",
+        "_": "t_wall",
+        "a": "t_wall_glass_alarm",
+        "d": "t_door_glass_c",
+        "i": "t_column",
+        "o": "t_fencegate_o"
+      },
+      "furniture": {
+        "8": "f_shackle",
+        "M": "f_grave_monument",
+        "P": "f_sign",
+        "S": "f_statue",
+        "T": "f_table",
+        "^": "f_grave_stone",
+        "a": "f_sink",
+        "b": "f_bench",
+        "c": "f_counter",
+        "f": "f_rack",
+        "g": [
+          "f_grave_head",
+          "f_grave_head",
+          "f_grave_head",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone",
+          "f_grave_stone_old",
+          "f_statue"
+        ],
+        "h": "f_grave_head",
+        "n": "f_slab",
+        "r": "f_rubble_rock",
+        "x": "f_grave_stone_old"
+      },
+      "place_items": [
+        { "item": "church", "x": [ 14, 18 ], "y": [ 5, 14 ], "chance": 65 },
+        { "item": "church", "x": [ 11, 12 ], "y": [ 5, 6 ], "chance": 65 },
+        { "item": "jackets", "x": [ 12 ], "y": [ 14 ], "chance": 50 }
+      ]
+    }
+  }
+]
