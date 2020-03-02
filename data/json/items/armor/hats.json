@@ -160,7 +160,7 @@
     "id": "hat_ball",
     "repairs_like": "balclava",
     "type": "ARMOR",
-    "name": "baseball cap",
+    "name": { "str": "baseball cap" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
     "description": "A Red Sox cap.  It provides a little bit of warmth.",
     "weight": "88 g",

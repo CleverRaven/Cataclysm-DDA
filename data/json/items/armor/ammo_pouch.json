@@ -74,7 +74,7 @@
   {
     "id": "ammo_satchel",
     "type": "ARMOR",
-    "name": "ammo satchel",
+    "name": { "str": "ammo satchel" },
     "description": "A fabric ammo bag worn at the waist which is capable of holding a single large magazine close at hand.",
     "weight": "180 g",
     "volume": "500 ml",

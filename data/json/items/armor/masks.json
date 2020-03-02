@@ -2,7 +2,7 @@
   {
     "id": "balclava",
     "type": "ARMOR",
-    "name": "balaclava",
+    "name": { "str": "balaclava" },
     "description": "A warm covering that protects the head and face from the cold.",
     "weight": "40 g",
     "volume": "250 ml",
@@ -21,7 +21,7 @@
   {
     "id": "bandana",
     "type": "ARMOR",
-    "name": "bandana",
+    "name": { "str": "bandana" },
     "description": "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
     "weight": "42 g",
     "volume": "250 ml",
@@ -105,7 +105,7 @@
     "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
-    "name": "ballistic mask",
+    "name": { "str": "ballistic mask" },
     "description": "A protective reinforced Kevlar mask that covers the face.  Provides excellent protection from ballistic threats.",
     "weight": "512 g",
     "volume": "750 ml",
