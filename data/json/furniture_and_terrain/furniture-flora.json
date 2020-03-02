@@ -33,7 +33,7 @@
     "name": "burdock",
     "description": "A common weed with a purple thistle-like flower.  It seeds tend to stick to clothing and fur.",
     "symbol": "f",
-    "color": "magneta",
+    "color": "magenta",
     "looks_like": "f_dandelion",
     "move_cost_mod": 0,
     "required_str": -1,
