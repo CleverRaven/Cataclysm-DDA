@@ -430,7 +430,7 @@
     "id": "maid_hat",
     "repairs_like": "balclava",
     "type": "ARMOR",
-    "name": "French maid hat",
+    "name": { "str": "French maid hat" },
     "description": "A frilly white headpiece.",
     "weight": "10 g",
     "volume": "250 ml",

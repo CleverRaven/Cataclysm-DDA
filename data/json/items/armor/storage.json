@@ -592,7 +592,7 @@
     "id": "molle_pack",
     "repairs_like": "bigback",
     "type": "ARMOR",
-    "name": "MOLLE pack",
+    "name": { "str": "MOLLE pack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military backpack.  Covered with pockets and straps, it strikes a fine balance between storage space and encumbrance.",
     "weight": "966 g",
     "volume": "2500 ml",

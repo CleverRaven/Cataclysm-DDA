@@ -1358,7 +1358,7 @@
     "id": "badge_swat",
     "copy-from": "badge_abstract",
     "type": "ARMOR",
-    "name": "SWAT badge",
+    "name": { "str": "SWAT badge" },
     "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the bots just aren't enough."
   },
   {
@@ -1375,7 +1375,7 @@
     "id": "badge_foodkid",
     "copy-from": "badge_abstract",
     "type": "ARMOR",
-    "name": "Foodkid badge",
+    "name": { "str": "Foodkid badge" },
     "material": [ "plastic" ],
     "price_postapoc": 30,
     "weight": "10 g",

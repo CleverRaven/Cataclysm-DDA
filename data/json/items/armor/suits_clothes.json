@@ -90,7 +90,7 @@
   {
     "id": "jumpsuit_xl",
     "type": "ARMOR",
-    "name": "XL jumpsuit",
+    "name": { "str": "XL jumpsuit" },
     "description": "A thin, short-sleeved jumpsuit updated for the trans-human who needs full-body clothing.  Provides some storage and is adjustable to minimize encumbrance.",
     "weight": "810 g",
     "volume": "5 L",
@@ -114,7 +114,7 @@
     "type": "ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "jumpsuit",
-    "name": "Hub 01 jumpsuit",
+    "name": { "str": "Hub 01 jumpsuit" },
     "description": "A brown jumpsuit worn by the staff of Hub 01.",
     "color": "brown"
   },
