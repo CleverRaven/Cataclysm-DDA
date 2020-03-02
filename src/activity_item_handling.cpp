@@ -1841,7 +1841,6 @@ static void construction_activity( player &p, const zone_data *zone, const tripo
                                    const activity_reason_info &act_info,
                                    const activity_id &activity_to_restore )
 {
-    const blueprint_options &options = dynamic_cast<const blueprint_options &>( zone->get_options() );
     // the actual desired construction
     if( !act_info.con_idx ) {
         debugmsg( "no construction selected" );
@@ -2631,7 +2630,6 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             act_prev.str_values.push_back( what_we_need.str() );
             act_prev.values.push_back( reason );
             // come back here after succesfully fetching your stuff
-            std::vector<tripoint> candidates;
             if( act_prev.coords.empty() ) {
                 std::vector<tripoint> local_src_set;
                 for( const tripoint &elem : src_set ) {

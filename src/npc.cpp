@@ -846,9 +846,6 @@ void npc::finish_read( item &book )
     // NPCs dont read to other NPCs yet.
     const bool display_messages = my_fac->id == faction_id( "your_followers" ) && g->u.sees( pos() );
     bool continuous = false; //whether to continue reading or not
-    std::set<std::string> little_learned; // NPCs who learned a little about the skill
-    std::set<std::string> cant_learn;
-    std::list<std::string> out_of_chapters;
 
     if( book_fun_for( book, *this ) != 0 ) {
         //Fun bonus is no longer calculated here.
