@@ -217,6 +217,31 @@
   },
   {
     "type": "recipe",
+    "result": "brew_burdock_wine",
+    "result_mult": 3,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREW",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "80 m",
+    "batch_time_factors": [ 50, 4 ],
+    "book_learn": [
+      [ "brewing_cookbook", 3 ],
+      [ "family_cookbook", 2 ],
+      [ "survival_book", 3 ],
+      [ "textbook_survival", 3 ],
+      [ "manual_survival", 3 ]
+    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "components": [
+      [ [ "water", 3 ], [ "water_clean", 3 ] ],
+      [ [ "raw_burdock", 10 ] ],
+      [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ], [ "syrup", 2 ] ],
+      [ [ "yeast", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "brew_pine_wine",
     "result_mult": 3,
     "category": "CC_FOOD",
