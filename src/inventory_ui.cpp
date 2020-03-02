@@ -360,6 +360,10 @@ size_t inventory_column::next_selectable_index( size_t index, scroll_direction d
         new_index = ( new_index + static_cast<int>( dir ) + entries.size() ) % entries.size();
     } while( new_index != index && !entries[new_index].is_selectable() );
 
+    if( !entries[new_index].is_selectable() ) {
+        return -1;
+    }
+
     return new_index;
 }
 
