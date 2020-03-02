@@ -4109,7 +4109,9 @@ void game::monmove()
 
         m.creature_in_field( critter );
         if( calendar::once_every( 1_days ) ) {
-            critter.refill_udders();
+            if( critter.has_flag( MF_MILKABLE ) ) {
+                critter.refill_udders();
+            }
             critter.try_biosignature();
             critter.try_reproduce();
         }
