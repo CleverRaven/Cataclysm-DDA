@@ -42,5 +42,22 @@
       { "point": [ 0, 0, 1 ], "overmap": "house_detatched5_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "magic_basement_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "magic_academy",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "magic_academy_ground_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "magic_academy_2nd_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "magic_academy_3rd_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "magic_academy_4th_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "magic_academy_5th_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "magic_academy_6th_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "magic_academy_7th_north" },
+      { "point": [ 0, 0, 7 ], "overmap": "magic_academy_8th_north" },
+      { "point": [ 0, 0, 8 ], "overmap": "magic_academy_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "magic_academy_basement_north" }
+    ]
   }
 ]
