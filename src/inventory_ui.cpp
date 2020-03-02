@@ -358,7 +358,7 @@ size_t inventory_column::next_selectable_index( size_t index, scroll_direction d
         //     N = entries.size()  - number of elements,
         //     k = |step|          - absolute step (k <= N).
         new_index = ( new_index + static_cast<int>( dir ) + entries.size() ) % entries.size();
-        
+
         checked_indices_count += 1;
         // exceeding entries size means there's no suitable new index. exit to prevent an infinite loop
         if( checked_indices_count > entries.size() ) {
