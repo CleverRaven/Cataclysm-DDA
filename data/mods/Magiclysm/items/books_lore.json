@@ -3,8 +3,8 @@
     "id": "retreat_map",
     "copy-from": "abstractmap",
     "type": "GENERIC",
-    "name": "vacation pamphelt",
-    "description": "This is a glossy pamplet encouraging students to book vactaions at a lake retreat or remote cabin.  The pamplet includes lush photographs of a tower on an island and a remote looking cabin in the woods.  It includes a map of the areas.",
+    "name": "vacation brochure",
+    "description": "This is a glossy brochure encouraging students to book vactaions at a lake retreat or remote cabin.  The brochure includes lush photographs of a tower on an island and a remote looking cabin in the woods.  It includes a map of the areas.",
     "color": "white",
     "use_action": {
       "type": "reveal_map",
