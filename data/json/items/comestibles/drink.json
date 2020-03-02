@@ -387,7 +387,7 @@
     "quench": 48,
     "healthy": 2,
     "calories": 12,
-    "description": "A healthy beverage made from dandelion and burdock roots steeped in boiling water. The additional ingredient makes it slightly healthier and fun.",
+    "description": "A healthy beverage made from dandelion and burdock roots steeped in boiling water.  The additional ingredient makes it slightly healthier and fun.",
     "price": 50,
     "volume": "250 ml",
     "material": [ "water" ],
