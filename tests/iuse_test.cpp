@@ -18,7 +18,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
     int charges_before = eyedrops.charges;
     REQUIRE( charges_before > 0 );
 
-    GIVEN( "player is boomered" ) {
+    GIVEN( "avatar is boomered" ) {
         dummy.add_effect( efftype_id( "boomered" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "boomered" ) ) );
 
@@ -35,7 +35,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
         }
     }
 
-    GIVEN( "player is underwater" ) {
+    GIVEN( "avatar is underwater" ) {
         dummy.set_underwater( true );
 
         WHEN( "they try to use eye drops" ) {
@@ -55,7 +55,7 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
     int charges_before = antifungal.charges;
     REQUIRE( charges_before > 0 );
 
-    GIVEN( "player has a fungal infection" ) {
+    GIVEN( "avatar has a fungal infection" ) {
         dummy.add_effect( efftype_id( "fungus" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "fungus" ) ) );
 
@@ -72,7 +72,7 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
         }
     }
 
-    GIVEN( "player has fungal spores" ) {
+    GIVEN( "avatar has fungal spores" ) {
         dummy.add_effect( efftype_id( "spores" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "spores" ) ) );
 
@@ -98,7 +98,7 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
     int charges_before = antiparasitic.charges;
     REQUIRE( charges_before > 0 );
 
-    GIVEN( "player has parasite infections" ) {
+    GIVEN( "avatar has parasite infections" ) {
         dummy.add_effect( efftype_id( "dermatik" ), 1_hours );
         dummy.add_effect( efftype_id( "tapeworm" ), 1_hours );
         dummy.add_effect( efftype_id( "bloodworms" ), 1_hours );
@@ -128,7 +128,7 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
         }
     }
 
-    GIVEN( "player has a fungal infection" ) {
+    GIVEN( "avatar has a fungal infection" ) {
         dummy.add_effect( efftype_id( "fungus" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "fungus" ) ) );
 
@@ -154,7 +154,7 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
     int charges_before = anticonvulsant.charges;
     REQUIRE( charges_before > 0 );
 
-    GIVEN( "player has the shakes" ) {
+    GIVEN( "avatar has the shakes" ) {
         dummy.add_effect( efftype_id( "shakes" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "shakes" ) ) );
 
@@ -191,7 +191,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
     dummy.set_painkiller( 0 );
     REQUIRE( dummy.get_painkiller() == 0 );
 
-    GIVEN( "player is suffering from smoke inhalation" ) {
+    GIVEN( "avatar is suffering from smoke inhalation" ) {
         dummy.add_effect( efftype_id( "smoke" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "smoke" ) ) );
 
@@ -206,7 +206,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
         }
     }
 
-    GIVEN( "player is suffering from tear gas" ) {
+    GIVEN( "avatar is suffering from tear gas" ) {
         dummy.add_effect( efftype_id( "teargas" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "teargas" ) ) );
 
@@ -221,7 +221,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
         }
     }
 
-    GIVEN( "player is suffering from asthma" ) {
+    GIVEN( "avatar is suffering from asthma" ) {
         dummy.add_effect( efftype_id( "asthma" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "asthma" ) ) );
 
@@ -236,7 +236,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
         }
     }
 
-    GIVEN( "player has no ill effects for the oxygen to treat" ) {
+    GIVEN( "avatar has no ill effects for the oxygen to treat" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "smoke" ) ) );
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "teargas" ) ) );
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
@@ -317,7 +317,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
     item &towel = dummy.i_add( item( "towel", 0, item::default_charges_tag{} ) );
 
-    GIVEN( "player is wet" ) {
+    GIVEN( "avatar is wet" ) {
         // Saturate torso, head, and both arms
         dummy.drench( 100, { bp_torso, bp_head, bp_arm_l, bp_arm_r }, false );
         REQUIRE( dummy.body_wetness[bp_torso] > 0 );
@@ -359,7 +359,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
         }
     }
 
-    GIVEN( "player has poor morale due to being wet" ) {
+    GIVEN( "avatar has poor morale due to being wet" ) {
         dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
         REQUIRE( dummy.has_morale( MORALE_WET ) == -10 );
 
@@ -387,7 +387,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
         }
     }
 
-    GIVEN( "player is slimed, boomered, and glowing" ) {
+    GIVEN( "avatar is slimed, boomered, and glowing" ) {
         dummy.add_effect( efftype_id( "slimed" ), 1_hours );
         dummy.add_effect( efftype_id( "boomered" ), 1_hours );
         dummy.add_effect( efftype_id( "glowing" ), 1_hours );
@@ -411,7 +411,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
         }
     }
 
-    GIVEN( "player is boomered and wet" ) {
+    GIVEN( "avatar is boomered and wet" ) {
         dummy.add_effect( efftype_id( "boomered" ), 1_hours );
         dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
         REQUIRE( abs( dummy.has_morale( MORALE_WET ) ) );
@@ -440,7 +440,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
     int charges_before = thorazine.charges;
     REQUIRE( charges_before >= 2 );
 
-    GIVEN( "player has hallucination, visuals, and high effects" ) {
+    GIVEN( "avatar has hallucination, visuals, and high effects" ) {
         dummy.add_effect( efftype_id( "hallu" ), 1_hours );
         dummy.add_effect( efftype_id( "visuals" ), 1_hours );
         dummy.add_effect( efftype_id( "high" ), 1_hours );
@@ -464,7 +464,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
         }
     }
 
-    GIVEN( "player has already taken some thorazine" ) {
+    GIVEN( "avatar has already taken some thorazine" ) {
         dummy.invoke_item( &thorazine );
         REQUIRE( thorazine.charges == charges_before - 1 );
         REQUIRE( dummy.has_effect( efftype_id( "took_thorazine" ) ) );
@@ -509,7 +509,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
     avatar dummy;
     item &inhaler = dummy.i_add( item( "inhaler", 0, item::default_charges_tag{} ) );
 
-    GIVEN( "player is suffering from smoke inhalation" ) {
+    GIVEN( "avatar is suffering from smoke inhalation" ) {
         dummy.add_effect( efftype_id( "smoke" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "smoke" ) ) );
 
@@ -519,7 +519,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
         }
     }
 
-    GIVEN( "player is suffering from asthma" ) {
+    GIVEN( "avatar is suffering from asthma" ) {
         dummy.add_effect( efftype_id( "asthma" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "asthma" ) ) );
 
@@ -529,7 +529,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
         }
     }
 
-    GIVEN( "player is not suffering from asthma" ) {
+    GIVEN( "avatar is not suffering from asthma" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
 
         THEN( "inhaler reduces fatigue" ) {
