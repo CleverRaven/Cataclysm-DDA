@@ -1360,7 +1360,7 @@
     "id": "earthbag",
     "type": "GENERIC",
     "category": "other",
-    "name": "earthbag",
+    "name": { "str": "earthbag" },
     "description": "This is a canvas sack filled with soil.  It can be used to construct simple barricades.",
     "weight": "19500 g",
     "volume": "16L",

@@ -301,7 +301,7 @@
   {
     "type": "GENERIC",
     "id": "cudgel",
-    "name": "cudgel",
+    "name": { "str": "cudgel" },
     "description": "A slender long rod of wood, while traditionally intended as a training tool for many dueling moves, it still makes a good melee weapon in a pinch.",
     "weight": "875 g",
     "to_hit": 2,
@@ -399,7 +399,7 @@
   {
     "type": "GENERIC",
     "id": "hammer_sledge_engineer",
-    "name": "engineer's hammer",
+    "name": { "str": "engineer's hammer" },
     "description": "A stout and hefty hammer, more akin to a sledge than a typical ball-peen.  Useful for portable demolition work, but is very unwieldy as a weapon.",
     "weight": "2000 g",
     "color": "brown",

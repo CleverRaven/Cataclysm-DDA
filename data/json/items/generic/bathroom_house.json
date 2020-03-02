@@ -196,7 +196,7 @@
   },
   {
     "id": "curling_iron",
-    "name": "curling iron",
+    "name": { "str": "curling iron" },
     "type": "GENERIC",
     "description": "A wand made of heat-resistant ceramics.  When plugged into an outlet, it is hot enough to shape your hair into curls.  Too bad the power's out.",
     "symbol": "/",

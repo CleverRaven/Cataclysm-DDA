@@ -20,7 +20,7 @@
     "id": "disc_golf",
     "category": "weapons",
     "price": 1000,
-    "name": "disc",
+    "name": { "str": "disc" },
     "symbol": "o",
     "color": "red",
     "description": "A plastic disc made for playing disc golf, it is smaller and denser then a normal frisbee.",
