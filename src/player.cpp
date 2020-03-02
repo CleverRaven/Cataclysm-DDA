@@ -3138,7 +3138,7 @@ ret_val<bool> player::can_wield( const item &it ) const
     }
 
     if( is_armed() && weapon.has_flag( "NO_UNWIELD" ) ) {
-        return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s" ),
+        return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             weapname(), it.tname() );
     }
 
