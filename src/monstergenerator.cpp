@@ -760,7 +760,20 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         dies.push_back( mdeath::normal );
     }
 
-    assign( jo, "emit_fields", emit_fields );
+    if( jo.has_array( "emit_fields" ) ) {
+        JsonArray jar = jo.get_array( "emit_fields" );
+        if( jar.has_string( 0 ) ) { // TEMPORARY until 0.F
+            for( const std::string id : jar ) {
+                emit_fields.emplace( emit_id( id ), 1_seconds );
+            }
+        } else {
+            while( jar.has_more() ) {
+                JsonObject obj = jar.next_object();
+                emit_fields.emplace( emit_id( obj.get_string( "emit_id" ) ),
+                                     read_from_json_string<time_duration>( *obj.get_raw( "delay" ), time_duration::units ) );
+            }
+        }
+    }
 
     if( jo.has_member( "special_when_hit" ) ) {
         JsonArray jsarr = jo.get_array( "special_when_hit" );
@@ -1150,9 +1163,10 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
 
-        for( const auto &e : mon.emit_fields ) {
-            if( !e.is_valid() ) {
-                debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), e.c_str() );
+        for( const std::pair<emit_id, time_duration> &e : mon.emit_fields ) {
+            const emit_id emid = e.first;
+            if( !emid.is_valid() ) {
+                debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), emid.c_str() );
             }
         }
 
