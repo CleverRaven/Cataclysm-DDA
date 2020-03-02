@@ -943,7 +943,6 @@ bool warm_enough_to_plant( const tripoint &pos )
 
 weather_manager::weather_manager()
 {
-
     lightning_active = false;
     weather_override = WEATHER_NULL;
     nextweather = calendar::before_time_starts;

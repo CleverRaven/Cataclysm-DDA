@@ -370,8 +370,6 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
     }
 }
 
-effect_type::effect_type() : max_duration( 0_turns ), int_dur_factor( 0_turns ) {}
-
 effect_rating effect_type::get_rating() const
 {
     return rating;

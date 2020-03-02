@@ -63,8 +63,8 @@ class advanced_inventory_pane
         /**
          * Index of the selected item (index of @ref items),
          */
-        int index;
-        advanced_inv_sortby sortby;
+        int index = 0;
+        advanced_inv_sortby sortby = advanced_inv_sortby::SORTBY_NONE;
         catacurses::window window;
         std::vector<advanced_inv_listitem> items;
         /**
@@ -75,11 +75,11 @@ class advanced_inventory_pane
          * Whether to recalculate the content of this pane.
          * Implies @ref redraw.
          */
-        bool recalc;
+        bool recalc = false;
         /**
          * Whether to redraw this pane.
          */
-        bool redraw;
+        bool redraw = false;
 
         void add_items_from_area( advanced_inv_area &square, bool vehicle_override = false );
         /**

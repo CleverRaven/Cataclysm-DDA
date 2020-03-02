@@ -464,7 +464,7 @@ class Character : public Creature, public visitable<Character>
         void temp_equalizer( body_part bp1, body_part bp2 );
 
         struct comfort_response_t {
-            comfort_level level;
+            comfort_level level = comfort_level::neutral;
             const item *aid = nullptr;
         };
         /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */

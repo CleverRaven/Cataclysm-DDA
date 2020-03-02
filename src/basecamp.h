@@ -345,7 +345,7 @@ class basecamp
         std::vector<basecamp_fuel> fuels;
         std::vector<basecamp_resource> resources;
         inventory _inv;
-        bool by_radio;
+        bool by_radio = false;
 };
 
 class basecamp_action_components
