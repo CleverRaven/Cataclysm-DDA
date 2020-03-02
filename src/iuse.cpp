@@ -9478,6 +9478,7 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
             if( !p->wield( *it ) ) {
                 // Will likely happen if the in progress craft is too heavy, or the player is
                 // wielding something that can't be unwielded
+                add_msg( m_bad, "%s", p->can_wield( *it ).c_str() );
                 return 0;
             }
             // `it` is no longer the item we are using (note that `player::wielded` is a value).
