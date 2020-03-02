@@ -187,7 +187,7 @@
     "id": "faux_fur",
     "copy-from": "fur",
     "color": "pink",
-    "name": "faux fur pelt",
+    "name": { "str": "faux fur pelt" },
     "description": "A small bolt of garishly colored faux fur.  Can be made into clothing.",
     "flags": [ "NO_SALVAGE" ],
     "material": [ "faux_fur" ]
@@ -2674,7 +2674,7 @@
     "id": "evaporator_coil",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "evaporator coil",
+    "name": { "str": "evaporator coil" },
     "description": "A set of long, snakelike tubes for evaporating refrigerant.",
     "weight": "20000 g",
     "volume": "2 L",
