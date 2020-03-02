@@ -148,7 +148,7 @@
     "id": "mask_guy_fawkes",
     "type": "ARMOR",
     "category": "armor",
-    "name": "Guy Fawkes mask",
+    "name": { "str": "Guy Fawkes mask" },
     "description": "Remember, remember, the fifth of November.",
     "weight": "45 g",
     "volume": "750 ml",

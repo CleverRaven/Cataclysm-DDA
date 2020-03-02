@@ -156,7 +156,7 @@
     "id": "hood_xlsurvivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "XL survivor hood",
+    "name": { "str": "XL survivor hood" },
     "description": "A massive customized, heavily armored leather and Kevlar hood, designed to provide comfort and protection from harm.",
     "weight": "1640 g",
     "volume": "4500 ml",

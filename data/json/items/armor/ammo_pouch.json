@@ -555,7 +555,7 @@
     "id": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
-    "name": "XL kevlar vest",
+    "name": { "str": "XL kevlar vest" },
     "description": "A massive, hand-built kevlar vest based on the design of existing bullet resistant vests.  It has four pouches capable of carrying magazines.",
     "looks_like": "modularvest",
     "weight": "5148 g",
