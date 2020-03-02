@@ -650,8 +650,7 @@
           { "item": "lightning_storm_scroll", "prob": 10 }
         ],
         "prob": 10
-      },
-      [ "rune_stormshaper", 50 ]
+      }
     ]
   },
   {
@@ -694,8 +693,7 @@
       {
         "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
         "prob": 5
-      },
-      [ "rune_magus", 50 ]
+      }
     ]
   },
   {
@@ -734,8 +732,7 @@
           { "item": "animist_doll_decayed_pouncer", "prob": 3 }
         ],
         "prob": 20
-      },
-      [ "rune_animist", 50 ]
+      }
     ]
   },
   {
@@ -771,8 +768,7 @@
           { "item": "spell_scroll_hoary_blast", "prob": 50 }
         ],
         "prob": 10
-      },
-      [ "rune_kelvinist", 50 ]
+      }
     ]
   },
   {
@@ -818,8 +814,7 @@
         "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
         "prob": 5
       },
-      { "group": "magic_CBM", "prob": 2 },
-      [ "rune_technomancer", 50 ]
+      { "group": "magic_CBM", "prob": 2 }
     ]
   },
   {
@@ -855,8 +850,7 @@
           { "item": "spell_scroll_lava_bomb", "prob": 50 }
         ],
         "prob": 10
-      },
-      [ "rune_earthshaper", 50 ]
+      }
     ]
   },
   {
@@ -893,8 +887,7 @@
           { "item": "spell_scroll_bio_bonespear", "prob": 50 }
         ],
         "prob": 10
-      },
-      [ "rune_biomancer", 50 ]
+      }
     ]
   },
   {
@@ -929,8 +922,7 @@
           { "item": "spell_scroll_druidic_healing", "prob": 100 }
         ],
         "prob": 10
-      },
-      [ "rune_druid", 50 ]
+      }
     ]
   },
   {
@@ -976,8 +968,7 @@
         "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
         "prob": 5
       },
-      { "group": "magic_CBM", "prob": 2 },
-      [ "rune_technomancer", 50 ]
+      { "group": "magic_CBM", "prob": 2 }
     ]
   },
   {
