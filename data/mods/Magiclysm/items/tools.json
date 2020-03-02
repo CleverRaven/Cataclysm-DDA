@@ -19,5 +19,23 @@
     "watertight": true,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 2 ] ],
     "use_action": "HEAT_FOOD"
+  },
+  {
+    "id": "demon_forge",
+    "type": "TOOL",
+    "name": { "str": "demon forge" },
+    "description": "This is a portable version of the charcoal forge that is magically enhanced and fortified with demon spider chitin in order to be able to resmelt magical metals into their workable ingot form.",
+    "weight": "10 kg",
+    "volume": "8 L",
+    "price": 20000,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": "demon_chitin",
+    "symbol": ";",
+    "color": "red",
+    "ammo": "alumentum",
+    "sub": "forge",
+    "max_charges": 500,
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]
