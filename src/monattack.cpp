@@ -2602,11 +2602,10 @@ bool mattack::grab( monster *z )
 
 bool mattack::grab_drag( monster *z )
 {
-    if( !z->can_act() ) {
+    if( !z || !z->can_act() ) {
         return false;
     }
     Creature *target = z->attack_target();
-    monster *zz = dynamic_cast<monster *>( target );
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
         return false;
     }
@@ -2618,17 +2617,17 @@ bool mattack::grab_drag( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
-
     // First, grab the target
     grab( z );
 
     if( !target->has_effect( effect_grabbed ) ) { //Can't drag if isn't grabbed, otherwise try and move
         return false;
     }
-    tripoint target_square = z->pos() - ( target->pos() - z->pos() );
+    const tripoint target_square = z->pos() - ( target->pos() - z->pos() );
     if( z->can_move_to( target_square ) &&
         target->stability_roll() < dice( z->type->melee_sides, z->type->melee_dice ) ) {
+        player *foe = dynamic_cast<player *>( target );
+        monster *zz = dynamic_cast<monster *>( target );
         tripoint zpt = z->pos();
         z->move_to( target_square );
         if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something

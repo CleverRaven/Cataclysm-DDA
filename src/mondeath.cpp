@@ -240,8 +240,7 @@ void mdeath::boomer_glow( monster &z )
             z->stumble();
             z->moves -= 250;
         }
-        Creature *const critter = g->critter_at( dest );
-        if( critter != nullptr ) {
+        if( Creature *const critter = g->critter_at( dest ) ) {
             critter->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
                 body_part bp = random_body_part();

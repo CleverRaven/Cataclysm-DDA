@@ -1044,20 +1044,19 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
 
 bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
 {
+    // tiny creatures don't trigger the sinkhole to collapse
+    if( c == nullptr || c->get_size() == MS_TINY ) {
+        return false;
+    }
     monster *z = dynamic_cast<monster *>( c );
     player *pl = dynamic_cast<player *>( c );
-    // tiny creatures don't trigger the sinkhole to collapse
-    if( c != nullptr && c->get_size() == MS_TINY ) {
-        return false;
-    } else if( z != nullptr ) {
+    if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {
             add_msg( m_bad, _( "Your %s falls into a sinkhole!" ), z->get_name() );
             g->u.forced_dismount();
         }
-
-    }
-    bool success = false;
-    if( pl != nullptr ) {
+    } else if( pl != nullptr ) {
+        bool success = false;
         if( query_for_item( pl, "grapnel",
                             _( "You step into a sinkhole!  Throw your grappling hook out to try to catch something?" ) ) ) {
             success = sinkhole_safety_roll( pl, "grapnel", 6 );
@@ -1075,17 +1074,16 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
             g->m.remove_trap( p );
             g->m.ter_set( p, t_pit );
             return true;
-        } else {
-            pl->add_msg_player_or_npc( m_bad, _( "You fall into the sinkhole!" ),
-                                       _( "<npcname> falls into a sinkhole!" ) );
         }
+        pl->add_msg_player_or_npc( m_bad, _( "You fall into the sinkhole!" ),
+                                   _( "<npcname> falls into a sinkhole!" ) );
+    } else {
+        return false;
     }
-    if( z != nullptr || pl != nullptr ) {
-        g->m.remove_trap( p );
-        g->m.ter_set( p, t_pit );
-        c->moves -= 100;
-        pit( p, c, i );
-    }
+    g->m.remove_trap( p );
+    g->m.ter_set( p, t_pit );
+    c->moves -= 100;
+    pit( p, c, i );
     return true;
 }
 
