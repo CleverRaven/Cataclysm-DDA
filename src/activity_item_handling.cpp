@@ -952,7 +952,7 @@ static void vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
 
 static void move_item( player &p, item &it, const int quantity, const tripoint &src,
                        const tripoint &dest, vehicle *src_veh, int src_part,
-                       activity_id activity_to_restore = activity_id::NULL_ID() )
+                       const activity_id &activity_to_restore = activity_id::NULL_ID() )
 {
     item leftovers = it;
 
@@ -1162,7 +1162,7 @@ static std::string random_string( size_t length )
 
 static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                                      const requirement_id &needed_things, player &p, const activity_id &activity_to_restore,
-                                     const bool in_loot_zones, tripoint src_loc )
+                                     const bool in_loot_zones, const tripoint &src_loc )
 {
     zone_manager &mgr = zone_manager::get_manager();
     inventory temp_inv;
@@ -1249,7 +1249,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     return needed_things.obj().can_make_with_inventory( temp_inv, is_crafting_component );
 }
 
-static bool has_skill_for_vehicle_work( std::map<skill_id, int> required_skills, player &p )
+static bool has_skill_for_vehicle_work( const std::map<skill_id, int> &required_skills, player &p )
 {
     for( const auto &e : required_skills ) {
         bool hasSkill = p.get_skill_level( e.first ) >= e.second;
@@ -1839,7 +1839,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
 
 static void construction_activity( player &p, const zone_data *zone, const tripoint &src_loc,
                                    const activity_reason_info &act_info,
-                                   activity_id activity_to_restore )
+                                   const activity_id &activity_to_restore )
 {
     const blueprint_options options = dynamic_cast<const blueprint_options &>( zone->get_options() );
     // the actual desired construction

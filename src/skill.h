@@ -234,7 +234,7 @@ class SkillDisplayType
         static std::vector<SkillDisplayType> skillTypes;
         static void load( const JsonObject &jsobj );
 
-        static const SkillDisplayType &get_skill_type( skill_displayType_id );
+        static const SkillDisplayType &get_skill_type( const skill_displayType_id & );
 
         SkillDisplayType();
         SkillDisplayType( const skill_displayType_id &ident, const translation &display_string );
