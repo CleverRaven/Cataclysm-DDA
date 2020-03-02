@@ -360,7 +360,7 @@
   {
     "id": "jackhammer",
     "type": "TOOL",
-    "name": "jackhammer",
+    "name": { "str": "jackhammer" },
     "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on gasoline.  Use it (if loaded) to blast a hole in adjacent solid terrain.",
     "weight": "15875 g",
     "volume": "5 L",

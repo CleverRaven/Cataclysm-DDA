@@ -16,7 +16,7 @@
   {
     "id": "large_tent_kit",
     "type": "TOOL",
-    "name": "large tent",
+    "name": { "str": "large tent" },
     "description": "This is a family sized tent.  It provides a large amount of space, but is very bulky.",
     "weight": "2266 g",
     "volume": "10 L",

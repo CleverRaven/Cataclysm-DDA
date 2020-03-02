@@ -45,7 +45,7 @@
   {
     "id": "leather_funnel",
     "type": "TOOL",
-    "name": "leather funnel",
+    "name": { "str": "leather funnel" },
     "description": "This is a small, leather funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "4 g",
     "volume": "250 ml",

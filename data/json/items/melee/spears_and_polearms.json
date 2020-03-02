@@ -113,7 +113,7 @@
     "id": "spear_knife_superior",
     "type": "TOOL",
     "category": "weapons",
-    "name": "knife spear",
+    "name": { "str": "knife spear" },
     "description": "A sturdy wooden pole that has been carefully split and reinforced.  At the split point, a sharp blade has been bolted into place and reinforced with layers of sturdy wrapped bindings.",
     "weight": "1487 g",
     "volume": "1250 ml",

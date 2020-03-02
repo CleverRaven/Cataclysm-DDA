@@ -253,7 +253,7 @@
   {
     "id": "large_space_heater",
     "type": "TOOL",
-    "name": "large space heater",
+    "name": { "str": "large space heater" },
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees C and fills a larger volume of air than the smaller version.",
     "weight": "12000 g",
     "volume": "7500 ml",
@@ -295,7 +295,7 @@
   {
     "id": "lifestraw",
     "type": "TOOL",
-    "name": "lifestraw",
+    "name": { "str": "lifestraw" },
     "description": "Set the lifestraw in suspect water, let sit for one minute then drink.  The two part filtration system will purify the water you drink.  Water taken from uncertain sources like a river may be dirty.",
     "weight": "104 g",
     "volume": "592 ml",

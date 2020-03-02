@@ -671,7 +671,7 @@
   {
     "id": "oil_cooker",
     "type": "TOOL",
-    "name": "lamp oil cooker",
+    "name": { "str": "lamp oil cooker" },
     "description": "This is a simple heater powered by lamp oil.  It is designed for cooking food.",
     "weight": "2264 g",
     "volume": "1250 ml",
