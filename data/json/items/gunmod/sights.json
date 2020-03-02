@@ -132,7 +132,7 @@
   {
     "id": "rifle_scope",
     "type": "GUNMOD",
-    "name": "rifle scope",
+    "name": { "str": "rifle scope" },
     "//": "Leupold Mark 6",
     "description": "A 3-18x44 rifle scope.  It is adjustable for windage and elevation in 1/10th mrad increments and is remarkably small and light for its magnification.",
     "weight": "669 g",
@@ -200,7 +200,7 @@
   {
     "id": "tele_sight",
     "type": "GUNMOD",
-    "name": "telescopic sight",
+    "name": { "str": "telescopic sight" },
     "description": "A simple hand-crafted telescopic sight, essentially a small telescope with crosshairs.  Not as good as the ones made before the Cataclysm.  Increases weight but improves accuracy.",
     "weight": "300 g",
     "volume": "250 ml",
