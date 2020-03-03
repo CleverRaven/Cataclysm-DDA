@@ -153,7 +153,7 @@ void Character::suffer_while_underwater()
             mod_power_level( -25_kJ );
         } else {
             add_msg_if_player( m_bad, _( "You're drowning!" ) );
-            apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
+            apply_damage( nullptr, bp_chest, rng( 1, 4 ) );
         }
     }
     if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
@@ -701,8 +701,8 @@ void Character::suffer_from_albinism()
     }
     //calculate total coverage of skin
     body_part_set affected_bp { {
-            bp_leg_l, bp_leg_r, bp_torso, bp_head, bp_mouth, bp_arm_l,
-            bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+            bp_leg_l, bp_leg_r, bp_chest, bp_abdomen, bp_pelvis, bp_head, 
+	    bp_mouth, bp_arm_l, bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
         }
     };
     //pecentage of "open skin" by body part
@@ -1032,7 +1032,7 @@ void Character::suffer_from_radiation()
             }
             reactor_plut -= power_gen;
             while( power_gen >= 250 ) {
-                apply_damage( nullptr, bp_torso, 1 );
+                apply_damage( nullptr, bp_chest, 1 );
                 mod_pain( 1 );
                 add_msg_if_player( m_bad,
                                    _( "Your chest burns as your power systems overload!" ) );
@@ -1633,7 +1633,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         }
     }
 
-    if( body_wetness[bp_torso] >= drench_capacity[bp_torso] / 2.0 &&
+    if( body_wetness[bp_chest] >= drench_capacity[bp_chest] / 2.0 &&
         has_effect( effect_masked_scent ) &&
         get_value( "waterproof_scent" ).empty() ) {
         add_msg_if_player( m_info, _( "The water wash away the scent." ) );
