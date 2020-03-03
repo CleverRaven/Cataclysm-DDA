@@ -4385,7 +4385,7 @@ int iuse::hand_pump_integral( player *p, item *it, bool, const tripoint & )
             // expectation is it runs until the player is too tired.
             int moves = to_moves<int>( 1600_minutes );
             if( it->ammo_capacity() > it->ammo_remaining() ) {
-                p->add_msg_if_player( _( "You start pumping the %s to fill its %s." ), it->tname(),
+                p->add_msg_if_player( _( "You start pumping the %1$s to fill its %2$s." ), it->tname(),
                                       it->magazine_current()->tname() );
                 p->assign_activity( ACT_HAND_PUMP_INTEGRAL, moves, -1, p->get_item_position( it ),
                                     "hand-pumping" );
