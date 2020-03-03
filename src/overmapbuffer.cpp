@@ -1102,6 +1102,18 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint &locatio
     return result;
 }
 
+int overmapbuffer::get_overmap_biome_count( std::string id )
+{
+    int cnt = 0;
+    for( auto &it : overmaps ) {
+        if( it.second->get_settings().id == id ) {
+            cnt++;
+        }
+    }
+
+    return cnt;
+}
+
 std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const int radius )
 {
     return get_overmaps_near( tripoint( p, 0 ), radius );

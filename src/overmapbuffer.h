@@ -511,6 +511,13 @@ class overmapbuffer
         */
         bool check_ot_existing( const std::string &otype, ot_match_type match_type, const tripoint &loc );
         bool check_overmap_special_type_existing( const overmap_special_id &id, const tripoint &loc );
+
+        /**
+        * Gets the total number of biomes that have been generated from the id.
+        * Probably quite slow as iterates through all existing overmaps evertime.
+        */
+        int get_overmap_biome_count( std::string id );
+
     private:
         /**
          * Go thorough the monster groups of the overmap and move out-of-bounds
@@ -528,6 +535,8 @@ class overmapbuffer
          */
         std::vector<overmap *> get_overmaps_near( const point &p, int radius );
         std::vector<overmap *> get_overmaps_near( const tripoint &location, int radius );
+
+
 };
 
 extern overmapbuffer overmap_buffer;

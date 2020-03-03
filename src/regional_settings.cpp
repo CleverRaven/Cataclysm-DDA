@@ -268,10 +268,12 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
         if( overmap_feature_flag_settings_jo.has_array( "special_counts" ) ) {
             JsonArray specials = overmap_feature_flag_settings_jo.get_array( "special_counts" );
 
-            for( const JsonValue member : specials ) {
-                JsonObject o = specials.next_object();
+            for( const JsonValue &member : specials ) {
+                JsonObject o = member.get_object();
                 std::string flag = o.get_string( "flag" );
                 int count = o.get_int( "count" );
+
+                debugmsg( "Found flag %s with count of %i", flag, count );
 
                 overmap_feature_flag_settings.special_counts.insert( std::make_pair( flag, count ) );
             }
@@ -413,6 +415,10 @@ void load_region_settings( const JsonObject &jo )
 
     if( !jo.read( "biome", new_region.biome ) ) {
         new_region.biome = "undefined"; //TODO: Change this.
+    }
+
+    if( !jo.read( "max_instances", new_region.max_instances ) ) {
+        new_region.max_instances = -1;
     }
 
     if( jo.has_array( "near_biomes" ) ) {

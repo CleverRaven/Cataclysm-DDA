@@ -238,6 +238,7 @@ struct region_terrain_and_furniture_settings {
 struct regional_settings {
     std::string id;           //
     std::string biome;
+    int max_instances = -1;
     oter_str_id default_oter; // 'field'
     std::unordered_map<std::string, double> near_biomes;
     double river_scale;

@@ -17,7 +17,7 @@ class JsonObject;
 class overmap_biome
 {
     public:
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string & );
         void check() const;
         void finalize();
 

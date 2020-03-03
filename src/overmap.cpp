@@ -1095,9 +1095,19 @@ overmap::overmap( const point &p ) : loc( p )
         std::string id = it->first;
         std::string biome = it->second.biome;
         int weight = 100; //Default weight
+        bool allowed = true;
 
         //Find biome
         t_biomes_map_citr biome_it;
+
+
+        //Restrict instances of biome
+        if( it->second.max_instances != -1 &&
+            overmap_buffer.get_overmap_biome_count( id ) >= it->second.max_instances ) {
+            //TODO: Safely remove any region settings from the map once max instances reached to avoid rerunning biome count function which is likely somwhat expensive.
+            it++;
+            continue;
+        }
 
         //Check neighbour biomes and ensure compatible
         //...check corners too?
@@ -1105,17 +1115,29 @@ overmap::overmap( const point &p ) : loc( p )
         for( std::string b : adjacent_biomes ) {
             for( std::pair<std::string, double> element : settings.near_biomes ) {
                 if( element.first == b ) {
-                    multiplier += element.second;
+                    if( element.second > 0.0 ) {
+                        multiplier += element.second;
+                    } else {
+                        allowed = false;
+                        break;
+                    }
                 }
             }
         }
 
-        //Always use default region as starting region
+        //This biome is not allowed to neighbour one of the existing biomes, so try again.
+        if( !allowed ) {
+            it++;
+            continue;
+        }
+
+        //Always use default region as center
         if( it->second.id == "default" && loc.x == 0 && loc.y == 0 ) {
             rsit = it;
             break;
         }
 
+        //Get biome weight
         biome_it = overmap_biomes_map.begin();
         biome_it = overmap_biomes_map.find( biome );
         if( biome_it != overmap_biomes_map.end() ) {
@@ -1128,12 +1150,12 @@ overmap::overmap( const point &p ) : loc( p )
             break;
         }
 
-        it++;
-
         //No biome found, keep on trying forever TODO: Obviously dont do that.
         if( it == region_settings_map.end() ) {
             it = region_settings_map.begin();
         }
+
+        it++;
     }
 
     //Set the biome to the suitable one
@@ -4134,7 +4156,7 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
         //Biomes: check how many we have already created that have a matching flag.
         //...if that amount is more than set for that region, then do not place.
         for( std::pair<std::string, int> special_counts : settings.overmap_feature_flag.special_counts ) {
-            if( special.flags.count( special_counts.first ) >= special_counts.second ) {
+            if( special.flags.count( special_counts.first ) >= static_cast<size_t>( special_counts.second ) ) {
                 continue;
             }
         }

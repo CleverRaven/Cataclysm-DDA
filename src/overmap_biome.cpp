@@ -46,7 +46,7 @@ void overmap_biome::finalize()
     overmap_biomes_map.insert( std::make_pair( name, *this ) );
 }
 
-void overmap_biome::load( const JsonObject &jo, const std::string &src )
+void overmap_biome::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "weight", weight );
