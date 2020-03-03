@@ -53,7 +53,7 @@
   {
     "id": "makeshift_crowbar",
     "type": "TOOL",
-    "name": "makeshift crowbar",
+    "name": { "str": "makeshift crowbar" },
     "description": "This is a pipe whose ends have been bent and hammered flat to resemble a crowbar.  Use it to open locked crates without destroying them, or to lift manhole covers.  You could also wield it to fight with, in a pinch.",
     "weight": "1250 g",
     "volume": "1 L",

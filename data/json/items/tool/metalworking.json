@@ -85,7 +85,7 @@
   {
     "id": "chisel",
     "type": "TOOL",
-    "name": "metalworking chisel",
+    "name": { "str": "metalworking chisel" },
     "description": "This is a short, stout metalworking chisel.  It's used in some metalworking fabrication recipes.",
     "weight": "660 g",
     "volume": "250 ml",

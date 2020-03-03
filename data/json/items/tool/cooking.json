@@ -495,7 +495,7 @@
   {
     "id": "makeshift_sealer",
     "type": "TOOL",
-    "name": "makeshift vacuum sealer",
+    "name": { "str": "makeshift vacuum sealer" },
     "description": "This is a homemade heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
     "weight": "3218 g",
     "volume": "2 L",
@@ -517,7 +517,7 @@
   {
     "id": "mess_kit",
     "type": "TOOL",
-    "name": "mess kit",
+    "name": { "str": "mess kit" },
     "description": "A self-contained camping mess kit, containing everything you might need for wilderness cooking.  This model relies on a battery-operated hotplate, rather than the more commonplace chemical-fueled Esbit stove.",
     "weight": "1500 g",
     "volume": "1 L",

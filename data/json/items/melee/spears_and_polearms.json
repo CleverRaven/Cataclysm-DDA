@@ -57,7 +57,7 @@
     "id": "makeshift_scythe_war",
     "type": "TOOL",
     "category": "weapons",
-    "name": "makeshift war scythe",
+    "name": { "str": "makeshift war scythe" },
     "description": "This farming tool has been modified into an improvised weapon by rotating its blade 90 degrees, transforming it into a deadly giant blade on the end of a stick.  However it's quite fragile.",
     "weight": "3013 g",
     "volume": "3250 ml",
