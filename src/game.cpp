@@ -4276,7 +4276,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
                     add_msg( _( "%s was stunned!" ), targ->name() );
                     add_msg( _( "%s slammed into an obstacle!" ), targ->name() );
-                    targ->apply_damage( nullptr, bp_torso, dam_mult * force_remaining );
+                    targ->apply_damage( nullptr, bp_chest, dam_mult * force_remaining );
                     targ->check_dead_state();
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
@@ -4336,11 +4336,12 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                         add_msg( _( "%s was stunned!" ), targ->name );
                     }
 
-                    std::array<body_part, 8> bps = {{
+                    std::array<body_part, 10> bps = {{
                             bp_head,
                             bp_arm_l, bp_arm_r,
                             bp_hand_l, bp_hand_r,
-                            bp_torso,
+                            bp_chest, bp_abdomen, 
+			    bp_pelvis,
                             bp_leg_l, bp_leg_r
                         }
                     };
@@ -4411,11 +4412,12 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                                  force_remaining );
                     }
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
-                    std::array<body_part, 8> bps = {{
+                    std::array<body_part, 10> bps = {{
                             bp_head,
                             bp_arm_l, bp_arm_r,
                             bp_hand_l, bp_hand_r,
-                            bp_torso,
+                            bp_chest, bp_abdomen, 
+			    bp_pelvis,
                             bp_leg_l, bp_leg_r
                         }
                     };
@@ -4995,7 +4997,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         if( critter.type->size <= MS_SMALL ) {
             critter.die_in_explosion( nullptr );
         } else {
-            critter.apply_damage( nullptr, bp_torso, bash_dmg );
+            critter.apply_damage( nullptr, bp_chest, bash_dmg );
             critter.check_dead_state();
         }
         if( !critter.is_dead() && critter.type->size >= MS_HUGE ) {
@@ -8716,7 +8718,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 
         static const std::set< body_part > sharp_bps = {
             bp_eyes, bp_mouth, bp_head, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r, bp_arm_l, bp_arm_r,
-            bp_hand_l, bp_hand_r, bp_torso
+            bp_hand_l, bp_hand_r, bp_chest, bp_abdomen, bp_pelvis
         };
 
         const auto sharp_bp_check = [this]( body_part bp ) {
@@ -9103,7 +9105,7 @@ point game::place_player( const tripoint &dest_loc )
                 one_in( 4 ) ) ) {
         if( u.is_mounted() ) {
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
-            u.mounted_creature->apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
+            u.mounted_creature->apply_damage( nullptr, bp_chest, rng( 1, 10 ) );
         } else {
             body_part bp = random_body_part();
             if( u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0 ) {
@@ -9780,9 +9782,9 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
             const int damage = rng( force, force * 2.0f ) / 6;
             c->impact( damage, pt );
             // Multiply zed damage by 6 because no body parts
-            const int zed_damage = std::max( 0, ( damage - critter.get_armor_bash( bp_torso ) ) * 6 );
+            const int zed_damage = std::max( 0, ( damage - critter.get_armor_bash( bp_chest ) ) * 6 );
             // TODO: Pass the "flinger" here - it's not the flung critter that deals damage
-            critter.apply_damage( c, bp_torso, zed_damage );
+            critter.apply_damage( c, bp_chest, zed_damage );
             critter.check_dead_state();
             if( !critter.is_dead() ) {
                 thru = false;
@@ -10361,7 +10363,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                     rope_ladder = true;
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
-                    u.apply_damage( nullptr, bp_torso, 5 );
+                    u.apply_damage( nullptr, bp_chest, 5 );
                     u.mod_stored_nutr( 10 );
                     u.mod_thirst( 10 );
                 } else {
