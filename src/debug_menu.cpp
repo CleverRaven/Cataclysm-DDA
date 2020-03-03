@@ -587,7 +587,7 @@ void character_edit_menu()
             int *bp_ptr = nullptr;
             switch( smenu.ret ) {
                 case 0:
-                    bp_ptr = &p.hp_cur[hp_torso];
+                    bp_ptr = &p.hp_cur[hp_chest];
                     break;
                 case 1:
                     bp_ptr = &p.hp_cur[hp_head];
@@ -1373,7 +1373,7 @@ void debug()
         // Damage Self
         case DEBUG_DAMAGE_SELF: {
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), u.hp_cur[hp_torso] );
+            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), u.hp_cur[hp_chest] );
             smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), u.hp_cur[hp_head] );
             smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), u.hp_cur[hp_arm_l] );
             smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), u.hp_cur[hp_arm_r] );
@@ -1384,7 +1384,7 @@ void debug()
             int dbg_damage;
             switch( smenu.ret ) {
                 case 0:
-                    part = bp_torso;
+                    part = bp_chest;
                     break;
                 case 1:
                     part = bp_head;
