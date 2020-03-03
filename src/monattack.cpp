@@ -1147,7 +1147,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
         case att_shock :
             z->moves -= att_cost_shock;
 
-            // Just reuse the taze - it's a bit different (shocks torso vs all),
+            // Just reuse the taze - it's a bit different (shocks chest vs all),
             // but let's go for consistency here
             taze( z, target );
             break;
@@ -1259,8 +1259,9 @@ static body_part body_part_hit_by_plant()
     } else {
         hit = bp_leg_r;
     }
-    if( one_in( 4 ) ) {
-        hit = bp_torso;
+    if( one_in( 4 ) ) { 
+	//TODO: Figure out if bp_abdomen would get hit as well
+        hit = bp_pelvis;
     } else if( one_in( 2 ) ) {
         if( one_in( 2 ) ) {
             hit = bp_foot_l;
@@ -1965,23 +1966,24 @@ bool mattack::impale( monster *z )
         return true;
     }
 
-    int dam = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, rng( 10, 20 ), rng( 5, 15 ),
+    int dam = target->deal_damage( z, bp_chest, damage_instance( DT_STAB, rng( 10, 20 ), rng( 5, 15 ),
                                    .5 ) ).total_damage();
-    if( dam > 0 ) {
+    if( dam > 0 ) { 
+	//TODO Part of torso other than chest should get impaled as well
         auto msg_type = target == &g->u ? m_bad : m_info;
         target->add_msg_player_or_npc( msg_type,
                                        //~ 1$s is monster name, 2$s bodypart in accusative
-                                       _( "The %1$s impales your torso!" ),
+                                       _( "The %1$s impales your chest!" ),
                                        //~ 1$s is monster name, 2$s bodypart in accusative
-                                       _( "The %1$s impales <npcname>'s torso!" ),
+                                       _( "The %1$s impales <npcname>'s chest!" ),
                                        z->name() );
 
-        target->on_hit( z, bp_torso,  z->type->melee_skill );
+        target->on_hit( z, bp_chest,  z->type->melee_skill );
         if( one_in( 60 / ( dam + 20 ) ) ) {
             if( target->is_player() || target->is_npc() ) {
-                target->as_character()->make_bleed( bp_torso, rng( 75_turns, 125_turns ), true );
+                target->as_character()->make_bleed( bp_chest, rng( 75_turns, 125_turns ), true );
             } else {
-                target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
+                target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_chest, true );
             }
 
         }
@@ -1992,8 +1994,8 @@ bool mattack::impale( monster *z )
         z->moves -= 80; //Takes extra time for the creature to pull out the protrusion
     } else {
         target->add_msg_player_or_npc(
-            _( "The %1$s tries to impale your torso, but fails to penetrate your armor!" ),
-            _( "The %1$s tries to impale <npcname>'s torso, but fails to penetrate their armor!" ),
+            _( "The %1$s tries to impale your chest, but fails to penetrate your armor!" ),
+            _( "The %1$s tries to impale <npcname>'s chest, but fails to penetrate their armor!" ),
             z->name() );
     }
 
@@ -2050,7 +2052,7 @@ bool mattack::dermatik( monster *z )
     if( player_swat > dodge_roll ) {
         target->add_msg_if_player( _( "The %s lands on you, but you swat it off." ), z->name() );
         if( z->get_hp() >= z->get_hp_max() / 2 ) {
-            z->apply_damage( &g->u, bp_torso, 1 );
+            z->apply_damage( &g->u, bp_chest, 1 );
             z->check_dead_state();
         }
         if( player_swat > dodge_roll * 1.5 ) {
@@ -2530,7 +2532,7 @@ bool mattack::ranged_pull( monster *z )
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
     //Duration needs to be at least 2, or grab will immediately be removed
-    target->add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 4 );
+    target->add_effect( effect_grabbed, 2_turns, bp_chest, false, prev_effect + 4 );
     z->add_effect( effect_grabbing, 2_turns );
     return true;
 }
@@ -2592,7 +2594,7 @@ bool mattack::grab( monster *z )
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
     z->add_effect( effect_grabbing, 2_turns );
-    target->add_effect( effect_grabbed, 2_turns, bp_torso, false,
+    target->add_effect( effect_grabbed, 2_turns, bp_chest, false,
                         prev_effect + z->get_grab_strength() );
     target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
                                    z->name() );
@@ -2655,7 +2657,7 @@ bool mattack::grab_drag( monster *z )
     }
     int prev_effect = target->get_effect_int( effect_grabbed );
     z->add_effect( effect_grabbing, 2_turns );
-    target->add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 3 );
+    target->add_effect( effect_grabbed, 2_turns, bp_chest, false, prev_effect + 3 );
 
     // cooldown was not reset prior to refactor here
     return true;
@@ -3136,7 +3138,7 @@ void mattack::taze( monster *z, Creature *target )
         return;
     }
 
-    int dam = target->deal_damage( z, bp_torso, damage_instance( DT_ELECTRIC, rng( 1,
+    int dam = target->deal_damage( z, bp_chest, damage_instance( DT_ELECTRIC, rng( 1,
                                    5 ) ) ).total_damage();
     if( dam == 0 ) {
         target->add_msg_player_or_npc( _( "The %s unsuccessfully attempts to shock you." ),
@@ -3564,7 +3566,7 @@ void mattack::flame( monster *z, Creature *target )
             }
             g->m.add_field( i, fd_fire, 1 );
         }
-        target->add_effect( effect_onfire, 8_turns, bp_torso );
+        target->add_effect( effect_onfire, 8_turns, bp_chest );
 
         return;
     }
@@ -3589,7 +3591,7 @@ void mattack::flame( monster *z, Creature *target )
         g->m.add_field( i, fd_fire, 1 );
     }
     if( !target->uncanny_dodge() ) {
-        target->add_effect( effect_onfire, 8_turns, bp_torso );
+        target->add_effect( effect_onfire, 8_turns, bp_abdomen );
     }
 }
 
@@ -4505,7 +4507,7 @@ bool mattack::thrown_by_judo( monster *z )
             const int max_damage = 20 + foe->get_skill_level( skill_unarmed );
             // Deal moderate damage
             const auto damage = rng( min_damage, max_damage );
-            z->apply_damage( foe, bp_torso, damage );
+            z->apply_damage( foe, bp_chest, damage );
             z->check_dead_state();
         } else {
             // Still avoids the major hit!
@@ -4747,7 +4749,7 @@ bool mattack::evolve_kill_strike( monster *z )
     damage.mult_damage( 1.33f );
     damage.add( damage_instance( DT_STAB, dice( z->type->melee_dice, z->type->melee_sides ), rng( 5,
                                  15 ), 1.0, 0.5 ) );
-    int damage_dealt = target->deal_damage( z, bp_torso, damage ).total_damage();
+    int damage_dealt = target->deal_damage( z, bp_chest, damage ).total_damage();
     if( damage_dealt > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_warning;
         target->add_msg_player_or_npc( msg_type,
@@ -4757,7 +4759,7 @@ bool mattack::evolve_kill_strike( monster *z )
     } else {
         target->add_msg_player_or_npc(
             _( "The %1$s attempts to burrow itself into you, but is stopped by your armor!" ),
-            _( "The %1$s slashes at <npcname>'s torso, but is stopped by their armor!" ),
+            _( "The %1$s slashes at <npcname>'s chest, but is stopped by their armor!" ),
             z->name() );
         return true;
     }
@@ -4975,10 +4977,10 @@ bool mattack::bio_op_takedown( monster *z )
     if( foe == nullptr ) {
         // Handle mons earlier - less to check for
         dam = rng( 6, 18 );
-        // Always aim for the torso
-        target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) );
-        // Two hits - "leg" and torso
-        target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) );
+        // Always aim for the chest
+        target->deal_damage( z, bp_abdomen, damage_instance( DT_BASH, dam ) );
+        // Two hits - "leg" and abdomen
+        target->deal_damage( z, bp_abdomen, damage_instance( DT_BASH, dam ) );
         target->add_effect( effect_downed, 3_turns );
         if( seen ) {
             add_msg( _( "%1$s slams %2$s to the ground!" ), z->name(), target->disp_name() );
@@ -5011,7 +5013,7 @@ bool mattack::bio_op_takedown( monster *z )
                                            dam );
                 foe->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
             } else {
-                hit = bp_torso;
+                hit = bp_chest;
                 dam = rng( 6, 18 );
                 target->add_msg_if_player( m_bad, _( "and slams you to the ground for %d damage!" ), dam );
                 foe->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
@@ -5022,7 +5024,7 @@ bool mattack::bio_op_takedown( monster *z )
                  foe->martial_arts_data.selected_has_weapon( foe->weapon.typeId() ) ) &&
                !thrown_by_judo( z ) ) {
         // Saved by the tentacle-bracing! :)
-        hit = bp_torso;
+        hit = bp_chest;
         dam = rng( 3, 9 );
         target->add_msg_if_player( m_bad, _( "and slams you for %d damage!" ), dam );
         foe->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
