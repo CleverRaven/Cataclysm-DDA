@@ -2,7 +2,7 @@
   {
     "id": "fault_engine_belt_drive",
     "type": "fault",
-    "name": "Worn drive belt",
+    "name": { "str": "Worn drive belt" },
     "description": "Required for operation of an attached alternator.",
     "mending_methods": [
       {
@@ -21,7 +21,7 @@
   {
     "id": "fault_engine_glow_plug",
     "type": "fault",
-    "name": "Faulty glow plugs",
+    "name": { "str": "Faulty glow plugs" },
     "description": "Help when starting an engine in low ambient temperatures.",
     "mending_methods": [
       {
@@ -37,7 +37,7 @@
   {
     "id": "fault_engine_immobiliser",
     "type": "fault",
-    "name": "Active immobiliser",
+    "name": { "str": "Active immobiliser" },
     "description": "Prevents starting of the vehicle without the appropriate key.",
     "mending_methods": [
       {
@@ -54,7 +54,7 @@
   {
     "id": "fault_engine_pump_diesel",
     "type": "fault",
-    "name": "Faulty diesel pump",
+    "name": { "str": "Faulty diesel pump" },
     "description": "Required to pump and pressurize diesel from a vehicles tank.",
     "mending_methods": [
       {
@@ -70,7 +70,7 @@
   {
     "id": "fault_engine_filter_air",
     "type": "fault",
-    "name": "Expired air filter",
+    "name": { "str": "Expired air filter" },
     "description": "An expired filter reduces fuel efficiency and increases smoke production.",
     "mending_methods": [
       {
@@ -89,7 +89,7 @@
   {
     "id": "fault_engine_filter_fuel",
     "type": "fault",
-    "name": "Expired fuel filter",
+    "name": { "str": "Expired fuel filter" },
     "description": "An expired filter reduces performance and increases the chance of backfires.",
     "mending_methods": [
       {
@@ -108,7 +108,7 @@
   {
     "id": "fault_engine_pump_fuel",
     "type": "fault",
-    "name": "Faulty fuel pump",
+    "name": { "str": "Faulty fuel pump" },
     "description": "Required to pump gasoline from a vehicles tank.",
     "mending_methods": [
       {
@@ -124,7 +124,7 @@
   {
     "id": "fault_engine_pump_water",
     "type": "fault",
-    "name": "Faulty water pump",
+    "name": { "str": "Faulty water pump" },
     "description": "Required to pump water to an external radiator or heatsink.",
     "mending_methods": [
       {
@@ -140,7 +140,7 @@
   {
     "id": "fault_engine_starter",
     "type": "fault",
-    "name": "Faulty starter motor",
+    "name": { "str": "Faulty starter motor" },
     "description": "Required to initially start the engine.",
     "mending_methods": [
       {
