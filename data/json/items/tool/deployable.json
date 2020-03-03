@@ -119,7 +119,7 @@
   {
     "id": "metal_butcher_rack",
     "type": "TOOL",
-    "name": "metal butchering rack",
+    "name": { "str": "metal butchering rack" },
     "description": "Metal butchering rack designed to hang a carcass in the air.  It is folded for easy transportation.",
     "weight": "5000 g",
     "volume": "10 L",
@@ -155,7 +155,7 @@
   {
     "id": "metal_smoking_rack",
     "type": "TOOL",
-    "name": "metal smoking rack",
+    "name": { "str": "metal smoking rack" },
     "description": "A metal rack designed to smoke food for better preservation and taste.  It is folded for easy transportation.",
     "weight": "5000 g",
     "volume": "25 L",

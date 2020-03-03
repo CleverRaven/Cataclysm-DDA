@@ -330,7 +330,7 @@
   {
     "id": "jack_makeshift",
     "type": "TOOL",
-    "name": "makeshift jack",
+    "name": { "str": "makeshift jack" },
     "description": "A poorly constructed improvised scissor jack used for lifting vehicles if you're brave enough to use it.",
     "material": "steel",
     "symbol": ";",
@@ -437,7 +437,7 @@
   {
     "id": "makeshift_hammer",
     "type": "TOOL",
-    "name": "makeshift hammer",
+    "name": { "str": "makeshift hammer" },
     "description": "This is a crude hammer made from a piece of metal affixed to a stick.  It functions adequately as a hammer, but really can't compare to a proper one.",
     "weight": "1020 g",
     "volume": "500 ml",
@@ -453,7 +453,7 @@
   {
     "id": "metal_file",
     "type": "TOOL",
-    "name": "metal fileset",
+    "name": { "str": "metal fileset" },
     "description": "These tools are commonly used to remove small amounts of materials from the surface of metal objects.",
     "weight": "76 g",
     "volume": "250 ml",
@@ -469,7 +469,7 @@
   {
     "id": "metal_smoother",
     "type": "TOOL",
-    "name": "metallic smoother",
+    "name": { "str": "metallic smoother" },
     "description": "This metallic tool is most often used to smooth concrete, or mortar, in construction projects.",
     "weight": "362 g",
     "volume": "500 ml",
@@ -935,7 +935,7 @@
   {
     "id": "welder_crude",
     "type": "TOOL",
-    "name": "makeshift arc welder",
+    "name": { "str": "makeshift arc welder" },
     "description": "This crude arc welder has been fashioned from a few small transformers, some wire, improvised electrode holder and complete disregard for personal safety.  While it's not as efficient as a factory welder, it will serve in a pinch.",
     "weight": "7250 g",
     "volume": "3500 ml",
