@@ -3,7 +3,7 @@
     "id": "1st_aid",
     "type": "GENERIC",
     "category": "drugs",
-    "name": "first aid kit",
+    "name": { "str": "first aid kit" },
     "description": "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.  Disassemble to get its content.",
     "weight": "1750 g",
     "volume": "1250 ml",

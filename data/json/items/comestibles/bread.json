@@ -46,7 +46,7 @@
     "id": "sourdough_split",
     "type": "GENERIC",
     "category": "food",
-    "name": "freshly fed sourdough starter",
+    "name": { "str": "freshly fed sourdough starter" },
     "description": "This jar contains a floury paste with sourdough starter mixed in.  It needs a few hours to recover its strength before it can be used again.",
     "weight": "52 g",
     "volume": "250 ml",

@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "foldframe",
-    "name": "foldable-light frame",
+    "name": { "str": "foldable-light frame" },
     "description": "A small foldable lightweight frame made from pipework.",
     "weight": "5000 g",
     "to_hit": -3,
@@ -69,7 +69,7 @@
   {
     "type": "GENERIC",
     "id": "foldwoodframe",
-    "name": "foldable wooden frame",
+    "name": { "str": "foldable wooden frame" },
     "description": "A small foldable frame made from scrap wood.",
     "weight": "4000 g",
     "color": "brown",
