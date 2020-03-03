@@ -4134,7 +4134,7 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
         //Biomes: check how many we have already created that have a matching flag.
         //...if that amount is more than set for that region, then do not place.
         for( std::pair<std::string, int> special_counts : settings.overmap_feature_flag.special_counts ) {
-            if( special.flags.count( special_counts.first ) >= special_counts.second ) {
+            if( special.flags.count( special_counts.first ) >= static_cast<size_t>( special_counts.second ) ) {
                 continue;
             }
         }
