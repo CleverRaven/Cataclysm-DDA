@@ -783,8 +783,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     const item_category &cat = it.get_category();
 
     if( has_near( zone_type_id( "LOOT_CUSTOM" ), where, range ) ) {
-        for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ) ) {
-            ( void )elem;
+        if( !get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ).empty() ) {
             return zone_type_id( "LOOT_CUSTOM" );
         }
     }
