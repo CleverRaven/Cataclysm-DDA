@@ -2338,7 +2338,7 @@
     "type": "TOOL_ARMOR",
     "id": "whistle",
     "name": { "str": "whistle" },
-    "volume": "250 ml",
+    "volume": "10 ml",
     "description": "A simple metal whistle, with a cord to wear it around your neck.",
     "weight": "25 g",
     "to_hit": -1,
