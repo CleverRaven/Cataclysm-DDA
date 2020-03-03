@@ -48,7 +48,7 @@
         "'-|lllll|l-ll-Qlllllll-'",
         "'-|lllllal-ll+llTllldc-'",
         "*-|=====|R-ll-ll#lllll-'",
-        "'----------M-----------4",
+        "'----------i-----------4",
         "'~~~~~~~~~~~~~~~~~~~~ff~",
         "''''''''''''''''''''''''"
       ],
@@ -58,7 +58,6 @@
         "%": "t_console_broken",
         "*": "t_shrub",
         "+": "t_door_c",
-        "M": "t_door_metal_pickable",
         "i": "t_door_locked_interior",
         "-": "t_wall_w",
         ".": "t_floor",
@@ -75,7 +74,6 @@
         "F": "t_linoleum_white",
         "f": "t_linoleum_white",
         "Q": "t_linoleum_white",
-        "+": "t_linoleum_white",
         "'": "t_grass",
         "4": "t_gutter_downspout",
         "~": "t_sidewalk"
