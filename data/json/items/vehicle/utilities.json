@@ -93,6 +93,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "recharge_station_air",
+    "name": "air compressor",
+    "description": "A universal air compressor designed to operate on vehicle power.  While on it will steadily fill all refillable high pressure air containers placed directly within its storage space.  The system can only be installed onto existing storage compartments, and is controlled from a dashboard or electronics control unit.",
+    "weight": 10000,
+    "to_hit": 1,
+    "color": "light_blue",
+    "symbol": "-",
+    "material": [ "steel", "plastic" ],
+    "bashing": 5,
+    "category": "veh_parts",
+    "price": 90000
+  },
+  {
+    "type": "GENERIC",
     "id": "washing_machine",
     "name": "washing machine",
     "description": "A very small washing machine designed for use in vehicles.",

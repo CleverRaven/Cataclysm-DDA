@@ -773,6 +773,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
     int qty = 0;
 
     bool found_tool_with_UPS = false;
+    bool found_tool_with_AIR = false;
     self.visit_items( [&]( const item * e ) {
         if( filter( *e ) ) {
             if( e->is_tool() ) {
@@ -781,6 +782,9 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                     qty = sum_no_wrap( qty, e->ammo_remaining() );
                     if( e->has_flag( "USE_UPS" ) ) {
                         found_tool_with_UPS = true;
+                    }
+                    if( e->has_flag( "USE_AIR" ) ) {
+                        found_tool_with_AIR = true;
                     }
                 }
                 return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
@@ -799,6 +803,13 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
 
     if( qty < limit && found_tool_with_UPS ) {
         qty += main.charges_of( "UPS", limit - qty );
+        if( visitor ) {
+            visitor( qty );
+        }
+    }
+
+    if( qty < limit && found_tool_with_AIR ) {
+        qty += main.charges_of( "AIR", limit - qty );
         if( visitor ) {
             visitor( qty );
         }

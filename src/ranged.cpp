@@ -366,6 +366,10 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         shots = std::min( shots, static_cast<int>( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
     }
 
+    if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_air_drain() > 0 ) {
+        shots = std::min( shots, static_cast<int>( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
+    }
+
     if( shots <= 0 ) {
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
     }

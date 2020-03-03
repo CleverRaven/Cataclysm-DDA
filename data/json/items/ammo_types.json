@@ -25,6 +25,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "air",
+    "name": "air",
+    "default": "air"
+  },
+  {
+    "type": "ammunition_type",
     "id": "nail",
     "name": "nails",
     "default": "nail"

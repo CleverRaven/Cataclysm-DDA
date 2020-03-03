@@ -2821,6 +2821,36 @@
   },
   {
     "type": "vehicle_part",
+    "id": "recharge_station_air",
+    "name": "air compressor",
+    "symbol": "o",
+    "color": "light_green",
+    "broken_symbol": "#",
+    "broken_color": "blue",
+    "damage_modifier": 10,
+    "durability": 20,
+    "description": "A device for refilling air cylinders.  When turned on, it fills any refillable air containers placed directly in the attached storage space.",
+    "//": "Only keeping a controller board running while not actively charging",
+    "epower": -10,
+    "bonus": 600,
+    "item": "recharge_station_air",
+    "location": "on_cargo",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "INTERNAL", "RECHARGE_AIR", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
+    "folded_volume": 8,
+    "breaks_into": [
+      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "cable", "charges": [ 1, 3 ] }
+    ],
+    "damage_reduction": { "all": 10 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "wing_mirror",
     "name": "wing mirror",
     "symbol": "o",

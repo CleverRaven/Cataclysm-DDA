@@ -182,6 +182,13 @@
     "bindings": [ { "input_method": "keyboard", "key": "g" } ]
   },
   {
+    "id": "TOGGLE_RECHARGER_AIR",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle air compressor",
+    "bindings": [ { "input_method": "keyboard", "key": "C" } ]
+  },
+  {
     "id": "TOGGLE_SCOOP",
     "type": "keybinding",
     "category": "VEHICLE",

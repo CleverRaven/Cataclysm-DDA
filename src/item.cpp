@@ -2938,6 +2938,14 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                          "recharging station</neutral>. You could charge it with "
                                          "<info>standard batteries</info>, but unloading it is "
                                          "impossible." ) ) );
+        } else if( has_flag( flag_RECHARGE_AIR ) &&
+                   parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_AIR_CAPABLE ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This tool has a <info>refillable compressed air container</info> "
+                                         "and can be recharged in any <neutral>compressed air "
+                                         "recharging station</neutral>. You could charge it with "
+                                         "<info>compressed air</info>, but unloading it is "
+                                         "impossible." ) ) );
         } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This tool <info>runs on bionic power</info>." ) );
@@ -7250,6 +7258,9 @@ int item::units_remaining( const Character &ch, int limit ) const
     if( res < limit && has_flag( flag_USE_UPS ) ) {
         res += ch.charges_of( "UPS", limit - res );
     }
+    if( res < limit && has_flag( flag_USE_AIR ) ) {
+        res += ch.charges_of( "air", limit - res );
+    }
 
     return std::min( static_cast<int>( res ), limit );
 }
@@ -9440,6 +9451,21 @@ int item::get_gun_ups_drain() const
             multiplier *= mod->type->gunmod->ups_charges_multiplier;
         }
         draincount = ( type->gun->ups_charges * multiplier ) + modifier;
+    }
+    return draincount;
+}
+
+int item::get_gun_air_drain() const
+{
+    int draincount = 0;
+    if( type->gun ) {
+        int modifier = 0;
+        float multiplier = 1.0f;
+        for( const item *mod : gunmods() ) {
+            modifier += mod->type->gunmod->air_charges_modifier;
+            multiplier *= mod->type->gunmod->air_charges_multiplier;
+        }
+        draincount = ( type->gun->air_charges * multiplier ) + modifier;
     }
     return draincount;
 }
