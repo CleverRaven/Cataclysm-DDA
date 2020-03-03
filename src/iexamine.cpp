@@ -95,9 +95,8 @@ static void pick_plant( player &p, const tripoint &examp, const std::string &ite
 /**
  * Nothing player can interact with here.
  */
-void iexamine::none( player &p, const tripoint &examp )
+void iexamine::none( player &/*p*/, const tripoint &examp )
 {
-    ( void )p; //unused
     add_msg( _( "That is a %s." ), g->m.name( examp ) );
 }
 

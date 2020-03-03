@@ -722,9 +722,8 @@ void mdeath::gameover( monster &z )
     g->u.hp_cur[hp_torso] = 0;
 }
 
-void mdeath::kill_breathers( monster &z )
+void mdeath::kill_breathers( monster &/*z*/ )
 {
-    ( void )z; //unused
     for( monster &critter : g->all_monsters() ) {
         const mtype_id &monID = critter.type->id;
         if( monID == mon_breather_hub || monID == mon_breather ) {

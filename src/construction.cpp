@@ -1037,9 +1037,8 @@ bool construct::check_no_trap( const tripoint &p )
     return g->m.tr_at( p ).is_null();
 }
 
-void construct::done_trunk_plank( const tripoint &p )
+void construct::done_trunk_plank( const tripoint &/*p*/ )
 {
-    ( void )p; //unused
     int num_logs = rng( 2, 3 );
     for( int i = 0; i < num_logs; ++i ) {
         iuse::cut_log_into_planks( g->u );

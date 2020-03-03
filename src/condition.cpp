@@ -775,9 +775,8 @@ void conditional_t<T>::set_is_driving( bool is_npc )
 }
 
 template<class T>
-void conditional_t<T>::set_has_stolen_item( bool is_npc )
+void conditional_t<T>::set_has_stolen_item( bool /*is_npc*/ )
 {
-    ( void )is_npc;
     condition = []( const T & d ) {
         player *actor = d.alpha;
         npc &p = *d.beta;

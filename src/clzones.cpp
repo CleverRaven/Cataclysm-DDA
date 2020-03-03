@@ -594,9 +594,8 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
 }
 
 std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &where,
-        int radius, bool npc_search, const faction_id &fac ) const
+        int radius, bool npc_search, const faction_id &/*fac*/ ) const
 {
-    ( void )fac;
     std::unordered_set<tripoint> res;
     for( const tripoint elem : g->m.points_in_radius( g->m.getlocal( where ), radius ) ) {
         const zone_data *zone = get_zone_at( g->m.getabs( elem ) );
