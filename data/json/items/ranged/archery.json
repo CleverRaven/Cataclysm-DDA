@@ -298,7 +298,7 @@
     "category": "spare_parts",
     "symbol": "=",
     "color": "green",
-    "name": "explosive arrowhead",
+    "name": { "str": "explosive arrowhead" },
     "description": "This simple IED is designed to be attached to an arrow and detonate on impact.",
     "price": 2000,
     "material": "steel",

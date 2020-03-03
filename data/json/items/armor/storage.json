@@ -2,7 +2,7 @@
   {
     "id": "backpack",
     "type": "ARMOR",
-    "name": "backpack",
+    "name": { "str": "backpack" },
     "description": "A small backpack.  Good storage for a little encumbrance.",
     "weight": "633 g",
     "volume": "2 L",

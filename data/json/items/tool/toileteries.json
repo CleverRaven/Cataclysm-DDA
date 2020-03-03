@@ -128,7 +128,7 @@
   {
     "id": "survivor_hairtrimmer",
     "type": "TOOL",
-    "name": "makeshift haircut kit",
+    "name": { "str": "makeshift haircut kit" },
     "description": "This is a kit with tools for cutting hair.",
     "weight": "642 g",
     "volume": "1 L",
@@ -143,7 +143,7 @@
   {
     "id": "survivor_shavingkit",
     "type": "TOOL",
-    "name": "makeshift shaving kit",
+    "name": { "str": "makeshift shaving kit" },
     "description": "This is a makeshift shaving kit.  You can use it to shave if it's supplied with soap.  It requires 1 unit of soap per use.",
     "weight": "540 g",
     "volume": "750 ml",

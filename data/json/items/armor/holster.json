@@ -2,7 +2,7 @@
   {
     "id": "back_holster",
     "type": "ARMOR",
-    "name": "back holster",
+    "name": { "str": "back holster" },
     "description": "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Whilst initially cumbersome it becomes much easier to use with practice.  Activate to holster/draw a gun.",
     "weight": "240 g",
     "volume": "1250 ml",
@@ -28,7 +28,7 @@
   {
     "id": "bootstrap",
     "type": "ARMOR",
-    "name": "ankle holster",
+    "name": { "str": "ankle holster" },
     "description": "A small concealed holster worn on the ankle.  It is awkward to use without practice.  Activate to holster/draw a small pistol.",
     "weight": "200 g",
     "volume": "250 ml",

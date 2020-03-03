@@ -2,7 +2,7 @@
   {
     "abstract": "fake_item",
     "type": "GENERIC",
-    "name": "fake item",
+    "name": { "str": "fake item" },
     "description": "Dummy item.  If you see this, then something went wrong.",
     "symbol": "@",
     "color": "red"
@@ -26,8 +26,8 @@
     "id": "toolset",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "integrated toolset",
-    "flags": "TRADER_AVOID",
+    "name": { "str": "integrated toolset" },
+    "flags": [ "TRADER_AVOID" ],
     "max_charges": 10000,
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [

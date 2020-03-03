@@ -68,7 +68,7 @@
     "type": "GENERIC",
     "id": "baton",
     "category": "weapons",
-    "name": "expandable baton",
+    "name": { "str": "expandable baton" },
     "description": "A telescoping baton that collapses for easy storage.  Makes an excellent melee weapon.  Activate to expand.",
     "weight": "725 g",
     "to_hit": 2,

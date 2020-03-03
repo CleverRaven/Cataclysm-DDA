@@ -80,7 +80,7 @@
   {
     "type": "GENERIC",
     "id": "floodlight",
-    "name": "floodlight",
+    "name": { "str": "floodlight" },
     "description": "A large and heavy light designed to illuminate wide areas.",
     "weight": "2500 g",
     "to_hit": 1,

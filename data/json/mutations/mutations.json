@@ -2,7 +2,7 @@
   {
     "type": "mutation",
     "id": "FLEET",
-    "name": "Fleet-Footed",
+    "name": { "str": "Fleet-Footed" },
     "points": 2,
     "description": "You can move more quickly than most, resulting in a 15% speed bonus on sure footing.",
     "starting_trait": true,
@@ -146,7 +146,7 @@
   {
     "type": "mutation",
     "id": "FASTHEALER",
-    "name": "Fast Healer",
+    "name": { "str": "Fast Healer" },
     "points": 2,
     "description": "You heal faster when sleeping and will even recover a small amount of HP when not sleeping.",
     "starting_trait": true,
@@ -230,7 +230,7 @@
   {
     "type": "mutation",
     "id": "FASTREADER",
-    "name": "Fast Reader",
+    "name": { "str": "Fast Reader" },
     "points": 1,
     "description": "You're a quick reader, and can get through books a lot faster than most.",
     "reading_speed_multiplier": 0.8,
@@ -263,7 +263,7 @@
   {
     "type": "mutation",
     "id": "TOUGH2",
-    "name": "Durable",
+    "name": { "str": "Durable" },
     "points": 3,
     "description": "You can shrug off almost anything!  You get a 30% bonus to all hit points.",
     "valid": false,
@@ -327,7 +327,7 @@
   {
     "type": "mutation",
     "id": "FASTLEARNER",
-    "name": "Fast Learner",
+    "name": { "str": "Fast Learner" },
     "points": 3,
     "description": "You have a flexible mind, allowing you to learn skills much faster than others.  Note that this only applies to real-world experience, not to skill gain from other sources like books.",
     "starting_trait": true,
@@ -429,7 +429,7 @@
   {
     "type": "mutation",
     "id": "NONADDICTIVE",
-    "name": "Addiction Resistant",
+    "name": { "str": "Addiction Resistant" },
     "points": 1,
     "description": "Whether due to a lifetime of exposure or through simple willpower, it's harder for you to become addicted to substances, and easier to rid yourself of these addictions.",
     "starting_trait": true,
@@ -806,7 +806,7 @@
   {
     "type": "mutation",
     "id": "HYPEROPIC",
-    "name": "Far-Sighted",
+    "name": { "str": "Far-Sighted" },
     "points": -2,
     "description": "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting.  However, you are guaranteed to start with a pair of reading glasses.",
     "starting_trait": true,
@@ -1049,7 +1049,7 @@
   {
     "type": "mutation",
     "id": "FORGETFUL",
-    "name": "Forgetful",
+    "name": { "str": "Forgetful" },
     "points": -3,
     "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
     "social_modifiers": { "lie": -5 },
@@ -1072,7 +1072,7 @@
   {
     "type": "mutation",
     "id": "ADDICTIVE",
-    "name": "Addictive Personality",
+    "name": { "str": "Addictive Personality" },
     "points": -2,
     "description": "It's easier for you to become addicted to substances, and harder to rid yourself of these addictions.",
     "starting_trait": true,
@@ -1287,7 +1287,7 @@
   {
     "type": "mutation",
     "id": "FLIMSY",
-    "name": "Flimsy",
+    "name": { "str": "Flimsy" },
     "points": -4,
     "description": "Your body can't take much abuse.  Its maximum HP is 25% lower than usual and you heal slightly slower.  Stacks with Glass Jaw.",
     "starting_trait": true,
@@ -1301,7 +1301,7 @@
   {
     "type": "mutation",
     "id": "FLIMSY2",
-    "name": "Frail",
+    "name": { "str": "Frail" },
     "points": -6,
     "description": "Your body breaks very easily.  Its maximum HP is 50% lower than usual and you heal slower.  Stacks with Glass Jaw.",
     "starting_trait": true,
@@ -1315,7 +1315,7 @@
   {
     "type": "mutation",
     "id": "FLIMSY3",
-    "name": "Fragile",
+    "name": { "str": "Fragile" },
     "points": -8,
     "description": "Your body is extremely fragile.  Its maximum HP is 75% lower than usual and you heal much slower.  Stacks with Glass Jaw.",
     "starting_trait": true,
@@ -1401,7 +1401,7 @@
   {
     "type": "mutation",
     "id": "ELFAEYES",
-    "name": "Fey Eyes",
+    "name": { "str": "Fey Eyes" },
     "points": 1,
     "description": "Your eyes have turned… green.  It's tough to tell the exact shade as it seems to shift.  The effect is… pleasant.",
     "leads_to": [ "ELFA_NV" ],
@@ -1413,7 +1413,7 @@
   {
     "type": "mutation",
     "id": "ELFA_NV",
-    "name": "Fey Vision",
+    "name": { "str": "Fey Vision" },
     "points": 3,
     "description": "The shadows don't seem as dark now.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "ELFAEYES" ],
@@ -1426,7 +1426,7 @@
   {
     "type": "mutation",
     "id": "ELFA_FNV",
-    "name": "Fey Nightsight",
+    "name": { "str": "Fey Nightsight" },
     "points": 5,
     "description": "You have great low-light vision now, though that doesn't allow you to perform fine tasks such as crafting and reading in darkness.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "ELFA_NV" ],
@@ -1438,7 +1438,7 @@
   {
     "type": "mutation",
     "id": "FEL_EYE",
-    "name": "Feline Eyes",
+    "name": { "str": "Feline Eyes" },
     "points": 0,
     "visibility": 2,
     "ugliness": 1,
@@ -1451,7 +1451,7 @@
   {
     "type": "mutation",
     "id": "FEL_NV",
-    "name": "Feline Vision",
+    "name": { "str": "Feline Vision" },
     "points": 4,
     "description": "Your optic nerves and brain caught up with your eyes.  Now you can see pretty well at night.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "FEL_EYE" ],
@@ -2325,7 +2325,7 @@
   {
     "type": "mutation",
     "id": "FLOWERS",
-    "name": "Flowering",
+    "name": { "str": "Flowering" },
     "points": 2,
     "visibility": 10,
     "ugliness": -4,
@@ -3235,7 +3235,7 @@
   {
     "type": "mutation",
     "id": "TAIL_FLUFFY",
-    "name": "Fluffy Tail",
+    "name": { "str": "Fluffy Tail" },
     "points": 1,
     "visibility": 7,
     "description": "You have a long, fluffy-furred tail.  It greatly improves your balance, making your ability to dodge much higher.  Prevents wearing non-fabric pants.",
@@ -4291,7 +4291,7 @@
   {
     "type": "mutation",
     "id": "FORKED_TONGUE",
-    "name": "Forked Tongue",
+    "name": { "str": "Forked Tongue" },
     "points": 0,
     "visibility": 1,
     "ugliness": 3,
@@ -4635,7 +4635,7 @@
   {
     "type": "mutation",
     "id": "HUNGER",
-    "name": "Fast Metabolism",
+    "name": { "str": "Fast Metabolism" },
     "points": -2,
     "description": "You require more food than most people, but recover stamina slightly faster.",
     "starting_trait": true,
@@ -5126,7 +5126,7 @@
     "id": "CARNIVORE",
     "name": { "str": "Carnivore" },
     "points": -4,
-    "description": "Your body's ability to digest fruits, vegetables and grains is severely hampered.  You cannot eat anything besides meat.",
+    "description": "Your body's ability to digest fruits, vegetables, grains and nuts is severely hampered.  You cannot eat anything besides meat.",
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "leads_to": [ "SAPROVORE" ],
     "category": [ "LIZARD", "BEAST", "SPIDER", "CHIMERA", "RAPTOR", "FELINE" ],
@@ -5448,7 +5448,7 @@
   {
     "type": "mutation",
     "id": "ARM_FEATHERS",
-    "name": "Feathered Arms",
+    "name": { "str": "Feathered Arms" },
     "points": -2,
     "visibility": 8,
     "ugliness": 2,
@@ -5766,7 +5766,7 @@
   {
     "type": "mutation",
     "id": "THRESH_FELINE",
-    "name": "Feline",
+    "name": { "str": "Feline" },
     "points": 1,
     "description": "Stalking prey, eating well, and lying in the sun.  Mmm, all you could ever desire.",
     "valid": false,
@@ -5897,7 +5897,7 @@
   {
     "type": "mutation",
     "id": "THRESH_ELFA",
-    "name": "Fey",
+    "name": { "str": "Fey" },
     "points": 1,
     "description": "You are the tree under which humankind will shelter during these dark times.",
     "valid": false,
@@ -6103,7 +6103,7 @@
   {
     "type": "mutation",
     "id": "PROF_CHURL",
-    "name": "Churl",
+    "name": { "str": "Churl" },
     "points": 0,
     "description": "Thou art a lewede man, a lowly cowherd, though where thi catel been thou hast not ynn certain.",
     "valid": false,
