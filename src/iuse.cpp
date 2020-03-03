@@ -4391,7 +4391,7 @@ int iuse::hand_pump_integral( player *p, item *it, bool, const tripoint & )
                                     "hand-pumping" );
             } else {
                 p->add_msg_if_player(
-                    _( "You could use the %s to fill its %s, but the reservoir is already at capacity." ),
+                    _( "You could use the %1$s to fill its %2$s, but the reservoir is already at capacity." ),
                     it->tname(), magazine->tname() );
             }
         } else {
