@@ -23,7 +23,7 @@
     "special_attacks": [ [ "PHOTOGRAPH", 30 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS" ]
   },
   {
     "id": "mon_grocerybot",
