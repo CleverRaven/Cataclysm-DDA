@@ -1923,6 +1923,13 @@ void options_manager::add_options_debug()
          0, 1000, 2
        );
 
+    add_empty_line();
+
+    add( "MAX_STAT_POINTS", "debug", translate_marker( "Maximum stat points" ),
+        translate_marker( "Maximum stat points available for character generation." ),
+        0, 1000, 14
+    );
+
     add( "MAX_TRAIT_POINTS", "debug", translate_marker( "Maximum trait points" ),
          translate_marker( "Maximum trait points available for character generation." ),
          0, 1000, 12

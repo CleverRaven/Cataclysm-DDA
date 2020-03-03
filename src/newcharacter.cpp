@@ -79,7 +79,6 @@
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
 #define HIGH_STAT 12 // The point after which stats cost double
-#define MAX_STAT 14 // The point after which stats can not be increased further
 
 #define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
 
@@ -155,7 +154,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
 void avatar::randomize( const bool random_scenario, points_left &points, bool play_now )
 {
-
+    const int MAX_STAT = get_option<int>( "MAX_STAT_POINTS" );
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
     *this = avatar();
@@ -735,6 +734,8 @@ tab_direction set_points( const catacurses::window &w, avatar &, points_left &po
 
 tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points )
 {
+    const int MAX_STAT = get_option<int>( "MAX_STAT_POINTS" );
+
     unsigned char sel = 1;
     const int iSecondColumn = std::max( 27, utf8_width( points.to_string(), true ) + 9 );
     input_context ctxt( "NEW_CHAR_STATS" );
