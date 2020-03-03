@@ -12,6 +12,7 @@
 #include "cursesdef.h"
 #include "point.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -170,7 +171,7 @@ class uilist: public ui_container
         std::string text;
         std::vector<std::string> textformatted;
         std::string input_category;
-        std::vector< std::pair<std::string, std::string> > additional_actions;
+        std::vector<std::pair<std::string, translation>> additional_actions;
         int textwidth;
         int textalign;
         int max_entry_len;

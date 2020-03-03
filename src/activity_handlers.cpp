@@ -60,6 +60,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "uistate.h"
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -192,6 +193,7 @@ activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
     { ACT_TRAIN, train_finish },
     { ACT_CHURN, churn_finish },
+    { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
     { ACT_START_ENGINES, start_engines_finish },
     { ACT_OXYTORCH, oxytorch_finish },
@@ -1279,9 +1281,9 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
         debugmsg( "could not find source creature for liquid transfer" );
         return;
     }
-    auto milked_item = source_mon->ammo.find( "milk_raw" );
+    auto milked_item = source_mon->ammo.find( source_mon->type->starting_ammo.begin()->first );
     if( milked_item == source_mon->ammo.end() ) {
-        debugmsg( "animal has no milk ammo type" );
+        debugmsg( "animal has no milkable ammo type" );
         return;
     }
     if( milked_item->second <= 0 ) {
@@ -2554,11 +2556,16 @@ void activity_handlers::heat_item_finish( player_activity *act, player *p )
         return;
     }
     item_location &loc = act->targets[ 0 ];
-    item *heat = loc.get_item();
+    item *const heat = loc.get_item();
     if( heat == nullptr ) {
         return;
     }
-    item &target = *heat->get_food();
+    item *const food = heat->get_food();
+    if( food == nullptr ) {
+        debugmsg( "item %s is not food", heat->typeId() );
+        return;
+    }
+    item &target = *food;
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
         if( target.has_flag( flag_EATEN_COLD ) ) {
@@ -3352,6 +3359,37 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You finish churning up the earth here." ) );
     g->m.ter_set( g->m.getlocal( act->placement ), t_dirtmound );
+    // Go back to what we were doing before
+    // could be player zone activity, or could be NPC multi-farming
+    act->set_to_null();
+    resume_for_multi_activities( *p );
+}
+
+void activity_handlers::plant_seed_finish( player_activity *act, player *p )
+{
+    tripoint examp = act->placement;
+    const std::string seed_id = act->str_values[0];
+    std::list<item> used_seed;
+    if( item::count_by_charges( seed_id ) ) {
+        used_seed = p->use_charges( seed_id, 1 );
+    } else {
+        used_seed = p->use_amount( seed_id, 1 );
+    }
+    if( !used_seed.empty() ) {
+        used_seed.front().set_age( 0_turns );
+        if( used_seed.front().has_var( "activity_var" ) ) {
+            used_seed.front().erase_var( "activity_var" );
+        }
+        used_seed.front().set_flag( flag_HIDDEN_ITEM );
+        g->m.add_item_or_charges( examp, used_seed.front() );
+        if( g->m.has_flag_furn( flag_PLANTABLE, examp ) ) {
+            g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
+        } else {
+            g->m.set( examp, t_dirt, f_plant_seed );
+        }
+        p->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
+                                  item::nname( seed_id ) );
+    }
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act->set_to_null();

@@ -277,7 +277,7 @@
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
-    "name": "Kevlar vest",
+    "name": { "str": "Kevlar vest" },
     "description": "A lightweight, bullet resistant vest.  Suitable for wearing under clothing.",
     "weight": "2860 g",
     "volume": "6 L",

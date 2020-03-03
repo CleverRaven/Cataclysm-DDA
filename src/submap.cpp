@@ -5,9 +5,11 @@
 #include <iterator>
 #include <array>
 
+#include "basecamp.h"
 #include "mapdata.h"
 #include "trap.h"
 #include "tileray.h"
+#include "vehicle.h"
 
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
@@ -43,6 +45,11 @@ submap::submap()
 
     is_uniform = false;
 }
+
+submap::submap( submap && ) = default;
+submap::~submap() = default;
+
+submap &submap::operator=( submap && ) = default;
 
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );

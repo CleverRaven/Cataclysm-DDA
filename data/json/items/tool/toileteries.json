@@ -33,7 +33,7 @@
   {
     "id": "elec_hairtrimmer",
     "type": "TOOL",
-    "name": "electric hair trimmer",
+    "name": { "str": "electric hair trimmer" },
     "description": "This is a pocket-sized electric trimmer made for cutting hair.  You can use it to cut your hair if it's supplied with batteries.  It requires 10 batteries per use.",
     "weight": "138 g",
     "volume": "250 ml",

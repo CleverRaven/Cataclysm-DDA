@@ -1288,6 +1288,12 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         if( hotkey == '{' ) {
             hotkey = 'A';
         }
+
+        while( hotkey == 'c' || hotkey == 'g' || hotkey == 'j' || hotkey == 'k' || hotkey == 'l' ||
+               hotkey == 'p' || hotkey == 'q' || hotkey == 't' || hotkey == 'v' || hotkey == 'x' ||
+               hotkey == 'z' ) {
+            hotkey += 1;
+        }
         return hotkey;
     };
 

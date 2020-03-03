@@ -305,7 +305,7 @@
     "id": "linuxtshirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "Linux t-shirt",
+    "name": { "str": "Linux t-shirt" },
     "description": "A t-shirt with a picture of the Tux mascot on it.  Underneath it says \"You wouldn't buy a car with the hood welded shut.\"",
     "weight": "110 g",
     "volume": "500 ml",

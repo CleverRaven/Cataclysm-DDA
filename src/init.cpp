@@ -16,6 +16,7 @@
 #include "anatomy.h"
 #include "behavior.h"
 #include "bionics.h"
+#include "clzones.h"
 #include "construction.h"
 #include "crafting_gui.h"
 #include "creature.h"

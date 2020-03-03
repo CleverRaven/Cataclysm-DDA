@@ -78,8 +78,8 @@
 #define COL_NOTE_MAJOR      c_green   // Important note
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
-#define HIGH_STAT 14 // The point after which stats cost double
-#define MAX_STAT 20 // The point after which stats can not be increased further
+#define HIGH_STAT 12 // The point after which stats cost double
+#define MAX_STAT 14 // The point after which stats can not be increased further
 
 #define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
 
@@ -137,7 +137,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
     menu.input_category = "MELEE_STYLE_PICKER";
-    menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
+    menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
     menu.desc_enabled = true;
 
     for( auto &s : styles ) {

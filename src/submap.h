@@ -11,7 +11,6 @@
 #include <map>
 
 #include "active_item_cache.h"
-#include "basecamp.h"
 #include "calendar.h"
 #include "colony.h"
 #include "computer.h"
@@ -20,15 +19,16 @@
 #include "game_constants.h"
 #include "item.h"
 #include "type_id.h"
-#include "vehicle.h"
 #include "point.h"
 
 class JsonIn;
 class JsonOut;
+class basecamp;
 class map;
 struct trap;
 struct ter_t;
 struct furn_t;
+class vehicle;
 
 struct spawn_point {
     point pos;
@@ -63,6 +63,10 @@ class submap : maptile_soa<SEEX, SEEY>
 {
     public:
         submap();
+        submap( submap && );
+        ~submap();
+
+        submap &operator=( submap && );
 
         trap_id get_trap( const point &p ) const {
             return trp[p.x][p.y];

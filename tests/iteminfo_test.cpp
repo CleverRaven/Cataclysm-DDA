@@ -250,7 +250,8 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
         test_info_equals(
             item( "test_compbow" ), q,
             "--\n"
-            "<color_c_white>Ranged damage</color>: <color_c_yellow>18</color>*<color_c_yellow>1.25</color> = <color_c_yellow>22</color>\n"
+            "<color_c_white>Ranged damage</color>:"
+            " <color_c_yellow>18</color>*<color_c_yellow>1.50</color> = <color_c_yellow>27</color>\n"
             "Armor-pierce: <color_c_yellow>0</color>\n" );
     }
 

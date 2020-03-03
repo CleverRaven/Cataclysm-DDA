@@ -1523,7 +1523,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     const std::string seed = options.get_seed();
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                     // then it means no further work can be done here
-                    if( seed == "No seed" ) {
+                    if( seed.empty() ) {
                         return activity_reason_info::fail( ALREADY_DONE );
                     }
                     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
@@ -1991,17 +1991,17 @@ static void fetch_activity( player &p, const tripoint &src_loc,
                     }
                     it.set_var( "activity_var", p.name );
                     p.i_add( it );
-                    items_there.erase( item_iter );
-                    // If we didn't pick up a whole stack, put the remainder back where it came from.
-                    if( leftovers.charges > 0 ) {
-                        g->m.add_item_or_charges( src_loc, leftovers );
-                    }
                     if( p.is_npc() ) {
                         if( pickup_count == 1 ) {
                             add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), it.tname() );
                         } else {
                             add_msg( _( "%s picks up several items." ), p.disp_name() );
                         }
+                    }
+                    items_there.erase( item_iter );
+                    // If we didn't pick up a whole stack, put the remainder back where it came from.
+                    if( leftovers.charges > 0 ) {
+                        g->m.add_item_or_charges( src_loc, leftovers );
                     }
                     return;
                 }
@@ -2438,9 +2438,8 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
                 }
             }
         }
-    }
-    zone_type_id zone_type = get_zone_for_act( tripoint_zero, mgr, act_id );
-    if( act_id != ACT_FETCH_REQUIRED ) {
+    } else if( act_id != ACT_FETCH_REQUIRED ) {
+        zone_type_id zone_type = get_zone_for_act( tripoint_zero, mgr, act_id );
         src_set = mgr.get_near( zone_type_id( zone_type ), abspos, ACTIVITY_SEARCH_DISTANCE );
         // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
         if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
@@ -2698,7 +2697,8 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
                 continue;
             }
             iexamine::plant_seed( p, src_loc, itype_id( seed ) );
-            break;
+            p.backlog.push_front( act_id );
+            return false;
         }
     } else if( reason == NEEDS_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
         if( chop_plank_activity( p, src_loc ) ) {

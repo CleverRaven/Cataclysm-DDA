@@ -132,7 +132,7 @@
     "id": "spear_homemade_halfpike",
     "type": "TOOL",
     "category": "weapons",
-    "name": "homemade halfpike",
+    "name": { "str": "homemade halfpike" },
     "description": "A short do-it-yourself spear made out of a smooth wooden shaft with a metal spike seated and bound into place at its tip.  Its functional grip and decent construction makes it a usable, if not effective, weapon.",
     "weight": "1814 g",
     "volume": "1500 ml",
@@ -168,7 +168,7 @@
   {
     "type": "GENERIC",
     "id": "spear_copper",
-    "name": "copper spear",
+    "name": { "str": "copper spear" },
     "description": "A stout wooden pole with a spearhead worked from copper.",
     "weight": "1450 g",
     "to_hit": 1,

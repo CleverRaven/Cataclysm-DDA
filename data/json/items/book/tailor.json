@@ -9,7 +9,7 @@
   {
     "id": "mag_beauty",
     "type": "BOOK",
-    "name": "Beauty Magazine",
+    "name": { "str": "Beauty Magazine" },
     "description": "This is a full-size glossy women's magazine.  There are a few simple patterns and basic sewing tips somewhere in between the fashion photos and the makeup advertisements.",
     "weight": "180 g",
     "volume": "500 ml",
@@ -62,7 +62,7 @@
   {
     "id": "tailor_portfolio",
     "type": "BOOK",
-    "name": "clothing designer's portfolio",
+    "name": { "str": "clothing designer's portfolio" },
     "description": "A leather bound portfolio that once belonged to a clothing designer.  Filled with sketches and notes, a skilled tailor could learn a lot from this volume.",
     "weight": "2063 g",
     "volume": "2 L",

@@ -380,6 +380,9 @@ class Character : public Creature, public visitable<Character>
         /**Get bonus to max_hp from excess stored fat*/
         int get_fat_to_hp() const;
 
+        /** Get size class of character **/
+        m_size get_size() const override;
+
         /** Returns either "you" or the player's name. capitalize_first assumes
             that the character's name is already upper case and uses it only for
             possessive "your" and "you"
@@ -1865,6 +1868,8 @@ class Character : public Creature, public visitable<Character>
 
         /**height at character creation*/
         int init_height = 175;
+        /** Size class of character. */
+        m_size size_class = MS_MEDIUM;
 
         // the player's activity level for metabolism calculations
         float activity_level = NO_EXERCISE;

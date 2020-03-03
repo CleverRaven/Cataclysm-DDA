@@ -214,7 +214,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             // post-0.A had written action names into the user preferences
             // config file. Any names that exist in user preferences will be
             // ignored.
-            actions[action_id].name = action.get_string( "name" );
+            action.read( "name", actions[action_id].name );
         }
 
         t_input_event_list events;
@@ -507,19 +507,19 @@ const action_attributes &input_manager::get_action_attributes(
     return default_action_context[action_id];
 }
 
-std::string input_manager::get_default_action_name( const std::string &action_id ) const
+translation input_manager::get_default_action_name( const std::string &action_id ) const
 {
     const t_action_contexts::const_iterator default_action_context = action_contexts.find(
                 default_context_id );
     if( default_action_context == action_contexts.end() ) {
-        return action_id;
+        return no_translation( action_id );
     }
 
     const t_actions::const_iterator default_action = default_action_context->second.find( action_id );
     if( default_action != default_action_context->second.end() ) {
         return default_action->second.name;
     } else {
-        return action_id;
+        return no_translation( action_id );
     }
 }
 
@@ -669,10 +669,10 @@ void input_context::register_manual_key( int key, const std::string text )
 
 void input_context::register_action( const std::string &action_descriptor )
 {
-    register_action( action_descriptor, "" );
+    register_action( action_descriptor, translation() );
 }
 
-void input_context::register_action( const std::string &action_descriptor, const std::string &name )
+void input_context::register_action( const std::string &action_descriptor, const translation &name )
 {
     if( action_descriptor == "ANY_INPUT" ) {
         registered_any_input = true;
@@ -996,8 +996,8 @@ action_id input_context::display_menu( const bool permit_execute_action )
 
     // Shamelessly stolen from help.cpp
     input_context ctxt( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "UP", translate_marker( "Scroll up" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Scroll down" ) );
+    ctxt.register_action( "UP", to_translation( "Scroll up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "REMOVE" );
@@ -1342,16 +1342,16 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 std::string input_context::get_action_name( const std::string &action_id ) const
 {
     // 1) Check action name overrides specific to this input_context
-    const input_manager::t_string_string_map::const_iterator action_name_override =
+    const auto action_name_override =
         action_name_overrides.find( action_id );
     if( action_name_override != action_name_overrides.end() ) {
-        return _( action_name_override->second );
+        return action_name_override->second.translated();
     }
 
     // 2) Check if the hotkey has a name
     const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, category );
     if( !attributes.name.empty() ) {
-        return _( attributes.name );
+        return attributes.name.translated();
     }
 
     // 3) If the hotkey has no name, the user has created a local hotkey in
@@ -1360,7 +1360,7 @@ std::string input_context::get_action_name( const std::string &action_id ) const
     const action_attributes &default_attributes = inp_mngr.get_action_attributes( action_id,
             default_context_id );
     if( !default_attributes.name.empty() ) {
-        return _( default_attributes.name );
+        return default_attributes.name.translated();
     }
 
     // 4) Unable to find suitable name. Keybindings configuration likely borked

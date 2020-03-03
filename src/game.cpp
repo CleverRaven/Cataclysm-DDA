@@ -2254,17 +2254,17 @@ input_context get_default_mode_input_context()
     input_context ctxt( "DEFAULTMODE" );
     // Because those keys move the character, they don't pan, as their original name says
     ctxt.set_iso( true );
-    ctxt.register_action( "UP", translate_marker( "Move North" ) );
-    ctxt.register_action( "RIGHTUP", translate_marker( "Move Northeast" ) );
-    ctxt.register_action( "RIGHT", translate_marker( "Move East" ) );
-    ctxt.register_action( "RIGHTDOWN", translate_marker( "Move Southeast" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Move South" ) );
-    ctxt.register_action( "LEFTDOWN", translate_marker( "Move Southwest" ) );
-    ctxt.register_action( "LEFT", translate_marker( "Move West" ) );
-    ctxt.register_action( "LEFTUP", translate_marker( "Move Northwest" ) );
+    ctxt.register_action( "UP", to_translation( "Move North" ) );
+    ctxt.register_action( "RIGHTUP", to_translation( "Move Northeast" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Move East" ) );
+    ctxt.register_action( "RIGHTDOWN", to_translation( "Move Southeast" ) );
+    ctxt.register_action( "DOWN", to_translation( "Move South" ) );
+    ctxt.register_action( "LEFTDOWN", to_translation( "Move Southwest" ) );
+    ctxt.register_action( "LEFT", to_translation( "Move West" ) );
+    ctxt.register_action( "LEFTUP", to_translation( "Move Northwest" ) );
     ctxt.register_action( "pause" );
-    ctxt.register_action( "LEVEL_DOWN", translate_marker( "Descend Stairs" ) );
-    ctxt.register_action( "LEVEL_UP", translate_marker( "Ascend Stairs" ) );
+    ctxt.register_action( "LEVEL_DOWN", to_translation( "Descend Stairs" ) );
+    ctxt.register_action( "LEVEL_UP", to_translation( "Ascend Stairs" ) );
     ctxt.register_action( "toggle_map_memory" );
     ctxt.register_action( "center" );
     ctxt.register_action( "shift_n" );
@@ -4109,7 +4109,9 @@ void game::monmove()
 
         m.creature_in_field( critter );
         if( calendar::once_every( 1_days ) ) {
-            critter.refill_udders();
+            if( critter.has_flag( MF_MILKABLE ) ) {
+                critter.refill_udders();
+            }
             critter.try_biosignature();
             critter.try_reproduce();
         }
@@ -7119,10 +7121,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
     std::string action;
     input_context ctxt( "LIST_ITEMS" );
-    ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Move cursor down" ) );
-    ctxt.register_action( "LEFT", translate_marker( "Previous item" ) );
-    ctxt.register_action( "RIGHT", translate_marker( "Next item" ) );
+    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
+    ctxt.register_action( "LEFT", to_translation( "Previous item" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Next item" ) );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "NEXT_TAB" );
@@ -7489,8 +7491,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     std::string action;
     input_context ctxt( "LIST_MONSTERS" );
-    ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Move cursor down" ) );
+    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "SAFEMODE_BLACKLIST_ADD" );
@@ -8240,10 +8242,14 @@ void game::butcher()
         }
         break;
         case BUTCHER_SALVAGE: {
-            // Pick index of first item in the salvage stack
-            item *const target = &*salvage_stacks[indexer_index].first;
-            item_location item_loc( map_cursor( u.pos() ), target );
-            salvage_iuse->cut_up( u, *salvage_tool, item_loc );
+            if( !salvage_iuse || !salvage_tool ) {
+                debugmsg( "null salve_iuse or salvage_tool" );
+            } else {
+                // Pick index of first item in the salvage stack
+                item *const target = &*salvage_stacks[indexer_index].first;
+                item_location item_loc( map_cursor( u.pos() ), target );
+                salvage_iuse->cut_up( u, *salvage_tool, item_loc );
+            }
         }
         break;
     }
@@ -10280,10 +10286,24 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     int best = INT_MAX;
     const int movez = z_after - get_levz();
     Creature *blocking_creature = nullptr;
+    const bool going_down_1 = movez == -1;
+    const bool going_up_1 = movez == 1;
+    // If there are stairs on the same x and y as we currently are, use those
+    if( going_down_1 && mp.has_flag( TFLAG_GOES_UP, u.pos() + tripoint_below ) ) {
+        stairs.emplace( u.pos() + tripoint_below );
+    }
+    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) ) {
+        stairs.emplace( u.pos() + tripoint_above );
+    }
+    if( stairs ) {
+        // We found stairs above or below, no need to do anything else
+        return stairs;
+    }
+    // Otherwise, search the map for them
     for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
         if( rl_dist( u.pos(), dest ) <= best &&
-            ( ( movez == -1 && mp.has_flag( "GOES_UP", dest ) ) ||
-              ( movez == 1 && ( mp.has_flag( "GOES_DOWN", dest ) ||
+            ( ( going_down_1 && mp.has_flag( TFLAG_GOES_UP, dest ) ) ||
+              ( going_up_1 && ( mp.has_flag( TFLAG_GOES_DOWN, dest ) ||
                                 mp.ter( dest ) == t_manhole_cover ) ) ||
               ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
             if( mp.has_zlevels() && critter_at( dest ) ) {

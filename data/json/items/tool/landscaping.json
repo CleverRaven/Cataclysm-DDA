@@ -2,7 +2,7 @@
   {
     "id": "digging_stick",
     "type": "GENERIC",
-    "name": "digging stick",
+    "name": { "str": "digging stick" },
     "category": "tools",
     "description": "This is a large stick, with the end carved into a broad blade for digging.  It could be used to dig shallow pits, but not deep ones.",
     "weight": "1133 g",
@@ -34,7 +34,7 @@
   {
     "id": "hoe",
     "type": "TOOL",
-    "name": "hoe",
+    "name": { "str": "hoe" },
     "description": "This is a farming implement.  You can use it to turn tillable land into a slow-to-cross pile of dirt, or dig a shallow pit.",
     "weight": "1088 g",
     "volume": "3500 ml",

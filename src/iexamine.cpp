@@ -1262,7 +1262,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 {
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
-        return temporary_item.has_quality( qual_PRY, 1 );
+        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
     } );
 
     if( prying_items.empty() ) {
@@ -1273,7 +1273,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     // Sort by their quality level.
     std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
-        return a->get_quality( qual_PRY ) > b->get_quality( qual_PRY );
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
     //~ %1$s: terrain/furniture name, %2$s: prying tool name
@@ -1944,28 +1944,10 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
  */
 void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &seed_id )
 {
-    std::list<item> used_seed;
-    if( item::count_by_charges( seed_id ) ) {
-        used_seed = p.use_charges( seed_id, 1 );
-    } else {
-        used_seed = p.use_amount( seed_id, 1 );
-    }
-    if( !used_seed.empty() ) {
-        used_seed.front().set_age( 0_turns );
-        if( used_seed.front().has_var( "activity_var" ) ) {
-            used_seed.front().erase_var( "activity_var" );
-        }
-        used_seed.front().set_flag( flag_HIDDEN_ITEM );
-        g->m.add_item_or_charges( examp, used_seed.front() );
-        if( g->m.has_flag_furn( flag_PLANTABLE, examp ) ) {
-            g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
-        } else {
-            g->m.set( examp, t_dirt, f_plant_seed );
-        }
-        p.moves -= to_moves<int>( 30_seconds );
-        p.add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
-                                 item::nname( seed_id ) );
-    }
+    player_activity act( ACT_PLANT_SEED, to_moves<int>( 30_seconds ) );
+    act.placement = examp;
+    act.str_values.emplace_back( seed_id );
+    p.assign_activity( act );
 }
 
 /**
@@ -3224,12 +3206,12 @@ static item_location maple_tree_sap_container()
 
 void iexamine::tree_maple( player &p, const tripoint &examp )
 {
-    if( !p.has_quality( qual_DRILL ) ) {
+    if( !p.has_quality( quality_id( "DRILL" ) ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
     }
 
-    if( !p.has_quality( qual_HAMMER ) ) {
+    if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
         add_msg( m_info,
                  _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
         return;
@@ -3302,7 +3284,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
     switch( selectmenu.ret ) {
         case REMOVE_TAP: {
-            if( !p.has_quality( qual_HAMMER ) ) {
+            if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
                 return;
             }
@@ -3628,10 +3610,15 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     if( amount_in_furn > 0 ) {
         if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                         ammo->nname( amount_in_furn ) ) ) {
-            p.assign_activity( ACT_PICKUP );
-            p.activity.targets.emplace_back( map_cursor( examp ), &g->m.i_at( examp ).only_item() );
-            p.activity.values.push_back( 0 );
-            return;
+            auto items = g->m.i_at( examp );
+            for( auto &itm : items ) {
+                if( itm.type == ammo ) {
+                    p.assign_activity( ACT_PICKUP );
+                    p.activity.targets.emplace_back( map_cursor( examp ), &itm );
+                    p.activity.values.push_back( 0 );
+                    return;
+                }
+            }
         }
     }
 

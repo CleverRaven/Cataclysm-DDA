@@ -231,7 +231,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
     // item always has any relic properties from itype.
     if( type->relic_data ) {
-        relic_data = *type->relic_data;
+        relic_data = type->relic_data;
     }
 }
 
@@ -301,6 +301,12 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
         }
     }
 }
+
+item::item( const item & ) = default;
+item::item( item && ) = default;
+item::~item() = default;
+item &item::operator=( const item & ) = default;
+item &item::operator=( item && ) = default;
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
                         const int upgrade_time )
@@ -4794,13 +4800,19 @@ bool item::goes_bad() const
     return is_food() && get_comestible()->spoils != 0_turns;
 }
 
+bool item::goes_bad_after_opening() const
+{
+    return goes_bad() || ( type->container && type->container->preserves &&
+                           !contents.empty() && contents.front().goes_bad() );
+}
+
 time_duration item::get_shelf_life() const
 {
     if( goes_bad() ) {
         if( is_food() ) {
             return get_comestible()->spoils;
         } else if( is_corpse() ) {
-            return CORPSE_ROT_TIME;
+            return 24_hours;
         }
     }
     return 0_turns;

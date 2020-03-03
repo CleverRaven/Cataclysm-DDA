@@ -156,7 +156,7 @@
   {
     "id": "crossbow_trap",
     "type": "TOOL",
-    "name": "crossbow trap",
+    "name": { "str": "crossbow trap" },
     "description": "This is a simple tripwire, which is attached to the trigger of a loaded crossbow.  When pulled, the crossbow fires.  Only a single round can be used, after which the trap is disabled.",
     "weight": "1772 g",
     "volume": "1750 ml",

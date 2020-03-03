@@ -228,6 +228,11 @@ int Character::get_fat_to_hp() const
     return mut_fat_hp * ( get_bmi() - character_weight_category::normal );
 }
 
+m_size Character::get_size() const
+{
+    return size_class;
+}
+
 std::string Character::disp_name( bool possessive, bool capitalize_first ) const
 {
     if( !possessive ) {
@@ -2471,15 +2476,16 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 
 int Character::rust_rate() const
 {
-    if( get_option<std::string>( "SKILL_RUST" ) == "off" ) {
+    const std::string &rate_option = get_option<std::string>( "SKILL_RUST" );
+    if( rate_option == "off" ) {
         return 0;
     }
 
     // Stat window shows stat effects on based on current stat
     int intel = get_int();
     /** @EFFECT_INT reduces skill rust by 10% per level above 8 */
-    int ret = ( ( get_option<std::string>( "SKILL_RUST" ) == "vanilla" ||
-                  get_option<std::string>( "SKILL_RUST" ) == "capped" ) ? 100 : 100 + 10 * ( intel - 8 ) );
+    int ret = ( ( rate_option == "vanilla" || rate_option == "capped" ) ?
+                100 : 100 + 10 * ( intel - 8 ) );
 
     ret *= mutation_value( "skill_rust_multiplier" );
 
@@ -2616,14 +2622,18 @@ void Character::apply_skill_boost()
 
 void Character::do_skill_rust()
 {
+    const int rust_rate_tmp = rust_rate();
+    static const std::string PRED2( "PRED2" );
+    static const std::string PRED3( "PRED3" );
+    static const std::string PRED4( "PRED4" );
     for( std::pair<const skill_id, SkillLevel> &pair : *_skills ) {
         const Skill &aSkill = *pair.first;
         SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
-            ( ( has_trait_flag( "PRED2" ) && calendar::once_every( 8_hours ) ) ||
-              ( has_trait_flag( "PRED3" ) && calendar::once_every( 4_hours ) ) ||
-              ( has_trait_flag( "PRED4" ) && calendar::once_every( 3_hours ) ) ) ) {
+            ( ( has_trait_flag( PRED2 ) && calendar::once_every( 8_hours ) ) ||
+              ( has_trait_flag( PRED3 ) && calendar::once_every( 4_hours ) ) ||
+              ( has_trait_flag( PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
             if( one_in( 13 ) ) {
                 // They've already passed the roll to avoid rust at
@@ -2643,7 +2653,7 @@ void Character::do_skill_rust()
 
         const bool charged_bio_mem = get_power_level() > 25_kJ && has_active_bionic( bio_memory );
         const int oldSkillLevel = skill_level_obj.level();
-        if( skill_level_obj.rust( charged_bio_mem, rust_rate() ) ) {
+        if( skill_level_obj.rust( charged_bio_mem, rust_rate_tmp ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -25_kJ );
@@ -3215,9 +3225,11 @@ int Character::get_int_bonus() const
 
 static int get_speedydex_bonus( const int dex )
 {
+    static const std::string speedydex_min_dex( "SPEEDYDEX_MIN_DEX" );
+    static const std::string speedydex_dex_speed( "SPEEDYDEX_DEX_SPEED" );
     // this is the number to be multiplied by the increment
-    const int modified_dex = std::max( dex - get_option<int>( "SPEEDYDEX_MIN_DEX" ), 0 );
-    return modified_dex * get_option<int>( "SPEEDYDEX_DEX_SPEED" );
+    const int modified_dex = std::max( dex - get_option<int>( speedydex_min_dex ), 0 );
+    return modified_dex * get_option<int>( speedydex_dex_speed );
 }
 
 int Character::get_speed() const
@@ -4110,14 +4122,19 @@ needs_rates Character::calc_needs_rates() const
 
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", rates.hunger );
 
-    rates.thirst = get_option< float >( "PLAYER_THIRST_RATE" );
-    rates.thirst *= 1.0f + mutation_value( "thirst_modifier" );
-    if( worn_with_flag( flag_SLOWS_THIRST ) ) {
+    static const std::string player_thirst_rate( "PLAYER_THIRST_RATE" );
+    rates.thirst = get_option< float >( player_thirst_rate );
+    static const std::string thirst_modifier( "thirst_modifier" );
+    rates.thirst *= 1.0f + mutation_value( thirst_modifier );
+    static const std::string slows_thirst( "SLOWS_THIRST" );
+    if( worn_with_flag( slows_thirst ) ) {
         rates.thirst *= 0.7f;
     }
 
-    rates.fatigue = get_option< float >( "PLAYER_FATIGUE_RATE" );
-    rates.fatigue *= 1.0f + mutation_value( "fatigue_modifier" );
+    static const std::string player_fatigue_rate( "PLAYER_FATIGUE_RATE" );
+    rates.fatigue = get_option< float >( player_fatigue_rate );
+    static const std::string fatigue_modifier( "fatigue_modifier" );
+    rates.fatigue *= 1.0f + mutation_value( fatigue_modifier );
 
     // Note: intentionally not in metabolic rate
     if( has_recycler ) {
@@ -4127,7 +4144,8 @@ needs_rates Character::calc_needs_rates() const
     }
 
     if( asleep ) {
-        rates.recovery = 1.0f + mutation_value( "fatigue_regen_modifier" );
+        static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
+        rates.recovery = 1.0f + mutation_value( fatigue_regen_modifier );
         if( !is_hibernating() ) {
             // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
             rates.hunger *= 0.5f;
@@ -4996,7 +5014,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
                 for( const item &items_it : items ) {
-                    if( items_it.has_flag( flag_SLEEP_AID ) ) {
+                    if( items_it.has_flag( "SLEEP_AID" ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                         comfort_response.aid = &items_it;
@@ -5033,7 +5051,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
         if( comfort_response.aid == nullptr ) {
             const map_stack items = g->m.i_at( p );
             for( const item &items_it : items ) {
-                if( items_it.has_flag( flag_SLEEP_AID ) ) {
+                if( items_it.has_flag( "SLEEP_AID" ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                     comfort_response.aid = &items_it;
@@ -5229,6 +5247,16 @@ hp_part Character::body_window( const std::string &menu_header,
         } else if( limb_is_broken ) {
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
             hp_str = "==%==";
+        } else if( has_trait( trait_NOPAIN ) ) {
+            if( current_hp < maximal_hp * 0.25 ) {
+                hp_str = colorize( _( "Very Bad" ), c_red );
+            } else if( current_hp < maximal_hp * 0.5 ) {
+                hp_str = colorize( _( "Bad" ), c_light_red );
+            } else if( current_hp < maximal_hp * 0.75 ) {
+                hp_str = colorize( _( "Okay" ), c_light_green );
+            } else {
+                hp_str = colorize( _( "Good" ), c_green );
+            }
         } else if( precise ) {
             hp_str = string_format( "%d", current_hp );
         } else {
@@ -6478,8 +6506,10 @@ int Character::get_stamina() const
 
 int Character::get_stamina_max() const
 {
-    int maxStamina = get_option< int >( "PLAYER_MAX_STAMINA" );
-    maxStamina *= Character::mutation_value( "max_stamina_modifier" );
+    static const std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
+    static const std::string max_stamina_modifier( "max_stamina_modifier" );
+    int maxStamina = get_option< int >( player_max_stamina );
+    maxStamina *= Character::mutation_value( max_stamina_modifier );
     return maxStamina;
 }
 
@@ -6552,15 +6582,18 @@ float Character::stamina_move_cost_modifier() const
 
 void Character::update_stamina( int turns )
 {
+    static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
+    static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
+    const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
     // Mutated stamina works even when winded
     float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.1f ) +
-                               mutation_value( "stamina_regen_modifier" );
+                               mutation_value( stamina_regen_modifier );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) - ( encumb( bp_mouth ) / 5.0f ) );
+                        base_regen_rate - ( encumb( bp_mouth ) / 5.0f ) );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
     // TODO: Tiredness slowing recovery
 
@@ -6582,8 +6615,7 @@ void Character::update_stamina( int turns )
         int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
                                    max_stam - get_stamina() - stamina_recovery * turns );
         // so the effective recovery is up to 5x default
-        bonus = std::min( bonus, 4 * static_cast<int>
-                          ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
+        bonus = std::min( bonus, 4 * static_cast<int>( base_regen_rate ) );
         if( bonus > 0 ) {
             stamina_recovery += bonus;
             bonus /= 10;

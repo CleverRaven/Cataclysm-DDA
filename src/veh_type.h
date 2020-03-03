@@ -18,7 +18,6 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
-#include "vehicle.h"
 #include "requirements.h"
 #include "point.h"
 #include "translations.h"
@@ -27,6 +26,7 @@ using itype_id = std::string;
 
 class JsonObject;
 class Character;
+class vehicle;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
@@ -375,6 +375,15 @@ struct vehicle_prototype {
         std::pair<int, int> ammo_qty = { -1, -1 };
         itype_id fuel = "null";
     };
+
+    vehicle_prototype();
+    vehicle_prototype( const std::string &name, const std::vector<part_def> &parts,
+                       const std::vector<vehicle_item_spawn> &item_spawns,
+                       std::unique_ptr<vehicle> &&blueprint );
+    vehicle_prototype( vehicle_prototype && );
+    ~vehicle_prototype();
+
+    vehicle_prototype &operator=( vehicle_prototype && );
 
     std::string name;
     std::vector<part_def> parts;

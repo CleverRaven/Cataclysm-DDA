@@ -362,22 +362,32 @@ void monster::try_reproduce()
 
 void monster::refill_udders()
 {
-    if( !has_flag( MF_MILKABLE ) ) {
+    if( type->starting_ammo.empty() ) {
+        debugmsg( "monster %s has no starting ammo to refill udders", get_name() );
         return;
     }
-    const auto milked_item = type->starting_ammo.find( "milk_raw" );
+    if( ammo.empty() ) {
+        // legacy animals got empty ammo map, fill them up now if needed.
+        ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
+    }
     auto current_milk = ammo.find( "milk_raw" );
-    if( milked_item == type->starting_ammo.end() || current_milk == ammo.end() ) {
-        debugmsg( "%s is milkable but has no milk in its starting ammo!", get_name() );
-        return;
+    if( current_milk == ammo.end() ) {
+        current_milk = ammo.find( "milk" );
+        if( current_milk != ammo.end() ) {
+            // take this opportunity to update milk udders to raw_milk
+            ammo["milk_raw"] = current_milk->second;
+            // Erase old key-value from map
+            ammo.erase( current_milk );
+        }
     }
-    if( current_milk->second == milked_item->second ) {
+    // if we got here, we got milk.
+    if( current_milk->second == type->starting_ammo.begin()->second ) {
         // already full up
         return;
     }
     if( calendar::turn - udder_timer > 1_days ) {
         // no point granularizing this really, you milk once a day.
-        current_milk->second = milked_item->second;
+        ammo.begin()->second = type->starting_ammo.begin()->second;
         udder_timer = calendar::turn;
     }
 }
@@ -1941,8 +1951,12 @@ void monster::process_turn()
 {
     decrement_summon_timer();
     if( !is_hallucination() ) {
-        for( const auto &e : type->emit_fields ) {
-            if( e == emit_id( "emit_shock_cloud" ) ) {
+        for( const std::pair<emit_id, time_duration> &e : type->emit_fields ) {
+            if( !calendar::once_every( e.second ) ) {
+                continue;
+            }
+            const emit_id emid = e.first;
+            if( emid == emit_id( "emit_shock_cloud" ) ) {
                 if( has_effect( effect_emp ) ) {
                     continue; // don't emit electricity while EMPed
                 } else if( has_effect( effect_supercharged ) ) {
@@ -1950,7 +1964,7 @@ void monster::process_turn()
                     continue;
                 }
             }
-            g->m.emit_field( pos(), e );
+            g->m.emit_field( pos(), emid );
         }
     }
 
@@ -2816,7 +2830,9 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
-    refill_udders();
+    if( has_flag( MF_MILKABLE ) ) {
+        refill_udders();
+    }
 
     const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
