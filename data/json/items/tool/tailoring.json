@@ -50,7 +50,7 @@
     "id": "loom_frame",
     "type": "GENERIC",
     "category": "tools",
-    "name": "frame loom",
+    "name": { "str": "frame loom" },
     "description": "This is a rather bulky and primitive wooden frame which can be used to weave cloth sheets.  It is very slow, though.",
     "weight": "3804 g",
     "volume": "6000 ml",

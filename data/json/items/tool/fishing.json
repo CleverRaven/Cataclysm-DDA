@@ -18,10 +18,10 @@
   {
     "id": "fishing_hook_basic",
     "type": "GENERIC",
-    "name": "fishing hook",
+    "name": { "str": "fishing hook" },
     "description": "A simple fishing hook.",
     "weight": "1 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 25,
     "cutting": 3,
     "material": "steel",
