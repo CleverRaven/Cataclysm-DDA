@@ -8243,7 +8243,6 @@ static bool multicooker_hallu( player &p )
 {
     p.moves -= to_moves<int>( 2_seconds );
     const int random_hallu = rng( 1, 7 );
-    std::vector<tripoint> points;
     switch( random_hallu ) {
 
         case 1:

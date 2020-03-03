@@ -97,14 +97,14 @@ int scent_map::get( const tripoint &p ) const
     return 0;
 }
 
-void scent_map::set( const tripoint &p, int value, scenttype_id type )
+void scent_map::set( const tripoint &p, int value, const scenttype_id &type )
 {
     if( inbounds( p ) ) {
         set_unsafe( p, value, type );
     }
 }
 
-void scent_map::set_unsafe( const tripoint &p, int value, scenttype_id type )
+void scent_map::set_unsafe( const tripoint &p, int value, const scenttype_id &type )
 {
     grscent[p.x][p.y] = value;
     if( !type.is_empty() ) {

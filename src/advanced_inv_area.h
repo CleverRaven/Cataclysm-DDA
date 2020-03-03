@@ -58,10 +58,10 @@ class advanced_inv_area
         tripoint pos;
         /** Can we put items there? Only checks if location is valid, not if
             selected container in pane is. For full check use canputitems() **/
-        bool canputitemsloc;
+        bool canputitemsloc = false;
         // vehicle pointer and cargo part index
-        vehicle *veh;
-        int vstor;
+        vehicle *veh = nullptr;
+        int vstor = 0;
         // description, e.g. vehicle name, label, or terrain
         std::array<std::string, 2> desc;
         // flags, e.g. FIRE, TRAP, WATER
@@ -70,7 +70,7 @@ class advanced_inv_area
         units::volume volume;
         units::mass weight;
         // maximal count / volume of items there.
-        int max_size;
+        int max_size = 0;
         // appears as part of the legend at the top right
         const std::string minimapname;
         // user commant that corresponds to this location

@@ -695,7 +695,7 @@ bool zone_manager::custom_loot_has( const tripoint &where, const item *it ) cons
     if( !zone || !it ) {
         return false;
     }
-    const loot_options options = dynamic_cast<const loot_options &>( zone->get_options() );
+    const loot_options &options = dynamic_cast<const loot_options &>( zone->get_options() );
     std::string filter_string = options.get_mark();
     auto z = item_filter_from_string( filter_string );
 

@@ -33,8 +33,8 @@ struct enum_traits<clothing_mod_type> {
 };
 
 struct mod_value {
-    clothing_mod_type type;
-    float value;
+    clothing_mod_type type = clothing_mod_type::num_clothing_mod_types;
+    float value = 0.0f;
     bool round_up = false;
     bool thickness_propotion = false;
     bool coverage_propotion = false;
@@ -53,7 +53,7 @@ struct clothing_mod {
     std::string implement_prompt;
     std::string destroy_prompt;
     std::vector< mod_value > mod_values;
-    bool restricted;
+    bool restricted = false;
 
     static size_t count();
 };

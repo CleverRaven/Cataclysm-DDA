@@ -214,7 +214,6 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo]" )
 
 }
 
-
 TEST_CASE( "item conductivity", "[item][iteminfo]" )
 {
     iteminfo_query q( { iteminfo_parts::DESCRIPTION_CONDUCTIVITY } );

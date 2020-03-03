@@ -68,7 +68,6 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 
-
 // *INDENT-OFF*
 Character::Character() :
 
@@ -412,7 +411,7 @@ player_activity Character::get_stashed_activity() const
     return stashed_outbounds_activity;
 }
 
-void Character::set_stashed_activity( player_activity act, player_activity act_back )
+void Character::set_stashed_activity( const player_activity &act, const player_activity &act_back )
 {
     stashed_outbounds_activity = act;
     stashed_outbounds_backlog = act_back;
@@ -430,7 +429,7 @@ void Character::assign_stashed_activity()
     cancel_stashed_activity();
 }
 
-bool Character::check_outbounds_activity( player_activity act, bool check_only )
+bool Character::check_outbounds_activity( const player_activity &act, bool check_only )
 {
     if( ( act.placement != tripoint_zero && act.placement != tripoint_min &&
           !g->m.inbounds( g->m.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
@@ -1259,17 +1258,17 @@ units::energy Character::get_max_power_level() const
     return max_power_level;
 }
 
-void Character::set_power_level( units::energy npower )
+void Character::set_power_level( const units::energy &npower )
 {
     power_level = std::min( npower, max_power_level );
 }
 
-void Character::set_max_power_level( units::energy npower_max )
+void Character::set_max_power_level( const units::energy &npower_max )
 {
     max_power_level = npower_max;
 }
 
-void Character::mod_power_level( units::energy npower )
+void Character::mod_power_level( const units::energy &npower )
 {
     // units::energy is an int, so avoid overflow by converting it to a int64_t, then adding them
     // If the result is greater than the max power level, set power to max
@@ -1284,7 +1283,7 @@ void Character::mod_power_level( units::energy npower )
     power_level = clamp( new_power, 0_kJ, max_power_level );
 }
 
-void Character::mod_max_power_level( units::energy npower_max )
+void Character::mod_max_power_level( const units::energy &npower_max )
 {
     max_power_level += npower_max;
 }
@@ -4016,7 +4015,6 @@ void Character::update_needs( int rate_multiplier )
                 // 5. If rate_multiplier is > 1, fatigue_roll will be higher and this will work out.
                 mod_sleep_deprivation( fatigue_roll * 5 );
             }
-
 
             if( npc_no_food && get_fatigue() > TIRED ) {
                 set_fatigue( TIRED );
@@ -7734,7 +7732,7 @@ void Character::update_type_of_scent( bool init )
     set_type_of_scent( new_scent );
 }
 
-void Character::update_type_of_scent( trait_id mut, bool gain )
+void Character::update_type_of_scent( const trait_id &mut, bool gain )
 {
     const cata::optional<scenttype_id> &mut_scent = mut->scent_typeid;
     if( mut_scent ) {
@@ -7747,7 +7745,7 @@ void Character::update_type_of_scent( trait_id mut, bool gain )
     }
 }
 
-void Character::set_type_of_scent( scenttype_id id )
+void Character::set_type_of_scent( const scenttype_id &id )
 {
     type_of_scent = id;
 }

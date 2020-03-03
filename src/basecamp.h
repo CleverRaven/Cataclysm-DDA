@@ -247,7 +247,7 @@ class basecamp
         void reset_camp_workers();
         comp_list get_mission_workers( const std::string &mission_id, bool contains = false );
         // main mission start/return dispatch function
-        bool handle_mission( const std::string &miss_id, cata::optional<point> opt_miss_dir );
+        bool handle_mission( const std::string &miss_id, const cata::optional<point> &opt_miss_dir );
 
         // mission start functions
         /// generic mission start function that wraps individual mission
@@ -345,7 +345,7 @@ class basecamp
         std::vector<basecamp_fuel> fuels;
         std::vector<basecamp_resource> resources;
         inventory _inv;
-        bool by_radio;
+        bool by_radio = false;
 };
 
 class basecamp_action_components

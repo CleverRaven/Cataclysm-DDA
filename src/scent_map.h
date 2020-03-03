@@ -67,10 +67,10 @@ class scent_map
          * The coordinate system is the same as the @ref map (`g->m`) uses.
          */
         /**@{*/
-        void set( const tripoint &p, int value, scenttype_id type = scenttype_id() );
+        void set( const tripoint &p, int value, const scenttype_id &type = scenttype_id() );
         int get( const tripoint &p ) const;
         /**@}*/
-        void set_unsafe( const tripoint &p, int value, scenttype_id type = scenttype_id() );
+        void set_unsafe( const tripoint &p, int value, const scenttype_id &type = scenttype_id() );
         int get_unsafe( const tripoint &p ) const;
 
         scenttype_id get_type( const tripoint &p ) const;

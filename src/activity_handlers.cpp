@@ -851,7 +851,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
 
-        if( action != DISSECT && entry.type != "bionic_group" ) {
+        if( entry.type != "bionic_group" ) {
             // divide total dropped weight by drop's weight to get amount
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined
@@ -2985,7 +2985,7 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
-    if( !act->targets.front() ) {
+    if( !act || !act->targets.front() ) {
         debugmsg( "Lost target of ACT_READ" );
         return;
     }
