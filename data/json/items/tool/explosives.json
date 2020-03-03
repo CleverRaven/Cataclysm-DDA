@@ -690,7 +690,7 @@
     "id": "grenade_inc",
     "type": "TOOL",
     "category": "weapons",
-    "name": "incendiary grenade",
+    "name": { "str": "incendiary grenade" },
     "description": "This is a military-grade incendiary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes into a raging inferno; throwing it would be a good idea.",
     "weight": "180 g",
     "volume": "250 ml",

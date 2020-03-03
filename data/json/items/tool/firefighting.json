@@ -23,7 +23,7 @@
   {
     "id": "extinguisher",
     "type": "TOOL",
-    "name": "large fire extinguisher",
+    "name": { "str": "large fire extinguisher" },
     "description": "This is an emergency fire extinguisher containing five gallons of fire retardant foam.  It would be useful for putting out adjacent fires.",
     "weight": "13813 g",
     "volume": "20000 ml",

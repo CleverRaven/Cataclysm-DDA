@@ -136,7 +136,7 @@
     "type": "TOOL",
     "symbol": "0",
     "color": "light_gray",
-    "name": "inflatable boat",
+    "name": { "str": "inflatable boat" },
     "description": "This rubber rowboat (oars included) is deflated for storage.  Activate it (having an air pump in inventory) to inflate and launch.",
     "price": 350000,
     "material": "plastic",
@@ -185,7 +185,7 @@
   {
     "id": "leather_tarp",
     "type": "TOOL",
-    "name": "leather tarp",
+    "name": { "str": "leather tarp" },
     "description": "A large sheet of sewn leather that can be deployed instead of a picnic blanket, but it's more valuable as a butchery appliance as it does not soak in blood.  It's rolled and ready for carrying.",
     "weight": "2000 g",
     "volume": "2500 ml",
