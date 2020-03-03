@@ -319,7 +319,8 @@ class wish_monster_callback: public uilist_callback
             wrefresh( w_info );
         }
 
-        bool key( const input_context &, const input_event &event, int /*entnum*/, uilist */*menu*/ ) override {
+        bool key( const input_context &, const input_event &event, int /*entnum*/,
+                  uilist */*menu*/ ) override {
             if( event.get_first_input() == 'f' ) {
                 friendly = !friendly;
                 // Force tmp monster regen

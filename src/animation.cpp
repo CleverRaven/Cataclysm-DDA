@@ -437,8 +437,8 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
 #if defined(TILES)
 /* Bullet Animation -- Maybe change this to animate the ammo itself flying through the air?*/
 // need to have a version where there is no player defined, possibly. That way shrapnel works as intended
-void game::draw_bullet( const tripoint &t, const int /*i*/, const std::vector<tripoint> &/*trajectory*/,
-                        const char bullet )
+void game::draw_bullet( const tripoint &t, const int /*i*/,
+                        const std::vector<tripoint> &/*trajectory*/, const char bullet )
 {
     if( !use_tiles ) {
         draw_bullet_curses( m, t, bullet, nullptr );
