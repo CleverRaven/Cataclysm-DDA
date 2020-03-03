@@ -2,7 +2,7 @@
   {
     "id": "fault_bionic_salvaged",
     "type": "fault",
-    "name": "Already deployed",
+    "name": { "str": "Already deployed" },
     "description": "This bionic needs to be reset to its factory state.",
     "mending_methods": [
       {
