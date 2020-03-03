@@ -13,7 +13,7 @@
     "color": "light_gray",
     "location": "grip mount",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "install_time": "15 m",
+    "install_time": "20 m",
     "min_skills": [ [ "gun", 5 ] ],
     "add_mod": [ [ "grip", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
@@ -104,7 +104,7 @@
     "color": "light_gray",
     "location": "stock mount",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
-    "install_time": "15 m",
+    "install_time": "20 m",
     "min_skills": [ [ "gun", 5 ] ],
     "add_mod": [ [ "stock", 1 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
