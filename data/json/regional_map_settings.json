@@ -3,6 +3,7 @@
     "type": "region_settings",
     "id": "default",
     "biome": "urban",
+    "max_instances": 1,
     "near_biomes": [ [ "urban", 0.75 ], [ "suburban", 1 ], [ "rural", 1 ], [ "wilderness", 0 ] ],
     "default_oter": "field",
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
