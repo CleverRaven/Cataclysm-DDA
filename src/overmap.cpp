@@ -1052,43 +1052,46 @@ overmap::overmap( const point &p ) : loc( p )
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
 
     //TODO: We need to stop pulling regions from mods that aren't loaded...
-   
+
     // Biomes!
     //Probably a good idea that we keep a default region loaded at the very least.
-    if (rsit == region_settings_map.end()) {
-        debugmsg("overmap(%d,%d): can't find region '%s'", p.x, p.y,
-            rsettings_id.c_str()); // gonna die now =[
-    }
-    else {
+    if( rsit == region_settings_map.end() ) {
+        debugmsg( "overmap(%d,%d): can't find region '%s'", p.x, p.y,
+                  rsettings_id.c_str() ); // gonna die now =[
+    } else {
         //Multiple default regions, most likely a mod overriding. Should we do anything...?
         //...Perhaps someone wants to override the starting region? But do they want their region to still appear elsewhere?
-        if (region_settings_map.count(rsettings_id) > 1) {
+        if( region_settings_map.count( rsettings_id ) > 1 ) {
             //TODO: Warn?
         }
     }
 
     //Get all adjacent overmaps
-    overmap* north = overmap_buffer.get_existing(point(loc.x, loc.y + 1));
-    overmap* south = overmap_buffer.get_existing(point(loc.x, loc.y - 1));
-    overmap* east = overmap_buffer.get_existing(point(loc.x + 1, loc.y));
-    overmap* west = overmap_buffer.get_existing(point(loc.x - 1, loc.y));
+    overmap *north = overmap_buffer.get_existing( point( loc.x, loc.y + 1 ) );
+    overmap *south = overmap_buffer.get_existing( point( loc.x, loc.y - 1 ) );
+    overmap *east = overmap_buffer.get_existing( point( loc.x + 1, loc.y ) );
+    overmap *west = overmap_buffer.get_existing( point( loc.x - 1, loc.y ) );
 
     //Build all into a vector
     std::vector<std::string> adjacent_biomes;
-    
-    //Get neighbours 
-    if (north != NULL)
-        adjacent_biomes.push_back(north->settings.biome);
-    if (south != NULL)
-        adjacent_biomes.push_back(south->settings.biome);
-    if (east != NULL)
-        adjacent_biomes.push_back(east->settings.biome);
-    if (west != NULL)
-        adjacent_biomes.push_back(west->settings.biome);
+
+    //Get neighbours
+    if( north != NULL ) {
+        adjacent_biomes.push_back( north->settings.biome );
+    }
+    if( south != NULL ) {
+        adjacent_biomes.push_back( south->settings.biome );
+    }
+    if( east != NULL ) {
+        adjacent_biomes.push_back( east->settings.biome );
+    }
+    if( west != NULL ) {
+        adjacent_biomes.push_back( west->settings.biome );
+    }
 
     //TODO: Randomize through the array rather than iterate.
     t_regional_settings_map_citr it = region_settings_map.begin();
-    while (it != region_settings_map.end()) {
+    while( it != region_settings_map.end() ) {
         std::string id = it->first;
         std::string biome = it->second.biome;
         int weight = 100; //Default weight
@@ -1099,36 +1102,38 @@ overmap::overmap( const point &p ) : loc( p )
         //Check neighbour biomes and ensure compatible
         //...check corners too?
         double multiplier = 1;
-        for (std::string b : adjacent_biomes) {
-            for (std::pair<std::string, double> element : settings.near_biomes) {
-                if (element.first == b)
+        for( std::string b : adjacent_biomes ) {
+            for( std::pair<std::string, double> element : settings.near_biomes ) {
+                if( element.first == b ) {
                     multiplier += element.second;
+                }
             }
         }
 
         //Always use default region as starting region
-        if (it->second.id == "default" && loc.x == 0 && loc.y == 0) {
+        if( it->second.id == "default" && loc.x == 0 && loc.y == 0 ) {
             rsit = it;
             break;
         }
 
         biome_it = overmap_biomes_map.begin();
-        biome_it = overmap_biomes_map.find(biome);
-        if (biome_it != overmap_biomes_map.end()) {
+        biome_it = overmap_biomes_map.find( biome );
+        if( biome_it != overmap_biomes_map.end() ) {
             weight = biome_it->second.weight;
         }
-        
+
         //Basic random chance here to be this biome
-        if (one_in(weight / multiplier)) {
+        if( one_in( weight / multiplier ) ) {
             rsit = it;
             break;
-        } 
+        }
 
         it++;
 
         //No biome found, keep on trying forever TODO: Obviously dont do that.
-        if (it == region_settings_map.end())
+        if( it == region_settings_map.end() ) {
             it = region_settings_map.begin();
+        }
     }
 
     //Set the biome to the suitable one
@@ -4128,8 +4133,8 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
 
         //Biomes: check how many we have already created that have a matching flag.
         //...if that amount is more than set for that region, then do not place.
-        for (std::pair<std::string, int> special_counts : settings.overmap_feature_flag.special_counts) {
-            if (special.flags.count(special_counts.first) >= special_counts.second) {
+        for( std::pair<std::string, int> special_counts : settings.overmap_feature_flag.special_counts ) {
+            if( special.flags.count( special_counts.first ) >= special_counts.second ) {
                 continue;
             }
         }
@@ -4204,13 +4209,13 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         // Intercept the occurrences min/max and use our region settings instead if valid.
         // Get specials flag, compare against any in our region settings and if we find a match, swap it...
         // But...what if the occurences set are important too....
-        for (std::pair<std::string, int> ele : settings.overmap_feature_flag.special_counts) {
+        for( std::pair<std::string, int> ele : settings.overmap_feature_flag.special_counts ) {
             std::string flag = ele.first;
             int count = ele.second;
 
-            if (iter->special_details->flags.count(flag) > 0) {
+            if( iter->special_details->flags.count( flag ) > 0 ) {
                 const int max = iter->special_details->occurrences.max;
-                
+
                 //TODO: Something...more robust. This feels like a hack.
                 iter->instances_placed = max - count;
             }

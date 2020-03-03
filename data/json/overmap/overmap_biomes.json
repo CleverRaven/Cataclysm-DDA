@@ -1,31 +1,27 @@
 [
-	{
-		"type": "overmap_biome",
-		"id": "urban", 
-		"weight":200
-	},
-	
-	{
-		"type": "overmap_biome",
-		"id": "suburban",
-		"weight":100
-	},
-	
-	{
-		"type": "overmap_biome",
-		"id": "rural",
-		"weight":100
-	},
-	
-	{
-		"type": "overmap_biome",
-		"id": "wilderness",
-		"weight":200
-	},
-	
-	{
-		"type": "overmap_biome",
-		"id": "undefined",
-		"weight":100000
-	}
+  {
+    "type": "overmap_biome",
+    "id": "urban",
+    "weight": 200
+  },
+  {
+    "type": "overmap_biome",
+    "id": "suburban",
+    "weight": 100
+  },
+  {
+    "type": "overmap_biome",
+    "id": "rural",
+    "weight": 100
+  },
+  {
+    "type": "overmap_biome",
+    "id": "wilderness",
+    "weight": 200
+  },
+  {
+    "type": "overmap_biome",
+    "id": "undefined",
+    "weight": 100000
+  }
 ]

@@ -333,10 +333,10 @@ void DynamicDataLoader::initialize()
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
-    add("overmap_connection", &overmap_connections::load);
+    add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
-    add("overmap_biome", &overmap_biomes::load);
+    add( "overmap_biome", &overmap_biomes::load );
     add( "city_building", &city_buildings::load );
     add( "map_extra", &MapExtras::load );
 

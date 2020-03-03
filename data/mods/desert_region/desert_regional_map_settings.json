@@ -2,13 +2,8 @@
   {
     "type": "region_settings",
     "id": "default",
-	"biome": "undefined",
-	"near_biomes": [
-	[ "urban", 0.2 ],
-	[ "suburban", 0.4 ],
-	[ "rural", 0.6 ],
-	[ "wilderness", 1 ]
-	],
+    "biome": "undefined",
+    "near_biomes": [ [ "urban", 0.2 ], [ "suburban", 0.4 ], [ "rural", 0.6 ], [ "wilderness", 1 ] ],
     "default_oter": "desert",
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {

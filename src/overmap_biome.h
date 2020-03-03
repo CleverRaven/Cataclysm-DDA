@@ -14,9 +14,10 @@
 
 class JsonObject;
 
-class overmap_biome {
+class overmap_biome
+{
     public:
-        void load(const JsonObject &jo, const std::string &src);
+        void load( const JsonObject &jo, const std::string &src );
         void check() const;
         void finalize();
 
@@ -32,10 +33,10 @@ class overmap_biome {
 
 namespace overmap_biomes
 {
-    void load(const JsonObject &jo, const std::string &src);
-    void check_consistency();
-    void reset();
-    void finalize();
+void load( const JsonObject &jo, const std::string &src );
+void check_consistency();
+void reset();
+void finalize();
 
 } // namespace overmap_biomes
 
