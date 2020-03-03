@@ -103,7 +103,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
             }
             if( foe->unarmed_attack() ) {
                 const damage_instance acid_burn{
-                    DT_ACID, rng_float( 1, 5 )
+                    DT_ACID, static_cast<float>( rng( 1, 5 ) )
                 };
                 source->deal_damage( &m, one_in( 2 ) ? bp_hand_l : bp_hand_r, acid_burn );
                 source->add_msg_if_player( m_bad, _( "Acid covering %s burns your hand!" ), m.disp_name() );
