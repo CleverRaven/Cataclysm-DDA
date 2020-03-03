@@ -937,7 +937,7 @@ static const std::string flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
 static const std::string flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
 static const std::string flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
 static const std::string flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
-static const std::string flag_ALLERGEN_NUT("ALLERGEN_NUT");
+static const std::string flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
 static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 static const std::string flag_ALWAYS_TWOHAND( "ALWAYS_TWOHAND" );
