@@ -25,7 +25,7 @@
     "id": "50pellet_copper",
     "type": "AMMO",
     "name": ".50 copper pellet",
-    "description": "A huge .50 pellet for big bore air rifles.  It causes tremendous tissue damage for an air rifle. This one is made out of copper, which allows it to retain it's shape better, but reduces tissue damage.",
+    "description": "A huge .50 pellet for big bore air rifles.  It causes tremendous tissue damage for an air rifle.  This one is made out of copper, which allows it to retain its shape better, but reduces tissue damage.",
     "weight": 10,
     "volume": "15 ml",
     "price": 3500,
