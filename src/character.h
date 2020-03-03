@@ -1997,6 +1997,9 @@ class Character : public Creature, public visitable<Character>
         bool last_climate_control_ret;
 };
 
+// Little size helper, exposed for use in deserialization code.
+m_size calculate_size( const Character &c );
+
 template<>
 struct enum_traits<Character::stat> {
     static constexpr Character::stat last = Character::stat::DUMMY_STAT;
