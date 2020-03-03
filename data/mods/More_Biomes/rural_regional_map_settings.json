@@ -3,11 +3,11 @@
     "type": "region_settings",
     "id": "rural_1",
 	"biome": "rural",
-"near_biomes": [
-	[ "urban", 0.2 ],
-	[ "suburban", 0.4 ],
-	[ "rural", 0.6 ],
-	[ "wilderness", 1 ]
+	"near_biomes": [
+		[ "urban", 0.1 ],
+		[ "suburban", 1.0 ],
+		[ "rural", 1.0 ],
+		[ "wilderness", 1.0 ]
 	],
     "default_oter": "field",
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],

@@ -2,13 +2,13 @@
 	{
 		"type": "overmap_biome",
 		"id": "urban", 
-		"weight":100
+		"weight":200
 	},
 	
 	{
 		"type": "overmap_biome",
 		"id": "suburban",
-		"weight":50
+		"weight":100
 	},
 	
 	{
@@ -20,7 +20,7 @@
 	{
 		"type": "overmap_biome",
 		"id": "wilderness",
-		"weight":500
+		"weight":200
 	},
 	
 	{

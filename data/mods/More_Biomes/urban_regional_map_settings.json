@@ -4,10 +4,10 @@
     "id": "urban_1",
 	"biome": "urban",
 	"near_biomes": [
-	[ "urban", 0.2 ],
-	[ "suburban", 0.4 ],
-	[ "rural", 0.6 ],
-	[ "wilderness", 1 ]
+		[ "urban", 0.75 ],
+		[ "suburban", 1 ],
+		[ "rural", 0.15 ],
+		[ "wilderness", 0 ]
 	],
     "default_oter": "field",
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],

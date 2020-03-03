@@ -274,8 +274,6 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
                 int count = o.get_int("count");
 
                 overmap_feature_flag_settings.special_counts.insert(std::make_pair(flag, count));
-
-                debugmsg("Found special counts!");
             }
         }
        
@@ -425,12 +423,8 @@ void load_region_settings(const JsonObject &jo)
 
     if (jo.has_array("near_biomes")) {
         for (JsonArray inner : jo.get_array("near_biomes")) {
-
             std::string biome = inner.get_string(0);
             double multiplier = inner.get_float(1);
-
-            debugmsg("Loaded biome %s with near biome %s with multiplier: %f", new_region.biome, biome, multiplier);
-
             new_region.near_biomes.insert(std::make_pair(biome, multiplier));
         }
     }

@@ -1050,6 +1050,8 @@ overmap::overmap( const point &p ) : loc( p )
 {
     const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
+
+    //TODO: We need to stop pulling regions from mods that aren't loaded...
    
     // Biomes!
     //Probably a good idea that we keep a default region loaded at the very least.
@@ -1084,7 +1086,7 @@ overmap::overmap( const point &p ) : loc( p )
     if (west != NULL)
         adjacent_biomes.push_back(west->settings.biome);
 
-    //TODO: Randomize through the array
+    //TODO: Randomize through the array rather than iterate.
     t_regional_settings_map_citr it = region_settings_map.begin();
     while (it != region_settings_map.end()) {
         std::string id = it->first;
@@ -1095,10 +1097,7 @@ overmap::overmap( const point &p ) : loc( p )
         t_biomes_map_citr biome_it;
 
         //Check neighbour biomes and ensure compatible
-        //...check corners too!
-        //...what if it has not loaded? Who knows?!! Will it explode?!
-        //TODO: Add to a function
-        //Figure out the multiplier based on nearby biomes
+        //...check corners too?
         double multiplier = 1;
         for (std::string b : adjacent_biomes) {
             for (std::pair<std::string, double> element : settings.near_biomes) {
@@ -1117,15 +1116,10 @@ overmap::overmap( const point &p ) : loc( p )
         biome_it = overmap_biomes_map.find(biome);
         if (biome_it != overmap_biomes_map.end()) {
             weight = biome_it->second.weight;
-            debugmsg("overmap (%d,%d) found weight: %d on biome %s", loc.x, loc.y, weight, biome);
         }
-        else {
-            debugmsg("overmap (%d,%d) no default weight found, using: %d on biome %s", loc.x, loc.y, weight, biome);
-        }
-        
         
         //Basic random chance here to be this biome
-        if (one_in(weight * multiplier)) {
+        if (one_in(weight / multiplier)) {
             rsit = it;
             break;
         } 
