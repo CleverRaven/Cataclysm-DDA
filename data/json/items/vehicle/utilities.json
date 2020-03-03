@@ -101,6 +101,7 @@
     "color": "light_blue",
     "symbol": "-",
     "material": [ "steel", "plastic" ],
+    "volume": 20,
     "bashing": 5,
     "category": "veh_parts",
     "price": 90000
