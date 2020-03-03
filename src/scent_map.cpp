@@ -290,3 +290,8 @@ void scent_type::check_scent_consistency()
         }
     }
 }
+
+void scent_type::reset()
+{
+    scent_factory.reset();
+}
