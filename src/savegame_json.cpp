@@ -550,7 +550,6 @@ void Character::load( const JsonObject &data )
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const auto &mid = it->first;
         if( mid.is_valid() ) {
-            mutation_effect( mid );
             cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
@@ -558,6 +557,7 @@ void Character::load( const JsonObject &data )
             my_mutations.erase( it++ );
         }
     }
+    size_class = calculate_size( *this );
 
     data.read( "my_bionics", *my_bionics );
 
