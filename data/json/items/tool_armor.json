@@ -2,7 +2,7 @@
   {
     "id": "arm_splint",
     "type": "ARMOR",
-    "name": "arm splint",
+    "name": { "str": "arm splint" },
     "description": "A tool to help set bones and hold them in place.",
     "weight": "300 g",
     "volume": "1 L",
@@ -21,7 +21,7 @@
   {
     "id": "arm_xlsplint",
     "type": "ARMOR",
-    "name": "arm splint XL",
+    "name": { "str": "arm splint XL", "str_pl": "arm splints XL" },
     "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Huge survivors.",
     "copy-from": "arm_splint",
     "looks_like": "arm_splint",

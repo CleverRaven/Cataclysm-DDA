@@ -3,7 +3,7 @@
     "id": "beekeeping_hood",
     "repairs_like": "balclava",
     "type": "ARMOR",
-    "name": "beekeeping hood",
+    "name": { "str": "beekeeping hood" },
     "description": "A beekeeping hood.  Keeps the bees out, but lets fresh air in.  Rather cumbersome to wear, as it is rather bulky and hinders vision.",
     "weight": "260 g",
     "volume": "1500 ml",

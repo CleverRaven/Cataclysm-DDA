@@ -355,7 +355,7 @@
     "id": "beekeeping_suit",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": "beekeeping suit",
+    "name": { "str": "beekeeping suit" },
     "description": "A white suit commonly worn by professional beekeepers with straps on your ankles and wrists to prevent bees from flying in.  It's not a very tough fabric, but it's lightweight and has plenty of storage thanks to a chest pocket.",
     "weight": "1587 g",
     "volume": "3500 ml",

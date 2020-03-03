@@ -194,7 +194,7 @@
   {
     "id": "jacket_leather_mod",
     "type": "ARMOR",
-    "name": "armored leather jacket",
+    "name": { "str": "armored leather jacket" },
     "description": "An armored jacket made from thick leather and metal plates.  Cumbersome, but offers excellent protection from harm.",
     "weight": "2180 g",
     "volume": "5500 ml",
@@ -379,7 +379,7 @@
   {
     "id": "vest_leather_mod",
     "type": "ARMOR",
-    "name": "armored leather vest",
+    "name": { "str": "armored leather vest" },
     "description": "An armored vest made from thick leather and metal plates.  Cumbersome, but offers excellent protection from harm.",
     "weight": "1210 g",
     "volume": "3 L",
