@@ -575,12 +575,14 @@ void character_edit_menu()
         break;
         case D_HP: {
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), p.hp_cur[hp_torso] );
-            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), p.hp_cur[hp_head] );
-            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), p.hp_cur[hp_arm_l] );
-            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), p.hp_cur[hp_arm_r] );
-            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), p.hp_cur[hp_leg_l] );
-            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), p.hp_cur[hp_leg_r] );
+            smenu.addentry( 0, true, 'q', "%s: %d", _( "Chest" ), p.hp_cur[hp_chest] );
+            smenu.addentry( 1, true, 'q', "%s: %d", _( "Abdomen" ), p.hp_cur[hp_abdomen] );
+            smenu.addentry( 2, true, 'q', "%s: %d", _( "Pelvis" ), p.hp_cur[hp_pelvis] );
+            smenu.addentry( 3, true, 'w', "%s: %d", _( "Head" ), p.hp_cur[hp_head] );
+            smenu.addentry( 4, true, 'a', "%s: %d", _( "Left arm" ), p.hp_cur[hp_arm_l] );
+            smenu.addentry( 5, true, 's', "%s: %d", _( "Right arm" ), p.hp_cur[hp_arm_r] );
+            smenu.addentry( 6, true, 'z', "%s: %d", _( "Left leg" ), p.hp_cur[hp_leg_l] );
+            smenu.addentry( 7, true, 'x', "%s: %d", _( "Right leg" ), p.hp_cur[hp_leg_r] );
             smenu.query();
             int *bp_ptr = nullptr;
             switch( smenu.ret ) {
