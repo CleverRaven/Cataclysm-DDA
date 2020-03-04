@@ -1,0 +1,15 @@
+[
+  {
+    "result": "orichalcum_ingot",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "180 m",
+    "batch_time_factors": [50, 2],
+    "book_learn": [ [ "welding_book", 4 ] ],
+    "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
+    "components": [ [ [ "orichalcum_sliver", 8 ], [ "orichalcum_lump", 2 ] ] ]
+  }
+]
