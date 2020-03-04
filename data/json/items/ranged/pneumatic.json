@@ -100,6 +100,7 @@
     "compressed_air_reservoir": 5000,
     "magazine_well": 1,
     "magazines": [ [ "50pellet", [ "bbprmag" ] ] ],
+	"flags": [ "INTEGRAL_PUMP" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],

@@ -4363,6 +4363,10 @@ int iuse::hand_pump_integral( player *p, item *it, bool, const tripoint & )
     }
     //gun section
     if( it->is_gun() ) {
+        if( !it->has_flag( "INTEGRAL_PUMP" ) && !p->has_item_with_flag( "IS_AIR_PUMP" ) ) {
+            p->add_msg_if_player( m_info, _( "You need an air pump to pump air!" ) );
+            return 0;
+        }
         if( it->type->gun->compressed_air_reservoir > 0 ) {
             int moves = to_moves<int>( 1_seconds );
             if( it->get_var( "air_charge", 0 ) < it->type->gun->compressed_air_reservoir ) {
