@@ -440,6 +440,7 @@ class overmap
         // Polishing
         bool check_ot( const std::string &otype, ot_match_type match_type, const tripoint &p ) const;
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint &location ) const;
+        bool check_overmap_special_type( const overmap_special_id &id ) const;
         void chip_rock( const tripoint &p );
 
         void polish_river();

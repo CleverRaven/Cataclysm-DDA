@@ -1065,13 +1065,11 @@ overmap::overmap( const point &p ) : loc( p )
     }
 
     //Get all adjacent overmaps
+    std::vector<std::string> adjacent_biomes;
     overmap *north = overmap_buffer.get_existing( point( loc.x, loc.y + 1 ) );
     overmap *south = overmap_buffer.get_existing( point( loc.x, loc.y - 1 ) );
     overmap *east = overmap_buffer.get_existing( point( loc.x + 1, loc.y ) );
     overmap *west = overmap_buffer.get_existing( point( loc.x - 1, loc.y ) );
-
-    //Build all into a vector
-    std::vector<std::string> adjacent_biomes;
 
     //Get neighbours
     if( north != NULL ) {
@@ -1099,12 +1097,10 @@ overmap::overmap( const point &p ) : loc( p )
         //Find biome
         t_biomes_map_citr biome_it;
 
-
         //Restrict instances of biome and remove if neccessary from map.
         if( it->second.max_instances != -1 &&
             overmap_buffer.get_overmap_biome_count( id ) >= it->second.max_instances ) {
             it++;
-            //it = region_settings_map.erase(it);
             continue;
         }
 
@@ -1158,7 +1154,7 @@ overmap::overmap( const point &p ) : loc( p )
 
     //Set the biome to the suitable one
     settings = rsit->second;
-    
+
     init_layers();
 }
 
@@ -3740,6 +3736,17 @@ bool overmap::check_overmap_special_type( const overmap_special_id &id,
     return found_id->second == id;
 }
 
+bool overmap::check_overmap_special_type( const overmap_special_id &id ) const
+{
+    for( std::pair<tripoint, overmap_special_id> special : overmap_special_placements ) {
+        if( special.second == id ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void overmap::good_river( const tripoint &p )
 {
     if( !is_ot_match( "river", ter( p ), ot_match_type::prefix ) ) {
@@ -4139,7 +4146,8 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
         const auto &special = *iter->special_details;
         // If we haven't finished placing minimum instances of all specials,
         // skip specials that are at their minimum count already.
-        if( !place_optional && iter->instances_placed >= special.occurrences.min && iter->instances_placed > 0) {
+        if( !place_optional && iter->instances_placed >= special.occurrences.min &&
+            iter->instances_placed > 0 ) {
             continue;
         }
         // City check is the fastest => it goes first.
@@ -4229,18 +4237,17 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         // Biomes
         // Intercept the occurrences min/max and use our region settings instead if valid.
         // Get specials flag, compare against any in our region settings and if we find a match, swap it...
-        // But...what if the occurences set are important too....
         for( std::pair<std::string, int> ele : settings.overmap_feature_flag.special_counts ) {
             std::string flag = ele.first;
             int count = ele.second;
 
             //Unique flags handled seperately
-            if( iter->special_details->flags.count( flag ) > 0 && iter->special_details->flags.count("UNIQUE") <= 0) {
+            if( iter->special_details->flags.count( flag ) > 0 &&
+                iter->special_details->flags.count( "UNIQUE" ) <= 0 ) {
                 const int max = iter->special_details->occurrences.max;
 
-                //Remove it if we're going to have less than 0.
-                if ((max - count) <= 0) {
-                    iter = enabled_specials.erase(iter);
+                if( ( max - count ) <= 0 ) {
+                    iter = enabled_specials.erase( iter );
                     continue;
                 }
 
@@ -4252,20 +4259,26 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         if( iter->special_details->flags.count( "UNIQUE" ) > 0 ) {
             const int min = iter->special_details->occurrences.min;
             const int max = iter->special_details->occurrences.max;
+            bool match_nearby = false;
+            std::vector<overmap *> overmaps_nearby = overmap_buffer.get_overmaps_near( loc, 3 );
 
-            //Uniques need to be handled on a distance basis whether they are repeated or not.
-            //TODO: Check distance between nearest matching unique
-  
-            if (x_in_y(min, max)) {
+            //Check for repeats of this unique across nearby overmaps to ensure that uniques aren't spawned in close proximity.
+            for( overmap *om : overmaps_nearby ) {
+                if( om->check_overmap_special_type( iter->special_details->id ) ) {
+                    match_nearby = true;
+                    break;
+                }
+            }
+
+            if( x_in_y( min, max ) && !match_nearby ) {
                 // Min and max are overloaded to be the chance of occurrence,
                 // so reset instances placed to one short of max so we don't place several.
                 iter->instances_placed = max - 1;
-            }
-            else {
-                iter = enabled_specials.erase(iter);
+            } else {
+                iter = enabled_specials.erase( iter );
                 continue;
             }
-            
+
         }
         ++iter;
     }
@@ -4291,9 +4304,9 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     // place them on adajacent uncreated overmaps.
     if( std::any_of( custom_overmap_specials.begin(), custom_overmap_specials.end(),
     []( overmap_special_placement placement ) {
-    return (placement.instances_placed <
-           placement.special_details->occurrences.min && placement.instances_placed >= 0);
-} ) ) {
+    return ( placement.instances_placed <
+             placement.special_details->occurrences.min && placement.instances_placed >= 0 );
+    } ) ) {
         // Randomly select from among the nearest uninitialized overmap positions.
         int previous_distance = 0;
         std::vector<point> nearest_candidates;
