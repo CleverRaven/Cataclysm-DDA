@@ -17,7 +17,7 @@
   {
     "type": "TOOL",
     "id": "minireactor",
-    "name": "minireactor",
+    "name": { "str": "minireactor" },
     "description": "A small portable plutonium reactor.  Handle with great care!",
     "weight": "27215 g",
     "to_hit": -4,

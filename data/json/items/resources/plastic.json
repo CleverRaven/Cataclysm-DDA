@@ -3,7 +3,7 @@
     "id": "plastic_chunk",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": "plastic chunk",
+    "name": { "str": "plastic chunk" },
     "description": "This is a piece of plastic.  It could be used to fabricate, repair, or reinforce plastic items.",
     "weight": "50 g",
     "volume": "250 ml",

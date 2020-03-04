@@ -52,7 +52,7 @@
   {
     "id": "mop",
     "type": "TOOL",
-    "name": "mop",
+    "name": { "str": "mop" },
     "description": "This is an unwieldy mop.  Good for cleaning up spills.  Use to mop up any 'mess' you may have made.",
     "weight": "929 g",
     "volume": "1750 ml",

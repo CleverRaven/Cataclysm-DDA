@@ -47,7 +47,7 @@
   {
     "id": "pet_carrier",
     "type": "TOOL",
-    "name": "pet carrier",
+    "name": { "str": "pet carrier" },
     "description": "A plastic container meant to hold pets for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": "1000 g",
     "volume": "5 L",
