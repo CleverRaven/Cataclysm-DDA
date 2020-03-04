@@ -887,6 +887,12 @@
       "base_wind_distrib_peaks": 80,
       "base_wind_season_variation": 50
     },
-    "overmap_feature_flag_settings": { "clear_blacklist": true, "blacklist": [ "WILDERNESS", "FARM" ], "clear_whitelist": false, "whitelist": [  ], "special_counts": [ { "flag": "LAB", "count": 2 }, { "flag": "MILITARY", "count": 2 } ] }
+    "overmap_feature_flag_settings": {
+      "clear_blacklist": true,
+      "blacklist": [ "WILDERNESS", "FARM" ],
+      "clear_whitelist": false,
+      "whitelist": [  ],
+      "special_counts": [ { "flag": "LAB", "count": 2 }, { "flag": "MILITARY", "count": 2 } ]
+    }
   }
 ]
