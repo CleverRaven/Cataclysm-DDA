@@ -7,7 +7,7 @@
   {
     "type": "overmap_biome",
     "id": "suburban",
-    "weight": 100
+    "weight": 150
   },
   {
     "type": "overmap_biome",
@@ -17,12 +17,22 @@
   {
     "type": "overmap_biome",
     "id": "wilderness",
-    "weight": 200
+    "weight": 100
   },
   {
     "type": "overmap_biome",
     "id": "special",
     "weight": 500
+  },
+  {
+    "type": "overmap_biome",
+    "id": "ocean",
+    "weight": 10000
+  },
+  {
+    "type": "overmap_biome",
+    "id": "coast",
+    "weight": 10000
   },
   {
     "type": "overmap_biome",
