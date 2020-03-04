@@ -436,7 +436,7 @@
     "id": "hockey_stick",
     "symbol": ";",
     "color": "white",
-    "name": "hockey stick",
+    "name": { "str": "hockey stick" },
     "description": "A curved wooden stick with a wide and flat end.  Commonly used by hockey players.",
     "price": 11000,
     "price_postapoc": 2000,
@@ -451,7 +451,7 @@
   {
     "type": "GENERIC",
     "id": "homewrecker",
-    "name": "homewrecker",
+    "name": { "str": "homewrecker" },
     "description": "A long piece of wood with several chunks of steel firmly tied to it.  The resulting weapon is unwieldy and slow but very heavy hitting.",
     "weight": "3024 g",
     "to_hit": -3,

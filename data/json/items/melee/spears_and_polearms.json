@@ -404,7 +404,7 @@
   {
     "type": "GENERIC",
     "id": "javelin_iron",
-    "name": "iron javelin",
+    "name": { "str": "iron javelin" },
     "description": "An iron-tipped wooden throwing spear.  The grip area has been carved and covered for better grip.",
     "weight": "960 g",
     "to_hit": 2,

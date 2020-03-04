@@ -31,10 +31,10 @@
   {
     "id": "fishing_hook_bone",
     "type": "GENERIC",
-    "name": "improvised fishing hook",
+    "name": { "str": "improvised fishing hook" },
     "description": "An improvised fishing hook carved from wood or bone.",
     "weight": "1 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 25,
     "cutting": 3,
     "material": "bone",
