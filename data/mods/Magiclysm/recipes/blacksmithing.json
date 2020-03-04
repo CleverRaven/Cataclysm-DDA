@@ -10,6 +10,6 @@
     "batch_time_factors": [50, 2],
     "book_learn": [ [ "welding_book", 4 ] ],
     "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
-    "components": [ [ [ "orichalcum_sliver", 8 ], [ "orichalcum_lump", 2 ] ] ]
+    "components": [ [ [ "orichalcum_sliver", 8 ], [ "orichalcum_lump", 2 ], [ "mercury", 100 ] ] ]
   }
 ]
