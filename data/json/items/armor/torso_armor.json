@@ -66,7 +66,7 @@
     "id": "bookplate",
     "type": "ARMOR",
     "category": "armor",
-    "name": "bookplate",
+    "name": { "str": "bookplate" },
     "description": "A crude form of armor made from stacked paper and rolls of duct tape, this breastplate offers a surprising amount of protection.",
     "weight": "5790 g",
     "volume": "9500 ml",

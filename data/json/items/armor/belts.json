@@ -47,7 +47,7 @@
     "id": "judo_belt_black",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "black belt",
+    "name": { "str": "black belt" },
     "description": "A belt worn by martial arts practitioners, advertising a master.",
     "color": "dark_gray"
   },
@@ -55,7 +55,7 @@
     "id": "judo_belt_blue",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "blue belt",
+    "name": { "str": "blue belt" },
     "description": "A belt worn by martial arts practitioners, advertising a strong intermediate.",
     "color": "blue"
   },
@@ -63,7 +63,7 @@
     "id": "judo_belt_brown",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "brown belt",
+    "name": { "str": "brown belt" },
     "description": "A belt worn by martial arts practitioners, advertising a near-master.",
     "color": "brown"
   },

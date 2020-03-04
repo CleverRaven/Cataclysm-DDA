@@ -63,10 +63,10 @@
   {
     "id": "bronze_medal",
     "type": "ARMOR",
-    "name": "bronze medal",
+    "name": { "str": "bronze medal" },
     "description": "A medal awarded for achieving third place in some event.  It might be worth something if it was made of bronze; this one is made from iron.",
     "weight": "25 g",
-    "volume": 0,
+    "volume": "10 ml",
     "price": 1000,
     "price_postapoc": 1000,
     "material": [ "iron" ],
