@@ -2650,12 +2650,12 @@ void Character::do_skill_rust()
             continue;
         }
 
-        const bool charged_bio_mem = get_power_level() > 25_kJ && has_active_bionic( bio_memory );
+        const bool charged_bio_mem = get_power_level() > 25_J && has_active_bionic( bio_memory );
         const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( charged_bio_mem, rust_rate_tmp ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
-            mod_power_level( -25_kJ );
+            mod_power_level( -25_J );
         }
         const int newSkill = skill_level_obj.level();
         if( newSkill < oldSkillLevel ) {
