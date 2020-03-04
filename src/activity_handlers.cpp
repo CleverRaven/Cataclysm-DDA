@@ -116,6 +116,7 @@ activity_handlers::do_turn_functions = {
     { ACT_VIBE, vibe_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
     { ACT_HAND_PUMP_INTEGRAL, hand_pump_integral_do_turn },
+    { ACT_EQUALIZE, equalize_do_turn },
     { ACT_OXYTORCH, oxytorch_do_turn },
     { ACT_AIM, aim_do_turn },
     { ACT_PICKUP, pickup_do_turn },
@@ -2153,6 +2154,34 @@ void activity_handlers::hand_pump_integral_do_turn( player_activity *act, player
         add_msg( m_info, _( "You're too exhausted to keep pumping." ) );
     }
 
+}
+
+void activity_handlers::equalize_do_turn( player_activity *act, player *p )
+{
+    if( p->is_armed() ) {
+        if( p->weapon.type->gun->compressed_air_reservoir > 0 ) {
+
+            item &equalize_item = p->i_at( act->position );
+            int max_air_transfer = std::min( equalize_item.ammo_remaining(),
+                                             ( static_cast<int>( p->weapon.type->gun->compressed_air_reservoir ) -
+                                               static_cast<int>( p->weapon.get_var( "air_charge", 0 ) ) ) );
+            if( calendar::once_every( 1_seconds ) ) {
+                if( max_air_transfer > 0 ) {
+                    equalize_item.ammo_set( "air", equalize_item.ammo_remaining() - 500 );
+                    p->weapon.set_var( "air_charge", p->weapon.get_var( "air_charge", 0 ) + 500 );
+                } else {
+                    act->moves_left = 0;
+                    add_msg( m_info, _( "Pressure is already equalized as much as possible!" ) );
+                }
+            }
+        } else {
+            act->moves_left = 0;
+            add_msg( m_info, _( "You must wield a weapon with an air reservoir!" ) );
+        }
+    } else {
+        act->moves_left = 0;
+        add_msg( m_info, _( "You must wield a weapon with an air reservoir!" ) );
+    }
 }
 
 void activity_handlers::vibe_do_turn( player_activity *act, player *p )

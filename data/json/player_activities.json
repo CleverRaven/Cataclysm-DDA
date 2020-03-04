@@ -303,6 +303,15 @@
     "based_on": "time"
   },
   {
+    "id": "ACT_EQUALIZE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "equalizing",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "time"
+  },
+  {
     "id": "ACT_HEATING",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

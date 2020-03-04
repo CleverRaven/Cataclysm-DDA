@@ -108,6 +108,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "air",
+    "use_action": "EQUALIZE",
     "looks_like": "hose",
     "magazines": [ [ "air", [ "heavy_air_cylinder", "medium_air_cylinder", "light_air_cylinder" ] ] ],
     "magazine_well": 1

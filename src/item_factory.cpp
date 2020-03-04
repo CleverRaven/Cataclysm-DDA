@@ -928,6 +928,7 @@ void Item_factory::init()
     add_iuse( "VIBE", &iuse::vibe );
     add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "HAND_PUMP_INTEGRAL", &iuse::hand_pump_integral );
+    add_iuse( "EQUALIZE", &iuse::equalize );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASH_SOFT_ITEMS", &iuse::wash_soft_items );
     add_iuse( "WASH_HARD_ITEMS", &iuse::wash_hard_items );

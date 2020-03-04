@@ -142,6 +142,7 @@ class iuse
         int vibe( player *, item *, bool, const tripoint & );
         int hand_crank( player *, item *, bool, const tripoint & );
         int hand_pump_integral( player *, item *, bool, const tripoint & );
+        int equalize( player *, item *, bool, const tripoint & );
         int vortex( player *, item *, bool, const tripoint & );
         int dog_whistle( player *, item *, bool, const tripoint & );
         int call_of_tindalos( player *, item *, bool, const tripoint & );

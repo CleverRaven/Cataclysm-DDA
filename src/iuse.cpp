@@ -4402,6 +4402,40 @@ int iuse::hand_pump_integral( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+int iuse::equalize( player *p, item *it, bool, const tripoint & )
+{
+    if( p->is_npc() ) {
+        p->add_msg_if_player( m_info, _( "You must wield a gun with a compressed air reservoir!" ) );
+        return 0;
+    }
+    if( !p->is_armed() ) {
+        p->add_msg_if_player( m_info, _( "You must wield a gun with a compressed air reservoir!" ) );
+        return 0;
+    }
+    if( !( p->weapon.type->gun->compressed_air_reservoir > 0 ) ) {
+        return 0;
+    }
+    item *magazine = it->magazine_current();
+    if( magazine && magazine->has_flag( flag_RECHARGE_AIR ) ) {
+        int moves = to_moves<int>( 1600_minutes );
+        if( it->ammo_remaining() > 0 &&
+            p->weapon.type->gun->compressed_air_reservoir > p->weapon.get_var( "air_charge", 0 ) ) {
+            p->add_msg_if_player(
+                _( "You start equalizing pressure between the %s connected to the %s and your wielded weapon." ),
+                it->magazine_current()->tname(), it->tname()
+            );
+            p->assign_activity( ACT_EQUALIZE, moves, -1, p->get_item_position( it ),
+                                "equalizing" );
+        } else {
+            p->add_msg_if_player( _( "The air cylinder has depressurized." ),
+                                  it->tname(), magazine->tname() );
+        }
+    } else {
+        p->add_msg_if_player( m_info, _( "You need an air cylinder connected to your air fitting." ) );
+    }
+    return 0;
+}
+
 int iuse::vibe( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {

@@ -941,6 +941,11 @@
   },
   {
     "type": "item_action",
+    "id": "EQUALIZE",
+    "name": "Refill a pneumatic weapon"
+  },
+  {
+    "type": "item_action",
     "id": "VIBE",
     "name": "Well, you know"
   },

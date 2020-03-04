@@ -8373,6 +8373,7 @@ bool Character::can_use_floor_warmth() const
            has_activity( activity_id( "ACT_GAME" ) ) ||
            has_activity( activity_id( "ACT_HAND_CRANK" ) ) ||
            has_activity( activity_id( "ACT_HAND_PUMP_INTEGRAL" ) ) ||
+           has_activity( activity_id( "ACT_EQUALIZE" ) ) ||
            has_activity( activity_id( "ACT_HEATING" ) ) ||
            has_activity( activity_id( "ACT_VIBE" ) ) ||
            has_activity( activity_id( "ACT_TRY_SLEEP" ) ) ||
