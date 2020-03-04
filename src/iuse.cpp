@@ -4424,7 +4424,7 @@ int iuse::equalize( player *p, item *it, bool, const tripoint & )
         if( it->ammo_remaining() > 0 &&
             p->weapon.type->gun->compressed_air_reservoir > p->weapon.get_var( "air_charge", 0 ) ) {
             p->add_msg_if_player(
-                _( "You start equalizing pressure between the %s connected to the %s and your wielded weapon." ),
+                _( "You start equalizing pressure between the %1$s connected to the %2$s and your wielded weapon." ),
                 it->magazine_current()->tname(), it->tname()
             );
             p->assign_activity( ACT_EQUALIZE, moves, -1, p->get_item_position( it ),
