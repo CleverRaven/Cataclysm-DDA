@@ -33,6 +33,7 @@ class scent_type
 
         scenttype_id id;
         std::set<species_id> receptive_species;
+        static void reset();
 };
 
 class scent_map
