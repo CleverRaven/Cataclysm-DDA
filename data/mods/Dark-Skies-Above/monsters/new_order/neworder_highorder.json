@@ -13,7 +13,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
-    "speed": 90,
+    "speed": 80,
     "material": [ "flesh" ],
     "symbol": "@",
     "color": "red",
