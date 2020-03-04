@@ -85,9 +85,12 @@ void mdefense::zapback( monster &m, Creature *const source,
 void mdefense::acidsplash( monster &m, Creature *const source,
                            dealt_projectile_attack const *const proj )
 {
+    if( source == nullptr ) {
+        return;
+    }
     size_t num_drops = rng( 4, 6 );
     // Would be useful to have the attack data here, for cutting vs. bashing etc.
-    if( !proj ) {
+    if( proj ) {
         // Projectile didn't penetrate the target, no acid will splash out of it.
         if( proj->dealt_dam.total_damage() <= 0 ) {
             return;
