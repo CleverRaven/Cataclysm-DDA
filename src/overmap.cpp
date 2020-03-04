@@ -4160,14 +4160,6 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
             continue;
         }
 
-        //Biomes: check how many we have already created that have a matching flag.
-        //...if that amount is more than set for that region, then do not place.
-        for( std::pair<std::string, int> special_counts : settings.overmap_feature_flag.special_counts ) {
-            if( special.flags.count( special_counts.first ) >= static_cast<size_t>( special_counts.second ) ) {
-                continue;
-            }
-        }
-
         place_special( special, p, rotation, nearest_city, false, must_be_unexplored );
 
         if( ++iter->instances_placed >= special.occurrences.max ) {
@@ -4260,7 +4252,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             const int min = iter->special_details->occurrences.min;
             const int max = iter->special_details->occurrences.max;
             bool match_nearby = false;
-            std::vector<overmap *> overmaps_nearby = overmap_buffer.get_overmaps_near( loc, 3 );
+            std::vector<overmap *> overmaps_nearby = overmap_buffer.get_overmaps_near( loc, 6 );
 
             //Check for repeats of this unique across nearby overmaps to ensure that uniques aren't spawned in close proximity.
             for( overmap *om : overmaps_nearby ) {
