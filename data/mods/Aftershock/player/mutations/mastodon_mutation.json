@@ -116,7 +116,7 @@
     "points": 0,
     "visibility": 2,
     "ugliness": 1,
-    "description": "Your skin has patches of light fur.  This has no gameplay effect.",
+    "description": "Your skin has patches of light fur.  This has no impact on your life except marking you as not fully human.",
     "types": [ "SKIN" ],
     "changes_to": [ "SHORTFUR" ],
     "category": [ "MASTODON" ]
@@ -300,7 +300,7 @@
   {
     "type": "mutation",
     "id": "MUT_TANK3",
-    "name": "Superhero",
+    "name": "Meatshield",
     "points": 4,
     "description": "You can simply take the punishment from lesser beings and keep going.  You get a 40% bonus to all hit points.  Stacks with Tough, etc.",
     "social_modifiers": { "intimidate": 4 },
