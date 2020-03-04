@@ -1563,9 +1563,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
+void activity_handlers::generic_game_do_turn( player_activity */*act*/, player *p )
 {
-    ( void )act;
     if( calendar::once_every( 1_minutes ) ) {
         p->add_morale( MORALE_GAME, 4, 60 );
     }
@@ -2928,7 +2927,6 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
 
 void activity_handlers::fish_finish( player_activity *act, player *p )
 {
-    ( void )p;
     act->set_to_null();
     p->add_msg_if_player( m_info, _( "You finish fishing" ) );
     if( !p->backlog.empty() && p->backlog.front().id() == ACT_MULTIPLE_FISH ) {

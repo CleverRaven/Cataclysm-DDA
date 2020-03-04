@@ -594,9 +594,8 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
 }
 
 std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &where,
-        int radius, bool npc_search, const faction_id &fac ) const
+        int radius, bool npc_search, const faction_id &/*fac*/ ) const
 {
-    ( void )fac;
     std::unordered_set<tripoint> res;
     for( const tripoint elem : g->m.points_in_radius( g->m.getlocal( where ), radius ) ) {
         const zone_data *zone = get_zone_at( g->m.getabs( elem ) );
@@ -784,8 +783,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     const item_category &cat = it.get_category();
 
     if( has_near( zone_type_id( "LOOT_CUSTOM" ), where, range ) ) {
-        for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ) ) {
-            ( void )elem;
+        if( !get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ).empty() ) {
             return zone_type_id( "LOOT_CUSTOM" );
         }
     }

@@ -1187,9 +1187,8 @@ bool Creature::resists_effect( const effect &e )
     return false;
 }
 
-bool Creature::has_trait( const trait_id &flag ) const
+bool Creature::has_trait( const trait_id &/*flag*/ ) const
 {
-    ( void )flag;
     return false;
 }
 
