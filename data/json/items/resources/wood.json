@@ -37,7 +37,7 @@
     "id": "stick",
     "symbol": "/",
     "color": "brown",
-    "name": "heavy stick",
+    "name": { "str": "heavy stick" },
     "description": "A sturdy, heavy stick.  Makes a decent melee weapon.",
     "material": "wood",
     "techniques": [ "WBLOCK_1" ],
@@ -106,7 +106,7 @@
   {
     "type": "GENERIC",
     "id": "wood_beam",
-    "name": "heavy wooden beam",
+    "name": { "str": "heavy wooden beam" },
     "description": "An enormous beam of solid wood, very heavy and hard to lug around, but also very sturdy for construction.  You could saw or chop it into smaller pieces, like planks or panels.",
     "category": "spare_parts",
     "weight": "36000 g",

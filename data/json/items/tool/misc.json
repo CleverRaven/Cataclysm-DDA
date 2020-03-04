@@ -131,7 +131,7 @@
     "id": "grapnel",
     "type": "GENERIC",
     "category": "tools",
-    "name": "grappling hook",
+    "name": { "str": "grappling hook" },
     "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.  Can be used in place of a long rope for butchering, in a pinch.",
     "weight": "760 g",
     "volume": "750 ml",

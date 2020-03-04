@@ -79,7 +79,7 @@
   {
     "type": "GENERIC",
     "id": "gun_module",
-    "name": "gun operating system",
+    "name": { "str": "gun operating system" },
     "description": "This system can operate most conventional weapons.",
     "copy-from": "robot_module_abstract"
   },
