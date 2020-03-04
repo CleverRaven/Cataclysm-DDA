@@ -3,7 +3,7 @@
     "type": "region_settings",
     "id": "rural_2",
     "biome": "rural",
-    "near_biomes": [ [ "urban", 0.1 ], [ "suburban", 1.0 ], [ "rural", 1.0 ], [ "wilderness", 1.0 ] ],
+    "near_biomes": [ [ "urban", 0.0 ], [ "suburban", 1.0 ], [ "rural", 1.0 ], [ "wilderness", 1.0 ] ],
     "default_oter": "field",
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {

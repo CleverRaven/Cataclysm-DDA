@@ -241,7 +241,7 @@ struct regional_settings {
     int max_instances = -1;
     oter_str_id default_oter; // 'field'
     std::unordered_map<std::string, double> near_biomes;
-    double river_scale;
+    double river_scale = 1;
     weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 

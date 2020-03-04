@@ -601,7 +601,7 @@
       "blacklist": [  ],
       "clear_whitelist": true,
       "whitelist": [ "WILDERNESS", "FARM", "BEE", "ANT", "FUNGAL", "BLOB", "SLIME", "TRIFFID", "MI-GO" ],
-      "special_counts": [ { "flag": "LAB", "count": 1 }, { "flag": "MILITARY", "count": 1 } ]
+      "special_counts": [  ]
     }
   }
 ]

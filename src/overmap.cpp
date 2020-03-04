@@ -1089,7 +1089,8 @@ overmap::overmap( const point &p ) : loc( p )
         adjacent_biomes.push_back( west->settings.biome );
     }
 
-    //TODO: Randomize through the array rather than iterate.
+    //TODO: Randomize through the array rather than iterate. Provides a better chance of 'picking' biomes deeper into map.
+    //TODO: Place majority of below into a function, rather distracting having all this in the constructor.
     t_regional_settings_map_citr it = region_settings_map.begin();
     while( it != region_settings_map.end() ) {
         std::string id = it->first;
@@ -1101,15 +1102,15 @@ overmap::overmap( const point &p ) : loc( p )
         t_biomes_map_citr biome_it;
 
 
-        //Restrict instances of biome
+        //Restrict instances of biome and remove if neccessary from map.
         if( it->second.max_instances != -1 &&
             overmap_buffer.get_overmap_biome_count( id ) >= it->second.max_instances ) {
-            //TODO: Safely remove any region settings from the map once max instances reached to avoid rerunning biome count function which is likely somwhat expensive.
             it++;
+            //it = region_settings_map.erase(it);
             continue;
         }
 
-        //Check neighbour biomes and ensure compatible
+        //Check neighbour biomes and ensure compatible by adding up multipliers
         //...check corners too?
         double multiplier = 1;
         for( std::string b : adjacent_biomes ) {
@@ -1138,7 +1139,6 @@ overmap::overmap( const point &p ) : loc( p )
         }
 
         //Get biome weight
-        biome_it = overmap_biomes_map.begin();
         biome_it = overmap_biomes_map.find( biome );
         if( biome_it != overmap_biomes_map.end() ) {
             weight = biome_it->second.weight;
@@ -1160,6 +1160,7 @@ overmap::overmap( const point &p ) : loc( p )
 
     //Set the biome to the suitable one
     settings = rsit->second;
+    
     init_layers();
 }
 
@@ -4140,7 +4141,7 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
         const auto &special = *iter->special_details;
         // If we haven't finished placing minimum instances of all specials,
         // skip specials that are at their minimum count already.
-        if( !place_optional && iter->instances_placed >= special.occurrences.min ) {
+        if( !place_optional && iter->instances_placed >= special.occurrences.min && iter->instances_placed > 0) {
             continue;
         }
         // City check is the fastest => it goes first.
@@ -4235,8 +4236,15 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             std::string flag = ele.first;
             int count = ele.second;
 
-            if( iter->special_details->flags.count( flag ) > 0 ) {
+            //Unique flags handled seperately
+            if( iter->special_details->flags.count( flag ) > 0 && iter->special_details->flags.count("UNIQUE") <= 0) {
                 const int max = iter->special_details->occurrences.max;
+
+                //Remove it if we're going to have less than 0.
+                if ((max - count) <= 0) {
+                    iter = enabled_specials.erase(iter);
+                    continue;
+                }
 
                 //TODO: Something...more robust. This feels like a hack.
                 iter->instances_placed = max - count;
@@ -4247,14 +4255,19 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             const int min = iter->special_details->occurrences.min;
             const int max = iter->special_details->occurrences.max;
 
-            if( x_in_y( min, max ) ) {
+            //Uniques need to be handled on a distance basis whether they are repeated or not.
+            //TODO: Check distance between nearest matching unique
+  
+            if (x_in_y(min, max)) {
                 // Min and max are overloaded to be the chance of occurrence,
                 // so reset instances placed to one short of max so we don't place several.
                 iter->instances_placed = max - 1;
-            } else {
-                iter = enabled_specials.erase( iter );
+            }
+            else {
+                iter = enabled_specials.erase(iter);
                 continue;
             }
+            
         }
         ++iter;
     }
@@ -4280,8 +4293,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     // place them on adajacent uncreated overmaps.
     if( std::any_of( custom_overmap_specials.begin(), custom_overmap_specials.end(),
     []( overmap_special_placement placement ) {
-    return placement.instances_placed <
-           placement.special_details->occurrences.min;
+    return (placement.instances_placed <
+           placement.special_details->occurrences.min && placement.instances_placed >= 0);
 } ) ) {
         // Randomly select from among the nearest uninitialized overmap positions.
         int previous_distance = 0;

@@ -2,9 +2,9 @@
   {
     "type": "region_settings",
     "id": "default",
-    "biome": "urban",
+    "biome": "special",
     "max_instances": 1,
-    "near_biomes": [ [ "urban", 0.75 ], [ "suburban", 1 ], [ "rural", 1 ], [ "wilderness", 0 ] ],
+    "near_biomes": [ [ "urban", 1 ], [ "suburban", 1 ], [ "rural", 1 ], [ "wilderness", 1 ] ],
     "default_oter": "field",
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {

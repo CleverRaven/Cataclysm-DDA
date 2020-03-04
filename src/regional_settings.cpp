@@ -273,8 +273,6 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
                 std::string flag = o.get_string( "flag" );
                 int count = o.get_int( "count" );
 
-                debugmsg( "Found flag %s with count of %i", flag, count );
-
                 overmap_feature_flag_settings.special_counts.insert( std::make_pair( flag, count ) );
             }
         }

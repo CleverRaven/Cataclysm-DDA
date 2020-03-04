@@ -21,6 +21,11 @@
   },
   {
     "type": "overmap_biome",
+    "id": "special",
+    "weight": 500
+  },
+  {
+    "type": "overmap_biome",
     "id": "undefined",
     "weight": 100000
   }
