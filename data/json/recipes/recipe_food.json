@@ -1032,7 +1032,8 @@
       [ "manual_survival", 1 ],
       [ "mag_survival", 1 ],
       [ "family_cookbook", 1 ],
-      [ "cookbook_daintydishes", 2, "Royal Penny Tea" ],
+      [ "cookbook_daintydishes", 2, "Royal Penny Tea" ]
+    ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "raw_burdock", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -1053,7 +1054,8 @@
       [ "manual_survival", 1 ],
       [ "mag_survival", 1 ],
       [ "family_cookbook", 1 ],
-      [ "cookbook_daintydishes", 2, "Royal Penny Tea" ],
+      [ "cookbook_daintydishes", 2, "Royal Penny Tea" ]
+    ],
     "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the burdocks",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
@@ -1075,7 +1077,8 @@
       [ "manual_survival", 1 ],
       [ "mag_survival", 1 ],
       [ "family_cookbook", 1 ],
-      [ "cookbook_daintydishes", 2, "Royal Penny Tea" ],
+      [ "cookbook_daintydishes", 2, "Royal Penny Tea" ]
+    ],
     "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the burdocks",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
