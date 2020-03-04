@@ -938,7 +938,7 @@
     "id": "hickory_root",
     "symbol": "/",
     "color": "brown",
-    "name": "hickory root",
+    "name": { "str": "hickory root" },
     "description": "A root from a hickory tree.  It has an earthy smell.",
     "price": 0,
     "material": "wood",

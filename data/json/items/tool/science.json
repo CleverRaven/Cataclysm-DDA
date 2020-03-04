@@ -471,7 +471,7 @@
     "id": "glass_prism",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "glass prism",
+    "name": { "str": "glass prism" },
     "description": "This is a high quality crystal glass prism for separating and redirecting light.",
     "weight": "50 g",
     "volume": "250 ml",
