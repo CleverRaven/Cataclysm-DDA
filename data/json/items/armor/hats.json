@@ -88,7 +88,7 @@
     "price": 9500,
     "material": [ "leather" ],
     "symbol": "[",
-    "looks_like": "bowlhat",
+    "looks_like": "bowhat",
     "color": "brown",
     "covers": [ "HEAD" ],
     "coverage": 50,

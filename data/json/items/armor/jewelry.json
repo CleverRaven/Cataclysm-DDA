@@ -260,12 +260,12 @@
     "name": "copper bracelet",
     "description": "An old-fashioned, copper bracelet.  You can wear it if you like, but it won't provide any effects.",
     "weight": "86 g",
-    "volume": 0,
+    "volume": "5 ml",
     "price": 2500,
     "price_postapoc": 100,
     "material": [ "copper" ],
     "symbol": "[",
-    "looks_like": "bracelet",
+    "looks_like": "silver_bracelet",
     "color": "brown"
   },
   {
@@ -302,12 +302,12 @@
     "name": "copper locket",
     "description": "A circular, copper locket.  It's been tarnished with use, and has gained some dull green spots.  You can wear it if you like, but it won't provide any effects.",
     "weight": "45 g",
-    "volume": 0,
+    "volume": "10 ml",
     "price": 1000,
     "price_postapoc": 1000,
     "material": [ "copper" ],
     "symbol": "[",
-    "looks_like": "necklace",
+    "looks_like": "silver_necklace",
     "color": "brown"
   },
   {
@@ -316,12 +316,12 @@
     "name": "copper necklace",
     "description": "A simple chain of copper, with a clasp in the middle to create a necklace.  You can wear it if you like, but it won't provide any effects.",
     "weight": "30 g",
-    "volume": 0,
+    "volume": "10 ml",
     "price": 3000,
     "price_postapoc": 1000,
     "material": [ "copper" ],
     "symbol": "[",
-    "looks_like": "necklace",
+    "looks_like": "silver_necklace",
     "color": "brown"
   },
   {
