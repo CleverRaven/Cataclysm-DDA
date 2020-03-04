@@ -1659,7 +1659,7 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
 
 static bool cancel_auto_move( player &p, const std::string &text )
 {
-    if( p.has_destination() && query_yn( "%s, cancel Auto-move?", text ) ) {
+    if( p.has_destination() && query_yn( _( "%s, cancel Auto-move?" ), text ) )  {
         add_msg( m_warning, _( "%s. Auto-move canceled" ), text );
         if( !p.omt_path.empty() ) {
             p.omt_path.clear();
