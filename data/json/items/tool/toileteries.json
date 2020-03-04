@@ -69,7 +69,7 @@
     "id": "rag",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": "rag",
+    "name": { "str": "rag" },
     "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
     "weight": "80 g",
     "volume": "250 ml",

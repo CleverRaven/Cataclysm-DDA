@@ -397,7 +397,7 @@
   {
     "id": "rollmat",
     "type": "TOOL",
-    "name": "rollmat",
+    "name": { "str": "rollmat" },
     "description": "This is a sheet of foam which can be rolled tightly for storage.  It insulates you from the floor, making it easier to sleep.  Use it to unroll and place on the ground.",
     "weight": "250 g",
     "volume": "1 L",
@@ -435,10 +435,10 @@
   {
     "id": "sarcophagus_access_code",
     "type": "TOOL",
-    "name": "sarcophagus access code",
+    "name": { "str": "sarcophagus access code" },
     "description": "This printout is a string of numbers to access the elevator in the hazardous waste sarcophagus.",
     "weight": "5 g",
-    "volume": 0,
+    "volume": "4 ml",
     "price": 0,
     "to_hit": -1,
     "bashing": 1,

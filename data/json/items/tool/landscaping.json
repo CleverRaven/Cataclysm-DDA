@@ -67,7 +67,7 @@
   {
     "id": "scythe",
     "type": "TOOL",
-    "name": "scythe",
+    "name": { "str": "scythe" },
     "description": "This is an old-fashioned farming tool used to cut tall grass.  While it may be a giant blade on the end of a stick, it is incredibly awkward to use for anything but its intended purpose.",
     "weight": "3013 g",
     "volume": "3250 ml",
