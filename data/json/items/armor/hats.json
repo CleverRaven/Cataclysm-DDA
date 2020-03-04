@@ -146,7 +146,7 @@
     "price": 1200,
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "hat_cowboy",
+    "looks_like": "cowboy_hat",
     "color": "dark_gray",
     "covers": [ "HEAD" ],
     "coverage": 65,
