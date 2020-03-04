@@ -598,7 +598,7 @@
   {
     "id": "mil_mess_kit",
     "type": "TOOL",
-    "name": "military mess kit",
+    "name": { "str": "military mess kit" },
     "description": "Military mess kit designed for long-range reconnaissance patrols deployed behind enemy lines.  All parts are made from thin sheet of aluminum / superalloy composite and are insulated with ceramic coating.  Relies on a battery-operated hotplate, rather than the smoke-producing chemical-fueled Esbit stove.  Compact, durable and lightweight.",
     "weight": "900 g",
     "volume": "1 L",
@@ -639,7 +639,7 @@
   {
     "id": "multi_cooker",
     "type": "TOOL",
-    "name": "multi cooker",
+    "name": { "str": "multi cooker" },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  Its multitude of settings and features promise to handle any sort of cooking, from parboiling potatoes to cooking curry to popping popcorn.  There's no manual, but you're sure you can work it out.",
     "weight": "11339 g",
     "volume": "3750 ml",

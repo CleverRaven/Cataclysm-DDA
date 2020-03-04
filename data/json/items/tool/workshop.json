@@ -115,7 +115,7 @@
   {
     "id": "chipper",
     "type": "TOOL",
-    "name": "paint chipper",
+    "name": { "str": "paint chipper" },
     "description": "A tool similar to a chisel, designed to remove paint.",
     "weight": "60 g",
     "volume": "500 ml",
@@ -483,7 +483,7 @@
   {
     "id": "misc_repairkit",
     "type": "TOOL",
-    "name": "misc repair kit",
+    "name": { "str": "misc repair kit" },
     "description": "This is a portable toolkit, consisting of a small carving knife for precise carving of replacement parts from raw materials, a wood saw for more heavy-duty wood cutting, and a patch of soft material for cleaning surfaces.  If supplied with duct tape, it can be used to repair certain items.",
     "weight": "386 g",
     "volume": "1500 ml",
@@ -513,7 +513,7 @@
   {
     "id": "mold_plastic",
     "type": "TOOL",
-    "name": "plastic mold",
+    "name": { "str": "plastic mold" },
     "description": "This is a plastic mold.  It could be shaped and used to craft items made of plastic.",
     "weight": "320 g",
     "volume": "2500 ml",
@@ -528,7 +528,7 @@
   {
     "id": "multitool",
     "type": "TOOL",
-    "name": "multi-tool",
+    "name": { "str": "multi-tool" },
     "//": "The multi-tool is a bit more of a toolkit than a knife.",
     "description": "A cleverly designed all-in-one tool which combines several smaller tools into the handles of a pair of pliers.",
     "weight": "250 g",
@@ -578,7 +578,7 @@
   {
     "id": "pickaxe",
     "type": "TOOL",
-    "name": "pickaxe",
+    "name": { "str": "pickaxe" },
     "description": "This is a large steel pickaxe, suitable for breaking up hard things or (with enough skill) hard targets.  Strike the earth!",
     "weight": "4535 g",
     "volume": "3 L",
@@ -596,7 +596,7 @@
   {
     "id": "pin_reamer",
     "type": "TOOL",
-    "name": "pin reamer",
+    "name": { "str": "pin reamer" },
     "description": "Handheld pin reamers of this kind are used to enlarge existing holes, or remove any burs and such from them.",
     "weight": "76 g",
     "volume": "250 ml",

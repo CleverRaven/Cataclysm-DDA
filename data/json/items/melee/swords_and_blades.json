@@ -721,7 +721,7 @@
     "id": "sword_bayonet_mod",
     "copy-from": "sword_bayonet",
     "type": "TOOL",
-    "name": "modified sword bayonet",
+    "name": { "str": "modified sword bayonet" },
     "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a firearm or crossbow converting it into a pike.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },

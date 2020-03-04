@@ -2,7 +2,7 @@
   {
     "id": "fish_trap",
     "type": "TOOL",
-    "name": "plastic fish trap",
+    "name": { "str": "plastic fish trap" },
     "description": "This is a makeshift fish trap made from plastic bottles.  It's simple, even primitive, but easy to use.  The principle of action: the fish swims inside for bait, but can't get out.  Not humane, prohibited by law, but there are no cops left to care.",
     "weight": "85 g",
     "volume": "2 L",
@@ -61,7 +61,7 @@
   {
     "id": "fishing_rod_professional",
     "type": "TOOL",
-    "name": "pro fishing rod",
+    "name": { "str": "pro fishing rod" },
     "description": "A professional fishing rod with a matching set of weights.  With this you should be able to catch 'em all.",
     "weight": "1000 g",
     "volume": "1250 ml",
