@@ -464,7 +464,7 @@ class Character : public Creature, public visitable<Character>
         void temp_equalizer( body_part bp1, body_part bp2 );
 
         struct comfort_response_t {
-            comfort_level level;
+            comfort_level level = comfort_level::neutral;
             const item *aid = nullptr;
         };
         /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
@@ -922,10 +922,10 @@ class Character : public Creature, public visitable<Character>
                               int skill_level = -1 );
         /**Success or failure of installation happens here*/
         void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
-                              int pl_skill, std::string installer_name,
-                              std::vector<trait_id> trait_to_rem, tripoint patient_pos );
-        void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
-                                      float adjusted_skill, tripoint patient_pos );
+                              int pl_skill, const std::string &installer_name,
+                              const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos );
+        void bionics_install_failure( const bionic_id &bid, const std::string &installer, int difficulty,
+                                      int success, float adjusted_skill, const tripoint &patient_pos );
 
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
@@ -934,7 +934,7 @@ class Character : public Creature, public visitable<Character>
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Succes or failure of removal happens here*/
-        void perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
+        void perform_uninstall( bionic_id bid, int difficulty, int success, const units::energy &power_lvl,
                                 int pl_skill );
         /**When a player fails the surgery*/
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
@@ -962,10 +962,10 @@ class Character : public Creature, public visitable<Character>
 
         units::energy get_power_level() const;
         units::energy get_max_power_level() const;
-        void mod_power_level( units::energy npower );
-        void mod_max_power_level( units::energy npower_max );
-        void set_power_level( units::energy npower );
-        void set_max_power_level( units::energy npower_max );
+        void mod_power_level( const units::energy &npower );
+        void mod_max_power_level( const units::energy &npower_max );
+        void set_power_level( const units::energy &npower );
+        void set_max_power_level( const units::energy &npower_max );
         bool is_max_power() const;
         bool has_power() const;
         bool has_max_power() const;
@@ -1497,7 +1497,7 @@ class Character : public Creature, public visitable<Character>
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
         void assign_stashed_activity();
-        bool check_outbounds_activity( player_activity act, bool check_only = false );
+        bool check_outbounds_activity( const player_activity &act, bool check_only = false );
         /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
@@ -1512,7 +1512,8 @@ class Character : public Creature, public visitable<Character>
         void cancel_activity();
         void cancel_stashed_activity();
         player_activity get_stashed_activity() const;
-        void set_stashed_activity( player_activity act, player_activity act_back = player_activity() );
+        void set_stashed_activity( const player_activity &act,
+                                   const player_activity &act_back = player_activity() );
         bool has_stashed_activity() const;
         void initialize_stomach_contents();
 
@@ -1609,8 +1610,8 @@ class Character : public Creature, public visitable<Character>
         std::map<std::string, int> mutation_category_level;
 
         void update_type_of_scent( bool init = false );
-        void update_type_of_scent( trait_id mut, bool gain = true );
-        void set_type_of_scent( scenttype_id id );
+        void update_type_of_scent( const trait_id &mut, bool gain = true );
+        void set_type_of_scent( const scenttype_id &id );
         scenttype_id get_type_of_scent() const;
         /**restore scent after masked_scent effect run out or is removed by water*/
         void restore_scent();

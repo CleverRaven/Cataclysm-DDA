@@ -22,7 +22,7 @@
   {
     "id": "blanket",
     "type": "ARMOR",
-    "name": "blanket",
+    "name": { "str": "blanket" },
     "description": "Hiding under here will not protect you from the monsters.",
     "weight": "1123 g",
     "volume": "15 L",

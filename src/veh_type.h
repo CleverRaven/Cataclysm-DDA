@@ -110,18 +110,18 @@ struct veh_ter_mod {
 };
 
 struct vpslot_wheel {
-    float rolling_resistance = 1;
+    float rolling_resistance = 1.0f;
     int contact_area = 1;
     std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
-    float or_rating;
+    float or_rating = 0.0f;
 };
 
 struct vpslot_workbench {
     // Base multiplier applied for crafting here
-    float multiplier;
+    float multiplier = 1.0f;
     // Mass/volume allowed before a crafting speed penalty is applied
-    units::mass allowed_mass;
-    units::volume allowed_volume;
+    units::mass allowed_mass = 0_gram;
+    units::volume allowed_volume = 0_ml;
 };
 
 struct transform_terrain_data {
@@ -129,8 +129,8 @@ struct transform_terrain_data {
     std::string post_terrain;
     std::string post_furniture;
     std::string post_field;
-    int post_field_intensity;
-    time_duration post_field_age;
+    int post_field_intensity = 0;
+    time_duration post_field_age = 0_turns;
 };
 
 class vpart_info
@@ -327,9 +327,9 @@ class vpart_info
     public:
 
         // z-ordering, inferred from location, cached here
-        int z_order;
+        int z_order = 0;
         // Display order in vehicle interact display
-        int list_order;
+        int list_order = 0;
 
         bool has_flag( const std::string &flag ) const {
             return flags.count( flag ) != 0;
@@ -353,7 +353,7 @@ class vpart_info
 
 struct vehicle_item_spawn {
     point pos;
-    int chance;
+    int chance = 0;
     /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necessary) */
     int with_ammo = 0;
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */

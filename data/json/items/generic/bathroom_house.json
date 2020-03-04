@@ -1,7 +1,7 @@
 [
   {
     "id": "base_toiletries",
-    "name": "generic grooming",
+    "name": { "str": "generic grooming" },
     "type": "GENERIC",
     "description": "generic item template",
     "symbol": "+",
@@ -82,7 +82,7 @@
   },
   {
     "id": "curler_hair",
-    "name": "hair curler",
+    "name": { "str": "hair curler" },
     "type": "GENERIC",
     "description": "A soft plastic cylinder you can wrap a lock of your hair around to curl it.",
     "copy-from": "base_toiletries",
@@ -181,7 +181,7 @@
   },
   {
     "id": "hair_dryer",
-    "name": "hair dryer",
+    "name": { "str": "hair dryer" },
     "type": "GENERIC",
     "description": "This tool dries your hair by pushing air through a coil of hot wires.  Without a functioning power grid, it is a motorized paper weight.",
     "symbol": "(",

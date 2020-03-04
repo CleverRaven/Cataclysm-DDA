@@ -107,7 +107,7 @@ class overmap_land_use_code
         int land_use_code = 0;
         std::string name;
         std::string detailed_definition;
-        uint32_t symbol;
+        uint32_t symbol = 0;
         nc_color color = c_black;
 
         std::string get_symbol() const;
@@ -198,7 +198,7 @@ struct oter_type_t {
     public:
         string_id<oter_type_t> id;
         std::string name;               // Untranslated name
-        uint32_t symbol;
+        uint32_t symbol = 0;
         nc_color color = c_black;
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap

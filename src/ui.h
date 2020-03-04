@@ -191,27 +191,28 @@ class uilist: public ui_container
         nc_color hilight_color;
         nc_color hotkey_color;
         nc_color disabled_color;
-        int pad_left;
-        int pad_right;
-        bool allow_disabled; // return on selecting disabled entry, default false
-        bool allow_anykey; // return UILIST_UNBOUND on keys unbound & unhandled by callback, default false
-        bool allow_cancel; // return UILIST_CANCEL on "QUIT" action, default true
+        int pad_left = 0;
+        int pad_right = 0;
+        bool allow_disabled = false; // return on selecting disabled entry, default false
+        // return UILIST_UNBOUND on keys unbound & unhandled by callback, default false
+        bool allow_anykey = false;
+        bool allow_cancel = true; // return UILIST_CANCEL on "QUIT" action, default true
         // return UILIST_ADDITIONAL if the input action is inside `additional_actions`
         // and unhandled by callback, default false.
-        bool allow_additional;
-        bool hilight_disabled;
-        bool hilight_full;
-        int vshift;
-        int vmax;
+        bool allow_additional = false;
+        bool hilight_disabled = false;
+        bool hilight_full = false;
+        int vshift = 0;
+        int vmax = 0;
         std::string filter;
         std::vector<int> fentries;
-        int fselected;
-        bool centered_scroll;
+        int fselected = 0;
+        bool centered_scroll = false;
 
-        bool scrollbar_auto;
+        bool scrollbar_auto = false;
         nc_color scrollbar_nopage_color;
         nc_color scrollbar_page_color;
-        int scrollbar_side;
+        int scrollbar_side = 0;
 
         uilist_callback *callback;
 
@@ -262,7 +263,7 @@ class uilist: public ui_container
         // pending refactor // ui_element_input * filter_input;
 
     private:
-        bool started;
+        bool started = false;
 
     protected:
         std::string hotkeys;

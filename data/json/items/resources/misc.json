@@ -184,7 +184,7 @@
     "type": "GENERIC",
     "symbol": ",",
     "color": "dark_gray",
-    "name": "grenade launcher buttstock",
+    "name": { "str": "grenade launcher buttstock" },
     "category": "spare_parts",
     "description": "A collapsible buttstock designed for the M320 grenade launcher.  When combined with this stock, the M320 can be used as a standalone weapon",
     "price": 10000,

@@ -463,7 +463,7 @@
   {
     "id": "quiver_birchbark",
     "type": "ARMOR",
-    "name": "birchbark quiver",
+    "name": { "str": "birchbark quiver" },
     "description": "A quiver woven from strips of birch bark, worn at the waist, that can hold 20 arrows.  Activate to store arrows.",
     "weight": "490 g",
     "volume": "500 ml",

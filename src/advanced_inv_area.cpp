@@ -69,7 +69,6 @@ advanced_inv_area::advanced_inv_area( aim_location id, int hscreenx, int hscreen
 {
 }
 
-
 void advanced_inv_area::init()
 {
     pos = g->u.pos() + off;
