@@ -406,7 +406,7 @@
     "id": "jacket_chef",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": "chef's jacket",
+    "name": { "str": "chef's jacket" },
     "description": "This double-breasted uniform is unusually thick to protect against the heat of the kitchen.",
     "weight": "720 g",
     "volume": "1750 ml",

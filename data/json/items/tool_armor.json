@@ -215,7 +215,7 @@
   {
     "id": "welding_mask_crude",
     "type": "ARMOR",
-    "name": "crude welding mask",
+    "name": { "str": "crude welding mask" },
     "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding.  Activate it to push it up your head.",
     "weight": "4 kg",
     "volume": "4 L",

@@ -45,7 +45,7 @@
   {
     "id": "cloak",
     "type": "ARMOR",
-    "name": "cloak",
+    "name": { "str": "cloak" },
     "description": "A heavy cloak meant to be thrown over your body.",
     "weight": "1175 g",
     "volume": "3 L",
