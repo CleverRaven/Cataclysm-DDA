@@ -28,5 +28,11 @@
     "id": "alumentum",
     "name": "alumentum",
     "default": "alumentum"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mercury",
+    "name": "mercury",
+    "default": "mercury"
   }
 ]
