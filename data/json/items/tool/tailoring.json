@@ -143,7 +143,7 @@
   {
     "id": "sewing_kit",
     "type": "TOOL",
-    "name": "sewing kit",
+    "name": { "str": "sewing kit" },
     "description": "This is a plastic kit with a variety of needles, some plastic spools for thread, and a few other useful textile tools.  Use a sewing kit on an article of clothing to attempt to repair or reinforce that clothing.  This uses your tailoring skill.",
     "weight": "85 g",
     "volume": "250 ml",

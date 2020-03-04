@@ -20,7 +20,7 @@
   {
     "id": "butter_churn",
     "type": "TOOL",
-    "name": "pseudo butter churn",
+    "name": { "str": "pseudo butter churn" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "6464 g",
     "volume": "9 L",
@@ -769,7 +769,7 @@
   {
     "id": "rock_quern",
     "type": "TOOL",
-    "name": "quern",
+    "name": { "str": "quern" },
     "description": "This is a simple hand-powered stone quern for grinding grain.",
     "weight": "3264 g",
     "volume": "2 L",

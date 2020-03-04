@@ -108,9 +108,9 @@
   {
     "id": "generic_folded_vehicle",
     "type": "TOOL",
-    "name": "seeing this is a bug",
+    "name": { "str": "seeing this is a bug", "str_pl": "seeing this is a bug" },
     "description": "seeing this is a bug",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "symbol": "/",
     "color": "light_gray",

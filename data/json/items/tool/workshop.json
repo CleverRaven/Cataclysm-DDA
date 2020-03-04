@@ -300,7 +300,7 @@
   {
     "id": "hose",
     "type": "TOOL",
-    "name": "rubber hose",
+    "name": { "str": "rubber hose" },
     "description": "This is a flexible rubber hose.  It could be used for crafting, or siphoning fuel from a vehicle.",
     "weight": "544 g",
     "volume": "500 ml",
@@ -345,7 +345,7 @@
   {
     "id": "jack_small",
     "type": "TOOL",
-    "name": "scissor jack",
+    "name": { "str": "scissor jack" },
     "description": "A compact scissor jack used for lifting vehicles.",
     "material": "steel",
     "symbol": ";",
@@ -675,7 +675,7 @@
   {
     "id": "screwdriver",
     "type": "TOOL",
-    "name": "screwdriver",
+    "name": { "str": "screwdriver" },
     "description": "This is a Philips-head screwdriver.  It is important for almost all electronics crafting, most mechanics crafting, and has many more uses.",
     "weight": "170 g",
     "volume": "40 ml",
@@ -692,7 +692,7 @@
   {
     "id": "screwdriver_set",
     "type": "TOOL",
-    "name": "screwdriver set",
+    "name": { "str": "screwdriver set" },
     "description": "This is a set of screwdrivers in several sizes and blade types.  Guaranteed to have the right tools for more precise work.",
     "weight": "340 g",
     "volume": "500 ml",

@@ -1070,7 +1070,7 @@
     "id": "scrambler",
     "type": "TOOL",
     "category": "weapons",
-    "name": "scrambler grenade",
+    "name": { "str": "scrambler grenade" },
     "description": "This is a specialized grenade, designed to scramble robots' IFF control chips.  This converts the robot to your side for a short time, before the backup systems kick in.  Use this item to pull the pin and light the fuse, turning it into an active scrambler grenade.",
     "weight": "500 g",
     "volume": "250 ml",
