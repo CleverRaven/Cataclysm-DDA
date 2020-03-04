@@ -25,7 +25,7 @@
     "id": "clown_suit",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": "clown suit",
+    "name": { "str": "clown suit" },
     "description": "A colorful and ridiculous costume fit for a clown.  Provides decent storage.",
     "weight": "1420 g",
     "volume": "5750 ml",

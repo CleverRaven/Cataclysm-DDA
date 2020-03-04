@@ -24,7 +24,7 @@
     "id": "chainmail_hood",
     "type": "ARMOR",
     "category": "armor",
-    "name": "chainmail coif",
+    "name": { "str": "chainmail coif" },
     "description": "A customized chainmail hood.  Can be worn comfortably under helmets.",
     "weight": "2006 g",
     "volume": "500 ml",

@@ -81,7 +81,7 @@
   {
     "id": "cowboy_hat",
     "type": "ARMOR",
-    "name": "cowboy hat",
+    "name": { "str": "cowboy hat" },
     "description": "Whether yer hunting varmints, fixing up the ranch, or heading into the sunset, this is the hat for the job.",
     "weight": "390 g",
     "volume": "2 L",
@@ -201,7 +201,7 @@
   {
     "id": "hat_cotton",
     "type": "ARMOR",
-    "name": "cotton hat",
+    "name": { "str": "cotton hat" },
     "description": "A snug-fitting cotton hat.  Quite warm.",
     "weight": "78 g",
     "volume": "250 ml",
