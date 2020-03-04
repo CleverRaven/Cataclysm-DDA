@@ -41,9 +41,9 @@ class dialogue_window
          */
         std::vector<std::string> history;
         // yoffset of the current response window
-        int yoffset;
-        bool can_scroll_up;
-        bool can_scroll_down;
+        int yoffset = 0;
+        bool can_scroll_up = false;
+        bool can_scroll_down = false;
 
         void print_history( size_t hilight_lines );
         bool print_responses( int yoffset, const std::vector<talk_data> &responses );

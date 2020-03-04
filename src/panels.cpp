@@ -1529,7 +1529,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void render_wind( avatar &u, const catacurses::window &w, std::string formatstr )
+static void render_wind( avatar &u, const catacurses::window &w, const std::string &formatstr )
 {
     werase( w );
     mvwprintz( w, point_zero, c_light_gray,
@@ -1931,7 +1931,7 @@ static void draw_hint( const avatar &, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void print_mana( const player &u, const catacurses::window &w, std::string fmt_string,
+static void print_mana( const player &u, const catacurses::window &w, const std::string &fmt_string,
                         const int j1, const int j2, const int j3, const int j4 )
 {
     werase( w );
@@ -2342,13 +2342,13 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
 
             col_offset = column_widths[0] + 2;
             int col_width = column_widths[1] - 4;
-            mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.press_x( "TOGGLE_PANEL" ),
+            mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
                        col_width ) + ":" );
             mvwprintz( w, point( col_offset, 2 ), c_white, _( "Toggle panels on/off" ) );
-            mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.press_x( "MOVE_PANEL" ),
+            mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
                        col_width ) + ":" );
             mvwprintz( w, point( col_offset, 4 ), c_white, _( "Change display order" ) );
-            mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.press_x( "QUIT" ),
+            mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
                        col_width ) + ":" );
             mvwprintz( w, point( col_offset, 6 ), c_white, _( "Exit" ) );
         }

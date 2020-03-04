@@ -33,7 +33,7 @@ class item_pricing
             set_values( count );
         }
         void set_values( int ip_count );
-        void adjust_values( double adjust, faction *fac );
+        void adjust_values( double adjust, const faction *fac );
 
         item_location loc;
         int price;
@@ -56,7 +56,7 @@ class trading_window
         trading_window() = default;
         std::vector<item_pricing> theirs;
         std::vector<item_pricing> yours;
-        int your_balance;
+        int your_balance = 0;
 
         void setup_win( npc &np );
         void setup_trade( int cost, npc &np );

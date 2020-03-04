@@ -164,8 +164,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_EDDIE_CARLOS",
-    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forage set up.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_forage", "type": "general", "context": "meeting", "value": "yes" } },
+    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forge set up.",
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_forge", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -193,7 +193,7 @@
   {
     "id": "MISSION_ISHERWOOD_EDDIE_1",
     "type": "mission_definition",
-    "name": "Gather 120 Stones",
+    "name": "Gather 120 Rocks",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -205,7 +205,7 @@
     "dialogue": {
       "describe": "We need to build some kilns.",
       "offer": "I could use 120 rocks to construct some kilns.",
-      "accepted": "You can break up some larger rocks, or gather them up from the fields.",
+      "accepted": "You can break up some larger stones, or gather them up from the fields.",
       "rejected": "Thanks anyway, we'll find the time to get them ourselves.",
       "advice": "Mining would always be an option if you had the resources.",
       "inquire": "Do you have the stone?",

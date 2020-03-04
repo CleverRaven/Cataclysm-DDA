@@ -1,6 +1,7 @@
 #include "character_martial_arts.h"
 
 #include "action.h"
+#include "character.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "output.h"

@@ -363,7 +363,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "exempt",
-    "emit_fields": [ "emit_fungal_leak" ],
+    "emit_fields": [ { "emit_id": "emit_fungal_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "FUNGALBURST" ],
@@ -397,7 +397,7 @@
     "vision_day": 5,
     "vision_night": 3,
     "harvest": "zombie",
-    "emit_fields": [ "emit_fungal_haze_plume" ],
+    "emit_fields": [ { "emit_id": "emit_fungal_haze_plume", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": [ "FUNGUS" ],
     "flags": [ "SEES", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "PUSH_MON", "FILTHY" ]

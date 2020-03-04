@@ -4,7 +4,7 @@
     "id": "black_box",
     "category": "other",
     "name": { "str": "military black box", "str_pl": "military black boxes" },
-    "description": "This is a black box, seemingly pulled from some sort of military vehicle wreckage.  If you can find a system to analyze this you may find something of interest.",
+    "description": "This is a black box, seemingly pulled from some sort of military vehicle wreckage.  If you can find a system to analyze this, you may find something of interest.",
     "weight": "4535 g",
     "volume": "2 L",
     "price": 0,
@@ -34,8 +34,7 @@
   {
     "type": "GENERIC",
     "id": "mountable_cooler",
-    "name": "vehicle cooler",
-    "name_plural": "vehicle coolers",
+    "name": { "str": "vehicle cooler" },
     "description": "A vehicle-mounted area cooler.",
     "weight": "12500 g",
     "to_hit": -4,
@@ -50,8 +49,7 @@
   {
     "type": "GENERIC",
     "id": "mountable_heater",
-    "name": "vehicle heater",
-    "name_plural": "vehicle heaters",
+    "name": { "str": "vehicle heater" },
     "description": "A vehicle-mounted area heater.",
     "weight": "12500 g",
     "to_hit": -4,
@@ -155,7 +153,7 @@
   {
     "type": "GENERIC",
     "id": "dishwasher",
-    "name": "dishwasher",
+    "name": { "str": "dishwasher" },
     "description": "A very small dishwasher designed for use in vehicles.",
     "looks_like": "washing_machine",
     "copy-from": "washing_machine"

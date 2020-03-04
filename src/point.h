@@ -309,7 +309,6 @@ std::vector<tripoint> closest_tripoints_first( const tripoint &center, int min_d
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
 
-
 inline point abs( const point &p )
 {
     return point( abs( p.x ), abs( p.y ) );

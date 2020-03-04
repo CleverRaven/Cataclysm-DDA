@@ -41,8 +41,6 @@
 #include <string>
 #include <exception>
 
-#define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
-
 bool trigdist;
 bool use_tiles;
 bool log_from_top;
@@ -1323,6 +1321,7 @@ void options_manager::add_options_interface()
         { "ja", no_translation( R"(日本語)" ) },
         { "ko", no_translation( R"(한국어)" ) },
         { "pl", no_translation( R"(Polski)" ) },
+        { "pt_BR", no_translation( R"(Português (Brasil))" )},
         { "ru", no_translation( R"(Русский)" ) },
         { "zh_CN", no_translation( R"(中文 (天朝))" ) },
         { "zh_TW", no_translation( R"(中文 (台灣))" ) },
@@ -1726,6 +1725,12 @@ void options_manager::add_options_graphics()
     add( "USE_DRAW_ASCII_LINES_ROUTINE", "graphics", translate_marker( "SDL ASCII lines" ),
          translate_marker( "Use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
          true, COPT_CURSES_HIDE
+       );
+
+    add( "ENABLE_ASCII_ART_ITEM", "graphics",
+         translate_marker( "Enable ASCII art in item descriptions" ),
+         translate_marker( "When available item description will show a picture of the item in ascii art." ),
+         true, COPT_NO_HIDE
        );
 
     add_empty_line();
@@ -2150,6 +2155,12 @@ void options_manager::add_options_android()
        );
 
     add_empty_line();
+
+    add( "ANDROID_TRAP_BACK_BUTTON", "android", translate_marker( "Trap Back button" ),
+         translate_marker( "If true, the back button will NOT back out of the app and will be passed to the application as SDL_SCANCODE_AC_BACK.  Requires restart." ),
+         // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
+         android_get_default_setting( "Trap Back button", true )
+       );
 
     add( "ANDROID_AUTO_KEYBOARD", "android", translate_marker( "Auto-manage virtual keyboard" ),
          translate_marker( "If true, automatically show/hide the virtual keyboard when necessary based on context. If false, virtual keyboard must be toggled manually." ),

@@ -2,7 +2,7 @@
   {
     "id": "lwfeed",
     "type": "GUNMOD",
-    "name": "Leadworks magazine adapter",
+    "name": { "str": "Leadworks magazine adapter" },
     "description": "A bootleg adapter for permanently converting a firearm to accept proprietary Leadworks magazines.  Guaranteed to void your warranty.",
     "weight": "140 g",
     "volume": "250 ml",

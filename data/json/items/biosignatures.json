@@ -57,7 +57,7 @@
     "id": "fetid_goop",
     "symbol": "~",
     "color": "white",
-    "name": "fetid goop",
+    "name": { "str": "fetid goop" },
     "weight": "750 g",
     "volume": "1 L",
     "description": "A foul smelling goop.  It has a disgusting texture and a powerful smell that overrides every other smell around it.",

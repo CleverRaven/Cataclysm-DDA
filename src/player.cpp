@@ -99,6 +99,7 @@
 #include "flat_set.h"
 #include "stomach.h"
 #include "teleport.h"
+#include "cata_string_consts.h"
 
 const double MAX_RECOIL = 3000;
 
@@ -3043,8 +3044,9 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
     }
 
     bool ammo_match_found = false;
+    int ammo_search_range = is_mounted() ? -1 : 1;
     for( const auto e : opts ) {
-        for( item_location &ammo : find_ammo( *e, empty ) ) {
+        for( item_location &ammo : find_ammo( *e, empty, ammo_search_range ) ) {
             // don't try to unload frozen liquids
             if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
@@ -3135,6 +3137,11 @@ ret_val<bool> player::can_wield( const item &it ) const
                    _( "You need at least one arm to even consider wielding something." ) );
     }
 
+    if( is_armed() && weapon.has_flag( "NO_UNWIELD" ) ) {
+        return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
+                                            weapname(), it.tname() );
+    }
+
     if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
         if( worn_with_flag( "RESTRICT_HANDS" ) ) {
             return ret_val<bool>::make_failure(
@@ -3219,7 +3226,7 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
     kmenu.input_category = "MELEE_STYLE_PICKER";
-    kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
+    kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
     kmenu.desc_enabled = true;
     kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h',
                          keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
@@ -3774,6 +3781,9 @@ bool player::unload( item &it )
 
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
+        if( target->is_filthy() ) {
+            ammo.set_flag( "FILTHY" );
+        }
 
         if( ammo.made_of_from_type( LIQUID ) ) {
             if( !this->add_or_drop_with_msg( ammo ) ) {
@@ -3963,7 +3973,14 @@ void player::use( item_location loc )
         }
     } else if( used.type->has_use() ) {
         invoke_item( &used, loc.position() );
-
+    } else if( used.has_flag( flag_SPLINT ) ) {
+        ret_val<bool> need_splint = can_wear( used );
+        if( need_splint.success() ) {
+            wear_item( used );
+            loc.remove_item();
+        } else {
+            add_msg( m_info, need_splint.str() );
+        }
     } else {
         add_msg( m_info, _( "You can't do anything interesting with your %s." ),
                  used.tname() );
@@ -5078,19 +5095,6 @@ bool player::has_weapon() const
     return !unarmed_attack();
 }
 
-m_size player::get_size() const
-{
-    if( has_trait( trait_id( "SMALL2" ) ) || has_trait( trait_id( "SMALL_OK" ) ) ||
-        has_trait( trait_id( "SMALL" ) ) ) {
-        return MS_SMALL;
-    } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
-        return MS_LARGE;
-    } else if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
-        return MS_HUGE;
-    }
-    return MS_MEDIUM;
-}
-
 int player::get_hp() const
 {
     return get_hp( num_hp_parts );
@@ -5387,8 +5391,17 @@ std::vector<Creature *> player::get_visible_creatures( const int range ) const
 std::vector<Creature *> player::get_targetable_creatures( const int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        bool can_see = ( ( sees( critter ) && g->m.sees( pos(), critter.pos(), 100 ) ) //the call to map.sees is to make sure that even if we can see it through walls
-                         || sees_with_infrared( critter ) );                           //via a mutation or cbm we only attack targets with a line of sight
+        bool can_see = sees( critter ) || sees_with_infrared( critter );
+        if( can_see )   //handles the case where we can see something with glass in the way or a mutation lets us see through walls
+        {
+            std::vector<tripoint> path = g->m.find_clear_path( pos(), critter.pos() );
+            for( const tripoint &point : path ) {
+                if( g->m.impassable( point ) ) {
+                    can_see = false;
+                    break;
+                }
+            }
+        }
         bool in_range = round( rl_dist_exact( pos(), critter.pos() ) ) <= range;
         // TODO: get rid of fake npcs (pos() check)
         bool valid_target = this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::A_FRIENDLY;
@@ -5663,91 +5676,4 @@ std::set<tripoint> player::get_path_avoid() const
     // TODO: Add known traps in a way that doesn't destroy performance
 
     return ret;
-}
-
-std::pair<std::string, nc_color> player::get_hunger_description() const
-{
-    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
-    const units::volume contains = stomach.contains();
-    const units::volume cap = stomach.capacity( *this );
-    std::string hunger_string;
-    nc_color hunger_color = c_white;
-    // i ate just now!
-    const bool just_ate = stomach.time_since_ate() < 15_minutes;
-    // i ate a meal recently enough that i shouldn't need another meal
-    const bool recently_ate = stomach.time_since_ate() < 3_hours;
-    if( calorie_deficit ) {
-        if( contains >= cap ) {
-            hunger_string = _( "Engorged" );
-            hunger_color = c_green;
-        } else if( contains > cap * 3 / 4 ) {
-            hunger_string = _( "Sated" );
-            hunger_color = c_green;
-        } else if( just_ate && contains > cap / 2 ) {
-            hunger_string = _( "Full" );
-            hunger_color = c_green;
-        } else if( just_ate ) {
-            hunger_string = _( "Hungry" );
-            hunger_color = c_yellow;
-        } else if( recently_ate ) {
-            hunger_string = _( "Very Hungry" );
-            hunger_color = c_yellow;
-        } else if( get_bmi() < character_weight_category::emaciated ) {
-            hunger_string = _( "Starving!" );
-            hunger_color = c_red;
-        } else if( get_bmi() < character_weight_category::underweight ) {
-            hunger_string = _( "Near starving" );
-            hunger_color = c_red;
-        } else {
-            hunger_string = _( "Famished" );
-            hunger_color = c_light_red;
-        }
-    } else {
-        if( contains >= cap * 5 / 6 ) {
-            hunger_string = _( "Engorged" );
-            hunger_color = c_green;
-        } else if( contains > cap * 11 / 20 ) {
-            hunger_string = _( "Sated" );
-            hunger_color = c_green;
-        } else if( recently_ate && contains >= cap * 3 / 8 ) {
-            hunger_string = _( "Full" );
-            hunger_color = c_green;
-        } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 && recently_ate ) ||
-                   ( just_ate && contains > 0_ml && contains < cap * 3 / 8 ) ) {
-            hunger_string = _( "Peckish" );
-            hunger_color = c_dark_gray;
-        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
-            hunger_string.clear();
-        } else {
-            if( get_bmi() > character_weight_category::overweight ) {
-                hunger_string = _( "Hungry" );
-            } else {
-                hunger_string = _( "Very Hungry" );
-            }
-            hunger_color = c_yellow;
-        }
-    }
-
-    return std::make_pair( hunger_string, hunger_color );
-}
-
-std::pair<std::string, nc_color> player::get_pain_description() const
-{
-    auto pain = Creature::get_pain_description();
-    nc_color pain_color = pain.second;
-    std::string pain_string;
-    // get pain color
-    if( get_perceived_pain() >= 60 ) {
-        pain_color = c_red;
-    } else if( get_perceived_pain() >= 40 ) {
-        pain_color = c_light_red;
-    }
-    // get pain string
-    if( ( has_trait( trait_SELFAWARE ) || has_effect( effect_got_checked ) ) &&
-        get_perceived_pain() > 0 ) {
-        pain_string = string_format( "%s %d", _( "Pain " ), get_perceived_pain() );
-    } else if( get_perceived_pain() > 0 ) {
-        pain_string = pain.first;
-    }
-    return std::make_pair( pain_string, pain_color );
 }

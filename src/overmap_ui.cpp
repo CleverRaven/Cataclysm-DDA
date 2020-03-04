@@ -397,9 +397,9 @@ static point draw_notes( const tripoint &origin )
         g->refresh_all();
         nmenu.desc_enabled = true;
         nmenu.input_category = "OVERMAP_NOTES";
-        nmenu.additional_actions.emplace_back( "DELETE_NOTE", "" );
-        nmenu.additional_actions.emplace_back( "EDIT_NOTE", "" );
-        nmenu.additional_actions.emplace_back( "MARK_DANGER", "" );
+        nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
+        nmenu.additional_actions.emplace_back( "EDIT_NOTE", translation() );
+        nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
         const input_context ctxt( nmenu.input_category );
         nmenu.text = string_format(
                          _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
@@ -1169,8 +1169,8 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 
     input_context ctxt( "OVERMAP_SEARCH" );
     ctxt.register_leftright();
-    ctxt.register_action( "NEXT_TAB", translate_marker( "Next target" ) );
-    ctxt.register_action( "PREV_TAB", translate_marker( "Previous target" ) );
+    ctxt.register_action( "NEXT_TAB", to_translation( "Next target" ) );
+    ctxt.register_action( "PREV_TAB", to_translation( "Previous target" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1483,7 +1483,13 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             }
             const tripoint player_omt_pos = g->u.global_omt_location();
             if( !g->u.omt_path.empty() && g->u.omt_path.front() == curs ) {
-                if( query_yn( _( "Travel to this point?" ) ) ) {
+                std::string confirm_msg;
+                if( g->u.weight_carried() > g->u.weight_capacity() ) {
+                    confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
+                } else {
+                    confirm_msg = _( "Travel to this point?" );
+                }
+                if( query_yn( confirm_msg ) ) {
                     // renew the path incase of a leftover dangling path point
                     g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, ptype );
                     if( g->u.in_vehicle && g->u.controlling_vehicle ) {

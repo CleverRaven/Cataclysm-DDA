@@ -16,6 +16,7 @@
 #include "anatomy.h"
 #include "behavior.h"
 #include "bionics.h"
+#include "clzones.h"
 #include "construction.h"
 #include "crafting_gui.h"
 #include "creature.h"
@@ -538,6 +539,7 @@ void DynamicDataLoader::unload_data()
     event_transformation::reset();
     event_statistic::reset();
     score::reset();
+    scent_type::reset();
 
     // TODO:
     //    Name::clear();

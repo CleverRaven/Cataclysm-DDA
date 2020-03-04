@@ -77,10 +77,10 @@ struct construction {
         construction_str_id str_id = construction_str_id::NULL_ID();
 
         // Time in moves
-        int time;
+        int time = 0;
 
         // If true, the requirements are generated during finalization
-        bool vehicle_start;
+        bool vehicle_start = false;
 
         // Custom constructibility check
         std::function<bool( const tripoint & )> pre_special;
@@ -89,9 +89,9 @@ struct construction {
         // Custom error message display
         std::function<void( const tripoint & )> explain_failure;
         // Whether it's furniture or terrain
-        bool pre_is_furniture;
+        bool pre_is_furniture = false;
         // Whether it's furniture or terrain
-        bool post_is_furniture;
+        bool post_is_furniture = false;
 
         // NPC assistance adjusted
         int adjusted_time() const;
@@ -102,6 +102,9 @@ struct construction {
 
         // make the construction available for selection
         bool on_display = true;
+
+        //can be build in the dark
+        bool dark_craftable = false;
     private:
         std::string get_time_string() const;
 };
@@ -117,6 +120,7 @@ construction_id construction_menu( bool blueprint );
 void complete_construction( player *p );
 bool can_construct( const construction &con, const tripoint &p );
 bool player_can_build( player &p, const inventory &inv, const construction &con );
+bool player_can_see_to_build( player &p, const std::string &desc );
 void check_constructions();
 void finalize_constructions();
 

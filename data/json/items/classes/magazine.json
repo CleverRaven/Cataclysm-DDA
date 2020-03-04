@@ -2,9 +2,9 @@
   {
     "abstract": "magazine_belt",
     "type": "MAGAZINE",
-    "name": "ammo belt",
+    "name": { "str": "ammo belt" },
     "description": "An ammo belt consisting of metal linkages which disintegrate upon firing.",
-    "volume": 0,
+    "volume": "0 ml",
     "price": 0,
     "material": "steel",
     "symbol": "#",

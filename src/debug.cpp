@@ -2,6 +2,7 @@
 
 #include <sys/stat.h>
 #include <cctype>
+#include <cmath>
 #include <cstdio>
 #include <algorithm>
 #include <cassert>

@@ -897,6 +897,22 @@ bool string_id<vehicle_prototype>::is_valid() const
     return vtypes.count( *this ) > 0;
 }
 
+vehicle_prototype::vehicle_prototype() = default;
+
+vehicle_prototype::vehicle_prototype( const std::string &name,
+                                      const std::vector<part_def> &parts,
+                                      const std::vector<vehicle_item_spawn> &item_spawns,
+                                      std::unique_ptr<vehicle> &&blueprint )
+    : name( name ), parts( parts ), item_spawns( item_spawns ),
+      blueprint( std::move( blueprint ) )
+{
+}
+
+vehicle_prototype::vehicle_prototype( vehicle_prototype && ) = default;
+vehicle_prototype::~vehicle_prototype() = default;
+
+vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && ) = default;
+
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
  */
