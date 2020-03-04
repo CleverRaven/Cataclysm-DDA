@@ -770,7 +770,7 @@
     "copy-from": "grenade_canister",
     "looks_like": "smokebomb",
     "type": "GENERIC",
-    "name": "insecticidal gas grenade",
+    "name": { "str": "insecticidal gas grenade" },
     "price": 3600,
     "description": "This is a canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to insect life forms.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_act" }

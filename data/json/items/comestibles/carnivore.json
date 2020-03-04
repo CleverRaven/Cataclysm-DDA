@@ -695,7 +695,7 @@
     "type": "GENERIC",
     "id": "bone_human",
     "copy-from": "bone",
-    "name": "human bone",
+    "name": { "str": "human bone" },
     "description": "A bone from a human being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
     "flags": [ "CANNIBALISM" ]
   },

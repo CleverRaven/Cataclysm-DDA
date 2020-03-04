@@ -144,7 +144,7 @@
   {
     "type": "GENERIC",
     "id": "wood_sheet",
-    "name": "large wooden sheet",
+    "name": { "str": "large wooden sheet" },
     "description": "A standard 4x8 sheet of flat wood - usually plywood, OSB, or MDF.  Heavy and bulky, this is extremely useful for all manner of construction, but you might have to cut it to size before doing smaller projects.",
     "//": "Weight and volume assumes 32 square feet of 1/2 inch plywood.  Due to its enormously bulky shape, volume is higher than actual displacement volume",
     "category": "spare_parts",

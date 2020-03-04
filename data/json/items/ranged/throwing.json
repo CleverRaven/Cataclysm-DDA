@@ -66,7 +66,7 @@
     "id": "lawn_dart",
     "category": "weapons",
     "price": 1000,
-    "name": "lawn dart",
+    "name": { "str": "lawn dart" },
     "symbol": ";",
     "color": "yellow",
     "description": "A large plastic dart made for outdoor games.",

@@ -23,7 +23,7 @@
     "id": "sourdough_young",
     "type": "GENERIC",
     "category": "food",
-    "name": "juvenile sourdough starter",
+    "name": { "str": "juvenile sourdough starter" },
     "description": "This jar contains a floury paste that is slowly going bad.  Someday it will be sourdough.",
     "weight": "52 g",
     "volume": "250 ml",

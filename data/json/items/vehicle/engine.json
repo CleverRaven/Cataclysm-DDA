@@ -230,7 +230,7 @@
     "id": "engine_block_large",
     "copy-from": "spare_part",
     "type": "GENERIC",
-    "name": "large engine block",
+    "name": { "str": "large engine block" },
     "description": "The beginnings of a large gas or diesel engine.  It's not good for much of anything on its own.",
     "material": "iron",
     "weight": "190000 g",

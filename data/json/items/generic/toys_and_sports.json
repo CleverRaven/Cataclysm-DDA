@@ -172,7 +172,7 @@
     "id": "puck",
     "symbol": "*",
     "color": "dark_gray",
-    "name": "hockey puck",
+    "name": { "str": "hockey puck" },
     "category": "other",
     "description": "A heavy circular block of solid rubber, normally used for playing hockey.  You can throw it to cause some serious harm.",
     "price": 1000,
