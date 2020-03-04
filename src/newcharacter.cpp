@@ -182,7 +182,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     }
 
     prof = g->scen->weighted_random_profession();
-    start_location = g->scen->random_start_location();
+    random_start_location = true;
 
     str_max = rng( 6, HIGH_STAT - 2 );
     dex_max = rng( 6, HIGH_STAT - 2 );
@@ -2134,6 +2134,10 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
 tab_direction set_description( const catacurses::window &w, avatar &you, const bool allow_reroll,
                                points_left &points )
 {
+
+    static constexpr int RANDOM_START_LOC_ENTRY = INT_MIN;
+    const std::string RANDOM_START_LOC_TEXT = _( "<color_red>* Random location *</color>" );
+
     draw_character_tabs( w, _( "DESCRIPTION" ) );
 
     catacurses::window w_name =
@@ -2177,18 +2181,24 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
 
     uilist select_location;
     select_location.text = _( "Select a starting location." );
-    int offset = 0;
+    int offset = 1;
+    uilist_entry entry_random_start_location( RANDOM_START_LOC_ENTRY, true, -1, RANDOM_START_LOC_TEXT );
+    select_location.entries.emplace_back( entry_random_start_location );
     for( const auto &loc : start_location::get_all() ) {
         if( g->scen->allowed_start( loc.ident() ) ) {
             uilist_entry entry( loc.ident().get_cid().to_i(), true, -1, loc.name() );
 
             select_location.entries.emplace_back( entry );
 
-            if( loc.ident().get_cid() == you.start_location.get_cid() ) {
+            if( !you.random_start_location &&
+                loc.ident().get_cid() == you.start_location.get_cid() ) {
                 select_location.selected = offset;
             }
             offset++;
         }
+    }
+    if( you.random_start_location ) {
+        select_location.selected = 0;
     }
     select_location.setup();
     if( MAP_SHARING::isSharing() ) {
@@ -2338,7 +2348,8 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
         mvwprintz( w_location, point( prompt_offset + 1, 0 ), c_light_gray, _( "Starting location:" ) );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, point( prompt_offset + utf8_width( _( "Starting location:" ) ) + 2, 0 ),
-                   c_light_gray, you.start_location.obj().name() );
+                   c_light_gray,
+                   you.random_start_location ? RANDOM_START_LOC_TEXT : you.start_location.obj().name() );
         wrefresh( w_location );
 
         werase( w_scenario );
@@ -2415,9 +2426,12 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
         } else if( action == "CHOOSE_LOCATION" ) {
             select_location.redraw();
             select_location.query();
-            if( select_location.ret >= 0 ) {
+            if( select_location.ret == RANDOM_START_LOC_ENTRY ) {
+                you.random_start_location = true;
+            } else if( select_location.ret >= 1 ) {
                 for( const auto &loc : start_location::get_all() ) {
                     if( loc.ident().get_cid().to_i() == select_location.ret ) {
+                        you.random_start_location = false;
                         you.start_location = loc.ident();
                         break;
                     }
@@ -2598,7 +2612,10 @@ void avatar::save_template( const std::string &name, const points_left &points )
         jsout.member( "trait_points", points.trait_points );
         jsout.member( "skill_points", points.skill_points );
         jsout.member( "limit", points.limit );
-        jsout.member( "start_location", start_location );
+        jsout.member( "random_start_location", random_start_location );
+        if( !random_start_location ) {
+            jsout.member( "start_location", start_location );
+        }
         jsout.end_object();
 
         serialize( jsout );
@@ -2627,12 +2644,14 @@ bool avatar::load_template( const std::string &template_name, points_left &point
             points.skill_points = jobj.get_int( "skill_points" );
             points.limit = static_cast<points_left::point_limit>( jobj.get_int( "limit" ) );
 
+            random_start_location = jobj.get_bool( "random_start_location", true );
             const std::string jobj_start_location = jobj.get_string( "start_location", "" );
 
             // g->scen->allowed_start( loc.ident() ) is checked once scenario loads in avatar::load()
             for( const auto &loc : start_location::get_all() ) {
                 if( loc.ident().str() == jobj_start_location ) {
-                    this->start_location = loc.ident();
+                    random_start_location = false;
+                    start_location = loc.ident();
                     break;
                 }
             }
@@ -2662,7 +2681,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     const auto permitted = scen->permitted_professions();
     const auto default_prof = *std::min_element( permitted.begin(), permitted.end(), psorter );
 
-    u.start_location = scen->start_location();
+    u.random_start_location = true;
     u.str_max = 8;
     u.dex_max = 8;
     u.int_max = 8;
