@@ -42,7 +42,7 @@
     "id": "bondage_mask",
     "repairs_like": "mask_gas",
     "type": "ARMOR",
-    "name": "bondage mask",
+    "name": { "str": "bondage mask" },
     "description": "A tight mask made of black leather.  The eyes and mouth can be closed using zippers.",
     "weight": "210 g",
     "volume": "1 L",

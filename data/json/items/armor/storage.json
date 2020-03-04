@@ -172,7 +172,7 @@
   {
     "id": "bindle",
     "type": "ARMOR",
-    "name": "bindle",
+    "name": { "str": "bindle" },
     "description": "You're ready for a trip down some train tracks.  Also known as a hobo stick.",
     "weight": "980 g",
     "volume": "3 L",
@@ -193,7 +193,7 @@
   {
     "id": "boxpack",
     "type": "ARMOR",
-    "name": "box backpack",
+    "name": { "str": "box backpack" },
     "description": "A makeshift backpack comprised of a wooden box and a pair of ropes.",
     "weight": "8000 g",
     "to_hit": -5,
@@ -216,7 +216,7 @@
     "id": "briefcase",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
-    "name": "briefcase",
+    "name": { "str": "briefcase" },
     "description": "Useful for carrying money, documents, or smuggled goods.",
     "weight": "1700 g",
     "volume": "15 L",

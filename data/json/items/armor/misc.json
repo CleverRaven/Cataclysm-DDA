@@ -176,10 +176,10 @@
   {
     "id": "tie_bow",
     "type": "ARMOR",
-    "name": "bow tie",
+    "name": { "str": "bow tie" },
     "description": "A simple black bow tie.  Best worn with a suit.",
     "weight": "5 g",
-    "volume": 0,
+    "volume": "5 ml",
     "price": 1000,
     "material": [ "cotton" ],
     "symbol": "[",

@@ -24,7 +24,7 @@
   {
     "id": "blazer",
     "type": "ARMOR",
-    "name": "blazer",
+    "name": { "str": "blazer" },
     "description": "A professional-looking wool blazer.  Quite cumbersome.",
     "weight": "680 g",
     "volume": "3500 ml",
