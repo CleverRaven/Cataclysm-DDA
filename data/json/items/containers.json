@@ -91,7 +91,7 @@
     "ammo": "air",
     "use_action": "HAND_PUMP_INTEGRAL",
     "looks_like": "air_pump",
-	"flags": [ "IS_AIR_PUMP" ],
+    "flags": [ "IS_AIR_PUMP" ],
     "magazines": [ [ "air", [ "heavy_air_cylinder", "medium_air_cylinder", "light_air_cylinder" ] ] ]
   },
   {
