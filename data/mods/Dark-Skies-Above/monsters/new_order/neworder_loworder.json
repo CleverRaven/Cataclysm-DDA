@@ -42,8 +42,7 @@
       "HUMAN",
       "PATH_AVOID_DANGER_2",
       "PRIORITIZE_TARGETS",
-      "CLIMBS",
-      "CAN_OPEN_DOORS"
+      "CLIMBS"
     ]
   },
   {
@@ -89,8 +88,7 @@
       "FIREPROOF",
       "HUMAN",
       "PATH_AVOID_DANGER_1",
-      "PRIORITIZE_TARGETS",
-      "CAN_OPEN_DOORS",
+      "PRIORITIZE_TARGETS"
       "CLIMBS"
     ]
   },
@@ -135,8 +133,7 @@
       "FIREPROOF",
       "ACIDPROOF",
       "PATH_AVOID_DANGER_1",
-      "PRIORITIZE_TARGETS",
-      "CAN_OPEN_DOORS"
+      "PRIORITIZE_TARGETS"
     ]
   }
 ]
