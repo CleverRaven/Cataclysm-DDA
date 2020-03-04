@@ -4409,7 +4409,6 @@ int iuse::hand_pump_integral( player *p, item *it, bool, const tripoint & )
 int iuse::equalize( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
-        p->add_msg_if_player( m_info, _( "You must wield a gun with a compressed air reservoir!" ) );
         return 0;
     }
     if( !p->is_armed() ) {
