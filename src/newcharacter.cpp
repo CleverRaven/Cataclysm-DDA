@@ -2651,7 +2651,7 @@ bool avatar::load_template( const std::string &template_name, points_left &point
             for( const auto &loc : start_location::get_all() ) {
                 if( loc.ident().str() == jobj_start_location ) {
                     random_start_location = false;
-                    start_location = loc.ident();
+                    this->start_location = loc.ident();
                     break;
                 }
             }
