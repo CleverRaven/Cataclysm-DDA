@@ -52,7 +52,7 @@
         "'~~~~~~~~~~~~~~~~~~~~ff~",
         "''''''''''''''''''''''''"
       ],
-      "place_vehicles": [ { "vehicle": "animalshelter", "x": 18, "y": 2, "chance": 100, "rotation": 270 } ],
+      "place_vehicles": [ { "vehicle": "animalshelter", "x": 18, "y": 2, "chance": 25, "rotation": 270 } ],
       "terrain": {
         " ": "t_pavement",
         ",": "t_pavement_y",
