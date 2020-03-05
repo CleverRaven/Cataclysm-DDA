@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "abstract": "robot_module_abstract",
-    "name": "module template",
+    "name": { "str": "module template" },
     "description": "This is a template for robot module.  If found in a game it is a bug.",
     "symbol": "%",
     "color": "cyan",
@@ -36,7 +36,7 @@
   {
     "type": "GENERIC",
     "id": "memory_module",
-    "name": "memory banks module",
+    "name": { "str": "memory banks module" },
     "description": "Allows for storage and recovery of information.",
     "copy-from": "robot_module_abstract"
   },

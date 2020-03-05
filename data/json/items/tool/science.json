@@ -679,7 +679,7 @@
     "id": "rack_test_tube_micro",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "microcentrifuge tube tray",
+    "name": { "str": "microcentrifuge tube tray" },
     "description": "A plastic tray riddled with small holes, for storing microcentrifuge tubes.",
     "weight": "70 g",
     "volume": "150ml",
