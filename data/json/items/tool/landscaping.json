@@ -18,7 +18,7 @@
   {
     "id": "g_shovel",
     "type": "TOOL",
-    "name": "trowel",
+    "name": { "str": "trowel" },
     "description": "A small, sharp gardening shovel, perfect for digging up grubs and worms.",
     "weight": "280 g",
     "volume": "500 ml",

@@ -109,7 +109,7 @@
   {
     "id": "tarp_raincatcher",
     "type": "TOOL",
-    "name": "tarp raincatcher",
+    "name": { "str": "tarp raincatcher" },
     "description": "Some sticks and string with a tarpaulin to set up an improvised raincatcher.",
     "weight": "3980 g",
     "volume": "4 L",

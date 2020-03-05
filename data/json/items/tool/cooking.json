@@ -849,7 +849,7 @@
   {
     "id": "survivor_mess_kit",
     "type": "TOOL",
-    "name": "survivor mess kit",
+    "name": { "str": "survivor mess kit" },
     "description": "A homemade mess kit, containing everything you might need for creating post-apocalyptic cuisine.  Powered by a lamp oil burner, it is composed of simple yet durable tools and materials.",
     "weight": "2160 g",
     "volume": "2500 ml",
