@@ -1563,7 +1563,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::generic_game_do_turn( player_activity */*act*/, player *p )
+void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
         p->add_morale( MORALE_GAME, 4, 60 );
