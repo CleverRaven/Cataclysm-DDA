@@ -16,7 +16,7 @@
     "id": "pen",
     "type": "GENERIC",
     "category": "tools",
-    "name": "pen",
+    "name": { "str": "pen" },
     "description": "A plastic ball point pen.",
     "weight": "20 g",
     "volume": "10 ml",

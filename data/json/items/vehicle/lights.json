@@ -15,7 +15,7 @@
   {
     "id": "motorcycle_headlight",
     "type": "GENERIC",
-    "name": "motorcycle headlight",
+    "name": { "str": "motorcycle headlight" },
     "description": "A motorcycle headlight to light up the way.",
     "weight": "500 g",
     "volume": "250 ml",

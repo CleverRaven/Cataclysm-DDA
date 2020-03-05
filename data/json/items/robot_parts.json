@@ -29,7 +29,7 @@
   {
     "type": "GENERIC",
     "id": "pathfinding_module",
-    "name": "pathfinding module",
+    "name": { "str": "pathfinding module" },
     "description": "This module uses a combination of vector integration and egocentric mapping to find the best path available.",
     "copy-from": "robot_module_abstract"
   },

@@ -692,7 +692,7 @@
     "id": "pastaextruder",
     "type": "GENERIC",
     "category": "tools",
-    "name": "pasta extruder",
+    "name": { "str": "pasta extruder" },
     "description": "A pasta extruder run by a hand-crank.  Useful in making pasta.  It comes with various heads to make various kinds of pasta.",
     "weight": "2628 g",
     "volume": "1 L",

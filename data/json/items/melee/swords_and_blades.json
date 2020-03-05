@@ -20,7 +20,7 @@
     "id": "sword_nail",
     "symbol": "!",
     "color": "light_gray",
-    "name": "nord",
+    "name": { "str": "nord" },
     "description": "The nail sword, or nord for short.  This wooden sword has a dozen nails sticking at jagged angles from edge of the blade, making it much better at chopping than slashing.",
     "material": "wood",
     "volume": "1750 ml",
