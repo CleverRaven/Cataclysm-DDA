@@ -851,8 +851,14 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             loot.itemsgroups.push_back( line );
         }
 
-        loot.requires_all = lootables.get_bool( "requires_all" );
-        loot.paths_to = lootables.get_bool( "paths_to" );
+        if( jo.has_bool( "requires_all" ) ) {
+            loot.requires_all = lootables.get_bool( "requires_all" );
+        }
+
+        if( jo.has_bool( "paths_to" ) ) {
+            loot.paths_to = lootables.get_bool( "paths_to" );
+        }
+
         loot.loots = true;
     }
 

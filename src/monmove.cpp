@@ -280,17 +280,15 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
 }
 
 template<typename L, typename P>
-static bool monster::is_item_lootable( const item &itm, const L &list, const P &predicate,
-                                       bool requires_all )
+bool monster::is_item_lootable( const item &itm, const L &list, const P &predicate,
+                                bool requires_all )
 {
     bool allowed = false;
 
     for( auto tag : list ) {
         if( predicate( itm, tag ) ) {
-            if( !requires_all ) {
-                allowed = true;
-                continue;
-            }
+            allowed = true;
+            continue;
         } else {
             if( requires_all ) {
                 allowed = false;
@@ -312,23 +310,30 @@ std::map<item *, const tripoint> monster::find_loot_in_radius( const tripoint &t
 
             for( item &itm : items ) {
                 bool suitable = false;
-
-                suitable = is_item_lootable( itm, lootable.categories, []( const item & itm,
+                bool cat_suitable = is_item_lootable( itm, lootable.categories, []( const item & itm,
                 const std::string & tag ) {
                     return itm.get_category().name() == tag;
                 }, lootable.requires_all );
-                suitable = is_item_lootable( itm, lootable.materials, []( const item & itm,
+                bool mat_suitable = is_item_lootable( itm, lootable.materials, []( const item & itm,
                 const material_id & tag ) {
                     return itm.made_of( tag );
                 }, lootable.requires_all );
-                suitable = is_item_lootable( itm, lootable.comestibles, []( const item & itm,
+                bool com_suitable = is_item_lootable( itm, lootable.comestibles, []( const item & itm,
                 const std::string & tag ) {
-                    return itm.get_comestible()->comesttype == tag;
+                    return itm.is_comestible() && itm.get_comestible()->comesttype == tag;
                 }, lootable.requires_all );
-                suitable = is_item_lootable( itm, lootable.itemsgroups, []( const item & itm,
+                bool grp_suitable = is_item_lootable( itm, lootable.itemsgroups, []( const item & itm,
                 const std::string & tag ) {
                     return item_group::group_contains_item( tag, itm.typeId() );
                 }, false );
+
+                if( lootable.requires_all && ( cat_suitable && mat_suitable && com_suitable && grp_suitable ) ) {
+                    suitable = true;
+                }
+
+                if( !lootable.requires_all && ( cat_suitable || mat_suitable || com_suitable || grp_suitable ) ) {
+                    suitable = true;
+                }
 
                 if( suitable ) {
                     lootable_inrad.insert( std::make_pair( &itm, p ) );
@@ -344,7 +349,6 @@ bool monster::eat_from_inventory( int amount )
 {
     auto it = inv.begin();
     for( item &itm : inv ) {
-
         //Is food? We make a broad assumption here that anything the monster has in its inventory and...
         // is considered food is a viable item to eat. Perhaps some monsters would consume items instead.
         if( itm.is_comestible() && itm.get_comestible()->comesttype == "FOOD" ) {
@@ -353,7 +357,7 @@ bool monster::eat_from_inventory( int amount )
             }
 
             if( g->u.sees( *this ) ) {
-                add_msg( m_warning, _( "%1$s eats some of %2$s!" ), name(), itm.display_name() );
+                add_msg( m_warning, _( "%1$s eats %2$s!" ), name(), itm.display_name() );
             }
 
             if( itm.charges > amount ) {
@@ -369,7 +373,6 @@ bool monster::eat_from_inventory( int amount )
         it++;
     }
 
-
     return false;
 }
 
@@ -378,22 +381,14 @@ item_location monster::select_desired_loot( std::map<item *, const tripoint> &lo
     std::map<item *, const tripoint>::iterator it;
     item *desired_i = nullptr;
     tripoint desired_p;
-    int desired_range = MONSTER_LOOT_DIST + 1;
+    int desired_range = -1;
 
-    item *i;
-    tripoint p;
-    int d;
-
-    //Iterate through the loot, find closest most viable item to loot
     for( it = loot.begin(); it != loot.end(); it++ ) {
-        i = it->first;
-        p = it->second;
-        d = rl_dist_fast( pos(), p );
+        int d = rl_dist( pos(), it->second );
 
-        //Closest is preferable here...
-        if( d < desired_range ) {
-            desired_i = i;
-            desired_p = p;
+        if( d < desired_range || desired_range == -1 ) {
+            desired_i = it->first;
+            desired_p = it->second;
             desired_range = d;
         }
     }
@@ -421,12 +416,8 @@ void monster::plan()
     const int fears_hostile_near = type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
 
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
-
     bool swarms = has_flag( MF_SWARMS );
-
     auto mood = attitude();
-
-
 
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
     if( friendly == 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
@@ -489,14 +480,12 @@ void monster::plan()
             if( !lootable_items.empty() ) {
                 item_goal = select_desired_loot( lootable_items );
                 set_dest( item_goal.position() );
-                add_effect( effect_looting, 50_turns );
+                add_effect( effect_looting, 100_turns );
             }
-        } //Monster has something in inventory, will loot and with some luck...
-        else if( lootable.loots && !inv.empty() && one_in( 500 ) ) {
+        } else if( !inv.empty() && one_in( 150 ) ) {
             if( has_flag( MF_EATS_FOOD ) ) {
                 eat_from_inventory();
             }
-
         }
     }
 
@@ -1541,7 +1530,12 @@ bool monster::attack_at( const tripoint &p )
 
 bool monster::pickup_at( const tripoint &p, item_location &target )
 {
-    if( p != goal && has_effect( effect_looting ) ) {
+    //Whether we succeed or not, let's remove the effect.
+    if( has_effect( effect_looting ) ) {
+        remove_effect( effect_looting );
+    }
+
+    if( p != goal ) {
         return false;
     }
 
@@ -1558,7 +1552,7 @@ bool monster::pickup_at( const tripoint &p, item_location &target )
     int charges_picked;
 
     //Get weight of the stack or item
-    units::mass weight = target->weight();
+    units::mass weight = target->weight( true );
     units::mass capacity = this->weight_capacity();
 
     //Adjust volume and weight for units in a stack
@@ -1579,14 +1573,10 @@ bool monster::pickup_at( const tripoint &p, item_location &target )
         target.remove_item();
     }
 
-    //Whether we succeed or not, let's remove the effect.
-    if( has_effect( effect_looting ) ) {
-        remove_effect( effect_looting );
-    }
-
     //Successfully taken any?
     if( charges_picked >= 1 ) {
-        //Notify the player
+        //If the player can see us and we dont eat food, then grab the item and notify the player...
+        //...eat_from_inventory( charges_picked ); notifies the player in its own method.
         if( g->u.sees( *this ) && !has_flag( MF_EATS_FOOD ) ) {
             add_msg( m_warning, _( "%1$s grabs %2$s!" ), name(), inv.back().display_name() );
         } else {
@@ -1597,7 +1587,7 @@ bool monster::pickup_at( const tripoint &p, item_location &target )
         return true;
     }
 
-    //Failed to take any items, so remove the last item added to inventory.
+    //Failed to take any items, so remove the last item added to inventory. This is unlikely to happen.
     inv.pop_back();
     add_msg( m_warning, _( "%1$s fails to grab %2$s!" ), name(), target->display_name() );
     return false;
