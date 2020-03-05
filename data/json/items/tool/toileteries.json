@@ -96,7 +96,7 @@
   {
     "id": "shavingkit",
     "type": "TOOL",
-    "name": "shaving kit",
+    "name": { "str": "shaving kit" },
     "description": "This is a compact and lightweight shaving kit made for travelers.  You can use it to shave if it's supplied with soap.  It requires 1 unit of soap per use.",
     "weight": "90 g",
     "volume": "250 ml",
@@ -114,7 +114,7 @@
   {
     "id": "sponge",
     "type": "TOOL",
-    "name": "sponge",
+    "name": { "str": "sponge" },
     "description": "A sponge is a tool or cleaning aid made of soft, porous material.  Typically used for cleaning impervious surfaces.",
     "weight": "80 g",
     "volume": "250 ml",

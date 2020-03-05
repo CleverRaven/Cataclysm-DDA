@@ -729,7 +729,7 @@
   {
     "id": "popcan_stove",
     "type": "TOOL",
-    "name": "soda can stove kit",
+    "name": { "str": "soda can stove kit" },
     "//": "Should be 20 but currently recipes do not utilize this value",
     "description": "This is an ultra-light alcohol-burning stove with simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 ml plastic bottle to hold concentrated alcohol fuel.",
     "weight": "45 g",
@@ -834,7 +834,7 @@
   {
     "id": "still",
     "type": "TOOL",
-    "name": "still",
+    "name": { "str": "still" },
     "description": "This is a still.  It's useful for creating distillation of alcohol and other, more curious substances.",
     "weight": "10000 g",
     "volume": "10 L",
