@@ -352,7 +352,7 @@
     "id": "fanny",
     "repairs_like": "backpack",
     "type": "ARMOR",
-    "name": "fanny pack",
+    "name": { "str": "fanny pack" },
     "description": "Provides a bit of extra storage, with minimal encumbrance.",
     "weight": "272 g",
     "volume": "250 ml",

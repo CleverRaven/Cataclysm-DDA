@@ -239,7 +239,7 @@
     "type": "ARMOR",
     "copy-from": "hat_fur",
     "looks_like": "hat_fur",
-    "name": "faux fur hat",
+    "name": { "str": "faux fur hat" },
     "description": "A stylish hat made of faux fur.  Like real fur, but without the suffering, if the tag is to be believed.  Very warm.",
     "material": [ "faux_fur", "cotton" ],
     "covers": [ "HEAD" ],

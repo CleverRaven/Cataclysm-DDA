@@ -2,7 +2,7 @@
   {
     "id": "fireman_belt",
     "type": "ARMOR",
-    "name": "firefighter belt",
+    "name": { "str": "firefighter belt" },
     "description": "A stout firefighter's belt.  Useful for keeping your bunker gear up, it also doubles as an equipment belt with a reinforced loop for holding a large tool.",
     "weight": "210 g",
     "volume": "500 ml",

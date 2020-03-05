@@ -48,11 +48,11 @@
   {
     "id": "bracelet_friendship",
     "type": "ARMOR",
-    "name": "friendship bracelet",
+    "name": { "str": "friendship bracelet" },
     "description": "A homemade bracelet crafted from colorful knickknacks.  It's not very expensive, but it's the effort that makes it special.",
     "looks_like": "copper_bracelet",
     "weight": "20 g",
-    "volume": 0,
+    "volume": "10 ml",
     "price": 100,
     "price_postapoc": 100,
     "flags": [ "FANCY" ],
@@ -1423,7 +1423,7 @@
     "id": "faux_fur_cat_tail",
     "type": "ARMOR",
     "copy-from": "fur_cat_tail",
-    "name": "faux fur cat tail",
+    "name": { "str": "faux fur cat tail" },
     "description": "A fuzzy garishly colored tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
     "material": [ "faux_fur", "plastic" ],
     "color": "pink"
@@ -1446,7 +1446,7 @@
     "id": "faux_fur_collar",
     "type": "ARMOR",
     "copy-from": "fur_collar",
-    "name": "faux fur kitty collar",
+    "name": { "str": "faux fur kitty collar" },
     "description": "A decorative 'collar' made out of faux fur.  Complete with a little bell hanging from the front.  Don't worry, it's silent.",
     "material": [ "faux_fur" ],
     "color": "pink"

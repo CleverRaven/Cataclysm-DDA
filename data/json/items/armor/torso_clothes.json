@@ -108,7 +108,7 @@
     "id": "flag_shirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "flag shirt",
+    "name": { "str": "flag shirt" },
     "description": "A t-shirt embroidered with the pattern of an American flag.",
     "weight": "158 g",
     "volume": "500 ml",
@@ -126,7 +126,7 @@
   {
     "id": "flotation_vest",
     "type": "ARMOR",
-    "name": "flotation vest",
+    "name": { "str": "flotation vest" },
     "description": "A brightly-colored vest designed to keep you upright and floating in water.",
     "weight": "451 g",
     "volume": "9 L",
