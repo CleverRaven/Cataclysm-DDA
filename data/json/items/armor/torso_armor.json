@@ -256,7 +256,7 @@
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "football armor",
+    "name": { "str": "football armor" },
     "description": "Heavy plastic armor for your upper torso.  Normally worn by football players.",
     "weight": "2810 g",
     "volume": "7 L",

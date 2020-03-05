@@ -85,7 +85,7 @@
     "id": "fencing_mask",
     "repairs_like": "chainmail_hood",
     "type": "ARMOR",
-    "name": "fencing mask",
+    "name": { "str": "fencing mask" },
     "description": "A tough hood made of steel mesh used by fencers.",
     "weight": "520 g",
     "volume": "1250 ml",

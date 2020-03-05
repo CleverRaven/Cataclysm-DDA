@@ -179,7 +179,7 @@
   {
     "id": "nomex_hood",
     "type": "ARMOR",
-    "name": "flame-resistant hood",
+    "name": { "str": "flame-resistant hood" },
     "description": "A snug fitting garment that protects your head and neck, made from lightweight Nomex fire-resistant fabric.  Tough yet breathable, it is light and comfortable to wear under clothing.",
     "weight": "210 g",
     "volume": "500 ml",
