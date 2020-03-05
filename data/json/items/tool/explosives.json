@@ -510,7 +510,7 @@
     "copy-from": "grenade_canister",
     "looks_like": "smokebomb",
     "type": "GENERIC",
-    "name": "makeshift fungicidal gas grenade",
+    "name": { "str": "makeshift fungicidal gas grenade" },
     "price": 3600,
     "description": "This is a makeshift canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_makeshift_act" }
@@ -792,7 +792,7 @@
     "copy-from": "grenade_canister",
     "looks_like": "smokebomb",
     "type": "GENERIC",
-    "name": "makeshift insecticidal gas grenade",
+    "name": { "str": "makeshift insecticidal gas grenade" },
     "price": 3600,
     "description": "This is a makeshift canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to insect life forms.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_makeshift_act" }

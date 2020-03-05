@@ -130,7 +130,7 @@
   {
     "type": "GENERIC",
     "id": "mil_plate",
-    "name": "military composite plating",
+    "name": { "str": "military composite plating" },
     "description": "A thick sheet of military grade armor, best bullet stopper you can stick on a vehicle.",
     "weight": "16500 g",
     "to_hit": -1,

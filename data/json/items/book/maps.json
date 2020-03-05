@@ -18,7 +18,7 @@
     "id": "militarymap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
-    "name": "military operations map",
+    "name": { "str": "military operations map" },
     "description": "This is a printed topographical map of the local area.  Originally of military origin, it details the locations of evacuation centers and military facilities.  Using it will add points of interest to your map.",
     "color": "green",
     "use_action": {
