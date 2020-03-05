@@ -3539,7 +3539,7 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
     if( healed == hp_head ) {
         heal_base = head_power;
         bonus_mult = head_scaling;
-    } else if( healed == hp_torso ) {
+    } else if( healed == hp_chest ) {
         heal_base = torso_power;
         bonus_mult = torso_scaling;
     } else {
@@ -3743,7 +3743,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     hp_part healed = num_hp_parts;
     const int head_bonus = get_heal_value( healer, hp_head );
     const int limb_power = get_heal_value( healer, hp_arm_l );
-    const int torso_bonus = get_heal_value( healer, hp_torso );
+    const int torso_bonus = get_heal_value( healer, hp_chest );
 
     if( !patient.can_use_heal_item( it ) ) {
         patient.add_msg_player_or_npc( m_bad,
@@ -3819,14 +3819,14 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( head_power > 0 || torso_power > 0 || limb_power > 0 ) {
         dump.emplace_back( "HEAL", _( "<bold>Base healing:</bold> " ) );
         dump.emplace_back( "HEAL_BASE", _( "Head: " ), "", iteminfo::no_newline, head_power );
-        dump.emplace_back( "HEAL_BASE", _( "  Torso: " ), "", iteminfo::no_newline, torso_power );
+        dump.emplace_back( "HEAL_BASE", _( "  Chest: " ), "", iteminfo::no_newline, torso_power );
         dump.emplace_back( "HEAL_BASE", _( "  Limbs: " ), limb_power );
         if( g != nullptr ) {
             dump.emplace_back( "HEAL", _( "<bold>Actual healing:</bold> " ) );
             dump.emplace_back( "HEAL_ACT", _( "Head: " ), "", iteminfo::no_newline,
                                get_heal_value( g->u, hp_head ) );
-            dump.emplace_back( "HEAL_ACT", _( "  Torso: " ), "", iteminfo::no_newline,
-                               get_heal_value( g->u, hp_torso ) );
+            dump.emplace_back( "HEAL_ACT", _( "  Chest: " ), "", iteminfo::no_newline,
+                               get_heal_value( g->u, hp_chest ) );
             dump.emplace_back( "HEAL_ACT", _( "  Limbs: " ), get_heal_value( g->u, hp_arm_l ) );
         }
     }
