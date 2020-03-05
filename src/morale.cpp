@@ -836,12 +836,14 @@ void player_morale::update_stylish_bonus()
         };
         bonus = std::min( static_cast<int>( 2 * super_fancy_items.size() ) +
                           2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) +
-                          bp_bonus( bp_torso,  6 ) +
-                          bp_bonus( bp_head,   3 ) +
-                          bp_bonus( bp_eyes,   2 ) +
-                          bp_bonus( bp_mouth,  2 ) +
-                          bp_bonus( bp_leg_l,  2 ) +
-                          bp_bonus( bp_foot_l, 1 ) +
+                          bp_bonus( bp_chest,   5 ) +
+                          bp_bonus( bp_abdomen,  5 ) +
+                          bp_bonus( bp_pelvis,  3 ) +
+                          bp_bonus( bp_head,    3 ) +
+                          bp_bonus( bp_eyes,    2 ) +
+                          bp_bonus( bp_mouth,   2 ) +
+                          bp_bonus( bp_leg_l,   2 ) +
+                          bp_bonus( bp_foot_l,  1 ) +
                           bp_bonus( bp_hand_l, 1 ), 20 );
     }
     set_permanent( MORALE_PERM_FANCY, bonus );
@@ -874,13 +876,15 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
     const auto apply_pen = [ this, ticks ]( morale_type type, bp_int_func bp_int ) -> void {
         const int max_pen =
 
-        2  * bp_int( bp_head ) +
-        2  * bp_int( bp_torso ) +
-        2  * bp_int( bp_mouth ) +
-        .5 * bp_int( bp_arm_l ) +
-        .5 * bp_int( bp_arm_r ) +
-        .5 * bp_int( bp_leg_l ) +
-        .5 * bp_int( bp_leg_r ) +
+        2  * bp_int( bp_head  ) +
+        2  * bp_int( bp_chest ) +
+        2  * bp_int( bp_abdomen ) +
+        2  * bp_int( bp_pelvis ) +
+        2  * bp_int( bp_mouth  ) +
+        .5 * bp_int( bp_arm_l  ) +
+        .5 * bp_int( bp_arm_r  ) +
+        .5 * bp_int( bp_leg_l  ) +
+        .5 * bp_int( bp_leg_r  ) +
         .5 * bp_int( bp_hand_l ) +
         .5 * bp_int( bp_hand_r ) +
         .5 * bp_int( bp_foot_l ) +
@@ -935,17 +939,19 @@ void player_morale::update_squeamish_penalty()
             body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
     };
     penalty = 2 * std::min( static_cast<int>( no_body_part.filthy ), 3 ) +
-              bp_pen( bp_torso,  6 ) +
-              bp_pen( bp_head,   7 ) +
-              bp_pen( bp_eyes,   8 ) +
-              bp_pen( bp_mouth,  9 ) +
-              bp_pen( bp_leg_l,  5 ) +
-              bp_pen( bp_leg_r,  5 ) +
-              bp_pen( bp_arm_l,  5 ) +
-              bp_pen( bp_arm_r,  5 ) +
-              bp_pen( bp_foot_l, 3 ) +
-              bp_pen( bp_foot_r, 3 ) +
-              bp_pen( bp_hand_l, 3 ) +
-              bp_pen( bp_hand_r, 3 );
+              bp_pen( bp_chest,   5 ) +
+              bp_pen( bp_abdomen,  6 ) +
+              bp_pen( bp_pelvis,  7 ) +
+              bp_pen( bp_head,    7 ) +
+              bp_pen( bp_eyes,    8 ) +
+              bp_pen( bp_mouth,   9 ) +
+              bp_pen( bp_leg_l,   5 ) +
+              bp_pen( bp_leg_r,   5 ) +
+              bp_pen( bp_arm_l,   5 ) +
+              bp_pen( bp_arm_r,   5 ) +
+              bp_pen( bp_foot_l,  3 ) +
+              bp_pen( bp_foot_r,  3 ) +
+              bp_pen( bp_hand_l,  3 ) +
+              bp_pen( bp_hand_r,  3 );
     set_permanent( MORALE_PERM_FILTHY, -penalty );
 }

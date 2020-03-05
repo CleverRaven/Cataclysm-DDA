@@ -5106,9 +5106,15 @@ int Character::blood_loss( body_part bp ) const
     } else if( bp == bp_arm_l || bp == bp_arm_r ) {
         hp_cur_sum = hp_cur[hp_arm_l] + hp_cur[hp_arm_r];
         hp_max_sum = hp_max[hp_arm_l] + hp_max[hp_arm_r];
-    } else if( bp == bp_torso ) {
-        hp_cur_sum = hp_cur[hp_torso];
-        hp_max_sum = hp_max[hp_torso];
+    } else if( bp == bp_chest ) {
+        hp_cur_sum = hp_cur[hp_chest];
+        hp_max_sum = hp_max[hp_chest];
+    } else if( bp == bp_abdomen ) {
+        hp_cur_sum = hp_cur[hp_abdomen];
+        hp_max_sum = hp_max[hp_abdomen];
+    } else if( bp == bp_pelvis ) {
+        hp_cur_sum = hp_cur[hp_pelvis];
+        hp_max_sum = hp_max[hp_pelvis];
     } else if( bp == bp_head ) {
         hp_cur_sum = hp_cur[hp_head];
         hp_max_sum = hp_max[hp_head];
@@ -5150,11 +5156,13 @@ hp_part Character::body_window( const std::string &menu_header,
      * it may be changed here. */
     std::array<healable_bp, num_hp_parts> parts = { {
             { false, bp_head, hp_head, _( "Head" ), head_bonus },
-            { false, bp_torso, hp_torso, _( "Torso" ), torso_bonus },
-            { false, bp_arm_l, hp_arm_l, _( "Left Arm" ), normal_bonus },
-            { false, bp_arm_r, hp_arm_r, _( "Right Arm" ), normal_bonus },
-            { false, bp_leg_l, hp_leg_l, _( "Left Leg" ), normal_bonus },
-            { false, bp_leg_r, hp_leg_r, _( "Right Leg" ), normal_bonus },
+            { false, bp_chest, hp_chest, _( "Chest" ), torso_bonus },
+            { false, bp_abdomen, hp_abdomen, _( "Abdomen" ), torso_bonus },
+            { false, bp_pelvis, hp_pelvis, _( "Pelvis" ),    torso_bonus },
+            { false, bp_arm_l, hp_arm_l,   _( "Left Arm" ),  normal_bonus },
+            { false, bp_arm_r, hp_arm_r,   _( "Right Arm" ), normal_bonus },
+            { false, bp_leg_l, hp_leg_l,   _( "Left Leg" ),  normal_bonus },
+            { false, bp_leg_r, hp_leg_r,   _( "Right Leg" ), normal_bonus },
         }
     };
 
