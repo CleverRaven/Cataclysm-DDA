@@ -1,42 +1,12 @@
 [
   {
     "type": "overmap_biome",
-    "id": "urban",
-    "weight": 200
-  },
-  {
-    "type": "overmap_biome",
-    "id": "suburban",
-    "weight": 150
-  },
-  {
-    "type": "overmap_biome",
-    "id": "rural",
-    "weight": 100
-  },
-  {
-    "type": "overmap_biome",
-    "id": "wilderness",
-    "weight": 100
-  },
-  {
-    "type": "overmap_biome",
-    "id": "special",
-    "weight": 500
-  },
-  {
-    "type": "overmap_biome",
-    "id": "ocean",
-    "weight": 10000
-  },
-  {
-    "type": "overmap_biome",
-    "id": "coast",
-    "weight": 10000
+    "id": "default",
+    "weight": 1
   },
   {
     "type": "overmap_biome",
     "id": "undefined",
-    "weight": 100000
+    "weight": -1
   }
 ]

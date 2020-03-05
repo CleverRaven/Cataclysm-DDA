@@ -1043,29 +1043,30 @@ void overmap_special::check() const
     }
 }
 
+
+
 // *** BEGIN overmap FUNCTIONS ***
 overmap::overmap( const point &p ) : loc( p )
+{
+    select_region_settings( p );
+    init_layers();
+}
+
+overmap::~overmap() = default;
+
+void overmap::select_region_settings( const point &p )
 {
     const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
 
-
-    /* Place inside functions:
-    * get_adjacent_biomes(const point &p)
-    * pick_suitable_biome()
-    */
-
-    // Biomes!
     //Probably a good idea that we keep a default region loaded at the very least.
-    //TODO: We need to stop pulling regions from mods that aren't loaded...
     if( rsit == region_settings_map.end() ) {
         debugmsg( "overmap(%d,%d): can't find region '%s'", p.x, p.y,
                   rsettings_id.c_str() ); // gonna die now =[
     } else {
-        //Multiple default regions, most likely a mod overriding. Should we do anything...?
-        //...Perhaps someone wants to override the starting region? But do they want their region to still appear elsewhere?
-        if( region_settings_map.count( rsettings_id ) > 1 ) {
-            //TODO: Warn?
+        if( region_settings_map.count( rsettings_id ) == region_settings_map.size() ) {
+            settings = rsit->second;
+            return;
         }
     }
 
@@ -1095,38 +1096,34 @@ overmap::overmap( const point &p ) : loc( p )
     t_regional_settings_map_citr it = region_settings_map.begin();
     bool biome_selected = false;
     while( !biome_selected ) {
-        //No biome found, keep on trying forever TODO: Obviously dont do that.
+        //No biome found. Restart.
         if( it == region_settings_map.end() ) {
             it = region_settings_map.begin();
         }
 
         const std::string id = it->first;
         const std::string biome = it->second.biome;
-        int weight = 100; //Default weight
-        t_biomes_map_citr biome_it;
+        int weight = -1;
         double multiplier = 1;
+        t_biomes_map_citr biome_it;
 
-        //Restrict instances of biome and remove if neccessary from map.
-        if( it->second.max_instances != -1 &&
-            overmap_buffer.get_overmap_biome_count( id ) >= it->second.max_instances ) {
-            it++;
-            continue;
-        }
-
-        //Check neighbour biomes and ensure compatible by adding up multipliers
+        //Check neighbour biomes and take the lowest multiplier
         for( std::string b : adjacent_biomes ) {
-            for( std::pair<std::string, double> element : settings.near_biomes ) {
+            for( std::pair<std::string, double> element : it->second.near_biomes ) {
                 if( element.first == b ) {
-                    if( element.second >= 0.0 && element.second < multiplier ) {
+                    if( element.second < multiplier ) {
                         multiplier = element.second;
-                    }
-
-                    if( multiplier == 0.0 ) {
-                        it++;
-                        continue;
                     }
                 }
             }
+        }
+
+        //We definitely dont want this biome next to any of our neighbours
+        //Restrict instances of biome and remove if neccessary from map.
+        if( multiplier <= 0.0 || ( it->second.max_instances != -1 &&
+                                   overmap_buffer.get_overmap_biome_count( id ) >= it->second.max_instances ) ) {
+            it++;
+            continue;
         }
 
         //Get biome weight
@@ -1135,30 +1132,20 @@ overmap::overmap( const point &p ) : loc( p )
             weight = biome_it->second.weight;
         }
 
-        //Always use default region as center
-        if( it->second.id == "default" && p.x == 0 && p.y == 0 ) {
-            rsit = it;
-            biome_selected = true;
-            break;
-        }
-
-        //Basic random chance here to be this biome
         int chance = std::round( weight / multiplier );
-        if( one_in( chance ) ) {
+        //Always use default region as center
+        if( weight >= 0 && ( ( it->second.id == "default" && p.x == 0 && p.y == 0 ) ||
+                             one_in( chance ) ) ) {
             rsit = it;
             biome_selected = true;
             break;
         }
-
         it++;
     }
 
-    //Set the biome to the suitable one
     settings = rsit->second;
-    init_layers();
+    return;
 }
-
-overmap::~overmap() = default;
 
 void overmap::populate( overmap_special_batch &enabled_specials )
 {

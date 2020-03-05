@@ -407,12 +407,18 @@ static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
 void load_region_settings( const JsonObject &jo )
 {
     regional_settings new_region;
+
     if( !jo.read( "id", new_region.id ) ) {
         jo.throw_error( "No 'id' field." );
     }
 
+    bool strict = new_region.id == "default";
     if( !jo.read( "biome", new_region.biome ) ) {
-        new_region.biome = "undefined"; //TODO: Change this.
+        if( strict ) {
+            new_region.biome = "default";
+        } else {
+            new_region.biome = "undefined";
+        }
     }
 
     if( !jo.read( "max_instances", new_region.max_instances ) ) {
@@ -425,11 +431,8 @@ void load_region_settings( const JsonObject &jo )
             double multiplier = inner.get_float( 1 );
             new_region.near_biomes.insert( std::make_pair( biome, multiplier ) );
         }
-    } else {
-        jo.throw_error( "No 'near_biomes' array." );
     }
 
-    bool strict = new_region.id == "default";
     if( !jo.read( "default_oter", new_region.default_oter ) && strict ) {
         jo.throw_error( "default_oter required for default ( though it should probably remain 'field' )" );
     }
