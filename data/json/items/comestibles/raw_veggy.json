@@ -651,7 +651,7 @@
     "id": "veggy_tainted",
     "//": "Note: Legacy item ID, this is not actually a vegetable at all anymore.",
     "category": "other",
-    "name": "alien fungus chunk",
+    "name": { "str": "alien fungus chunk" },
     "copy-from": "veggy",
     "looks_like": "mushroom",
     "spoils_in": "40 hours",
