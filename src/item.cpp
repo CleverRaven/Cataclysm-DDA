@@ -558,7 +558,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
         // go on another bodypart.
-        res.set( bp_torso );
+        res.set( bp_chest );
     }
 
     const islot_armor *armor = find_armor_data();
@@ -630,7 +630,7 @@ bool item::swap_side()
 
 bool item::is_worn_only_with( const item &it ) const
 {
-    return is_power_armor() && it.is_power_armor() && it.covers( bp_torso );
+    return is_power_armor() && it.is_power_armor() && it.covers( bp_chest );
 }
 
 item item::in_its_container() const
@@ -2045,8 +2045,14 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( covers( bp_mouth ) ) {
             coverage += _( "The <info>mouth</info>. " );
         }
-        if( covers( bp_torso ) ) {
-            coverage += _( "The <info>torso</info>. " );
+        if( covers( bp_chest ) ) {
+            coverage += _( "The <info>chest</info>. " );
+        }
+        if( covers( bp_abdomen ) ) {
+            coverage += _( "The <info>abdomen</info>. " );
+        }
+        if( covers( bp_pelvis ) ) {
+            coverage += _( "The <info>pelvis</info>. " );
         }
 
         if( is_sided() && ( covers( bp_arm_l ) || covers( bp_arm_r ) ) ) {

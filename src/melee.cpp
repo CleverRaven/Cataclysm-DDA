@@ -312,7 +312,7 @@ float player::hit_roll() const
         hit *= 0.75f;
     }
 
-    hit *= std::max( 0.25f, 1.0f - encumb( bp_torso ) / 100.0f );
+    hit *= std::max( 0.25f, 1.0f - encumb( bp_chest ) / 100.0f );
 
     return melee::melee_hit_range( hit );
 }
@@ -334,8 +334,8 @@ std::string Character::get_miss_reason()
     // adding it in hit_roll() might not be safe if it's called multiple times
     // in one turn
     add_miss_reason(
-        _( "Your torso encumbrance throws you off-balance." ),
-        roll_remainder( encumb( bp_torso ) / 10.0 ) );
+        _( "Your chest encumbrance throws you off-balance." ),
+        roll_remainder( encumb( bp_chest ) / 10.0 ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
                                      !worn_with_flag( "FIX_FARSIGHT" ) &&
                                      !has_effect( effect_contacts ) );
@@ -2134,7 +2134,7 @@ int player::attack_speed( const item &weap ) const
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur / 2;
-    const int encumbrance_penalty = encumb( bp_torso ) +
+    const int encumbrance_penalty = encumb( bp_chest ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>

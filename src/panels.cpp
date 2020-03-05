@@ -917,8 +917,8 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
 
 static void draw_limb2( avatar &u, const catacurses::window &w )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<body_part, 8> part = { {
+            bp_head, bp_chest, bp_abdomen, bp_pelvis, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
         }
     };
 
@@ -1145,8 +1145,8 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
     }
 
     // display limbs status
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<body_part, 8> part = { {
+            bp_head, bp_chest, bp_abdomen, bp_pelvis, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
         }
     };
     ny2 = 0;
@@ -1172,12 +1172,14 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
 static void draw_limb_wide( avatar &u, const catacurses::window &w )
 {
     const std::vector<std::pair<body_part, int>> parts = {
-        {bp_arm_l, 2},
-        {bp_head, 0},
-        {bp_arm_r, 3},
-        {bp_leg_l, 4},
-        {bp_torso, 1},
-        {bp_leg_r, 5}
+        {bp_head,    0},
+        {bp_chest,   1},
+        {bp_abdomen, 2},
+        {bp_pelvis,  3},
+        {bp_arm_l,   4},
+        {bp_arm_r,   5},
+        {bp_leg_l,   6},
+        {bp_leg_r,   7}
     };
     werase( w );
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -1555,8 +1557,8 @@ static void draw_wind_padding( avatar &u, const catacurses::window &w )
 
 static void draw_health_classic( avatar &u, const catacurses::window &w )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<body_part, 8> part = { {
+            bp_head, bp_chest, bp_abdomen, bp_pelvis, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
         }
     };
 
@@ -1673,19 +1675,23 @@ static void draw_armor_padding( const avatar &u, const catacurses::window &w )
     werase( w );
     nc_color color = c_light_gray;
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), color, _( "Head :" ) );
+    mvwprintz( w, point( 1, 0 ), color, _( "Head :"   ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 1 ), color, _( "Torso:" ) );
-    mvwprintz( w, point( 1, 2 ), color, _( "Arms :" ) );
-    mvwprintz( w, point( 1, 3 ), color, _( "Legs :" ) );
-    mvwprintz( w, point( 1, 4 ), color, _( "Feet :" ) );
+    mvwprintz( w, point( 1, 1 ), color, _( "Chest:  " ) );
+    mvwprintz( w, point( 1, 2 ), color, _( "Abdomen:" ) );
+    mvwprintz( w, point( 1, 3 ), color, _( "Pelvis:"  ) );
+    mvwprintz( w, point( 1, 4 ), color, _( "Arms :"   ) );
+    mvwprintz( w, point( 1, 5 ), color, _( "Legs :"   ) );
+    mvwprintz( w, point( 1, 6 ), color, _( "Feet :"   ) );
 
     unsigned int max_length = getmaxx( w ) - 8;
     print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
+    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bp_chest, max_length ) );
+    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bp_abdomen, max_length ) );
+    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bp_pelvis, max_length ) );
+    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bp_arm_r, max_length ) );
+    print_colored_text( w, point( 8, 5 ), color, color, get_armor( u, bp_leg_r, max_length ) );
+    print_colored_text( w, point( 8, 6 ), color, color, get_armor( u, bp_foot_r, max_length ) );
     wrefresh( w );
 }
 
@@ -1695,17 +1701,21 @@ static void draw_armor( const avatar &u, const catacurses::window &w )
     nc_color color = c_light_gray;
     mvwprintz( w, point_zero, color, _( "Head :" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 0, 1 ), color, _( "Torso:" ) );
-    mvwprintz( w, point( 0, 2 ), color, _( "Arms :" ) );
-    mvwprintz( w, point( 0, 3 ), color, _( "Legs :" ) );
-    mvwprintz( w, point( 0, 4 ), color, _( "Feet :" ) );
+    mvwprintz( w, point( 0, 1 ), color, _( "Chest:" ) );
+    mvwprintz( w, point( 0, 2 ), color, _( "Abdomen:" ) );
+    mvwprintz( w, point( 0, 3 ), color, _( "Pelvis:" ) );
+    mvwprintz( w, point( 0, 4 ), color, _( "Arms :" ) );
+    mvwprintz( w, point( 0, 5 ), color, _( "Legs :" ) );
+    mvwprintz( w, point( 0, 6  ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 7;
     print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
+    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bp_chest, max_length ) );
+    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bp_abdomen, max_length ) );
+    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bp_pelvis, max_length ) );
+    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bp_arm_r, max_length ) );
+    print_colored_text( w, point( 7, 5 ), color, color, get_armor( u, bp_leg_r, max_length ) );
+    print_colored_text( w, point( 7, 6 ), color, color, get_armor( u, bp_foot_r, max_length ) );
     wrefresh( w );
 }
 

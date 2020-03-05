@@ -546,7 +546,7 @@ float npc::character_danger( const Character &uc ) const
     }
     ret += u_weap_val;
 
-    ret += hp_percentage() * get_hp_max( hp_torso ) / 100.0 / my_weap_val;
+    ret += hp_percentage() * get_hp_max( hp_chest ) / 100.0 / my_weap_val;
 
     ret += my_gun ? u.get_dodge() / 2 : u.get_dodge();
 
@@ -1676,7 +1676,7 @@ healing_options npc::patient_assessment( const Character &c )
         int part_threshold = 75;
         if( part == hp_head ) {
             part_threshold += 20;
-        } else if( part == hp_torso ) {
+        } else if( part == hp_chest ) {
             part_threshold += 10;
         }
         part_threshold = std::min( 80, part_threshold );

@@ -362,7 +362,7 @@ static void wet_player( int amount )
     if( !calendar::once_every( 6_seconds ) ) {
         return;
     }
-    const int warmth_delay = g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5;
+    const int warmth_delay = g->u.warmth( bp_chest ) * 4 / 5 + g->u.warmth( bp_head ) / 5;
     if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
@@ -370,8 +370,8 @@ static void wet_player( int amount )
 
     const auto &wet = g->u.body_wetness;
     const auto &capacity = g->u.drench_capacity;
-    body_part_set drenched_parts{ { bp_torso, bp_arm_l, bp_arm_r, bp_head } };
-    if( wet[bp_torso] * 100 >= capacity[bp_torso] * 50 ) {
+    body_part_set drenched_parts{ { bp_chest, bp_arm_l, bp_arm_r, bp_head } };
+    if( wet[bp_chest] * 100 >= capacity[bp_chest] * 50 ) {
         // Once upper body is 50%+ drenched, start soaking the legs too
         drenched_parts |= { { bp_leg_l, bp_leg_r } };
     }

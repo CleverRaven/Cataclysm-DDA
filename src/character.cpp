@@ -579,9 +579,15 @@ void Character::forced_dismount()
                 break;
             case  8:
             case  9:
-                hit = bp_torso;
+                hit = bp_chest;
                 break;
             case 10:
+                hit = bp_abdomen;
+                break;
+            case 11:
+                hit = bp_pelvis;
+                break;
+            case 12:
                 hit = bp_head;
                 break;
         }
@@ -901,7 +907,7 @@ bool Character::move_effects( bool attacking )
 
                 /** @EFFECT_STR increases chance to escape grab, if >DEX */
             } else if( rng( 0, std::max( get_dex(), get_str() ) ) <
-                       rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
+                       rng( get_effect_int( effect_grabbed, bp_chest ), 8 ) ) {
                 // Randomly compare higher of dex or str to grab intensity.
                 add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
                                        _( "<npcname> tries to break out of the grab, but fails!" ) );
@@ -2205,7 +2211,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                 return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
             }
         }
-        if( !it.covers( bp_torso ) ) {
+        if( !it.covers( bp_chest ) ) {
             bool power_armor = false;
             if( !worn.empty() ) {
                 for( auto &elem : worn ) {
@@ -4178,11 +4184,11 @@ void Character::check_needs_extremes()
     if( get_stim() > 250 ) {
         add_msg_if_player( m_bad, _( "You have a sudden heart attack!" ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
-        hp_cur[hp_torso] = 0;
+        hp_cur[hp_chest] = 0;
     } else if( get_stim() < -200 || get_painkiller() > 240 ) {
         add_msg_if_player( m_bad, _( "Your breathing stops completely." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
-        hp_cur[hp_torso] = 0;
+        hp_cur[hp_chest] = 0;
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if( !( has_trait( trait_NOPAIN ) ) ) {
             add_msg_if_player( m_bad, _( "Your heart spasms painfully and stops." ) );
@@ -4190,15 +4196,15 @@ void Character::check_needs_extremes()
             add_msg_if_player( _( "Your heart spasms and stops." ) );
         }
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_jetinjector );
-        hp_cur[hp_torso] = 0;
+        hp_cur[hp_chest] = 0;
     } else if( get_effect_dur( effect_adrenaline ) > 50_minutes ) {
         add_msg_if_player( m_bad, _( "Your heart spasms and stops." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_adrenaline );
-        hp_cur[hp_torso] = 0;
+        hp_cur[hp_chest] = 0;
     } else if( get_effect_int( effect_drunk ) > 4 ) {
         add_msg_if_player( m_bad, _( "Your breathing slows down to a stop." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_drunk );
-        hp_cur[hp_torso] = 0;
+        hp_cur[hp_chest] = 0;
     }
 
     // check if we've starved
@@ -4206,7 +4212,7 @@ void Character::check_needs_extremes()
         if( get_stored_kcal() <= 0 ) {
             add_msg_if_player( m_bad, _( "You have starved to death." ) );
             g->events().send<event_type::dies_of_starvation>( getID() );
-            hp_cur[hp_torso] = 0;
+            hp_cur[hp_chest] = 0;
         } else {
             if( calendar::once_every( 1_hours ) ) {
                 std::string category;
@@ -4246,7 +4252,7 @@ void Character::check_needs_extremes()
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
             g->events().send<event_type::dies_of_thirst>( getID() );
-            hp_cur[hp_torso] = 0;
+            hp_cur[hp_chest] = 0;
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
         } else if( get_thirst() >= 800 && calendar::once_every( 30_minutes ) ) {
@@ -6128,7 +6134,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
         if( bp == bp_head ) {
             bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD" ) / 100.0f;
         }
-        if( bp == bp_torso ) {
+        if( bp == bp_chest ) {
             bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO" ) / 100.0f;
         }
     }
@@ -6139,7 +6145,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
         if( bp == bp_head ) {
             disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD" ) / 100.0f;
         }
-        if( bp == bp_torso ) {
+        if( bp == bp_chest ) {
             disinfected_rate *= e_disinfected.get_amount( "HEAL_TORSO" ) / 100.0f;
         }
     }
@@ -6900,7 +6906,7 @@ void Character::cough( bool harmful, int loudness )
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
         mod_stamina( -malus );
         if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
-            apply_damage( nullptr, bp_torso, 1 );
+            apply_damage( nullptr, bp_chest, 1 );
         }
     }
 
@@ -7596,7 +7602,7 @@ void Character::heal( body_part healed, int dam )
             break;
         default:
             debugmsg( "Wacky body part healed!" );
-            healpart = hp_torso;
+            healpart = hp_chest;
     }
     heal( healpart, dam );
 }
@@ -8422,10 +8428,10 @@ int Character::floor_item_warmth( const tripoint &pos )
         if( !elem.is_armor() ) {
             continue;
         }
-        // Items that are big enough and covers the torso are used to keep warm.
+        // Items that are big enough and covers the chest are used to keep warm.
         // Smaller items don't do as good a job
         if( elem.volume() > 250_ml &&
-            ( elem.covers( bp_torso ) || elem.covers( bp_leg_l ) ||
+            ( elem.covers( bp_chest ) || elem.covers( bp_leg_l ) ||
               elem.covers( bp_leg_r ) ) ) {
             item_warmth += 60 * elem.get_warmth() * elem.volume() / 2500_ml;
         }

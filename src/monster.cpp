@@ -1037,7 +1037,7 @@ monster_attitude monster::attitude( const Character *u ) const
 
 int monster::hp_percentage() const
 {
-    return get_hp( hp_torso ) * 100 / get_hp_max();
+    return get_hp( hp_chest ) * 100 / get_hp_max();
 }
 
 void monster::process_triggers()
@@ -1418,7 +1418,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bp_torso, INT_MIN, &attack );
+        on_hit( source, bp_chest, INT_MIN, &attack );
     }
 }
 
@@ -1849,13 +1849,13 @@ int monster::impact( const int force, const tripoint &p )
     const float mod = fall_damage_mod();
     int total_dealt = 0;
     if( g->m.has_flag( TFLAG_SHARP, p ) ) {
-        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bp_torso ) );
-        apply_damage( nullptr, bp_torso, cut_damage );
+        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bp_chest ) );
+        apply_damage( nullptr, bp_chest, cut_damage );
         total_dealt += 10 * mod;
     }
 
-    const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bp_torso ) );
-    apply_damage( nullptr, bp_torso, bash_damage );
+    const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bp_chest ) );
+    apply_damage( nullptr, bp_chest, bash_damage );
     total_dealt += force * mod;
 
     add_effect( effect_downed, time_duration::from_turns( rng( 0, mod * 3 + 1 ) ) );
@@ -2269,7 +2269,7 @@ void monster::process_one_effect( effect &it, bool is_new )
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, 1 ) ) {
-            apply_damage( nullptr, bp_torso, val );
+            apply_damage( nullptr, bp_chest, val );
         }
     }
 
@@ -2285,9 +2285,9 @@ void monster::process_one_effect( effect &it, bool is_new )
             dam = rng( 5, 10 );
         }
 
-        dam -= get_armor_type( DT_HEAT, bp_torso );
+        dam -= get_armor_type( DT_HEAT, bp_chest );
         if( dam > 0 ) {
-            apply_damage( nullptr, bp_torso, dam );
+            apply_damage( nullptr, bp_chest, dam );
         } else {
             it.set_duration( 0_turns );
         }
@@ -2362,7 +2362,7 @@ void monster::process_effects()
         if( g->u.sees( *this ) ) {
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name() );
         }
-        apply_damage( nullptr, bp_torso, 100 );
+        apply_damage( nullptr, bp_chest, 100 );
         if( hp < 0 ) {
             hp = 0;
         }
@@ -2702,12 +2702,12 @@ void monster::on_hit( Creature *source, body_part,
 
 body_part monster::get_random_body_part( bool ) const
 {
-    return bp_torso;
+    return bp_chest;
 }
 
 std::vector<body_part> monster::get_all_body_parts( bool ) const
 {
-    return std::vector<body_part>( 1, bp_torso );
+    return std::vector<body_part>( 1, bp_chest );
 }
 
 int monster::get_hp_max( hp_part ) const

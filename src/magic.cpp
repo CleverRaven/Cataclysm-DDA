@@ -66,7 +66,9 @@ template<>
 std::string enum_to_string<body_part>( body_part data )
 {
     switch( data ) {
-        case body_part::bp_torso: return "TORSO";
+        case body_part::bp_chest: return "CHEST";
+        case body_part::bp_abdomen: return "ABDOMEN";
+        case body_part::bp_pelvis: return "PELVIS";
         case body_part::bp_head: return "HEAD";
         case body_part::bp_eyes: return "EYES";
         case body_part::bp_mouth: return "MOUTH";

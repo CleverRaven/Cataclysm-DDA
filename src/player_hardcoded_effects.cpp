@@ -80,7 +80,7 @@ static void eff_fun_fungus( player &u, effect &it )
             if( one_in( 3600 + bonus * 18 ) ) {
                 u.add_msg_if_player( m_bad,  _( "You spasm suddenly!" ) );
                 u.moves -= 100;
-                u.apply_damage( nullptr, bp_torso, 5 );
+                u.apply_damage( nullptr, bp_chest, 5 );
             }
             if( x_in_y( u.vomit_mod(), ( 4800 + bonus * 24 ) ) || one_in( 12000 + bonus * 60 ) ) {
                 u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
@@ -91,7 +91,7 @@ static void eff_fun_fungus( player &u, effect &it )
                 u.mod_hunger( awfulness );
                 u.mod_thirst( awfulness );
                 ///\EFFECT_STR decreases damage taken by fungus effect
-                u.apply_damage( nullptr, bp_torso, awfulness / std::max( u.str_cur, 1 ) ); // can't be healthy
+                u.apply_damage( nullptr, bp_chest, awfulness / std::max( u.str_cur, 1 ) ); // can't be healthy
             }
             it.mod_duration( 1_turns );
             if( dur > 6_hours ) {
@@ -292,8 +292,12 @@ static void eff_fun_cold( player &u, effect &it )
             { { bp_head, 2 }, { 0, 0, 1, 0, "", 0, "" } },
             { { bp_mouth, 3 }, { 0, 0, 0, 3, translate_marker( "Your face is stiff from the cold." ), 2400, "" } },
             { { bp_mouth, 2 }, { 0, 0, 0, 1, "", 0, "" } },
-            { { bp_torso, 3 }, { 0, 4, 0, 0, translate_marker( "Your torso is freezing cold.  You should put on a few more layers." ), 400, translate_marker( "You quiver from the cold." ) } },
-            { { bp_torso, 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "Your shivering makes you unsteady." ) } },
+            { { bp_chest, 3 }, { 0, 2, 0, 0, translate_marker( "Your chest is freezing cold.  You should put on a few more layers." ), 400, translate_marker( "You quiver from the cold." ) } },
+            { { bp_chest, 2 }, { 0, 1, 0, 0, "", 0, translate_marker( "Your shivering makes you unsteady." ) } },
+            { { bp_abdomen, 3 }, { 0, 2, 0, 0, translate_marker( "Your abdomen is freezing cold.  You should put on a few more layers." ), 400, translate_marker( "You quiver from the cold." ) } },
+            { { bp_abdomen, 2 }, { 0, 1, 0, 0, "", 0, translate_marker( "Your abdomen is shivering from the cold." ) } },
+            { { bp_pelvis, 3 }, { 0, 1, 0, 0, translate_marker( "Your pelvis is freezing cold.  Find some better pants." ), 400, translate_marker( "You quiver from the cold." ) } },
+            { { bp_pelvis, 2 }, { 0, 1, 0, 0, "", 0, translate_marker( "The shivering in your pants makes you unsteady." ) } },
             { { bp_arm_l, 3 }, { 0, 2, 0, 0, translate_marker( "Your left arm is shivering." ), 4800, translate_marker( "Your left arm trembles from the cold." ) } },
             { { bp_arm_l, 2 }, { 0, 1, 0, 0, translate_marker( "Your left arm is shivering." ), 4800, translate_marker( "Your left arm trembles from the cold." ) } },
             { { bp_arm_r, 3 }, { 0, 2, 0, 0, translate_marker( "Your right arm is shivering." ), 4800, translate_marker( "Your right arm trembles from the cold." ) } },
@@ -324,8 +328,12 @@ static void eff_fun_hot( player &u, effect &it )
     static const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
             { { bp_head, 3 }, { 0, 0, 0, 0, translate_marker( "Your head is pounding from the heat." ), 2400, "" } },
             { { bp_head, 2 }, { 0, 0, 0, 0, "", 0, "" } },
-            { { bp_torso, 3 }, { 2, 0, 0, 0, translate_marker( "You are sweating profusely." ), 2400, "" } },
-            { { bp_torso, 2 }, { 1, 0, 0, 0, "", 0, "" } },
+            { { bp_chest, 3 }, { 2, 0, 0, 0, translate_marker( "Your chest is sweating profusely." ), 2400, "" } },
+            { { bp_chest, 2 }, { 1, 0, 0, 0, "", 0, "" } },
+            { { bp_abdomen, 3 }, { 2, 0, 0, 0, translate_marker( "Your abdomen is sweating intensely." ), 2400, "" } },
+            { { bp_abdomen, 2 }, { 1, 0, 0, 0, "", 0, "" } },
+            { { bp_pelvis, 3 }, { 2, 0, 0, 0, translate_marker( "Your pelvis is sweating profusely." ), 2400, "" } },
+            { { bp_pelvis, 2 }, { 1, 0, 0, 0, "", 0, "" } },
             { { bp_hand_l, 3 }, { 0, 2, 0, 0, "", 0, translate_marker( "Your left hand's too sweaty to grip well." ) } },
             { { bp_hand_l, 2 }, { 0, 1, 0, 0, "", 0, translate_marker( "Your left hand's too sweaty to grip well." ) } },
             { { bp_hand_r, 3 }, { 0, 2, 0, 0, "", 0, translate_marker( "Your right hand's too sweaty to grip well." ) } },
@@ -802,7 +810,7 @@ void player::hardcoded_effects( effect &it )
                     _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
             }
             g->events().send<event_type::dies_from_drug_overdose>( getID(), id );
-            hp_cur[hp_torso] = 0;
+            hp_cur[hp_chest] = 0;
         }
     } else if( id == effect_grabbed ) {
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
@@ -815,7 +823,7 @@ void player::hardcoded_effects( effect &it )
         }
         if( zed_number > 0 ) {
             //If intensity isn't pass the cap, average it with # of zeds
-            add_effect( effect_grabbed, 2_turns, bp_torso, false, ( intense + zed_number ) / 2 );
+            add_effect( effect_grabbed, 2_turns, bp_chest, false, ( intense + zed_number ) / 2 );
         }
     } else if( id == effect_bite ) {
         bool recovered = false;

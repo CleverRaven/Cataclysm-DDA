@@ -1112,7 +1112,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                     p->check_dead_state();
                                 } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
-                                    mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
+                                    mon->apply_damage( nullptr, bp_chest, 6 - mon->get_armor_bash( bp_chest ) );
                                     if( g->u.sees( newp ) ) {
                                         add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                                     }
@@ -1526,7 +1526,7 @@ void map::player_in_field( player &u )
             }
         }
         if( ft == fd_flame_burst ) {
-            // A burst of flame? Only hits the legs and torso.
+            // A burst of flame? Only hits the legs and pelvis.
             if( !inside ) {
                 // Fireballs can't touch you inside a car.
                 // Heatsink or suit stops fire.
@@ -1536,7 +1536,7 @@ void map::player_in_field( player &u )
                                              _( "<npcname> is torched by flames!" ) );
                     u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
                     u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                    u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
+                    u.deal_damage( nullptr, bp_pelvis, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
                     u.check_dead_state();
                 } else {
                     u.add_msg_player_or_npc( _( "These flames do not burn you." ),
@@ -1614,7 +1614,7 @@ void map::player_in_field( player &u )
             } else {
                 u.add_msg_player_or_npc( m_bad, _( "The incendiary melts into your skin!" ),
                                          _( "The incendiary melts into <npcname>s skin!" ) );
-                u.add_effect( effect_onfire, 8_turns, bp_torso );
+                u.add_effect( effect_onfire, 8_turns, bp_chest );
                 u.hurtall( rng( 2, 6 ), nullptr );
             }
         }
@@ -1740,7 +1740,7 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_acid ) {
             if( !z.flies() ) {
                 const int d = rng( cur.get_field_intensity(), cur.get_field_intensity() * 3 );
-                z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
+                z.deal_damage( nullptr, bp_chest, damage_instance( DT_ACID, d ) );
                 z.check_dead_state();
             }
 
@@ -1777,7 +1777,7 @@ void map::monster_in_field( monster &z )
             if( z.flies() ) {
                 dam -= 15;
             }
-            dam -= z.get_armor_type( DT_HEAT, bp_torso );
+            dam -= z.get_armor_type( DT_HEAT, bp_chest );
 
             if( cur.get_field_intensity() == 1 ) {
                 dam += rng( 2, 6 );
@@ -1893,7 +1893,7 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_electricity ) {
             // We don't want to increase dam, but deal a separate hit so that it can apply effects
-            z.deal_damage( nullptr, bp_torso,
+            z.deal_damage( nullptr, bp_chest,
                            damage_instance( DT_ELECTRIC, rng( 1, cur.get_field_intensity() * 3 ) ) );
         }
         if( cur_field_type == fd_fatigue ) {
@@ -1963,7 +1963,7 @@ void map::monster_in_field( monster &z )
     }
 
     if( dam > 0 ) {
-        z.apply_damage( nullptr, bp_torso, dam, true );
+        z.apply_damage( nullptr, bp_chest, dam, true );
         z.check_dead_state();
     }
 }
