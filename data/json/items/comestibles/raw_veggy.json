@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "barley",
-    "name": "barley",
+    "name": { "str": "barley" },
     "weight": "211 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -22,7 +22,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bee_balm",
-    "name": "bee balm",
+    "name": { "str": "bee balm" },
     "description": "A snow-white flower also known as wild bergamot.  Smells faintly of mint.",
     "comestible_type": "FOOD",
     "calories": 9,
