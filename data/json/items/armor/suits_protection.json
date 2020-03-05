@@ -458,7 +458,7 @@
   {
     "id": "entry_suit",
     "type": "ARMOR",
-    "name": "entry suit",
+    "name": { "str": "entry suit" },
     "description": "A flame-resistant whole-body garment worn by firefighters as protection against extreme heat.  Though very restrictive, wearing it will provide excellent protection against fire and smoke.  It requires a separate gas mask for full protection.",
     "weight": "2900 g",
     "volume": "6 L",
