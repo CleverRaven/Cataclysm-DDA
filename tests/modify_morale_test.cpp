@@ -66,7 +66,7 @@ TEST_CASE( "eating with a table", "[modify_morale][table]" )
 // - adds MORALE_CANNIBAL for ALL characters
 // - amount varies by PSYCHOPATH, SAPIOVORE, SPIRITUAL
 // - gives huge morale penalty for non-cannibals
-TEST_CASE( "cannibal food", "[modify_morale][cannibal]" )
+TEST_CASE( "cannibalism", "[modify_morale][cannibal]" )
 {
     avatar dummy;
 
@@ -142,17 +142,111 @@ TEST_CASE( "cannibal food", "[modify_morale][cannibal]" )
     }
 }
 
-//
+TEST_CASE( "sweet junk food", "[modify_morale][junk][sweet]" )
+{
+    avatar dummy;
+    std::pair<int, int> fun;
+
+    GIVEN( "some sweet junk food" ) {
+        item &necco = dummy.i_add( item( "neccowafers" ) );
+
+        WHEN( "character has a sweet tooth" ) {
+            dummy.toggle_trait( trait_PROJUNK );
+            REQUIRE( dummy.has_trait( trait_PROJUNK ) );
+
+            THEN( "they get a morale bonus from its sweetness" ) {
+                dummy.modify_morale( necco );
+                CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) );
+                CHECK( dummy.get_morale_level() >= 5 );
+                CHECK( dummy.get_morale_level() <= 30 );
+
+                AND_THEN( "they enjoy it" ) {
+                    CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) );
+                }
+            }
+        }
+
+        WHEN( "character is sugar-loving" ) {
+            dummy.toggle_trait( trait_PROJUNK2 );
+            REQUIRE( dummy.has_trait( trait_PROJUNK2 ) );
+
+            THEN( "they get a significant morale bonus from its sweetness" ) {
+                dummy.modify_morale( necco );
+                CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) );
+                CHECK( dummy.get_morale_level() >= 10 );
+                CHECK( dummy.get_morale_level() <= 50 );
+
+                AND_THEN( "they enjoy it" ) {
+                    CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) );
+                }
+            }
+        }
+
+        WHEN( "character is a carnivore" ) {
+            dummy.toggle_trait( trait_CARNIVORE );
+            REQUIRE( dummy.has_trait( trait_CARNIVORE ) );
+
+            THEN( "they get an overall morale penalty due to indigestion" ) {
+                dummy.modify_morale( necco );
+                CHECK( dummy.has_morale( MORALE_NO_DIGEST ) );
+                CHECK( dummy.get_morale_level() < 0 );
+
+                AND_THEN( "they still enjoy it a little" ) {
+                    CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) );
+
+                    // Penalty stacks with the base fun value
+                    fun = dummy.fun_for( necco );
+                    CHECK( dummy.get_morale_level() <= -25 + fun.first );
+                }
+            }
+        }
+    }
+}
+
 // food with any allergy type gives morale penalty for allergy
 //
-// food with ALLERGEN_JUNK flag
-// - PROJUNK character gets MORALE_SWEETTOOTH bonus
-// - PROJUNK2 character gets larger/longer MORALE_SWEETTOOTH bonus
-//
-// carnivore eating non-CARNIVORE_OK food gets MORALE_NO_DIGEST penalty
-//
-// non-rotten food for SAPROPHAGE character gives MORALE_NO_DIGEST penalty
-//
+TEST_CASE( "food with allergen", "[modify_morale][allergy]" )
+{
+
+}
+
+TEST_CASE( "saprophage character", "[modify_morale][saprophage]" )
+{
+    avatar dummy;
+
+    GIVEN( "character is a saprophage, preferring rotted food" ) {
+        dummy.toggle_trait( trait_SAPROPHAGE );
+        REQUIRE( dummy.has_trait( trait_SAPROPHAGE ) );
+
+        AND_GIVEN( "some rotten chewable food" ) {
+            item &toastem = dummy.i_add( item( "toastem" ) );
+            // food rot > 1.0 is rotten
+            toastem.set_relative_rot( 1.5 );
+            REQUIRE( toastem.rotten() );
+
+            THEN( "they enjoy it" ) {
+                dummy.modify_morale( toastem );
+                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) );
+                CHECK( dummy.get_morale_level() > 10 );
+            }
+        }
+
+        AND_GIVEN( "some fresh chewable food" ) {
+            item &toastem = dummy.i_add( item( "toastem" ) );
+            // food rot < 0.1 is fresh
+            toastem.set_relative_rot( 0.0 );
+            REQUIRE( toastem.is_fresh() );
+
+            THEN( "it gives a morale penalty due to indigestion" ) {
+                dummy.modify_morale( toastem );
+                CHECK( dummy.has_morale( MORALE_NO_DIGEST ) );
+                CHECK( dummy.get_morale_level() <= -25 );
+                CHECK( dummy.get_morale_level() >= -125 );
+            }
+        }
+
+    }
+}
+
 // URSINE_HONEY food gives MORALE_HONEY bonus to THRESH_URSINE characters who haven't crossed
-//
 
