@@ -1837,7 +1837,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     return final_map;
 }
 
-static void construction_activity( player &p, const zone_data */*zone*/, const tripoint &src_loc,
+static void construction_activity( player &p, const zone_data * /*zone*/, const tripoint &src_loc,
                                    const activity_reason_info &act_info,
                                    const activity_id &activity_to_restore )
 {
