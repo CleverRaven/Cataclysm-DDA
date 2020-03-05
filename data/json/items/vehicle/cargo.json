@@ -111,7 +111,7 @@
   {
     "id": "mounted_spare_tire",
     "type": "GENERIC",
-    "name": "mounted spare tire",
+    "name": { "str": "mounted spare tire" },
     "description": "A spare tire mounted on a carrier rig, ready to be attached to the rear bumper of a vehicle.",
     "symbol": "o",
     "color": "dark_gray",

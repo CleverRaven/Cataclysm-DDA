@@ -420,7 +420,7 @@
     "id": "petrified_eye",
     "symbol": "*",
     "color": "dark_gray",
-    "name": "petrified eye",
+    "name": { "str": "petrified eye" },
     "description": "A fist-sized eyeball with a cross-shaped pupil.  It seems to be made of stone, but doesn't look like it was carved.",
     "price": 200000,
     "price_postapoc": 1000,
@@ -1408,7 +1408,7 @@
     "id": "standard_template_construct",
     "symbol": ",",
     "color": "cyan",
-    "name": "nanofabricator template",
+    "name": { "str": "nanofabricator template" },
     "category": "spare_parts",
     "description": "A state-of-the-art optical storage system.  This small slate of transparent glass holds, inscribed as a miniature pattern, the instructions required to create an item through a nanofabricator.",
     "price": 150000,
@@ -2052,7 +2052,7 @@
     "id": "pearl",
     "copy-from": "garnet",
     "color": "white",
-    "name": "pearl",
+    "name": { "str": "pearl" },
     "description": "A lustrous pearl."
   },
   {
@@ -2068,7 +2068,7 @@
     "id": "peridot",
     "copy-from": "garnet",
     "color": "green",
-    "name": "peridot",
+    "name": { "str": "peridot" },
     "description": "A sparkling peridot."
   },
   {
@@ -2084,7 +2084,7 @@
     "id": "opal",
     "copy-from": "garnet",
     "color": "white",
-    "name": "opal",
+    "name": { "str": "opal" },
     "description": "A lustrous opal."
   },
   {
@@ -2266,7 +2266,7 @@
   {
     "type": "GENERIC",
     "id": "money_bundle",
-    "name": "money bundle",
+    "name": { "str": "money bundle" },
     "description": "A bundle holding many 20 dollar bills, pretty useless now though.",
     "weight": "20 g",
     "to_hit": -3,
@@ -2578,7 +2578,7 @@
     "id": "neoprene",
     "symbol": ",",
     "color": "dark_gray",
-    "name": "neoprene sheet",
+    "name": { "str": "neoprene sheet" },
     "description": "A moderately sized sheet of neoprene.  Can be used to craft light and stretchable clothing.",
     "price": 1000,
     "material": "neoprene",

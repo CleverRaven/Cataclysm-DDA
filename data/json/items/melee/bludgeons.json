@@ -19,7 +19,7 @@
     "id": "2h_flail_wood",
     "type": "GENERIC",
     "category": "weapons",
-    "name": "peasant flail",
+    "name": { "str": "peasant flail" },
     "description": "This is a stout pole with a wooden club on a leather cord attached to it, this is a tool used to thresh wheat and occasionally people when the peasants got angry at their feudal lords.",
     "weight": "1700 g",
     "volume": "3750 ml",
@@ -657,7 +657,7 @@
   {
     "type": "GENERIC",
     "id": "morningstar",
-    "name": "morningstar",
+    "name": { "str": "morningstar" },
     "description": "A medieval weapon consisting of a wood handle with a heavy, spiked iron ball on the end.  It deals devastating crushing damage, with a small amount of piercing to boot.",
     "weight": "1400 g",
     "to_hit": 1,
@@ -675,7 +675,7 @@
   {
     "type": "GENERIC",
     "id": "morningstar_fake",
-    "name": "morningstar",
+    "name": { "str": "morningstar" },
     "description": "A light, cheaply made replica of a medieval weapon that would normally consist of a wood handle with a heavy, spiked iron ball on the end.",
     "weight": "700 g",
     "to_hit": 1,
@@ -693,7 +693,7 @@
   {
     "type": "GENERIC",
     "id": "morningstar_inferior",
-    "name": "morningstar",
+    "name": { "str": "morningstar" },
     "description": "A medieval weapon consisting of a wood handle with a heavy, spiked iron ball on the end.  That end feels lighter than it should.",
     "weight": "1000 g",
     "to_hit": 1,
@@ -712,7 +712,7 @@
   {
     "type": "GENERIC",
     "id": "nailbat",
-    "name": "nail bat",
+    "name": { "str": "nail bat" },
     "description": "A baseball bat with several nails driven through it, an excellent melee weapon.",
     "weight": "1159 g",
     "to_hit": 3,
@@ -729,7 +729,7 @@
   {
     "type": "GENERIC",
     "id": "nailboard",
-    "name": "nailboard",
+    "name": { "str": "nailboard" },
     "description": "A long piece of wood with several nails through one end; essentially a simple mace.  Makes an acceptable melee weapon.",
     "weight": "1424 g",
     "to_hit": 1,

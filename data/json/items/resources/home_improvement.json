@@ -154,7 +154,7 @@
     "id": "peephole",
     "symbol": ".",
     "color": "yellow",
-    "name": "peephole",
+    "name": { "str": "peephole" },
     "category": "spare_parts",
     "description": "A metal cylinder with a small lens inside intended to be installed on a door.",
     "price": 12000,
