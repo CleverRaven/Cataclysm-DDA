@@ -195,7 +195,7 @@
   {
     "id": "duster",
     "type": "ARMOR",
-    "name": "duster",
+    "name": { "str": "duster" },
     "description": "A rugged full-length duster coat.  Has many pockets for storage.",
     "weight": "1120 g",
     "volume": "5750 ml",
@@ -427,7 +427,7 @@
     "id": "jacket_evac",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": "emergency jacket",
+    "name": { "str": "emergency jacket" },
     "description": "A bright & cheaply made FEMA-issue windbreaker jacket with a hood.  One size, fits none.  Helps keep you unfrozen & visible for rescuers.",
     "weight": "197 g",
     "volume": "2250 ml",

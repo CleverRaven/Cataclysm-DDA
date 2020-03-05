@@ -127,7 +127,7 @@
     "id": "mask_dust",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "dust mask",
+    "name": { "str": "dust mask" },
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
     "weight": "168 g",
     "volume": "100 ml",

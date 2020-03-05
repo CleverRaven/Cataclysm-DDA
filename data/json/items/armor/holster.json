@@ -105,7 +105,7 @@
     "id": "bholster",
     "copy-from": "holster",
     "type": "ARMOR",
-    "name": "deep concealment holster",
+    "name": { "str": "deep concealment holster" },
     "description": "An elastic band with numerous provisions for concealing a very small pistol close to the body.  It is awkward to use without practice.  Activate to holster/draw a gun.",
     "weight": "120 g",
     "volume": "250 ml",

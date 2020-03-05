@@ -47,7 +47,7 @@
     "id": "dinosuit",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": "dinosaur suit",
+    "name": { "str": "dinosaur suit" },
     "description": "A full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering and has little storage but is very warm.",
     "weight": "7033 g",
     "volume": "12 L",
