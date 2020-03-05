@@ -449,7 +449,7 @@
   {
     "id": "small_space_heater",
     "type": "TOOL",
-    "name": "small space heater",
+    "name": { "str": "small space heater" },
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees C.",
     "weight": "6000 g",
     "volume": "3750 ml",
@@ -494,7 +494,7 @@
   {
     "id": "spray_can",
     "type": "TOOL",
-    "name": "spray can",
+    "name": { "str": "spray can" },
     "description": "This is a spray can, filled with paint.  Use this tool to make graffiti on the floor.",
     "weight": "340 g",
     "volume": "250 ml",
@@ -511,7 +511,7 @@
   {
     "id": "stepladder",
     "type": "TOOL",
-    "name": "stepladder",
+    "name": { "str": "stepladder" },
     "description": "This is a wooden stepladder.  Use it to set it down.",
     "weight": "20000 g",
     "volume": "50 L",

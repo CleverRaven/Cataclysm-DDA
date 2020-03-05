@@ -659,7 +659,7 @@
   {
     "id": "primitive_hammer",
     "type": "TOOL",
-    "name": "stone hammer",
+    "name": { "str": "stone hammer" },
     "description": "This is a rock affixed to a stick, in the crude facsimile of a hammer.  It functions adequately as a hammer, but really can't compare to a proper one.",
     "weight": "1020 g",
     "volume": "500 ml",
@@ -747,7 +747,7 @@
   {
     "id": "soldering_iron",
     "type": "TOOL",
-    "name": "soldering iron",
+    "name": { "str": "soldering iron" },
     "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  You could also use it to cauterize wounds, if you had to.",
     "weight": "181 g",
     "volume": "500 ml",

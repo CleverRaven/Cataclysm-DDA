@@ -179,7 +179,7 @@
   {
     "id": "hand_axe",
     "type": "TOOL",
-    "name": "stone hand axe",
+    "name": { "str": "stone hand axe" },
     "description": "This is a broad piece of sharpened stone, with enough left untouched to hold safely.  The Swiss Army knife of the lower paleolithic.",
     "weight": "453 g",
     "volume": "500 ml",
@@ -205,7 +205,7 @@
   {
     "id": "primitive_adze",
     "type": "TOOL",
-    "name": "stone adze",
+    "name": { "str": "stone adze" },
     "description": "This is a stone adze, somewhat useful for cutting through wood objects.",
     "weight": "1300 g",
     "volume": "1 L",
@@ -221,7 +221,7 @@
   {
     "id": "primitive_axe",
     "type": "TOOL",
-    "name": "stone axe",
+    "name": { "str": "stone axe" },
     "description": "This is a sharpened stone affixed to a stick.  It works passably well as an axe but really can't compare to a proper axe.",
     "weight": "3154 g",
     "volume": "3500 ml",
