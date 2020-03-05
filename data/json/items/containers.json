@@ -99,7 +99,7 @@
     "type": "TOOL",
     "name": "air fitting",
     "name_plural": "air fittings",
-    "description": "This is an air fitting and hose designed for high pressure.  It can connect a high pressure cylinder to a variety of devices utilizing air as power.",
+    "description": "This is an air fitting and hose designed for high pressure.  It is specially designed to connect high pressure pneumatics to air cylinders.",
     "weight": 500,
     "volume": "200 ml",
     "price": 2800,
