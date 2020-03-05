@@ -83,7 +83,7 @@
   },
   {
     "id": "fencing_mask",
-    "repairs_like": "chainmail coif",
+    "repairs_like": "chainmail_hood",
     "type": "ARMOR",
     "name": "fencing mask",
     "description": "A tough hood made of steel mesh used by fencers.",

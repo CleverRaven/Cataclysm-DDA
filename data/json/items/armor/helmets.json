@@ -118,7 +118,7 @@
   },
   {
     "id": "firehelmet",
-    "repairs_like": "flame-resistant hood",
+    "repairs_like": "nomex_hood",
     "type": "ARMOR",
     "category": "armor",
     "name": "firefighter helmet",
@@ -130,7 +130,7 @@
     "bashing": 4,
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
-    "looks_like": "hat_cowboy",
+    "looks_like": "cowboy_hat",
     "color": "yellow",
     "covers": [ "HEAD" ],
     "coverage": 75,
