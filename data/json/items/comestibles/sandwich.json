@@ -323,7 +323,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blt",
-    "name": "BLT",
+    "name": { "str": "BLT" },
     "weight": "220 g",
     "color": "brown",
     "spoils_in": "2 days 12 hours",

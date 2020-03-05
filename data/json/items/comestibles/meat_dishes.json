@@ -241,7 +241,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meat_aspic",
-    "name": "aspic",
+    "name": { "str": "aspic" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "abomination %s", "str_pl": "abomination %s" } },
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "amoral %s", "str_pl": "amoral %s" } }

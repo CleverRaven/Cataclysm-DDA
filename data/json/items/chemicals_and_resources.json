@@ -1388,7 +1388,7 @@
   {
     "id": "acetylene",
     "type": "COMESTIBLE",
-    "name": "acetylene",
+    "name": { "str": "acetylene", "str_pl": "acetylene" },
     "category": "chems",
     "description": "A flammable gas that explodes under pressure.  Combined with oxygen, acetylene makes a great welding gas.",
     "weight": "40 g",
