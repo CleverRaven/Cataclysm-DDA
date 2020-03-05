@@ -135,7 +135,7 @@
     "id": "material_shrd_limestone",
     "symbol": ",",
     "color": "light_gray",
-    "name": "limestone shard",
+    "name": { "str": "limestone shard" },
     "category": "spare_parts",
     "description": "A small shard of limestone.  Pretty flimsy and not much of a weapon, but its alkaline properties may yet find some use.",
     "price": 500,

@@ -455,7 +455,7 @@
     "id": "light_detector",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "light detector",
+    "name": { "str": "light detector" },
     "description": "This is a photodiode on a chip, designed to convert incoming light to electrical energy for quantification.",
     "weight": "50 g",
     "volume": "250 ml",

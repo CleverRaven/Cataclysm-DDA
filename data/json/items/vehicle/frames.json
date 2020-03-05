@@ -80,7 +80,7 @@
   {
     "type": "GENERIC",
     "id": "frame_wood_light",
-    "name": "light wooden frame",
+    "name": { "str": "light wooden frame" },
     "description": "A small frame made of few pieces of wood, held together by rope.  Useful for crafting.",
     "weight": "4000 g",
     "to_hit": -5,
