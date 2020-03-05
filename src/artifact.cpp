@@ -455,7 +455,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         // Name    color  Material         Vol Wgt Enc MaxEnc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
             translate_marker( "Robe" ),   def_c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
-            { { bp_torso, bp_leg_l, bp_leg_r } }, false,
+            { { bp_chest, bp_abdomen, bp_pelvis, bp_leg_l, bp_leg_r } }, false,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
                     ARMORMOD_PADDED
@@ -465,7 +465,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 
         {
             translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  2,  80, 2,  1,  4,  1_liter, -6,  0, -3,
-            { bp_torso }, false,
+            { bp_chest, bp_abdomen }, false,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
                     ARMORMOD_PLATED

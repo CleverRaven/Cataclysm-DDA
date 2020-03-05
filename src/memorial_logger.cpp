@@ -173,12 +173,14 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     };
 
     file << _( "Final HP:" ) << eol;
-    limb_hp( _( " Head: %d/%d" ), hp_head );
-    limb_hp( _( "Torso: %d/%d" ), hp_torso );
-    limb_hp( _( "L Arm: %d/%d" ), hp_arm_l );
-    limb_hp( _( "R Arm: %d/%d" ), hp_arm_r );
-    limb_hp( _( "L Leg: %d/%d" ), hp_leg_l );
-    limb_hp( _( "R Leg: %d/%d" ), hp_leg_r );
+    limb_hp( _( " Head:  %d/%d" ), hp_head );
+    limb_hp( _( "Chest:  %d/%d" ), hp_chest );
+    limb_hp( _( "Abdomen: %d/%d" ), hp_abdomen );
+    limb_hp( _( "Pelvis: %d/%d" ), hp_pelvis );
+    limb_hp( _( "L Arm:  %d/%d" ), hp_arm_l );
+    limb_hp( _( "R Arm:  %d/%d" ), hp_arm_r );
+    limb_hp( _( "L Leg:  %d/%d" ), hp_leg_l );
+    limb_hp( _( "R Leg:  %d/%d" ), hp_leg_r );
     file << eol;
 
     //Stats

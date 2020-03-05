@@ -526,8 +526,8 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     }
 
     body_part_set drenchFlags{ {
-            bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-            bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+            bp_leg_l, bp_leg_r, bp_chest, bp_arm_l, bp_abdomen,
+            bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r, bp_pelvis
         }
     };
 
