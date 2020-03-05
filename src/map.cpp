@@ -4396,7 +4396,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     if( n.is_battery() ) {
                         n.set_energy( 1_kJ );
                     } else {
-                        n.ammo_set( "air", n.ammo_remaining() + 1 );
+                        n.ammo_set( "air", n.ammo_remaining() + 10 );
                     }
                 }
 

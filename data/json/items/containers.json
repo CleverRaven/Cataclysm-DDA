@@ -129,7 +129,7 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "air",
-    "capacity": 10000,
+    "capacity": 49000,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE_AIR" ]
   },
   {
@@ -147,7 +147,7 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "air",
-    "capacity": 5000,
+    "capacity": 25000,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE_AIR" ]
   },
   {
@@ -165,7 +165,7 @@
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "air",
-    "capacity": 2500,
+    "capacity": 13000,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE_AIR" ]
   },
   {

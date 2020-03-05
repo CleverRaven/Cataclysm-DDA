@@ -2117,9 +2117,14 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
 
 void activity_handlers::hand_pump_integral_do_turn( player_activity *act, player *p )
 {
+    int air_increase = 50;
     item &hand_pump_integral_item = p->i_at( act->position );
     // gun section
     if( hand_pump_integral_item.is_gun() ) {
+        air_increase = std::min( static_cast<int>
+                                 ( hand_pump_integral_item.type->gun->compressed_air_reservoir -
+                                   hand_pump_integral_item.get_var( "air_charge",
+                                           0 ) ), 50 );
         hand_pump_integral_item.set_var( "air_max",
                                          hand_pump_integral_item.type->gun->compressed_air_reservoir );
         if( calendar::once_every( 1_seconds ) && hand_pump_integral_item.get_var( "air_charge",
@@ -2128,7 +2133,7 @@ void activity_handlers::hand_pump_integral_do_turn( player_activity *act, player
             if( hand_pump_integral_item.get_var( "air_charge",
                                                  0 ) < hand_pump_integral_item.type->gun->compressed_air_reservoir ) {
                 hand_pump_integral_item.set_var( "air_charge", hand_pump_integral_item.get_var( "air_charge",
-                                                 0 ) + 50 );
+                                                 0 ) + air_increase );
             } else {
                 act->moves_left = 0;
                 add_msg( m_info, _( "You've filled the reservoir completely." ) );
@@ -2140,11 +2145,12 @@ void activity_handlers::hand_pump_integral_do_turn( player_activity *act, player
     if( hand_pump_integral_item.is_tool() ) {
         act->moves_left -= 100;
         item &hand_crank_item_air = p->i_at( act->position );
-
+        air_increase = std::min( static_cast<int>( hand_crank_item_air.ammo_capacity() -
+                                 hand_crank_item_air.ammo_remaining() ), 50 );
         if( calendar::once_every( 144_seconds ) ) {
             p->mod_fatigue( 1 );
             if( hand_crank_item_air.ammo_capacity() > hand_crank_item_air.ammo_remaining() ) {
-                hand_crank_item_air.ammo_set( "air", hand_crank_item_air.ammo_remaining() + 10 );
+                hand_crank_item_air.ammo_set( "air", hand_crank_item_air.ammo_remaining() + air_increase );
             }
         }
     }
