@@ -347,11 +347,13 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_good, _( "Your speed suddenly increases!" ) );
         if( one_in( 3 ) ) {
             add_msg_if_player( m_bad, _( "Your muscles tear with the strain." ) );
-            apply_damage( nullptr, bp_arm_l, rng( 5, 10 ) );
-            apply_damage( nullptr, bp_arm_r, rng( 5, 10 ) );
-            apply_damage( nullptr, bp_leg_l, rng( 7, 12 ) );
-            apply_damage( nullptr, bp_leg_r, rng( 7, 12 ) );
-            apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
+            apply_damage( nullptr, bp_arm_l,  rng( 5, 10 ) );
+            apply_damage( nullptr, bp_arm_r,  rng( 5, 10 ) );
+            apply_damage( nullptr, bp_leg_l,  rng( 7, 12 ) );
+            apply_damage( nullptr, bp_leg_r,  rng( 7, 12 ) );
+            apply_damage( nullptr, bp_chest,  rng( 5, 15 ) );
+            apply_damage( nullptr, bp_abdomen, rng( 5, 15 ) );
+            apply_damage( nullptr, bp_pelvis, rng( 5, 10 ) );
         }
         if( one_in( 5 ) ) {
             add_effect( effect_teleglow, rng( 5_minutes, 40_minutes ) );

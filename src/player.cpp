@@ -608,7 +608,7 @@ int player::swim_speed() const
     /** @EFFECT_SWIMMING increases swim speed */
     ret += ( 50 - get_skill_level( skill_swimming ) * 2 ) * ( ( encumb( bp_leg_l ) + encumb(
                 bp_leg_r ) ) / 10 );
-    ret += ( 80 - get_skill_level( skill_swimming ) * 3 ) * ( encumb( bp_torso ) / 10 );
+    ret += ( 80 - get_skill_level( skill_swimming ) * 3 ) * ( encumb( bp_chest ) / 10 );
     if( get_skill_level( skill_swimming ) < 10 ) {
         for( auto &i : worn ) {
             ret += i.volume() / 125_ml * ( 10 - get_skill_level( skill_swimming ) );
@@ -1056,8 +1056,8 @@ void player::pause()
         if( underwater ) {
             practice( skill_swimming, 1 );
             drench( 100, { {
-                    bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-                    bp_arm_r, bp_head, bp_eyes, bp_mouth,
+                    bp_leg_l, bp_leg_r, bp_chest, bp_arm_l, bp_pelvis,
+                    bp_arm_r, bp_head, bp_eyes, bp_mouth, bp_abdomen,
                     bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
                 }
             }, true );
@@ -1065,9 +1065,9 @@ void player::pause()
             practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
             drench( 100, { {
-                    bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
+                    bp_leg_l, bp_leg_r, bp_chest, bp_arm_l,
                     bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l,
-                    bp_hand_r
+                    bp_hand_r, bp_abdomen, bp_pelvis
                 }
             }, true );
         } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
@@ -1215,7 +1215,7 @@ int player::intimidation() const
 
 bool player::is_dead_state() const
 {
-    return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
+    return hp_cur[hp_head] <= 0 || hp_cur[hp_chest] <= 0;
 }
 
 void player::on_dodge( Creature *source, float difficulty )
@@ -1275,7 +1275,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
         damage_instance ods_shock_damage;
         ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
         // Should hit body part used for attack
-        source->deal_damage( this, bp_torso, ods_shock_damage );
+        source->deal_damage( this, bp_chest, ods_shock_damage );
     }
     if( !wearing_something_on( bp_hit ) &&
         ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
@@ -1293,7 +1293,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
         }
         damage_instance spine_damage;
         spine_damage.add_damage( DT_STAB, spine );
-        source->deal_damage( this, bp_torso, spine_damage );
+        source->deal_damage( this, bp_chest, spine_damage );
     }
     if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
         ( !( source->has_weapon() ) ) ) {
@@ -1310,7 +1310,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
         thorn_damage.add_damage( DT_CUT, thorn );
         // In general, critters don't have separate limbs
         // so safer to target the torso
-        source->deal_damage( this, bp_torso, thorn_damage );
+        source->deal_damage( this, bp_chest, thorn_damage );
     }
     if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
         if( !is_player() ) {
@@ -1456,7 +1456,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
             source->deal_damage( this, bp_arm_l, acidblood_damage );
             source->deal_damage( this, bp_arm_r, acidblood_damage );
         } else {
-            source->deal_damage( this, bp_torso, acidblood_damage );
+            source->deal_damage( this, bp_chest, acidblood_damage );
             source->deal_damage( this, bp_head, acidblood_damage );
         }
     }
@@ -1470,7 +1470,11 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
                 add_effect( effect_blind, rng( minblind, maxblind ) );
             }
             break;
-        case bp_torso:
+        case bp_chest:
+            break;
+        case bp_abdomen:
+            break;
+        case bp_pelvis:
             break;
         case bp_hand_l:
         // Fall through to arms
@@ -1522,7 +1526,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
                 }
             } else {
                 int prev_effect = get_effect_int( effect_grabbed );
-                add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 2 );
+                add_effect( effect_grabbed, 2_turns, bp_chest, false, prev_effect + 2 );
                 source->add_effect( effect_grabbing, 2_turns );
                 add_msg_player_or_npc( m_bad, _( "You are grabbed by %s!" ), _( "<npcname> is grabbed by %s!" ),
                                        source->disp_name() );
@@ -1671,7 +1675,7 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     hp_part hurtpart = bp_to_hp( hurt );
     if( hurtpart == num_hp_parts ) {
         debugmsg( "Wacky body part hurt!" );
-        hurtpart = hp_torso;
+        hurtpart = hp_chest;
     }
 
     mod_pain( dam / 2 );
@@ -1723,7 +1727,7 @@ float player::fall_damage_mod() const
     float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
     const float average_leg_encumb = ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2.0;
-    dex_dodge -= ( average_leg_encumb + encumb( bp_torso ) ) / 10;
+    dex_dodge -= ( average_leg_encumb + encumb( bp_chest ) ) / 10;
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
@@ -1884,15 +1888,15 @@ void player::knock_back_to( const tripoint &to )
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
-        deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
+        deal_damage( critter, bp_chest, damage_instance( DT_BASH, critter->type->size ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
             critter->knock_back_from( pos() ); // Chain reaction!
-            critter->apply_damage( this, bp_torso, ( str_max - 6 ) / 4 );
+            critter->apply_damage( this, bp_chest, ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         } else if( ( str_max - 6 ) / 4 == critter->type->size ) {
-            critter->apply_damage( this, bp_torso, ( str_max - 6 ) / 4 );
+            critter->apply_damage( this, bp_chest, ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         }
         critter->check_dead_state();
@@ -1903,9 +1907,9 @@ void player::knock_back_to( const tripoint &to )
     }
 
     if( npc *const np = g->critter_at<npc>( to ) ) {
-        deal_damage( np, bp_torso, damage_instance( DT_BASH, np->get_size() ) );
+        deal_damage( np, bp_chest, damage_instance( DT_BASH, np->get_size() ) );
         add_effect( effect_stunned, 1_turns );
-        np->deal_damage( this, bp_torso, damage_instance( DT_BASH, 3 ) );
+        np->deal_damage( this, bp_chest, damage_instance( DT_BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
                                np->name );
         np->check_dead_state();
@@ -1922,7 +1926,7 @@ void player::knock_back_to( const tripoint &to )
 
         // It's some kind of wall.
         // TODO: who knocked us back? Maybe that creature should be the source of the damage?
-        apply_damage( nullptr, bp_torso, 3 );
+        apply_damage( nullptr, bp_chest, 3 );
         add_effect( effect_stunned, 2_turns );
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
                                g->m.obstacle_name( to ) );
@@ -1937,8 +1941,8 @@ int player::hp_percentage() const
     int total_cur = 0;
     int total_max = 0;
     // Head and torso HP are weighted 3x and 2x, respectively
-    total_cur = hp_cur[hp_head] * 3 + hp_cur[hp_torso] * 2;
-    total_max = hp_max[hp_head] * 3 + hp_max[hp_torso] * 2;
+    total_cur = hp_cur[hp_head] * 3 + hp_cur[hp_chest] * 2;
+    total_max = hp_max[hp_head] * 3 + hp_max[hp_chest] * 2;
     for( int i = hp_arm_l; i < num_hp_parts; i++ ) {
         total_cur += hp_cur[i];
         total_max += hp_max[i];
@@ -2147,11 +2151,11 @@ void player::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
             if( bp == num_bp ) {
                 if( val > 5 ) {
-                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp_torso ) );
+                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp_chest ) );
                 } else {
-                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_torso ) );
+                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_chest ) );
                 }
-                apply_damage( nullptr, bp_torso, val, true );
+                apply_damage( nullptr, bp_chest, val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );

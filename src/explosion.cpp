@@ -288,9 +288,9 @@ static void do_blast( const tripoint &p, const float power,
         player *pl = dynamic_cast<player *>( critter );
         if( pl == nullptr ) {
             // TODO: player's fault?
-            const double dmg = force - critter->get_armor_bash( bp_torso ) / 2.0;
+            const double dmg = force - critter->get_armor_bash( bp_chest ) / 2.0;
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
-            critter->apply_damage( nullptr, bp_torso, actual_dmg );
+            critter->apply_damage( nullptr, bp_chest, actual_dmg );
             critter->check_dead_state();
             add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
             continue;
@@ -308,7 +308,9 @@ static void do_blast( const tripoint &p, const float power,
         };
 
         static const std::array<blastable_part, 6> blast_parts = { {
-                { bp_torso, 2.0f, 3.0f, 0.5f },
+                { bp_chest, 2.0f, 3.0f, 0.5f },
+                { bp_abdomen, 2.0f, 3.0f, 0.5f },
+                { bp_pelvis, 2.0f, 3.0f, 0.5f },
                 { bp_head,  2.0f, 3.0f, 0.5f },
                 // Hit limbs harder so that it hurts more without being much more deadly
                 { bp_leg_l, 2.0f, 3.5f, 0.4f },
@@ -688,7 +690,7 @@ void emp_blast( const tripoint &p )
                     add_msg( _( "The EMP blast fries the %s!" ), critter.name() );
                 }
                 int dam = dice( 10, 10 );
-                critter.apply_damage( nullptr, bp_torso, dam );
+                critter.apply_damage( nullptr, bp_chest, dam );
                 critter.check_dead_state();
                 if( !critter.is_dead() && one_in( 6 ) ) {
                     critter.make_friendly();
@@ -704,7 +706,7 @@ void emp_blast( const tripoint &p )
                          critter.name() );
                 add_msg( m_good, _( "It takes %d damage." ), dam );
                 critter.add_effect( effect_emp, 1_minutes );
-                critter.apply_damage( nullptr, bp_torso, dam );
+                critter.apply_damage( nullptr, bp_chest, dam );
                 critter.check_dead_state();
             }
         } else if( sight ) {

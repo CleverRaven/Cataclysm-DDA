@@ -1370,7 +1370,7 @@ void map::player_in_field( player &u )
                     // Before, it would just break the legs and leave the survivor alone
                     total_damage += burn_body_part( u, cur, bp_hand_l, 2 );
                     total_damage += burn_body_part( u, cur, bp_hand_r, 2 );
-                    total_damage += burn_body_part( u, cur, bp_torso, 2 );
+                    total_damage += burn_body_part( u, cur, bp_chest, 2 );
                     // Less arms = less ability to keep upright
                     if( ( !u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
                         total_damage += burn_body_part( u, cur, bp_arm_l, 1 );
@@ -1461,7 +1461,9 @@ void map::player_in_field( player &u )
                                 parts_burned.push_back( bp_arm_r );
                             /* fallthrough */
                             case 2:
-                                parts_burned.push_back( bp_torso );
+                                parts_burned.push_back( bp_chest  );
+                                parts_burned.push_back( bp_abdomen );
+                                parts_burned.push_back( bp_pelvis );
                             /* fallthrough */
                             case 1:
                                 parts_burned.push_back( bp_foot_l );

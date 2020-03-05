@@ -590,7 +590,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
     // Headshots considered elsewhere
     if( hit_value <= 0.4 || magic ) {
-        bp_hit = bp_torso;
+        bp_hit = bp_chest;
     } else if( one_in( 4 ) ) {
         if( one_in( 2 ) ) {
             bp_hit = bp_leg_l;
