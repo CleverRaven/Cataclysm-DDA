@@ -1,0 +1,30 @@
+[
+  {
+    "id": "child_book",
+    "copy-from": "child_book",
+    "type": "BOOK",
+    "name": { "str": "children's book" },
+    "description": "A little book for little readers.  The colorful cartoon characters and sweet stories contained herein belong to a different time, before the sky grew dark and the aliens arrived."
+  },
+  {
+    "id": "mag_news",
+    "copy-from": "mag_news",
+    "type": "BOOK",
+    "name": { "str": "TIME magazine" },
+    "description": "Current events concerning a bunch of people who're all dead now - or working for them."
+  },
+  {
+    "id": "ZSG",
+    "copy-from": "ZSG",
+    "type": "BOOK",
+    "name": { "str": "Zombie Survival Guide", "str_pl": "copies of Zombie Survival Guide" },
+    "description": "While this seems like it would be at least partially useful in this situation, the sheer amount of speculative fiction present makes it practically useless.  What the hell is a mi-go?  Aren't triffids from some ancient movie?"
+  },
+  {
+    "id": "mag_tv",
+    "copy-from": "mag_tv",
+    "type": "BOOK",
+    "name": { "str": "US Weekly", "str_pl": "US Weeklies" },
+    "description": "Current events concerning a bunch of people who're all dead now - or working for them."
+  }
+]
