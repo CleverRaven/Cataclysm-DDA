@@ -271,8 +271,7 @@ TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
 
             THEN( "they enjoy it" ) {
                 dummy.modify_morale( toastem );
-                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) );
-                CHECK( dummy.get_morale_level() > 10 );
+                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 10 );
             }
         }
 
@@ -284,16 +283,13 @@ TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
 
             THEN( "they get a morale penalty due to indigestion" ) {
                 dummy.modify_morale( toastem );
-                CHECK( dummy.has_morale( MORALE_NO_DIGEST ) );
-                CHECK( dummy.get_morale_level() <= -25 );
-                CHECK( dummy.get_morale_level() >= -125 );
+                CHECK( dummy.has_morale( MORALE_NO_DIGEST ) <= -25 );
             }
         }
     }
 }
 
-// FIXME: Also need at least 5 bear mutations
-TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey][!mayfail]" )
+TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
 {
     avatar dummy;
     std::pair<int, int> fun;
@@ -305,16 +301,24 @@ TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey][!mayfail]" )
         dummy.toggle_trait( trait_THRESH_URSINE );
         REQUIRE( dummy.has_trait( trait_THRESH_URSINE ) );
 
+        AND_GIVEN( "they have a lot of ursine mutations" ) {
+            dummy.mutate_towards( trait_FAT );
+            dummy.mutate_towards( trait_LARGE );
+            dummy.mutate_towards( trait_CLAWS );
+            dummy.mutate_towards( trait_BADTEMPER );
+            dummy.mutate_towards( trait_HIBERNATE );
+            dummy.mutate_towards( trait_URSINE_FUR );
+            dummy.mutate_towards( trait_URSINE_EYE );
+            dummy.mutate_towards( trait_PADDED_FEET );
+            REQUIRE( dummy.mutation_category_level["URSINE"] > 40 );
 
-        THEN( "they get a morale bonus for eating it" ) {
-            dummy.modify_morale( honeycomb );
+            THEN( "they get an extra honey morale bonus for eating it" ) {
+                dummy.modify_morale( honeycomb );
+                CHECK( dummy.has_morale( MORALE_HONEY ) > 0 );
 
-            // Should be greater than normal fun
-            fun = dummy.fun_for( honeycomb );
-            CHECK( dummy.get_morale_level() > fun.first );
-
-            AND_THEN( "they enjoy it" ) {
-                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) );
+                AND_THEN( "they enjoy it" ) {
+                    CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
+                }
             }
         }
     }
