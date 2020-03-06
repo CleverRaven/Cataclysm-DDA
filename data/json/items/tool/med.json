@@ -111,7 +111,7 @@
   {
     "id": "syringe",
     "type": "TOOL",
-    "name": "syringe",
+    "name": { "str": "syringe" },
     "description": "A medical syringe.  Used for administering intravenous drugs.",
     "weight": "10 g",
     "volume": "10ml",
