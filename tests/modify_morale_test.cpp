@@ -9,16 +9,6 @@
 #include "map_helpers.h"
 
 // Test cases for `Character::modify_morale` defined in `src/consumption.cpp`
-//
-// FIXME: the `fun_for` method itself has quite a few caveats and addendums
-// and stacks with other morale modifiers in `modify_morale`.
-
-
-// FIXME: NO FOOD IN THE GAME HAS THIS FLAG
-//
-// food with HIDDEN_HALLU flag
-// - gives MORALE_FOOD_GOOD
-// - even more so for SPIRITUAL trait
 
 TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
 {
@@ -30,7 +20,7 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
         fun = dummy.fun_for( toastem );
         REQUIRE( fun.first > 0 );
 
-        THEN( "character gets a morale bonus for it" ) {
+        THEN( "character gets a morale bonus becase it tastes good" ) {
             dummy.modify_morale( toastem );
             CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) >= fun.first );
         }
@@ -41,7 +31,7 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
         fun = dummy.fun_for( garlic );
         REQUIRE( fun.first < 0 );
 
-        THEN( "character gets a morale penalty for it" ) {
+        THEN( "character gets a morale penalty because it tastes bad" ) {
             dummy.modify_morale( garlic );
             CHECK( dummy.has_morale( MORALE_FOOD_BAD ) <= fun.first );
         }
@@ -115,9 +105,35 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     }
 }
 
-// hot food adds MORALE_FOOD_HOT
 TEST_CASE( "eating hot food", "[food][modify_morale][hot]" )
 {
+    avatar dummy;
+
+    GIVEN( "some food that tastes better when hot" ) {
+        item &bread = dummy.i_add( item( "sourdough_bread" ) );
+        REQUIRE( bread.has_flag( flag_EATEN_HOT ) );
+
+        WHEN( "it is hot" ) {
+            bread.set_flag( flag_HOT );
+            REQUIRE( bread.has_flag( flag_HOT ) );
+
+            THEN( "character gets a morale bonus for having a hot meal" ) {
+                dummy.clear_morale();
+                dummy.modify_morale( bread );
+                CHECK( dummy.has_morale( MORALE_FOOD_HOT ) > 0 );
+            }
+        }
+
+        WHEN( "it is not hot" ) {
+            REQUIRE_FALSE( bread.has_flag( flag_HOT ) );
+
+            THEN( "character does not get any morale bonus" ) {
+                dummy.clear_morale();
+                dummy.modify_morale( bread );
+                CHECK_FALSE( dummy.has_morale( MORALE_FOOD_HOT ) );
+            }
+        }
+    }
 }
 
 
