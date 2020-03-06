@@ -104,7 +104,12 @@
         "cooldown": 1,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 25, "armor_multiplier": 1.2 } ]
       },
-      { "type": "spell", "spell_data": { "id": "necrotic_gaze" }, "cooldown": 5, "monster_message": "The krabgek gazes at %3$s!" }
+      {
+        "type": "spell",
+        "spell_data": { "id": "necrotic_gaze" },
+        "cooldown": 5,
+        "monster_message": "The krabgek gazes at %3$s!"
+      }
     ]
   },
   {

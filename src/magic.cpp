@@ -1984,7 +1984,8 @@ spell fake_spell::get_spell( int min_level_override ) const
         min_level_override = spell_limiter;
     }
     // the "level" of the fake spell is the goal, but needs to be clamped to min and max
-    int level_of_spell = clamp( level, min_level_override,  std::min( sp.get_max_level(), spell_limiter ) );
+    int level_of_spell = clamp( level, min_level_override,  std::min( sp.get_max_level(),
+                                spell_limiter ) );
     if( level > spell_limiter ) {
         debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
         return sp;
