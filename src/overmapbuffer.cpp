@@ -600,7 +600,8 @@ void overmapbuffer::remove_vehicle( const vehicle *veh )
 
 void overmapbuffer::add_vehicle( vehicle *veh )
 {
-    const point omt = ms_to_omt_copy( g->m.getabs( veh->global_pos3().xy() ) );
+    const point abs_pos = g->m.getabs( veh->global_pos3().xy() );
+    const point omt = ms_to_omt_copy( abs_pos );
     const overmap_with_local_coords om_loc = get_om_global( omt );
     int id = om_loc.om->vehicles.size() + 1;
     // this *should* be unique but just in case
