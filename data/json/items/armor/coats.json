@@ -714,7 +714,7 @@
     "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "housecoat",
+    "looks_like": "house_coat",
     "color": "black",
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 60,
