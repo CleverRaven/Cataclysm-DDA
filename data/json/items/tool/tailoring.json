@@ -116,7 +116,7 @@
   {
     "id": "needle_wood",
     "type": "TOOL",
-    "name": "wooden needle",
+    "name": { "str": "wooden needle" },
     "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.  Its low quality makes it rather unsuitable for anything requiring speed or precision, or involving tougher materials like Kevlar.",
     "weight": "85 g",
     "volume": "250 ml",
