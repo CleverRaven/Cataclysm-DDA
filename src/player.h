@@ -938,7 +938,7 @@ class player : public Character
 
         bool reach_attacking = false;
         bool manual_examine = false;
-
+        vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
