@@ -132,9 +132,7 @@ class spell_type
         translation message;
         // spell sound effect
         translation sound_description;
-        skill_id skill = skill_id( "" );
-        sounds::sound_t sound_type;
-        bool sound_ambient;
+        skill_id skill;
         sounds::sound_t sound_type = sounds::sound_t::_LAST;
         bool sound_ambient = false;
         std::string sound_id;
