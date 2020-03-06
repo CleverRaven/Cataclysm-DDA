@@ -46,19 +46,14 @@
     "name": "Others"
   },
   {
-    "//": "Should be last in the list",
-    "type": "construction_category",
-    "id": "FILTER",
-    "name": "Filter"
-  },
-  {
     "type": "construction_category",
     "id": "WINDOWS",
     "name": "Windows"
   },
   {
+    "//": "Should be last in the list",
     "type": "construction_category",
-    "id": "SKYLIGHT",
-    "name": "Skylight"
+    "id": "FILTER",
+    "name": "Filter"
   }
 ]
