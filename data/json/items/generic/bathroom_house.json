@@ -135,7 +135,7 @@
   },
   {
     "id": "plunger_futuristic",
-    "name": "professional plunger",
+    "name": { "str": "professional plunger" },
     "type": "GENERIC",
     "description": "This hollow plastic toilet plunger's bell compresses like an accordion.  It is efficient at its intended purpose, and complete rubbish as a weapon.",
     "symbol": "p",

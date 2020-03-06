@@ -647,7 +647,7 @@
     "id": "stopcock",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "plastic stopcock",
+    "name": { "str": "plastic stopcock" },
     "description": "Stop giggling.  This is a tiny plastic valve, get your mind out of the gutter.",
     "weight": "5 g",
     "volume": "1ml",

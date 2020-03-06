@@ -96,7 +96,7 @@
     "id": "pool_ball",
     "symbol": "*",
     "color": "blue",
-    "name": "pool ball",
+    "name": { "str": "pool ball" },
     "description": "A colorful, hard ball.  Essentially a rock.",
     "category": "other",
     "price": 3000,
