@@ -109,7 +109,7 @@
   {
     "type": "GENERIC",
     "id": "programmable_autopilot",
-    "name": "programmable autopilot",
+    "name": { "str": "programmable autopilot" },
     "description": "A computer system hooked up to the steering and engine of a vehicle to allow it to follow simple paths.",
     "weight": "11246 g",
     "to_hit": -2,

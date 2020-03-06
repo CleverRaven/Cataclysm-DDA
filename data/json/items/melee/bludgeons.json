@@ -747,7 +747,7 @@
   {
     "type": "GENERIC",
     "id": "pool_cue",
-    "name": "pool cue",
+    "name": { "str": "pool cue" },
     "description": "A hard-wood stick designed for hitting colorful balls around a felt table.  Truly, the coolest of sports.",
     "weight": "520 g",
     "to_hit": 3,

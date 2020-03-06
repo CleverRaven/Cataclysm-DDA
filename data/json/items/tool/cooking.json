@@ -750,7 +750,7 @@
     "id": "pressure_cooker",
     "type": "GENERIC",
     "category": "tools",
-    "name": "pressure cooker",
+    "name": { "str": "pressure cooker" },
     "description": "Useful for boiling water when cooking spaghetti and more.  This sealed pot is designed to cook food at higher pressures and temperatures.  Can also be used for pressure sensitive chemical reactions.",
     "weight": "2200 g",
     "volume": "2500 ml",
