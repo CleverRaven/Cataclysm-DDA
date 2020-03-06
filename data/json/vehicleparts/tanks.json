@@ -168,7 +168,7 @@
     "type": "vehicle_part",
     "name": { "str": "steel drum (100L)" },
     "item": "30gal_drum",
-    "location": "center",
+    "location": "fuel_source",
     "symbol": "0",
     "color": "dark_gray",
     "broken_color": "red",
