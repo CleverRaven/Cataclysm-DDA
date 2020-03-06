@@ -125,7 +125,7 @@
     "material": [ "cotton", "neoprene", "rubber" ],
     "symbol": "[",
     "color": "black_green",
-    "covers": [ "TORSO", "ARMS", "LEGS" ],
+    "covers": [ "CHEST", "ABDOMEN", "PELVIS", "ARMS", "LEGS" ],
     "coverage": 100,
     "encumbrance": 13,
     "storage": "1250 ml",
