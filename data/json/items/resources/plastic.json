@@ -56,7 +56,7 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_plastic_groundsheet" }
   },
   {
-    "id": "rigid_plastic_sheet"
+    "id": "rigid_plastic_sheet",
     "type": "GENERIC",
     "category": "spare_parts",
     "name": "plastic sheet",

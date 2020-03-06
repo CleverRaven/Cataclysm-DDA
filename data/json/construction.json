@@ -687,7 +687,7 @@
     "id": "constr_wall_half_window_empty",
     "description": "Build Wood Wall",
     "//": "Step 1: half of a wall where a window used to be",
-    "category": "WINDOWS",
+    "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "50 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
@@ -3755,7 +3755,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "150 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "glass_sheet", 2 ] ], [ "reinforced_glass_sheet", 1 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
+    "components": [ [ [ "glass_sheet", 2 ] ], [ [ "reinforced_glass_sheet", 1 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_reinforced_triple_pane_glass"
   },
@@ -4005,7 +4005,7 @@
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ],
     "pre_terrain": "t_rock_roof",
     "post_terrain": "t_skylight_frame",
-    "tools": [ [ [ "pickaxe" ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ]
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ]
   },
   {
     "type": "construction",

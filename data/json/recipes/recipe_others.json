@@ -4558,6 +4558,6 @@
     "time": "1 h",
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "plastic_chunk", 200 ], ] ]
+    "components": [ [ [ "plastic_chunk", 200 ] ] ]
   }
 ]
