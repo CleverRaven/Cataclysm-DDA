@@ -713,7 +713,7 @@
     "type": "COMESTIBLE",
     "id": "burdock_wine",
     "name": { "str": "burdock wine", "str_pl": "burdock wine" },
-    "weight": "35 g",
+    "weight": "247 g",
     "color": "yellow",
     "addiction_type": "alcohol",
     "use_action": "ALCOHOL_WEAK",
