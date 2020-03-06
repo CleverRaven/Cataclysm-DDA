@@ -4179,7 +4179,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         //A near success
         p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ), z->name() );
         //damage it a little
-        z->apply_damage( p, bp_torso, rng( 1, 10 ) );
+        z->apply_damage( p, bp_chest, rng( 1, 10 ) );
         if( z->is_dead() ) {
             p->practice( skill_id( "computer" ), 10 );
             // Do not do the other effects if the robot died
@@ -4394,8 +4394,8 @@ void activity_handlers::hacking_finish( player_activity *act, player *p )
 
 static void blood_magic( player *p, int cost )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<body_part, 8> part = { {
+            bp_head, bp_chest, bp_abdomen, bp_pelvis, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
         }
     };
     int max_hp_part = 0;
