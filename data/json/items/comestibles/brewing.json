@@ -263,7 +263,7 @@
     "id": "brew_burdock_wine",
     "name": "burdock wine must",
     "description": "Unfermented burdock wine.  A sticky mixture of water, sugar, yeast, and burdock roots.",
-    "weight": "38 g",
+    "weight": "250 g",
     "color": "yellow",
     "container": "bottle_glass",
     "symbol": "~",
