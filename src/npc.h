@@ -15,7 +15,6 @@
 #include <functional>
 
 #include "calendar.h"
-#include "cata_string_consts.h"
 #include "faction.h"
 #include "line.h"
 #include "lru_cache.h"
@@ -118,16 +117,16 @@ class job_data
 {
     private:
         std::map<activity_id, int> task_priorities = {
-            { ACT_MULTIPLE_BUTCHER, 0 },
-            { ACT_MULTIPLE_CONSTRUCTION, 0 },
-            { ACT_VEHICLE_REPAIR, 0 },
-            { ACT_VEHICLE_DECONSTRUCTION, 0 },
-            { ACT_MULTIPLE_FARM, 0 },
-            { ACT_MULTIPLE_CHOP_TREES, 0 },
-            { ACT_MULTIPLE_CHOP_PLANKS, 0 },
-            { ACT_MULTIPLE_FISH, 0 },
-            { ACT_MOVE_LOOT, 0 },
-            { ACT_TIDY_UP, 0 },
+            { activity_id( "ACT_MULTIPLE_BUTCHER" ), 0 },
+            { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), 0 },
+            { activity_id( "ACT_VEHICLE_REPAIR" ), 0 },
+            { activity_id( "ACT_VEHICLE_DECONSTRUCTION" ), 0 },
+            { activity_id( "ACT_MULTIPLE_FARM" ), 0 },
+            { activity_id( "ACT_MULTIPLE_CHOP_TREES" ), 0 },
+            { activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ), 0 },
+            { activity_id( "ACT_MULTIPLE_FISH" ), 0 },
+            { activity_id( "ACT_MOVE_LOOT" ), 0 },
+            { activity_id( "ACT_TIDY_UP" ), 0 },
         };
     public:
         bool set_task_priority( const activity_id task, int new_priority ) {
