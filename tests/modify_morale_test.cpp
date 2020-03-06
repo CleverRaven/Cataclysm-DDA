@@ -1,8 +1,12 @@
 #include "avatar.h"
 #include "character.h"
-#include "catch/catch.hpp"
 #include "cata_string_consts.h"
+#include "game.h"
+#include "map.h"
 #include "morale.h"
+
+#include "catch/catch.hpp"
+#include "map_helpers.h"
 
 // Test cases for `Character::modify_morale` defined in `src/consumption.cpp`
 //
@@ -43,6 +47,79 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
         }
     }
 }
+
+TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" )
+{
+    clear_map();
+    avatar dummy;
+    const tripoint avatar_pos( 60, 60, 0 );
+    dummy.setpos( avatar_pos );
+
+    // Morale bonus only applies to unspoiled food that is not junk
+    item &bread = dummy.i_add( item( "sourdough_bread" ) );
+    REQUIRE( bread.is_fresh() );
+    REQUIRE_FALSE( bread.has_flag( flag_ALLERGEN_JUNK ) );
+
+    GIVEN( "no table or chair are nearby" ) {
+        REQUIRE_FALSE( g->m.has_nearby_table( dummy.pos(), 1 ) );
+        REQUIRE_FALSE( g->m.has_nearby_chair( dummy.pos(), 1 ) );
+
+        AND_GIVEN( "character has normal table manners" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_TABLEMANNERS ) );
+
+            THEN( "their morale is unaffected by eating without a table" ) {
+                dummy.clear_morale();
+                dummy.modify_morale( bread );
+                CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) );
+            }
+        }
+
+        AND_GIVEN( "character has strict table manners" ) {
+            dummy.toggle_trait( trait_TABLEMANNERS );
+            REQUIRE( dummy.has_trait( trait_TABLEMANNERS ) );
+
+            THEN( "they get a morale penalty for eating without a table" ) {
+                dummy.clear_morale();
+                dummy.modify_morale( bread );
+                CHECK( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) <= -2 );
+            }
+        }
+    }
+
+    GIVEN( "a table and chair are nearby" ) {
+        g->m.furn_set( avatar_pos + tripoint_north, furn_id( "f_table" ) );
+        g->m.furn_set( avatar_pos + tripoint_east, furn_id( "f_chair" ) );
+        REQUIRE( g->m.has_nearby_table( dummy.pos(), 1 ) );
+        REQUIRE( g->m.has_nearby_chair( dummy.pos(), 1 ) );
+
+        AND_GIVEN( "character has normal table manners" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_TABLEMANNERS ) );
+
+            THEN( "they get a minimal morale bonus for eating with a table" ) {
+                dummy.clear_morale();
+                dummy.modify_morale( bread );
+                CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 1 );
+            }
+        }
+
+        AND_GIVEN( "character has strict table manners" ) {
+            dummy.toggle_trait( trait_TABLEMANNERS );
+            REQUIRE( dummy.has_trait( trait_TABLEMANNERS ) );
+
+            THEN( "they get a small morale bonus for eating with a table" ) {
+                dummy.clear_morale();
+                dummy.modify_morale( bread );
+                CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 3 );
+            }
+        }
+    }
+}
+
+// hot food adds MORALE_FOOD_HOT
+TEST_CASE( "eating hot food", "[food][modify_morale][hot]" )
+{
+}
+
 
 TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
 {
@@ -323,20 +400,4 @@ TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
         }
     }
 }
-
-// hot food morale bonus lasts 3 hours
-// hot food adds MORALE_FOOD_HOT
-TEST_CASE( "eating hot food", "[food][modify_morale][hot]" )
-{
-}
-
-
-// non-rotten food that you're not allergic to:
-// - gives ATE_WITH_TABLE if table and chair are near
-// - gives ATE_WITHOUT_TABLE (bad) if TABLEMANNERS trait
-//
-TEST_CASE( "eating with a table", "[food][modify_morale][table]" )
-{
-}
-
 
