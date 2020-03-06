@@ -4091,8 +4091,8 @@ void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
     sfx::play_activity_sound( "tool", "jackhammer",
                               sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a jackhammer at work!
         sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::destructive_activity,
+                       //~ Sound of a jackhammer at work!
                        _( "TATATATATATATAT!" ) );
     }
 }
