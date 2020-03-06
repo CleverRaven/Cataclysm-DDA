@@ -90,6 +90,8 @@ static const std::string flag_PERPETUAL( "PERPETUAL" );
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
+static const itype_id fuel_type_mana( "mana" );
+
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
 
