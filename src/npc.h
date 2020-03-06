@@ -766,6 +766,7 @@ enum offscreen_job_status {
 class npc_offscreen_job
 {
     public:
+        virtual ~npc_offscreen_job() { }
         bool at_capacity_or_over_time_limit_for_travel_job( npc &guy ) const;
         int get_work_completion() const {
             return offscreen_work_completed;
