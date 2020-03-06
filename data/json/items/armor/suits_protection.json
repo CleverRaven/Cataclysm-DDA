@@ -103,7 +103,7 @@
     "id": "armor_farmor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "fur body armor",
+    "name": { "str": "fur body armor" },
     "description": "Thick body armor made from furs.  Warm and comfortable.",
     "weight": "3414 g",
     "volume": "10 L",
@@ -503,7 +503,7 @@
   {
     "id": "gambeson",
     "type": "ARMOR",
-    "name": "gambeson",
+    "name": { "str": "gambeson" },
     "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  Or worn on its own, if you can't afford proper armor.",
     "weight": "453 g",
     "volume": "3 L",

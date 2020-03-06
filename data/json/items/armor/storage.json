@@ -59,7 +59,7 @@
     "id": "backpack_giant",
     "repairs_like": "bigback",
     "type": "ARMOR",
-    "name": "giant novelty backpack",
+    "name": { "str": "giant novelty backpack" },
     "description": "A huge fabric backpack made mostly as a joke before the Cataclysm.  Now, it's still rather silly, but it can store a lot of stuff.",
     "weight": "1200 g",
     "volume": "8750 ml",

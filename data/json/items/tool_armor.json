@@ -70,7 +70,7 @@
   {
     "id": "gobag",
     "type": "ARMOR",
-    "name": "go bag",
+    "name": { "str": "go bag" },
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Activate to unpack and enjoy.",
     "weight": "18043 g",
     "volume": "35750 ml",

@@ -48,7 +48,7 @@
   {
     "id": "coat_fur",
     "type": "ARMOR",
-    "name": "fur coat",
+    "name": { "str": "fur coat" },
     "description": "A fur coat with a couple small pockets.  Extremely warm.",
     "weight": "1677 g",
     "volume": "5750 ml",
@@ -217,7 +217,7 @@
   {
     "id": "duster_fur",
     "type": "ARMOR",
-    "name": "fur duster",
+    "name": { "str": "fur duster" },
     "description": "A thick fur full-length duster.  Has many pockets for storage.",
     "weight": "2362 g",
     "volume": "9750 ml",
@@ -1093,7 +1093,7 @@
   {
     "id": "trenchcoat_fur",
     "type": "ARMOR",
-    "name": "fur trenchcoat",
+    "name": { "str": "fur trenchcoat" },
     "description": "A thick fur trenchcoat, lined with pockets.  Great for storage.",
     "weight": "1750 g",
     "volume": "7250 ml",
