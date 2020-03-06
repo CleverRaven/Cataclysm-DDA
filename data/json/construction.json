@@ -3703,7 +3703,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "glass_sheet", 1 ] ], [ "reinforced_glass_sheet", 1 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
+    "components": [ [ [ "glass_sheet", 1 ] ], [ [ "reinforced_glass_sheet", 1 ] ], [ [ "nail", 16 ] ], [ [ "2x4", 4 ] ] ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_reinforced_double_pane_glass"
   },
