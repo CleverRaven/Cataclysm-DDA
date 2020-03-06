@@ -219,7 +219,7 @@
   {
     "id": "hat_fur",
     "type": "ARMOR",
-    "name": "fur hat",
+    "name": { "str": "fur hat" },
     "description": "A hat made from the pelts of animals.  Extremely warm.",
     "weight": "246 g",
     "volume": "750 ml",

@@ -36,7 +36,7 @@
   {
     "id": "crown_golden",
     "type": "ARMOR",
-    "name": "golden crown",
+    "name": { "str": "golden crown" },
     "description": "A delicate golden crown featuring flowering trees.",
     "weight": "1000 g",
     "volume": "1 L",
@@ -54,7 +54,7 @@
   {
     "id": "crown_golden_survivor",
     "type": "ARMOR",
-    "name": "golden crown",
+    "name": { "str": "golden crown" },
     "description": "A golden crown for the monarch of survivors.",
     "weight": "1000 g",
     "volume": "1 L",
@@ -124,7 +124,7 @@
   {
     "id": "sleeping_bag_fur",
     "type": "ARMOR",
-    "name": "fur sleeping bag",
+    "name": { "str": "fur sleeping bag" },
     "description": "A large sleeping bag lined with fur.  Who needs a tent?",
     "weight": "1175 g",
     "volume": "4500 ml",

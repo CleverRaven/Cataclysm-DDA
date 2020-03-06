@@ -73,7 +73,7 @@
   {
     "id": "bikini_top_fur",
     "type": "ARMOR",
-    "name": "fur bikini top",
+    "name": { "str": "fur bikini top" },
     "description": "A simple fur bikini top.",
     "weight": "44 g",
     "volume": "250 ml",
@@ -235,7 +235,7 @@
   {
     "id": "chestwrap_fur",
     "type": "ARMOR",
-    "name": "fur chestwrap",
+    "name": { "str": "fur chestwrap" },
     "description": "Fur pelts wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "154 g",
     "volume": "750 ml",
