@@ -168,7 +168,7 @@
   },
   {
     "id": "mask_hockey",
-    "repairs_like": "gas_mask",
+    "repairs_like": "mask_gas",
     "type": "ARMOR",
     "category": "armor",
     "name": "hockey mask",
