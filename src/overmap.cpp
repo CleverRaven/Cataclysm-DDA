@@ -437,7 +437,8 @@ const std::vector<overmap_special> &overmap_specials::get_all()
 
 overmap_special_batch overmap_specials::get_default_batch( const point &origin )
 {
-    const int city_size = get_option<int>( "CITY_SIZE" );
+    const int city_size = overmap_buffer.get_existing_om_global(
+                              origin ).om->get_settings().city_spec.city_size;
     std::vector<const overmap_special *> res;
 
     res.reserve( specials.size() );
@@ -1092,7 +1093,6 @@ void overmap::select_region_settings( const point &p )
     }
 
     //TODO: Randomize through the array rather than iterate. Provides a better chance of 'picking' biomes deeper into map.
-    //TODO: Place majority of below into a function, rather distracting having all this in the constructor.
     t_regional_settings_map_citr it = region_settings_map.begin();
     bool biome_selected = false;
     while( !biome_selected ) {
@@ -4133,8 +4133,7 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
         const auto &special = *iter->special_details;
         // If we haven't finished placing minimum instances of all specials,
         // skip specials that are at their minimum count already.
-        if( !place_optional && iter->instances_placed >= special.occurrences.min &&
-            iter->instances_placed > 0 ) {
+        if( !place_optional && iter->instances_placed >= special.occurrences.min ) {
             continue;
         }
         // City check is the fastest => it goes first.
@@ -4149,7 +4148,8 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
 
         place_special( special, p, rotation, nearest_city, false, must_be_unexplored );
 
-        if( ++iter->instances_placed >= special.occurrences.max ) {
+        if( ++iter->instances_placed >= special.occurrences.max ||
+            iter->instances_placed >= iter->biome_max_instances ) {
             enabled_specials.erase( iter );
         }
 
@@ -4217,21 +4217,20 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         // Intercept the occurrences min/max and use our region settings instead if valid.
         // Get specials flag, compare against any in our region settings and if we find a match, swap it...
         for( std::pair<std::string, int> ele : settings.overmap_feature_flag.special_counts ) {
-            std::string flag = ele.first;
-            int count = ele.second;
+            const std::string flag = ele.first;
 
             //Unique flags handled seperately
             if( iter->special_details->flags.count( flag ) > 0 &&
                 iter->special_details->flags.count( "UNIQUE" ) <= 0 ) {
+                const int count = ele.second;
                 const int max = iter->special_details->occurrences.max;
 
-                if( ( max - count ) <= 0 ) {
+                if( count <= 0 ) {
                     iter = enabled_specials.erase( iter );
                     continue;
                 }
 
-                //TODO: Something...more robust. This feels like a hack.
-                iter->instances_placed = max - count;
+                iter->biome_max_instances = count;
             }
         }
 
@@ -4253,6 +4252,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
                 // Min and max are overloaded to be the chance of occurrence,
                 // so reset instances placed to one short of max so we don't place several.
                 iter->instances_placed = max - 1;
+
             } else {
                 iter = enabled_specials.erase( iter );
                 continue;
@@ -4284,7 +4284,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     if( std::any_of( custom_overmap_specials.begin(), custom_overmap_specials.end(),
     []( overmap_special_placement placement ) {
     return ( placement.instances_placed <
-             placement.special_details->occurrences.min && placement.instances_placed >= 0 );
+             placement.special_details->occurrences.min &&
+             placement.instances_placed < placement.biome_max_instances );
     } ) ) {
         // Randomly select from among the nearest uninitialized overmap positions.
         int previous_distance = 0;
@@ -4341,7 +4342,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
 
             // If, after incrementing the placement count, we're at our max, remove
             // this special from our list.
-            if( it->instances_placed >= it->special_details->occurrences.max ) {
+            if( it->instances_placed >= it->special_details->occurrences.max ||
+                it->instances_placed >= it->biome_max_instances ) {
                 it = enabled_specials.erase( it );
             } else {
                 it++;

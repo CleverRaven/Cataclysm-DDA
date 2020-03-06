@@ -17,7 +17,7 @@ as follows:
 | `weather`                       | Defines the base weather attributes for the region.                   |
 | `overmap_feature_flag_settings` | Defines operations on overmap features based on their flags.          |
 
-Note that for the default region, all attributes and sections are required.
+Note that for the default region, all attributes and sections are required. 
 
 ### Fields
 
@@ -25,6 +25,9 @@ Note that for the default region, all attributes and sections are required.
 | ----------------------- | ------------------------------------------------------------------ |
 | `type`                  | Type identifier. Must be "region_settings".                        |
 | `id`                    | Unique identfier for this region.                                  |
+| `biome`                 | Biome settings to be used for this region.                         |
+| `max_instances`         | Maximum instances of this region that can be generated.            |
+| `near_biomes`           | Multipliers to adjust spawning based on neighbour biomes.          |
 | `default_oter`          | Default overmap terrain for this region.                           |
 | `default_groundcover`   | List of terrain types and weights applied as default ground cover. |
 
@@ -34,6 +37,9 @@ Note that for the default region, all attributes and sections are required.
 {
 	"type": "region_settings",
 	"id": "default",
+    "biome": "default",
+    "max_instances": -1,
+    "near_biomes": [ ["default", 1.0] ]
 	"default_oter": "field",
 	"default_groundcover": [
 		["t_grass", 4],
@@ -418,13 +424,16 @@ When picking a building to place in a given location, the game considers the cit
 location's distance from the city center, and finally the `shop_radius` and `park_radius` values for
 the region. It then tries to place a shop, then a park, and finally a house, where the chance to
 place the shop or park are based on the formula `rng( 0, 99 ) > X_radius * distance from city center
-/ city size`.
+/ city size`. City size and spacing are optional attributes used to override the city size and spacing for
+this region.
 
 ### Example
 ```json
 {
 	"city": {
 		"type": "town",
+        "city_spacing": 4,
+        "city_size": 8,
 		"shop_radius": 80,
 		"park_radius": 90,
 		"house_basement_chance": 5,
@@ -526,6 +535,7 @@ This is currently used to provide a mechanism for whitelisting and blacklisting 
 | `blacklist`       | List of flags. Any location with a matching flag will be excluded from overmap generation. |
 | `clear_whitelist` | Clear all previously defined `whitelist`.                                                  |
 | `whitelist`       | List of flags. Only locations with a matching flag will be included in overmap generation. |
+| `special_counts`  | Used to restrict maximum spawns of specials within this region.
 
 ### Example
 
@@ -535,7 +545,8 @@ This is currently used to provide a mechanism for whitelisting and blacklisting 
 		"clear_blacklist": false,
 		"blacklist": [ "FUNGAL" ],
 		"clear_whitelist": false,
-		"whitelist": []
+		"whitelist": [],
+        "special_counts": [ { "flag": "LAB", "count": 2 } ]
 	}
 }
 ```

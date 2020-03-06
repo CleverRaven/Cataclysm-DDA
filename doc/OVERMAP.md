@@ -376,6 +376,34 @@ REGION_SETTINGS.md for more details.
 ]
 ```
 
+## Overmap Biome
+
+### Fields
+
+| Identifier |                                           Description                                           |
+| ---------- | ----------------------------------------------------------------------------------------------- |
+| `type`     | Must be "overmap_biome".                                                                  	   |
+| `id`       | Unique id.                                                                                      |
+| `weight`   | Weight to determine base chance of this biome being generated. -1 will restrict this biome.	   |
+
+
+### Example
+
+```json
+[
+  {
+    "type": "overmap_biome",
+    "id": "default",
+    "weight": 1
+  },
+  {
+    "type": "overmap_biome",
+    "id": "undefined",
+    "weight": -1
+  }
+]
+```
+
 ## Overmap Connection
 
 ### Fields

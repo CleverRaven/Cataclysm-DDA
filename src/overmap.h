@@ -115,6 +115,7 @@ struct om_special_sectors {
 struct overmap_special_placement {
     int instances_placed;
     const overmap_special *special_details;
+    int biome_max_instances;
 };
 
 // A batch of overmap specials to place.
@@ -126,7 +127,7 @@ class overmap_special_batch
             origin_overmap( origin ) {
             std::transform( specials.begin(), specials.end(),
             std::back_inserter( placements ), []( const overmap_special * elem ) {
-                return overmap_special_placement{ 0, elem };
+                return overmap_special_placement{ 0, elem, 0 };
             } );
         }
 
