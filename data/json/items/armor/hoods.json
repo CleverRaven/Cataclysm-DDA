@@ -1,9 +1,9 @@
 [
   {
     "id": "beekeeping_hood",
-    "repairs_like": "balaclava",
+    "repairs_like": "balclava",
     "type": "ARMOR",
-    "name": "beekeeping hood",
+    "name": { "str": "beekeeping hood" },
     "description": "A beekeeping hood.  Keeps the bees out, but lets fresh air in.  Rather cumbersome to wear, as it is rather bulky and hinders vision.",
     "weight": "260 g",
     "volume": "1500 ml",
@@ -24,7 +24,7 @@
     "id": "chainmail_hood",
     "type": "ARMOR",
     "category": "armor",
-    "name": "chainmail coif",
+    "name": { "str": "chainmail coif" },
     "description": "A customized chainmail hood.  Can be worn comfortably under helmets.",
     "weight": "2006 g",
     "volume": "500 ml",
@@ -156,7 +156,7 @@
     "id": "hood_xlsurvivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "XL survivor hood",
+    "name": { "str": "XL survivor hood" },
     "description": "A massive customized, heavily armored leather and Kevlar hood, designed to provide comfort and protection from harm.",
     "weight": "1640 g",
     "volume": "4500 ml",
@@ -179,7 +179,7 @@
   {
     "id": "nomex_hood",
     "type": "ARMOR",
-    "name": "flame-resistant hood",
+    "name": { "str": "flame-resistant hood" },
     "description": "A snug fitting garment that protects your head and neck, made from lightweight Nomex fire-resistant fabric.  Tough yet breathable, it is light and comfortable to wear under clothing.",
     "weight": "210 g",
     "volume": "500 ml",

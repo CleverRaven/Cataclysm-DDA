@@ -87,7 +87,7 @@ int topic_category( const talk_topic &the_topic );
 
 const talk_topic &special_talk( char ch );
 
-std::string give_item_to( npc &p, bool allow_use, bool allow_carry );
+std::string give_item_to( npc &p, bool allow_use );
 
 std::string talk_trial::name() const
 {
@@ -1970,31 +1970,25 @@ void talk_effect_fun_t::set_u_sell_item( const std::string &item_name, int cost,
     function = [item_name, cost, count]( const dialogue & d ) {
         npc &p = *d.beta;
         player &u = *d.alpha;
-        item old_item = item( item_name, calendar::turn );
-        if( u.has_charges( item_name, count ) ) {
-            u.use_charges( item_name, count );
+        if( item::count_by_charges( item_name ) && u.has_charges( item_name, count ) ) {
+            for( const item &it : u.use_charges( item_name, count ) ) {
+                p.i_add( it );
+            }
         } else if( u.has_amount( item_name, count ) ) {
-            u.use_amount( item_name, count );
+            for( const item &it : u.use_amount( item_name, count ) ) {
+                p.i_add( it );
+            }
         } else {
             //~ %1$s is a translated item name
-            popup( _( "You don't have a %1$s!" ), old_item.tname() );
+            popup( _( "You don't have a %1$s!" ), item::nname( item_name ) );
             return;
         }
-        if( old_item.count_by_charges() ) {
-            old_item.mod_charges( count - 1 );
-            p.i_add( old_item );
-        } else {
-            for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
-                p.i_add( old_item );
-            }
-        }
-
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
-            popup( _( "You give %1$s a %2$s." ), p.name, old_item.tname() );
+            popup( _( "You give %1$s a %2$s." ), p.name, item::nname( item_name ) );
         } else {
             //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-            popup( _( "You give %1$s %2$d %3$s." ), p.name, count, old_item.tname() );
+            popup( _( "You give %1$s %2$d %3$s." ), p.name, count, item::nname( item_name, count ) );
         }
         p.op_of_u.owed += cost;
     };
@@ -2243,7 +2237,7 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
 void talk_effect_fun_t::set_npc_gets_item( bool to_use )
 {
     function = [to_use]( const dialogue & d ) {
-        d.reason = give_item_to( *( d.beta ), to_use, !to_use );
+        d.reason = give_item_to( *( d.beta ), to_use );
     };
 }
 
@@ -3094,9 +3088,8 @@ void load_talk_topic( const JsonObject &jo )
     }
 }
 
-std::string npc::pick_talk_topic( const player &u )
+std::string npc::pick_talk_topic( const player &/*u*/ )
 {
-    ( void )u;
     if( personality.aggression > 0 ) {
         if( op_of_u.fear * 2 < personality.bravery && personality.altruism < 0 ) {
             set_attitude( NPCATT_MUG );
@@ -3154,6 +3147,8 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
         if( !p.eat( to_eat ) ) {
             reason = _( "It doesn't look like a good idea to consume this…" );
             return REFUSED;
+        } else {
+            reason = _( "Thanks, that hit the spot." );
         }
     } else if( to_eat.is_medication() || to_eat.get_contained().is_medication() ) {
         if( comest->tool != "null" ) {
@@ -3167,6 +3162,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
                 return REFUSED;
             }
             p.use_charges( comest->tool, 1 );
+            reason = _( "Thanks, I feel better already." );
         }
         if( to_eat.type->has_use() ) {
             amount_used = to_eat.type->invoke( p, to_eat, p.pos() );
@@ -3196,7 +3192,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     return CONSUMED_ALL;
 }
 
-std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
+std::string give_item_to( npc &p, bool allow_use )
 {
     if( p.is_hallucination() ) {
         return _( "No thanks, I'm good." );
@@ -3218,84 +3214,80 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         return _( "Are you <swear> insane!?" );
     }
 
-    std::string no_consume_reason;
-    if( allow_use ) {
-        // Eating first, to avoid evaluating bread as a weapon
-        const auto consume_res = try_consume( p, given, no_consume_reason );
-        if( consume_res == CONSUMED_ALL ) {
-            g->u.i_rem( &given );
-        }
-        if( consume_res != REFUSED ) {
-            g->u.moves -= 100;
-            if( given.is_container() ) {
-                given.on_contents_changed();
-            }
-            return _( "Here we go…" );
-        }
-    }
-
     bool taken = false;
+    std::string reason = _( "Nope." );
     int our_ammo = p.ammo_count_for( p.weapon );
     int new_ammo = p.ammo_count_for( given );
     const double new_weapon_value = p.weapon_value( given, new_ammo );
     const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
+    add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
+             p.weapon.typeId(), our_ammo, cur_weapon_value );
+    add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
+             given.typeId(), new_ammo, new_weapon_value );
     if( allow_use ) {
-        add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
-                 p.weapon.type->get_id(), our_ammo, cur_weapon_value );
-        add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-                 given.type->get_id(), new_ammo, new_weapon_value );
-        if( new_weapon_value > cur_weapon_value ) {
+        // Eating first, to avoid evaluating bread as a weapon
+        const auto consume_res = try_consume( p, given, reason );
+        if( consume_res != REFUSED ) {
+            if( consume_res == CONSUMED_ALL ) {
+                g->u.i_rem( &given );
+            }
+            g->u.moves -= 100;
+            if( given.is_container() ) {
+                given.on_contents_changed();
+            }
+        }// wield it if its a weapon
+        else if( new_weapon_value > cur_weapon_value ) {
             p.wield( given );
+            reason = _( "Thanks, I'll wield that now." );
             taken = true;
+        }// HACK: is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
+        else if( !given.is_gun() && given.is_armor() ) {
+            //if it is impossible to wear return why
+            ret_val<bool> can_wear = p.can_wear( given, true );
+            if( !can_wear.success() ) {
+                reason = can_wear.str();
+            } else {
+                //if we can wear it with equip changes prompt first
+                can_wear = p.can_wear( given );
+                if( ( can_wear.success() ||
+                      query_yn( can_wear.str() + _( " Should I take something off?" ) ) )
+                    && p.wear_if_wanted( given, reason ) ) {
+                    taken = true;
+                } else {
+                    reason = can_wear.str();
+                }
+            }
+        } else {
+            reason += string_format(
+                          _( "My current weapon is better than this.\n(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
+                          cur_weapon_value );
         }
-
-        // HACK: is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
-        if( !taken && !given.is_gun() && p.wear_if_wanted( given ) ) {
+    } else {//allow_use is false so try to carry instead
+        if( p.can_pickVolume( given ) && p.can_pickWeight( given ) ) {
+            reason = _( "Thanks, I'll carry that now." );
             taken = true;
+            p.i_add( given );
+        } else {
+            if( !p.can_pickVolume( given ) ) {
+                const units::volume free_space = p.volume_capacity() - p.volume_carried();
+                reason += "\n" + std::string( _( "I have no space to store it." ) ) + "\n";
+                if( free_space > 0_ml ) {
+                    reason += string_format( _( "I can only store %s %s more." ),
+                                             format_volume( free_space ), volume_units_long() );
+                } else {
+                    reason += _( "…or to store anything else for that matter." );
+                }
+            }
+            if( !p.can_pickWeight( given ) ) {
+                reason += std::string( "\n" ) + _( "It is too heavy for me to carry." );
+            }
         }
-    }
-
-    if( !taken && allow_carry &&
-        p.can_pickVolume( given ) &&
-        p.can_pickWeight( given ) ) {
-        taken = true;
-        p.i_add( given );
     }
 
     if( taken ) {
         g->u.i_rem( &given );
         g->u.moves -= 100;
         p.has_new_items = true;
-        return _( "Thanks!" );
-    }
-
-    std::string reason = _( "Nope." );
-    if( allow_use ) {
-        if( !no_consume_reason.empty() ) {
-            reason += no_consume_reason + "\n";
-        }
-
-        reason += _( "My current weapon is better than this." );
-        reason += "\n" + string_format( _( "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
-                                        cur_weapon_value );
-        if( !given.is_gun() && given.is_armor() ) {
-            reason += std::string( "\n" ) + _( "It's too encumbering to wear." );
-        }
-    }
-    if( allow_carry ) {
-        if( !p.can_pickVolume( given ) ) {
-            const units::volume free_space = p.volume_capacity() - p.volume_carried();
-            reason += "\n" + std::string( _( "I have no space to store it." ) ) + "\n";
-            if( free_space > 0_ml ) {
-                reason += string_format( _( "I can only store %s %s more." ),
-                                         format_volume( free_space ), volume_units_long() );
-            } else {
-                reason += _( "…or to store anything else for that matter." );
-            }
-        }
-        if( !p.can_pickWeight( given ) ) {
-            reason += std::string( "\n" ) + _( "It is too heavy for me to carry." );
-        }
     }
 
     return reason;

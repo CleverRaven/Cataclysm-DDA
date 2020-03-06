@@ -139,6 +139,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             if( has_init_filter ) {
                 inv_s.set_filter( init_filter );
                 has_init_filter = false;
+                inv_s.update( need_refresh );
             }
             // Set position after filter to keep cursor at the right position
             if( init_selection ) {
@@ -978,7 +979,7 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_book();
+            return loc->is_book() || loc->type->can_use( "learn_spell" );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -990,7 +991,8 @@ class read_inventory_preset: public pickup_inventory_preset
             }
 
             std::vector<std::string> denials;
-            if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() ) {
+            if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
+                !loc->type->can_use( "learn_spell" ) ) {
                 return denials.front();
             }
             return pickup_inventory_preset::get_denial( loc );
@@ -1116,7 +1118,7 @@ class weapon_inventory_preset: public inventory_selector_preset
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
                     if( loc->ammo_data()->ammo->prop_damage ) {
-                        const int ammo_mult = *loc->ammo_data()->ammo->prop_damage;
+                        const float ammo_mult = *loc->ammo_data()->ammo->prop_damage;
 
                         return string_format( "%s<color_light_gray>*</color>%s <color_light_gray>=</color> %s",
                                               get_damage_string( basic_damage, true ),
@@ -1179,9 +1181,9 @@ class weapon_inventory_preset: public inventory_selector_preset
             return it.damage_melee( DT_BASH ) || it.damage_melee( DT_CUT ) || it.damage_melee( DT_STAB );
         }
 
-        std::string get_damage_string( int damage, bool display_zeroes = false ) const {
+        std::string get_damage_string( float damage, bool display_zeroes = false ) const {
             return damage ||
-                   display_zeroes ? string_format( "<color_yellow>%d</color>", damage ) : std::string();
+                   display_zeroes ? string_format( "<color_yellow>%g</color>", damage ) : std::string();
         }
 
         const player &p;

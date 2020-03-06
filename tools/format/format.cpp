@@ -108,12 +108,20 @@ static void format( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
         // Have to introspect into the string to distinguish integers from floats.
         // Otherwise they won't serialize correctly.
         const int start_pos = jsin.tell();
-        double num = jsin.get_float();
+        jsin.skip_number();
         const int end_pos = jsin.tell();
         std::string str_form = jsin.substr( start_pos, end_pos - start_pos );
+        jsin.seek( start_pos );
         if( str_form.find( '.' ) == std::string::npos ) {
-            jsout.write( static_cast<long>( num ) );
+            if( str_form.find( '-' ) == std::string::npos ) {
+                const uint64_t num = jsin.get_uint64();
+                jsout.write( num );
+            } else {
+                const int64_t num = jsin.get_int64();
+                jsout.write( num );
+            }
         } else {
+            const double num = jsin.get_float();
             // This is QUITE insane, but as far as I can tell there is NO way to configure
             // an ostream to output a float/double meeting two constraints:
             // Always emit a decimal point (and single trailing 0 after a bare decimal point).
@@ -127,11 +135,11 @@ static void format( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
             *jsout.get_stream() << double_str;
             jsout.set_need_separator();
         }
-        jsin.seek( end_pos );
     } else if( jsin.test_bool() ) {
         bool tf = jsin.get_bool();
         jsout.write( tf );
     } else if( jsin.test_null() ) {
+        jsin.skip_null();
         jsout.write_null();
     } else {
         std::cerr << "Encountered unrecognized json element \"";

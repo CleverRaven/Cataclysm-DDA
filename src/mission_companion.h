@@ -30,8 +30,8 @@ struct mission_entry {
     std::string name_display;
     cata::optional<point> dir;
     std::string text;
-    bool priority;
-    bool possible;
+    bool priority = false;
+    bool possible = false;
 };
 
 class mission_data
@@ -71,7 +71,6 @@ namespace talk_function
 
 //Identifies which mission set the NPC draws from
 void companion_mission( npc &p );
-void basecamp_mission( npc &p );
 
 // Display the available missions and let the player choose one
 bool display_and_choose_opts( mission_data &mission_key, const tripoint &omt_pos,

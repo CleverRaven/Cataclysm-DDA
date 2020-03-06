@@ -18,7 +18,6 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
-#include "vehicle.h"
 #include "requirements.h"
 #include "point.h"
 #include "translations.h"
@@ -27,6 +26,7 @@ using itype_id = std::string;
 
 class JsonObject;
 class Character;
+class vehicle;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
@@ -110,18 +110,18 @@ struct veh_ter_mod {
 };
 
 struct vpslot_wheel {
-    float rolling_resistance = 1;
+    float rolling_resistance = 1.0f;
     int contact_area = 1;
     std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
-    float or_rating;
+    float or_rating = 0.0f;
 };
 
 struct vpslot_workbench {
     // Base multiplier applied for crafting here
-    float multiplier;
+    float multiplier = 1.0f;
     // Mass/volume allowed before a crafting speed penalty is applied
-    units::mass allowed_mass;
-    units::volume allowed_volume;
+    units::mass allowed_mass = 0_gram;
+    units::volume allowed_volume = 0_ml;
 };
 
 struct transform_terrain_data {
@@ -129,8 +129,8 @@ struct transform_terrain_data {
     std::string post_terrain;
     std::string post_furniture;
     std::string post_field;
-    int post_field_intensity;
-    time_duration post_field_age;
+    int post_field_intensity = 0;
+    time_duration post_field_age = 0_turns;
 };
 
 class vpart_info
@@ -327,9 +327,9 @@ class vpart_info
     public:
 
         // z-ordering, inferred from location, cached here
-        int z_order;
+        int z_order = 0;
         // Display order in vehicle interact display
-        int list_order;
+        int list_order = 0;
 
         bool has_flag( const std::string &flag ) const {
             return flags.count( flag ) != 0;
@@ -353,7 +353,7 @@ class vpart_info
 
 struct vehicle_item_spawn {
     point pos;
-    int chance;
+    int chance = 0;
     /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necessary) */
     int with_ammo = 0;
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
@@ -375,6 +375,15 @@ struct vehicle_prototype {
         std::pair<int, int> ammo_qty = { -1, -1 };
         itype_id fuel = "null";
     };
+
+    vehicle_prototype();
+    vehicle_prototype( const std::string &name, const std::vector<part_def> &parts,
+                       const std::vector<vehicle_item_spawn> &item_spawns,
+                       std::unique_ptr<vehicle> &&blueprint );
+    vehicle_prototype( vehicle_prototype && );
+    ~vehicle_prototype();
+
+    vehicle_prototype &operator=( vehicle_prototype && );
 
     std::string name;
     std::vector<part_def> parts;

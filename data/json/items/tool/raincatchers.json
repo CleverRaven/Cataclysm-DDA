@@ -2,7 +2,7 @@
   {
     "id": "birchbark_funnel",
     "type": "TOOL",
-    "name": "birchbark funnel",
+    "name": { "str": "birchbark funnel" },
     "description": "This is a small birchbark funnel.  Place it above an outdoor container to collect rainwater.",
     "weight": "3 g",
     "volume": "250ml",
@@ -23,7 +23,7 @@
   {
     "id": "funnel",
     "type": "TOOL",
-    "name": "funnel",
+    "name": { "str": "funnel" },
     "description": "This is a funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "606 g",
     "volume": "500 ml",
@@ -45,7 +45,7 @@
   {
     "id": "leather_funnel",
     "type": "TOOL",
-    "name": "leather funnel",
+    "name": { "str": "leather funnel" },
     "description": "This is a small, leather funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "4 g",
     "volume": "250 ml",
@@ -66,7 +66,7 @@
   {
     "id": "makeshift_funnel",
     "type": "TOOL",
-    "name": "makeshift funnel",
+    "name": { "str": "makeshift funnel" },
     "description": "This is a small, makeshift funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "4 g",
     "volume": "250 ml",
@@ -87,7 +87,7 @@
   {
     "id": "metal_funnel",
     "type": "TOOL",
-    "name": "metal funnel",
+    "name": { "str": "metal funnel" },
     "description": "This is a large metal funnel used to collect rainwater.  Less portable than plastic funnels, but collects more water.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "4017 g",
     "volume": "4 L",
@@ -109,7 +109,7 @@
   {
     "id": "tarp_raincatcher",
     "type": "TOOL",
-    "name": "tarp raincatcher",
+    "name": { "str": "tarp raincatcher" },
     "description": "Some sticks and string with a tarpaulin to set up an improvised raincatcher.",
     "weight": "3980 g",
     "volume": "4 L",

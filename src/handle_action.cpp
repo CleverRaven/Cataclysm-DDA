@@ -134,7 +134,7 @@ input_context game::get_player_input( std::string &action )
             ctxt.register_action( action_ident( id ) );
         }
         // *INDENT-ON*
-        ctxt.register_action( "QUIT", _( "Accept your fate" ) );
+        ctxt.register_action( "QUIT", to_translation( "Accept your fate" ) );
     } else {
         ctxt = get_default_mode_input_context();
     }
@@ -443,7 +443,9 @@ static void open()
     map &m = g->m;
 
     const cata::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
-                                            ACTION_OPEN );
+                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                                            ACTION_OPEN, false );
+
     if( !openp_ ) {
         return;
     }
@@ -517,7 +519,8 @@ static void open()
 static void close()
 {
     if( const cata::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
-            ACTION_CLOSE ) ) {
+            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+            ACTION_CLOSE, false ) ) {
         doors::close_door( g->m, g->u, *pnt );
     }
 }
@@ -1171,12 +1174,17 @@ static void read()
 {
     avatar &u = g->u;
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = game_menus::inv::read( u );
+    item_location loc = game_menus::inv::read( u );
 
     if( loc ) {
-        // calling obtain() invalidates the item pointer
-        // TODO: find a way to do this without an int index
-        u.read( u.i_at( loc.obtain( u ) ) );
+        if( loc->type->can_use( "learn_spell" ) ) {
+            item spell_book = *loc.get_item();
+            spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
+        } else {
+            // calling obtain() invalidates the item pointer
+            // TODO: find a way to do this without an int index
+            u.read( u.i_at( loc.obtain( u ) ) );
+        }
     } else {
         add_msg( _( "Never mind." ) );
     }

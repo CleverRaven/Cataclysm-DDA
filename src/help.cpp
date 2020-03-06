@@ -1,11 +1,12 @@
 #include "help.h"
 
-#include <cstddef>
 #include <algorithm>
-#include <vector>
 #include <array>
+#include <cstddef>
 #include <iterator>
 #include <list>
+#include <numeric>
+#include <vector>
 
 #include "action.h"
 #include "catacharset.h"

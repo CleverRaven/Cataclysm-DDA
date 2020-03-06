@@ -743,7 +743,6 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
 
         } else if( old == "megastore_entrance" ) {
             const std::string megastore = "megastore";
-            const std::string megastore_entrance = "megastore_entrance";
             const auto ter_test_n = needs_conversion.find( pos + point( 0, -2 ) );
             const auto ter_test_s = needs_conversion.find( pos + point( 0,  2 ) );
             const auto ter_test_e = needs_conversion.find( pos + point( 2,  0 ) );
