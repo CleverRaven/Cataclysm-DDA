@@ -733,7 +733,9 @@ class game
         // Data Initialization
         void init_autosave();     // Initializes autosave parameters
         void create_starting_npcs(); // Creates NPCs that start near you
-
+        // create vehicle nearby, for example; for a profession vehicle.
+        vehicle *place_vehicle_nearby( const vproto_id &id, const point &origin, int min_distance,
+                                       int max_distance, const std::vector<std::string> &omt_search_types = {} );
         // V Menu Functions and helpers:
         void list_items_monsters(); // Called when you invoke the `V`-menu
 
