@@ -369,7 +369,6 @@ TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
 TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
 {
     avatar dummy;
-    std::pair<int, int> fun;
 
     item &honeycomb = dummy.i_add( item( "honeycomb" ) );
     REQUIRE( honeycomb.has_flag( flag_URSINE_HONEY ) );
