@@ -102,7 +102,8 @@ struct fake_spell {
                 const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
 
-    spell get_spell( int input_level ) const;
+    // gets the spell with an additional override for minimum level (default 0)
+    spell get_spell( int min_level_override = 0 ) const;
 
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
@@ -289,7 +290,9 @@ class spell
     public:
         spell() = default;
         spell( spell_id sp, int xp = 0 );
-        spell( spell_id sp, const translation &alt_msg );
+
+        // sets the message to be different than the spell_type specifies
+        void set_message( const translation &msg );
 
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
