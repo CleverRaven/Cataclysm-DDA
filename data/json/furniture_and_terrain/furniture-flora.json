@@ -31,7 +31,7 @@
     "type": "furniture",
     "id": "f_burdock",
     "name": "burdock",
-    "description": "A common weed with a purple thistle-like flower.  It seeds tend to stick to clothing and fur.",
+    "description": "A common weed with a purple thistle-like flower.  Its seeds tend to stick to clothing and fur.",
     "symbol": "f",
     "color": "magenta",
     "looks_like": "f_dandelion",
