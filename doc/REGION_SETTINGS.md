@@ -535,7 +535,7 @@ This is currently used to provide a mechanism for whitelisting and blacklisting 
 | `blacklist`       | List of flags. Any location with a matching flag will be excluded from overmap generation. |
 | `clear_whitelist` | Clear all previously defined `whitelist`.                                                  |
 | `whitelist`       | List of flags. Only locations with a matching flag will be included in overmap generation. |
-| `special_counts`  | Used to restrict maximum spawns of specials within this region.
+| `special_counts`  | Used to restrict maximum spawns of specials within this region.                            |
 
 ### Example
 
@@ -546,7 +546,7 @@ This is currently used to provide a mechanism for whitelisting and blacklisting 
 		"blacklist": [ "FUNGAL" ],
 		"clear_whitelist": false,
 		"whitelist": [],
-        "special_counts": [ { "flag": "LAB", "count": 2 } ]
+       "special_counts": [ { "flag": "LAB", "count": 2 } ]
 	}
 }
 ```

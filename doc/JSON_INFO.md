@@ -213,7 +213,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | mutation_ordering.json      | draw order for mutation and CBM overlays in tiles mode
 | mutations.json              | traits/mutations
 | names.json                  | names used for NPC/player name generation
-| overmap_biomes.json		  | biome settings used for region settings
+| overmap_biomes.json		   | biome settings used for region settings
 | overmap_connections.json    | connections for roads and tunnels in the overmap
 | overmap_terrain.json        | overmap terrain
 | player_activities.json      | player activities

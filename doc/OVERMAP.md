@@ -382,9 +382,9 @@ REGION_SETTINGS.md for more details.
 
 | Identifier |                                           Description                                           |
 | ---------- | ----------------------------------------------------------------------------------------------- |
-| `type`     | Must be "overmap_biome".                                                                  	   |
+| `type`     | Must be "overmap_biome".                                                                  	    |
 | `id`       | Unique id.                                                                                      |
-| `weight`   | Weight to determine base chance of this biome being generated. -1 will restrict this biome.	   |
+| `weight`   | Weight to determine base chance of this biome being generated. -1 will restrict this biome.	    |
 
 
 ### Example
