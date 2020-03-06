@@ -83,7 +83,7 @@
     "price_postapoc": 9000,
     "material": "leather",
     "symbol": "[",
-    "looks_like": "SHEATH_KNIFE",
+    "looks_like": "sheath",
     "color": "light_gray",
     "covers": [ "LEG_EITHER" ],
     "coverage": 5,
