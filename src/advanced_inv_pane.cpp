@@ -7,6 +7,7 @@
 #include "item_category.h"
 #include "item_search.h"
 #include "item_stack.h"
+#include "game.h"
 #include "output.h"
 #include "player.h"
 #include "string_formatter.h"

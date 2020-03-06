@@ -153,7 +153,7 @@
   {
     "id": "shark_suit_faraday",
     "type": "ARMOR",
-    "name": "faraday shark suit",
+    "name": { "str": "faraday shark suit" },
     "description": "A one piece chainmail suit used by scuba divers for protection against shark bites.  It has been conductively interconnected, protecting against electricity.",
     "weight": "3250 g",
     "volume": "3500 ml",

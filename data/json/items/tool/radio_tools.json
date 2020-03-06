@@ -71,7 +71,7 @@
     "id": "radio_mod",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": "radio activation mod",
+    "name": { "str": "radio activation mod" },
     "description": "This small piece of electronics can be attached to certain items and activate them after receiving a radio signal.",
     "weight": "142 g",
     "volume": "250 ml",
@@ -160,7 +160,7 @@
   {
     "id": "remotevehcontrol",
     "type": "TOOL",
-    "name": "remote vehicle controller",
+    "name": { "str": "remote vehicle controller" },
     "description": "A remote controller for real cars.  Can turn onboard devices on and off.  Some cars can be driven remotely.",
     "weight": "907 g",
     "volume": "1 L",

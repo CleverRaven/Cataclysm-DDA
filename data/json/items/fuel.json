@@ -24,7 +24,7 @@
   },
   {
     "id": "denat_alcohol",
-    "name": "denatured alcohol",
+    "name": { "str": "denatured alcohol" },
     "copy-from": "chem_ethanol",
     "type": "AMMO",
     "description": "A high-strength ethanol solution mixed with methanol to make it toxic to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
@@ -33,7 +33,7 @@
   },
   {
     "id": "chem_methanol",
-    "name": "methanol",
+    "name": { "str": "methanol" },
     "copy-from": "chem_ethanol",
     "type": "AMMO",
     "description": "High purity methanol suitable for use in chemical reactions.  Could be used in alcohol-burning stoves.  Very toxic.",

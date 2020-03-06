@@ -2433,5 +2433,19 @@
       { "group": "newspaper_old", "prob": 8 },
       [ "months_old_newspaper", 2 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "moonshine_brew",
+    "items": [
+      [ "moonshine", 60 ],
+      [ "still", 20 ],
+      [ "thermometer", 20 ],
+      [ "brew_moonshine", 5 ],
+      [ "cornbread", 35 ],
+      [ "yeast", 25 ],
+      [ "sugar", 20 ],
+      [ "chem_ethanol", 5 ]
+    ]
   }
 ]

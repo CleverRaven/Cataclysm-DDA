@@ -382,8 +382,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     mapLines[3] = true;
 
     std::map<int, std::vector<std::string> > world_pages;
-    unsigned int worldnum = 0;
-    for( unsigned int i = 0; i < num_pages; ++i ) {
+    size_t worldnum = 0;
+    for( size_t i = 0; i < num_pages; ++i ) {
         for( int j = 0; j < iContentHeight && worldnum < world_names.size(); ++j ) {
             world_pages[i].push_back( world_names[ worldnum++ ] );
         }
@@ -785,15 +785,15 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
     input_context ctxt( "MODMANAGER_DIALOG" );
     ctxt.register_updown();
-    ctxt.register_action( "LEFT", translate_marker( "Switch to other list" ) );
-    ctxt.register_action( "RIGHT", translate_marker( "Switch to other list" ) );
+    ctxt.register_action( "LEFT", to_translation( "Switch to other list" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_CATEGORY_TAB" );
     ctxt.register_action( "PREV_CATEGORY_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "CONFIRM", translate_marker( "Activate / deactivate mod" ) );
+    ctxt.register_action( "CONFIRM", to_translation( "Activate / deactivate mod" ) );
     ctxt.register_action( "ADD_MOD" );
     ctxt.register_action( "REMOVE_MOD" );
     ctxt.register_action( "SAVE_DEFAULT_MODS" );

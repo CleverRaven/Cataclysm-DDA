@@ -21,7 +21,7 @@
   {
     "id": "army_top",
     "type": "ARMOR",
-    "name": "camo tank top",
+    "name": { "str": "camo tank top" },
     "description": "A sleeveless cotton shirt with camouflage dye.  Very easy to move in.",
     "weight": "78 g",
     "volume": "250 ml",
@@ -38,7 +38,7 @@
   {
     "id": "bikini_bottom",
     "type": "ARMOR",
-    "name": "bikini bottom",
+    "name": { "str": "bikini bottom" },
     "description": "A simple bikini bottom.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -56,7 +56,7 @@
   {
     "id": "bikini_top",
     "type": "ARMOR",
-    "name": "bikini top",
+    "name": { "str": "bikini top" },
     "description": "A simple bikini top.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -163,7 +163,7 @@
   {
     "id": "bra",
     "type": "ARMOR",
-    "name": "bra",
+    "name": { "str": "bra" },
     "description": "A simple bra.  For protecting those bits you don't want zombies to look at.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -199,7 +199,7 @@
   {
     "id": "camisole",
     "type": "ARMOR",
-    "name": "camisole",
+    "name": { "str": "camisole" },
     "description": "A small camisole made from silk.  Typically used as an undergarment, they are light and easy to wear.",
     "weight": "42 g",
     "volume": "500 ml",
@@ -217,7 +217,7 @@
   {
     "id": "chestwrap",
     "type": "ARMOR",
-    "name": "chestwrap",
+    "name": { "str": "chestwrap" },
     "description": "Rags wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "64 g",
     "volume": "500 ml",
@@ -516,7 +516,7 @@
   {
     "id": "under_armor",
     "type": "ARMOR",
-    "name": "compression top",
+    "name": { "str": "compression top" },
     "description": "Nylon sportswear that clings to your chest and maintains body temperature.",
     "weight": "92 g",
     "volume": "250 ml",

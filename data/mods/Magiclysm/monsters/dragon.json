@@ -155,7 +155,7 @@
     "//": "Large means powerful, but it does not mean fast.",
     "speed": 100,
     "delete": { "flags": [ "PATH_AVOID_DANGER_2" ] },
-    "emit_fields": [ "emit_dragon_adult_fright" ],
+    "emit_fields": [ { "emit_id": "emit_dragon_adult_fright", "delay": "1 s" } ],
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
       [ "scratch", 3 ],

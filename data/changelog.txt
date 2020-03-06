@@ -1,5 +1,51 @@
 # 0.E (2020-02-01)
 
+## Statistics:
+4396 files changed, 4200591 insertions(+), 2883259 deletions(-)
+12,474 commits
+~473 contributors
+
+New game entities (core): 12,290
+MAPGEN: 7350
+3535 overmap terrains, 2300 mapgen entries, 515 item groups, 294 city buildings, 161 terrains,
+137 mapgen palettes, 133 furnitures, 58 field types, 56 monster groups, 48 overmap specials,
+41 map extras, 29 field emmisions, 16 overmap locations, 13 vehicle groups, 9 traps
+CRAFTING: 1896
+1368 recipes, 305 uncraft recipes, 103 constructions, 99 requirements, 10 tool qualities
+ITEMS: 1402
+393 articles of clothing, 178 ammunitions, 130 tools, 92 magazines, 86 guns, 78 comestibles,
+38 books, 34 gunmods, 16 pet armors, 15 containers
+NPC DATA: 702
+438 talk topics, 127 speech entries, 46 missions, 36 NPC definitions, 35 NPC classes, 9 factions
+MONSTERS: 96 monsters, 5 monster factions
+PLAYER TRAITS: 393
+98 mutations, 64 techniques, 45 spells, 44 effects, 28 activities, 19 professions,
+19 start locations, 12 morale types, 8 bionics, 4 martial arts, 3 scent types, 3 mutations
+ITEM TRAITS: 122
+31 ammo effects, 25 ammunition types, 20 materials, 19 item actions, 14 harvest entries, 6 faults
+VEHICLES: 59 vehicle parts, 24 vehicles
+MISC:
+93 migrations, 44 json flags, 31 loot zones
+
+New mod entities
+MAPGEN: 5778
+5459 overmap terrains, 133 item groups, 71 terrains, 25 monster groups, 19 furnitures,
+19 vehicle groups, 16 overmap specials, 13 city buildings, 9 gates, 3 field types,
+3 overmap locations, 3 mapgen palettes, 3 traps, 2 field emmisions
+CRAFTING: 540
+491 recipes, 22 uncraft recipes, 15 constructions, 12 requirements
+ITEMS: 703
+327 generic, 147 armors, 90 tools, 48 comestibles, 28 ammo,
+24 magazines, 19 books, 14 gunmods, 6 guns
+NPC DATA: 42 speech, 19 talk topics, 12 npc classes, 11 npcs, 8 missions, 5 factions
+MONSTERS: 101 monsters, 13 monster factions, 9 species, 2 monster attacks
+PLAYER TRAITS: 395
+144 spells, 71 mutations, 47 professions, 34 techniques, 27 martial arts, 24 bionics, 24 effects,
+9 start locations, 8 dreams, 3 mutation categories, 3 mutation types, 1 skill
+ITEM TRAITS: 34 harvest entries, 10 ammo types, 7 materials, 5 tool qualities
+VEHICLES: 45 vehicle parts, 13 vehicles
+MISC: 140 migrations, 11 snippets
+
 ## Features:
 Correctly set liquids as solid when they freeze.
 Adds ability to flag gunmods as 'CONSUMABLE'.

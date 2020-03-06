@@ -74,7 +74,7 @@ class main_menu
         catacurses::window w_background;
         point menu_offset;
         std::vector<std::string> templates;
-        int extra_w;
+        int extra_w = 0;
         std::vector<save_t> savegames;
 
         /**

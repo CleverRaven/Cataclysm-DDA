@@ -3,7 +3,7 @@
     "id": "bio_shotgun_gun",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": "bionic shotgun",
+    "name": { "str": "bionic shotgun" },
     "description": "Bionic one-shot retracting shotgun integrated with your arm.",
     "volume": "103 ml",
     "price": 0,
@@ -49,7 +49,7 @@
   {
     "id": "bio_laser_gun",
     "type": "GUN",
-    "name": "laser finger",
+    "name": { "str": "laser finger" },
     "description": "this a pseudo item",
     "volume": "3 L",
     "price": 0,

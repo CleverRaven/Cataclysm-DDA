@@ -157,7 +157,7 @@
     "melee_cut": 0,
     "vision_night": 3,
     "harvest": "exempt",
-    "emit_fields": [ "emit_toxic_leak" ],
+    "emit_fields": [ { "emit_id": "emit_toxic_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "GAS" ],
