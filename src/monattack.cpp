@@ -1966,10 +1966,10 @@ bool mattack::impale( monster *z )
         return true;
     }
 
+	//TODO Part of torso other than chest should get impaled as well
     int dam = target->deal_damage( z, bp_chest, damage_instance( DT_STAB, rng( 10, 20 ), rng( 5, 15 ),
                                    .5 ) ).total_damage();
     if( dam > 0 ) { 
-	//TODO Part of torso other than chest should get impaled as well
         auto msg_type = target == &g->u ? m_bad : m_info;
         target->add_msg_player_or_npc( msg_type,
                                        //~ 1$s is monster name, 2$s bodypart in accusative
