@@ -16,7 +16,7 @@
   {
     "type": "GENERIC",
     "id": "omnicamera",
-    "name": "security camera",
+    "name": { "str": "security camera" },
     "description": "A security camera you could connect to a display.  Image quality is quite low, but the field of vision is great.",
     "weight": "1100 g",
     "to_hit": -3,

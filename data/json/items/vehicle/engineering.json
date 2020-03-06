@@ -42,7 +42,7 @@
     "type": "GENERIC",
     "id": "v_rockwheel_item",
     "symbol": "&",
-    "name": "rockwheel",
+    "name": { "str": "rockwheel" },
     "color": "dark_gray",
     "description": "A large and heavy jagged metal disc to dig trenches.",
     "weight": "62000 g",

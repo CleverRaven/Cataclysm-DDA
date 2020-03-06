@@ -1346,7 +1346,7 @@
     "id": "sandbag",
     "type": "GENERIC",
     "category": "other",
-    "name": "sandbag",
+    "name": { "str": "sandbag" },
     "description": "This is a canvas sack filled with sand.  It can be used to construct simple barricades.",
     "weight": "24415 g",
     "volume": "16L",
