@@ -147,6 +147,7 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
     std::string sp_id;
     fake_spell intermediate;
     mandatory( obj, was_loaded, "spell_data", intermediate );
+    self = intermediate.self;
     translation monster_message;
     optional( obj, was_loaded, "monster_message", monster_message,
               //~ "<Monster Display name> cast <Spell Name> on <Target name>!"
