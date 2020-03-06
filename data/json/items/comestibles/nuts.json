@@ -67,7 +67,7 @@
     "name": { "str": "roasted pistachios", "str_pl": "roasted pistachios" },
     "copy-from": "pistachio_unshelled",
     "healthy": 2,
-    "description": "A handful of roasted nuts from an pistachio tree.",
+    "description": "A handful of roasted nuts from a pistachio tree.",
     "price": 150,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 3
@@ -97,8 +97,7 @@
   {
     "type": "COMESTIBLE",
     "id": "almond_pulp",
-    "name": "almond pulp",
-    "name_plural": "almond pulp",
+    "name": { "str": "almond pulp", "str_pl": "almond pulp" },
     "looks_like": "granola",
     "weight": "30 g",
     "color": "brown",
@@ -448,8 +447,7 @@
   {
     "type": "COMESTIBLE",
     "id": "acorns_cooked",
-    "name": "cooked acorn meal",
-    "name_plural": "cooked acorn meal",
+    "name": { "str": "cooked acorn meal", "str_pl": "cooked acorn meal" },
     "weight": "22 g",
     "color": "brown",
     "spoils_in": "30 days",

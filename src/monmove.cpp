@@ -40,29 +40,9 @@
 #include "string_id.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "cata_string_consts.h"
 
 #define MONSTER_FOLLOW_DIST 8
-
-static const species_id FUNGUS( "FUNGUS" );
-static const species_id INSECT( "INSECT" );
-static const species_id SPIDER( "SPIDER" );
-
-static const efftype_id effect_bouldering( "bouldering" );
-static const efftype_id effect_countdown( "countdown" );
-static const efftype_id effect_docile( "docile" );
-static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_dragging( "dragging" );
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_no_sight( "no_sight" );
-static const efftype_id effect_operating( "operating" );
-static const efftype_id effect_pacified( "pacified" );
-static const efftype_id effect_pushed( "pushed" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_harnessed( "harnessed" );
-
-static const species_id ZOMBIE( "ZOMBIE" );
-
-static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 
 bool monster::wander()
 {
@@ -566,14 +546,19 @@ static float get_stagger_adjust( const tripoint &source, const tripoint &destina
     return std::max( 0.01f, initial_dist - new_dist );
 }
 
+/**
+ * Returns true if the given square presents a possibility of drowning for the monster: it's deep water, it's liquid,
+ * the monster can drown, and there is no boardable vehicle part present.
+ */
+bool monster::is_aquatic_danger( const tripoint &at_pos )
+{
+    return g->m.has_flag_ter( TFLAG_DEEP_WATER, at_pos ) && g->m.has_flag( flag_LIQUID, at_pos ) &&
+           can_drown() && !g->m.veh_at( at_pos ).part_with_feature( "BOARDABLE", false );
+}
+
 bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
 {
-    if( g->m.has_flag( "LIQUID", at_pos ) && can_drown() && one_in( chance ) ) {
-        // if there's a vehicle here with a boardable part, the monster is on it
-        // and not drowning
-        if( g->m.veh_at( at_pos ).part_with_feature( "BOARDABLE", false ) ) {
-            return false;
-        }
+    if( is_aquatic_danger( at_pos ) && one_in( chance ) ) {
         die( nullptr );
         if( g->u.sees( at_pos ) ) {
             add_msg( _( "The %s drowns!" ), name() );
@@ -682,11 +667,9 @@ void monster::move()
         }
     }
 
-    // The monster is in a deep water tile and has a chance to drown
-    if( g->m.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ) {
-        if( die_if_drowning( pos(), 10 ) ) {
-            return;
-        }
+    // if the monster is in a deep water tile, it has a chance to drown
+    if( die_if_drowning( pos(), 10 ) ) {
+        return;
     }
 
     if( moves < 0 ) {
@@ -1836,14 +1819,12 @@ void monster::knock_back_to( const tripoint &to )
     }
 
     // If we're still in the function at this point, we're actually moving a tile!
-    if( g->m.has_flag_ter( TFLAG_DEEP_WATER, to ) ) {
-        // die_if_drowning will kill the monster if necessary, but if the deep water
-        // tile is on a vehicle, we should check for swimmers out of water
-        if( !die_if_drowning( to ) && has_flag( MF_AQUATIC ) ) {
-            die( nullptr );
-            if( u_see ) {
-                add_msg( _( "The %s flops around and dies!" ), name() );
-            }
+    // die_if_drowning will kill the monster if necessary, but if the deep water
+    // tile is on a vehicle, we should check for swimmers out of water
+    if( !die_if_drowning( to ) && has_flag( MF_AQUATIC ) ) {
+        die( nullptr );
+        if( u_see ) {
+            add_msg( _( "The %s flops around and dies!" ), name() );
         }
     }
 

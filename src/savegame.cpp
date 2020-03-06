@@ -723,6 +723,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             ter_set( pos, oter_id( old + "_north" ) );
 
         } else if( old == "hunter_shack" ||
+                   old == "magic_basement" ||
+                   old == "basement_bionic" ||
                    old == "outpost" ||
                    old == "park" ||
                    old == "pool" ||
@@ -741,7 +743,6 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
 
         } else if( old == "megastore_entrance" ) {
             const std::string megastore = "megastore";
-            const std::string megastore_entrance = "megastore_entrance";
             const auto ter_test_n = needs_conversion.find( pos + point( 0, -2 ) );
             const auto ter_test_s = needs_conversion.find( pos + point( 0,  2 ) );
             const auto ter_test_e = needs_conversion.find( pos + point( 2,  0 ) );

@@ -61,17 +61,26 @@ struct component {
     // If true, it's not actually a component but a requirement (list of components)
     bool requirement = false;
 
+    // needs explicit specification due to the mutable member. update this when you add new
+    // members!
+    bool operator==( const component &rhs ) const {
+        return std::forward_as_tuple( type, requirement, count, recoverable )
+               == std::forward_as_tuple( rhs.type, rhs.requirement, rhs.count, rhs.recoverable );
+    }
+    bool operator!=( const component &rhs ) const {
+        return !operator==( rhs );
+    }
+    // lexicographic comparison
+    bool operator<( const component &rhs ) const {
+        return std::forward_as_tuple( type, requirement, count, recoverable )
+               < std::forward_as_tuple( rhs.type, rhs.requirement, rhs.count, rhs.recoverable );
+    }
+
     component() = default;
     component( const itype_id &TYPE, int COUNT ) : type( TYPE ), count( COUNT ) { }
     component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) :
         type( TYPE ), count( COUNT ), recoverable( RECOVERABLE ) { }
     void check_consistency( const std::string &display_name ) const;
-    int operator==( const component &rhs ) const {
-        return type == rhs.type && count == rhs.count;
-    }
-    int operator!=( const component &rhs ) const {
-        return !( *this == rhs );
-    }
 };
 
 struct tool_comp : public component {
@@ -79,6 +88,7 @@ struct tool_comp : public component {
     tool_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
     void load( const JsonValue &value );
+    void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, craft_flags = craft_flags::none,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
@@ -96,6 +106,7 @@ struct item_comp : public component {
     item_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
     void load( const JsonValue &value );
+    void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, craft_flags = craft_flags::none,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
@@ -114,11 +125,27 @@ struct quality_requirement {
     mutable available_status available = a_false;
     bool requirement = false; // Currently unused, but here for consistency and templates
 
+    // needs explicit specification due to the mutable member. update this when you add new
+    // members!
+    bool operator==( const quality_requirement &rhs ) const {
+        return std::forward_as_tuple( type, requirement, count, level )
+               == std::forward_as_tuple( rhs.type, rhs.requirement, rhs.count, rhs.level );
+    }
+    bool operator!=( const quality_requirement &rhs ) const {
+        return !operator==( rhs );
+    }
+    // lexicographic comparison
+    bool operator<( const quality_requirement &rhs ) const {
+        return std::forward_as_tuple( type, requirement, count, level )
+               < std::forward_as_tuple( rhs.type, rhs.requirement, rhs.count, rhs.level );
+    }
+
     quality_requirement() = default;
     quality_requirement( const quality_id &TYPE, int COUNT, int LEVEL ) : type( TYPE ), count( COUNT ),
         level( LEVEL ) { }
 
     void load( const JsonValue &value );
+    void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int = 0, craft_flags = craft_flags::none,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
@@ -311,9 +338,21 @@ struct requirement_data {
                 const std::list<item> &remaining_comps );
 
         /**
-         * Removes duplicated qualities and tools
+         * Merge similar quality/tool/component lists.
+         * This simplifies the requirement but may make the requirement stricter.
          */
         void consolidate();
+
+        /**
+         * Compares if two requiremen_data are the same, but does not compare the requirement ids.
+         * The order inside requirement vectors does not matter.
+         */
+        bool has_same_requirements_as( const requirement_data &that ) const;
+
+        /**
+         * Dump to json in inline requirements format
+         */
+        void dump( JsonOut &jsout ) const;
 
     private:
         requirement_id id_ = requirement_id::NULL_ID();

@@ -69,6 +69,7 @@
             [ "greenhouse_6x6_vegetable", 25 ],
             [ "pond_6x6", 20 ],
             [ "shed_6x6_junk", 25 ],
+            [ "shed_6x6_bike", 20 ],
             [ "shed_6x6_woodworker", 20 ]
           ],
           "x": 1,
@@ -112,6 +113,41 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_patio_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "         |||||||||||||| ",
+        "         |F...........| ",
+        "         |............| ",
+        "         |g...........| ",
+        "         |............| ",
+        "         |z...........| ",
+        "         |U.z.........| ",
+        "         |z...........| ",
+        "         |............| ",
+        "         |............| ",
+        "         |............| ",
+        "         |........A...| ",
+        "         |............| ",
+        "         |<...JJWZ....| ",
+        "         |||||||||||||| ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ]
     }
   }
 ]

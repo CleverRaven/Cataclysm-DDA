@@ -3,7 +3,7 @@
     "type": "AMMO",
     "id": "atgm_heat",
     "price": 70000,
-    "name": "152mm ATGM HEAT",
+    "name": { "str": "152mm ATGM HEAT" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A tube-launched, optically tracked, wire-guided missile contained in a steel tube.  Designed to be highly effective against vehicles and structures.",

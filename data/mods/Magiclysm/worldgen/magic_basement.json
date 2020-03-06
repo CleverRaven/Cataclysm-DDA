@@ -8,65 +8,110 @@
       "fill_ter": "t_carpet_green",
       "rows": [
         "                        ",
+        "        ||||||||||||||| ",
+        "        |gUU|yRRRRRRET| ",
+        "   ||||||~~~%........E| ",
+        "  ||????|||||........L| ",
+        " ||.......E!|...E....|| ",
+        " |&.........|.yrrr...<| ",
+        " ||...$...Py||||||/|||| ",
+        "  ||TIII|||||RRR......| ",
+        "   ||||||88S|.....H..x| ",
+        "        |~~~/.....H..x| ",
+        "        |B~~|.....s..x| ",
+        "        |BYt|RRRR.....| ",
+        "        ||||||||||||||| ",
         "                        ",
         "                        ",
         "                        ",
         "                        ",
         "                        ",
         "                        ",
-        "         |-------------|",
-        "         |WCC|.bbbbbbbb|",
-        "         |CCC+.........|",
-        "         |---|........@|",
-        "         |XcD|b.......@|",
-        "         |...+b..bb...@|",
-        "         |MMM|------+--|",
-        "         ----|bbb......|",
-        "         |..S|.....@..I|",
-        "         |...+.....@..I|",
-        "         |~~.|........-|",
-        "         |~~&|bbbb....<|",
-        "         ---------------",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
+      "palettes": [ "standard_domestic_palette" ],
+      "place_traps": [ { "trap": "tr_magic_door", "x": 21, "y": 4 } ],
+      "place_item": [ { "item": "television", "x": 21, "y": 10 } ],
       "place_loot": [
-        { "item": "television", "x": 22, "y": 15, "chance": 100 },
-        { "item": "corpse", "x": 10, "y": 11, "chance": 100 },
-        { "item": "translocate_spellbook", "x": 10, "y": 11, "chance": 100 },
-        { "item": "robe", "x": 10, "y": 11, "chance": 100 }
+        { "item": "corpse", "x": 2, "y": 6, "chance": 100 },
+        { "item": "translocate_spellbook", "x": 2, "y": 6, "chance": 100 },
+        { "item": "robe", "x": 2, "y": 6, "chance": 100 },
+        { "item": "candle", "x": 3, "y": 5, "chance": 100 },
+        { "item": "candle", "x": 3, "y": 6, "chance": 100 },
+        { "item": "candle", "x": 3, "y": 7, "chance": 100 }
       ],
-      "terrain": { "C": "t_rock_floor", " ": "t_rock", "+": "t_door_c", "-": "t_wall", "|": "t_wall", "<": "t_stairs_up" },
-      "furniture": {
-        "@": "f_sofa",
-        "I": "f_desk",
-        "D": "f_desk",
-        "S": "f_sink",
-        "~": "f_bathtub",
-        "m": "f_bigmirror",
-        "b": "f_bookcase",
-        "M": "f_bookcase",
-        "X": "f_magiclysm_translocator_gate",
-        "W": "f_water_heater"
+      "terrain": {
+        "~": "t_thconc_floor",
+        "g": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "8": "t_thconc_floor",
+        "Y": "t_thconc_floor",
+        "B": "t_thconc_floor",
+        "S": "t_thconc_floor",
+        "_": "t_water_pool_shallow",
+        " ": "t_rock",
+        "/": "t_door_green_c",
+        ".": "t_carpet_green",
+        "-": "t_wall_w",
+        "|": "t_wall_metal",
+        "<": "t_wood_stairs_up",
+        "%": "t_secretdoor_metal_c"
       },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
-      "toilets": { "&": {  } },
+      "furniture": { "&": "f_magiclysm_translocator_gate", "!": "f_rack_coat", "?": "f_bookcase", "=": "f_bookcase" },
       "items": {
-        "S": { "item": "softdrugs", "chance": 20, "repeat": [ 1, 2 ] },
-        "b": { "item": "novels", "chance": 20, "repeat": [ 2, 3 ] },
-        "M": [ { "item": "magic_shop_books", "chance": 40 }, { "item": "magic_shop_potions", "chance": 60 } ],
-        "C": [
-          { "item": "basement_utility_closet", "chance": 55, "repeat": [ 1, 2 ] },
-          { "item": "magic_shop_potions", "chance": 15, "repeat": [ 1, 2 ] }
-        ],
-        "D": [
-          { "item": "magic_shop_potions", "chance": 35, "repeat": [ 3, 4 ] },
+        "?": [ { "item": "magic_shop_books", "chance": 40 }, { "item": "magic_shop_potions", "chance": 60 } ],
+        "=": [ { "item": "novels", "chance": 30 }, { "item": "homebooks", "chance": 10 } ],
+        "~": [ { "item": "magic_shop_potions", "chance": 15, "repeat": [ 1, 2 ] } ],
+        "I": [
+          { "item": "magic_shop_potions", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "magic_shop_wands", "chance": 15 },
+          { "item": "enchanted_small_items", "chance": 30, "repeat": [ 1, 2 ] },
           { "item": "magic_CBM", "chance": 30, "repeat": [ 1, 2 ] }
+        ],
+        "!": [
+          { "item": "enchanted_worn_items", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "enchanted_combat_items", "chance": 10 },
+          { "item": "magic_shop_clothes", "chance": 30, "repeat": [ 1, 2 ] }
         ]
       },
-      "vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100, "status": 0 } }
+      "vehicles": { "$": { "vehicle": "swivel_chair", "chance": 100, "status": 0 } },
+      "place_nested": [ { "chunks": [ "magic_door_graffiti_snippet" ], "x": 12, "y": 6 } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "magic_door_appear",
+    "method": "json",
+    "object": {
+      "place_terrain": [ { "ter": "t_carpet_green", "x": 12, "y": 6 } ],
+      "place_furniture": [ { "furn": "f_beaded_door", "x": 12, "y": 6 } ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_magic_door",
+    "name": "magic door",
+    "color": "brown",
+    "symbol": "+",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "magic_door_appear",
+    "benign": true
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "magic_door_graffiti_snippet",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "magic_door_graffiti", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "snippet",
+    "category": "magic_door_graffiti",
+    "text": [ "A circle of esoteric symbols etched into the metal wall, they draw your eye with their otherwordly shapes." ]
   }
 ]

@@ -57,30 +57,14 @@
 #include "options.h"
 #include "enums.h"
 #include "monster.h"
-
+#include "cata_string_consts.h"
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
  */
-static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_wind( "wind" );
-static const itype_id fuel_type_plutonium_cell( "plut_cell" );
-static const itype_id fuel_type_animal( "animal" );
-static const std::string part_location_structure( "structure" );
-static const std::string part_location_center( "center" );
-static const std::string part_location_onroof( "on_roof" );
-
-static const fault_id fault_belt( "fault_engine_belt_drive" );
-static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
-static const fault_id fault_filter_air( "fault_engine_filter_air" );
-static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
-
-static const efftype_id effect_harnessed( "harnessed" );
-static const efftype_id effect_winded( "winded" );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
@@ -118,7 +102,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void removed( vehicle &veh, const int part ) override {
             // If the player is currently working on the removed part, stop them as it's futile now.
             const player_activity &act = g->u.activity;
-            if( act.id() == activity_id( "ACT_VEHICLE" ) && act.moves_left > 0 && act.values.size() > 6 ) {
+            if( act.id() == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
                 if( veh_pointer_or_null( g->m.veh_at( tripoint( act.values[0], act.values[1],
                                                       g->u.posz() ) ) ) == &veh ) {
                     if( act.values[6] >= part ) {
@@ -974,11 +958,8 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         int roll = dice( 1, 1000 );
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
-            float dist = 1.0f - trig_dist( damage_origin, part.precalc[0] ) / damage_size;
-            dist = clamp( dist, 0.0f, 1.0f );
-            if( damage_size == 0 ) {
-                dist = 1.0f;
-            }
+            float dist =  damage_size == 0.0f ? 1.0f :
+                          clamp( 1.0f - trig_dist( damage_origin, part.precalc[0] ) / damage_size, 0.0f, 1.0f );
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
             if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
                                                hp_percent_loss_max * dist ) * part.info().durability ), DT_BASH ) ) {
@@ -1229,11 +1210,13 @@ int vehicle::part_epower_w( const int index ) const
 int vehicle::power_to_energy_bat( const int power_w, const time_duration &d ) const
 {
     // Integrate constant epower (watts) over time to get units of battery energy
-    int energy_j = power_w * to_seconds<int>( d );
+    // Thousands of watts over millions of seconds can happen, so 32-bit int
+    // insufficient.
+    int64_t energy_j = power_w * to_seconds<int64_t>( d );
     int energy_bat = energy_j / bat_energy_j;
     int sign = power_w >= 0 ? 1 : -1;
     // energy_bat remainder results in chance at additional charge/discharge
-    energy_bat += x_in_y( abs( energy_j % bat_energy_j ), bat_energy_j ) ? sign : 0;
+    energy_bat += x_in_y( std::abs( energy_j % bat_energy_j ), bat_energy_j ) ? sign : 0;
     return energy_bat;
 }
 
@@ -1577,7 +1560,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
             std::make_tuple( "ENGINE", "ALTERNATOR", translate_marker( "Remove attached alternator first." ) ),
             std::make_tuple( "BELTABLE", "SEATBELT", translate_marker( "Remove attached seatbelt first." ) ),
             std::make_tuple( "WINDOW", "CURTAIN", translate_marker( "Remove attached curtains first." ) ),
-            std::make_tuple( "CONTROLS", "ON_CONTROLS", translate_marker( "Remove attached part first." ) ),
+            std::make_tuple( "CONTROLS", "ON_CONTROLS", translate_marker( "Remove the attached %s first." ) ),
             std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", translate_marker( "Remove battery from mount first." ) ),
             std::make_tuple( "TURRET_MOUNT", "TURRET", translate_marker( "Remove attached mounted weapon first." ) ),
             std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", translate_marker( "Remove attached wheel first." ) ),
@@ -1586,9 +1569,9 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         }
     };
     for( auto &flag_check : blocking_flags ) {
-        if( part_flag( p, std::get<0>( flag_check ) ) &&
-            part_with_feature( p, std::get<1>( flag_check ), false ) >= 0 ) {
-            reason = _( std::get<2>( flag_check ) );
+        const int part_idx_requires = part_with_feature( p, std::get<1>( flag_check ), false );
+        if( part_flag( p, std::get<0>( flag_check ) ) && part_idx_requires >= 0 ) {
+            reason = string_format( _( std::get<2>( flag_check ) ), parts[part_idx_requires].info().name() );
             return false;
         }
     }
@@ -1955,6 +1938,10 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 carried_part.carry_names.push( unique_id );
                 carried_part.enabled = false;
                 carried_part.set_flag( vehicle_part::carried_flag );
+                //give each carried part a tracked_flag so that we can re-enable overmap tracking on unloading if necessary
+                if( carry_veh->tracking_on ) {
+                    carried_part.set_flag( vehicle_part::tracked_flag );
+                }
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
             }
 
@@ -2155,6 +2142,20 @@ void vehicle::remove_carried_flag()
     }
 }
 
+void vehicle::remove_tracked_flag()
+{
+    for( vehicle_part &part : parts ) {
+        if( part.carry_names.empty() ) {
+            part.remove_flag( vehicle_part::tracked_flag );
+        } else {
+            part.carry_names.pop();
+            if( part.carry_names.empty() ) {
+                part.remove_flag( vehicle_part::tracked_flag );
+            }
+        }
+    }
+}
+
 bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
 {
     if( carried_parts.empty() ) {
@@ -2163,8 +2164,15 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     std::string veh_record;
     tripoint new_pos3;
     bool x_aligned = false;
+    bool tracked_parts =
+        false; // we will set this to true if any of the vehicle parts carry a tracked_flag
     for( int carried_part : carried_parts ) {
         std::string id_string = parts[ carried_part ].carry_names.top().substr( 0, 1 );
+        //check if selected part carries tracking flag
+        if( parts[carried_part].has_flag(
+                vehicle_part::tracked_flag ) ) { //this should only need to run once
+            tracked_parts = true;
+        }
         if( id_string == "X" || id_string == "Y" ) {
             veh_record = parts[ carried_part ].carry_names.top();
             new_pos3 = global_part_pos3( carried_part );
@@ -2242,6 +2250,10 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You unload the %s from the bike rack." ), new_vehicle->name );
         new_vehicle->remove_carried_flag();
+        if( tracked_parts ) {
+            new_vehicle->toggle_tracking(); //turn on tracking for our newly created vehicle
+            new_vehicle->remove_tracked_flag(); //remove our tracking flags now that the vehicle isn't carried
+        }
         g->m.dirty_vehicle_list.insert( this );
         part_removal_cleanup();
     } else {
@@ -4132,9 +4144,11 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return 1.0f;
     }
 
-    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area() ) *
-                               to_kilogram( total_mass() );
-
+    const float fraction_without_traction = 1.0f - wheel_traction_area / wheel_area();
+    if( fraction_without_traction == 0 ) {
+        return 1.0f;
+    }
+    const float mass_penalty = fraction_without_traction * to_kilogram( total_mass() );
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg( m_debug, "%s has traction %.2f", name, traction );
 
@@ -4204,9 +4218,9 @@ std::string vehicle::get_owner_name() const
 {
     if( !g->faction_manager_ptr->get( owner ) ) {
         debugmsg( "vehicle::get_owner_name() vehicle %s has no valid nor null faction id ", disp_name() );
-        return "no owner";
+        return _( "no owner" );
     }
-    return g->faction_manager_ptr->get( owner )->name;
+    return _( g->faction_manager_ptr->get( owner )->name );
 }
 
 void vehicle::set_owner( const Character &c )
@@ -4416,7 +4430,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
 
         double amnt_precise_j = static_cast<double>( fuel_pr.second ) * t_seconds;
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
-        auto inserted = fuel_used_last_turn.insert( { ft, 0 } );
+        auto inserted = fuel_used_last_turn.insert( { ft, 0.0f } );
         inserted.first->second += amnt_precise_j;
         double remainder = fuel_remainder[ ft ];
         amnt_precise_j -= remainder;
@@ -4458,7 +4472,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             }
         }
         // decreased stamina burn scalable with load
-        if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
+        if( g->u.has_active_bionic( bio_jointservo ) ) {
             g->u.mod_power_level( units::from_kilojoule( -std::max( eff_load / 20, 1 ) ) );
             mod -= std::max( eff_load / 5, 5 );
         }
@@ -4549,7 +4563,7 @@ int vehicle::total_solar_epower_w() const
 
 int vehicle::total_wind_epower_w() const
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
+    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( global_pos3() ) ) );
     const w_point weatherPoint = *g->weather.weather_precise;
     int epower_w = 0;
     for( int part : wind_turbines ) {
@@ -4657,7 +4671,7 @@ void vehicle::power_parts()
             const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
             if( parts[ elem ].is_unavailable() ) {
                 continue;
-            } else if( parts[ elem ].info().has_flag( "PERPETUAL" ) ) {
+            } else if( parts[ elem ].info().has_flag( flag_PERPETUAL ) ) {
                 reactor_working = true;
                 delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
             } else if( parts[elem].ammo_remaining() > 0 ) {
@@ -6019,6 +6033,9 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
         invalidate_mass();
         coeff_air_changed = true;
+
+        // refresh cache in case the broken part has changed the status
+        refresh();
     }
 
     if( parts[p].is_fuel_store() ) {
@@ -6169,7 +6186,7 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos )
         return false;
     }
 
-    return ( sm->ter[px][py].obj().has_flag( TFLAG_CURRENT ) ||
+    return ( sm->get_ter( { px, py } ).obj().has_flag( TFLAG_CURRENT ) ||
              sm->get_furn( { px, py } ).obj().has_flag( TFLAG_CURRENT ) );
 }
 
@@ -6190,7 +6207,7 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
         return false;
     }
 
-    return !( sm->ter[px][py].obj().has_flag( TFLAG_INDOORS ) ||
+    return !( sm->get_ter( { px, py } ).obj().has_flag( TFLAG_INDOORS ) ||
               sm->get_furn( { px, py } ).obj().has_flag( TFLAG_INDOORS ) );
 }
 

@@ -51,6 +51,27 @@
     "time": "20 m"
   },
   {
+    "id": "manual_traps_mil",
+    "type": "BOOK",
+    "name": {
+      "str": "FM 20-32 Mine/Countermine Operations manual",
+      "str_pl": "copies of FM 20-32 Mine/Countermine Operations manual"
+    },
+    "description": "A hefty military field manual about mine-warfare principles, the mechanics of different types of mines/IED's, and countermine operations.",
+    "looks_like": "manual_rifle",
+    "weight": "422 g",
+    "volume": "500 ml",
+    "price": 2000,
+    "price_postapoc": 8600,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "traps",
+    "max_level": 3,
+    "intelligence": 4,
+    "time": "20 m"
+  },
+  {
     "id": "textbook_traps",
     "type": "BOOK",
     "name": {

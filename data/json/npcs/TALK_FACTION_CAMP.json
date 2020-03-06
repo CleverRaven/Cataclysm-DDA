@@ -215,7 +215,7 @@
   {
     "id": "TALK_CAMP_OVERSEER",
     "type": "talk_topic",
-    "dynamic_line": "Hey boss.  I was thinking, you don't really need me sitting in this tent and not really contributing to the camp.  it's a cushy job, but I could do more. We could put up a bulletin board and you could write up what you want done there.  What do you say?",
+    "dynamic_line": "Hey boss.  I was thinking, you don't really need me sitting in this tent and not really contributing to the camp.  It's a cushy job, but I could do more.  We could put up a bulletin board and you could write up what you want done there.  What do you say?",
     "responses": [
       { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": "basecamp_mission" },
       {

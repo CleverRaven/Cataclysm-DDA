@@ -133,7 +133,7 @@ class generic_factory
 
         bool find_id( const string_id<T> &id, int_id<T> &result ) const {
             result = id.get_cid();
-            if( is_valid( result ) && list[result].id == id ) {
+            if( is_valid( result ) && list[result.to_i()].id == id ) {
                 return true;
             }
             const auto iter = map.find( id );
@@ -266,7 +266,7 @@ class generic_factory
         T &insert( const T &obj ) {
             const auto iter = map.find( obj.id );
             if( iter != map.end() ) {
-                T &result = list[iter->second];
+                T &result = list[iter->second.to_i()];
                 result = obj;
                 result.id.set_cid( iter->second );
                 return result;
@@ -341,7 +341,7 @@ class generic_factory
                 debugmsg( "invalid %s id \"%d\"", type_name, id.to_i() );
                 return dummy_obj;
             }
-            return list[id];
+            return list[id.to_i()];
         }
         /**
          * Returns the object with the given id.
@@ -356,14 +356,14 @@ class generic_factory
                 debugmsg( "invalid %s id \"%s\"", type_name, id.c_str() );
                 return dummy_obj;
             }
-            return list[i_id];
+            return list[i_id.to_i()];
         }
         /**
          * Checks whether the factory contains an object with the given id.
          * This function can be used to implement @ref int_id::is_valid().
          */
         bool is_valid( const int_id<T> &id ) const {
-            return static_cast<size_t>( id ) < list.size();
+            return static_cast<size_t>( id.to_i() ) < list.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.

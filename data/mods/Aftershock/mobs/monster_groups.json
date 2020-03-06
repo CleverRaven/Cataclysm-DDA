@@ -11,6 +11,12 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_ROBOT",
+    "default": "mon_manhack",
+    "monsters": [ { "monster": "mon_bloodhound_drone", "freq": 220, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_PrepNet",
     "default": "afs_mon_cyber_mastiff",
     "is_animal": true,

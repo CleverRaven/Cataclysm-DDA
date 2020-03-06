@@ -945,6 +945,11 @@
     "replace": "40x53mm_m1001"
   },
   {
+    "id": "magnesium_tablet",
+    "type": "MIGRATION",
+    "replace": "melatonin_tablet"
+  },
+  {
     "id": "40mm_frag",
     "type": "MIGRATION",
     "replace": "40x46mm_m433"
@@ -978,5 +983,10 @@
     "id": "angular_grinder",
     "type": "MIGRATION",
     "replace": "angle_grinder"
+  },
+  {
+    "id": "40mm_casing",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m118_casing"
   }
 ]

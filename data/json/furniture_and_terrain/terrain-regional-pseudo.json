@@ -41,6 +41,36 @@
   },
   {
     "type": "terrain",
+    "id": "t_region_groundcover_barren",
+    "name": "this should never actually show up, it's a pseudo terrain",
+    "description": "this should never actually show up, it's a pseudo terrain.  For use where people have trampled away grass, or otherwise cleared plant life.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_region_grass",
+    "name": "this should never actually show up, it's a pseudo terrain",
+    "description": "this should never actually show up, it's a pseudo terrain.  For use where clean, curated grass is the only expected terrain - modified by whatever the biome equivalent is",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_region_soil",
+    "name": "this should never actually show up, it's a pseudo terrain",
+    "description": "this should never actually show up, it's a pseudo terrain.  For use where plants have been planted and grass/groundcover kept clear",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_region_tree",
     "name": "this should never actually show up, it's a pseudo terrain",
     "description": "this should never actually show up, it's a pseudo terrain",

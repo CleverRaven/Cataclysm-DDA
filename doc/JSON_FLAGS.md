@@ -307,7 +307,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ACIDBOMB``` Pull the pin on an acid bomb.
 - ```AUTOCLAVE``` Sterilize one CBM by autoclaving it.
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
-- ```BATTLETORCH``` Light the battle torch.
 - ```BELL``` Ring the bell.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
 - ```BREAK_STICK``` Breaks long stick into two.
@@ -908,6 +907,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```CBM_TECH``` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
 - ```CHITIN``` May produce chitin when butchered.
 - ```CLIMBS``` Can climb.
+- ```COLDROOF``` Immune to cold damage.
 - ```CURRENT``` this water is flowing.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground.

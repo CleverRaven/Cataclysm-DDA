@@ -14,6 +14,7 @@
 #endif
 
 #include "point.h"
+#include "translations.h"
 
 enum action_id : int;
 
@@ -178,7 +179,7 @@ struct input_event {
 struct action_attributes {
     action_attributes() : is_user_created( false ) {}
     bool is_user_created;
-    std::string name;
+    translation name;
     std::vector<input_event> input_events;
 };
 
@@ -300,7 +301,6 @@ class input_manager
         using t_actions = std::map<std::string, action_attributes>;
         using t_action_contexts = std::map<std::string, t_actions>;
         t_action_contexts action_contexts;
-        using t_string_string_map = std::map<std::string, std::string>;
 
         using t_key_to_name_map = std::map<int, std::string>;
         t_key_to_name_map keycode_to_keyname;
@@ -358,10 +358,10 @@ class input_manager
          * @param action_id The action ID of the action.
          *
          * @return If the action ID exists in the default context, the name of
-         *         that action's name is returned. Otherwise, the action_id is
+         *         that action's name is returned. Otherwise, no_translation( action_id ) is
          *         returned.
          */
-        std::string get_default_action_name( const std::string &action_id ) const;
+        translation get_default_action_name( const std::string &action_id ) const;
 };
 
 // Singleton for our input manager.
@@ -513,7 +513,7 @@ class input_context
          * @param name Name of the action, displayed to the user. If empty use the
          * name reported by the input_manager.
          */
-        void register_action( const std::string &action_descriptor, const std::string &name );
+        void register_action( const std::string &action_descriptor, const translation &name );
 
         /**
          * Get the set of available single character keyboard keys that do not
@@ -530,6 +530,10 @@ class input_context
         std::string get_available_single_char_hotkeys(
             std::string requested_keys =
                 "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=:;'\",./<>?!@#$%^&*()_+[]\\{}|`~" );
+
+        using input_event_filter = std::function<bool( const input_event & )>;
+        static const input_event_filter disallow_lower_case;
+        static const input_event_filter allow_all_keys;
 
         /**
          * Get a description text for the key/other input method associated
@@ -549,10 +553,7 @@ class input_context
          */
         std::string get_desc( const std::string &action_descriptor,
                               unsigned int max_limit = 0,
-                              std::function<bool( const input_event & )> evt_filter =
-        []( const input_event & ) {
-            return true;
-        } ) const;
+                              const input_event_filter &evt_filter = allow_all_keys ) const;
 
         /**
          * Get a description based on `text`. If a bound key for `action_descriptor`
@@ -570,19 +571,13 @@ class input_context
          */
         std::string get_desc( const std::string &action_descriptor,
                               const std::string &text,
-                              std::function<bool( const input_event & )> evt_filter =
-        []( const input_event & ) {
-            return true;
-        } ) const;
+                              const input_event_filter &evt_filter = allow_all_keys ) const;
 
         /**
          * Equivalent to get_desc( act, get_action_name( act ), filter )
          **/
         std::string describe_key_and_name( const std::string &action_descriptor,
-                                           std::function<bool( const input_event & )> evt_filter =
-        []( const input_event & ) {
-            return true;
-        } ) const;
+                                           const input_event_filter &evt_filter = allow_all_keys ) const;
 
         /**
          * Handles input and returns the next action in the queue.
@@ -706,7 +701,7 @@ class input_context
          * name. This map stores those overrides. The key is the action ID and the
          * value is the user-visible name.
          */
-        input_manager::t_string_string_map action_name_overrides;
+        std::map<std::string, translation> action_name_overrides;
 
         /**
          * Returns whether action uses the specified input

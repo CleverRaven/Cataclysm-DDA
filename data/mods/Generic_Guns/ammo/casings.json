@@ -1,0 +1,72 @@
+[
+  {
+    "id": "pistol_tiny_casing",
+    "copy-from": "32_casing",
+    "type": "GENERIC",
+    "name": "tiny pistol casing",
+    "description": "An empty casing from a tiny pistol round."
+  },
+  {
+    "id": "pistol_casing",
+    "copy-from": "9mm_casing",
+    "type": "GENERIC",
+    "name": "pistol casing",
+    "description": "An empty casing from a standard pistol round."
+  },
+  {
+    "id": "pistol_magnum_casing",
+    "copy-from": "44_casing",
+    "type": "GENERIC",
+    "name": "magnum pistol casing",
+    "description": "An empty casing from a magnum pistol round."
+  },
+  {
+    "id": "rifle_casing",
+    "copy-from": "308_casing",
+    "type": "GENERIC",
+    "name": "rifle casing",
+    "description": "An empty casing from a rifle round."
+  },
+  {
+    "id": "rifle_huge_casing",
+    "copy-from": "50_casing",
+    "type": "GENERIC",
+    "name": "huge rifle casing",
+    "description": "An empty casing from a huge rifle round."
+  },
+  {
+    "id": "shot_casing",
+    "copy-from": "shot_hull",
+    "type": "GENERIC",
+    "name": "shotshell hull",
+    "description": "A shotshell's casing, a plastic tube with a brass casehead, commonly referred to as a hull."
+  },
+  {
+    "id": "grenade_casing",
+    "copy-from": "40x46mm_m199_casing",
+    "type": "GENERIC",
+    "name": "grenade casing",
+    "description": "A large casing from a grenade round."
+  },
+  {
+    "id": "ammolinkrifle",
+    "copy-from": "ammolink",
+    "type": "GENERIC",
+    "name": "rifle belt linkage",
+    "use_action": { "type": "ammobelt", "belt": "rifle_belt" }
+  },
+  {
+    "id": "ammolinkgrenade",
+    "copy-from": "ammolink",
+    "type": "GENERIC",
+    "name": "grenade belt linkage",
+    "use_action": { "type": "ammobelt", "belt": "grenade_belt" }
+  },
+  {
+    "id": "ammolinkrifle_huge",
+    "copy-from": "ammolink",
+    "type": "GENERIC",
+    "name": "heavy machinegun belt linkage",
+    "use_action": { "type": "ammobelt", "belt": "rifle_huge_belt" }
+  }
+]

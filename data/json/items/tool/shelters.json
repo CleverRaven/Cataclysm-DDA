@@ -2,7 +2,7 @@
   {
     "id": "damaged_shelter_kit",
     "type": "TOOL",
-    "name": "damaged shelter kit",
+    "name": { "str": "damaged shelter kit" },
     "description": "This is a small shelter, made of sticks and skins.  Use it to place.  This shelter has been damaged, and needs repairs.",
     "weight": "1360 g",
     "volume": "7500 ml",
@@ -16,7 +16,7 @@
   {
     "id": "large_tent_kit",
     "type": "TOOL",
-    "name": "large tent",
+    "name": { "str": "large tent" },
     "description": "This is a family sized tent.  It provides a large amount of space, but is very bulky.",
     "weight": "2266 g",
     "volume": "10 L",
@@ -40,7 +40,7 @@
   {
     "id": "shelter_kit",
     "type": "TOOL",
-    "name": "shelter kit",
+    "name": { "str": "shelter kit" },
     "description": "This is a small shelter, made of sticks and skins.  Use it to place.",
     "weight": "1360 g",
     "volume": "7500 ml",
@@ -63,7 +63,7 @@
   {
     "id": "tent_kit",
     "type": "TOOL",
-    "name": "tent",
+    "name": { "str": "tent" },
     "description": "This is a small personal tent, it's just big enough to fit you comfortably.",
     "weight": "1133 g",
     "volume": "2500 ml",

@@ -40,22 +40,7 @@
 #include "player.h"
 #include "string_id.h"
 #include "point.h"
-
-static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_bounced( "bounced" );
-static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_npc_suspend( "npc_suspend" );
-static const efftype_id effect_sap( "sap" );
-static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_zapped( "zapped" );
-static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_no_sight( "no_sight" );
-static const efftype_id effect_riding( "riding" );
-static const efftype_id effect_ridden( "ridden" );
-static const efftype_id effect_tied( "tied" );
-static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+#include "cata_string_consts.h"
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -622,17 +607,18 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     double damage_mult = 1.0;
 
+    const int max_damage = proj.impact.total_damage();
     std::string message;
     game_message_type gmtSCTcolor = m_neutral;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
-    } else if( goodhit < accuracy_headshot ) {
+    } else if( goodhit < accuracy_headshot && max_damage > 0.4 * get_hp_max() ) {
         message = _( "Headshot!" );
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float( 1.95, 2.05 );
         bp_hit = bp_head; // headshot hits the head, of course
 
-    } else if( goodhit < accuracy_critical ) {
+    } else if( goodhit < accuracy_critical && max_damage > 0.4 * get_hp_max() ) {
         message = _( "Critical!" );
         gmtSCTcolor = m_critical;
         damage_mult *= rng_float( 1.5, 2.0 );
@@ -651,7 +637,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         damage_mult *= rng_float( 0, .25 );
     }
 
-    if( print_messages && source != nullptr && !message.empty() ) {
+    if( print_messages && source != nullptr && !message.empty() && u_see_this ) {
         source->add_msg_if_player( m_good, message );
     }
 
@@ -1201,9 +1187,8 @@ bool Creature::resists_effect( const effect &e )
     return false;
 }
 
-bool Creature::has_trait( const trait_id &flag ) const
+bool Creature::has_trait( const trait_id &/*flag*/ ) const
 {
-    ( void )flag;
     return false;
 }
 

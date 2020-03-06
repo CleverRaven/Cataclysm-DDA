@@ -155,7 +155,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JESSE_CARLOS",
-    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forage set up.",
+    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forge set up.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -164,7 +164,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
-    "dynamic_line": "You should get off my farm, I won't deal with a a government stooge.",
+    "dynamic_line": "You should get off my farm, I won't deal with a government stooge.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
