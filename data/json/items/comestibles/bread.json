@@ -228,7 +228,7 @@
   {
     "type": "COMESTIBLE",
     "id": "biscuit",
-    "name": "biscuit",
+    "name": { "str": "biscuit" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "7 days 12 hours",

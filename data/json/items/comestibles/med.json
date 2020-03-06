@@ -143,7 +143,7 @@
     "id": "bandages",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "bandage",
+    "name": { "str": "bandage" },
     "description": "Simple cloth bandages.  Used for healing small amounts of damage.",
     "weight": "70 g",
     "volume": "250 ml",
@@ -168,7 +168,7 @@
   {
     "id": "bandages_makeshift_bleached",
     "type": "COMESTIBLE",
-    "name": "bleached makeshift bandage",
+    "name": { "str": "bleached makeshift bandage" },
     "copy-from": "bandages",
     "description": "Simple cloth bandages.  It is white, as real bandages should be.",
     "flags": [ "NO_INGEST" ],
@@ -177,7 +177,7 @@
   {
     "id": "bandages_makeshift_boiled",
     "type": "COMESTIBLE",
-    "name": "boiled makeshift bandage",
+    "name": { "str": "boiled makeshift bandage" },
     "copy-from": "bandages",
     "description": "Simple cloth bandages.  It was boiled to make it more sterile.",
     "flags": [ "NO_INGEST" ],

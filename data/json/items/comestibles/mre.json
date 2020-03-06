@@ -292,7 +292,7 @@
     "type": "COMESTIBLE",
     "id": "mre_beeftaco",
     "copy-from": "mre_entree",
-    "name": "beef taco entree",
+    "name": { "str": "beef taco entree" },
     "description": "The beef taco entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
     "fun": 0
@@ -301,7 +301,7 @@
     "type": "COMESTIBLE",
     "id": "mre_beef",
     "copy-from": "mre_entree",
-    "name": "beef brisket entree",
+    "name": { "str": "beef brisket entree" },
     "description": "The beef brisket entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": "flesh",
     "fun": 1
@@ -319,7 +319,7 @@
     "type": "COMESTIBLE",
     "id": "mre_beefstew",
     "copy-from": "mre_entree",
-    "name": "beef stew entree",
+    "name": { "str": "beef stew entree" },
     "description": "The beef stew entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
     "fun": 0
