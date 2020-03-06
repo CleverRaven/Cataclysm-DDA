@@ -970,7 +970,7 @@
   {
     "id": "wood_smoother",
     "type": "TOOL",
-    "name": "wooden smoother",
+    "name": { "str": "wooden smoother" },
     "description": "This large makeshift tool is used in smoothing concrete or mortar in construction projects.  You could also use it as an improvised head-basher.",
     "weight": "2000 g",
     "volume": "3500 ml",
@@ -986,7 +986,7 @@
     "id": "wool_staple",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": "wool staple",
+    "name": { "str": "wool staple" },
     "description": "The natural cluster of wool fibers.  Could be processed to the felt patches or yarns.",
     "weight": "200 g",
     "volume": "500 ml",

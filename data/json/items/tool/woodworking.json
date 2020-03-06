@@ -2,7 +2,7 @@
   {
     "id": "ax",
     "type": "TOOL",
-    "name": "wood axe",
+    "name": { "str": "wood axe" },
     "description": "This is a large, two-handed wood axe.  It makes a good melee weapon, but is a bit slow to recover between swings.",
     "weight": "2267 g",
     "volume": "2500 ml",
@@ -237,7 +237,7 @@
   {
     "id": "saw",
     "type": "TOOL",
-    "name": "wood saw",
+    "name": { "str": "wood saw" },
     "description": "This is a thin saw, useful for cutting through wood objects.",
     "weight": "283 g",
     "volume": "1 L",

@@ -365,7 +365,7 @@
   {
     "id": "pheromone",
     "type": "TOOL",
-    "name": "zombie pheromone",
+    "name": { "str": "zombie pheromone" },
     "description": "This is a disgusting ball of rotting meat of zombie origin.  Squeezing this gland causes a small cloud of pheromones to spray into the air.  Apparently the foul secretion can change zombies' attitude towards you, and they may ignore you for a short period of time.  Perhaps they briefly consider you as one of them.",
     "weight": "238 g",
     "volume": "250 ml",
@@ -664,7 +664,7 @@
   {
     "id": "vortex_stone",
     "type": "TOOL",
-    "name": "vortex stone",
+    "name": { "str": "vortex stone" },
     "description": "This is a stone with spirals all over it, and holes around its perimeter.  Though it is fairly large, it weighs next to nothing.  Air seems to gather around it.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -682,7 +682,7 @@
     "id": "whistle_multitool",
     "type": "TOOL",
     "category": "tools",
-    "name": "whistle multitool",
+    "name": { "str": "whistle multitool" },
     "description": "A cheap gadget combining a whistle, thermometer, magnifying glass, and compass.",
     "weight": "7 g",
     "volume": "25 ml",
