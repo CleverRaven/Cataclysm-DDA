@@ -166,7 +166,8 @@
       { "item": "holybook_pastafarian", "prob": 1 },
       { "item": "holybook_slack", "prob": 1 },
       { "item": "holybook_kallisti", "prob": 1 },
-      { "item": "holybook_scientology", "prob": 1 }
+      { "item": "holybook_scientology", "prob": 1 },
+      { "item": "holybook_satanic", "prob": 1 }
     ]
   },
   {
