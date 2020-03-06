@@ -814,12 +814,20 @@ Example for mods:
 
 This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the special snippet id.
 
-#### `pet`
+#### `pets`
 
-(optional, string mtype_id)
+(optional, array of string mtype_ids )
 
-A string that is the same as a monster id
-player will start with this as a tamed pet.
+A list of strings, each is the same as a monster id
+player will start with these as tamed pets.
+
+#### `vehicle`
+
+(optional, string vproto_id )
+
+A  string, which is the same as a vehicle ( vproto_id )
+player will start with this as a nearby vehicle.
+( it will find the nearest road and place it there, then mark it as "remembered" on the overmap )
 
 #### `flags`
 

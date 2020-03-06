@@ -52,6 +52,7 @@
 #include "pimpl.h"
 #include "type_id.h"
 #include "cata_string_consts.h"
+#include "veh_type.h"
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
@@ -519,6 +520,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     for( mtype_id elem : prof->pets() ) {
         starting_pets.push_back( elem );
     }
+    starting_vehicle = prof->vehicle();
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
@@ -1479,13 +1481,18 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
             }
         }
         // Profession pet
-        cata::optional<mtype_id> montype;
         if( !sorted_profs[cur_id]->pets().empty() ) {
             buffer += colorize( _( "Pets:" ), c_light_blue ) + "\n";
             for( auto elem : sorted_profs[cur_id]->pets() ) {
                 monster mon( elem );
                 buffer += mon.get_name() + "\n";
             }
+        }
+        // Profession vehicle
+        if( sorted_profs[cur_id]->vehicle() ) {
+            buffer += colorize( _( "Vehicle:" ), c_light_blue ) + "\n";
+            vproto_id veh_id = sorted_profs[cur_id]->vehicle();
+            buffer += veh_id->name;
         }
         // Profession spells
         if( !sorted_profs[cur_id]->spells().empty() ) {
