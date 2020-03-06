@@ -139,9 +139,6 @@ std::string enum_to_string<log_entry_type>( const log_entry_type type )
 
 } //namespace io
 
-void starting_clothes( npc &who, const npc_class_id &type, bool male );
-void starting_inv( npc &who, const npc_class_id &type );
-
 npc::npc()
     : restock( calendar::turn_zero )
     , companion_mission_time( calendar::before_time_starts )
