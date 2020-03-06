@@ -245,7 +245,7 @@
     "material": [ "flesh" ],
     "symbol": "[",
     "color": "green",
-    "covers": [ "TORSO" ],
+    "covers": [ "CHEST" ],
     "coverage": 40,
     "encumbrance": 10,
     "storage": "25 L",
@@ -355,7 +355,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "white",
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "covers": [ "LEGS", "CHEST", "ABDOMEN", "PELVIS", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] }
   },
@@ -369,7 +369,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "green",
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "covers": [ "LEGS", "CHEST", "ABDOMEN", "PELVIS", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
@@ -385,7 +385,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "green",
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "covers": [ "LEGS", "CHEST", "ABDOMEN", "PELVIS", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
@@ -403,7 +403,7 @@
     "material": [ "stone" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "HEAD", "MOUTH", "EYES", "CHEST", "ABDOMEN", "PELVIS", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 100,
     "encumbrance": 20,
     "warmth": 5,

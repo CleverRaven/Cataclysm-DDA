@@ -99,7 +99,7 @@
     "difficulty": 2,
     "effect": "target_attack",
     "effect_str": "enchant_windrun",
-    "affected_body_parts": [ "TORSO" ],
+    "affected_body_parts": [ "CHEST" ],
     "valid_targets": [ "ally", "self" ],
     "flags": [ "CONCENTRATE", "SILENT", "VERBAL", "NO_HANDS" ],
     "max_level": 10,

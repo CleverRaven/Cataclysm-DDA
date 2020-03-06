@@ -11,7 +11,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "PELVIS" ],
     "coverage": 5,
     "material_thickness": 2,
     "use_action": {
@@ -114,7 +114,7 @@
     "name_plural": "technomancer's toolbelts",
     "weight": "2000 g",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "PELVIS" ],
     "storage": "1 L",
     "symbol": "[",
     "description": "A custom-built leather utility belt that instantly creates any tool that you reach for.  Activate to sheathe/draw a weapon.",
