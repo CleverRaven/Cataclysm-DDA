@@ -4550,7 +4550,7 @@
   },
   {
     "type": "recipe",
-    "result": "tempered_glass_sheet",
+    "result": "rigid_plastic_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -4558,6 +4558,6 @@
     "time": "1 h",
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 400 ], [ "flask_glass", 126 ], [ "jar_glass", 42 ] ] ]
+    "components": [ [ [ "plastic_chunk", 200 ], ] ]
   }
 ]
