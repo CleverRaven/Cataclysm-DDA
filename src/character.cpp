@@ -137,7 +137,9 @@ Character::Character() :
     drench_capacity[bp_arm_r] = 10;
     drench_capacity[bp_hand_l] = 3;
     drench_capacity[bp_hand_r] = 3;
-    drench_capacity[bp_torso] = 40;
+    drench_capacity[bp_chest] = 15;
+    drench_capacity[bp_abdomen] = 15;
+    drench_capacity[bp_pelvis] = 10;
 }
 // *INDENT-ON*
 
@@ -4625,31 +4627,41 @@ void Character::update_bodytemp()
 
         // EQUALIZATION
         switch( bp ) {
-            case bp_torso:
-                temp_equalizer( bp_torso, bp_arm_l );
-                temp_equalizer( bp_torso, bp_arm_r );
-                temp_equalizer( bp_torso, bp_leg_l );
-                temp_equalizer( bp_torso, bp_leg_r );
-                temp_equalizer( bp_torso, bp_head );
+            case bp_chest:
+                temp_equalizer( bp_chest, bp_arm_l );
+                temp_equalizer( bp_chest, bp_arm_r );
+                temp_equalizer( bp_chest, bp_head );
+                break;
+            case bp_abdomen:
+                temp_equalizer( bp_abdomen, bp_leg_l );
+                temp_equalizer( bp_abdomen, bp_leg_r );
+                temp_equalizer( bp_abdomen, bp_pelvis );
+                break;
+            case bp_pelvis:
+                temp_equalizer( bp_pelvis, bp_leg_l );
+                temp_equalizer( bp_pelvis, bp_leg_r );
+                temp_equalizer( bp_pelvis, bp_abdomen );
                 break;
             case bp_head:
-                temp_equalizer( bp_head, bp_torso );
+                temp_equalizer( bp_head, bp_chest );
                 temp_equalizer( bp_head, bp_mouth );
                 break;
             case bp_arm_l:
-                temp_equalizer( bp_arm_l, bp_torso );
+                temp_equalizer( bp_arm_l, bp_chest );
                 temp_equalizer( bp_arm_l, bp_hand_l );
                 break;
             case bp_arm_r:
-                temp_equalizer( bp_arm_r, bp_torso );
+                temp_equalizer( bp_arm_r, bp_chest );
                 temp_equalizer( bp_arm_r, bp_hand_r );
                 break;
             case bp_leg_l:
-                temp_equalizer( bp_leg_l, bp_torso );
+                temp_equalizer( bp_leg_l, bp_abdomen );
+                temp_equalizer( bp_leg_l, bp_pelvis );
                 temp_equalizer( bp_leg_l, bp_foot_l );
                 break;
             case bp_leg_r:
-                temp_equalizer( bp_leg_r, bp_torso );
+                temp_equalizer( bp_leg_r, bp_abdomen );
+                temp_equalizer( bp_leg_r, bp_pelvis );
                 temp_equalizer( bp_leg_r, bp_foot_r );
                 break;
             case bp_mouth:
@@ -4684,7 +4696,9 @@ void Character::update_bodytemp()
             // Extremities are easier to extend over a fire
             switch( bp ) {
                 case bp_head:
-                case bp_torso:
+                case bp_chest:
+                case bp_abdomen:
+                case bp_pelvis:
                 case bp_mouth:
                 case bp_leg_l:
                 case bp_leg_r:
@@ -5857,8 +5871,12 @@ hp_part Character::bp_to_hp( const body_part bp )
         case bp_eyes:
         case bp_mouth:
             return hp_head;
-        case bp_torso:
-            return hp_torso;
+        case bp_chest:
+            return hp_chest;
+        case bp_abdomen:
+            return hp_abdomen;
+        case bp_pelvis:
+            return hp_pelvis;
         case bp_arm_l:
         case bp_hand_l:
             return hp_arm_l;
@@ -5881,8 +5899,12 @@ body_part Character::hp_to_bp( const hp_part hpart )
     switch( hpart ) {
         case hp_head:
             return bp_head;
-        case hp_torso:
-            return bp_torso;
+        case hp_chest:
+            return bp_chest;
+        case hp_abdomen:
+            return bp_abdomen;
+        case hp_pelvis:
+            return bp_pelvis;
         case hp_arm_l:
             return bp_arm_l;
         case hp_arm_r:
@@ -5909,7 +5931,9 @@ std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
             bp_head,
             bp_eyes,
             bp_mouth,
-            bp_torso,
+            bp_chest,
+            bp_abdomen,
+            bp_pelvis,
             bp_arm_l,
             bp_arm_r,
             bp_hand_l,
@@ -5923,7 +5947,9 @@ std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
 
     static const std::vector<body_part> main_bps = {{
             bp_head,
-            bp_torso,
+            bp_chest,
+            bp_abdomen,
+            bp_pelvis,
             bp_arm_l,
             bp_arm_r,
             bp_leg_l,
@@ -6142,7 +6168,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
         if( bp == bp_head ) {
             bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD" ) / 100.0f;
         }
-        if( bp == bp_chest ) {
+        if( bp == bp_chest || bp == bp_abdomen ) {
             bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO" ) / 100.0f;
         }
     }
@@ -6153,7 +6179,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
         if( bp == bp_head ) {
             disinfected_rate *= e_disinfected.get_amount( "HEAL_HEAD" ) / 100.0f;
         }
-        if( bp == bp_chest ) {
+        if( bp == bp_chest || bp == bp_abdomen) {
             disinfected_rate *= e_disinfected.get_amount( "HEAL_TORSO" ) / 100.0f;
         }
     }
@@ -7577,8 +7603,14 @@ void Character::heal( body_part healed, int dam )
         case bp_head:
             healpart = hp_head;
             break;
-        case bp_torso:
-            healpart = hp_torso;
+        case bp_chest:
+            healpart = hp_chest;
+            break;
+        case bp_abdomen:
+            healpart = hp_abdomen;
+            break;
+        case bp_pelvis:
+            healpart = hp_pelvis;
             break;
         case bp_hand_l:
             // Shouldn't happen, but fall through to arms
@@ -7667,7 +7699,7 @@ int Character::hitall( int dam, int vary, Creature *source )
 void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
-        ( hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15 ) ) {
+        ( hp_cur[hp_head] < 25 || hp_cur[hp_chest] < 15 || hp_cur[hp_abdomen] < 15 ) ) {
         add_effect( effect_adrenaline, 20_minutes );
     }
 
@@ -8302,8 +8334,8 @@ std::string Character::is_snuggling() const
         if( !candidate->is_armor() ) {
             continue;
         } else if( candidate->volume() > 250_ml && candidate->get_warmth() > 0 &&
-                   ( candidate->covers( bp_torso ) || candidate->covers( bp_leg_l ) ||
-                     candidate->covers( bp_leg_r ) ) ) {
+                   ( candidate->covers( bp_abdomen ) || candidate->covers( bp_leg_l ) ||
+                     candidate->covers( bp_leg_r ) || candidate->covers( bp_pelvis ) ) ) {
             floor_armor = &*candidate;
             ticker++;
         }
