@@ -98,7 +98,7 @@
     "armor_cut": 4,
     "vision_day": 30,
     "vision_night": 10,
-    "emit_fields": [ "emit_smoke_stream" ],
+    "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],

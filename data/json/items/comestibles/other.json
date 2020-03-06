@@ -18,7 +18,7 @@
     "type": "COMESTIBLE",
     "id": "slime_scrap",
     "category": "other",
-    "name": "blob glob",
+    "name": { "str": "blob glob" },
     "weight": "238 g",
     "color": "dark_gray",
     "use_action": "POISON",

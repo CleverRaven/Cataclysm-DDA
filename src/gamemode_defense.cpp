@@ -177,9 +177,8 @@ void defense_game::pre_action( action_id &act )
     }
 }
 
-void defense_game::post_action( action_id act )
+void defense_game::post_action( action_id /*act*/ )
 {
-    ( void )act;
 }
 
 void defense_game::game_over()

@@ -109,10 +109,10 @@ struct stat_mod {
 };
 
 struct needs_rates {
-    float thirst;
-    float hunger;
-    float fatigue;
-    float recovery;
+    float thirst = 0.0f;
+    float hunger = 0.0f;
+    float fatigue = 0.0f;
+    float recovery = 0.0f;
     float kcal = 0.0f;
 };
 
@@ -939,7 +939,7 @@ class player : public Character
 
         bool reach_attacking = false;
         bool manual_examine = false;
-
+        vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
@@ -963,7 +963,6 @@ class player : public Character
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
 
-        m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
         int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;

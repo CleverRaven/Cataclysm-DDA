@@ -17,7 +17,7 @@
   {
     "type": "TOOL",
     "id": "minireactor",
-    "name": "minireactor",
+    "name": { "str": "minireactor" },
     "description": "A small portable plutonium reactor.  Handle with great care!",
     "weight": "27215 g",
     "to_hit": -4,
@@ -124,7 +124,7 @@
   {
     "type": "GENERIC",
     "id": "vh_autoclave",
-    "name": "mountable autoclave",
+    "name": { "str": "mountable autoclave" },
     "description": "This autoclave has been rigged to run off a vehicle power grid.",
     "price": 162654,
     "symbol": "A",
@@ -137,14 +137,14 @@
     "type": "GENERIC",
     "copy-from": "washing_machine",
     "id": "minifridge",
-    "name": "minifridge",
+    "name": { "str": "minifridge" },
     "description": "A very small fridge for keeping food cool.  Provides some insulation from outside weather.",
     "insulation": 2
   },
   {
     "type": "GENERIC",
     "id": "minifreezer",
-    "name": "minifreezer",
+    "name": { "str": "minifreezer" },
     "description": "Compact version of a chest freezer, designed as a mobile solution for freezing food.  Provides insulation from the elements.",
     "price": 70000,
     "insulation": 4,
@@ -153,7 +153,7 @@
   {
     "type": "GENERIC",
     "id": "dishwasher",
-    "name": "dishwasher",
+    "name": { "str": "dishwasher" },
     "description": "A very small dishwasher designed for use in vehicles.",
     "looks_like": "washing_machine",
     "copy-from": "washing_machine"

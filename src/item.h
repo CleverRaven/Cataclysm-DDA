@@ -329,7 +329,7 @@ class item : public visitable<item>
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
                            unsigned int truncate = 0 ) const;
         std::string display_money( unsigned int quantity, unsigned int total,
-                                   cata::optional<unsigned int> selected = cata::nullopt ) const;
+                                   const cata::optional<unsigned int> &selected = cata::nullopt ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
@@ -768,6 +768,9 @@ class item : public visitable<item>
 
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
+
+        /** whether an item is perishable (can rot), even if it is currently in a preserving container */
+        bool goes_bad_after_opening() const;
 
         /** Get the shelf life of the item*/
         time_duration get_shelf_life() const;

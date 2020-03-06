@@ -838,6 +838,11 @@ bool game::start_game()
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
     }
+    if( u.starting_vehicle &&
+        !place_vehicle_nearby( u.starting_vehicle, u.global_omt_location().xy(), 1, 30,
+                               std::vector<std::string> {} ) ) {
+        debugmsg( "could not place starting vehicle" );
+    }
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
         const auto mission = mission::reserve_new( m, character_id() );
@@ -846,6 +851,53 @@ bool game::start_game()
 
     g->events().send<event_type::game_start>( u.getID() );
     return true;
+}
+
+vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, int min_distance,
+                                     int max_distance, const std::vector<std::string> &omt_search_types )
+{
+    std::vector<std::string> search_types = omt_search_types;
+    if( search_types.empty() ) {
+        vehicle veh( id );
+        std::vector<std::string> omt_search_types;
+        if( veh.max_ground_velocity() > 0 ) {
+            search_types.push_back( "road" );
+            search_types.push_back( "field" );
+        } else if( veh.can_float() ) {
+            search_types.push_back( "river" );
+            search_types.push_back( "lake" );
+        }
+    }
+    for( const std::string &search_type : search_types ) {
+        omt_find_params find_params;
+        find_params.must_see = false;
+        find_params.cant_see = false;
+        find_params.types.emplace_back( search_type, ot_match_type::type );
+        // find nearest road
+        find_params.min_distance = min_distance;
+        find_params.search_range = max_distance;
+        // if player spawns underground, park their car on the surface.
+        const tripoint omt_origin( origin.x, origin.y, 0 );
+        for( const tripoint &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
+            // try place vehicle there.
+            tinymap target_map;
+            target_map.load( omt_to_sm_copy( goal ), false );
+            const tripoint origin( SEEX, SEEY, goal.z );
+            static const std::vector<int> angles = {0, 90, 180, 270};
+            vehicle *veh = target_map.add_vehicle( id, origin, random_entry( angles ), rng( 50, 80 ),
+                                                   0,
+                                                   false );
+            if( veh ) {
+                tripoint abs_local = g->m.getlocal( target_map.getabs( origin ) );
+                veh->sm_pos =  ms_to_sm_remain( abs_local );
+                veh->pos = abs_local.xy();
+                overmap_buffer.add_vehicle( veh );
+                target_map.save();
+                return veh;
+            }
+        }
+    }
+    return nullptr;
 }
 
 //Make any nearby overmap npcs active, and put them in the right location.
@@ -1659,7 +1711,7 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
 
 static bool cancel_auto_move( player &p, const std::string &text )
 {
-    if( p.has_destination() && query_yn( "%s, cancel Auto-move?", text ) ) {
+    if( p.has_destination() && query_yn( _( "%s, cancel Auto-move?" ), text ) )  {
         add_msg( m_warning, _( "%s. Auto-move canceled" ), text );
         if( !p.omt_path.empty() ) {
             p.omt_path.clear();
@@ -4109,7 +4161,9 @@ void game::monmove()
 
         m.creature_in_field( critter );
         if( calendar::once_every( 1_days ) ) {
-            critter.refill_udders();
+            if( critter.has_flag( MF_MILKABLE ) ) {
+                critter.refill_udders();
+            }
             critter.try_biosignature();
             critter.try_reproduce();
         }
@@ -4251,9 +4305,9 @@ void game::knockback( const tripoint &s, const tripoint &t, int force, int stun,
    stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
    dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
 
-void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_mult )
+void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int dam_mult )
 {
-    ( void )force; // FIXME: unused but header says it should do something
+    // FIXME: force is unused but header says it should do something
     // TODO: make the force parameter actually do something.
     // the header file says higher force causes more damage.
     // perhaps that is what it should do?
@@ -6937,15 +6991,17 @@ int game::get_user_action_counter() const
     return user_action_counter;
 }
 
+#if defined(TILES)
 bool game::take_screenshot( const std::string &path ) const
 {
-#if defined(TILES)
     return save_screenshot( path );
-#else
-    ( void )path; // unused
-    return false;
-#endif
 }
+#else
+bool game::take_screenshot( const std::string &/*path*/ ) const
+{
+    return false;
+}
+#endif
 
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
@@ -10284,10 +10340,24 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     int best = INT_MAX;
     const int movez = z_after - get_levz();
     Creature *blocking_creature = nullptr;
+    const bool going_down_1 = movez == -1;
+    const bool going_up_1 = movez == 1;
+    // If there are stairs on the same x and y as we currently are, use those
+    if( going_down_1 && mp.has_flag( TFLAG_GOES_UP, u.pos() + tripoint_below ) ) {
+        stairs.emplace( u.pos() + tripoint_below );
+    }
+    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) ) {
+        stairs.emplace( u.pos() + tripoint_above );
+    }
+    if( stairs ) {
+        // We found stairs above or below, no need to do anything else
+        return stairs;
+    }
+    // Otherwise, search the map for them
     for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
         if( rl_dist( u.pos(), dest ) <= best &&
-            ( ( movez == -1 && mp.has_flag( "GOES_UP", dest ) ) ||
-              ( movez == 1 && ( mp.has_flag( "GOES_DOWN", dest ) ||
+            ( ( going_down_1 && mp.has_flag( TFLAG_GOES_UP, dest ) ) ||
+              ( going_up_1 && ( mp.has_flag( TFLAG_GOES_DOWN, dest ) ||
                                 mp.ter( dest ) == t_manhole_cover ) ) ||
               ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
             if( mp.has_zlevels() && critter_at( dest ) ) {

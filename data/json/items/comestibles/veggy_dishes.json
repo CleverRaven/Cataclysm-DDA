@@ -583,7 +583,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dahlia_baked",
-    "name": "baked dahlia root",
+    "name": { "str": "baked dahlia root" },
     "copy-from": "dahlia_root",
     "spoils_in": "2 days",
     "healthy": 2,
