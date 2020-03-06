@@ -3135,8 +3135,6 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
 
 int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
 {
-    const int MAX_STAT = get_option<int>( "MAX_STAT_POINTS" );
-
     if( p->is_npc() ) {
         // Long action
         return 0;
@@ -3192,8 +3190,6 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
 
 int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
 {
-    const int MAX_STAT = get_option<int>( "MAX_STAT_POINTS" );
-
     if( p->is_npc() ) {
         // Long action
         return 0;

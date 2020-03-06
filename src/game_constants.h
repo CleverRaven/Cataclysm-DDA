@@ -113,6 +113,9 @@ constexpr int freezing = 32; // 0 Celsius
 // Maximum (effective) level for a skill.
 #define MAX_SKILL 10
 
+// Maximum (effective) level for a stat.
+#define MAX_STAT 14
+
 // Maximum range at which ranged attacks can be executed.
 #define RANGE_HARD_CAP 60
 

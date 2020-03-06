@@ -154,7 +154,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
 void avatar::randomize( const bool random_scenario, points_left &points, bool play_now )
 {
-    const int MAX_STAT = get_option<int>( "MAX_STAT_POINTS" );
+    const int max_stat_points = points.is_freeform() ? 99 : MAX_STAT;
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
     *this = avatar();
@@ -291,7 +291,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( str_max < HIGH_STAT ) {
                                 str_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && str_max < MAX_STAT ) {
+                            } else if( points.stat_points_left() >= 2 && str_max < max_stat_points ) {
                                 str_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -300,7 +300,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( dex_max < HIGH_STAT ) {
                                 dex_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && dex_max < MAX_STAT ) {
+                            } else if( points.stat_points_left() >= 2 && dex_max < max_stat_points ) {
                                 dex_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -309,7 +309,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( int_max < HIGH_STAT ) {
                                 int_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && int_max < MAX_STAT ) {
+                            } else if( points.stat_points_left() >= 2 && int_max < max_stat_points ) {
                                 int_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -318,7 +318,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( per_max < HIGH_STAT ) {
                                 per_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && per_max < MAX_STAT ) {
+                            } else if( points.stat_points_left() >= 2 && per_max < max_stat_points ) {
                                 per_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -734,7 +734,7 @@ tab_direction set_points( const catacurses::window &w, avatar &, points_left &po
 
 tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points )
 {
-    const int MAX_STAT = get_option<int>( "MAX_STAT_POINTS" );
+    const int max_stat_points = points.is_freeform() ? 99 : MAX_STAT;
 
     unsigned char sel = 1;
     const int iSecondColumn = std::max( 27, utf8_width( points.to_string(), true ) + 9 );
@@ -913,25 +913,25 @@ tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &po
                 points.stat_points++;
             }
         } else if( action == "RIGHT" ) {
-            if( sel == 1 && u.str_max < MAX_STAT ) {
+            if( sel == 1 && u.str_max < max_stat_points ) {
                 points.stat_points--;
                 if( u.str_max >= HIGH_STAT ) {
                     points.stat_points--;
                 }
                 u.str_max++;
-            } else if( sel == 2 && u.dex_max < MAX_STAT ) {
+            } else if( sel == 2 && u.dex_max < max_stat_points ) {
                 points.stat_points--;
                 if( u.dex_max >= HIGH_STAT ) {
                     points.stat_points--;
                 }
                 u.dex_max++;
-            } else if( sel == 3 && u.int_max < MAX_STAT ) {
+            } else if( sel == 3 && u.int_max < max_stat_points ) {
                 points.stat_points--;
                 if( u.int_max >= HIGH_STAT ) {
                     points.stat_points--;
                 }
                 u.int_max++;
-            } else if( sel == 4 && u.per_max < MAX_STAT ) {
+            } else if( sel == 4 && u.per_max < max_stat_points ) {
                 points.stat_points--;
                 if( u.per_max >= HIGH_STAT ) {
                     points.stat_points--;
