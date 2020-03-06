@@ -291,7 +291,9 @@ TEST_CASE( "player_morale" )
 
     GIVEN( "tough temperature conditions" ) {
         WHEN( "chilly" ) {
-            m.on_effect_int_change( effect_cold, 1, bp_torso );
+            m.on_effect_int_change( effect_cold, 1, bp_chest );
+            m.on_effect_int_change( effect_cold, 1, bp_abdomen );
+            m.on_effect_int_change( effect_cold, 1, bp_pelvis );
             m.on_effect_int_change( effect_cold, 1, bp_head );
             m.on_effect_int_change( effect_cold, 1, bp_eyes );
             m.on_effect_int_change( effect_cold, 1, bp_mouth );
@@ -326,7 +328,9 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "cold" ) {
-            m.on_effect_int_change( effect_cold, 2, bp_torso );
+            m.on_effect_int_change( effect_cold, 2, bp_chest );
+            m.on_effect_int_change( effect_cold, 2, bp_abdomen );
+            m.on_effect_int_change( effect_cold, 2, bp_pelvis );
             m.on_effect_int_change( effect_cold, 2, bp_head );
             m.on_effect_int_change( effect_cold, 2, bp_eyes );
             m.on_effect_int_change( effect_cold, 2, bp_mouth );
@@ -359,7 +363,9 @@ TEST_CASE( "player_morale" )
                 CHECK( m.get_level() == -20 );
             }
             AND_WHEN( "warmed up afterwards" ) {
-                m.on_effect_int_change( effect_cold, 0, bp_torso );
+                m.on_effect_int_change( effect_cold, 0, bp_chest );
+                m.on_effect_int_change( effect_cold, 0, bp_abdomen );
+                m.on_effect_int_change( effect_cold, 0, bp_pelvis );
                 m.on_effect_int_change( effect_cold, 0, bp_head );
                 m.on_effect_int_change( effect_cold, 0, bp_eyes );
                 m.on_effect_int_change( effect_cold, 0, bp_mouth );
@@ -378,7 +384,9 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "warm" ) {
-            m.on_effect_int_change( effect_hot, 1, bp_torso );
+            m.on_effect_int_change( effect_hot, 1, bp_chest );
+            m.on_effect_int_change( effect_hot, 1, bp_abdomen );
+            m.on_effect_int_change( effect_hot, 1, bp_pelvis );
             m.on_effect_int_change( effect_hot, 1, bp_head );
             m.on_effect_int_change( effect_hot, 1, bp_eyes );
             m.on_effect_int_change( effect_hot, 1, bp_mouth );
@@ -413,7 +421,9 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "hot" ) {
-            m.on_effect_int_change( effect_hot, 2, bp_torso );
+            m.on_effect_int_change( effect_hot, 2, bp_chest );
+            m.on_effect_int_change( effect_hot, 2, bp_abdomen );
+            m.on_effect_int_change( effect_hot, 2, bp_pelvis );
             m.on_effect_int_change( effect_hot, 2, bp_head );
             m.on_effect_int_change( effect_hot, 2, bp_eyes );
             m.on_effect_int_change( effect_hot, 2, bp_mouth );
@@ -446,7 +456,9 @@ TEST_CASE( "player_morale" )
                 CHECK( m.get_level() == -20 );
             }
             AND_WHEN( "cooled afterwards" ) {
-                m.on_effect_int_change( effect_hot, 0, bp_torso );
+                m.on_effect_int_change( effect_hot, 0, bp_chest );
+                m.on_effect_int_change( effect_hot, 0, bp_abdomen );
+                m.on_effect_int_change( effect_hot, 0, bp_pelvis );
                 m.on_effect_int_change( effect_hot, 0, bp_head );
                 m.on_effect_int_change( effect_hot, 0, bp_eyes );
                 m.on_effect_int_change( effect_hot, 0, bp_mouth );

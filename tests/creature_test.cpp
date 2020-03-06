@@ -24,8 +24,8 @@ static void calculate_bodypart_distribution( const enum m_size asize, const enum
 {
     INFO( "hit roll = " << hit_roll );
     std::map<body_part, int> selected_part_histogram = {
-        { bp_torso, 0 }, { bp_head, 0 }, { bp_eyes, 0 }, { bp_mouth, 0 }, { bp_arm_l, 0 }, { bp_arm_r, 0 },
-        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 0 }, { bp_leg_r, 0 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+        { bp_chest, 0 }, { bp_head, 0 }, { bp_eyes, 0 }, { bp_mouth, 0 }, { bp_arm_l, 0 }, { bp_arm_r, 0 }, { bp_abdomen, 0 },
+        { bp_pelvis, 0 }, { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 0 }, { bp_leg_r, 0 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
     };
 
     mtype atype;
