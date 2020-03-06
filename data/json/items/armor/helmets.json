@@ -468,7 +468,7 @@
     "id": "helmet_plate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "great helm" },
+    "name": { "str": "great helm", "str_pl": "great helmets" },
     "description": "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.",
     "weight": "2175 g",
     "volume": "2750 ml",
