@@ -12,6 +12,7 @@ TEST_CASE( "food enjoyability", "[modify_morale][fun]" )
     std::pair<int, int> fun;
 
     // FIXME: the `fun_for` method itself has quite a few caveats and addendums
+    // and stacks with other morale modifiers in `modify_morale`
 
     GIVEN( "food with positive fun" ) {
         item &toastem = dummy.i_add( item( "toastem" ) );
@@ -203,11 +204,100 @@ TEST_CASE( "sweet junk food", "[modify_morale][junk][sweet]" )
     }
 }
 
-// food with any allergy type gives morale penalty for allergy
-//
-TEST_CASE( "food with allergen", "[modify_morale][allergy]" )
+TEST_CASE( "food allergies and intolerances", "[modify_morale][allergy]" )
 {
+    avatar dummy;
 
+    item &meat = dummy.i_add( item( "meat" ) );
+    REQUIRE( meat.has_flag( "ALLERGEN_MEAT" ) );
+
+    item &milk = dummy.i_add( item( "milk" ) );
+    REQUIRE( milk.has_flag( "ALLERGEN_MILK" ) );
+
+    item &wheat = dummy.i_add( item( "wheat" ) );
+    REQUIRE( wheat.has_flag( "ALLERGEN_WHEAT" ) );
+
+    item &veggy = dummy.i_add( item( "broccoli" ) );
+    REQUIRE( veggy.has_flag( "ALLERGEN_VEGGY" ) );
+
+    item &fruit = dummy.i_add( item( "apple" ) );
+    REQUIRE( fruit.has_flag( "ALLERGEN_FRUIT" ) );
+
+    item &junk = dummy.i_add( item( "neccowafers" ) );
+    REQUIRE( junk.has_flag( "ALLERGEN_JUNK" ) );
+
+
+    GIVEN( "character is vegetarian" ) {
+        dummy.toggle_trait( trait_VEGETARIAN );
+        REQUIRE( dummy.has_trait( trait_VEGETARIAN ) );
+
+        THEN( "they get a morale penalty for eating meat" ) {
+            dummy.clear_morale();
+            dummy.modify_morale( meat );
+            CHECK( dummy.has_morale( MORALE_VEGETARIAN ) );
+            CHECK( dummy.get_morale_level() < -50 );
+        }
+    }
+
+    GIVEN( "character is lactose intolerant" ) {
+        dummy.toggle_trait( trait_LACTOSE );
+        REQUIRE( dummy.has_trait( trait_LACTOSE ) );
+
+        THEN( "they get a morale penalty for drinking milk" ) {
+            dummy.clear_morale();
+            dummy.modify_morale( milk );
+            CHECK( dummy.has_morale( MORALE_LACTOSE ) );
+            CHECK( dummy.get_morale_level() < -50 );
+        }
+    }
+
+    GIVEN( "character is grain intolerant" ) {
+        dummy.toggle_trait( trait_ANTIWHEAT );
+        REQUIRE( dummy.has_trait( trait_ANTIWHEAT ) );
+
+        THEN( "they get a morale penalty for eating wheat" ) {
+            dummy.clear_morale();
+            dummy.modify_morale( wheat );
+            CHECK( dummy.has_morale( MORALE_ANTIWHEAT ) );
+            CHECK( dummy.get_morale_level() < -50 );
+        }
+    }
+
+    GIVEN( "character hates vegetables" ) {
+        dummy.toggle_trait( trait_MEATARIAN );
+        REQUIRE( dummy.has_trait( trait_MEATARIAN ) );
+
+        THEN( "they get a morale penalty for eating vegetables" ) {
+            dummy.clear_morale();
+            dummy.modify_morale( veggy );
+            CHECK( dummy.has_morale( MORALE_MEATARIAN ) );
+            CHECK( dummy.get_morale_level() < -50 );
+        }
+    }
+
+    GIVEN( "character hates fruit" ) {
+        dummy.toggle_trait( trait_ANTIFRUIT );
+        REQUIRE( dummy.has_trait( trait_ANTIFRUIT ) );
+
+        THEN( "they get a morale penalty for eating fruit" ) {
+            dummy.clear_morale();
+            dummy.modify_morale( fruit );
+            CHECK( dummy.has_morale( MORALE_ANTIFRUIT ) );
+            CHECK( dummy.get_morale_level() < -50 );
+        }
+    }
+
+    GIVEN( "character has a junk food intolerance" ) {
+        dummy.toggle_trait( trait_ANTIJUNK );
+        REQUIRE( dummy.has_trait( trait_ANTIJUNK ) );
+
+        THEN( "they get a morale penalty for eating junk food" ) {
+            dummy.clear_morale();
+            dummy.modify_morale( junk );
+            CHECK( dummy.has_morale( MORALE_ANTIJUNK ) );
+            CHECK( dummy.get_morale_level() < -50 );
+        }
+    }
 }
 
 TEST_CASE( "saprophage character", "[modify_morale][saprophage]" )
@@ -215,6 +305,7 @@ TEST_CASE( "saprophage character", "[modify_morale][saprophage]" )
     avatar dummy;
 
     GIVEN( "character is a saprophage, preferring rotted food" ) {
+        dummy.clear_morale();
         dummy.toggle_trait( trait_SAPROPHAGE );
         REQUIRE( dummy.has_trait( trait_SAPROPHAGE ) );
 
@@ -237,7 +328,7 @@ TEST_CASE( "saprophage character", "[modify_morale][saprophage]" )
             toastem.set_relative_rot( 0.0 );
             REQUIRE( toastem.is_fresh() );
 
-            THEN( "it gives a morale penalty due to indigestion" ) {
+            THEN( "they get a morale penalty due to indigestion" ) {
                 dummy.modify_morale( toastem );
                 CHECK( dummy.has_morale( MORALE_NO_DIGEST ) );
                 CHECK( dummy.get_morale_level() <= -25 );
@@ -248,5 +339,31 @@ TEST_CASE( "saprophage character", "[modify_morale][saprophage]" )
     }
 }
 
-// URSINE_HONEY food gives MORALE_HONEY bonus to THRESH_URSINE characters who haven't crossed
+// FIXME: Also need at least 5 bear mutations
+TEST_CASE( "ursine honey", "[modify_morale][ursine][honey][!mayfail]" )
+{
+    avatar dummy;
+    std::pair<int, int> fun;
+
+    item &honeycomb = dummy.i_add( item( "honeycomb" ) );
+    REQUIRE( honeycomb.has_flag( flag_URSINE_HONEY ) );
+
+    GIVEN( "character is post-threshold ursine" ) {
+        dummy.toggle_trait( trait_THRESH_URSINE );
+        REQUIRE( dummy.has_trait( trait_THRESH_URSINE ) );
+
+
+        THEN( "they get a morale bonus for eating it" ) {
+            dummy.modify_morale( honeycomb );
+
+            // Should be greater than normal fun
+            fun = dummy.fun_for( honeycomb );
+            CHECK( dummy.get_morale_level() > fun.first );
+
+            AND_THEN( "they enjoy it" ) {
+                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) );
+            }
+        }
+    }
+}
 
