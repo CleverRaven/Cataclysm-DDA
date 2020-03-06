@@ -84,7 +84,7 @@
     "weight": "113 g",
     "volume": "1500 ml",
     "bashing": 8,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 7 },
+    "armor_data": { "covers": [ "CHEST" ], "coverage": 5, "material_thickness": 1, "encumbrance": 7 },
     "reload_noise_volume": 0,
     "loudness": 0,
     "ranged_damage": 30,
