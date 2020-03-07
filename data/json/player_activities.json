@@ -589,6 +589,13 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_PRY_NAILS",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "prying nails",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_CHOP_TREE",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",

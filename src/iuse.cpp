@@ -2105,56 +2105,6 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
     return 1;
 }
 
-static bool pry_nails( player &p, const ter_id &type, const tripoint &pnt )
-{
-    int nails = 0;
-    int boards = 0;
-    ter_id newter;
-    if( type == t_fence ) {
-        nails = 6;
-        boards = 3;
-        newter = t_fence_post;
-        p.add_msg_if_player( _( "You pry out the fence post." ) );
-    } else if( type == t_window_boarded ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_frame;
-        p.add_msg_if_player( _( "You pry the boards from the window." ) );
-    } else if( type == t_window_boarded_noglass ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_empty;
-        p.add_msg_if_player( _( "You pry the boards from the window frame." ) );
-    } else if( type == t_door_boarded || type == t_door_boarded_damaged ||
-               type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
-               type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
-        nails = 8;
-        boards = 4;
-        if( type == t_door_boarded ) {
-            newter = t_door_c;
-        } else if( type == t_door_boarded_damaged ) {
-            newter = t_door_b;
-        } else if( type == t_door_boarded_peep ) {
-            newter = t_door_c_peep;
-        } else if( type == t_door_boarded_damaged_peep ) {
-            newter = t_door_b_peep;
-        } else if( type == t_rdoor_boarded ) {
-            newter = t_rdoor_c;
-        } else { // if (type == t_rdoor_boarded_damaged)
-            newter = t_rdoor_b;
-        }
-        p.add_msg_if_player( _( "You pry the boards from the door." ) );
-    } else {
-        return false;
-    }
-    p.practice( skill_fabrication, 1, 1 );
-    p.moves -= to_moves<int>( 30_seconds );
-    g->m.spawn_item( p.pos(), "nail", 0, nails );
-    g->m.spawn_item( p.pos(), "2x4", boards );
-    g->m.ter_set( pnt, newter );
-    return true;
-}
-
 int iuse::hammer( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
@@ -2200,7 +2150,14 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    if( pry_nails( *p, type, pnt ) ) {
+    if( type == t_fence || type == t_window_boarded || type == t_window_boarded_noglass ||
+        type == t_door_boarded || type == t_door_boarded_damaged ||
+        type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
+        type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
+        // pry action
+        player_activity act( ACT_PRY_NAILS, to_moves<int>( 30_seconds ), -1 );
+        act.placement = pnt;
+        p->assign_activity( act );
         return it->type->charges_to_use();
     } else {
         return 0;
