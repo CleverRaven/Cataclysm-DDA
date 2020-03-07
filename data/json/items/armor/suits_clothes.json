@@ -100,7 +100,7 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "yellow",
-    "covers": [ "LEGS", "ARMS", ""CHEST", "ABDOMEN", "PELVIS" ],
+    "covers": [ "LEGS", "ARMS", "CHEST", "ABDOMEN", "PELVIS" ],
     "coverage": 95,
     "encumbrance": 2,
     "storage": "2500 ml",
