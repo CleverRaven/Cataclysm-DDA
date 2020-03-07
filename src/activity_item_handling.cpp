@@ -2694,7 +2694,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
             if( seed_inv.empty() ) {
                 continue;
             }
-            iexamine::plant_seed( p, src, itype_id( seed ) );
+            iexamine::plant_seed( p, src_loc, itype_id( seed ) );
             p.backlog.push_front( act_id );
             return false;
         }
