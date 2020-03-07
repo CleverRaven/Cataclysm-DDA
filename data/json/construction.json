@@ -3905,7 +3905,7 @@
   {
     "type": "construction",
     "id": "constr_skylight_frame",
-    "description": "Build Sky Light Frame Flat Roof",
+    "description": "Build Skylight Frame Flat Roof",
     "//": "Step 1: Build skylight frame on a flat roof",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 4 ] ],
