@@ -5242,7 +5242,7 @@
   {
     "type": "mutation",
     "id": "HAIRROOTS",
-    "name": "Hair Roots",
+    "name": { "str": "Hair Roots" },
     "points": 0,
     "visibility": 4,
     "ugliness": 2,
