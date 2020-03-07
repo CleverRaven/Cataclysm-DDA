@@ -307,7 +307,7 @@ static void do_blast( const tripoint &p, const float power,
             float armor_mul;
         };
 
-        static const std::array<blastable_part, 6> blast_parts = { {
+        static const std::array<blastable_part, 8> blast_parts = { {
                 { bp_chest, 2.0f, 3.0f, 0.5f },
                 { bp_abdomen, 2.0f, 3.0f, 0.5f },
                 { bp_pelvis, 2.0f, 3.0f, 0.5f },

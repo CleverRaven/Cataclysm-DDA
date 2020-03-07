@@ -455,7 +455,7 @@ void player::sort_armor()
     int rightListOffset = 0;
 
     std::vector<std::list<item>::iterator> tmp_worn;
-    std::array<std::string, 13> armor_cat = {{
+    std::array<std::string, 15> armor_cat = {{
             _( "Chest" ), _( "Abdomen" ), ( "Pelvis" ), _( "Head" ), _( "Eyes" ), _( "Mouth" ), 
             _( "L. Arm" ), _( "R. Arm" ),_( "L. Hand" ), _( "R. Hand" ), _( "L. Leg" ), 
             _( "R. Leg" ), _( "L. Foot" ), _( "R. Foot" ), _( "All" )

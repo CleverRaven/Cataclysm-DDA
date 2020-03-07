@@ -192,6 +192,7 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
 
     switch( bp ) {
 	case bp_chest:
+        {
 	    //Affects swimming and melee
             const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
             s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
@@ -199,10 +200,11 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
                                      skill_swimming ) * 3 ) );
             s += melee_cost_text( eff_encumbrance );
             break;
+        }
 	case bp_abdomen:
             s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
             break;
-	case bp_head:
+	case bp_pelvis:
             s += _( "<color_magenta>Pelvis encumbrance has no effect; it simply limits how much you can put on.</color>" );
             break;
 	case bp_head:

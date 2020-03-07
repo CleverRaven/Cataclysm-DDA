@@ -353,11 +353,11 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
                         hit = bp_abdomen;
                         break;
                     case  12:
-                        hit = bp_pelvis;
-                        break;
                     case  13:
                     case  14:
                     case  15:
+                        hit = bp_pelvis;
+                        break;
                 }
                 //~ %s is bodypart
                 n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ) );
@@ -462,11 +462,11 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                         hit = bp_abdomen;
                         break;
                     case  12:
-                        hit = bp_pelvis;
-                        break;
                     case  13:
                     case  14:
                     case  15:
+                        hit = bp_pelvis;
+                        break;
                 }
                 //~ %s is bodypart
                 n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ) );
@@ -848,11 +848,11 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
                     hit = bp_abdomen;
                     break;
                 case  12:
-                    hit = bp_pelvis;
-                    break;
                 case  13:
                 case  14:
                 case  15:
+                    hit = bp_pelvis;
+                    break;
             }
             n->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                   body_part_name_accusative( hit ) );
@@ -944,11 +944,11 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
                     hit = bp_abdomen;
                     break;
                 case  12:
-                    hit = bp_pelvis;
-                    break;
                 case  13:
                 case  14:
                 case  15:
+                    hit = bp_pelvis;
+                    break;
             }
             n->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
                                   body_part_name_accusative( hit ) );
