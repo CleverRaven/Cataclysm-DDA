@@ -846,7 +846,10 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
     int line_num = data.use_full_win || data.without_border ? 0 : 1;
     if( !data.get_item_name().empty() ) {
         buffer += data.get_item_name() + "\n";
-    } else if( !data.get_type_name().empty() ) {
+    }
+    // If type name is set, and not already contained in item name, output it too
+    if( !data.get_type_name().empty() &&
+        data.get_item_name().find( data.get_type_name() ) == std::string::npos ) {
         buffer += data.get_type_name() + "\n";
     }
     for( unsigned int i = 0; i < data.padding; i++ ) {
