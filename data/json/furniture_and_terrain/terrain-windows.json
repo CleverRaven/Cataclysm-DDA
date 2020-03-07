@@ -1080,7 +1080,7 @@
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_with_curtain_open_window_closed",
     "name": "reinforced single-pane glass window with a curtain",
-    "description": "A reinforce window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A reinforced window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
