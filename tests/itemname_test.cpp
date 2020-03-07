@@ -117,3 +117,107 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
 
     }
 }
+
+TEST_CASE( "item type name", "[item][type_name]" )
+{
+    SECTION( "named item" ) {
+        item plank( "2x4" );
+        plank.set_var( "name", "Big Stick" );
+        REQUIRE( plank.get_var( "name" ) == "Big Stick" );
+
+        CHECK( plank.type_name() == "Big Stick" );
+    }
+
+    SECTION( "items with conditions" ) {
+        // TODO
+    }
+
+    static const mtype_id mon_zombie( "mon_zombie" );
+    static const mtype_id mon_chicken( "mon_chicken" );
+
+    SECTION( "blood" ) {
+
+        SECTION( "blood from a zombie corpse" ) {
+            item corpse = item::make_corpse( mon_zombie );
+            item blood( "blood" );
+            blood.set_mtype( corpse.get_mtype() );
+            REQUIRE( blood.typeId() == "blood" );
+            REQUIRE_FALSE( blood.is_corpse() );
+
+            CHECK( blood.type_name() == "zombie blood" );
+        }
+
+        SECTION( "blood from a chicken corpse" ) {
+            item corpse = item::make_corpse( mon_chicken );
+            item blood( "blood" );
+            blood.set_mtype( corpse.get_mtype() );
+            REQUIRE( blood.typeId() == "blood" );
+            REQUIRE_FALSE( blood.is_corpse() );
+
+            CHECK( blood.type_name() == "chicken blood" );
+        }
+
+        SECTION( "blood from an unknown corpse" ) {
+            item blood( "blood" );
+            REQUIRE( blood.typeId() == "blood" );
+            REQUIRE_FALSE( blood.is_corpse() );
+
+            CHECK( blood.type_name() == "human blood" );
+        }
+    }
+
+    SECTION( "corpses" ) {
+
+        // Anonymous corpses
+
+        SECTION( "human corpse" ) {
+            item corpse = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, "" );
+            REQUIRE( corpse.is_corpse() );
+            REQUIRE( corpse.get_corpse_name().empty() );
+
+            CHECK( corpse.type_name() == "corpse of a human" );
+        }
+
+        SECTION( "zombie corpse" ) {
+            item corpse = item::make_corpse( mon_zombie, calendar::turn, "" );
+            REQUIRE( corpse.is_corpse() );
+            REQUIRE( corpse.get_corpse_name().empty() );
+
+            CHECK( corpse.type_name() == "corpse of a zombie" );
+        }
+
+        SECTION( "chicken corpse" ) {
+            item corpse = item::make_corpse( mon_chicken, calendar::turn, "" );
+            REQUIRE( corpse.is_corpse() );
+            REQUIRE( corpse.get_corpse_name().empty() );
+
+            CHECK( corpse.type_name() == "corpse of a chicken" );
+        }
+
+        // Corpses with names
+
+        SECTION( "human corpse with a name" ) {
+            item corpse = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, "Dead Dude" );
+            REQUIRE( corpse.is_corpse() );
+            REQUIRE_FALSE( corpse.get_corpse_name().empty() );
+
+            CHECK( corpse.type_name() == "corpse of Dead Dude, human" );
+        }
+
+        SECTION( "zombie corpse with a name" ) {
+            item corpse = item::make_corpse( mon_zombie, calendar::turn, "Deadite Jones" );
+            REQUIRE( corpse.is_corpse() );
+            REQUIRE_FALSE( corpse.get_corpse_name().empty() );
+
+            CHECK( corpse.type_name() == "corpse of Deadite Jones, zombie" );
+        }
+
+        SECTION( "chicken corpse with a name" ) {
+            item corpse = item::make_corpse( mon_chicken, calendar::turn, "Herb" );
+            REQUIRE( corpse.is_corpse() );
+            REQUIRE_FALSE( corpse.get_corpse_name().empty() );
+
+            CHECK( corpse.type_name() == "corpse of Herb, chicken" );
+        }
+    }
+}
