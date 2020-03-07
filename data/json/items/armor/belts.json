@@ -71,7 +71,7 @@
     "id": "judo_belt_green",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "green belt",
+    "name": { "str": "green belt" },
     "description": "A belt worn by martial arts practitioners, advertising an intermediate.",
     "color": "green"
   },

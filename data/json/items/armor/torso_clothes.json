@@ -189,7 +189,7 @@
     "id": "halter_top",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "halter top",
+    "name": { "str": "halter top" },
     "description": "A short top made from cotton.  It is light and easy to wear.",
     "weight": "42 g",
     "volume": "500 ml",
@@ -208,7 +208,7 @@
   {
     "id": "hoodie",
     "type": "ARMOR",
-    "name": "hoodie",
+    "name": { "str": "hoodie" },
     "description": "A sweatshirt with a hood and a \"kangaroo pocket\" in the front for storage.",
     "weight": "420 g",
     "volume": "3 L",
