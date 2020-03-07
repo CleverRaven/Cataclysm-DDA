@@ -3895,7 +3895,7 @@
     "description": "Build Tempered Window",
     "//": "Step 2: Build curtain for tempered window",
     "category": "WINDOWS",
-    "required_skills": [ [ "fabrication", 4 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
