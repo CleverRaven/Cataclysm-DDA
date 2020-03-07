@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_bird",
-    "name": "bird egg",
+    "name": { "str": "bird egg" },
     "weight": "57 g",
     "color": "brown",
     "spoils_in": "7 days",

@@ -1339,8 +1339,6 @@ const requirement_data *player::select_requirements(
         return alternatives.front();
     }
 
-    std::vector<std::string> descriptions;
-
     uilist menu;
 
     for( const requirement_data *req : alternatives ) {

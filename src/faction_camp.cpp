@@ -1240,7 +1240,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                camp_food_supply(), camp_food_supply( 0, true ) );
         mission_key.add( "Distribute Food", _( "Distribute Food" ), entry );
         validate_assignees();
-        std::vector<npc_ptr> npc_list = get_npcs_assigned();
         entry = string_format( _( "Notes:\n"
                                   "Assign repeating job duties to NPCs stationed here.\n"
                                   "Difficulty: N/A\n"
@@ -1276,7 +1275,8 @@ void basecamp::get_available_missions( mission_data &mission_key )
     }
 }
 
-bool basecamp::handle_mission( const std::string &miss_id, cata::optional<point> opt_miss_dir )
+bool basecamp::handle_mission( const std::string &miss_id,
+                               const cata::optional<point> &opt_miss_dir )
 {
     const point &miss_dir = opt_miss_dir ? *opt_miss_dir : base_camps::base_dir;
 

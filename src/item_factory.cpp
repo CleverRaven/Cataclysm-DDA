@@ -2124,7 +2124,7 @@ static void set_allergy_flags( itype &item_template )
             std::make_pair( material_id( "bean" ), "ALLERGEN_VEGGY" ),
             std::make_pair( material_id( "tomato" ), "ALLERGEN_VEGGY" ),
             std::make_pair( material_id( "garlic" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "nut" ), "ALLERGEN_VEGGY" ),
+            std::make_pair( material_id( "nut" ), "ALLERGEN_NUT" ),
             std::make_pair( material_id( "mushroom" ), "ALLERGEN_VEGGY" ),
             std::make_pair( material_id( "milk" ), "ALLERGEN_MILK" ),
             std::make_pair( material_id( "egg" ), "ALLERGEN_EGG" ),

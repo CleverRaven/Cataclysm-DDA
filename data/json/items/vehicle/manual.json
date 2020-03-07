@@ -18,7 +18,7 @@
     "type": "GENERIC",
     "id": "foot_crank",
     "copy-from": "hand_rims",
-    "name": "foot crank",
+    "name": { "str": "foot crank" },
     "description": "The pedal and gear assembly from a bicycle.",
     "to_hit": -2,
     "bashing": 8,

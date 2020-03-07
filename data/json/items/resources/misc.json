@@ -49,7 +49,7 @@
   {
     "type": "GENERIC",
     "id": "fighter_sting",
-    "name": "fungal fighter sting",
+    "name": { "str": "fungal fighter sting" },
     "description": "A short dart from a fungal fighter.  Makes a poor melee weapon.",
     "weight": "270 g",
     "to_hit": -1,
@@ -184,7 +184,7 @@
     "type": "GENERIC",
     "symbol": ",",
     "color": "dark_gray",
-    "name": "grenade launcher buttstock",
+    "name": { "str": "grenade launcher buttstock" },
     "category": "spare_parts",
     "description": "A collapsible buttstock designed for the M320 grenade launcher.  When combined with this stock, the M320 can be used as a standalone weapon",
     "price": 10000,

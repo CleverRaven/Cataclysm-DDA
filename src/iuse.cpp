@@ -8243,7 +8243,6 @@ static bool multicooker_hallu( player &p )
 {
     p.moves -= to_moves<int>( 2_seconds );
     const int random_hallu = rng( 1, 7 );
-    std::vector<tripoint> points;
     switch( random_hallu ) {
 
         case 1:
@@ -9474,7 +9473,7 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( !p->is_wielding( *it ) ) {
-        if( !p->is_armed() || query_yn( "Wield the %s and start working?", it->tname() ) ) {
+        if( !p->is_armed() || query_yn( _( "Wield the %s and start working?" ), it->tname() ) )  {
             if( !p->wield( *it ) ) {
                 // Will likely happen if the in progress craft is too heavy, or the player is
                 // wielding something that can't be unwielded

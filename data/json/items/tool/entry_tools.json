@@ -53,7 +53,7 @@
   {
     "id": "makeshift_crowbar",
     "type": "TOOL",
-    "name": "makeshift crowbar",
+    "name": { "str": "makeshift crowbar" },
     "description": "This is a pipe whose ends have been bent and hammered flat to resemble a crowbar.  Use it to open locked crates without destroying them, or to lift manhole covers.  You could also wield it to fight with, in a pinch.",
     "weight": "1250 g",
     "volume": "1 L",
@@ -72,10 +72,10 @@
   {
     "id": "picklocks",
     "type": "TOOL",
-    "name": "locksmith kit",
+    "name": { "str": "locksmith kit" },
     "description": "This is a locksmith's set of sturdy steel lock picks and torsion wrenches.  It is essential for silently and quickly opening locks, provided you have some mechanical skill.",
     "weight": "544 g",
-    "volume": 0,
+    "volume": "100 ml",
     "price": 20000,
     "material": "steel",
     "symbol": ";",

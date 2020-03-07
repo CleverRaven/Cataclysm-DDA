@@ -106,7 +106,7 @@
   },
   {
     "id": "knife_vegetable_cleaver",
-    "name": "vegetable cleaver",
+    "name": { "str": "vegetable cleaver" },
     "type": "TOOL",
     "category": "weapons",
     "description": "This is a menacing looking knife with a broad, square shaped blade, curved for fast vegetable chopping.  Its heft and sharpness would make it a decent weapon as well, although not as good as a meat cleaver.",
@@ -122,7 +122,7 @@
   },
   {
     "id": "knife_meat_cleaver",
-    "name": "meat cleaver",
+    "name": { "str": "meat cleaver" },
     "type": "TOOL",
     "category": "weapons",
     "description": "This is a menacing looking knife with a broad, square shaped blade.  Its heft and sharpness would make it a very effective melee weapon, and an excellent butchering tool.",

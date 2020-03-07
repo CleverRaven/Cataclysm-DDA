@@ -1182,28 +1182,6 @@
   },
   {
     "type": "recipe",
-    "result": "aux_flamer",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
-    "skills_required": [ "fabrication", 3 ],
-    "difficulty": 6,
-    "time": "18 m",
-    "reversible": true,
-    "decomp_learn": 5,
-    "autolearn": true,
-    "book_learn": [ [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "duct_tape", 50 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "hose", 2 ] ],
-      [ [ "metal_tank_little", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "combatsaw_off",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",

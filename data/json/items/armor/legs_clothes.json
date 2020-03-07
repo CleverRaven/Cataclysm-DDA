@@ -234,7 +234,7 @@
   {
     "id": "loincloth_fur",
     "type": "ARMOR",
-    "name": "fur loincloth",
+    "name": { "str": "fur loincloth" },
     "description": "A fur pelt tied into a loincloth.  Covers your modesty, but not much else.  Now you are a true barbarian warrior.",
     "weight": "64 g",
     "volume": "250 ml",

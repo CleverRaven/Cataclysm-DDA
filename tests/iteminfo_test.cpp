@@ -406,6 +406,7 @@ TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
     }
 
     SECTION( "bottle jack" ) {
+        override_option opt( "USE_METRIC_WEIGHTS", "lbs" );
         test_info_equals(
             item( "test_jack_small" ), q,
             "--\n"

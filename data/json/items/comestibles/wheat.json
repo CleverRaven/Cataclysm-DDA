@@ -544,7 +544,7 @@
   {
     "id": "brownie_weed",
     "type": "COMESTIBLE",
-    "name": "'special' brownie",
+    "name": { "str": "'special' brownie" },
     "copy-from": "brownie",
     "description": "This is definitely not how grandma used to bake them.",
     "fun": 15,

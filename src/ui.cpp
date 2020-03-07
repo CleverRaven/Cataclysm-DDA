@@ -704,7 +704,7 @@ void uilist::refresh( bool refresh_callback )
 /**
  * redraw borders, which is required in some cases ( look_around() )
  */
-void uilist::redraw( bool redraw_callback )
+void uilist::redraw( bool /*redraw_callback*/ )
 {
     draw_border( window, border_color );
     if( !title.empty() ) {
@@ -717,8 +717,7 @@ void uilist::redraw( bool redraw_callback )
         mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
         mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
     }
-    // TODO: something
-    ( void )redraw_callback;
+    // TODO: something with the redraw_callback
     /*
     // pending tests on if this is needed
         if ( redraw_callback && callback != NULL ) {

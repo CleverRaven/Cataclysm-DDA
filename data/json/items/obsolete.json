@@ -1704,5 +1704,29 @@
     "environmental_protection": 5,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "aux_flamer",
+    "type": "GUNMOD",
+    "name": { "str": "aux flamethrower" },
+    "description": "This custom-built miniature flamethrower is made to be attached to almost any sort of firearm, greatly expanding its lethality.",
+    "weight": "1820 g",
+    "volume": "1 L",
+    "price": 85000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
+    "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
+    "magazine_well": 1,
+    "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
+    "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON-FOULING" ]
+  },
+  {
+    "type": "recipe",
+    "result": "aux_flamer",
+    "obsolete": true
   }
 ]
