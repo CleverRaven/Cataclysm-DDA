@@ -778,7 +778,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     // Reserve lines for aiming and firing instructions.
     if( mode == TARGET_MODE_FIRE ) {
         text_y -= ( 3 + aim_types.size() );
-    } else if( mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
+    } else {
         text_y -= 2;
     }
 
