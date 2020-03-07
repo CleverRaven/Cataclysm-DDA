@@ -3791,7 +3791,7 @@
     "description": "Build Quadruple-Pane Glass Window",
     "//": "Step 2: Build curtain for quadruple-pane glass window",
     "category": "WINDOWS",
-    "required_skills": [ [ "fabrication", 3 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
