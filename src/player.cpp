@@ -1215,7 +1215,7 @@ int player::intimidation() const
 
 bool player::is_dead_state() const
 {
-    return hp_cur[hp_head] <= 0 || hp_cur[hp_chest] <= 0;
+    return hp_cur[hp_head] <= 0 || hp_cur[hp_chest] <= 0 || hp_cur[hp_abdomen] <= 0 || hp_cur[hp_pelvis] <= 0;
 }
 
 void player::on_dodge( Creature *source, float difficulty )
