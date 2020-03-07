@@ -3879,7 +3879,7 @@
   {
     "type": "construction",
     "id": "constr_tempered_window",
-    "description": "Build Tempered Window",
+    "description": "Build Window from Tempered Glass",
     "//": "Step 1: Build tempered window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 4 ] ],
