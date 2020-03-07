@@ -57,7 +57,7 @@
     "id": "roadmap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
-    "name": "road map",
+    "name": { "str": "road map" },
     "description": "This is a road map for the local area.  Listing information on civic sites like hospitals and police stations, it can be used to add points of interest to your map.",
     "color": "yellow",
     "use_action": {
@@ -109,7 +109,7 @@
     "id": "restaurantmap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
-    "name": "restaurant guide",
+    "name": { "str": "restaurant guide" },
     "description": "This is glossy printed pamphlet that details dining establishments in the local area.  Printed by the Chamber of Commerce, it lists the addresses of all the best diners and bars.  Using it will add points of interest to your map.",
     "color": "pink",
     "use_action": {
