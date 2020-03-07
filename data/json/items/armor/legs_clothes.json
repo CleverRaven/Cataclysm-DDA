@@ -161,7 +161,7 @@
   {
     "id": "kilt",
     "type": "ARMOR",
-    "name": "kilt",
+    "name": { "str": "kilt" },
     "description": "No true Scotsman would leave home without his kilt.",
     "weight": "1814 g",
     "volume": "1500 ml",

@@ -29,7 +29,7 @@
   {
     "abstract": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "judo belt template",
+    "name": { "str": "judo belt template" },
     "description": "This is a template for judo belts.  If found in a game, it is a bug.",
     "weight": "200 g",
     "volume": "250 ml",

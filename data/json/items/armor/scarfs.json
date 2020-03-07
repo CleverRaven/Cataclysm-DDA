@@ -2,7 +2,7 @@
   {
     "id": "cowl_wool",
     "type": "ARMOR",
-    "name": "knit cowl",
+    "name": { "str": "knit cowl" },
     "description": "A snuggly woolen cowl.  It's one of those stylish and bulky cowls you see in fashion magazines.",
     "weight": "272 g",
     "volume": "2 L",
@@ -43,7 +43,7 @@
   {
     "id": "keffiyeh",
     "type": "ARMOR",
-    "name": "keffiyeh",
+    "name": { "str": "keffiyeh" },
     "description": "A type of headdress traditionally used in the Middle East.  It can be used in different ways to protect the head and mouth from the elements.",
     "weight": "152 g",
     "volume": "1250 ml",

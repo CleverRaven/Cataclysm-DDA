@@ -69,7 +69,7 @@
   {
     "id": "jumpsuit",
     "type": "ARMOR",
-    "name": "jumpsuit",
+    "name": { "str": "jumpsuit" },
     "description": "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
     "weight": "610 g",
     "volume": "3500 ml",

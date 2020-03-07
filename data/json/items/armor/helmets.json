@@ -311,7 +311,7 @@
     "id": "helmet_kabuto",
     "type": "ARMOR",
     "category": "armor",
-    "name": "kabuto",
+    "name": { "str": "kabuto" },
     "//": "Leaving this at $500 as it's either antique/priceless or player-made/Bartered, leastwise on the initial search.",
     "description": "A medieval Japanese helmet with a scowling facemask that provides excellent protection to the entire head and face.",
     "weight": "1625 g",

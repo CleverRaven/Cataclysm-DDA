@@ -483,7 +483,7 @@
   {
     "id": "quiver_large",
     "type": "ARMOR",
-    "name": "large quiver",
+    "name": { "str": "large quiver" },
     "description": "A large leather quiver trimmed with metal, worn on the back, that can hold 60 arrows.  Historically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.  Activate to store arrows.",
     "weight": "920 g",
     "volume": "1500 ml",
@@ -503,7 +503,7 @@
   {
     "id": "quiver_large_birchbark",
     "type": "ARMOR",
-    "name": "large birchbark quiver",
+    "name": { "str": "large birchbark quiver" },
     "description": "A large quiver woven from strips of birchbark, worn on the back, that can hold 60 arrows.  Activate to store arrows.",
     "weight": "1380 g",
     "volume": "1500 ml",
