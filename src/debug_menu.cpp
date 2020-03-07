@@ -1373,12 +1373,14 @@ void debug()
         // Damage Self
         case DEBUG_DAMAGE_SELF: {
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), u.hp_cur[hp_chest] );
-            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), u.hp_cur[hp_head] );
-            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), u.hp_cur[hp_arm_l] );
-            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), u.hp_cur[hp_arm_r] );
-            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), u.hp_cur[hp_leg_l] );
-            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), u.hp_cur[hp_leg_r] );
+            smenu.addentry( 0, true, 'q', "%s: %d", _( "Chest" ), u.hp_cur[hp_chest] );
+            smenu.addentry( 1, true, 'q', "%s: %d", _( "Abdomen" ), u.hp_cur[hp_chest] );
+            smenu.addentry( 2, true, 'q', "%s: %d", _( "Pelvis" ), u.hp_cur[hp_chest] );
+            smenu.addentry( 3, true, 'w', "%s: %d", _( "Head" ), u.hp_cur[hp_head] );
+            smenu.addentry( 4, true, 'a', "%s: %d", _( "Left arm" ), u.hp_cur[hp_arm_l] );
+            smenu.addentry( 5, true, 's', "%s: %d", _( "Right arm" ), u.hp_cur[hp_arm_r] );
+            smenu.addentry( 6, true, 'z', "%s: %d", _( "Left leg" ), u.hp_cur[hp_leg_l] );
+            smenu.addentry( 7, true, 'x', "%s: %d", _( "Right leg" ), u.hp_cur[hp_leg_r] );
             smenu.query();
             body_part part;
             int dbg_damage;
@@ -1387,18 +1389,24 @@ void debug()
                     part = bp_chest;
                     break;
                 case 1:
-                    part = bp_head;
+                    part = bp_abdomen;
                     break;
                 case 2:
-                    part = bp_arm_l;
+                    part = bp_pelvis;
                     break;
                 case 3:
-                    part = bp_arm_r;
+                    part = bp_head;
                     break;
                 case 4:
-                    part = bp_leg_l;
+                    part = bp_arm_l;
                     break;
                 case 5:
+                    part = bp_arm_r;
+                    break;
+                case 6:
+                    part = bp_leg_l;
+                    break;
+                case 7:
                     part = bp_leg_r;
                     break;
                 default:
