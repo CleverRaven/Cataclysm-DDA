@@ -133,8 +133,9 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     center_print( window, 0, c_light_red, _( " BIONICS " ) );
 
     std::string desc_append = string_format(
-                                  _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, [<color_yellow>%s</color>] "
-                                     "Toggle fuel saving mode, [<color_yellow>%s</color>] Toggle auto start mode." ),
+                                  _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "
+                                     "[<color_yellow>%s</color>] Toggle fuel saving mode, "
+                                     "[<color_yellow>%s</color>] Toggle auto start mode." ),
                                   ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
                                   ctxt.get_desc( "TOGGLE_AUTO_START" ) );
     std::string desc;
