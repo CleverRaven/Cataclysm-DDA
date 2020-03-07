@@ -2631,7 +2631,7 @@
     "type": "terrain",
     "id": "t_reinforced_plastic_window",
     "name": "Reinforced plastic window",
-    "description": "Reinforced plastic window. ",
+    "description": "A makeshift window comprising three sheets of translucent, rigid plastic secured in a wooden frame. It'll do in a pinch. ",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
     "color": "light_blue",
