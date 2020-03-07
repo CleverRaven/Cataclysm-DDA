@@ -105,7 +105,7 @@
   {
     "id": "backpack_tactical_large",
     "type": "ARMOR",
-    "name": "large tactical backpack",
+    "name": { "str": "large tactical backpack" },
     "description": "A large tactical multi-compartment backpack that has great lower back support.",
     "weight": "2291 g",
     "volume": "15 L",
@@ -128,7 +128,7 @@
   {
     "id": "basket_laundry",
     "type": "ARMOR",
-    "name": "laundry basket",
+    "name": { "str": "laundry basket" },
     "description": "A plastic basket meant for storing and hauling clothing.",
     "weight": "680 g",
     "volume": "25 L",
@@ -457,7 +457,7 @@
   {
     "id": "jerrypack",
     "type": "ARMOR",
-    "name": "jerrypack",
+    "name": { "str": "jerrypack" },
     "description": "A jerrycan modified to be worn in a similar manner to a backpack.",
     "weight": "1763 g",
     "volume": "10 L",

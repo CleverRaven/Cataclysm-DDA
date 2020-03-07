@@ -312,7 +312,7 @@
   {
     "id": "hat_knit",
     "type": "ARMOR",
-    "name": "knit hat",
+    "name": { "str": "knit hat" },
     "description": "A snug-fitting wool hat.  Very warm.",
     "weight": "120 g",
     "volume": "250 ml",
