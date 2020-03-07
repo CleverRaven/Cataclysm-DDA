@@ -1295,12 +1295,14 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "SWITCH_MODE" );
-    ctxt.register_action( "SWITCH_AMMO" );
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
 
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET || mode == TARGET_MODE_TURRET_MANUAL ) {
+        ctxt.register_action( "SWITCH_MODE" );
+        ctxt.register_action( "SWITCH_AMMO" );
+    }
     if( mode == TARGET_MODE_FIRE ) {
         ctxt.register_action( "AIM" );
         ctxt.register_action( "SWITCH_AIM" );
