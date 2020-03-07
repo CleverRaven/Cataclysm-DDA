@@ -357,7 +357,7 @@
   {
     "type": "mutation",
     "id": "GOODMEMORY",
-    "name": "Good Memory",
+    "name": { "str": "Good Memory" },
     "points": 3,
     "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
     "map_memory_capacity_multiplier": 2,
@@ -408,7 +408,7 @@
   {
     "type": "mutation",
     "id": "GOURMAND",
-    "name": "Gourmand",
+    "name": { "str": "Gourmand" },
     "points": 2,
     "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
     "starting_trait": true,
@@ -1006,7 +1006,7 @@
   {
     "type": "mutation",
     "id": "ANTIWHEAT",
-    "name": "Grain Intolerance",
+    "name": { "str": "Grain Intolerance" },
     "points": -2,
     "description": "You have a rare allergy that prevents you from eating most types of grains such as wheat or oats.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "vitamins_absorb_multi": [ [ "wheat", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
@@ -1038,7 +1038,7 @@
   {
     "type": "mutation",
     "id": "GLASSJAW",
-    "name": "Glass Jaw",
+    "name": { "str": "Glass Jaw" },
     "points": -2,
     "description": "Your head can't take much abuse.  Its maximum HP is 20% lower than usual.",
     "starting_trait": true,
@@ -1328,7 +1328,7 @@
   {
     "type": "mutation",
     "id": "CHAOTIC_BAD",
-    "name": "Genetic Downward Spiral",
+    "name": { "str": "Genetic Downward Spiral" },
     "points": -12,
     "purifiable": false,
     "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, and all mutations you receive (from any source) are negative.",
@@ -1364,7 +1364,7 @@
   {
     "type": "mutation",
     "id": "NIGHTVISION3",
-    "name": "Full Night Vision",
+    "name": { "str": "Full Night Vision" },
     "points": 6,
     "description": "You can see in pitch blackness as if you were wearing night-vision goggles.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "NIGHTVISION2" ],
@@ -1678,7 +1678,7 @@
   {
     "type": "mutation",
     "id": "GILLS",
-    "name": "Gills",
+    "name": { "str": "Gills" },
     "points": 2,
     "visibility": 5,
     "ugliness": 3,
@@ -2889,7 +2889,7 @@
   {
     "type": "mutation",
     "id": "GIZZARD",
-    "name": "Gizzard",
+    "name": { "str": "Gizzard" },
     "points": -5,
     "description": "You seem to get full faster now, and food goes through you more rapidly as well.",
     "valid": false,
@@ -2928,7 +2928,7 @@
   {
     "type": "mutation",
     "id": "GRAZER",
-    "name": "Grazer",
+    "name": { "str": "Grazer" },
     "points": 3,
     "description": "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush and shrubs.  Eat either one by activating this, standing over your target, and pressing E.",
     "prereqs": [ "RUMINANT" ],
@@ -3875,7 +3875,7 @@
   {
     "type": "mutation",
     "id": "HUGE",
-    "name": "Freakishly Huge",
+    "name": { "str": "Freakishly Huge" },
     "points": -2,
     "visibility": 4,
     "ugliness": 4,
@@ -4427,7 +4427,7 @@
   {
     "type": "mutation",
     "id": "DEFORMED3",
-    "name": "Grotesque",
+    "name": { "str": "Grotesque" },
     "points": -4,
     "visibility": 10,
     "ugliness": 10,
@@ -4463,7 +4463,7 @@
   {
     "type": "mutation",
     "id": "BEAUTIFUL3",
-    "name": "Glorious",
+    "name": { "str": "Glorious" },
     "points": 4,
     "visibility": 10,
     "ugliness": -10,
@@ -4979,7 +4979,7 @@
   {
     "type": "mutation",
     "id": "UNSTABLE",
-    "name": "Genetically Unstable",
+    "name": { "str": "Genetically Unstable" },
     "points": -2,
     "mixed_effect": true,
     "description": "Your DNA has been damaged in a way that causes you to continually develop more mutations.",
@@ -4989,7 +4989,7 @@
   {
     "type": "mutation",
     "id": "CHAOTIC",
-    "name": "Genetic Chaos",
+    "name": { "str": "Genetic Chaos" },
     "points": -4,
     "purifiable": false,
     "description": "Your body alters itself rapidly, and without your intervention or conscious control.",
@@ -5388,7 +5388,7 @@
   {
     "type": "mutation",
     "id": "GROWL",
-    "name": "Growling Voice",
+    "name": { "str": "Growling Voice" },
     "points": -1,
     "mixed_effect": true,
     "description": "You have a growling, rough voice.  Persuading NPCs will be more difficult, but threatening them will be easier.",
@@ -6031,7 +6031,7 @@
   {
     "type": "mutation",
     "id": "FRESHWATEROSMOSIS",
-    "name": "Freshwater Osmosis",
+    "name": { "str": "Freshwater Osmosis" },
     "points": 4,
     "description": "Your gills and skin are highly permeable to moisture, and you can hydrate your body through osmosis.  While submerged in fresh water, any thirst you might have will be slaked.",
     "prereqs": [ "GILLS" ],
