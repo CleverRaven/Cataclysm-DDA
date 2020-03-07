@@ -2542,7 +2542,7 @@
     "type": "terrain",
     "id": "t_plastic_window_with_curtain_open_window_closed",
     "name": "Plastic window with a curtain",
-    "description": "A plastic window with curtains drawn to allow light through.",
+    "description": "A makeshift window comprising a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required. It'll do in a pinch.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_blue",
