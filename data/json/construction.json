@@ -3892,7 +3892,7 @@
   {
     "type": "construction",
     "id": "constr_tempered_window_curtain",
-    "description": "Build Tempered Window",
+    "description": "Build Window from Tempered Glass",
     "//": "Step 2: Build curtain for tempered window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
