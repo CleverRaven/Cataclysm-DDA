@@ -1379,7 +1379,7 @@
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass",
     "name": "Reinforced double-pane glass window",
-    "description": "One sheet of glass with a giant sheet of reinforced glass inserted into a window frame.",
+    "description": "A double-glazed window inserted into a frame. The outer layer comprises a pane of reinforced glass for extra security.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
     "color": "light_cyan",
