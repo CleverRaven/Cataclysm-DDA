@@ -316,6 +316,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 7 },
+	  { "item": "ksg-25", "prob": 8, "charges-min": 0, "charges-max": 12 }
       { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 16 },
       { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 9 },
