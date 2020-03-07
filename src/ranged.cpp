@@ -797,6 +797,8 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
         label_fire = to_translation( "[Hotkey] to throw", "to throw" ).translated();
     } else if( mode == TARGET_MODE_REACH ) {
         label_fire = to_translation( "[Hotkey] to attack", "to attack" ).translated();
+    } else if( mode == TARGET_MODE_SPELL ) {
+        label_fire = to_translation( "[Hotkey] to cast the spell", "to cast" ).translated();
     } else {
         label_fire = to_translation( "[Hotkey] to fire", "to fire" ).translated();
     }
