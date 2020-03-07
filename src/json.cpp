@@ -1926,6 +1926,10 @@ std::ostream &operator<<( std::ostream &stream, const JsonError &err )
 template void JsonOut::write<12>( const std::bitset<12> & );
 template bool JsonIn::read<12>( std::bitset<12> &, bool throw_on_error );
 
+//Testing adding templates of size 14, for adding broken down torso
+template void JsonOut::write<14>( const std::bitset<14> & );
+template bool JsonIn::read<14>( std::bitset<14> &, bool throw_on_error );
+
 JsonIn &JsonValue::seek() const
 {
     jsin_.seek( pos_ );
