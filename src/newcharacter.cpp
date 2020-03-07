@@ -154,7 +154,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
 void avatar::randomize( const bool random_scenario, points_left &points, bool play_now )
 {
-    const int max_stat_points = points.is_freeform() ? 99 : MAX_STAT;
+    const int max_stat_points = points.is_freeform() ? 20 : MAX_STAT;
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
     *this = avatar();
@@ -734,7 +734,7 @@ tab_direction set_points( const catacurses::window &w, avatar &, points_left &po
 
 tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points )
 {
-    const int max_stat_points = points.is_freeform() ? 99 : MAX_STAT;
+    const int max_stat_points = points.is_freeform() ? 20 : MAX_STAT;
 
     unsigned char sel = 1;
     const int iSecondColumn = std::max( 27, utf8_width( points.to_string(), true ) + 9 );
