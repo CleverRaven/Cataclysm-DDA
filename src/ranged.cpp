@@ -792,13 +792,23 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
         return keys.empty() ? fallback : keys.front();
     };
 
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%s] Cycle targets; [%c] to fire." ),
-                   ctxt.get_desc( "NEXT_TARGET", 1 ), front_or( "FIRE", ' ' ) );
-        mvwprintz( w_target, point( 1, text_y++ ), c_white,
-                   _( "[%c] target self; [%c] toggle snap-to-target" ),
-                   front_or( "CENTER", ' ' ), front_or( "TOGGLE_SNAP_TO_TARGET", ' ' ) );
+    std::string label_fire;
+    if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
+        label_fire = to_translation( "[Hotkey] to throw", "to throw" ).translated();
+    } else if( mode == TARGET_MODE_REACH ) {
+        label_fire = to_translation( "[Hotkey] to attack", "to attack" ).translated();
+    } else {
+        label_fire = to_translation( "[Hotkey] to fire", "to fire" ).translated();
     }
+    const char *label_cycle_targets = _( "Cycle targets" );
+    mvwprintz( w_target, point( 1, text_y++ ), c_white, "[%s] %s; [%c] %s.",
+               ctxt.get_desc( "NEXT_TARGET", 1 ), label_cycle_targets,
+               front_or( "FIRE", ' ' ), label_fire
+             );
+
+    mvwprintz( w_target, point( 1, text_y++ ), c_white,
+               _( "[%c] target self; [%c] toggle snap-to-target" ),
+               front_or( "CENTER", ' ' ), front_or( "TOGGLE_SNAP_TO_TARGET", ' ' ) );
 
     if( mode == TARGET_MODE_FIRE ) {
         mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to steady your aim.  (10 moves)" ),
