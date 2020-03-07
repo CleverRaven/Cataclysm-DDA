@@ -10198,7 +10198,7 @@ void game::vertical_move( int movez, bool force )
     if( critter_at<npc>( u.pos(), true ) || critter_at<monster>( u.pos(), true ) ) {
         std::string crit_name;
         bool player_displace = false;
-        tripoint displace = tripoint_zero;
+        tripoint displace;
         for( const tripoint &elem : m.points_in_radius( u.pos(), 1 ) ) {
             if( elem == u.pos() ) {
                 continue;
