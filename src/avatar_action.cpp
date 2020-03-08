@@ -870,18 +870,17 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
             int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
-            // Update targeting data to include ammo's range bonus
-            args.range = gun.target->gun_range( &you );
-            args.ammo = gun->ammo_data();
-
             g->refresh_all();
         }
     }
 
+    int range = gun.target->gun_range( &you );
+    const itype *ammo = gun->ammo_data();
+
     g->temp_exit_fullscreen();
     m.draw( g->w_terrain, you.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui( you, TARGET_MODE_FIRE, weapon,
-                                       args.range, args.ammo );
+    std::vector<tripoint> trajectory = target_handler().target_ui( you, TARGET_MODE_FIRE, weapon, range,
+                                       ammo );
 
     //may be changed in target_ui
     gun = weapon->gun_current_mode();

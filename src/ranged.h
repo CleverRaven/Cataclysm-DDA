@@ -55,10 +55,6 @@ struct targeting_data {
     /** Cached fake weapon provided by bionic/mutation */
     std::shared_ptr<item> cached_fake_weapon;
 
-    /** Cached range */
-    int range;
-    /** Relevant ammo */
-    const itype *ammo;
     /** Bionic power cost per shot */
     units::energy bp_cost_per_shot;
 

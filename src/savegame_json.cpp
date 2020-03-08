@@ -1208,10 +1208,6 @@ void targeting_data::serialize( JsonOut &json ) const
     if( cached_fake_weapon ) {
         json.member( "cached_fake_weapon", *cached_fake_weapon );
     }
-    json.member( "range", range );
-    if( ammo ) {
-        json.member( "ammo", ammo->get_id() );
-    }
     json.member( "bp_cost", bp_cost_per_shot );
     json.end_object();
 }
@@ -1223,13 +1219,6 @@ void targeting_data::deserialize( JsonIn &jsin )
     if( weapon_source == WEAPON_SOURCE_BIONIC || weapon_source == WEAPON_SOURCE_MUTATION ) {
         cached_fake_weapon = shared_ptr_fast<item>( new item() );
         data.read( "cached_fake_weapon", *cached_fake_weapon );
-    }
-    data.read( "range", range );
-
-    std::string ammo_id;
-    data.read( "ammo", ammo_id );
-    if( item_controller->has_template( ammo_id ) ) {
-        ammo = item_controller->find_template( ammo_id );
     }
 
     data.read( "bp_cost", bp_cost_per_shot );
