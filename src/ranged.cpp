@@ -1294,39 +1294,11 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
 
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
-        item *relevant, int range, const itype *ammo )
+        item *relevant, int range, const itype *ammo, turret_data *turret )
 {
     // TODO: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
-
-    // These 2 functions should return pointer to effective ammo data
-    std::function<const itype *()> on_mode_change, on_ammo_change;
-    if( mode == TARGET_MODE_TURRET_MANUAL ) {
-        const optional_vpart_position vp = g->m.veh_at( pc.pos() );
-        turret_data turret;
-        if( vp && ( turret = vp->vehicle().turret_query( pc.pos() ) ) ) {
-            if( turret.base()->gun_all_modes().size() > 1 ) {
-                on_mode_change = [&turret, &relevant]() {
-                    relevant->gun_cycle_mode();
-                    // currently gun modes do not change ammo but they may in the future
-                    return turret.ammo_current() == "null" ? nullptr :
-                           item::find_type( turret.ammo_current() );
-                };
-            }
-            if( turret.ammo_options().size() > 1 ) {
-                on_ammo_change = [&turret]() {
-                    const auto opts = turret.ammo_options();
-                    auto iter = opts.find( turret.ammo_current() );
-                    turret.ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
-                    return item::find_type( turret.ammo_current() );
-                };
-            }
-        } else {
-            debugmsg( "Expected turret on player position" );
-            return empty_result;
-        }
-    }
 
     int sight_dispersion = 0;
     if( relevant ) {
@@ -1712,23 +1684,37 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 return empty_result;
             }
         } else if( action == "SWITCH_MODE" ) {
-            if( !relevant || !relevant->is_gun() ) {
-                // skip this action
-            } else if( on_mode_change ) {
-                ammo = on_mode_change();
-            } else {
+            if( relevant && relevant->is_gun() ) {
                 relevant->gun_cycle_mode();
                 if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
                     relevant->gun_cycle_mode();
                 }
-                ammo = relevant->gun_current_mode().target->ammo_data();
-                range = relevant->gun_current_mode().target->gun_range( &pc );
+                if( mode == TARGET_MODE_TURRET_MANUAL ) {
+                    itype_id ammo_current = turret->ammo_current();
+                    if( ammo_current == "null" ) {
+                        ammo = nullptr;
+                        range = 0;
+                    } else {
+                        ammo = item::find_type( ammo_current );
+                        range = turret->range();
+                    }
+                } else {
+                    ammo = relevant->gun_current_mode().target->ammo_data();
+                    range = relevant->gun_current_mode().target->gun_range( &pc );
+                }
             }
         } else if( action == "SWITCH_AMMO" ) {
             if( !relevant ) {
                 // skip this action
-            } else if( on_ammo_change ) {
-                ammo = on_ammo_change();
+            } else if( mode == TARGET_MODE_TURRET_MANUAL ) {
+                // For turrets that use vehicle tanks & can fire multiple liquids
+                if( turret->ammo_options().size() > 1 ) {
+                    const auto opts = turret->ammo_options();
+                    auto iter = opts.find( turret->ammo_current() );
+                    turret->ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
+                    ammo = item::find_type( turret->ammo_current() );
+                    range = turret->range();
+                }
             } else if( !pc.has_item( *relevant ) ) {
                 add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
             } else {

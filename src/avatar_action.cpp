@@ -778,7 +778,8 @@ static void fire_turret( avatar &you, map &m, turret_data &tdata )
                                            TARGET_MODE_TURRET_MANUAL,
                                            turret_base,
                                            tdata.range(),
-                                           tdata.ammo_data()
+                                           tdata.ammo_data(),
+                                           &tdata
                                        );
 
     if( !trajectory.empty() ) {
@@ -951,17 +952,10 @@ void avatar_action::fire_ranged_bionic( avatar &you, map &m, const item &fake_gu
     avatar_action::aim_do_turn( you, m );
 }
 
-void avatar_action::fire_turret_manual( avatar &you, map &m )
+void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
 {
-    const optional_vpart_position vp = g->m.veh_at( you.pos() );
-    turret_data turret;
-    if( vp && ( turret = vp->vehicle().turret_query( you.pos() ) ) ) {
-        if( can_fire_turret( you, m, turret ) ) {
-            fire_turret( you, m, turret );
-        }
-    } else {
-        debugmsg( "Expected turret on player position." );
-        return;
+    if( can_fire_turret( you, m, turret ) ) {
+        fire_turret( you, m, turret );
     }
 }
 

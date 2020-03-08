@@ -1219,7 +1219,7 @@ static void fire()
 
         turret_data turret;
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
-            avatar_action::fire_turret_manual( g->u, g->m );
+            avatar_action::fire_turret_manual( g->u, g->m, turret );
             return;
         }
 

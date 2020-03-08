@@ -12,6 +12,7 @@ class avatar;
 class item;
 class item_location;
 class map;
+class turret_data;
 struct targeting_data;
 
 namespace avatar_action
@@ -52,7 +53,7 @@ void mend( avatar &you, item_location loc );
  */
 void aim_do_turn( avatar &you, map &m );
 
-/** Validates wielded weapon and starts interactive aiming */
+/** Checks if the wielded weapon is a gun and can be fired then starts interactive aiming */
 void fire_wielded_weapon( avatar &you, map &m );
 
 /** Stores fake gun specified by the mutation and starts interactive aiming */
@@ -61,8 +62,12 @@ void fire_ranged_mutation( avatar &you, map &m, const item &fake_gun );
 /** Stores fake gun specified by the bionic and starts interactive aiming */
 void fire_ranged_bionic( avatar &you, map &m, const item &fake_gun, units::energy cost_per_shot );
 
-/** Validates turret on player position and starts interactive aiming */
-void fire_turret_manual( avatar &you, map &m );
+/**
+ * Checks if the player can manually (with their 2 hands, not via vehicle controls)
+ * fire a turret and then starts interactive aiming.
+ * Assumes that the turret is on player position.
+ */
+void fire_turret_manual( avatar &you, map &m, turret_data &turret );
 
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,

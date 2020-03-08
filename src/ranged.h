@@ -10,6 +10,7 @@ class item;
 class player;
 class avatar;
 class spell;
+class turret_data;
 struct itype;
 struct tripoint;
 
@@ -88,10 +89,12 @@ class target_handler
          *  @param relevant active item, if any (for instance, a weapon to be aimed).
          *  @param range the maximum distance to which we're allowed to draw a target.
          *  @param ammo effective ammo data (derived from @param relevant if unspecified).
+         *  @param turret turret being fired (relevant for TARGET_MODE_TURRET_MANUAL)
          */
         std::vector<tripoint> target_ui( player &pc, target_mode mode,
                                          item *relevant, int range,
-                                         const itype *ammo = nullptr );
+                                         const itype *ammo = nullptr,
+                                         turret_data *turret = nullptr );
         // magic version of target_ui
         std::vector<tripoint> target_ui( spell_id sp, bool no_fail = false,
                                          bool no_mana = false );
