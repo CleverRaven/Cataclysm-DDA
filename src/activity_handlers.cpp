@@ -3365,7 +3365,7 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
 
 void activity_handlers::plant_seed_finish( player_activity *act, player *p )
 {
-    tripoint examp = act->placement;
+    tripoint examp = g->m.getlocal( act->placement );
     const std::string seed_id = act->str_values[0];
     std::list<item> used_seed;
     if( item::count_by_charges( seed_id ) ) {
