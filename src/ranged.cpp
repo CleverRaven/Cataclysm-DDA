@@ -826,7 +826,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
                    front_or( "SWITCH_AIM", ' ' ) );
     }
 
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
         mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to switch firing modes." ),
                    front_or( "SWITCH_MODE", ' ' ) );
         mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to reload/switch ammo." ),
@@ -1311,7 +1311,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
 
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET || mode == TARGET_MODE_TURRET_MANUAL ) {
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
         ctxt.register_action( "SWITCH_MODE" );
         ctxt.register_action( "SWITCH_AMMO" );
     }
