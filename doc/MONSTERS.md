@@ -234,6 +234,12 @@ An item group that is used to spawn items when the monster dies. This can be an 
 
 How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. One can add or remove entries in mods via "add:death_function" and "remove:death_function".
 
+## "emit_field"
+(array of objects of emit_id and time_duration, optional)
+"emit_fields": [ { "emit_id": "emit_gum_web", "delay": "30 m" } ],
+
+What field the monster emits and how often it does so. Time duration can use strings: "1 h", "60 m", "3600 s" etc...
+
 ## "regenerates"
 (integer, optional)
 

@@ -2,7 +2,7 @@
   {
     "id": "car_headlight",
     "type": "GENERIC",
-    "name": "car headlight",
+    "name": { "str": "car headlight" },
     "description": "A vehicle headlight to light up the way.",
     "symbol": ";",
     "color": "white",
@@ -15,7 +15,7 @@
   {
     "id": "motorcycle_headlight",
     "type": "GENERIC",
-    "name": "motorcycle headlight",
+    "name": { "str": "motorcycle headlight" },
     "description": "A motorcycle headlight to light up the way.",
     "weight": "500 g",
     "volume": "250 ml",
@@ -59,8 +59,7 @@
   {
     "type": "GENERIC",
     "id": "light_emergency_red",
-    "name": "emergency vehicle light (red)",
-    "name_plural": "emergency vehicle lights (red)",
+    "name": { "str": "emergency vehicle light (red)", "str_pl": "emergency vehicle lights (red)" },
     "description": "One of the red-colored lights from the top of an emergency services vehicle.  When turned on, the lights rotate to shine in all directions.",
     "weight": "500 g",
     "to_hit": 1,
@@ -73,8 +72,7 @@
   {
     "type": "GENERIC",
     "id": "light_emergency_blue",
-    "name": "emergency vehicle light (blue)",
-    "name_plural": "emergency vehicle lights (blue)",
+    "name": { "str": "emergency vehicle light (blue)", "str_pl": "emergency vehicle lights (blue)" },
     "description": "One of the blue-colored lights from the top of an emergency services vehicle.  When turned on, the lights rotate to shine in all directions.",
     "color": "blue",
     "copy-from": "light_emergency_red"
@@ -82,7 +80,7 @@
   {
     "type": "GENERIC",
     "id": "floodlight",
-    "name": "floodlight",
+    "name": { "str": "floodlight" },
     "description": "A large and heavy light designed to illuminate wide areas.",
     "weight": "2500 g",
     "to_hit": 1,
@@ -95,7 +93,7 @@
   {
     "type": "GENERIC",
     "id": "directed_floodlight",
-    "name": "directed floodlight",
+    "name": { "str": "directed floodlight" },
     "description": "A large and heavy light designed to illuminate a wide area in a half-circular cone.",
     "copy-from": "floodlight"
   }

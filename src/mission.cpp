@@ -372,7 +372,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
 
             int total_match = std::accumulate( matches.begin(), matches.end(), 0,
             []( const std::size_t previous, const std::pair<const std::string, std::size_t> &p ) {
-                return previous + p.second;
+                return static_cast<int>( previous + p.second );
             } );
 
             if( total_match >= ( type->item_count ) ) {

@@ -3572,7 +3572,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 320,
-    "description": "A rotating, universal mount for a weapon.  If your hands are empty, you can stand next to a turret mount and 'f'ire the weapon by selecting the tile.",
+    "description": "A rotating, universal mount for a weapon.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
     "folded_volume": "2500 ml",
     "item": "turret_mount",
     "requirements": {

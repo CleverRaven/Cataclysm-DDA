@@ -19,7 +19,7 @@
     "type": "GENERIC",
     "copy-from": "seat",
     "id": "seat_leather",
-    "name": "leather seat",
+    "name": { "str": "leather seat" },
     "description": "A soft car seat covered with leather.",
     "material": [ "leather", "cotton", "aluminum" ],
     "price": 60000,

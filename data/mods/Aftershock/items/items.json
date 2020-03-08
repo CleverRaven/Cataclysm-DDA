@@ -5,13 +5,13 @@
     "type": "TOOL",
     "name": { "str": "precision solderers", "str_pl": "precision solderers" },
     "flags": "TRADER_AVOID",
-    "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ] ]
+    "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ], [ "BIONIC_ASSEMBLY", 2 ] ]
   },
   {
     "type": "GENERIC",
     "id": "crypto_coin",
     "name": { "str": "Crypto coin", "str_pl": "Crypto coins" },
-    "description": "PrepNet had been heavily involved in avoiding taxes by using untraceable internet currencies.  If this movement had grown it could have crippled the US tax base but the Cataclysm happened first.  These are physical coins with random numbers sequences embossed on them.",
+    "description": "PrepNet had been heavily involved in avoiding taxes by using untraceable internet currencies.  These however are physical coins with random numbers sequences embossed on them and RFID chips inside.",
     "price": 12000,
     "price_postapoc": 15000,
     "//": "The coins would be worthless but the PrepNet Phyle still retains some manufacturing capacity",
@@ -24,7 +24,7 @@
   {
     "id": "afs_basin",
     "type": "CONTAINER",
-    "name": "basin",
+    "name": { "ctxt": "container", "str": "basin" },
     "description": "A wide, shallow basin used to hold liquid, hammered from a piece of sheet metal.  Ideal for collecting water.",
     "weight": "5 kg",
     "looks_like": "ceramic_bowl",
@@ -198,7 +198,7 @@
     "category": "spare_parts",
     "name": "titanium",
     "name_plural": "titanium",
-    "description": "A strong, durable metal.  Highly valued for its weight to strength ratio, it was an excellent upgrade to aluminium for those properties albeit a lot more expensive due to rarity.  More commonly used in jewellery and medical implants.",
+    "description": "A strong, durable metal.  Highly valued for its weight to strength ratio, it was an excellent upgrade to aluminum for those properties albeit a lot more expensive due to rarity.  More commonly used in jewelery and medical implants.",
     "weight": "1 g",
     "//": "Density 4.506g/cm³ ~ 1.127kg/250ml @ stack 1000 = 1g/unit",
     "volume": "50 ml",

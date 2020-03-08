@@ -214,6 +214,6 @@
     "copy-from": "belt40mm",
     "type": "MAGAZINE",
     "name": "grenade belt",
-    "ammo_type": [ "40x53mm", "ammo_grenade" ]
+    "ammo_type": [ "ammo_grenade", "40x53mm" ]
   }
 ]

@@ -636,6 +636,11 @@ bool can_examine_at( const tripoint &p )
         return true;
     }
 
+    Creature *c = g->critter_at( p );
+    if( c != nullptr && p != g->u.pos() ) {
+        return true;
+    }
+
     const trap &tr = g->m.tr_at( p );
     return tr.can_see( p, g->u );
 }
@@ -1085,7 +1090,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         }
         if( highlighted ) {
             wrefresh( g->w_terrain );
-        } else {
+        } else if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) ) {
             add_msg( failure_message );
             return cata::nullopt;
         }

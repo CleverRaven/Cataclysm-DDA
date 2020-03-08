@@ -463,7 +463,8 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
     const auto &sd = explosion.shrapnel;
     if( sd.casing_mass > 0 ) {
         dump.emplace_back( "TOOL", _( "Casing <bold>mass</bold>: " ), sd.casing_mass );
-        dump.emplace_back( "TOOL", _( "Fragment <bold>mass</bold>: " ), sd.fragment_mass );
+        dump.emplace_back( "TOOL", _( "Fragment <bold>mass</bold>: " ), string_format( "%.2f",
+                           sd.fragment_mass ) );
     }
 }
 
@@ -1678,7 +1679,7 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     if( on_terrain && on_items ) {
         uilist imenu;
         imenu.text = string_format( _( "%s on what?" ), verb );
-        imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The ground" ) );
+        imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The terrain" ) );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _( "An item" ) );
         imenu.query();
         choice = imenu.ret;
@@ -1693,7 +1694,12 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ), p.pos() );
+        const cata::optional<tripoint> dest_ = choose_adjacent( _( "Write where?" ) );
+        if( !dest_ ) {
+            return 0;
+        }
+        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ),
+                                             dest_.value() );
     }
 
     item_location loc = game_menus::inv::titled_menu( g->u, _( "Inscribe which item?" ) );
@@ -2628,7 +2634,7 @@ void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        convert_volume( max_volume.value() ) );
 
     if( max_weight > 0_gram ) {
-        dump.emplace_back( "TOOL", "Max item weight: ",
+        dump.emplace_back( "TOOL", _( "Max item weight: " ),
                            string_format( _( "<num> %s" ), weight_units() ),
                            iteminfo::is_decimal,
                            convert_weight( max_weight ) );

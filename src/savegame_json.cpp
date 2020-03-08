@@ -93,15 +93,10 @@
 #include "requirements.h"
 #include "stats_tracker.h"
 #include "vpart_position.h"
+#include "cata_string_consts.h"
 
 struct oter_type_t;
 struct mutation_branch;
-
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
-static const efftype_id effect_riding( "riding" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -555,7 +550,6 @@ void Character::load( const JsonObject &data )
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const auto &mid = it->first;
         if( mid.is_valid() ) {
-            on_mutation_gain( mid );
             cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
@@ -563,6 +557,7 @@ void Character::load( const JsonObject &data )
             my_mutations.erase( it++ );
         }
     }
+    size_class = calculate_size( *this );
 
     data.read( "my_bionics", *my_bionics );
 
@@ -657,6 +652,8 @@ void Character::load( const JsonObject &data )
         overmap_time_array.read_next( tdr );
         overmap_time[pt] = tdr;
     }
+    data.read( "stomach", stomach );
+    data.read( "guts", guts );
 }
 
 /**
@@ -778,6 +775,8 @@ void Character::store( JsonOut &json ) const
         }
         json.end_array();
     }
+    json.member( "stomach", stomach );
+    json.member( "guts", guts );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -923,13 +922,13 @@ void player::load( const JsonObject &data )
         add_bionic( bionic_id( "bio_blindfold" ) );
     }
 
-    // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_HYPEROPIC ) ) {
-        remove_mutation( trait_HYPEROPIC );
-    }
-
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_MYOPIC ) ) {
-        remove_mutation( trait_MYOPIC );
+    // Fixes bugged characters for CBM's preventing mutations.
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( has_trait( mid ) ) {
+                remove_mutation( mid );
+            }
+        }
     }
 
     if( data.has_array( "faction_warnings" ) ) {
@@ -1013,9 +1012,6 @@ void avatar::store( JsonOut &json ) const
 
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
-
-    json.member( "stomach", stomach );
-    json.member( "guts", guts );
 
     json.member( "translocators", translocators );
 
@@ -1114,9 +1110,6 @@ void avatar::load( const JsonObject &data )
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
-
-    data.read( "stomach", stomach );
-    data.read( "guts", guts );
 
     data.read( "translocators", translocators );
 
@@ -1926,6 +1919,8 @@ void monster::load( const JsonObject &data )
     biosignatures = data.get_bool( "biosignatures", type->biosignatures );
     biosig_timer = data.get_int( "biosig_timer", -1 );
 
+    data.read( "udder_timer", udder_timer );
+
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
     data.read( "inv", inv );
@@ -1936,6 +1931,14 @@ void monster::load( const JsonObject &data )
         normalize_ammo( data.get_int( "ammo" ) );
     } else {
         data.read( "ammo", ammo );
+        // legacy loading for milkable creatures, fix mismatch.
+        if( has_flag( MF_MILKABLE ) && !type->starting_ammo.empty() && !ammo.empty() &&
+            type->starting_ammo.begin()->first != ammo.begin()->first ) {
+            const std::string old_type = ammo.begin()->first;
+            const int old_value = ammo.begin()->second;
+            ammo[type->starting_ammo.begin()->first] = old_value;
+            ammo.erase( old_type );
+        }
     }
 
     faction = mfaction_str_id( data.get_string( "faction", "" ) );
@@ -2008,6 +2011,7 @@ void monster::store( JsonOut &json ) const
     json.member( "baby_timer", baby_timer );
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
+    json.member( "udder_timer", udder_timer );
 
     json.member( "summon_time_limit", summon_time_limit );
 

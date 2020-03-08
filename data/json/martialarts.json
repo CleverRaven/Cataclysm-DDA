@@ -482,6 +482,7 @@
       "halberd",
       "halberd_fake",
       "hammer_sledge",
+      "hammer_sledge_short",
       "hockey_stick",
       "hoe",
       "ji",
@@ -1266,8 +1267,8 @@
     "techniques": [
       "tec_taekwondo_disarm",
       "tec_taekwondo_strong",
-      "tec_karate_roundhouse",
-      "tec_capoeira_feint",
+      "tec_taekwondo_roundhouse",
+      "tec_taekwondo_feint",
       "tec_taekwondo_push",
       "tec_taekwondo_sweep"
     ]
