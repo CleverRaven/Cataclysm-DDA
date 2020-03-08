@@ -89,6 +89,9 @@
 
 class npc_class;
 
+static const std::string flag_RECHARGE_AIR( "RECHARGE_AIR" );
+static const std::string flag_USE_AIR( "USE_AIR" );
+
 using npc_class_id = string_id<npc_class>;
 
 std::string rad_badge_color( const int rad )
