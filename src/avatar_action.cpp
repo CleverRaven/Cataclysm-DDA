@@ -818,9 +818,8 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
     int reload_time = 0;
     gun_mode gun = args.relevant->gun_current_mode();
 
-    // bows take more energy to fire than guns.
-    you.weapon.is_gun() ? you.increase_activity_level( LIGHT_EXERCISE ) : you.increase_activity_level(
-        MODERATE_EXERCISE );
+    // TODO: use MODERATE_EXERCISE if firing a bow
+    you.increase_activity_level( LIGHT_EXERCISE );
 
     // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
