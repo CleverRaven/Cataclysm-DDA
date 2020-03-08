@@ -241,6 +241,8 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
                 keybind( "TOGGLE_COOLER" ), "COOLER" );
     add_toggle( pgettext( "electronics menu option", "recharger" ),
                 keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
+    add_toggle( pgettext( "electronics menu option", "air compressor" ),
+                keybind( "TOGGLE_RECHARGER_AIR" ), "RECHARGE_AIR" );
     add_toggle( pgettext( "electronics menu option", "plow" ),
                 keybind( "TOGGLE_PLOW" ), "PLOW" );
     add_toggle( pgettext( "electronics menu option", "reaper" ),
