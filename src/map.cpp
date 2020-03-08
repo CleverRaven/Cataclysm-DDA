@@ -4381,6 +4381,32 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             }
         }
     }
+    if( cur_veh.part_with_feature( part, VPFLAG_RECHARGE_AIR, true ) >= 0 &&
+        cur_veh.has_part( "RECHARGE_AIR", true ) ) {
+        for( auto &n : cur_veh.get_items( part ) ) {
+            if( !n.has_flag( "RECHARGE_AIR" ) && !n.has_flag( "USE_AIR" ) ) {
+                continue;
+            }
+            if( n.ammo_capacity() > n.ammo_remaining() ||
+                ( n.type->air && n.type->air->max_capacity > n.energy_remaining() ) ) {
+                const int per_charge = one_in( 7 ) ? 2 : 1;
+                const int missing = cur_veh.discharge_battery( per_charge, false );
+                if( missing < per_charge &&
+                    ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
+                    if( n.is_battery() ) {
+                        n.set_energy( 1_kJ );
+                    } else {
+                        n.ammo_set( "air", n.ammo_remaining() + 10 );
+                    }
+                }
+
+                if( missing > 0 ) {
+                    // Not enough charge - stop charging
+                    break;
+                }
+            }
+        }
+    }
 }
 
 void map::process_active_items()
