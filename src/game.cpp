@@ -4174,7 +4174,6 @@ void game::monmove()
                 // Count every time we exit npc::move() without spending any moves.
                 turns++;
             }
-
             // Turn on debug mode when in infinite loop
             // It has to be done before the last turn, otherwise
             // there will be no meaningful debug output.
