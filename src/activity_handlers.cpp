@@ -2176,8 +2176,14 @@ void activity_handlers::equalize_do_turn( player_activity *act, player *p )
                                                static_cast<int>( p->weapon.get_var( "air_charge", 0 ) ) ) );
             if( calendar::once_every( 1_seconds ) ) {
                 if( max_air_transfer > 0 ) {
-                    equalize_item.ammo_set( "air", equalize_item.ammo_remaining() - 500 );
-                    p->weapon.set_var( "air_charge", p->weapon.get_var( "air_charge", 0 ) + 500 );
+                    if( p->weapon.get_contained().has_flag( "AIR_FITTING" ) ) {
+                        equalize_item.ammo_set( "air", equalize_item.ammo_remaining() - max_air_transfer );
+                        p->weapon.set_var( "air_charge", p->weapon.get_var( "air_charge", 0 ) + max_air_transfer );
+                    } else {
+                        act->moves_left = 0;
+                        add_msg( m_info,
+                                 _( "You must attach the external air pump using an air fitting in place of the magazine first!" ) );
+                    }
                 } else {
                     act->moves_left = 0;
                     add_msg( m_info, _( "Pressure is already equalized as much as possible!" ) );

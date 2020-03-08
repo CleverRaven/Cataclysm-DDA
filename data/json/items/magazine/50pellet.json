@@ -15,5 +15,22 @@
     "capacity": 50,
     "reload_time": 130,
     "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "bbpradapter",
+    "type": "MAGAZINE",
+    "name": "big bore pneumatic rifle air fitting",
+    "description": "An air fitting for the big bore pneumatic rifle. Install it in place of the magazine to permit refilling with air.",
+    "weight": 727,
+    "volume": 2,
+    "price": 10000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "looks_like": "m107a1mag",
+    "ammo_type": "50pellet",
+    "capacity": 1,
+    "reload_time": 260,
+    "flags": [ "MAG_BULKY", "AIR_FITTING" ]
   }
 ]

@@ -4371,6 +4371,11 @@ int iuse::hand_pump_integral( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_info, _( "You need an air pump to pump air!" ) );
             return 0;
         }
+        if( !it->has_flag( "INTEGRAL_PUMP" ) && !it->get_contained().has_flag( "AIR_FITTING" ) ) {
+            p->add_msg_if_player( m_info,
+                                  _( "You must install an air fitting to recharge it!" ) );
+            return 0;
+        }
         if( it->type->gun->compressed_air_reservoir > 0 ) {
             int moves = to_moves<int>( 1_seconds );
             if( it->get_var( "air_charge", 0 ) < it->type->gun->compressed_air_reservoir ) {
@@ -4434,7 +4439,7 @@ int iuse::equalize( player *p, item *it, bool, const tripoint & )
             p->assign_activity( ACT_EQUALIZE, moves, -1, p->get_item_position( it ),
                                 "equalizing" );
         } else {
-            p->add_msg_if_player( _( "The air cylinder has depressurized." ),
+            p->add_msg_if_player( _( "Air pressure is already equalized." ),
                                   it->tname(), magazine->tname() );
         }
     } else {

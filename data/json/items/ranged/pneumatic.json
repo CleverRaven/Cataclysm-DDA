@@ -78,7 +78,7 @@
     "symbol": "(",
     "color": "light_gray",
     "name": "big bore pneumatic rifle",
-    "description": "A big bore pneumatic rifle.  The integrated pumping mechanism can be used to refill the integral air reservoir before firing.",
+    "description": "A big bore pneumatic rifle.  It requires an external compressed air source to be refilled with compressed air.",
     "price": 240000,
     "material": [ "steel", "wood" ],
     "skill": "rifle",
@@ -99,8 +99,7 @@
     "compressed_air_used": 50,
     "compressed_air_reservoir": 500,
     "magazine_well": 1,
-    "magazines": [ [ "50pellet", [ "bbprmag" ] ] ],
-    "flags": [ "INTEGRAL_PUMP" ],
+    "magazines": [ [ "50pellet", [ "bbprmag" ] ], [ "50pellet", [ "bbpradapter" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],

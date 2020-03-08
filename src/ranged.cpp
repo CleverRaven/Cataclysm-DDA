@@ -162,6 +162,13 @@ bool player::handle_gun_damage( item &it )
                 _( "<npcname>'s %s is drained of compressed air and won't fire!" ),
                 it.tname() );
             return false;
+        }
+        if( it.get_contained().has_flag( "AIR_FITTING" ) ) {
+            add_msg_player_or_npc(
+                _( "Your %s is loaded with an air fitting, which cannot be fired!" ),
+                _( "<npcname>'s %s is loaded with an air fitting, which cannot be fired!" ),
+                it.tname() );
+            return false;
         } else {
             it.set_var( "air_charge", ( air_charge - air_use ) );
         }
