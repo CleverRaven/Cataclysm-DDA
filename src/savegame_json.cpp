@@ -2778,6 +2778,7 @@ void vehicle::deserialize( JsonIn &jsin )
     set_legacy_state( "reaper_on", "REAPER" );
     set_legacy_state( "planter_on", "PLANTER" );
     set_legacy_state( "recharger_on", "RECHARGE" );
+    set_legacy_state( "recharger_air_on", "RECHARGE_AIR" );
     set_legacy_state( "scoop_on", "SCOOP" );
     set_legacy_state( "plow_on", "PLOW" );
     set_legacy_state( "reactor_on", "REACTOR" );
