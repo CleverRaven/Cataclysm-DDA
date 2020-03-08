@@ -203,7 +203,7 @@ const bodypart_ids &convert_bp( body_part bp );
 side opposite_side( side s );
 
 // identify the index of a body part's "other half", or itself if not
-const std::array<size_t, 12> bp_aiOther = {{0, 1, 2, 3, 5, 4, 7, 6, 9, 8, 11, 10}};
+const std::array<size_t, 14> bp_aiOther = {{0, 1, 2, 3, 4, 5, 7, 6, 9, 8, 11, 10, 13, 12}};
 
 /** Returns the matching name of the body_part token. */
 std::string body_part_name( body_part bp, int number = 1 );
