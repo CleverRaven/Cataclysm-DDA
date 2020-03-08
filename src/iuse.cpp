@@ -4308,6 +4308,44 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+int iuse::hand_pump_integral( player *p, item *it, bool, const tripoint & )
+{
+    if( p->is_npc() ) {
+        return 0;
+    }
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "There's no gaseous air underwater." ) );
+        return 0;
+    }
+    if( p->get_fatigue() >= DEAD_TIRED ) {
+        p->add_msg_if_player( m_info, _( "You're too exhausted to keep pumping." ) );
+        return 0;
+    }
+    //tool section
+    if( it->is_tool() ) {
+        item *magazine = it->magazine_current();
+        if( magazine && magazine->has_flag( flag_RECHARGE_AIR ) ) {
+            // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
+            // expectation is it runs until the player is too tired.
+            int moves = to_moves<int>( 1600_minutes );
+            if( it->ammo_capacity() > it->ammo_remaining() ) {
+                p->add_msg_if_player( _( "You start pumping the %1$s to fill its %2$s." ), it->tname(),
+                                      it->magazine_current()->tname() );
+                p->assign_activity( ACT_HAND_PUMP_INTEGRAL, moves, -1, p->get_item_position( it ),
+                                    "hand-pumping" );
+            } else {
+                p->add_msg_if_player(
+                    _( "You could use the %1$s to fill its %2$s, but the reservoir is already at capacity." ),
+                    it->tname(), magazine->tname() );
+            }
+        } else {
+            p->add_msg_if_player( m_info, _( "You need a rechargeable compressed air cylinder to charge." ) );
+        }
+    }
+    //end tool section
+    return 0;
+}
+
 int iuse::vibe( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
