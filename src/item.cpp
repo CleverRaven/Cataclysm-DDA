@@ -2947,6 +2947,14 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                          "recharging station</neutral>. You could charge it with "
                                          "<info>standard batteries</info>, but unloading it is "
                                          "impossible." ) ) );
+        } else if( has_flag( flag_RECHARGE_AIR ) &&
+                   parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_AIR_CAPABLE ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This tool has a <info>refillable compressed air container</info> "
+                                         "and can be recharged in any <neutral>compressed air "
+                                         "recharging station</neutral>. You could charge it with "
+                                         "<info>compressed air</info>, but unloading it is "
+                                         "impossible." ) ) );
         } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This tool <info>runs on bionic power</info>." ) );
