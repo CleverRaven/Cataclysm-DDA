@@ -73,7 +73,7 @@
     "armor_bash": 8,
     "armor_cut": 8,
     "harvest": "dks_mhuman_chipped",
-    "special_attacks": [ [ "PARROT", 20 ], { "type": "spell", "spell_id": "dks_monspell_panic", "cooldown": 10 } ],
+    "special_attacks": [ [ "PARROT", 20 ], { "type": "spell", "spell_data": { "id": "dks_monspell_panic" }, "cooldown": 10 } ],
     "death_drops": "dks_mon_neworder_cop",
     "path_settings": { "max_dist": 5 },
     "death_function": [ "NORMAL" ],
