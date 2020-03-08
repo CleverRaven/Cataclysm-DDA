@@ -2119,6 +2119,31 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
 
 }
 
+void activity_handlers::hand_pump_integral_do_turn( player_activity *act, player *p )
+{
+    int air_increase = 50;
+    item &hand_pump_integral_item = p->i_at( act->position );
+    //tool section
+    if( hand_pump_integral_item.is_tool() ) {
+        act->moves_left -= 100;
+        item &hand_crank_item_air = p->i_at( act->position );
+        air_increase = std::min( static_cast<int>( hand_crank_item_air.ammo_capacity() -
+                                 hand_crank_item_air.ammo_remaining() ), 50 );
+        if( calendar::once_every( 144_seconds ) ) {
+            p->mod_fatigue( 1 );
+            if( hand_crank_item_air.ammo_capacity() > hand_crank_item_air.ammo_remaining() ) {
+                hand_crank_item_air.ammo_set( "air", hand_crank_item_air.ammo_remaining() + air_increase );
+            }
+        }
+    }
+    // end tool section
+    if( p->get_fatigue() >= DEAD_TIRED ) {
+        act->moves_left = 0;
+        add_msg( m_info, _( "You're too exhausted to keep pumping." ) );
+    }
+
+}
+
 void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 {
     //Using a vibrator takes time (10 minutes), not speed
