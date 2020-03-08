@@ -25,6 +25,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "air",
+    "name": "air",
+    "default": "air"
+  },
+  {
+    "type": "ammunition_type",
     "id": "nail",
     "name": "nails",
     "default": "nail"
@@ -496,6 +502,12 @@
     "id": "32",
     "name": ".32",
     "default": "32_acp"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "50pellet",
+    "name": "50pellet",
+    "default": "50pellet"
   },
   {
     "type": "ammunition_type",
