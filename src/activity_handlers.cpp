@@ -102,6 +102,8 @@
 
 using namespace activity_handlers;
 
+static const activity_id ACT_HAND_PUMP_INTEGRAL( "ACT_HAND_PUMP_INTEGRAL" );
+
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
 activity_handlers::do_turn_functions = {
     { ACT_BURROW, burrow_do_turn },
@@ -116,6 +118,7 @@ activity_handlers::do_turn_functions = {
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_VIBE, vibe_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
+    { ACT_HAND_PUMP_INTEGRAL, hand_pump_integral_do_turn },
     { ACT_OXYTORCH, oxytorch_do_turn },
     { ACT_AIM, aim_do_turn },
     { ACT_PICKUP, pickup_do_turn },
