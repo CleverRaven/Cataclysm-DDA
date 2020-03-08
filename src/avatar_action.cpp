@@ -701,20 +701,20 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
     return false;
 }
 
-bool avatar_action::fire( avatar &you, map &m )
+void avatar_action::aim_do_turn( avatar &you, map &m )
 {
     targeting_data args = you.get_targeting_data();
     if( !args.relevant ) {
         // args missing a valid weapon, this shouldn't happen.
         debugmsg( "Player tried to fire a null weapon." );
-        return false;
+        return;
     }
     // If we were wielding this weapon when we started aiming, make sure we still are.
     bool lost_weapon = ( args.held && &you.weapon != args.relevant );
     bool failed_check = !avatar_action::fire_check( you, m, args );
     if( lost_weapon || failed_check ) {
         you.cancel_activity();
-        return false;
+        return;
     }
 
     int reload_time = 0;
@@ -746,12 +746,12 @@ bool avatar_action::fire( avatar &you, map &m )
                                       args.relevant, you.ammo_location ) : you.select_ammo( *gun );
             if( !opt ) {
                 // Menu canceled
-                return false;
+                return;
             }
             reload_time += opt.moves();
             if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
                 // Reload not allowed
-                return false;
+                return;
             }
 
             // Burn 0.2% max base stamina x the strength required to fire.
@@ -787,7 +787,7 @@ bool avatar_action::fire( avatar &you, map &m )
             you.moves = previous_moves;
         }
         g->reenter_fullscreen();
-        return false;
+        return;
     }
     // Recenter our view
     g->draw_ter();
@@ -828,21 +828,20 @@ bool avatar_action::fire( avatar &you, map &m )
         you.mod_power_level( units::from_kilojoule( -args.power_cost ) * shots );
     }
     g->reenter_fullscreen();
-    return shots != 0;
 }
 
-bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
+void avatar_action::fire_weapon( avatar &you, map &m, item &weapon, int bp_cost )
 {
     // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
     gun_mode gun = weapon.gun_current_mode();
     // gun can be null if the item is an unattached gunmod
     if( !gun ) {
         add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname() );
-        return false;
+        return;
     } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), weapon.ammo_current() );
-        return false;
+        return;
     }
 
     targeting_data args = {
@@ -850,7 +849,7 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
         bp_cost, you.is_wielding( weapon ), gun->ammo_data()
     };
     you.set_targeting_data( args );
-    return avatar_action::fire( you, m );
+    avatar_action::aim_do_turn( you, m );
 }
 
 void avatar_action::mend( avatar &you, item_location loc )

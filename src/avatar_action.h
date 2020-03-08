@@ -46,26 +46,25 @@ void autoattack( avatar &you, map &m );
 void mend( avatar &you, item_location loc );
 
 /**
- * Returns true if the player is allowed to fire a given item, or false if otherwise.
- * reload_time is stored as a side effect of condition testing.
+ * Checks if the weapon is valid and if the player meets certain conditions for firing it.
  * @param args Contains item data and targeting mode for the gun we want to fire.
  * @return True if all conditions are true, otherwise false.
  */
 bool fire_check( avatar &you, const map &m, const targeting_data &args );
 
 /**
- * Handles interactive parts of gun firing (target selection, etc.).
- * @return Whether an attack was actually performed.
+ * Validates avatar's targeting_data, then handles interactive parts of gun firing
+ * (target selection, aiming, etc.)
  */
-bool fire( avatar &you, map &m );
+void aim_do_turn( avatar &you, map &m );
+
 /**
- * Handles interactive parts of gun firing (target selection, etc.).
- * This version stores targeting parameters for weapon, used for calls to the nullary form.
+ * Validates weapon, stores it into targeting_data and starts interactive aiming.
  * @param weapon Reference to a weapon we want to start aiming.
  * @param bp_cost The amount by which the player's power reserve is decreased after firing.
- * @return Whether an attack was actually performed.
  */
-bool fire( avatar &you, map &m, item &weapon, int bp_cost = 0 );
+void fire_weapon( avatar &you, map &m, item &weapon, int bp_cost = 0 );
+
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,
               const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );

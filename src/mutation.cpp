@@ -561,7 +561,7 @@ void Character::activate_mutation( const trait_id &mut )
         mut_ranged = item( mdata.ranged_mutation );
         add_msg_if_player( mdata.ranged_mutation_message() );
         g->refresh_all();
-        avatar_action::fire( g->u, g->m, mut_ranged );
+        avatar_action::fire_weapon( g->u, g->m, mut_ranged );
         tdata.powered = false;
         return;
     }

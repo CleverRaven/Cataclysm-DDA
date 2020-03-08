@@ -7063,7 +7063,7 @@ void game::list_items_monsters()
     }
 
     if( ret == game::vmenu_ret::FIRE ) {
-        avatar_action::fire( u, m, u.weapon );
+        avatar_action::fire_weapon( u, m, u.weapon );
     }
     reenter_fullscreen();
 }
