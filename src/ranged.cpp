@@ -120,7 +120,7 @@ std::string enum_to_string<weapon_source_enum>( weapon_source_enum data )
     debugmsg( "Invalid weapon source" );
     abort();
 }
-}
+} // namespace io
 
 static double occupied_tile_fraction( m_size target_size )
 {
