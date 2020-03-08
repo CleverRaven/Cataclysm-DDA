@@ -2430,6 +2430,7 @@ void player::process_items()
         ch_UPS += units::to_kilojoule( get_power_level() );
     }
     int ch_UPS_used = 0;
+    int ch_AIR_used = 0;
     if( cloak != nullptr ) {
         if( ch_UPS >= 20 ) {
             use_charges( "UPS", 20 );
@@ -2489,6 +2490,9 @@ void player::process_items()
     }
     if( ch_UPS_used > 0 ) {
         use_charges( "UPS", ch_UPS_used );
+    }
+    if( ch_AIR_used > 0 ) {
+        use_charges( "AIR", ch_AIR_used );
     }
 }
 
@@ -3715,6 +3719,8 @@ bool player::unload( item &it )
 
     if( target->has_flag( "NO_UNLOAD" ) ) {
         if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
+        if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ||
+            target->has_flag( "USE_AIR" ) ) {
             add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
         } else {
             add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
