@@ -3135,6 +3135,19 @@
   },
   {
     "type": "recipe",
+    "result": "hp_pump",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "25 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "superglue", 1 ] ], [ [ "scrap", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "fishing_rod_basic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
