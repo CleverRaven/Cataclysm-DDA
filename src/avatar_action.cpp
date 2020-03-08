@@ -869,7 +869,8 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
 
     g->temp_exit_fullscreen();
     m.draw( g->w_terrain, you.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui( you, args );
+    std::vector<tripoint> trajectory = target_handler().target_ui( you, TARGET_MODE_FIRE, args.relevant,
+                                       args.range, args.ammo );
 
     //may be changed in target_ui
     gun = args.relevant->gun_current_mode();
@@ -919,10 +920,7 @@ void avatar_action::fire_weapon( avatar &you, map &m, item &weapon, int bp_cost 
     }
 
     gun_mode gun = weapon.gun_current_mode();
-    targeting_data args = {
-        TARGET_MODE_FIRE, &weapon, gun.target->gun_range( &you ),
-        bp_cost, you.is_wielding( weapon ), gun->ammo_data()
-    };
+    targeting_data args = { &weapon, gun.target->gun_range( &you ), bp_cost, you.is_wielding( weapon ), gun->ammo_data() };
     you.set_targeting_data( args );
     avatar_action::aim_do_turn( you, m );
 }

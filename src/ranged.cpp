@@ -1240,12 +1240,6 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
     }
 }
 
-std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args )
-{
-    return target_ui( pc, args.mode, args.relevant, args.range,
-                      args.ammo );
-}
-
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         item *relevant, int range, const itype *ammo )

@@ -20,9 +20,8 @@ enum target_mode : int {
     TARGET_MODE_SPELL
 };
 
-// TODO: define some constructors for ease of use
+/** Stores data for aiming the player's weapon across turns */
 struct targeting_data {
-    target_mode mode;
     item *relevant;
     int range;
     int power_cost;
@@ -34,12 +33,6 @@ class target_handler
 {
         // TODO: alias return type of target_ui
     public:
-        /**
-         *  Prompts for target and returns trajectory to it.
-         *  @param pc The player doing the targeting
-         *  @param args structure containing arguments passed to the overloaded form.
-         */
-        std::vector<tripoint> target_ui( player &pc, const targeting_data &args );
         /**
          *  Prompts for target and returns trajectory to it.
          *  @param pc The player doing the targeting
