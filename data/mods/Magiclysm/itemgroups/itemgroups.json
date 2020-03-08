@@ -617,16 +617,5 @@
       { "group": "enchanted_wands_greater", "prob": 20 },
       { "group": "enchanted_wands_lesser", "prob": 10 }
     ]
-  },
-  {
-    "id": "magic_animist",
-    "//": "A distribution of animist magical scrolls.",
-    "type": "item_group",
-    "items": [
-      { "item": "spell_scroll_smite", "prob": 20 },
-      { "item": "spell_scroll_recover_pain", "prob": 20 },
-      { "item": "spell_scroll_summon_skeleton", "prob": 20 },
-      { "item": "copper_infuser", "prob": 10 }
-    ]
   }
 ]

@@ -14,9 +14,8 @@
     },
     "furniture": { "H": "f_altar", "C": "f_coffin_c" },
     "items": {
-      "R": { "group": "magic_animist", "chance": 25 },
-      "H": { "item": "summon_undead_spellbook", "chance": 100 },
-      "Z": { "item": "rune_animist", "chance": 50 }
+      "R": { "group": "animist_items", "chance": 25 },
+      "H": { "item": "summon_undead_spellbook", "chance": 100 }
     },
     "monster": { "x": { "monster": "mon_skeleton", "chance": 50 }, "Z": { "monster": "mon_zombie_necro", "chance": 100 } }
   },
