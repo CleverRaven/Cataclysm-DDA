@@ -355,6 +355,24 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "forest_tomb",
+    "name": "forest",
+    "sym": "F",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_tomb_roof",
+    "copy-from": "forest_tomb"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_tomb_bottom",
+    "copy-from": "forest_tomb"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "magic_academy_ground",
     "name": "magic academy",
     "sym": "#",

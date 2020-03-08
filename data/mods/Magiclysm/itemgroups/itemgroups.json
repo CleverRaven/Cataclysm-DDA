@@ -1034,5 +1034,10 @@
     "type": "item_group",
     "id": "magic_basement_photo",
     "items": [ [ "wizard_photo", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "forest_tomb_spellbook",
+    "items": [ [ "summon_undead_spellbook", 100 ] ]
   }
 ]
