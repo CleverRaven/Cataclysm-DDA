@@ -1039,7 +1039,7 @@ class player : public Character
          * Accessor method for weapon targeting data, used for interactive weapon aiming.
          * @return a reference to the data pointed by player's tdata member.
          */
-        const targeting_data &get_targeting_data();
+        targeting_data &get_targeting_data();
 
         /**
          * Mutator method for weapon targeting data.

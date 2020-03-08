@@ -51,16 +51,16 @@ void mend( avatar &you, item_location loc );
  */
 void aim_do_turn( avatar &you, map &m );
 
-/**
- * Validates weapon, stores it into targeting_data and starts interactive aiming.
- * @param weapon Reference to a weapon we want to start aiming.
- * @param bp_cost The amount by which the player's power reserve is decreased after firing.
- */
-void fire_weapon( avatar &you, map &m, item &weapon, int bp_cost = 0 );
+/** Validates wielded weapon and starts interactive aiming */
+void fire_wielded_weapon( avatar &you, map &m );
 
-/**
- * Validates turret on player position, stores it into targeting_data and starts interactive aiming.
- */
+/** Stores fake gun specified by the mutation and starts interactive aiming */
+void fire_ranged_mutation( avatar &you, map &m, const item &fake_gun );
+
+/** Stores fake gun specified by the bionic and starts interactive aiming */
+void fire_ranged_bionic( avatar &you, map &m, const item &fake_gun, int bionic_power_cost );
+
+/** Validates turret on player position and starts interactive aiming */
 void fire_turret_manual( avatar &you, map &m );
 
 // Throw an item  't'

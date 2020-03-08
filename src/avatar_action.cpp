@@ -678,10 +678,8 @@ static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::s
  * Checks if the weapon is valid and if the player meets certain conditions for firing it.
  * @return True if all conditions are true, otherwise false.
  */
-static bool can_fire_weapon( avatar &you, const map &m, const targeting_data &args )
+static bool can_fire_weapon( avatar &you, const map &m, const item &weapon )
 {
-    item &weapon = *args.relevant;
-
     if( !weapon.is_gun() ) {
         debugmsg( "Expected item to be a gun" );
         return false;
@@ -801,22 +799,36 @@ static void fire_turret( avatar &you, map &m, turret_data &tdata )
 
 void avatar_action::aim_do_turn( avatar &you, map &m )
 {
-    targeting_data args = you.get_targeting_data();
-    if( !args.relevant ) {
-        // args missing a valid weapon, this shouldn't happen.
-        debugmsg( "Player tried to fire a null weapon." );
-        return;
+    targeting_data &args = you.get_targeting_data();
+
+    item *weapon = nullptr;
+    switch( args.weapon_source ) {
+        case WEAPON_SOURCE_WIELDED:
+            // TODO: if wielding a gun, check that this is the same gun that was used to start aiming
+            if( !you.weapon.is_null() ) {
+                // Gun wasn't lost (e.g. yanked by zombie technician)
+                weapon = &you.weapon;
+            }
+            break;
+
+        case WEAPON_SOURCE_BIONIC:
+        case WEAPON_SOURCE_MUTATION:
+            // TODO: this should check if the player lost relevant bionic/mutation
+            weapon = args.cached_fake_weapon.get();
+            break;
+
+        case WEAPON_SOURCE_INVALID:
+            debugmsg( "Expected valid targeting data" );
+            break;
     }
-    // If we were wielding this weapon when we started aiming, make sure we still are.
-    bool lost_weapon = ( args.held && &you.weapon != args.relevant );
-    bool failed_check = !can_fire_weapon( you, m, args );
-    if( lost_weapon || failed_check ) {
+
+    if( !weapon || !can_fire_weapon( you, m, *weapon ) ) {
         you.cancel_activity();
         return;
     }
 
     int reload_time = 0;
-    gun_mode gun = args.relevant->gun_current_mode();
+    gun_mode gun = weapon->gun_current_mode();
 
     // TODO: use MODERATE_EXERCISE if firing a bow
     you.increase_activity_level( LIGHT_EXERCISE );
@@ -839,8 +851,8 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
                 }
                 return true;
             };
-            item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, args.relevant,
-                                      args.relevant, you.ammo_location ) : you.select_ammo( *gun );
+            item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
+                                      weapon, you.ammo_location ) : you.select_ammo( *gun );
             if( !opt ) {
                 // Menu canceled
                 return;
@@ -861,7 +873,6 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
             // Update targeting data to include ammo's range bonus
             args.range = gun.target->gun_range( &you );
             args.ammo = gun->ammo_data();
-            you.set_targeting_data( args );
 
             g->refresh_all();
         }
@@ -869,11 +880,11 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
 
     g->temp_exit_fullscreen();
     m.draw( g->w_terrain, you.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui( you, TARGET_MODE_FIRE, args.relevant,
+    std::vector<tripoint> trajectory = target_handler().target_ui( you, TARGET_MODE_FIRE, weapon,
                                        args.range, args.ammo );
 
     //may be changed in target_ui
-    gun = args.relevant->gun_current_mode();
+    gun = weapon->gun_current_mode();
 
     if( trajectory.empty() ) {
         bool not_aiming = you.activity.id() != ACT_AIM;
@@ -904,8 +915,9 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
     g->reenter_fullscreen();
 }
 
-void avatar_action::fire_weapon( avatar &you, map &m, item &weapon, int bp_cost )
+void avatar_action::fire_wielded_weapon( avatar &you, map &m )
 {
+    item &weapon = you.weapon;
     if( weapon.is_gunmod() ) {
         add_msg( m_info,
                  _( "The %s must be attached to a gun, it can not be fired separately." ),
@@ -919,8 +931,21 @@ void avatar_action::fire_weapon( avatar &you, map &m, item &weapon, int bp_cost 
         return;
     }
 
-    gun_mode gun = weapon.gun_current_mode();
-    targeting_data args = { &weapon, gun.target->gun_range( &you ), bp_cost, you.is_wielding( weapon ), gun->ammo_data() };
+    targeting_data args = targeting_data::use_wielded( you );
+    you.set_targeting_data( args );
+    avatar_action::aim_do_turn( you, m );
+}
+
+void avatar_action::fire_ranged_mutation( avatar &you, map &m, const item &fake_gun )
+{
+    targeting_data args = targeting_data::use_mutation( fake_gun );
+    you.set_targeting_data( args );
+    avatar_action::aim_do_turn( you, m );
+}
+
+void avatar_action::fire_ranged_bionic( avatar &you, map &m, const item &fake_gun, int bp_cost )
+{
+    targeting_data args = targeting_data::use_bionic( fake_gun, bp_cost );
     you.set_targeting_data( args );
     avatar_action::aim_do_turn( you, m );
 }

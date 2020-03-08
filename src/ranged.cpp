@@ -70,6 +70,58 @@ int time_to_attack( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
 void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 
+/**
+ * Get range and ammo for current gun mode.
+ * @param you Player stats may affect range of some wielded weapons (e.g. bows)
+ */
+static std::pair<int, const itype *> get_current_range_and_ammo( const item &gun,
+        const avatar *you = nullptr )
+{
+    gun_mode gmode = gun.gun_current_mode();
+    return std::pair<int, const itype *>( gmode.target->gun_range( you ), gmode->ammo_data() );
+}
+
+bool targeting_data::is_valid() const
+{
+    return weapon_source != WEAPON_SOURCE_INVALID;
+}
+
+targeting_data targeting_data::use_wielded( const avatar &you )
+{
+    std::pair<int, const itype *> x = get_current_range_and_ammo( you.weapon, &you );
+    return targeting_data{
+        WEAPON_SOURCE_WIELDED,
+        nullptr,
+        x.first,
+        x.second,
+        0,
+    };
+}
+
+targeting_data targeting_data::use_bionic( const item &fake_gun, int bp_cost )
+{
+    std::pair<int, const itype *> x = get_current_range_and_ammo( fake_gun );
+    return targeting_data{
+        WEAPON_SOURCE_BIONIC,
+        std::shared_ptr<item>( new item( fake_gun ) ),
+        x.first,
+        x.second,
+        bp_cost
+    };
+}
+
+targeting_data targeting_data::use_mutation( const item &fake_gun )
+{
+    std::pair<int, const itype *> x = get_current_range_and_ammo( fake_gun );
+    return targeting_data{
+        WEAPON_SOURCE_MUTATION,
+        std::shared_ptr<item>( new item( fake_gun ) ),
+        x.first,
+        x.second,
+        0
+    };
+}
+
 static double occupied_tile_fraction( m_size target_size )
 {
     switch( target_size ) {

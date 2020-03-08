@@ -6,6 +6,7 @@
 
 class item;
 class player;
+class avatar;
 class spell;
 struct itype;
 struct tripoint;
@@ -20,13 +21,45 @@ enum target_mode : int {
     TARGET_MODE_SPELL
 };
 
+/**
+ * Specifies weapon source for aiming across turns and
+ * (de-)serialization of targeting_data
+ */
+enum weapon_source {
+    /** Invalid weapon source */
+    WEAPON_SOURCE_INVALID,
+    /** Firing wielded weapon */
+    WEAPON_SOURCE_WIELDED,
+    /** Firing fake gun provided by a bionic */
+    WEAPON_SOURCE_BIONIC,
+    /** Firing fake gun provided by a mutation */
+    WEAPON_SOURCE_MUTATION,
+};
+
 /** Stores data for aiming the player's weapon across turns */
 struct targeting_data {
-    item *relevant;
+    weapon_source weapon_source;
+
+    /** Cached fake weapon provided by bionic/mutation */
+    std::shared_ptr<item> cached_fake_weapon;
+
+    /** Cached range */
     int range;
-    int power_cost;
-    bool held;
+    /** Relevant ammo */
     const itype *ammo;
+    /** Bionic power cost to fire */
+    int bp_cost;
+
+    bool is_valid() const;
+
+    /** Use wielded gun */
+    static targeting_data use_wielded( const avatar &you );
+
+    /** Use fake gun provided by a bionic */
+    static targeting_data use_bionic( const item &fake_gun, int bp_cost );
+
+    /** Use fake gun provided by a mutation */
+    static targeting_data use_mutation( const item &fake_gun );
 };
 
 class target_handler
