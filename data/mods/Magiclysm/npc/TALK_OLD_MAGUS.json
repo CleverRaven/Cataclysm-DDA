@@ -21,7 +21,14 @@
       {
         "text": "Can I do anything for you?",
         "topic": "TALK_MISSION_OFFER",
-        "condition": { "not": "has_assigned_mission" }
+        "condition": {
+          "and": [
+            { "not": "has_assigned_mission" },
+            {
+              "not": { "npc_has_var": "npc_magus_book_done", "type": "dialogue", "context": "old_magus", "value": "yes" }
+            }
+          ]
+        }
       },
       { "text": "About the mission…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
