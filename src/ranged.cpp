@@ -75,7 +75,7 @@ bool targeting_data::is_valid() const
     return weapon_source != WEAPON_SOURCE_INVALID;
 }
 
-targeting_data targeting_data::use_wielded( const avatar &you )
+targeting_data targeting_data::use_wielded()
 {
     return targeting_data{
         WEAPON_SOURCE_WIELDED,
@@ -88,7 +88,7 @@ targeting_data targeting_data::use_bionic( const item &fake_gun, units::energy c
 {
     return targeting_data{
         WEAPON_SOURCE_BIONIC,
-        std::shared_ptr<item>( new item( fake_gun ) ),
+        shared_ptr_fast<item>( new item( fake_gun ) ),
         cost_per_shot
     };
 }
@@ -97,7 +97,7 @@ targeting_data targeting_data::use_mutation( const item &fake_gun )
 {
     return targeting_data{
         WEAPON_SOURCE_MUTATION,
-        std::shared_ptr<item>( new item( fake_gun ) ),
+        shared_ptr_fast<item>( new item( fake_gun ) ),
         0_J
     };
 }
@@ -105,7 +105,7 @@ targeting_data targeting_data::use_mutation( const item &fake_gun )
 namespace io
 {
 template<>
-std::string enum_to_string<weapon_source>( weapon_source data )
+std::string enum_to_string<weapon_source_enum>( weapon_source_enum data )
 {
     switch( data ) {
         // *INDENT-OFF*

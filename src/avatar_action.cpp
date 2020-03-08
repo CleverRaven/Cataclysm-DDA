@@ -818,6 +818,7 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
             break;
 
         case WEAPON_SOURCE_INVALID:
+        case NUM_WEAPON_SOURCES:
             debugmsg( "Expected valid targeting data" );
             break;
     }
@@ -930,7 +931,7 @@ void avatar_action::fire_wielded_weapon( avatar &you, map &m )
         return;
     }
 
-    targeting_data args = targeting_data::use_wielded( you );
+    targeting_data args = targeting_data::use_wielded();
     you.set_targeting_data( args );
     avatar_action::aim_do_turn( you, m );
 }

@@ -4,6 +4,7 @@
 #include <vector>
 #include "type_id.h"
 #include "units.h"
+#include "memory_fast.h"
 
 class item;
 class player;
@@ -31,7 +32,7 @@ enum target_mode : int {
  * Specifies weapon source for aiming across turns and
  * (de-)serialization of targeting_data
  */
-enum weapon_source {
+enum weapon_source_enum {
     /** Invalid weapon source */
     WEAPON_SOURCE_INVALID,
     /** Firing wielded weapon */
@@ -44,16 +45,16 @@ enum weapon_source {
 };
 
 template <>
-struct enum_traits<weapon_source> {
-    static constexpr weapon_source last = weapon_source::NUM_WEAPON_SOURCES;
+struct enum_traits<weapon_source_enum> {
+    static constexpr weapon_source_enum last = NUM_WEAPON_SOURCES;
 };
 
 /** Stores data for aiming the player's weapon across turns */
 struct targeting_data {
-    weapon_source weapon_source;
+    weapon_source_enum weapon_source;
 
     /** Cached fake weapon provided by bionic/mutation */
-    std::shared_ptr<item> cached_fake_weapon;
+    shared_ptr_fast<item> cached_fake_weapon;
 
     /** Bionic power cost per shot */
     units::energy bp_cost_per_shot;
@@ -61,7 +62,7 @@ struct targeting_data {
     bool is_valid() const;
 
     /** Use wielded gun */
-    static targeting_data use_wielded( const avatar &you );
+    static targeting_data use_wielded();
 
     /** Use fake gun provided by a bionic */
     static targeting_data use_bionic( const item &fake_gun, units::energy cost_per_shot );
