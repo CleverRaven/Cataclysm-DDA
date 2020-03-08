@@ -767,37 +767,6 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
     return false;
 }
 
-static void fire_turret( avatar &you, map &m, turret_data &tdata )
-{
-    item *turret_base = &*tdata.base();
-
-    g->temp_exit_fullscreen();
-    m.draw( g->w_terrain, you.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui(
-                                           you,
-                                           TARGET_MODE_TURRET_MANUAL,
-                                           turret_base,
-                                           tdata.range(),
-                                           tdata.ammo_data(),
-                                           &tdata
-                                       );
-
-    if( !trajectory.empty() ) {
-        // Recenter our view
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->draw_panels();
-
-        gun_mode gun = turret_base->gun_current_mode();
-
-        // TODO: add check for TRIGGERHAPPY
-        tdata.prepare_fire( you );
-        int shots_fired = you.fire_gun( trajectory.back(), gun.qty, *gun );
-        tdata.post_fire( you, shots_fired );
-    }
-    g->reenter_fullscreen();
-}
-
 void avatar_action::aim_do_turn( avatar &you, map &m )
 {
     targeting_data &args = you.get_targeting_data();
@@ -954,9 +923,33 @@ void avatar_action::fire_ranged_bionic( avatar &you, map &m, const item &fake_gu
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
 {
-    if( can_fire_turret( you, m, turret ) ) {
-        fire_turret( you, m, turret );
+    if( !can_fire_turret( you, m, turret ) ) {
+        return;
     }
+
+    item *turret_base = &*turret.base();
+
+    g->temp_exit_fullscreen();
+    g->m.draw( g->w_terrain, you.pos() );
+    std::vector<tripoint> trajectory = target_handler().target_ui(
+                                           you,
+                                           TARGET_MODE_TURRET_MANUAL,
+                                           turret_base,
+                                           turret.range(),
+                                           turret.ammo_data(),
+                                           &turret
+                                       );
+
+    if( !trajectory.empty() ) {
+        // Recenter our view
+        g->draw_ter();
+        wrefresh( g->w_terrain );
+        g->draw_panels();
+
+        // TODO: add check for TRIGGERHAPPY
+        turret.fire( you, trajectory.back() );
+    }
+    g->reenter_fullscreen();
 }
 
 void avatar_action::mend( avatar &you, item_location loc )
