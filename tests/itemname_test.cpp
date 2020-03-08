@@ -121,15 +121,12 @@ TEST_CASE( "item_name_check", "[item][iteminfo]" )
 TEST_CASE( "item type name", "[item][type_name]" )
 {
     SECTION( "named item" ) {
-        item plank( "2x4" );
-        plank.set_var( "name", "Big Stick" );
-        REQUIRE( plank.get_var( "name" ) == "Big Stick" );
+        // Shop smart. Shop S-Mart.
+        item shotgun( "shotgun_410" );
+        shotgun.set_var( "name", "Boomstick" );
+        REQUIRE( shotgun.get_var( "name" ) == "Boomstick" );
 
-        CHECK( plank.type_name() == "Big Stick" );
-    }
-
-    SECTION( "items with conditions" ) {
-        // TODO
+        CHECK( shotgun.type_name() == "Boomstick" );
     }
 
     static const mtype_id mon_zombie( "mon_zombie" );
@@ -221,3 +218,70 @@ TEST_CASE( "item type name", "[item][type_name]" )
         }
     }
 }
+
+// Test conditional naming qualifiers
+// (based on the "Conditional Naming" section of doc/JSON_INFO.md)
+//
+// FIXME: All but the base case (normal meat/fat) are failing
+//
+TEST_CASE( "item type name with conditions", "[item][type_name][conditions][!mayfail]" )
+{
+    // Fully-stocked pantry
+    item normal_meat( "meat", calendar::turn, 100 );
+    item normal_fat( "fat", calendar::turn, 100 );
+
+    item mutant_meat( "mutant_meat", calendar::turn, 100 );
+    item mutant_fat( "mutant_fat", calendar::turn, 100 );
+
+    item human_meat( "human_flesh", calendar::turn, 100 );
+    item human_fat( "human_fat", calendar::turn, 100 );
+
+    item mutant_human_meat( "mutant_human_flesh", calendar::turn, 100 );
+    item mutant_human_fat( "mutant_human_fat", calendar::turn, 100 );
+
+    item salt( "salt", calendar::turn, 100 );
+
+    std::list<item> ingredients;
+    std::vector<item_comp> selections;
+
+    GIVEN( "a sausage recipe" ) {
+        const recipe sausage_rec = recipe_id( "sausage_raw" ).obj();
+
+        WHEN( "it is made from non-human, non-mutant meat and fat" ) {
+            ingredients = { normal_meat, normal_fat, salt };
+            item sausage = item( &sausage_rec, 1, ingredients, selections ).get_making().create_result();
+
+            THEN( "type_name does not include any special qualifiers" ) {
+                CHECK( sausage.type_name() == "raw sausage" );
+            }
+        }
+
+        WHEN( "it is made from normal animal meat, but contains mutant fat" ) {
+            ingredients = { normal_meat, mutant_fat, salt };
+            item sausage = item( &sausage_rec, 1, ingredients, selections ).get_making().create_result();
+
+            THEN( "type_name suggests the food contains mutant" ) {
+                CHECK( sausage.type_name() == "sinister raw sausage" );
+            }
+        }
+
+        WHEN( "it is made from normal animal meat, but contains human fat" ) {
+            ingredients = { normal_meat, human_fat, salt };
+            item sausage = item( &sausage_rec, 1, ingredients, selections ).get_making().create_result();
+
+            THEN( "type_name suggests the food contains human" ) {
+                CHECK( sausage.type_name() == "raw Mannwurst" );
+            }
+        }
+
+        WHEN( "it is made from normal animal meat, but contains mutant human fat" ) {
+            ingredients = { normal_meat, mutant_human_fat, salt };
+            item sausage = item( &sausage_rec, 1, ingredients, selections ).get_making().create_result();
+
+            THEN( "type_name suggests the food contains mutant human" ) {
+                CHECK( sausage.type_name() == "sinister raw Mannwurst" );
+            }
+        }
+    }
+}
+
