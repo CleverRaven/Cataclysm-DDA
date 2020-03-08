@@ -11,6 +11,11 @@ class spell;
 struct itype;
 struct tripoint;
 
+template<typename T> struct enum_traits;
+
+class JsonIn;
+class JsonOut;
+
 enum target_mode : int {
     TARGET_MODE_FIRE,
     TARGET_MODE_THROW,
@@ -34,6 +39,12 @@ enum weapon_source {
     WEAPON_SOURCE_BIONIC,
     /** Firing fake gun provided by a mutation */
     WEAPON_SOURCE_MUTATION,
+    NUM_WEAPON_SOURCES
+};
+
+template <>
+struct enum_traits<weapon_source> {
+    static constexpr weapon_source last = weapon_source::NUM_WEAPON_SOURCES;
 };
 
 /** Stores data for aiming the player's weapon across turns */
@@ -60,6 +71,12 @@ struct targeting_data {
 
     /** Use fake gun provided by a mutation */
     static targeting_data use_mutation( const item &fake_gun );
+
+    // Since only avatar uses targeting_data,
+    // (de-)serialization is implemented in savegame_json.cpp
+    // near avatar (de-)serialization
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 class target_handler

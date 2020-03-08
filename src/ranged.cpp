@@ -122,6 +122,26 @@ targeting_data targeting_data::use_mutation( const item &fake_gun )
     };
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<weapon_source>( weapon_source data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case WEAPON_SOURCE_INVALID: return "WS_INVALID";
+        case WEAPON_SOURCE_WIELDED: return "WS_WIELDED";
+        case WEAPON_SOURCE_BIONIC: return "WS_BIONIC";
+        case WEAPON_SOURCE_MUTATION: return "WS_MUTATION";
+        // *INDENT-ON*
+        case NUM_WEAPON_SOURCES:
+            break;
+    }
+    debugmsg( "Invalid weapon source" );
+    abort();
+}
+}
+
 static double occupied_tile_fraction( m_size target_size )
 {
     switch( target_size ) {
