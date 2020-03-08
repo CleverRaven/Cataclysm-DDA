@@ -505,6 +505,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "50pellet",
+    "name": "50pellet",
+    "default": "50pellet"
+  },
+  {
+    "type": "ammunition_type",
     "id": "flintlock",
     "name": "paper cartridge",
     "default": "flintlock_ammo"
