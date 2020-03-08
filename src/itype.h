@@ -658,6 +658,11 @@ struct islot_battery {
     units::energy max_capacity;
 };
 
+struct islot_air {
+    /** Maximum air the cylinder can store */
+    units::energy max_capacity;
+};
+
 struct islot_ammo : common_ranged_data {
     /**
      * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
@@ -825,6 +830,7 @@ struct itype {
         cata::value_ptr<islot_gunmod> gunmod;
         cata::value_ptr<islot_magazine> magazine;
         cata::value_ptr<islot_battery> battery;
+        cata::value_ptr<islot_air> air;
         cata::value_ptr<islot_bionic> bionic;
         cata::value_ptr<islot_ammo> ammo;
         cata::value_ptr<islot_seed> seed;
