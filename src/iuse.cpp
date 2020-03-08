@@ -109,6 +109,10 @@
 struct extended_photo_def;
 struct object_names_collection;
 
+static const activity_id ACT_HAND_PUMP_INTEGRAL( "ACT_HAND_PUMP_INTEGRAL" );
+static const activity_id ACT_EQUALIZE( "ACT_EQUALIZE" );
+static const std::string flag_RECHARGE_AIR( "RECHARGE_AIR" );
+
 static void item_save_monsters( player &p, item &it, const std::vector<monster *> &monster_vec,
                                 int photo_quality );
 static bool show_photo_selection( player &p, item &it, const std::string &var_name );

@@ -101,6 +101,9 @@
 
 using namespace activity_handlers;
 
+static const activity_id ACT_HAND_PUMP_INTEGRAL( "ACT_HAND_PUMP_INTEGRAL" );
+static const activity_id ACT_EQUALIZE( "ACT_EQUALIZE" );
+
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
 activity_handlers::do_turn_functions = {
     { ACT_BURROW, burrow_do_turn },

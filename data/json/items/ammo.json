@@ -9,6 +9,7 @@
     "symbol": "=",
     "color": "yellow",
     "description": "Some free-floating compressed air.  This can be reloaded into rechargable air cylinders, but can never be unloaded.",
+    "phase": "gas",
     "flags": "TRADER_AVOID",
     "material": "iron",
     "volume": 1,
