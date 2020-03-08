@@ -64,7 +64,7 @@
   {
     "id": "pipe_tobacco",
     "type": "TOOL",
-    "name": "tobacco pipe",
+    "name": { "str": "tobacco pipe" },
     "description": "This is a hand-carved wooden smoking pipe.  It's designed to facilitate consumption of fire cured tobacco leaves.",
     "weight": "372 g",
     "volume": "250 ml",

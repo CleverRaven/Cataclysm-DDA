@@ -102,14 +102,18 @@ player_activity veh_interact::serialize_activity()
             time = vp->install_time( g->u );
             break;
         case 'r':
-            if( pt->is_broken() ) {
-                time = vp->install_time( g->u );
-            } else if( pt->base.max_damage() > 0 ) {
-                time = vp->repair_time( g->u ) * pt->base.damage() / pt->base.max_damage();
+            if( pt != nullptr ) {
+                if( pt->is_broken() ) {
+                    time = vp->install_time( g->u );
+                } else if( pt->base.max_damage() > 0 ) {
+                    time = vp->repair_time( g->u ) * pt->base.damage() / pt->base.max_damage();
+                }
             }
             break;
         case 'o':
             time = vp->removal_time( g->u );
+            break;
+        default:
             break;
     }
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
@@ -119,9 +123,10 @@ player_activity veh_interact::serialize_activity()
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
-    point q = veh->coord_translate( pt ? pt->mount : veh->parts[0].mount );
-    for( const auto pt : veh->get_points( true ) ) {
-        res.coord_set.insert( g->m.getabs( pt ) );
+    const point q = veh->coord_translate( pt ? pt->mount : veh->parts[0].mount );
+    const vehicle_part *vpt = pt ? pt : &veh->parts[0];
+    for( const tripoint &p : veh->get_points( true ) ) {
+        res.coord_set.insert( g->m.getabs( p ) );
     }
     res.values.push_back( g->m.getabs( veh->global_pos3() ).x + q.x );    // values[0]
     res.values.push_back( g->m.getabs( veh->global_pos3() ).y + q.y );    // values[1]
@@ -129,7 +134,7 @@ player_activity veh_interact::serialize_activity()
     res.values.push_back( dd.y );   // values[3]
     res.values.push_back( -dd.x );   // values[4]
     res.values.push_back( -dd.y );   // values[5]
-    res.values.push_back( veh->index_of_part( pt ) ); // values[6]
+    res.values.push_back( veh->index_of_part( vpt ) ); // values[6]
     res.str_values.push_back( vp->get_id().str() );
     res.targets.emplace_back( std::move( target ) );
 

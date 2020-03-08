@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "pipe",
-    "name": "pipe",
+    "name": { "str": "pipe" },
     "description": "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.",
     "category": "spare_parts",
     "weight": "1250 g",

@@ -550,7 +550,6 @@ void Character::load( const JsonObject &data )
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const auto &mid = it->first;
         if( mid.is_valid() ) {
-            mutation_effect( mid );
             cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
@@ -558,6 +557,7 @@ void Character::load( const JsonObject &data )
             my_mutations.erase( it++ );
         }
     }
+    size_class = calculate_size( *this );
 
     data.read( "my_bionics", *my_bionics );
 
@@ -652,6 +652,8 @@ void Character::load( const JsonObject &data )
         overmap_time_array.read_next( tdr );
         overmap_time[pt] = tdr;
     }
+    data.read( "stomach", stomach );
+    data.read( "guts", guts );
 }
 
 /**
@@ -773,6 +775,8 @@ void Character::store( JsonOut &json ) const
         }
         json.end_array();
     }
+    json.member( "stomach", stomach );
+    json.member( "guts", guts );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1009,9 +1013,6 @@ void avatar::store( JsonOut &json ) const
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
 
-    json.member( "stomach", stomach );
-    json.member( "guts", guts );
-
     json.member( "translocators", translocators );
 
     // mission stuff
@@ -1109,9 +1110,6 @@ void avatar::load( const JsonObject &data )
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
-
-    data.read( "stomach", stomach );
-    data.read( "guts", guts );
 
     data.read( "translocators", translocators );
 

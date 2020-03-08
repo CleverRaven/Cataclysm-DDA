@@ -37,7 +37,7 @@
   {
     "type": "GENERIC",
     "id": "motor_large",
-    "name": "large electric motor",
+    "name": { "str": "large electric motor" },
     "description": "A large and very powerful electric motor.  Useful for crafting.",
     "weight": "75 kg",
     "to_hit": -3,

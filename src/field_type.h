@@ -142,7 +142,7 @@ struct field_type {
         bool has_acid = false;
         bool has_elec = false;
         bool has_fume = false;
-        description_affix desc_affix;
+        description_affix desc_affix = description_affix::DESCRIPTION_AFFIX_NUM;
 
         // chance, issue, duration, speech
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;

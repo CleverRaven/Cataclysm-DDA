@@ -109,10 +109,10 @@ struct stat_mod {
 };
 
 struct needs_rates {
-    float thirst;
-    float hunger;
-    float fatigue;
-    float recovery;
+    float thirst = 0.0f;
+    float hunger = 0.0f;
+    float fatigue = 0.0f;
+    float recovery = 0.0f;
     float kcal = 0.0f;
 };
 
