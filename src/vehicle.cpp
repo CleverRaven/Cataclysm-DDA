@@ -1762,6 +1762,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
                 "FRIDGE",
                 "FREEZER",
                 "RECHARGE",
+                "RECHARGE_AIR",
                 "PLOW",
                 "REAPER",
                 "PLANTER",
@@ -4722,6 +4723,10 @@ void vehicle::power_parts()
         }
         // Rechargers need special case since they consume power on demand
         for( const vpart_reference &vp : get_enabled_parts( "RECHARGE" ) ) {
+            vp.part().enabled = false;
+        }
+
+        for( const vpart_reference &vp : get_enabled_parts( "RECHARGE_AIR" ) ) {
             vp.part().enabled = false;
         }
 
