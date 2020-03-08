@@ -2413,6 +2413,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             unsorted_spot = g->m.getlocal( random_entry( unsorted_set ) );
         }
         bool found_one_point = false;
+        bool found_route = true;
         for( const tripoint &elem : g->m.points_in_radius( localpos,
                 ACTIVITY_SEARCH_DISTANCE ) ) {
             // Theres no point getting the entire list of all items to tidy up now.
@@ -2421,15 +2422,12 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             // have the requirement to skip and scan the next one, ( other than checking path )
             // shortcircuiting the need to scan the entire map contionously can improve performance
             // especially if NPCs have a backlog of moves or there is a lot of them
+            if( !found_route ) {
+                found_route = true;
+                continue;
+            }
             if( found_one_point ) {
                 break;
-            }
-            // only check for a valid path, as that is all that is needed to tidy something up.
-            if( square_dist( p.pos(), elem ) > 1 ) {
-                std::vector<tripoint> route = route_adjacent( p, elem );
-                if( route.empty() ) {
-                    continue;
-                }
             }
             for( const item &stack_elem : g->m.i_at( elem ) ) {
                 if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == p.name ) {
@@ -2437,6 +2435,13 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
                     if( !f.has_flag( flag_PLANT ) ) {
                         src_set.insert( g->m.getabs( elem ) );
                         found_one_point = true;
+                        // only check for a valid path, as that is all that is needed to tidy something up.
+                        if( square_dist( p.pos(), elem ) > 1 ) {
+                            std::vector<tripoint> route = route_adjacent( p, elem );
+                            if( route.empty() ) {
+                                found_route = false;
+                            }
+                        }
                         break;
                     }
                 }

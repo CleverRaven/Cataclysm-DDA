@@ -3138,6 +3138,7 @@ bool npc::do_player_activity()
     int old_moves = moves;
     if( moves > 200 && activity && ( activity.is_multi_type() ||
                                      activity.id() == activity_id( "ACT_TIDY_UP" ) ) ) {
+        std::cout << "3141" << std::endl;
         // a huge backlog of a multi-activity type can forever loop
         // instead; just scan the map ONCE for a task to do, and if it returns false
         // then stop scanning, abandon the activity, and kill the backlog of moves.
