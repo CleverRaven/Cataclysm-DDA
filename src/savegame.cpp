@@ -972,6 +972,32 @@ void overmap::unserialize( std::istream &fin )
                 }
                 cities.push_back( new_city );
             }
+        } else if( name == "rivers" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                jsin.start_object();
+
+                point p1;
+                point p2;
+                int size;
+
+                while( !jsin.end_object() ) {
+                    std::string river_member_name = jsin.get_member_name();
+
+                    if( river_member_name == "entry" ) {
+                        jsin.read( p1 );
+                    }
+
+                    if( river_member_name == "exit" ) {
+                        jsin.read( p2 );
+                    }
+
+                    if( river_member_name == "size" ) {
+                        jsin.read( size );
+                    }
+                }
+                rivers.push_back( overmap_river_node{ p1, p2, size } );
+            }
         } else if( name == "connections_out" ) {
             jsin.read( connections_out );
         } else if( name == "roads_out" ) {
@@ -1413,6 +1439,18 @@ void overmap::serialize( std::ostream &fout ) const
         json.member( "name", i.name );
         json.member( "x", i.pos.x );
         json.member( "y", i.pos.y );
+        json.member( "size", i.size );
+        json.end_object();
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member( "rivers" );
+    json.start_array();
+    for( auto &i : rivers ) {
+        json.start_object();
+        json.member( "entry", i.p1 );
+        json.member( "exit", i.p2 );
         json.member( "size", i.size );
         json.end_object();
     }

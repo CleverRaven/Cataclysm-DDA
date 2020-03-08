@@ -116,6 +116,15 @@ struct overmap_special_placement {
     const overmap_special *special_details;
 };
 
+// Wrapper around a river node to contain river data.
+// Could be used to determine entry/exit points for boats across overmaps.
+// Could also contain name.
+struct overmap_river_node {
+    const point p1; // position, overmap origin node.
+    const point p2; // position, overmap exit node. Assigned at place_river(point pa, point pb);
+    const int size; // total omt of this river
+};
+
 // A batch of overmap specials to place.
 class overmap_special_batch
 {
@@ -290,6 +299,12 @@ class overmap
          */
         bool is_omt_generated( const tripoint &loc ) const;
 
+        /* Returns true if position is an entry/exit position of a overmap_river_node. */
+        bool is_river_node( const point &p ) const;
+
+        /* Returns the overmap river node if the position is an entry/exit point of one. */
+        overmap_river_node get_river_node_at( const point &p ) const;
+
         /** Returns the (0, 0) corner of the overmap in the global coordinates. */
         point global_base_point() const;
 
@@ -306,6 +321,7 @@ class overmap
                                    om_direction::type dir );
     private:
         std::multimap<tripoint, mongroup> zg;
+
     public:
         /** Unit test enablers to check if a given mongroup is present. */
         bool mongroup_check( const mongroup &candidate ) const;
@@ -316,6 +332,7 @@ class overmap
         std::map<int, om_vehicle> vehicles;
         std::vector<basecamp> camps;
         std::vector<city> cities;
+        std::vector<overmap_river_node> rivers;
         std::map<string_id<overmap_connection>, std::vector<tripoint>> connections_out;
         cata::optional<basecamp *> find_camp( const point &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
