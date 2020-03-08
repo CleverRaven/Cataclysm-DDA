@@ -1474,7 +1474,12 @@ bool Character::can_estimate_rot() const
 
 bool Character::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
+    return it.is_comestible() || can_consume_for_bionic( it );
+}
+
+bool Character::can_consume_for_bionic( const item &it ) const
+{
+    return get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
 }
 
 bool Character::can_consume( const item &it ) const
