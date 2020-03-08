@@ -475,7 +475,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pemmican",
-    "name": "pemmican",
+    "name": { "str": "pemmican", "str_pl": "pemmican" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "prepper %s", "str_pl": "prepper %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "pernicious %s", "str_pl": "pernicious %s" } }
