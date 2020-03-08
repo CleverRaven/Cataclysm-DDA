@@ -349,7 +349,8 @@ size_t inventory_column::next_selectable_index( size_t index, scroll_direction d
     if( entries.empty() ) {
         return index;
     }
-
+    // limit index to the space of the size of entries
+    index = index % entries.size();
     size_t new_index = index;
     do {
         // 'new_index' incremented by 'dir' using division remainder (number of entries) to loop over the entries.
@@ -358,6 +359,10 @@ size_t inventory_column::next_selectable_index( size_t index, scroll_direction d
         //     k = |step|          - absolute step (k <= N).
         new_index = ( new_index + static_cast<int>( dir ) + entries.size() ) % entries.size();
     } while( new_index != index && !entries[new_index].is_selectable() );
+
+    if( !entries[new_index].is_selectable() ) {
+        return -1;
+    }
 
     return new_index;
 }

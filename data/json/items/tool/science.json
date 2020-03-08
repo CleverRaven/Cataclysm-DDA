@@ -695,7 +695,7 @@
     "id": "stand_ring",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "ring stand",
+    "name": { "str": "ring stand" },
     "description": "This is a heavy metal plate and a sturdy rod, for clamping lab stuff to.",
     "weight": "900 g",
     "volume": "550ml",

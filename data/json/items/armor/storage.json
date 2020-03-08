@@ -25,7 +25,7 @@
   {
     "id": "backpack_hiking",
     "type": "ARMOR",
-    "name": "hiking backpack",
+    "name": { "str": "hiking backpack" },
     "description": "A large sized hiking backpack with plenty of storage space.",
     "weight": "2291 g",
     "volume": "14 L",
@@ -105,7 +105,7 @@
   {
     "id": "backpack_tactical_large",
     "type": "ARMOR",
-    "name": "large tactical backpack",
+    "name": { "str": "large tactical backpack" },
     "description": "A large tactical multi-compartment backpack that has great lower back support.",
     "weight": "2291 g",
     "volume": "15 L",
@@ -128,7 +128,7 @@
   {
     "id": "basket_laundry",
     "type": "ARMOR",
-    "name": "laundry basket",
+    "name": { "str": "laundry basket" },
     "description": "A plastic basket meant for storing and hauling clothing.",
     "weight": "680 g",
     "volume": "25 L",
@@ -149,7 +149,7 @@
   {
     "id": "bigback",
     "type": "ARMOR",
-    "name": "high-volume rucksack",
+    "name": { "str": "high-volume rucksack" },
     "description": "Also known as a \"bigpack\", this rucksack is prized by pack rats but may lead to a bad back.",
     "weight": "3539 g",
     "volume": "21 L",
@@ -374,7 +374,7 @@
     "id": "golf_bag",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
-    "name": "golf bag",
+    "name": { "str": "golf bag" },
     "description": "A tall canvas and plastic bag with fold-out legs used for golfing.  It even has straps to be worn on the back.",
     "weight": "1900 g",
     "volume": "15 L",
@@ -457,7 +457,7 @@
   {
     "id": "jerrypack",
     "type": "ARMOR",
-    "name": "jerrypack",
+    "name": { "str": "jerrypack" },
     "description": "A jerrycan modified to be worn in a similar manner to a backpack.",
     "weight": "1763 g",
     "volume": "10 L",
