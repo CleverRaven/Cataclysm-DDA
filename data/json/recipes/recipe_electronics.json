@@ -705,6 +705,28 @@
   },
   {
     "type": "recipe",
+    "result": "recharge_station_air",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "50 m",
+    "reversible": true,
+    "decomp_learn": 6,
+    "book_learn": [ [ "textbook_mechanics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ], [ "textbook_robots", 5 ] ],
+    "using": [ [ "soldering_standard", 35 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "power_supply", 2 ] ],
+      [ [ "processor", 2 ] ],
+      [ [ "scrap", 10 ] ],
+      [ [ "cable", 8 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "light_air_cylinder", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "solarpack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
