@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "type_id.h"
+#include "units.h"
 
 class item;
 class player;
@@ -58,8 +59,8 @@ struct targeting_data {
     int range;
     /** Relevant ammo */
     const itype *ammo;
-    /** Bionic power cost to fire */
-    int bp_cost;
+    /** Bionic power cost per shot */
+    units::energy bp_cost_per_shot;
 
     bool is_valid() const;
 
@@ -67,7 +68,7 @@ struct targeting_data {
     static targeting_data use_wielded( const avatar &you );
 
     /** Use fake gun provided by a bionic */
-    static targeting_data use_bionic( const item &fake_gun, int bp_cost );
+    static targeting_data use_bionic( const item &fake_gun, units::energy cost_per_shot );
 
     /** Use fake gun provided by a mutation */
     static targeting_data use_mutation( const item &fake_gun );

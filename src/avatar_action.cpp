@@ -909,8 +909,8 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
     int shots_fired = you.fire_gun( trajectory.back(), gun.qty, *gun );
 
     // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
-    if( shots_fired && args.power_cost ) {
-        you.mod_power_level( units::from_kilojoule( -args.power_cost ) * shots_fired );
+    if( shots_fired && ( args.bp_cost_per_shot > 0_J ) ) {
+        you.mod_power_level( -args.bp_cost_per_shot * shots_fired );
     }
     g->reenter_fullscreen();
 }
@@ -943,9 +943,10 @@ void avatar_action::fire_ranged_mutation( avatar &you, map &m, const item &fake_
     avatar_action::aim_do_turn( you, m );
 }
 
-void avatar_action::fire_ranged_bionic( avatar &you, map &m, const item &fake_gun, int bp_cost )
+void avatar_action::fire_ranged_bionic( avatar &you, map &m, const item &fake_gun,
+                                        units::energy cost_per_shot )
 {
-    targeting_data args = targeting_data::use_bionic( fake_gun, bp_cost );
+    targeting_data args = targeting_data::use_bionic( fake_gun, cost_per_shot );
     you.set_targeting_data( args );
     avatar_action::aim_do_turn( you, m );
 }

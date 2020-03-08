@@ -6,6 +6,7 @@
 
 #include "optional.h"
 #include "point.h"
+#include "units.h"
 
 class avatar;
 class item;
@@ -58,7 +59,7 @@ void fire_wielded_weapon( avatar &you, map &m );
 void fire_ranged_mutation( avatar &you, map &m, const item &fake_gun );
 
 /** Stores fake gun specified by the bionic and starts interactive aiming */
-void fire_ranged_bionic( avatar &you, map &m, const item &fake_gun, int bionic_power_cost );
+void fire_ranged_bionic( avatar &you, map &m, const item &fake_gun, units::energy cost_per_shot );
 
 /** Validates turret on player position and starts interactive aiming */
 void fire_turret_manual( avatar &you, map &m );

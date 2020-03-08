@@ -1212,7 +1212,7 @@ void targeting_data::serialize( JsonOut &json ) const
     if( ammo ) {
         json.member( "ammo", ammo->get_id() );
     }
-    json.member( "bp_cost", bp_cost );
+    json.member( "bp_cost", bp_cost_per_shot );
     json.end_object();
 }
 
@@ -1232,7 +1232,7 @@ void targeting_data::deserialize( JsonIn &jsin )
         ammo = item_controller->find_template( ammo_id );
     }
 
-    data.read( "bp_cost", bp_cost );
+    data.read( "bp_cost", bp_cost_per_shot );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

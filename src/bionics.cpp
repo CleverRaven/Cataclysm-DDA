@@ -271,8 +271,8 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
         g->refresh_all();
-        int bp_cost = units::to_kilojoule( bio.info().power_activate );
-        avatar_action::fire_ranged_bionic( g->u, g->m, item( bio.info().fake_item ), bp_cost );
+        avatar_action::fire_ranged_bionic( g->u, g->m, item( bio.info().fake_item ),
+                                           bio.info().power_activate );
     } else if( bio.info().weapon_bionic ) {
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
             add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );

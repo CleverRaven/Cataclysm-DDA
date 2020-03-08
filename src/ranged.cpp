@@ -94,11 +94,11 @@ targeting_data targeting_data::use_wielded( const avatar &you )
         nullptr,
         x.first,
         x.second,
-        0,
+        0_J,
     };
 }
 
-targeting_data targeting_data::use_bionic( const item &fake_gun, int bp_cost )
+targeting_data targeting_data::use_bionic( const item &fake_gun, units::energy cost_per_shot )
 {
     std::pair<int, const itype *> x = get_current_range_and_ammo( fake_gun );
     return targeting_data{
@@ -106,7 +106,7 @@ targeting_data targeting_data::use_bionic( const item &fake_gun, int bp_cost )
         std::shared_ptr<item>( new item( fake_gun ) ),
         x.first,
         x.second,
-        bp_cost
+        cost_per_shot
     };
 }
 
@@ -118,7 +118,7 @@ targeting_data targeting_data::use_mutation( const item &fake_gun )
         std::shared_ptr<item>( new item( fake_gun ) ),
         x.first,
         x.second,
-        0
+        0_J
     };
 }
 
