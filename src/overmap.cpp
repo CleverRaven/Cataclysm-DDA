@@ -3672,14 +3672,15 @@ void overmap::good_river( const tripoint &p )
             }
 
             //We don't want corners for now. Be prepared for the task required ahead if you remove this line.
-            if( ( x == p.x - 1 || x == p.x + 1 ) && ( y == p.y - 1 || y == p.y + 1 ) ) {
+            if( ( x == ( p.x - 1 ) || x == ( p.x + 1 ) ) && ( y == ( p.y - 1 ) || y == ( p.y + 1 ) ) ) {
                 continue;
             }
 
             // We check whether a river or lake is present, but if out of bounds and we are already a river then we...
             // assume that we were placed because of a neighbouring overmap river.
-            if( is_river_or_lake( ter( { x, y, 0 } ) ) || p.x > OMAPX - 1 || p.x < 0 || p.y > OMAPY - 1 ||
-                p.y < 0 ) {
+            if( is_river_or_lake( ter( { x, y, 0 } ) ) || x + p.x > ( OMAPX - 1 ) || x + p.x < 0 ||
+                y + p.y > ( OMAPY - 1 ) ||
+                y + p.y < 0 ) {
                 neighbours.push_back( true );
             } else {
                 neighbours.push_back( false );
@@ -3705,17 +3706,17 @@ void overmap::good_river( const tripoint &p )
         {0, oter_id( "forest_water" )}, //Default: Should never be used
         {1, oter_id( "river_north" )},
         {2, oter_id( "river_west" )},
-        {3, oter_id( "river_nw" )},
-        {4, oter_id( "river_west" )},
-        {5, oter_id( "river_ne" )},
+        {3, oter_id( "river_ne" )},
+        {4, oter_id( "river_east" )},
+        {5, oter_id( "river_nw" )},
         //6 = west and east
         {7, oter_id( "river_north" )},
         {8, oter_id( "river_south" )},
         //9 = north and south
-        {10, oter_id( "river_sw" )},
-        {11, oter_id( "river_west" )},
-        {12, oter_id( "river_se" )},
-        {13, oter_id( "river_east" )},
+        {10, oter_id( "river_se" )},
+        {11, oter_id( "river_east" )},
+        {12, oter_id( "river_sw" )},
+        {13, oter_id( "river_west" )},
         {14, oter_id( "river_south" )},
         {15, oter_id( "river_center" )} //15 = N E S W
     };
@@ -3741,6 +3742,7 @@ void overmap::good_river( const tripoint &p )
     } else {
         //Shouldn't happen.
         ter_set( p, riv_ters.at( 0 ) );
+        debugmsg( "Spawning forest_water on river cleanup." );
     }
 
     //End of cleaning rivers
