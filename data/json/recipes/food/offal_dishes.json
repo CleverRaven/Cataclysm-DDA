@@ -289,7 +289,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "liver", 4 ] ]
     ],
-    "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ]
+    "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "charges": 4,
   },
   {
