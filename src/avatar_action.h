@@ -46,13 +46,6 @@ void autoattack( avatar &you, map &m );
 void mend( avatar &you, item_location loc );
 
 /**
- * Checks if the weapon is valid and if the player meets certain conditions for firing it.
- * @param args Contains item data and targeting mode for the gun we want to fire.
- * @return True if all conditions are true, otherwise false.
- */
-bool fire_check( avatar &you, const map &m, const targeting_data &args );
-
-/**
  * Validates avatar's targeting_data, then handles interactive parts of gun firing
  * (target selection, aiming, etc.)
  */

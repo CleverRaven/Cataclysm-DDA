@@ -574,12 +574,116 @@ void avatar_action::autoattack( avatar &you, map &m )
     you.reach_attack( best.pos() );
 }
 
-// TODO: Move data/functions related to targeting out of game class
-bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data &args )
+/**
+ * Common checks for gunmode (when firing a weapon / manually firing turret)
+ * @param messages Used to store messages describing failed checks
+ * @return True if all conditions are true
+ */
+static bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> &messages,
+                                   const gun_mode &gmode )
 {
-    // TODO: Make this check not needed
-    if( args.relevant == nullptr ) {
-        debugmsg( "Can't plfire_check a null" );
+    bool result = true;
+
+    // Check that passed gun mode is valid and we are able to use it
+    if( !( gmode && you.can_use( *gmode ) ) ) {
+        messages.push_back( string_format( _( "You can't currently fire your %s." ),
+                                           gmode->tname() ) );
+        result = false;
+    }
+
+    const optional_vpart_position vp = m.veh_at( you.pos() );
+    if( vp && vp->vehicle().player_in_control( you ) && ( gmode->is_two_handed( you ) ||
+            gmode->has_flag( flag_FIRE_TWOHAND ) ) ) {
+        messages.push_back( string_format( _( "You can't fire your %s while driving." ),
+                                           gmode->tname() ) );
+        result = false;
+    }
+
+    if( gmode->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms() ||
+            you.worn_with_flag( flag_RESTRICT_HANDS ) ) ) {
+        messages.push_back( string_format( _( "You need two free hands to fire your %s." ),
+                                           gmode->tname() ) );
+        result = false;
+    }
+
+    return result;
+}
+
+/**
+ * Various checks for gunmode when firing a weapon
+ * @param messages Used to store messages describing failed checks
+ * @return True if all conditions are true
+ */
+static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
+                                   const gun_mode &gmode )
+{
+    bool result = true;
+
+    if( !gmode->ammo_sufficient() && !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        if( !gmode->ammo_remaining() ) {
+            messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
+        } else {
+            messages.push_back( string_format( _( "Your %s needs %i charges to fire!" ),
+                                               gmode->tname(), gmode->ammo_required() ) );
+        }
+        result = false;
+    }
+
+    if( gmode->get_gun_ups_drain() > 0 ) {
+        const int ups_drain = gmode->get_gun_ups_drain();
+        const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
+        bool is_mech_weapon = false;
+        if( you.is_mounted() ) {
+            monster *mons = g->u.mounted_creature.get();
+            if( !mons->type->mech_weapon.empty() ) {
+                is_mech_weapon = true;
+            }
+        }
+        if( !is_mech_weapon ) {
+            if( !( you.has_charges( "UPS_off", ups_drain ) ||
+                   you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+                   ( you.has_active_bionic( bio_ups ) &&
+                     you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
+                messages.push_back( string_format(
+                                        _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
+                                        gmode->tname(), ups_drain, adv_ups_drain ) );
+                result = false;
+            }
+        } else {
+            if( !you.has_charges( "UPS", ups_drain ) ) {
+                messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
+                                                   gmode->tname() ) );
+                result = false;
+            }
+        }
+    }
+
+    if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
+        const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
+                                 true ) );
+        bool t_mountable = m.has_flag_ter_or_furn( flag_MOUNTABLE, you.pos() );
+        if( !t_mountable && !v_mountable ) {
+            messages.push_back( string_format(
+                                    _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),
+                                    gmode->tname() ) );
+            result = false;
+        }
+    }
+
+    return result;
+}
+
+// TODO: Move data/functions related to targeting out of game class
+/**
+ * Checks if the weapon is valid and if the player meets certain conditions for firing it.
+ * @return True if all conditions are true, otherwise false.
+ */
+static bool can_fire_weapon( avatar &you, const map &m, const targeting_data &args )
+{
+    item &weapon = *args.relevant;
+
+    if( !weapon.is_gun() ) {
+        debugmsg( "Expected item to be a gun" );
         return false;
     }
 
@@ -589,108 +693,17 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         } else {
             you.moves -= rng( 2, 5 ) * 10;
             add_msg( m_bad, _( "You can't fire your weapon, it's too heavy…" ) );
-            // break a possible loop when aiming
-            if( you.activity ) {
-                you.cancel_activity();
-            }
-
             return false;
         }
-    }
-
-    item &weapon = *args.relevant;
-    if( weapon.is_gunmod() ) {
-        add_msg( m_info,
-                 _( "The %s must be attached to a gun, it can not be fired separately." ),
-                 weapon.tname() );
-        return false;
-    }
-
-    if( !weapon.is_gun() ) {
-        // The weapon itself isn't a gun, this weapon is not fireable.
-        return false;
     }
 
     std::vector<std::string> messages;
 
     for( const std::pair<const gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
-        bool fireable = true;
-        // check that a valid mode was returned and we are able to use it
-        if( !( mode_map.second && you.can_use( *mode_map.second ) ) ) {
-            messages.push_back( string_format( _( "You can't currently fire your %s." ),
-                                               mode_map.second->tname() ) );
-            fireable = false;
-        }
-
-        const optional_vpart_position vp = m.veh_at( you.pos() );
-        if( vp && vp->vehicle().player_in_control( you ) && ( mode_map.second->is_two_handed( you ) ||
-                mode_map.second->has_flag( flag_FIRE_TWOHAND ) ) ) {
-            messages.push_back( string_format( _( "You can't fire your %s while driving." ),
-                                               mode_map.second->tname() ) );
-            fireable = false;
-        }
-
-        if( mode_map.second->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms() ||
-                you.worn_with_flag( flag_RESTRICT_HANDS ) ) ) {
-            messages.push_back( string_format( _( "You need two free hands to fire your %s." ),
-                                               mode_map.second->tname() ) );
-            fireable = false;
-        }
-
-        // Skip certain checks if we are directly firing a vehicle turret
-        if( args.mode != TARGET_MODE_TURRET_MANUAL ) {
-            if( !mode_map.second->ammo_sufficient() && !mode_map.second->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-                if( !mode_map.second->ammo_remaining() ) {
-                    messages.push_back( string_format( _( "Your %s is empty!" ), mode_map.second->tname() ) );
-                } else {
-                    messages.push_back( string_format( _( "Your %s needs %i charges to fire!" ),
-                                                       mode_map.second->tname(), mode_map.second->ammo_required() ) );
-                }
-                fireable = false;
-            }
-
-            if( mode_map.second->get_gun_ups_drain() > 0 ) {
-                const int ups_drain = mode_map.second->get_gun_ups_drain();
-                const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
-                bool is_mech_weapon = false;
-                if( you.is_mounted() ) {
-                    monster *mons = g->u.mounted_creature.get();
-                    if( !mons->type->mech_weapon.empty() ) {
-                        is_mech_weapon = true;
-                    }
-                }
-                if( !is_mech_weapon ) {
-                    if( !( you.has_charges( "UPS_off", ups_drain ) ||
-                           you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                           ( you.has_active_bionic( bio_ups ) &&
-                             you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
-                        messages.push_back( string_format(
-                                                _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
-                                                mode_map.second->tname(), ups_drain, adv_ups_drain ) );
-                        fireable = false;
-                    }
-                } else {
-                    if( !you.has_charges( "UPS", ups_drain ) ) {
-                        messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
-                                                           mode_map.second->tname() ) );
-                        fireable = false;
-                    }
-                }
-            }
-
-            if( mode_map.second->has_flag( flag_MOUNTED_GUN ) ) {
-                const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
-                                         true ) );
-                bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", you.pos() );
-                if( !t_mountable && !v_mountable ) {
-                    messages.push_back( string_format(
-                                            _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),
-                                            mode_map.second->tname() ) );
-                    fireable = false;
-                }
-            }
-        }
-        if( fireable ) {
+        bool check_common = gunmode_checks_common( you, m, messages, mode_map.second );
+        bool check_weapon = gunmode_checks_weapon( you, m, messages, mode_map.second );
+        bool can_use_mode = check_common && check_weapon;
+        if( can_use_mode ) {
             return true;
         }
     }
@@ -699,6 +712,91 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         add_msg( m_info, message );
     }
     return false;
+}
+
+/**
+ * Checks if the turret is valid and if the player meets certain conditions for manually firing it.
+ * @param tdata Turret to check.
+ * @return True if all conditions are true, otherwise false.
+ */
+static bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
+{
+    const item &weapon = *turret.base();
+    if( !weapon.is_gun() ) {
+        debugmsg( "Expected turret base to be a gun." );
+        return false;
+    }
+
+    switch( turret.query() ) {
+        case turret_data::status::no_ammo:
+            add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
+            return false;
+
+        case turret_data::status::no_power:
+            add_msg( m_bad, _( "The %s is not powered." ), turret.name() );
+            return false;
+
+        case turret_data::status::ready:
+            break;
+
+        default:
+            debugmsg( "Unknown turret status" );
+            return false;
+    }
+
+    if( you.has_effect( effect_relax_gas ) ) {
+        if( one_in( 5 ) ) {
+            add_msg( m_good, _( "Your eyes steel, and you aim your weapon!" ) );
+        } else {
+            you.moves -= rng( 2, 5 ) * 10;
+            add_msg( m_bad, _( "You are too pacified to aim the turret…" ) );
+            return false;
+        }
+    }
+
+    std::vector<std::string> messages;
+
+    for( const std::pair<const gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
+        bool can_use_mode = gunmode_checks_common( you, m, messages, mode_map.second );
+        if( can_use_mode ) {
+            return true;
+        }
+    }
+
+    for( const std::string &message : messages ) {
+        add_msg( m_info, message );
+    }
+    return false;
+}
+
+static void fire_turret( avatar &you, map &m, turret_data &tdata )
+{
+    item *turret_base = &*tdata.base();
+
+    g->temp_exit_fullscreen();
+    m.draw( g->w_terrain, you.pos() );
+    std::vector<tripoint> trajectory = target_handler().target_ui(
+                                           you,
+                                           TARGET_MODE_TURRET_MANUAL,
+                                           turret_base,
+                                           tdata.range(),
+                                           tdata.ammo_data()
+                                       );
+
+    if( !trajectory.empty() ) {
+        // Recenter our view
+        g->draw_ter();
+        wrefresh( g->w_terrain );
+        g->draw_panels();
+
+        gun_mode gun = turret_base->gun_current_mode();
+
+        // TODO: add check for TRIGGERHAPPY
+        tdata.prepare_fire( you );
+        int shots_fired = you.fire_gun( trajectory.back(), gun.qty, *gun );
+        tdata.post_fire( you, shots_fired );
+    }
+    g->reenter_fullscreen();
 }
 
 void avatar_action::aim_do_turn( avatar &you, map &m )
@@ -711,7 +809,7 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
     }
     // If we were wielding this weapon when we started aiming, make sure we still are.
     bool lost_weapon = ( args.held && &you.weapon != args.relevant );
-    bool failed_check = !avatar_action::fire_check( you, m, args );
+    bool failed_check = !can_fire_weapon( you, m, args );
     if( lost_weapon || failed_check ) {
         you.cancel_activity();
         return;
@@ -794,49 +892,26 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
     wrefresh( g->w_terrain );
     g->draw_panels();
 
-    int shots = 0;
-
     you.moves -= reload_time;
 
-    std::function<void()> pre_fire;
-    std::function<void( int )> post_fire;
-    if( args.mode == TARGET_MODE_TURRET_MANUAL ) {
-        const optional_vpart_position vp = g->m.veh_at( you.pos() );
-        turret_data turret;
-        if( vp && ( turret = vp->vehicle().turret_query( you.pos() ) ) ) {
-            pre_fire = [&you, &turret]() {
-                turret.prepare_fire( you );
-            };
-            post_fire = [&you, &turret]( const int shots ) {
-                turret.post_fire( you, shots );
-            };
-        } else {
-            debugmsg( "Expected turret on player position" );
-        }
-    }
-
     // TODO: add check for TRIGGERHAPPY
-    if( pre_fire ) {
-        pre_fire();
-    }
-    shots = you.fire_gun( trajectory.back(), gun.qty, *gun );
-    if( post_fire ) {
-        post_fire( shots );
-    }
+    int shots_fired = you.fire_gun( trajectory.back(), gun.qty, *gun );
 
-    if( shots && args.power_cost ) {
-        you.mod_power_level( units::from_kilojoule( -args.power_cost ) * shots );
+    // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
+    if( shots_fired && args.power_cost ) {
+        you.mod_power_level( units::from_kilojoule( -args.power_cost ) * shots_fired );
     }
     g->reenter_fullscreen();
 }
 
 void avatar_action::fire_weapon( avatar &you, map &m, item &weapon, int bp_cost )
 {
-    // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
-    gun_mode gun = weapon.gun_current_mode();
-    // gun can be null if the item is an unattached gunmod
-    if( !gun ) {
-        add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname() );
+    if( weapon.is_gunmod() ) {
+        add_msg( m_info,
+                 _( "The %s must be attached to a gun, it can not be fired separately." ),
+                 weapon.tname() );
+        return;
+    } else if( !weapon.is_gun() ) {
         return;
     } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
@@ -844,6 +919,7 @@ void avatar_action::fire_weapon( avatar &you, map &m, item &weapon, int bp_cost 
         return;
     }
 
+    gun_mode gun = weapon.gun_current_mode();
     targeting_data args = {
         TARGET_MODE_FIRE, &weapon, gun.target->gun_range( &you ),
         bp_cost, you.is_wielding( weapon ), gun->ammo_data()
@@ -857,30 +933,8 @@ void avatar_action::fire_turret_manual( avatar &you, map &m )
     const optional_vpart_position vp = g->m.veh_at( you.pos() );
     turret_data turret;
     if( vp && ( turret = vp->vehicle().turret_query( you.pos() ) ) ) {
-        switch( turret.query() ) {
-            case turret_data::status::no_ammo:
-                add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
-                break;
-
-            case turret_data::status::no_power:
-                add_msg( m_bad, _( "The %s is not powered." ), turret.name() );
-                break;
-
-            case turret_data::status::ready: {
-
-                targeting_data args = {
-                    TARGET_MODE_TURRET_MANUAL, & *turret.base(),
-                    turret.range(), 0, false, turret.ammo_data()
-                };
-                you.set_targeting_data( args );
-                avatar_action::aim_do_turn( g->u, g->m );
-
-                break;
-            }
-
-            default:
-                debugmsg( "Unknown turret status" );
-                break;
+        if( can_fire_turret( you, m, turret ) ) {
+            fire_turret( you, m, turret );
         }
     } else {
         debugmsg( "Expected turret on player position." );
