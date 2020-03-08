@@ -65,6 +65,11 @@ void aim_do_turn( avatar &you, map &m );
  */
 void fire_weapon( avatar &you, map &m, item &weapon, int bp_cost = 0 );
 
+/**
+ * Validates turret on player position, stores it into targeting_data and starts interactive aiming.
+ */
+void fire_turret_manual( avatar &you, map &m );
+
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,
               const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );

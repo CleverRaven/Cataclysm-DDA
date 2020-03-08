@@ -852,6 +852,42 @@ void avatar_action::fire_weapon( avatar &you, map &m, item &weapon, int bp_cost 
     avatar_action::aim_do_turn( you, m );
 }
 
+void avatar_action::fire_turret_manual( avatar &you, map &m )
+{
+    const optional_vpart_position vp = g->m.veh_at( you.pos() );
+    turret_data turret;
+    if( vp && ( turret = vp->vehicle().turret_query( you.pos() ) ) ) {
+        switch( turret.query() ) {
+            case turret_data::status::no_ammo:
+                add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
+                break;
+
+            case turret_data::status::no_power:
+                add_msg( m_bad, _( "The %s is not powered." ), turret.name() );
+                break;
+
+            case turret_data::status::ready: {
+
+                targeting_data args = {
+                    TARGET_MODE_TURRET_MANUAL, & *turret.base(),
+                    turret.range(), 0, false, turret.ammo_data()
+                };
+                you.set_targeting_data( args );
+                avatar_action::aim_do_turn( g->u, g->m );
+
+                break;
+            }
+
+            default:
+                debugmsg( "Unknown turret status" );
+                break;
+        }
+    } else {
+        debugmsg( "Expected turret on player position." );
+        return;
+    }
+}
+
 void avatar_action::mend( avatar &you, item_location loc )
 {
     if( !loc ) {

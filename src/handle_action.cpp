@@ -1218,32 +1218,8 @@ static void fire()
         const optional_vpart_position vp = g->m.veh_at( u.pos() );
 
         turret_data turret;
-        // TODO: move direct turret firing from ACTION_FIRE to separate function.
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
-            switch( turret.query() ) {
-                case turret_data::status::no_ammo:
-                    add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
-                    break;
-
-                case turret_data::status::no_power:
-                    add_msg( m_bad,  _( "The %s is not powered." ), turret.name() );
-                    break;
-
-                case turret_data::status::ready: {
-                    targeting_data args = {
-                        TARGET_MODE_TURRET_MANUAL, & *turret.base(),
-                        turret.range(), 0, false, turret.ammo_data()
-                    };
-                    u.set_targeting_data( args );
-                    avatar_action::aim_do_turn( g->u, g->m );
-
-                    break;
-                }
-
-                default:
-                    debugmsg( "unknown turret status" );
-                    break;
-            }
+            avatar_action::fire_turret_manual( g->u, g->m );
             return;
         }
 
