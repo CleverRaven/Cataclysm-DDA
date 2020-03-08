@@ -570,7 +570,6 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "30 m",
-    "result_mult": 2,
     "book_learn": [ [ "cookbook_italian", 4 ], [ "manual_canning", 3 ] ],
     "result_mult": 4,
     "batch_time_factors": [ 83, 5 ],
