@@ -2,7 +2,7 @@
   {
     "id": "apron_leather",
     "type": "ARMOR",
-    "name": "leather apron",
+    "name": { "str": "leather apron" },
     "description": "An apron made of thick leather.  Cumbersome, but offers excellent protection from cuts.",
     "weight": "1950 g",
     "volume": "2250 ml",
@@ -652,7 +652,7 @@
   {
     "id": "vest_leather",
     "type": "ARMOR",
-    "name": "leather vest",
+    "name": { "str": "leather vest" },
     "description": "A vest made from thick leather.  Offers excellent protection from cuts.",
     "weight": "997 g",
     "volume": "2500 ml",

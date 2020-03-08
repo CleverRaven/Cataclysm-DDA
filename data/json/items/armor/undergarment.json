@@ -91,7 +91,7 @@
   {
     "id": "bikini_top_leather",
     "type": "ARMOR",
-    "name": "leather bikini top",
+    "name": { "str": "leather bikini top" },
     "description": "A simple leather bikini top.",
     "weight": "38 g",
     "volume": "250 ml",
@@ -254,7 +254,7 @@
   {
     "id": "chestwrap_leather",
     "type": "ARMOR",
-    "name": "leather chestwrap",
+    "name": { "str": "leather chestwrap" },
     "description": "Leather patches wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "137 g",
     "volume": "750 ml",
@@ -292,7 +292,7 @@
   {
     "id": "corset",
     "type": "ARMOR",
-    "name": "leather corset",
+    "name": { "str": "leather corset" },
     "description": "A snug, black leather corset.  Has no pockets, but its thick material provides good protection from harm.",
     "weight": "640 g",
     "volume": "1250 ml",

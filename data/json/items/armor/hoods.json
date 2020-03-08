@@ -67,7 +67,7 @@
     "id": "hood_lsurvivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "light survivor hood",
+    "name": { "str": "light survivor hood" },
     "description": "A customized armored cloth and Kevlar hood, very light and durable.",
     "weight": "628 g",
     "volume": "750 ml",
