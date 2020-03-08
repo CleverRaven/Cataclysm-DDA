@@ -140,13 +140,15 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                   ctxt.get_desc( "TOGGLE_AUTO_START" ) );
     std::string desc;
     if( mode == REASSIGNING ) {
-        desc = _( "Reassigning.  Select a bionic to reassign or press <color_yellow>SPACE</color> to cancel." );
+        desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
         fuel_string.clear();
     } else if( mode == ACTIVATING ) {
-        desc = string_format( _( "<color_green>Activating</color>  [<color_yellow>%s</color>] Examine, %s" ),
+        desc = string_format( _( "<color_green>Activating</color>  "
+                                 "[<color_yellow>%s</color>] Examine, %s" ),
                               ctxt.get_desc( "TOGGLE_EXAMINE" ), desc_append );
     } else if( mode == EXAMINING ) {
-        desc = string_format( _( "<color_light_blue>Examining</color>  [<color_yellow>%s</color>] Activate, %s" ),
+        desc = string_format( _( "<color_light_blue>Examining</color>  "
+                                 "[<color_yellow>%s</color>] Activate, %s" ),
                               ctxt.get_desc( "TOGGLE_EXAMINE" ), desc_append );
     }
 
