@@ -3718,7 +3718,6 @@ bool player::unload( item &it )
     }
 
     if( target->has_flag( "NO_UNLOAD" ) ) {
-        if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
         if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ||
             target->has_flag( "USE_AIR" ) ) {
             add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
