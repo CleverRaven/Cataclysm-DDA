@@ -335,7 +335,7 @@
     "id": "helmet_larmor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "leather armor helmet",
+    "name": { "str": "leather armor helmet" },
     "description": "A thick leather helmet that provides excellent protection for the head.",
     "weight": "435 g",
     "volume": "2 L",

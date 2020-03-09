@@ -252,7 +252,7 @@
   {
     "id": "duster_leather",
     "type": "ARMOR",
-    "name": "leather duster",
+    "name": { "str": "leather duster" },
     "description": "A thick leather full-length duster.  Has many pockets for storage.",
     "weight": "2655 g",
     "volume": "7 L",
@@ -495,7 +495,7 @@
   {
     "id": "jacket_leather",
     "type": "ARMOR",
-    "name": "leather jacket",
+    "name": { "str": "leather jacket" },
     "description": "A jacket made from thick leather.  Cumbersome, but offers excellent protection from cuts.",
     "weight": "1450 g",
     "volume": "4500 ml",
@@ -542,7 +542,7 @@
     "id": "jacket_light",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": "light jacket",
+    "name": { "str": "light jacket" },
     "description": "A thin cotton jacket with a hood.  Good for brisk weather.",
     "weight": "227 g",
     "volume": "2250 ml",
@@ -1127,7 +1127,7 @@
   {
     "id": "trenchcoat_leather",
     "type": "ARMOR",
-    "name": "leather trenchcoat",
+    "name": { "str": "leather trenchcoat" },
     "description": "A thick leather trenchcoat, lined with pockets.  Great for storage.",
     "weight": "1967 g",
     "volume": "5250 ml",

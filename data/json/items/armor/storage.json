@@ -82,7 +82,7 @@
   {
     "id": "backpack_leather",
     "type": "ARMOR",
-    "name": "leather backpack",
+    "name": { "str": "leather backpack" },
     "description": "A small leather backpack.  Good storage for a little encumbrance.",
     "weight": "818 g",
     "volume": "2 L",

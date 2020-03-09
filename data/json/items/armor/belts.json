@@ -102,7 +102,7 @@
   {
     "id": "leather_belt",
     "type": "ARMOR",
-    "name": "leather belt",
+    "name": { "str": "leather belt" },
     "description": "A leather belt.  Useful for making your pair of pants fit.",
     "weight": "102 g",
     "volume": "250 ml",
