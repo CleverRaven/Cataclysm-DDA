@@ -1642,7 +1642,18 @@
     "upgrades": { "age_grow": 38, "into": "mon_pig" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "CATTLEFODDER",
+      "PET_WONT_FOLLOW",
+      "WARM",
+      "KEENNOSE",
+      "BLEED"
+    ]
   },
   {
     "id": "mon_pig",
