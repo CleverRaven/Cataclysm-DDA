@@ -5,6 +5,8 @@
 #include "item.h"
 #include "options_helpers.h"
 
+// Test cases focused on item::tname
+
 TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 {
     g->u.empty_traits();
@@ -136,6 +138,7 @@ TEST_CASE( "items with a temperature flag", "[item][tname][temperature]" )
                 CHECK( corpse.tname() == "corpse of a human (fresh) (frozen)" );
             }
         }
+
         WHEN( "cold" ) {
             corpse.set_flag( flag_COLD );
             REQUIRE( corpse.has_flag( flag_COLD ) );

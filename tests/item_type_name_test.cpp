@@ -1,6 +1,8 @@
 #include "catch/catch.hpp"
 #include "item.h"
 
+// Test cases focused on item::type_name
+
 TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
 {
     SECTION( "singular and plural item names" ) {
