@@ -1767,11 +1767,6 @@ void monster::stumble()
         if( g->m.valid_move( pos(), below, false, true ) ) {
             valid_stumbles.push_back( below );
         }
-        // More restrictions for moving up
-        if( flies() && one_in( 5 ) &&
-            g->m.valid_move( pos(), above, false, true ) ) {
-            valid_stumbles.push_back( above );
-        }
     }
     while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint dest = random_entry_removed( valid_stumbles );
