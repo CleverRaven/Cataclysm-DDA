@@ -2984,7 +2984,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": "survival kit",
-    "description": "The ultimate survival kit purchased either by the wealthy or the dedicated urban survivalist.  It contains tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
+    "description": "The ultimate survival kit purchased either by the wealthy or the dedicated urban survivalist.  It contains tools and items to help you survive in case of an emergency.  Disassemble to get its contents.",
     "weight": "1612 g",
     "volume": "1 L",
     "price": 15000,
