@@ -108,7 +108,7 @@
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "hard chest guard",
+    "name": { "str": "hard chest guard" },
     "description": "A plastron of interlocking plastic plate protecting your torso.",
     "weight": "1000 g",
     "volume": "7 L",

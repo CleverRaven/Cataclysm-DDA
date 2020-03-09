@@ -168,10 +168,10 @@
   },
   {
     "id": "mask_hockey",
-    "repairs_like": "gas_mask",
+    "repairs_like": "mask_gas",
     "type": "ARMOR",
     "category": "armor",
-    "name": "hockey mask",
+    "name": { "str": "hockey mask" },
     "//": "Jason-type costume masks are much cheaper and less protective.",
     "description": "A protective face mask made of thick plastic.  Commonly worn by hockey goalies.",
     "weight": "228 g",

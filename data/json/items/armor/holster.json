@@ -75,7 +75,7 @@
   {
     "id": "holster",
     "type": "ARMOR",
-    "name": "holster",
+    "name": { "str": "holster" },
     "description": "A leather strap worn on the hip for holding pistol sized guns.  Activate to holster/draw a gun.",
     "weight": "220 g",
     "volume": "500 ml",
@@ -83,7 +83,7 @@
     "price_postapoc": 9000,
     "material": "leather",
     "symbol": "[",
-    "looks_like": "SHEATH_KNIFE",
+    "looks_like": "sheath",
     "color": "light_gray",
     "covers": [ "LEG_EITHER" ],
     "coverage": 5,
