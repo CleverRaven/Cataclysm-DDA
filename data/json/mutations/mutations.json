@@ -577,7 +577,7 @@
     "type": "mutation",
     "id": "UNOBSERVANT",
     "name": "Topographagnosia",
-    "points": -5,
+    "points": -1,
     "description": "Focal brain damage has rendered you incapable of recognizing landmarks and orienting yourself in your surroundings, severely crippling your sight radius on the overmap.",
     "valid": false,
     "starting_trait": true,
