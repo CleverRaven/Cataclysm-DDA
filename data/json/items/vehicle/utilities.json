@@ -95,7 +95,7 @@
     "type": "GENERIC",
     "id": "recharge_station_air",
     "name": "air compressor",
-    "description": "An air compressor designed to operate on vehicle power.  While on it will steadily fill all refillable high pressure air containers placed directly within its storage space.  The system can only be installed onto existing storage compartments, and is controlled from a dashboard or electronics control unit.  The connectors are specifically designed for connection to air cylinders.",
+    "description": "An air compressor designed to operate on vehicle power.  While turned on, it will steadily fill all refillable high pressure air containers placed directly within its storage space.  The system can only be installed onto existing storage compartments, and is controlled from a dashboard or electronics control unit.  The connectors are specifically designed for connection to air cylinders.",
     "weight": 10000,
     "to_hit": 1,
     "color": "light_blue",
