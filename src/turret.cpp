@@ -24,9 +24,7 @@
 #include "optional.h"
 #include "enums.h"
 #include "vpart_range.h"
-
-static const itype_id fuel_type_battery( "battery" );
-static const efftype_id effect_on_roof( "on_roof" );
+#include "cata_string_consts.h"
 
 std::vector<vehicle_part *> vehicle::turrets()
 {

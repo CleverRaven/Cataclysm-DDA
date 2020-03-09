@@ -63,25 +63,7 @@
 #include "type_id.h"
 #include "point.h"
 #include "skill.h"
-
-static const skill_id skill_throw( "throw" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_driving( "driving" );
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_launcher( "launcher" );
-
-static const efftype_id effect_on_roof( "on_roof" );
-static const efftype_id effect_hit_by_player( "hit_by_player" );
-static const efftype_id effect_downed( "downed" );
-
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
-
-static const trap_str_id tr_practice_target( "tr_practice_target" );
-
-static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
-static const fault_id fault_gun_dirt( "fault_gun_dirt" );
-static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
-static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
+#include "cata_string_consts.h"
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_attack( const Character &p, const itype &firing );
@@ -171,7 +153,7 @@ bool player::handle_gun_damage( item &it )
     const auto &curammo_effects = it.ammo_effects();
     const islot_gun &firing = *it.type->gun;
     // misfire chance based on dirt accumulation. Formula is designed to make chance of jam highly unlikely at low dirt levels, but levels increase geometrically as the dirt level reaches max (10,000). The number used is just a figure I found reasonable after plugging the number into excel and changing it until the probability made sense at high, medium, and low levels of dirt.
-    if( !it.has_flag( "NEVER_JAMS" ) &&
+    if( !it.has_flag( flag_NEVER_JAMS ) &&
         x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
                 1000000000000.0 ) ) {
         add_msg_player_or_npc(
@@ -204,7 +186,7 @@ bool player::handle_gun_damage( item &it )
         // effect as current guns have a durability between 5 and 9 this results in
         // a chance of mechanical failure between 1/(64*3) and 1/(1024*3) on any given shot.
         // the malfunction can't cause damage
-    } else if( one_in( ( 2 << effective_durability ) * 3 ) && !it.has_flag( "NEVER_JAMS" ) ) {
+    } else if( one_in( ( 2 << effective_durability ) * 3 ) && !it.has_flag( flag_NEVER_JAMS ) ) {
         add_msg_player_or_npc( _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
@@ -222,13 +204,13 @@ bool player::handle_gun_damage( item &it )
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
         // Can be toned down with 'consume_divisor.'
 
-    } else if( it.has_flag( "CONSUMABLE" ) && !curammo_effects.count( "LASER" ) &&
+    } else if( it.has_flag( flag_CONSUMABLE ) && !curammo_effects.count( "LASER" ) &&
                !curammo_effects.count( "PLASMA" ) && !curammo_effects.count( "EMP" ) ) {
         int uncork = ( ( 10 * it.ammo_data()->ammo->loudness )
                        + ( it.ammo_data()->ammo->recoil / 2 ) ) / 100;
         uncork = std::pow( uncork, 3 ) * 6.5;
         for( auto mod : it.gunmods() ) {
-            if( mod->has_flag( "CONSUMABLE" ) ) {
+            if( mod->has_flag( flag_CONSUMABLE ) ) {
                 int dmgamt = uncork / mod->type->gunmod->consume_divisor;
                 int modconsume = mod->type->gunmod->consume_chance;
                 int initstate = it.damage();
@@ -262,9 +244,9 @@ bool player::handle_gun_damage( item &it )
                                it.tname() );
         it.inc_damage();
     }
-    if( ( ( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) ||
+    if( ( ( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( flag_NON_FOULING ) ) ||
           ( it.has_fault( fault_gun_unlubricated ) ) ) &&
-        !it.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+        !it.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
         if( curammo_effects.count( "BLACKPOWDER" ) ||
             it.has_fault( fault_gun_unlubricated ) ) {
             if( ( ( it.ammo_data()->ammo->recoil < firing.min_cycle_recoil ) ||
@@ -278,7 +260,7 @@ bool player::handle_gun_damage( item &it )
             }
         }
         // These are the dirtying/fouling mechanics
-        if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) {
+        if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( flag_NON_FOULING ) ) {
             if( dirt < static_cast<int>( dirt_max_dbl ) ) {
                 dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing.blackpowder_tolerance *
                             2 ) );
@@ -362,7 +344,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     // cap our maximum burst size by the amount of UPS power left
-    if( !gun.has_flag( "VEHICLE" ) && gun.get_gun_ups_drain() > 0 ) {
+    if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0 ) {
         shots = std::min( shots, static_cast<int>( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
     }
 
@@ -435,7 +417,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-        if( !gun.has_flag( "VEHICLE" ) ) {
+        if( !gun.has_flag( flag_VEHICLE ) ) {
             use_charges( "UPS", gun.get_gun_ups_drain() );
         }
 
@@ -452,7 +434,11 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
             continue; // skip retargeting for launchers
         }
     }
-
+    // apply shot counter to gun and its mods.
+    gun.set_var( "shot_counter", gun.get_var( "shot_counter", 0 ) + curshot );
+    for( item *mod : gun.gunmods() ) {
+        mod->set_var( "shot_counter", mod->get_var( "shot_counter", 0 ) + curshot );
+    }
     // apply delayed recoil
     recoil += delay;
     if( is_mech_weapon ) {
@@ -460,7 +446,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         recoil = recoil / 2;
     }
     // Reset aim for bows and other reload-and-shoot weapons.
-    if( gun.has_flag( "RELOAD_AND_SHOOT" ) ) {
+    if( gun.has_flag( flag_RELOAD_AND_SHOOT ) ) {
         recoil = MAX_RECOIL;
     }
     // Cap
@@ -613,7 +599,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
-    bool do_railgun = has_active_bionic( bionic_id( "bio_railgun" ) ) && thrown.made_of_any( ferric ) &&
+    bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                       !throw_assist;
 
     // The damage dealt due to item's weight, player's strength, and skill level
@@ -856,13 +842,13 @@ static int find_target( const std::vector<Creature *> &t, const tripoint &tpos )
     return -1;
 }
 
-static void do_aim( player &p, const item &relevant )
+static void do_aim( player &p, const item &relevant, const double min_recoil )
 {
     const double aim_amount = p.aim_per_move( relevant, p.recoil );
-    if( aim_amount > 0 ) {
+    if( aim_amount > 0 && p.recoil > min_recoil ) {
         // Increase aim at the cost of moves
         p.mod_moves( -1 );
-        p.recoil = std::max( 0.0, p.recoil - aim_amount );
+        p.recoil = std::max( min_recoil, p.recoil - aim_amount );
     } else {
         // If aim is already maxed, we're just waiting, so pass the turn.
         p.set_moves( 0 );
@@ -1040,6 +1026,21 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     return line_number;
 }
 
+// Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
+static double calculate_aim_cap( const player &p, const tripoint &target )
+{
+    double min_recoil = 0.0;
+    const Creature *victim = g->critter_at( target, true );
+    if( victim == nullptr || !p.sees( *victim ) ) {
+        const int range = rl_dist( p.pos(), target );
+        // Get angle of triangle that spans the target square.
+        const double angle = atan2( 1, range );
+        // Convert from radians to arcmin.
+        min_recoil = 60 * 180 * angle / M_PI;
+    }
+    return min_recoil;
+}
+
 static int print_aim( const player &p, const catacurses::window &w, int line_number,
                       input_context &ctxt, item *weapon,
                       const double target_size, const tripoint &pos, double predicted_recoil )
@@ -1052,7 +1053,9 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
     dispersion_sources dispersion = p.get_weapon_dispersion( *weapon );
     dispersion.add_range( p.recoil_vehicle() );
 
-    const double min_dispersion = p.effective_dispersion( p.weapon.sight_dispersion() );
+    const double min_recoil = calculate_aim_cap( p, pos );
+    const double effective_recoil = p.effective_dispersion( p.weapon.sight_dispersion() );
+    const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
     // 0 is the best the player can do.
@@ -1198,7 +1201,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
                 dst = *local_last_tgt_pos;
             }
             if( ( pc.last_target.expired() || !pc.sees( *pc.last_target.lock() ) ) &&
-                pc.has_activity( activity_id( "ACT_AIM" ) ) ) {
+                pc.has_activity( ACT_AIM ) ) {
                 //We lost our target. Stop auto aiming.
                 pc.cancel_activity();
             }
@@ -1519,7 +1522,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         }
         redraw = true;
         std::string action;
-        if( pc.activity.id() == activity_id( "ACT_AIM" ) && pc.activity.str_values[0] != "AIM" ) {
+        if( pc.activity.id() == ACT_AIM && pc.activity.str_values[0] != "AIM" ) {
             // If we're in 'aim and shoot' mode,
             // skip retrieving input and go straight to the action.
             action = pc.activity.str_values[0];
@@ -1615,12 +1618,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             recoil_pos = dst;
 
             set_last_target( dst );
+            const double min_recoil = calculate_aim_cap( pc, dst );
             for( int i = 0; i < 10; ++i ) {
-                do_aim( pc, *relevant );
+                do_aim( pc, *relevant, min_recoil );
             }
             if( pc.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
-                pc.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
+                pc.assign_activity( ACT_AIM, 0, 0 );
                 pc.activity.str_values.push_back( "AIM" );
                 pc.view_offset = old_offset;
                 return empty_result;
@@ -1677,12 +1681,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
             int aim_threshold = it->threshold;
             set_last_target( dst );
+            const double min_recoil = calculate_aim_cap( pc, dst );
             do {
-                do_aim( pc, relevant ? *relevant : null_item_reference() );
-            } while( pc.moves > 0 && pc.recoil > aim_threshold && pc.recoil - sight_dispersion > 0 );
+                do_aim( pc, relevant ? *relevant : null_item_reference(), min_recoil );
+            } while( pc.moves > 0 && pc.recoil > aim_threshold && pc.recoil - sight_dispersion > min_recoil );
 
             if( pc.recoil <= aim_threshold ||
-                pc.recoil - sight_dispersion == 0 ) {
+                pc.recoil - sight_dispersion == min_recoil ) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
                 pc.view_offset = old_offset;
@@ -1694,7 +1699,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 // Set the string value of the aim action to the right thing
                 // so we re-enter this loop.
                 // Also clear target vector, but leave target selected.
-                pc.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
+                pc.assign_activity( ACT_AIM, 0, 0 );
                 pc.activity.str_values.push_back( action );
                 pc.view_offset = old_offset;
                 return empty_result;
@@ -2009,7 +2014,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         catacurses::refresh();
 
         std::string action;
-        if( pc.activity.id() == activity_id( "ACT_AIM" ) && pc.activity.str_values[0] != "AIM" ) {
+        if( pc.activity.id() == ACT_AIM && pc.activity.str_values[0] != "AIM" ) {
             // If we're in 'aim and shoot' mode,
             // skip retrieving input and go straight to the action.
             action = pc.activity.str_values[0];
@@ -2380,12 +2385,12 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 
     dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 
-    if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
+    if( has_bionic( bio_targeting ) ) {
         dispersion.add_multiplier( 0.75 );
     }
 
     // Range is effectively four times longer when shooting unflagged/flagged guns underwater/out of water.
-    if( is_underwater() != obj.has_flag( "UNDERWATER_GUN" ) ) {
+    if( is_underwater() != obj.has_flag( flag_UNDERWATER_GUN ) ) {
         // Adding dispersion for additional debuff
         dispersion.add_range( 150 );
         dispersion.add_multiplier( 4 );

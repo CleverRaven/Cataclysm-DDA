@@ -2,7 +2,7 @@
   {
     "id": "fireman_belt",
     "type": "ARMOR",
-    "name": "firefighter belt",
+    "name": { "str": "firefighter belt" },
     "description": "A stout firefighter's belt.  Useful for keeping your bunker gear up, it also doubles as an equipment belt with a reinforced loop for holding a large tool.",
     "weight": "210 g",
     "volume": "500 ml",
@@ -30,7 +30,7 @@
     "abstract": "judo_belt_abstract",
     "type": "ARMOR",
     "name": "judo belt template",
-    "description": "This is a template for judo belts.  If found in a game it is a bug.",
+    "description": "This is a template for judo belts.  If found in a game, it is a bug.",
     "weight": "200 g",
     "volume": "250 ml",
     "price": 1000,
@@ -47,7 +47,7 @@
     "id": "judo_belt_black",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "black belt",
+    "name": { "str": "black belt" },
     "description": "A belt worn by martial arts practitioners, advertising a master.",
     "color": "dark_gray"
   },
@@ -55,7 +55,7 @@
     "id": "judo_belt_blue",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "blue belt",
+    "name": { "str": "blue belt" },
     "description": "A belt worn by martial arts practitioners, advertising a strong intermediate.",
     "color": "blue"
   },
@@ -63,7 +63,7 @@
     "id": "judo_belt_brown",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "brown belt",
+    "name": { "str": "brown belt" },
     "description": "A belt worn by martial arts practitioners, advertising a near-master.",
     "color": "brown"
   },
@@ -71,7 +71,7 @@
     "id": "judo_belt_green",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "green belt",
+    "name": { "str": "green belt" },
     "description": "A belt worn by martial arts practitioners, advertising an intermediate.",
     "color": "green"
   },

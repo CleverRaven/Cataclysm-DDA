@@ -697,7 +697,7 @@ bool safemode::is_sound_safe( const std::string &sound_name_in,
                 return false;
             }
         }
-    };
+    }
     return sound_safe;
 }
 

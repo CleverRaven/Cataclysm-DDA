@@ -186,5 +186,24 @@
         { "item": "glass_shard", "count": [ 8, 12 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_altar",
+    "name": "stone altar",
+    "move_cost_mod": 10,
+    "symbol": "H",
+    "color": "light_gray",
+    "coverage": 40,
+    "required_str": 30,
+    "flags": [ "BASHABLE" ],
+    "description": "This is big stone altar.  Most commonly used in morally questionable rituals.",
+    "bash": {
+      "str_min": 30,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
+    }
   }
 ]

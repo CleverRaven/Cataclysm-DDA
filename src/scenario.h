@@ -44,7 +44,7 @@ class scenario
         std::set<trait_id> _forced_traits;
         std::set<trait_id> _forbidden_traits;
         std::vector<start_location_id> _allowed_locs;
-        int _point_cost;
+        int _point_cost = 0;
         std::set<std::string> flags; // flags for some special properties of the scenario
         std::string _map_extra;
         std::vector<mission_type_id> _missions;
@@ -118,5 +118,7 @@ struct scen_blacklist {
     void load( const JsonObject &jo, const std::string & );
     void finalize();
 };
+
+void reset_scenarios_blacklist();
 
 #endif
