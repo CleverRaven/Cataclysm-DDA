@@ -241,7 +241,17 @@ plot_options::query_seed_result plot_options::query_seed()
     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
-
+    auto &mgr = zone_manager::get_manager();
+    const std::unordered_set<tripoint> &zone_src_set = mgr.get_near( zone_type_id( "LOOT_SEEDS" ),
+            g->m.getabs( p.pos() ), 60 );
+    for( const tripoint &elem : zone_src_set ) {
+        tripoint elem_loc = g->m.getlocal( elem );
+        for( item &it : g->m.i_at( elem_loc ) ) {
+            if( it.is_seed() ) {
+                seed_inv.push_back( &it );
+            }
+        }
+    }
     std::vector<seed_tuple> seed_entries = iexamine::get_seed_entries( seed_inv );
     seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), _( "No seed" ), 0 ) );
 
