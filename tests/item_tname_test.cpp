@@ -3,6 +3,7 @@
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
+#include "itype.h"
 #include "options_helpers.h"
 
 // Test cases focused on item::tname
@@ -231,6 +232,37 @@ TEST_CASE( "truncated item name", "[item][tname][truncate]" )
     // color-coded or otherwise embellished item name can be truncated
 }
 
+TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
+{
+    item vtwin = item( "v2_combustion" );
+    item v12diesel = item( "v12_diesel" );
+    item turbine = item( "small_turbine_engine" );
+
+    REQUIRE( vtwin.engine_displacement() == 100 );
+    REQUIRE( v12diesel.engine_displacement() == 700 );
+    REQUIRE( turbine.engine_displacement() == 2700 );
+
+    CHECK( vtwin.tname() == "1.0L V-twin engine" );
+    CHECK( v12diesel.tname() == "7.0L V12 diesel engine" );
+    CHECK( turbine.tname() == "27.0L 1350 hp gas turbine engine" );
+}
+
+TEST_CASE( "wheel diameter", "[item][tname][wheel]" )
+{
+    item wheel17 = item( "wheel" );
+    item wheel24 = item( "wheel_wide" );
+    item wheel32 = item( "wheel_armor" );
+
+    REQUIRE( wheel17.type->wheel->diameter == 17 );
+    REQUIRE( wheel24.type->wheel->diameter == 24 );
+    REQUIRE( wheel32.type->wheel->diameter == 32 );
+
+    CHECK( wheel17.tname() == "17\" wheel" );
+    CHECK( wheel24.tname() == "24\" wide wheel" );
+    CHECK( wheel32.tname() == "32\" armored wheel" );
+}
+
+
 // item health bar
 
 // clothing with +1 suffix
@@ -245,8 +277,6 @@ TEST_CASE( "truncated item name", "[item][tname][truncate]" )
 // tname tests to consider:
 // - indicates gun fouling level
 // - includes (faulty) for faults
-// - shows engine displacement (L) for engines
-// - shows wheel diameter for wheels
 // - indicates "burnt" or "badly burnt"
 //
 // - special cases for
