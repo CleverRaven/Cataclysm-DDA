@@ -3141,6 +3141,11 @@ ret_val<bool> player::can_wield( const item &it ) const
                    _( "You need at least one arm to even consider wielding something." ) );
     }
 
+    if( is_armed() && weapon.has_flag( "NO_UNWIELD" ) ) {
+        return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
+                                            weapname(), it.tname() );
+    }
+
     if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
         if( worn_with_flag( "RESTRICT_HANDS" ) ) {
             return ret_val<bool>::make_failure(
@@ -5092,19 +5097,6 @@ void player::shift_destination( const point &shift )
 bool player::has_weapon() const
 {
     return !unarmed_attack();
-}
-
-m_size player::get_size() const
-{
-    if( has_trait( trait_id( "SMALL2" ) ) || has_trait( trait_id( "SMALL_OK" ) ) ||
-        has_trait( trait_id( "SMALL" ) ) ) {
-        return MS_SMALL;
-    } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
-        return MS_LARGE;
-    } else if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
-        return MS_HUGE;
-    }
-    return MS_MEDIUM;
 }
 
 int player::get_hp() const

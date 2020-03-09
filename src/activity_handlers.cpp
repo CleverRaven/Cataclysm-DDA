@@ -60,6 +60,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "uistate.h"
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -150,6 +151,7 @@ activity_handlers::do_turn_functions = {
     { ACT_DISMEMBER, butcher_do_turn },
     { ACT_DISSECT, butcher_do_turn },
     { ACT_HACKSAW, hacksaw_do_turn },
+    { ACT_PRY_NAILS, pry_nails_do_turn },
     { ACT_CHOP_TREE, chop_tree_do_turn },
     { ACT_CHOP_LOGS, chop_tree_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
@@ -192,6 +194,7 @@ activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
     { ACT_TRAIN, train_finish },
     { ACT_CHURN, churn_finish },
+    { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
     { ACT_START_ENGINES, start_engines_finish },
     { ACT_OXYTORCH, oxytorch_finish },
@@ -223,6 +226,7 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_WASH, washing_finish },
     { ACT_HACKSAW, hacksaw_finish },
+    { ACT_PRY_NAILS, pry_nails_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
     { ACT_MILK, milk_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
@@ -849,7 +853,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
 
-        if( action != DISSECT && entry.type != "bionic_group" ) {
+        if( entry.type != "bionic_group" ) {
             // divide total dropped weight by drop's weight to get amount
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined
@@ -1279,9 +1283,9 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
         debugmsg( "could not find source creature for liquid transfer" );
         return;
     }
-    auto milked_item = source_mon->ammo.find( "milk_raw" );
+    auto milked_item = source_mon->ammo.find( source_mon->type->starting_ammo.begin()->first );
     if( milked_item == source_mon->ammo.end() ) {
-        debugmsg( "animal has no milk ammo type" );
+        debugmsg( "animal has no milkable ammo type" );
         return;
     }
     if( milked_item->second <= 0 ) {
@@ -1561,9 +1565,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
+void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
 {
-    ( void )act;
     if( calendar::once_every( 1_minutes ) ) {
         p->add_morale( MORALE_GAME, 4, 60 );
     }
@@ -2554,11 +2557,16 @@ void activity_handlers::heat_item_finish( player_activity *act, player *p )
         return;
     }
     item_location &loc = act->targets[ 0 ];
-    item *heat = loc.get_item();
+    item *const heat = loc.get_item();
     if( heat == nullptr ) {
         return;
     }
-    item &target = *heat->get_food();
+    item *const food = heat->get_food();
+    if( food == nullptr ) {
+        debugmsg( "item %s is not food", heat->typeId() );
+        return;
+    }
+    item &target = *food;
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
         if( target.has_flag( flag_EATEN_COLD ) ) {
@@ -2921,7 +2929,6 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
 
 void activity_handlers::fish_finish( player_activity *act, player *p )
 {
-    ( void )p;
     act->set_to_null();
     p->add_msg_if_player( m_info, _( "You finish fishing" ) );
     if( !p->backlog.empty() && p->backlog.front().id() == ACT_MULTIPLE_FISH ) {
@@ -2978,7 +2985,7 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
-    if( !act->targets.front() ) {
+    if( !act || !act->targets.front() ) {
         debugmsg( "Lost target of ACT_READ" );
         return;
     }
@@ -3358,6 +3365,37 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
     resume_for_multi_activities( *p );
 }
 
+void activity_handlers::plant_seed_finish( player_activity *act, player *p )
+{
+    tripoint examp = g->m.getlocal( act->placement );
+    const std::string seed_id = act->str_values[0];
+    std::list<item> used_seed;
+    if( item::count_by_charges( seed_id ) ) {
+        used_seed = p->use_charges( seed_id, 1 );
+    } else {
+        used_seed = p->use_amount( seed_id, 1 );
+    }
+    if( !used_seed.empty() ) {
+        used_seed.front().set_age( 0_turns );
+        if( used_seed.front().has_var( "activity_var" ) ) {
+            used_seed.front().erase_var( "activity_var" );
+        }
+        used_seed.front().set_flag( flag_HIDDEN_ITEM );
+        g->m.add_item_or_charges( examp, used_seed.front() );
+        if( g->m.has_flag_furn( flag_PLANTABLE, examp ) ) {
+            g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
+        } else {
+            g->m.set( examp, t_dirt, f_plant_seed );
+        }
+        p->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
+                                  item::nname( seed_id ) );
+    }
+    // Go back to what we were doing before
+    // could be player zone activity, or could be NPC multi-farming
+    act->set_to_null();
+    resume_for_multi_activities( *p );
+}
+
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
     partial_con *pc = g->m.partial_con_at( g->m.getlocal( act->placement ) );
@@ -3660,6 +3698,61 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish cutting the metal." ) );
 
+    act->set_to_null();
+}
+
+void activity_handlers::pry_nails_do_turn( player_activity *act, player * )
+{
+    sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( act->placement ) );
+}
+
+void activity_handlers::pry_nails_finish( player_activity *act, player *p )
+{
+    const tripoint &pnt = act->placement;
+    const ter_id type = g->m.ter( pnt );
+
+    int nails = 0;
+    int boards = 0;
+    ter_id newter;
+    if( type == t_fence ) {
+        nails = 6;
+        boards = 3;
+        newter = t_fence_post;
+        p->add_msg_if_player( _( "You pry out the fence post." ) );
+    } else if( type == t_window_boarded ) {
+        nails = 8;
+        boards = 4;
+        newter = t_window_frame;
+        p->add_msg_if_player( _( "You pry the boards from the window." ) );
+    } else if( type == t_window_boarded_noglass ) {
+        nails = 8;
+        boards = 4;
+        newter = t_window_empty;
+        p->add_msg_if_player( _( "You pry the boards from the window frame." ) );
+    } else if( type == t_door_boarded || type == t_door_boarded_damaged ||
+               type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
+               type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
+        nails = 8;
+        boards = 4;
+        if( type == t_door_boarded ) {
+            newter = t_door_c;
+        } else if( type == t_door_boarded_damaged ) {
+            newter = t_door_b;
+        } else if( type == t_door_boarded_peep ) {
+            newter = t_door_c_peep;
+        } else if( type == t_door_boarded_damaged_peep ) {
+            newter = t_door_b_peep;
+        } else if( type == t_rdoor_boarded ) {
+            newter = t_rdoor_c;
+        } else { // if (type == t_rdoor_boarded_damaged)
+            newter = t_rdoor_b;
+        }
+        p->add_msg_if_player( _( "You pry the boards from the door." ) );
+    }
+    p->practice( skill_fabrication, 1, 1 );
+    g->m.spawn_item( p->pos(), "nail", 0, nails );
+    g->m.spawn_item( p->pos(), "2x4", boards );
+    g->m.ter_set( pnt, newter );
     act->set_to_null();
 }
 

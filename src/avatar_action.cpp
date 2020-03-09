@@ -617,7 +617,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         bool fireable = true;
         // check that a valid mode was returned and we are able to use it
         if( !( mode_map.second && you.can_use( *mode_map.second ) ) ) {
-            messages.push_back( string_format( _( "You can no longer fire your %s." ),
+            messages.push_back( string_format( _( "You can't currently fire your %s." ),
                                                mode_map.second->tname() ) );
             fireable = false;
         }
@@ -625,7 +625,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         const optional_vpart_position vp = m.veh_at( you.pos() );
         if( vp && vp->vehicle().player_in_control( you ) && ( mode_map.second->is_two_handed( you ) ||
                 mode_map.second->has_flag( flag_FIRE_TWOHAND ) ) ) {
-            messages.push_back( string_format( _( "You can't use your %s while driving!" ),
+            messages.push_back( string_format( _( "You can't fire your %s while driving." ),
                                                mode_map.second->tname() ) );
             fireable = false;
         }
@@ -684,7 +684,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                 bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", you.pos() );
                 if( !t_mountable && !v_mountable ) {
                     messages.push_back( string_format(
-                                            _( "You must stand near acceptable terrain or furniture to use this %s.  A table, a mound of dirt, a broken window, etc." ),
+                                            _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),
                                             mode_map.second->tname() ) );
                     fireable = false;
                 }

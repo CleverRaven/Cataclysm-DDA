@@ -2634,7 +2634,7 @@ void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        convert_volume( max_volume.value() ) );
 
     if( max_weight > 0_gram ) {
-        dump.emplace_back( "TOOL", "Max item weight: ",
+        dump.emplace_back( "TOOL", _( "Max item weight: " ),
                            string_format( _( "<num> %s" ), weight_units() ),
                            iteminfo::is_decimal,
                            convert_weight( max_weight ) );

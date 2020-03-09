@@ -1321,6 +1321,7 @@ void options_manager::add_options_interface()
         { "ja", no_translation( R"(日本語)" ) },
         { "ko", no_translation( R"(한국어)" ) },
         { "pl", no_translation( R"(Polski)" ) },
+        { "pt_BR", no_translation( R"(Português (Brasil))" )},
         { "ru", no_translation( R"(Русский)" ) },
         { "zh_CN", no_translation( R"(中文 (天朝))" ) },
         { "zh_TW", no_translation( R"(中文 (台灣))" ) },

@@ -231,7 +231,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
     // item always has any relic properties from itype.
     if( type->relic_data ) {
-        relic_data = *type->relic_data;
+        relic_data = type->relic_data;
     }
 }
 
@@ -301,6 +301,12 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
         }
     }
 }
+
+item::item( const item & ) = default;
+item::item( item && ) = default;
+item::~item() = default;
+item &item::operator=( const item & ) = default;
+item &item::operator=( item && ) = default;
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
                         const int upgrade_time )
@@ -4055,7 +4061,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 }
 
 std::string item::display_money( unsigned int quantity, unsigned int total,
-                                 cata::optional<unsigned int> selected ) const
+                                 const cata::optional<unsigned int> &selected ) const
 {
     if( selected ) {
         //~ This is a string to display the selected and total amount of money in a stack of cash cards.
@@ -4758,13 +4764,19 @@ bool item::goes_bad() const
     return is_food() && get_comestible()->spoils != 0_turns;
 }
 
+bool item::goes_bad_after_opening() const
+{
+    return goes_bad() || ( type->container && type->container->preserves &&
+                           !contents.empty() && contents.front().goes_bad() );
+}
+
 time_duration item::get_shelf_life() const
 {
     if( goes_bad() ) {
         if( is_food() ) {
             return get_comestible()->spoils;
         } else if( is_corpse() ) {
-            return CORPSE_ROT_TIME;
+            return 24_hours;
         }
     }
     return 0_turns;
@@ -8954,7 +8966,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     }
 
     if( !g->m.veh_at( *source ) || ( source->z != g->get_levz() && !g->m.has_zlevels() ) ) {
-        if( carrier != nullptr && carrier->has_item( *this ) ) {
+        if( carrier->has_item( *this ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
         }
         reset_cable( carrier );
@@ -8966,7 +8978,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     charges = max_charges - distance;
 
     if( charges < 1 ) {
-        if( carrier != nullptr && carrier->has_item( *this ) ) {
+        if( carrier->has_item( *this ) ) {
             carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
         }
         reset_cable( carrier );

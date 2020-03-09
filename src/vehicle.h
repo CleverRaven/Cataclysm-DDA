@@ -513,7 +513,7 @@ class turret_data
     private:
         turret_data( vehicle *veh, vehicle_part *part )
             : veh( veh ), part( part ) {}
-        double cached_recoil;
+        double cached_recoil = 0;
 
     protected:
         vehicle *veh = nullptr;

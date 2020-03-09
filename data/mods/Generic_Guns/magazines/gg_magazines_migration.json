@@ -55,7 +55,7 @@
     "replace": "pistol_mag"
   },
   {
-    "id": [ "deaglemag", "hptjhpmag", "lw12mag", "8x40_10_mag" ],
+    "id": [ "deaglemag", "hptjhpmag", "8x40_10_mag" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_mag"
   },
@@ -88,7 +88,6 @@
       "glock17_22",
       "glock_drum_50rd",
       "glock_drum_100rd",
-      "lw21mag",
       "m9bigmag",
       "mp5bigmag",
       "mp5mag",
@@ -120,18 +119,7 @@
     "replace": "pistol_speedloader"
   },
   {
-    "id": [
-      "360_200_mag",
-      "360_400_mag",
-      "a180mag",
-      "mosquitomag",
-      "ruger1022bigmag",
-      "ruger1022mag",
-      "sw22mag",
-      "j22mag",
-      "wp22mag",
-      "kp32mag"
-    ],
+    "id": [ "a180mag", "mosquitomag", "ruger1022bigmag", "ruger1022mag", "sw22mag", "j22mag", "wp22mag", "kp32mag" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"
   },
@@ -152,8 +140,6 @@
   },
   {
     "id": [
-      "lw223bigmag",
-      "lw223mag",
       "stanag30",
       "stanag50",
       "blrmag",
@@ -186,7 +172,6 @@
   {
     "id": [
       "m2010mag",
-      "223_speedloader5",
       "ruger5",
       "stanag10",
       "survivor223mag",

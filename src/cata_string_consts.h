@@ -5,7 +5,6 @@
 #include "type_id.h"
 #include "player_activity.h"
 
-
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
@@ -71,7 +70,9 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
+static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_READ( "ACT_READ" );
@@ -103,7 +104,6 @@ static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
-
 
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
 static const bionic_id bio_ads( "bio_ads" );
@@ -924,7 +924,6 @@ static const mtype_id mon_zombie_technician( "mon_zombie_technician" );
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 static const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 
-
 static const std::string flag_ACID( "ACID" );
 static const std::string flag_ACT_IN_FIRE( "ACT_IN_FIRE" );
 static const std::string flag_ACTIVE_CLOAKING( "ACTIVE_CLOAKING" );
@@ -936,6 +935,7 @@ static const std::string flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
 static const std::string flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
 static const std::string flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
 static const std::string flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
+static const std::string flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
 static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 static const std::string flag_ALWAYS_TWOHAND( "ALWAYS_TWOHAND" );

@@ -3,7 +3,7 @@
     "id": "wheel_mount_light",
     "type": "GENERIC",
     "category": "veh_parts",
-    "name": "light wheel mount",
+    "name": { "str": "light wheel mount" },
     "description": "A piece of metal with holes suitable for a bike or motorbike wheel.",
     "weight": "150 g",
     "volume": "250 ml",

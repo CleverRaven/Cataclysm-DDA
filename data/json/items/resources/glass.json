@@ -4,7 +4,7 @@
     "id": "glass_shard",
     "symbol": ",",
     "color": "light_cyan",
-    "name": "glass shard",
+    "name": { "str": "glass shard" },
     "category": "other",
     "description": "A broken shard of glass covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
     "material": "glass",

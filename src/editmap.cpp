@@ -485,7 +485,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
 #ifdef TILES
             if( use_tiles ) {
                 if( draw_target_override ) {
-                    draw_target_override.value()( p );
+                    draw_target_override( p );
                 } else {
                     g->draw_highlight( p );
                 }
@@ -959,7 +959,7 @@ void editmap::edit_feature()
                 draw_override( p, override );
             };
         } else {
-            draw_target_override = cata::nullopt;
+            draw_target_override = nullptr;
         }
         input_context ctxt( emenu.input_category );
         update_view_with_help( string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
@@ -997,7 +997,7 @@ void editmap::edit_feature()
         blink = emenu.ret == UILIST_TIMEOUT ? !blink : true;
     } while( !quit );
     blink = false;
-    draw_target_override = cata::nullopt;
+    draw_target_override = nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1061,7 +1061,7 @@ void editmap::edit_fld()
                 g->draw_field_override( p, override );
             };
         } else {
-            draw_target_override = cata::nullopt;
+            draw_target_override = nullptr;
         }
         input_context ctxt( fmenu.input_category );
         // \u00A0 is the non-breaking space
@@ -1175,7 +1175,7 @@ void editmap::edit_fld()
         blink = fmenu.ret == UILIST_TIMEOUT ? !blink : true;
     } while( fmenu.ret != UILIST_CANCEL );
     blink = false;
-    draw_target_override = cata::nullopt;
+    draw_target_override = nullptr;
 }
 
 /*

@@ -1659,7 +1659,7 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
 
 static bool cancel_auto_move( player &p, const std::string &text )
 {
-    if( p.has_destination() && query_yn( "%s, cancel Auto-move?", text ) ) {
+    if( p.has_destination() && query_yn( _( "%s, cancel Auto-move?" ), text ) )  {
         add_msg( m_warning, _( "%s. Auto-move canceled" ), text );
         if( !p.omt_path.empty() ) {
             p.omt_path.clear();
@@ -4109,7 +4109,9 @@ void game::monmove()
 
         m.creature_in_field( critter );
         if( calendar::once_every( 1_days ) ) {
-            critter.refill_udders();
+            if( critter.has_flag( MF_MILKABLE ) ) {
+                critter.refill_udders();
+            }
             critter.try_biosignature();
             critter.try_reproduce();
         }
@@ -4251,9 +4253,9 @@ void game::knockback( const tripoint &s, const tripoint &t, int force, int stun,
    stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
    dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
 
-void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_mult )
+void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int dam_mult )
 {
-    ( void )force; // FIXME: unused but header says it should do something
+    // FIXME: force is unused but header says it should do something
     // TODO: make the force parameter actually do something.
     // the header file says higher force causes more damage.
     // perhaps that is what it should do?
@@ -4524,8 +4526,10 @@ T *game::critter_at( const tripoint &p, bool allow_hallucination )
             return dynamic_cast<T *>( mon_ptr.get() );
         }
     }
-    if( p == u.pos() ) {
-        return dynamic_cast<T *>( &u );
+    if( !std::is_same<T, npc>::value && !std::is_same<T, const npc>::value ) {
+        if( p == u.pos() ) {
+            return dynamic_cast<T *>( &u );
+        }
     }
     for( auto &cur_npc : active_npc ) {
         if( cur_npc->pos() == p && !cur_npc->is_dead() ) {
@@ -6939,15 +6943,17 @@ int game::get_user_action_counter() const
     return user_action_counter;
 }
 
+#if defined(TILES)
 bool game::take_screenshot( const std::string &path ) const
 {
-#if defined(TILES)
     return save_screenshot( path );
-#else
-    ( void )path; // unused
-    return false;
-#endif
 }
+#else
+bool game::take_screenshot( const std::string &/*path*/ ) const
+{
+    return false;
+}
+#endif
 
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
@@ -9167,7 +9173,8 @@ point game::place_player( const tripoint &dest_loc )
                     return u.pos().xy();
                 }
             } else {
-                critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
+                critter.move_to( u.pos(), false,
+                                 true ); // Force the movement even though the player is there right now.
                 add_msg( _( "You displace the %s." ), critter.name() );
             }
         } else if( !u.has_effect( effect_riding ) ) {
@@ -10185,7 +10192,55 @@ void game::vertical_move( int movez, bool force )
             u.mounted_creature->setpos( g->u.pos() );
         }
     }
-
+    // if an NPC or monster is on the stiars when player ascends/descends
+    // they may end up merged on th esame tile, do some displacement to resolve that.
+    // if, in the weird case of it not being possible to displace;
+    // ( how did the player even manage to approach the stairs, if so? )
+    // then nothing terrible happens, its just weird.
+    if( critter_at<npc>( u.pos(), true ) || critter_at<monster>( u.pos(), true ) ) {
+        std::string crit_name;
+        bool player_displace = false;
+        tripoint displace;
+        for( const tripoint &elem : m.points_in_radius( u.pos(), 1 ) ) {
+            if( elem == u.pos() ) {
+                continue;
+            }
+            if( !m.impassable( elem ) ) {
+                displace = elem;
+                break;
+            }
+        }
+        if( displace != tripoint_zero ) {
+            npc *guy = g->critter_at<npc>( u.pos(), true );
+            if( guy ) {
+                crit_name = guy->get_name();
+                tripoint old_pos = guy->pos();
+                if( !guy->is_enemy() ) {
+                    guy->move_away_from( u.pos(), true );
+                    if( old_pos != guy->pos() ) {
+                        add_msg( _( "%s moves out of the way for you." ), guy->get_name() );
+                    }
+                } else {
+                    player_displace = true;
+                }
+            }
+            monster *mon = g->critter_at<monster>( u.pos(), true );
+            if( mon ) {
+                crit_name = mon->get_name();
+                if( mon->friendly == -1 ) {
+                    mon->setpos( displace );
+                    add_msg( _( "Your %s moves out of the way for you." ), mon->get_name() );
+                } else {
+                    player_displace = true;
+                }
+            }
+            if( player_displace ) {
+                u.setpos( displace );
+                u.moves -= 20;
+                add_msg( _( "You push past %s blocking the way." ), crit_name );
+            }
+        }
+    }
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
         std::vector<tripoint> candidates = closest_tripoints_first( u.pos(), 1 );
@@ -10286,10 +10341,24 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     int best = INT_MAX;
     const int movez = z_after - get_levz();
     Creature *blocking_creature = nullptr;
+    const bool going_down_1 = movez == -1;
+    const bool going_up_1 = movez == 1;
+    // If there are stairs on the same x and y as we currently are, use those
+    if( going_down_1 && mp.has_flag( TFLAG_GOES_UP, u.pos() + tripoint_below ) ) {
+        stairs.emplace( u.pos() + tripoint_below );
+    }
+    if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) ) {
+        stairs.emplace( u.pos() + tripoint_above );
+    }
+    if( stairs ) {
+        // We found stairs above or below, no need to do anything else
+        return stairs;
+    }
+    // Otherwise, search the map for them
     for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
         if( rl_dist( u.pos(), dest ) <= best &&
-            ( ( movez == -1 && mp.has_flag( "GOES_UP", dest ) ) ||
-              ( movez == 1 && ( mp.has_flag( "GOES_DOWN", dest ) ||
+            ( ( going_down_1 && mp.has_flag( TFLAG_GOES_UP, dest ) ) ||
+              ( going_up_1 && ( mp.has_flag( TFLAG_GOES_DOWN, dest ) ||
                                 mp.ter( dest ) == t_manhole_cover ) ) ||
               ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
             if( mp.has_zlevels() && critter_at( dest ) ) {

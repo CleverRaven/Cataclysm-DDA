@@ -95,9 +95,8 @@ static void pick_plant( player &p, const tripoint &examp, const std::string &ite
 /**
  * Nothing player can interact with here.
  */
-void iexamine::none( player &p, const tripoint &examp )
+void iexamine::none( player &/*p*/, const tripoint &examp )
 {
-    ( void )p; //unused
     add_msg( _( "That is a %s." ), g->m.name( examp ) );
 }
 
@@ -700,7 +699,6 @@ void iexamine::toilet( player &p, const tripoint &examp )
  */
 void iexamine::elevator( player &p, const tripoint &examp )
 {
-    ( void )p; //unused
     if( !query_yn( _( "Use the %s?" ), g->m.tername( examp ) ) ) {
         return;
     }
@@ -1944,28 +1942,10 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
  */
 void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &seed_id )
 {
-    std::list<item> used_seed;
-    if( item::count_by_charges( seed_id ) ) {
-        used_seed = p.use_charges( seed_id, 1 );
-    } else {
-        used_seed = p.use_amount( seed_id, 1 );
-    }
-    if( !used_seed.empty() ) {
-        used_seed.front().set_age( 0_turns );
-        if( used_seed.front().has_var( "activity_var" ) ) {
-            used_seed.front().erase_var( "activity_var" );
-        }
-        used_seed.front().set_flag( flag_HIDDEN_ITEM );
-        g->m.add_item_or_charges( examp, used_seed.front() );
-        if( g->m.has_flag_furn( flag_PLANTABLE, examp ) ) {
-            g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
-        } else {
-            g->m.set( examp, t_dirt, f_plant_seed );
-        }
-        p.moves -= to_moves<int>( 30_seconds );
-        p.add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
-                                 item::nname( seed_id ) );
-    }
+    player_activity act( ACT_PLANT_SEED, to_moves<int>( 30_seconds ) );
+    act.placement = g->m.getabs( examp );
+    act.str_values.emplace_back( seed_id );
+    p.assign_activity( act );
 }
 
 /**
@@ -3628,10 +3608,15 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     if( amount_in_furn > 0 ) {
         if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                         ammo->nname( amount_in_furn ) ) ) {
-            p.assign_activity( ACT_PICKUP );
-            p.activity.targets.emplace_back( map_cursor( examp ), &g->m.i_at( examp ).only_item() );
-            p.activity.values.push_back( 0 );
-            return;
+            auto items = g->m.i_at( examp );
+            for( auto &itm : items ) {
+                if( itm.type == ammo ) {
+                    p.assign_activity( ACT_PICKUP );
+                    p.activity.targets.emplace_back( map_cursor( examp ), &itm );
+                    p.activity.values.push_back( 0 );
+                    return;
+                }
+            }
         }
     }
 

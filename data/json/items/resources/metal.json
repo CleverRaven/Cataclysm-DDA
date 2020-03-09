@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "pipe",
-    "name": "pipe",
+    "name": { "str": "pipe" },
     "description": "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.",
     "category": "spare_parts",
     "weight": "1250 g",
@@ -55,7 +55,7 @@
   {
     "type": "GENERIC",
     "id": "cu_pipe",
-    "name": "copper tubing",
+    "name": { "str": "copper tubing" },
     "description": "A copper tube, too thin to be much use as a melee weapon, but will do if nothing else is available.  Useful in a few crafting recipes.",
     "category": "spare_parts",
     "weight": "345 g",

@@ -2,7 +2,7 @@
   {
     "id": "arm_splint",
     "type": "ARMOR",
-    "name": "arm splint",
+    "name": { "str": "arm splint" },
     "description": "A tool to help set bones and hold them in place.",
     "weight": "300 g",
     "volume": "1 L",
@@ -21,7 +21,7 @@
   {
     "id": "arm_xlsplint",
     "type": "ARMOR",
-    "name": "arm splint XL",
+    "name": { "str": "arm splint XL", "str_pl": "arm splints XL" },
     "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Huge survivors.",
     "copy-from": "arm_splint",
     "looks_like": "arm_splint",
@@ -34,7 +34,7 @@
   {
     "id": "blindfold",
     "type": "ARMOR",
-    "name": "blindfold",
+    "name": { "str": "blindfold" },
     "//": "A folded bandana still takes up some space on the head.",
     "description": "A simple fabric covering tied over the eyes to block sight.  Useful for sleeping in bright areas.",
     "weight": "72 g",
@@ -70,7 +70,7 @@
   {
     "id": "gobag",
     "type": "ARMOR",
-    "name": "go bag",
+    "name": { "str": "go bag" },
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Activate to unpack and enjoy.",
     "weight": "18043 g",
     "volume": "35750 ml",
@@ -101,7 +101,7 @@
   {
     "id": "leg_splint",
     "type": "ARMOR",
-    "name": "leg splint",
+    "name": { "str": "leg splint" },
     "description": "A tool to help set bones and hold them in place.",
     "weight": "500 g",
     "volume": "1 L",
@@ -120,7 +120,7 @@
   {
     "id": "leg_xlsplint",
     "type": "ARMOR",
-    "name": "leg splint XL",
+    "name": { "str": "leg splint XL", "str_pl": "leg splints XL" },
     "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Huge people.",
     "copy-from": "leg_splint",
     "weight": "1000 g",
@@ -215,7 +215,7 @@
   {
     "id": "welding_mask_crude",
     "type": "ARMOR",
-    "name": "crude welding mask",
+    "name": { "str": "crude welding mask" },
     "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding.  Activate it to push it up your head.",
     "weight": "4 kg",
     "volume": "4 L",
@@ -2338,7 +2338,7 @@
     "type": "TOOL_ARMOR",
     "id": "whistle",
     "name": { "str": "whistle" },
-    "volume": "250 ml",
+    "volume": "10 ml",
     "description": "A simple metal whistle, with a cord to wear it around your neck.",
     "weight": "25 g",
     "to_hit": -1,
