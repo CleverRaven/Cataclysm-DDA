@@ -3102,7 +3102,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "200 m",
-    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
     "using": [ [ "welding_standard", 25 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 5 ] ] ]
@@ -3115,7 +3115,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "110 m",
-    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
     "using": [ [ "welding_standard", 15 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 3 ] ] ]
@@ -3128,7 +3128,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "70 m",
-    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 2 ] ] ]
@@ -3141,7 +3141,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "25 m",
-    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "superglue", 1 ] ], [ [ "scrap", 6 ] ] ]
