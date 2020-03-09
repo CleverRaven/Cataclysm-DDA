@@ -2647,7 +2647,7 @@
     "category": "spare_parts",
     "symbol": "P",
     "color": "dark_gray",
-    "name": { "str": "small lock and key" },
+    "name": { "str": "small lock and key", "str_pl": "small locks and keys" },
     "description": "A small lock, with a set of keys still inserted.",
     "price": 500,
     "material": "steel",
