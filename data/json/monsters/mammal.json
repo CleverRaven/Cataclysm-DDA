@@ -1614,7 +1614,7 @@
     "id": "mon_pig_piglet",
     "type": "MONSTER",
     "name": "piglet",
-    "description": "A domesticated omnivore descended from the wild boar, intelligent and inquisitive.  Left to its own devices, it has gone feral.",
+    "description": "A domesticated omnivore descended from the wild boar, intelligent and inquisitive.  Left to its own devices, it has gone feral.  Unlike the fully grown version it can be tamed.",
     "default_faction": "pig",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
