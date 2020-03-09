@@ -319,8 +319,10 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
     GIVEN( "avatar is wet" ) {
         // Saturate torso, head, and both arms
-        dummy.drench( 100, { bp_torso, bp_head, bp_arm_l, bp_arm_r }, false );
-        REQUIRE( dummy.body_wetness[bp_torso] > 0 );
+        dummy.drench( 100, { bp_chest, bp_abdomen, bp_pelvis, bp_head, bp_arm_l, bp_arm_r }, false );
+        REQUIRE( dummy.body_wetness[bp_chest] > 0 );
+        REQUIRE( dummy.body_wetness[bp_abdomen] > 0 );
+        REQUIRE( dummy.body_wetness[bp_pelvis] > 0 );
         REQUIRE( dummy.body_wetness[bp_head] > 0 );
         REQUIRE( dummy.body_wetness[bp_arm_l] > 0 );
         REQUIRE( dummy.body_wetness[bp_arm_r] > 0 );
@@ -334,7 +336,9 @@ TEST_CASE( "towel", "[iuse][towel]" )
             dummy.invoke_item( &towel );
 
             THEN( "it dries them off" ) {
-                CHECK( dummy.body_wetness[bp_torso] == 0 );
+                CHECK( dummy.body_wetness[bp_chest] == 0 );
+                CHECK( dummy.body_wetness[bp_abdomen] == 0 );
+                CHECK( dummy.body_wetness[bp_pelvis] == 0 );
                 CHECK( dummy.body_wetness[bp_head] == 0 );
                 CHECK( dummy.body_wetness[bp_arm_l] == 0 );
                 CHECK( dummy.body_wetness[bp_arm_r] == 0 );
@@ -351,7 +355,9 @@ TEST_CASE( "towel", "[iuse][towel]" )
             dummy.invoke_item( &towel );
 
             THEN( "it does not dry them off" ) {
-                CHECK( dummy.body_wetness[bp_torso] > 0 );
+                CHECK( dummy.body_wetness[bp_chest] > 0 );
+                CHECK( dummy.body_wetness[bp_abdomen] > 0 );
+                CHECK( dummy.body_wetness[bp_pelvis] > 0 );
                 CHECK( dummy.body_wetness[bp_head] > 0 );
                 CHECK( dummy.body_wetness[bp_arm_l] > 0 );
                 CHECK( dummy.body_wetness[bp_arm_r] > 0 );
