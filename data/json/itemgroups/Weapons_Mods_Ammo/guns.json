@@ -10,6 +10,8 @@
       { "item": "glock_31", "prob": 15, "charges-min": 0, "charges-max": 15 },
       { "item": "m1911", "prob": 50, "charges-min": 0, "charges-max": 7 },
       { "item": "m9", "prob": 30, "charges-min": 0, "charges-max": 15 },
+	  { "item": "px4", "prob": 24, "charges-min": 0, "charges-max": 15 },
+	  { "item": "px4_40", "prob": 20, "charges-min": 0, "charges-max": 14 },
       { "item": "ruger_lcr_38", "prob": 10, "charges-min": 0, "charges-max": 5 },
       { "item": "sig_mosquito", "prob": 15, "charges-min": 0, "charges-max": 10 },
       { "item": "sw_22", "prob": 15, "charges-min": 0, "charges-max": 10 },
@@ -43,6 +45,8 @@
     "id": "guns_pistol_rare",
     "//": "Less common pistols including those only used by police/paramilitary forces.",
     "items": [
+	  { "item": "90two", "prob": 25, "charges-min": 0, "charges-max": 15 },
+	  { "item": "90two40", "prob": 10, "charges-min": 0, "charges-max": 12 },
       { "item": "bond_410", "prob": 20, "charges-min": 0, "charges-max": 2 },
       { "item": "deagle_44", "prob": 35, "charges-min": 0, "charges-max": 8 },
       { "item": "m1911a1_38super", "prob": 25, "charges-min": 0, "charges-max": 9 },
