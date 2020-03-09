@@ -2512,7 +2512,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
 }
 
 /** Check if this activity can not be done immediately because it has some requirements */
-static int generic_multi_activity_check_requirement( player &p, const activity_id &act_id,
+static requirement_check_result generic_multi_activity_check_requirement( player &p, const activity_id &act_id,
         activity_reason_info &act_info,
         const tripoint &src, const tripoint &src_loc, const std::unordered_set<tripoint> &src_set,
         const bool check_only = false )
@@ -2538,10 +2538,10 @@ static int generic_multi_activity_check_requirement( player &p, const activity_i
     // tidy up activity dosnt - it wants things that may not be in a zone already - things that may have been left lying around.
     if( needs_to_be_in_zone && !zone ) {
         can_do_it = false;
-        return 0;
+        return SKIP_LOCATION;
     }
     if( can_do_it ) {
-        return 1;
+        return CAN_DO_LOCATION;
     }
     if( reason == DONT_HAVE_SKILL || reason == NO_ZONE || reason == ALREADY_DONE ||
         reason == BLOCKING_TILE || reason == UNKNOWN_ACTIVITY ) {
@@ -2551,7 +2551,7 @@ static int generic_multi_activity_check_requirement( player &p, const activity_i
         } else if( reason == BLOCKING_TILE ) {
             p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
         }
-        return 0;
+        return SKIP_LOCATION;
     } else if( reason == NO_COMPONENTS || reason == NO_COMPONENTS_PREREQ ||
                reason == NO_COMPONENTS_PREREQ_2 || reason == NEEDS_PLANTING ||
                reason == NEEDS_TILLING || reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING ||
@@ -2576,7 +2576,7 @@ static int generic_multi_activity_check_requirement( player &p, const activity_i
             act_id == ACT_MULTIPLE_CONSTRUCTION ) {
             if( !act_info.con_idx ) {
                 debugmsg( "no construction selected" );
-                return 0;
+                return SKIP_LOCATION;
             }
             // its a construction and we need the components.
             const construction &built_chosen = act_info.con_idx->obj();
@@ -2586,7 +2586,7 @@ static int generic_multi_activity_check_requirement( player &p, const activity_i
             // we already checked this in can_do_activity() but check again just incase.
             if( !veh ) {
                 p.activity_vehicle_part_index = 1;
-                return 0;
+                return SKIP_LOCATION;
             }
             const vpart_info &vpinfo = veh->part_info( p.activity_vehicle_part_index );
             requirement_data reqs;
@@ -2641,7 +2641,7 @@ static int generic_multi_activity_check_requirement( player &p, const activity_i
             if( reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ) {
                 p.activity_vehicle_part_index = -1;
             }
-            return 0;
+            return SKIP_LOCATION;
         } else {
             if( !check_only ) {
                 p.backlog.push_front( act_id );
@@ -2668,17 +2668,17 @@ static int generic_multi_activity_check_requirement( player &p, const activity_i
                         p.activity = player_activity();
                         p.backlog.clear();
                         check_npc_revert( p );
-                        return 0;
+                        return SKIP_LOCATION;
                     }
                     act_prev.coords.push_back( g->m.getabs( candidates[std::max( 0,
                                                                       static_cast<int>( candidates.size() / 2 ) )] ) );
                 }
                 act_prev.placement = src;
             }
-            return 2;
+            return RETURN_EARLY;
         }
     }
-    return 0;
+    return SKIP_LOCATION;
 }
 
 /** Do activity at this location */
@@ -2814,15 +2814,13 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
         }
         activity_reason_info act_info = can_do_activity_there( activity_to_restore, p,
                                         src_loc, ACTIVITY_SEARCH_DISTANCE );
-        //0 = skip location
-        //1 = can do, go to movement
-        //2 = return early, ( another activity has been inserted( fetch activity probably))
-        const int req_res = generic_multi_activity_check_requirement( p, activity_to_restore, act_info, src,
+        // see activity_handlers.h enum for requirement_check_result
+        const requirement_check_result req_res = generic_multi_activity_check_requirement( p, activity_to_restore, act_info, src,
                             src_loc,
                             src_set, check_only );
-        if( req_res == 0 ) {
+        if( req_res == SKIP_LOCATION ) {
             continue;
-        } else if( req_res == 2 ) {
+        } else if( req_res == RETURN_EARLY ) {
             return true;
         }
 
