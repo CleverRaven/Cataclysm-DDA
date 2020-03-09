@@ -409,6 +409,8 @@ class overmap
         static bool obsolete_terrain( const std::string &ter );
         void convert_terrain( const std::unordered_map<tripoint, std::string> &needs_conversion );
 
+        void plot_river(point pa, point pb);
+
         // Overall terrain
         void place_river( point pa, point pb );
         void place_forests();

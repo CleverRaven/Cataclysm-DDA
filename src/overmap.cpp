@@ -2512,7 +2512,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
     const oter_id river_center( "river_center" );
 
     if( north != nullptr ) {
-        for( int i = 1; i < OMAPX - 1; i++ ) {
+        for( int i = 0; i < OMAPX; i++ ) {
             const tripoint p_neighbour( i, OMAPY - 1, 0 );
             const tripoint p_mine( i, 0, 0 );
 
@@ -2529,7 +2529,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
 
     size_t rivers_from_north = river_start.size();
     if( west != nullptr ) {
-        for( int i = 1; i < OMAPY - 1; i++ ) {
+        for( int i = 0; i < OMAPY; i++ ) {
             const tripoint p_neighbour( OMAPX - 1, i, 0 );
             const tripoint p_mine( 0, i, 0 );
 
@@ -2540,12 +2540,14 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
                 if( is_river( west->ter( p_neighbour ) ) ) {
                     ter_set( p_mine, river_center );
                 }
+
+
             }
         }
     }
 
     if( south != nullptr ) {
-        for( int i = 1; i < OMAPX - 1; i++ ) {
+        for( int i = 0; i < OMAPX; i++ ) {
             const tripoint p_neighbour( i, 0, 0 );
             const tripoint p_mine( i, OMAPY - 1, 0 );
 
@@ -2562,7 +2564,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
 
     size_t rivers_to_south = river_end.size();
     if( east != nullptr ) {
-        for( int i = 1; i < OMAPY - 1; i++ ) {
+        for( int i = 0; i < OMAPY; i++ ) {
             const tripoint p_neighbour( 0, i, 0 );
             const tripoint p_mine( OMAPX - 1, i, 0 );
 
@@ -2633,10 +2635,11 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         }
     } else if( !river_end.empty() ) {
         if( river_start.size() != river_end.size() ) {
-            const point random_p = point( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
-                                          rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) );
-            river_start.push_back( random_p );
+            //TODO: Doesn't connect with other overmaps.
+            river_start.push_back(point(0,
+                rng(OMAPY / 4, (OMAPY * 3))));
         }
+
         for( size_t i = 0; i < river_start.size(); i++ ) {
             place_river( river_start[i], river_end[i] );
         }
@@ -2757,6 +2760,10 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     connect_closest_points( road_points, 0, *local_road );
 }
 
+void overmap::plot_river(point pa, point pb) {
+
+}
+
 void overmap::place_river( point pa, point pb )
 {
     const oter_id river_center( "river_center" );
@@ -2766,88 +2773,126 @@ void overmap::place_river( point pa, point pb )
     int y = pa.y;
     int size = 0;
 
+    DebugLog(D_ERROR, D_GAME) << "Trying river node at entry: " << pa.x << " " << pa.y << " Exit: " << pb.x << " " << pb.y;
+
+    /* Get all adjacent overmaps */
+    //We are going to start drawing rivers across overmaps and remembering them
+    // ...Attempt to retain loop across overmaps and instead, create river node destinations across overmaps.
+
+    // Could probably get nearest_river_node(point p) 
+
+    std::vector<point> temp;
+    std::vector<point> points;
+    point midpoint_r = { rng(OMAPX / 4, (OMAPX * 3)), rng(OMAPY / 4, (OMAPY * 3)) };
+
+    points.push_back(pa);
+    points.push_back(pb);
+
+    temp.assign(points.begin(), points.end());
+
     do {
-        x += rng( -1, 1 );
-        y += rng( -1, 1 );
-        if( x < 0 ) {
+        x += rng(-1, 1);
+        y += rng(-1, 1);
+
+        if (x < 0) {
             x = 0;
         }
-        if( x > OMAPX - 1 ) {
+        if (x > OMAPX - 1) {
             x = OMAPX - 1;
         }
-        if( y < 0 ) {
+        if (y < 0) {
             y = 0;
         }
-        if( y > OMAPY - 1 ) {
+        if (y > OMAPY - 1) {
             y = OMAPY - 1;
         }
-        for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
-            for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
-                if( y + i >= 0 && y + i < OMAPY && x + j >= 0 && x + j < OMAPX ) {
-                    tripoint p( x + j, y + i, 0 );
-                    if( !ter( p )->is_lake() && one_in( river_chance ) ) {
-                        size++;
-                        ter_set( p, river_center );
+
+        //Fill in river
+        for (int i = -1 * river_scale; i <= 1 * river_scale; i++) {
+            for (int j = -1 * river_scale; j <= 1 * river_scale; j++) {
+                tripoint p(x + j, y + i, 0);
+                if (inbounds(p)) {
+                    if (!ter(p)->is_lake() && one_in(river_chance)) {
+                        temp.push_back(p.xy());
                     }
+                }
+                else {
+                    //Out of bounds
                 }
             }
         }
-        if( pb.x > x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < pb.x - x ||
-                          ( rng( 0, int( OMAPX * .2 ) - 1 ) > pb.x - x &&
-                            rng( 0, int( OMAPY * .2 ) - 1 ) > abs( pb.y - y ) ) ) ) {
+            
+        if (pb.x > x && (rng(0, int(OMAPX * 1.2) - 1) < pb.x - x ||
+            (rng(0, int(OMAPX * .2) - 1) > pb.x - x &&
+                rng(0, int(OMAPY * .2) - 1) > abs(pb.y - y)))) {
             x++;
         }
-        if( pb.x < x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < x - pb.x ||
-                          ( rng( 0, int( OMAPX * .2 ) - 1 ) > x - pb.x &&
-                            rng( 0, int( OMAPY * .2 ) - 1 ) > abs( pb.y - y ) ) ) ) {
+        if (pb.x < x && (rng(0, int(OMAPX * 1.2) - 1) < x - pb.x ||
+            (rng(0, int(OMAPX * .2) - 1) > x - pb.x &&
+                rng(0, int(OMAPY * .2) - 1) > abs(pb.y - y)))) {
             x--;
         }
-        if( pb.y > y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < pb.y - y ||
-                          ( rng( 0, int( OMAPY * .2 ) - 1 ) > pb.y - y &&
-                            rng( 0, int( OMAPX * .2 ) - 1 ) > abs( x - pb.x ) ) ) ) {
+        if (pb.y > y && (rng(0, int(OMAPY * 1.2) - 1) < pb.y - y ||
+            (rng(0, int(OMAPY * .2) - 1) > pb.y - y &&
+                rng(0, int(OMAPX * .2) - 1) > abs(x - pb.x)))) {
             y++;
         }
-        if( pb.y < y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < y - pb.y ||
-                          ( rng( 0, int( OMAPY * .2 ) - 1 ) > y - pb.y &&
-                            rng( 0, int( OMAPX * .2 ) - 1 ) > abs( x - pb.x ) ) ) ) {
+        if (pb.y < y && (rng(0, int(OMAPY * 1.2) - 1) < y - pb.y ||
+            (rng(0, int(OMAPY * .2) - 1) > y - pb.y &&
+                rng(0, int(OMAPX * .2) - 1) > abs(x - pb.x)))) {
             y--;
         }
-        x += rng( -1, 1 );
-        y += rng( -1, 1 );
-        if( x < 0 ) {
-            x = 0;
+
+        //Second step
+        x += rng(-1, 1);
+        y += rng(-1, 1);
+
+        if (x < 0) {
+            x = 1;
         }
-        if( x > OMAPX - 1 ) {
+        if (x > OMAPX - 1) {
             x = OMAPX - 1;
         }
-        if( y < 0 ) {
-            y = 0;
+        if (y < 0) {
+            y = 1;
         }
-        if( y > OMAPY - 1 ) {
+        if (y > OMAPY - 1) {
             y = OMAPY - 1;
         }
-        for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
-            for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
-                // We don't want our riverbanks touching the edge of the map for many reasons
-                if( inbounds( tripoint( x + j, y + i, 0 ), 1 ) ||
-                    // UNLESS, of course, that's where the river is headed!
-                    ( abs( pb.y - ( y + i ) ) < 4 && abs( pb.x - ( x + j ) ) < 4 ) ) {
-                    tripoint p( x + j, y + i, 0 );
-                    if( !inbounds( p ) ) {
-                        continue;
-                    }
 
-                    if( !ter( p )->is_lake() && one_in( river_chance ) ) {
-                        ter_set( p, river_center );
-                        size++;
-                    }
+        for (int i = -1 * river_scale; i <= 1 * river_scale; i++) {
+            for (int j = -1 * river_scale; j <= 1 * river_scale; j++) {
+                tripoint p(x + j, y + i, 0);
+                if (!inbounds(p)) { 
+                    //Not in bounds
+                    continue;
+                }
+
+                if (!ter(p)->is_lake() && one_in(river_chance)) {
+                    temp.push_back(p.xy());
                 }
             }
         }
-    } while( pb.x != x || pb.y != y );
+    } while (pb.x != x || pb.y != y);
+
+    points.assign(temp.begin(), temp.end());
+
+    for (int k = 0; k < points.size(); k++) {
+        point p = points.at(k);  
+        ter_set({ p.x,p.y,0 }, river_center);
+        size++;
+    }
+    //End of line drawing
+
+    if (pb.x != x || pb.y != y)
+        debugmsg("River end does not match actual river end.");
+
+    point exit_p = { x, y };
+
+    DebugLog(D_ERROR, D_GAME) << "Creating river node at entry: " << pa.x << " " << pa.y << " Exit: " << x << " " << y << " Size: " << size;
 
     //Add new node to river
-    overmap_river_node new_node = { pa, pb, size };
+    overmap_river_node new_node = { pa, exit_p, size };
     rivers.push_back( new_node );
 }
 
@@ -3678,9 +3723,9 @@ void overmap::good_river( const tripoint &p )
 
             // We check whether a river or lake is present, but if out of bounds and we are already a river then we...
             // assume that we were placed because of a neighbouring overmap river.
-            if( is_river_or_lake( ter( { x, y, 0 } ) ) || x + p.x > ( OMAPX - 1 ) || x + p.x < 0 ||
-                y + p.y > ( OMAPY - 1 ) ||
-                y + p.y < 0 ) {
+            if( is_river_or_lake( ter( { x, y, 0 } ) ) || (x  > ( OMAPX - 1 )) || x  < 0 ||
+                (y > ( OMAPY - 1 )) ||
+                y < 0 ) {
                 neighbours.push_back( true );
             } else {
                 neighbours.push_back( false );
@@ -3725,13 +3770,14 @@ void overmap::good_river( const tripoint &p )
     if( riv_ters.find( mask ) != riv_ters.end() ) {
         if( mask == nesw ) {
             // Trim corners if neccessary
-            if( !is_river_or_lake( ter( p + point_north_west ) ) ) {
+            // Check if inbounds
+            if( !is_river_or_lake( ter( p + point_north_west ) ) && ( (p + point_north_west).x >= 0)  && ((p + point_north_west).x <= OMAPX-1) && ((p + point_north_west).y <= OMAPY - 1) && ((p + point_north_west).y >= 0)) {
                 ter_set( p, oter_id( "river_c_not_nw" ) );
-            } else if( !is_river_or_lake( ter( p + point_north_east ) ) ) {
+            } else if( !is_river_or_lake( ter( p + point_north_east ) ) && ((p + point_north_east).x >= 0) && ((p + point_north_east).x <= OMAPX - 1) && ((p + point_north_east).y <= OMAPY - 1) && ((p + point_north_east).y >= 0)) {
                 ter_set( p, oter_id( "river_c_not_ne" ) );
-            } else if( !is_river_or_lake( ter( p + point_south_west ) ) ) {
+            } else if( !is_river_or_lake( ter( p + point_south_west ) ) && ((p + point_south_west).x >= 0) && ((p + point_south_west).x <= OMAPX - 1) && ((p + point_south_west).y <= OMAPY - 1) && ((p + point_south_west).y >= 0) ) {
                 ter_set( p, oter_id( "river_c_not_sw" ) );
-            } else if( !is_river_or_lake( ter( p + point_south_east ) ) ) {
+            } else if( !is_river_or_lake( ter( p + point_south_east ) ) && ((p + point_south_east).x >= 0) && ((p + point_south_east).x <= OMAPX - 1) && ((p + point_south_east).y <= OMAPY - 1) && ((p + point_south_east).y >= 0) ) {
                 ter_set( p, oter_id( "river_c_not_se" ) );
             } else {
                 ter_set( p, riv_ters.at( mask ) );
