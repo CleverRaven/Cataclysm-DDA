@@ -225,7 +225,7 @@
     "id": "spear_rebar",
     "symbol": "/",
     "color": "dark_gray",
-    "name": "sharpened rebar",
+    "name": { "str": "sharpened rebar" },
     "description": "A somewhat sharpened piece of rebar, it is still better at bashing than stabbing but the added flexibility is nice.",
     "price": 500,
     "price_postapoc": 2000,

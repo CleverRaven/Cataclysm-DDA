@@ -129,7 +129,7 @@
     "id": "sharp_rock",
     "symbol": "*",
     "color": "light_gray",
-    "name": "sharp rock",
+    "name": { "str": "sharp rock" },
     "description": "A rock with sharp edges, that can be used as a butchering tool, if nothing else is available.  Makes a passable melee weapon.",
     "material": "stone",
     "weight": "500 g",
