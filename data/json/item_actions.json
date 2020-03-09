@@ -62,7 +62,7 @@
   {
     "type": "item_action",
     "id": "BURROW",
-    "name": "Burrow through rock"
+    "name": { "str": "Burrow through rock" }
   },
   {
     "type": "item_action",
@@ -87,12 +87,12 @@
   {
     "type": "item_action",
     "id": "TOOLMOD_ATTACH",
-    "name": "Attach as toolmod"
+    "name": { "str": "Attach as toolmod" }
   },
   {
     "type": "item_action",
     "id": "GUNMOD_ATTACH",
-    "name": "Attach as gunmod"
+    "name": { "str": "Attach as gunmod" }
   },
   {
     "type": "item_action",
@@ -227,7 +227,7 @@
   {
     "type": "item_action",
     "id": "ACIDBOMB_ACT",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
@@ -302,12 +302,12 @@
   {
     "type": "item_action",
     "id": "C4",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "CABLE_ATTACH",
-    "name": "Attach"
+    "name": { "str": "Attach" }
   },
   {
     "type": "item_action",
@@ -392,7 +392,7 @@
   {
     "type": "item_action",
     "id": "CONTACTS",
-    "name": "Apply"
+    "name": { "str": "Apply" }
   },
   {
     "type": "item_action",
@@ -437,12 +437,12 @@
   {
     "type": "item_action",
     "id": "DOG_WHISTLE",
-    "name": "Blow"
+    "name": { "str": "Blow" }
   },
   {
     "type": "item_action",
     "id": "CALL_OF_TINDALOS",
-    "name": "Blow"
+    "name": { "str": "Blow" }
   },
   {
     "type": "item_action",
@@ -532,7 +532,7 @@
   {
     "type": "item_action",
     "id": "FOODPERSON",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
@@ -542,17 +542,17 @@
   {
     "type": "item_action",
     "id": "GRANADE",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "GRANADE_ACT",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "GRENADE_INC_ACT",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
@@ -602,7 +602,7 @@
   {
     "type": "item_action",
     "id": "MAGIC_8_BALL",
-    "name": "Ask"
+    "name": { "str": "Ask" }
   },
   {
     "type": "item_action",
@@ -637,7 +637,7 @@
   {
     "type": "item_action",
     "id": "MININUKE",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
@@ -1002,12 +1002,12 @@
   {
     "type": "item_action",
     "id": "explosion",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "heal",
-    "name": "Apply"
+    "name": { "str": "Apply" }
   },
   {
     "type": "item_action",
@@ -1022,12 +1022,12 @@
   {
     "type": "item_action",
     "id": "place_monster",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "place_npc",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
@@ -1052,7 +1052,7 @@
   {
     "type": "item_action",
     "id": "ups_based_armor",
-    "name": "Activate/deactivate"
+    "name": { "str": "Activate/deactivate" }
   },
   {
     "type": "item_action",
@@ -1082,7 +1082,7 @@
   {
     "type": "item_action",
     "id": "BREAK_STICK",
-    "name": "Break stick"
+    "name": { "str": "Break stick" }
   },
   {
     "type": "item_action",
