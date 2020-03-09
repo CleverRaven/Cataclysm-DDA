@@ -491,13 +491,20 @@ TEST_CASE( "filthy item", "[item][tname][filthy]" )
     CHECK( rag.tname() == "rag (filthy)" );
 }
 
+TEST_CASE( "diamond item", "[item][tname][diamond]" )
+{
+    item katana( "katana" );
+    katana.set_flag( flag_DIAMOND );
+    REQUIRE( katana.has_flag( flag_DIAMOND ) );
+
+    CHECK( katana.tname() == "diamond katana" );
+}
+
 // - ethereal: (X turns)
 
 // is_bionic: (sterile), (packed)
 
 // is_tool, UPS: (UPS)
-
-// is_filthy: (filthy)
 
 
 // tname tests to consider:
@@ -525,7 +532,7 @@ TEST_CASE( "filthy item", "[item][tname][filthy]" )
 //
 // RADIO_MOD (RBG)
 //
-// misc flags: wet, used, lit, plugged in, active, sawn-off
+// misc flags: used, lit, plugged in, active, sawn-off
 // favorite: *
 
 // ALREADY COVERED
