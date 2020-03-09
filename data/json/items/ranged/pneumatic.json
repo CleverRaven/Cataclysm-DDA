@@ -114,7 +114,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "name": { "str": "pneumatic shotgun" },
-    "description": "A single-barreled break-barrel pneumatic air shotgun handcrafted from scrap.  Though it's firepower is lacking compared to more conventional shotguns, this thing can still pack quite a punch.  That is, if your target is directly in front of you.",
+    "description": "A single-barreled break-barrel pneumatic air shotgun handcrafted from scrap.  Though its firepower is lacking compared to more conventional shotguns, this thing can still pack quite a punch.  That is, if your target is directly in front of you.",
     "price": 220000,
     "material": [ "steel", "wood" ],
     "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON-FOULING" ],
