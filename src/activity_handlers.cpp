@@ -1879,6 +1879,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     item &reloadable = *act->targets[ 0 ];
     item &ammo = *act->targets[1];
+    std::string ammo_name = ammo.tname();
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
     const bool ammo_is_filthy = ammo.is_filthy();
@@ -1900,14 +1901,12 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         reloadable.set_var( "dirt", ( reloadable.get_var( "dirt", 0 ) - rng( 790, 2750 ) ) );
     }
 
-    std::string ammo_name = "";
     if( reloadable.is_gun() ) {
         p->recoil = MAX_RECOIL;
 
         if( reloadable.has_flag( flag_RELOAD_ONE ) && !is_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
                 msg = _( "You insert one %2$s into the %1$s." );
-                ammo_name = ammo.tname();
             }
         }
         if( reloadable.type->gun->reload_noise_volume > 0 ) {
