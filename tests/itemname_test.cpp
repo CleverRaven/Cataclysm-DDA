@@ -288,7 +288,7 @@ TEST_CASE( "conditionally named item", "[item][type_name][conditions][!mayfail]"
     }
 }
 
-TEST_CASE( "items with hidden effects", "[item][tname][hidden]" )
+TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 {
     g->u.empty_traits();
 
