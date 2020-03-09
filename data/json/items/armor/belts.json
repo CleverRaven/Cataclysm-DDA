@@ -79,7 +79,7 @@
     "id": "judo_belt_orange",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "orange belt",
+    "name": { "str": "orange belt" },
     "description": "A belt worn by martial arts practitioners, advertising a fresh intermediate.",
     "color": "light_red"
   },
@@ -128,7 +128,7 @@
   {
     "id": "obi_gi",
     "type": "ARMOR",
-    "name": "obi",
+    "name": { "str": "obi" },
     "description": "A broad, black obi gi.",
     "weight": "200 g",
     "volume": "250 ml",

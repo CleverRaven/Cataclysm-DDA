@@ -202,10 +202,10 @@
   {
     "id": "tie_necktie",
     "type": "ARMOR",
-    "name": "necktie",
+    "name": { "str": "necktie" },
     "description": "An ordinary, green necktie.  It's more difficult to put on, but it takes real skill to do so.  Wearing a necktie is much better than wearing a clip-on tie.",
     "weight": "15 g",
-    "volume": 0,
+    "volume": "25 ml",
     "price": 1000,
     "material": [ "cotton" ],
     "symbol": "[",

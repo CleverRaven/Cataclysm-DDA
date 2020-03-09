@@ -172,7 +172,7 @@
   {
     "id": "armor_nomad",
     "type": "ARMOR",
-    "name": "nomad gear",
+    "name": { "str": "nomad gear" },
     "description": "A makeshift outfit made from pre-Cataclysm clothing designed for long travels.  It has a lot of storage space.",
     "weight": "5830 g",
     "volume": "7500 ml",
@@ -243,7 +243,7 @@
     "id": "armor_plate",
     "type": "ARMOR",
     "category": "armor",
-    "name": "ornamental plate armor",
+    "name": { "str": "ornamental plate armor" },
     "description": "An extremely heavy suit of ornamental armor.",
     "weight": "18000 g",
     "volume": "30 L",

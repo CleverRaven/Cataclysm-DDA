@@ -147,7 +147,7 @@
   {
     "id": "flotation_vest_ms",
     "type": "ARMOR",
-    "name": "makeshift flotation vest",
+    "name": { "str": "makeshift flotation vest" },
     "description": "A flotation vest made of inflated animal skins.",
     "weight": "451 g",
     "volume": "9 L",
@@ -358,7 +358,7 @@
   {
     "id": "longshirt",
     "type": "ARMOR",
-    "name": "long-sleeved shirt",
+    "name": { "str": "long-sleeved shirt" },
     "description": "A long-sleeved cotton shirt.",
     "weight": "146 g",
     "volume": "750 ml",
@@ -418,7 +418,7 @@
     "id": "postman_shirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "mail carrier shirt",
+    "name": { "str": "mail carrier shirt" },
     "description": "A light blue button down shirt with a couple of pockets in front and the US postal service logo embroidered on it.",
     "weight": "110 g",
     "volume": "500 ml",
