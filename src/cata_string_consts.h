@@ -1380,7 +1380,6 @@ static const faction_id no_faction( "no_faction" );
 
 static const std::string errstring( "ERROR" );
 
-static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_reactor_slurry( "reactor_slurry" );
 static const ammotype ammo_plutonium( "plutonium" );
