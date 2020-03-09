@@ -2517,6 +2517,10 @@ bool game::is_game_over()
         u.set_pain( 0 );
         // prevent dodging
         u.dodges_left = 0;
+        // prevents endless loop in deathcam while sleeping
+        if( u.has_effect( efftype_id( "sleep" ) ) ) {
+            u.wake_up();
+        }
         return false;
     }
     if( uquit == QUIT_DIED ) {
