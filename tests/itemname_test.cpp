@@ -120,6 +120,71 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
     }
 }
 
+TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
+{
+    SECTION( "singular and plural item names" ) {
+
+        SECTION( "plural is the same as singular" ) {
+            item lead( "lead" );
+            item gold( "gold_small" );
+
+            CHECK( lead.type_name( 1 ) == "lead" );
+            CHECK( lead.type_name( 2 ) == "lead" );
+
+            CHECK( gold.type_name( 1 ) == "gold" );
+            CHECK( gold.type_name( 2 ) == "gold" );
+        }
+
+        SECTION( "pluralize the last part" ) {
+            item rag( "rag" );
+            item mattress( "mattress" );
+            item incendiary( "incendiary" );
+            item plastic( "plastic_chunk" );
+
+            // just add +s
+            CHECK( rag.type_name( 1 ) == "rag" );
+            CHECK( rag.type_name( 2 ) == "rags" );
+            CHECK( plastic.type_name( 1 ) == "plastic chunk" );
+            CHECK( plastic.type_name( 2 ) == "plastic chunks" );
+
+            // -y to +ies
+            CHECK( incendiary.type_name( 1 ) == "incendiary" );
+            CHECK( incendiary.type_name( 2 ) == "incendiaries" );
+
+            // -ss to +sses
+            CHECK( mattress.type_name( 1 ) == "mattress" );
+            CHECK( mattress.type_name( 2 ) == "mattresses" );
+
+        }
+
+        SECTION( "pluralize the first part" ) {
+            item glass( "glass_sheet" );
+            item cards( "deck_of_cards" );
+            item jar( "jar_eggs_pickled" );
+
+            CHECK( glass.type_name( 1 ) == "sheet of glass" );
+            CHECK( glass.type_name( 2 ) == "sheets of glass" );
+
+            CHECK( cards.type_name( 1 ) == "deck of cards" );
+            CHECK( cards.type_name( 2 ) == "decks of cards" );
+
+            CHECK( jar.type_name( 1 ) == "sealed jar of eggs" );
+            CHECK( jar.type_name( 2 ) == "sealed jars of eggs" );
+        }
+
+        SECTION( "pluralize by inserting a word" ) {
+            item mag( "mag_archery" );
+            item book( "SICP" );
+
+            CHECK( mag.type_name( 1 ) == "Archery for Kids" );
+            CHECK( mag.type_name( 2 ) == "issues of Archery for Kids" );
+
+            CHECK( book.type_name( 1 ) == "SICP" );
+            CHECK( book.type_name( 2 ) == "copies of SICP" );
+        }
+    }
+}
+
 TEST_CASE( "custom named item", "[item][type_name][named]" )
 {
     // Shop smart. Shop S-Mart.
@@ -500,6 +565,21 @@ TEST_CASE( "diamond item", "[item][tname][diamond]" )
     CHECK( katana.tname() == "diamond katana" );
 }
 
+TEST_CASE( "truncated item name", "[item][tname][truncate]" )
+{
+    SECTION( "plain item name can be truncated" ) {
+        item katana( "katana" );
+
+        CHECK( katana.tname() == "katana" );
+        CHECK( katana.tname( 1, false, 5 ) == "katan" );
+    }
+    // color-coded or otherwise embellished item name can be truncated
+}
+
+// item health bar
+
+// clothing with +1 suffix
+
 // - ethereal: (X turns)
 
 // is_bionic: (sterile), (packed)
@@ -536,7 +616,6 @@ TEST_CASE( "diamond item", "[item][tname][diamond]" )
 // favorite: *
 
 // ALREADY COVERED
-// item health bar
 // sizing level:
 //   - (too big)
 //   - (huge!)
