@@ -234,7 +234,7 @@
     "id": "tailoring_pattern_set",
     "type": "GENERIC",
     "category": "tools",
-    "name": "tailoring pattern set",
+    "name": { "str": "tailoring pattern set" },
     "description": "This is a large set of tailoring patterns made from paper.  They're useful for making any kind of cloth or leather items from scratch, but are necessary for more advanced projects.",
     "weight": "1000 g",
     "volume": "833 ml",

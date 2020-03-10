@@ -95,7 +95,7 @@
     "id": "touristmap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
-    "name": "tourist guide",
+    "name": { "str": "tourist guide" },
     "description": "This is glossy printed pamphlet for tourists that details local hotels and attractions.",
     "color": "blue",
     "use_action": {
