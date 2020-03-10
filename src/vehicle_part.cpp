@@ -24,9 +24,8 @@
 #include "color.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "cata_string_consts.h"
 
-static const itype_id fuel_type_none( "null" );
-static const itype_id fuel_type_battery( "battery" );
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/

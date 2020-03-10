@@ -166,18 +166,18 @@ class tileset_loader
 
         point sprite_offset;
 
-        int sprite_width;
-        int sprite_height;
+        int sprite_width = 0;
+        int sprite_height = 0;
 
         int offset = 0;
         int sprite_id_offset = 0;
         int size = 0;
 
-        int R;
-        int G;
-        int B;
+        int R = 0;
+        int G = 0;
+        int B = 0;
 
-        int tile_atlas_width;
+        int tile_atlas_width = 0;
 
         void ensure_default_item_highlight();
 
@@ -506,24 +506,24 @@ class cata_tiles
         // measured in map coordinates, *not* in pixels.
         int screentile_width = 0;
         int screentile_height = 0;
-        float tile_ratiox = 0.0;
-        float tile_ratioy = 0.0;
+        float tile_ratiox = 0.0f;
+        float tile_ratioy = 0.0f;
 
-        bool in_animation;
+        bool in_animation = false;
 
-        bool do_draw_explosion;
-        bool do_draw_custom_explosion;
-        bool do_draw_bullet;
-        bool do_draw_hit;
-        bool do_draw_line;
-        bool do_draw_cursor;
-        bool do_draw_highlight;
-        bool do_draw_weather;
-        bool do_draw_sct;
-        bool do_draw_zones;
+        bool do_draw_explosion = false;
+        bool do_draw_custom_explosion = false;
+        bool do_draw_bullet = false;
+        bool do_draw_hit = false;
+        bool do_draw_line = false;
+        bool do_draw_cursor = false;
+        bool do_draw_highlight = false;
+        bool do_draw_weather = false;
+        bool do_draw_sct = false;
+        bool do_draw_zones = false;
 
         tripoint exp_pos;
-        int exp_rad;
+        int exp_rad = 0;
 
         std::map<tripoint, explosion_tile> custom_explosion_layer;
 
@@ -534,7 +534,7 @@ class cata_tiles
         std::string hit_entity_id;
 
         tripoint line_pos;
-        bool is_target_line;
+        bool is_target_line = false;
         std::vector<tripoint> line_trajectory;
         std::string line_endpoint_id;
 
@@ -573,7 +573,7 @@ class cata_tiles
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
          */
-        bool nv_goggles_activated;
+        bool nv_goggles_activated = false;
 
         pimpl<pixel_minimap> minimap;
 

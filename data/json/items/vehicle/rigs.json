@@ -15,7 +15,7 @@
     "id": "chemlab",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
-    "name": "onboard chemistry lab",
+    "name": { "str": "onboard chemistry lab" },
     "description": "Assembled from a chemistry set attached to a complex wiring harness, it is well suited to most any chemistry project you could imagine.  Unable to utilize standard batteries, it requires an external supply of electricity to operate."
   },
   {
@@ -43,7 +43,7 @@
     "id": "kitchen_unit",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
-    "name": "RV kitchen unit",
+    "name": { "str": "RV kitchen unit" },
     "description": "A vehicle mountable electric range and sink unit with integrated tool storage for cooking utensils."
   },
   {

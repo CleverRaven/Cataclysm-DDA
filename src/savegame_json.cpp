@@ -98,8 +98,6 @@
 struct oter_type_t;
 struct mutation_branch;
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
         "OBJECT_TERRAIN", "OBJECT_FURNITURE"
@@ -552,7 +550,6 @@ void Character::load( const JsonObject &data )
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const auto &mid = it->first;
         if( mid.is_valid() ) {
-            on_mutation_gain( mid );
             cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
@@ -560,6 +557,7 @@ void Character::load( const JsonObject &data )
             my_mutations.erase( it++ );
         }
     }
+    size_class = calculate_size( *this );
 
     data.read( "my_bionics", *my_bionics );
 
@@ -654,6 +652,8 @@ void Character::load( const JsonObject &data )
         overmap_time_array.read_next( tdr );
         overmap_time[pt] = tdr;
     }
+    data.read( "stomach", stomach );
+    data.read( "guts", guts );
 }
 
 /**
@@ -775,6 +775,8 @@ void Character::store( JsonOut &json ) const
         }
         json.end_array();
     }
+    json.member( "stomach", stomach );
+    json.member( "guts", guts );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1011,9 +1013,6 @@ void avatar::store( JsonOut &json ) const
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
 
-    json.member( "stomach", stomach );
-    json.member( "guts", guts );
-
     json.member( "translocators", translocators );
 
     // mission stuff
@@ -1111,9 +1110,6 @@ void avatar::load( const JsonObject &data )
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
-
-    data.read( "stomach", stomach );
-    data.read( "guts", guts );
 
     data.read( "translocators", translocators );
 
@@ -1935,6 +1931,14 @@ void monster::load( const JsonObject &data )
         normalize_ammo( data.get_int( "ammo" ) );
     } else {
         data.read( "ammo", ammo );
+        // legacy loading for milkable creatures, fix mismatch.
+        if( has_flag( MF_MILKABLE ) && !type->starting_ammo.empty() && !ammo.empty() &&
+            type->starting_ammo.begin()->first != ammo.begin()->first ) {
+            const std::string old_type = ammo.begin()->first;
+            const int old_value = ammo.begin()->second;
+            ammo[type->starting_ammo.begin()->first] = old_value;
+            ammo.erase( old_type );
+        }
     }
 
     faction = mfaction_str_id( data.get_string( "faction", "" ) );

@@ -3,7 +3,7 @@
     "id": "atomic_survival",
     "type": "BOOK",
     "name": { "str": "Survival Under Atomic Attack", "str_pl": "copies of Survival Under Atomic Attack" },
-    "description": "A wordy and intricate guide to wilderness and urban survival in a worst case scenario.  While filled with loads of useful information, the madman who wrote this was a terrible writer, and gleaning knowledge from the rants is a chore.",
+    "description": "A wordy and intricate guide to wilderness and urban survival in a worst-case scenario.  While filled with loads of useful information, the madman who wrote this was a terrible writer, and gleaning knowledge from the rants is a chore.",
     "weight": "1920 g",
     "volume": "2 L",
     "price": 920,

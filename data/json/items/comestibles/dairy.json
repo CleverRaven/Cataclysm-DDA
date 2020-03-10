@@ -12,8 +12,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_UHT",
-    "name": "shelf stable milk",
-    "name_plural": "shelf stable milk",
+    "name": { "str": "shelf stable milk", "str_pl": "shelf stable milk" },
     "spoils_in": "2 d",
     "copy-from": "milk",
     "container": "carton_sealed",
@@ -23,8 +22,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_evap",
-    "name": "evaporated milk",
-    "name_plural": "evaporated milk",
+    "name": { "str": "evaporated milk", "str_pl": "evaporated milk" },
     "weight": "266 g",
     "color": "white",
     "spoils_in": "1 day",
@@ -127,8 +125,7 @@
   {
     "type": "COMESTIBLE",
     "id": "ghee",
-    "name": "ghee",
-    "name_plural": "ghee",
+    "name": { "str": "ghee", "str_pl": "ghee" },
     "copy-from": "butter",
     "weight": "13500 mg",
     "spoils_in": "90 days",
@@ -179,8 +176,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cheese_hard",
-    "name": "hard cheese",
-    "name_plural": "hard cheese",
+    "name": { "str": "hard cheese", "str_pl": "hard cheese" },
     "weight": "34 g",
     "color": "yellow",
     "spoils_in": "180 days",
@@ -242,8 +238,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_powder",
-    "name": "powdered milk",
-    "name_plural": "powdered milk",
+    "name": { "str": "powdered milk", "str_pl": "powdered milk" },
     "weight": "30 g",
     "color": "white",
     "container": "bag_plastic",
@@ -287,8 +282,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_cream",
-    "name": "heavy cream",
-    "name_plural": "heavy cream",
+    "name": { "str": "heavy cream", "str_pl": "heavy cream" },
     "weight": "254 g",
     "color": "white",
     "spoils_in": "1 day",
