@@ -14,7 +14,7 @@
     "bashing": 1,
     "material": [ "steel" ],
     "symbol": "[",
-    "looks_like": "power_armor",
+    "looks_like": "power_armor_basic",
     "color": "light_gray",
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 95,
