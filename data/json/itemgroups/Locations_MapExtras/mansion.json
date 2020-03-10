@@ -808,6 +808,7 @@
       [ "tongs", 25 ],
       [ "coffeemaker", 10 ],
       [ "cookbook_daintydishes", 40 ],
+      [ "cookbook_indian", 10 ],
       [ "cookbook_foodfashions", 18 ]
     ]
   },
