@@ -2145,7 +2145,7 @@
     "id": "teddy",
     "symbol": "o",
     "color": "brown",
-    "name": { "str": "tanbark" },
+    "name": { "str": "teddy bear" },
     "description": "An old and half rotten teddy bear.  Looks like this one commemorates the grave of the child who once owned it.",
     "price": 200,
     "material": [ "cotton" ],
