@@ -979,7 +979,7 @@ void overmap::unserialize( std::istream &fin )
 
                 point p1;
                 point p2;
-                int size;
+                size_t size;
 
                 while( !jsin.end_object() ) {
                     std::string river_member_name = jsin.get_member_name();

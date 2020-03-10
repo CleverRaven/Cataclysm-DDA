@@ -122,7 +122,7 @@ struct overmap_special_placement {
 struct overmap_river_node {
     const point p1; // position, overmap origin node.
     const point p2; // position, overmap exit node. Assigned at place_river(point pa, point pb);
-    const int size; // total omt of this river
+    const size_t size; // total omt of this river
 };
 
 // A batch of overmap specials to place.
@@ -409,7 +409,8 @@ class overmap
         static bool obsolete_terrain( const std::string &ter );
         void convert_terrain( const std::unordered_map<tripoint, std::string> &needs_conversion );
 
-        std::vector<point *> plot_river( point pa, point pb );
+        //Returns generated points for river from points pa to pb.
+        std::vector<point> plot_river( point pa, point pb );
 
         // Overall terrain
         void place_river( point pa, point pb );
