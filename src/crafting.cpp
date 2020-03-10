@@ -17,6 +17,7 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "craft_command.h"
+#include "crafting_gui.h"
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
@@ -1127,15 +1128,18 @@ void player::complete_craft( item &craft, const tripoint &loc )
                     comp.set_flag_recursive( flag_COOKED );
                 }
             }
+
+            // use a copy of the used list so that the byproducts don't build up over iterations (#38071)
+            std::list<item> usedbp = used;
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
             if( making.has_byproducts() ) {
                 for( item &byproduct : making.create_byproducts( batch_size ) ) {
                     byproduct.set_flag( flag_BYPRODUCT );
-                    used.push_back( byproduct );
+                    usedbp.push_back( byproduct );
                 }
             }
             // store components for food recipes that do not have the override flag
-            set_components( food_contained.components, used, batch_size, newit_counter );
+            set_components( food_contained.components, usedbp, batch_size, newit_counter );
 
             // store the number of charges the recipe would create with batch size 1.
             if( &newit != &food_contained ) {  // If a canned/contained item was crafted…
@@ -1334,8 +1338,6 @@ const requirement_data *player::select_requirements(
     if( alternatives.size() == 1 || !is_avatar() ) {
         return alternatives.front();
     }
-
-    std::vector<std::string> descriptions;
 
     uilist menu;
 
@@ -2002,7 +2004,7 @@ bool player::disassemble( item_location target, bool interactive )
     // If we're disassembling ammo, prompt the player to specify amount
     // This could be extended more generally in the future
     int num_dis = 0;
-    if( obj.is_ammo() ) {
+    if( obj.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
         string_input_popup popup_input;
         const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
                                   obj.type_name( 1 ), obj.charges );
@@ -2127,7 +2129,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
 
     if( dis_item.count_by_charges() ) {
         // remove the charges that one would get from crafting it
-        if( org_item.is_ammo() ) {
+        if( org_item.is_ammo() && !dis.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
             //subtract selected number of rounds to disassemble
             org_item.charges -= activity.position;
         } else {

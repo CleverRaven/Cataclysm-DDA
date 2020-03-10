@@ -120,7 +120,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
-    "time": "60 m",
+    "time": "30 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 2 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],

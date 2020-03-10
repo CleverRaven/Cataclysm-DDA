@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "symbol": ")",
     "color": "brown",
-    "name": "MRE",
+    "name": { "str": "MRE" },
     "category": "food",
     "description": "A generic MRE box, you shouldn't see this.",
     "price": 1500,
@@ -32,7 +32,7 @@
   {
     "abstract": "mre_entree",
     "type": "COMESTIBLE",
-    "name": "MRE entree",
+    "name": { "str": "MRE entree" },
     "weight": "125 g",
     "color": "brown",
     "spoils_in": "3 days 8 hours",
@@ -87,8 +87,7 @@
     "id": "mre_spaghetti_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Spaghetti",
-    "name_plural": "MREs - Spaghetti",
+    "name": { "str": "MRE - Spaghetti", "str_pl": "MREs - Spaghetti" },
     "description": "A 'Meal Ready to Eat' with a spaghetti entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_veggy_box"
   },
@@ -131,8 +130,7 @@
     "id": "mre_chilimac_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Chili & Macaroni",
-    "name_plural": "MREs - Chili & Macaroni",
+    "name": { "str": "MRE - Chili & Macaroni", "str_pl": "MREs - Chili & Macaroni" },
     "description": "A 'Meal Ready to Eat' with a chili & macaroni entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_veggy_box"
   },
@@ -147,8 +145,7 @@
     "id": "mre_macaronimarinara_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Macaroni Marinara",
-    "name_plural": "MREs - Macaroni Marinara",
+    "name": { "str": "MRE - Macaroni Marinara", "str_pl": "MREs - Macaroni Marinara" },
     "description": "A 'Meal Ready to Eat' with a macaroni marinara entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_veggy_box"
   },
@@ -156,8 +153,7 @@
     "id": "mre_cheesetort_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Cheese Tortellini",
-    "name_plural": "MREs - Cheese Tortellini",
+    "name": { "str": "MRE - Cheese Tortellini", "str_pl": "MREs - Cheese Tortellini" },
     "description": "A 'Meal Ready to Eat' with a cheese tortellini entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_veggy_box"
   },
@@ -165,8 +161,7 @@
     "id": "mre_mushroomfettuccine_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Mushroom Fettuccine",
-    "name_plural": "MREs - Mushroom Fettuccine",
+    "name": { "str": "MRE - Mushroom Fettuccine", "str_pl": "MREs - Mushroom Fettuccine" },
     "description": "A 'Meal Ready to Eat' with a mushroom fettuccine entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_veggy_box"
   },
@@ -174,8 +169,7 @@
     "id": "mre_mexicanchickenstew_box",
     "type": "GENERIC",
     "copy-from": "mre_box",
-    "name": "MRE - Mexican Chicken Stew",
-    "name_plural": "MREs - Mexican Chicken Stew",
+    "name": { "str": "MRE - Mexican Chicken Stew", "str_pl": "MREs - Mexican Chicken Stew" },
     "description": "A 'Meal Ready to Eat' with a Mexican chicken stew entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
     "looks_like": "mre_beef_box"
   },
@@ -263,7 +257,7 @@
     "type": "COMESTIBLE",
     "id": "mre_bbqbeef",
     "copy-from": "mre_entree",
-    "name": "BBQ beef entree",
+    "name": { "str": "BBQ beef entree" },
     "description": "The BBQ beef entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": "flesh",
     "fun": 2
@@ -298,7 +292,7 @@
     "type": "COMESTIBLE",
     "id": "mre_beeftaco",
     "copy-from": "mre_entree",
-    "name": "beef taco entree",
+    "name": { "str": "beef taco entree" },
     "description": "The beef taco entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
     "fun": 0
@@ -307,7 +301,7 @@
     "type": "COMESTIBLE",
     "id": "mre_beef",
     "copy-from": "mre_entree",
-    "name": "beef brisket entree",
+    "name": { "str": "beef brisket entree" },
     "description": "The beef brisket entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": "flesh",
     "fun": 1
@@ -325,7 +319,7 @@
     "type": "COMESTIBLE",
     "id": "mre_beefstew",
     "copy-from": "mre_entree",
-    "name": "beef stew entree",
+    "name": { "str": "beef stew entree" },
     "description": "The beef stew entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
     "fun": 0
@@ -377,7 +371,7 @@
     "type": "COMESTIBLE",
     "id": "mre_mexicanchickenstew",
     "copy-from": "mre_entree",
-    "name": "Mexican chicken stew entree",
+    "name": { "str": "Mexican chicken stew entree" },
     "description": "The Mexican chicken stew entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "tomato", "veggy", "flesh", "bean" ],
     "fun": 1
@@ -439,7 +433,7 @@
     "type": "COMESTIBLE",
     "id": "mre_asianbeef",
     "copy-from": "mre_entree",
-    "name": "asian beef & vegetables entree",
+    "name": { "str": "asian beef & vegetables entree" },
     "description": "The asian beef & vegetables entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
     "fun": 1
@@ -458,7 +452,7 @@
     "id": "mre_southwestbeef",
     "copy-from": "mre_entree",
     "name": "southwest beef & beans entree",
-    "description": "The southwest beef & beans entree entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
+    "description": "The southwest beef & beans entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "bean" ],
     "fun": 2
   },

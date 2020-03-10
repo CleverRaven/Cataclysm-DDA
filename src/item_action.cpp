@@ -34,7 +34,6 @@ struct tripoint;
 
 static item_action nullaction;
 
-
 static char key_bound_to( const input_context &ctxt, const item_action_id &act )
 {
     auto keys = ctxt.keys_bound_to( act );
@@ -236,8 +235,8 @@ void game::item_action_menu()
     kmenu.input_category = "ITEM_ACTIONS";
     input_context ctxt( "ITEM_ACTIONS" );
     for( const auto &id : item_actions ) {
-        ctxt.register_action( id.first, id.second.name.translated() );
-        kmenu.additional_actions.emplace_back( id.first, id.second.name.translated() );
+        ctxt.register_action( id.first, id.second.name );
+        kmenu.additional_actions.emplace_back( id.first, id.second.name );
     }
     actmenu_cb callback( item_actions );
     kmenu.callback = &callback;

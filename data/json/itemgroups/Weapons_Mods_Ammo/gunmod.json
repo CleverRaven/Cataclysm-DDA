@@ -1,0 +1,161 @@
+[
+  {
+    "type": "item_group",
+    "id": "gunmod_common",
+    "//": "Common gunmods typically owned by citizens and found in many locations.",
+    "items": [
+      [ "brass_catcher", 100 ],
+      [ "improve_sights", 60 ],
+      [ "muzzle_brake", 20 ],
+      [ "pistol_grip", 30 ],
+      [ "rifle_scope", 30 ],
+      [ "shoulder_strap", 100 ],
+      [ "suppressor", 60 ],
+      [ "suppressor_compact", 40 ],
+      [ "cheek_pad", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gunmod_rare",
+    "//": "Less common gunmods including those only used by police/paramilitary forces.",
+    "items": [
+      [ "adjustable_stock", 80 ],
+      [ "barrel_ported", 20 ],
+      [ "bipod", 20 ],
+      [ "folding_stock", 60 ],
+      [ "grip", 80 ],
+      [ "gun_crossbow", 20 ],
+      [ "stabilizer", 10 ],
+      [ "laser_sight", 40 ],
+      [ "light_grip", 50 ],
+      [ "match_trigger", 20 ],
+      [ "offset_sights", 40 ],
+      [ "pistol_bayonet", 10 ],
+      [ "pistol_scope", 10 ],
+      [ "pistol_stock", 10 ],
+      [ "arredondo_chute", 20 ],
+      [ "rail_laser_sight", 40 ],
+      [ "red_dot_sight", 70 ],
+      [ "recoil_stock", 60 ],
+      [ "shot_suppressor", 10 ],
+      [ "u_shotgun", 60 ],
+      [ "waterproof_gunmod", 40 ],
+      [ "retool_ar15_300blk", 40 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gunmod_milspec",
+    "//": "Military specification gunmods found only at military sites.",
+    "items": [
+      [ "acog_scope", 100 ],
+      [ "holo_sight", 100 ],
+      [ "m203", 30 ],
+      [ "m320_mod", 10 ],
+      [ "masterkey", 30 ],
+      [ "rm121aux", 10 ],
+      [ "sword_bayonet", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sights_all",
+    "//": "All aftermarket sights.",
+    "items": [
+      [ "improve_sights", 84 ],
+      [ "offset_sights", 6 ],
+      [ "red_dot_sight", 42 ],
+      [ "holo_sight", 18 ],
+      [ "laser_sight", 15 ],
+      [ "rail_laser_sight", 6 ],
+      [ "acog_scope", 21 ],
+      [ "rifle_scope", 25 ],
+      [ "pistol_scope", 4 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sights_pistol",
+    "//": "Aftermarket sights that are for pistols.",
+    "items": [ [ "improve_sights", 84 ], [ "red_dot_sight", 42 ], [ "laser_sight", 15 ], [ "pistol_scope", 4 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "sights_SMG",
+    "//": "Aftermarket sights that are for SMG's.",
+    "items": [
+      [ "improve_sights", 84 ],
+      [ "red_dot_sight", 42 ],
+      [ "holo_sight", 18 ],
+      [ "laser_sight", 15 ],
+      [ "rail_laser_sight", 6 ],
+      [ "pistol_scope", 4 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sights_rifle",
+    "//": "Aftermarket sights that are for rifles.",
+    "items": [
+      [ "improve_sights", 84 ],
+      [ "red_dot_sight", 42 ],
+      [ "holo_sight", 18 ],
+      [ "laser_sight", 15 ],
+      [ "rail_laser_sight", 6 ],
+      [ "offset_sights", 6 ],
+      [ "acog_scope", 21 ],
+      [ "rifle_scope", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sights_shotgun",
+    "//": "Aftermarket sights that are for shotguns.",
+    "items": [
+      [ "improve_sights", 84 ],
+      [ "red_dot_sight", 42 ],
+      [ "holo_sight", 18 ],
+      [ "laser_sight", 15 ],
+      [ "offset_sights", 6 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sights_shotgun_readied",
+    "subtype": "distribution",
+    "//": "For non-static shotguns (not in stores, closets ).",
+    "entries": [ { "group": "sights_shotgun", "prob": 50 }, { "group": "EMPTY_GROUP", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sights_shotgun_static",
+    "subtype": "distribution",
+    "//": "For shotguns that haven't been 'made ready', e.g sitting in a store or garage.",
+    "entries": [ { "group": "sights_shotgun", "prob": 20 }, { "group": "EMPTY_GROUP", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sights_launcher",
+    "//": "Aftermarket sights that are for launchers.",
+    "items": [ [ "improve_sights", 84 ], [ "red_dot_sight", 42 ], [ "holo_sight", 18 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "gunmod_energy",
+    "//": "Gunmods for energy weaponry found only at military sites and laboratories.",
+    "items": [
+      [ "beam_scatterer", 80 ],
+      [ "focusing_lens", 60 ],
+      [ "electrolaser_conversion", 40 ],
+      [ "effective_emitter", 40 ],
+      [ "high_density_capacitor", 60 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gunmod_archery",
+    "//": "Gunmods for bows and crossbows.",
+    "items": [ [ "arrowrest", 100 ], [ "bow_sight", 100 ], [ "bow_stabilizer", 100 ] ]
+  }
+]

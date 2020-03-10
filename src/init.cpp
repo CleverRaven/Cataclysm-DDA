@@ -16,6 +16,7 @@
 #include "anatomy.h"
 #include "behavior.h"
 #include "bionics.h"
+#include "clzones.h"
 #include "construction.h"
 #include "crafting_gui.h"
 #include "creature.h"
@@ -512,6 +513,7 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
+    reset_scenarios_blacklist();
     overmap_land_use_codes::reset();
     overmap_connections::reset();
     overmap_locations::reset();
@@ -535,6 +537,7 @@ void DynamicDataLoader::unload_data()
     event_transformation::reset();
     event_statistic::reset();
     score::reset();
+    scent_type::reset();
 
     // TODO:
     //    Name::clear();

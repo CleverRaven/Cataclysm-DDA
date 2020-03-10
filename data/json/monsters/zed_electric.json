@@ -120,7 +120,7 @@
     "vision_night": 3,
     "luminance": 16,
     "harvest": "CBM_SUBS",
-    "emit_fields": [ "emit_shock_cloud" ],
+    "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "1 s" } ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],

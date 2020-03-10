@@ -125,7 +125,6 @@ automatically_convertible = {
     "CONTAINER",
     "dream",
     "ENGINE",
-    "epilogue",
     "faction",
     "furniture",
     "GENERIC",
@@ -204,14 +203,16 @@ def extract_harvest(item):
 
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
+    # See comments in `body_part_struct::load` of bodypart.cpp about why xxx and xxx_multiple are not inside a single translation object.
     writestr(outfile, item["name"])
-    writestr(outfile, item["name"], context="bodypart_accusative")
-    if "name_plural" in item:
-        writestr(outfile, item["name_plural"])
-        writestr(outfile, item["name_plural"], context="bodypart_accusative")
+    if "name_multiple" in item:
+        writestr(outfile, item["name_multiple"])
+    writestr(outfile, item["accusative"])
+    if "accusative_multiple" in item:
+        writestr(outfile, item["accusative_multiple"])
     writestr(outfile, item["encumbrance_text"])
-    writestr(outfile, item["heading_singular"])
-    writestr(outfile, item["heading_plural"])
+    writestr(outfile, item["heading"])
+    writestr(outfile, item["heading_multiple"])
     if "hp_bar_ui_text" in item:
         writestr(outfile, item["hp_bar_ui_text"])
 

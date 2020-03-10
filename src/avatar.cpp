@@ -502,8 +502,8 @@ bool avatar::read( item &it, const bool continuous )
         }
         if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
-            if( g->u.martial_arts_data.has_martialart( martial_art_learned_from( *it.type ) ) ) {
-                g->u.add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
+            if( martial_arts_data.has_martialart( martial_art_learned_from( *it.type ) ) ) {
+                add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
                 activity.set_to_null();
                 return false;
             }
@@ -588,7 +588,7 @@ bool avatar::read( item &it, const bool continuous )
     // push an indentifier of martial art book to the action handling
     if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
-        if( g->u.get_stamina() < g->u.get_stamina_max() / 10 ) {
+        if( get_stamina() < get_stamina_max() / 10 ) {
             add_msg( m_info, _( "You are too exhausted to train martial arts." ) );
             return false;
         }
@@ -833,14 +833,14 @@ void avatar::do_read( item &book )
         const matype_id style_to_learn = martial_art_learned_from( *book.type );
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
-        difficulty = std::max( 1, 20 + difficulty * 2 - g->u.get_skill_level( skill_used ) * 2 );
+        difficulty = std::max( 1, 20 + difficulty * 2 - get_skill_level( skill_used ) * 2 );
         add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {
             m->second.call( *this, book, false, pos() );
             continuous = false;
         } else {
-            if( activity.index == g->u.getID().get_value() ) {
+            if( activity.index == getID().get_value() ) {
                 continuous = true;
                 switch( rng( 1, 5 ) ) {
                     case 1:

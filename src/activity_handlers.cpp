@@ -60,6 +60,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "uistate.h"
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -192,6 +193,7 @@ activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
     { ACT_TRAIN, train_finish },
     { ACT_CHURN, churn_finish },
+    { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
     { ACT_START_ENGINES, start_engines_finish },
     { ACT_OXYTORCH, oxytorch_finish },
@@ -409,14 +411,6 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         }
     }
 
-    bool has_table_nearby = false;
-    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
-        if( g->m.has_flag_furn( flag_FLAT_SURF, pt ) || g->m.has_flag( flag_FLAT_SURF, pt ) ||
-            ( ( g->m.veh_at( pt ) && ( g->m.veh_at( pt )->vehicle().has_part( flag_KITCHEN ) ||
-                                       g->m.veh_at( pt )->vehicle().has_part( flag_FLAT_SURF ) ) ) ) ) {
-            has_table_nearby = true;
-        }
-    }
     bool has_tree_nearby = false;
     for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
         if( g->m.has_flag( flag_TREE, pt ) ) {
@@ -448,7 +442,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
                 act.targets.pop_back();
                 return;
             }
-            if( !has_table_nearby ) {
+            if( !g->m.has_nearby_table( u.pos(), 2 ) ) {
                 u.add_msg_if_player( m_info,
                                      _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ) );
                 act.targets.pop_back();
@@ -857,7 +851,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
 
-        if( action != DISSECT && entry.type != "bionic_group" ) {
+        if( entry.type != "bionic_group" ) {
             // divide total dropped weight by drop's weight to get amount
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined
@@ -1287,9 +1281,9 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
         debugmsg( "could not find source creature for liquid transfer" );
         return;
     }
-    auto milked_item = source_mon->ammo.find( "milk_raw" );
+    auto milked_item = source_mon->ammo.find( source_mon->type->starting_ammo.begin()->first );
     if( milked_item == source_mon->ammo.end() ) {
-        debugmsg( "animal has no milk ammo type" );
+        debugmsg( "animal has no milkable ammo type" );
         return;
     }
     if( milked_item->second <= 0 ) {
@@ -1569,9 +1563,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
+void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
 {
-    ( void )act;
     if( calendar::once_every( 1_minutes ) ) {
         p->add_morale( MORALE_GAME, 4, 60 );
     }
@@ -1887,6 +1880,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
     const bool is_bolt = ammo.ammo_type() == ammo_bolt;
+    const bool ammo_is_filthy = ammo.is_filthy();
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
@@ -1894,6 +1888,11 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     }
 
     std::string msg = _( "You reload the %s." );
+
+    if( ammo_is_filthy ) {
+        reloadable.set_flag( "FILTHY" );
+    }
+
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
         msg =
             _( "You manage to loosen some debris and make your %s somewhat operational." );
@@ -2556,11 +2555,16 @@ void activity_handlers::heat_item_finish( player_activity *act, player *p )
         return;
     }
     item_location &loc = act->targets[ 0 ];
-    item *heat = loc.get_item();
+    item *const heat = loc.get_item();
     if( heat == nullptr ) {
         return;
     }
-    item &target = *heat->get_food();
+    item *const food = heat->get_food();
+    if( food == nullptr ) {
+        debugmsg( "item %s is not food", heat->typeId() );
+        return;
+    }
+    item &target = *food;
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
         if( target.has_flag( flag_EATEN_COLD ) ) {
@@ -2923,7 +2927,6 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
 
 void activity_handlers::fish_finish( player_activity *act, player *p )
 {
-    ( void )p;
     act->set_to_null();
     p->add_msg_if_player( m_info, _( "You finish fishing" ) );
     if( !p->backlog.empty() && p->backlog.front().id() == ACT_MULTIPLE_FISH ) {
@@ -2980,8 +2983,9 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
-    if( !act->targets.front() ) {
+    if( !act || !act->targets.front() ) {
         debugmsg( "Lost target of ACT_READ" );
+        return;
     }
     if( p->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( p );
@@ -3353,6 +3357,37 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You finish churning up the earth here." ) );
     g->m.ter_set( g->m.getlocal( act->placement ), t_dirtmound );
+    // Go back to what we were doing before
+    // could be player zone activity, or could be NPC multi-farming
+    act->set_to_null();
+    resume_for_multi_activities( *p );
+}
+
+void activity_handlers::plant_seed_finish( player_activity *act, player *p )
+{
+    tripoint examp = act->placement;
+    const std::string seed_id = act->str_values[0];
+    std::list<item> used_seed;
+    if( item::count_by_charges( seed_id ) ) {
+        used_seed = p->use_charges( seed_id, 1 );
+    } else {
+        used_seed = p->use_amount( seed_id, 1 );
+    }
+    if( !used_seed.empty() ) {
+        used_seed.front().set_age( 0_turns );
+        if( used_seed.front().has_var( "activity_var" ) ) {
+            used_seed.front().erase_var( "activity_var" );
+        }
+        used_seed.front().set_flag( flag_HIDDEN_ITEM );
+        g->m.add_item_or_charges( examp, used_seed.front() );
+        if( g->m.has_flag_furn( flag_PLANTABLE, examp ) ) {
+            g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
+        } else {
+            g->m.set( examp, t_dirt, f_plant_seed );
+        }
+        p->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
+                                  item::nname( seed_id ) );
+    }
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act->set_to_null();
@@ -4105,7 +4140,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
         if( have_fertilizer() ) {
             iexamine::fertilize_plant( p, tile, fertilizer );
             if( !have_fertilizer() ) {
-                add_msg( m_info, _( "You have run out of %s" ), fertilizer );
+                add_msg( m_info, _( "You have run out of %s." ), item::nname( fertilizer ) );
             }
         }
     };
