@@ -1288,7 +1288,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // Cover up more low-value ui elements if we're tight on space.
         height = 25;
     }
-    catacurses::window w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
+    int window_pos_x = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ? 0 : TERMX - width;
+    catacurses::window w_target = catacurses::newwin( height, width, point( window_pos_x, top ) );
 
     input_context ctxt( "TARGET" );
     ctxt.set_iso( true );
@@ -1823,7 +1824,8 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
     // Default to the maximum window size we can use.
     int height = 31;
     int width = 55;
-    catacurses::window w_target = catacurses::newwin( height, width, point( TERMX - width, 0 ) );
+    int window_pos_x = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ? 0 : TERMX - width;
+    catacurses::window w_target = catacurses::newwin( height, width, point( window_pos_x, 0 ) );
 
     // TODO: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};
