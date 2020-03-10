@@ -260,7 +260,8 @@
       [ "arrow_field_point_fletched", 50 ],
       [ "arrow_cf", 100 ],
       [ "bolt_wood", 100 ],
-      [ "bolt_wood_bodkin", 50 ]
+      [ "bolt_wood_bodkin", 50 ],
+      [ "bolt_cf", 100 ]
     ]
   }
 ]

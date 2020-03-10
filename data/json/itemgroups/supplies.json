@@ -496,5 +496,16 @@
       [ "whistle", 5 ],
       [ "airhorn", 2 ]
     ]
+  },
+  {
+    "id": "fuel_barrel",
+    "type": "item_group",
+    "//": "barrel with gasoline, diesel or motor oil like you would find at fuel depot",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gasoline", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 30 },
+      { "item": "diesel", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 10 },
+      { "item": "motor_oil", "charges": [ 0, 10000 ], "container-item": "jerrycan", "prob": 5 }
+    ]
   }
 ]

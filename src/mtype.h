@@ -99,6 +99,7 @@ enum m_flag : int {
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
+    MF_COLDPROOF,           // Immune to cold damage
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
@@ -267,6 +268,7 @@ struct mtype {
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
 
         std::set<scenttype_id> scents_tracked; /**Types of scent tracked by this mtype*/
+        std::set<scenttype_id> scents_ignored; /**Types of scent ignored by this mtype*/
 
         int sk_dodge = 0;       /** dodge skill */
 
@@ -352,7 +354,7 @@ struct mtype {
         int mech_str_bonus = 0;
 
         /** Emission sources that cycle each turn the monster remains alive */
-        std::set<emit_id> emit_fields;
+        std::map<emit_id, time_duration> emit_fields;
 
         pathfinding_settings path_settings;
 
@@ -369,6 +371,7 @@ struct mtype {
         bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;
+        std::vector<std::string> species_descriptions() const;
         //Used for corpses.
         field_type_id bloodType() const;
         field_type_id gibType() const;

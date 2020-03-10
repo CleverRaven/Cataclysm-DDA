@@ -542,7 +542,7 @@
   {
     "id": "FACIAL_HAIR_NONE",
     "type": "mutation",
-    "name": "Facial hair: none",
+    "name": { "str": "Facial hair: none" },
     "description": "You have no hair on your face, it is shaven or simply untouched by the presence of hair.",
     "points": 0,
     "valid": false,
@@ -554,7 +554,7 @@
   {
     "id": "FACIAL_HAIR_GOATEE",
     "type": "mutation",
-    "name": "Facial hair: goatee",
+    "name": { "str": "Facial hair: goatee" },
     "description": "You have a short beard at the tip of your chin.",
     "points": 0,
     "valid": false,
@@ -566,7 +566,7 @@
   {
     "id": "FACIAL_HAIR_CIRCLE",
     "type": "mutation",
-    "name": "Facial hair: circle beard",
+    "name": { "str": "Facial hair: circle beard" },
     "description": "You have a moustache and a short beard, that both form a circle around your lips.",
     "points": 0,
     "valid": false,
@@ -578,7 +578,7 @@
   {
     "id": "FACIAL_HAIR_ROYALE",
     "type": "mutation",
-    "name": "Facial hair: royale beard",
+    "name": { "str": "Facial hair: royale beard" },
     "description": "You have a moustache and a short beard forming a patch under your lips.",
     "points": 0,
     "valid": false,
@@ -590,7 +590,7 @@
   {
     "id": "FACIAL_HAIR_ANCHOR",
     "type": "mutation",
-    "name": "Facial hair: anchor beard",
+    "name": { "str": "Facial hair: anchor beard" },
     "description": "You have a moustache and a beard starting with a strip going down from the bottom lip, then tracing the jaw lines.  It looks a bit like an anchor, thus the name.",
     "points": 0,
     "valid": false,
@@ -602,7 +602,7 @@
   {
     "id": "FACIAL_HAIR_SHORTBOXED",
     "type": "mutation",
-    "name": "Facial hair: short boxed beard",
+    "name": { "str": "Facial hair: short boxed beard" },
     "description": "You have a moustache and a short beard with trimmed sides.  Thin patches connect them both, forming a 'box' around the lips, thus the name.",
     "points": 0,
     "valid": false,
@@ -614,7 +614,7 @@
   {
     "id": "FACIAL_HAIR_CHEVRON",
     "type": "mutation",
-    "name": "Facial hair: chevron moustache",
+    "name": { "str": "Facial hair: chevron moustache" },
     "description": "You have a moustache that covers your entire top lip.",
     "points": 0,
     "valid": false,
@@ -626,7 +626,7 @@
   {
     "id": "FACIAL_HAIR_3DAYSTUBBLE",
     "type": "mutation",
-    "name": "Facial hair: 3-day stubble",
+    "name": { "str": "Facial hair: 3-day stubble" },
     "description": "You have a short trimmed moustache and beard imitating a 3-day stubble.",
     "points": 0,
     "valid": false,
@@ -638,7 +638,7 @@
   {
     "id": "FACIAL_HAIR_HORSESHOE",
     "type": "mutation",
-    "name": "Facial hair: horseshoe",
+    "name": { "str": "Facial hair: horseshoe" },
     "description": "You have a moustache with patches going down the chin from both ends, thus the name.",
     "points": 0,
     "valid": false,
@@ -650,7 +650,7 @@
   {
     "id": "FACIAL_HAIR_MUSTACHE",
     "type": "mutation",
-    "name": "Facial hair: original moustache",
+    "name": { "str": "Facial hair: original moustache" },
     "description": "You have a moustache with shortened ends, that covers only the skin above your upper lip.",
     "points": 0,
     "valid": false,
@@ -662,7 +662,7 @@
   {
     "id": "FACIAL_HAIR_MUTTONCHOPS",
     "type": "mutation",
-    "name": "Facial hair: mutton chops beard",
+    "name": { "str": "Facial hair: mutton chops beard" },
     "description": "You have long sideburns that connect to your moustache, with the tip of the chin shaven clean.",
     "points": 0,
     "valid": false,
@@ -674,7 +674,7 @@
   {
     "id": "FACIAL_HAIR_GUNSLINGER",
     "type": "mutation",
-    "name": "Facial hair: gunslinger beard",
+    "name": { "str": "Facial hair: gunslinger beard" },
     "description": "You have a horseshoe moustache and disconnected sideburns.",
     "points": 0,
     "valid": false,
@@ -686,7 +686,7 @@
   {
     "id": "FACIAL_HAIR_CHIN_STRIP",
     "type": "mutation",
-    "name": "Facial hair: chin strip",
+    "name": { "str": "Facial hair: chin strip" },
     "description": "You have a short beard in a form of a vertical patch under your bottom lip.",
     "points": 0,
     "valid": false,
@@ -698,7 +698,7 @@
   {
     "id": "FACIAL_HAIR_CHIN_CURTAIN",
     "type": "mutation",
-    "name": "Facial hair: chin curtain",
+    "name": { "str": "Facial hair: chin curtain" },
     "description": "You have a full beard without a moustache, restricted to the chin, sometimes called a 'lion's mane'. Much like Abraham Lincoln's beard.",
     "points": 0,
     "valid": false,
@@ -710,8 +710,8 @@
   {
     "id": "FACIAL_HAIR_CHIN_STRAP",
     "type": "mutation",
-    "name": "Facial hair: chin strap",
-    "description": "You have beard along the jaw lines, circling tha chin, and no moustache.",
+    "name": { "str": "Facial hair: chin strap" },
+    "description": "You have beard along the jaw lines, circling the chin, and no moustache.",
     "points": 0,
     "valid": false,
     "starting_trait": true,
@@ -722,7 +722,7 @@
   {
     "id": "FACIAL_HAIR_BEARD",
     "type": "mutation",
-    "name": "Facial hair: beard",
+    "name": { "str": "Facial hair: beard" },
     "description": "You have a moustache and a long beard, both formed by allowing free growth of hair, with no particular styling.",
     "points": 0,
     "valid": false,
@@ -734,7 +734,7 @@
   {
     "id": "FACIAL_HAIR_HANDLEBAR",
     "type": "mutation",
-    "name": "Facial hair: handlebar moustache",
+    "name": { "str": "Facial hair: handlebar moustache" },
     "description": "You have a moustache with long flared out ends.",
     "points": 0,
     "valid": false,
@@ -746,7 +746,7 @@
   {
     "id": "FACIAL_HAIR_NECKBEARD",
     "type": "mutation",
-    "name": "Facial hair: neckbeard",
+    "name": { "str": "Facial hair: neckbeard" },
     "description": "You have a beard formed from hair grown on neck below the chin line.  No moustache included.",
     "points": 0,
     "valid": false,
@@ -758,7 +758,7 @@
   {
     "id": "FACIAL_HAIR_PENCIL",
     "type": "mutation",
-    "name": "Facial hair: pencil moustache",
+    "name": { "str": "Facial hair: pencil moustache" },
     "description": "You have a very thin moustache just above the line of the upper lip.",
     "points": 0,
     "valid": false,
@@ -770,7 +770,7 @@
   {
     "id": "FACIAL_HAIR_SHENANDOAH",
     "type": "mutation",
-    "name": "Facial hair: shenandoah",
+    "name": { "str": "Facial hair: shenandoah" },
     "description": "Long full beard with no moustache, popular among Amish community, often with two pointed ends.",
     "points": 0,
     "valid": false,
@@ -782,8 +782,8 @@
   {
     "id": "FACIAL_HAIR_SIDEBURNS",
     "type": "mutation",
-    "name": "Facial hair: sideburns",
-    "description": "You have patches of hair in front of your ears, that normaly would connect your hair with the beard, but they are here by themselves.",
+    "name": { "str": "Facial hair: sideburns" },
+    "description": "You have patches of hair in front of your ears, that normally would connect your hair with the beard, but they are here by themselves.",
     "points": 0,
     "valid": false,
     "starting_trait": true,
@@ -794,7 +794,7 @@
   {
     "id": "FACIAL_HAIR_SOUL_PATCH",
     "type": "mutation",
-    "name": "Facial hair: soul patch",
+    "name": { "str": "Facial hair: soul patch" },
     "description": "You have a little bit of hair in the dip under your lower lip, and no other facial hair whatsoever.",
     "points": 0,
     "valid": false,
@@ -806,7 +806,7 @@
   {
     "id": "FACIAL_HAIR_TOOTHBRUSH",
     "type": "mutation",
-    "name": "Facial hair: toothbrush moustache",
+    "name": { "str": "Facial hair: toothbrush moustache" },
     "description": "Charlie Chaplin used to have this short patch of hair just under the nose, but then that other guy used it as a characteristic, and it became unwelcomed.",
     "points": 0,
     "valid": false,
@@ -818,7 +818,7 @@
   {
     "id": "FACIAL_HAIR_VANDYKE",
     "type": "mutation",
-    "name": "Facial hair: Van Dyke",
+    "name": { "str": "Facial hair: Van Dyke" },
     "description": "You have handlebar moustache with a chin strip or a small goatee.",
     "points": 0,
     "valid": false,
@@ -830,7 +830,7 @@
   {
     "id": "FACIAL_HAIR_WALRUS",
     "type": "mutation",
-    "name": "Facial hair: walrus",
+    "name": { "str": "Facial hair: walrus" },
     "description": "You have long thick moustache, overshadowing you lips, that somewhat resembles facial hair of a walrus.",
     "points": 0,
     "valid": false,
@@ -842,7 +842,7 @@
   {
     "id": "FACIAL_HAIR_ZAPPA",
     "type": "mutation",
-    "name": "Facial hair: The Zappa",
+    "name": { "str": "Facial hair: The Zappa" },
     "description": "You have a wide soul patch and a full moustache that extends a bit downwards at the corners of your lips.",
     "points": 0,
     "valid": false,

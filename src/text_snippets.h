@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "optional.h"
+#include "type_id.h"
 #include "translations.h"
 
 class JsonObject;
@@ -41,7 +42,16 @@ class snippet_library
          * The tags in the snippet are not automatically expanded - you need to
          * call `expand()` to do that.
          */
-        cata::optional<translation> get_snippet_by_id( const std::string &id ) const;
+        cata::optional<translation> get_snippet_by_id( const snippet_id &id ) const;
+        /**
+         * Returns a reference to the snippet with the id, or a reference to an
+         * empty translation object if no such snippet exist.
+         */
+        const translation &get_snippet_ref_by_id( const snippet_id &id ) const;
+        /**
+         * Returns true if there exists a snippet with the id
+         */
+        bool has_snippet_with_id( const snippet_id &id ) const;
         /**
          * Expand the string by recursively replacing tags in angle brackets (<>)
          * with random snippets from the tags' respective category. For example,
@@ -58,9 +68,9 @@ class snippet_library
          * Returns the id of a random snippet out of the given category.
          * Snippets without an id will NOT be returned by this function.
          * If there isn't any snippet in the category, or if none of the snippets
-         * in the category has an id, cata::nullopt is returned.
+         * in the category has an id, snippet_id::NULL_ID() is returned.
          */
-        cata::optional<std::string> random_id_from_category( const std::string &cat ) const;
+        snippet_id random_id_from_category( const std::string &cat ) const;
         /**
          * Returns a random snippet out of the given category. Both snippets with
          * or without an id may be returned.
@@ -78,27 +88,27 @@ class snippet_library
          * The tags in the snippet are not automatically expanded - you need to
          * call `expand()` to do that.
          *
-         * @todo: make the result stay the same through different game sessions
+         * TODO: make the result stay the same through different game sessions
          */
         cata::optional<translation> random_from_category( const std::string &cat, unsigned int seed ) const;
         /**
          * Used only for legacy compatibility. `hash_to_id_migration` will be
          * initialized if it hasn't been yet, and the snippet with the given
          * hash is looked up and returned. If there's no longer any snippet with
-         * the given hash, cata::nullopt is returned instead.
+         * the given hash, snippet_id::NULL_ID() is returned instead.
          */
-        cata::optional<std::string> migrate_hash_to_id( int hash );
+        snippet_id migrate_hash_to_id( int hash );
 
     private:
-        std::unordered_map<std::string, translation> snippets_by_id;
+        std::unordered_map<snippet_id, translation> snippets_by_id;
 
         struct category_snippets {
-            std::vector<std::string> ids;
+            std::vector<snippet_id> ids;
             std::vector<translation> no_id;
         };
         std::unordered_map<std::string, category_snippets> snippets_by_category;
 
-        cata::optional<std::map<int, std::string>> hash_to_id_migration;
+        cata::optional<std::map<int, snippet_id>> hash_to_id_migration;
 };
 
 extern snippet_library SNIPPET;

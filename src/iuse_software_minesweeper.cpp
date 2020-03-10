@@ -18,8 +18,6 @@
 #include "optional.h"
 #include "point.h"
 
-std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
-
 minesweeper_game::minesweeper_game()
 {
     iMinY = 8;
@@ -114,9 +112,7 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
     for( int y = 0; y < iLevelY; y++ ) {
         for( int x = 0; x < iLevelX; x++ ) {
             if( mLevel[y][x] == static_cast<int>( bomb ) ) {
-                const auto circle = closest_tripoints_first( 1, {x, y, 0} );
-
-                for( const auto &p : circle ) {
+                for( const point &p : closest_points_first( {x, y}, 1 ) ) {
                     if( p.x >= 0 && p.x < iLevelX && p.y >= 0 && p.y < iLevelY ) {
                         if( mLevel[p.y][p.x] != static_cast<int>( bomb ) ) {
                             mLevel[p.y][p.x]++;
@@ -217,9 +213,7 @@ int minesweeper_game::start_game()
             mLevelReveal[y][x] = seen;
 
             if( mLevel[y][x] == 0 ) {
-                const auto circle = closest_tripoints_first( 1, {x, y, 0} );
-
-                for( const auto &p : circle ) {
+                for( const point &p : closest_points_first( {x, y}, 1 ) ) {
                     if( p.x >= 0 && p.x < iLevelX && p.y >= 0 && p.y < iLevelY ) {
                         if( mLevelReveal[p.y][p.x] != seen ) {
                             rec_reveal( p.y, p.x );

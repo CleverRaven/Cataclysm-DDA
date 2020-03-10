@@ -447,6 +447,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cabin_lapin",
+    "name": "cabin",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_roof_lapin",
+    "name": "cabin roof",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "dirtroad1_aban1",
     "name": "forest",
     "sym": "F",
@@ -546,6 +566,11 @@
   {
     "type": "overmap_terrain",
     "id": "radio_tower_even",
+    "copy-from": "radio_tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "radio_tower_even_stair_only",
     "copy-from": "radio_tower"
   },
   {

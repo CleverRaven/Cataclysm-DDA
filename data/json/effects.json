@@ -258,7 +258,14 @@
     "type": "effect_type",
     "id": "assisted",
     "name": [ "Assisted" ],
+    "max_intensity": 1000,
     "desc": [ "You're receiving assistance to practice a surgery." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "masked_scent",
+    "name": [ "Masked scent" ],
+    "desc": [ "Your scent is masked by another one." ]
   },
   {
     "type": "effect_type",
@@ -515,6 +522,26 @@
   },
   {
     "type": "effect_type",
+    "id": "sleep_deprived",
+    "name": [ "Sleep Deprived" ],
+    "desc": [ "Your sleep debt has been steadily increasing for a while.  You should get some rest." ],
+    "rating": "bad",
+    "max_intensity": 20160,
+    "int_dur_factor": 240,
+    "base_mods": { "speed_mod": [ -5 ] },
+    "scaling_mods": { "speed_mod": [ -1 ], "int_mod": [ -0.33 ], "per_mod": [ -0.33 ], "str_mod": [ -0.17 ], "dex_mod": [ -0.17 ] },
+    "apply_message": "You feel weary, your body tired from lack of quality sleep.",
+    "remove_message": "You have finally caught up with your lost sleep, and you feel refreshed and awake for a change."
+  },
+  {
+    "type": "effect_type",
+    "id": "melatonin",
+    "name": [ "Melatonin Supplements" ],
+    "desc": [ "You took some melatonin supplements.  These will help with sleep deprivation." ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "beartrap",
     "name": [ "Stuck in beartrap" ],
     "desc": [ "You can't move until you get free!" ],
@@ -758,7 +785,7 @@
     "desc": [ "You are recovering from an infection." ],
     "rating": "bad",
     "max_intensity": 3,
-    "int_dur_factor": "320 m",
+    "int_dur_factor": "32 h",
     "base_mods": {
       "pain_chance": [ 100 ],
       "pain_min": [ 1 ],
@@ -767,7 +794,10 @@
       "dex_mod": [ -1 ],
       "vomit_chance": [ 1000 ],
       "fatigue_min": [ 360 ],
-      "fatigue_chance": [ -102 ]
+      "fatigue_chance": [ -102 ],
+      "fatigue_tick": [ 6 ],
+      "pain_tick": [ 6 ],
+      "vomit_tick": [ 6 ]
     },
     "scaling_mods": { "pain_max_val": [ 30 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "vomit_chance": [ -400 ], "fatigue_chance": [ 101 ] }
   },
@@ -1864,6 +1894,23 @@
       "speed_mod": [ -10 ],
       "vomit_chance": [ 10 ],
       "cough_chance": [ 501 ]
+    },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "fetid_goop",
+    "name": [ "Covered in fetid goop" ],
+    "desc": [ "The feeling of the goop slowly sliding on your skin revulses you and the smell makes you gag." ],
+    "apply_message": "You're disgusted by the goop.",
+    "rating": "bad",
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "int_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "vomit_chance": [ 100 ]
     },
     "show_in_info": true
   },

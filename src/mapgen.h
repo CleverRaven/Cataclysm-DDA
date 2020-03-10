@@ -234,7 +234,7 @@ struct jmapgen_objects {
 
         jmapgen_objects( const point &offset, const point &mapsize );
 
-        bool check_bounds( jmapgen_place place, const JsonObject &jso );
+        bool check_bounds( const jmapgen_place &place, const JsonObject &jso );
 
         void add( const jmapgen_place &place, shared_ptr_fast<const jmapgen_piece> piece );
 
@@ -371,21 +371,24 @@ class mapgen_function_json_nested : public mapgen_function_json_base
  * Load mapgen function of any type from a json object
  */
 std::shared_ptr<mapgen_function> load_mapgen_function( const JsonObject &jio,
-        const std::string &id_base, int default_idx, const point &offset = point_zero );
+        const std::string &id_base, const point &offset );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
- * for oter_mapgen / oter_mapgen_weights key, multiple possible ( ie, [ "house", "house_base" ] )
+ * for oter_mapgen key, multiple possible ( ie, [ "house", "house_base" ] )
  */
 void load_mapgen( const JsonObject &jo );
 void reset_mapgens();
-/*
- * stores function ref and/or required data
+/**
+ * Attempts to register the build-in function @p key as mapgen for the overmap terrain @p key.
+ * If there is no matching function, it does nothing (no error message) and returns -1.
+ * Otherwise it returns the index of the added entry in the vector of @ref oter_mapgen.
  */
-extern std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
-/*
- * random selector list for the nested vector above, as per individual mapgen_function_::weight value
+// @TODO this should go away. It is only used for old build-in mapgen. Mapgen should be done via JSON.
+int register_mapgen_function( const std::string &key );
+/**
+ * Check that @p key is present in @ref oter_mapgen.
  */
-extern std::map<std::string, std::map<int, int> > oter_mapgen_weights;
+bool has_mapgen_for( const std::string &key );
 /*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
@@ -419,24 +422,23 @@ enum room_type {
     room_split
 };
 
-void house_room( room_type type, int x1, int y1, int x2, int y2, mapgendata &dat );
 // helpful functions
 bool connects_to( const oter_id &there, int dir );
 void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
-void line( map *m, ter_id type, int x1, int y1, int x2, int y2 );
-void line_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 );
-void fill_background( map *m, ter_id type );
+void line( map *m, const ter_id &type, int x1, int y1, int x2, int y2 );
+void line_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 );
+void fill_background( map *m, const ter_id &type );
 void fill_background( map *m, ter_id( *f )() );
-void square( map *m, ter_id type, int x1, int y1, int x2, int y2 );
+void square( map *m, const ter_id &type, int x1, int y1, int x2, int y2 );
 void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 );
 void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 );
-void square_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 );
-void rough_circle( map *m, ter_id type, int x, int y, int rad );
-void rough_circle_furn( map *m, furn_id type, int x, int y, int rad );
-void circle( map *m, ter_id type, double x, double y, double rad );
-void circle( map *m, ter_id type, int x, int y, int rad );
-void circle_furn( map *m, furn_id type, int x, int y, int rad );
+void square_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 );
+void rough_circle( map *m, const ter_id &type, int x, int y, int rad );
+void rough_circle_furn( map *m, const furn_id &type, int x, int y, int rad );
+void circle( map *m, const ter_id &type, double x, double y, double rad );
+void circle( map *m, const ter_id &type, int x, int y, int rad );
+void circle_furn( map *m, const furn_id &type, int x, int y, int rad );
 void add_corpse( map *m, int x, int y );
 
 #endif

@@ -1,0 +1,7 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "city": { "basements": { "basement": 1000, "basement_hidden_lab_stairs": 100 } }
+  }
+]

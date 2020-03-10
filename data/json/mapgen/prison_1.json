@@ -191,7 +191,7 @@
         { "monster": "GROUP_ZOMBIE_COP", "x": [ 27, 44 ], "y": [ 24, 47 ], "density": 0.2 },
         { "monster": "GROUP_ZOMBIE_COP", "x": [ 35, 38 ], "y": [ 122, 127 ], "density": 0.2 }
       ],
-      "place_vehicles": [  ]
+      "place_vehicles": [ { "vehicle": "bus_prison", "x": 36, "y": 15, "chance": 25, "rotation": 270 } ]
     }
   },
   {

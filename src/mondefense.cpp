@@ -12,6 +12,7 @@
 #include "bodypart.h"
 #include "creature.h"
 #include "damage.h"
+#include "dispersion.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -26,9 +27,7 @@
 #include "enums.h"
 #include "item.h"
 #include "point.h"
-
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_rifle( "rifle" );
+#include "cata_string_consts.h"
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
@@ -45,15 +44,22 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    const player *const foe = dynamic_cast<player *>( source );
-
-    // Players/NPCs can avoid the shock by using non-conductive weapons
-    if( foe != nullptr && !foe->weapon.conductive() ) {
-        if( foe->reach_attacking ) {
-            return;
+    if( const player *const foe = dynamic_cast<player *>( source ) ) {
+        // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
+        for( const item &i : foe->worn ) {
+            if( ( i.covers( bp_hand_l ) || i.covers( bp_hand_r ) ) &&
+                !i.conductive() && i.get_coverage() >= 95 ) {
+                return;
+            }
         }
-        if( !foe->used_weapon().is_null() ) {
-            return;
+        // Players/NPCs can avoid the shock by using non-conductive weapons
+        if( !foe->weapon.conductive() ) {
+            if( foe->reach_attacking ) {
+                return;
+            }
+            if( !foe->used_weapon().is_null() ) {
+                return;
+            }
         }
     }
 
@@ -67,7 +73,7 @@ void mdefense::zapback( monster &m, Creature *const source,
                  m.name(), source->disp_name() );
     }
 
-    damage_instance const shock {
+    const damage_instance shock {
         DT_ELECTRIC, static_cast<float>( rng( 1, 5 ) )
     };
     source->deal_damage( &m, bp_arm_l, shock );
@@ -79,42 +85,37 @@ void mdefense::zapback( monster &m, Creature *const source,
 void mdefense::acidsplash( monster &m, Creature *const source,
                            dealt_projectile_attack const *const proj )
 {
-    // Would be useful to have the attack data here, for cutting vs. bashing etc.
-    if( proj != nullptr && proj->dealt_dam.total_damage() <= 0 ) {
-        // Projectile didn't penetrate the target, no acid will splash out of it.
+    if( source == nullptr ) {
         return;
     }
-    if( proj != nullptr && !one_in( 3 ) ) {
-        return; //Less likely for a projectile to deliver enough force
-    }
-
     size_t num_drops = rng( 4, 6 );
-    const player *const foe = dynamic_cast<player *>( source );
-    if( proj == nullptr && foe != nullptr ) {
-        if( foe->weapon.is_melee( DT_CUT ) || foe->weapon.is_melee( DT_STAB ) ) {
-            num_drops += rng( 3, 4 );
+    // Would be useful to have the attack data here, for cutting vs. bashing etc.
+    if( proj ) {
+        // Projectile didn't penetrate the target, no acid will splash out of it.
+        if( proj->dealt_dam.total_damage() <= 0 ) {
+            return;
         }
-
-        if( foe->unarmed_attack() ) {
-            damage_instance const burn {
-                DT_ACID, static_cast<float>( rng( 1, 5 ) )
-            };
-
-            if( one_in( 2 ) ) {
-                source->deal_damage( &m, bp_hand_l, burn );
-            } else {
-                source->deal_damage( &m, bp_hand_r, burn );
+        // Less likely for a projectile to deliver enough force
+        if( !one_in( 3 ) ) {
+            return;
+        }
+    } else {
+        if( const player *const foe = dynamic_cast<player *>( source ) ) {
+            if( foe->weapon.is_melee( DT_CUT ) || foe->weapon.is_melee( DT_STAB ) ) {
+                num_drops += rng( 3, 4 );
             }
-
-            source->add_msg_if_player( m_bad, _( "Acid covering %s burns your hand!" ),
-                                       m.disp_name() );
+            if( foe->unarmed_attack() ) {
+                const damage_instance acid_burn{
+                    DT_ACID, static_cast<float>( rng( 1, 5 ) )
+                };
+                source->deal_damage( &m, one_in( 2 ) ? bp_hand_l : bp_hand_r, acid_burn );
+                source->add_msg_if_player( m_bad, _( "Acid covering %s burns your hand!" ), m.disp_name() );
+            }
         }
     }
-
-    const tripoint initial_target = source == nullptr ? m.pos() : source->pos();
 
     // Don't splatter directly on the `m`, that doesn't work well
-    auto pts = closest_tripoints_first( 1, initial_target );
+    std::vector<tripoint> pts = closest_tripoints_first( source->pos(), 1 );
     pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ), pts.end() );
 
     projectile prj;
@@ -125,12 +126,11 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     prj.impact.add_damage( DT_ACID, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
         const tripoint &target = random_entry( pts );
-        projectile_attack( prj, m.pos(), target, { 1200 } );
+        projectile_attack( prj, m.pos(), target, { 1200 }, &m );
     }
 
     if( g->u.sees( m.pos() ) ) {
-        add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ),
-                 m.disp_name() );
+        add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ), m.disp_name() );
     }
 }
 
@@ -166,7 +166,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     // so represent that with initial recoil.
     tmp.recoil = 150;
 
-    for( const std::pair<std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
+    for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
         if( attack.second->id == "gun" ) {
             sounds::sound( m.pos(), 50, sounds::sound_t::alert,
                            _( "Detected shots from unseen attacker, return fire mode engaged." ) );

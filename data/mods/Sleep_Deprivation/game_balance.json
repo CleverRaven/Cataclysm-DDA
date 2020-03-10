@@ -1,8 +1,0 @@
-[
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "SLEEP_DEPRIVATION",
-    "stype": "bool",
-    "value": true
-  }
-]

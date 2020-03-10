@@ -3,19 +3,17 @@
 #define AVATAR_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
-#include "enums.h"
 #include "player.h"
 #include "magic_teleporter_list.h"
 #include "calendar.h"
-#include "item.h"
 #include "map_memory.h"
-#include "pldata.h"
 #include "point.h"
+
+enum character_type : int;
 
 class JsonIn;
 class JsonObject;

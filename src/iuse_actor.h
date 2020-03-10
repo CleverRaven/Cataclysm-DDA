@@ -312,6 +312,34 @@ class place_monster_iuse : public iuse_actor
 };
 
 /**
+ * This iuse contains the logic to change one's scent.
+ */
+class change_scent_iuse : public iuse_actor
+{
+    public:
+        /** The scent type id of the new scent. */
+        scenttype_id scenttypeid;
+        /** How many move points this action takes. */
+        int moves = 100;
+        /**How many charge are consumed on use*/
+        int charges_to_use = 1;
+        /**Scent value modifier*/
+        int scent_mod = 0;
+        /**How long does the scent stays*/
+        time_duration duration;
+        /**Is the scent mask waterproof*/
+        bool waterproof = false;
+        /**Side effect of using the item*/
+        std::vector<effect_data> effects;
+
+        change_scent_iuse() : iuse_actor( "change_scent" ) { }
+        ~change_scent_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+/**
  * This iuse contains the logic to summon an npc on the map.
  */
 class place_npc_iuse : public iuse_actor
@@ -618,7 +646,7 @@ class fireweapon_on_actor : public iuse_actor
         std::string auto_extinguish_message;
         int noise = 0; // If 0, it produces a message instead of noise
         int noise_chance = 1; // one_in(this variable)
-        int auto_extinguish_chance; // one_in(this) per turn to fail
+        int auto_extinguish_chance = 0; // one_in(this) per turn to fail
 
         fireweapon_on_actor( const std::string &type = "fireweapon_on" ) : iuse_actor( type ) {}
 
@@ -660,19 +688,19 @@ class musical_instrument_actor : public iuse_actor
         /**
          * Speed penalty when playing the instrument
          */
-        int speed_penalty;
+        int speed_penalty = 0;
         /**
          * Volume of the music played
          */
-        int volume;
+        int volume = 0;
         /**
          * Base morale bonus/penalty
          */
-        int fun;
+        int fun = 0;
         /**
          * Morale bonus scaling (off current perception)
          */
-        int fun_bonus;
+        int fun_bonus = 0;
         /**
         * List of sound descriptions for players
         */
@@ -720,10 +748,10 @@ class cast_spell_actor : public iuse_actor
 {
     public:
         // this item's spell fail % is 0
-        bool no_fail;
+        bool no_fail = false;
         // the spell this item casts when used.
         spell_id item_spell;
-        int spell_level;
+        int spell_level = 0;
         /**does the item requires to be worn to be activable*/
         bool need_worn = false;
         /**does the item requires to be wielded to be activable*/
@@ -840,16 +868,16 @@ class repair_item_actor : public iuse_actor
         /** Skill used */
         skill_id used_skill;
         /** Maximum skill level that can be gained by using this actor. */
-        int trains_skill_to;
+        int trains_skill_to = 0;
         /**
           * Volume of materials required (and used up) as percentage of repaired item's volume.
           * Set to 0 to always use just 1 component.
           */
-        float cost_scaling;
+        float cost_scaling = 1.0f;
         /** Extra value added to skill roll */
-        int tool_quality;
+        int tool_quality = 0;
         /** Move cost for every attempt */
-        int move_cost;
+        int move_cost = 0;
 
         enum attempt_hint : int {
             AS_SUCCESS = 0,     // Success, but can retry
@@ -1072,8 +1100,8 @@ class mutagen_actor : public iuse_actor
 {
     public:
         std::string mutation_category;
-        bool is_weak;
-        bool is_strong;
+        bool is_weak = false;
+        bool is_strong = false;
 
         mutagen_actor() : iuse_actor( "mutagen" ) {}
 

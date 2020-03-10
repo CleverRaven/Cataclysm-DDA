@@ -28,8 +28,7 @@
 #include "type_id.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-static const efftype_id effect_currently_busy( "currently_busy" );
+#include "cata_string_consts.h"
 
 // throws an error on failure, so no need to return
 std::string get_talk_varname( const JsonObject &jo, const std::string &member, bool check_value )
@@ -776,9 +775,8 @@ void conditional_t<T>::set_is_driving( bool is_npc )
 }
 
 template<class T>
-void conditional_t<T>::set_has_stolen_item( bool is_npc )
+void conditional_t<T>::set_has_stolen_item( bool /*is_npc*/ )
 {
-    ( void )is_npc;
     condition = []( const T & d ) {
         player *actor = d.alpha;
         npc &p = *d.beta;
@@ -894,7 +892,7 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
     bool found_sub_member = false;
     const auto parse_array = []( const JsonObject & jo, const std::string & type ) {
         std::vector<conditional_t> conditionals;
-        for( const JsonValue &entry : jo.get_array( type ) ) {
+        for( const JsonValue entry : jo.get_array( type ) ) {
             if( entry.test_string() ) {
                 conditional_t<T> type_condition( entry.get_string() );
                 conditionals.emplace_back( type_condition );
@@ -1161,6 +1159,9 @@ conditional_t<T>::conditional_t( const std::string &type )
 template struct conditional_t<dialogue>;
 template void read_condition<dialogue>( const JsonObject &jo, const std::string &member_name,
                                         std::function<bool( const dialogue & )> &condition, bool default_val );
+#if !defined(MACOSX)
+template struct conditional_t<mission_goal_condition_context>;
+#endif
 template void read_condition<mission_goal_condition_context>( const JsonObject &jo,
         const std::string &member_name,
         std::function<bool( const mission_goal_condition_context & )> &condition, bool default_val );

@@ -19,5 +19,92 @@
     "stim": 1,
     "fun": 4,
     "flags": [ "EDIBLE_FROZEN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "marshmallow",
+    "name": "marshmallows",
+    "name_plural": "marshmallows",
+    "symbol": "%",
+    "container": "null",
+    "description": "A handful of squishy, fluffy, puffy, delicious marshmallows.  They feel oddly warm…",
+    "copy-from": "marshmallow",
+    "rot_spawn": "GROUP_EGG_MARSHMALLOW",
+    "rot_spawn_chance": 100,
+    "spoils_in": "15 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "smores",
+    "name": "s'mores",
+    "name_plural": "s'mores",
+    "symbol": "%",
+    "container": "null",
+    "copy-from": "smores",
+    "description": "A pair of graham crackers with some chocolate and a marshmallow between them.  Warms radiates from it, as if it was… alive?",
+    "rot_spawn": "GROUP_EGG_SMORES",
+    "rot_spawn_chance": 100,
+    "spoils_in": "15 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "candy3",
+    "name": "chewy candy",
+    "name_plural": "chewy candies",
+    "description": "A handful of colorful fruit-flavored chewy candy.  They're warm to the touch and you can feel a slow beat coming from them.  How odd…",
+    "symbol": "%",
+    "container": "null",
+    "copy-from": "candy3",
+    "rot_spawn": "GROUP_EGG_GUMMY",
+    "rot_spawn_chance": 100,
+    "spoils_in": "15 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "grahmcrackers",
+    "name": "graham cracker",
+    "symbol": "%",
+    "container": "null",
+    "description": "Dry and sugary, these crackers will leave you thirsty, but go good with some chocolate and marshmallows.  They shiver under your touch.  Weird!",
+    "copy-from": "grahmcrackers",
+    "rot_spawn": "GROUP_EGG_CRACKER",
+    "rot_spawn_chance": 100,
+    "spoils_in": "20 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cookies",
+    "name": "cookie",
+    "symbol": "%",
+    "container": "null",
+    "description": "Sweet and delicious cookies, just like grandma used to bake.  They shiver under your touch.  Weird!",
+    "copy-from": "cookies",
+    "rot_spawn": "GROUP_EGG_COOKIE",
+    "rot_spawn_chance": 100,
+    "spoils_in": "10 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "gum",
+    "name": "chewing gum",
+    "comestible_type": "FOOD",
+    "description": "Bright pink chewing gum.  Sugary, sweet, and bad for your teeth.  It's oddly warm to the touch…",
+    "symbol": "*",
+    "copy-from": "gum",
+    "rot_spawn": "GROUP_EGG_GUM",
+    "rot_spawn_chance": 100,
+    "spoils_in": "5 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "caff_gum",
+    "name": "caffeinated chewing gum",
+    "comestible_type": "FOOD",
+    "description": "Chewing gum with added caffeine.  Sugary and bad for your teeth, but it's a nice pick-me-up.  It's oddly warm to the touch…",
+    "symbol": "*",
+    "copy-from": "caff_gum",
+    "rot_spawn": "GROUP_EGG_CAFFGUM",
+    "rot_spawn_chance": 100,
+    "spoils_in": "7 days"
   }
 ]

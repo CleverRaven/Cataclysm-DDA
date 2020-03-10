@@ -20,6 +20,7 @@
 #include "lightmap.h"
 #include "math_defines.h"
 #include "optional.h"
+#include "pixel_minimap_projectors.h"
 
 #include <algorithm>
 #include <array>
@@ -199,7 +200,6 @@ struct pixel_minimap::submap_cache {
 pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer ) :
     renderer( renderer ),
     type( pixel_minimap_type::ortho ),
-    cached_center_sm( tripoint_min ),
     screen_rect{ 0, 0, 0, 0 }
 {
 }

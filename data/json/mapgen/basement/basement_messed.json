@@ -2,32 +2,32 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "basement" ],
+    "om_terrain": "basement_messed",
+    "//": "used for house_crack1, house_crack2",
     "weight": 250,
     "object": {
-      "rotation": [ 0, 3 ],
       "fill_ter": "t_rock",
       "rows": [
         "                        ",
         "                        ",
         "                        ",
+        "   ||||||||||||         ",
+        "   |a.aaHHbbbr|         ",
+        "   |a.......ar|         ",
+        "   |a..a|||||||         ",
+        "   |a..aaaarrr|         ",
+        "   |a.a.aaaaaa|         ",
+        "   |aa....arrr|         ",
+        "   |||..|++||||         ",
+        "   |E..a|.<|            ",
+        "   |W..r||||            ",
+        "   ||||||               ",
         "                        ",
         "                        ",
         "                        ",
         "                        ",
         "                        ",
         "                        ",
-        "     ||||||||||||       ",
-        "     |a.aaHHbbbr|       ",
-        "     |a.......ar|       ",
-        "     |a..a|||||||       ",
-        "     |a..aaaarrr|       ",
-        "     |a.a.aaaaaa|       ",
-        "     |aa....arrr|       ",
-        "     |||..|++||||       ",
-        "     |E..a|..|          ",
-        "     |W..r|<<|          ",
-        "     |||||||||          ",
         "                        ",
         "                        ",
         "                        ",
@@ -84,7 +84,7 @@
         ],
         "b": [ { "item": "home_hw", "chance": 60 }, { "item": "mechanics", "chance": 30 } ]
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 9, 16 ], "y": [ 12, 16 ] } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 13 ], "y": [ 4, 9 ] } ]
     }
   }
 ]

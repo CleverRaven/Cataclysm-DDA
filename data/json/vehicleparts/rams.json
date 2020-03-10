@@ -147,7 +147,7 @@
     "id": "ram_acidchitin",
     "copy-from": "ram_chitin",
     "type": "vehicle_part",
-    "name": "biosilicfied chitin ram",
+    "name": "biosilicified chitin ram",
     "item": "acidchitin_plate",
     "proportional": { "durability": 1.5 },
     "breaks_into": [ { "item": "chitin_piece", "count": [ 6, 19 ] } ],

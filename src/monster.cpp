@@ -53,6 +53,7 @@
 #include "string_id.h"
 #include "flat_set.h"
 #include "weather.h"
+#include "cata_string_consts.h"
 
 struct pathfinding_settings;
 
@@ -60,108 +61,6 @@ struct pathfinding_settings;
 // This also sets the percentage of monsters that will never upgrade.
 // The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
 #define UPGRADE_MAX_ITERS 5
-
-static const mtype_id mon_ant( "mon_ant" );
-static const mtype_id mon_ant_fungus( "mon_ant_fungus" );
-static const mtype_id mon_ant_queen( "mon_ant_queen" );
-static const mtype_id mon_ant_soldier( "mon_ant_soldier" );
-static const mtype_id mon_beekeeper( "mon_beekeeper" );
-static const mtype_id mon_boomer( "mon_boomer" );
-static const mtype_id mon_boomer_huge( "mon_boomer_huge" );
-static const mtype_id mon_boomer_fungus( "mon_boomer_fungus" );
-static const mtype_id mon_fungaloid( "mon_fungaloid" );
-static const mtype_id mon_triffid( "mon_triffid" );
-static const mtype_id mon_triffid_queen( "mon_triffid_queen" );
-static const mtype_id mon_triffid_young( "mon_triffid_young" );
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
-static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
-static const mtype_id mon_zombie_brute_shocker( "mon_zombie_brute_shocker" );
-static const mtype_id mon_zombie_child( "mon_zombie_child" );
-static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-static const mtype_id mon_zombie_electric( "mon_zombie_electric" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
-static const mtype_id mon_zombie_fungus( "mon_zombie_fungus" );
-static const mtype_id mon_zombie_gasbag( "mon_zombie_gasbag" );
-static const mtype_id mon_zombie_gasbag_fungus( "mon_zombie_gasbag_fungus" );
-static const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
-static const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
-static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-static const mtype_id mon_skeleton_hulk( "mon_skeleton_hulk" );
-static const mtype_id mon_skeleton_hulk_fungus( "mon_skeleton_hulk_fungus" );
-static const mtype_id mon_skeleton_brute( "mon_skeleton_brute" );
-static const mtype_id mon_zombie_hunter( "mon_zombie_hunter" );
-static const mtype_id mon_zombie_master( "mon_zombie_master" );
-static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
-static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
-static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
-static const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
-static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
-static const mtype_id mon_zombie_smoker_fungus( "mon_zombie_smoker_fungus" );
-static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
-static const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
-static const mtype_id mon_zombie_swimmer( "mon_zombie_swimmer" );
-static const mtype_id mon_zombie_technician( "mon_zombie_technician" );
-static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
-static const mtype_id mon_zombie_child_fungus( "mon_zombie_child_fungus" );
-static const mtype_id mon_zombie_anklebiter( "mon_zombie_anklebiter" );
-static const mtype_id mon_zombie_creepy( "mon_zombie_creepy" );
-static const mtype_id mon_zombie_sproglodyte( "mon_zombie_sproglodyte" );
-static const mtype_id mon_zombie_shriekling( "mon_zombie_shriekling" );
-static const mtype_id mon_zombie_snotgobbler( "mon_zombie_snotgobbler" );
-static const mtype_id mon_zombie_waif( "mon_zombie_waif" );
-static const mtype_id mon_spider_fungus( "mon_spider_fungus" );
-
-static const species_id ZOMBIE( "ZOMBIE" );
-static const species_id FUNGUS( "FUNGUS" );
-static const species_id INSECT( "INSECT" );
-static const species_id MAMMAL( "MAMMAL" );
-static const species_id ABERRATION( "ABERRATION" );
-static const species_id MOLLUSK( "MOLLUSK" );
-static const species_id ROBOT( "ROBOT" );
-static const species_id FISH( "FISH" );
-static const species_id SPIDER( "SPIDER" );
-
-static const efftype_id effect_badpoison( "badpoison" );
-static const efftype_id effect_beartrap( "beartrap" );
-static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_bouldering( "bouldering" );
-static const efftype_id effect_crushed( "crushed" );
-static const efftype_id effect_deaf( "deaf" );
-static const efftype_id effect_docile( "docile" );
-static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_emp( "emp" );
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
-static const efftype_id effect_heavysnare( "heavysnare" );
-static const efftype_id effect_hit_by_player( "hit_by_player" );
-static const efftype_id effect_in_pit( "in_pit" );
-static const efftype_id effect_lightsnare( "lightsnare" );
-static const efftype_id effect_monster_armor( "monster_armor" );
-static const efftype_id effect_no_sight( "no_sight" );
-static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_pacified( "pacified" );
-static const efftype_id effect_paralyzepoison( "paralyzepoison" );
-static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_ridden( "ridden" );
-static const efftype_id effect_saddled( "saddled" );
-static const efftype_id effect_run( "run" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_supercharged( "supercharged" );
-static const efftype_id effect_tied( "tied" );
-static const efftype_id effect_webbed( "webbed" );
-
-static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
-static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
-static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
-static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
-static const trait_id trait_BEE( "BEE" );
-static const trait_id trait_FLOWERS( "FLOWERS" );
-static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_KILLER( "KILLER" );
 
 static const std::map<m_size, translation> size_names {
     { m_size::MS_TINY, to_translation( "size adj", "tiny" ) },
@@ -206,6 +105,8 @@ monster::monster()
     upgrade_time = -1;
     last_updated = 0;
     biosig_timer = -1;
+    udder_timer = calendar::turn;
+    horde_attraction = MHA_NULL;
 }
 
 monster::monster( const mtype_id &id ) : monster()
@@ -234,7 +135,7 @@ monster::monster( const mtype_id &id ) : monster()
         int max_charge = type.magazine->capacity;
         item mech_bat_item = item( mech_bat, 0 );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
-        battery_item = mech_bat_item;
+        battery_item = cata::make_value<item>( mech_bat_item );
     }
 }
 
@@ -317,6 +218,12 @@ int monster::get_upgrade_time() const
     return upgrade_time;
 }
 
+// Sets time to upgrade to 0.
+void monster::allow_upgrade()
+{
+    upgrade_time = 0;
+}
+
 // This will disable upgrades in case max iters have been reached.
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time()
@@ -345,7 +252,7 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    const int current_day = to_days<int>( calendar::turn - calendar::turn_zero );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
@@ -357,7 +264,7 @@ void monster::try_upgrade( bool pin_time )
             upgrade_time += current_day;
         } else {
             // offset by starting season
-            // @todo revisit this and make it simpler
+            // TODO: revisit this and make it simpler
             upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
         }
     }
@@ -443,13 +350,45 @@ void monster::try_reproduce()
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                g->m.add_spawn( type->baby_monster, spawn_cnt, pos().xy() );
+                g->m.add_spawn( type->baby_monster, spawn_cnt, pos() );
             } else {
                 g->m.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
             }
         }
 
         *baby_timer += *type->baby_timer;
+    }
+}
+
+void monster::refill_udders()
+{
+    if( type->starting_ammo.empty() ) {
+        debugmsg( "monster %s has no starting ammo to refill udders", get_name() );
+        return;
+    }
+    if( ammo.empty() ) {
+        // legacy animals got empty ammo map, fill them up now if needed.
+        ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
+    }
+    auto current_milk = ammo.find( "milk_raw" );
+    if( current_milk == ammo.end() ) {
+        current_milk = ammo.find( "milk" );
+        if( current_milk != ammo.end() ) {
+            // take this opportunity to update milk udders to raw_milk
+            ammo["milk_raw"] = current_milk->second;
+            // Erase old key-value from map
+            ammo.erase( current_milk );
+        }
+    }
+    // if we got here, we got milk.
+    if( current_milk->second == type->starting_ammo.begin()->second ) {
+        // already full up
+        return;
+    }
+    if( calendar::turn - udder_timer > 1_days ) {
+        // no point granularizing this really, you milk once a day.
+        ammo.begin()->second = type->starting_ammo.begin()->second;
+        udder_timer = calendar::turn;
     }
 }
 
@@ -611,14 +550,14 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     }
 
     std::string effects = get_effect_status();
-    size_t used_space = utf8_width( att.first ) + utf8_width( name() ) + 3;
-    trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
-                    h_white, effects );
+    if( !effects.empty() ) {
+        trim_and_print( w, point( column, ++vStart ), getmaxx( w ) - 2, h_white, effects );
+    }
 
     const auto hp_desc = hp_description( hp, type->hp );
-    mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
+    mvwprintz( w, point( column, ++vStart ), hp_desc.second, hp_desc.first );
     if( has_effect( effect_ridden ) && mounted_player ) {
-        mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+        mvwprintz( w, point( column, ++vStart ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
     if( size_bonus > 0 ) {
@@ -628,7 +567,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
-        mvwprintz( w, point( column, vStart++ ), c_white, lines[i] );
+        mvwprintz( w, point( column, ++vStart ), c_white, lines[i] );
     }
 
     return vStart;
@@ -675,21 +614,9 @@ std::string monster::extended_description() const
     ss += string_format( _( "It is %s in size." ),
                          size_names.at( get_size() ) ) + "\n";
 
-    std::vector<std::string> types;
+    std::vector<std::string> types = type->species_descriptions();
     if( type->has_flag( MF_ANIMAL ) ) {
         types.emplace_back( _( "an animal" ) );
-    }
-    if( type->in_species( ZOMBIE ) ) {
-        types.emplace_back( _( "a zombie" ) );
-    }
-    if( type->in_species( FUNGUS ) ) {
-        types.emplace_back( _( "a fungus" ) );
-    }
-    if( type->in_species( INSECT ) ) {
-        types.emplace_back( _( "an insect" ) );
-    }
-    if( type->in_species( ABERRATION ) ) {
-        types.emplace_back( _( "an aberration" ) );
     }
     if( !types.empty() ) {
         ss += string_format( _( "It is %s." ),
@@ -1028,11 +955,6 @@ monster_attitude monster::attitude( const Character *u ) const
     if( u != nullptr ) {
         // Those are checked quite often, so avoiding string construction is a good idea
         static const string_id<monfaction> faction_bee( "bee" );
-        static const trait_id pheromone_mammal( "PHEROMONE_MAMMAL" );
-        static const trait_id pheromone_insect( "PHEROMONE_INSECT" );
-        static const trait_id mycus_thresh( "THRESH_MYCUS" );
-        static const trait_id mycus_friend( "MYCUS_FRIEND" );
-        static const trait_id terrifying( "TERRIFYING" );
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
@@ -1041,18 +963,18 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        if( type->in_species( FUNGUS ) && ( u->has_trait( mycus_thresh ) ||
-                                            u->has_trait( mycus_friend ) ) ) {
+        if( type->in_species( FUNGUS ) && ( u->has_trait( trait_MYCUS_THRESH ) ||
+                                            u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
         }
 
         if( effective_anger >= 10 &&
-            ( ( type->in_species( MAMMAL ) && u->has_trait( pheromone_mammal ) ) ||
-              ( type->in_species( INSECT ) && u->has_trait( pheromone_insect ) ) ) ) {
+            ( ( type->in_species( MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) ||
+              ( type->in_species( INSECT ) && u->has_trait( trait_PHEROMONE_INSECT ) ) ) ) {
             effective_anger -= 20;
         }
 
-        if( u->has_trait( terrifying ) ) {
+        if( u->has_trait( trait_TERRIFYING ) ) {
             effective_morale -= 10;
         }
 
@@ -1080,6 +1002,14 @@ monster_attitude monster::attitude( const Character *u ) const
                 }
                 if( effective_anger < 20 ) {
                     effective_morale -= 5;
+                }
+            }
+        }
+
+        for( const trait_id &mut : u->get_mutations() ) {
+            for( const std::pair<const species_id, int> &elem : mut.obj().anger_relations ) {
+                if( type->in_species( elem.first ) ) {
+                    effective_anger += elem.second;
                 }
             }
         }
@@ -1512,7 +1442,7 @@ void monster::deal_damage_handle_type( const damage_unit &du, body_part bp, int 
             }
             break;
         case DT_COLD:
-            if( !has_flag( MF_WARM ) ) {
+            if( has_flag( MF_COLDPROOF ) ) {
                 return; // immunity
             }
             break;
@@ -1620,7 +1550,7 @@ bool monster::move_effects( bool )
                     add_msg( _( "The %s easily slips out of its bonds." ), name() );
                 }
                 g->m.add_item_or_charges( pos(), *tied_item );
-                tied_item = cata::nullopt;
+                tied_item.reset();
             }
         } else {
             if( tied_item ) {
@@ -1629,7 +1559,7 @@ bool monster::move_effects( bool )
                 if( !broken ) {
                     g->m.add_item_or_charges( pos(), *tied_item );
                 }
-                tied_item = cata::nullopt;
+                tied_item.reset();
                 if( u_see_me ) {
                     if( broken ) {
                         add_msg( _( "The %s snaps the bindings holding it down." ), name() );
@@ -1736,7 +1666,7 @@ bool monster::move_effects( bool )
     return true;
 }
 
-void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part/*bp*/,
+void monster::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part/*bp*/,
                           bool permanent, int intensity, bool force, bool deferred )
 {
     // Effects are not applied to specific monster body part
@@ -1759,14 +1689,11 @@ std::string monster::get_effect_status() const
 
 int monster::get_worn_armor_val( damage_type dt ) const
 {
-    if( !has_effect( effect_monster_armor ) || inv.empty() ) {
+    if( !has_effect( effect_monster_armor ) ) {
         return 0;
     }
-    for( const item &armor : inv ) {
-        if( !armor.is_pet_armor( true ) ) {
-            continue;
-        }
-        return armor.damage_resist( dt );
+    if( armor_item ) {
+        return armor_item->damage_resist( dt );
     }
     return 0;
 }
@@ -2024,8 +1951,12 @@ void monster::process_turn()
 {
     decrement_summon_timer();
     if( !is_hallucination() ) {
-        for( const auto &e : type->emit_fields ) {
-            if( e == emit_id( "emit_shock_cloud" ) ) {
+        for( const std::pair<emit_id, time_duration> &e : type->emit_fields ) {
+            if( !calendar::once_every( e.second ) ) {
+                continue;
+            }
+            const emit_id emid = e.first;
+            if( emid == emit_id( "emit_shock_cloud" ) ) {
                 if( has_effect( effect_emp ) ) {
                     continue; // don't emit electricity while EMPed
                 } else if( has_effect( effect_supercharged ) ) {
@@ -2033,7 +1964,7 @@ void monster::process_turn()
                     continue;
                 }
             }
-            g->m.emit_field( pos(), e );
+            g->m.emit_field( pos(), emid );
         }
     }
 
@@ -2130,14 +2061,8 @@ void monster::die( Creature *nkiller )
         return;
     }
     // We were carrying a creature, deposit the rider
-    if( has_effect( effect_ridden ) ) {
-        if( has_effect( effect_saddled ) ) {
-            item riding_saddle( "riding_saddle", 0 );
-            g->m.add_item_or_charges( pos(), riding_saddle );
-        }
-        if( mounted_player ) {
-            mounted_player->forced_dismount();
-        }
+    if( has_effect( effect_ridden ) && mounted_player ) {
+        mounted_player->forced_dismount();
     }
     g->set_critter_died();
     dead = true;
@@ -2166,13 +2091,12 @@ void monster::die( Creature *nkiller )
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
     }
-    // We were tied up at the moment of death, add a short rope to inventory
-    if( has_effect( effect_tied ) ) {
-        if( tied_item ) {
-            add_item( *tied_item );
-            tied_item = cata::nullopt;
-        }
-    }
+    // Drop items stored in optionals
+    move_special_item_to_inv( tack_item );
+    move_special_item_to_inv( armor_item );
+    move_special_item_to_inv( storage_item );
+    move_special_item_to_inv( tied_item );
+
     if( has_effect( effect_lightsnare ) ) {
         add_item( item( "string_36", 0 ) );
         add_item( item( "snare_trigger", 0 ) );
@@ -2330,7 +2254,8 @@ void monster::drop_items_on_death()
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
-            if( it->is_armor() || it->is_pet_armor() ) {
+            if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
+                // handle wearable guns as a special case
                 it->item_tags.insert( "FILTHY" );
             }
         }
@@ -2639,6 +2564,41 @@ void monster::add_msg_player_or_npc( const game_message_type type,
     }
 }
 
+units::mass monster::get_carried_weight()
+{
+    units::mass total_weight = 0_gram;
+    if( tack_item ) {
+        total_weight += tack_item->weight();
+    }
+    if( storage_item ) {
+        total_weight += storage_item->weight();
+    }
+    if( armor_item ) {
+        total_weight += armor_item->weight();
+    }
+    for( const item &it : inv ) {
+        total_weight += it.weight();
+    }
+    return total_weight;
+}
+
+units::volume monster::get_carried_volume()
+{
+    units::volume total_volume = 0_ml;
+    for( const item &it : inv ) {
+        total_volume += it.volume();
+    }
+    return total_volume;
+}
+
+void monster::move_special_item_to_inv( cata::value_ptr<item> &it )
+{
+    if( it ) {
+        add_item( *it );
+        it.reset();
+    }
+}
+
 bool monster::is_dead() const
 {
     return dead || is_dead_state();
@@ -2870,6 +2830,9 @@ void monster::on_load()
     try_upgrade( false );
     try_reproduce();
     try_biosignature();
+    if( has_flag( MF_MILKABLE ) ) {
+        refill_udders();
+    }
 
     const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;

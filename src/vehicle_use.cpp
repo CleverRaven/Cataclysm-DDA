@@ -52,20 +52,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "weather.h"
-
-static const itype_id fuel_type_none( "null" );
-static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_wind( "wind" );
-
-static const fault_id fault_diesel( "fault_engine_pump_diesel" );
-static const fault_id fault_glowplug( "fault_engine_glow_plug" );
-static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
-static const fault_id fault_pump( "fault_engine_pump_fuel" );
-static const fault_id fault_starter( "fault_engine_starter" );
-static const efftype_id effect_harnessed( "harnessed" );
-static const efftype_id effect_tied( "tied" );
-static const skill_id skill_mechanics( "mechanics" );
+#include "cata_string_consts.h"
 
 enum change_types : int {
     OPENCURTAINS = 0,
@@ -428,7 +415,7 @@ bool vehicle::interact_vehicle_locked()
                 const int hotwire_time = 6000 / ( ( mechanics_skill > 0 ) ? mechanics_skill : 1 );
                 const int moves = to_moves<int>( time_duration::from_turns( hotwire_time ) );
                 //assign long activity
-                g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), moves, -1, INT_MIN, _( "Hotwire" ) );
+                g->u.assign_activity( ACT_HOTWIRE_CAR, moves, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
                 const tripoint abs_veh_pos = g->m.getabs( global_pos3() );
@@ -828,7 +815,7 @@ bool vehicle::fold_up()
         bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
 
-    g->m.add_item_or_charges( g->u.pos(), bicycle );
+    g->m.add_item_or_charges( global_part_pos3( 0 ), bicycle );
     g->m.destroy_vehicle( this );
 
     // TODO: take longer to fold bigger vehicles
@@ -940,7 +927,7 @@ bool vehicle::start_engine( const int e )
                            "engine_single_click_fail" );
             return false;
         }
-        // @todo start_moves is in moves, but it's an integer, convert it to some time class
+        // TODO: start_moves is in moves, but it's an integer, convert it to some time class
         const int start_draw_bat = power_to_energy_bat( engine_power *
                                    ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
                                    1_turns * start_moves / 100 );
@@ -1050,7 +1037,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         add_msg( _( "You take control of the %s." ), name );
     }
     if( !autodrive ) {
-        g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
+        g->u.assign_activity( ACT_START_ENGINES, start_time );
         g->u.activity.placement = starting_engine_position - g->u.pos();
         g->u.activity.values.push_back( take_control );
     }
@@ -1533,8 +1520,11 @@ void vehicle::use_autoclave( int p )
 
 void vehicle::use_washing_machine( int p )
 {
-    // Get all the items the player has that can be used as detergent
-    std::vector<const item *> detergents = g->u.all_items_with_flag( "DETERGENT" );
+    // Get all the items that can be used as detergent
+    const inventory &inv = g->u.crafting_inventory();
+    std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
+        return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
+    } );
 
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
@@ -1706,7 +1696,8 @@ void vehicle::use_harness( int part, const tripoint &pos )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Where is the creature to harness?" ), f, false, true );
+            _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
+            false );
     if( !pnt_ ) {
         add_msg( m_info, _( "Never mind." ) );
         return;
@@ -1739,7 +1730,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         m.remove_effect( effect_tied );
         if( m.tied_item ) {
             g->u.i_add( *m.tied_item );
-            m.tied_item = cata::nullopt;
+            m.tied_item.reset();
         }
     }
 }
@@ -1829,6 +1820,7 @@ void vehicle::use_bike_rack( int part )
         if( success ) {
             for( const int &rack_part : carrying_racks[unload_carried] ) {
                 parts[ rack_part ].remove_flag( vehicle_part::carrying_flag );
+                parts[rack_part].remove_flag( vehicle_part::tracked_flag );
             }
         }
     } else {
@@ -2054,9 +2046,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case USE_WELDER: {
             if( veh_tool( "welder" ) ) {
-                // Evil hack incoming
+                // HACK: Evil hack incoming
                 auto &act = g->u.activity;
-                if( act.id() == activity_id( "ACT_REPAIR_ITEM" ) ) {
+                if( act.id() == ACT_REPAIR_ITEM ) {
                     // Magic: first tell activity the item doesn't really exist
                     act.index = INT_MIN;
                     // Then tell it to search it on `pos`
@@ -2101,7 +2093,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         case RELOAD_TURRET: {
             item::reload_option opt = g->u.select_ammo( *turret.base(), true );
             if( opt ) {
-                g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+                g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
                 g->u.activity.targets.emplace_back( turret.base() );
                 g->u.activity.targets.push_back( std::move( opt.ammo ) );
             }

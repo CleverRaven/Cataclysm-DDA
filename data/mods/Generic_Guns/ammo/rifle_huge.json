@@ -1,0 +1,53 @@
+[
+  {
+    "id": "rifle_huge_ball",
+    "type": "AMMO",
+    "copy-from": "50bmg",
+    "name": { "str": "huge rifle ammo, ball", "str_pl": "huge rifle ammo, ball" },
+    "ammo_type": "ammo_rifle_huge",
+    "casing": "rifle_huge_casing",
+    "description": "Huge rifle ammunition like this bridges the gap between light cannons and big game rifles.  It's suitable for taking on light vehicles and other materiel, or hunting extremely large game.  'Ball' is an old term for full metal jacketed bullets which offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead."
+  },
+  {
+    "id": "rifle_huge_AP",
+    "type": "AMMO",
+    "copy-from": "rifle_huge_ball",
+    "name": { "str": "huge rifle ammo, AP", "str_pl": "huge rifle ammo, AP" },
+    "description": "Huge rifle ammunition like this bridges the gap between light cannons and big game rifles.  It's suitable for taking on light vehicles and other materiel, or hunting extremely large game.  These armor piercing munitions feature tungsten steel penetrators for use against light-skinned vehicles.",
+    "relative": { "damage": -10, "pierce": 20 }
+  },
+  {
+    "id": "reloaded_rifle_huge_ball",
+    "type": "AMMO",
+    "copy-from": "rifle_huge_ball",
+    "name": { "str": "huge rifle ammo, ball (reloaded)", "str_pl": "huge rifle ammo, ball (reloaded)" },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] }
+  },
+  {
+    "id": "reloaded_rifle_huge_AP",
+    "type": "AMMO",
+    "copy-from": "rifle_huge_AP",
+    "name": { "str": "huge rifle ammo, AP (reloaded)", "str_pl": "huge rifle ammo, AP (reloaded)" },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] }
+  },
+  {
+    "id": "bp_rifle_huge_ball",
+    "copy-from": "rifle_huge_ball",
+    "type": "AMMO",
+    "name": { "str": "rifle ammo, ball (black powder)", "str_pl": "rifle ammo, ball (black powder)" },
+    "proportional": { "price": 0.3, "damage": 0.57, "recoil": 0.57, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_rifle_huge_AP",
+    "copy-from": "rifle_huge_AP",
+    "type": "AMMO",
+    "name": { "str": "rifle ammo, AP (black powder)", "str_pl": "rifle ammo, AP (black powder)" },
+    "proportional": { "price": 0.3, "damage": 0.57, "recoil": 0.57, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

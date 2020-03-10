@@ -1,0 +1,97 @@
+[
+  {
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".p`.%``````!!``````%.`p.",
+        "..`.%``````&&``````%.`..",
+        ".$?$#======##======#$?$.",
+        ".$ y#~~~~~~&&~~~~~~#y $.",
+        ".$ G#~~~~~~~~~~~~~~#y $.",
+        ".$ K#~~~~~~~~~~~~~~#G $.",
+        ".#*o#N~~~~~~~~~~~~q#o*#.",
+        ".# L#N~~~~~~~~~~~~q#L #.",
+        ".#  *~~~~~~~~~~~~~~*  #.",
+        ".# s#~~~~~~~~~~~~~~#s #.",
+        ".# s################s #.",
+        ".#  RR Y764#46 RRy    #.",
+        ".o        F#F      HHso.",
+        ".o    AJ  O#O  JA  ll o.",
+        ".oTE  AJ  1#1  JA  HHso.",
+        ".oH   AJ  5#5  JA     o.",
+        ".#Hl      2#2        h#.",
+        ".#HHH  66y3#3766    rr#.",
+        "^#|||  ||||##||||  |||#^",
+        ".#9S|  +   D#D  +  |S9#.",
+        ".#--+  | @@ #@  |  +-8#.",
+        ".#t8|WZ|d@@I#@Id|ZW|-t#.",
+        ".#######oo####oo#######.",
+        "........................"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "!": "t_region_groundcover_urban",
+        "=": "t_door_metal_locked",
+        "`": "t_concrete",
+        "t": "t_linoleum_gray",
+        "S": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "8": "t_linoleum_gray",
+        "9": "t_linoleum_gray",
+        "-": "t_linoleum_gray",
+        "&": "t_gates_control_brick",
+        "~": "t_thconc_floor",
+        "N": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        "$": "t_screened_porch_wall",
+        "?": "t_screen_door_c"
+      },
+      "furniture": { "!": "f_region_flower" },
+      "place_vehicles": [
+        { "chance": 30, "fuel": 10, "rotation": 90, "status": -1, "vehicle": "car_sports", "x": 9, "y": 7 },
+        { "chance": 35, "fuel": 10, "rotation": 90, "status": -1, "vehicle": "car", "x": 16, "y": 7 }
+      ]
+    },
+    "om_terrain": "house_duplex10",
+    "type": "mapgen",
+    "weight": 100
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_duplex10_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |.....o........o.....3 ",
+        " |.....o........o.....3 ",
+        " |.....o........o.....3 ",
+        " |..X..............N..3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |......&......&......3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " 5....................5 ",
+        " |....................3 ",
+        " |..=.............=...3 ",
+        " |....................3 ",
+        " |--------------------3 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

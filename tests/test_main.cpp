@@ -73,7 +73,7 @@ static std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg
 
     std::vector<std::string> mod_names = string_split( mod_string, ',' );
     std::vector<mod_id> ret;
-    for( const std::string mod_name : mod_names ) {
+    for( const std::string &mod_name : mod_names ) {
         if( !mod_name.empty() ) {
             ret.emplace_back( mod_name );
         }
@@ -146,6 +146,8 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     overmap_buffer.create_custom_overmap( point_zero, empty_specials );
 
     g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
+
+    g->weather.update_weather();
 }
 
 // Checks if any of the flags are in container, removes them all

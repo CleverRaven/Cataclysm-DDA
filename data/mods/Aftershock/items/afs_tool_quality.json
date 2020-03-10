@@ -1,8 +1,0 @@
-[
-  {
-    "type": "tool_quality",
-    "id": "CHURN",
-    "name": "churn",
-    "//": "Delete this when you mainline Dairy products existing PR"
-  }
-]

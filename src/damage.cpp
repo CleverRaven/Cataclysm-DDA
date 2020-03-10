@@ -194,7 +194,7 @@ resistances::resistances( const item &armor, bool to_self )
         }
     }
 }
-resistances::resistances( monster &monster )
+resistances::resistances( monster &monster ) : resistances()
 {
     set_resist( DT_BASH, monster.type->armor_bash );
     set_resist( DT_CUT,  monster.type->armor_cut );
@@ -303,7 +303,7 @@ damage_instance load_damage_instance( const JsonObject &jo )
 {
     damage_instance di;
     if( jo.has_array( "values" ) ) {
-        for( const JsonObject &curr : jo.get_array( "values" ) ) {
+        for( const JsonObject curr : jo.get_array( "values" ) ) {
             di.damage_units.push_back( load_damage_unit( curr ) );
         }
     } else if( jo.has_string( "damage_type" ) ) {
@@ -316,7 +316,7 @@ damage_instance load_damage_instance( const JsonObject &jo )
 damage_instance load_damage_instance( const JsonArray &jarr )
 {
     damage_instance di;
-    for( const JsonObject &curr : jarr ) {
+    for( const JsonObject curr : jarr ) {
         di.damage_units.push_back( load_damage_unit( curr ) );
     }
 

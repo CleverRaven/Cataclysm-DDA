@@ -4,7 +4,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 1000,
+    "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "etched_skull", 1 ] ] ]
   },
@@ -13,16 +13,17 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 2000,
+    "time": "2 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "processor", 2 ] ],
       [ [ "lightstrip_inactive", 2 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "motor_micro", 1 ] ]
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -30,16 +31,18 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 2000,
+    "time": "2 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "processor", 2 ] ],
-      [ [ "lightstrip_inactive", 2 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "motor_micro", 1 ] ]
+      [ [ "lightstrip_inactive", 1 ] ],
+      [ [ "element", 1 ] ],
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -47,16 +50,17 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 2000,
+    "time": "2 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "processor", 2 ] ],
-      [ [ "lightstrip_inactive", 2 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "motor_micro", 1 ] ]
+      [ [ "element", 1 ] ],
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -64,16 +68,16 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 2000,
+    "time": "2 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "processor", 2 ] ],
-      [ [ "lightstrip_inactive", 2 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "motor_micro", 1 ] ]
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -81,7 +85,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 2,
-    "time": 3000,
+    "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_turret_disarmed", 1 ] ], [ [ "hose", 1 ] ] ]
   },
@@ -90,7 +94,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -106,7 +110,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -122,7 +126,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_eyebot_disarmed", 1 ] ], [ [ "robopart_microreactor", 1 ] ], [ [ "robopart_laser", 1 ] ] ]
@@ -132,7 +136,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 300,
+    "time": "18 s",
     "components": [ [ [ "broken_utilibot", 1 ] ], [ [ "glasses_monocle", 1 ] ], [ [ "tophat", 1 ] ] ]
   },
   {
@@ -140,7 +144,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -160,7 +164,7 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [
       [ [ "broken_utilibot", 1 ] ],
       [ [ "nomex", 7 ] ],
@@ -178,7 +182,7 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [
       [ [ "broken_utilibot", 1 ] ],
       [ [ "robopart_microreactor", 1 ] ],
@@ -196,7 +200,7 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [
       [ [ "broken_utilibot", 1 ] ],
       [ [ "robopart_microreactor", 1 ] ],
@@ -214,7 +218,7 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [
       [ [ "broken_utilibot", 1 ] ],
       [ [ "robopart_microreactor", 1 ] ],
@@ -233,7 +237,7 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [
       [ [ "broken_utilibot", 1 ] ],
       [ [ "robopart_microreactor", 1 ] ],
@@ -249,18 +253,22 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [
+      [ [ "ai_module_advanced", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
       [ [ "robopart_microreactor", 1 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "small_storage_battery", 2 ] ],
       [ [ "solar_cell", 2 ] ],
-      [ [ "motor", 1 ] ],
-      [ [ "processor", 3 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "plastic_chunk", 6 ] ],
-      [ [ "steel_chunk", 12 ] ]
+      [ [ "android_chassis", 1 ] ],
+      [ [ "android_arms", 2 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "steel_chunk", 4 ] ]
     ]
   },
   {
@@ -270,7 +278,7 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [
       [ [ "broken_medibot_disarmed", 1 ] ],
       [ [ "robopart_surgery", 1 ] ],
@@ -288,7 +296,7 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [ [ [ "broken_medibot_disarmed", 1 ] ], [ [ "spike", 4 ] ], [ [ "robopart_pharma", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
@@ -298,7 +306,7 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [
       [ [ "broken_medibot_disarmed", 1 ] ],
       [ [ "robopart_microreactor", 1 ] ],
@@ -317,7 +325,7 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [
       [ [ "broken_medibot_disarmed", 1 ] ],
       [ [ "robopart_pharma", 1 ] ],
@@ -334,7 +342,7 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [ [ [ "broken_skitterbot_disarmed", 1 ] ], [ [ "robopart_tazer", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "steel_chunk", 3 ] ] ]
   },
   {
@@ -344,7 +352,7 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [
       [ [ "broken_skitterbot_disarmed", 1 ] ],
       [ [ "clockworks", 4 ] ],
@@ -360,7 +368,7 @@
     "difficulty": 4,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "time": 30000,
+    "time": "30 m",
     "components": [
       [ [ "broken_skitterbot_disarmed", 1 ] ],
       [ [ "robopart_8x40mm", 1 ] ],
@@ -373,7 +381,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": 120000,
+    "time": "120 m",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -382,12 +390,10 @@
       [ [ "small_storage_battery", 3 ] ],
       [ [ "bio_digestion", 1 ] ],
       [ [ "bone", 1 ] ],
-      [ [ "motor_small", 1 ] ],
-      [ [ "xlframe", 1 ] ],
-      [ [ "processor", 3 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "steel_chunk", 12 ] ]
+      [ [ "android_legs", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "android_arms", 1 ] ],
+      [ [ "robot_controls", 1 ] ]
     ]
   },
   {
@@ -395,7 +401,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": 3000,
+    "time": "3 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_broken_cyborg", 1 ] ], [ [ "necro_head", 1 ] ] ]
@@ -405,7 +411,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_defbot_disarmed", 1 ] ], [ [ "robopart_tazer", 1 ] ], [ [ "robopart_9mm", 1 ] ] ]
@@ -415,7 +421,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_defbot_disarmed", 1 ] ], [ [ "robopart_tazer", 1 ] ], [ [ "robopart_shot", 1 ] ] ]
@@ -425,7 +431,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -440,7 +446,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -456,7 +462,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -474,7 +480,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -491,19 +497,23 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": 120000,
+    "time": "120 m",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "robopart_microreactor", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "motor", 1 ] ],
       [ [ "hdframe", 1 ] ],
-      [ [ "wheel_small", 4 ] ],
-      [ [ "processor", 3 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "e_scrap", 3 ] ],
+      [ [ "omni_wheel", 1 ] ],
       [ [ "kevlar_plate", 8 ] ],
       [ [ "steel_chunk", 8 ] ]
     ]
@@ -513,7 +523,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_paintball", 1 ] ] ]
@@ -523,7 +533,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_tazer", 1 ] ], [ [ "robopart_556", 1 ] ] ]
@@ -533,7 +543,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_tazer", 1 ] ], [ [ "robopart_308", 1 ] ] ]
@@ -543,7 +553,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_tazer", 1 ] ], [ [ "robopart_50bmg", 1 ] ] ]
@@ -553,7 +563,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_tazer", 1 ] ], [ [ "robopart_8x40mm", 1 ] ] ]
@@ -563,7 +573,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_tazer", 1 ] ], [ [ "robopart_needle", 1 ] ] ]
@@ -573,7 +583,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_tazer", 1 ] ], [ [ "robopart_40mm", 1 ] ] ]
@@ -583,7 +593,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_tazer", 1 ] ], [ [ "robopart_flame", 1 ] ] ]
@@ -593,7 +603,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_9mm", 2 ] ] ]
@@ -603,7 +613,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_9mm", 2 ] ], [ [ "gold_small", 100 ] ] ]
@@ -613,7 +623,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_556", 1 ] ] ]
@@ -623,7 +633,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_milbot_disarmed", 1 ] ], [ [ "robopart_50bmg", 1 ] ] ]
@@ -633,19 +643,23 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": 120000,
+    "time": "120 m",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
       [ [ "robopart_microreactor", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "motor", 1 ] ],
       [ [ "frame", 1 ] ],
-      [ [ "wheel_small", 4 ] ],
-      [ [ "processor", 5 ] ],
-      [ [ "RAM", 5 ] ],
-      [ [ "e_scrap", 6 ] ],
+      [ [ "omni_wheel", 1 ] ],
       [ [ "alloy_plate", 6 ] ],
       [ [ "plastic_chunk", 6 ] ],
       [ [ "steel_chunk", 3 ] ]
@@ -656,7 +670,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_advbot_disarmed", 1 ] ], [ [ "robopart_microreactor", 1 ] ], [ [ "robopart_laser", 1 ] ] ]
@@ -666,7 +680,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_advbot_disarmed", 1 ] ], [ [ "robopart_microreactor", 1 ] ], [ [ "robopart_plasma", 1 ] ] ]
@@ -676,7 +690,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_advbot_disarmed", 1 ] ], [ [ "robopart_microreactor", 1 ] ], [ [ "robopart_rail", 1 ] ] ]
@@ -686,7 +700,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_advbot_disarmed", 1 ] ], [ [ "robopart_microreactor", 1 ] ], [ [ "robopart_lightning", 1 ] ] ]
@@ -696,7 +710,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "broken_advbot_disarmed", 1 ] ], [ [ "robopart_microreactor", 1 ] ], [ [ "robopart_emp", 1 ] ] ]
@@ -706,7 +720,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -722,7 +736,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -738,7 +752,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": 120000,
+    "time": "120 m",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -754,7 +768,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": 120000,
+    "time": "120 m",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -771,7 +785,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": 120000,
+    "time": "120 m",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -789,7 +803,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": 120000,
+    "time": "120 m",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "broken_tankbot_disarmed", 1 ] ], [ [ "motor", 2 ] ], [ [ "steel_plate", 6 ] ] ]
@@ -799,7 +813,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": 120000,
+    "time": "120 m",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [

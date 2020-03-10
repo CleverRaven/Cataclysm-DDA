@@ -643,7 +643,7 @@
     "id": "VERBAL",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "//": "The caster must speak in order to cast the spell.  More mouth encumbrannce increases failure percent, and the caster speaks when casting."
+    "//": "The caster must speak in order to cast the spell.  More mouth encumbrance increases failure percent, and the caster speaks when casting."
   },
   {
     "id": "SOMATIC",

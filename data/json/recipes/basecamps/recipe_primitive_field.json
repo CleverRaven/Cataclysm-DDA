@@ -11,7 +11,8 @@
     "time": "60 m",
     "construction_blueprint": "faction_base_field_camp_0",
     "blueprint_name": "basic survey",
-    "blueprint_requires": [ { "id": "not_an_upgrade" } ]
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -27,7 +28,8 @@
     "blueprint_name": "basic northeast tent",
     "blueprint_provides": [ { "id": "gathering" }, { "id": "primitive_camp_recipes_1" } ],
     "blueprint_requires": [ { "id": "faction_base_camp_0" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ]
+    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -45,7 +47,8 @@
     "blueprint_provides": [ { "id": "bed" }, { "id": "firewood" }, { "id": "foraging" } ],
     "blueprint_requires": [ { "id": "faction_base_camp_1" } ],
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "straw_pile", 16 ], [ "pine_bough", 20 ] ] ]
+    "components": [ [ [ "2x4", 8 ] ], [ [ "straw_pile", 16 ], [ "pine_bough", 20 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -63,7 +66,8 @@
     "blueprint_provides": [ { "id": "sorting" } ],
     "blueprint_requires": [ { "id": "faction_base_camp_2" } ],
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 32 ] ], [ [ "nail", 96 ] ] ]
+    "components": [ [ [ "2x4", 32 ] ], [ [ "nail", 96 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -87,7 +91,8 @@
       [ [ "sheet_metal", 4 ] ],
       [ [ "pipe", 12 ] ],
       [ [ "straw_pile", 16 ], [ "pine_bough", 20 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -112,7 +117,8 @@
       [ [ "nail", 48 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 12 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -131,7 +137,8 @@
     "blueprint_provides": [ { "id": "relaying" } ],
     "blueprint_requires": [ { "id": "faction_base_camp_4" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 16 ] ], [ [ "log", 112 ] ], [ [ "nail", 48 ] ], [ [ "stick", 196 ] ] ]
+    "components": [ [ [ "2x4", 16 ] ], [ [ "log", 112 ] ], [ [ "nail", 48 ] ], [ [ "stick", 196 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -156,7 +163,8 @@
       [ [ "nail", 48 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 12 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -183,7 +191,8 @@
       [ [ "stick", 24 ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 1 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -208,7 +217,8 @@
       [ [ "nail", 48 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 12 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -226,7 +236,8 @@
     "blueprint_requires": [ { "id": "faction_base_camp_8" } ],
     "blueprint_name": "basic expanded kitchen",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 64 ] ], [ [ "stick", 116 ] ], [ [ "sheet_metal", 2 ] ] ]
+    "components": [ [ [ "log", 64 ] ], [ [ "stick", 116 ] ], [ [ "sheet_metal", 2 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -245,7 +256,8 @@
     "blueprint_provides": [ { "id": "scouting" } ],
     "blueprint_requires": [ { "id": "faction_base_camp_10" } ],
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 10 ] ], [ [ "stick", 15 ] ], [ [ "2x4", 32 ] ], [ [ "nail", 72 ] ] ]
+    "components": [ [ [ "log", 10 ] ], [ [ "stick", 15 ] ], [ [ "2x4", 32 ] ], [ [ "nail", 72 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -263,7 +275,8 @@
     "blueprint_name": "basic water well",
     "blueprint_requires": [ { "id": "faction_base_camp_4" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "rock", 40 ] ], [ [ "pipe", 12 ] ], [ [ "2x4", 4 ] ], [ [ "well_pump", 1 ] ], [ [ "nail", 8 ] ] ]
+    "components": [ [ [ "rock", 40 ] ], [ [ "pipe", 12 ] ], [ [ "2x4", 4 ] ], [ [ "well_pump", 1 ] ], [ [ "nail", 8 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -282,7 +295,8 @@
     "blueprint_provides": [ { "id": "patrolling" } ],
     "blueprint_requires": [ { "id": "faction_base_camp_4" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "log", 90 ] ], [ [ "rope_makeshift_6", 60 ], [ "rope_6", 60 ], [ "vine_30", 30 ] ] ]
+    "components": [ [ [ "log", 90 ] ], [ [ "rope_makeshift_6", 60 ], [ "rope_6", 60 ], [ "vine_30", 30 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -300,7 +314,8 @@
     "blueprint_name": "basic complete wall",
     "blueprint_requires": [ { "id": "faction_base_camp_13" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "log", 168 ] ], [ [ "rope_makeshift_6", 112 ], [ "rope_6", 112 ], [ "vine_30", 112 ] ] ]
+    "components": [ [ [ "log", 168 ] ], [ [ "rope_makeshift_6", 112 ], [ "rope_6", 112 ], [ "vine_30", 112 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -325,7 +340,8 @@
       [ [ "nail", 48 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 12 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -343,7 +359,8 @@
     "blueprint_name": "basic dining hall",
     "blueprint_requires": [ { "id": "faction_base_camp_11" } ],
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 40 ] ], [ [ "nail", 72 ] ], [ [ "metal_tank", 1 ] ], [ [ "pipe", 1 ] ] ]
+    "components": [ [ [ "2x4", 40 ] ], [ [ "nail", 72 ] ], [ [ "metal_tank", 1 ] ], [ [ "pipe", 1 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -361,7 +378,8 @@
     "blueprint_name": "basic reinforced gates",
     "blueprint_requires": [ { "id": "faction_base_camp_16" }, { "id": "faction_base_camp_14" } ],
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 198 ] ], [ [ "nail", 588 ] ] ]
+    "components": [ [ [ "2x4", 198 ] ], [ [ "nail", 588 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -386,7 +404,8 @@
       [ [ "nail", 48 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 12 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -422,7 +441,8 @@
       [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
       [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
       [ [ "pipe", 24 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -450,7 +470,8 @@
       [ [ "amplifier", 2 ] ],
       [ [ "cable", 80 ] ],
       [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -497,7 +518,8 @@
     "blueprint_name": "Farm basic shed",
     "blueprint_requires": [ { "id": "faction_base_farm_0" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 54 ] ], [ [ "stick", 90 ] ] ]
+    "components": [ [ [ "log", 54 ] ], [ [ "stick", 90 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -514,7 +536,8 @@
     "blueprint_name": "Farm upgraded shed",
     "blueprint_requires": [ { "id": "faction_base_farm_0" }, { "id": "faction_base_farm_1" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 24 ] ], [ [ "stick", 36 ] ], [ [ "2x4", 16 ] ], [ [ "nail", 36 ] ] ]
+    "components": [ [ [ "log", 24 ] ], [ [ "stick", 36 ] ], [ [ "2x4", 16 ] ], [ [ "nail", 36 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -533,7 +556,8 @@
     "blueprint_provides": [ { "id": "reseeding" }, { "id": "farm_recipes_1" } ],
     "blueprint_requires": [ { "id": "faction_base_farm_3" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 96 ] ], [ [ "stick", 158 ] ], [ [ "2x4", 336 ] ], [ [ "nail", 176 ] ], [ [ "glass_sheet", 2 ] ] ]
+    "components": [ [ [ "log", 96 ] ], [ [ "stick", 158 ] ], [ [ "2x4", 336 ] ], [ [ "nail", 176 ] ], [ [ "glass_sheet", 2 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -575,7 +599,8 @@
       [ [ "wrench", 1 ] ],
       [ [ "hacksaw", 1 ] ],
       [ [ "sheet_metal", 4 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -592,7 +617,8 @@
     "blueprint_requires": [ { "id": "faction_base_garage_1" } ],
     "time": "4320 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 68 ] ], [ [ "stick", 60 ] ], [ [ "2x4", 112 ] ] ]
+    "components": [ [ [ "log", 68 ] ], [ [ "stick", 60 ] ], [ [ "2x4", 112 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -609,7 +635,8 @@
     "blueprint_name": "Garage completed roof",
     "blueprint_requires": [ { "id": "faction_base_garage_2" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 112 ] ], [ [ "2x4", 448 ] ] ]
+    "components": [ [ [ "log", 112 ] ], [ [ "2x4", 448 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -626,7 +653,8 @@
     "blueprint_name": "Garage partial expansion",
     "blueprint_requires": [ { "id": "faction_base_garage_3" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 65 ] ], [ [ "stick", 96 ] ] ]
+    "components": [ [ [ "log", 65 ] ], [ [ "stick", 96 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -650,7 +678,8 @@
       [ [ "nail", 24 ] ],
       [ [ "pipe", 24 ] ],
       [ [ "sheet_metal", 4 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -675,7 +704,8 @@
       [ [ "pipe", 12 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "straw_pile", 16 ], [ "pine_bough", 20 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -715,7 +745,8 @@
       [ [ "2x4", 252 ] ],
       [ [ "nail", 16 ] ],
       [ [ "rock", 40 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -739,7 +770,8 @@
       [ [ "2x4", 67 ] ],
       [ [ "nail", 114 ] ],
       [ [ "glass_sheet", 1 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -770,7 +802,8 @@
       [ [ "nail", 70 ] ],
       [ [ "rock", 8 ] ],
       [ [ "glass_sheet", 1 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -795,7 +828,8 @@
       [ [ "2x4", 239 ] ],
       [ [ "nail", 102 ] ],
       [ [ "glass_sheet", 1 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -819,7 +853,8 @@
       [ { "id": "WRENCH", "level": 1 } ],
       [ { "id": "SAW_W", "level": 1 } ]
     ],
-    "components": [ [ [ "stick", 32 ] ], [ [ "rock", 56 ] ], [ [ "sheet_metal", 4 ] ], [ [ "pipe", 24 ] ] ]
+    "components": [ [ [ "stick", 32 ] ], [ [ "rock", 56 ] ], [ [ "sheet_metal", 4 ] ], [ [ "pipe", 24 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -844,7 +879,8 @@
       [ [ "sheet_metal", 6 ] ],
       [ [ "well_pump", 1 ] ],
       [ [ "nail", 8 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -863,7 +899,8 @@
     "blueprint_resources": [ "fake_stove", "fake_stove" ],
     "blueprint_requires": [ { "id": "faction_base_kitchen_6" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "2x4", 20 ] ], [ [ "metal_tank", 2 ] ], [ [ "nail", 18 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "2x4", 20 ] ], [ [ "metal_tank", 2 ] ], [ [ "nail", 18 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -880,7 +917,8 @@
     "blueprint_name": "Kitchen expanded pantry",
     "blueprint_requires": [ { "id": "faction_base_kitchen_7" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 40 ] ], [ [ "stick", 30 ] ], [ [ "2x4", 135 ] ], [ [ "nail", 150 ] ], [ [ "glass_sheet", 1 ] ] ]
+    "components": [ [ [ "log", 40 ] ], [ [ "stick", 30 ] ], [ [ "2x4", 135 ] ], [ [ "nail", 150 ] ], [ [ "glass_sheet", 1 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -947,7 +985,8 @@
       [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ],
       [ [ "primitive_hammer", 1 ], [ "makeshift_hammer", 1 ] ],
       [ [ "rock", 80 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -964,7 +1003,8 @@
     "blueprint_name": "Blacksmithy roof",
     "blueprint_requires": [ { "id": "faction_base_blacksmith_1" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 136 ] ], [ [ "stick", 72 ] ], [ [ "2x4", 352 ] ] ]
+    "components": [ [ [ "log", 136 ] ], [ [ "stick", 72 ] ], [ [ "2x4", 352 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -989,7 +1029,8 @@
       [ [ "2x4", 6 ] ],
       [ [ "nail", 8 ] ],
       [ [ "rock", 40 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -1007,7 +1048,8 @@
     "blueprint_provides": [ { "id": "blacksmith_recipes_3" } ],
     "blueprint_requires": [ { "id": "faction_base_blacksmith_3" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 108 ] ], [ [ "stick", 36 ] ], [ [ "2x4", 342 ] ], [ [ "nail", 8 ] ] ]
+    "components": [ [ [ "log", 108 ] ], [ [ "stick", 36 ] ], [ [ "2x4", 342 ] ], [ [ "nail", 8 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -1034,7 +1076,8 @@
       [ [ "sheet_metal", 4 ] ],
       [ [ "2x4", 18 ] ],
       [ [ "nail", 24 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -1051,7 +1094,8 @@
     "blueprint_name": "Blacksmithy expanded forge",
     "blueprint_requires": [ { "id": "faction_base_blacksmith_5" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "hammer", 1 ] ], [ [ "2x4", 16 ] ], [ [ "nail", 48 ] ], [ [ "rock", 120 ] ] ]
+    "components": [ [ [ "hammer", 1 ] ], [ [ "2x4", 16 ] ], [ [ "nail", 48 ] ], [ [ "rock", 120 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -1079,7 +1123,8 @@
       [ [ "frame", 1 ] ],
       [ [ "leather", 10 ] ],
       [ [ "chain", 3 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -1105,12 +1150,13 @@
       [ [ "2x4", 264 ] ],
       [ [ "nail", 192 ] ],
       [ [ "glass_sheet", 4 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
     "result": "faction_base_blacksmith_9",
-    "description": "Next we need to add some basic tools and vices to the workshop.",
+    "description": "Next we need to add some basic tools and vises to the workshop.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
@@ -1132,7 +1178,8 @@
       [ [ "scrap", 8 ] ],
       [ [ "leather", 4 ] ],
       [ [ "pipe", 36 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -1149,7 +1196,8 @@
     "blueprint_name": "Blacksmithy machine shop expansion",
     "blueprint_requires": [ { "id": "faction_base_blacksmith_9" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "hammer_sledge", 1 ] ], [ [ "log", 104 ] ], [ [ "stick", 54 ] ], [ [ "2x4", 272 ] ] ]
+    "components": [ [ [ "hammer_sledge", 1 ] ], [ [ "log", 104 ] ], [ [ "stick", 54 ] ], [ [ "2x4", 272 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -1166,7 +1214,8 @@
     "blueprint_name": "Blacksmithy well",
     "blueprint_requires": [ { "id": "faction_base_blacksmith_10" } ],
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "well_pump", 1 ] ], [ [ "pipe", 6 ] ], [ [ "2x4", 16 ] ], [ [ "nail", 24 ] ], [ [ "rock", 40 ] ] ]
+    "components": [ [ [ "well_pump", 1 ] ], [ [ "pipe", 6 ] ], [ [ "2x4", 16 ] ], [ [ "nail", 24 ] ], [ [ "rock", 40 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -1195,6 +1244,7 @@
       [ [ "scrap", 30 ] ],
       [ [ "chain", 4 ] ],
       [ [ "pipe", 12 ] ]
-    ]
+    ],
+    "check_blueprint_needs": false
   }
 ]

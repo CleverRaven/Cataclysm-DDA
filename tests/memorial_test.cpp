@@ -42,7 +42,7 @@ TEST_CASE( "memorials" )
 {
     memorial_logger &m = g->memorial();
     m.clear();
-    clear_player();
+    clear_avatar();
 
     event_bus &b = g->events();
 

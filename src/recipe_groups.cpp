@@ -26,7 +26,7 @@ struct recipe_group_data {
     std::string building_type = "NONE";
     std::map<recipe_id, translation> recipes;
     std::map<recipe_id, std::set<std::string>> om_terrains;
-    bool was_loaded;
+    bool was_loaded = false;
 
     void load( const JsonObject &jo, const std::string &src );
     void check() const;
@@ -47,7 +47,7 @@ void recipe_group_data::load( const JsonObject &jo, const std::string & )
         ordering.read( "description", desc );
         recipes.emplace( name_id, desc );
         om_terrains[name_id] = std::set<std::string>();
-        for( const std::string &ter_type : ordering.get_array( "om_terrains" ) ) {
+        for( const std::string ter_type : ordering.get_array( "om_terrains" ) ) {
             om_terrains[name_id].insert( ter_type );
         }
     }

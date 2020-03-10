@@ -113,7 +113,8 @@ then
         {
             if [ -n "$1" ]
             then
-                echo "$1" | shuf | xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh
+                echo "$1" | shuf | \
+                    xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh -quiet
             else
                 echo "No files to analyze"
             fi
@@ -145,7 +146,7 @@ then
     cd android
     # Specify dumb terminal to suppress gradle's constatnt output of time spent building, which
     # fills the log with nonsense.
-    TERM=dumb ./gradlew assembleRelease -Pj=$num_jobs -Plocalize=false -Pabi32=false -Pabi64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
+    TERM=dumb ./gradlew assembleRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
     make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 

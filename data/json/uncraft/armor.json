@@ -1,5 +1,12 @@
 [
   {
+    "result": "socks_ankle",
+    "type": "uncraft",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 35 ] ] ]
+  },
+  {
     "result": "down_blanket",
     "type": "uncraft",
     "time": "20 m",

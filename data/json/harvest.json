@@ -38,12 +38,30 @@
     ]
   },
   {
+    "id": "mutant_fish",
+    "type": "harvest",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.38 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
     "id": "shellfish",
     "type": "harvest",
     "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
     "entries": [
       { "drop": "fish", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "mutant_shellfish",
+    "type": "harvest",
+    "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
     ]
   },
@@ -702,6 +720,23 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "flesh_plant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_bark", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "meat_frond", "type": "flesh", "mass_ratio": 0.5 }
+    ]
+  },
+  {
+    "id": "flesh_plant_bloom",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_bark", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "leech_flower", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "meat_frond", "type": "flesh", "mass_ratio": 0.5 }
     ]
   },
   {

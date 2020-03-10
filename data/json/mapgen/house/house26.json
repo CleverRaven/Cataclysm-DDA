@@ -1,0 +1,90 @@
+[
+  {
+    "method": "json",
+    "om_terrain": "house_26",
+    "//": "used by basement_survival",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "......p`................",
+        "....%%```%%....%%%......",
+        ".###oo#*#oo#####o####...",
+        ".#TE    L      R RRR#...",
+        ".#x  H            hro...",
+        ".#x lH        yP   r#...",
+        ".#x  H        |||+||###.",
+        ".o            |y     T#.",
+        ".#  AAA A     |D    @@o.",
+        ".#JJJJJJJ    6|d    @@o.",
+        ".o4          6|TEs   I#.",
+        ".#F12357OY    ||||#####.",
+        ".#||||||||||  |QBB#^....",
+        ".oI  T@@   +  +--8o.....",
+        ".oIh  @@   |  |t-S#.....",
+        ".#||     Ey|  ||||###...",
+        ".#D+  ||||||   RRR >#...",
+        ".###db|U |y        y#...",
+        "...####U +  EsET ####...",
+        ".....^###o#oo#o###......",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "!": "t_region_groundcover_urban",
+        "`": "t_concrete",
+        "]": "t_wall_glass",
+        "-": "t_linoleum_white",
+        "Q": "t_linoleum_white",
+        "8": "t_linoleum_white",
+        "B": "t_linoleum_white",
+        "S": "t_linoleum_white",
+        "9": "t_linoleum_white",
+        "t": "t_linoleum_white"
+      },
+      "furniture": { "!": "f_region_flower" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_26_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " 22222222222222222223   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |..................3   ",
+        " |.....:............323 ",
+        " |....................3 ",
+        " |.............N......3 ",
+        " |....................3 ",
+        " |......X.............3 ",
+        " |................5---3 ",
+        " |................3     ",
+        " |................3     ",
+        " |................3     ",
+        " |.........=.&....323   ",
+        " |..................3   ",
+        " |-|................3   ",
+        "   |--5..........3--3   ",
+        "      |----------3      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

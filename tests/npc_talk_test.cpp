@@ -87,7 +87,7 @@ static void change_om_type( const std::string &new_type )
 
 static npc &prep_test( dialogue &d )
 {
-    clear_player();
+    clear_avatar();
     CHECK( !g->u.in_vehicle );
     const tripoint test_origin( 15, 15, 0 );
     g->u.setpos( test_origin );
@@ -532,6 +532,7 @@ TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
 {
     dialogue d;
     prep_test( d );
+    g->u.cash = 800;
 
     d.add_topic( "TALK_TEST_TRUE_FALSE_CONDITIONAL" );
     gen_response_lines( d, 3 );

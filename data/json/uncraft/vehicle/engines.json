@@ -1,6 +1,26 @@
 [
   {
     "type": "uncraft",
+    "result": "1cyl_combustion_large",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": "40 m",
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "engine_block_small", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 1450 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
     "result": "1cyl_combustion",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],

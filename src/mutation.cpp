@@ -16,6 +16,7 @@
 #include "mapdata.h"
 #include "memorial_logger.h"
 #include "monster.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "translations.h"
@@ -24,35 +25,8 @@
 #include "rng.h"
 #include "string_id.h"
 #include "enums.h"
-
-static const efftype_id effect_stunned( "stunned" );
-
-static const trait_id trait_ROBUST( "ROBUST" );
-static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
-static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
-static const trait_id trait_NAUSEA( "NAUSEA" );
-static const trait_id trait_VOMITOUS( "VOMITOUS" );
-static const trait_id trait_M_FERTILE( "M_FERTILE" );
-static const trait_id trait_M_BLOOM( "M_BLOOM" );
-static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
-static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
-static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
-static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
-static const trait_id trait_INT_SLIME( "INT_SLIME" );
-static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
-static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
-static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
-static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
-static const trait_id trait_M_SPORES( "M_SPORES" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_CARNIVORE( "CARNIVORE" );
-static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
-static const trait_id trait_ROOTS2( "ROOTS2" );
-static const trait_id trait_ROOTS3( "ROOTS3" );
-static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
+#include "bionics.h"
+#include "cata_string_consts.h"
 
 namespace io
 {
@@ -198,6 +172,19 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
+m_size calculate_size( const Character &c )
+{
+    if( c.has_trait( trait_id( "SMALL2" ) ) || c.has_trait( trait_id( "SMALL_OK" ) ) ||
+        c.has_trait( trait_id( "SMALL" ) ) ) {
+        return MS_SMALL;
+    } else if( c.has_trait( trait_LARGE ) || c.has_trait( trait_LARGE_OK ) ) {
+        return MS_LARGE;
+    } else if( c.has_trait( trait_HUGE ) || c.has_trait( trait_HUGE_OK ) ) {
+        return MS_HUGE;
+    }
+    return MS_MEDIUM;
+}
+
 void Character::mutation_effect( const trait_id &mut )
 {
     if( mut == "GLASSJAW" ) {
@@ -230,6 +217,8 @@ void Character::mutation_effect( const trait_id &mut )
     } else {
         apply_mods( mut, true );
     }
+
+    size_class = calculate_size( *this );
 
     const auto &branch = mut.obj();
     if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
@@ -302,6 +291,8 @@ void Character::mutation_loss_effect( const trait_id &mut )
     } else {
         apply_mods( mut, false );
     }
+
+    size_class = calculate_size( *this );
 
     const auto &branch = mut.obj();
     if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
@@ -535,7 +526,7 @@ void Character::activate_mutation( const trait_id &mut )
                 _( "You lay next to the trees letting your hair roots tangle with the trees." ) );
         }
 
-        assign_activity( activity_id( "ACT_TREE_COMMUNION" ) );
+        assign_activity( ACT_TREE_COMMUNION );
 
         if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
             const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
@@ -551,6 +542,14 @@ void Character::activate_mutation( const trait_id &mut )
         mod_max_power_level( 100_kJ );
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
         tdata.powered = false;
+        return;
+    } else if( mut == trait_DEBUG_BIONIC_POWERGEN ) {
+        int npower;
+        if( query_int( npower, "Modify bionic power by how much?  (Values are in millijoules)" ) ) {
+            mod_power_level( units::from_millijoule( npower ) );
+            add_msg_if_player( m_good, "Bionic power increased by %dmJ.", npower );
+            tdata.powered = false;
+        }
         return;
     } else if( !mdata.spawn_item.empty() ) {
         item tmpitem( mdata.spawn_item );
@@ -599,6 +598,15 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
         // We already have this mutation or something that replaces it.
         return false;
     }
+
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( mid == mutation ) {
+                return false;
+            }
+        }
+    }
+
     const mutation_branch &mdata = mutation.obj();
     if( force_bad && mdata.points > 0 ) {
         // This is a good mutation, and we're due for a bad one.

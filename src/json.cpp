@@ -24,8 +24,6 @@ extern bool test_mode;
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
 
-#define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
-
 static bool is_whitespace( char ch )
 {
     // These are all the valid whitespace characters allowed by RFC 4627.
@@ -99,13 +97,22 @@ JsonObject::JsonObject( JsonIn &j )
     final_separator = jsin->get_ate_separator();
 }
 
-void JsonObject::finish()
+void JsonObject::mark_visited( const std::string &name ) const
+{
+#ifndef CATA_IN_TOOL
+    visited_members.emplace( name );
+#else
+    static_cast<void>( name );
+#endif
+}
+
+void JsonObject::report_unvisited() const
 {
 #ifndef CATA_IN_TOOL
     if( test_mode && report_unvisited_members && !reported_unvisited_members &&
         !std::uncaught_exception() ) {
         reported_unvisited_members = true;
-        for( const std::pair<std::string, int> &p : positions ) {
+        for( const std::pair<const std::string, int> &p : positions ) {
             const std::string &name = p.first;
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) &&
                 name != "blueprint" ) {
@@ -118,6 +125,11 @@ void JsonObject::finish()
         }
     }
 #endif
+}
+
+void JsonObject::finish()
+{
+    report_unvisited();
     if( jsin && jsin->good() ) {
         jsin->seek( end_ );
         jsin->set_ate_separator( final_separator );
@@ -135,7 +147,9 @@ bool JsonObject::empty() const
 
 void JsonObject::allow_omitted_members() const
 {
+#ifndef CATA_IN_TOOL
     report_unvisited_members = false;
+#endif
 }
 
 int JsonObject::verify_position( const std::string &name,
@@ -165,15 +179,6 @@ int JsonObject::verify_position( const std::string &name,
 bool JsonObject::has_member( const std::string &name ) const
 {
     return positions.count( name ) > 0;
-}
-
-std::set<std::string> JsonObject::get_member_names() const
-{
-    std::set<std::string> ret;
-    for( auto &elem : positions ) {
-        ret.insert( elem.first );
-    }
-    return ret;
 }
 
 std::string JsonObject::line_number() const
@@ -234,7 +239,7 @@ void JsonObject::throw_error( std::string err ) const
 JsonIn *JsonObject::get_raw( const std::string &name ) const
 {
     int pos = verify_position( name );
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin;
 }
@@ -252,7 +257,7 @@ bool JsonObject::get_bool( const std::string &name, const bool fallback ) const
     if( !pos ) {
         return fallback;
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_bool();
 }
@@ -268,7 +273,7 @@ int JsonObject::get_int( const std::string &name, const int fallback ) const
     if( !pos ) {
         return fallback;
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_int();
 }
@@ -284,7 +289,7 @@ double JsonObject::get_float( const std::string &name, const double fallback ) c
     if( !pos ) {
         return fallback;
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_float();
 }
@@ -300,7 +305,7 @@ std::string JsonObject::get_string( const std::string &name, const std::string &
     if( !pos ) {
         return fallback;
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_string();
 }
@@ -313,7 +318,7 @@ JsonArray JsonObject::get_array( const std::string &name ) const
     if( !pos ) {
         return JsonArray();
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return JsonArray( *jsin );
 }
@@ -330,7 +335,7 @@ std::vector<int> JsonObject::get_int_array( const std::string &name ) const
 std::vector<std::string> JsonObject::get_string_array( const std::string &name ) const
 {
     std::vector<std::string> ret;
-    for( const std::string &entry : get_array( name ) ) {
+    for( const std::string entry : get_array( name ) ) {
         ret.push_back( entry );
     }
     return ret;
@@ -342,7 +347,7 @@ JsonObject JsonObject::get_object( const std::string &name ) const
     if( !pos ) {
         return JsonObject();
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->get_object();
 }
@@ -355,7 +360,7 @@ bool JsonObject::has_null( const std::string &name ) const
     if( !pos ) {
         return false;
     }
-    visited_members.insert( name );
+    mark_visited( name );
     jsin->seek( pos );
     return jsin->test_null();
 }
@@ -698,7 +703,7 @@ bool JsonArray::has_object( const size_t i ) const
 
 void add_array_to_set( std::set<std::string> &s, const JsonObject &json, const std::string &name )
 {
-    for( const std::string &line : json.get_array( name ) ) {
+    for( const std::string line : json.get_array( name ) ) {
         s.insert( line );
     }
 }
@@ -1022,15 +1027,27 @@ std::string JsonIn::get_string()
 // These functions get -INT_MIN and -INT64_MIN while very carefully avoiding any overflow.
 constexpr static uint64_t neg_INT_MIN()
 {
-    int x = std::numeric_limits<int>::min() + std::numeric_limits<int>::max();
-    return x < 0 ? static_cast<uint64_t>( std::numeric_limits<int>::max() ) + ( -x ) :
-           static_cast<uint64_t>( std::numeric_limits<int>::max() ) - x;
+    static_assert( sizeof( int ) <= sizeof( int64_t ),
+                   "neg_INT_MIN() assumed sizeof( int ) <= sizeof( int64_t )" );
+    constexpr int x = std::numeric_limits<int>::min() + std::numeric_limits<int>::max();
+    static_assert( x >= 0 || x + std::numeric_limits<int>::max() >= 0,
+                   "neg_INT_MIN assumed INT_MIN + INT_MAX >= -INT_MAX" );
+    if( x < 0 ) {
+        return static_cast<uint64_t>( std::numeric_limits<int>::max() ) + static_cast<uint64_t>( -x );
+    } else {
+        return static_cast<uint64_t>( std::numeric_limits<int>::max() ) - static_cast<uint64_t>( x );
+    }
 }
 constexpr static uint64_t neg_INT64_MIN()
 {
-    int x = std::numeric_limits<int64_t>::min() + std::numeric_limits<int64_t>::max();
-    return x < 0 ? static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) + ( -x ) :
-           static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) - x;
+    constexpr int64_t x = std::numeric_limits<int64_t>::min() + std::numeric_limits<int64_t>::max();
+    static_assert( x >= 0 || x + std::numeric_limits<int64_t>::max() >= 0,
+                   "neg_INT64_MIN assumed INT64_MIN + INT64_MAX >= -INT64_MAX" );
+    if( x < 0 ) {
+        return static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) + static_cast<uint64_t>( -x );
+    } else {
+        return static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) - static_cast<uint64_t>( x );
+    }
 }
 
 number_sci_notation JsonIn::get_any_int()
@@ -1052,15 +1069,30 @@ number_sci_notation JsonIn::get_any_int()
 
 int JsonIn::get_int()
 {
+    static_assert( sizeof( int ) <= sizeof( int64_t ),
+                   "JsonIn::get_int() assumed sizeof( int ) <= sizeof( int64_t )" );
     number_sci_notation n = get_any_int();
-    if( !n.negative && n.number > std::numeric_limits<int>::max() ) {
+    if( !n.negative && n.number > static_cast<uint64_t>( std::numeric_limits<int>::max() ) ) {
         error( "Found a number greater than " + std::to_string( std::numeric_limits<int>::max() ) +
                " which is unsupported in this context." );
     } else if( n.negative && n.number > neg_INT_MIN() ) {
         error( "Found a number less than " + std::to_string( std::numeric_limits<int>::min() ) +
                " which is unsupported in this context." );
     }
-    return static_cast<int>( n.number ) * ( n.negative ? -1 : 1 );
+    if( n.negative ) {
+        static_assert( neg_INT_MIN() <= static_cast<uint64_t>( std::numeric_limits<int>::max() )
+                       || neg_INT_MIN() - static_cast<uint64_t>( std::numeric_limits<int>::max() )
+                       <= static_cast<uint64_t>( std::numeric_limits<int>::max() ),
+                       "JsonIn::get_int() assumed -INT_MIN - INT_MAX <= INT_MAX" );
+        if( n.number > static_cast<uint64_t>( std::numeric_limits<int>::max() ) ) {
+            const uint64_t x = n.number - static_cast<uint64_t>( std::numeric_limits<int>::max() );
+            return -std::numeric_limits<int>::max() - static_cast<int>( x );
+        } else {
+            return -static_cast<int>( n.number );
+        }
+    } else {
+        return static_cast<int>( n.number );
+    }
 }
 
 unsigned int JsonIn::get_uint()
@@ -1080,14 +1112,27 @@ unsigned int JsonIn::get_uint()
 int64_t JsonIn::get_int64()
 {
     number_sci_notation n = get_any_int();
-    if( !n.negative && n.number > std::numeric_limits<int64_t>::max() ) {
+    if( !n.negative && n.number > static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) ) {
         error( "Signed integers greater than " +
                std::to_string( std::numeric_limits<int64_t>::max() ) + " not supported." );
     } else if( n.negative && n.number > neg_INT64_MIN() ) {
         error( "Integers less than "
                + std::to_string( std::numeric_limits<int64_t>::min() ) + " not supported." );
     }
-    return static_cast<int64_t>( n.number ) * ( n.negative ? -1LL : 1LL );
+    if( n.negative ) {
+        static_assert( neg_INT64_MIN() <= static_cast<uint64_t>( std::numeric_limits<int64_t>::max() )
+                       || neg_INT64_MIN() - static_cast<uint64_t>( std::numeric_limits<int64_t>::max() )
+                       <= static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ),
+                       "JsonIn::get_int64() assumed -INT64_MIN - INT64_MAX <= INT64_MAX" );
+        if( n.number > static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) ) {
+            const uint64_t x = n.number - static_cast<uint64_t>( std::numeric_limits<int64_t>::max() );
+            return -std::numeric_limits<int64_t>::max() - static_cast<int64_t>( x );
+        } else {
+            return -static_cast<int64_t>( n.number );
+        }
+    } else {
+        return static_cast<int64_t>( n.number );
+    }
 }
 
 uint64_t JsonIn::get_uint64()
@@ -1728,7 +1773,7 @@ void JsonOut::end_pretty()
         indent_level -= 1;
         // Wrap after ending top level array and object.
         // Also wrap in the special case of exiting an array containing an object.
-        if( indent_level < 2 || need_wrap.back() ) {
+        if( indent_level < 1 || need_wrap.back() ) {
             stream->put( '\n' );
             write_indent();
         } else {
@@ -1893,6 +1938,6 @@ JsonValue JsonObject::get_member( const std::string &name ) const
     if( !jsin || iter == positions.end() ) {
         throw_error( "requested non-existing member \"" + name + "\"" );
     }
-    visited_members.insert( name );
+    mark_visited( name );
     return JsonValue( *jsin, iter->second );
 }

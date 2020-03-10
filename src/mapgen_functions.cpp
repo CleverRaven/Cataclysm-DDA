@@ -36,21 +36,11 @@
 #include "string_id.h"
 #include "int_id.h"
 #include "enums.h"
+#include "cata_string_consts.h"
 
 class npc_template;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
-
-static const mtype_id mon_ant_larva( "mon_ant_larva" );
-static const mtype_id mon_ant_queen( "mon_ant_queen" );
-static const mtype_id mon_bat( "mon_bat" );
-static const mtype_id mon_bee( "mon_bee" );
-static const mtype_id mon_beekeeper( "mon_beekeeper" );
-static const mtype_id mon_rat_king( "mon_rat_king" );
-static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
-static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
-static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
 tripoint rotate_point( const tripoint &p, int rotations )
 {
@@ -183,9 +173,6 @@ void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
     m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
 }
 
-#define autorotate(x) mapgen_rotate(m, terrain_type, x)
-#define autorotate_down() mapgen_rotate(m, terrain_type, true)
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ///// builtin terrain-specific mapgen functions. big multi-overmap-tile terrains are located in
 ///// mapgen_functions_big.cpp
@@ -307,8 +294,8 @@ void mapgen_hive( mapgendata &dat )
                         m->ter_set( point( i + k, j + l ), t_floor_wax );
                     }
                 }
-                m->add_spawn( mon_bee, 2, point( i, j ) );
-                m->add_spawn( mon_beekeeper, 1, point( i, j ) );
+                m->add_spawn( mon_bee, 2, { i, j, m->get_abs_sub().z } );
+                m->add_spawn( mon_beekeeper, 1, { i, j, m->get_abs_sub().z } );
                 m->ter_set( point( i, j - 3 ), t_floor_wax );
                 m->ter_set( point( i, j + 3 ), t_floor_wax );
                 m->ter_set( point( i - 1, j - 2 ), t_floor_wax );
@@ -883,11 +870,11 @@ void mapgen_road( mapgendata &dat )
 
     // spawn some monsters
     if( neighbor_sidewalks ) {
-        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
+        m->place_spawns( GROUP_ZOMBIE, 2, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
                          dat.monster_density() );
         // 1 per 10 overmaps
         if( one_in( 10000 ) ) {
-            m->add_spawn( mon_zombie_jackson, 1, point( SEEX, SEEY ) );
+            m->add_spawn( mon_zombie_jackson, 1, { SEEX, SEEY, m->get_abs_sub().z } );
         }
     }
 
@@ -1982,7 +1969,7 @@ void mapgen_cave( mapgendata &dat )
                                 dat.when() );
                 break;
         }
-        m->place_spawns( mongroup_id( "GROUP_CAVE" ), 2, point( 6, 6 ), point( 18, 18 ), 1.0 );
+        m->place_spawns( GROUP_CAVE, 2, point( 6, 6 ), point( 18, 18 ), 1.0 );
     } else { // We're above ground!
         // First, draw a forest
         mapgendata forest_mapgen_dat( dat, oter_str_id( "forest" ).id() );
@@ -2025,11 +2012,11 @@ void mapgen_cave_rat( mapgendata &dat )
         for( int i = SEEX - 4; i <= SEEX + 4; i++ ) {
             for( int j = SEEY - 4; j <= SEEY + 4; j++ ) {
                 if( ( i <= SEEX - 2 || i >= SEEX + 2 ) && ( j <= SEEY - 2 || j >= SEEY + 2 ) ) {
-                    m->add_spawn( mon_sewer_rat, 1, point( i, j ) );
+                    m->add_spawn( mon_sewer_rat, 1, { i, j, m->get_abs_sub().z } );
                 }
             }
         }
-        m->add_spawn( mon_rat_king, 1, point( SEEX, SEEY ) );
+        m->add_spawn( mon_rat_king, 1, { SEEX, SEEY, m->get_abs_sub().z } );
         m->place_items( "rare", 75, point( SEEX - 4, SEEY - 4 ), point( SEEX + 4, SEEY + 4 ), true,
                         dat.when() );
     } else {
@@ -2049,7 +2036,7 @@ void mapgen_cave_rat( mapgendata &dat )
                         madd_field( m, cx, cy, fd_blood, rng( 1, 3 ) );
                     }
                     if( one_in( 20 ) ) {
-                        m->add_spawn( mon_sewer_rat, 1, point( cx, cy ) );
+                        m->add_spawn( mon_sewer_rat, 1, { cx, cy, m->get_abs_sub().z } );
                     }
                 }
             }
@@ -2069,7 +2056,7 @@ void mapgen_cave_rat( mapgendata &dat )
                             madd_field( m, cx, cy, fd_blood, rng( 1, 3 ) );
                         }
                         if( one_in( 20 ) ) {
-                            m->add_spawn( mon_sewer_rat, 1, point( cx, cy ) );
+                            m->add_spawn( mon_sewer_rat, 1, { cx, cy, m->get_abs_sub().z } );
                         }
                     }
                 }
@@ -2613,9 +2600,9 @@ static void mapgen_ants_generic( mapgendata &dat )
         m->place_items( "ant_egg",  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     }
     if( dat.terrain_type() == "ants_queen" ) {
-        m->add_spawn( mon_ant_queen, 1, point( SEEX, SEEY ) );
+        m->add_spawn( mon_ant_queen, 1, { SEEX, SEEY, m->get_abs_sub().z } );
     } else if( dat.terrain_type() == "ants_larvae" ) {
-        m->add_spawn( mon_ant_larva, 10, point( SEEX, SEEY ) );
+        m->add_spawn( mon_ant_larva, 10, { SEEX, SEEY, m->get_abs_sub().z } );
     }
 
 }
@@ -2632,7 +2619,7 @@ void mapgen_ants_larvae( mapgendata &dat )
     mapgen_ants_generic( dat );
     dat.m.place_items( "ant_egg",  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
                        dat.when() );
-    dat.m.add_spawn( mon_ant_larva, 10, point( SEEX, SEEY ) );
+    dat.m.add_spawn( mon_ant_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_ants_queen( mapgendata &dat )
@@ -2640,7 +2627,7 @@ void mapgen_ants_queen( mapgendata &dat )
     mapgen_ants_generic( dat );
     dat.m.place_items( "ant_egg",  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
                        dat.when() );
-    dat.m.add_spawn( mon_ant_queen, 1, point( SEEX, SEEY ) );
+    dat.m.add_spawn( mon_ant_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_tutorial( mapgendata &dat )
@@ -2685,6 +2672,7 @@ void mapgen_tutorial( mapgendata &dat )
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 5 ), "bubblewrap" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 6 ), "grenade" );
         m->spawn_item( point( SEEX * 2 - 3, SEEY + 6 ), "flashlight" );
+        m->spawn_item( point( SEEX * 2 - 3, SEEY + 6 ), "light_disposable_cell" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 7 ), "cig" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 7 ), "codeine" );
         m->spawn_item( point( SEEX * 2 - 3, SEEY + 7 ), "water" );
@@ -3441,8 +3429,7 @@ void mapgen_lake_shore( mapgendata &dat )
     const auto draw_shallow_water = [&]( const point & from, const point & to ) {
         std::vector<point> points = line_to( from, to );
         for( auto &p : points ) {
-            std::vector<point> buffered_points = closest_points_first( 1, p );
-            for( const point &bp : buffered_points ) {
+            for( const point &bp : closest_points_first( p, 1 ) ) {
                 if( !map_boundaries.contains_inclusive( bp ) ) {
                     continue;
                 }
@@ -3559,7 +3546,7 @@ static void stairs_debug_log( const map *const m, const std::string &msg, const 
             << " tripoint: " << p
             << " terrain: " << p_ter.name()
             << " movecost: " << p_ter.movecost
-            << " furniture: " << m->furn( p )
+            << " furniture: " << m->furn( p ).to_i()
             << " indoors: " << p_ter.has_flag( "INDOORS" )
             << " flat: " << p_ter.has_flag( "FLAT" )
             ;

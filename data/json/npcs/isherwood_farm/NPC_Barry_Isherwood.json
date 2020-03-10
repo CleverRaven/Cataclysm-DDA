@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "isherwood_barry",
-    "//": "A naked prisoner, from the isherwood faction trapped in a horrifing cage, watching horrible things happen.",
+    "//": "A naked prisoner, from the isherwood faction trapped in a horrifying cage, watching horrible things happen.",
     "class": "NC_ISHERWOOD_BARRY",
     "name_unique": "Barry Isherwood",
     "gender": "male",

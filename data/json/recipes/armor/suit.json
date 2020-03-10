@@ -6,7 +6,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "skills_required": [ "tailor", 1 ],
+    "skills_required": [ "tailor", 5 ],
     "time": "3 h",
     "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_tailor", 8 ], [ "textbook_fireman", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -14,7 +14,8 @@
     "components": [
       [ [ "cleansuit", 1 ] ],
       [ [ "duct_tape", 600 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
+      [ [ "plastic_sheet", 1 ] ]
     ]
   },
   {
@@ -24,7 +25,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "skills_required": [ "tailor", 2 ],
+    "skills_required": [ "tailor", 7 ],
     "time": "3 h 40 m",
     "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_fireman", 7 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -32,7 +33,8 @@
     "components": [
       [ [ "hazmat_suit", 1 ] ],
       [ [ "duct_tape", 800 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+      [ [ "swat_armor", 1 ], [ "kevlar_plate", 48 ] ],
+      [ [ "plastic_sheet", 1 ] ]
     ]
   },
   {
@@ -140,6 +142,7 @@
     "difficulty": 3,
     "time": "20 m",
     "reversible": true,
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "cuirass_lightplate", 1 ] ], [ [ "armguard_lightplate", 1 ] ], [ [ "legguard_lightplate", 1 ] ] ]
   },
   {
@@ -294,6 +297,7 @@
     "time": "18 m",
     "reversible": true,
     "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "gambeson", 1 ] ] ]
   },
   {
@@ -306,6 +310,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
     "components": [
       [ [ "chainmail_hood", 1 ] ],
       [ [ "chainmail_vest", 1 ] ],
@@ -325,6 +330,7 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ] ]
   },
   {
@@ -631,6 +637,7 @@
     "time": "12 m",
     "reversible": true,
     "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "shark_suit", 1 ] ], [ [ "cable", 50 ] ] ]
   },
   {
@@ -735,6 +742,7 @@
     "decomp_learn": 0,
     "book_learn": [ [ "mag_tailor", 0 ], [ "manual_tailor", 0 ], [ "textbook_tailor", 0 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "long_undertop", 1 ] ], [ [ "long_underpants", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
