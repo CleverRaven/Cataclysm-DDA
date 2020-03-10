@@ -1428,7 +1428,7 @@ bool game::do_turn()
         sfx::do_hearing_loss();
     }
 
-    if( !u.has_effect( efftype_id( "sleep" ) ) ) {
+    if( ( !u.has_effect( efftype_id( "sleep" ) ) || uquit == QUIT_WATCH ) ) {
         if( u.moves > 0 || uquit == QUIT_WATCH ) {
             while( u.moves > 0 || uquit == QUIT_WATCH ) {
                 cleanup_dead();
@@ -2517,10 +2517,6 @@ bool game::is_game_over()
         u.set_pain( 0 );
         // prevent dodging
         u.dodges_left = 0;
-        // prevents endless loop in deathcam while sleeping
-        if( u.has_effect( efftype_id( "sleep" ) ) ) {
-            u.wake_up();
-        }
         return false;
     }
     if( uquit == QUIT_DIED ) {
