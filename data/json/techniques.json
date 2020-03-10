@@ -1478,7 +1478,7 @@
     "crit_tec": true,
     "stun_dur": 2,
     "knockback_dist": 2,
-    "mult_bonuses": [ [ "movecost", 1.5 ], [ "damage", "bash", 1.5 ] ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.5 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ]
   },
   {
     "type": "technique",
@@ -1504,7 +1504,7 @@
     "name": "Roundhouse Kick",
     "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
   },
   {
     "type": "technique",
