@@ -12,7 +12,7 @@
 // - MELTS and not FROZEN
 // (could go in get_comestible_fun with MUSHY)
 //
-TEST_CASE( "non-food has no food fun value", "[fun_for][nonfood]" )
+TEST_CASE( "fun for non-food", "[fun_for][nonfood]" )
 {
     avatar dummy;
     std::pair<int, int> fun;
@@ -24,11 +24,12 @@ TEST_CASE( "non-food has no food fun value", "[fun_for][nonfood]" )
     CHECK( fun.second == 0 );
 }
 
-TEST_CASE( "effect of sickness on food fun", "[food][fun_for][sick]" )
+TEST_CASE( "fun for food eaten while sick", "[fun_for][food][sick]" )
 {
     avatar dummy;
-    std::pair<int, int> fun;
-    item &toastem = dummy.i_add( item( "toastem" ) );
+    std::pair<int, int> actual_fun;
+    item toastem( "toastem" );
+    REQUIRE( toastem.is_comestible() );
     // Base fun value for toast-em
     int toastem_fun = toastem.get_comestible_fun();
 
@@ -37,8 +38,8 @@ TEST_CASE( "effect of sickness on food fun", "[food][fun_for][sick]" )
         REQUIRE( dummy.has_effect( efftype_id( "common_cold" ) ) );
 
         THEN( "it is much less fun to eat" ) {
-            fun = dummy.fun_for( toastem );
-            CHECK( fun.first == toastem_fun / 3 );
+            actual_fun = dummy.fun_for( toastem );
+            CHECK( actual_fun.first == toastem_fun / 3 );
         }
     }
 
@@ -47,19 +48,20 @@ TEST_CASE( "effect of sickness on food fun", "[food][fun_for][sick]" )
         REQUIRE( dummy.has_effect( efftype_id( "flu" ) ) );
 
         THEN( "it is much less fun to eat" ) {
-            fun = dummy.fun_for( toastem );
-            CHECK( fun.first == toastem_fun / 3 );
+            actual_fun = dummy.fun_for( toastem );
+            CHECK( actual_fun.first == toastem_fun / 3 );
         }
     }
 }
 
-TEST_CASE( "rotten food fun", "[food][fun_for][rotten]" )
+TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
 {
     avatar dummy;
-    std::pair<int, int> fun;
+    std::pair<int, int> actual_fun;
 
     GIVEN( "some rotten food" ) {
-        item &nuts = dummy.i_add( item( "pine_nuts" ) );
+        item nuts( "pine_nuts" );
+        REQUIRE( nuts.is_comestible() );
         // food rot > 1.0 is rotten
         nuts.set_relative_rot( 1.5 );
         REQUIRE( nuts.rotten() );
@@ -69,8 +71,8 @@ TEST_CASE( "rotten food fun", "[food][fun_for][rotten]" )
             REQUIRE_FALSE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
 
             THEN( "they don't like rotten food" ) {
-                fun = dummy.fun_for( nuts );
-                CHECK( fun.first < 0 );
+                actual_fun = dummy.fun_for( nuts );
+                CHECK( actual_fun.first < 0 );
             }
         }
 
@@ -79,8 +81,8 @@ TEST_CASE( "rotten food fun", "[food][fun_for][rotten]" )
             REQUIRE( dummy.has_trait( trait_id( "SAPROPHAGE" ) ) );
 
             THEN( "they don't mind rotten food" ) {
-                fun = dummy.fun_for( nuts );
-                CHECK( fun.first > 0 );
+                actual_fun = dummy.fun_for( nuts );
+                CHECK( actual_fun.first > 0 );
             }
         }
         WHEN( "character is a saprovore" ) {
@@ -88,21 +90,22 @@ TEST_CASE( "rotten food fun", "[food][fun_for][rotten]" )
             REQUIRE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
 
             THEN( "they don't mind rotten food" ) {
-                fun = dummy.fun_for( nuts );
-                CHECK( fun.first > 0 );
+                actual_fun = dummy.fun_for( nuts );
+                CHECK( actual_fun.first > 0 );
             }
         }
     }
 }
 
 // N.B. food that tastes better hot is `modify_morale` with different math
-TEST_CASE( "cold food fun", "[food][fun_for][cold]" )
+TEST_CASE( "fun for cold food", "[fun_for][food][cold]" )
 {
     avatar dummy;
-    std::pair<int, int> fun;
+    std::pair<int, int> actual_fun;
 
     GIVEN( "food that tastes good, but better when cold" ) {
         item cola( "cola" );
+        REQUIRE( cola.is_comestible() );
         REQUIRE( cola.has_flag( flag_EATEN_COLD ) );
         int cola_fun = cola.get_comestible_fun();
 
@@ -111,22 +114,23 @@ TEST_CASE( "cold food fun", "[food][fun_for][cold]" )
             REQUIRE( cola.has_flag( flag_COLD ) );
 
             THEN( "it is more fun than normal" ) {
-                fun = dummy.fun_for( cola );
-                CHECK( fun.first == cola_fun * 2 );
+                actual_fun = dummy.fun_for( cola );
+                CHECK( actual_fun.first == cola_fun * 2 );
             }
         }
 
         WHEN( "it is not cold" ) {
             REQUIRE_FALSE( cola.has_flag( flag_COLD ) );
             THEN( "it has normal fun" ) {
-                fun = dummy.fun_for( cola );
-                CHECK( fun.first == cola_fun );
+                actual_fun = dummy.fun_for( cola );
+                CHECK( actual_fun.first == cola_fun );
             }
         }
     }
 
     GIVEN( "food that tastes bad, but better when cold" ) {
         item sports( "sports_drink" );
+        REQUIRE( sports.is_comestible() );
         int sports_fun = sports.get_comestible_fun();
 
         REQUIRE( sports_fun < 0 );
@@ -137,8 +141,8 @@ TEST_CASE( "cold food fun", "[food][fun_for][cold]" )
             REQUIRE( sports.has_flag( flag_COLD ) );
 
             THEN( "it doesn't taste bad" ) {
-                fun = dummy.fun_for( sports );
-                CHECK( fun.first > 0 );
+                actual_fun = dummy.fun_for( sports );
+                CHECK( actual_fun.first > 0 );
             }
         }
 
@@ -146,20 +150,53 @@ TEST_CASE( "cold food fun", "[food][fun_for][cold]" )
             REQUIRE_FALSE( sports.has_flag( flag_COLD ) );
 
             THEN( "it tastes as bad as usual" ) {
-                fun = dummy.fun_for( sports );
-                CHECK( fun.first == sports_fun );
+                actual_fun = dummy.fun_for( sports );
+                CHECK( actual_fun.first == sports_fun );
             }
         }
     }
+
+    GIVEN( "food that tastes good, but no better when cold" ) {
+        item coffee( "coffee" );
+        REQUIRE( coffee.is_comestible() );
+        int coffee_fun = coffee.get_comestible_fun();
+
+        REQUIRE( coffee_fun > 0 );
+        REQUIRE_FALSE( coffee.has_flag( flag_EATEN_COLD ) );
+
+        WHEN( "it is cold" ) {
+            coffee.set_flag( flag_COLD );
+            REQUIRE( coffee.has_flag( flag_COLD ) );
+
+            THEN( "it tastes just as good as usual" ) {
+                actual_fun = dummy.fun_for( coffee );
+                CHECK( actual_fun.first == coffee_fun );
+            }
+        }
+
+        WHEN( "it is not cold" ) {
+            REQUIRE_FALSE( coffee.has_flag( flag_COLD ) );
+
+            THEN( "it tastes just as good as usual" ) {
+                actual_fun = dummy.fun_for( coffee );
+                CHECK( actual_fun.first == coffee_fun );
+            }
+        }
+
+        // Note: One might expect a "HOT" test to go here, since
+        // coffee is actually EATEN_HOT, but that is calculated in
+        // Character::modify_morale, not Character::food_fun
+    }
 }
 
-TEST_CASE( "melted food fun", "[food][fun_for][melted]" )
+TEST_CASE( "fun for melted food", "[fun_for][food][melted]" )
 {
     avatar dummy;
-    std::pair<int, int> fun;
+    std::pair<int, int> actual_fun;
 
     GIVEN( "food that is fun but melts" ) {
         item icecream( "icecream" );
+        REQUIRE( icecream.is_comestible() );
         REQUIRE( icecream.has_flag( flag_MELTS ) );
         int icecream_fun = icecream.get_comestible_fun();
 
@@ -167,8 +204,8 @@ TEST_CASE( "melted food fun", "[food][fun_for][melted]" )
             REQUIRE_FALSE( icecream.has_flag( flag_FROZEN ) );
 
             THEN( "it is half as fun" ) {
-                fun = dummy.fun_for( icecream );
-                CHECK( fun.first == icecream_fun / 2 );
+                actual_fun = dummy.fun_for( icecream );
+                CHECK( actual_fun.first == icecream_fun / 2 );
             }
         }
     }
@@ -183,7 +220,7 @@ TEST_CASE( "melted food fun", "[food][fun_for][melted]" )
     */
 }
 
-TEST_CASE( "cat food fun", "[food][fun_for][cat][feline]" )
+TEST_CASE( "fun for cat food", "[fun_for][food][cat][feline]" )
 {
     avatar dummy;
     std::pair<int, int> actual_fun;
@@ -213,7 +250,7 @@ TEST_CASE( "cat food fun", "[food][fun_for][cat][feline]" )
     }
 }
 
-TEST_CASE( "dog food fun", "[food][fun_for][dog][lupine]" )
+TEST_CASE( "fun for dog food", "[fun_for][food][dog][lupine]" )
 {
     avatar dummy;
     std::pair<int, int> actual_fun;
@@ -244,11 +281,65 @@ TEST_CASE( "dog food fun", "[food][fun_for][dog][lupine]" )
     }
 }
 
-// Base fun level with no other effects is get_comestible_fun()
-// - get_comestible_fun() is where flag_MUSHY is applied
+TEST_CASE( "fun for gourmand", "[fun_for][food][gourmand]" )
+{
+    avatar dummy;
+    std::pair<int, int> actual_fun;
+
+    GIVEN( "food that tastes good" ) {
+        item toastem( "toastem" );
+        REQUIRE( toastem.is_comestible() );
+        int toastem_fun = toastem.get_comestible_fun();
+        REQUIRE( toastem_fun > 2 );
+
+        WHEN( "character is not a gourmand" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "GOURMAND" ) ) );
+
+            THEN( "it tastes just as good as normal" ) {
+                actual_fun = dummy.fun_for( toastem );
+                CHECK( actual_fun.first == toastem_fun );
+            }
+        }
+        WHEN( "character is a gourmand" ) {
+            dummy.toggle_trait( trait_id( "GOURMAND" ) );
+            REQUIRE( dummy.has_trait( trait_id( "GOURMAND" ) ) );
+
+            THEN( "it tastes better than normal" ) {
+                actual_fun = dummy.fun_for( toastem );
+                CHECK( actual_fun.first > toastem_fun );
+            }
+        }
+    }
+
+    // TODO: Edge case, when fun == -1, Gourmand trait does not matter
+    GIVEN( "food that tastes bad" ) {
+        item garlic( "garlic" );
+        REQUIRE( garlic.is_comestible() );
+        int garlic_fun = garlic.get_comestible_fun();
+        REQUIRE( garlic_fun < -2 );
+
+        WHEN( "character is not a gourmand" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "GOURMAND" ) ) );
+
+            THEN( "it tastes just as bad as normal" ) {
+                actual_fun = dummy.fun_for( garlic );
+                CHECK( actual_fun.first == garlic_fun );
+            }
+        }
+
+        WHEN( "character is a gourmand" ) {
+            dummy.toggle_trait( trait_id( "GOURMAND" ) );
+            REQUIRE( dummy.has_trait( trait_id( "GOURMAND" ) ) );
+
+            THEN( "it still tastes bad, but not as bad as normal" ) {
+                actual_fun = dummy.fun_for( garlic );
+                CHECK( actual_fun.first > garlic_fun );
+            }
+        }
+    }
+}
 
 // Food is less enjoyable when eaten too often
 //
-// Gourmands really enjoy food
 // Bionic taste blocker (if it has enough power) nullifies bad-tasting food
 //
