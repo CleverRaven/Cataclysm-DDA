@@ -321,7 +321,7 @@
     "id": "motorbike_armor",
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
-    "name": "motorcycle armor",
+    "name": { "str": "motorcycle armor" },
     "description": "A suit of armor used by dirt bikers and motorcyclists.",
     "weight": "2125 g",
     "volume": "1 L",

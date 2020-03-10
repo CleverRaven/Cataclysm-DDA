@@ -217,7 +217,7 @@
   {
     "id": "loincloth",
     "type": "ARMOR",
-    "name": "loincloth",
+    "name": { "str": "loincloth" },
     "description": "Rags stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -288,7 +288,7 @@
     "id": "nanoskirt",
     "repairs_like": "jeans",
     "type": "ARMOR",
-    "name": "nanoskirt",
+    "name": { "str": "nanoskirt" },
     "description": "Apparently the microskirt wasn't short enough.",
     "weight": "11 g",
     "volume": "250 ml",

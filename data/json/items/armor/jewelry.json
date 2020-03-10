@@ -1350,7 +1350,7 @@
     "id": "badge_marshal",
     "copy-from": "badge_abstract",
     "type": "ARMOR",
-    "name": "marshal badge",
+    "name": { "str": "marshal badge" },
     "description": "A bright silver star strikes fear into the eyes of ne'er-do-wells.",
     "proportional": { "price": 2 }
   },
