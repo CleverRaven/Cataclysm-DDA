@@ -108,7 +108,7 @@
   },
   {
     "id": "pneumatic_shotgun",
-    "looks_like": "pipe_double_shotgun",
+    "looks_like": "pipe_shotgun",
     "type": "GUN",
     "reload_noise_volume": 10,
     "symbol": "(",

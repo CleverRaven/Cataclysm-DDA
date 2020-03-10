@@ -810,6 +810,21 @@
   },
   {
     "type": "recipe",
+    "result": "napalm_pres",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": "60 m",
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "autolearn": true,
+    "components": [
+      [ [ "air", 125 ] ],
+      [ [ "napalm", 125 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "gelled_gasoline",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",

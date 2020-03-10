@@ -373,6 +373,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "flammable_pres",
+    "name": "pressurized flammable liquid",
+    "default": "napalm_pres"
+  },
+  {
+    "type": "ammunition_type",
     "id": "weldgas",
     "name": "welding gas",
     "default": "oxyacetylene"

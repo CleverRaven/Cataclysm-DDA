@@ -25,7 +25,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "flammable", [ "pressurized_tank" ] ] ]
+    "magazines": [ [ "flammable_pres", [ "pressurized_tank" ] ] ]
   },
   {
     "id": "rm451_flamethrower",
@@ -48,6 +48,6 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "extend": { "flags": [ "FIRE_20", "MODE_BURST", "NON-FOULING" ] },
     "delete": { "flags": [ "FIRE_100" ] },
-    "magazines": [ [ "flammable", [ "rm4502", "rm4504" ] ] ]
+    "magazines": [ [ "flammable_pres", [ "rm4502", "rm4504" ] ] ]
   }
 ]
