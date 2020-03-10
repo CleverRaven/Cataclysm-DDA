@@ -7,7 +7,7 @@
     "melee_allowed": true,
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "crit_tec": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.5 ] ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ],
     "stun_dur": 3,
     "knockback_dist": 2,
     "weighting": 1,
