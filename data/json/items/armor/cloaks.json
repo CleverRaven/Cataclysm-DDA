@@ -87,7 +87,7 @@
   {
     "id": "cloak_leather",
     "type": "ARMOR",
-    "name": "leather cloak",
+    "name": { "str": "leather cloak" },
     "description": "A heavy leather cloak meant to be thrown over your body.  Provides decent protection.",
     "weight": "2060 g",
     "volume": "3500 ml",

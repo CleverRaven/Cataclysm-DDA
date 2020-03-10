@@ -1262,7 +1262,7 @@
   {
     "id": "leather_collar",
     "type": "ARMOR",
-    "name": "leather collar",
+    "name": { "str": "leather collar" },
     "description": "A black leather 'collar' with a bell dangling from the front.  Don't worry, the bell is silent.",
     "weight": "10 g",
     "volume": "250 ml",
@@ -1350,7 +1350,7 @@
     "id": "badge_marshal",
     "copy-from": "badge_abstract",
     "type": "ARMOR",
-    "name": "marshal badge",
+    "name": { "str": "marshal badge" },
     "description": "A bright silver star strikes fear into the eyes of ne'er-do-wells.",
     "proportional": { "price": 2 }
   },
@@ -1468,7 +1468,7 @@
   {
     "id": "leather_cat_tail",
     "type": "ARMOR",
-    "name": "leather cat tail",
+    "name": { "str": "leather cat tail" },
     "description": "A glossy black leather tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
     "weight": "80 g",
     "volume": "250 ml",

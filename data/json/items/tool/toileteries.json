@@ -85,7 +85,7 @@
     "id": "razor_blade",
     "symbol": ",",
     "color": "light_cyan",
-    "name": "razor blade",
+    "name": { "str": "razor blade" },
     "description": "A double-edged razor blade.",
     "price": 600,
     "price_postapoc": 100,

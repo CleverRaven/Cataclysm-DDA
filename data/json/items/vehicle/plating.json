@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "sheet_metal",
-    "name": "sheet metal",
+    "name": { "str": "sheet metal", "str_pl": "sheet metal" },
     "description": "A thin sheet of metal.",
     "//": "Roughly in the 70cm×70cm×1.5mm to 1m×1m×0.75mm range. Has to be folded / rolled up when in inventory, so 75% density compared to solid block.",
     "weight": "6000 g",

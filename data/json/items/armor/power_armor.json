@@ -3,7 +3,7 @@
     "id": "depowered_armor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "str": "salvaged power armor",
+    "name": { "str": "salvaged power armor" },
     "//": "These are much cheaper than powered suits, because they're extremely heavy and impractical.  The good stuff is gone!",
     "description": "This used to be a powered exoskeleton with a set of heavy armor plates, made wearable by the assist of the servos.  Now it's just the armor plating and a stripped down chassis: as one might expect, it's a lot harder to wear.",
     "weight": "12214 g",

@@ -24,7 +24,7 @@
   },
   {
     "id": "razor_shaving",
-    "name": "shaving razor",
+    "name": { "str": "shaving razor" },
     "type": "GENERIC",
     "description": "A razor blade on a comfortable handle.  Much easier to shave with than a loose razor.",
     "symbol": "t",

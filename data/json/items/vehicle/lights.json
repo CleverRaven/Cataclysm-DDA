@@ -36,7 +36,7 @@
   {
     "type": "GENERIC",
     "id": "headlight_reinforced",
-    "name": "reinforced headlight",
+    "name": { "str": "reinforced headlight" },
     "description": "A vehicle headlight with a cage built around it to protect it from damage without reducing its effectiveness.",
     "weight": "1200 g",
     "to_hit": -2,
@@ -50,7 +50,7 @@
   {
     "type": "GENERIC",
     "id": "wide_headlight_reinforced",
-    "name": "reinforced wide-angle headlight",
+    "name": { "str": "reinforced wide-angle headlight" },
     "description": "A wide-angle vehicle headlight with a cage built around it to protect it from damage without reducing its effectiveness.",
     "weight": "4800 g",
     "volume": "1250 ml",

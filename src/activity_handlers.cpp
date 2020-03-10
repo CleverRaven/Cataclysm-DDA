@@ -151,6 +151,7 @@ activity_handlers::do_turn_functions = {
     { ACT_DISMEMBER, butcher_do_turn },
     { ACT_DISSECT, butcher_do_turn },
     { ACT_HACKSAW, hacksaw_do_turn },
+    { ACT_PRY_NAILS, pry_nails_do_turn },
     { ACT_CHOP_TREE, chop_tree_do_turn },
     { ACT_CHOP_LOGS, chop_tree_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
@@ -225,6 +226,7 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_WASH, washing_finish },
     { ACT_HACKSAW, hacksaw_finish },
+    { ACT_PRY_NAILS, pry_nails_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
     { ACT_MILK, milk_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
@@ -1877,9 +1879,9 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     item &reloadable = *act->targets[ 0 ];
     item &ammo = *act->targets[1];
+    std::string ammo_name = ammo.tname();
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
-    const bool is_bolt = ammo.ammo_type() == ammo_bolt;
     const bool ammo_is_filthy = ammo.is_filthy();
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
@@ -1904,11 +1906,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
         if( reloadable.has_flag( flag_RELOAD_ONE ) && !is_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
-                if( is_bolt ) {
-                    msg = _( "You insert a bolt into the %s." );
-                } else {
-                    msg = _( "You insert a cartridge into the %s." );
-                }
+                msg = _( "You insert one %2$s into the %1$s." );
             }
         }
         if( reloadable.type->gun->reload_noise_volume > 0 ) {
@@ -1919,7 +1917,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     } else if( reloadable.is_watertight_container() ) {
         msg = _( "You refill the %s." );
     }
-    add_msg( m_neutral, msg, reloadable.tname() );
+    add_msg( m_neutral, msg, reloadable.tname(), ammo_name );
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
@@ -3365,7 +3363,7 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
 
 void activity_handlers::plant_seed_finish( player_activity *act, player *p )
 {
-    tripoint examp = act->placement;
+    tripoint examp = g->m.getlocal( act->placement );
     const std::string seed_id = act->str_values[0];
     std::list<item> used_seed;
     if( item::count_by_charges( seed_id ) ) {
@@ -3696,6 +3694,61 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish cutting the metal." ) );
 
+    act->set_to_null();
+}
+
+void activity_handlers::pry_nails_do_turn( player_activity *act, player * )
+{
+    sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( act->placement ) );
+}
+
+void activity_handlers::pry_nails_finish( player_activity *act, player *p )
+{
+    const tripoint &pnt = act->placement;
+    const ter_id type = g->m.ter( pnt );
+
+    int nails = 0;
+    int boards = 0;
+    ter_id newter;
+    if( type == t_fence ) {
+        nails = 6;
+        boards = 3;
+        newter = t_fence_post;
+        p->add_msg_if_player( _( "You pry out the fence post." ) );
+    } else if( type == t_window_boarded ) {
+        nails = 8;
+        boards = 4;
+        newter = t_window_frame;
+        p->add_msg_if_player( _( "You pry the boards from the window." ) );
+    } else if( type == t_window_boarded_noglass ) {
+        nails = 8;
+        boards = 4;
+        newter = t_window_empty;
+        p->add_msg_if_player( _( "You pry the boards from the window frame." ) );
+    } else if( type == t_door_boarded || type == t_door_boarded_damaged ||
+               type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
+               type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
+        nails = 8;
+        boards = 4;
+        if( type == t_door_boarded ) {
+            newter = t_door_c;
+        } else if( type == t_door_boarded_damaged ) {
+            newter = t_door_b;
+        } else if( type == t_door_boarded_peep ) {
+            newter = t_door_c_peep;
+        } else if( type == t_door_boarded_damaged_peep ) {
+            newter = t_door_b_peep;
+        } else if( type == t_rdoor_boarded ) {
+            newter = t_rdoor_c;
+        } else { // if (type == t_rdoor_boarded_damaged)
+            newter = t_rdoor_b;
+        }
+        p->add_msg_if_player( _( "You pry the boards from the door." ) );
+    }
+    p->practice( skill_fabrication, 1, 1 );
+    g->m.spawn_item( p->pos(), "nail", 0, nails );
+    g->m.spawn_item( p->pos(), "2x4", boards );
+    g->m.ter_set( pnt, newter );
     act->set_to_null();
 }
 

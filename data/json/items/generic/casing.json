@@ -428,7 +428,7 @@
     "id": "shot_hull",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "shotgun hull",
+    "name": { "str": "shotgun hull" },
     "description": "An empty hull from a shotgun shell.",
     "weight": "8 g",
     "volume": "12ml",
