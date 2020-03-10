@@ -981,7 +981,6 @@ class game
         int displaying_lighting_condition = 0;
 
         bool show_panel_adm = false;
-        bool right_sidebar = false;
         bool fullscreen = false;
         bool was_fullscreen = false;
         bool auto_travel_mode = false;
