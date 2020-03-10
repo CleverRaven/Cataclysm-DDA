@@ -2453,8 +2453,7 @@ void overmap::place_lakes()
                 }
 
                 if( closest_distance > 0 ) {
-                    //TODO: Connect nearest lake to river
-                   // place_river( closest_point, lake_connection_point );
+                    place_river( closest_point, lake_connection_point );
                 }
             };
 
@@ -2504,8 +2503,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
     }
     int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
     int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
-    const int max_per_om = 3;
-    int rivers = 0;
+
     // West/North endpoints of rivers
     std::vector<point> river_start;
     // East/South endpoints of rivers
@@ -2519,32 +2517,27 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             const tripoint p_neighbour( i, OMAPY - 1, 0 );
             const tripoint p_mine( i, 0, 0 );
 
+            if( is_river( north->ter( p_neighbour ) ) ) {
+                ter_set( p_mine, river_center );
+            }
+
             if( north->is_river_node( p_neighbour.xy() ) ) {
                 river_start.push_back( p_mine.xy() );
-                ter_set( p_mine, river_center );
-            } else {
-                if( is_river( north->ter( p_neighbour ) ) ) {
-                    ter_set( p_mine, river_center );
-                }
             }
         }
     }
 
-    size_t rivers_from_north = river_start.size();
     if( west != nullptr ) {
         for( int i = 0; i < OMAPY; i++ ) {
             const tripoint p_neighbour( OMAPX - 1, i, 0 );
             const tripoint p_mine( 0, i, 0 );
 
+            if( is_river( west->ter( p_neighbour ) ) ) {
+                ter_set( p_mine, river_center );
+            }
+
             if( west->is_river_node( p_neighbour.xy() ) ) {
                 river_start.push_back( p_mine.xy() );
-                ter_set( p_mine, river_center );
-            } else {
-                if( is_river( west->ter( p_neighbour ) ) ) {
-                    ter_set( p_mine, river_center );
-                }
-
-
             }
         }
     }
@@ -2554,112 +2547,91 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             const tripoint p_neighbour( i, 0, 0 );
             const tripoint p_mine( i, OMAPY - 1, 0 );
 
+            if( is_river( south->ter( p_neighbour ) ) ) {
+                ter_set( p_mine, river_center );
+            }
+
             if( south->is_river_node( p_neighbour.xy() ) ) {
                 river_end.push_back( p_mine.xy() );
-                ter_set( p_mine, river_center );
-            } else {
-                if( is_river( south->ter( p_neighbour ) ) ) {
-                    ter_set( p_mine, river_center );
-                }
             }
         }
     }
 
-    size_t rivers_to_south = river_end.size();
     if( east != nullptr ) {
         for( int i = 0; i < OMAPY; i++ ) {
             const tripoint p_neighbour( 0, i, 0 );
             const tripoint p_mine( OMAPX - 1, i, 0 );
 
-            if( is_river_node( p_neighbour.xy() ) ) {
-                river_end.push_back( p_mine.xy() );
+            if( is_river( east->ter( p_neighbour ) ) ) {
                 ter_set( p_mine, river_center );
-            } else {
-                if( is_river( east->ter( p_neighbour ) ) ) {
-                    ter_set( p_mine, river_center );
-                }
+            }
+
+            if( east->is_river_node( p_neighbour.xy() ) ) {
+                river_end.push_back( p_mine.xy() );
             }
         }
     }
-
-    DebugLog(D_ERROR, D_GAME) << "Overmap: " << pos() << " has " << river_start.size() << " starts and " << river_end.size() << " end nodes.";
 
     // Even up the start and end points of rivers. (difference of 1 is acceptable)
     // Also ensure there's at least one of each.
     std::vector<point> new_rivers;
-    if (north == nullptr || west == nullptr) {
-        while (river_start.empty() || river_start.size() + 1 < river_end.size()) {
+    if( north == nullptr || west == nullptr ) {
+        while( river_start.empty() || river_start.size() + 1 < river_end.size() ) {
             new_rivers.clear();
-            if (north == nullptr && one_in(river_chance)) {
-                new_rivers.push_back(point(rng(10, OMAPX - 11), 0));
+            if( north == nullptr && one_in( river_chance ) ) {
+                new_rivers.push_back( point( rng( 10, OMAPX - 11 ), 0 ) );
             }
-            if (west == nullptr && one_in(river_chance)) {
-                new_rivers.push_back(point(0, rng(10, OMAPY - 11)));
+            if( west == nullptr && one_in( river_chance ) ) {
+                new_rivers.push_back( point( 0, rng( 10, OMAPY - 11 ) ) );
             }
-            river_start.push_back(new_rivers.back());
+            river_start.push_back( new_rivers.back() );
         }
     }
-    if (south == nullptr || east == nullptr) {
-        while (river_end.empty() || river_end.size() + 1 < river_start.size()) {
+    if( south == nullptr || east == nullptr ) {
+        while( river_end.empty() || river_end.size() + 1 < river_start.size() ) {
             new_rivers.clear();
-            if (south == nullptr && one_in(river_chance)) {
-                new_rivers.push_back(point(rng(10, OMAPX - 11), OMAPY - 1));
+            if( south == nullptr && one_in( river_chance ) ) {
+                new_rivers.push_back( point( rng( 10, OMAPX - 11 ), OMAPY - 1 ) );
             }
-            if (east == nullptr && one_in(river_chance)) {
-                new_rivers.push_back(point(OMAPX - 1, rng(10, OMAPY - 11)));
+            if( east == nullptr && one_in( river_chance ) ) {
+                new_rivers.push_back( point( OMAPX - 1, rng( 10, OMAPY - 11 ) ) );
             }
-            river_end.push_back(new_rivers.back());
+            river_end.push_back( new_rivers.back() );
         }
     }
-
-    DebugLog(D_ERROR, D_GAME) << "Generating rivers with " << river_start.size() << " start points and " << river_end.size() << " exit points.";
 
     // Now actually place those rivers.
-    if (river_start.size() > river_end.size() && !river_end.empty()) {
+    if( river_start.size() > river_end.size() && !river_end.empty() ) {
         std::vector<point> river_end_copy = river_end;
-        while (!river_start.empty()) {
-            const point start = random_entry_removed(river_start);
-            if (!river_end.empty()) {
-                place_river(start, river_end[0]);
-                river_end.erase(river_end.begin());
-            }
-            else {
-                place_river(start, random_entry(river_end_copy));
+        while( !river_start.empty() ) {
+            const point start = random_entry_removed( river_start );
+            if( !river_end.empty() ) {
+                place_river( start, river_end[0] );
+                river_end.erase( river_end.begin() );
+            } else {
+                place_river( start, random_entry( river_end_copy ) );
             }
         }
-    }
-    else if (river_end.size() > river_start.size() && !river_start.empty()) {
+    } else if( river_end.size() > river_start.size() && !river_start.empty() ) {
         std::vector<point> river_start_copy = river_start;
-        while (!river_end.empty()) {
-            const point end = random_entry_removed(river_end);
-            if (!river_start.empty()) {
-                place_river(river_start[0], end);
-                river_start.erase(river_start.begin());
+        while( !river_end.empty() ) {
+            const point end = random_entry_removed( river_end );
+            if( !river_start.empty() ) {
+                place_river( river_start[0], end );
+                river_start.erase( river_start.begin() );
+            } else {
+                place_river( random_entry( river_start_copy ), end );
             }
-            else {
-                place_river(random_entry(river_start_copy), end);
-            }
+        }
+    } else if( !river_end.empty() ) {
+        if( river_start.size() != river_end.size() ) {
+            river_start.push_back( point( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
+                                          rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) ) );
+        }
+        for( size_t i = 0; i < river_start.size(); i++ ) {
+            place_river( river_start[i], river_end[i] );
         }
     }
-    else if (!river_end.empty()) {
-        if (river_start.size() != river_end.size()) {
-            if (north == nullptr) {   //45 - 135
-                river_start.push_back(point(rng(OMAPX / 4, (OMAPX * 3) / 4),
-                    OMAPY-1));  
-            }
-            else if (west == nullptr) {
-                river_start.push_back(point(0,
-                    rng(OMAPY / 4, (OMAPY * 3) / 4)));
-            }
-        }
-        for (size_t i = 0; i < river_start.size(); i++) {
-            place_river(river_start[i], river_end[i]);
-        }
-    }
-
-    river_start.clear();
-    river_end.clear();
-
 }
 
 void overmap::place_swamps()
@@ -2802,7 +2774,6 @@ std::vector<point> overmap::plot_river( point pa, point pb )
             y = OMAPY - 1;
         }
 
-        //Fill in river
         for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
             for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 tripoint p( x + j, y + i, 0 );
@@ -2810,8 +2781,6 @@ std::vector<point> overmap::plot_river( point pa, point pb )
                     if( !ter( p )->is_lake() && one_in( river_chance ) ) {
                         plots.push_back( p.xy() );
                     }
-                } else {
-                    //Out of bounds
                 }
             }
         }
@@ -2837,7 +2806,6 @@ std::vector<point> overmap::plot_river( point pa, point pb )
             y--;
         }
 
-        //Second step
         x += rng( -1, 1 );
         y += rng( -1, 1 );
 
@@ -2856,24 +2824,21 @@ std::vector<point> overmap::plot_river( point pa, point pb )
 
         for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
             for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
-                if (inbounds(tripoint(x + j, y + i, 0), 1) ||
+                if( inbounds( tripoint( x + j, y + i, 0 ), 1 ) ||
                     // UNLESS, of course, that's where the river is headed!
-                    (abs(pb.y - (y + i)) < 4 && abs(pb.x - (x + j)) < 4)) {
-                    tripoint p(x + j, y + i, 0);
-                    if (!inbounds(p)) {
+                    ( abs( pb.y - ( y + i ) ) < 2 && abs( pb.x - ( x + j ) ) < 2 ) ) {
+                    tripoint p( x + j, y + i, 0 );
+                    if( !inbounds( p ) ) {
                         continue;
                     }
 
-                    if (!ter(p)->is_lake() && one_in(river_chance)) {
-                        plots.push_back(p.xy());
+                    if( !ter( p )->is_lake() && one_in( river_chance ) ) {
+                        plots.push_back( p.xy() );
                     }
                 }
             }
         }
     } while( pb.x != x || pb.y != y );
-
-    DebugLog( D_ERROR, D_GAME ) << "made a river at entry: " << pa.x << " " << pa.y << " Exit: "
-                                << x << " " << y;
 
     return plots;
 }
@@ -2881,40 +2846,38 @@ std::vector<point> overmap::plot_river( point pa, point pb )
 void overmap::place_river( point pa, point pb )
 {
     const oter_id river_center( "river_center" );
- 
-    DebugLog( D_ERROR, D_GAME ) << "Trying river node at entry: " << pa.x << " " << pa.y << " exit: " <<
-                                pb.x << " " << pb.y;
-
-    //all points in river
     std::vector<point> points = { pa };
-    //midpoints of river
     std::vector<point> sub_ends = { pb };
 
-    //add river anchors
     point midm = { OMAPX / 2, OMAPY / 2 }; //midpoint of map
-    point midp = { (pb.x + pa.x) / 2,(pb.y + pa.y) / 2 }; //midpoint start-end
-    point anchormid = (midp + midm) / 2; //anchor point
+    point midp = { ( pb.x + pa.x ) / 2, ( pb.y + pa.y ) / 2 }; //midpoint start-end
+    point anchormid = ( midp + midm ) / 2; //anchor point towards mid of map
 
-    sub_ends.insert(sub_ends.begin(), anchormid);
+    //add anchor as midpoint
+    //TODO: add loop to divide into x segments and displace each segment with anchors to create
+    //      more varied rivers.
+    sub_ends.insert( sub_ends.begin(), anchormid );
 
     //plot river segments
     for( point end : sub_ends ) {
-       
-        for (point p : plot_river(points.back(), end))
-            points.push_back(p);
+        for( point p : plot_river( points.back(), end ) ) {
+            points.push_back( p );
+        }
     }
 
-    //river has failed to terminate 
-    if (points.back().x != pb.x && points.back().y != pb.y) {
-        DebugLog(D_ERROR, D_GAME) << "Failed to end river at target!";
+    if( points.back().x != pb.x && points.back().y != pb.y ) {
+        DebugLog( D_ERROR, D_MAP ) << "Failed to end river at target! Target: " << pb << " Route end: " <<
+                                   points.back();
     }
-    
-    //Finally draw the river on the overmap
+
+    const auto connect_lake_to_closest_river = [&]( const point & lake_connection_point ) {
+    };
+
+    //audit points and finally draw river
     for( point p : points ) {
-        ter_set(tripoint{ p.x,p.y,0 }, river_center);
+        ter_set( tripoint{ p.x, p.y, 0 }, river_center );
     }
 
-    //Add new node to river
     overmap_river_node new_node = { pa, pb, points.size() };
     rivers.push_back( new_node );
 }
@@ -3726,6 +3689,7 @@ void overmap::good_river( const tripoint &p )
         return;
     }
 
+
     /* Cleanup rivers.
        Find and assign shores where they need to be.
        TODO: Most of this can probably be made generic for things likes roads etc.
@@ -3739,7 +3703,7 @@ void overmap::good_river( const tripoint &p )
                 continue;
             }
 
-            //We don't want corners for now. Be prepared for the task required ahead if you remove this line.
+            //We don't want corners for now.
             if( ( x == ( p.x - 1 ) || x == ( p.x + 1 ) ) && ( y == ( p.y - 1 ) || y == ( p.y + 1 ) ) ) {
                 continue;
             }
@@ -3765,13 +3729,8 @@ void overmap::good_river( const tripoint &p )
         multiplier *= 2;
     }
 
-    //GRID: add the numbers together where each adjacent tile exists to determine omt id used.
-    // NO CORNERS | CORNERS
-    //   X 1 X      1  2  4
-    //   2 X 4      8  X  16
-    //   X 8 X      32 64 128
     const std::map<int, oter_id> riv_ters = {
-        {0, oter_id( "forest_water" )}, //Default: Should never be used
+        {0, oter_id( "forest_water" )}, //Default, no neighbours or unable to match.
         {1, oter_id( "river_north" )},
         {2, oter_id( "river_west" )},
         {3, oter_id( "river_ne" )},
@@ -3786,29 +3745,24 @@ void overmap::good_river( const tripoint &p )
         {12, oter_id( "river_sw" )},
         {13, oter_id( "river_west" )},
         {14, oter_id( "river_south" )},
-        {15, oter_id( "river_center" )} //15 = N E S W
+        {15, oter_id( "river_center" )} //15 = N+E+S+W adjacent rivers.
     };
     const int nesw = 15;
 
     if( riv_ters.find( mask ) != riv_ters.end() ) {
         if( mask == nesw ) {
             // Trim corners if neccessary
-            // Check if inbounds
-            if( !is_river_or_lake( ter( p + point_north_west ) ) && ( ( p + point_north_west ).x >= 0 )  &&
-                ( ( p + point_north_west ).x <= OMAPX - 1 ) && ( ( p + point_north_west ).y <= OMAPY - 1 ) &&
-                ( ( p + point_north_west ).y >= 0 ) ) {
+            // We assume if corner are not inbounds then we are placed because of neighbouring overmap river
+            if( !is_river_or_lake( ter( p + point_north_west ) ) && ( inbounds( p + point_north_west ) ) ) {
                 ter_set( p, oter_id( "river_c_not_nw" ) );
             } else if( !is_river_or_lake( ter( p + point_north_east ) ) &&
-                       ( ( p + point_north_east ).x >= 0 ) && ( ( p + point_north_east ).x <= OMAPX - 1 ) &&
-                       ( ( p + point_north_east ).y <= OMAPY - 1 ) && ( ( p + point_north_east ).y >= 0 ) ) {
+                       ( inbounds( p + point_north_east ) ) ) {
                 ter_set( p, oter_id( "river_c_not_ne" ) );
             } else if( !is_river_or_lake( ter( p + point_south_west ) ) &&
-                       ( ( p + point_south_west ).x >= 0 ) && ( ( p + point_south_west ).x <= OMAPX - 1 ) &&
-                       ( ( p + point_south_west ).y <= OMAPY - 1 ) && ( ( p + point_south_west ).y >= 0 ) ) {
+                       ( inbounds( p + point_south_west ) ) ) {
                 ter_set( p, oter_id( "river_c_not_sw" ) );
             } else if( !is_river_or_lake( ter( p + point_south_east ) ) &&
-                       ( ( p + point_south_east ).x >= 0 ) && ( ( p + point_south_east ).x <= OMAPX - 1 ) &&
-                       ( ( p + point_south_east ).y <= OMAPY - 1 ) && ( ( p + point_south_east ).y >= 0 ) ) {
+                       ( inbounds( p + point_south_east ) ) ) {
                 ter_set( p, oter_id( "river_c_not_se" ) );
             } else {
                 ter_set( p, riv_ters.at( mask ) );
@@ -3817,9 +3771,8 @@ void overmap::good_river( const tripoint &p )
             ter_set( p, riv_ters.at( mask ) );
         }
     } else {
-        //Shouldn't happen.
+        //Shouldn't happen. But does, when trying to place North<->South or West<->East river omt connections.
         ter_set( p, riv_ters.at( 0 ) );
-        debugmsg( "Spawning forest_water on river cleanup." );
     }
 
     //End of cleaning rivers
