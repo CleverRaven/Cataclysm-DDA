@@ -21,7 +21,7 @@
     "min_cycle_recoil": 450,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
-  },  
+  },
   {
     "id": "calico",
     "looks_like": "hk_mp5",
