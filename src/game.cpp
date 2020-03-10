@@ -6513,7 +6513,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
         }
 
         int la_y = 0;
-        int la_x = TERMX - panel_width;
+        int la_x = get_option<std::string>("SIDEBAR_POSITION") == "left" ? 0 : TERMX - panel_width;
         int la_h = height;
         int la_w = panel_width;
         w_info = catacurses::newwin( la_h, la_w, point( la_x, la_y ) );
