@@ -19,7 +19,7 @@
     "id": "90two40mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "90two .40 S&W Magazine" },
+    "name": { "str": "90two .40 S&W magazine" },
     "description": "A magazine for the 92 and 96 series of Beretta handguns, this one is for .40 S&W and can hold 12 rounds.",
     "weight": "135 g",
     "volume": "250 ml",
