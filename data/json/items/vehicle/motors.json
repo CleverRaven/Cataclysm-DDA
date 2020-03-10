@@ -50,7 +50,7 @@
   {
     "type": "GENERIC",
     "id": "motor_small",
-    "name": "small electric motor",
+    "name": { "str": "small electric motor" },
     "description": "A small electric motor.  Useful for crafting.",
     "weight": "5 kg",
     "volume": "1 L",
