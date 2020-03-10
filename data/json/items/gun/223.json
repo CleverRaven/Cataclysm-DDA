@@ -66,7 +66,6 @@
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "barrel_length": 0,
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
