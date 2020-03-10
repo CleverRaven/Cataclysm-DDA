@@ -21,7 +21,7 @@
     "id": "awl_steel",
     "copy-from": "awl_bone",
     "type": "GENERIC",
-    "name": "steel sewing awl",
+    "name": { "str": "steel sewing awl" },
     "description": "This is a steel awl with a wooden grip, usually used for leatherworking.  It can also serve as an improvised stabbing weapon, but will break quickly.",
     "weight": "170 g",
     "price": 450,

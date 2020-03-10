@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "solar_panel",
-    "name": "solar panel",
+    "name": { "str": "solar panel" },
     "description": "Electronic device that can convert solar radiation into electric power.  Useful for a vehicle.",
     "weight": "14000 g",
     "to_hit": -4,
@@ -62,7 +62,7 @@
   {
     "type": "GENERIC",
     "id": "solar_cell",
-    "name": "solar cell",
+    "name": { "str": "solar cell" },
     "description": "A small electronic device that can convert solar radiation into electric power.  Useful for crafting.",
     "weight": "500 g",
     "symbol": ";",

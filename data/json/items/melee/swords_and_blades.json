@@ -1086,7 +1086,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
-    "name": "sword cane",
+    "name": { "str": "sword cane" },
     "description": "A sword with a thin blade designed to be hidden inside a hollow cane.",
     "price": 2000,
     "price_postapoc": 1000,
