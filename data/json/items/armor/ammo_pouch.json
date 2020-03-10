@@ -443,7 +443,7 @@
   {
     "id": "quiver",
     "type": "ARMOR",
-    "name": "quiver",
+    "name": { "str": "quiver" },
     "description": "A leather quiver worn at the waist that can hold 20 arrows.  Activate to store arrows.",
     "weight": "260 g",
     "volume": "500 ml",
