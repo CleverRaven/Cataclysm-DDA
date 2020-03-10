@@ -726,7 +726,7 @@
   {
     "id": "runner_bag",
     "type": "ARMOR",
-    "name": "runner pack",
+    "name": { "str": "runner pack" },
     "description": "The obvious choice for outdoor athletes, this ergonomic backpack is light and easy to wear, ensuring comfort when carrying heavy and bulky items.",
     "weight": "840 g",
     "volume": "1500 ml",

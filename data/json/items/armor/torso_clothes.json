@@ -438,7 +438,7 @@
     "id": "sheriffshirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "sheriff's shirt",
+    "name": { "str": "sheriff's shirt" },
     "description": "A tan button-down shirt with long sleeves.",
     "weight": "250 g",
     "volume": "750 ml",

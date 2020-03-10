@@ -109,7 +109,7 @@
   {
     "id": "scabbard",
     "type": "ARMOR",
-    "name": "scabbard",
+    "name": { "str": "scabbard" },
     "description": "A large, adjustable sheath for holding swords and other large blades.  Activate to sheathe/draw a weapon.",
     "weight": "1360 g",
     "volume": "1750 ml",
