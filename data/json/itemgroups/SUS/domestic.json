@@ -286,7 +286,6 @@
         "prob": 80
       },
       { "item": "jam_fruit", "prob": 80 },
-      { "item": "butter", "prob": 80 },
       { "item": "peanutbutter", "prob": 80 },
       { "item": "syrup", "prob": 50 },
       {
