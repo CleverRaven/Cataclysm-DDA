@@ -2,7 +2,7 @@
   {
     "id": "aisle_lights",
     "type": "vehicle_part",
-    "name": "aisle lights",
+    "name": { "str": "aisle lights" },
     "item": "flashlight",
     "location": "on_ceiling",
     "symbol": "*",
@@ -24,7 +24,7 @@
   {
     "id": "atomic_lamp",
     "type": "vehicle_part",
-    "name": "atomic lamp",
+    "name": { "str": "atomic lamp" },
     "item": "atomic_lamp",
     "location": "on_ceiling",
     "symbol": "*",
@@ -46,7 +46,7 @@
     "id": "atomic_light",
     "copy-from": "atomic_lamp",
     "type": "vehicle_part",
-    "name": "atomic nightlight",
+    "name": { "str": "atomic nightlight" },
     "item": "atomic_light",
     "description": "A very dim light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates a single square inside the vehicle that isn't suitable for crafting.",
     "bonus": 5,
@@ -220,7 +220,7 @@
   {
     "id": "lit_aisle_horizontal",
     "type": "vehicle_part",
-    "name": "aisle with lights",
+    "name": { "str": "aisle with lights" },
     "item": "sheet_metal_lit",
     "location": "center",
     "symbol": "=",

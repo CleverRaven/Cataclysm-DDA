@@ -68,7 +68,7 @@
   {
     "id": "bike_rack",
     "type": "vehicle_part",
-    "name": "bike rack",
+    "name": { "str": "bike rack" },
     "item": "bike_rack",
     "location": "anywhere",
     "symbol": "=",
