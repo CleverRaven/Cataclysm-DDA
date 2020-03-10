@@ -186,7 +186,7 @@
   {
     "type": "GENERIC",
     "id": "spear_steel",
-    "name": "steel spear",
+    "name": { "str": "steel spear" },
     "description": "A stout wooden pole with a hand-forged steel spearhead.",
     "weight": "1498 g",
     "to_hit": 2,
@@ -536,7 +536,7 @@
   {
     "id": "spear_stone",
     "type": "GENERIC",
-    "name": "stone spear",
+    "name": { "str": "stone spear" },
     "description": "A stout wooden pole with a sharp stone spearhead.",
     "weight": "1098 g",
     "volume": "1250 ml",

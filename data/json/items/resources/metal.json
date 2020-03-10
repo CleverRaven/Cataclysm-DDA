@@ -37,7 +37,7 @@
   {
     "type": "GENERIC",
     "id": "spike",
-    "name": "spike",
+    "name": { "str": "spike" },
     "description": "A large and slightly misshapen spike, could do some damage mounted on a vehicle.",
     "category": "spare_parts",
     "weight": "550 g",

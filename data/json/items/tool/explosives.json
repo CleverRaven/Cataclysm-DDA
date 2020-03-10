@@ -1124,7 +1124,7 @@
     "id": "smokebomb",
     "copy-from": "grenade_canister",
     "type": "GENERIC",
-    "name": "smoke bomb",
+    "name": { "str": "smoke bomb" },
     "description": "This is a canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and light the fuse, turning it into an active smoke bomb.  Five turns after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
     "price": 1800,
     "weight": "569 g",
