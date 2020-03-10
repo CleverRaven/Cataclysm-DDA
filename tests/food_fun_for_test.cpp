@@ -1,7 +1,8 @@
 #include "avatar.h"
-
+#include "cata_string_consts.h"
 #include "catch/catch.hpp"
 #include "type_id.h"
+
 
 // Test cases for `Character::fun_for` defined in `src/consumption.cpp`
 
@@ -91,19 +92,96 @@ TEST_CASE( "rotten food fun", "[food][fun_for][rotten]" )
 // N.B. food that tastes better hot is `modify_morale` with different math
 TEST_CASE( "cold food fun", "[food][fun_for][cold]" )
 {
+    avatar dummy;
+    std::pair<int, int> fun;
+
+    GIVEN( "food that tastes good, but better when cold" ) {
+        item cola( "cola" );
+        REQUIRE( cola.has_flag( flag_EATEN_COLD ) );
+        int cola_fun = cola.get_comestible_fun();
+
+        WHEN( "it is cold" ) {
+            cola.set_flag( flag_COLD );
+            REQUIRE( cola.has_flag( flag_COLD ) );
+
+            THEN( "it is more fun than normal" ) {
+                fun = dummy.fun_for( cola );
+                CHECK( fun.first == cola_fun * 2 );
+            }
+        }
+
+        WHEN( "it is not cold" ) {
+            REQUIRE_FALSE( cola.has_flag( flag_COLD ) );
+            THEN( "it has normal fun" ) {
+                fun = dummy.fun_for( cola );
+                CHECK( fun.first == cola_fun );
+            }
+        }
+    }
+
+    GIVEN( "food that tastes bad, but better when cold" ) {
+        item sports( "sports_drink" );
+        int sports_fun = sports.get_comestible_fun();
+
+        REQUIRE( sports_fun < 0 );
+        REQUIRE( sports.has_flag( flag_EATEN_COLD ) );
+
+        WHEN( "it is cold" ) {
+            sports.set_flag( flag_COLD );
+            REQUIRE( sports.has_flag( flag_COLD ) );
+
+            THEN( "it doesn't taste bad" ) {
+                fun = dummy.fun_for( sports );
+                CHECK( fun.first > 0 );
+            }
+        }
+
+        WHEN( "it is not cold" ) {
+            REQUIRE_FALSE( sports.has_flag( flag_COLD ) );
+
+            THEN( "it tastes as bad as usual" ) {
+                fun = dummy.fun_for( sports );
+                CHECK( fun.first == sports_fun );
+            }
+        }
+    }
 }
 
 TEST_CASE( "melted food fun", "[food][fun_for][melted]" )
 {
+    avatar dummy;
+    std::pair<int, int> fun;
+
+    GIVEN( "food that is fun but melts" ) {
+        item icecream( "icecream" );
+        REQUIRE( icecream.has_flag( flag_MELTS ) );
+        int icecream_fun = icecream.get_comestible_fun();
+
+        WHEN( "it is not frozen" ) {
+            REQUIRE_FALSE( icecream.has_flag( flag_FROZEN ) );
+
+            THEN( "it is half as fun" ) {
+                fun = dummy.fun_for( icecream );
+                CHECK( fun.first == icecream_fun / 2 );
+            }
+        }
+    }
+
+    /* TODO: Mock-up such a food, as none exist in game
+    GIVEN( "food that is not fun and also melts" ) {
+        WHEN( "it is not frozen" ) {
+            THEN( "it tastes worse" ) {
+            }
+        }
+    }
+    */
 }
 
 // Base fun level with no other effects is get_comestible_fun()
 // - get_comestible_fun() is where flag_MUSHY is applied
-//
+
 // Food is less enjoyable when eaten too often
 //
-// Some food tastes better when eaten cold
-// Frozen food tastes worse when melted
 // Dog food tastes good to dogs
 // Cat food tastes good to cats
 // Gourmands really enjoy food
