@@ -73,7 +73,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "Px4 .40 magazine" },
-    "description": "A magazine for the Px4 Storm chambered for .40 S&W. It holds 14 rounds.",
+    "description": "A magazine for the Px4 Storm chambered for .40 S&W.  It holds 14 rounds.",
     "weight": "135 g",
     "volume": "250 ml",
     "price": 3200,
