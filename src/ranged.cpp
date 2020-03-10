@@ -1624,7 +1624,12 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
             dst = t[newtarget]->pos();
             pc.recoil = recalc_recoil( dst );
-        } else if( ( action == "AIM" ) ) {
+        } else if( action == "AIM" ) {
+            if( src == dst ) {
+                // Skip this action if no target selected
+                continue;
+            }
+
             // No confirm_non_enemy_target here because we have not initiated the firing.
             // Aiming can be stopped / aborted at any time.
             recoil_pc = pc.recoil;
@@ -1674,9 +1679,14 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 aim_mode = aim_types.begin();
             }
         } else if( action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT" ) {
+            if( src == dst ) {
+                // Skip this action if no target selected
+                continue;
+            }
+
             // This action basically means "FIRE" as well, the actual firing may be delayed
             // through aiming, but there is usually no means to stop it. Therefore we query here.
-            if( !confirm_non_enemy_target( dst ) || dst == src ) {
+            if( !confirm_non_enemy_target( dst ) ) {
                 continue;
             }
 
@@ -1718,11 +1728,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 return empty_result;
             }
         } else if( action == "FIRE" ) {
-            if( !confirm_non_enemy_target( dst ) || dst == src ) {
+            if( src == dst ) {
+                // Skip this action if no target selected
+                // TODO: Consider allowing firing vehicle turret at yourself
                 continue;
             }
-            if( src == dst ) {
-                ret.clear();
+            if( !confirm_non_enemy_target( dst ) ) {
+                continue;
             }
             break;
         } else if( action == "CENTER" ) {
