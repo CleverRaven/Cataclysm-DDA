@@ -748,7 +748,7 @@
   {
     "id": "peacoat",
     "type": "ARMOR",
-    "name": "peacoat",
+    "name": { "str": "peacoat" },
     "description": "A heavy wool coat.  Cumbersome, but warm and with deep pockets.",
     "weight": "1800 g",
     "volume": "3 L",

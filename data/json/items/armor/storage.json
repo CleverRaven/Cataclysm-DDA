@@ -615,7 +615,7 @@
   {
     "id": "petpack",
     "type": "ARMOR",
-    "name": "petpack",
+    "name": { "str": "petpack" },
     "description": "Before the Cataclysm this would allow your four-legged friend to see the world, now it's used to shield them from the world.",
     "weight": "1316 g",
     "volume": "10 L",
@@ -638,7 +638,7 @@
   {
     "id": "plastic_shopping_bag",
     "type": "ARMOR",
-    "name": "plastic shopping bag",
+    "name": { "str": "plastic shopping bag" },
     "description": "A bag used to carry groceries home.",
     "weight": "2 g",
     "volume": "250 ml",
@@ -658,7 +658,7 @@
     "id": "purse",
     "repairs_like": "backpack",
     "type": "ARMOR",
-    "name": "purse",
+    "name": { "str": "purse" },
     "description": "A bit cumbersome to wear, but provides some storage.",
     "weight": "297 g",
     "volume": "1 L",

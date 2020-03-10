@@ -92,7 +92,7 @@
     "id": "personal_gobag",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
-    "name": "personal go bag",
+    "name": { "str": "personal go bag" },
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
     "looks_like": "gobag",
     "use_action": "GOBAG_PERSONAL",

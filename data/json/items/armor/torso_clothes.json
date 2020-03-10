@@ -398,7 +398,7 @@
   {
     "id": "polo_shirt",
     "type": "ARMOR",
-    "name": "polo shirt",
+    "name": { "str": "polo shirt" },
     "description": "A short-sleeved cotton shirt, slightly thicker than a t-shirt.",
     "weight": "136 g",
     "volume": "750 ml",

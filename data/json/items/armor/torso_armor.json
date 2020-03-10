@@ -361,7 +361,7 @@
   {
     "id": "plastron_plastic",
     "type": "ARMOR",
-    "name": "plastic chest protector",
+    "name": { "str": "plastic chest protector" },
     "description": "A rigid plastic plastron with molded cups to be worn by female fencers for protection while fencing.",
     "weight": "194 g",
     "volume": "850 ml",

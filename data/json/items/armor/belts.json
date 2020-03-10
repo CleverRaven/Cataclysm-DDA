@@ -141,7 +141,7 @@
   {
     "id": "police_belt",
     "type": "ARMOR",
-    "name": "police duty belt",
+    "name": { "str": "police duty belt" },
     "description": "Black leather belt used by police officers.  It has several pouches and a holder for a baton.",
     "weight": "250 g",
     "volume": "2 L",
