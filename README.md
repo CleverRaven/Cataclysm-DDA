@@ -4,20 +4,20 @@ Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While
 
 ---
 
-<a href="https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master">
-    <img src="https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master" alt="Coverage Status" align="right">
-</a>
-
-<a href="https://www.codetriage.com/cleverraven/cataclysm-dda">
-    <img src="https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg" alt="Open Source Helpers" align="right">
+<a href="https://github.com/XAMPPRocky/tokei">
+    <img src="https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code" alt="Lines of Code" align="right">
 </a>
 
 <a href="https://github.com/CleverRaven/Cataclysm-DDA/graphs/contributors">
     <img src="https://img.shields.io/github/commit-activity/m/CleverRaven/Cataclysm-DDA" alt="Commit Activity" align="right">
 </a>
 
-<a href="https://github.com/XAMPPRocky/tokei">
-    <img src="https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code" alt="Lines of Code" align="right">
+<a href="https://www.codetriage.com/cleverraven/cataclysm-dda">
+    <img src="https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg" alt="Open Source Helpers" align="right">
+</a>
+
+<a href="https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master">
+    <img src="https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master" alt="Coverage Status" align="right">
 </a>
 
 <a href="https://travis-ci.org/CleverRaven/Cataclysm-DDA">
