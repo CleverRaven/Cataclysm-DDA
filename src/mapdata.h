@@ -39,18 +39,25 @@ struct map_bash_info {
     int sound_vol;          // sound volume of breaking terrain/furniture
     int sound_fail_vol;     // sound volume on fail
     int collapse_radius;    // Radius of the tent supported by this tile
+    int fd_bash_move_cost = 100; // cost to bash a field
     bool destroy_only;      // Only used for destroying, not normally bashable
     bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
     std::string drop_group; // item group of items that are dropped when the object is bashed
     translation sound;      // sound made on success ('You hear a "smash!"')
     translation sound_fail; // sound  made on fail
+    translation field_bash_msg_success; // message upon successfully bashing a field
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     ter_str_id ter_set_bashed_from_above; // terrain to set if bashed from above (defaults to ter_set)
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;
     map_bash_info();
-    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture );
+    enum map_object_type {
+        furniture = 0,
+        terrain,
+        field
+    };
+    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type );
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
