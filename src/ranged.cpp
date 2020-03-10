@@ -737,7 +737,8 @@ static std::string print_recoil( const player &p )
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( const catacurses::window &w_target, const std::string &name,
                                   target_mode mode, input_context &ctxt,
-                                  const std::vector<aim_type> &aim_types, bool tiny )
+                                  const std::vector<aim_type> &aim_types, bool tiny,
+                                  bool grey_out_firing_controls = false )
 {
     draw_border( w_target );
     // Draw the "title" of the window.
@@ -792,6 +793,8 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
         return keys.empty() ? fallback : keys.front();
     };
 
+    nc_color fire_color = grey_out_firing_controls ? c_light_gray : c_white;
+
     std::string label_fire;
     if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
         label_fire = to_translation( "[Hotkey] to throw", "to throw" ).translated();
@@ -802,18 +805,19 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     } else {
         label_fire = to_translation( "[Hotkey] to fire", "to fire" ).translated();
     }
-    const char *label_cycle_targets = _( "Cycle targets" );
-    mvwprintz( w_target, point( 1, text_y++ ), c_white, "[%s] %s; [%c] %s.",
-               ctxt.get_desc( "NEXT_TARGET", 1 ), label_cycle_targets,
-               front_or( "FIRE", ' ' ), label_fire
-             );
+
+    auto label_cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
+    int text_x = utf8_width( label_cycle ) + 2; // '2' for border + space at the end
+    mvwprintz( w_target, point( 1, text_y ), c_white, label_cycle );
+    mvwprintz( w_target, point( text_x, text_y++ ), fire_color, "[%c] %s.", front_or( "FIRE", ' ' ),
+               label_fire );
 
     mvwprintz( w_target, point( 1, text_y++ ), c_white,
                _( "[%c] target self; [%c] toggle snap-to-target" ),
                front_or( "CENTER", ' ' ), front_or( "TOGGLE_SNAP_TO_TARGET", ' ' ) );
 
     if( mode == TARGET_MODE_FIRE ) {
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to steady your aim.  (10 moves)" ),
+        mvwprintz( w_target, point( 1, text_y++ ), fire_color, _( "[%c] to steady your aim.  (10 moves)" ),
                    front_or( "AIM", ' ' ) );
         std::string aim_and_fire;
         for( const auto &e : aim_types ) {
@@ -821,7 +825,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
                 aim_and_fire += string_format( "[%s] ", front_or( e.action, ' ' ) );
             }
         }
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "%sto aim and fire" ), aim_and_fire );
+        mvwprintz( w_target, point( 1, text_y++ ), fire_color, _( "%sto aim and fire" ), aim_and_fire );
         mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to switch aiming modes." ),
                    front_or( "SWITCH_AIM", ' ' ) );
     }
@@ -834,8 +838,10 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     }
 
     if( is_mouse_enabled() ) {
-        mvwprintz( w_target, point( 1, text_y ), c_white,
-                   _( "Mouse: LMB: Target, Wheel: Cycle, RMB: Fire" ) );
+        const char *label_mouse = "Mouse: LMB: Target, Wheel: Cycle,";
+        int text_x = utf8_width( label_mouse ) + 2; // '2' for border + space at the end
+        mvwprintz( w_target, point( 1, text_y ), c_white, label_mouse );
+        mvwprintz( w_target, point( text_x, text_y ), fire_color, _( "RMB: Fire" ) );
     }
     return lines_used;
 }
@@ -1337,7 +1343,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     // TODO: this assumes that relevant == null means firing turrets, but that may not
     // always be the case. Consider passing a name into this function.
     int num_instruction_lines = draw_targeting_window( w_target,
-                                relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny );
+                                relevant ? relevant->tname() : _( "turrets" ), mode, ctxt, aim_types, tiny, src == dst );
 
     bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
@@ -1491,7 +1497,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
             // Assumes that relevant == null means firing turrets (maybe even multiple at once),
             // so printing their firing mode / ammo / ... of one of them is misleading.
-            if( relevant && mode == TARGET_MODE_FIRE ) {
+            if( relevant && mode == TARGET_MODE_FIRE && src != dst ) {
                 double predicted_recoil = pc.recoil;
                 int predicted_delay = 0;
                 if( aim_mode->has_threshold && aim_mode->threshold < pc.recoil ) {
@@ -1528,7 +1534,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             wrefresh( g->w_terrain );
             g->draw_panels();
             draw_targeting_window( w_target, relevant ? relevant->tname() : _( "turrets" ),
-                                   mode, ctxt, aim_types, tiny );
+                                   mode, ctxt, aim_types, tiny, src == dst );
             wrefresh( w_target );
 
             catacurses::refresh();
