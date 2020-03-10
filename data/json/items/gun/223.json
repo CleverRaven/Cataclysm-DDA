@@ -51,7 +51,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "FAMAS G2" },
-    "description": "An assault rifle that was until recently used by French armed forces. Famed for its high rate of fire, it was never available in a civilian version.",
+    "description": "An assault rifle that was until recently used by French armed forces.  Famous for its high rate of fire, it was never available in a civilian version.",
     "weight": "3800 g",
     "volume": "4674 ml",
     "price": 540000,
