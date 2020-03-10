@@ -6,6 +6,12 @@
 
 // Test cases for `Character::fun_for` defined in `src/consumption.cpp`
 
+// TODO: Refactor fun_for?
+// Fun calculations that do not need character:
+// - EATEN_COLD and COLD
+// - MELTS and not FROZEN
+// (could go in get_comestible_fun with MUSHY)
+//
 TEST_CASE( "non-food has no food fun value", "[fun_for][nonfood]" )
 {
     avatar dummy;
@@ -26,7 +32,7 @@ TEST_CASE( "effect of sickness on food fun", "[food][fun_for][sick]" )
     // Base fun value for toast-em
     int toastem_fun = toastem.get_comestible_fun();
 
-    WHEN( "avatar has a cold" ) {
+    WHEN( "character has a cold" ) {
         dummy.add_effect( efftype_id( "common_cold" ), 1_days );
         REQUIRE( dummy.has_effect( efftype_id( "common_cold" ) ) );
 
@@ -36,7 +42,7 @@ TEST_CASE( "effect of sickness on food fun", "[food][fun_for][sick]" )
         }
     }
 
-    WHEN( "avatar has the flu" ) {
+    WHEN( "character has the flu" ) {
         dummy.add_effect( efftype_id( "flu" ), 1_days );
         REQUIRE( dummy.has_effect( efftype_id( "flu" ) ) );
 
@@ -58,7 +64,7 @@ TEST_CASE( "rotten food fun", "[food][fun_for][rotten]" )
         nuts.set_relative_rot( 1.5 );
         REQUIRE( nuts.rotten() );
 
-        WHEN( "avatar has normal tastes" ) {
+        WHEN( "character has normal tastes" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_id( "SAPROPHAGE" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
 
@@ -68,7 +74,7 @@ TEST_CASE( "rotten food fun", "[food][fun_for][rotten]" )
             }
         }
 
-        WHEN( "avatar is a saprophage" ) {
+        WHEN( "character is a saprophage" ) {
             dummy.toggle_trait( trait_id( "SAPROPHAGE" ) );
             REQUIRE( dummy.has_trait( trait_id( "SAPROPHAGE" ) ) );
 
@@ -77,7 +83,7 @@ TEST_CASE( "rotten food fun", "[food][fun_for][rotten]" )
                 CHECK( fun.first > 0 );
             }
         }
-        WHEN( "avatar is a saprovore" ) {
+        WHEN( "character is a saprovore" ) {
             dummy.toggle_trait( trait_id( "SAPROVORE" ) );
             REQUIRE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
 
@@ -177,13 +183,72 @@ TEST_CASE( "melted food fun", "[food][fun_for][melted]" )
     */
 }
 
+TEST_CASE( "cat food fun", "[food][fun_for][cat][feline]" )
+{
+    avatar dummy;
+    std::pair<int, int> actual_fun;
+
+    GIVEN( "cat food" ) {
+        item catfood( "catfood" );
+        REQUIRE( catfood.is_comestible() );
+        REQUIRE( catfood.has_flag( flag_FELINE ) );
+
+        WHEN( "character is not feline" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_THRESH_FELINE ) );
+            THEN( "they dislike cat food" ) {
+                actual_fun = dummy.fun_for( catfood );
+                CHECK( actual_fun.first < 0 );
+            }
+        }
+
+        WHEN( "character is feline" ) {
+            dummy.toggle_trait( trait_THRESH_FELINE );
+            REQUIRE( dummy.has_trait( trait_THRESH_FELINE ) );
+
+            THEN( "they like cat food" ) {
+                actual_fun = dummy.fun_for( catfood );
+                CHECK( actual_fun.first > 0 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "dog food fun", "[food][fun_for][dog][lupine]" )
+{
+    avatar dummy;
+    std::pair<int, int> actual_fun;
+
+    GIVEN( "dog food" ) {
+        item dogfood( "dogfood" );
+        REQUIRE( dogfood.is_comestible() );
+        REQUIRE( dogfood.has_flag( flag_LUPINE ) );
+
+        WHEN( "character is not lupine" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_THRESH_LUPINE ) );
+
+            THEN( "they dislike dog food" ) {
+                actual_fun = dummy.fun_for( dogfood );
+                CHECK( actual_fun.first < 0 );
+            }
+        }
+
+        WHEN( "character is lupine" ) {
+            dummy.toggle_trait( trait_THRESH_LUPINE );
+            REQUIRE( dummy.has_trait( trait_THRESH_LUPINE ) );
+
+            THEN( "they like dog food" ) {
+                actual_fun = dummy.fun_for( dogfood );
+                CHECK( actual_fun.first > 0 );
+            }
+        }
+    }
+}
+
 // Base fun level with no other effects is get_comestible_fun()
 // - get_comestible_fun() is where flag_MUSHY is applied
 
 // Food is less enjoyable when eaten too often
 //
-// Dog food tastes good to dogs
-// Cat food tastes good to cats
 // Gourmands really enjoy food
 // Bionic taste blocker (if it has enough power) nullifies bad-tasting food
 //
