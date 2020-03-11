@@ -963,6 +963,10 @@ void Character::modify_addiction( const islot_comestible &comest )
 
 void Character::modify_morale( item &food, const int nutr )
 {
+    if( food.has_flag( "NO_INGEST" ) ) {
+        return;
+    }
+
     time_duration morale_time = 2_hours;
     if( food.has_flag( flag_HOT ) && food.has_flag( flag_EATEN_HOT ) ) {
         morale_time = 3_hours;
