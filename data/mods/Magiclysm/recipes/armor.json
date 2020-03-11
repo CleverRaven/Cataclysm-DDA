@@ -90,5 +90,28 @@
     "time": "2 h",
     "book_learn": [ [ "magic_armormaking", 4 ] ],
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_piece", 10 ] ] ]
+  },
+  {
+    "result": "demonchitin_armor_horse",
+    "type": "recipe",
+    "copy-from": "armor_demonchitin",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
+    "time": "17 h 30 m",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "skills_required": [ [ "spellcraft", 6 ], [ "fabrication", 4 ], [ "survival", 4 ] ],
+    "using": [ [ "cordage", 7 ] ],
+    "components": [ [ [ "demon_chitin_plate", 4 ] ], [ [ "demon_chitin_piece", 20 ] ] ]
+  },
+  {
+    "result": "demonchitin_harness_dog",
+    "type": "recipe",
+    "copy-from": "armor_demonchitin",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skills_required": [ [ "spellcraft", 6 ], [ "fabrication", 4 ], [ "survival", 4 ] ],
+    "time": "5 h",
+    "using": [ [ "cordage", 1 ] ],
+    "components": [ [ [ "demon_chitin_piece", 12 ] ] ]
   }
 ]
