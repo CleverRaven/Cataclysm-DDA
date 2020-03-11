@@ -1697,7 +1697,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             } while( pc.moves > 0 && pc.recoil > aim_threshold && pc.recoil - sight_dispersion > min_recoil );
 
             if( pc.recoil <= aim_threshold ||
-                pc.recoil - sight_dispersion == min_recoil ) {
+                pc.recoil - sight_dispersion == min_recoil ||
+                // if no critter is at dst then sight dispersion does not apply,
+                // so it would lock into an infinite loop
+                ( !g->critter_at( dst ) && pc.recoil == min_recoil ) ) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
                 pc.view_offset = old_offset;
