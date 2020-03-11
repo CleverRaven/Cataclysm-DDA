@@ -745,21 +745,23 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
                               // NOLINTNEXTLINE(cata-text-style): literal comma
-                              _( "Separate multiple items with ," ) );
+                              _( "Separate multiple items with [<color_yellow>,</color>]." ) );
     starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
                                   //~ An example of how to separate multiple items with a comma when filtering items.
                                   _( "Example: back,flash,aid, ,band" ) ); // NOLINT(cata-text-style): literal comma
 
     if( type == item_filter_type::FILTER ) {
         starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                                  _( "To exclude items, place - in front." ) );
+                                  _( "To exclude items, place [<color_yellow>-</color>] in front." ) );
         starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
                                       //~ An example of how to exclude items with - when filtering items.
                                       _( "Example: -pipe,-chunk,-steel" ) );
     }
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                              _( "Search [c]ategory, [m]aterial, [q]uality, [n]otes or [d]isassembled components:" ) );
+                              _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
+                                 "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes or "
+                                 "[<color_yellow>d</color>]isassembled components." ) );
     fold_and_print( win, point( 1, starty ), len, c_white,
                     //~ An example of how to filter items based on category or material.
                     _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
@@ -847,7 +849,9 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
     if( !data.get_item_name().empty() ) {
         buffer += data.get_item_name() + "\n";
     }
-    if( data.get_item_name() != data.get_type_name() && !data.get_type_name().empty() ) {
+    // If type name is set, and not already contained in item name, output it too
+    if( !data.get_type_name().empty() &&
+        data.get_item_name().find( data.get_type_name() ) == std::string::npos ) {
         buffer += data.get_type_name() + "\n";
     }
     for( unsigned int i = 0; i < data.padding; i++ ) {
