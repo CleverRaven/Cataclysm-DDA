@@ -50,9 +50,9 @@
       "cz75mag_12rd",
       "cz75mag_20rd",
       "ccpmag",
-	  "px4mag",
-	  "90two40mag",
-	  "px4_40mag",
+      "px4mag",
+      "90two40mag",
+      "px4_40mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_mag"
@@ -168,7 +168,7 @@
       "8x40_25_mag",
       "8x40_500_mag",
       "8x40_50_mag",
-	  "famasmag"
+      "famasmag"
     ],
     "type": "MIGRATION",
     "replace": "rifle_mag"

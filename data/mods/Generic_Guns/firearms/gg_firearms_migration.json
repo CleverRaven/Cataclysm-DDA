@@ -115,10 +115,10 @@
       "walther_ppq_9mm",
       "hptc9",
       "cz75",
-	  "90two",
-	  "px4",
-	  "90two40",
-	  "px4_40"
+      "90two",
+      "px4",
+      "90two40",
+      "px4_40"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
@@ -260,7 +260,7 @@
       "m1a",
       "sks",
       "mosin44",
-	  "famas"
+      "famas"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
@@ -295,7 +295,7 @@
       "shotgun_410",
       "browning_a5",
       "ksg",
-	  "ksg-25",
+      "ksg-25",
       "m1014",
       "mossberg_500",
       "mossberg_500_security",

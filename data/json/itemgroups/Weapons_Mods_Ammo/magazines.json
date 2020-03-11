@@ -108,6 +108,7 @@
       [ "40_speedloader6", 10 ],
       [ "glock17_17", 14 ],
       [ "glock17_22", 6 ],
+      [ "px4mag", 55 ],
       [ "px4_40mag", 6 ],
       [ "glockmag", 33 ],
       [ "glock40mag", 7 ],
