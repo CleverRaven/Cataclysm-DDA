@@ -829,22 +829,24 @@ void player::sort_armor()
                 }
             }
         } else if( action == "USAGE_HELP" ) {
-            popup_getkey( _( "Use the arrow- or keypad keys to navigate the left list.\n"
-                             "[%s] to select highlighted armor for reordering.\n"
-                             "[%s] / [%s] to scroll the right list.\n"
-                             "[%s] to assign special inventory letters to clothing.\n"
-                             "[%s] to change the side on which item is worn.\n"
-                             "[%s] to sort armor into natural layer order.\n"
-                             "[%s] to equip a new item.\n"
-                             "[%s] to equip a new item at the currently selected position.\n"
-                             "[%s] to remove selected armor from oneself.\n"
+            popup_getkey( _( "Use the [<color_yellow>arrow- or keypad keys</color>] to navigate the left list.\n"
+                             "[<color_yellow>%s</color>] to select highlighted armor for reordering.\n"
+                             "[<color_yellow>%s</color>] / [<color_yellow>%s</color>] to scroll the right list.\n"
+                             "[<color_yellow>%s</color>] to assign special inventory letters to clothing.\n"
+                             "[<color_yellow>%s</color>] to change the side on which item is worn.\n"
+                             "[<color_yellow>%s</color>] to sort armor into natural layer order.\n"
+                             "[<color_yellow>%s</color>] to equip a new item.\n"
+                             "[<color_yellow>%s</color>] to equip a new item at the currently selected position.\n"
+                             "[<color_yellow>%s</color>] to remove selected armor from oneself.\n"
                              "\n"
-                             "[Encumbrance and Warmth] explanation:\n"
-                             "The first number is the summed encumbrance from all clothing on that bodypart.\n"
-                             "The second number is an additional encumbrance penalty caused by wearing multiple items "
-                             "on one of the bodypart's layers or wearing items outside of other items they would "
-                             "normally be work beneath (e.g. a shirt over a backpack).\n"
-                             "The sum of these values is the effective encumbrance value your character has for that bodypart." ),
+                             "\n"
+                             "Encumbrance explanation:\n"
+                             "\n"
+                             "<color_light_gray>The first number is the summed encumbrance from all clothing on that bodypart.  "
+                             "The second number is an additional encumbrance penalty caused by wearing either multiple items "
+                             "on one of the bodypart's layers or wearing items the wrong way (e.g. a shirt over a backpack).  "
+                             "The sum of these values is the effective encumbrance value "
+                             "your character has for that bodypart.</color>" ),
                           ctxt.get_desc( "MOVE_ARMOR" ),
                           ctxt.get_desc( "PREV_TAB" ),
                           ctxt.get_desc( "NEXT_TAB" ),
