@@ -67,7 +67,7 @@
     "id": "hood_lsurvivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "light survivor hood",
+    "name": { "str": "light survivor hood" },
     "description": "A customized armored cloth and Kevlar hood, very light and durable.",
     "weight": "628 g",
     "volume": "750 ml",
@@ -89,7 +89,7 @@
   {
     "id": "hood_rain",
     "type": "ARMOR",
-    "name": "rain hood",
+    "name": { "str": "rain hood" },
     "description": "A waterproof hood made to be worn in bad weather.  Provides extra protection from rain.",
     "weight": "160 g",
     "volume": "750 ml",

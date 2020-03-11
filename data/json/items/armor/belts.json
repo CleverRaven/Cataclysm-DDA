@@ -79,7 +79,7 @@
     "id": "judo_belt_orange",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "orange belt",
+    "name": { "str": "orange belt" },
     "description": "A belt worn by martial arts practitioners, advertising a fresh intermediate.",
     "color": "light_red"
   },
@@ -102,7 +102,7 @@
   {
     "id": "leather_belt",
     "type": "ARMOR",
-    "name": "leather belt",
+    "name": { "str": "leather belt" },
     "description": "A leather belt.  Useful for making your pair of pants fit.",
     "weight": "102 g",
     "volume": "250 ml",
@@ -128,7 +128,7 @@
   {
     "id": "obi_gi",
     "type": "ARMOR",
-    "name": "obi",
+    "name": { "str": "obi" },
     "description": "A broad, black obi gi.",
     "weight": "200 g",
     "volume": "250 ml",
@@ -141,7 +141,7 @@
   {
     "id": "police_belt",
     "type": "ARMOR",
-    "name": "police duty belt",
+    "name": { "str": "police duty belt" },
     "description": "Black leather belt used by police officers.  It has several pouches and a holder for a baton.",
     "weight": "250 g",
     "volume": "2 L",

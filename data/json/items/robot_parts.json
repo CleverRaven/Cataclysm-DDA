@@ -15,7 +15,7 @@
   {
     "type": "GENERIC",
     "id": "targeting_module",
-    "name": "targeting module",
+    "name": { "str": "targeting module" },
     "description": "This module integrates visual and proprioceptive information from peripheric sensors and outputs information necessary for accurate aiming.",
     "copy-from": "robot_module_abstract"
   },

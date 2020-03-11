@@ -1943,7 +1943,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
 void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &seed_id )
 {
     player_activity act( ACT_PLANT_SEED, to_moves<int>( 30_seconds ) );
-    act.placement = examp;
+    act.placement = g->m.getabs( examp );
     act.str_values.emplace_back( seed_id );
     p.assign_activity( act );
 }

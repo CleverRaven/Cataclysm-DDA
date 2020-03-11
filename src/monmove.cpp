@@ -352,6 +352,7 @@ void monster::plan()
         return;
     }
 
+    int valid_targets = ( target == nullptr ) ? 1 : 0;
     for( npc &who : g->all_npcs() ) {
         auto faction_att = faction.obj().attitude( who.get_monster_faction() );
         if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
@@ -360,12 +361,19 @@ void monster::plan()
 
         float rating = rate_target( who, dist, smart_planning );
         bool fleeing_from = is_fleeing( who );
+        if( rating == dist && ( fleeing || attitude( &who ) == MATT_ATTACK ) ) {
+            ++valid_targets;
+            if( one_in( valid_targets ) ) {
+                target = &who;
+            }
+        }
         // Switch targets if closer and hostile or scarier than current target
         if( ( rating < dist && fleeing ) ||
             ( rating < dist && attitude( &who ) == MATT_ATTACK ) ||
             ( !fleeing && fleeing_from ) ) {
             target = &who;
             dist = rating;
+            valid_targets = 1;
         }
         fleeing = fleeing || fleeing_from;
         if( rating <= 5 ) {
@@ -405,9 +413,16 @@ void monster::plan()
                 }
                 monster &mon = *shared;
                 float rating = rate_target( mon, dist, smart_planning );
+                if( rating == dist ) {
+                    ++valid_targets;
+                    if( one_in( valid_targets ) ) {
+                        target = &mon;
+                    }
+                }
                 if( rating < dist ) {
                     target = &mon;
                     dist = rating;
+                    valid_targets = 1;
                 }
                 if( rating <= 5 ) {
                     anger += angers_hostile_near;
@@ -1751,11 +1766,6 @@ void monster::stumble()
         tripoint above( posx(), posy(), posz() + 1 );
         if( g->m.valid_move( pos(), below, false, true ) ) {
             valid_stumbles.push_back( below );
-        }
-        // More restrictions for moving up
-        if( flies() && one_in( 5 ) &&
-            g->m.valid_move( pos(), above, false, true ) ) {
-            valid_stumbles.push_back( above );
         }
     }
     while( !valid_stumbles.empty() && !is_dead() ) {

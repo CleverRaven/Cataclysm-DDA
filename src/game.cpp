@@ -4524,8 +4524,10 @@ T *game::critter_at( const tripoint &p, bool allow_hallucination )
             return dynamic_cast<T *>( mon_ptr.get() );
         }
     }
-    if( p == u.pos() ) {
-        return dynamic_cast<T *>( &u );
+    if( !std::is_same<T, npc>::value && !std::is_same<T, const npc>::value ) {
+        if( p == u.pos() ) {
+            return dynamic_cast<T *>( &u );
+        }
     }
     for( auto &cur_npc : active_npc ) {
         if( cur_npc->pos() == p && !cur_npc->is_dead() ) {
@@ -10188,7 +10190,55 @@ void game::vertical_move( int movez, bool force )
             u.mounted_creature->setpos( g->u.pos() );
         }
     }
-
+    // if an NPC or monster is on the stiars when player ascends/descends
+    // they may end up merged on th esame tile, do some displacement to resolve that.
+    // if, in the weird case of it not being possible to displace;
+    // ( how did the player even manage to approach the stairs, if so? )
+    // then nothing terrible happens, its just weird.
+    if( critter_at<npc>( u.pos(), true ) || critter_at<monster>( u.pos(), true ) ) {
+        std::string crit_name;
+        bool player_displace = false;
+        tripoint displace;
+        for( const tripoint &elem : m.points_in_radius( u.pos(), 1 ) ) {
+            if( elem == u.pos() ) {
+                continue;
+            }
+            if( !m.impassable( elem ) ) {
+                displace = elem;
+                break;
+            }
+        }
+        if( displace != tripoint_zero ) {
+            npc *guy = g->critter_at<npc>( u.pos(), true );
+            if( guy ) {
+                crit_name = guy->get_name();
+                tripoint old_pos = guy->pos();
+                if( !guy->is_enemy() ) {
+                    guy->move_away_from( u.pos(), true );
+                    if( old_pos != guy->pos() ) {
+                        add_msg( _( "%s moves out of the way for you." ), guy->get_name() );
+                    }
+                } else {
+                    player_displace = true;
+                }
+            }
+            monster *mon = g->critter_at<monster>( u.pos(), true );
+            if( mon ) {
+                crit_name = mon->get_name();
+                if( mon->friendly == -1 ) {
+                    mon->setpos( displace );
+                    add_msg( _( "Your %s moves out of the way for you." ), mon->get_name() );
+                } else {
+                    player_displace = true;
+                }
+            }
+            if( player_displace ) {
+                u.setpos( displace );
+                u.moves -= 20;
+                add_msg( _( "You push past %s blocking the way." ), crit_name );
+            }
+        }
+    }
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
         std::vector<tripoint> candidates = closest_tripoints_first( u.pos(), 1 );

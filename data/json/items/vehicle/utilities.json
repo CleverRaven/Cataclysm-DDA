@@ -64,7 +64,7 @@
   {
     "type": "GENERIC",
     "id": "towel_hanger",
-    "name": "towel hanger",
+    "name": { "str": "towel hanger" },
     "description": "A towel hanger with towels.",
     "weight": "2000 g",
     "to_hit": -1,

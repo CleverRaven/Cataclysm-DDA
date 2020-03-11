@@ -92,7 +92,7 @@
     "id": "personal_gobag",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
-    "name": "personal go bag",
+    "name": { "str": "personal go bag" },
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
     "looks_like": "gobag",
     "use_action": "GOBAG_PERSONAL",
@@ -101,7 +101,7 @@
   {
     "id": "leg_splint",
     "type": "ARMOR",
-    "name": "leg splint",
+    "name": { "str": "leg splint" },
     "description": "A tool to help set bones and hold them in place.",
     "weight": "500 g",
     "volume": "1 L",
@@ -120,7 +120,7 @@
   {
     "id": "leg_xlsplint",
     "type": "ARMOR",
-    "name": "leg splint XL",
+    "name": { "str": "leg splint XL", "str_pl": "leg splints XL" },
     "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Huge people.",
     "copy-from": "leg_splint",
     "weight": "1000 g",

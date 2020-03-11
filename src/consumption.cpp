@@ -963,6 +963,10 @@ void Character::modify_addiction( const islot_comestible &comest )
 
 void Character::modify_morale( item &food, const int nutr )
 {
+    if( food.has_flag( "NO_INGEST" ) ) {
+        return;
+    }
+
     time_duration morale_time = 2_hours;
     if( food.has_flag( flag_HOT ) && food.has_flag( flag_EATEN_HOT ) ) {
         morale_time = 3_hours;
@@ -1474,7 +1478,12 @@ bool Character::can_estimate_rot() const
 
 bool Character::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
+    return it.is_comestible() || can_consume_for_bionic( it );
+}
+
+bool Character::can_consume_for_bionic( const item &it ) const
+{
+    return get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
 }
 
 bool Character::can_consume( const item &it ) const
