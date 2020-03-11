@@ -47,7 +47,7 @@
   {
     "id": "bandolier_rifle",
     "type": "ARMOR",
-    "name": "rifle bandolier",
+    "name": { "str": "rifle bandolier" },
     "description": "A leather bandolier for keeping rifle cartridges close to hand.",
     "weight": "140 g",
     "volume": "250 ml",
@@ -55,7 +55,7 @@
     "price_postapoc": 2900,
     "material": "leather",
     "symbol": "[",
-    "looks_like": "belt",
+    "looks_like": "leather_belt",
     "color": "dark_gray",
     "covers": [ "TORSO" ],
     "coverage": 10,

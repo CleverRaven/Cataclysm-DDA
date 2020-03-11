@@ -2,7 +2,7 @@
   {
     "id": "sheet",
     "type": "ARMOR",
-    "name": "sheet",
+    "name": { "str": "sheet" },
     "description": "A large fabric sheet, could be used as a curtain or bedsheets; or cut up for a bunch of rags.",
     "weight": "771 g",
     "volume": "5 L",

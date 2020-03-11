@@ -193,7 +193,7 @@
   {
     "id": "mask_rioter",
     "type": "ARMOR",
-    "name": "rioter mask",
+    "name": { "str": "rioter mask" },
     "description": "This is a t-shirt with sleeves tied on the back.  These are usually worn by rioters to hide their identity.",
     "weight": "123 g",
     "volume": "500 ml",

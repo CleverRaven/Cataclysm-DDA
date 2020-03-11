@@ -104,7 +104,7 @@
   {
     "id": "sleeping_bag_roll",
     "type": "ARMOR",
-    "name": "rolled sleeping bag",
+    "name": { "str": "rolled sleeping bag" },
     "description": "A large sleeping bag rolled up for transport.  It has a strap to carry it with.",
     "weight": "981 g",
     "volume": "1 L",
@@ -151,7 +151,7 @@
   {
     "id": "sleeping_bag_fur_roll",
     "type": "ARMOR",
-    "name": "rolled fur sleeping bag",
+    "name": { "str": "rolled fur sleeping bag" },
     "description": "A large sleeping bag lined with fur, rolled for transport.  It has a strap to carry it with.",
     "weight": "1175 g",
     "volume": "2 L",

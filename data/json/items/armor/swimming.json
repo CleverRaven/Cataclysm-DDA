@@ -173,7 +173,7 @@
   {
     "id": "shark_suit",
     "type": "ARMOR",
-    "name": "shark suit",
+    "name": { "str": "shark suit" },
     "description": "A one piece chainmail suit used by scuba divers for protection against shark bites.  It comes with attached plastic helmet and booties.",
     "weight": "3150 g",
     "volume": "3500 ml",
