@@ -16,7 +16,7 @@
     "id": "cantilever_small",
     "type": "GENERIC",
     "category": "veh_parts",
-    "name": "telescopic cantilever",
+    "name": { "str": "telescopic cantilever" },
     "description": "A small steel telescoping cantilever.  If attached to a frame it could be used to lift up to 3.5 metric tonnes.",
     "price": 7900,
     "weight": "12000 g",

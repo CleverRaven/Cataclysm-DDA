@@ -870,7 +870,7 @@
     "id": "teapot",
     "type": "GENERIC",
     "category": "tools",
-    "name": "teapot",
+    "name": { "str": "teapot" },
     "description": "A small metal teapot.  Teatime wouldn't be complete without one.",
     "weight": "229 g",
     "volume": "500 ml",

@@ -61,7 +61,7 @@
   {
     "type": "GENERIC",
     "id": "motor_tiny",
-    "name": "tiny electric motor",
+    "name": { "str": "tiny electric motor" },
     "description": "A tiny electric motor.  Useful for crafting.",
     "weight": "625 g",
     "color": "light_cyan",

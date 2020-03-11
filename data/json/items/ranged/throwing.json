@@ -82,7 +82,7 @@
     "id": "throwing_axe",
     "category": "weapons",
     "price": 12400,
-    "name": "throwing axe",
+    "name": { "str": "throwing axe" },
     "symbol": ";",
     "color": "light_gray",
     "description": "A lightweight hatchet made for throwing.  Its ineffective cutting edge and light weight makes it unsuitable for use as a tool.",
