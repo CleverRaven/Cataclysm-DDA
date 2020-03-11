@@ -181,6 +181,32 @@
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
   },
   {
+    "id": "mon_cat_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": "kitten",
+    "description": "A cuddly kitten meowing and scampering amidst the death.  Currently feral.",
+    "default_faction": "cat",
+    "bodytype": "dog",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "MAMMAL" ],
+    "volume": "1000 ml",
+    "weight": "1 kg",
+    "hp": 6,
+    "material": [ "flesh" ],
+    "symbol": "c",
+    "color": "light_gray",
+    "melee_cut": 2,
+    "dodge": 14,
+    "special_attacks": [ [ "scratch", 10 ] ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
+    "placate_triggers": [ "MEAT" ],
+    "death_function": [ "NORMAL" ],
+    "harvest": "mammal_tiny",
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ],
+    "upgrades": { "age_grow": 120, "into": "mon_cat" }
+  },
+  {
     "id": "mon_cat",
     "type": "MONSTER",
     "name": "cat",
@@ -209,6 +235,7 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "harvest": "mammal_tiny",
+    "reproduction": { "baby_monster": "mon_cat_kitten", "baby_count": 4, "baby_timer": 60 },
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
   },
   {
