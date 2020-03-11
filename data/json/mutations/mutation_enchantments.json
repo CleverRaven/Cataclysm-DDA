@@ -1,0 +1,7 @@
+[
+  {
+    "type": "enchantment",
+    "id": "MEP_INK_SPRAY",
+    "hit_me_effect": [ { "id": "cephalopod_ink_spray" } ]
+  }
+]

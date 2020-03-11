@@ -7264,6 +7264,25 @@ void Character::recalculate_enchantment_cache()
             }
         }
     }
+
+    // get from traits/ mutations
+    for( const auto &mutMap : my_mutations )
+    {
+        const mutation_branch &mut = mutMap.first.obj();
+
+        // TODO: move to is_active check
+        // only add the passive or powered active mutations
+        if( mut.activated && !mutMap.second.powered ) {
+            continue;
+        }
+
+        for( const enchantment_id &enchId : mut.enchantments ) {
+            const enchantment &ench = enchId.obj();
+            if( ench.is_active( *this ) ) {
+                enchantment_cache.force_add( ench );
+            }
+        }
+    }
 }
 
 double Character::calculate_by_enchantment( double modify, enchantment::mod value,

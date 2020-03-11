@@ -181,6 +181,31 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
     return false;
 }
 
+// TODO: add move mutation ref and checks here
+bool enchantment::is_active(const Character &guy) const
+{    
+
+    if (active_conditions.second == condition::ALWAYS) {
+        return true;
+    }
+
+    // has no items so item-conditions will fail instantly
+    if (active_conditions.first == has::HELD ||
+        active_conditions.first == has::WIELD ||
+        active_conditions.first == has::WORN) {
+        return false;
+    }    
+
+    if (active_conditions.second == condition::UNDERGROUND) {
+        return guy.pos().z < 0;
+    }
+
+    if (active_conditions.second == condition::UNDERWATER) {
+        return g->m.is_divable(guy.pos());
+    }
+    return false;
+}
+
 bool enchantment::active_wield() const
 {
     return active_conditions.first == has::HELD || active_conditions.first == has::WIELD;

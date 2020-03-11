@@ -120,6 +120,10 @@ class enchantment
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
 
+        // TODO: add mutation ref
+        // this enchantment has a valid conditions and mutation is passive or activated
+        bool is_active(const Character &guy) const;
+
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
         bool active_wield() const;

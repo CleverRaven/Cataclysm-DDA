@@ -2536,6 +2536,17 @@
   },
   {
     "type": "mutation",
+    "id": "INK_GLANDS",
+    "name": "Ink glands",
+    "points": 1,
+    "visibility": 1,
+    "ugliness": 1,
+    "description": "You noticed a several ink glands on your torso. These will spray defensive ink and could blind an attacker in an emergency. The torso must not be covered.",
+    "enchantments": [ "MEP_INK_SPRAY" ],
+    "category": [ "CEPHALOPOD" ]
+  },
+  {
+    "type": "mutation",
     "id": "TALONS",
     "name": "Large Talons",
     "points": 2,
