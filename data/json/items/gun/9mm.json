@@ -343,11 +343,11 @@
     "color": "dark_gray",
     "ammo": "9mm",
     "range": 1,
-    "dispersion": 480,
+    "dispersion": 440,
     "durability": 7,
     "min_cycle_recoil": 450,
     "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
+    "magazines": [ [ "9mm", [ "px4mag" ] ] ]
   },
   {
     "id": "rifle_9mm",
