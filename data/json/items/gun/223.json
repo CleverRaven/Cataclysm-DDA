@@ -54,7 +54,7 @@
     "description": "An assault rifle that was until recently used by French armed forces.  Famous for its high rate of fire, it was never available in a civilian version.",
     "weight": "3800 g",
     "volume": "4674 ml",
-    "price": 540000,
+    "price": 2800000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
