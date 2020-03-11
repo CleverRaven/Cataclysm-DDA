@@ -2,7 +2,7 @@
   {
     "id": "apron_leather",
     "type": "ARMOR",
-    "name": "leather apron",
+    "name": { "str": "leather apron" },
     "description": "An apron made of thick leather.  Cumbersome, but offers excellent protection from cuts.",
     "weight": "1950 g",
     "volume": "2250 ml",
@@ -147,7 +147,7 @@
   {
     "id": "flotation_vest_ms",
     "type": "ARMOR",
-    "name": "makeshift flotation vest",
+    "name": { "str": "makeshift flotation vest" },
     "description": "A flotation vest made of inflated animal skins.",
     "weight": "451 g",
     "volume": "9 L",
@@ -358,7 +358,7 @@
   {
     "id": "longshirt",
     "type": "ARMOR",
-    "name": "long-sleeved shirt",
+    "name": { "str": "long-sleeved shirt" },
     "description": "A long-sleeved cotton shirt.",
     "weight": "146 g",
     "volume": "750 ml",
@@ -398,7 +398,7 @@
   {
     "id": "polo_shirt",
     "type": "ARMOR",
-    "name": "polo shirt",
+    "name": { "str": "polo shirt" },
     "description": "A short-sleeved cotton shirt, slightly thicker than a t-shirt.",
     "weight": "136 g",
     "volume": "750 ml",
@@ -418,7 +418,7 @@
     "id": "postman_shirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "mail carrier shirt",
+    "name": { "str": "mail carrier shirt" },
     "description": "A light blue button down shirt with a couple of pockets in front and the US postal service logo embroidered on it.",
     "weight": "110 g",
     "volume": "500 ml",
@@ -438,7 +438,7 @@
     "id": "sheriffshirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "sheriff's shirt",
+    "name": { "str": "sheriff's shirt" },
     "description": "A tan button-down shirt with long sleeves.",
     "weight": "250 g",
     "volume": "750 ml",
@@ -652,7 +652,7 @@
   {
     "id": "vest_leather",
     "type": "ARMOR",
-    "name": "leather vest",
+    "name": { "str": "leather vest" },
     "description": "A vest made from thick leather.  Offers excellent protection from cuts.",
     "weight": "997 g",
     "volume": "2500 ml",

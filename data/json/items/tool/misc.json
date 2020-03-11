@@ -600,7 +600,7 @@
     "id": "teleumbrella",
     "type": "GENERIC",
     "category": "tools",
-    "name": "telescoping umbrella",
+    "name": { "str": "telescoping umbrella" },
     "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.",
     "weight": "118 g",
     "volume": "500 ml",

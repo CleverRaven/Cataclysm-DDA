@@ -778,7 +778,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     // Reserve lines for aiming and firing instructions.
     if( mode == TARGET_MODE_FIRE ) {
         text_y -= ( 3 + aim_types.size() );
-    } else if( mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
+    } else {
         text_y -= 2;
     }
 
@@ -792,13 +792,25 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
         return keys.empty() ? fallback : keys.front();
     };
 
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%s] Cycle targets; [%c] to fire." ),
-                   ctxt.get_desc( "NEXT_TARGET", 1 ), front_or( "FIRE", ' ' ) );
-        mvwprintz( w_target, point( 1, text_y++ ), c_white,
-                   _( "[%c] target self; [%c] toggle snap-to-target" ),
-                   front_or( "CENTER", ' ' ), front_or( "TOGGLE_SNAP_TO_TARGET", ' ' ) );
+    std::string label_fire;
+    if( mode == TARGET_MODE_THROW || mode == TARGET_MODE_THROW_BLIND ) {
+        label_fire = to_translation( "[Hotkey] to throw", "to throw" ).translated();
+    } else if( mode == TARGET_MODE_REACH ) {
+        label_fire = to_translation( "[Hotkey] to attack", "to attack" ).translated();
+    } else if( mode == TARGET_MODE_SPELL ) {
+        label_fire = to_translation( "[Hotkey] to cast the spell", "to cast" ).translated();
+    } else {
+        label_fire = to_translation( "[Hotkey] to fire", "to fire" ).translated();
     }
+    const char *label_cycle_targets = _( "Cycle targets" );
+    mvwprintz( w_target, point( 1, text_y++ ), c_white, "[%s] %s; [%c] %s.",
+               ctxt.get_desc( "NEXT_TARGET", 1 ), label_cycle_targets,
+               front_or( "FIRE", ' ' ), label_fire
+             );
+
+    mvwprintz( w_target, point( 1, text_y++ ), c_white,
+               _( "[%c] target self; [%c] toggle snap-to-target" ),
+               front_or( "CENTER", ' ' ), front_or( "TOGGLE_SNAP_TO_TARGET", ' ' ) );
 
     if( mode == TARGET_MODE_FIRE ) {
         mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to steady your aim.  (10 moves)" ),
@@ -814,7 +826,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
                    front_or( "SWITCH_AIM", ' ' ) );
     }
 
-    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL || mode == TARGET_MODE_TURRET ) {
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
         mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to switch firing modes." ),
                    front_or( "SWITCH_MODE", ' ' ) );
         mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to reload/switch ammo." ),
@@ -1295,12 +1307,14 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "SWITCH_MODE" );
-    ctxt.register_action( "SWITCH_AMMO" );
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
 
+    if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
+        ctxt.register_action( "SWITCH_MODE" );
+        ctxt.register_action( "SWITCH_AMMO" );
+    }
     if( mode == TARGET_MODE_FIRE ) {
         ctxt.register_action( "AIM" );
         ctxt.register_action( "SWITCH_AIM" );
@@ -1683,7 +1697,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             } while( pc.moves > 0 && pc.recoil > aim_threshold && pc.recoil - sight_dispersion > min_recoil );
 
             if( pc.recoil <= aim_threshold ||
-                pc.recoil - sight_dispersion == min_recoil ) {
+                pc.recoil - sight_dispersion == min_recoil ||
+                // if no critter is at dst then sight dispersion does not apply,
+                // so it would lock into an infinite loop
+                ( !g->critter_at( dst ) && pc.recoil == min_recoil ) ) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
                 pc.view_offset = old_offset;

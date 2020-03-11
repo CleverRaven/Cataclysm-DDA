@@ -24,7 +24,7 @@
   },
   {
     "id": "razor_shaving",
-    "name": "shaving razor",
+    "name": { "str": "shaving razor" },
     "type": "GENERIC",
     "description": "A razor blade on a comfortable handle.  Much easier to shave with than a loose razor.",
     "symbol": "t",
@@ -119,7 +119,7 @@
   },
   {
     "id": "plunger_toilet",
-    "name": "toilet plunger",
+    "name": { "str": "toilet plunger" },
     "type": "GENERIC",
     "description": "A rubber-tipped tool for unclogging pipes, or a club for an immature survivor.",
     "symbol": "p",

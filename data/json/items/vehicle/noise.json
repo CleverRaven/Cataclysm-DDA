@@ -34,7 +34,7 @@
   {
     "type": "GENERIC",
     "id": "stereo",
-    "name": "stereo system",
+    "name": { "str": "stereo system" },
     "description": "A stereo system with speakers.  It is capable of being hooked up to a vehicle.",
     "weight": "800 g",
     "to_hit": -2,

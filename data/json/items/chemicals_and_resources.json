@@ -1299,7 +1299,7 @@
     "id": "steel_grille",
     "type": "GENERIC",
     "category": "other",
-    "name": "steel grille",
+    "name": { "str": "steel grille" },
     "description": "This is a metal grille.  It can be used as a framework for making a chemical catalyst.",
     "weight": "600 g",
     "volume": "250 ml",
