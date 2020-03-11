@@ -51,9 +51,9 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "FAMAS G2" },
-    "description": "An assault rifle that was until recently used by French armed forces.  Famous for its high rate of fire, it was never available in a civilian version.",
+    "description": "An assault rifle that was until recently used by French armed forces.  While it is famous for its high fire rate, this is a semi-auto only variation imported to the US in the late eighties. It does come with an integral bipod, though.",
     "weight": "3800 g",
-    "volume": "4674 ml",
+    "volume": "4162 ml",
     "price": 2800000,
     "to_hit": -1,
     "bashing": 12,
@@ -65,7 +65,20 @@
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "built_in_mods": [ "bipod" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel mount", 1 ],
+      [ "underbarrel", 1 ]
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
