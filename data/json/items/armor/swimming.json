@@ -131,7 +131,7 @@
   {
     "id": "wetsuit_spring",
     "type": "ARMOR",
-    "name": "spring suit",
+    "name": { "str": "spring suit" },
     "description": "A long-sleeved spring wetsuit with pink color details and cleavage-enhancing, hip-accentuating construction.  Not as protective as a full-body suit, but also less restrictive.",
     "weight": "1320 g",
     "volume": "4 L",

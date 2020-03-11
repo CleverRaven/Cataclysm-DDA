@@ -408,7 +408,7 @@
   {
     "id": "long_undertop_sleeveless",
     "type": "ARMOR",
-    "name": "sleeveless underwear top",
+    "name": { "str": "sleeveless underwear top" },
     "description": "A sleeveless underwear top that helps to maintain body temperature.",
     "weight": "80 g",
     "volume": "400 ml",
@@ -462,7 +462,7 @@
   {
     "id": "sports_bra",
     "type": "ARMOR",
-    "name": "sports bra",
+    "name": { "str": "sports bra" },
     "description": "A sturdy nylon bra to provide additional support during physical movement.  Typically worn when exercising, it clings to the skin and is easy to wear.",
     "weight": "92 g",
     "volume": "500 ml",

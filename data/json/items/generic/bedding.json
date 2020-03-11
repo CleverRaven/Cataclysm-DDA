@@ -85,7 +85,7 @@
   {
     "id": "sleeping_bag",
     "type": "ARMOR",
-    "name": "sleeping bag",
+    "name": { "str": "sleeping bag" },
     "description": "A large sleeping bag that covers you head to toe.  This one is medium weight.",
     "weight": "1600 g",
     "volume": "14 L",

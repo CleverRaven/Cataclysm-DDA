@@ -551,7 +551,7 @@
     "id": "skirt",
     "repairs_like": "jeans",
     "type": "ARMOR",
-    "name": "skirt",
+    "name": { "str": "skirt" },
     "description": "A short, breezy cotton skirt.  Easy to move in, but only has a single small pocket.",
     "weight": "74 g",
     "volume": "250 ml",

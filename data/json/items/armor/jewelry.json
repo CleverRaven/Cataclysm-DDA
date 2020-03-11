@@ -945,10 +945,10 @@
   {
     "id": "small_relic",
     "type": "ARMOR",
-    "name": "small relic",
+    "name": { "str": "small relic" },
     "description": "A small relic from a forgotten saint.  As extraordinary as the world has become it may have some power yet.",
     "weight": "60 g",
-    "volume": 0,
+    "volume": "15 ml",
     "price": 1000,
     "price_postapoc": 1000,
     "material": [ "bone", "silver" ],
