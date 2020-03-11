@@ -2748,38 +2748,36 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     connect_closest_points( road_points, 0, *local_road );
 }
 
-std::vector<point> overmap::plot_river( point pa, point pb )
+std::vector<point> overmap::plot_river( point pa, point pb, int scale )
 {
     std::vector<point> plots;
-    int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
-    int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
     int dx = pb.x - pa.x;
     int dy = pb.y - pa.y;
-    int nx = abs(dx);
-    int ny = abs(dy);
+    int nx = abs( dx );
+    int ny = abs( dy );
     int sign_x = dx > 0 ? 1 : -1, sign_y = dy > 0 ? 1 : -1;
-    
+
     /* Walk grid */
     point p = { pa.x, pa.y };
-    for (int ix = 0, iy = 0; ix < nx || iy < ny;) {
-        if ((0.5 + ix) / nx < (0.5 + iy) / ny) {
+    for( int ix = 0, iy = 0; ix < nx || iy < ny; ) {
+        if( ( 0.5 + ix ) / nx < ( 0.5 + iy ) / ny ) {
             // next step is horizontal
             p.x += sign_x;
             ix++;
-        }
-        else {
+        } else {
             // next step is vertical
             p.y += sign_y;
             iy++;
         }
 
-        //Fill points to scale
-        for (int i = -1 * river_scale; i <= 1 * river_scale; i++) {
-            for (int j = -1 * river_scale; j <= 1 * river_scale; j++) {
+        // fill points to scale
+        for( int i = -1 * scale; i <= 1 * scale; i++ ) {
+            for( int j = -1 * scale; j <= 1 * scale; j++ ) {
                 point pt = { p.x + j, p.y + i };
 
-                if (inbounds(pt))
-                    plots.push_back(pt);
+                if( inbounds( pt ) ) {
+                    plots.push_back( pt );
+                }
             }
         }
     }
@@ -2791,12 +2789,32 @@ void overmap::place_river( point pa, point pb )
 {
     const oter_id river_center( "river_center" );
     std::vector<point> points = { pa };
-    std::vector<point> sub_ends = { pb };
+    std::vector<point> sub_ends;
+    int river_scale = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
+
+    //split river up and create variety
+    const int dist = rl_dist( pa, pb );
+    const int segments = std::max( 2, dist / 4 );
+    const int amplitude = 8;
+    for( int s = 1; s <= segments - 1; s++ ) {
+        double t = s / segments;
+
+        point ps = { lerp( pa.x, pb.x, t ), lerp( pa.y, pb.y, t ) };
+        ps = { ps.x + rng( -amplitude, amplitude ), ps.y + rng( -amplitude, amplitude ) };
+
+        if( !inbounds( ps, river_scale * 2 ) ) {
+            continue;
+        }
+
+        sub_ends.push_back( ps );
+    }
+    sub_ends.push_back( pb );
+
 
     //plot river segments
     for( point end : sub_ends ) {
-        for( point p : plot_river( points.back(), end ) ) {
-            points.push_back(p);
+        for( point p : plot_river( points.back(), end, river_scale ) ) {
+            points.push_back( p );
         }
     }
 
