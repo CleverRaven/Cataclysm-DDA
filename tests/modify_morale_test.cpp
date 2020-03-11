@@ -50,6 +50,10 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     REQUIRE( bread.is_fresh() );
     REQUIRE_FALSE( bread.has_flag( flag_ALLERGEN_JUNK ) );
 
+    // Morale effects should not apply to non-ingestibles
+    item bandage( "bandages" );
+    REQUIRE( bandage.has_flag( "NO_INGEST" ) );
+
     GIVEN( "no table or chair are nearby" ) {
         REQUIRE_FALSE( g->m.has_nearby_table( dummy.pos(), 1 ) );
         REQUIRE_FALSE( g->m.has_nearby_chair( dummy.pos(), 1 ) );
@@ -72,6 +76,13 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
                 dummy.clear_morale();
                 dummy.modify_morale( bread );
                 CHECK( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) <= -2 );
+            }
+
+            THEN( "they do not get a morale penalty for applying a bandage without a table" ) {
+                // Regression test for #38698
+                dummy.clear_morale();
+                dummy.modify_morale( bandage );
+                CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) );
             }
         }
     }
@@ -100,6 +111,13 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
                 dummy.clear_morale();
                 dummy.modify_morale( bread );
                 CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 3 );
+            }
+
+            THEN( "they do not get a morale bonus for applying a bandage with a table" ) {
+                // Regression test for #38698
+                dummy.clear_morale();
+                dummy.modify_morale( bandage );
+                CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITH_TABLE ) );
             }
         }
     }
