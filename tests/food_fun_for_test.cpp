@@ -1,27 +1,26 @@
 #include "avatar.h"
 #include "cata_string_consts.h"
 #include "catch/catch.hpp"
+#include "itype.h"
+#include "player_helpers.h"
 #include "type_id.h"
 
 
 // Test cases for `Character::fun_for` defined in `src/consumption.cpp`
 
-// TODO: Refactor fun_for?
-// Fun calculations that do not need character:
-// - EATEN_COLD and COLD
-// - MELTS and not FROZEN
-// (could go in get_comestible_fun with MUSHY)
-//
 TEST_CASE( "fun for non-food", "[fun_for][nonfood]" )
 {
     avatar dummy;
-    std::pair<int, int> fun;
+    std::pair<int, int> actual_fun;
 
-    item rag( "rag" );
-    REQUIRE_FALSE( rag.is_comestible() );
-    fun = dummy.fun_for( rag );
-    CHECK( fun.first == 0 );
-    CHECK( fun.second == 0 );
+    SECTION( "non-food has no fun value" ) {
+        item rag( "rag" );
+        REQUIRE_FALSE( rag.is_comestible() );
+
+        actual_fun = dummy.fun_for( rag );
+        CHECK( actual_fun.first == 0 );
+        CHECK( actual_fun.second == 0 );
+    }
 }
 
 TEST_CASE( "fun for food eaten while sick", "[fun_for][food][sick]" )
@@ -39,7 +38,7 @@ TEST_CASE( "fun for food eaten while sick", "[fun_for][food][sick]" )
 
         THEN( "it is much less fun to eat" ) {
             actual_fun = dummy.fun_for( toastem );
-            CHECK( actual_fun.first == toastem_fun / 3 );
+            CHECK( actual_fun.first < toastem_fun / 2 );
         }
     }
 
@@ -49,7 +48,7 @@ TEST_CASE( "fun for food eaten while sick", "[fun_for][food][sick]" )
 
         THEN( "it is much less fun to eat" ) {
             actual_fun = dummy.fun_for( toastem );
-            CHECK( actual_fun.first == toastem_fun / 3 );
+            CHECK( actual_fun.first < toastem_fun / 2 );
         }
     }
 }
@@ -80,7 +79,7 @@ TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
             dummy.toggle_trait( trait_id( "SAPROPHAGE" ) );
             REQUIRE( dummy.has_trait( trait_id( "SAPROPHAGE" ) ) );
 
-            THEN( "they don't mind rotten food" ) {
+            THEN( "they like rotten food" ) {
                 actual_fun = dummy.fun_for( nuts );
                 CHECK( actual_fun.first > 0 );
             }
@@ -89,7 +88,7 @@ TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
             dummy.toggle_trait( trait_id( "SAPROVORE" ) );
             REQUIRE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
 
-            THEN( "they don't mind rotten food" ) {
+            THEN( "they like rotten food" ) {
                 actual_fun = dummy.fun_for( nuts );
                 CHECK( actual_fun.first > 0 );
             }
@@ -290,7 +289,7 @@ TEST_CASE( "fun for gourmand", "[fun_for][food][gourmand]" )
         item toastem( "toastem" );
         REQUIRE( toastem.is_comestible() );
         int toastem_fun = toastem.get_comestible_fun();
-        REQUIRE( toastem_fun > 2 );
+        REQUIRE( toastem_fun > 0 );
 
         WHEN( "character is not a gourmand" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_id( "GOURMAND" ) ) );
@@ -311,12 +310,12 @@ TEST_CASE( "fun for gourmand", "[fun_for][food][gourmand]" )
         }
     }
 
-    // TODO: Edge case, when fun == -1, Gourmand trait does not matter
     GIVEN( "food that tastes bad" ) {
         item garlic( "garlic" );
         REQUIRE( garlic.is_comestible() );
         int garlic_fun = garlic.get_comestible_fun();
-        REQUIRE( garlic_fun < -2 );
+        // At fun == -1, Gourmand trait has no effect
+        REQUIRE( garlic_fun < -1 );
 
         WHEN( "character is not a gourmand" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_id( "GOURMAND" ) ) );
@@ -339,7 +338,90 @@ TEST_CASE( "fun for gourmand", "[fun_for][food][gourmand]" )
     }
 }
 
-// Food is less enjoyable when eaten too often
-//
-// Bionic taste blocker (if it has enough power) nullifies bad-tasting food
-//
+TEST_CASE( "fun for food eaten too often", "[fun_for][food][monotony]" )
+{
+    avatar dummy;
+    std::pair<int, int> actual_fun;
+
+    // A big box of tasty toast-ems
+    item toastem( "toastem", calendar::turn, 10 );
+    REQUIRE( toastem.is_comestible() );
+
+    // Base fun value and monotony penalty for toast-em
+    int toastem_fun = toastem.get_comestible_fun();
+    int toastem_penalty = toastem.get_comestible()->monotony_penalty;
+
+    // Will do 2 rounds of penalty testing, so base fun needs to be at least 2x that
+    REQUIRE( toastem_fun > 2 * toastem_penalty );
+
+    GIVEN( "food that is fun to eat" ) {
+        WHEN( "character has not had any recently" ) {
+
+            THEN( "it tastes as good as it should" ) {
+                actual_fun = dummy.fun_for( toastem );
+                CHECK( actual_fun.first == toastem_fun );
+            }
+        }
+
+        WHEN( "character has just eaten one" ) {
+            dummy.eat( toastem );
+
+            THEN( "the next one is less enjoyable" ) {
+                actual_fun = dummy.fun_for( toastem );
+                CHECK( actual_fun.first == toastem_fun - toastem_penalty );
+            }
+
+            AND_WHEN( "character has eaten another one" ) {
+                dummy.eat( toastem );
+
+                THEN( "the one after that is even less enjoyable" ) {
+                    actual_fun = dummy.fun_for( toastem );
+                    CHECK( actual_fun.first == toastem_fun - 2 * toastem_penalty );
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
+{
+    avatar dummy;
+    std::pair<int, int> actual_fun;
+
+    GIVEN( "food that tastes bad" ) {
+        item garlic( "garlic" );
+        REQUIRE( garlic.is_comestible() );
+        int garlic_fun = garlic.get_comestible_fun();
+        REQUIRE( garlic_fun < 0 );
+
+        AND_GIVEN( "character has a taste modifier CBM" ) {
+            dummy.set_max_power_level( 1000_kJ );
+            give_and_activate_bionic( dummy, bionic_id( "bio_taste_blocker" ) );
+            REQUIRE( dummy.has_active_bionic( bio_taste_blocker ) );
+
+            WHEN( "it does not have enough power" ) {
+                // Needs 1 kJ per negative fun unit to nullify bad taste
+                dummy.set_power_level( 10_kJ );
+                REQUIRE( garlic_fun < -10 );
+                REQUIRE_FALSE( dummy.get_power_level() > units::from_kilojoule( abs( garlic_fun ) ) );
+
+                THEN( "the bad taste remains" ) {
+                    actual_fun = dummy.fun_for( garlic );
+                    CHECK( actual_fun.first == garlic_fun );
+                }
+            }
+
+            WHEN( "it has enough power" ) {
+                REQUIRE( garlic_fun >= -20 );
+                dummy.set_power_level( 20_kJ );
+                REQUIRE( dummy.get_power_level() > units::from_kilojoule( abs( garlic_fun ) ) );
+
+                THEN( "the bad taste is nullified" ) {
+                    actual_fun = dummy.fun_for( garlic );
+                    CHECK( actual_fun.first == 0 );
+                }
+            }
+        }
+    }
+}
+
