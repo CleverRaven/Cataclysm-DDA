@@ -2751,94 +2751,38 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
 std::vector<point> overmap::plot_river( point pa, point pb )
 {
     std::vector<point> plots;
-
     int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
     int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
-    int x = pa.x;
-    int y = pa.y;
+    int dx = pb.x - pa.x;
+    int dy = pb.y - pa.y;
+    int nx = abs(dx);
+    int ny = abs(dy);
+    int sign_x = dx > 0 ? 1 : -1, sign_y = dy > 0 ? 1 : -1;
+    
+    /* Walk grid */
+    point p = { pa.x, pa.y };
+    for (int ix = 0, iy = 0; ix < nx || iy < ny;) {
+        if ((0.5 + ix) / nx < (0.5 + iy) / ny) {
+            // next step is horizontal
+            p.x += sign_x;
+            ix++;
+        }
+        else {
+            // next step is vertical
+            p.y += sign_y;
+            iy++;
+        }
 
-    do {
-        x += rng( -1, 1 );
-        y += rng( -1, 1 );
+        //Fill points to scale
+        for (int i = -1 * river_scale; i <= 1 * river_scale; i++) {
+            for (int j = -1 * river_scale; j <= 1 * river_scale; j++) {
+                point pt = { p.x + j, p.y + i };
 
-        if( x < 0 ) {
-            x = 0;
-        }
-        if( x > OMAPX - 1 ) {
-            x = OMAPX - 1;
-        }
-        if( y < 0 ) {
-            y = 0;
-        }
-        if( y > OMAPY - 1 ) {
-            y = OMAPY - 1;
-        }
-
-        for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
-            for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
-                tripoint p( x + j, y + i, 0 );
-                if( inbounds( p ) ) {
-                    if( !ter( p )->is_lake() && one_in( river_chance ) ) {
-                        plots.push_back( p.xy() );
-                    }
-                }
+                if (inbounds(pt))
+                    plots.push_back(pt);
             }
         }
-
-        if( pb.x > x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < pb.x - x ||
-                          ( rng( 0, int( OMAPX * .2 ) - 1 ) > pb.x - x &&
-                            rng( 0, int( OMAPY * .2 ) - 1 ) > abs( pb.y - y ) ) ) ) {
-            x++;
-        }
-        if( pb.x < x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < x - pb.x ||
-                          ( rng( 0, int( OMAPX * .2 ) - 1 ) > x - pb.x &&
-                            rng( 0, int( OMAPY * .2 ) - 1 ) > abs( pb.y - y ) ) ) ) {
-            x--;
-        }
-        if( pb.y > y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < pb.y - y ||
-                          ( rng( 0, int( OMAPY * .2 ) - 1 ) > pb.y - y &&
-                            rng( 0, int( OMAPX * .2 ) - 1 ) > abs( x - pb.x ) ) ) ) {
-            y++;
-        }
-        if( pb.y < y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < y - pb.y ||
-                          ( rng( 0, int( OMAPY * .2 ) - 1 ) > y - pb.y &&
-                            rng( 0, int( OMAPX * .2 ) - 1 ) > abs( x - pb.x ) ) ) ) {
-            y--;
-        }
-
-        x += rng( -1, 1 );
-        y += rng( -1, 1 );
-
-        if( x < 0 ) {
-            x = 1;
-        }
-        if( x > OMAPX - 1 ) {
-            x = OMAPX - 1;
-        }
-        if( y < 0 ) {
-            y = 1;
-        }
-        if( y > OMAPY - 1 ) {
-            y = OMAPY - 1;
-        }
-
-        for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
-            for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
-                if( inbounds( tripoint( x + j, y + i, 0 ), 1 ) ||
-                    // UNLESS, of course, that's where the river is headed!
-                    ( abs( pb.y - ( y + i ) ) < 2 && abs( pb.x - ( x + j ) ) < 2 ) ) {
-                    tripoint p( x + j, y + i, 0 );
-                    if( !inbounds( p ) ) {
-                        continue;
-                    }
-
-                    if( !ter( p )->is_lake() && one_in( river_chance ) ) {
-                        plots.push_back( p.xy() );
-                    }
-                }
-            }
-        }
-    } while( pb.x != x || pb.y != y );
+    }
 
     return plots;
 }
@@ -2849,19 +2793,10 @@ void overmap::place_river( point pa, point pb )
     std::vector<point> points = { pa };
     std::vector<point> sub_ends = { pb };
 
-    point midm = { OMAPX / 2, OMAPY / 2 }; //midpoint of map
-    point midp = { ( pb.x + pa.x ) / 2, ( pb.y + pa.y ) / 2 }; //midpoint start-end
-    point anchormid = ( midp + midm ) / 2; //anchor point towards mid of map
-
-    //add anchor as midpoint
-    //TODO: add loop to divide into x segments and displace each segment with anchors to create
-    //      more varied rivers.
-    sub_ends.insert( sub_ends.begin(), anchormid );
-
     //plot river segments
     for( point end : sub_ends ) {
         for( point p : plot_river( points.back(), end ) ) {
-            points.push_back( p );
+            points.push_back(p);
         }
     }
 
@@ -2869,9 +2804,6 @@ void overmap::place_river( point pa, point pb )
         DebugLog( D_ERROR, D_MAP ) << "Failed to end river at target! Target: " << pb << " Route end: " <<
                                    points.back();
     }
-
-    const auto connect_lake_to_closest_river = [&]( const point & lake_connection_point ) {
-    };
 
     //audit points and finally draw river
     for( point p : points ) {
