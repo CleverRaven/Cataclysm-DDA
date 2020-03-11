@@ -11,7 +11,7 @@
     "price": 65000,
     "to_hit": -2,
     "bashing": 8,
-    "material": [ "steel", "aluminum" ],
+    "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "9mm",
