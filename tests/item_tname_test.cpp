@@ -8,6 +8,23 @@
 
 // Test cases focused on item::tname
 
+// TODO: Add test cases to cover other aspects of tname such as:
+//
+// - clothing with +1 suffix
+// - ethereal (X turns)
+// - is_bionic (sterile), (packed)
+// - (UPS) for UPS tool
+// - (faulty) for faults
+// - "burnt" or "badly burnt"
+// - (dirty)
+// - (rotten)
+// - (mushy)
+// - (old)
+// - (fresh)
+// - Radio-mod with signals (Red, Blue, Green)
+// - used, lit, plugged in, active, sawn-off
+// - favorite *
+
 TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 {
     g->u.empty_traits();
@@ -229,7 +246,8 @@ TEST_CASE( "truncated item name", "[item][tname][truncate]" )
         CHECK( katana.tname() == "katana" );
         CHECK( katana.tname( 1, false, 5 ) == "katan" );
     }
-    // color-coded or otherwise embellished item name can be truncated
+
+    // TODO: color-coded or otherwise embellished item name can be truncated
 }
 
 TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
@@ -344,7 +362,6 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 
 TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
 {
-
     GIVEN( "a gun with potential fouling" ) {
         item gun( "hk_mp5" );
 
@@ -363,26 +380,31 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
                 gun.set_var( "dirt", 1000 );
                 CHECK( gun.tname() == "H&K MP5A2" );
             }
+
             // U+2581 'Lower one eighth block'
             THEN( "20%% fouling is indicated with a thin white bar" ) {
                 gun.set_var( "dirt", 2000 );
                 CHECK( gun.tname() == "<color_white>\u2581</color>H&K MP5A2" );
             }
+
             // U+2583 'Lower three eighths block'
             THEN( "40%% fouling is indicated with a slight gray bar" ) {
                 gun.set_var( "dirt", 4000 );
                 CHECK( gun.tname() == "<color_light_gray>\u2583</color>H&K MP5A2" );
             }
+
             // U+2585 'Lower five eighths block'
             THEN( "60%% fouling is indicated with a medium gray bar" ) {
                 gun.set_var( "dirt", 6000 );
                 CHECK( gun.tname() == "<color_light_gray>\u2585</color>H&K MP5A2" );
             }
+
             // U+2585 'Lower seven eighths block'
             THEN( "80%% fouling is indicated with a tall dark gray bar" ) {
                 gun.set_var( "dirt", 8000 );
                 CHECK( gun.tname() == "<color_dark_gray>\u2587</color>H&K MP5A2" );
             }
+
             // U+2588 'Full block'
             THEN( "100%% fouling is indicated with a full brown bar" ) {
                 gun.set_var( "dirt", 10000 );
@@ -391,47 +413,4 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
         }
     }
 }
-
-
-// clothing with +1 suffix
-
-// - ethereal: (X turns)
-
-// is_bionic: (sterile), (packed)
-
-// is_tool, UPS: (UPS)
-
-// tname tests to consider:
-// - indicates gun fouling level
-// - includes (faulty) for faults
-// - indicates "burnt" or "badly burnt"
-//
-// - special cases for
-//   - gun/tool/magazine
-//   - armor/clothing mod
-//   - craft
-//   - contents.size == 1
-//   - contents.empty
-
-// (these are a mixture of tags, flags, and function calls)
-// - is_food or goes_bad
-//   - (dirty)
-//   - (rotten)
-//   - (mushy)
-//   - (old)
-//   - (fresh)
-
-// RADIO_MOD (RBG)
-//
-// misc flags: used, lit, plugged in, active, sawn-off
-// favorite: *
-
-// ALREADY COVERED
-// sizing level:
-//   - (too big)
-//   - (huge!)
-//   - (too small)
-//   - (tiny!)
-//   - (poor fit)
-
 
