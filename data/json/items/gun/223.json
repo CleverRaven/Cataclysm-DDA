@@ -50,7 +50,7 @@
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "MAS .223", "str_pl": "MAS .223" },
+    "name": { "str": "MAS 223", "str_pl": "MAS 223" },
     "description": "An assault rifle that was until recently used by French armed forces.  While it is famous for its high fire rate, this is a semi-auto only variation imported to the US in the late eighties. It does come with an integral bipod, though.",
     "weight": "3800 g",
     "volume": "4162 ml",
@@ -79,7 +79,7 @@
       [ "sling", 1 ],
       [ "underbarrel mount", 1 ],
       [ "underbarrel", 1 ]
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "223", [ "famasmag" ] ] ]
   },
   {
     "id": "h&k416a5",
