@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_acidic",
     "type": "MONSTER",
-    "name": "acidic zombie",
+    "name": { "str": "acidic zombie" },
     "description": "A sickly-looking dead one.  Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visible veins.",
     "default_faction": "zombie",
     "bodytype": "human",

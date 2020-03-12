@@ -125,7 +125,7 @@
   {
     "id": "mon_zombie_soldier_acid_1",
     "type": "MONSTER",
-    "name": "acid-sniper zombie",
+    "name": { "str": "acid-sniper zombie" },
     "description": "This staggering soldier wears a burnt gasmask, now fused to its face.  Through the melted, bile-encrusted ruination of the mask comes some sort of hardened fleshy proboscis, with steaming corrosive fluid leaking from the end.",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
@@ -155,7 +155,7 @@
   {
     "id": "mon_zombie_soldier_acid_2",
     "type": "MONSTER",
-    "name": "acid-support zombie",
+    "name": { "str": "acid-support zombie" },
     "description": "This zombie wears what appears to have once been a soldier's uniform and armor, now a series of cracked and melted plates that have fused to its skin and thickened hide.  Its face and arms blister with strange mutated tubes that pulse and drip with acid.",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
@@ -385,7 +385,7 @@
   {
     "id": "mon_zombie_armored",
     "type": "MONSTER",
-    "name": "armored zombie",
+    "name": { "str": "armored zombie" },
     "description": "Despite being encased in a what was once a nigh-impenetrable suit of power armor, something still managed to kill this soldier.",
     "default_faction": "zombie",
     "bodytype": "human",

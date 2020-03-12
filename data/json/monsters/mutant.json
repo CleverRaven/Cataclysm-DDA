@@ -2,7 +2,7 @@
   {
     "id": "mon_chud",
     "type": "MONSTER",
-    "name": "C.H.U.D.",
+    "name": { "str": "C.H.U.D." },
     "description": "The C.H.U.D. or Cannibalistic Humanoid Underground Dweller.  A human being turned pale and mad from years of underground isolation.",
     "default_faction": "mutant",
     "bodytype": "human",

@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_anklebiter",
     "type": "MONSTER",
-    "name": "anklebiter",
+    "name": { "str": "anklebiter" },
     "description": "This horrifying little mutated wretch looks to have once been a child, but its massive gaping jaws are now far more suggestive of a predatory beast.",
     "default_faction": "zombie",
     "bodytype": "human",

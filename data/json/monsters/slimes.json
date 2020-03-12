@@ -120,7 +120,7 @@
   {
     "id": "mon_gelatin",
     "type": "MONSTER",
-    "name": "amoebic mold",
+    "name": { "str": "amoebic mold" },
     "description": "A formless slime mold the size of a cow.  Crusty bits of cytoplasm fall away as it oozes across the ground.",
     "bodytype": "blob",
     "default_faction": "blob",
