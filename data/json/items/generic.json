@@ -549,13 +549,13 @@
     "id": "tree_spile",
     "symbol": ".",
     "color": "light_gray",
-    "name": "tree spile",
+    "name": { "str": "tree spile" },
     "description": "A hollow metal cylinder which is inserted in a tree crust in order to slowly harvest its sap.  Can be used on a maple tree in between late winter and early spring to harvest maple sap.",
     "category": "tools",
     "price": 5,
     "material": "steel",
     "weight": "11 g",
-    "volume": 0
+    "volume": "50 ml"
   },
   {
     "type": "GENERIC",
@@ -1295,7 +1295,7 @@
     "id": "transponder",
     "symbol": ",",
     "color": "light_gray",
-    "name": "transponder circuit",
+    "name": { "str": "transponder circuit" },
     "category": "spare_parts",
     "description": "A circuit designed to repeat a signal.  Useful for crafting communications equipment.",
     "price": 14000,

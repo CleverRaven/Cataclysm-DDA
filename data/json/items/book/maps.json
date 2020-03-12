@@ -81,7 +81,7 @@
     "id": "trailmap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
-    "name": "trail guide",
+    "name": { "str": "trail guide" },
     "description": "This is a printed guide to the best local trails.  It has general details about the trails, trailhead amenities, suggestions for the best thru-hikes, and advice on interacting with local wildlife in a responsible and respectful manner.",
     "color": "green",
     "use_action": {

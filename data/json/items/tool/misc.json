@@ -647,7 +647,7 @@
     "id": "umbrella",
     "type": "GENERIC",
     "category": "tools",
-    "name": "umbrella",
+    "name": { "str": "umbrella" },
     "description": "An umbrella with a pointy end, useful for keeping dry when wielded.",
     "weight": "141 g",
     "volume": "1500 ml",
