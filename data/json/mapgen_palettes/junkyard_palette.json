@@ -46,8 +46,6 @@
       "F": "f_vending_c",
       "K": "f_vending_c"
     },
-    "items": {
-      "_": { "item": "trash_junkyard", "chance": 3, "repeat": 2 }
-    }
+    "items": { "_": { "item": "trash_junkyard", "chance": 3, "repeat": 2 } }
   }
 ]
