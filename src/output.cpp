@@ -847,7 +847,9 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
     if( !data.get_item_name().empty() ) {
         buffer += data.get_item_name() + "\n";
     }
-    if( data.get_item_name() != data.get_type_name() && !data.get_type_name().empty() ) {
+    // If type name is set, and not already contained in item name, output it too
+    if( !data.get_type_name().empty() &&
+        data.get_item_name().find( data.get_type_name() ) == std::string::npos ) {
         buffer += data.get_type_name() + "\n";
     }
     for( unsigned int i = 0; i < data.padding; i++ ) {
@@ -1608,6 +1610,10 @@ void replace_name_tags( std::string &input )
     }
     while( input.find( "<given_name>" ) != std::string::npos ) {
         replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
+                           false );
+    }
+    while( input.find( "<town_name>" ) != std::string::npos ) {
+        replace_substring( input, "<town_name>", Name::get( nameIsTownName ),
                            false );
     }
 }

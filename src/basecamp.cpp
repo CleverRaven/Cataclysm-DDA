@@ -623,7 +623,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
         item camp_item( bcp_r.fake_id, 0 );
-        camp_item.item_tags.insert( flag_PSEUDO );
+        camp_item.item_tags.insert( "PSEUDO" );
         if( bcp_r.ammo_id != "NULL" ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {

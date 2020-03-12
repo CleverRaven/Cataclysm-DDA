@@ -23,7 +23,6 @@
 #include "item.h"
 #include "flat_set.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
 
 namespace
 {
@@ -172,6 +171,9 @@ void profession::load( const JsonObject &jo, const std::string & )
         _description_male = to_translation( "prof_desc_male", desc );
         _description_female = to_translation( "prof_desc_female", desc );
     }
+    if( jo.has_string( "vehicle" ) ) {
+        _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
+    }
     if( jo.has_array( "pets" ) ) {
         for( JsonObject subobj : jo.get_array( "pets" ) ) {
             int count = subobj.get_int( "amount" );
@@ -287,7 +289,10 @@ void profession::check_definition() const
     if( !item_group::group_is_defined( _starting_items_female ) ) {
         debugmsg( "_starting_items_female group is undefined" );
     }
-
+    if( _starting_vehicle && !_starting_vehicle.is_valid() ) {
+        debugmsg( "vehicle prototype %s for profession %s does not exist", _starting_vehicle.c_str(),
+                  id.c_str() );
+    }
     for( const auto &a : _starting_CBMs ) {
         if( !a.is_valid() ) {
             debugmsg( "bionic %s for profession %s does not exist", a.c_str(), id.c_str() );
@@ -404,7 +409,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         if( it.is_holster() && it.contents.size() == 1 ) {
             clear_faults( it.contents.front() );
         }
-        if( it.has_flag( flag_VARSIZE ) ) {
+        if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
     }
@@ -433,6 +438,11 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         return first.get_layer() < second.get_layer();
     } );
     return result;
+}
+
+vproto_id profession::vehicle() const
+{
+    return _starting_vehicle;
 }
 
 std::vector<mtype_id> profession::pets() const

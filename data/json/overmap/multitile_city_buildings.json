@@ -3322,5 +3322,23 @@
       { "point": [ 0, 0, 1 ], "overmap": "house_crack3_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "house_crack3_basement_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_laundromat",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_laundromat_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_laundromat_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_laundromat_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_laundromat_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_laundromat_roof_1_north" }
+    ]
   }
 ]

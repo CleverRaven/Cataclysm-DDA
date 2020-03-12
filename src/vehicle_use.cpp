@@ -114,7 +114,7 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
 
 void vehicle::control_doors()
 {
-    const auto door_motors = get_avail_parts( flag_DOOR_MOTOR );
+    const auto door_motors = get_avail_parts( "DOOR_MOTOR" );
     // Indices of doors
     std::vector< int > doors_with_motors;
     // Locations used to display the doors
@@ -174,7 +174,7 @@ void vehicle::control_doors()
                 if( open ) {
                     int part = next_part_to_open( motor );
                     if( part != -1 ) {
-                        if( !part_flag( part, flag_CURTAIN ) &&  option == OPENCURTAINS ) {
+                        if( !part_flag( part, "CURTAIN" ) &&  option == OPENCURTAINS ) {
                             continue;
                         }
                         open_or_close( part, open );
@@ -188,7 +188,7 @@ void vehicle::control_doors()
                 } else {
                     int part = next_part_to_close( motor );
                     if( part != -1 ) {
-                        if( part_flag( part, flag_CURTAIN ) &&  option == CLOSEDOORS ) {
+                        if( part_flag( part, "CURTAIN" ) &&  option == CLOSEDOORS ) {
                             continue;
                         }
                         open_or_close( part, open );
@@ -447,7 +447,7 @@ void vehicle::smash_security_system()
     int s = -1;
     int c = -1;
     for( int p : speciality ) {
-        if( part_flag( p, flag_SECURITY ) && !parts[ p ].is_broken() ) {
+        if( part_flag( p, "SECURITY" ) && !parts[ p ].is_broken() ) {
             s = p;
             c = part_with_feature( s, "CONTROLS", true );
             break;
@@ -826,7 +826,7 @@ bool vehicle::fold_up()
 
 double vehicle::engine_cold_factor( const int e ) const
 {
-    if( !part_info( engines[e] ).has_flag( flag_E_COLD_START ) ) {
+    if( !part_info( engines[e] ).has_flag( "E_COLD_START" ) ) {
         return 0.0;
     }
 
@@ -840,7 +840,7 @@ double vehicle::engine_cold_factor( const int e ) const
 
 int vehicle::engine_start_time( const int e ) const
 {
-    if( !is_engine_on( e ) || part_info( engines[e] ).has_flag( flag_E_STARTS_INSTANTLY ) ||
+    if( !is_engine_on( e ) || part_info( engines[e] ).has_flag( "E_STARTS_INSTANTLY" ) ||
         !engine_fuel_left( e ) ) {
         return 0;
     }
@@ -880,10 +880,10 @@ bool vehicle::start_engine( const int e )
     if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
-            if( einfo.has_flag( flag_MUSCLE_ARMS ) && ( g->u.get_working_arm_count() < 2 ) ) {
+            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.get_working_arm_count() < 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
                 return false;
-            } else if( einfo.has_flag( flag_MUSCLE_LEGS ) && ( g->u.get_working_leg_count() < 2 ) ) {
+            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() < 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken leg." ), eng.name() );
                 return false;
             }
@@ -1057,10 +1057,10 @@ void vehicle::honk_horn()
     const bool no_power = !fuel_left( fuel_type_battery, true );
     bool honked = false;
 
-    for( const vpart_reference &vp : get_avail_parts( flag_HORN ) ) {
+    for( const vpart_reference &vp : get_avail_parts( "HORN" ) ) {
         //Only bicycle horn doesn't need electricity to work
         const vpart_info &horn_type = vp.info();
-        if( ( horn_type.get_id() != vpart_horn_bicycle ) && no_power ) {
+        if( ( horn_type.get_id() != vpart_id( "horn_bicycle" ) ) && no_power ) {
             continue;
         }
         if( !honked ) {
@@ -1138,7 +1138,7 @@ void vehicle::beeper_sound()
     }
 
     const bool odd_turn = calendar::once_every( 2_turns );
-    for( const vpart_reference &vp : get_avail_parts( flag_BEEPER ) ) {
+    for( const vpart_reference &vp : get_avail_parts( "BEEPER" ) ) {
         if( ( odd_turn && vp.has_feature( VPFLAG_EVENTURN ) ) ||
             ( !odd_turn && vp.has_feature( VPFLAG_ODDTURN ) ) ) {
             continue;
@@ -1294,7 +1294,7 @@ void vehicle::operate_planter()
                     break;
                 } else if( g->m.ter( loc ) == t_dirtmound ) {
                     g->m.set( loc, t_dirt, f_plant_seed );
-                } else if( !g->m.has_flag( flag_PLOWABLE, loc ) ) {
+                } else if( !g->m.has_flag( "PLOWABLE", loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), DT_BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
@@ -1341,7 +1341,7 @@ void vehicle::operate_scoop()
             }
             item *that_item_there = nullptr;
             map_stack items = g->m.i_at( position );
-            if( g->m.has_flag( flag_SEALED, position ) ) {
+            if( g->m.has_flag( "SEALED", position ) ) {
                 // Ignore it. Street sweepers are not known for their ability to harvest crops.
                 continue;
             }
@@ -1402,7 +1402,7 @@ void vehicle::alarm()
  */
 void vehicle::open( int part_index )
 {
-    if( !part_info( part_index ).has_flag( flag_OPENABLE ) ) {
+    if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
         debugmsg( "Attempted to open non-openable part %d (%s) on a %s!", part_index,
                   parts[ part_index ].name(), name );
     } else {
@@ -1417,7 +1417,7 @@ void vehicle::open( int part_index )
  */
 void vehicle::close( int part_index )
 {
-    if( !part_info( part_index ).has_flag( flag_OPENABLE ) ) {
+    if( !part_info( part_index ).has_flag( "OPENABLE" ) ) {
         debugmsg( "Attempted to close non-closeable part %d (%s) on a %s!", part_index,
                   parts[ part_index ].name(), name );
     } else {
@@ -1491,7 +1491,7 @@ void vehicle::use_autoclave( int p )
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
     } else if( items.empty() ) {
         add_msg( m_bad, _( "The autoclave is empty, there's no point in starting it." ) );
-    } else if( fuel_left( fuel_type_water ) < 8 && fuel_left( fuel_type_water_clean ) < 8 ) {
+    } else if( fuel_left( "water" ) < 8 && fuel_left( "water_clean" ) < 8 ) {
         add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
                  name );
     } else if( filthy_items ) {
@@ -1507,10 +1507,10 @@ void vehicle::use_autoclave( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( fuel_type_water ) >= 8 ) {
-            drain( fuel_type_water, 8 );
+        if( fuel_left( "water" ) >= 8 ) {
+            drain( "water", 8 );
         } else {
-            drain( fuel_type_water_clean, 8 );
+            drain( "water_clean", 8 );
         }
 
         add_msg( m_good,
@@ -1523,7 +1523,7 @@ void vehicle::use_washing_machine( int p )
     // Get all the items that can be used as detergent
     const inventory &inv = g->u.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
-        return it.has_flag( flag_DETERGENT ) && inv.has_charges( it.typeId(), 5 );
+        return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
     } );
 
     auto items = get_items( p );
@@ -1543,7 +1543,7 @@ void vehicle::use_washing_machine( int p )
     } else if( items.empty() ) {
         add_msg( m_bad,
                  _( "The washing machine is empty, there's no point in starting it." ) );
-    } else if( fuel_left( fuel_type_water ) < 24 && fuel_left( fuel_type_water_clean ) < 24 ) {
+    } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
                  name );
     } else if( detergents.empty() ) {
@@ -1588,10 +1588,10 @@ void vehicle::use_washing_machine( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( fuel_type_water ) >= 24 ) {
-            drain( fuel_type_water, 24 );
+        if( fuel_left( "water" ) >= 24 ) {
+            drain( "water", 24 );
         } else {
-            drain( fuel_type_water_clean, 24 );
+            drain( "water_clean", 24 );
         }
 
         std::vector<item_comp> detergent;
@@ -1629,7 +1629,7 @@ void vehicle::use_dishwasher( int p )
     } else if( items.empty() ) {
         add_msg( m_bad,
                  _( "The dishwasher is empty, there's no point in starting it." ) );
-    } else if( fuel_left( fuel_type_water ) < 24 && fuel_left( fuel_type_water_clean ) < 24 ) {
+    } else if( fuel_left( "water" ) < 24 && fuel_left( "water_clean" ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the dishwasher." ),
                  name );
     } else if( !detergent_is_enough ) {
@@ -1645,10 +1645,10 @@ void vehicle::use_dishwasher( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( fuel_type_water ) >= 24 ) {
-            drain( fuel_type_water, 24 );
+        if( fuel_left( "water" ) >= 24 ) {
+            drain( "water", 24 );
         } else {
-            drain( fuel_type_water_clean, 24 );
+            drain( "water_clean", 24 );
         }
 
         std::vector<item_comp> detergent;
@@ -1716,7 +1716,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
     } else if( !m.has_flag( MF_PET_MOUNTABLE ) && !m.has_flag( MF_PET_HARNESSABLE ) ) {
         add_msg( m_info, _( "This creature cannot be harnessed." ) );
         return;
-    } else if( !part_flag( part, Harness_Bodytype ) && !part_flag( part, flag_HARNESS_any ) ) {
+    } else if( !part_flag( part, Harness_Bodytype ) && !part_flag( part, "HARNESS_any" ) ) {
         add_msg( m_info, _( "The harness is not adapted for this creature morphology." ) );
         return;
     }
@@ -1838,7 +1838,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     std::vector<std::string> menu_items;
     std::vector<uilist_entry> options_message;
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
-    const bool items_are_sealed = g->m.has_flag( flag_SEALED, pos );
+    const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
     auto turret = turret_query( pos );
 
@@ -1930,25 +1930,25 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( curtain_part >= 0 && curtain_closed ) {
         selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
     }
-    if( ( has_kitchen || has_chemlab ) && fuel_left( fuel_type_battery, true ) > 0 ) {
+    if( ( has_kitchen || has_chemlab ) && fuel_left( "battery", true ) > 0 ) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
     }
-    if( has_faucet && fuel_left( fuel_type_water_clean ) > 0 ) {
+    if( has_faucet && fuel_left( "water_clean" ) > 0 ) {
         selectmenu.addentry( FILL_CONTAINER, true, 'c', _( "Fill a container with water" ) );
         selectmenu.addentry( DRINK, true, 'd', _( "Have a drink" ) );
     }
     if( has_towel ) {
         selectmenu.addentry( USE_TOWEL, true, 't', _( "Use a towel" ) );
     }
-    if( has_weldrig && fuel_left( fuel_type_battery, true ) > 0 ) {
+    if( has_weldrig && fuel_left( "battery", true ) > 0 ) {
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig" ) );
     }
     if( has_purify ) {
-        bool can_purify = fuel_left( fuel_type_battery, true ) >=
+        bool can_purify = fuel_left( "battery", true ) >=
                           item::find_type( "water_purifier" )->charges_to_use();
         selectmenu.addentry( USE_PURIFIER, can_purify,
                              'p', _( "Purify water in carried container" ) );
-        selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( fuel_type_water ),
+        selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( "water" ),
                              'P', _( "Purify water in vehicle tank" ) );
     }
     if( has_monster_capture ) {

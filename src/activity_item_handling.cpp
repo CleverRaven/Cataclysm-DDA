@@ -631,7 +631,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 
     for( const auto &ait : items ) {
         item *filthy_item = const_cast<item *>( &*ait.loc );
-        filthy_item->item_tags.erase( flag_FILTHY );
+        filthy_item->item_tags.erase( "FILTHY" );
         p->on_worn_item_washed( *filthy_item );
     }
 
@@ -952,7 +952,7 @@ static void vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
 
 static void move_item( player &p, item &it, const int quantity, const tripoint &src,
                        const tripoint &dest, vehicle *src_veh, int src_part,
-                       activity_id activity_to_restore = activity_id::NULL_ID() )
+                       const activity_id &activity_to_restore = activity_id::NULL_ID() )
 {
     item leftovers = it;
 
@@ -1162,7 +1162,7 @@ static std::string random_string( size_t length )
 
 static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                                      const requirement_id &needed_things, player &p, const activity_id &activity_to_restore,
-                                     const bool in_loot_zones, tripoint src_loc )
+                                     const bool in_loot_zones, const tripoint &src_loc )
 {
     zone_manager &mgr = zone_manager::get_manager();
     inventory temp_inv;
@@ -1184,7 +1184,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                               activity_to_restore == ACT_MULTIPLE_FISH;
     bool found_welder = false;
     for( item *elem : p.inv_dump() ) {
-        if( elem->has_quality( quality_WELD ) ) {
+        if( elem->has_quality( qual_WELD ) ) {
             found_welder = true;
         }
         temp_inv += *elem;
@@ -1235,12 +1235,12 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
                 if( weldpart ) {
                     item welder( "welder", 0 );
-                    welder.charges = veh.fuel_left( fuel_type_battery, true );
-                    welder.item_tags.insert( flag_PSEUDO );
+                    welder.charges = veh.fuel_left( "battery", true );
+                    welder.item_tags.insert( "PSEUDO" );
                     temp_inv.add_item( welder );
                     item soldering_iron( "soldering_iron", 0 );
-                    soldering_iron.charges = veh.fuel_left( fuel_type_battery, true );
-                    soldering_iron.item_tags.insert( flag_PSEUDO );
+                    soldering_iron.charges = veh.fuel_left( "battery", true );
+                    soldering_iron.item_tags.insert( "PSEUDO" );
                     temp_inv.add_item( soldering_iron );
                 }
             }
@@ -1249,7 +1249,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     return needed_things.obj().can_make_with_inventory( temp_inv, is_crafting_component );
 }
 
-static bool has_skill_for_vehicle_work( std::map<skill_id, int> required_skills, player &p )
+static bool has_skill_for_vehicle_work( const std::map<skill_id, int> &required_skills, player &p )
 {
     for( const auto &e : required_skills ) {
         bool hasSkill = p.get_skill_level( e.first ) >= e.second;
@@ -1400,7 +1400,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
         if( g->m.has_flag( flag_TREE, src_loc ) || g->m.ter( src_loc ) == t_trunk ||
             g->m.ter( src_loc ) == t_stump ) {
-            if( p.has_quality( quality_AXE ) ) {
+            if( p.has_quality( qual_AXE ) ) {
                 return activity_reason_info::ok( NEEDS_TREE_CHOPPING );
             } else {
                 return activity_reason_info::fail( NEEDS_TREE_CHOPPING );
@@ -1436,8 +1436,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( !b_rack_present || !g->m.has_nearby_table( src_loc, 2 ) ) {
                     return activity_reason_info::fail( NO_ZONE );
                 }
-                if( p.has_quality( quality_id( quality_BUTCHER ), 1 ) && ( p.has_quality( quality_SAW_W ) ||
-                        p.has_quality( quality_SAW_M ) ) ) {
+                if( p.has_quality( quality_id( qual_BUTCHER ), 1 ) && ( p.has_quality( qual_SAW_W ) ||
+                        p.has_quality( qual_SAW_M ) ) ) {
                     return activity_reason_info::ok( NEEDS_BIG_BUTCHERING );
                 } else {
                     return activity_reason_info::fail( NEEDS_BIG_BUTCHERING );
@@ -1445,7 +1445,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             }
             if( ( big_count > 0 && small_count > 0 ) || ( big_count == 0 ) ) {
                 // there are small corpses here, so we can ignore any big corpses here for the moment.
-                if( p.has_quality( quality_BUTCHER, 1 ) ) {
+                if( p.has_quality( qual_BUTCHER, 1 ) ) {
                     return activity_reason_info::ok( NEEDS_BUTCHERING );
                 } else {
                     return activity_reason_info::fail( NEEDS_BUTCHERING );
@@ -1459,7 +1459,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         for( auto &i : g->m.i_at( src_loc ) ) {
             if( i.typeId() == "log" ) {
                 // do we have an axe?
-                if( p.has_quality( quality_AXE, 1 ) ) {
+                if( p.has_quality( qual_AXE, 1 ) ) {
                     return activity_reason_info::ok( NEEDS_CHOPPING );
                 } else {
                     return activity_reason_info::fail( NEEDS_CHOPPING );
@@ -1488,7 +1488,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
         const inventory pre_inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
         for( const zone_data &zone : zones ) {
-            const blueprint_options options = dynamic_cast<const blueprint_options &>( zone.get_options() );
+            const blueprint_options &options = dynamic_cast<const blueprint_options &>( zone.get_options() );
             const construction_id index = options.get_index();
             if( !stuff_there.empty() ) {
                 return activity_reason_info::build( BLOCKING_TILE, false, index );
@@ -1506,7 +1506,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 // simple work, pulling up plants, nothing else required.
                 return activity_reason_info::ok( NEEDS_HARVESTING );
             } else if( g->m.has_flag( flag_PLOWABLE, src_loc ) && !g->m.has_furn( src_loc ) ) {
-                if( p.has_quality( quality_DIG, 1 ) ) {
+                if( p.has_quality( qual_DIG, 1 ) ) {
                     // we have a shovel/hoe already, great
                     return activity_reason_info::ok( NEEDS_TILLING );
                 } else {
@@ -1519,11 +1519,11 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     return activity_reason_info::fail( BLOCKING_TILE );
                 } else {
                     // do we have the required seed on our person?
-                    const auto options = dynamic_cast<const plot_options &>( zone.get_options() );
+                    const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
                     const std::string seed = options.get_seed();
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                     // then it means no further work can be done here
-                    if( seed == "No seed" ) {
+                    if( seed.empty() ) {
                         return activity_reason_info::fail( ALREADY_DONE );
                     }
                     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
@@ -1837,11 +1837,10 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     return final_map;
 }
 
-static void construction_activity( player &p, const zone_data *zone, const tripoint &src_loc,
+static void construction_activity( player &p, const zone_data * /*zone*/, const tripoint &src_loc,
                                    const activity_reason_info &act_info,
-                                   activity_id activity_to_restore )
+                                   const activity_id &activity_to_restore )
 {
-    const blueprint_options options = dynamic_cast<const blueprint_options &>( zone->get_options() );
     // the actual desired construction
     if( !act_info.con_idx ) {
         debugmsg( "no construction selected" );
@@ -1991,17 +1990,17 @@ static void fetch_activity( player &p, const tripoint &src_loc,
                     }
                     it.set_var( "activity_var", p.name );
                     p.i_add( it );
-                    items_there.erase( item_iter );
-                    // If we didn't pick up a whole stack, put the remainder back where it came from.
-                    if( leftovers.charges > 0 ) {
-                        g->m.add_item_or_charges( src_loc, leftovers );
-                    }
                     if( p.is_npc() ) {
                         if( pickup_count == 1 ) {
                             add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), it.tname() );
                         } else {
                             add_msg( _( "%s picks up several items." ), p.disp_name() );
                         }
+                    }
+                    items_there.erase( item_iter );
+                    // If we didn't pick up a whole stack, put the remainder back where it came from.
+                    if( leftovers.charges > 0 ) {
+                        g->m.add_item_or_charges( src_loc, leftovers );
                     }
                     return;
                 }
@@ -2046,7 +2045,7 @@ static item *best_quality_item( player &p, const quality_id &qual )
 
 static bool chop_plank_activity( player &p, const tripoint &src_loc )
 {
-    item *best_qual = best_quality_item( p, quality_AXE );
+    item *best_qual = best_quality_item( p, qual_AXE );
     if( !best_qual ) {
         return false;
     }
@@ -2314,7 +2313,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 static int chop_moves( player &p, item *it )
 {
     // quality of tool
-    const int quality = it->get_quality( quality_AXE );
+    const int quality = it->get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
     const int attr = it->has_flag( flag_POWERED ) ? p.dex_cur : p.str_cur;
@@ -2327,7 +2326,7 @@ static int chop_moves( player &p, item *it )
 
 static bool chop_tree_activity( player &p, const tripoint &src_loc )
 {
-    item *best_qual = best_quality_item( p, quality_AXE );
+    item *best_qual = best_quality_item( p, qual_AXE );
     if( !best_qual ) {
         return false;
     }
@@ -2438,9 +2437,8 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
                 }
             }
         }
-    }
-    zone_type_id zone_type = get_zone_for_act( tripoint_zero, mgr, act_id );
-    if( act_id != ACT_FETCH_REQUIRED ) {
+    } else if( act_id != ACT_FETCH_REQUIRED ) {
+        zone_type_id zone_type = get_zone_for_act( tripoint_zero, mgr, act_id );
         src_set = mgr.get_near( zone_type_id( zone_type ), abspos, ACTIVITY_SEARCH_DISTANCE );
         // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
         if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
@@ -2589,21 +2587,21 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             std::vector<std::vector<quality_requirement>> quality_comp_vector;
             std::vector<std::vector<tool_comp>> tool_comp_vector;
             if( reason == NEEDS_TILLING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_DIG, 1, 1 ) } );
+                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_DIG, 1, 1 ) } );
             } else if( reason == NEEDS_CHOPPING || reason == NEEDS_TREE_CHOPPING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_AXE, 1, 1 ) } );
+                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_AXE, 1, 1 ) } );
             } else if( reason == NEEDS_PLANTING ) {
                 requirement_comp_vector.push_back( std::vector<item_comp> { item_comp( itype_id( dynamic_cast<const plot_options &>
                                                    ( zone->get_options() ).get_seed() ), 1 )
                                                                           } );
             } else if( reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_BUTCHER, 1, 1 ) } );
+                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_BUTCHER, 1, 1 ) } );
                 if( reason == NEEDS_BIG_BUTCHERING ) {
-                    quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( quality_SAW_M, 1, 1 ), quality_requirement( quality_SAW_W, 1, 1 ) } );
+                    quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_SAW_M, 1, 1 ), quality_requirement( qual_SAW_W, 1, 1 ) } );
                 }
 
             } else if( reason == NEEDS_FISHING ) {
-                quality_comp_vector.push_back( std::vector<quality_requirement> {quality_requirement( quality_FISHING, 1, 1 )} );
+                quality_comp_vector.push_back( std::vector<quality_requirement> {quality_requirement( qual_FISHING, 1, 1 )} );
             }
             // ok, we need a shovel/hoe/axe/etc
             // this is an activity that only requires this one tool, so we will fetch and wield it.
@@ -2632,7 +2630,6 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             act_prev.str_values.push_back( what_we_need.str() );
             act_prev.values.push_back( reason );
             // come back here after succesfully fetching your stuff
-            std::vector<tripoint> candidates;
             if( act_prev.coords.empty() ) {
                 std::vector<tripoint> local_src_set;
                 for( const tripoint &elem : src_set ) {
@@ -2679,7 +2676,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     if( reason == NEEDS_HARVESTING && g->m.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
         iexamine::harvest_plant( p, src_loc, true );
     } else if( reason == NEEDS_TILLING && g->m.has_flag( flag_PLOWABLE, src_loc ) &&
-               p.has_quality( quality_DIG, 1 ) && !g->m.has_furn( src_loc ) ) {
+               p.has_quality( qual_DIG, 1 ) && !g->m.has_furn( src_loc ) ) {
         p.assign_activity( ACT_CHURN, 18000, -1 );
         p.backlog.push_front( act_id );
         p.activity.placement = src;
@@ -2698,9 +2695,10 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
                 continue;
             }
             iexamine::plant_seed( p, src_loc, itype_id( seed ) );
-            break;
+            p.backlog.push_front( act_id );
+            return false;
         }
-    } else if( reason == NEEDS_CHOPPING && p.has_quality( quality_AXE, 1 ) ) {
+    } else if( reason == NEEDS_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
         if( chop_plank_activity( p, src_loc ) ) {
             p.backlog.push_front( act_id );
             return false;
@@ -2729,16 +2727,16 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         // Because some player activities are necessarily not marked as auto-resume.
         activity_handlers::resume_for_multi_activities( p );
         return false;
-    } else if( reason == NEEDS_TREE_CHOPPING && p.has_quality( quality_AXE, 1 ) ) {
+    } else if( reason == NEEDS_TREE_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
         p.backlog.push_front( act_id );
         if( chop_tree_activity( p, src_loc ) ) {
             return false;
         }
-    } else if( reason == NEEDS_FISHING && p.has_quality( quality_FISHING, 1 ) ) {
+    } else if( reason == NEEDS_FISHING && p.has_quality( qual_FISHING, 1 ) ) {
         p.backlog.push_front( act_id );
         // we dont want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         p.activity = player_activity();
-        item *best_rod = best_quality_item( p, quality_FISHING );
+        item *best_rod = best_quality_item( p, qual_FISHING );
         p.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
                            p.get_item_position( best_rod ), best_rod->tname() );
         p.activity.coord_set = g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );

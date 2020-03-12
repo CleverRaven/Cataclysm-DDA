@@ -25,6 +25,8 @@ class uistatedata
 {
         /**** this will set a default value on startup, however to save, see below ****/
     private:
+        // not needed for compilation, but keeps syntax plugins happy
+        using itype_id = std::string;
         enum side { left  = 0, right = 1, NUM_PANES = 2 };
     public:
         int ags_pay_gas_selected_pump = 0;
@@ -61,7 +63,7 @@ class uistatedata
         bool overmap_show_hordes = true;
         bool overmap_show_forest_trails = true;
 
-        bool debug_ranged;
+        bool debug_ranged = false;
         tripoint adv_inv_last_coords = {-999, -999, -999};
         int last_inv_start = -2;
         int last_inv_sel = -2;

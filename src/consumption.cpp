@@ -39,7 +39,7 @@
 #include "cata_string_consts.h"
 
 const std::vector<std::string> carnivore_blacklist {{
-        flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT,
+        flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
     }
 };
 // This ugly temp array is here because otherwise it goes
@@ -135,7 +135,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         // TODO: put this loop into a function and utilize it again for bionics
         for( const auto &mat : mut.vitamin_absorb_multi ) {
             // this is where we are able to check if the food actually is changed by the trait
-            if( mat.first == material_all || it.made_of( mat.first ) ) {
+            if( mat.first == material_id( "all" ) || it.made_of( mat.first ) ) {
                 const std::map<vitamin_id, double> &mat_vit_map = mat.second;
                 for( auto &vit : res ) {
                     auto vit_factor = mat_vit_map.find( vit.first );
@@ -457,8 +457,10 @@ bool Character::vitamin_set( const vitamin_id &vit, int qty )
 
 float Character::metabolic_rate_base() const
 {
-    float hunger_rate = get_option< float >( "PLAYER_HUNGER_RATE" );
-    return hunger_rate * ( 1.0f + mutation_value( "metabolism_modifier" ) );
+    static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
+    float hunger_rate = get_option< float >( hunger_rate_string );
+    static const std::string metabolism_modifier( "metabolism_modifier" );
+    return hunger_rate * ( 1.0f + mutation_value( metabolism_modifier ) );
 }
 
 // TODO: Make this less chaotic to let NPC retroactive catch up work here
@@ -530,7 +532,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
     }
 
-    if( food.item_tags.count( flag_DIRTY ) ) {
+    if( food.item_tags.count( "DIRTY" ) ) {
         return ret_val<edible_rating>::make_failure(
                    _( "This is full of dirt after being on the ground." ) );
     }
@@ -632,7 +634,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( flag_CANNIBAL ) ) {
+    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( "CANNIBAL" ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
@@ -1245,8 +1247,8 @@ hint_rating Character::rate_action_eat( const item &it ) const
 bool Character::can_feed_reactor_with( const item &it ) const
 {
     static const std::set<ammotype> acceptable = {{
-            ammo_reactor_slurry,
-            ammo_plutonium
+            ammotype( "reactor_slurry" ),
+            ammotype( "plutonium" )
         }
     };
 
@@ -1441,10 +1443,10 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
             int amount = ( consumed_vol / 250_ml + consumed_mass / 1_gram ) / 9;
 
             // TODO: JSONize.
-            if( it.made_of( material_leather ) ) {
+            if( it.made_of( material_id( "leather" ) ) ) {
                 amount /= 4;
             }
-            if( it.made_of( material_wood ) ) {
+            if( it.made_of( material_id( "wood" ) ) ) {
                 amount /= 2;
             }
 
@@ -1472,7 +1474,12 @@ bool Character::can_estimate_rot() const
 
 bool Character::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
+    return it.is_comestible() || can_consume_for_bionic( it );
+}
+
+bool Character::can_consume_for_bionic( const item &it ) const
+{
+    return get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
 }
 
 bool Character::can_consume( const item &it ) const

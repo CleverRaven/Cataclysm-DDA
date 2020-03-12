@@ -34,6 +34,8 @@ using bodytype_id = std::string;
 class JsonArray;
 class JsonObject;
 
+using itype_id = std::string;
+
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
 enum class mon_trigger {
@@ -97,6 +99,7 @@ enum m_flag : int {
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
+    MF_COLDPROOF,           // Immune to cold damage
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
@@ -351,7 +354,7 @@ struct mtype {
         int mech_str_bonus = 0;
 
         /** Emission sources that cycle each turn the monster remains alive */
-        std::set<emit_id> emit_fields;
+        std::map<emit_id, time_duration> emit_fields;
 
         pathfinding_settings path_settings;
 

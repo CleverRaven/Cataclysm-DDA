@@ -24,6 +24,7 @@
 #include "mutation.h"
 #include "output.h"
 #include "player.h"
+#include "skill.h"
 #include "sounds.h"
 #include "translations.h"
 #include "ui.h"
@@ -231,6 +232,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "skill", skill, skill_id( "spellcraft" ) );
     optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
     optional( jo, was_loaded, "sound_description", sound_description,
               to_translation( "an explosion" ) );
@@ -430,10 +432,10 @@ spell::spell( spell_id sp, int xp ) :
     experience( xp )
 {}
 
-spell::spell( spell_id sp, const translation &alt_msg ) :
-    type( sp ),
-    alt_message( alt_msg )
-{}
+void spell::set_message( const translation &msg )
+{
+    alt_message = msg;
+}
 
 spell_id spell::id() const
 {
@@ -443,6 +445,11 @@ spell_id spell::id() const
 trait_id spell::spell_class() const
 {
     return type->spell_class;
+}
+
+skill_id spell::skill() const
+{
+    return type->skill;
 }
 
 int spell::field_intensity() const
@@ -706,7 +713,7 @@ float spell::spell_fail( const player &p ) const
     // effective skill of 8 (8 int, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
     // effective skill of 30 is 0% failure
     const float effective_skill = 2 * ( get_level() - get_difficulty() ) + p.get_int() +
-                                  p.get_skill_level( skill_id( "spellcraft" ) );
+                                  p.get_skill_level( skill() );
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
         return 0.0f;
@@ -1022,7 +1029,7 @@ float spell::exp_modifier( const player &p ) const
 {
     const float int_modifier = ( p.get_int() - 8.0f ) / 8.0f;
     const float difficulty_modifier = get_difficulty() / 20.0f;
-    const float spellcraft_modifier = p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0f;
+    const float spellcraft_modifier = p.get_skill_level( skill() ) / 10.0f;
 
     return ( int_modifier + difficulty_modifier + spellcraft_modifier ) / 5.0f + 1.0f;
 }
@@ -1431,8 +1438,8 @@ int known_magic::time_to_learn_spell( const player &p, const std::string &str ) 
 int known_magic::time_to_learn_spell( const player &p, const spell_id &sp ) const
 {
     const int base_time = to_moves<int>( 30_minutes );
-    return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
-                         ( p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0 ) );
+    return base_time * ( 1.0 + sp->difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
+                         ( p.get_skill_level( sp->skill ) / 10.0 ) );
 }
 
 int known_magic::get_spellname_max_width()
@@ -1972,19 +1979,25 @@ void fake_spell::deserialize( JsonIn &jsin )
     load( data );
 }
 
-spell fake_spell::get_spell( int input_level ) const
+spell fake_spell::get_spell( int min_level_override ) const
 {
     spell sp( id );
-    int lvl = std::min( input_level, sp.get_max_level() );
-    if( max_level ) {
-        lvl = std::min( lvl, *max_level );
+    // the max level this spell will be. can be optionally limited
+    int spell_limiter = max_level ? std::min( *max_level, sp.get_max_level() ) : sp.get_max_level();
+    // level is the minimum level the fake_spell will output
+    min_level_override = std::max( min_level_override, level );
+    if( min_level_override > spell_limiter ) {
+        // this override is for min level, and does not override max level
+        min_level_override = spell_limiter;
     }
-    if( level > lvl ) {
+    // the "level" of the fake spell is the goal, but needs to be clamped to min and max
+    int level_of_spell = clamp( level, min_level_override,  std::min( sp.get_max_level(),
+                                spell_limiter ) );
+    if( level > spell_limiter ) {
         debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
         return sp;
     }
-    lvl = clamp( std::max( lvl, level ), level, lvl );
-    while( sp.get_level() < lvl ) {
+    while( sp.get_level() < level_of_spell ) {
         sp.gain_level();
     }
     return sp;

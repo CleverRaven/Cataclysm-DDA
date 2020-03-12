@@ -579,8 +579,8 @@ int hotkey_for_action( action_id action, const bool restrict_to_printable )
 bool can_butcher_at( const tripoint &p )
 {
     // TODO: unify this with game::butcher
-    const int factor = g->u.max_quality( quality_BUTCHER );
-    const int factorD = g->u.max_quality( quality_CUT_FINE );
+    const int factor = g->u.max_quality( qual_BUTCHER );
+    const int factorD = g->u.max_quality( qual_CUT_FINE );
     auto items = g->m.i_at( p );
     bool has_item = false;
     bool has_corpse = false;

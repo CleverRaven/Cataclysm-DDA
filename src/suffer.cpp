@@ -144,7 +144,7 @@ void Character::suffer_while_underwater()
     if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
         oxygen--;
     }
-    if( oxygen < 12 && worn_with_flag( flag_REBREATHER ) ) {
+    if( oxygen < 12 && worn_with_flag( "REBREATHER" ) ) {
         oxygen += 12;
     }
     if( oxygen <= 5 ) {
@@ -156,7 +156,7 @@ void Character::suffer_while_underwater()
             apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
         }
     }
-    if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( flag_SALT_WATER, pos() ) &&
+    if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
         get_thirst() > -60 ) {
         mod_thirst( -1 );
     }
@@ -625,8 +625,8 @@ void Character::suffer_in_sunlight()
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        vitamin_mod( vitamin_vitA, 1, true );
-        vitamin_mod( vitamin_vitC, 1, true );
+        vitamin_mod( vitamin_id( "vitA" ), 1, true );
+        vitamin_mod( vitamin_id( "vitC" ), 1, true );
     }
 
     if( x_in_y( sunlight_nutrition, 12000 ) ) {
@@ -645,7 +645,7 @@ void Character::suffer_in_sunlight()
     }
 
     if( has_trait( trait_SUNBURN ) && one_in( 10 ) ) {
-        if( !( weapon.has_flag( flag_RAIN_PROTECT ) ) ) {
+        if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
             add_msg_if_player( m_bad, _( "The sunlight burns your skin!" ) );
             if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
                 wake_up();
@@ -696,7 +696,7 @@ void Character::suffer_from_albinism()
         }
     }
     // Umbrellas can keep the sun off the skin
-    if( weapon.has_flag( flag_RAIN_PROTECT ) ) {
+    if( weapon.has_flag( "RAIN_PROTECT" ) ) {
         return;
     }
     //calculate total coverage of skin
@@ -796,8 +796,8 @@ void Character::suffer_from_other_mutations()
     }
 
     if( x_in_y( root_vitamins, 576 ) ) {
-        vitamin_mod( vitamin_iron, 1, true );
-        vitamin_mod( vitamin_calcium, 1, true );
+        vitamin_mod( vitamin_id( "iron" ), 1, true );
+        vitamin_mod( vitamin_id( "calcium" ), 1, true );
         mod_healthy_mod( 5, 50 );
     }
 
@@ -1391,7 +1391,7 @@ bool Character::irradiate( float rads, bool bypass )
     if( rads > 0 ) {
         bool has_helmet = false;
         const bool power_armored = is_wearing_power_armor( &has_helmet );
-        const bool rad_resist = power_armored || worn_with_flag( flag_RAD_RESIST );
+        const bool rad_resist = power_armored || worn_with_flag( "RAD_RESIST" );
 
         if( is_rad_immune() && !bypass ) {
             // Power armor and some high-tech gear protects completely from radiation
@@ -1527,7 +1527,7 @@ void Character::mend( int rate_multiplier )
         }
 
         body_part part = hp_to_bp( static_cast<hp_part>( i ) );
-        if( needs_splint && !worn_with_flag( flag_SPLINT, part ) ) {
+        if( needs_splint && !worn_with_flag( "SPLINT", part ) ) {
             continue;
         }
 

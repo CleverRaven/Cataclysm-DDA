@@ -2070,20 +2070,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "l_HFPack",
-    "type": "uncraft",
-    "time": "30 s",
-    "components": [
-      [ [ "l_long_45", 1 ] ],
-      [ [ "l_enforcer_45", 1 ] ],
-      [ [ "small_repairkit", 1 ] ],
-      [ [ "medium_battery_cell", 1 ] ],
-      [ [ "manual_gun", 1 ] ],
-      [ [ "holster", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY", "FULL_MAGAZINE" ]
-  },
-  {
     "result": "laptop",
     "type": "uncraft",
     "skill_used": "electronics",

@@ -48,17 +48,17 @@ const std::map<std::string, m_size> Creature::size_map = {
 };
 
 const std::set<material_id> Creature::cmat_flesh{
-    material_flesh, material_iflesh
+    material_id( "flesh" ), material_id( "iflesh" )
 };
 const std::set<material_id> Creature::cmat_fleshnveg{
-    material_flesh,  material_iflesh, material_veggy
+    material_id( "flesh" ),  material_id( "iflesh" ), material_id( "veggy" )
 };
 const std::set<material_id> Creature::cmat_flammable{
-    material_paper, material_powder, material_wood,
-    material_cotton, material_wool
+    material_id( "paper" ), material_id( "powder" ), material_id( "wood" ),
+    material_id( "cotton" ), material_id( "wool" )
 };
 const std::set<material_id> Creature::cmat_flameres{
-    material_stone, material_kevlar, material_steel
+    material_id( "stone" ), material_id( "kevlar" ), material_id( "steel" )
 };
 
 Creature::Creature()
@@ -607,17 +607,18 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     double damage_mult = 1.0;
 
+    const int max_damage = proj.impact.total_damage();
     std::string message;
     game_message_type gmtSCTcolor = m_neutral;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
-    } else if( goodhit < accuracy_headshot ) {
+    } else if( goodhit < accuracy_headshot && max_damage > 0.4 * get_hp_max() ) {
         message = _( "Headshot!" );
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float( 1.95, 2.05 );
         bp_hit = bp_head; // headshot hits the head, of course
 
-    } else if( goodhit < accuracy_critical ) {
+    } else if( goodhit < accuracy_critical && max_damage > 0.4 * get_hp_max() ) {
         message = _( "Critical!" );
         gmtSCTcolor = m_critical;
         damage_mult *= rng_float( 1.5, 2.0 );
@@ -684,13 +685,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
     if( proj.proj_effects.count( "INCENDIARY" ) ) {
-        if( made_of( material_veggy ) || made_of_any( cmat_flammable ) ) {
+        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
         } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
             add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
         }
     } else if( proj.proj_effects.count( "IGNITE" ) ) {
-        if( made_of( material_veggy ) || made_of_any( cmat_flammable ) ) {
+        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, 6_turns, bp_hit );
         } else if( made_of_any( cmat_flesh ) ) {
             add_effect( effect_onfire, 10_turns, bp_hit );
@@ -1186,9 +1187,8 @@ bool Creature::resists_effect( const effect &e )
     return false;
 }
 
-bool Creature::has_trait( const trait_id &flag ) const
+bool Creature::has_trait( const trait_id &/*flag*/ ) const
 {
-    ( void )flag;
     return false;
 }
 

@@ -39,8 +39,6 @@
 #include "pldata.h"
 #include "string_formatter.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
 static const holiday current_holiday = holiday::none;
 
 void main_menu::on_move() const

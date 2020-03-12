@@ -2,7 +2,7 @@
   {
     "id": "chicken_cage",
     "type": "TOOL",
-    "name": "chicken cage",
+    "name": { "str": "chicken cage" },
     "description": "A wire container made for transporting chickens, but you can use it to hold any tiny animal.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": "250 g",
     "volume": "2500 ml",
@@ -19,10 +19,10 @@
   {
     "id": "dog_whistle",
     "type": "TOOL",
-    "name": "dog whistle",
+    "name": { "str": "dog whistle" },
     "description": "This is a small whistle.  When used, it produces a high tone that causes nearby friendly dogs to either follow you closely and stop attacking, or start attacking enemies if they are currently docile.",
     "weight": "22 g",
-    "volume": 0,
+    "volume": "5 ml",
     "price": 1000,
     "material": "aluminum",
     "symbol": ";",
@@ -32,7 +32,7 @@
   {
     "id": "horse_tack",
     "type": "TOOL",
-    "name": "horse tack",
+    "name": { "str": "horse tack" },
     "description": "A saddle, bridle, and associated tack that can be placed on a tamed animal that is capable of being ridden.",
     "weight": "2 kg",
     "volume": "7 L",
@@ -47,7 +47,7 @@
   {
     "id": "pet_carrier",
     "type": "TOOL",
-    "name": "pet carrier",
+    "name": { "str": "pet carrier" },
     "description": "A plastic container meant to hold pets for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": "1000 g",
     "volume": "5 L",
@@ -65,7 +65,7 @@
     "id": "pet_carrier_wooden",
     "copy-from": "pet_carrier",
     "type": "TOOL",
-    "name": "wooden pet carrier",
+    "name": { "str": "wooden pet carrier" },
     "description": "A wooden container meant to hold pets for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": "1500 g",
     "volume": "6250 ml",

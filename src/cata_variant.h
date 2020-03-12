@@ -18,6 +18,8 @@ enum body_part : int;
 enum class mutagen_technique : int;
 enum hp_part : int;
 
+using itype_id = std::string;
+
 // cata_variant is a variant-like type that stores a variety of different cata
 // types.  All types are stored by converting them to a string.
 

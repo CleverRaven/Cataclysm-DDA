@@ -2,7 +2,7 @@
   {
     "id": "ax",
     "type": "TOOL",
-    "name": "wood axe",
+    "name": { "str": "wood axe" },
     "description": "This is a large, two-handed wood axe.  It makes a good melee weapon, but is a bit slow to recover between swings.",
     "weight": "2267 g",
     "volume": "2500 ml",
@@ -99,7 +99,7 @@
   {
     "id": "copper_ax",
     "type": "TOOL",
-    "name": "copper axe",
+    "name": { "str": "copper axe" },
     "description": "This is a decent-sized chunk of worked copper affixed to a wooden shaft, to make a crude yet effective axe.",
     "weight": "3700 g",
     "volume": "3500 ml",
@@ -118,7 +118,7 @@
     "id": "hatchet",
     "symbol": ";",
     "color": "light_gray",
-    "name": "hatchet",
+    "name": { "str": "hatchet" },
     "description": "A one-handed hatchet.  Makes a great melee weapon, and is useful both for chopping things and for use as a hammer.",
     "price": 2500,
     "price_postapoc": 5000,
@@ -179,7 +179,7 @@
   {
     "id": "hand_axe",
     "type": "TOOL",
-    "name": "stone hand axe",
+    "name": { "str": "stone hand axe" },
     "description": "This is a broad piece of sharpened stone, with enough left untouched to hold safely.  The Swiss Army knife of the lower paleolithic.",
     "weight": "453 g",
     "volume": "500 ml",
@@ -197,7 +197,7 @@
     "id": "makeshift_axe",
     "copy-from": "hand_axe",
     "type": "TOOL",
-    "name": "metal hand axe",
+    "name": { "str": "metal hand axe" },
     "description": "This is a chunk of steel with one edge hammered down to something resembling a cutting edge.  It works passably well as an axe but really can't compare to a proper axe.",
     "material": "steel",
     "flags": [ "SHEATH_AXE" ]
@@ -205,7 +205,7 @@
   {
     "id": "primitive_adze",
     "type": "TOOL",
-    "name": "stone adze",
+    "name": { "str": "stone adze" },
     "description": "This is a stone adze, somewhat useful for cutting through wood objects.",
     "weight": "1300 g",
     "volume": "1 L",
@@ -221,7 +221,7 @@
   {
     "id": "primitive_axe",
     "type": "TOOL",
-    "name": "stone axe",
+    "name": { "str": "stone axe" },
     "description": "This is a sharpened stone affixed to a stick.  It works passably well as an axe but really can't compare to a proper axe.",
     "weight": "3154 g",
     "volume": "3500 ml",
@@ -237,7 +237,7 @@
   {
     "id": "saw",
     "type": "TOOL",
-    "name": "wood saw",
+    "name": { "str": "wood saw" },
     "description": "This is a thin saw, useful for cutting through wood objects.",
     "weight": "283 g",
     "volume": "1 L",

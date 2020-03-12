@@ -134,7 +134,7 @@ input_context game::get_player_input( std::string &action )
             ctxt.register_action( action_ident( id ) );
         }
         // *INDENT-ON*
-        ctxt.register_action( "QUIT", _( "Accept your fate" ) );
+        ctxt.register_action( "QUIT", to_translation( "Accept your fate" ) );
     } else {
         ctxt = get_default_mode_input_context();
     }
@@ -408,8 +408,9 @@ static void pldrive( int x, int y )
         return;
     }
     if( !remote ) {
-        const bool has_animal_controls = veh->part_with_feature( part, flag_CONTROL_ANIMAL, true ) >= 0;
-        const bool has_controls = veh->part_with_feature( part, flag_CONTROLS, true ) >= 0;
+        static const itype_id fuel_type_animal( "animal" );
+        const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;
+        const bool has_controls = veh->part_with_feature( part, "CONTROLS", true ) >= 0;
         const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
                                 veh->has_harnessed_animal();
         if( !has_controls && !has_animal_controls ) {
@@ -422,7 +423,7 @@ static void pldrive( int x, int y )
             return;
         }
     } else {
-        if( empty( veh->get_avail_parts( flag_REMOTE_CONTROLS ) ) ) {
+        if( empty( veh->get_avail_parts( "REMOTE_CONTROLS" ) ) ) {
             add_msg( m_info, _( "Can't drive this vehicle remotely.  It has no working controls." ) );
             return;
         }
@@ -673,12 +674,28 @@ static void smash()
             crit->use_mech_power( -3 );
         }
     }
-    if( m.get_field( smashp, fd_web ) != nullptr ) {
-        m.remove_field( smashp, fd_web );
-        sounds::sound( smashp, 2, sounds::sound_t::combat, _( "hsh!" ), true, "smash", "web" );
-        add_msg( m_info, _( "You brush aside some webs." ) );
-        u.moves -= 100;
-        return;
+    for( std::pair<const field_type_id, field_entry> &fd_to_smsh : m.field_at( smashp ) ) {
+        const map_bash_info &bash_info = fd_to_smsh.first->bash_info;
+        if( bash_info.str_min == -1 ) {
+            continue;
+        }
+        if( smashskill < bash_info.str_min && one_in( 10 ) ) {
+            add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
+            return;
+        } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
+            sounds::sound( smashp, bash_info.sound_vol, sounds::sound_t::combat, bash_info.sound, true, "smash",
+                           "field" );
+            m.remove_field( smashp, fd_to_smsh.first );
+            m.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
+            u.mod_moves( - bash_info.fd_bash_move_cost );
+            add_msg( m_info, bash_info.field_bash_msg_success.translated() );
+            return;
+        } else {
+            sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
+                           true, "smash",
+                           "field" );
+            return;
+        }
     }
 
     for( const auto &maybe_corpse : m.i_at( smashp ) ) {
@@ -708,7 +725,7 @@ static void smash()
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             const int vol = u.weapon.volume() / units::legacy_volume_factor;
-            if( u.weapon.made_of( material_glass ) &&
+            if( u.weapon.made_of( material_id( "glass" ) ) &&
                 rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
                 for( auto &elem : u.weapon.contents ) {
@@ -1032,7 +1049,7 @@ static void loot()
     player &u = g->u;
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = u.has_item_with_flag( flag_FERTILIZER );
+    const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
 
     // Manually update vehicle cache.
     // In theory this would be handled by the related activity (activity_on_turn_move_loot())
@@ -1411,7 +1428,7 @@ static void cast_spell()
         return;
     }
 
-    if( sp.energy_source() == hp_energy && !u.has_quality( quality_CUT ) ) {
+    if( sp.energy_source() == hp_energy && !u.has_quality( qual_CUT ) ) {
         add_msg( m_bad, _( "You cannot cast Blood Magic without a cutting implement." ) );
         return;
     }

@@ -311,7 +311,7 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
 
     if( worn_item.has_flag( flag_FIT ) ) {
         description_stack.push_back( _( "It fits you well." ) );
-    } else if( worn_item.has_flag( flag_VARSIZE ) ) {
+    } else if( worn_item.has_flag( "VARSIZE" ) ) {
         description_stack.push_back( _( "It could be refitted." ) );
     }
 

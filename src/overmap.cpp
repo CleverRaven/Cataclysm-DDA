@@ -60,8 +60,6 @@ class map_extra;
 #define MAX_ANT_SIZE 20
 #define MIN_GOO_SIZE 1
 #define MAX_GOO_SIZE 2
-#define MIN_RIFT_SIZE 6
-#define MAX_RIFT_SIZE 16
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
@@ -529,17 +527,10 @@ static void load_overmap_terrain_mapgens( const JsonObject &jo, const std::strin
 {
     const std::string fmapkey( id_base + suffix );
     const std::string jsonkey( "mapgen" + suffix );
-    bool default_mapgen = jo.get_bool( "default_mapgen", true );
-    int default_idx = -1;
-    if( default_mapgen ) {
-        if( const auto ptr = get_mapgen_cfunction( fmapkey ) ) {
-            oter_mapgen[fmapkey].push_back( std::make_shared<mapgen_function_builtin>( ptr ) );
-            default_idx = oter_mapgen[fmapkey].size() - 1;
-        }
-    }
+    register_mapgen_function( fmapkey );
     if( jo.has_array( jsonkey ) ) {
         for( JsonObject jio : jo.get_array( jsonkey ) ) {
-            load_mapgen_function( jio, fmapkey, default_idx );
+            load_mapgen_function( jio, fmapkey, point_zero );
         }
     }
 }
@@ -792,9 +783,8 @@ void overmap_terrains::check_consistency()
         }
 
         const bool exists_hardcoded = elem.is_hardcoded();
-        const bool exists_loaded = oter_mapgen.find( mid ) != oter_mapgen.end();
 
-        if( exists_loaded ) {
+        if( has_mapgen_for( mid ) ) {
             if( test_mode && exists_hardcoded ) {
                 debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function.  Consider removing the latter.",
                           mid.c_str() );
@@ -1767,7 +1757,7 @@ bool overmap::generate_sub( const int z )
             continue;
         }
         mongroup_id ant_group( ter( i.pos + tripoint_above ) == "anthill" ?
-                               GROUP_ANT : GROUP_ANT_ACID );
+                               "GROUP_ANT" : "GROUP_ANT_ACID" );
         add_mon_group( mongroup( ant_group, tripoint( i.pos.x * 2, i.pos.y * 2, z ),
                                  ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
         build_anthill( tripoint( i.pos, z ), i.size );
@@ -1982,8 +1972,8 @@ void overmap::move_hordes()
             // Check if the monster is a zombie.
             auto &type = *( this_monster.type );
             if(
-                !type.species.count( species_ZOMBIE ) || // Only add zombies to hordes.
-                type.id == mon_jabberwock || // Jabberwockies are an exception.
+                !type.species.count( ZOMBIE ) || // Only add zombies to hordes.
+                type.id == mtype_id( "mon_jabberwock" ) || // Jabberwockies are an exception.
                 this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
                 this_monster.has_effect( effect_pet ) || // "Zombie pet" zlaves are, too.
                 !this_monster.will_join_horde( INT_MAX ) || // So are zombies who won't join a horde of any size.

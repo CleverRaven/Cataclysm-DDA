@@ -44,7 +44,7 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
   {
     "id": "mon_turret_searchlight",
@@ -71,7 +71,7 @@
     "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ], [ "turret_searchlight", 1 ] ] },
     "death_function": [ "FOCUSEDBEAM" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ]
   },
   {
     "id": "mon_laserturret",
@@ -107,7 +107,7 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ]
   },
   {
     "id": "mon_turret_bmg",
@@ -155,7 +155,7 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
   {
     "id": "mon_turret_rifle",
@@ -203,7 +203,7 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
   {
     "id": "mon_crows_m240",
@@ -251,7 +251,7 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   },
   {
     "id": "mon_turret_riot",
@@ -301,6 +301,6 @@
     ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
   }
 ]
