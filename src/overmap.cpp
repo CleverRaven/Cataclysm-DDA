@@ -2453,7 +2453,7 @@ void overmap::place_lakes()
                 }
 
                 if( closest_distance > 0 ) {
-                    place_river( closest_point, lake_connection_point );
+                   //place_river( closest_point, lake_connection_point );
                 }
             };
 
@@ -2757,15 +2757,14 @@ std::vector<point> overmap::plot_river( point pa, point pb, int scale )
     int ny = abs( dy );
     int sign_x = dx > 0 ? 1 : -1, sign_y = dy > 0 ? 1 : -1;
 
+    
     /* Walk grid */
     point p = { pa.x, pa.y };
     for( int ix = 0, iy = 0; ix < nx || iy < ny; ) {
         if( ( 0.5 + ix ) / nx < ( 0.5 + iy ) / ny ) {
-            // next step is horizontal
             p.x += sign_x;
             ix++;
         } else {
-            // next step is vertical
             p.y += sign_y;
             iy++;
         }
@@ -2788,35 +2787,46 @@ std::vector<point> overmap::plot_river( point pa, point pb, int scale )
 void overmap::place_river( point pa, point pb )
 {
     const oter_id river_center( "river_center" );
-    std::vector<point> points = { pa };
+    const int n_segs = 60;
+    std::vector<point> points;
     std::vector<point> sub_ends;
     int river_scale = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
 
-    //split river up and create variety
-    const int dist = rl_dist( pa, pb );
-    const int segments = std::max( 2, dist / 4 );
-    const int amplitude = 8;
-    for( int s = 1; s <= segments - 1; s++ ) {
-        double t = s / segments;
+   //Generates start/end points for bezier curve
+   const auto quad_bezier = [&](point& pa, point& pb, point& pc, point &pd, const int n_segs) {
+        std::vector<point> pts;
 
-        point ps = { lerp( pa.x, pb.x, t ), lerp( pa.y, pb.y, t ) };
-        ps = { ps.x + rng( -amplitude, amplitude ), ps.y + rng( -amplitude, amplitude ) };
+        for (int i = 0; i <= n_segs; ++i) {
+            double t = (double)i / (double)n_segs;
+            double a = pow((1.0 - t), 3.0);
+            double b = 3.0 * t * pow((1.0 - t),2.0);
+            double c = 3.0 * pow(t, 2.0) * (1.0 - t);
+            double d = pow(t, 3.0);
+            int x = static_cast<int>(a * pa.x + b * pb.x + c * pc.x + d * pd.x);
+            int y = static_cast<int>(a * pa.y + b * pb.y + c * pc.y + d * pd.y);
 
-        if( !inbounds( ps, river_scale * 2 ) ) {
-            continue;
+            pts.push_back(point{ x,y });
         }
 
-        sub_ends.push_back( ps );
-    }
-    sub_ends.push_back( pb );
+        return pts;
+    };
 
+   const int amplitude = rl_dist(pa,pb)/2;
+   point cpm = { (pa.x + pb.x)/2, (pa.y + pb.y)/2 };
+   point cp1 = { (pa.x + cpm.x)/2 + rng(0,amplitude), (pa.y + cpm.y)/2 + rng(0,amplitude) };
+   point cp2 = { (pb.x + cpm.x)/2 + rng(-amplitude,0), (pb.y + cpm.y)/2 + rng(-amplitude,0) };
+   
+   sub_ends = quad_bezier(pa, cp1, cp2, pb, n_segs);
+   for (int i = 0; i < n_segs; ++i) {
+       int j = i + 1;
 
-    //plot river segments
-    for( point end : sub_ends ) {
-        for( point p : plot_river( points.back(), end, river_scale ) ) {
-            points.push_back( p );
-        }
-    }
+       if (j >= sub_ends.size())
+           break;
+ 
+       for (point p : plot_river(sub_ends.at(i), sub_ends.at(j), river_scale))
+           points.push_back(p);
+
+   }
 
     if( points.back().x != pb.x && points.back().y != pb.y ) {
         DebugLog( D_ERROR, D_MAP ) << "Failed to end river at target! Target: " << pb << " Route end: " <<
@@ -2825,7 +2835,8 @@ void overmap::place_river( point pa, point pb )
 
     //audit points and finally draw river
     for( point p : points ) {
-        ter_set( tripoint{ p.x, p.y, 0 }, river_center );
+        if (inbounds(p))
+            ter_set(tripoint{ p.x, p.y, 0 }, river_center);
     }
 
     overmap_river_node new_node = { pa, pb, points.size() };
