@@ -752,7 +752,7 @@
     "id": "slingpack",
     "repairs_like": "backpack",
     "type": "ARMOR",
-    "name": "sling pack",
+    "name": { "str": "sling pack" },
     "//": "Depends on if you're getting a cheap school version or something more like a range bag.",
     "description": "A simple single-sling backpack.  Easier to access than a normal backpack, but can't comfortably hold as much.",
     "weight": "566 g",
@@ -777,7 +777,7 @@
   {
     "id": "straw_basket",
     "type": "ARMOR",
-    "name": "straw basket",
+    "name": { "str": "straw basket" },
     "description": "Hand made straw basket.  Carry it with you for extra storage.",
     "weight": "100 g",
     "volume": "2500 ml",

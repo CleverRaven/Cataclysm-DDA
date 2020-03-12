@@ -198,7 +198,7 @@
   {
     "id": "snuggie",
     "type": "ARMOR",
-    "name": "snuggie",
+    "name": { "str": "snuggie" },
     "description": "Perfect for reading all those books you scavenged.",
     "weight": "625 g",
     "volume": "3 L",

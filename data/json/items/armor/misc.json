@@ -91,10 +91,10 @@
   {
     "id": "tie_skinny",
     "type": "ARMOR",
-    "name": "skinny tie",
+    "name": { "str": "skinny tie" },
     "description": "A skinny black and white checkered necktie.",
     "weight": "12 g",
-    "volume": 0,
+    "volume": "50 ml",
     "price": 750,
     "material": [ "cotton" ],
     "symbol": "[",
