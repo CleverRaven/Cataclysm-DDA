@@ -3221,7 +3221,7 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist kmenu;
-    kmenu.text = string_format( _( "<color_white>Select a style.  Press [%s] for more info.</color>" ),
+    kmenu.text = string_format( _( "Select a style.  Press [%s] for more info." ),
                                 ctxt.get_desc( "SHOW_DESCRIPTION" ) );
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
