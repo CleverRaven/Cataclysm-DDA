@@ -1713,7 +1713,7 @@
   {
     "type": "ARMOR",
     "id": "survivor_belt",
-    "name": "survivor utility belt",
+    "name": { "str": "survivor utility belt" },
     "weight": "3390 g",
     "color": "brown",
     "covers": [ "TORSO" ],

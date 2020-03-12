@@ -798,7 +798,7 @@
     "id": "suitcase_l",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
-    "name": "suitcase",
+    "name": { "str": "suitcase" },
     "//": "You drag it along with you, so it taking a hit is Rare.",
     "description": "A huge wheeled suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is neither fast nor comfortable.",
     "weight": "5000 g",
@@ -819,7 +819,7 @@
     "id": "suitcase_m",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
-    "name": "suitcase",
+    "name": { "str": "suitcase" },
     "description": "A mid-sized suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is not exactly comfortable.",
     "weight": "900 g",
     "volume": "2500 ml",
@@ -838,7 +838,7 @@
   {
     "id": "survivor_duffel_bag",
     "type": "ARMOR",
-    "name": "survivor duffel bag",
+    "name": { "str": "survivor duffel bag" },
     "description": "A custom-built heavy duffel bag.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "1000 g",
     "volume": "7500 ml",
@@ -860,7 +860,7 @@
   {
     "id": "survivor_pack",
     "type": "ARMOR",
-    "name": "survivor backpack",
+    "name": { "str": "survivor backpack" },
     "description": "A custom-built backpack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "600 g",
     "volume": "2500 ml",
@@ -882,7 +882,7 @@
   {
     "id": "survivor_rucksack",
     "type": "ARMOR",
-    "name": "survivor rucksack",
+    "name": { "str": "survivor rucksack" },
     "description": "A custom-built heavy backpack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "800 g",
     "volume": "5 L",
@@ -904,7 +904,7 @@
   {
     "id": "survivor_runner_pack",
     "type": "ARMOR",
-    "name": "survivor runner pack",
+    "name": { "str": "survivor runner pack" },
     "description": "A custom-built lightweight runner pack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "440 g",
     "volume": "1750 ml",
@@ -926,7 +926,7 @@
   {
     "id": "swag_bag",
     "type": "ARMOR",
-    "name": "swag bag",
+    "name": { "str": "swag bag" },
     "description": "A large canvas sack, re-purposed for makeshift storage.  Goes well with a striped shirt and a domino mask.",
     "weight": "415 g",
     "volume": "1 L",
