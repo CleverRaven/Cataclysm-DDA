@@ -962,7 +962,7 @@ static void sleep()
         data << _( "You may want to deactivate these before you sleep." ) << std::endl;
         data << " " << std::endl;
         for( auto &a : active ) {
-            data << a << std::endl;
+            data << "<color_red>" << a << "</color>" << std::endl;
         }
         as_m.text = data.str();
     }
