@@ -842,9 +842,10 @@ void player::sort_armor()
                              "\n"
                              "Encumbrance explanation:\n"
                              "\n"
-                             "<color_light_gray>The first number is the summed encumbrance from all clothing on that bodypart.  "
-                             "The second number is an additional encumbrance penalty caused by wearing either multiple items "
-                             "on one of the bodypart's layers or wearing items the wrong way (e.g. a shirt over a backpack).  "
+                             "<color_light_gray>The first number is the summed encumbrance from all clothing "
+                             "on that bodypart.  The second number is an additional encumbrance penalty "
+                             "caused by wearing either multiple items on one of the bodypart's layers or "
+                             "wearing items the wrong way (e.g. a shirt over a backpack).  "
                              "The sum of these values is the effective encumbrance value "
                              "your character has for that bodypart.</color>" ),
                           ctxt.get_desc( "MOVE_ARMOR" ),
