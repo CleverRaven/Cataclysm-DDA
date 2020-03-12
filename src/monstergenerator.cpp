@@ -110,6 +110,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_BONES: return "BONES";
         case MF_FAT: return "FAT";
         case MF_IMMOBILE: return "IMMOBILE";
+        case MF_ID_CARD_DESPAWN: return "ID_CARD_DESPAWN";
         case MF_RIDEABLE_MECH: return "RIDEABLE_MECH";
         case MF_MILITARY_MECH: return "MILITARY_MECH";
         case MF_MECH_RECON_VISION: return "MECH_RECON_VISION";

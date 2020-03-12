@@ -774,14 +774,14 @@ void iexamine::cardreader( player &p, const tripoint &examp )
         p.mod_moves( -to_turns<int>( 1_seconds ) );
         for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
             if( g->m.ter( tmp ) == t_door_metal_locked ) {
-                g->m.ter_set( tmp, t_door_metal_c);
+                g->m.ter_set( tmp, t_door_metal_c );
                 open = true;
             }
         }
         for( monster &critter : g->all_monsters() ) {
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( examp ) ) &&
-                ( critter.type->id == mon_turret_rifle ) &&
+                ( critter.has_flag( MF_ID_CARD_DESPAWN ) ) &&
                 critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
