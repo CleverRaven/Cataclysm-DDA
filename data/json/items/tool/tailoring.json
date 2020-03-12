@@ -172,7 +172,7 @@
     "id": "shed_stick",
     "type": "GENERIC",
     "category": "tools",
-    "name": "wooden shed stick",
+    "name": { "str": "wooden shed stick" },
     "description": "This is a short thin flat wooden stick, used as a tool while weaving cloth with a frame loom.",
     "weight": "300 g",
     "volume": "250 ml",

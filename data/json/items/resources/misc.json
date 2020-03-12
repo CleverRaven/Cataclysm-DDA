@@ -196,7 +196,7 @@
   {
     "type": "GENERIC",
     "id": "wasp_sting",
-    "name": "wasp sting",
+    "name": { "str": "wasp sting" },
     "description": "A six-inch stinger from a giant wasp.  Makes a poor melee weapon.",
     "weight": "540 g",
     "to_hit": -1,
