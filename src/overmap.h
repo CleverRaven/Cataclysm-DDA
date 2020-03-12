@@ -413,7 +413,7 @@ class overmap
         std::vector<point> plot_river( point pa, point pb, int scale );
 
         // Overall terrain
-        void place_river( point pa, point pb );
+        void place_river( point pa, point pb, int river_scale = 1.0 );
         void place_forests();
         void place_lakes();
         void place_rivers( const overmap *north, const overmap *east, const overmap *south,
