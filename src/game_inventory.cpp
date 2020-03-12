@@ -148,6 +148,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             }
         }
 
+
         if( inv_s.empty() ) {
             const std::string msg = none_message.empty()
                                     ? _( "You don't have the necessary item at hand." )
