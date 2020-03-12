@@ -82,6 +82,5 @@
     "type": "enchantment",
     "id": "AEP_EVIL",
     "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "AEP_EVIL_SPELL" } ] } ] }
-
   }
 ]
