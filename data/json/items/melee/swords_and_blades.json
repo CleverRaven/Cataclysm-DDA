@@ -1351,7 +1351,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
-    "name": { "str": "wakizashi" },
+    "name": { "str": "wakizashi", "str_pl": "wakizashi" },
     "description": "This is a dull, cheap replica of the more common wakizashi.  Smaller and lighter than a katana, but still effective in combat.",
     "price": 7800,
     "price_postapoc": 0,
