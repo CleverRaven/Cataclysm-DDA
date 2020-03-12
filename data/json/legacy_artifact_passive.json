@@ -74,6 +74,11 @@
     "values": [ { "value": "SPEED", "add": -20 } ]
   },
   {
+    "type": "enchantment",
+    "id": "AEP_SMOKE",
+    "emitter": "emit_AEP_SMOKE"
+  },
+  {
     "type": "SPELL",
     "id": "AEP_EVIL_SPELL",
     "name": "EEEEEEVVVVVIIIIILLLL!",
