@@ -917,7 +917,7 @@ static void sleep()
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
         if( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) &&
-            it->is_transformable() ) {
+            it->is_tool() ) {
             active.push_back( it->tname() );
         }
     }
