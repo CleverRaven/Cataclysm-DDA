@@ -38,7 +38,7 @@
   {
     "type": "GENERIC",
     "id": "spear_wood",
-    "name": "wooden spear",
+    "name": { "str": "wooden spear" },
     "description": "A stout pole with an improvised grip and a fire-hardened point.",
     "weight": "898 g",
     "to_hit": 1,
@@ -385,7 +385,7 @@
   {
     "type": "GENERIC",
     "id": "javelin",
-    "name": "wooden javelin",
+    "name": { "str": "wooden javelin" },
     "description": "A fire-hardened wooden spear honed to a sharper point.  The grip area has been carved and covered for better grip.",
     "weight": "600 g",
     "to_hit": 2,
@@ -482,7 +482,7 @@
   {
     "type": "GENERIC",
     "id": "scythe_war",
-    "name": "war scythe",
+    "name": { "str": "war scythe" },
     "description": "A pole weapon with a curving single-edged blade.  Its blade bears some superficial resemblance to that of an agricultural scythe from which it likely evolved.",
     "weight": "3013 g",
     "volume": "3250 ml",
