@@ -110,6 +110,7 @@ enum m_flag : int {
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
+    MF_ID_CARD_DESPAWN,      // Despawns when a science ID card is used on a nearby console
     MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
     MF_MILITARY_MECH,        // A rideable mech that was designed for military work.
     MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.

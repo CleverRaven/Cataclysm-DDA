@@ -935,6 +935,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```HUMAN``` It's a live human, as long as it's alive.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
+- ```ID_CARD_DESPAWN``` Despawns when a science ID card is used on a nearby console
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
