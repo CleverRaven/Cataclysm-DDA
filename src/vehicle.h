@@ -314,6 +314,12 @@ struct vehicle_part {
         /** Is this part a reactor? */
         bool is_reactor() const;
 
+        /** is this part currently unable to retain to fluid/charge?
+         *  this doesn't take into account whether or not the part has any contents
+         *  remaining to leak
+         */
+        bool is_leaking() const;
+
         /** Can this part function as a turret? */
         bool is_turret() const;
 
