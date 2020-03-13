@@ -115,7 +115,7 @@ TEST_CASE( "recipe_subset" )
 
 TEST_CASE( "available_recipes", "[recipes]" )
 {
-    const recipe *r = &recipe_id( "brew_mead" ).obj();
+    const recipe *r = &recipe_id( "magazine_battery_light_mod" ).obj();
     avatar dummy;
 
     REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
@@ -124,22 +124,30 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
     GIVEN( "a recipe that can be automatically learned" ) {
         WHEN( "the player has lower skill" ) {
-            dummy.set_skill_level( r->skill_used, r->difficulty - 1 );
+            for( const std::pair<skill_id, int> &skl : r->required_skills ) {
+                dummy.set_skill_level( skl.first, skl.second - 1 );
+            }
 
-            THEN( "he can't brew it" ) {
+            THEN( "he can't craft it" ) {
                 CHECK_FALSE( dummy.knows_recipe( r ) );
             }
         }
         WHEN( "the player has just the skill that's required" ) {
             dummy.set_skill_level( r->skill_used, r->difficulty );
+            for( const std::pair<skill_id, int> &skl : r->required_skills ) {
+                dummy.set_skill_level( skl.first, skl.second );
+            }
 
-            THEN( "he can brew it now!" ) {
+            THEN( "he can craft it now!" ) {
                 CHECK( dummy.knows_recipe( r ) );
 
                 AND_WHEN( "his skill rusts" ) {
                     dummy.set_skill_level( r->skill_used, 0 );
+                    for( const std::pair<skill_id, int> &skl : r->required_skills ) {
+                        dummy.set_skill_level( skl.first, 0 );
+                    }
 
-                    THEN( "he still remembers how to brew it" ) {
+                    THEN( "he still remembers how to craft it" ) {
                         CHECK( dummy.knows_recipe( r ) );
                     }
                 }
@@ -147,16 +155,21 @@ TEST_CASE( "available_recipes", "[recipes]" )
         }
     }
 
-    GIVEN( "a brewing cookbook" ) {
-        item &cookbook = dummy.i_add( item( "brewing_cookbook" ) );
+    GIVEN( "an appropriate book" ) {
+        item &craftbook = dummy.i_add( item( "manual_electronics" ) );
 
-        REQUIRE( cookbook.is_book() );
-        REQUIRE_FALSE( cookbook.type->book->recipes.empty() );
+        REQUIRE( craftbook.is_book() );
+        REQUIRE_FALSE( craftbook.type->book->recipes.empty() );
         REQUIRE_FALSE( dummy.knows_recipe( r ) );
 
         WHEN( "the player read it and has an appropriate skill" ) {
-            dummy.do_read( cookbook );
+            dummy.do_read( craftbook );
             dummy.set_skill_level( r->skill_used, 2 );
+            // Secondary skills are just set to be what the autolearn requires
+            // but the primary is not
+            for( const std::pair<skill_id, int> &skl : r->required_skills ) {
+                dummy.set_skill_level( skl.first, skl.second );
+            }
 
             AND_WHEN( "he searches for the recipe in the book" ) {
                 THEN( "he finds it!" ) {
@@ -170,7 +183,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 }
             }
             AND_WHEN( "he gets rid of the book" ) {
-                dummy.i_rem( &cookbook );
+                dummy.i_rem( &craftbook );
 
                 THEN( "he cant brew the recipe anymore" ) {
                     CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( r ) );
