@@ -4061,6 +4061,14 @@ double vehicle::coeff_rolling_drag() const
     return coefficient_rolling_resistance;
 }
 
+double vehicle::water_hull_height() const
+{
+    if( coeff_water_dirty ) {
+        coeff_water_drag();
+    }
+    return hull_height;
+}
+
 double vehicle::water_draft() const
 {
     if( coeff_water_dirty ) {
