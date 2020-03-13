@@ -1465,8 +1465,14 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
 
     auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
         if( pt.ammo_remaining() ) {
-            right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                         string_format( "%s   %5i", item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
+            int offset = 1;
+            std::string fmtstring = "%s   %5i";
+            if( pt.is_leaking() ) {
+                fmtstring = "%s  " + leak_marker + "%5i" + leak_marker;
+                offset = 0;
+            }
+            right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                         string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
         }
     };
 
