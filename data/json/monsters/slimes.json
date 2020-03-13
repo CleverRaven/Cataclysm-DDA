@@ -2,7 +2,7 @@
   {
     "id": "mon_blob",
     "type": "MONSTER",
-    "name": "blob",
+    "name": { "str": "blob" },
     "description": "A black blob of viscous goo, oozing across the ground like a glob of living oil.",
     "default_faction": "blob",
     "bodytype": "blob",
@@ -32,7 +32,7 @@
   {
     "id": "mon_blob_brain",
     "type": "MONSTER",
-    "name": "brain blob",
+    "name": { "str": "brain blob" },
     "description": "A gigantic black blob of viscous goo, oozing across the ground like a glob of living oil.  Other blobs seem to swarm around it.",
     "default_faction": "blob",
     "bodytype": "blob",
@@ -60,7 +60,7 @@
   {
     "id": "mon_blob_large",
     "type": "MONSTER",
-    "name": "big blob",
+    "name": { "str": "big blob" },
     "description": "A large black blob of viscous goo, oozing across the ground like a glob of living oil.",
     "default_faction": "blob",
     "bodytype": "blob",

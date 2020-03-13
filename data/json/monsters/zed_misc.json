@@ -62,7 +62,7 @@
   {
     "id": "mon_zombie_brainless",
     "type": "MONSTER",
-    "name": "brainless zombie",
+    "name": { "str": "brainless zombie" },
     "//": "This is the brainless zombie.  Has nohead flag to reflect the head is already catastrophically damaged.  Only detects through hearing.",
     "description": "A zombie like any other, except that its features and skull have been devastated.  It's unclear what caused the damage, but between the scraps of flesh you can see that its face and brain are gone, though its ears are intact.",
     "default_faction": "zombie",

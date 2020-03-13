@@ -2,7 +2,7 @@
   {
     "id": "mon_boomer",
     "type": "MONSTER",
-    "name": "boomer",
+    "name": { "str": "boomer" },
     "description": "A rotund human body, bloated beyond belief and layered in rolls of fat.  It emits a horrible odor, and a putrid pink sludge dribbles from its mouth.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -136,7 +136,7 @@
   {
     "id": "mon_zombie_gasbag",
     "type": "MONSTER",
-    "name": "bloated zombie",
+    "name": { "str": "bloated zombie" },
     "description": "With its gray skin swollen to near rupture with putrid gas, this cyst covered zombie looks like it could violently burst under the slightest of disturbances.",
     "default_faction": "zombie",
     "bodytype": "human",

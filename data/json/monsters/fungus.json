@@ -340,7 +340,7 @@
   {
     "id": "mon_zombie_gasbag_fungus",
     "type": "MONSTER",
-    "name": "bloated fungal zombie",
+    "name": { "str": "bloated fungal zombie" },
     "looks_like": "mon_zombie_gasbag",
     "description": "With its swollen gray skin overgrown by thick layer of mold, this balloon-like fungal zombie looks like it could violently burst with a cloud of noxious spores.",
     "default_faction": "fungus",

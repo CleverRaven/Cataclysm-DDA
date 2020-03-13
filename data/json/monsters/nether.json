@@ -90,7 +90,7 @@
   {
     "id": "mon_blood_sacrifice",
     "type": "MONSTER",
-    "name": "blood sacrifice",
+    "name": { "str": "blood sacrifice" },
     "description": "A defiled human body, once living.  Tortured to death long ago, it remains chained to the altar, the putrescent flays of its peeled skin quivering like so much flotsam upon a murky pond.",
     "default_faction": "cult",
     "bodytype": "human",
@@ -116,7 +116,7 @@
   {
     "id": "mon_breather",
     "type": "MONSTER",
-    "name": "breather",
+    "name": { "str": "breather" },
     "description": "This is some sort of unearthly pink flesh sac; moist and ridged with veins, it is otherwise without discernible exterior features.  Seemingly immobile and defenseless, it sits in place, swelling and collapsing upon itself as it breathes.",
     "default_faction": "nether",
     "bodytype": "blob",
@@ -136,7 +136,7 @@
   {
     "id": "mon_breather_hub",
     "type": "MONSTER",
-    "name": "breather",
+    "name": { "str": "breather" },
     "description": "A weird mass of immobile pink goo.  It seems to breathe.",
     "default_faction": "nether",
     "bodytype": "blob",

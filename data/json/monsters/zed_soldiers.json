@@ -50,7 +50,7 @@
   {
     "id": "mon_zombie_soldier_blackops_1",
     "type": "MONSTER",
-    "name": "black-ops zombie",
+    "name": { "str": "black-ops zombie" },
     "description": "This soldier zombie's skin radiates a sort of shadowy smoke that obscures its outline, making its camouflage even harder to see against the background.  In the darkness it would be nigh invisible.",
     "looks_like": "mon_zombie_soldier",
     "default_faction": "zombie",
