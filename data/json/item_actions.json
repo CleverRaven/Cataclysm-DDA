@@ -152,7 +152,7 @@
   {
     "type": "item_action",
     "id": "cauterize",
-    "name": "Cauterize a wound"
+    "name": { "str": "Cauterize a wound" }
   },
   {
     "type": "item_action",
@@ -212,7 +212,7 @@
   {
     "type": "item_action",
     "id": "cast_spell",
-    "name": "Cast spell"
+    "name": { "str": "Cast spell" }
   },
   {
     "type": "item_action",
@@ -312,7 +312,7 @@
   {
     "type": "item_action",
     "id": "CAFF",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
@@ -327,12 +327,12 @@
   {
     "type": "item_action",
     "id": "CAPTURE_MONSTER_ACT",
-    "name": "Capture/place"
+    "name": { "str": "Capture/place" }
   },
   {
     "type": "item_action",
     "id": "CAPTURE_MONSTER_VEH",
-    "name": "Capture/place"
+    "name": { "str": "Capture/place" }
   },
   {
     "type": "item_action",
@@ -352,12 +352,12 @@
   {
     "type": "item_action",
     "id": "CHEW",
-    "name": "Chew"
+    "name": { "str": "Chew" }
   },
   {
     "type": "item_action",
     "id": "CLEAR_RUBBLE",
-    "name": "Clear rubble"
+    "name": { "str": "Clear rubble" }
   },
   {
     "type": "item_action",
@@ -577,7 +577,7 @@
   {
     "type": "item_action",
     "id": "HONEYCOMB",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
@@ -612,17 +612,17 @@
   {
     "type": "item_action",
     "id": "MARLOSS",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "MARLOSS_GEL",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "MARLOSS_SEED",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
@@ -687,12 +687,12 @@
   {
     "type": "item_action",
     "id": "MULTICOOKER",
-    "name": "Cook"
+    "name": { "str": "Cook" }
   },
   {
     "type": "item_action",
     "id": "mutagen",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
@@ -702,7 +702,7 @@
   {
     "type": "item_action",
     "id": "MYCUS",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
@@ -737,12 +737,12 @@
   {
     "type": "item_action",
     "id": "PLANTBLECH",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "POISON",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
@@ -767,7 +767,7 @@
   {
     "type": "item_action",
     "id": "PURIFIER",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
@@ -797,7 +797,7 @@
   {
     "type": "item_action",
     "id": "RADIOCONTROL",
-    "name": "Control an RC car"
+    "name": { "str": "Control an RC car" }
   },
   {
     "type": "item_action",
@@ -817,7 +817,7 @@
   {
     "type": "item_action",
     "id": "REMOTEVEH",
-    "name": "Control a vehicle"
+    "name": { "str": "Control a vehicle" }
   },
   {
     "type": "item_action",
@@ -832,17 +832,17 @@
   {
     "type": "item_action",
     "id": "ROYAL_JELLY",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "SEED",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "SEWAGE",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
@@ -967,12 +967,12 @@
   {
     "type": "item_action",
     "id": "WEATHER_TOOL",
-    "name": "Check weather information"
+    "name": { "str": "Check weather information" }
   },
   {
     "type": "item_action",
     "id": "WEED_CAKE",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
@@ -992,7 +992,7 @@
   {
     "type": "item_action",
     "id": "consume_drug",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
@@ -1072,12 +1072,12 @@
   {
     "type": "item_action",
     "id": "CHOP_TREE",
-    "name": "Chop down a tree"
+    "name": { "str": "Chop down a tree" }
   },
   {
     "type": "item_action",
     "id": "CHOP_LOGS",
-    "name": "Chop a Tree Trunk into logs"
+    "name": { "str": "Chop a Tree Trunk into logs" }
   },
   {
     "type": "item_action",
