@@ -33,7 +33,6 @@
 #include "optional.h"
 #include "player_activity.h"
 #include "string_formatter.h"
-#include "cata_string_consts.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -179,7 +178,12 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     std::vector<std::function<void()>> actions;
 
     if( g->u.can_consume( liquid ) && !source_mon ) {
-        menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        if( g->u.can_consume_for_bionic( liquid ) ) {
+            menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
+        } else {
+            menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        }
+
         actions.emplace_back( [&]() {
             target.dest_opt = LD_CONSUME;
         } );
@@ -302,11 +306,11 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
 
     const auto create_activity = [&]() {
         if( source_veh != nullptr ) {
-            g->u.assign_activity( ACT_FILL_LIQUID );
+            g->u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( g->u.activity, *source_veh, part_num, liquid );
             return true;
         } else if( source_pos != nullptr ) {
-            g->u.assign_activity( ACT_FILL_LIQUID );
+            g->u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( g->u.activity, *source_pos, liquid );
             return true;
         } else if( source_mon != nullptr ) {

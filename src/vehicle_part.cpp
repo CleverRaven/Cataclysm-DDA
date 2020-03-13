@@ -66,7 +66,7 @@ item vehicle_part::properties_to_item() const
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag( flag_CABLE_SPOOL ) ) {
+    if( tmp.has_flag( "CABLE_SPOOL" ) ) {
         const tripoint local_pos = g->m.getlocal( target.first );
         if( !g->m.veh_at( local_pos ) ) {
             // That vehicle ain't there no more.
@@ -488,7 +488,7 @@ bool vehicle_part::is_turret() const
 
 bool vehicle_part::is_seat() const
 {
-    return info().has_flag( flag_SEAT );
+    return info().has_flag( "SEAT" );
 }
 
 const vpart_info &vehicle_part::info() const
@@ -533,7 +533,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( flag_PLANTER ) && !warm_enough_to_plant( g->u.pos() ) ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( g->u.pos() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

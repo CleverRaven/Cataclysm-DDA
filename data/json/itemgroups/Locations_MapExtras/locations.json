@@ -40,10 +40,6 @@
       { "group": "ammo_swat", "prob": 20 },
       { "group": "guns_swat", "prob": 20 },
       { "group": "mags_swat", "prob": 20 },
-      [ "l_car_223_kit", 5 ],
-      [ "l_dsr_223_kit", 5 ],
-      [ "l_lmg_223_kit", 5 ],
-      [ "l_mbr_223_kit", 5 ],
       [ "survnote", 1 ]
     ]
   },
@@ -128,7 +124,6 @@
       { "group": "guns_shotgun_common", "prob": 50 },
       { "group": "guns_survival", "prob": 100 },
       { "item": "flaregun", "prob": 25 },
-      { "item": "l_HFPack", "prob": 50 },
       { "item": "large_repairkit", "prob": 5 },
       { "item": "signal_flare", "prob": 20 },
       { "item": "small_repairkit", "prob": 5 }
@@ -158,9 +153,7 @@
       { "group": "kids_books", "prob": 35 },
       [ "recipe_augs", 20 ],
       [ "decoy_anarch", 50 ],
-      [ "months_old_newspaper", 20 ],
-      [ "weeks_old_newspaper", 100 ],
-      [ "newest_newspaper", 100 ],
+      { "group": "newspaper_recent", "prob": 200 },
       [ "survnote", 1 ]
     ]
   },
@@ -223,9 +216,7 @@
       [ "stethoscope", 20 ],
       [ "novel_pulp", 16 ],
       [ "atomic_light", 1 ],
-      [ "months_old_newspaper", 4 ],
-      [ "weeks_old_newspaper", 5 ],
-      [ "newest_newspaper", 6 ],
+      { "group": "newspaper_recent", "prob": 15 },
       { "group": "book_mag_gen", "prob": 99 },
       [ "mag_porn", 5 ],
       [ "hairpin", 5 ],
@@ -595,12 +586,7 @@
       [ "box_small", 400 ],
       [ "box_medium", 400 ],
       [ "box_large", 200 ],
-      [ "one_year_old_newspaper", 200 ],
-      [ "months_old_newspaper", 250 ],
-      [ "weeks_old_newspaper", 250 ],
-      [ "one_year_old_newspaper", 200 ],
-      [ "years_old_newspaper", 200 ],
-      [ "many_years_old_newspaper", 200 ]
+      { "group": "newspaper", "prob": 1000 }
     ]
   },
   {
@@ -843,12 +829,7 @@
       [ "rock", 40 ],
       [ "ceramic_shard", 30 ],
       [ "pipe", 20 ],
-      [ "many_years_old_newspaper", 1 ],
-      [ "years_old_newspaper", 2 ],
-      [ "one_year_old_newspaper", 3 ],
-      [ "months_old_newspaper", 4 ],
-      [ "weeks_old_newspaper", 5 ],
-      [ "newest_newspaper", 10 ],
+      { "group": "newspaper", "prob": 20 },
       [ "file", 30 ],
       [ "mag_porn", 20 ],
       [ "bottle_plastic", 10 ],
@@ -905,8 +886,7 @@
       [ "mag_porn", 20 ],
       [ "rag", 1 ],
       [ "hairpin", 1 ],
-      [ "weeks_old_newspaper", 1 ],
-      [ "newest_newspaper", 2 ],
+      { "group": "newspaper_recent", "prob": 5 },
       [ "flyer", 10 ],
       [ "file", 10 ],
       [ "child_book", 2 ],
@@ -1279,9 +1259,7 @@
     "items": [
       [ "rock", 40 ],
       [ "sharp_rock", 5 ],
-      [ "months_old_newspaper", 1 ],
-      [ "weeks_old_newspaper", 2 ],
-      [ "newest_newspaper", 3 ],
+      { "group": "newspaper_recent", "prob": 5 },
       { "group": "ammo_casings", "prob": 10 },
       { "group": "everyday_corpse", "prob": 1 }
     ]
@@ -1299,9 +1277,7 @@
       [ "hickory_root", 3 ],
       [ "hickory_nut", 5 ],
       [ "one_year_old_newspaper", 2 ],
-      [ "months_old_newspaper", 3 ],
-      [ "weeks_old_newspaper", 4 ],
-      [ "newest_newspaper", 5 ],
+      { "group": "newspaper_recent", "prob": 15 },
       [ "bottle_plastic", 1 ],
       [ "bottle_glass", 1 ],
       [ "syringe", 1 ],
@@ -1367,10 +1343,8 @@
       [ "55gal_drum", 1 ],
       [ "flyer", 10 ],
       [ "one_year_old_newspaper", 2 ],
+      { "group": "newspaper_recent", "prob": 15 },
       [ "foodperson_mask", 1 ],
-      [ "months_old_newspaper", 3 ],
-      [ "weeks_old_newspaper", 4 ],
-      [ "newest_newspaper", 5 ],
       [ "survnote", 1 ]
     ]
   },
@@ -1414,7 +1388,6 @@
     "type": "item_group",
     "id": "cop_evidence",
     "items": [
-      [ "lwfeed", 30 ],
       [ "crackpipe", 8 ],
       [ "weed", 10 ],
       [ "joint", 10 ],
@@ -2061,8 +2034,7 @@
       [ "umbrella", 50 ],
       [ "teleumbrella", 20 ],
       { "group": "magazines", "prob": 120 },
-      [ "weeks_old_newspaper", 80 ],
-      [ "newest_newspaper", 100 ],
+      { "group": "newspaper_recent", "prob": 100 },
       [ "survnote", 1 ],
       [ "dnd_handbook", 1 ]
     ]
@@ -2210,9 +2182,7 @@
       [ "recipe_bows", 4 ],
       [ "recipe_arrows", 4 ],
       { "group": "kids_books", "prob": 5 },
-      [ "many_years_old_newspaper", 3 ],
-      [ "years_old_newspaper", 3 ],
-      [ "one_year_old_newspaper", 3 ],
+      { "group": "newspaper_old", "prob": 10 },
       [ "months_old_newspaper", 4 ],
       [ "lighter", 60 ],
       [ "ref_lighter", 5 ],
@@ -2454,10 +2424,22 @@
       [ "fetus", 5 ],
       [ "foodperson_mask", 1 ],
       [ "human_brain_embalmed", 5 ],
-      [ "many_years_old_newspaper", 2 ],
-      [ "years_old_newspaper", 2 ],
-      [ "one_year_old_newspaper", 2 ],
+      { "group": "newspaper_old", "prob": 8 },
       [ "months_old_newspaper", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "moonshine_brew",
+    "items": [
+      [ "moonshine", 60 ],
+      [ "still", 20 ],
+      [ "thermometer", 20 ],
+      [ "brew_moonshine", 5 ],
+      [ "cornbread", 35 ],
+      [ "yeast", 25 ],
+      [ "sugar", 20 ],
+      [ "chem_ethanol", 5 ]
     ]
   }
 ]

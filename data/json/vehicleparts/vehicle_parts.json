@@ -307,7 +307,7 @@
   {
     "type": "vehicle_part",
     "id": "bed",
-    "name": "bed",
+    "name": { "str": "bed" },
     "symbol": "#",
     "looks_like": "f_bed",
     "color": "magenta",
@@ -399,7 +399,7 @@
   {
     "type": "vehicle_part",
     "id": "aisle_horizontal",
-    "name": "aisle",
+    "name": { "str": "aisle" },
     "symbol": "=",
     "looks_like": "t_metal_floor",
     "color": "white",
@@ -421,7 +421,7 @@
   {
     "type": "vehicle_part",
     "id": "aisle_vertical",
-    "name": "aisle",
+    "name": { "str": "aisle" },
     "symbol": "H",
     "looks_like": "aisle_horizontal",
     "color": "white",
@@ -1109,7 +1109,7 @@
   {
     "type": "vehicle_part",
     "id": "autoclave",
-    "name": "autoclave",
+    "name": { "str": "autoclave" },
     "symbol": "A",
     "looks_like": "dishwasher",
     "color": "yellow",
@@ -1851,7 +1851,7 @@
   {
     "type": "vehicle_part",
     "id": "seatbelt_heavyduty",
-    "name": "5-point harness",
+    "name": { "str": "5-point harness" },
     "symbol": ",",
     "color": "light_gray",
     "broken_symbol": ",",
@@ -1897,7 +1897,7 @@
   {
     "type": "vehicle_part",
     "id": "aisle_curtain",
-    "name": "aisle curtain",
+    "name": { "str": "aisle curtain" },
     "symbol": "\"",
     "looks_like": "v_curtain",
     "color": "dark_gray",
@@ -2263,7 +2263,7 @@
   {
     "type": "vehicle_part",
     "id": "craft_rig",
-    "name": "FOODCO kitchen buddy",
+    "name": { "str": "FOODCO kitchen buddy" },
     "symbol": "&",
     "looks_like": "f_sink",
     "color": "light_green",
@@ -2548,7 +2548,7 @@
   {
     "type": "vehicle_part",
     "id": "horn_bicycle",
-    "name": "bicycle horn",
+    "name": { "str": "bicycle horn" },
     "symbol": "*",
     "color": "light_gray",
     "broken_symbol": "*",
@@ -2612,7 +2612,7 @@
   {
     "type": "vehicle_part",
     "id": "beeper",
-    "name": "back-up beeper",
+    "name": { "str": "back-up beeper" },
     "symbol": "*",
     "color": "light_gray",
     "broken_symbol": "*",
@@ -2781,7 +2781,7 @@
     "id": "animal_compartment",
     "copy-from": "livestock_stall",
     "looks_like": "livestock_stall",
-    "name": "animal compartment",
+    "name": { "str": "animal compartment" },
     "durability": 125,
     "description": "A large locker for transporting smaller animals.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
     "size": 200,
@@ -3102,7 +3102,7 @@
     "type": "vehicle_part",
     "id": "plating_acidchitin",
     "copy-from": "plating_chitin",
-    "name": "biosilicified chitin plating",
+    "name": { "str": "biosilicified chitin plating" },
     "proportional": { "durability": 1.5 },
     "item": "acidchitin_plate",
     "breaks_into": [ { "item": "acidchitin_piece", "count": [ 6, 19 ] } ],
@@ -3271,7 +3271,7 @@
   {
     "type": "vehicle_part",
     "id": "birchbark_funnel",
-    "name": "birchbark funnel",
+    "name": { "str": "birchbark funnel" },
     "symbol": "V",
     "looks_like": "funnel",
     "color": "white",
@@ -3459,7 +3459,7 @@
   {
     "type": "vehicle_part",
     "id": "seed_drill_advanced",
-    "name": "advanced seed drill",
+    "name": { "str": "advanced seed drill" },
     "symbol": "8",
     "color": "blue",
     "broken_symbol": "*",
@@ -3512,7 +3512,7 @@
   {
     "type": "vehicle_part",
     "id": "reaper_advanced",
-    "name": "advanced reaper",
+    "name": { "str": "advanced reaper" },
     "symbol": "=",
     "color": "light_gray",
     "broken_symbol": "*",

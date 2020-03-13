@@ -200,7 +200,7 @@
   {
     "id": "wheel_armor",
     "type": "vehicle_part",
-    "name": "armored wheel",
+    "name": { "str": "armored wheel" },
     "item": "wheel_armor",
     "location": "under",
     "looks_like": "wheel",
@@ -255,7 +255,7 @@
   {
     "id": "wheel_bicycle",
     "type": "vehicle_part",
-    "name": "bicycle wheel",
+    "name": { "str": "bicycle wheel" },
     "item": "wheel_bicycle",
     "location": "under",
     "symbol": "|",
@@ -561,7 +561,7 @@
     "id": "wheel_wood_b",
     "copy-from": "wheel_wood",
     "type": "vehicle_part",
-    "name": "banded wooden cart wheel",
+    "name": { "str": "banded wooden cart wheel" },
     "item": "wheel_wood_b",
     "location": "under",
     "breaks_into": [

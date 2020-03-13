@@ -718,8 +718,8 @@ void computer_session::action_blood_anal()
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                     print_line( _( "Result: Human blood, no pathogens found." ) );
-                } else if( mt->in_species( species_ZOMBIE ) ) {
-                    if( mt->in_species( species_HUMAN ) ) {
+                } else if( mt->in_species( ZOMBIE ) ) {
+                    if( mt->in_species( HUMAN ) ) {
                         print_line( _( "Result: Human blood.  Unknown pathogen found." ) );
                     } else {
                         print_line( _( "Result: Unknown blood type.  Unknown pathogen found." ) );

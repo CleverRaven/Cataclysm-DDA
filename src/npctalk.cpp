@@ -2064,7 +2064,7 @@ void talk_effect_fun_t::set_change_faction_rep( int rep_change )
 {
     function = [rep_change]( const dialogue & d ) {
         npc &p = *d.beta;
-        if( p.get_faction()->id != faction_no_faction ) {
+        if( p.get_faction()->id != faction_id( "no_faction" ) ) {
             p.get_faction()->likes_u += rep_change;
             p.get_faction()->respects_u += rep_change;
         }
@@ -3088,9 +3088,8 @@ void load_talk_topic( const JsonObject &jo )
     }
 }
 
-std::string npc::pick_talk_topic( const player &u )
+std::string npc::pick_talk_topic( const player &/*u*/ )
 {
-    ( void )u;
     if( personality.aggression > 0 ) {
         if( op_of_u.fear * 2 < personality.bravery && personality.altruism < 0 ) {
             set_attitude( NPCATT_MUG );
@@ -3205,8 +3204,8 @@ std::string give_item_to( npc &p, bool allow_use )
     }
     item &given = *loc;
 
-    if( ( &given == &g->u.weapon && given.has_flag( flag_NO_UNWIELD ) ) || ( g->u.is_worn( given ) &&
-            given.has_flag( flag_NO_TAKEOFF ) ) ) {
+    if( ( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) || ( g->u.is_worn( given ) &&
+            given.has_flag( "NO_TAKEOFF" ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }

@@ -50,7 +50,6 @@
     "//": "Military specification gunmods found only at military sites.",
     "items": [
       [ "acog_scope", 100 ],
-      [ "aux_flamer", 20 ],
       [ "holo_sight", 100 ],
       [ "m203", 30 ],
       [ "m320_mod", 10 ],

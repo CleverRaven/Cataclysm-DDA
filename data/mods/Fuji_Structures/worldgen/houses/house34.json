@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "house" ],
+    "om_terrain": [ "house_34" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [

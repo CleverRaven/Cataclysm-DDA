@@ -1568,7 +1568,7 @@
     "skill_used": "traps",
     "difficulty": 3,
     "time": "5 m",
-    "book_learn": [ [ "textbook_traps", 2 ], [ "manual_traps", 3 ], [ "howto_traps", 3 ] ],
+    "book_learn": [ [ "manual_traps_mil", 3 ] ],
     "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
@@ -1586,7 +1586,7 @@
     "difficulty": 5,
     "time": "10 m",
     "reversible": true,
-    "book_learn": [ [ "textbook_traps", 5 ], [ "manual_traps", 5 ], [ "howto_traps", 4 ], [ "recipe_bullets", 6 ] ],
+    "book_learn": [ [ "manual_traps_mil", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],

@@ -1011,7 +1011,7 @@ void player::hardcoded_effects( effect &it )
             }
             if( has_trait( trait_M_SKIN3 ) ) {
                 // Spores happen!
-                if( g->m.has_flag_ter_or_furn( flag_FUNGUS, pos() ) ) {
+                if( g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
                     if( get_fatigue() >= 0 ) {
                         mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
                     }
@@ -1145,7 +1145,7 @@ void player::hardcoded_effects( effect &it )
                         if( mp == pos() ) {
                             continue;
                         }
-                        if( g->m.has_flag( flag_FLAT, mp ) &&
+                        if( g->m.has_flag( "FLAT", mp ) &&
                             g->m.pl_sees( mp, 2 ) ) {
                             g->spawn_hallucination( mp );
                             if( ++count > max_count ) {

@@ -188,7 +188,6 @@
       [ "ax", 8 ],
       [ "bee_sting", 5 ],
       [ "chitin_piece", 10 ],
-      [ "lwfeed", 40 ],
       [ "vest", 15 ],
       [ "mask_gas", 10 ],
       [ "goggles_nv", 1 ],
@@ -266,6 +265,80 @@
       [ "pastaextruder", 10 ],
       [ "can_sealer", 10 ],
       [ "remotevehcontrol", 8 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "cow",
+    "items": [ [ "cow_bell", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "dog_cop",
+    "items": [ [ "kevlar_harness", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "hive",
+    "//": "Beekeeper gear, as spawned on beekeeper zombie",
+    "items": [
+      [ "honeycomb", 10 ],
+      [ "honey_scraper", 2 ],
+      [ "beekeeping_hood", 5 ],
+      [ "beekeeping_suit", 5 ],
+      [ "beekeeping_gloves", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "radio",
+    "//": "a general group that was probably intended to spawn in radio tower maintenance offices or similar, but currently only called as a zombie scientist drop. This needs a revamp.",
+    "items": [
+      { "group": "softdrinks_canned", "prob": 290 },
+      [ "caffeine", 25 ],
+      [ "maltballs", 30 ],
+      { "group": "tobacco_products", "prob": 141 },
+      [ "weed", 10 ],
+      [ "joint", 10 ],
+      [ "seed_weed", 15 ],
+      [ "seed_tobacco", 5 ],
+      [ "rolling_paper", 5 ],
+      [ "pipe_glass", 5 ],
+      [ "amplifier", 8 ],
+      [ "transponder", 5 ],
+      [ "receiver", 10 ],
+      [ "antenna", 18 ],
+      [ "laptop", 20 ],
+      [ "eink_tablet_pc", 8 ],
+      [ "mobile_memory_card", 16 ],
+      [ "camera", 5 ],
+      [ "camera_pro", 2 ],
+      [ "screwdriver", 40 ],
+      [ "screwdriver_set", 10 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      [ "file", 30 ],
+      { "group": "magazines", "prob": 170 },
+      [ "manual_electronics", 20 ],
+      [ "cowboy_hat", 2 ],
+      [ "lighter", 60 ],
+      [ "ref_lighter", 1 ],
+      [ "flashlight", 40 ],
+      [ "radio", 20 ],
+      [ "mp3", 18 ],
+      [ "solar_cell", 5 ],
+      [ "flyer", 10 ],
+      [ "usb_drive", 5 ],
+      [ "lsd", 1 ],
+      [ "gum", 20 ],
+      [ "caff_gum", 8 ],
+      [ "toolbox", 1 ],
+      [ "nic_gum", 5 ],
+      [ "radio_car_box", 2 ],
+      [ "radiocontrol", 15 ],
+      [ "thermometer", 10 ],
+      [ "hygrometer", 10 ],
+      [ "barometer", 10 ],
+      [ "weather_reader", 1 ]
     ]
   }
 ]
