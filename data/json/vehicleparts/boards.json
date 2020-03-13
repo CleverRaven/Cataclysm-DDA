@@ -2,7 +2,7 @@
   {
     "abstract": "board",
     "type": "vehicle_part",
-    "name": "board",
+    "name": { "str": "board" },
     "item": "sheet_metal",
     "location": "center",
     "durability": 120,
@@ -19,7 +19,7 @@
   {
     "abstract": "clothboard",
     "type": "vehicle_part",
-    "name": "cloth board",
+    "name": { "str": "cloth board" },
     "item": "sheet",
     "location": "center",
     "broken_color": "dark_gray",
@@ -38,7 +38,7 @@
     "abstract": "cloth_halfboard",
     "copy-from": "clothboard",
     "type": "vehicle_part",
-    "name": "cloth quarterpanel",
+    "name": { "str": "cloth quarterpanel" },
     "description": "A half-height cloth wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] },

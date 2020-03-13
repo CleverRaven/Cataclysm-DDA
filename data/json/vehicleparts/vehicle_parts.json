@@ -209,7 +209,7 @@
   {
     "type": "vehicle_part",
     "id": "cart_handle",
-    "name": "cart handle",
+    "name": { "str": "cart handle" },
     "symbol": "-",
     "looks_like": "frame_wood_horizontal",
     "color": "white",
@@ -510,7 +510,7 @@
   {
     "type": "vehicle_part",
     "id": "roof_cloth",
-    "name": "cloth roof",
+    "name": { "str": "cloth roof" },
     "symbol": "#",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -809,7 +809,7 @@
   {
     "type": "vehicle_part",
     "id": "blade_horizontal",
-    "name": "blade",
+    "name": { "str": "blade" },
     "symbol": "-",
     "color": "white",
     "broken_symbol": "x",
@@ -831,7 +831,7 @@
   {
     "type": "vehicle_part",
     "id": "blade_vertical",
-    "name": "blade",
+    "name": { "str": "blade" },
     "symbol": "|",
     "color": "white",
     "broken_symbol": "x",
@@ -1161,7 +1161,7 @@
   {
     "type": "vehicle_part",
     "id": "box",
-    "name": "box",
+    "name": { "str": "box" },
     "symbol": "o",
     "looks_like": "f_crate_o",
     "color": "brown",
@@ -1498,7 +1498,7 @@
   {
     "type": "vehicle_part",
     "id": "carbonfiber_boat_hull",
-    "name": "carbon fiber boat hull",
+    "name": { "str": "carbon fiber boat hull" },
     "description": "A light weight, advanced carbon fiber rigid sheet that keeps the water out of your boat.",
     "symbol": "o",
     "color": "brown",
@@ -1652,7 +1652,7 @@
   {
     "type": "vehicle_part",
     "id": "controls",
-    "name": "controls",
+    "name": { "str": "controls" },
     "symbol": "$",
     "color": "light_gray",
     "broken_symbol": "$",
@@ -1874,7 +1874,7 @@
   {
     "type": "vehicle_part",
     "id": "v_curtain",
-    "name": "curtain",
+    "name": { "str": "curtain" },
     "symbol": "\"",
     "looks_like": "t_door_curtain_c",
     "color": "dark_gray",
@@ -2570,7 +2570,7 @@
   {
     "type": "vehicle_part",
     "id": "horn_car",
-    "name": "car horn",
+    "name": { "str": "car horn" },
     "symbol": "*",
     "color": "light_gray",
     "broken_symbol": "*",
@@ -2726,7 +2726,7 @@
   {
     "type": "vehicle_part",
     "id": "cargo_space",
-    "name": "cargo space",
+    "name": { "str": "cargo space" },
     "symbol": "=",
     "looks_like": "box",
     "color": "light_gray",
@@ -2888,7 +2888,7 @@
   {
     "type": "vehicle_part",
     "id": "chimes",
-    "name": "chimes",
+    "name": { "str": "chimes" },
     "symbol": "&",
     "color": "red",
     "broken_symbol": "&",
@@ -3081,7 +3081,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_chitin",
-    "name": "chitin plating",
+    "name": { "str": "chitin plating" },
     "symbol": ")",
     "color": "yellow",
     "broken_symbol": ")",
@@ -3153,7 +3153,7 @@
   {
     "type": "vehicle_part",
     "id": "cam_control",
-    "name": "camera control system",
+    "name": { "str": "camera control system" },
     "symbol": "#",
     "color": "light_blue",
     "broken_symbol": "#",
@@ -3226,7 +3226,7 @@
   {
     "type": "vehicle_part",
     "id": "vehicle_clock",
-    "name": "clock",
+    "name": { "str": "clock" },
     "symbol": ":",
     "color": "light_gray",
     "broken_symbol": ";",
@@ -3543,7 +3543,7 @@
   {
     "type": "vehicle_part",
     "id": "cargo_lock",
-    "name": "cargo lock",
+    "name": { "str": "cargo lock" },
     "symbol": "+",
     "color": "dark_gray",
     "broken_symbol": "+",

@@ -201,7 +201,7 @@
     "id": "light_blue",
     "copy-from": "light_emergency",
     "type": "vehicle_part",
-    "name": "blue light",
+    "name": { "str": "blue light" },
     "item": "light_emergency_blue",
     "color": "blue",
     "broken_color": "blue",

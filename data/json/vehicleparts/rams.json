@@ -134,7 +134,7 @@
     "id": "ram_chitin",
     "copy-from": "ram_blaze",
     "type": "vehicle_part",
-    "name": "chitin ram",
+    "name": { "str": "chitin ram" },
     "item": "chitin_plate",
     "color": "yellow",
     "broken_color": "light_gray",
