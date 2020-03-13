@@ -25,7 +25,7 @@
   {
     "id": "mon_dragon_dummy",
     "type": "MONSTER",
-    "name": "ancient red dragon",
+    "name": { "str": "ancient red dragon" },
     "description": "A towering, hulking dragon, with tremendous, curving horns and shining red scales, its glowing maw peeled back in a hateful grimace as its eyes bore into yours.",
     "bodytype": "dog",
     "//": "Zombie faction so they don't attack a clear prop",

@@ -93,7 +93,7 @@
   {
     "id": "mon_dog_zombie_cop",
     "type": "MONSTER",
-    "name": "Z-9",
+    "name": { "str": "Z-9" },
     "description": "A zombified version of one of the German shepherd dogs used in law enforcement.  Its deformed body is encased in a protective Kevlar harness.",
     "default_faction": "zombie",
     "bodytype": "dog",
@@ -297,7 +297,7 @@
   {
     "id": "mon_zoose",
     "type": "MONSTER",
-    "name": "antlered horror",
+    "name": { "str": "antlered horror" },
     "description": "This formerly-majestic moose has succumbed to the infection which is killing the world.  Shiny green blowflies swarm the vast suppurated patches of purulent flesh where its skin has sloughed away, and its remaining fur is black and matted with necrotic discharge.",
     "default_faction": "zombie",
     "bodytype": "horse",

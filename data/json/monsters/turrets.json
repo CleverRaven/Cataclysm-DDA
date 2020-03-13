@@ -112,7 +112,7 @@
   {
     "id": "mon_turret_bmg",
     "type": "MONSTER",
-    "name": "M2HB autonomous CROWS II",
+    "name": { "str": "M2HB autonomous CROWS II" },
     "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging anything up to light vehicles at long range without exposing the operator.  This one is fitted with a M2HB.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
@@ -160,7 +160,7 @@
   {
     "id": "mon_turret_rifle",
     "type": "MONSTER",
-    "name": "M249 autonomous CROWS II",
+    "name": { "str": "M249 autonomous CROWS II" },
     "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a M249.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
@@ -208,7 +208,7 @@
   {
     "id": "mon_crows_m240",
     "type": "MONSTER",
-    "name": "M240 autonomous CROWS II",
+    "name": { "str": "M240 autonomous CROWS II" },
     "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a M240.",
     "default_faction": "military",
     "species": [ "ROBOT" ],

@@ -511,7 +511,7 @@
   {
     "id": "mon_zombie_jackson",
     "type": "MONSTER",
-    "name": "Thriller",
+    "name": { "str": "Thriller" },
     "description": "And though you fight to stay alive,\nYour body starts to shiver.\nFor no mere mortal can resist,\nThe evil of the thriller.",
     "default_faction": "zombie",
     "bodytype": "human",

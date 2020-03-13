@@ -2,7 +2,7 @@
   {
     "id": "mon_albino_penguin",
     "type": "MONSTER",
-    "name": "albino penguin",
+    "name": { "str": "albino penguin" },
     "description": "Eight-feet-tall ghastly white penguins.  Placid unless otherwise provoked.",
     "default_faction": "nether",
     "bodytype": "bear",
@@ -35,7 +35,7 @@
   {
     "id": "mon_amigara_horror",
     "type": "MONSTER",
-    "name": "amigara horror",
+    "name": { "str": "amigara horror" },
     "description": "A hellish, vaguely humanoid horror, two stories tall.  Its face is grotesquely stretched out, its limbs deformed to unrecognizable outgrowths.",
     "default_faction": "mutant",
     "bodytype": "human",
