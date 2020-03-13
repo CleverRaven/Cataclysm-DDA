@@ -196,7 +196,7 @@
   {
     "id": "tool_belt",
     "type": "ARMOR",
-    "name": "tool belt",
+    "name": { "str": "tool belt" },
     "description": "A common belt with pockets and four small belt loops.  Widely used by handymen and electricians.",
     "weight": "960 g",
     "volume": "1750 ml",

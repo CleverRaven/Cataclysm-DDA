@@ -523,7 +523,7 @@
   {
     "id": "tacvest",
     "type": "ARMOR",
-    "name": "tac vest",
+    "name": { "str": "tac vest" },
     "description": "This light vest is meant to carry your gear and ammunition comfortably distributed about your torso.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating kevlar.  Lightweight and easy to don, this vest can hold four magazines close at hand in its many pouches.",
     "weight": "600 g",
     "volume": "1250 ml",
