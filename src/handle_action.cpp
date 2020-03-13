@@ -916,8 +916,8 @@ static void sleep()
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
-        if( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) &&
-            it->is_tool() ) {
+        if( it->has_flag( flag_LITCIG ) || 
+            it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() ) {
             active.push_back( it->tname() );
         }
     }
