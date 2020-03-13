@@ -160,7 +160,7 @@
   {
     "type": "mutation",
     "id": "LIGHTEATER",
-    "name": "Light Eater",
+    "name": { "str": "Light Eater" },
     "points": 2,
     "description": "Your metabolism is a little slower, and you require less food than most.",
     "starting_trait": true,
@@ -489,7 +489,7 @@
   {
     "type": "mutation",
     "id": "WAKEFUL",
-    "name": "Less Sleep",
+    "name": { "str": "Less Sleep" },
     "points": 1,
     "description": "You need less sleep than the average person.",
     "changes_to": [ "WAKEFUL2" ],
@@ -542,7 +542,7 @@
   {
     "type": "mutation",
     "id": "LIGHTSTEP",
-    "name": "Light Step",
+    "name": { "str": "Light Step" },
     "points": 1,
     "description": "You make less noise while walking.  You're also less likely to set off traps.",
     "starting_trait": true,
@@ -610,7 +610,7 @@
   {
     "type": "mutation",
     "id": "KILLER",
-    "name": "Killer Drive",
+    "name": { "str": "Killer Drive" },
     "points": 2,
     "description": "You derive enjoyment from killing things.  Putting end to life seem to spark some dark satisfaction and thrill, and you crave it every moment.",
     "starting_trait": true,
@@ -748,7 +748,7 @@
   {
     "type": "mutation",
     "id": "BADCARDIO",
-    "name": "Languorous",
+    "name": { "str": "Languorous" },
     "points": -2,
     "description": "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your maximum stamina is 25% lower than usual.",
     "starting_trait": true,
@@ -986,7 +986,7 @@
   {
     "type": "mutation",
     "id": "LACTOSE",
-    "name": "Lactose Intolerance",
+    "name": { "str": "Lactose Intolerance" },
     "points": -1,
     "description": "You, like 75 percent of the world, cannot tolerate milk or milk based products.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "vitamins_absorb_multi": [ [ "milk", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
@@ -995,7 +995,7 @@
   {
     "type": "mutation",
     "id": "ANTIJUNK",
-    "name": "Junkfood Intolerance",
+    "name": { "str": "Junkfood Intolerance" },
     "points": -1,
     "description": "Something in those heavily processed foods doesn't agree with you.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "starting_trait": true,
@@ -1062,7 +1062,7 @@
   {
     "type": "mutation",
     "id": "LIGHTWEIGHT",
-    "name": "Lightweight",
+    "name": { "str": "Lightweight" },
     "points": -1,
     "description": "Alcohol and drugs go straight to your head.  You suffer the negative effects of these for longer.",
     "starting_trait": true,
@@ -1175,7 +1175,7 @@
   {
     "type": "mutation",
     "id": "JITTERY",
-    "name": "Jittery",
+    "name": { "str": "Jittery" },
     "points": -3,
     "description": "During moments of great stress or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your Dexterity.",
     "starting_trait": true,
@@ -1870,7 +1870,7 @@
   {
     "type": "mutation",
     "id": "LIGHT_BONES",
-    "name": "Light Bones",
+    "name": { "str": "Light Bones" },
     "points": 2,
     "description": "Your bones are very light.  This enables you to move and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
     "category": [ "MOUSE" ],
@@ -1988,7 +1988,7 @@
   {
     "type": "mutation",
     "id": "LYNX_FUR",
-    "name": "Lynx Fur",
+    "name": { "str": "Lynx Fur" },
     "points": 1,
     "visibility": 8,
     "ugliness": 1,
@@ -2268,7 +2268,7 @@
   {
     "type": "mutation",
     "id": "LEAVES",
-    "name": "Leaves",
+    "name": { "str": "Leaves" },
     "points": 3,
     "visibility": 8,
     "ugliness": 3,
@@ -2281,7 +2281,7 @@
   {
     "type": "mutation",
     "id": "LEAVES2",
-    "name": "Lush Leaves",
+    "name": { "str": "Lush Leaves" },
     "points": 6,
     "visibility": 10,
     "ugliness": 5,
@@ -2445,7 +2445,7 @@
   {
     "type": "mutation",
     "id": "NAILS",
-    "name": "Long Fingernails",
+    "name": { "str": "Long Fingernails" },
     "points": 1,
     "visibility": 1,
     "description": "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
@@ -2537,7 +2537,7 @@
   {
     "type": "mutation",
     "id": "TALONS",
-    "name": "Large Talons",
+    "name": { "str": "Large Talons" },
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
@@ -3152,7 +3152,7 @@
   {
     "type": "mutation",
     "id": "TAIL_LONG",
-    "name": "Long Tail",
+    "name": { "str": "Long Tail" },
     "points": 0,
     "visibility": 6,
     "ugliness": 2,
@@ -3858,7 +3858,7 @@
   {
     "type": "mutation",
     "id": "LARGE_OK",
-    "name": "Large",
+    "name": { "str": "Large" },
     "points": 2,
     "visibility": 1,
     "description": "You carry your rugged body with the dignity you deserve.  Strength +2.",
@@ -4195,7 +4195,7 @@
   {
     "type": "mutation",
     "id": "SMALL",
-    "name": "Little",
+    "name": { "str": "Little" },
     "points": -2,
     "visibility": 5,
     "mixed_effect": true,
@@ -4818,7 +4818,7 @@
   {
     "type": "mutation",
     "id": "TROGLO",
-    "name": "Light Sensitive",
+    "name": { "str": "Light Sensitive" },
     "points": -2,
     "description": "Sunlight makes you uncomfortable.  If you are outdoors and the weather is Sunny, you suffer -1 to all stats.",
     "cancels": [ "SUNLIGHT_DEPENDENT" ],
@@ -5690,7 +5690,7 @@
   {
     "type": "mutation",
     "id": "LEG_TENTACLES",
-    "name": "Leg Tentacles",
+    "name": { "str": "Leg Tentacles" },
     "points": -4,
     "visibility": 8,
     "ugliness": 4,
@@ -5726,7 +5726,7 @@
   {
     "type": "mutation",
     "id": "THRESH_LIZARD",
-    "name": "Lizard",
+    "name": { "str": "Lizard" },
     "points": 1,
     "description": "You sometimes look back on your days before your tail came in.  But you're better now.",
     "valid": false,
@@ -5998,7 +5998,7 @@
   {
     "type": "mutation",
     "id": "SEESLEEP",
-    "name": "Lidless Eyes",
+    "name": { "str": "Lidless Eyes" },
     "points": 2,
     "visibility": 3,
     "ugliness": 4,
