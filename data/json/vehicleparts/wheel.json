@@ -293,7 +293,7 @@
   {
     "id": "wheel_caster",
     "type": "vehicle_part",
-    "name": "casters",
+    "name": { "str": "casters" },
     "item": "wheel_caster",
     "location": "under",
     "symbol": "o",

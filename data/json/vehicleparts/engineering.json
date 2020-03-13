@@ -2,7 +2,7 @@
   {
     "id": "crane_medium",
     "type": "vehicle_part",
-    "name": "boom crane",
+    "name": { "str": "boom crane" },
     "item": "cantilever_medium",
     "location": "structure",
     "symbol": "=",
