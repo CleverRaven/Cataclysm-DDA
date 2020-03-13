@@ -869,10 +869,10 @@
   {
     "id": "tieclip",
     "type": "ARMOR",
-    "name": "tie clip",
+    "name": { "str": "tie clip" },
     "description": "A fancy silver tie clip, a great match for your skinny tie.  You can wear it if you like, but it won't provide any effects.",
     "weight": "12 g",
-    "volume": 0,
+    "volume": "5 ml",
     "price": 28000,
     "price_postapoc": 200,
     "material": [ "silver" ],

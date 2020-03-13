@@ -25,7 +25,7 @@
   {
     "id": "car_wide_headlight",
     "type": "GENERIC",
-    "name": "wide-angle car headlight",
+    "name": { "str": "wide-angle car headlight" },
     "description": "A wide-angle vehicle headlight to light up the way.",
     "looks_like": "car_headlight",
     "weight": "2000 g",

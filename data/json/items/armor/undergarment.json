@@ -445,7 +445,7 @@
   {
     "id": "thermal_shirt",
     "type": "ARMOR",
-    "name": "thermal shirt",
+    "name": { "str": "thermal shirt" },
     "description": "A lightweight, form-fitting long-sleeved spandex undershirt that helps maintains body temperature.",
     "weight": "92 g",
     "volume": "250 ml",
@@ -480,7 +480,7 @@
   {
     "id": "tank_top",
     "type": "ARMOR",
-    "name": "tank top",
+    "name": { "str": "tank top" },
     "description": "A sleeveless cotton shirt.  Very easy to move in.",
     "weight": "78 g",
     "volume": "250 ml",

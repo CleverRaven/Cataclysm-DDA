@@ -54,7 +54,7 @@
   {
     "type": "GENERIC",
     "id": "frame_wood",
-    "name": "wooden frame",
+    "name": { "str": "wooden frame" },
     "description": "A large frame made of wood.  Useful for crafting.",
     "weight": "8000 g",
     "to_hit": -5,

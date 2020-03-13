@@ -100,7 +100,7 @@
   {
     "type": "mutation",
     "id": "GOODCARDIO",
-    "name": "Indefatigable",
+    "name": { "str": "Indefatigable" },
     "points": 2,
     "description": "Whether due to exercise and good diet, or due to a natural propensity to physical endurance, you tire due to physical exertion much less readily than others.  Your maximum stamina is 25% higher than usual.",
     "starting_trait": true,
@@ -160,7 +160,7 @@
   {
     "type": "mutation",
     "id": "LIGHTEATER",
-    "name": "Light Eater",
+    "name": { "str": "Light Eater" },
     "points": 2,
     "description": "Your metabolism is a little slower, and you require less food than most.",
     "starting_trait": true,
@@ -489,7 +489,7 @@
   {
     "type": "mutation",
     "id": "WAKEFUL",
-    "name": "Less Sleep",
+    "name": { "str": "Less Sleep" },
     "points": 1,
     "description": "You need less sleep than the average person.",
     "changes_to": [ "WAKEFUL2" ],
@@ -542,7 +542,7 @@
   {
     "type": "mutation",
     "id": "LIGHTSTEP",
-    "name": "Light Step",
+    "name": { "str": "Light Step" },
     "points": 1,
     "description": "You make less noise while walking.  You're also less likely to set off traps.",
     "starting_trait": true,
@@ -610,7 +610,7 @@
   {
     "type": "mutation",
     "id": "KILLER",
-    "name": "Killer Drive",
+    "name": { "str": "Killer Drive" },
     "points": 2,
     "description": "You derive enjoyment from killing things.  Putting end to life seem to spark some dark satisfaction and thrill, and you crave it every moment.",
     "starting_trait": true,
@@ -748,7 +748,7 @@
   {
     "type": "mutation",
     "id": "BADCARDIO",
-    "name": "Languorous",
+    "name": { "str": "Languorous" },
     "points": -2,
     "description": "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your maximum stamina is 25% lower than usual.",
     "starting_trait": true,
@@ -793,7 +793,7 @@
   {
     "type": "mutation",
     "id": "SLOWHEALER3",
-    "name": "Imperceptive Healer",
+    "name": { "str": "Imperceptive Healer" },
     "points": -8,
     "description": "You recover barely any health through sleeping - it will heal only one tenth of usual HP.",
     "starting_trait": true,
@@ -879,7 +879,7 @@
   {
     "type": "mutation",
     "id": "ILLITERATE",
-    "name": "Illiterate",
+    "name": { "str": "Illiterate" },
     "points": -6,
     "description": "You never learned to read!  Books and computers are off-limits to you.",
     "starting_trait": true,
@@ -922,7 +922,7 @@
   {
     "type": "mutation",
     "id": "INSOMNIA",
-    "name": "Insomniac",
+    "name": { "str": "Insomniac" },
     "points": -2,
     "description": "You have a hard time falling asleep, even under the best circumstances!",
     "starting_trait": true,
@@ -986,7 +986,7 @@
   {
     "type": "mutation",
     "id": "LACTOSE",
-    "name": "Lactose Intolerance",
+    "name": { "str": "Lactose Intolerance" },
     "points": -1,
     "description": "You, like 75 percent of the world, cannot tolerate milk or milk based products.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "vitamins_absorb_multi": [ [ "milk", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
@@ -995,7 +995,7 @@
   {
     "type": "mutation",
     "id": "ANTIJUNK",
-    "name": "Junkfood Intolerance",
+    "name": { "str": "Junkfood Intolerance" },
     "points": -1,
     "description": "Something in those heavily processed foods doesn't agree with you.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "starting_trait": true,
@@ -1062,7 +1062,7 @@
   {
     "type": "mutation",
     "id": "LIGHTWEIGHT",
-    "name": "Lightweight",
+    "name": { "str": "Lightweight" },
     "points": -1,
     "description": "Alcohol and drugs go straight to your head.  You suffer the negative effects of these for longer.",
     "starting_trait": true,
@@ -1175,7 +1175,7 @@
   {
     "type": "mutation",
     "id": "JITTERY",
-    "name": "Jittery",
+    "name": { "str": "Jittery" },
     "points": -3,
     "description": "During moments of great stress or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your Dexterity.",
     "starting_trait": true,
@@ -1497,7 +1497,7 @@
   {
     "type": "mutation",
     "id": "INFRARED",
-    "name": "Infrared Vision",
+    "name": { "str": "Infrared Vision" },
     "points": 5,
     "description": "Your eyes have mutated to pick up radiation in the infrared spectrum.",
     "prereqs": [ "NIGHTVISION3" ],
@@ -1870,7 +1870,7 @@
   {
     "type": "mutation",
     "id": "LIGHT_BONES",
-    "name": "Light Bones",
+    "name": { "str": "Light Bones" },
     "points": 2,
     "description": "Your bones are very light.  This enables you to move and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
     "category": [ "MOUSE" ],
@@ -1988,7 +1988,7 @@
   {
     "type": "mutation",
     "id": "LYNX_FUR",
-    "name": "Lynx Fur",
+    "name": { "str": "Lynx Fur" },
     "points": 1,
     "visibility": 8,
     "ugliness": 1,
@@ -2268,7 +2268,7 @@
   {
     "type": "mutation",
     "id": "LEAVES",
-    "name": "Leaves",
+    "name": { "str": "Leaves" },
     "points": 3,
     "visibility": 8,
     "ugliness": 3,
@@ -2281,7 +2281,7 @@
   {
     "type": "mutation",
     "id": "LEAVES2",
-    "name": "Lush Leaves",
+    "name": { "str": "Lush Leaves" },
     "points": 6,
     "visibility": 10,
     "ugliness": 5,
@@ -2445,7 +2445,7 @@
   {
     "type": "mutation",
     "id": "NAILS",
-    "name": "Long Fingernails",
+    "name": { "str": "Long Fingernails" },
     "points": 1,
     "visibility": 1,
     "description": "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
@@ -2537,7 +2537,7 @@
   {
     "type": "mutation",
     "id": "TALONS",
-    "name": "Large Talons",
+    "name": { "str": "Large Talons" },
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
@@ -2614,7 +2614,7 @@
   {
     "type": "mutation",
     "id": "PHEROMONE_INSECT",
-    "name": "Insect Pheromones",
+    "name": { "str": "Insect Pheromones" },
     "points": 2,
     "description": "Your body produces low-level pheromones, identifying you as a friend to many species of insects.  Insects will attack you much less.",
     "prereqs": [ "SMELLY2" ],
@@ -2644,7 +2644,7 @@
   {
     "type": "mutation",
     "id": "INFRESIST",
-    "name": "Infection Resistant",
+    "name": { "str": "Infection Resistant" },
     "points": 2,
     "description": "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
     "starting_trait": true,
@@ -2654,7 +2654,7 @@
   {
     "type": "mutation",
     "id": "INFIMMUNE",
-    "name": "Infection Immune",
+    "name": { "str": "Infection Immune" },
     "points": 3,
     "description": "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.",
     "prereqs": [ "DISRESISTANT" ],
@@ -2941,7 +2941,7 @@
   {
     "type": "mutation",
     "id": "EATPOISON",
-    "name": "Intestinal Fortitude",
+    "name": { "str": "Intestinal Fortitude" },
     "points": 3,
     "description": "Your guts have developed the ability to handle poisonous food.  Mostly.",
     "changes_to": [ "EATDEAD" ],
@@ -3152,7 +3152,7 @@
   {
     "type": "mutation",
     "id": "TAIL_LONG",
-    "name": "Long Tail",
+    "name": { "str": "Long Tail" },
     "points": 0,
     "visibility": 6,
     "ugliness": 2,
@@ -3584,7 +3584,7 @@
   {
     "type": "mutation",
     "id": "WINGS_INSECT",
-    "name": "Insect Wings",
+    "name": { "str": "Insect Wings" },
     "points": 1,
     "visibility": 4,
     "ugliness": 4,
@@ -3841,7 +3841,7 @@
   {
     "type": "mutation",
     "id": "LARGE",
-    "name": "Inconveniently Large",
+    "name": { "str": "Inconveniently Large" },
     "points": 0,
     "visibility": 1,
     "ugliness": 1,
@@ -3858,7 +3858,7 @@
   {
     "type": "mutation",
     "id": "LARGE_OK",
-    "name": "Large",
+    "name": { "str": "Large" },
     "points": 2,
     "visibility": 1,
     "description": "You carry your rugged body with the dignity you deserve.  Strength +2.",
@@ -3950,7 +3950,7 @@
   {
     "type": "mutation",
     "id": "STR_UP_4",
-    "name": "Insanely Strong",
+    "name": { "str": "Insanely Strong" },
     "points": 7,
     "visibility": 2,
     "ugliness": 2,
@@ -4008,7 +4008,7 @@
   {
     "type": "mutation",
     "id": "DEX_UP_4",
-    "name": "Insanely Dextrous",
+    "name": { "str": "Insanely Dextrous" },
     "points": 4,
     "description": "You are much nimbler than before.  Dexterity + 7",
     "prereqs": [ "DEX_UP_3" ],
@@ -4064,7 +4064,7 @@
   {
     "type": "mutation",
     "id": "INT_UP_4",
-    "name": "Insanely Smart",
+    "name": { "str": "Insanely Smart" },
     "points": 4,
     "visibility": 3,
     "ugliness": 3,
@@ -4138,7 +4138,7 @@
   {
     "type": "mutation",
     "id": "PER_UP_4",
-    "name": "Insanely Perceptive",
+    "name": { "str": "Insanely Perceptive" },
     "points": 4,
     "description": "You can sense things you never imagined.  Perception + 7",
     "prereqs": [ "PER_UP_3" ],
@@ -4195,7 +4195,7 @@
   {
     "type": "mutation",
     "id": "SMALL",
-    "name": "Little",
+    "name": { "str": "Little" },
     "points": -2,
     "visibility": 5,
     "mixed_effect": true,
@@ -4818,7 +4818,7 @@
   {
     "type": "mutation",
     "id": "TROGLO",
-    "name": "Light Sensitive",
+    "name": { "str": "Light Sensitive" },
     "points": -2,
     "description": "Sunlight makes you uncomfortable.  If you are outdoors and the weather is Sunny, you suffer -1 to all stats.",
     "cancels": [ "SUNLIGHT_DEPENDENT" ],
@@ -5466,7 +5466,7 @@
   {
     "type": "mutation",
     "id": "INSECT_ARMS",
-    "name": "Insect Limbs",
+    "name": { "str": "Insect Limbs" },
     "points": -5,
     "visibility": 8,
     "ugliness": 5,
@@ -5485,7 +5485,7 @@
   {
     "type": "mutation",
     "id": "INSECT_ARMS_OK",
-    "name": "Insect Arms",
+    "name": { "str": "Insect Arms" },
     "points": 0,
     "visibility": 4,
     "ugliness": 5,
@@ -5690,7 +5690,7 @@
   {
     "type": "mutation",
     "id": "LEG_TENTACLES",
-    "name": "Leg Tentacles",
+    "name": { "str": "Leg Tentacles" },
     "points": -4,
     "visibility": 8,
     "ugliness": 4,
@@ -5726,7 +5726,7 @@
   {
     "type": "mutation",
     "id": "THRESH_LIZARD",
-    "name": "Lizard",
+    "name": { "str": "Lizard" },
     "points": 1,
     "description": "You sometimes look back on your days before your tail came in.  But you're better now.",
     "valid": false,
@@ -5807,7 +5807,7 @@
   {
     "type": "mutation",
     "id": "THRESH_INSECT",
-    "name": "Insect",
+    "name": { "str": "Insect" },
     "points": 1,
     "description": "It would be good to be a Queen, having workers constantly servicing your every need… but how would you keep them in line?",
     "valid": false,
@@ -5998,7 +5998,7 @@
   {
     "type": "mutation",
     "id": "SEESLEEP",
-    "name": "Lidless Eyes",
+    "name": { "str": "Lidless Eyes" },
     "points": 2,
     "visibility": 3,
     "ugliness": 4,

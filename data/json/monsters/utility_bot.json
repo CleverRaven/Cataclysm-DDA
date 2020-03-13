@@ -65,7 +65,7 @@
   {
     "id": "mon_grocerybot_busted",
     "type": "MONSTER",
-    "name": "busted grocery bot",
+    "name": { "str": "busted grocery bot" },
     "description": "A busted grocery bot, it can still carry your bag but its arms are too damaged to push a Grocery Cart.  Despite its current state it's still smiling at you.  Examine to befriend.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
