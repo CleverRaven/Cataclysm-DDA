@@ -100,7 +100,7 @@
   {
     "type": "mutation",
     "id": "GOODCARDIO",
-    "name": "Indefatigable",
+    "name": { "str": "Indefatigable" },
     "points": 2,
     "description": "Whether due to exercise and good diet, or due to a natural propensity to physical endurance, you tire due to physical exertion much less readily than others.  Your maximum stamina is 25% higher than usual.",
     "starting_trait": true,
@@ -793,7 +793,7 @@
   {
     "type": "mutation",
     "id": "SLOWHEALER3",
-    "name": "Imperceptive Healer",
+    "name": { "str": "Imperceptive Healer" },
     "points": -8,
     "description": "You recover barely any health through sleeping - it will heal only one tenth of usual HP.",
     "starting_trait": true,
@@ -879,7 +879,7 @@
   {
     "type": "mutation",
     "id": "ILLITERATE",
-    "name": "Illiterate",
+    "name": { "str": "Illiterate" },
     "points": -6,
     "description": "You never learned to read!  Books and computers are off-limits to you.",
     "starting_trait": true,
@@ -922,7 +922,7 @@
   {
     "type": "mutation",
     "id": "INSOMNIA",
-    "name": "Insomniac",
+    "name": { "str": "Insomniac" },
     "points": -2,
     "description": "You have a hard time falling asleep, even under the best circumstances!",
     "starting_trait": true,
@@ -1497,7 +1497,7 @@
   {
     "type": "mutation",
     "id": "INFRARED",
-    "name": "Infrared Vision",
+    "name": { "str": "Infrared Vision" },
     "points": 5,
     "description": "Your eyes have mutated to pick up radiation in the infrared spectrum.",
     "prereqs": [ "NIGHTVISION3" ],
@@ -2614,7 +2614,7 @@
   {
     "type": "mutation",
     "id": "PHEROMONE_INSECT",
-    "name": "Insect Pheromones",
+    "name": { "str": "Insect Pheromones" },
     "points": 2,
     "description": "Your body produces low-level pheromones, identifying you as a friend to many species of insects.  Insects will attack you much less.",
     "prereqs": [ "SMELLY2" ],
@@ -2644,7 +2644,7 @@
   {
     "type": "mutation",
     "id": "INFRESIST",
-    "name": "Infection Resistant",
+    "name": { "str": "Infection Resistant" },
     "points": 2,
     "description": "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
     "starting_trait": true,
@@ -2654,7 +2654,7 @@
   {
     "type": "mutation",
     "id": "INFIMMUNE",
-    "name": "Infection Immune",
+    "name": { "str": "Infection Immune" },
     "points": 3,
     "description": "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.",
     "prereqs": [ "DISRESISTANT" ],
@@ -2941,7 +2941,7 @@
   {
     "type": "mutation",
     "id": "EATPOISON",
-    "name": "Intestinal Fortitude",
+    "name": { "str": "Intestinal Fortitude" },
     "points": 3,
     "description": "Your guts have developed the ability to handle poisonous food.  Mostly.",
     "changes_to": [ "EATDEAD" ],
@@ -3584,7 +3584,7 @@
   {
     "type": "mutation",
     "id": "WINGS_INSECT",
-    "name": "Insect Wings",
+    "name": { "str": "Insect Wings" },
     "points": 1,
     "visibility": 4,
     "ugliness": 4,
@@ -3841,7 +3841,7 @@
   {
     "type": "mutation",
     "id": "LARGE",
-    "name": "Inconveniently Large",
+    "name": { "str": "Inconveniently Large" },
     "points": 0,
     "visibility": 1,
     "ugliness": 1,
@@ -3950,7 +3950,7 @@
   {
     "type": "mutation",
     "id": "STR_UP_4",
-    "name": "Insanely Strong",
+    "name": { "str": "Insanely Strong" },
     "points": 7,
     "visibility": 2,
     "ugliness": 2,
@@ -4008,7 +4008,7 @@
   {
     "type": "mutation",
     "id": "DEX_UP_4",
-    "name": "Insanely Dextrous",
+    "name": { "str": "Insanely Dextrous" },
     "points": 4,
     "description": "You are much nimbler than before.  Dexterity + 7",
     "prereqs": [ "DEX_UP_3" ],
@@ -4064,7 +4064,7 @@
   {
     "type": "mutation",
     "id": "INT_UP_4",
-    "name": "Insanely Smart",
+    "name": { "str": "Insanely Smart" },
     "points": 4,
     "visibility": 3,
     "ugliness": 3,
@@ -4138,7 +4138,7 @@
   {
     "type": "mutation",
     "id": "PER_UP_4",
-    "name": "Insanely Perceptive",
+    "name": { "str": "Insanely Perceptive" },
     "points": 4,
     "description": "You can sense things you never imagined.  Perception + 7",
     "prereqs": [ "PER_UP_3" ],
@@ -5466,7 +5466,7 @@
   {
     "type": "mutation",
     "id": "INSECT_ARMS",
-    "name": "Insect Limbs",
+    "name": { "str": "Insect Limbs" },
     "points": -5,
     "visibility": 8,
     "ugliness": 5,
@@ -5485,7 +5485,7 @@
   {
     "type": "mutation",
     "id": "INSECT_ARMS_OK",
-    "name": "Insect Arms",
+    "name": { "str": "Insect Arms" },
     "points": 0,
     "visibility": 4,
     "ugliness": 5,
@@ -5807,7 +5807,7 @@
   {
     "type": "mutation",
     "id": "THRESH_INSECT",
-    "name": "Insect",
+    "name": { "str": "Insect" },
     "points": 1,
     "description": "It would be good to be a Queen, having workers constantly servicing your every need… but how would you keep them in line?",
     "valid": false,
