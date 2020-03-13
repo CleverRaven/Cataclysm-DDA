@@ -496,7 +496,7 @@
   {
     "id": "sweater",
     "type": "ARMOR",
-    "name": "sweater",
+    "name": { "str": "sweater" },
     "description": "A wool shirt.  Provides warmth.",
     "weight": "344 g",
     "volume": "2 L",
@@ -517,7 +517,7 @@
     "id": "sweatshirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "sweatshirt",
+    "name": { "str": "sweatshirt" },
     "description": "A thick cotton shirt.  Provides warmth and a bit of padding.",
     "weight": "244 g",
     "volume": "3500 ml",

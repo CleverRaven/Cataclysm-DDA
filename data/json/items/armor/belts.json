@@ -168,7 +168,7 @@
   {
     "id": "survivor_belt_notools",
     "type": "ARMOR",
-    "name": "survivor belt",
+    "name": { "str": "survivor belt" },
     "description": "A custom-built leather utility belt covered with straps and pouches with a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "weight": "1249 g",
     "volume": "2250 ml",
