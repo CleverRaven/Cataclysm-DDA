@@ -1,7 +1,7 @@
 [
   {
     "type": "enchantment",
-    "id": "MEP_INK_SPRAY",
-    "hit_me_effect": [ { "id": "cephalopod_ink_spray" } ]
+    "id": "MEP_BLIND_SPRAY",
+    "hit_me_effect": [ { "id": "generic_blinding_spray_1", "hit_self": false } ]
   }
 ]

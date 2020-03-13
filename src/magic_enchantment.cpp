@@ -167,6 +167,12 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return false;
     }
 
+    return is_active( guy );
+}
+
+bool enchantment::is_active( const Character &guy ) const
+{
+
     if( active_conditions.second == condition::ALWAYS ) {
         return true;
     }
@@ -177,31 +183,6 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
 
     if( active_conditions.second == condition::UNDERWATER ) {
         return g->m.is_divable( guy.pos() );
-    }
-    return false;
-}
-
-// TODO: add move mutation ref and checks here
-bool enchantment::is_active(const Character &guy) const
-{    
-
-    if (active_conditions.second == condition::ALWAYS) {
-        return true;
-    }
-
-    // has no items so item-conditions will fail instantly
-    if (active_conditions.first == has::HELD ||
-        active_conditions.first == has::WIELD ||
-        active_conditions.first == has::WORN) {
-        return false;
-    }    
-
-    if (active_conditions.second == condition::UNDERGROUND) {
-        return guy.pos().z < 0;
-    }
-
-    if (active_conditions.second == condition::UNDERWATER) {
-        return g->m.is_divable(guy.pos());
     }
     return false;
 }
@@ -401,9 +382,19 @@ void enchantment::cast_hit_you( Character &caster, const tripoint &target ) cons
     }
 }
 
-void enchantment::cast_hit_me( Character &caster ) const
+void enchantment::cast_hit_me( Character &caster, const tripoint &target ) const
 {
     for( const fake_spell &sp : hit_me_effect ) {
-        sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
+        if( sp.self ) {
+            sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
+        } else {
+            const spell &spell = sp.get_spell( sp.level );
+            if( !spell.is_valid_target( caster, target ) || !spell.is_target_in_range( caster, target ) ) {
+                continue;
+            }
+
+            spell.cast_all_effects( caster, target );
+        }
+
     }
 }

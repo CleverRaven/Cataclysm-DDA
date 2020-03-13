@@ -897,6 +897,11 @@ energy_type spell::energy_source() const
     return type->energy_source;
 }
 
+bool spell::is_target_in_range( const Creature &caster, const tripoint &p ) const
+{
+    return rl_dist( caster.pos(), p ) <= range();
+}
+
 bool spell::is_valid_target( valid_target t ) const
 {
     return type->valid_targets[t];

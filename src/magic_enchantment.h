@@ -120,8 +120,7 @@ class enchantment
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
 
-        // TODO: add mutation ref
-        // this enchantment has a valid conditions and mutation is passive or activated
+        // this enchantment has a valid item independent conditions
         bool is_active(const Character &guy) const;
 
         // this enchantment is active when wielded.
@@ -139,8 +138,8 @@ class enchantment
 
         // casts all the hit_you_effects on the target
         void cast_hit_you( Character &caster, const tripoint &target ) const;
-        // casts all the hit_me_effects on self
-        void cast_hit_me( Character &caster ) const;
+        // casts all the hit_me_effects on self or a target depending on the enchantment definition
+        void cast_hit_me( Character &caster, const tripoint &target ) const;
     private:
         // values that add to the base value
         std::map<mod, int> values_add;

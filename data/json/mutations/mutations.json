@@ -2542,7 +2542,7 @@
     "visibility": 1,
     "ugliness": 1,
     "description": "Several ink glands have grown onto your torso. They can be used to spray defensive ink and blind an attacker in an emergency, as long as the torso isn't covered.",
-    "enchantments": [ "MEP_INK_SPRAY" ],
+    "enchantments": [ "MEP_BLIND_SPRAY" ],
     "category": [ "CEPHALOPOD" ]
   },
   {
