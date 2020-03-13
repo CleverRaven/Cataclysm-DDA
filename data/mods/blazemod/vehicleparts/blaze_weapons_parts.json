@@ -433,66 +433,12 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "mounted_l_base_223",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "L523 turret" },
-    "item": "l_base_223",
-    "breaks_into": [ { "item": "l_base_223", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_l_car_223",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "L523-CAR turret" },
-    "item": "l_car_223",
-    "breaks_into": [ { "item": "l_car_223", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_l_def_12",
+    "id": "mounted_tavor_12",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "Tavor TS12 turret" },
     "item": "tavor_12",
     "breaks_into": [ { "item": "tavor_12", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_l_dsr_223",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "L523-DSR turret" },
-    "item": "l_dsr_223",
-    "breaks_into": [ { "item": "l_dsr_223", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_l_lmg_223",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "L523-LMG turret" },
-    "item": "l_lmg_223",
-    "breaks_into": [ { "item": "l_lmg_223", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_l_long_45",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "Long Ranger turret" },
-    "item": "l_long_45",
-    "breaks_into": [ { "item": "l_long_45", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_l_mbr_223",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "L523-MBR turret" },
-    "item": "l_mbr_223",
-    "breaks_into": [ { "item": "l_mbr_223", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -777,15 +723,6 @@
     "name": { "str": "RM2000 SMG turret" },
     "item": "rm2000_smg",
     "breaks_into": [ { "item": "rm2000_smg", "prob": 50 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_rm360_carbine",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "RM360 carbine turret" },
-    "item": "rm360_carbine",
-    "breaks_into": [ { "item": "rm360_carbine", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
