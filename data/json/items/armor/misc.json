@@ -236,7 +236,7 @@
   {
     "id": "tarp",
     "type": "ARMOR",
-    "name": "tarpaulin",
+    "name": { "str": "tarpaulin" },
     "description": "A plastic sheet with several grommets for securing it with rope or cord.  Useful for improvised rain protection.",
     "weight": "1244 g",
     "volume": "2 L",

@@ -108,7 +108,7 @@
   {
     "id": "torso_bandolier_shotgun",
     "type": "ARMOR",
-    "name": "torso shotgun bandolier",
+    "name": { "str": "torso shotgun bandolier" },
     "description": "A leather bandolier strapped around the torso for keeping shotgun shells close to hand.",
     "weight": "200 g",
     "volume": "1 L",
@@ -116,7 +116,7 @@
     "price_postapoc": 6900,
     "material": "leather",
     "symbol": "[",
-    "looks_like": "belt",
+    "looks_like": "leather_belt",
     "color": "dark_gray",
     "covers": [ "TORSO" ],
     "coverage": 12,
