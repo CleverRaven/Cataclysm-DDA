@@ -524,7 +524,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
             }
         }
 
-        WHEN( "crafting begins, bug is interrupted after 2 turns" ) {
+        WHEN( "crafting begins, but is interrupted after 2 turns" ) {
             actual_turns_taken = actually_test_craft( test_recipe, tools, 2 );
             REQUIRE( actual_turns_taken == 3 );
 
