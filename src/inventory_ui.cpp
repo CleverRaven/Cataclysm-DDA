@@ -341,8 +341,7 @@ void inventory_column::select( size_t new_index, scroll_direction dir )
 
         selected_index = new_index;
         page_offset = ( new_index == static_cast<size_t>( -1 ) ) ?
-                      0 :
-                      selected_index - selected_index % entries_per_page;
+                      0 : selected_index - selected_index % entries_per_page;
     }
 }
 
