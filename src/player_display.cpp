@@ -1312,8 +1312,8 @@ void player::disp_info()
     std::string action;
 
     right_print( w_tip, 0, +4, c_white, string_format(
-+                     _( "< [<color_yellow>%s</color>] keybindings >" ),
-+                     ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
+                     _( "< [<color_yellow>%s</color>] keybindings >" ),
+                     ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
     wrefresh( w_tip );
 
     draw_initial_windows( w_stats, w_encumb, w_traits, w_bionics, w_effects, w_skills, w_speed, *this,
