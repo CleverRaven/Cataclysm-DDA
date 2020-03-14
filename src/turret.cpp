@@ -390,7 +390,7 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
 
     // Get target
     std::vector<tripoint> trajectory = target_handler().target_ui( g->u, TARGET_MODE_TURRET, nullptr,
-                                       range_total );
+                                       range_total, nullptr, nullptr, this, turrets );
 
     bool got_target = !trajectory.empty();
     if( got_target ) {

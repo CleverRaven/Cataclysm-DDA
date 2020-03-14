@@ -1144,22 +1144,21 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
                                 range, target_size, predicted_recoil );
 }
 
-static int draw_turret_aim( const player &p, const catacurses::window &w, int line_number,
-                            const tripoint &targ )
+static int list_turrets_in_range( vehicle *veh, std::vector<vehicle_part *> &turrets,
+                                  const catacurses::window &w, int line_number, const tripoint &target )
 {
-    const optional_vpart_position vp = g->m.veh_at( p.pos() );
-    if( !vp ) {
-        debugmsg( "Tried to aim turret while outside vehicle" );
-        return line_number;
+    std::vector<std::string> in_range;
+    for( vehicle_part *t : turrets ) {
+        int range = veh->turret_query( *t ).range();
+        int dist = rl_dist( veh->global_part_pos3( *t ), target );
+        if( range >= dist ) {
+            in_range.push_back( string_format( "*  %s", t->name() ) );
+        }
     }
 
-    // fetch and display list of turrets that are ready to fire at the target
-    auto turrets = vp->vehicle().turrets( targ );
-
-    mvwprintw( w, point( 1, line_number++ ), _( "Turrets in range: %d" ), turrets.size() );
-    for( const auto e : turrets ) {
-        nc_color o = c_white;
-        print_colored_text( w, point( 1, line_number++ ), o, o, string_format( "*  %s", e->name() ) );
+    mvwprintw( w, point( 1, line_number++ ), _( "Turrets in range: %d" ), in_range.size() );
+    for( const std::string &text : in_range ) {
+        print_colored_text( w, point( 1, line_number++ ), c_white, c_white, text );
     }
 
     return line_number;
@@ -1300,7 +1299,8 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
 
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
-        item *relevant, int range, const itype *ammo, turret_data *turret )
+        item *relevant, int range, const itype *ammo, turret_data *turret, vehicle *veh,
+        std::vector<vehicle_part *> &vturrets )
 {
     // TODO: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};
@@ -1568,7 +1568,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                predicted_delay );
                 }
             } else if( mode == TARGET_MODE_TURRET ) {
-                draw_turret_aim( pc, w_target, line_number, dst );
+                list_turrets_in_range( veh, vturrets, w_target, line_number, dst );
             } else if( mode == TARGET_MODE_THROW && relevant ) {
                 draw_throw_aim( pc, w_target, line_number, ctxt, *relevant, dst, false );
             } else if( mode == TARGET_MODE_THROW_BLIND && relevant ) {
