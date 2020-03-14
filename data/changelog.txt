@@ -489,7 +489,7 @@ Mythological Replicas mod works with martial arts.
 Completely overhauls generic guns.
 Adds the Ultica tileset to mainline.
 Add BrownLikeBears to the list of tilesets.
-Migo Mutation line and NPC.
+Mi-Go Mutation line and NPC for Aftershock.
 Added partial conversion mod 'Dark Skies Above'.
 Mutant NPCs to Aftershock.
 Simplified Aftershock Crafting System.
