@@ -408,7 +408,8 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         tripoint target = trajectory.back();
         // Set target for any turret in range
         for( vehicle_part *t : turrets ) {
-            if( turret_query( *t ).in_range( target ) ) {
+            turret_data td = turret_query( *t );
+            if( td && td.in_range( target ) ) {
                 t->target.second = target;
             }
         }
