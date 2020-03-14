@@ -947,7 +947,7 @@ static void sleep()
     as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
     std::stringstream data;
     if( !active.empty() ) {
-    // (Y)es/(S)ave before sleeping/(N)o
+        // (N)o/(S)ave before sleeping/(Y)es
         as_m.entries.emplace_back( 2, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
                                    _( "No." ) );
