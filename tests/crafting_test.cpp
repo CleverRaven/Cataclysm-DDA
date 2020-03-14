@@ -554,4 +554,3 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
         }
     }
 }
-
