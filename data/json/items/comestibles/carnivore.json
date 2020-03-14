@@ -277,7 +277,7 @@
     "stack_size": 2,
     "parasites": 0,
     "healthy": 1,
-    "container": "jar_glass",
+    "container": "jar_glass_sealed",
     "spoils_in": "1 day 12 hours",
     "quench": -1,
     "fun": -1,
