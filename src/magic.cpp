@@ -1944,6 +1944,11 @@ void fake_spell::load( const JsonObject &jo )
     mandatory( jo, false, "id", temp_id );
     id = spell_id( temp_id );
     optional( jo, false, "hit_self", self, false );
+
+    optional( jo, false, "cooldown", cooldown );
+    optional( jo, false, "message", trigger_message );
+    optional( jo, false, "npc_message", npc_trigger_message );
+    
     int max_level_int;
     optional( jo, false, "max_level", max_level_int, -1 );
     if( max_level_int == -1 ) {
@@ -1962,6 +1967,9 @@ void fake_spell::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "id", id );
     json.member( "hit_self", self );
+    json.member( "cooldown", cooldown );
+    //json.member( "message", trigger_message );
+    //json.member( "npc_message", npc_trigger_message );
     if( !max_level ) {
         json.member( "max_level", -1 );
     } else {

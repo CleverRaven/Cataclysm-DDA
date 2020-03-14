@@ -96,6 +96,14 @@ struct fake_spell {
     int level = 0;
     // target tripoint is source (true) or target (false)
     bool self = false;
+    // cooldown to limit casts per time_duration
+    time_duration cooldown;
+    // last cast time_point to check the cooldown
+    time_point last_cast;
+    // a message when the enchantment is triggered
+    translation trigger_message;
+    // a message when the enchantment is triggered and is on npc
+    translation npc_trigger_message;
 
     fake_spell() = default;
     fake_spell( const spell_id &sp_id, bool hit_self = false,

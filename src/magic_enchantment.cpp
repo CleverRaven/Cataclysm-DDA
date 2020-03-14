@@ -375,26 +375,40 @@ void enchantment::activate_passive( Character &guy ) const
     guy.mod_num_dodges_bonus( mult_bonus( mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
 }
 
-void enchantment::cast_hit_you( Character &caster, const tripoint &target ) const
+void enchantment::cast_hit_you( Character &caster, const Creature &target )
 {
-    for( const fake_spell &sp : hit_you_effect ) {
-        sp.get_spell( sp.level ).cast_all_effects( caster, target );
+    for( fake_spell &sp : hit_you_effect ) {
+        cast_enchantment_spell(caster, target, sp);
     }
 }
 
-void enchantment::cast_hit_me( Character &caster, const tripoint &target ) const
+void enchantment::cast_hit_me( Character &caster, const Creature &target )
 {
-    for( const fake_spell &sp : hit_me_effect ) {
-        if( sp.self ) {
-            sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
-        } else {
-            const spell &spell = sp.get_spell( sp.level );
-            if( !spell.is_valid_target( caster, target ) || !spell.is_target_in_range( caster, target ) ) {
-                continue;
-            }
+    for( fake_spell &sp : hit_me_effect ) {
+        cast_enchantment_spell(caster, target, sp);
+    }
+}
 
-            spell.cast_all_effects( caster, target );
+void enchantment::cast_enchantment_spell( Character &caster, const Creature &target, fake_spell &sp )
+{
+    if( sp.self ) {
+        sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
+    } else {
+        const spell &spell = sp.get_spell( sp.level );
+        if( !spell.is_valid_target( caster, target.pos() ) ||
+            !spell.is_target_in_range( caster, target.pos() ) ) {
+            return;
         }
 
+        // check the cooldowns
+        if( calendar::turn - sp.last_cast < sp.cooldown ) {
+            return;
+        }
+        sp.last_cast = calendar::turn;
+        spell.cast_all_effects( caster, target.pos() );
+        caster.add_msg_player_or_npc( m_good,
+                                      sp.trigger_message,
+                                      sp.npc_trigger_message,
+                                      caster.name, target.disp_name() );
     }
 }

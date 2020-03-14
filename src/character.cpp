@@ -7590,13 +7590,13 @@ int Character::get_armor_fire( body_part bp ) const
 
 void Character::did_hit( Creature &target )
 {
-    enchantment_cache.cast_hit_you( *this, target.pos() );
+    enchantment_cache.cast_hit_you( *this, target );
 }
 
 void Character::on_hit( Creature *source, body_part /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
-    enchantment_cache.cast_hit_me( *this, source->pos() );
+    enchantment_cache.cast_hit_me( *this, *source);
 }
 
 void Character::heal( body_part healed, int dam )

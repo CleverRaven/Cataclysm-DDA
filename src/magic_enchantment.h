@@ -137,9 +137,9 @@ class enchantment
         void serialize( JsonOut &jsout ) const;
 
         // casts all the hit_you_effects on the target
-        void cast_hit_you( Character &caster, const tripoint &target ) const;
+        void cast_hit_you( Character &caster, const Creature &target );
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
-        void cast_hit_me( Character &caster, const tripoint &target ) const;
+        void cast_hit_me( Character &caster, const Creature &target );
     private:
         // values that add to the base value
         std::map<mod, int> values_add;
@@ -160,6 +160,9 @@ class enchantment
         bool stacks_with( const enchantment &rhs ) const;
 
         int mult_bonus( mod value_type, int base_value ) const;
+
+        // performs cooldown and distance checks before casting enchantment spells
+        void cast_enchantment_spell(Character &caster, const Creature &target, fake_spell &sp);
 };
 
 #endif
