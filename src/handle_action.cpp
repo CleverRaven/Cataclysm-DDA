@@ -900,6 +900,18 @@ static void sleep()
         u.add_msg_if_player( m_info, _( "You cannot sleep while mounted." ) );
         return;
     }
+    uilist as_m;
+    as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
+    // (Y)es/(S)ave before sleeping/(N)o
+    as_m.entries.emplace_back( 0, true,
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
+                               _( "Yes." ) );
+    as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
+                               _( "Yes, and save game before sleeping." ) );
+    as_m.entries.emplace_back( 2, true,
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
+                               _( "No." ) );
 
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
@@ -943,21 +955,10 @@ static void sleep()
         }
     }
 
-    uilist as_m;
-    as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
+    // ask for deactivation
     std::stringstream data;
     if( !active.empty() ) {
-        // (N)o/(S)ave before sleeping/(Y)es
-        as_m.entries.emplace_back( 2, true,
-                                   get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
-                                   _( "No." ) );
-        as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
-                                   get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
-                                   _( "Yes, and save game before sleeping." ) );
-        as_m.entries.emplace_back( 0, true,
-                                   get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
-                                   _( "Yes." ) );
-        // ask for deactivation
+        as_m.selected = 2;
         data << as_m.text << std::endl;
         data << _( "You may want to take care of:" ) << std::endl;
         data << " " << std::endl;
@@ -965,16 +966,6 @@ static void sleep()
             data << "<color_red>" << a << "</color>" << std::endl;
         }
         as_m.text = data.str();
-    } else {
-        as_m.entries.emplace_back( 0, true,
-                                   get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
-                                   _( "Yes." ) );
-        as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
-                                   get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
-                                   _( "Yes, and save game before sleeping." ) );
-        as_m.entries.emplace_back( 2, true,
-                                   get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
-                                   _( "No." ) );
     }
 
     /* Calculate key and window variables, generate window,
