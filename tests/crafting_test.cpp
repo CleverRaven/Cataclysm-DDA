@@ -455,9 +455,11 @@ TEST_CASE( "tool_use", "[crafting]" )
 // Resume the first in progress craft found in the player's inventory
 static int resume_craft()
 {
-    item *craft = g->u.items_with( []( const item & itm ) {
+    std::vector<item *> crafts = g->u.items_with( []( const item & itm ) {
         return itm.is_craft();
-    } ).front();
+    } );
+    REQUIRE( crafts.size() == 1 );
+    item *craft = crafts.front();
     const recipe &rec = craft->get_making();
     set_time( midday ); // Ensure light for crafting
     REQUIRE( g->u.morale_crafting_speed_multiplier( rec ) == 1.0 );
@@ -517,6 +519,7 @@ TEST_CASE( "crafting_interruption", "[crafting]" )
         CHECK( turns_taken == 3 );
         verify_inventory( { "craft" }, { "crude_picklock" } );
         SECTION( "resumed_craft" ) {
+            verify_inventory( {}, {} );
             turns_taken = resume_craft();
             CHECK( turns_taken == expected_turns_taken - 2 );
             verify_inventory( { "crude_picklock" }, { "craft" } );
