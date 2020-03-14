@@ -918,7 +918,7 @@ static void sleep()
     for( auto &it : u.inv_dump() ) {
         if( it->has_flag( flag_LITCIG ) ||
             ( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() &&
-            !it->get_use( "GASMASK" ) ) ) {
+              !it->get_use( "GASMASK" ) && !it->get_use( "musical_instrument" ) ) ) {
             active.push_back( it->tname() );
         }
     }
