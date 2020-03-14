@@ -10975,11 +10975,10 @@ void game::perhaps_add_random_npc()
         if( counter >= 10 ) {
             return;
         }
-        const int x_range = u.global_omt_location().x;
-        const int y_range = u.global_omt_location().y;
         static constexpr int radius_spawn_range = 120;
-        spawn_point = tripoint( rng( x_range - radius_spawn_range, x_range + radius_spawn_range ),
-                                rng( y_range - radius_spawn_range, y_range + radius_spawn_range ), 0 );
+        const tripoint u_omt = u.global_omt_location();
+        spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
+                                rng( -radius_spawn_range, radius_spawn_range ) );
         spawn_point.z = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
         // shouldnt spawn on lakes or rivers.
