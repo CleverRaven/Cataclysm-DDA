@@ -140,7 +140,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                   ctxt.get_desc( "TOGGLE_AUTO_START" ) );
     std::string desc;
     if( mode == REASSIGNING ) {
-        desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
+        desc = _( "Reassigning.  Select a bionic to reassign or press [<color_yellow>SPACE</color>] to cancel." );
         fuel_string.clear();
     } else if( mode == ACTIVATING ) {
         desc = string_format( _( "<color_green>Activating</color>  "
