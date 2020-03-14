@@ -901,23 +901,23 @@ static void sleep()
         return;
     }
     uilist as_m;
-    as_m.text = _( "Are you sure you want to sleep?" );
+    as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
     // (Y)es/(S)ave before sleeping/(N)o
-    as_m.entries.emplace_back( 0, true,
-                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
-                               _( "Yes." ) );
-    as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
-                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
-                               _( "Yes, and save game before sleeping." ) );
     as_m.entries.emplace_back( 2, true,
                                get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
                                _( "No." ) );
+    as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
+                               _( "Yes, and save game before sleeping." ) );
+    as_m.entries.emplace_back( 0, true,
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
+                               _( "Yes." ) );
 
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
-        if( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) &&
-            it->is_transformable() ) {
+        if( it->has_flag( flag_LITCIG ) || 
+            ( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() ) ) {
             active.push_back( it->tname() );
         }
     }
@@ -959,10 +959,10 @@ static void sleep()
     std::stringstream data;
     if( !active.empty() ) {
         data << as_m.text << std::endl;
-        data << _( "You may want to deactivate these before you sleep." ) << std::endl;
+        data << _( "You may want to turn off:" ) << std::endl;
         data << " " << std::endl;
         for( auto &a : active ) {
-            data << a << std::endl;
+            data << "<color_red>" << a << "</color>" << std::endl;
         }
         as_m.text = data.str();
     }
