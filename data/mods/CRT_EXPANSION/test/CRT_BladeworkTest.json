@@ -25,26 +25,52 @@
       {
         "id": "crt_blade_static",
         "name": "Calculating Eyes",
-        "description": "Gain +4 cut and stab armor penetration.",
+        "description": "Gain +3 cut and stab armor penetration.",
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 0 } ],
-        "flat_bonuses": [ [ "arpen", "stab", 4 ], [ "arpen", "cut", 4 ] ]
+        "flat_bonuses": [ [ "arpen", "stab", 3 ], [ "arpen", "cut", 3 ] ]
+      },
+      {
+        "id": "crt_blade_static_2",
+        "name": "Honed Movements",
+        "description": "Gain +3 cut and stab damage. Additionally grants +1 Accuracy.",
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 5 }, { "name": "cutting", "level": 2 }, { "name": "stabbing", "level": 2 } ],
+        "flat_bonuses": [ [ "damage", "stab", 3 ], [ "damage", "cut", 3 ], [ "hit", 1 ] ]
       }
     ],
     "onhit_buffs": [
       {
         "id": "crt_blade_hit_buff",
-        "name": "C.R.I.T Ruthlessness",
-        "description": "Additional DMG, and Arpen per stack.  Max of 6 stacks",
+        "name": "Resolute Edge",
+        "description": "Additional Accuracy and Arpen per stack.  Max of 2 stacks",
         "unarmed_allowed": false,
         "melee_allowed": true,
-        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "skill_requirements": [ { "name": "melee", "level": 1 } ],
+        "buff_duration": 2,
+        "max_stacks": 2,
+        "flat_bonuses": [ [ "hit", 1 ], [ "arpen", "cut", 1 ], [ "arpen", "stab", 1 ] ]
+      },
+      {
+        "id": "crt_blade_hit_buff_2",
+        "name": "Ruthlessness",
+        "description": "Additional DMG, and Arpen per stack.  Max of 5 stacks",
+        "unarmed_allowed": false,
+        "melee_allowed": true,
+        "skill_requirements": [ { "name": "melee", "level": 4 } ],
         "buff_duration": 1,
-        "max_stacks": 6,
+        "max_stacks": 5,
         "flat_bonuses": [ [ "damage", "stab", 1 ], [ "damage", "cut", 1 ], [ "arpen", "cut", 1 ], [ "arpen", "stab", 1 ] ]
       }
     ],
-    "techniques": [ "tec_crt_blade_slash", "tec_crt_blade_rapid", "tec_crt_blade_precise", "tec_crt_execute", "tec_crt_blade_feint" ],
+    "techniques": [
+      "tec_crt_blade_rapid",
+      "tec_crt_blade_rapid_2",
+      "tec_crt_blade_slash",
+      "tec_crt_blade_feint",
+      "tec_crt_blade_precise",
+      "tec_crt_blade_execute"
+    ],
     "weapons": [
       "sword_crt",
       "blade_crt",
@@ -81,8 +107,32 @@
       "tanto_fake",
       "tanto_inferior",
       "kirpan",
-      "kirpan_cheap"
+      "kirpan_cheap",
+      "sword_crude",
+      "sword_nail",
+      "sword_wood"
     ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_blade_rapid",
+    "name": "Tipped Intent",
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.75 ] ],
+    "flat_bonus": [ [ "damage", "stab", 8 ] ],
+    "messages": [ "You swiftly jab your weapon at %s", "<npcname> swiftly jabs their weapon at %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_blade_rapid_2",
+    "name": "Bladed Intent",
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "weighting": 4,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.75 ], [ "damage", "stab", 0.66 ] ],
+    "flat_bonus": [ [ "damage", "cut", 8 ] ],
+    "messages": [ "You deftly swipe at %s", "<npcname> swipes at %s" ]
   },
   {
     "type": "technique",
@@ -96,13 +146,13 @@
   },
   {
     "type": "technique",
-    "id": "tec_crt_blade_rapid",
-    "name": "Tipped Intent",
-    "skill_requirements": [ { "name": "melee", "level": 1 } ],
-    "unarmed_allowed": true,
+    "id": "tec_crt_blade_feint",
+    "name": "Armed Feint",
+    "messages": [ "You fake a quick slash toward %s", "<npcname> fakes a quick slash toward %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.77 ] ],
-    "messages": [ "You swiftly jab your weapon at %s", "<npcname> swiftly jabs their weapon at %s" ]
+    "defensive": true,
+    "miss_recovery": true
   },
   {
     "type": "technique",
@@ -110,10 +160,10 @@
     "name": "End Slash",
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "mult_bonuses": [ [ "damage", "cut", 1.2 ], [ "damage", "stab", 1.2 ] ],
+    "mult_bonuses": [ [ "damage", "cut", 1.2 ], [ "damage", "stab", 1.1 ] ],
     "crit_tec": true,
     "messages": [
-      "You envision the tension of a fully drawn bow and then launch a piercing blow on %s's top half",
+      "You envision the tension of a fully drawn bow and then launch a piercing slash on %s's top half",
       "<npcname> lands a piercing blow on %s's face"
     ],
     "stun_dur": 1
@@ -121,26 +171,14 @@
   {
     "type": "technique",
     "id": "tec_crt_blade_execute",
-    "name": "End Slash",
+    "name": "The Point",
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "weighting": 3,
-    "unarmed_allowed": true,
     "melee_allowed": true,
     "downed_target": true,
-    "mult_bonuses": [ [ "movecost", 1.3 ], [ "damage", "cut", 1.75 ], [ "damage", "stab", 1.5 ] ],
-    "flat_bonuses": [ [ "arpen", "stab", 5 ], ["arpen", "cut", 5] ],
+    "mult_bonuses": [ [ "movecost", 1.5 ], [ "damage", "cut", 1.75 ], [ "damage", "stab", 2 ] ],
     "crit_tec": true,
-    "messages": [ "You drive your weapon down into %s's", "<npcname> lands a deadly blow on %s's" ],
+    "messages": [ "You drive your weapon down into %s's center mass", "<npcname> lands a deadly blow on %s's center mass" ],
     "stun_dur": 1
-  },
-  {
-    "type": "technique",
-    "id": "tec_crt_blade_feint",
-    "name": "Feint",
-    "messages": [ "You fake a quick slash toward %s", "<npcname> fakes a quick slash toward %s" ],
-    "skill_requirements": [ { "name": "melee", "level": 5 } ],
-    "melee_allowed": true,
-    "defensive": true,
-    "miss_recovery": true
   }
 ]
