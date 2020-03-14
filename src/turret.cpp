@@ -360,8 +360,7 @@ int vehicle::turrets_aim_and_fire( std::vector<vehicle_part *> &turrets )
     if( turrets_aim( turrets ) ) {
         for( vehicle_part *t : turrets ) {
             bool has_target = t->target.first != t->target.second;
-            bool is_manual_mode = !t->enabled;
-            if( has_target && is_manual_mode ) {
+            if( has_target ) {
                 turret_data turret = turret_query( *t );
                 npc cpu = get_targeting_npc( *t );
                 shots += turret.fire( cpu, t->target.second );
