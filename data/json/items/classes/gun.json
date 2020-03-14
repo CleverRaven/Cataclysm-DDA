@@ -15,7 +15,7 @@
     "reload_noise": "slosh.",
     "name": { "str": "base flamethrower" },
     "skill": "launcher",
-    "ammo": "flammable_pres",
+    "ammo": "flammable",
     "ammo_effects": [ "FLARE" ],
     "reload": 4,
     "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ],
