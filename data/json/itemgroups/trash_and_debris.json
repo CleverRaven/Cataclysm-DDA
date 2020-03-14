@@ -168,5 +168,22 @@
       [ "eclipse_glasses", 1 ],
       [ "plastic_sheet", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "trash_junkyard",
+    "items": [
+      [ "glass_shard", 100 ],
+      [ "scrap", 50 ],
+      [ "steel_lump", 30 ],
+      [ "steel_chunk", 30 ],
+      [ "frame", 20 ],
+      [ "chain", 10 ],
+      [ "spring", 10 ],
+      [ "hdframe", 10 ],
+      [ "hose", 10 ],
+      [ "wheel_mount_medium", 10 ],
+      [ "alternator_car", 10 ]
+    ]
   }
 ]
