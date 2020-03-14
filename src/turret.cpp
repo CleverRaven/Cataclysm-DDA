@@ -376,6 +376,10 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
 {
     // Clear existing targets
     for( vehicle_part *t : turrets ) {
+        if( !turret_query( *t ) ) {
+            debugmsg( "Expected a valid vehicle turret" );
+            return false;
+        }
         t->reset_target( global_part_pos3( *t ) );
     }
 
