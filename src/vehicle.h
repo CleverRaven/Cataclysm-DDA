@@ -482,6 +482,12 @@ class turret_data
         int range() const;
 
         /**
+         * Check if target is in range of this turret (considers current ammo)
+         * Assumes this turret's status is 'ready'
+         */
+        bool in_range( const tripoint &target ) const;
+
+        /**
          * Prepare the turret for firing, called by firing function.
          * This sets up vehicle tanks, recoil adjustments, vehicle rooftop status,
          * and performs any other actions that must be done before firing a turret.

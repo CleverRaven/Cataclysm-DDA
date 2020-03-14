@@ -1149,9 +1149,7 @@ static int list_turrets_in_range( vehicle *veh, std::vector<vehicle_part *> &tur
 {
     std::vector<std::string> in_range;
     for( vehicle_part *t : turrets ) {
-        int range = veh->turret_query( *t ).range();
-        int dist = rl_dist( veh->global_part_pos3( *t ), target );
-        if( range >= dist ) {
+        if( veh->turret_query( *t ).in_range( target ) ) {
             in_range.push_back( string_format( "*  %s", t->name() ) );
         }
     }
