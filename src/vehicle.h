@@ -676,11 +676,6 @@ class vehicle
         /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt );
 
-        /*
-         * Fire turret at automatically acquired targets
-         * @return number of shots actually fired (which may be zero)
-         */
-        int automatic_fire_turret( vehicle_part &pt );
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -1442,32 +1437,46 @@ class vehicle
         /** Set firing mode for specific turrets */
         void turrets_set_mode();
 
-        /*
-         * Set specific target for automatic turret fire
-         * @param manual if true, allows target assignment for manually controlled turrets.
-         * @param automatic if true, allows target assignment for automatically controlled turrets.
-         * @param tur_part pointer to a turret aimed regardless of target mode filters, if not nullptr.
-         * @returns whether a valid target was selected.
-         */
-        bool turrets_aim( bool manual = true, bool automatic = false,
-                          vehicle_part *tur_part = nullptr );
+        /** Select a single ready turret, aim it using the aiming UI and fire. */
+        void turrets_aim_and_fire_single();
 
         /*
-         * Call turrets_aim and then fire turrets if we get a valid target.
-         * @param manual if true, allows targeting and firing for manual turrets.
-         * @param automatic if true, allows targeting and firing for automatic turrets.
-         * @param tur_part pointer to a turret aimed regardless of target mode filters, if not nullptr.
-         * @return the number of shots fired.
+         * Find all ready turrets that are set to manual mode, aim them using the aiming UI and fire.
+         * @param complain Complain that there are no such turrets
+         * @return False if there are no such turrets
          */
-        int turrets_aim_and_fire( bool manual = true, bool automatic = false,
-                                  vehicle_part *tur_part = nullptr );
+        bool turrets_aim_and_fire_all_manual( bool complain = false );
+
+        /** Set target for automatic turrets using the aiming UI */
+        void turrets_override_automatic_aim();
 
         /*
-         * Call turrets_aim and then fire a selected single turret if we have a valid target.
-         * @param tur_part if not null, this turret is aimed instead of bringing up the selection menu.
-         * @return the number of shots fired.
+         * Fire turret at automatically acquired target
+         * @return number of shots actually fired (which may be zero)
          */
-        int turrets_aim_single( vehicle_part *tur_part = nullptr );
+        int automatic_fire_turret( vehicle_part &pt );
+
+    private:
+        /*
+         * Find all turrets that are ready to fire.
+         * @param manual Include turrets set to 'manual' targeting mode
+         * @param automatic Include turrets set to 'automatic' targeting mode
+         */
+        std::vector<vehicle_part *> find_all_ready_turrets( bool manual, bool automatic );
+
+        /*
+         * Select target using the aiming UI and set turrets to aim at it.
+         * Assumes all turrets are ready to fire.
+         * @return False if target selection was aborted / no target was found
+         */
+        bool turrets_aim( std::vector<vehicle_part *> &turrets );
+
+        /*
+         * Select target using the aiming UI, set turrets to aim at it and fire them.
+         * Assumes all turrets are ready to fire.
+         * @return Number of shots fired by all turrets (which may be zero)
+         */
+        int turrets_aim_and_fire( std::vector<vehicle_part *> &turrets );
 
         /*
          * @param pt the vehicle part containing the turret we're trying to target.
@@ -1476,6 +1485,7 @@ class vehicle
         npc get_targeting_npc( const vehicle_part &pt );
         /*@}*/
 
+    public:
         /**
          *  Try to assign a crew member (who must be a player ally) to a specific seat
          *  @note enforces NPC's being assigned to only one seat (per-vehicle) at once
