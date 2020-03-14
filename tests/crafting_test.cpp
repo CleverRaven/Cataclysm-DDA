@@ -344,15 +344,23 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> &t
     return turns;
 }
 
-TEST_CASE( "charge_handling", "[crafting]" )
+TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 {
-    SECTION( "carver" ) {
-        std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 20 );
-        tools.emplace_back( "soldering_iron", -1, 20 );
-        tools.insert( tools.end(), 10, item( "solder_wire" ) );
+    std::vector<item> tools;
+
+    GIVEN( "recipe and required tools/materials" ) {
+        recipe_id carver( "carver_off" );
+        // Uses fabrication skill
+        // Requires electronics 3
+        // Difficulty 4
+        // Learned from advanced_electronics or textbook_electronics
+
+        // Tools needed:
         tools.emplace_back( "screwdriver" );
         tools.emplace_back( "mold_plastic" );
+
+        // Materials needed
+        tools.insert( tools.end(), 10, item( "solder_wire" ) );
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
@@ -360,78 +368,69 @@ TEST_CASE( "charge_handling", "[crafting]" )
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
 
-        actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
-        CHECK( get_remaining_charges( "hotplate" ) == 10 );
-        CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
-    }
-    SECTION( "carver_split_charges" ) {
-        std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 5 );
-        tools.emplace_back( "hotplate", -1, 5 );
-        tools.emplace_back( "soldering_iron", -1, 5 );
-        tools.emplace_back( "soldering_iron", -1, 5 );
-        tools.insert( tools.end(), 10, item( "solder_wire" ) );
-        tools.emplace_back( "screwdriver" );
-        tools.emplace_back( "mold_plastic" );
-        tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
-        tools.insert( tools.end(), 2, item( "blade" ) );
-        tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.emplace_back( "motor_tiny" );
-        tools.emplace_back( "power_supply" );
-        tools.emplace_back( "scrap" );
+        // Charges needed to craft:
+        // - 10 charges of soldering iron
+        // - 10 charges of surface heat
 
-        actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
-        CHECK( get_remaining_charges( "hotplate" ) == 0 );
-        CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
-    }
-    SECTION( "UPS_modded_carver" ) {
-        std::vector<item> tools;
-        item hotplate( "hotplate", -1, 0 );
-        hotplate.contents.emplace_back( "battery_ups" );
-        tools.push_back( hotplate );
-        item soldering_iron( "soldering_iron", -1, 0 );
-        tools.insert( tools.end(), 10, item( "solder_wire" ) );
-        soldering_iron.contents.emplace_back( "battery_ups" );
-        tools.push_back( soldering_iron );
-        tools.emplace_back( "screwdriver" );
-        tools.emplace_back( "mold_plastic" );
-        tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
-        tools.insert( tools.end(), 2, item( "blade" ) );
-        tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.emplace_back( "motor_tiny" );
-        tools.emplace_back( "power_supply" );
-        tools.emplace_back( "scrap" );
-        tools.emplace_back( "UPS_off", -1, 500 );
+        WHEN( "each tool has enough charges" ) {
+            tools.emplace_back( "hotplate", -1, 20 );
+            tools.emplace_back( "soldering_iron", -1, 20 );
 
-        actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
-        CHECK( get_remaining_charges( "hotplate" ) == 0 );
-        CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
-        CHECK( get_remaining_charges( "UPS_off" ) == 480 );
-    }
-    SECTION( "UPS_modded_carver_missing_charges" ) {
-        std::vector<item> tools;
-        item hotplate( "hotplate", -1, 0 );
-        hotplate.contents.emplace_back( "battery_ups" );
-        tools.push_back( hotplate );
-        item soldering_iron( "soldering_iron", -1, 0 );
-        tools.insert( tools.end(), 10, item( "solder_wire" ) );
-        soldering_iron.contents.emplace_back( "battery_ups" );
-        tools.push_back( soldering_iron );
-        tools.emplace_back( "screwdriver" );
-        tools.emplace_back( "mold_plastic" );
-        tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
-        tools.insert( tools.end(), 2, item( "blade" ) );
-        tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.emplace_back( "motor_tiny" );
-        tools.emplace_back( "power_supply" );
-        tools.emplace_back( "scrap" );
-        tools.emplace_back( "UPS_off", -1, 10 );
+            THEN( "crafting succeeds, and uses charges from each tool" ) {
+                actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
+                CHECK( get_remaining_charges( "hotplate" ) == 10 );
+                CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
+            }
+        }
 
-        prep_craft( recipe_id( "carver_off" ), tools, false );
+        WHEN( "multiple tools have enough combined charges" ) {
+            tools.emplace_back( "hotplate", -1, 5 );
+            tools.emplace_back( "hotplate", -1, 5 );
+            tools.emplace_back( "soldering_iron", -1, 5 );
+            tools.emplace_back( "soldering_iron", -1, 5 );
+
+            THEN( "crafting succeeds, and uses charges from multiple tools" ) {
+                actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
+                CHECK( get_remaining_charges( "hotplate" ) == 0 );
+                CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
+            }
+        }
+
+        WHEN( "UPS-modded tools have enough charges" ) {
+            item hotplate( "hotplate", -1, 0 );
+            hotplate.contents.emplace_back( "battery_ups" );
+            tools.push_back( hotplate );
+            item soldering_iron( "soldering_iron", -1, 0 );
+            soldering_iron.contents.emplace_back( "battery_ups" );
+            tools.push_back( soldering_iron );
+            tools.emplace_back( "UPS_off", -1, 500 );
+
+            THEN( "crafting succeeds, and uses charges from the UPS" ) {
+                actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
+                CHECK( get_remaining_charges( "hotplate" ) == 0 );
+                CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
+                CHECK( get_remaining_charges( "UPS_off" ) == 480 );
+            }
+        }
+
+        WHEN( "UPS-modded tools do not have enough charges" ) {
+            item hotplate( "hotplate", -1, 0 );
+            hotplate.contents.emplace_back( "battery_ups" );
+            tools.push_back( hotplate );
+            item soldering_iron( "soldering_iron", -1, 0 );
+            soldering_iron.contents.emplace_back( "battery_ups" );
+            tools.push_back( soldering_iron );
+            tools.emplace_back( "UPS_off", -1, 10 );
+
+            THEN( "crafting fails, and no charges are used" ) {
+                prep_craft( recipe_id( "carver_off" ), tools, false );
+                CHECK( get_remaining_charges( "UPS_off" ) == 10 );
+            }
+        }
     }
 }
 
-TEST_CASE( "tool_use", "[crafting]" )
+TEST_CASE( "tool_use", "[crafting][tool]" )
 {
     SECTION( "clean_water" ) {
         std::vector<item> tools;
@@ -514,13 +513,13 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
 
         std::vector<item> tools;
         tools.emplace_back( "hammer" );
-        tools.emplace_back( "scrap", -1, 1 );
 
         // Will interrupt after 2 turns, so craft needs to take at least that long
         REQUIRE( expected_turns_taken > 2 );
         int actual_turns_taken;
 
         WHEN( "crafting begins, and continues until the craft is completed" ) {
+            tools.emplace_back( "scrap", -1, 1 );
             actual_turns_taken = actually_test_craft( test_recipe, tools, INT_MAX );
 
             THEN( "it should take the expected number of turns" ) {
@@ -533,6 +532,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
         }
 
         WHEN( "crafting begins, but is interrupted after 2 turns" ) {
+            tools.emplace_back( "scrap", -1, 1 );
             actual_turns_taken = actually_test_craft( test_recipe, tools, 2 );
             REQUIRE( actual_turns_taken == 3 );
 
