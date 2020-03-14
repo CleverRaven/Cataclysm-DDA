@@ -61,7 +61,6 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "profession.h"
-#include "ranged.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
@@ -5635,23 +5634,6 @@ void player::on_effect_int_change( const efftype_id &eid, int intensity, body_pa
     }
 
     morale->on_effect_int_change( eid, intensity, bp );
-}
-
-const targeting_data &player::get_targeting_data()
-{
-    if( tdata == nullptr ) {
-        debugmsg( "Tried to get targeting data before setting it" );
-        tdata.reset( new targeting_data() );
-        tdata->relevant = nullptr;
-        cancel_activity();
-    }
-
-    return *tdata;
-}
-
-void player::set_targeting_data( const targeting_data &td )
-{
-    tdata.reset( new targeting_data( td ) );
 }
 
 bool player::query_yn( const std::string &mes ) const

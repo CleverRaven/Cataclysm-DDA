@@ -1218,63 +1218,8 @@ static void fire()
         const optional_vpart_position vp = g->m.veh_at( u.pos() );
 
         turret_data turret;
-        // TODO: move direct turret firing from ACTION_FIRE to separate function.
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
-            switch( turret.query() ) {
-                case turret_data::status::no_ammo:
-                    add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
-                    break;
-
-                case turret_data::status::no_power:
-                    add_msg( m_bad,  _( "The %s is not powered." ), turret.name() );
-                    break;
-
-                case turret_data::status::ready: {
-                    // if more than one firing mode provide callback to cycle through them
-                    target_callback switch_mode;
-                    if( turret.base()->gun_all_modes().size() > 1 ) {
-                        switch_mode = [&turret]( item * obj ) {
-                            obj->gun_cycle_mode();
-                            // currently gun modes do not change ammo but they may in the future
-                            return turret.ammo_current() == "null" ? nullptr :
-                                   item::find_type( turret.ammo_current() );
-                        };
-                    }
-
-                    // if multiple ammo types available provide callback to cycle alternatives
-                    target_callback switch_ammo;
-                    if( turret.ammo_options().size() > 1 ) {
-                        switch_ammo = [&turret]( item * ) {
-                            const auto opts = turret.ammo_options();
-                            auto iter = opts.find( turret.ammo_current() );
-                            turret.ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
-                            return item::find_type( turret.ammo_current() );
-                        };
-                    }
-
-                    // callbacks for handling setup and cleanup of turret firing
-                    firing_callback prepare_fire = [&u, &turret]( const int ) {
-                        turret.prepare_fire( u );
-                    };
-                    firing_callback post_fire = [&u, &turret]( const int shots ) {
-                        turret.post_fire( u, shots );
-                    };
-
-                    targeting_data args = {
-                        TARGET_MODE_TURRET_MANUAL, & *turret.base(),
-                        turret.range(), 0, false, turret.ammo_data(),
-                        switch_mode, switch_ammo, prepare_fire, post_fire
-                    };
-                    u.set_targeting_data( args );
-                    avatar_action::fire( g->u, g->m );
-
-                    break;
-                }
-
-                default:
-                    debugmsg( "unknown turret status" );
-                    break;
-            }
+            avatar_action::fire_turret_manual( g->u, g->m, turret );
             return;
         }
 
@@ -1314,7 +1259,7 @@ static void fire()
     }
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
-        avatar_action::fire( g->u, g->m, u.weapon );
+        avatar_action::fire_wielded_weapon( g->u, g->m );
     } else if( u.weapon.has_flag( flag_REACH_ATTACK ) ) {
         int range = u.weapon.has_flag( flag_REACH3 ) ? 3 : 2;
         if( u.has_effect( effect_relax_gas ) ) {
@@ -2014,7 +1959,7 @@ bool game::handle_action()
             case ACTION_FIRE_BURST: {
                 gun_mode_id original_mode = u.weapon.gun_get_mode_id();
                 if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
-                    avatar_action::fire( u, m, u.weapon );
+                    avatar_action::fire_wielded_weapon( u, m );
                     u.weapon.gun_set_mode( original_mode );
                 }
                 break;

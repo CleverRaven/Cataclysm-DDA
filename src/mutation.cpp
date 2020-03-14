@@ -411,8 +411,6 @@ void Character::activate_mutation( const trait_id &mut )
     const mutation_branch &mdata = mut.obj();
     trait_data &tdata = my_mutations[mut];
     int cost = mdata.cost;
-    // Preserve the fake weapon used to initiate ranged mutation firing
-    static item mut_ranged( weapon );
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
     if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
@@ -558,10 +556,9 @@ void Character::activate_mutation( const trait_id &mut )
         tdata.powered = false;
         return;
     } else if( !mdata.ranged_mutation.empty() ) {
-        mut_ranged = item( mdata.ranged_mutation );
         add_msg_if_player( mdata.ranged_mutation_message() );
         g->refresh_all();
-        avatar_action::fire( g->u, g->m, mut_ranged );
+        avatar_action::fire_ranged_mutation( g->u, g->m, item( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }

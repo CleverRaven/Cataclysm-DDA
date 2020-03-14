@@ -70,6 +70,58 @@ int time_to_attack( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
 void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 
+bool targeting_data::is_valid() const
+{
+    return weapon_source != WEAPON_SOURCE_INVALID;
+}
+
+targeting_data targeting_data::use_wielded()
+{
+    return targeting_data{
+        WEAPON_SOURCE_WIELDED,
+        nullptr,
+        0_J,
+    };
+}
+
+targeting_data targeting_data::use_bionic( const item &fake_gun, units::energy cost_per_shot )
+{
+    return targeting_data{
+        WEAPON_SOURCE_BIONIC,
+        shared_ptr_fast<item>( new item( fake_gun ) ),
+        cost_per_shot
+    };
+}
+
+targeting_data targeting_data::use_mutation( const item &fake_gun )
+{
+    return targeting_data{
+        WEAPON_SOURCE_MUTATION,
+        shared_ptr_fast<item>( new item( fake_gun ) ),
+        0_J
+    };
+}
+
+namespace io
+{
+template<>
+std::string enum_to_string<weapon_source_enum>( weapon_source_enum data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case WEAPON_SOURCE_INVALID: return "WS_INVALID";
+        case WEAPON_SOURCE_WIELDED: return "WS_WIELDED";
+        case WEAPON_SOURCE_BIONIC: return "WS_BIONIC";
+        case WEAPON_SOURCE_MUTATION: return "WS_MUTATION";
+        // *INDENT-ON*
+        case NUM_WEAPON_SOURCES:
+            break;
+    }
+    debugmsg( "Invalid weapon source" );
+    abort();
+}
+} // namespace io
+
 static double occupied_tile_fraction( m_size target_size )
 {
     switch( target_size ) {
@@ -1141,12 +1193,6 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
                                 range, target_size );
 }
 
-std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args )
-{
-    return target_ui( pc, args.mode, args.relevant, args.range,
-                      args.ammo, args.on_mode_change, args.on_ammo_change );
-}
-
 std::vector<aim_type> Character::get_aim_types( const item &gun ) const
 {
     std::vector<aim_type> aim_types = get_default_aim_type();
@@ -1248,9 +1294,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
 
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
-        item *relevant, int range, const itype *ammo,
-        const target_callback &on_mode_change,
-        const target_callback &on_ammo_change )
+        item *relevant, int range, const itype *ammo, turret_data *turret )
 {
     // TODO: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};
@@ -1640,23 +1684,37 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 return empty_result;
             }
         } else if( action == "SWITCH_MODE" ) {
-            if( !relevant || !relevant->is_gun() ) {
-                // skip this action
-            } else if( on_mode_change ) {
-                ammo = on_mode_change( relevant );
-            } else {
+            if( relevant && relevant->is_gun() ) {
                 relevant->gun_cycle_mode();
                 if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
                     relevant->gun_cycle_mode();
                 }
-                ammo = relevant->gun_current_mode().target->ammo_data();
-                range = relevant->gun_current_mode().target->gun_range( &pc );
+                if( mode == TARGET_MODE_TURRET_MANUAL ) {
+                    itype_id ammo_current = turret->ammo_current();
+                    if( ammo_current == "null" ) {
+                        ammo = nullptr;
+                        range = 0;
+                    } else {
+                        ammo = item::find_type( ammo_current );
+                        range = turret->range();
+                    }
+                } else {
+                    ammo = relevant->gun_current_mode().target->ammo_data();
+                    range = relevant->gun_current_mode().target->gun_range( &pc );
+                }
             }
         } else if( action == "SWITCH_AMMO" ) {
             if( !relevant ) {
                 // skip this action
-            } else if( on_ammo_change ) {
-                ammo = on_ammo_change( relevant );
+            } else if( mode == TARGET_MODE_TURRET_MANUAL ) {
+                // For turrets that use vehicle tanks & can fire multiple liquids
+                if( turret->ammo_options().size() > 1 ) {
+                    const auto opts = turret->ammo_options();
+                    auto iter = opts.find( turret->ammo_current() );
+                    turret->ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
+                    ammo = item::find_type( turret->ammo_current() );
+                    range = turret->range();
+                }
             } else if( !pc.has_item( *relevant ) ) {
                 add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
             } else {

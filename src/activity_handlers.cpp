@@ -2727,7 +2727,7 @@ void activity_handlers::aim_do_turn( player_activity *act, player * )
     if( act->index == 0 ) {
         g->m.invalidate_map_cache( g->get_levz() );
         g->m.build_map_cache( g->get_levz() );
-        avatar_action::fire( g->u, g->m );
+        avatar_action::aim_do_turn( g->u, g->m );
     }
 }
 
