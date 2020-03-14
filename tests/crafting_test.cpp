@@ -289,7 +289,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     const inventory &crafting_inv = g->u.crafting_inventory();
     bool can_craft = r.deduped_requirements().can_make_with_inventory(
                          crafting_inv, r.get_component_filter() );
-    CHECK( can_craft == expect_craftable );
+    REQUIRE( can_craft == expect_craftable );
 }
 
 static time_point midnight = calendar::turn_zero + 0_hours;
@@ -322,8 +322,8 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> &t
     REQUIRE( g->u.has_recipe( &rec, g->u.crafting_inventory(), g->u.get_crafting_helpers() ) != -1 );
 
     g->u.make_craft( rid, 1 );
-    CHECK( g->u.activity );
-    CHECK( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
+    REQUIRE( g->u.activity );
+    REQUIRE( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
     int turns = 0;
     while( g->u.activity.id() == activity_id( "ACT_CRAFT" ) ) {
         if( turns >= interrupt_after_turns ) {
@@ -460,14 +460,12 @@ static int resume_craft()
     } );
     REQUIRE( crafts.size() == 1 );
     item *craft = crafts.front();
-    const recipe &rec = craft->get_making();
     set_time( midday ); // Ensure light for crafting
-    REQUIRE( g->u.morale_crafting_speed_multiplier( rec ) == 1.0 );
-    REQUIRE( g->u.lighting_craft_speed_multiplier( rec ) == 1.0 );
+    REQUIRE( g->u.crafting_speed_multiplier( *craft, tripoint_zero ) == 1.0 );
     REQUIRE( !g->u.activity );
     g->u.use( g->u.get_item_position( craft ) );
-    CHECK( g->u.activity );
-    CHECK( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
+    REQUIRE( g->u.activity );
+    REQUIRE( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
     int turns = 0;
     while( g->u.activity.id() == activity_id( "ACT_CRAFT" ) ) {
         ++turns;
@@ -490,12 +488,12 @@ static void verify_inventory( const std::vector<std::string> &has,
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
         const bool has = player_has_item_of_type( i ) || g->u.weapon.type->get_id() == i;
-        CHECK( has );
+        REQUIRE( has );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
         const bool has = !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == i );
-        CHECK( has );
+        REQUIRE( has );
     }
 }
 
@@ -516,7 +514,7 @@ TEST_CASE( "crafting_interruption", "[crafting]" )
     }
     SECTION( "interrupted_craft" ) {
         int turns_taken = actually_test_craft( test_recipe, tools, 2 );
-        CHECK( turns_taken == 3 );
+        REQUIRE( turns_taken == 3 );
         verify_inventory( { "craft" }, { "crude_picklock" } );
         SECTION( "resumed_craft" ) {
             verify_inventory( {}, {} );
