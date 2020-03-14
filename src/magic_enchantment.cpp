@@ -395,18 +395,17 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature &tar
     if( sp.self ) {
         sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
     } else {
-        const spell &spell = sp.get_spell( sp.level );
-        if( !spell.is_valid_target( caster, target.pos() ) ||
-            !spell.is_target_in_range( caster, target.pos() ) ) {
+        const spell &spell_lvl = sp.get_spell( sp.level );
+        if( !spell_lvl.is_valid_target( caster, target.pos() ) ||
+            !spell_lvl.is_target_in_range( caster, target.pos() ) ) {
             return;
         }
 
         // check the cooldowns
-        if( calendar::turn - sp.last_cast < sp.cooldown ) {
+        if( !one_turn_in( sp.trigger_once_in ) ) {
             return;
         }
-        sp.last_cast = calendar::turn;
-        spell.cast_all_effects( caster, target.pos() );
+        spell_lvl.cast_all_effects( caster, target.pos() );
         caster.add_msg_player_or_npc( m_good,
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
