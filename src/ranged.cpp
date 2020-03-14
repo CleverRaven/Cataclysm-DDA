@@ -1144,7 +1144,7 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
                                 range, target_size, predicted_recoil );
 }
 
-static int list_turrets_in_range( vehicle *veh, std::vector<vehicle_part *> &turrets,
+static int list_turrets_in_range( vehicle *veh, const std::vector<vehicle_part *> &turrets,
                                   const catacurses::window &w, int line_number, const tripoint &target )
 {
     std::vector<std::string> in_range;
@@ -1156,7 +1156,8 @@ static int list_turrets_in_range( vehicle *veh, std::vector<vehicle_part *> &tur
 
     mvwprintw( w, point( 1, line_number++ ), _( "Turrets in range: %d" ), in_range.size() );
     for( const std::string &text : in_range ) {
-        print_colored_text( w, point( 1, line_number++ ), c_white, c_white, text );
+        nc_color col = c_white;
+        print_colored_text( w, point( 1, line_number++ ), col, c_white, text );
     }
 
     return line_number;
@@ -1298,7 +1299,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         item *relevant, int range, const itype *ammo, turret_data *turret, vehicle *veh,
-        std::vector<vehicle_part *> &vturrets )
+        const std::vector<vehicle_part *> &vturrets )
 {
     // TODO: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};

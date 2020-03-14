@@ -102,7 +102,7 @@ class target_handler
                                          const itype *ammo = nullptr,
                                          turret_data *turret = nullptr,
                                          vehicle *veh = nullptr,
-                                         std::vector<vehicle_part *> &vturrets = std::vector<vehicle_part *>()
+                                         const std::vector<vehicle_part *> &vturrets = std::vector<vehicle_part *>()
                                        );
         // magic version of target_ui
         std::vector<tripoint> target_ui( spell_id sp, bool no_fail = false,
