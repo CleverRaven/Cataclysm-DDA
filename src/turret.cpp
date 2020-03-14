@@ -325,12 +325,12 @@ void vehicle::turrets_aim_and_fire_single()
     turrets_aim_and_fire( turrets );
 }
 
-bool vehicle::turrets_aim_and_fire_all_manual( bool complain )
+bool vehicle::turrets_aim_and_fire_all_manual( bool show_msg )
 {
     std::vector<vehicle_part *> turrets = find_all_ready_turrets( true, false );
 
     if( turrets.empty() ) {
-        if( complain ) {
+        if( show_msg ) {
             add_msg( m_warning,
                      _( "Can't aim turrets: all turrets are offline or set to automatic targeting mode." ) );
         }

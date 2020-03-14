@@ -1448,10 +1448,10 @@ class vehicle
 
         /*
          * Find all ready turrets that are set to manual mode, aim them using the aiming UI and fire.
-         * @param complain Complain that there are no such turrets
+         * @param show_msg Show 'no such turrets found' message. Does not affect returned value.
          * @return False if there are no such turrets
          */
-        bool turrets_aim_and_fire_all_manual( bool complain = false );
+        bool turrets_aim_and_fire_all_manual( bool show_msg = false );
 
         /** Set target for automatic turrets using the aiming UI */
         void turrets_override_automatic_aim();
