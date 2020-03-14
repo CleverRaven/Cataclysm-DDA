@@ -389,7 +389,8 @@ void enchantment::cast_hit_me( Character &caster, const Creature &target )
     }
 }
 
-void enchantment::cast_enchantment_spell( Character &caster, const Creature &target, fake_spell &sp )
+void enchantment::cast_enchantment_spell( Character &caster, const Creature &target,
+        fake_spell &sp )
 {
     if( sp.self ) {
         sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );

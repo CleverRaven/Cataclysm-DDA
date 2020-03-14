@@ -162,7 +162,7 @@ class enchantment
         int mult_bonus( mod value_type, int base_value ) const;
 
         // performs cooldown and distance checks before casting enchantment spells
-        void cast_enchantment_spell(Character &caster, const Creature &target, fake_spell &sp);
+        void cast_enchantment_spell( Character &caster, const Creature &target, fake_spell &sp );
 };
 
 #endif
