@@ -2512,8 +2512,8 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
 }
 
 /** Check if this activity can not be done immediately because it has some requirements */
-static requirement_check_result generic_multi_activity_check_requirement( player &p, const activity_id &act_id,
-        activity_reason_info &act_info,
+static requirement_check_result generic_multi_activity_check_requirement( player &p,
+        const activity_id &act_id, activity_reason_info &act_info,
         const tripoint &src, const tripoint &src_loc, const std::unordered_set<tripoint> &src_set,
         const bool check_only = false )
 {
@@ -2815,9 +2815,8 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
         activity_reason_info act_info = can_do_activity_there( activity_to_restore, p,
                                         src_loc, ACTIVITY_SEARCH_DISTANCE );
         // see activity_handlers.h enum for requirement_check_result
-        const requirement_check_result req_res = generic_multi_activity_check_requirement( p, activity_to_restore, act_info, src,
-                            src_loc,
-                            src_set, check_only );
+        const requirement_check_result req_res = generic_multi_activity_check_requirement( p,
+                            activity_to_restore, act_info, src, src_loc, src_set, check_only );
         if( req_res == SKIP_LOCATION ) {
             continue;
         } else if( req_res == RETURN_EARLY ) {
