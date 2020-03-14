@@ -196,6 +196,9 @@ int turret_data::range() const
 
 bool turret_data::in_range( const tripoint &target ) const
 {
+    if( !veh || !part ) {
+        return false;
+    }
     int range = veh->turret_query( *part ).range();
     int dist = rl_dist( veh->global_part_pos3( *part ), target );
     return range >= dist;
@@ -407,8 +410,7 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         tripoint target = trajectory.back();
         // Set target for any turret in range
         for( vehicle_part *t : turrets ) {
-            turret_data td = turret_query( *t );
-            if( td && td.in_range( target ) ) {
+            if( turret_query( *t ).in_range( target ) ) {
                 t->target.second = target;
             }
         }
