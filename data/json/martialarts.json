@@ -12,7 +12,7 @@
   {
     "type": "martial_art",
     "id": "style_kicks",
-    "name": "Force unarmed",
+    "name": { "str": "Force unarmed" },
     "description": "Not a martial art, setting this style will prevent weapon attacks and force punches (with free hand) or kicks.",
     "initiate": [ "You force yourself to fight unarmed.", "%s decides to fight unarmed." ],
     "arm_block": 1,
@@ -22,7 +22,7 @@
   {
     "type": "martial_art",
     "id": "style_aikido",
-    "name": "Aikido",
+    "name": { "str": "Aikido" },
     "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms but lacks offensive techniques.",
     "initiate": [ "You enter the hamni stance.", "%s changes into a relaxed combat posture." ],
     "learn_difficulty": 5,
@@ -67,7 +67,7 @@
   {
     "type": "martial_art",
     "id": "style_boxing",
-    "name": "Boxing",
+    "name": { "str": "Boxing" },
     "description": "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.  Strength reduces blocked damage and moving increase dodge skill.",
     "initiate": [ "You lower your chin and raise your fists to eye level.", "%s prepares to fight with raised fists." ],
     "learn_difficulty": 1,
@@ -109,7 +109,7 @@
   {
     "type": "martial_art",
     "id": "style_brawling",
-    "name": "Brawling",
+    "name": { "str": "Brawling" },
     "description": "You're used to hand-to-creature fighting.  You know how to fight when unarmed or with any weapon to a certain extent.  It's not stylish or sporting, but it gets the job done.",
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
     "autolearn": [ [ "melee", "1" ] ],
@@ -132,7 +132,7 @@
   {
     "type": "martial_art",
     "id": "style_capoeira",
-    "name": "Capoeira",
+    "name": { "str": "Capoeira" },
     "description": "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks.  Moving briefly enables stronger techniques.  Missing an attack grants bonus damage for a short time.",
     "initiate": [ "You begin performing the ginga.", "%s begins to rhythmically rock back and forth." ],
     "learn_difficulty": 4,
@@ -180,7 +180,7 @@
   {
     "type": "martial_art",
     "id": "style_crane",
-    "name": "Crane Kung Fu",
+    "name": { "str": "Crane Kung Fu" },
     "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines your damage, rather than Strength; you also receive a dodge bonus move or dodge an attack.",
     "initiate": [ "You raise your leg slightly and balance like a crane.", "%s assumes a crane-like stance." ],
     "learn_difficulty": 10,
@@ -222,7 +222,7 @@
   {
     "type": "martial_art",
     "id": "style_dragon",
-    "name": "Dragon Kung Fu",
+    "name": { "str": "Dragon Kung Fu" },
     "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy instead of Dexterity.  Your attacks lead to counterattacks which disable your opponents and set them up for a powerful finishing move.",
     "initiate": [ "You relax and patiently await conflict like the great dragon.", "%s assumes a dragon-like stance." ],
     "learn_difficulty": 10,
@@ -244,7 +244,7 @@
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 1,
-        "flat_bonuses": [ [ "hit", 1.0 ], [ "damage", "bash", 2 ] ]
+        "flat_bonuses": [ [ "hit", 1.0 ], [ "damage", "bash", 2.0 ] ]
       }
     ],
     "techniques": [ "tec_dragon_claw", "tec_dragon_blockcounter", "tec_dragon_dodgecounter", "tec_dragon_tail", "tec_dragon_strike" ]
@@ -252,7 +252,7 @@
   {
     "type": "martial_art",
     "id": "style_eskrima",
-    "name": "Eskrima",
+    "name": { "str": "Eskrima" },
     "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasizes rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
     "initiate": [ "You enter an open guard stance and prepare to strike.", "%s enters an open stance." ],
     "learn_difficulty": 8,
@@ -342,7 +342,7 @@
   {
     "type": "martial_art",
     "id": "style_fencing",
-    "name": "Fencing",
+    "name": { "str": "Fencing" },
     "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of blocks and feints to deliver accurate strikes.",
     "initiate": [ "You move into the en-garde stance.", "%s moves into a fencing stance." ],
     "learn_difficulty": 5,
@@ -414,7 +414,7 @@
   {
     "type": "martial_art",
     "id": "style_medievalpole",
-    "name": "Fior Di Battaglia",
+    "name": { "str": "Fior Di Battaglia" },
     "description": "Medieval Europe's martial techniques for fighting with polearms.  The \"Flower of Battle\" places great focus on countering one's opponent and knocking them down before landing a killing blow",
     "initiate": [ "You hold your weapon in a firm grip, ready to block any attack.", "%s grips their weapon tightly." ],
     "learn_difficulty": 6,
@@ -497,7 +497,7 @@
   {
     "type": "martial_art",
     "id": "style_judo",
-    "name": "Judo",
+    "name": { "str": "Judo" },
     "description": "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  You are resistant to most effects that can knock you down and can counter grab and takedown attacks with strong judo throw.",
     "initiate": [ "You prepare yourself for a grapple.", "%s prepares for a grapple." ],
     "learn_difficulty": 4,
@@ -518,7 +518,7 @@
   {
     "type": "martial_art",
     "id": "style_karate",
-    "name": "Karate",
+    "name": { "str": "Karate" },
     "description": "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and two extra blocks on the following round.",
     "initiate": [ "You adopt a classic karate stance.", "%s adopts a classic karate stance." ],
     "learn_difficulty": 5,
@@ -550,7 +550,7 @@
   {
     "type": "martial_art",
     "id": "style_krav_maga",
-    "name": "Krav Maga",
+    "name": { "str": "Krav Maga" },
     "description": "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively.  It focuses on applicable attacks rather than showy or complex moves.  Popular among police and armed forces everywhere.",
     "initiate": [ "You assume a practical combat stance.", "%s assumes a practical combat stance." ],
     "learn_difficulty": 6,
@@ -635,7 +635,7 @@
   {
     "type": "martial_art",
     "id": "style_leopard",
-    "name": "Leopard Kung Fu",
+    "name": { "str": "Leopard Kung Fu" },
     "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Dexterity determines your damage, rather than Strength.  Moving increases dodge skill and accuracy further; attacking after moving increases damage.",
     "initiate": [ "You prepare to pounce like a leopard.", "%s assumes a leopard-like stance." ],
     "learn_difficulty": 10,
@@ -837,7 +837,7 @@
         "melee_allowed": true,
         "buff_duration": 3,
         "bonus_dodges": 2,
-        "flat_bonuses": [ [ "speed", 10 ] ]
+        "flat_bonuses": [ [ "speed", 10.0 ] ]
       }
     ],
     "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
@@ -1456,7 +1456,7 @@
   {
     "type": "martial_art",
     "id": "style_debug",
-    "name": "Debug Mastery",
+    "name": { "str": "Debug Mastery" },
     "description": "A secret martial art used only by developers and cheaters.",
     "initiate": [ "You get ready pwn some zeds!", "%s prepares to cheat at martial arts!" ],
     "arm_block": 99,
