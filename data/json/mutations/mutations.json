@@ -1214,7 +1214,7 @@
   {
     "type": "mutation",
     "id": "MOODSWINGS",
-    "name": "Mood Swings",
+    "name": { "str": "Mood Swings" },
     "points": -1,
     "description": "Your morale will shift up and down at random, often dramatically.",
     "starting_trait": true,
@@ -1702,7 +1702,7 @@
   {
     "type": "mutation",
     "id": "M_SKIN",
-    "name": "Mycus Flesh",
+    "name": { "str": "Mycus Flesh" },
     "points": 2,
     "visibility": 10,
     "ugliness": 8,
@@ -1731,7 +1731,7 @@
   {
     "type": "mutation",
     "id": "M_SKIN2",
-    "name": "Mycus Fireproofing",
+    "name": { "str": "Mycus Fireproofing" },
     "points": 5,
     "visibility": 10,
     "ugliness": 8,
@@ -1761,7 +1761,7 @@
   {
     "type": "mutation",
     "id": "M_SKIN3",
-    "name": "Mycogenesis",
+    "name": { "str": "Mycogenesis" },
     "points": 7,
     "visibility": 10,
     "ugliness": 10,
@@ -2356,7 +2356,7 @@
   {
     "type": "mutation",
     "id": "M_SPORES",
-    "name": "Mycus Spores",
+    "name": { "str": "Mycus Spores" },
     "points": 4,
     "visibility": 10,
     "ugliness": 4,
@@ -2371,7 +2371,7 @@
   {
     "type": "mutation",
     "id": "M_FERTILE",
-    "name": "Mycus Sporogenesis",
+    "name": { "str": "Mycus Sporogenesis" },
     "points": 6,
     "visibility": 5,
     "ugliness": 3,
@@ -2390,7 +2390,7 @@
   {
     "type": "mutation",
     "id": "M_BLOSSOMS",
-    "name": "Mycus Blossoms",
+    "name": { "str": "Mycus Blossoms" },
     "points": 4,
     "visibility": 10,
     "ugliness": 3,
@@ -2406,7 +2406,7 @@
   {
     "type": "mutation",
     "id": "M_BLOOM",
-    "name": "Mycus Bloom",
+    "name": { "str": "Mycus Bloom" },
     "points": 6,
     "visibility": 10,
     "ugliness": 1,
@@ -2426,7 +2426,7 @@
   {
     "type": "mutation",
     "id": "M_PROVENANCE",
-    "name": "Mycus Provenance",
+    "name": { "str": "Mycus Provenance" },
     "points": 8,
     "visibility": 10,
     "ugliness": -3,
@@ -2605,7 +2605,7 @@
   {
     "type": "mutation",
     "id": "MUTAGEN_AVOID",
-    "name": "Mutagenic Aversion",
+    "name": { "str": "Mutagenic Aversion" },
     "points": 0,
     "description": "Ever since you had that life-threatening reaction to those mutagen and purifier things, you can't bear the thought of ever using them again!",
     "purifiable": false,
@@ -2664,7 +2664,7 @@
   {
     "type": "mutation",
     "id": "M_IMMUNE",
-    "name": "Mycus Identity",
+    "name": { "str": "Mycus Identity" },
     "points": 5,
     "description": "We have synchronized our local physiology with that of the Mycus.  Any spores we may encounter will not attempt to germinate inside the local system, and we may traverse Mycus biospheres easily, as native bioforms shift shape to accommodate us.",
     "valid": false,
@@ -2903,7 +2903,7 @@
   {
     "type": "mutation",
     "id": "M_DEPENDENT",
-    "name": "Mycus Feeder",
+    "name": { "str": "Mycus Feeder" },
     "points": -5,
     "description": "We have streamlined our nutritional requirements.  We rely on the Mycus for sustenance, as it relies on us.  We may locate sources of sustenance within the close proximity of Mycus core towers, and in forested areas that the Mycus has grown into.",
     "valid": false,
@@ -3558,7 +3558,7 @@
   {
     "type": "mutation",
     "id": "M_DEFENDER",
-    "name": "Mycus Defender",
+    "name": { "str": "Mycus Defender" },
     "points": 4,
     "description": "From time to time the Mycus requires protection from non-Mycus that, for whatever reason, wish it ill.  We have adapted to better carry out this task - our fibers will grow strong and resilient when such threats present themselves to us.",
     "valid": false,
@@ -3603,7 +3603,7 @@
   {
     "type": "mutation",
     "id": "MOUTH_TENTACLES",
-    "name": "Mouth Tentacles",
+    "name": { "str": "Mouth Tentacles" },
     "points": 1,
     "visibility": 8,
     "ugliness": 5,
@@ -4312,7 +4312,7 @@
   {
     "type": "mutation",
     "id": "MOUTH_FLAPS",
-    "name": "Mouth Flaps",
+    "name": { "str": "Mouth Flaps" },
     "points": -1,
     "visibility": 7,
     "ugliness": 6,
@@ -5320,7 +5320,7 @@
   {
     "type": "mutation",
     "id": "TREE_COMMUNION",
-    "name": "Mycorrhizal Communion",
+    "name": { "str": "Mycorrhizal Communion" },
     "points": 2,
     "description": "You have gained the ability to commune with trees and comprehend their ancient wisdom.  Activate next to a tree to gradually gain overmap vision through connected forests.",
     "prereqs": [ "HAIRROOTS", "ROOTS2", "ROOTS3" ],
@@ -5949,7 +5949,7 @@
   {
     "type": "mutation",
     "id": "THRESH_MYCUS",
-    "name": "Mycus",
+    "name": { "str": "Mycus" },
     "points": 1,
     "description": "We are the Mycus.",
     "valid": false,
