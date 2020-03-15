@@ -31,6 +31,7 @@
     "items": [
       { "group": "spellbook_loot_1", "prob": 3 },
       { "group": "magic_recipe_basic", "prob": 3 },
+      { "group": "magic_recipe_advanced", "prob": 1 },
       { "group": "dragon_books", "prob": 3 }
     ]
   },
@@ -40,6 +41,7 @@
     "items": [
       { "group": "spellbook_loot_0", "prob": 6 },
       { "group": "magic_recipe_basic", "prob": 6 },
+      { "group": "magic_recipe_advanced", "prob": 2 },
       { "group": "dragon_books", "prob": 5 }
     ]
   },
@@ -105,7 +107,8 @@
       { "group": "spell_scroll_tier_0", "prob": 80 },
       { "group": "spell_scroll_tier_1", "prob": 60 },
       { "group": "spell_scroll_tier_2", "prob": 30 },
-      { "group": "magic_recipe_basic", "prob": 50 }
+      { "group": "magic_recipe_basic", "prob": 50 },
+      { "group": "magic_recipe_advanced", "prob": 16 }
     ]
   },
   {
