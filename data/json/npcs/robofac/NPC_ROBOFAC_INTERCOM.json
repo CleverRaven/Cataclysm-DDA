@@ -138,7 +138,7 @@
       "offer": "When the portal storms started, the Government issued an evacuation order for critical XEDRA personnel and sent convoys to retrieve them, with our head of AI research among the recalled.  We recently discovered that he died when the convoy transferring him was ambushed in the initial chaos, but his corpse and memory bionic might remain intact enough for us to extract valuable knowledge.  We want you to travel to the location, make a copy of his Bionic Memory Unit, and return it to us.",
       "accepted": "Remember, perform the extraction /exactly/ as specified, otherwise the bionic will self-destruct.",
       "rejected": "Yes, we recognize that our request is exceptional.  Return if you change your mind.",
-      "advice": " You do know what a memory unit looks like, right?  Matte gray, pill-sized, right in front of the corpus callosum.  We suggest a forceps through the eye socket, shaking slightly, then slowly and carefully…",
+      "advice": "You do know what a memory unit looks like, right?  Matte gray, pill-sized, right in front of the corpus callosum.  We suggest a forceps through the eye socket, shaking slightly, then slowly and carefully…",
       "inquire": "Do you have the scan?",
       "success": "You have our thanks and payment.",
       "success_lie": "What good does this do us?",

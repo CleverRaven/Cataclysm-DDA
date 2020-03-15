@@ -538,7 +538,7 @@
     "id": "technician_shirt_gray",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "work t-shirt",
+    "name": { "str": "work t-shirt" },
     "description": "A gray work t-shirt with a small front pocket.",
     "weight": "64 g",
     "volume": "250 ml",
@@ -675,7 +675,7 @@
   {
     "id": "wool_hoodie",
     "type": "ARMOR",
-    "name": "wool hoodie",
+    "name": { "str": "wool hoodie" },
     "description": "A wool hooded shirt.  It offers decent protection against the cold.  The front pocket offers both storage room and shelter for your hands.",
     "weight": "580 g",
     "volume": "3250 ml",

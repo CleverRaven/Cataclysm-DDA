@@ -108,7 +108,7 @@
   {
     "id": "cloak_wool",
     "type": "ARMOR",
-    "name": "wool cloak",
+    "name": { "str": "wool cloak" },
     "description": "A heavy woolen cloak meant to be thrown over your body.",
     "weight": "1525 g",
     "volume": "3750 ml",
@@ -177,7 +177,7 @@
   {
     "id": "poncho",
     "type": "ARMOR",
-    "name": "wool poncho",
+    "name": { "str": "wool poncho" },
     "description": "A simple wool garment worn over the torso.  Provides a bit of protection.",
     "weight": "907 g",
     "volume": "1250 ml",

@@ -2,7 +2,7 @@
   {
     "id": "mon_charred_nightmare",
     "type": "MONSTER",
-    "name": "charred nightmare",
+    "name": { "str": "charred nightmare" },
     "description": "Intense radiation has spurred a unique form of necrosis and regeneration, it is impossible to tell if this creature was ever human.",
     "default_faction": "zombie",
     "bodytype": "human",
