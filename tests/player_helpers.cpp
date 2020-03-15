@@ -58,6 +58,8 @@ void clear_character( player &dummy )
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
 
+    dummy.empty_skills();
+
     dummy.clear_morale();
 
     dummy.clear_bionics();

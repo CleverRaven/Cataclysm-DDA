@@ -284,7 +284,7 @@
   {
     "type": "vehicle_part",
     "id": "folding_seat",
-    "name": "foldable seat",
+    "name": { "str": "foldable seat" },
     "symbol": "#",
     "looks_like": "seat",
     "color": "red",
@@ -333,7 +333,7 @@
   {
     "type": "vehicle_part",
     "id": "frame_handle",
-    "name": "handle",
+    "name": { "str": "handle" },
     "symbol": "^",
     "color": "light_cyan",
     "broken_symbol": "#",
@@ -487,7 +487,7 @@
   {
     "type": "vehicle_part",
     "id": "trunk_floor",
-    "name": "floor trunk",
+    "name": { "str": "floor trunk" },
     "symbol": "=",
     "looks_like": "t_carpet_red",
     "color": "white",
@@ -572,7 +572,7 @@
   {
     "type": "vehicle_part",
     "id": "door",
-    "name": "door",
+    "name": { "str": "door" },
     "symbol": "+",
     "looks_like": "t_door_metal_c",
     "color": "cyan",
@@ -1080,7 +1080,7 @@
   {
     "type": "vehicle_part",
     "id": "dishwasher",
-    "name": "dishwasher",
+    "name": { "str": "dishwasher" },
     "symbol": "d",
     "color": "light_blue",
     "broken_symbol": "#",
@@ -1229,7 +1229,7 @@
   {
     "type": "vehicle_part",
     "id": "folding wood box",
-    "name": "folding wood box",
+    "name": { "str": "folding wood box" },
     "symbol": "o",
     "looks_like": "wood box",
     "color": "brown",
@@ -1320,7 +1320,7 @@
   {
     "type": "vehicle_part",
     "id": "basketlg_folding",
-    "name": "folding shopping cart basket",
+    "name": { "str": "folding shopping cart basket" },
     "symbol": "o",
     "looks_like": "basketlg",
     "color": "brown",
@@ -1602,7 +1602,7 @@
   {
     "type": "vehicle_part",
     "id": "hand_paddles",
-    "name": "hand paddles",
+    "name": { "str": "hand paddles" },
     "symbol": "*",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -1747,7 +1747,7 @@
   {
     "type": "vehicle_part",
     "id": "controls_electronic",
-    "name": "electronics control unit",
+    "name": { "str": "electronics control unit" },
     "symbol": "$",
     "color": "yellow",
     "broken_symbol": "$",
@@ -2476,7 +2476,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_hard",
-    "name": "hard plating",
+    "name": { "str": "hard plating" },
     "symbol": ")",
     "color": "cyan",
     "broken_symbol": ")",
@@ -3111,7 +3111,7 @@
   {
     "type": "vehicle_part",
     "id": "door_motor",
-    "name": "door motor",
+    "name": { "str": "door motor" },
     "symbol": "*",
     "color": "light_green",
     "broken_symbol": "#",
@@ -3133,7 +3133,7 @@
   {
     "type": "vehicle_part",
     "id": "drive_by_wire_controls",
-    "name": "drive by wire controls",
+    "name": { "str": "drive by wire controls" },
     "symbol": "$",
     "color": "light_red",
     "broken_symbol": "$",
@@ -3319,7 +3319,7 @@
   {
     "type": "vehicle_part",
     "id": "funnel",
-    "name": "funnel",
+    "name": { "str": "funnel" },
     "symbol": "V",
     "color": "yellow",
     "broken_symbol": "*",

@@ -273,7 +273,7 @@
   {
     "id": "chestwrap_wool",
     "type": "ARMOR",
-    "name": "wool chestwrap",
+    "name": { "str": "wool chestwrap" },
     "description": "Felt patches wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "64 g",
     "volume": "500 ml",
@@ -552,7 +552,7 @@
   {
     "id": "undershirt",
     "type": "ARMOR",
-    "name": "undershirt",
+    "name": { "str": "undershirt" },
     "description": "A simple white undershirt.  Worn beneath your regular clothes, it provides a little extra warmth.",
     "weight": "64 g",
     "volume": "250 ml",
@@ -570,7 +570,7 @@
   {
     "id": "unitard",
     "type": "ARMOR",
-    "name": "unitard",
+    "name": { "str": "unitard" },
     "description": "A skin-tight spandex garment resembling a crew necked leotard combined with leggings.  Commonly used by gymnasts, dancers and equestrian vaulters, the unitard provides overall coverage with great flexibility.",
     "weight": "110 g",
     "volume": "250 ml",

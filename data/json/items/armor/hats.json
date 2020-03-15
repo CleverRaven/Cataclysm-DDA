@@ -42,7 +42,7 @@
   {
     "id": "beret_wool",
     "type": "ARMOR",
-    "name": "wool beret",
+    "name": { "str": "wool beret" },
     "description": "A soft wool hat.  Commonly worn by armed forces and existentialists.",
     "weight": "160 g",
     "volume": "250 ml",
