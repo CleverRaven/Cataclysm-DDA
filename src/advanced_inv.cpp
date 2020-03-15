@@ -1084,10 +1084,9 @@ void advanced_inventory::display()
             draw_border( head );
             Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
             draw_minimap();
-            const std::string msg = string_format( _( "< [%s] Show help >" ),
-                                                   ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-            mvwprintz( head, point( w_width - ( minimap_width + 2 ) - utf8_width( msg ) - 1, 0 ),
-                       c_white, msg );
+            right_print( head, 0, +3, c_white, string_format(
+                             _( "< [<color_yellow>%s</color>] keybindings >" ),
+                             ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
             if( g->u.has_watch() ) {
                 const std::string time = to_string_time_of_day( calendar::turn );
                 mvwprintz( head, point( 2, 0 ), c_white, time );
