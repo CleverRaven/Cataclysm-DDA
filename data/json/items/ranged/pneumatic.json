@@ -42,7 +42,7 @@
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "pneumatic rifle" },
-    "description": "A break-barrel rifle handcrafted from scrap.  It is very quiet and deadly.  Although it is very powerful for a pneumatic, generating this power requires rotating the barrel back and forth durign the reload process, which requires enormous effort.",
+    "description": "A break-barrel rifle handcrafted from scrap.  It is very quiet and deadly.  Although it is very powerful for a pneumatic, generating this power requires rotating the barrel back and forth during the reload process, which requires enormous effort.",
     "price": 240000,
     "material": [ "steel", "wood" ],
     "flags": [ "STR_RELOAD", "RELOAD_ONE", "NON-FOULING" ],
