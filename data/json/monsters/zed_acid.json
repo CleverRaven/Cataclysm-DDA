@@ -49,7 +49,7 @@
   {
     "id": "mon_zombie_corrosive",
     "type": "MONSTER",
-    "name": "corrosive zombie",
+    "name": { "str": "corrosive zombie" },
     "description": "This body has swollen to immense proportions, but still manages to hold itself together with semi-congealed acid all over its bloated body.  It clumsily moves around, but attacks with a large reserve of acid.",
     "default_faction": "zombie",
     "bodytype": "human",

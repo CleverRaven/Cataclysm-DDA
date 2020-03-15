@@ -32,7 +32,7 @@
   {
     "type": "item_action",
     "id": "deploy_furn",
-    "name": "Deploy item"
+    "name": { "str": "Deploy item" }
   },
   {
     "type": "item_action",
@@ -47,12 +47,12 @@
   {
     "type": "item_action",
     "id": "DIG_CHANNEL",
-    "name": "Dig water channel here"
+    "name": { "str": "Dig water channel here" }
   },
   {
     "type": "item_action",
     "id": "PICKAXE",
-    "name": "Dig through rock"
+    "name": { "str": "Dig through rock" }
   },
   {
     "type": "item_action",
@@ -72,12 +72,12 @@
   {
     "type": "item_action",
     "id": "HACKSAW",
-    "name": "Cut metal"
+    "name": { "str": "Cut metal" }
   },
   {
     "type": "item_action",
     "id": "BOLTCUTTERS",
-    "name": "Cut bolts or wires"
+    "name": { "str": "Cut bolts or wires" }
   },
   {
     "type": "item_action",
@@ -102,7 +102,7 @@
   {
     "type": "item_action",
     "id": "DIRECTIONAL_HOLOGRAM",
-    "name": "Create a moving hologram"
+    "name": { "str": "Create a moving hologram" }
   },
   {
     "type": "item_action",
@@ -132,7 +132,7 @@
   {
     "type": "item_action",
     "id": "LUMBER",
-    "name": "Cut a log into planks"
+    "name": { "str": "Cut a log into planks" }
   },
   {
     "type": "item_action",
@@ -142,7 +142,7 @@
   {
     "type": "item_action",
     "id": "salvage",
-    "name": "Cut up an item"
+    "name": { "str": "Cut up an item" }
   },
   {
     "type": "item_action",
@@ -157,7 +157,7 @@
   {
     "type": "item_action",
     "id": "enzlave",
-    "name": "Create a zombie slave"
+    "name": { "str": "Create a zombie slave" }
   },
   {
     "type": "item_action",
@@ -237,17 +237,17 @@
   {
     "type": "item_action",
     "id": "ALCOHOL",
-    "name": "Drink"
+    "name": { "str": "Drink" }
   },
   {
     "type": "item_action",
     "id": "ALCOHOL_STRONG",
-    "name": "Drink"
+    "name": { "str": "Drink" }
   },
   {
     "type": "item_action",
     "id": "ALCOHOL_WEAK",
-    "name": "Drink"
+    "name": { "str": "Drink" }
   },
   {
     "type": "item_action",
@@ -277,7 +277,7 @@
   {
     "type": "item_action",
     "id": "ATOMIC_CAFF",
-    "name": "Drink"
+    "name": { "str": "Drink" }
   },
   {
     "type": "item_action",
@@ -292,12 +292,12 @@
   {
     "type": "item_action",
     "id": "BLECH",
-    "name": "Drink"
+    "name": { "str": "Drink" }
   },
   {
     "type": "item_action",
     "id": "BLECH_BECAUSE_UNCLEAN",
-    "name": "Drink"
+    "name": { "str": "Drink" }
   },
   {
     "type": "item_action",
@@ -422,7 +422,7 @@
   {
     "type": "item_action",
     "id": "DIG",
-    "name": "Dig pit here"
+    "name": { "str": "Dig pit here" }
   },
   {
     "type": "item_action",
@@ -557,7 +557,7 @@
   {
     "type": "item_action",
     "id": "detach_gunmods",
-    "name": "Detach gunmods"
+    "name": { "str": "Detach gunmods" }
   },
   {
     "type": "item_action",
@@ -587,7 +587,7 @@
   {
     "type": "item_action",
     "id": "JACKHAMMER",
-    "name": "Drill"
+    "name": { "str": "Drill" }
   },
   {
     "type": "item_action",
@@ -722,7 +722,7 @@
   {
     "type": "item_action",
     "id": "OXYTORCH",
-    "name": "Cut up metal"
+    "name": { "str": "Cut up metal" }
   },
   {
     "type": "item_action",
@@ -902,7 +902,7 @@
   {
     "type": "item_action",
     "id": "TOWEL",
-    "name": "Dry/clean yourself"
+    "name": { "str": "Dry/clean yourself" }
   },
   {
     "type": "item_action",
@@ -927,7 +927,7 @@
   {
     "type": "item_action",
     "id": "BLOOD_DRAW",
-    "name": "Draw some blood"
+    "name": { "str": "Draw some blood" }
   },
   {
     "type": "item_action",

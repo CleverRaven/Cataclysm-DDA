@@ -751,7 +751,7 @@
     "id": "wsurvivor_suit",
     "type": "ARMOR",
     "category": "armor",
-    "name": "winter survivor suit",
+    "name": { "str": "winter survivor suit" },
     "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and an insulated leather jumpsuit.  Protects from the elements as well as from harm.",
     "weight": "7800 g",
     "volume": "14 L",
