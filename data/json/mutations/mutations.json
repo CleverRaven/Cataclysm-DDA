@@ -512,7 +512,7 @@
   {
     "type": "mutation",
     "id": "MASOCHIST",
-    "name": "Masochist",
+    "name": { "str": "Masochist" },
     "points": 1,
     "description": "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
     "starting_trait": true,
@@ -623,7 +623,7 @@
   {
     "type": "mutation",
     "id": "MARTIAL_ARTS",
-    "name": "Martial Arts Training",
+    "name": { "str": "Martial Arts Training" },
     "points": 2,
     "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
     "starting_trait": true,
@@ -653,7 +653,7 @@
   {
     "type": "mutation",
     "id": "MARTIAL_ARTS5",
-    "name": "Melee Weapon Training",
+    "name": { "str": "Melee Weapon Training" },
     "points": 3,
     "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "starting_trait": true,
@@ -933,7 +933,7 @@
   {
     "type": "mutation",
     "id": "VEGETARIAN",
-    "name": "Meat Intolerance",
+    "name": { "str": "Meat Intolerance" },
     "points": -2,
     "description": "You have problems with eating meat.  It's possible for you to eat it, but you will suffer morale penalties and obtain less nutrition from it.",
     "starting_trait": true,
@@ -2563,7 +2563,7 @@
   {
     "type": "mutation",
     "id": "MARLOSS",
-    "name": "Marloss Carrier",
+    "name": { "str": "Marloss Carrier" },
     "points": 4,
     "description": "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to try some seeds and… sap?",
     "purifiable": false,
@@ -2574,7 +2574,7 @@
   {
     "type": "mutation",
     "id": "MARLOSS_BLUE",
-    "name": "Marloss Vessel",
+    "name": { "str": "Marloss Vessel" },
     "points": 4,
     "description": "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and… sap?",
     "purifiable": false,
@@ -2585,7 +2585,7 @@
   {
     "type": "mutation",
     "id": "MARLOSS_YELLOW",
-    "name": "Marloss Vector",
+    "name": { "str": "Marloss Vector" },
     "points": 4,
     "description": "Ever since you ate that Marloss jelly, you can't stop thinking of it, and you have a strong desire to eat some seeds and berries.",
     "purifiable": false,
@@ -2596,7 +2596,7 @@
   {
     "type": "mutation",
     "id": "MARLOSS_AVOID",
-    "name": "Marloss Rejection",
+    "name": { "str": "Marloss Rejection" },
     "points": 0,
     "description": "Ever since you had that life-threatening reaction to that Marloss junk, you can't bear the thought of ever eating it again!",
     "purifiable": false,
@@ -2624,7 +2624,7 @@
   {
     "type": "mutation",
     "id": "PHEROMONE_MAMMAL",
-    "name": "Mammal Pheromones",
+    "name": { "str": "Mammal Pheromones" },
     "points": 2,
     "description": "Your body produces low-level pheromones which put mammals at ease.  They will be less likely to attack or flee from you.",
     "prereqs": [ "SMELLY2" ],
@@ -4260,7 +4260,7 @@
   {
     "type": "mutation",
     "id": "MUT_JUNKIE",
-    "name": "Metallassomaiphile",
+    "name": { "str": "Metallassomaiphile" },
     "//": "name courtesy of wiktionary's Greek for 'mutate'.  Greek-speakers, feel free to correct the term",
     "points": -1,
     "description": "Just thinking of mutagen (such a lovely word!  'Mutagen'.  Perfect!) makes you thirsty.  And you so love your new parts.  You simply must have more mutagen!",
@@ -4726,7 +4726,7 @@
   {
     "type": "mutation",
     "id": "NO_THIRST",
-    "name": "Metabolic Rehydration",
+    "name": { "str": "Metabolic Rehydration" },
     "points": 6,
     "description": "Your body gets everything it needs from the food that you eat!  You no longer gain hydration from fluids - instead, your thirst will be equal to, and change with, your hunger.",
     "threshreq": [ "THRESH_MOUSE" ],
@@ -5937,7 +5937,7 @@
   {
     "type": "mutation",
     "id": "THRESH_MARLOSS",
-    "name": "Marloss Gateway",
+    "name": { "str": "Marloss Gateway" },
     "points": 1,
     "description": "You get the feeling that you're on the cusp of becoming something greater than yourself.",
     "valid": false,
@@ -6143,7 +6143,7 @@
   {
     "type": "mutation",
     "id": "PROF_MED",
-    "name": "MD",
+    "name": { "str": "MD" },
     "points": 0,
     "//": "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hospital computer systems would recognize the PC as a valid user and grant access.",
     "description": "You were just through with the administrative formalities for your residency when the Cataclysm struck.  \"Your\" hospital was overrun and evacuated, but there's always work for a good doctor.",
@@ -6164,7 +6164,7 @@
   {
     "type": "mutation",
     "id": "PROF_MA_ORANGE",
-    "name": "Martial Artist",
+    "name": { "str": "Martial Artist" },
     "points": 0,
     "description": "You were shaping up to be a pretty decent student of the martial arts before the Cataclysm struck.  Time to see just how good you really are.",
     "valid": false,
