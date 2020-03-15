@@ -1173,6 +1173,7 @@ static const std::string flag_SHRUB( "SHRUB" );
 static const std::string flag_SILENT( "SILENT" );
 static const std::string flag_SKINNED( "SKINNED" );
 static const std::string flag_SKINTIGHT( "SKINTIGHT" );
+static const std::string flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
 static const std::string flag_SLOW_WIELD( "SLOW_WIELD" );
 static const std::string flag_SMOKABLE( "SMOKABLE" );
 static const std::string flag_SMOKED( "SMOKED" );
