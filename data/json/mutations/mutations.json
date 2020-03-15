@@ -1214,7 +1214,7 @@
   {
     "type": "mutation",
     "id": "MOODSWINGS",
-    "name": "Mood Swings",
+    "name": { "str": "Mood Swings" },
     "points": -1,
     "description": "Your morale will shift up and down at random, often dramatically.",
     "starting_trait": true,
@@ -1761,7 +1761,7 @@
   {
     "type": "mutation",
     "id": "M_SKIN3",
-    "name": "Mycogenesis",
+    "name": { "str": "Mycogenesis" },
     "points": 7,
     "visibility": 10,
     "ugliness": 10,
@@ -3603,7 +3603,7 @@
   {
     "type": "mutation",
     "id": "MOUTH_TENTACLES",
-    "name": "Mouth Tentacles",
+    "name": { "str": "Mouth Tentacles" },
     "points": 1,
     "visibility": 8,
     "ugliness": 5,
