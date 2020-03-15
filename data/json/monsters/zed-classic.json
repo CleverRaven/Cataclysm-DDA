@@ -216,7 +216,7 @@
   {
     "id": "mon_zombie_fat",
     "type": "MONSTER",
-    "name": "fat zombie",
+    "name": { "str": "fat zombie" },
     "description": "Stumbling as it moves, this corpse of an overweight human regards its surroundings with an empty black gaze.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -263,7 +263,7 @@
   {
     "id": "mon_zombie_fireman",
     "type": "MONSTER",
-    "name": "firefighter zombie",
+    "name": { "str": "firefighter zombie" },
     "description": "A decaying human body clad in tattered firefighting gear.  It staggers aimlessly, reeking of smoke and decay.",
     "default_faction": "zombie",
     "bodytype": "human",

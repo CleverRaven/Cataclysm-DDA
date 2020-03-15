@@ -242,7 +242,7 @@
   {
     "id": "mon_flaming_eye",
     "type": "MONSTER",
-    "name": "flaming eye",
+    "name": { "str": "flaming eye" },
     "description": "An enormous disembodied eyeball the size of a person, flying through the air through some unknown agency.  Wreathed in unnatural flickering blue flame, it possesses a blazing yellow iris with a slitted pupil like that of a cat and trails a set of flailing black tendrils as it slowly drifts about; its unearthly presence filling you with dread at the prospect of falling under its baleful gaze.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -269,7 +269,7 @@
   {
     "id": "mon_flesh_angel",
     "type": "MONSTER",
-    "name": "flesh angel",
+    "name": { "str": "flesh angel" },
     "description": "A tall and slender man lacking skin and any normalcy of countenance.  Wings of muscle curl forth from its back and a third eye dominates the forehead.",
     "default_faction": "cult",
     "bodytype": "angel",
@@ -298,7 +298,7 @@
   {
     "id": "mon_flying_polyp",
     "type": "MONSTER",
-    "name": "flying polyp",
+    "name": { "str": "flying polyp" },
     "description": "A half polypous, utterly alien creature.  It's only partly material and has the ability to fly, despite the absence of wings.  It produces strange whistling noises which send cold shivers of primal terror down your spine.",
     "default_faction": "nether",
     "bodytype": "blob",

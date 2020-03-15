@@ -97,7 +97,7 @@
   {
     "id": "mon_hallu_multicooker",
     "type": "MONSTER",
-    "name": "evil multi-cooker",
+    "name": { "str": "evil multi-cooker" },
     "description": "The multi-cooker's got a mind of its own!  Look out!",
     "default_faction": "factionless",
     "species": [ "HALLUCINATION" ],

@@ -463,7 +463,7 @@
   {
     "id": "mon_deer_fawn",
     "type": "MONSTER",
-    "name": "fawn",
+    "name": { "str": "fawn" },
     "description": "A juvenile northern woodland white-tailed deer, a quick and strong grazing animal.  Favored prey of coyotes, wolves, and giant spider mutants.",
     "default_faction": "herbivore",
     "bodytype": "horse",
