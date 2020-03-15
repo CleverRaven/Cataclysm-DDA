@@ -93,7 +93,6 @@
     "name": "heavy duty board",
     "item": "steel_plate",
     "location": "center",
-    "looks_like": "board",
     "color": "dark_gray",
     "durability": 450,
     "description": "A strong metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
