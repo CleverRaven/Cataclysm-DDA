@@ -2680,7 +2680,7 @@
     "type": "recipe",
     "result": "pine_nuts",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
+    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "skills_required": [ "survival", 2 ],
     "difficulty": 1,
