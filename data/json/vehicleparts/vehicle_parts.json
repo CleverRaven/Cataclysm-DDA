@@ -668,7 +668,7 @@
   {
     "type": "vehicle_part",
     "id": "door_internal",
-    "name": "internal door",
+    "name": { "str": "internal door" },
     "symbol": "+",
     "looks_like": "door",
     "color": "cyan",
@@ -1521,7 +1521,7 @@
   {
     "type": "vehicle_part",
     "id": "inflatable_section",
-    "name": "inflatable section",
+    "name": { "str": "inflatable section" },
     "symbol": "O",
     "looks_like": "inflatable_airbag",
     "color": "green",
