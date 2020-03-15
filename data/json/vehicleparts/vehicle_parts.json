@@ -691,7 +691,7 @@
   {
     "type": "vehicle_part",
     "id": "hatch",
-    "name": "hatch",
+    "name": { "str": "hatch" },
     "symbol": "+",
     "looks_like": "door",
     "color": "light_gray",
@@ -1544,7 +1544,7 @@
   {
     "type": "vehicle_part",
     "id": "inflatable_airbag",
-    "name": "inflatable airbag",
+    "name": { "str": "inflatable airbag" },
     "symbol": "O",
     "color": "green",
     "broken_symbol": "x",
@@ -1680,7 +1680,7 @@
   {
     "type": "vehicle_part",
     "id": "dashboard",
-    "name": "dashboard",
+    "name": { "str": "dashboard" },
     "symbol": "$",
     "color": "light_cyan",
     "broken_symbol": "$",
@@ -2844,7 +2844,7 @@
   {
     "type": "vehicle_part",
     "id": "inboard_mirror",
-    "name": "inboard mirror",
+    "name": { "str": "inboard mirror" },
     "symbol": "o",
     "color": "light_cyan",
     "broken_symbol": "*",
