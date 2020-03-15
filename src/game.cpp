@@ -10374,7 +10374,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     }
 
     if( blocking_creature ) {
-        add_msg( _( "There's a %s in the way!" ), blocking_creature->disp_name() );
+        add_msg( _( "There's a %s in the way!" ), blocking_creature->get_name() );
         return cata::nullopt;
     }
     // No stairs found! Try to make some
