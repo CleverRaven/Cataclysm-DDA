@@ -19,5 +19,84 @@
     "watertight": true,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 2 ] ],
     "use_action": "HEAT_FOOD"
+  },
+  {
+    "id": "sewing_kit",
+    "name": "sewing kit",
+    "copy-from": "sewing_kit",
+    "type": "TOOL",
+    "use_action": {
+      "type": "repair_item",
+      "item_action_type": "repair_fabric",
+      "materials": [
+        "cotton",
+        "leather",
+        "lycra",
+        "nylon",
+        "wool",
+        "fur",
+        "faux_fur",
+        "nomex",
+        "kevlar",
+        "gutskin",
+        "demon_chitin",
+        "black_dragon_hide"
+      ],
+      "skill": "tailor",
+      "tool_quality": 0,
+      "cost_scaling": 0.1,
+      "move_cost": 1000
+    }
+  },
+  {
+    "id": "tailors_kit",
+    "name": "tailor's kit",
+    "copy-from": "tailors_kit",
+    "type": "TOOL",
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_fabric",
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "black_dragon_hide",
+          "demon_chitin"
+        ],
+        "skill": "tailor",
+        "tool_quality": 1,
+        "cost_scaling": 0.1,
+        "move_cost": 800
+      },
+      {
+        "type": "sew_advanced",
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "plastic",
+          "kevlar_rigid"
+        ],
+        "skill": "tailor",
+        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
+      }
+    ]
   }
 ]
