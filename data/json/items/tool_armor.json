@@ -1044,6 +1044,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "filter mask" },
     "description": "A mask that straps over your mouth and nose and filters air.  Protects from smoke, dust, and other contaminants quite well.  It must be prepared before use.",
+    "flags": [ "SLEEP_IGNORE" ],
     "weight": "260 g",
     "volume": "500 ml",
     "price": 3500,
@@ -1069,6 +1070,7 @@
     "name": { "str": "gas mask" },
     "category": "clothing",
     "description": "A full gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and other contaminants.  It must be prepared before use.",
+    "flags": [ "SLEEP_IGNORE" ],
     "weight": "897 g",
     "volume": "1 L",
     "price": 4900,
@@ -1112,7 +1114,7 @@
     "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE", "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_fsurvivor",
@@ -1139,7 +1141,7 @@
     "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_fsurvivorxl",
@@ -1166,7 +1168,7 @@
     "initial_charges": 100,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_bunker",
@@ -1177,7 +1179,7 @@
     "color": "light_gray",
     "name": { "str": "firefighter PBA mask" },
     "description": "A full-face mask commonly used by firefighters.  The protective breathing apparatus provides excellent protection from smoke, flame, and other dangers.  It must be prepared before use.",
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ],
     "price": 100000,
     "material": [ "plastic", "nomex" ],
     "weight": "1260 g",
@@ -1221,7 +1223,7 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_lsurvivor",
@@ -1249,7 +1251,7 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_survivor",
@@ -1276,7 +1278,7 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_survivorxl",
@@ -1303,7 +1305,7 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_wsurvivor",
@@ -1330,7 +1332,7 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_wsurvivorxl",
@@ -1357,7 +1359,7 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
     "id": "goggles_nv",
@@ -2385,7 +2387,7 @@
     "price": 1000,
     "material": [ "steel" ],
     "volume": "250 ml",
-    "flags": [ "BELTED" ],
+    "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "material_thickness": 1
   },
   {
@@ -2421,7 +2423,7 @@
     "warmth": 2,
     "encumbrance": 27,
     "bashing": 8,
-    "flags": [ "BELTED" ],
+    "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "coverage": 10,
     "material_thickness": 2
   },
@@ -2464,7 +2466,7 @@
     "warmth": 2,
     "encumbrance": 27,
     "bashing": 8,
-    "flags": [ "BELTED" ],
+    "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "coverage": 10,
     "material_thickness": 2
   },
@@ -2504,7 +2506,7 @@
     "volume": "4 L",
     "encumbrance": 15,
     "bashing": 4,
-    "flags": [ "BELTED" ],
+    "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "coverage": 10,
     "material_thickness": 2
   },
@@ -2516,7 +2518,7 @@
     "weight": "10000 g",
     "color": "yellow",
     "covers": [ "TORSO" ],
-    "flags": [ "BELTED" ],
+    "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "to_hit": -1,
     "max_charges": 1,
     "initial_charges": 1,
@@ -2551,7 +2553,7 @@
     "weight": "2000 g",
     "color": "yellow",
     "covers": [ "TORSO" ],
-    "flags": [ "BELTED" ],
+    "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "to_hit": 1,
     "max_charges": 1,
     "initial_charges": 1,
