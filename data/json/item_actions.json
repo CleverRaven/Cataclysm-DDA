@@ -82,7 +82,7 @@
   {
     "type": "item_action",
     "id": "HOTPLATE",
-    "name": "Heat up food (with it)"
+    "name": { "str": "Heat up food (with it)" }
   },
   {
     "type": "item_action",
@@ -107,12 +107,12 @@
   {
     "type": "item_action",
     "id": "MIND_SPLICER",
-    "name": "Extract data from memory banks"
+    "name": { "str": "Extract data from memory banks" }
   },
   {
     "type": "item_action",
     "id": "ROBOTCONTROL",
-    "name": "Hack a robot"
+    "name": { "str": "Hack a robot" }
   },
   {
     "type": "item_action",
@@ -232,7 +232,7 @@
   {
     "type": "item_action",
     "id": "ADRENALINE_INJECTOR",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
@@ -362,7 +362,7 @@
   {
     "type": "item_action",
     "id": "COIN_FLIP",
-    "name": "Flip"
+    "name": { "str": "Flip" }
   },
   {
     "type": "item_action",
@@ -417,7 +417,7 @@
   {
     "type": "item_action",
     "id": "DATURA",
-    "name": "Eat"
+    "name": { "str": "Eat" }
   },
   {
     "type": "item_action",
@@ -427,7 +427,7 @@
   {
     "type": "item_action",
     "id": "DIRECTIONAL_ANTENNA",
-    "name": "Find direction"
+    "name": { "str": "Find direction" }
   },
   {
     "type": "item_action",
@@ -482,7 +482,7 @@
   {
     "type": "item_action",
     "id": "FILL_PIT",
-    "name": "Fill pit / tamp ground"
+    "name": { "str": "Fill pit / tamp ground" }
   },
   {
     "type": "item_action",
@@ -507,7 +507,7 @@
   {
     "type": "item_action",
     "id": "FISH_ROD",
-    "name": "Fish"
+    "name": { "str": "Fish" }
   },
   {
     "type": "item_action",
@@ -527,7 +527,7 @@
   {
     "type": "item_action",
     "id": "FLU_VACCINE",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
@@ -572,7 +572,7 @@
   {
     "type": "item_action",
     "id": "HEAT_FOOD",
-    "name": "Heat up food (in it)"
+    "name": { "str": "Heat up food (in it)" }
   },
   {
     "type": "item_action",
@@ -582,7 +582,7 @@
   {
     "type": "item_action",
     "id": "INHALER",
-    "name": "Inhale"
+    "name": { "str": "Inhale" }
   },
   {
     "type": "item_action",
@@ -592,7 +592,7 @@
   {
     "type": "item_action",
     "id": "JET_INJECTOR",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
@@ -682,7 +682,7 @@
   {
     "type": "item_action",
     "id": "SOLARPACK_OFF",
-    "name": "Fold"
+    "name": { "str": "Fold" }
   },
   {
     "type": "item_action",
@@ -697,7 +697,7 @@
   {
     "type": "item_action",
     "id": "mutagen_iv",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
@@ -717,7 +717,7 @@
   {
     "type": "item_action",
     "id": "OXYGEN_BOTTLE",
-    "name": "Inhale"
+    "name": { "str": "Inhale" }
   },
   {
     "type": "item_action",
@@ -772,12 +772,12 @@
   {
     "type": "item_action",
     "id": "PURIFY_IV",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
     "id": "PURIFY_SMART",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
@@ -882,7 +882,7 @@
   {
     "type": "item_action",
     "id": "STIMPACK",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
@@ -897,7 +897,7 @@
   {
     "type": "item_action",
     "id": "THROWABLE_EXTINGUISHER_ACT",
-    "name": "Extinguish a fire"
+    "name": { "str": "Extinguish a fire" }
   },
   {
     "type": "item_action",
@@ -922,7 +922,7 @@
   {
     "type": "item_action",
     "id": "VACCINE",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
@@ -1067,7 +1067,7 @@
   {
     "type": "item_action",
     "id": "install_bionic",
-    "name": "Install bionic"
+    "name": { "str": "Install bionic" }
   },
   {
     "type": "item_action",
@@ -1092,7 +1092,7 @@
   {
     "type": "item_action",
     "id": "DISASSEMBLE",
-    "name": "Get content"
+    "name": { "str": "Get content" }
   },
   {
     "type": "item_action",
@@ -1117,11 +1117,11 @@
   {
     "type": "item_action",
     "id": "GOBAG_NORMAL",
-    "name": "Get contents"
+    "name": { "str": "Get contents" }
   },
   {
     "type": "item_action",
     "id": "GOBAG_PERSONAL",
-    "name": "Get contents"
+    "name": { "str": "Get contents" }
   }
 ]
