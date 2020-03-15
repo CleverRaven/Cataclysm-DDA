@@ -91,7 +91,7 @@
     "bashing": 1,
     "material": [ "steel" ],
     "symbol": "[",
-    "looks_like": "bigpack",
+    "looks_like": "backpack_tactical_large",
     "color": "light_gray",
     "coverage": 100,
     "encumbrance": 40,

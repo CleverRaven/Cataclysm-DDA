@@ -1055,61 +1055,6 @@
     "replace": "m320_mod"
   },
   {
-    "id": "lead_stabilizer",
-    "type": "MIGRATION",
-    "replace": "stabilizer"
-  },
-  {
-    "id": "lead_barrel_small",
-    "type": "MIGRATION",
-    "replace": "barrel_small"
-  },
-  {
-    "id": "lead_red_dot_sight",
-    "type": "MIGRATION",
-    "replace": "red_dot_sight"
-  },
-  {
-    "id": "lead_rifle_scope",
-    "type": "MIGRATION",
-    "replace": "rifle_scope"
-  },
-  {
-    "id": "lead_acog_scope",
-    "type": "MIGRATION",
-    "replace": "acog_scope"
-  },
-  {
-    "id": "lead_holo_sight",
-    "type": "MIGRATION",
-    "replace": "holo_sight"
-  },
-  {
-    "id": "lead_laser_sight",
-    "type": "MIGRATION",
-    "replace": "rail_laser_sight"
-  },
-  {
-    "id": "lead_grip",
-    "type": "MIGRATION",
-    "replace": "offset_sight_rail"
-  },
-  {
-    "id": "lead_bipod",
-    "type": "MIGRATION",
-    "replace": "bipod"
-  },
-  {
-    "id": "lead_u_shotgun",
-    "type": "MIGRATION",
-    "replace": "masterkey"
-  },
-  {
-    "id": "lead_glm",
-    "type": "MIGRATION",
-    "replace": "m320"
-  },
-  {
     "id": "l_sp_9mm",
     "type": "MIGRATION",
     "replace": "glock_17"

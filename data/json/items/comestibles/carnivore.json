@@ -24,7 +24,7 @@
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "fish_smoked",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 3 ], [ "vitB", 9 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ], [ "vitB", 154 ] ],
     "calories": 260
   },
   {
@@ -354,12 +354,10 @@
     "container": "bag_plastic",
     "color": "light_gray",
     "spoils_in": "24 days",
-    "stack_size": 4,
     "parasites": 0,
     "quench": -5,
     "fun": 4,
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 7 ], [ "calcium", 25 ], [ "iron", 21 ], [ "vitB", 617 ] ],
-    "proportional": { "price": 2.0, "volume": 0.28, "weight": 0.28 },
+    "proportional": { "price": 2.0, "volume": 0.345, "weight": 0.345 },
     "delete": { "flags": [ "RAW" ] }
   },
   {

@@ -450,7 +450,7 @@
     "id": "porkpie",
     "repairs_like": "balclava",
     "type": "ARMOR",
-    "name": "porkpie hat",
+    "name": { "str": "porkpie hat" },
     "description": "A flat-topped hat with circular indent and a narrow brim.  Most popular in the 40s and 50s, still common among those in the mod scene, hipsters, and people named Heisenberg.",
     "weight": "213 g",
     "volume": "1250 ml",

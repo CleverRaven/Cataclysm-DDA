@@ -3,7 +3,7 @@
     "id": "pot_helmet",
     "type": "ARMOR",
     "category": "armor",
-    "name": "pot helmet",
+    "name": { "str": "pot helmet" },
     "description": "A helmet made from a soup pot.  It's not very good protection, but it's better than nothing.",
     "weight": "760 g",
     "volume": "2 L",
