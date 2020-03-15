@@ -138,6 +138,7 @@ class enchantment
         // casts all the hit_me_effects on self
         void cast_hit_me( Character &caster ) const;
     private:
+        cata::optional<emit_id> emitter;
         // values that add to the base value
         std::map<mod, int> values_add;
         // values that get multiplied to the base value

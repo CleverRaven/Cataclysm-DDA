@@ -1,0 +1,7 @@
+[
+  {
+    "//": "no need for robust genetics atm",
+    "type": "ITEM_BLACKLIST",
+    "traits": [ "ROBUST" ]
+  }
+]
