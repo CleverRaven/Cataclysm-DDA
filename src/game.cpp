@@ -10978,7 +10978,7 @@ void game::perhaps_add_random_npc()
         static constexpr int radius_spawn_range = 120;
         const tripoint u_omt = u.global_omt_location();
         spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
-                                rng( -radius_spawn_range, radius_spawn_range ) );
+                                     rng( -radius_spawn_range, radius_spawn_range ) );
         spawn_point.z = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
         // shouldnt spawn on lakes or rivers.

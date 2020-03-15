@@ -2816,7 +2816,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
                                         src_loc, ACTIVITY_SEARCH_DISTANCE );
         // see activity_handlers.h enum for requirement_check_result
         const requirement_check_result req_res = generic_multi_activity_check_requirement( p,
-                            activity_to_restore, act_info, src, src_loc, src_set, check_only );
+                activity_to_restore, act_info, src, src_loc, src_set, check_only );
         if( req_res == SKIP_LOCATION ) {
             continue;
         } else if( req_res == RETURN_EARLY ) {
