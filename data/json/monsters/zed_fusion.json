@@ -2,7 +2,7 @@
   {
     "id": "mon_crawler",
     "type": "MONSTER",
-    "name": "crawler",
+    "name": { "str": "crawler" },
     "description": "A conglomeration of human parts fused together in a horrible mishmash of function, slowly dragging its eldritch body across the ground.",
     "default_faction": "mutant",
     "species": [ "ABERRATION" ],
@@ -29,7 +29,7 @@
   {
     "id": "mon_devourer",
     "type": "MONSTER",
-    "name": "dissoluted devourer",
+    "name": { "str": "dissoluted devourer" },
     "description": "Human bodies fused together into a colossus with heads and limbs sticking out of its bloated body.  You may have trouble estimating its healthiness and its capabilities might change.",
     "default_faction": "zombie",
     "bodytype": "human",

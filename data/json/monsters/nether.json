@@ -187,7 +187,7 @@
   {
     "id": "mon_dementia",
     "type": "MONSTER",
-    "name": "dementia",
+    "name": { "str": "dementia" },
     "description": "A crazed individual, the bloody scars on the side of its shaved head suggest some sort of partial lobotomy",
     "default_faction": "cult",
     "bodytype": "human",
@@ -215,7 +215,7 @@
   {
     "id": "mon_dog_thing",
     "type": "MONSTER",
-    "name": "dog",
+    "name": { "str": "dog" },
     "description": "A domesticated mongrel of the canine persuasion.  In the absence of human society, it has turned feral.  You feel a sudden urge to destroy it.",
     "default_faction": "mutant",
     "bodytype": "dog",
