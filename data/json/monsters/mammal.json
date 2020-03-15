@@ -239,6 +239,60 @@
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
   },
   {
+    "id": "mon_cat_shorthair",
+    "copy-from": "mon_cat",
+    "name": "shorthair cat",
+    "description": "A formerly domestic shorthair cat, much like many other cats you have seen."
+  },
+  {
+    "id": "mon_cat_longhair",
+    "copy-from": "mon_cat",
+    "name": "shorthair cat",
+    "description"
+  },
+  {
+    "id": "mon_cat_maine_coon",
+    "copy-from": "mon_cat",
+    "name": "Maine coon cat"
+  },
+  {
+    "id": "mon_cat_siamese",
+    "copy-from": "mon_cat",
+    "name": "Siamese cat"
+  },
+  {
+    "id": "mon_cat_persian",
+    "copy-from": "mon_cat",
+    "name": "Persian cat"
+  },
+  {
+    "id": "mon_cat_bengal",
+    "copy-from": "mon_cat",
+    "name": "Bengal cat"
+  },
+  {
+    "id": "mon_cat_devon_rex",
+    "copy-from": "mon_cat",
+    "name": "Devon Rex cat",
+    "description": "This unusual-looking cat has large eyes and ears, and a soft curly coat of fur."
+  },
+  {
+    "id": "mon_cat_sphynx",
+    "copy-from": "mon_cat",
+    "name": "Sphynx cat",
+    "description": "The Sphynx cat has practically no fur on its body, exposing its curiously wrinkled skin."
+  },
+  {
+    "id": "mon_cat_tabby",
+    "copy-from": "mon_cat",
+    "name": "tabby cat"
+  },
+  {
+    "id": "mon_cat_tortoiseshell",
+    "copy-from": "mon_cat",
+    "name": "tortoiseshell cat"
+  },
+  {
     "id": "mon_chipmunk",
     "type": "MONSTER",
     "name": "chipmunk",
