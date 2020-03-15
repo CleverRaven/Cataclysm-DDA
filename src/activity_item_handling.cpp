@@ -1877,8 +1877,8 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
     auto &mgr = zone_manager::get_manager();
     tripoint loot_abspos = g->m.getabs( src_loc );
     tripoint loot_src_lot;
-    if( mgr.has_near( z_loot_unsorted, loot_abspos, distance ) ) {
-        const auto &zone_src_set = mgr.get_near( zone_type_LOOT_UNSORTED, loot_abspos, distance );
+    const auto &zone_src_set = mgr.get_near( zone_type_LOOT_UNSORTED, loot_abspos, distance );
+    if( !zone_src_set.empty() ) {
         const auto &zone_src_sorted = get_sorted_tiles_by_distance( loot_abspos, zone_src_set );
         // Find the nearest unsorted zone to dump objects at
         for( auto &src_elem : zone_src_sorted ) {
@@ -2305,7 +2305,6 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
     if( p.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &p );
         guy->revert_after_activity();
-        guy->current_activity_id = activity_id::NULL_ID();
     }
     p.activity.set_to_null();
 }
@@ -2405,24 +2404,44 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
     zone_manager &mgr = zone_manager::get_manager();
     const tripoint localpos = p.pos();
     const tripoint abspos = g->m.getabs( localpos );
-
     if( act_id == ACT_TIDY_UP ) {
         dark_capable = true;
         tripoint unsorted_spot;
-        for( const tripoint &elem : g->m.points_in_radius( g->m.getlocal( abspos ),
+        std::unordered_set<tripoint> unsorted_set = mgr.get_near( zone_type_id( z_loot_unsorted ), abspos,
+                ACTIVITY_SEARCH_DISTANCE );
+        if( !unsorted_set.empty() ) {
+            unsorted_spot = g->m.getlocal( random_entry( unsorted_set ) );
+        }
+        bool found_one_point = false;
+        bool found_route = true;
+        for( const tripoint &elem : g->m.points_in_radius( localpos,
                 ACTIVITY_SEARCH_DISTANCE ) ) {
-            if( mgr.has( zone_type_id( z_loot_unsorted ), g->m.getabs( elem ) ) ) {
-                // it already has a unsorted loot spot, and therefore dont need to go and pick up items there.
-                if( unsorted_spot == tripoint_zero ) {
-                    unsorted_spot = elem;
-                }
+            // Theres no point getting the entire list of all items to tidy up now.
+            // the activity will run again after pathing to the first tile anyway.
+            // tidy up activity has no requirements that will discount a square and
+            // have the requirement to skip and scan the next one, ( other than checking path )
+            // shortcircuiting the need to scan the entire map contionously can improve performance
+            // especially if NPCs have a backlog of moves or there is a lot of them
+            if( !found_route ) {
+                found_route = true;
                 continue;
+            }
+            if( found_one_point ) {
+                break;
             }
             for( const item &stack_elem : g->m.i_at( elem ) ) {
                 if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == p.name ) {
                     const furn_t &f = g->m.furn( elem ).obj();
                     if( !f.has_flag( flag_PLANT ) ) {
                         src_set.insert( g->m.getabs( elem ) );
+                        found_one_point = true;
+                        // only check for a valid path, as that is all that is needed to tidy something up.
+                        if( square_dist( p.pos(), elem ) > 1 ) {
+                            std::vector<tripoint> route = route_adjacent( p, elem );
+                            if( route.empty() ) {
+                                found_route = false;
+                            }
+                        }
                         break;
                     }
                 }
@@ -2493,10 +2512,10 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
 }
 
 /** Check if this activity can not be done immediately because it has some requirements */
-/** Returns true if this multi activity may be processed further */
-static bool generic_multi_activity_check_requirement( player &p, const activity_id &act_id,
-        activity_reason_info &act_info,
-        const tripoint &src, const tripoint &src_loc, const std::unordered_set<tripoint> &src_set )
+static requirement_check_result generic_multi_activity_check_requirement( player &p,
+        const activity_id &act_id, activity_reason_info &act_info,
+        const tripoint &src, const tripoint &src_loc, const std::unordered_set<tripoint> &src_set,
+        const bool check_only = false )
 {
     const tripoint abspos = g->m.getabs( p.pos() );
     zone_manager &mgr = zone_manager::get_manager();
@@ -2519,10 +2538,10 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
     // tidy up activity dosnt - it wants things that may not be in a zone already - things that may have been left lying around.
     if( needs_to_be_in_zone && !zone ) {
         can_do_it = false;
-        return true;
+        return SKIP_LOCATION;
     }
     if( can_do_it ) {
-        return true;
+        return CAN_DO_LOCATION;
     }
     if( reason == DONT_HAVE_SKILL || reason == NO_ZONE || reason == ALREADY_DONE ||
         reason == BLOCKING_TILE || reason == UNKNOWN_ACTIVITY ) {
@@ -2532,7 +2551,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
         } else if( reason == BLOCKING_TILE ) {
             p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
         }
-        return true;
+        return SKIP_LOCATION;
     } else if( reason == NO_COMPONENTS || reason == NO_COMPONENTS_PREREQ ||
                reason == NO_COMPONENTS_PREREQ_2 || reason == NEEDS_PLANTING ||
                reason == NEEDS_TILLING || reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING ||
@@ -2557,7 +2576,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             act_id == ACT_MULTIPLE_CONSTRUCTION ) {
             if( !act_info.con_idx ) {
                 debugmsg( "no construction selected" );
-                return true;
+                return SKIP_LOCATION;
             }
             // its a construction and we need the components.
             const construction &built_chosen = act_info.con_idx->obj();
@@ -2567,7 +2586,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             // we already checked this in can_do_activity() but check again just incase.
             if( !veh ) {
                 p.activity_vehicle_part_index = 1;
-                return true;
+                return SKIP_LOCATION;
             }
             const vpart_info &vpinfo = veh->part_info( p.activity_vehicle_part_index );
             requirement_data reqs;
@@ -2622,42 +2641,44 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             if( reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ) {
                 p.activity_vehicle_part_index = -1;
             }
-            return true;
+            return SKIP_LOCATION;
         } else {
-            p.backlog.push_front( act_id );
-            p.assign_activity( ACT_FETCH_REQUIRED );
-            player_activity &act_prev = p.backlog.front();
-            act_prev.str_values.push_back( what_we_need.str() );
-            act_prev.values.push_back( reason );
-            // come back here after succesfully fetching your stuff
-            if( act_prev.coords.empty() ) {
-                std::vector<tripoint> local_src_set;
-                for( const tripoint &elem : src_set ) {
-                    local_src_set.push_back( g->m.getlocal( elem ) );
-                }
-                std::vector<tripoint> candidates;
-                for( const tripoint &point_elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
-                    // we dont want to place the components where they could interfere with our ( or someone elses ) construction spots
-                    if( !p.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
-                                                   point_elem ) != local_src_set.end() ) || !g->m.can_put_items_ter_furn( point_elem ) ) {
-                        continue;
+            if( !check_only ) {
+                p.backlog.push_front( act_id );
+                p.assign_activity( ACT_FETCH_REQUIRED );
+                player_activity &act_prev = p.backlog.front();
+                act_prev.str_values.push_back( what_we_need.str() );
+                act_prev.values.push_back( reason );
+                // come back here after succesfully fetching your stuff
+                if( act_prev.coords.empty() ) {
+                    std::vector<tripoint> local_src_set;
+                    for( const tripoint &elem : src_set ) {
+                        local_src_set.push_back( g->m.getlocal( elem ) );
                     }
-                    candidates.push_back( point_elem );
+                    std::vector<tripoint> candidates;
+                    for( const tripoint &point_elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
+                        // we dont want to place the components where they could interfere with our ( or someone elses ) construction spots
+                        if( !p.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
+                                                       point_elem ) != local_src_set.end() ) || !g->m.can_put_items_ter_furn( point_elem ) ) {
+                            continue;
+                        }
+                        candidates.push_back( point_elem );
+                    }
+                    if( candidates.empty() ) {
+                        p.activity = player_activity();
+                        p.backlog.clear();
+                        check_npc_revert( p );
+                        return SKIP_LOCATION;
+                    }
+                    act_prev.coords.push_back( g->m.getabs( candidates[std::max( 0,
+                                                                      static_cast<int>( candidates.size() / 2 ) )] ) );
                 }
-                if( candidates.empty() ) {
-                    p.activity = player_activity();
-                    p.backlog.clear();
-                    check_npc_revert( p );
-                    return false;
-                }
-                act_prev.coords.push_back( g->m.getabs( candidates[std::max( 0,
-                                                                  static_cast<int>( candidates.size() / 2 ) )] ) );
+                act_prev.placement = src;
             }
-            act_prev.placement = src;
-            return false;
+            return RETURN_EARLY;
         }
     }
-    return true;
+    return SKIP_LOCATION;
 }
 
 /** Do activity at this location */
@@ -2755,13 +2776,15 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     return true;
 }
 
-void generic_multi_activity_handler( player_activity &act, player &p )
+bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only )
 {
     const tripoint abspos = g->m.getabs( p.pos() );
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     activity_id activity_to_restore = act.id();
     // Nuke the current activity, leaving the backlog alone
-    p.activity = player_activity();
+    if( !check_only ) {
+        p.activity = player_activity();
+    }
     // now we setup the target spots based on whch activity is occuring
     // the set of target work spots - potentally after we have fetched required tools.
     std::unordered_set<tripoint> src_set = generic_multi_activity_locations( p, activity_to_restore );
@@ -2771,14 +2794,14 @@ void generic_multi_activity_handler( player_activity &act, player &p )
     // or if we need to fetch something first.
     for( const tripoint &src : src_sorted ) {
         const tripoint &src_loc = g->m.getlocal( src );
-        if( !g->m.inbounds( src_loc ) ) {
+        if( !g->m.inbounds( src_loc ) && !check_only ) {
             if( !g->m.inbounds( p.pos() ) ) {
                 // p is implicitly an NPC that has been moved off the map, so reset the activity
                 // and unload them
                 p.assign_activity( activity_to_restore );
                 p.set_moves( 0 );
                 g->reload_npcs();
-                return;
+                return false;
             }
             const std::vector<tripoint> route = route_adjacent( p, src_loc );
             if( route.empty() ) {
@@ -2787,41 +2810,40 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             }
             p.set_moves( 0 );
             p.set_destination( route, player_activity( activity_to_restore ) );
-            return;
+            return false;
         }
         activity_reason_info act_info = can_do_activity_there( activity_to_restore, p,
                                         src_loc, ACTIVITY_SEARCH_DISTANCE );
-        //check activity requirement
-        if( !generic_multi_activity_check_requirement( p, activity_to_restore, act_info, src, src_loc,
-                src_set ) ) {
-            return;
-        }
-        //skip this location if doing activity here is impossible
-        if( !act_info.can_do ) {
+        // see activity_handlers.h enum for requirement_check_result
+        const requirement_check_result req_res = generic_multi_activity_check_requirement( p,
+                            activity_to_restore, act_info, src, src_loc, src_set, check_only );
+        if( req_res == SKIP_LOCATION ) {
             continue;
+        } else if( req_res == RETURN_EARLY ) {
+            return true;
         }
 
-        //move to location is required?
-        // not adjacent
         if( square_dist( p.pos(), src_loc ) > 1 ) {
             std::vector<tripoint> route = route_adjacent( p, src_loc );
 
             // check if we found path to source / adjacent tile
             if( route.empty() ) {
                 check_npc_revert( p );
-                return;
+                continue;
             }
-            if( p.moves <= 0 ) {
-                // Restart activity and break from cycle.
-                p.assign_activity( activity_to_restore );
-                return;
+            if( !check_only ) {
+                if( p.moves <= 0 ) {
+                    // Restart activity and break from cycle.
+                    p.assign_activity( activity_to_restore );
+                    return true;
+                }
+                // set the destination and restart activity after player arrives there
+                // we don't need to check for safe mode,
+                // activity will be restarted only if
+                // player arrives on destination tile
+                p.set_destination( route, player_activity( activity_to_restore ) );
+                return true;
             }
-            // set the destination and restart activity after player arrives there
-            // we don't need to check for safe mode,
-            // activity will be restarted only if
-            // player arrives on destination tile
-            p.set_destination( route, player_activity( activity_to_restore ) );
-            return;
         }
         // we checked if the work spot was in darkness earlier
         // but there is a niche case where the player is in darkness but the work spot is not
@@ -2832,28 +2854,37 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             activity_to_restore != ACT_MOVE_LOOT &&
             p.fine_detail_vision_mod( p.pos() ) > 4.0 ) {
             p.add_msg_if_player( m_info, _( "It is too dark to work here." ) );
-            return;
+            return false;
         }
         //do the activity and continue if possible
-        if( !generic_multi_activity_do( p, activity_to_restore, act_info, src, src_loc ) ) {
-            return;
+        if( !check_only ) {
+            if( !generic_multi_activity_do( p, activity_to_restore, act_info, src, src_loc ) ) {
+                //do the activity and continue if possible
+                return false;
+            }
+        } else {
+            return true;
         }
     }
-    if( p.moves <= 0 ) {
-        // Restart activity and break from cycle.
-        p.assign_activity( activity_to_restore );
+    if( !check_only ) {
+        if( p.moves <= 0 ) {
+            // Restart activity and break from cycle.
+            p.assign_activity( activity_to_restore );
+            p.activity_vehicle_part_index = -1;
+            return false;
+        }
+        // if we got here, we need to revert otherwise NPC will be stuck in AI Limbo and have a head explosion.
+        if( p.backlog.empty() || src_set.empty() ) {
+            check_npc_revert( p );
+            // tidy up leftover moved parts and tools left lying near the work spots.
+            if( player_activity( activity_to_restore ).is_multi_type() ) {
+                p.assign_activity( ACT_TIDY_UP );
+            }
+        }
         p.activity_vehicle_part_index = -1;
-        return;
     }
-    // if we got here, we need to revert otherwise NPC will be stuck in AI Limbo and have a head explosion.
-    if( p.backlog.empty() || src_set.empty() ) {
-        check_npc_revert( p );
-        // tidy up leftover moved parts and tools left lying near the work spots.
-        if( player_activity( activity_to_restore ).is_multi_type() ) {
-            p.assign_activity( ACT_TIDY_UP );
-        }
-    }
-    p.activity_vehicle_part_index = -1;
+    // scanned every location, tried every path.
+    return false;
 }
 
 static cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from,
