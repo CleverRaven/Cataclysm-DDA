@@ -551,7 +551,7 @@
   {
     "type": "vehicle_part",
     "id": "hdroof",
-    "name": "heavy duty roof",
+    "name": { "str": "heavy duty roof" },
     "symbol": "#",
     "color": "dark_gray",
     "broken_symbol": "#",
@@ -620,7 +620,7 @@
   {
     "type": "vehicle_part",
     "id": "hddoor",
-    "name": "heavy duty door",
+    "name": { "str": "heavy duty door" },
     "symbol": "+",
     "color": "cyan",
     "looks_like": "door",
@@ -644,7 +644,7 @@
   {
     "type": "vehicle_part",
     "id": "hddoor_opaque",
-    "name": "heavy duty opaque door",
+    "name": { "str": "heavy duty opaque door" },
     "symbol": "+",
     "color": "cyan",
     "looks_like": "door_opaque",
@@ -739,7 +739,7 @@
   {
     "type": "vehicle_part",
     "id": "hdhatch",
-    "name": "heavy duty hatch",
+    "name": { "str": "heavy duty hatch" },
     "symbol": "+",
     "color": "dark_gray",
     "looks_like": "hatch",
@@ -2657,7 +2657,7 @@
   {
     "type": "vehicle_part",
     "id": "hddoor_trunk",
-    "name": "heavy duty trunk door",
+    "name": { "str": "heavy duty trunk door" },
     "symbol": "+",
     "color": "light_gray",
     "looks_like": "door_trunk",

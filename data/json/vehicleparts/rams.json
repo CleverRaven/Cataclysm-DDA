@@ -39,7 +39,7 @@
     "id": "ram_hardsteel",
     "copy-from": "ram_blaze",
     "type": "vehicle_part",
-    "name": "heavy steel ram",
+    "name": { "str": "heavy steel ram" },
     "item": "hard_plate",
     "color": "cyan",
     "broken_color": "cyan",

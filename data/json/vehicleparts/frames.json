@@ -94,7 +94,7 @@
   {
     "abstract": "hdframe",
     "type": "vehicle_part",
-    "name": "heavy duty frame",
+    "name": { "str": "heavy duty frame" },
     "item": "hdframe",
     "location": "structure",
     "color": "dark_gray",

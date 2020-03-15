@@ -95,7 +95,7 @@
   {
     "id": "headlight",
     "type": "vehicle_part",
-    "name": "headlight",
+    "name": { "str": "headlight" },
     "item": "car_headlight",
     "symbol": "*",
     "broken_symbol": "*",
