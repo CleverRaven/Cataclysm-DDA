@@ -82,6 +82,14 @@
     "priority": 2,
     "phase": "solid",
     "display_items": false,
+    "bash": {
+      "str_min": 1,
+      "str_max": 3,
+      "sound_vol": 2,
+      "sound_fail_vol": 2,
+      "sound": "hsh!",
+      "msg_success": "You brush aside some webs."
+    },
     "display_field": true
   },
   {
