@@ -2170,17 +2170,20 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     bool tracked_parts =
         false; // we will set this to true if any of the vehicle parts carry a tracked_flag
     for( int carried_part : carried_parts ) {
-        std::string id_string = parts[ carried_part ].carry_names.top().substr( 0, 1 );
         //check if selected part carries tracking flag
         if( parts[carried_part].has_flag(
                 vehicle_part::tracked_flag ) ) { //this should only need to run once
             tracked_parts = true;
         }
-        if( id_string == "X" || id_string == "Y" ) {
-            veh_record = parts[ carried_part ].carry_names.top();
-            new_pos3 = global_part_pos3( carried_part );
-            x_aligned = id_string == "X";
-            break;
+        const auto &carry_names = parts[carried_part].carry_names;
+        if( !carry_names.empty() ) {
+            std::string id_string = carry_names.top().substr( 0, 1 );
+            if( id_string == "X" || id_string == "Y" ) {
+                veh_record = carry_names.top();
+                new_pos3 = global_part_pos3( carried_part );
+                x_aligned = id_string == "X";
+                break;
+            }
         }
     }
     if( veh_record.empty() ) {
