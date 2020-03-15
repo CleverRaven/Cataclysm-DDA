@@ -209,7 +209,7 @@
   {
     "id": "mon_cat",
     "type": "MONSTER",
-    "name": "cat",
+    "name": { "str": "cat" },
     "description": "A small domesticated predator gone feral in the absence of human stewardship.  Harried by the elements and the rigors of survival, it is scruffy and skittish.",
     "default_faction": "cat",
     "bodytype": "dog",
@@ -241,7 +241,7 @@
   {
     "id": "mon_chipmunk",
     "type": "MONSTER",
-    "name": "chipmunk",
+    "name": { "str": "chipmunk" },
     "description": "The eastern chipmunk, a tiny omnivorous rodent with a characteristic striped coat.  It spends much of the day patrolling its elaborate burrow and the precious stores of foraged food within.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -269,7 +269,7 @@
   {
     "id": "mon_cougar",
     "type": "MONSTER",
-    "name": "cougar",
+    "name": { "str": "cougar" },
     "description": "The Eastern cougar, a large feline predator.  Once thought extinct in this region, conservation efforts were successful in restoring a thriving population.  Fast and silent, this predator can cover long distances with powerful leaps and pounces, catching its prey with its deadly claws before delivering the finishing blow with its enormous fangs.",
     "default_faction": "big_cat",
     "bodytype": "dog",
@@ -350,7 +350,7 @@
   {
     "id": "mon_cow",
     "type": "MONSTER",
-    "name": "cow",
+    "name": { "str": "cow" },
     "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.",
     "default_faction": "herbivore",
     "bodytype": "dog",
@@ -399,7 +399,7 @@
   {
     "id": "mon_coyote",
     "type": "MONSTER",
-    "name": "coyote",
+    "name": { "str": "coyote" },
     "description": "The Eastern coyote, also called the tweed wolf, is a territorial canine descended from the offspring of gray wolves and true coyotes.  It is intimidated by humans and other predators, but it will still fight if threatened, and the Cataclysm has made it more fearless than usual.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -431,7 +431,7 @@
   {
     "id": "mon_coyote_wolf",
     "type": "MONSTER",
-    "name": "coyote",
+    "name": { "str": "coyote" },
     "description": "The Northeastern coyote, a widespread canine pack hunter.  More timid than a wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker prey, but is typically timid around humans.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -495,7 +495,7 @@
   {
     "id": "mon_deer",
     "type": "MONSTER",
-    "name": "deer",
+    "name": { "str": "deer" },
     "description": "The northern woodland white-tailed deer, a quick and strong grazing animal.  Favored prey of coyotes, wolves, and giant spider mutants.",
     "default_faction": "herbivore",
     "bodytype": "horse",
@@ -986,7 +986,7 @@
     "id": "mon_dog_dachshund",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": "dachshund",
+    "name": { "str": "dachshund" },
     "description": "A wiener dog!  This awkward looking dog can be a useful watchdog, plus it looks adorable as it bumbles around.  Its tiny size also makes it hard to shoot (you monster).",
     "hp": 10,
     "weight": "10 kg",
@@ -1237,7 +1237,7 @@
     "id": "mon_dog_auscattle",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": "cattle dog",
+    "name": { "str": "cattle dog" },
     "description": "An agile and sturdy breed that is welcome on any farm, the Australian cattle dog is adept at leaping fences and herding livestock.",
     "hp": 20,
     "weight": "18 kg",

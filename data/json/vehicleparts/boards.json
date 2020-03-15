@@ -150,7 +150,7 @@
   {
     "abstract": "xlhalfboard",
     "type": "vehicle_part",
-    "name": "extra light quarterpanel",
+    "name": { "str": "extra light quarterpanel" },
     "item": "pipe",
     "location": "center",
     "looks_like": "halfboard",

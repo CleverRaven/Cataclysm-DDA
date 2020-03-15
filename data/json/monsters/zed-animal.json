@@ -329,7 +329,7 @@
   {
     "id": "mon_zougar",
     "type": "MONSTER",
-    "name": "decayed pouncer",
+    "name": { "str": "decayed pouncer" },
     "description": "An otherwise normal-looking cougar, except that its hind legs are swollen, and its eyes bulge with black goo.",
     "default_faction": "zombie",
     "bodytype": "dog",

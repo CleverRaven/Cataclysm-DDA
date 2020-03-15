@@ -2,7 +2,7 @@
   {
     "id": "folding_frame",
     "type": "vehicle_part",
-    "name": "foldable light frame",
+    "name": { "str": "foldable light frame" },
     "item": "foldframe",
     "location": "structure",
     "symbol": "h",
@@ -21,7 +21,7 @@
   {
     "id": "folding_wooden_frame",
     "type": "vehicle_part",
-    "name": "foldable wooden frame",
+    "name": { "str": "foldable wooden frame" },
     "item": "foldwoodframe",
     "location": "structure",
     "symbol": "h",
@@ -42,7 +42,7 @@
   {
     "abstract": "frame",
     "type": "vehicle_part",
-    "name": "frame",
+    "name": { "str": "frame" },
     "item": "frame",
     "location": "structure",
     "durability": 400,
@@ -112,7 +112,7 @@
   {
     "abstract": "xlframe",
     "type": "vehicle_part",
-    "name": "extra light frame",
+    "name": { "str": "extra light frame" },
     "item": "xlframe",
     "location": "structure",
     "color": "light_gray",

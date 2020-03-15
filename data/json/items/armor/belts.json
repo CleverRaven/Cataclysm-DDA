@@ -87,7 +87,7 @@
     "id": "judo_belt_white",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "white belt",
+    "name": { "str": "white belt" },
     "description": "A belt worn by martial arts practitioners, advertising a novice.",
     "color": "white"
   },
@@ -95,7 +95,7 @@
     "id": "judo_belt_yellow",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "yellow belt",
+    "name": { "str": "yellow belt" },
     "description": "A belt worn by martial arts practitioners, advertising a moderate novice.",
     "color": "yellow"
   },
@@ -226,7 +226,7 @@
   {
     "id": "webbing_belt",
     "type": "ARMOR",
-    "name": "webbing belt",
+    "name": { "str": "webbing belt" },
     "description": "A 2-inch nylon webbing belt commonly used by military forces.",
     "weight": "210 g",
     "volume": "500 ml",

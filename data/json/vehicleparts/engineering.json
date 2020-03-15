@@ -79,7 +79,7 @@
   {
     "id": "forklift_fork",
     "type": "vehicle_part",
-    "name": "forklift arm",
+    "name": { "str": "forklift arm" },
     "item": "frame",
     "location": "structure",
     "symbol": "|",

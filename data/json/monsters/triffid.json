@@ -52,7 +52,7 @@
   {
     "id": "mon_creeper_hub",
     "type": "MONSTER",
-    "name": "creeper hub",
+    "name": { "str": "creeper hub" },
     "description": "A thick stalk, rooted to the ground.  It rapidly sprouts thorny vines in all directions.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],
@@ -75,7 +75,7 @@
   {
     "id": "mon_creeper_vine",
     "type": "MONSTER",
-    "name": "creeper vine",
+    "name": { "str": "creeper vine" },
     "description": "A thorny vine, twisting wildly as it grows with incredible speed.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],
