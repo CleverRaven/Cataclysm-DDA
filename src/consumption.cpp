@@ -963,10 +963,6 @@ void Character::modify_addiction( const islot_comestible &comest )
 
 void Character::modify_morale( item &food, const int nutr )
 {
-    if( food.has_flag( "NO_INGEST" ) ) {
-        return;
-    }
-
     time_duration morale_time = 2_hours;
     if( food.has_flag( flag_HOT ) && food.has_flag( flag_EATEN_HOT ) ) {
         morale_time = 3_hours;
@@ -983,8 +979,9 @@ void Character::modify_morale( item &food, const int nutr )
                     food.type );
     }
 
-    // Morale bonus for eating unspoiled food with char/table nearby
-    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) ) {
+    // Morale bonus for eating unspoiled food with chair/table nearby
+    // Does not apply to non-ingested consumables like bandages or drugs
+    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) && !food.has_flag( "NO_INGEST" ) ) {
         if( g->m.has_nearby_chair( pos(), 1 ) && g->m.has_nearby_table( pos(), 1 ) ) {
             if( has_trait( trait_TABLEMANNERS ) ) {
                 rem_morale( MORALE_ATE_WITHOUT_TABLE );
