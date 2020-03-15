@@ -90,7 +90,7 @@
   {
     "id": "mon_hazmatbot",
     "type": "MONSTER",
-    "name": "cleaner bot",
+    "name": { "str": "cleaner bot" },
     "description": "The Ford Sanitron, a utility robot designed for cleaning up waste material in hazardous conditions.",
     "default_faction": "utility_bot",
     "species": [ "ROBOT" ],

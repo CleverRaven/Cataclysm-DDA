@@ -153,8 +153,7 @@
     "type": "COMESTIBLE",
     "name": "imitation peanutbutter",
     "description": "A thick, nutty brown paste.",
-    "copy-from": "peanutbutter",
-    "container": "jar_glass"
+    "copy-from": "peanutbutter"
   },
   {
     "type": "COMESTIBLE",

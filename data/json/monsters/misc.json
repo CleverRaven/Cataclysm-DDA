@@ -2,7 +2,7 @@
   {
     "id": "debug_mon",
     "type": "MONSTER",
-    "name": "debug monster",
+    "name": { "str": "debug monster" },
     "description": "This monster exists only for testing purposes.",
     "default_faction": "",
     "species": [ "ZOMBIE" ],
