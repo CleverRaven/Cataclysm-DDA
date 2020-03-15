@@ -887,14 +887,7 @@ bool Character::burn_fuel( int b, bool start )
         if( !remote_fuel.empty() ) {
             fuel_available.emplace_back( remote_fuel );
             if( remote_fuel == fuel_type_sun_light ) {
-                // basic solar panel produces 50W = 1 charge/20_seconds = 180 charges/hour(3600)
-                if( is_wearing( "solarpack_on" ) ) {
-                    effective_efficiency = 0.05;
-                }
-                // quantum solar backpack = solar panel x6
-                if( is_wearing( "q_solarpack_on" ) ) {
-                    effective_efficiency = 0.3;
-                }
+                effective_efficiency = item_worn_with_flag( "SOLARPACK_ON" ).type->solar_efficiency;
             }
             // TODO: check for available fuel in remote source
         } else if( !start ) {
