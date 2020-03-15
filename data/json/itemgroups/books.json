@@ -157,7 +157,8 @@
       [ "holybook_pastafarian", 1 ],
       [ "holybook_slack", 1 ],
       [ "holybook_kallisti", 1 ],
-      [ "holybook_scientology", 1 ]
+      [ "holybook_scientology", 1 ],
+      [ "holybook_satanic", 1 ]
     ]
   },
   {
@@ -263,6 +264,7 @@
       [ "cookbook_liverforkids", 15 ],
       [ "cookbook_eatyrway", 15 ],
       [ "cookbook_foodfashions", 10 ],
+      [ "cookbook_indian", 10 ],
       [ "survnote", 1 ],
       [ "scots_cookbook", 8 ],
       [ "offalcooking", 2 ],
@@ -313,6 +315,7 @@
       [ "cookbook", 35 ],
       [ "offalcooking", 8 ],
       [ "cookbook_italian", 25 ],
+      [ "cookbook_indian", 10 ],
       [ "manual_electronics", 20 ],
       [ "manual_tailor", 15 ],
       [ "manual_carpentry", 10 ],
@@ -358,6 +361,7 @@
       [ "tailor_portfolio", 3 ],
       [ "textbook_chemistry", 11 ],
       [ "brewing_cookbook", 3 ],
+      [ "cookbook_indian", 5 ],
       [ "textbook_carpentry", 6 ],
       [ "SICP", 3 ],
       [ "survival_book", 8 ],
@@ -457,6 +461,7 @@
       [ "cookbook_human", 10 ],
       [ "collector_book", 10 ],
       [ "brewing_cookbook", 24 ],
+      [ "cookbook_indian", 10 ],
       [ "textbook_robots", 15 ],
       [ "manual_dodge", 15 ],
       [ "novel_experimental", 24 ],
