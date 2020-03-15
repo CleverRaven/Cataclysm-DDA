@@ -224,7 +224,6 @@ Abandon camp NPC talk and bulletin board mission.
 Scale learning speed based on INT stat.
 Added ups_charges_modifier handling for gunmods.
 Adds random town name string.
-Allow professions to start with a nearby vehicle - trucker profession.
 
 ## Content:
 Adds refluffed and modified plasma gun.
@@ -345,7 +344,6 @@ Adds mi-go resin building options for the faction camp.
 Obsolete flaming weapons.
 Obsolete survivor helmets.
 Realistic gun volume campaign.
-Refluff power armour into combat exoskeletons, adjust size.
 Migrates+obsoletes firearms incongruent with lore.
 Tameable Piglets.
 Cat Reproduction.
@@ -491,9 +489,6 @@ Adds the Ultica tileset to mainline.
 Add BrownLikeBears to the list of tilesets.
 Mi-Go Mutation line and NPC for Aftershock.
 Added partial conversion mod 'Dark Skies Above'.
-Mutant NPCs to Aftershock.
-Simplified Aftershock Crafting System.
-DinoMod: Adds dino eggs, dino egg laying, dino hatchlings, rebalancing weights and volumes.
 
 ## Balance:
 Overhaul of all Martial arts.
@@ -835,11 +830,6 @@ Moved entity definitions to JSON: zone types, loot zones, scent neutralization, 
 flag inheritance in crafting, comestable enjoyability, gunmod weight modifier, allergen handling,
 species footsteps sound, bionic slots, swim speed modifiers, construction categories,
 martial arts skill and damage requirements, hunger messages, artifact effects,
-terrain and furniture lighting, map memory modifiers, clothing mods and CBM parameters.
-Add shot counter to mods and gun.
-JSONize AEP_EVIL and implement intermittent artifact effects.
-Traps can cast spells.
-JSONize AEP_SMOKE and add emitters to enchantments.
 Add scenario whitelist/blacklist capability.
 Adds a getting started type of guide for mapgen.
 Add debug menu item for spawning nested mapgen
@@ -850,14 +840,11 @@ Use github's code owner system to alert mod maintainers to changes.
 Added support for user font directory.
 Improve submap encapsulation.
 Add a multitude of tests for item display and effects.
-Detect mapgen keys which are used but not defined, to help catch typos in maps.
 Pass CLI arguments from cataclysm-launcher shell script to cataclysm binary.
 Clean some exothermic CBM code.
 Added override_option class to help write tests which require a particular option to be set.
 Alphabetize the debug skill wish list.
 Can specify delay in emit_fields for monsters.
-Add map_bash_info to fields.
-Allow Unicode keys in mapgen rows.
 CONSOLE_DESPAWN flag to despawn turrets with a console.
 
 ## Build:
