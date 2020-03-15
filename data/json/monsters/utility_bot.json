@@ -2,7 +2,7 @@
   {
     "id": "mon_eyebot",
     "type": "MONSTER",
-    "name": "eyebot",
+    "name": { "str": "eyebot" },
     "description": "A quadcopter drone largely comprised of a high-resolution camera lens and a speaker, this robot hovers above the ground, documenting the carnage and mayhem around it.  While it is no longer able to report to a central authority, it's likely that some of its automated alert systems are still functional, given that the thing seems to have an operational charging station somewhere.",
     "default_faction": "cop_bot",
     "species": [ "ROBOT" ],

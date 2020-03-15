@@ -220,7 +220,7 @@
   {
     "id": "mon_zombie_pig",
     "type": "MONSTER",
-    "name": "festering boar",
+    "name": { "str": "festering boar" },
     "description": "A zombified omnivore descended from the wild boar.  Now it's got black goo all over it, instead of mud.",
     "default_faction": "zombie",
     "bodytype": "pig",

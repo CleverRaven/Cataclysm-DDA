@@ -227,7 +227,7 @@
   {
     "id": "mon_fungal_fighter",
     "type": "MONSTER",
-    "name": "fungal fighter",
+    "name": { "str": "fungal fighter" },
     "description": "A stout woody plant that can dig through the ground and flick spines from its branches.  The thorns carry a fungicidal compound with paralytic effects.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],

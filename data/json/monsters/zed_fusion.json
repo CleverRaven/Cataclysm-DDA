@@ -210,7 +210,7 @@
   {
     "id": "mon_zombie_living_wall",
     "type": "MONSTER",
-    "name": "flesh wall",
+    "name": { "str": "flesh wall" },
     "description": "A great lump of mutated flesh.  It resembles the innards of some gigantic creature and is covered in a grid of diminutive veins.",
     "default_faction": "zombie",
     "volume": "875000 ml",
