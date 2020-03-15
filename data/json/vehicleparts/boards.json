@@ -90,7 +90,7 @@
   {
     "abstract": "hdboard",
     "type": "vehicle_part",
-    "name": "heavy duty board",
+    "name": { "str": "heavy duty board" },
     "item": "steel_plate",
     "location": "center",
     "color": "dark_gray",

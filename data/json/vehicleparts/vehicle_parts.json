@@ -2934,7 +2934,7 @@
   {
     "type": "vehicle_part",
     "id": "jumper_cable_heavy",
-    "name": "heavy-duty cable",
+    "name": { "str": "heavy-duty cable" },
     "symbol": "{",
     "color": "yellow",
     "broken_symbol": "*",
