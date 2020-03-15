@@ -133,7 +133,7 @@
     "id": "hood_wsurvivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "winter survivor hood",
+    "name": { "str": "winter survivor hood" },
     "description": "A customized armored fur and Kevlar hood, very warm and durable.",
     "weight": "870 g",
     "volume": "1500 ml",
