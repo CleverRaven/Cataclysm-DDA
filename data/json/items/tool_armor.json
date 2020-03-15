@@ -194,7 +194,7 @@
     "id": "welding_mask",
     "repairs_like": "goggles_swim",
     "type": "ARMOR",
-    "name": "welding mask",
+    "name": { "str": "welding mask" },
     "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to push it up your head.",
     "weight": "1 kg",
     "volume": "4 L",

@@ -20,7 +20,7 @@
   {
     "id": "wetsuit",
     "type": "ARMOR",
-    "name": "wetsuit",
+    "name": { "str": "wetsuit" },
     "description": "A full-body neoprene wetsuit.",
     "weight": "5110 g",
     "volume": "5 L",
@@ -42,7 +42,7 @@
   {
     "id": "wetsuit_hood",
     "type": "ARMOR",
-    "name": "wetsuit hood",
+    "name": { "str": "wetsuit hood" },
     "description": "A neoprene hood, commonly worn by divers.",
     "weight": "270 g",
     "volume": "1 L",
