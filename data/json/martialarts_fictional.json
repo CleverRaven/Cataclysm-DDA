@@ -2,7 +2,7 @@
   {
     "type": "martial_art",
     "id": "style_biojutsu",
-    "name": "Bionic Combatives",
+    "name": { "str": "Bionic Combatives" },
     "description": "A modern combat style for the post-modern human.  Nicknamed \"Biojutsu\", Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
     "initiate": [
       "BEGINNING BIONIC COMBATIVES PROGRAM. INITIATING COMBAT PROTOCOLS.",
@@ -48,7 +48,7 @@
   {
     "type": "martial_art",
     "id": "style_centipede",
-    "name": "Centipede Kung Fu",
+    "name": { "str": "Centipede Kung Fu" },
     "description": "One of the Five Deadly Venoms, used by Zhang Yiaotian.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increases your attack speed.  Critical hits increase your damage further.",
     "initiate": [ "You ready yourself to attack as fast as possible.", "%s assumes a centipede-like stance." ],
     "learn_difficulty": 10,
@@ -82,7 +82,7 @@
   {
     "type": "martial_art",
     "id": "style_lizard",
-    "name": "Lizard Kung Fu",
+    "name": { "str": "Lizard Kung Fu" },
     "description": "One of the Five Deadly Venoms, used by Meng Tianxia.  Lizard Style focuses on using walls to your advantage.  Standing near a wall provides a large bonus to Dodge skill and moving near a wall gives a large bonus to accuracy.  Stronger techniques are enabled when near a wall.",
     "initiate": [ "You ready yourself to attack from any angle.", "%s assumes a lizard-like stance." ],
     "learn_difficulty": 10,
