@@ -55,7 +55,7 @@
   {
     "id": "floodlight",
     "type": "vehicle_part",
-    "name": "floodlight",
+    "name": { "str": "floodlight" },
     "item": "floodlight",
     "location": "on_roof",
     "symbol": "*",
@@ -83,7 +83,7 @@
   {
     "id": "directed_floodlight",
     "type": "vehicle_part",
-    "name": "directed floodlight",
+    "name": { "str": "directed floodlight" },
     "item": "directed_floodlight",
     "copy-from": "floodlight",
     "looks_like": "floodlight",
