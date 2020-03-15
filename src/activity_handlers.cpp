@@ -2126,13 +2126,12 @@ void activity_handlers::hand_pump_integral_do_turn( player_activity *act, player
     //tool section
     if( hand_pump_integral_item.is_tool() ) {
         act->moves_left -= 100;
-        item &hand_crank_item_air = p->i_at( act->position );
-        air_increase = std::min( static_cast<int>( hand_crank_item_air.ammo_capacity() -
-                                 hand_crank_item_air.ammo_remaining() ), 50 );
+        air_increase = std::min( static_cast<int>( hand_pump_integral_item.ammo_capacity() -
+                                 hand_pump_integral_item.ammo_remaining() ), 50 );
         if( calendar::once_every( 144_seconds ) ) {
             p->mod_fatigue( 1 );
-            if( hand_crank_item_air.ammo_capacity() > hand_crank_item_air.ammo_remaining() ) {
-                hand_crank_item_air.ammo_set( "air", hand_crank_item_air.ammo_remaining() + air_increase );
+            if( hand_pump_integral_item.ammo_capacity() > hand_pump_integral_item.ammo_remaining() ) {
+                hand_pump_integral_item.ammo_set( "air", hand_pump_integral_item.ammo_remaining() + air_increase );
             }
         }
     }
