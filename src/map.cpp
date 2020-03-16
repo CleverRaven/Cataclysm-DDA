@@ -7731,10 +7731,10 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     for( int z = minz; z <= maxz; z++ ) {
         build_outside_cache( z );
         seen_cache_dirty |= build_transparency_cache( z );
-        seen_cache_dirty |= build_vision_transparency_cache( zlev );
         seen_cache_dirty |= build_floor_cache( z );
         do_vehicle_caching( z );
     }
+    seen_cache_dirty |= build_vision_transparency_cache( zlev );
 
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();

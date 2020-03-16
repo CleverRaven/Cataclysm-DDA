@@ -39,7 +39,7 @@
 #include "cata_string_consts.h"
 
 const std::vector<std::string> carnivore_blacklist {{
-        flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT,
+        flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
     }
 };
 // This ugly temp array is here because otherwise it goes
@@ -979,8 +979,9 @@ void Character::modify_morale( item &food, const int nutr )
                     food.type );
     }
 
-    // Morale bonus for eating unspoiled food with char/table nearby
-    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) ) {
+    // Morale bonus for eating unspoiled food with chair/table nearby
+    // Does not apply to non-ingested consumables like bandages or drugs
+    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) && !food.has_flag( "NO_INGEST" ) ) {
         if( g->m.has_nearby_chair( pos(), 1 ) && g->m.has_nearby_table( pos(), 1 ) ) {
             if( has_trait( trait_TABLEMANNERS ) ) {
                 rem_morale( MORALE_ATE_WITHOUT_TABLE );
@@ -1474,7 +1475,12 @@ bool Character::can_estimate_rot() const
 
 bool Character::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
+    return it.is_comestible() || can_consume_for_bionic( it );
+}
+
+bool Character::can_consume_for_bionic( const item &it ) const
+{
+    return get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
 }
 
 bool Character::can_consume( const item &it ) const

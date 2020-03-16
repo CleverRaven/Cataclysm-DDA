@@ -95,9 +95,8 @@ static void pick_plant( player &p, const tripoint &examp, const std::string &ite
 /**
  * Nothing player can interact with here.
  */
-void iexamine::none( player &p, const tripoint &examp )
+void iexamine::none( player &/*p*/, const tripoint &examp )
 {
-    ( void )p; //unused
     add_msg( _( "That is a %s." ), g->m.name( examp ) );
 }
 
@@ -700,7 +699,6 @@ void iexamine::toilet( player &p, const tripoint &examp )
  */
 void iexamine::elevator( player &p, const tripoint &examp )
 {
-    ( void )p; //unused
     if( !query_yn( _( "Use the %s?" ), g->m.tername( examp ) ) ) {
         return;
     }
@@ -776,21 +774,21 @@ void iexamine::cardreader( player &p, const tripoint &examp )
         p.mod_moves( -to_turns<int>( 1_seconds ) );
         for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
             if( g->m.ter( tmp ) == t_door_metal_locked ) {
-                g->m.ter_set( tmp, t_floor );
+                g->m.ter_set( tmp, t_door_metal_c );
                 open = true;
             }
         }
         for( monster &critter : g->all_monsters() ) {
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( examp ) ) &&
-                ( critter.type->id == mon_turret_rifle ) &&
+                critter.has_flag( MF_ID_CARD_DESPAWN ) &&
                 critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
         }
         if( open ) {
             add_msg( _( "You insert your ID card." ) );
-            add_msg( m_good, _( "The nearby doors slide into the floor." ) );
+            add_msg( m_good, _( "The nearby doors unlock." ) );
             p.use_amount( card_type, 1 );
         } else {
             add_msg( _( "The nearby doors are already opened." ) );
@@ -1945,7 +1943,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
 void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &seed_id )
 {
     player_activity act( ACT_PLANT_SEED, to_moves<int>( 30_seconds ) );
-    act.placement = examp;
+    act.placement = g->m.getabs( examp );
     act.str_values.emplace_back( seed_id );
     p.assign_activity( act );
 }

@@ -56,7 +56,7 @@ class trading_window
         trading_window() = default;
         std::vector<item_pricing> theirs;
         std::vector<item_pricing> yours;
-        int your_balance;
+        int your_balance = 0;
 
         void setup_win( npc &np );
         void setup_trade( int cost, npc &np );

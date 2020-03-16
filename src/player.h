@@ -78,7 +78,6 @@ struct item_comp;
 struct tool_comp;
 class vehicle;
 struct w_point;
-struct targeting_data;
 
 /** @relates ret_val */
 template<>
@@ -109,10 +108,10 @@ struct stat_mod {
 };
 
 struct needs_rates {
-    float thirst;
-    float hunger;
-    float fatigue;
-    float recovery;
+    float thirst = 0.0f;
+    float hunger = 0.0f;
+    float fatigue = 0.0f;
+    float recovery = 0.0f;
     float kcal = 0.0f;
 };
 
@@ -939,7 +938,7 @@ class player : public Character
 
         bool reach_attacking = false;
         bool manual_examine = false;
-
+        vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
@@ -1035,18 +1034,6 @@ class player : public Character
          */
         void disarm( npc &target );
 
-        /**
-         * Accessor method for weapon targeting data, used for interactive weapon aiming.
-         * @return a reference to the data pointed by player's tdata member.
-         */
-        const targeting_data &get_targeting_data();
-
-        /**
-         * Mutator method for weapon targeting data.
-         * @param td targeting data to be set.
-         */
-        void set_targeting_data( const targeting_data &td );
-
         std::set<tripoint> camps;
 
     protected:
@@ -1087,10 +1074,6 @@ class player : public Character
         cata::optional<tripoint> next_expected_position;
         /** warnings from a faction about bad behaviour */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
-
-    private:
-        /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
-        shared_ptr_fast<targeting_data> tdata;
 
     protected:
 

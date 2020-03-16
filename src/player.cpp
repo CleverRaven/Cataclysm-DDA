@@ -61,7 +61,6 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "profession.h"
-#include "ranged.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
@@ -3137,6 +3136,11 @@ ret_val<bool> player::can_wield( const item &it ) const
                    _( "You need at least one arm to even consider wielding something." ) );
     }
 
+    if( is_armed() && weapon.has_flag( "NO_UNWIELD" ) ) {
+        return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
+                                            weapname(), it.tname() );
+    }
+
     if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
         if( worn_with_flag( "RESTRICT_HANDS" ) ) {
             return ret_val<bool>::make_failure(
@@ -3216,8 +3220,10 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist kmenu;
-    kmenu.text = string_format( _( "Select a style.  (press %s for more info)" ),
-                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
+    kmenu.text = colorize( string_format( _( "Select a style.  "
+                                          "Press [%s] for more info." ),
+                                          "Press <color_yellow>%s</color> for more info.",
+                                          ctxt.get_desc( "SHOW_DESCRIPTION" ) ), c_white );
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
     kmenu.input_category = "MELEE_STYLE_PICKER";
@@ -5630,23 +5636,6 @@ void player::on_effect_int_change( const efftype_id &eid, int intensity, body_pa
     }
 
     morale->on_effect_int_change( eid, intensity, bp );
-}
-
-const targeting_data &player::get_targeting_data()
-{
-    if( tdata == nullptr ) {
-        debugmsg( "Tried to get targeting data before setting it" );
-        tdata.reset( new targeting_data() );
-        tdata->relevant = nullptr;
-        cancel_activity();
-    }
-
-    return *tdata;
-}
-
-void player::set_targeting_data( const targeting_data &td )
-{
-    tdata.reset( new targeting_data( td ) );
 }
 
 bool player::query_yn( const std::string &mes ) const

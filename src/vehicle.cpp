@@ -183,7 +183,7 @@ void vehicle_stack::insert( const item &newitem )
 
 units::volume vehicle_stack::max_volume() const
 {
-    if( myorigin->part_flag( part_num, "CARGO" ) && myorigin->parts[part_num].is_available() ) {
+    if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->parts[part_num].is_broken() ) {
         // Set max volume for vehicle cargo to prevent integer overflow
         return std::min( myorigin->parts[part_num].info().size, 10000_liter );
     }
@@ -403,8 +403,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
+        //chance decays from 1 in 4 vehicles on day 0 to 1 in (day + 4) in the future.
+        int current_day = std::max( to_days<int>( calendar::turn - calendar::turn_zero ), 0 );
         if( veh_fuel_mult > 0 && !empty( get_avail_parts( "ENGINE" ) ) &&
-            one_in( 8 ) && !destroyEngine && !has_no_key && has_engine_type_not( fuel_type_muscle, true ) ) {
+            one_in( current_day + 4 ) && !destroyEngine && !has_no_key &&
+            has_engine_type_not( fuel_type_muscle, true ) ) {
             engine_on = true;
         }
 
@@ -2167,17 +2170,20 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     bool tracked_parts =
         false; // we will set this to true if any of the vehicle parts carry a tracked_flag
     for( int carried_part : carried_parts ) {
-        std::string id_string = parts[ carried_part ].carry_names.top().substr( 0, 1 );
         //check if selected part carries tracking flag
         if( parts[carried_part].has_flag(
                 vehicle_part::tracked_flag ) ) { //this should only need to run once
             tracked_parts = true;
         }
-        if( id_string == "X" || id_string == "Y" ) {
-            veh_record = parts[ carried_part ].carry_names.top();
-            new_pos3 = global_part_pos3( carried_part );
-            x_aligned = id_string == "X";
-            break;
+        const auto &carry_names = parts[carried_part].carry_names;
+        if( !carry_names.empty() ) {
+            std::string id_string = carry_names.top().substr( 0, 1 );
+            if( id_string == "X" || id_string == "Y" ) {
+                veh_record = carry_names.top();
+                new_pos3 = global_part_pos3( carried_part );
+                x_aligned = id_string == "X";
+                break;
+            }
         }
     }
     if( veh_record.empty() ) {
@@ -4058,6 +4064,14 @@ double vehicle::coeff_rolling_drag() const
     return coefficient_rolling_resistance;
 }
 
+double vehicle::water_hull_height() const
+{
+    if( coeff_water_dirty ) {
+        coeff_water_drag();
+    }
+    return hull_height;
+}
+
 double vehicle::water_draft() const
 {
     if( coeff_water_dirty ) {
@@ -5008,7 +5022,7 @@ void vehicle::slow_leak()
     // for each badly damaged tanks (lower than 50% health), leak a small amount
     for( auto &p : parts ) {
         auto health = p.health_percent();
-        if( health > 0.5 || p.ammo_remaining() <= 0 ) {
+        if( !p.is_leaking() || p.ammo_remaining() <= 0 ) {
             continue;
         }
 

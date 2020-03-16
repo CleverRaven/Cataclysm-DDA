@@ -413,7 +413,7 @@
   {
     "abstract": "lightstrip_base",
     "type": "TOOL",
-    "name": "lightstrip_base",
+    "name": { "str": "lightstrip_base" },
     "weight": "27 g",
     "volume": "250 ml",
     "price": 500,

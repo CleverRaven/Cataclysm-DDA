@@ -1442,7 +1442,7 @@ void monster::deal_damage_handle_type( const damage_unit &du, body_part bp, int 
             }
             break;
         case DT_COLD:
-            if( !has_flag( MF_WARM ) ) {
+            if( has_flag( MF_COLDPROOF ) ) {
                 return; // immunity
             }
             break;

@@ -1,4 +1,4 @@
-# 0.E (2020-02-01)
+# 0.E (2020-03-13)
 
 ## Statistics:
 4396 files changed, 4200591 insertions(+), 2883259 deletions(-)
@@ -222,6 +222,8 @@ Adds a way to fill shallow water tiles.
 Changes mechanics of MUSHY flag from from causing insta-rot on next thaw to making rot progress faster.
 Abandon camp NPC talk and bulletin board mission.
 Scale learning speed based on INT stat.
+Added ups_charges_modifier handling for gunmods.
+Adds random town name string.
 
 ## Content:
 Adds refluffed and modified plasma gun.
@@ -341,6 +343,10 @@ Adds rammed earth building options for the faction camp.
 Adds mi-go resin building options for the faction camp.
 Obsolete flaming weapons.
 Obsolete survivor helmets.
+Realistic gun volume campaign.
+Migrates+obsoletes firearms incongruent with lore.
+Tameable Piglets.
+Cat Reproduction.
 
 ## Interface:
 Corpses (not underwear) will be shown on top at the places of death in map extras.
@@ -440,6 +446,21 @@ Fallback fonts can now be specified for the tiles build.
 Crafting menu shows range of possible nutrients for food crafts.
 Adds new safemode rule category for ignoring sounds.
 Return the default font to Terminus and slightly improve fallback handling.
+Improve directional highlight prompts.
+Blind firing at unseen targets won't show info about hits and "Really attack?" query.
+Fixed translated strings sometimes not fitting in character creation menu.
+Updated terminus font to latest version and set it as new default font.
+Make ESC key stop trying to sleep.
+Skimming through book's contents won't show skill progress indicator.
+Adjust display of item value precision.
+Add the option to display ascii art in item description.
+Added 'destroys' message when items are destroyed (rather than just damaged).
+Tainted tallow and poppy buds are now in the chemicals category (was 'other').
+Added basic controls help to Android prelaunch menu.
+Made can't-fire-gun messages more consistent.
+Made aiming UI controls more consistent.
+Change message for consuming liquid fuel to "Fuel bionic with it".
+Add water clearance to vehicle interaction. adjust sink/float phrasing.
 
 ## Mods:
 Re-adds fictional martial arts as a mod.
@@ -464,6 +485,8 @@ Creates clairvoyance spells in magiclysm.
 Updated No Acid Zombies mod to include two acid zombie soldiers.
 Mythological Replicas mod works with martial arts.
 Completely overhauls generic guns.
+Adds the Ultica tileset to mainline.
+Add BrownLikeBears to the list of tilesets.
 
 ## Balance:
 Overhaul of all Martial arts.
@@ -533,6 +556,8 @@ Greatly reduce ranged weapon firing times.
 Cable charger CBM don't draw power when you're full.
 Increase bicycle, dirt bike, and electric bicycle spawn rates.
 Adjust MRE caloric value to reflect real MREs.
+Lower max stat cap in character creation to 14.
+Overhaul archery balance.
 
 ## Bugfixes:
 Fixed long overmap location name being overwritten by "Distance to target:" string.
@@ -578,7 +603,6 @@ Maps: stop tunneling tree-felling.
 Fix damaged weapons having zero range.
 Fixed targeting UI issue for reach attack.
 Make environmental protection really protect from fields.
-
 Attacking shocker with worn non-conductive gloves won't zapback you.
 Fixed infinite z-level raging firetower bug.
 Fix for infinite counterattacks at low speed.
@@ -621,6 +645,18 @@ Stop Hulks teleporting after shoving vehicle.
 Fix infinite NPC love exploit.
 Allow zombies to smash.
 Prevent auto attacking allies.
+Migrate direct item spawns.
+Always prompt for direction if autoselect disabled.
+Fix NPC equip due to mutation fail message.
+Fix dangerous pickups and auto forage not working together.
+Rebalance stamina and pain penalties for dragging wheeled vehicles.
+Auto-travel; prompt when overburdened, and allow stamina-resting.
+Make vehicle dragging not slow for strong-enough characters.
+Prevent monsters from leaping to their death in water.
+Clear up item ownership for dead factions.
+Recalculate vehicle viability after part destruction.
+Monsters randomly select targets instead of preferring to attack the player.
+Fix player monster interactions when climbing between levels.
 
 ## Performance:
 Limit start location search radius.
@@ -792,7 +828,21 @@ Moved entity definitions to JSON: zone types, loot zones, scent neutralization, 
 flag inheritance in crafting, comestable enjoyability, gunmod weight modifier, allergen handling,
 species footsteps sound, bionic slots, swim speed modifiers, construction categories,
 martial arts skill and damage requirements, hunger messages, artifact effects,
-terrain and furniture lighting, map memory modifiers, clothing mods and CBM parameters.
+Add scenario whitelist/blacklist capability.
+Adds a getting started type of guide for mapgen.
+Add debug menu item for spawning nested mapgen
+Move food morale modifiers to modify_morale.
+Add script to generate tags for CDDA json data for easier navigation in standard text editors.
+Use github's code owner system to alert mod maintainers to changes.
+Added support for user font directory.
+Improve submap encapsulation.
+Add a multitude of tests for item display and effects.
+Pass CLI arguments from cataclysm-launcher shell script to cataclysm binary.
+Clean some exothermic CBM code.
+Added override_option class to help write tests which require a particular option to be set.
+Alphabetize the debug skill wish list.
+Can specify delay in emit_fields for monsters.
+CONSOLE_DESPAWN flag to despawn turrets with a console.
 
 ## Build:
 Npctalk: add a python dialogue validator.
@@ -807,12 +857,14 @@ Check translator comments with clang-tidy.
 Check text style in json strings loaded with class translation.
 gfx tools improvements.
 Check text style in macro expansions.
-compose: handle multiple entries in a single `tile_entry.json` file
-Document how to build and run the custom clang-tidy checks on Windows
-Provide NOOPT=1 build option for make
-Made JSON formatter conserve escape sequences
-Use libbacktrace to generate readable backtrace on Windows
-Fix -Wrange-loop-analysis warnings with Clang 10.x
+Document how to build and run the custom clang-tidy checks on Windows.
+Provide NOOPT=1 build option for make.
+Made JSON formatter conserve escape sequences.
+Use libbacktrace to generate readable backtrace on Windows.
+Fix -Wrange-loop-analysis warnings with Clang 10.x.
+Save build artifacts from github actions CI.
+Include additional files to binary distribution.
+Updated Android build process.
 
 ## I18N and A11Y:
 Use translation markers to increase performance.
@@ -825,6 +877,8 @@ Support plural strings in the translation class.
 Add nickname for zh-cn translation.
 Adding ru translation notes.
 Fix footsteps translation.
+Extract all npc dialogue lines for translation.
+Add Portuguese (Brazil) to language selection menu.
 
 # 0.D (Danny)
 

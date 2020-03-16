@@ -2,7 +2,7 @@
   {
     "id": "mon_albino_penguin",
     "type": "MONSTER",
-    "name": "albino penguin",
+    "name": { "str": "albino penguin" },
     "description": "Eight-feet-tall ghastly white penguins.  Placid unless otherwise provoked.",
     "default_faction": "nether",
     "bodytype": "bear",
@@ -35,7 +35,7 @@
   {
     "id": "mon_amigara_horror",
     "type": "MONSTER",
-    "name": "amigara horror",
+    "name": { "str": "amigara horror" },
     "description": "A hellish, vaguely humanoid horror, two stories tall.  Its face is grotesquely stretched out, its limbs deformed to unrecognizable outgrowths.",
     "default_faction": "mutant",
     "bodytype": "human",
@@ -90,7 +90,7 @@
   {
     "id": "mon_blood_sacrifice",
     "type": "MONSTER",
-    "name": "blood sacrifice",
+    "name": { "str": "blood sacrifice" },
     "description": "A defiled human body, once living.  Tortured to death long ago, it remains chained to the altar, the putrescent flays of its peeled skin quivering like so much flotsam upon a murky pond.",
     "default_faction": "cult",
     "bodytype": "human",
@@ -116,7 +116,7 @@
   {
     "id": "mon_breather",
     "type": "MONSTER",
-    "name": "breather",
+    "name": { "str": "breather" },
     "description": "This is some sort of unearthly pink flesh sac; moist and ridged with veins, it is otherwise without discernible exterior features.  Seemingly immobile and defenseless, it sits in place, swelling and collapsing upon itself as it breathes.",
     "default_faction": "nether",
     "bodytype": "blob",
@@ -136,7 +136,7 @@
   {
     "id": "mon_breather_hub",
     "type": "MONSTER",
-    "name": "breather",
+    "name": { "str": "breather" },
     "description": "A weird mass of immobile pink goo.  It seems to breathe.",
     "default_faction": "nether",
     "bodytype": "blob",
@@ -187,7 +187,7 @@
   {
     "id": "mon_dementia",
     "type": "MONSTER",
-    "name": "dementia",
+    "name": { "str": "dementia" },
     "description": "A crazed individual, the bloody scars on the side of its shaved head suggest some sort of partial lobotomy",
     "default_faction": "cult",
     "bodytype": "human",
@@ -215,7 +215,7 @@
   {
     "id": "mon_dog_thing",
     "type": "MONSTER",
-    "name": "dog",
+    "name": { "str": "dog" },
     "description": "A domesticated mongrel of the canine persuasion.  In the absence of human society, it has turned feral.  You feel a sudden urge to destroy it.",
     "default_faction": "mutant",
     "bodytype": "dog",
@@ -242,7 +242,7 @@
   {
     "id": "mon_flaming_eye",
     "type": "MONSTER",
-    "name": "flaming eye",
+    "name": { "str": "flaming eye" },
     "description": "An enormous disembodied eyeball the size of a person, flying through the air through some unknown agency.  Wreathed in unnatural flickering blue flame, it possesses a blazing yellow iris with a slitted pupil like that of a cat and trails a set of flailing black tendrils as it slowly drifts about; its unearthly presence filling you with dread at the prospect of falling under its baleful gaze.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -261,7 +261,7 @@
     "vision_day": 50,
     "vision_night": 40,
     "luminance": 25,
-    "harvest": "meatslug",
+    "harvest": "zombie_meatslug",
     "special_attacks": [ [ "STARE", 12 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
@@ -269,7 +269,7 @@
   {
     "id": "mon_flesh_angel",
     "type": "MONSTER",
-    "name": "flesh angel",
+    "name": { "str": "flesh angel" },
     "description": "A tall and slender man lacking skin and any normalcy of countenance.  Wings of muscle curl forth from its back and a third eye dominates the forehead.",
     "default_faction": "cult",
     "bodytype": "angel",
@@ -298,7 +298,7 @@
   {
     "id": "mon_flying_polyp",
     "type": "MONSTER",
-    "name": "flying polyp",
+    "name": { "str": "flying polyp" },
     "description": "A half polypous, utterly alien creature.  It's only partly material and has the ability to fly, despite the absence of wings.  It produces strange whistling noises which send cold shivers of primal terror down your spine.",
     "default_faction": "nether",
     "bodytype": "blob",

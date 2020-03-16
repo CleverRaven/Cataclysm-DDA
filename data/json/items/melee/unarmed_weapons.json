@@ -46,7 +46,7 @@
     "id": "knuckle_katar",
     "symbol": "!",
     "color": "dark_gray",
-    "name": "razorbar katar",
+    "name": { "str": "razorbar katar" },
     "description": "Five pieces of rebar sharpened to cruel points and strapped to a brace fastened at wrist and forearm on both arms.  The next bub better watch out.",
     "material": "steel",
     "volume": "500 ml",
@@ -88,7 +88,7 @@
   {
     "type": "GENERIC",
     "id": "punch_dagger",
-    "name": "punch dagger",
+    "name": { "str": "punch dagger" },
     "description": "A short and sharp double-edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",
     "weight": "168 g",
     "to_hit": 2,
