@@ -6,7 +6,7 @@
     "description": "this should never actually show up, it's a pseudo terrain",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -16,7 +16,7 @@
     "description": "this should never actually show up, it's a pseudo terrain",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -26,7 +26,7 @@
     "description": "this should never actually show up, it's a pseudo terrain",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -36,7 +36,7 @@
     "description": "this should never actually show up, it's a pseudo terrain",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -46,7 +46,7 @@
     "description": "this should never actually show up, it's a pseudo terrain.  For use where people have trampled away grass, or otherwise cleared plant life.",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -56,7 +56,7 @@
     "description": "this should never actually show up, it's a pseudo terrain.  For use where clean, curated grass is the only expected terrain - modified by whatever the biome equivalent is",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -66,7 +66,7 @@
     "description": "this should never actually show up, it's a pseudo terrain.  For use where plants have been planted and grass/groundcover kept clear",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -76,7 +76,7 @@
     "description": "this should never actually show up, it's a pseudo terrain",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
@@ -86,7 +86,7 @@
     "description": "this should never actually show up, it's a pseudo terrain",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
@@ -96,7 +96,7 @@
     "description": "this should never actually show up, it's a pseudo terrain",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
@@ -106,7 +106,7 @@
     "description": "this should never actually show up, it's a pseudo terrain",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
@@ -116,7 +116,7 @@
     "description": "this should never actually show up, it's a pseudo terrain",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT", "NOITEM" ]
   },
   {
@@ -126,7 +126,7 @@
     "description": "this should never actually show up, it's a pseudo terrain",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -136,7 +136,7 @@
     "description": "this should never actually show up, it's a pseudo terrain",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -146,7 +146,7 @@
     "description": "this should never actually show up, it's a pseudo terrain",
     "symbol": " ",
     "color": "black",
-    "move_cost": 0,
+    "move_cost": 1,
     "flags": [ "TRANSPARENT" ]
   }
 ]

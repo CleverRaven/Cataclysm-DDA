@@ -32,6 +32,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "point.h"
 #include "wcwidth.h"
@@ -210,6 +211,12 @@ void print_colored_text( const catacurses::window &w, const point &p, nc_color &
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text )
 {
+    std::string sText = trim_by_length( text, width );
+    print_colored_text( w, begin, base_color, base_color, sText );
+}
+
+std::string trim_by_length( const std::string  &text, int width )
+{
     std::string sText;
     if( utf8_width( remove_color_tags( text ) ) > width ) {
 
@@ -251,8 +258,7 @@ void trim_and_print( const catacurses::window &w, const point &begin, int width,
     } else {
         sText = text;
     }
-
-    print_colored_text( w, begin, base_color, base_color, sText );
+    return sText;
 }
 
 int print_scrollable( const catacurses::window &w, int begin_line, const std::string &text,
@@ -335,16 +341,16 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
 void scrollable_text( const catacurses::window &w, const std::string &title,
                       const std::string &text )
 {
-    const int width = getmaxx( w );
-    const int height = getmaxy( w );
+    scrollable_text( [&w]() {
+        return w;
+    }, title, text );
+}
+
+void scrollable_text( const std::function<catacurses::window()> &init_window,
+                      const std::string &title, const std::string &text )
+{
     constexpr int text_x = 1;
     constexpr int text_y = 1;
-    const int text_w = width - 2;
-    const int text_h = height - 2;
-    if( text_w <= 0 || text_h <= 0 ) {
-        debugmsg( "Oops, the window is too small to display anything!" );
-        return;
-    }
 
     input_context ctxt( "SCROLLABLE_TEXT" );
     ctxt.register_action( "UP" );
@@ -355,12 +361,32 @@ void scrollable_text( const catacurses::window &w, const std::string &title,
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    const std::vector<std::string> lines = foldstring( text, text_w );
+    catacurses::window w;
+    int width = 0;
+    int height = 0;
+    int text_w = 0;
+    int text_h = 0;
+    std::vector<std::string> lines;
     int beg_line = 0;
-    const int max_beg_line = std::max( 0, static_cast<int>( lines.size() ) - text_h );
+    int max_beg_line = 0;
 
-    std::string action;
-    do {
+    ui_adaptor ui;
+    const auto screen_resize_cb = [&]( ui_adaptor & ui ) {
+        w = init_window();
+
+        width = getmaxx( w );
+        height = getmaxy( w );
+        text_w = std::max( 0, width - 2 );
+        text_h = std::max( 0, height - 2 );
+
+        lines = foldstring( text, text_w );
+        max_beg_line = std::max( 0, static_cast<int>( lines.size() ) - text_h );
+
+        ui.position_from_window( w );
+    };
+    screen_resize_cb( ui );
+    ui.on_screen_resize( screen_resize_cb );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         draw_border( w, BORDER_COLOR, title, c_black_white );
         for( int line = beg_line, pos_y = text_y; line < std::min<int>( beg_line + text_h, lines.size() );
@@ -371,6 +397,11 @@ void scrollable_text( const catacurses::window &w, const std::string &title,
         scrollbar().offset_x( width - 1 ).offset_y( text_y ).content_size( lines.size() )
         .viewport_pos( std::min( beg_line, max_beg_line ) ).viewport_size( text_h ).apply( w );
         wrefresh( w );
+    } );
+
+    std::string action;
+    do {
+        ui_manager::redraw();
 
         action = ctxt.handle_input();
         if( action == "UP" ) {
@@ -634,6 +665,8 @@ int popup( const std::string &text, PopupFlags flags )
 
     if( flags & PF_NO_WAIT ) {
         pop.show();
+        catacurses::refresh();
+        refresh_display();
         return UNKNOWN_UNICODE;
     } else {
         pop.context( "POPUP_WAIT" );
@@ -740,21 +773,23 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
                               // NOLINTNEXTLINE(cata-text-style): literal comma
-                              _( "Separate multiple items with ," ) );
+                              _( "Separate multiple items with [<color_yellow>,</color>]." ) );
     starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
                                   //~ An example of how to separate multiple items with a comma when filtering items.
                                   _( "Example: back,flash,aid, ,band" ) ); // NOLINT(cata-text-style): literal comma
 
     if( type == item_filter_type::FILTER ) {
         starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                                  _( "To exclude items, place - in front." ) );
+                                  _( "To exclude items, place [<color_yellow>-</color>] in front." ) );
         starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
                                       //~ An example of how to exclude items with - when filtering items.
                                       _( "Example: -pipe,-chunk,-steel" ) );
     }
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                              _( "Search [c]ategory, [m]aterial, [q]uality, [n]otes or [d]isassembled components:" ) );
+                              _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
+                                 "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes or "
+                                 "[<color_yellow>d</color>]isassembled components." ) );
     fold_and_print( win, point( 1, starty ), len, c_white,
                     //~ An example of how to filter items based on category or material.
                     _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
@@ -842,7 +877,9 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
     if( !data.get_item_name().empty() ) {
         buffer += data.get_item_name() + "\n";
     }
-    if( data.get_item_name() != data.get_type_name() && !data.get_type_name().empty() ) {
+    // If type name is set, and not already contained in item name, output it too
+    if( !data.get_type_name().empty() &&
+        data.get_item_name().find( data.get_type_name() ) == std::string::npos ) {
         buffer += data.get_type_name() + "\n";
     }
     for( unsigned int i = 0; i < data.padding; i++ ) {
@@ -1603,6 +1640,10 @@ void replace_name_tags( std::string &input )
     }
     while( input.find( "<given_name>" ) != std::string::npos ) {
         replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
+                           false );
+    }
+    while( input.find( "<town_name>" ) != std::string::npos ) {
+        replace_substring( input, "<town_name>", Name::get( nameIsTownName ),
                            false );
     }
 }

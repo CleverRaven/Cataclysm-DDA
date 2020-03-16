@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "foldframe",
-    "name": "foldable-light frame",
+    "name": { "str": "foldable-light frame" },
     "description": "A small foldable lightweight frame made from pipework.",
     "weight": "5000 g",
     "to_hit": -3,
@@ -18,7 +18,7 @@
   {
     "type": "GENERIC",
     "id": "xlframe",
-    "name": "extra-light frame",
+    "name": { "str": "extra-light frame" },
     "description": "A small lightweight frame made from pipework.  Useful for crafting.",
     "material": [ "aluminum" ],
     "copy-from": "foldframe"
@@ -26,7 +26,7 @@
   {
     "type": "GENERIC",
     "id": "frame",
-    "name": "steel frame",
+    "name": { "str": "steel frame" },
     "description": "A large frame made of steel.  Useful for crafting.",
     "weight": "20000 g",
     "to_hit": -5,
@@ -39,7 +39,7 @@
   {
     "type": "GENERIC",
     "id": "hdframe",
-    "name": "heavy duty frame",
+    "name": { "str": "heavy duty frame" },
     "description": "A large, reinforced steel frame, used in military vehicle construction.",
     "weight": "100000 g",
     "to_hit": -6,
@@ -54,7 +54,7 @@
   {
     "type": "GENERIC",
     "id": "frame_wood",
-    "name": "wooden frame",
+    "name": { "str": "wooden frame" },
     "description": "A large frame made of wood.  Useful for crafting.",
     "weight": "8000 g",
     "to_hit": -5,
@@ -69,7 +69,7 @@
   {
     "type": "GENERIC",
     "id": "foldwoodframe",
-    "name": "foldable wooden frame",
+    "name": { "str": "foldable wooden frame" },
     "description": "A small foldable frame made from scrap wood.",
     "weight": "4000 g",
     "color": "brown",
@@ -80,7 +80,7 @@
   {
     "type": "GENERIC",
     "id": "frame_wood_light",
-    "name": "light wooden frame",
+    "name": { "str": "light wooden frame" },
     "description": "A small frame made of few pieces of wood, held together by rope.  Useful for crafting.",
     "weight": "4000 g",
     "to_hit": -5,

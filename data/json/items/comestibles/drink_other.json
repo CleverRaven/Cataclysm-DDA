@@ -26,8 +26,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "light_cyan",
-    "name": "maple sap",
-    "name_plural": "maple sap",
+    "name": { "str": "maple sap", "str_pl": "maple sap" },
     "copy-from": "syrup",
     "description": "A water and sugar solution that has been extracted from a maple tree.",
     "price": 50,
@@ -51,8 +50,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "white",
-    "name": "mayonnaise",
-    "name_plural": "mayonnaise",
+    "name": { "str": "mayonnaise", "str_pl": "mayonnaise" },
     "description": "A gloppy mix of egg, oil, and salt that is traditionally used to moisten sandwiches.",
     "price": 187,
     "material": [ "junk", "egg" ],
@@ -111,8 +109,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "yellow",
-    "name": "forest honey",
-    "name_plural": "forest honey",
+    "name": { "str": "forest honey", "str_pl": "forest honey" },
     "description": "Honey, that stuff bees make.  This one is \"forest honey\", a liquid form of honey.  This honey won't spoil and is good for your digestion.",
     "price": 250,
     "material": "honey",
@@ -156,8 +153,7 @@
     "type": "COMESTIBLE",
     "name": "imitation peanutbutter",
     "description": "A thick, nutty brown paste.",
-    "copy-from": "peanutbutter",
-    "container": "jar_glass"
+    "copy-from": "peanutbutter"
   },
   {
     "type": "COMESTIBLE",
@@ -180,8 +176,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cooking_oil",
-    "name": "vegetable cooking oil",
-    "name_plural": "vegetable cooking oil",
+    "name": { "str": "vegetable cooking oil", "str_pl": "vegetable cooking oil" },
     "weight": "15 g",
     "color": "yellow",
     "container": "jug_plastic",
@@ -196,7 +191,7 @@
     "charges": 16,
     "phase": "liquid",
     "fun": -25,
-    "flags": "NUTRIENT_OVERRIDE",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "vitamins": [  ],
     "freezing_point": 14
   },
@@ -212,8 +207,7 @@
   {
     "type": "COMESTIBLE",
     "id": "molasses",
-    "name": "molasses",
-    "name_plural": "molasses",
+    "name": { "str": "molasses", "str_pl": "molasses" },
     "weight": "89 g",
     "color": "brown",
     "container": "jar_glass",

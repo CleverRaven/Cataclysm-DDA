@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "bionics.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -57,6 +58,8 @@ void clear_character( player &dummy )
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
 
+    dummy.empty_skills();
+
     dummy.clear_morale();
 
     dummy.clear_bionics();
@@ -99,3 +102,41 @@ npc &spawn_npc( const point &p, const std::string &npc_class )
     CHECK( !guy->in_vehicle );
     return *guy;
 }
+
+void give_and_activate_bionic( player &p, bionic_id const &bioid )
+{
+    INFO( "bionic " + bioid.str() + " is valid" );
+    REQUIRE( bioid.is_valid() );
+
+    p.add_bionic( bioid );
+    INFO( "dummy has gotten " + bioid.str() + " bionic " );
+    REQUIRE( p.has_bionic( bioid ) );
+
+    // get bionic's index - might not be "last added" due to "integrated" ones
+    int bioindex = -1;
+    for( size_t i = 0; i < p.my_bionics->size(); i++ ) {
+        const auto &bio = ( *p.my_bionics )[ i ];
+        if( bio.id == bioid ) {
+            bioindex = i;
+        }
+    }
+    REQUIRE( bioindex != -1 );
+
+    const bionic &bio = p.bionic_at_index( bioindex );
+    REQUIRE( bio.id == bioid );
+
+    // turn on if possible
+    if( bio.id->toggled && !bio.powered ) {
+        const std::vector<itype_id> fuel_opts = bio.info().fuel_opts;
+        if( !fuel_opts.empty() ) {
+            p.set_value( fuel_opts.front(), "2" );
+        }
+        p.activate_bionic( bioindex );
+        INFO( "bionic " + bio.id.str() + " with index " + std::to_string( bioindex ) + " is active " );
+        REQUIRE( p.has_active_bionic( bioid ) );
+        if( !fuel_opts.empty() ) {
+            p.remove_value( fuel_opts.front() );
+        }
+    }
+}
+

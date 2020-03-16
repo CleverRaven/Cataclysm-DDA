@@ -186,7 +186,9 @@
     "components": [
       [
         [ "meat_cooked", 1 ],
+        [ "meat_scrap_cooked", 10 ],
         [ "mutant_meat_cooked", 1 ],
+        [ "mutant_meat_scrap_cooked", 10 ],
         [ "human_cooked", 1 ],
         [ "mutant_human_cooked", 1 ],
         [ "meat_pickled", 1 ],
@@ -417,6 +419,22 @@
         [ "wild_herbs", 1 ],
         [ "soysauce", 1 ],
         [ "garlic_clove", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "salt_preservation",
+    "type": "requirement",
+    "//": "Salt-like ingredients that can be used to preserve foods",
+    "components": [
+      [
+        [ "salt_water", 1 ],
+        [ "saline", 1 ],
+        [ "salt", 1 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "pepper", 2 ],
+        [ "chem_saltpetre", 1 ]
       ]
     ]
   },

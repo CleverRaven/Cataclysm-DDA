@@ -109,6 +109,10 @@ bool leap_actor::call( monster &z ) const
                 break;
             }
         }
+        // don't leap into water if you could drown (#38038)
+        if( z.is_aquatic_danger( dest ) ) {
+            blocked_path = true;
+        }
         if( blocked_path ) {
             continue;
         }
@@ -141,18 +145,15 @@ std::unique_ptr<mattack_actor> mon_spellcasting_actor::clone() const
 void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::string & )
 {
     std::string sp_id;
-    int spell_level = 0;
-    mandatory( obj, was_loaded, "spell_id", sp_id );
-    optional( obj, was_loaded, "self", self, false );
-    optional( obj, was_loaded, "spell_level", spell_level, 0 );
+    fake_spell intermediate;
+    mandatory( obj, was_loaded, "spell_data", intermediate );
+    self = intermediate.self;
     translation monster_message;
     optional( obj, was_loaded, "monster_message", monster_message,
               //~ "<Monster Display name> cast <Spell Name> on <Target name>!"
               to_translation( "%1$s casts %2$s at %3$s!" ) );
-    spell_data = spell( spell_id( sp_id ), monster_message );
-    for( int i = 0; i <= spell_level; i++ ) {
-        spell_data.gain_level();
-    }
+    spell_data = intermediate.get_spell();
+    spell_data.set_message( monster_message );
     avatar fake_player;
     move_cost = spell_data.casting_time( fake_player );
 }

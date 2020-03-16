@@ -21,6 +21,7 @@
 #include "rng.h"
 #include "creature.h"
 #include "point.h"
+#include "cata_string_consts.h"
 
 namespace
 {
@@ -79,10 +80,6 @@ bool string_id<trap>::is_valid() const
 
 static std::vector<const trap *> funnel_traps;
 
-static const skill_id skill_traps( "traps" );
-
-static const efftype_id effect_lack_sleep( "lack_sleep" );
-
 const std::vector<const trap *> &trap::get_funnels()
 {
     return funnel_traps;
@@ -119,6 +116,7 @@ void trap::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "spell_data", spell_data );
     assign( jo, "trigger_weight", trigger_weight );
     for( const JsonValue entry : jo.get_array( "drops" ) ) {
         std::string item_type;
@@ -207,8 +205,8 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
            // ...malus farther we are from trap...
            rl_dist( p.pos(), pos ) +
            // Police are trained to notice Something Wrong.
-           ( p.has_trait( trait_id( "PROF_POLICE" ) ) ? 1 : 0 ) +
-           ( p.has_trait( trait_id( "PROF_PD_DET" ) ) ? 2 : 0 ) >
+           ( p.has_trait( trait_PROF_POLICE ) ? 1 : 0 ) +
+           ( p.has_trait( trait_PROF_PD_DET ) ? 2 : 0 ) >
            // ...must all be greater than the trap visibility.
            visibility;
 }

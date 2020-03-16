@@ -148,7 +148,7 @@ void SkillDisplayType::load( const JsonObject &jsobj )
     skillTypes.push_back( sk );
 }
 
-const SkillDisplayType &SkillDisplayType::get_skill_type( skill_displayType_id id )
+const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayType_id &id )
 {
     for( auto &i : skillTypes ) {
         if( i._ident == id ) {
@@ -185,12 +185,14 @@ skill_id Skill::random_skill()
 // used for the pacifist trait
 bool Skill::is_combat_skill() const
 {
-    return _tags.count( "combat_skill" ) > 0;
+    static const std::string combat_skill( "combat_skill" );
+    return _tags.count( combat_skill ) > 0;
 }
 
 bool Skill::is_contextual_skill() const
 {
-    return _tags.count( "contextual_skill" ) > 0;
+    static const std::string contextual_skill( "contextual_skill" );
+    return _tags.count( contextual_skill ) > 0;
 }
 
 void SkillLevel::train( int amount, bool skip_scaling )

@@ -139,6 +139,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             if( has_init_filter ) {
                 inv_s.set_filter( init_filter );
                 has_init_filter = false;
+                inv_s.update( need_refresh );
             }
             // Set position after filter to keep cursor at the right position
             if( init_selection ) {
@@ -686,6 +687,9 @@ static std::string get_consume_needs_hint( player &p )
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = p.get_pain_description();
     hint.append( string_format( "%s %s", _( "Pain :" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
+    desc = p.get_fatigue_description();
+    hint.append( string_format( "%s %s", _( "Rest :" ), colorize( desc.first, desc.second ) ) );
     return hint;
 }
 

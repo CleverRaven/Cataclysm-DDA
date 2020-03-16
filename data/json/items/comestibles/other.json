@@ -18,7 +18,7 @@
     "type": "COMESTIBLE",
     "id": "slime_scrap",
     "category": "other",
-    "name": "blob glob",
+    "name": { "str": "blob glob" },
     "weight": "238 g",
     "color": "dark_gray",
     "use_action": "POISON",
@@ -66,8 +66,7 @@
   {
     "type": "COMESTIBLE",
     "id": "royal_jelly",
-    "name": "royal jelly",
-    "name_plural": "royal jellies",
+    "name": { "str": "royal jelly", "str_pl": "royal jellies" },
     "category": "drugs",
     "weight": "150 g",
     "color": "white",
@@ -86,8 +85,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_berry",
-    "name": "marloss berry",
-    "name_plural": "marloss berries",
+    "name": { "str": "marloss berry", "str_pl": "marloss berries" },
     "weight": "177 g",
     "color": "pink",
     "addiction_type": "marloss_r",
@@ -130,8 +128,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mycus_fruit",
-    "name": "mycus fruit",
-    "name_plural": "mycus fruits",
+    "name": { "str": "mycus fruit" },
     "weight": "354 g",
     "color": "light_gray",
     "use_action": "MYCUS",
@@ -204,8 +201,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meal_chitin_piece",
-    "name": "chitin powder",
-    "name_plural": "chitin powder",
+    "name": { "str": "chitin powder", "str_pl": "chitin powder" },
     "weight": "112 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -278,8 +274,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_beans",
-    "name": "dried beans",
-    "name_plural": "dried beans",
+    "name": { "str": "dried beans", "str_pl": "dried beans" },
     "weight": "56 g",
     "color": "light_gray",
     "spoils_in": "360 days",
@@ -302,8 +297,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beans_cooked",
-    "name": "cooked beans",
-    "name_plural": "cooked beans",
+    "name": { "str": "cooked beans", "str_pl": "cooked beans" },
     "weight": "270 g",
     "color": "light_gray",
     "spoils_in": "10 days",
@@ -323,8 +317,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tofu",
-    "name": "tofu",
-    "name_plural": "tofu",
+    "name": { "str": "tofu", "str_pl": "tofu" },
     "weight": "85 g",
     "color": "white",
     "spoils_in": "4 days",
@@ -344,8 +337,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tofu_fried",
-    "name": "fried tofu",
-    "name_plural": "fried tofu",
+    "name": { "str": "fried tofu", "str_pl": "fried tofu" },
     "weight": "85 g",
     "color": "white",
     "spoils_in": "4 days",
@@ -381,8 +373,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soybean",
-    "name": "soybeans",
-    "name_plural": "soybeans",
+    "name": { "str": "soybeans", "str_pl": "soybeans" },
     "copy-from": "seed",
     "weight": "160 g",
     "symbol": ".",
@@ -418,10 +409,10 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_lentils",
-    "name": "dried lentils",
-    "name_plural": "dried lentils",
+    "name": { "str": "dried lentils", "str_pl": "dried lentils" },
     "weight": "132 g",
     "color": "light_gray",
+    "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": ",",
     "quench": -10,
@@ -439,8 +430,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lentils_cooked",
-    "name": "cooked lentils",
-    "name_plural": "cooked lentils",
+    "name": { "str": "cooked lentils", "str_pl": "cooked lentils" },
     "weight": "198 g",
     "copy-from": "dry_lentils",
     "color": "light_gray",
@@ -457,8 +447,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_raw",
-    "name": "coffee powder",
-    "name_plural": "coffee powder",
+    "name": { "str": "coffee powder", "str_pl": "coffee powder" },
     "weight": "14 g",
     "color": "brown",
     "addiction_type": "caffeine",
@@ -531,8 +520,7 @@
   {
     "type": "COMESTIBLE",
     "id": "human_brain_embalmed",
-    "name": "embalmed human brain",
-    "name_plural": "embalmed human brains",
+    "name": { "str": "embalmed human brain", "str_pl": "embalmed human brains" },
     "weight": "56 g",
     "color": "pink",
     "looks_like": "offal",
@@ -546,7 +534,7 @@
     "description": "This is a human brain soaked in a solution of highly toxic formaldehyde.  Eating this would be a terrible idea.",
     "price": 80,
     "material": "hflesh",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml",
     "fun": -30
   },
@@ -595,8 +583,7 @@
     "id": "dogfood",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": "dog food",
-    "name_plural": "dog food",
+    "name": { "str": "dog food", "str_pl": "dog food" },
     "description": "This is food for dogs.  It smells strange, but dogs seem to love it.",
     "weight": "554 g",
     "spoils_in": "1 day",
@@ -641,8 +628,7 @@
   {
     "type": "COMESTIBLE",
     "id": "grass",
-    "name": "grass",
-    "name_plural": "grasses",
+    "name": { "str": "grass", "str_pl": "grasses" },
     "weight": "100 g",
     "color": "green",
     "comestible_type": "FOOD",
@@ -652,14 +638,13 @@
     "description": "Some grass, edible by grazers and ruminants only.  Seeing this item is a bug.",
     "price": 0,
     "material": "veggy",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
     "id": "underbrush",
-    "name": "underbrush",
-    "name_plural": "underbrushes",
+    "name": { "str": "underbrush", "str_pl": "underbrushes" },
     "weight": "100 g",
     "color": "green",
     "comestible_type": "FOOD",
@@ -669,14 +654,13 @@
     "description": "Some underbrush, edible by ruminants only.  Seeing this item is a bug.",
     "price": 0,
     "material": "veggy",
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",
     "id": "nectar",
-    "name": "nectar",
-    "name_plural": "nectars",
+    "name": { "str": "nectar" },
     "weight": "100 g",
     "color": "green",
     "comestible_type": "FOOD",
@@ -685,7 +669,7 @@
     "vitamins": [  ],
     "description": "Some nectar.  Seeing this item is a bug.",
     "price": 0,
-    "flags": "TRADER_AVOID",
+    "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
   }
 ]
