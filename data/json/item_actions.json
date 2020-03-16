@@ -12,7 +12,7 @@
   {
     "type": "item_action",
     "id": "sew_advanced",
-    "name": "Modify Clothing"
+    "name": { "str": "Modify Clothing" }
   },
   {
     "type": "item_action",
@@ -207,7 +207,7 @@
   {
     "type": "item_action",
     "id": "learn_spell",
-    "name": "Learn spell"
+    "name": { "str": "Learn spell" }
   },
   {
     "type": "item_action",
@@ -267,7 +267,7 @@
   {
     "type": "item_action",
     "id": "ARROW_FLAMABLE",
-    "name": "Light up"
+    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
@@ -447,7 +447,7 @@
   {
     "type": "item_action",
     "id": "DOLLCHAT",
-    "name": "Make it talk"
+    "name": { "str": "Make it talk" }
   },
   {
     "type": "item_action",
@@ -487,22 +487,22 @@
   {
     "type": "item_action",
     "id": "FIRECRACKER",
-    "name": "Light up"
+    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
     "id": "FIRECRACKER_ACT",
-    "name": "Light up"
+    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
     "id": "FIRECRACKER_PACK",
-    "name": "Light up"
+    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
     "id": "FIRECRACKER_PACK_ACT",
-    "name": "Light up"
+    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
@@ -632,7 +632,7 @@
   {
     "type": "item_action",
     "id": "MEDITATE",
-    "name": "Meditate"
+    "name": { "str": "Meditate" }
   },
   {
     "type": "item_action",
@@ -642,12 +642,12 @@
   {
     "type": "item_action",
     "id": "MOLOTOV_LIT",
-    "name": "Light up"
+    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
     "id": "MOP",
-    "name": "Mop"
+    "name": { "str": "Mop" }
   },
   {
     "type": "item_action",
@@ -727,7 +727,7 @@
   {
     "type": "item_action",
     "id": "PACK_ITEM",
-    "name": "Pack an item"
+    "name": { "str": "Pack an item" }
   },
   {
     "type": "item_action",
@@ -782,7 +782,7 @@
   {
     "type": "item_action",
     "id": "RADGLOVE",
-    "name": "Measure radiation"
+    "name": { "str": "Measure radiation" }
   },
   {
     "type": "item_action",
@@ -802,7 +802,7 @@
   {
     "type": "item_action",
     "id": "RADIO_MOD",
-    "name": "Modify an item"
+    "name": { "str": "Modify an item" }
   },
   {
     "type": "item_action",
@@ -1012,7 +1012,7 @@
   {
     "type": "item_action",
     "id": "manualnoise",
-    "name": "Make some noise"
+    "name": { "str": "Make some noise" }
   },
   {
     "type": "item_action",
@@ -1042,7 +1042,7 @@
   {
     "type": "item_action",
     "id": "change_scent",
-    "name": "Mask scent"
+    "name": { "str": "Mask scent" }
   },
   {
     "type": "item_action",
