@@ -6,7 +6,7 @@
       {
         "id": "generic_blinding_spray_1",
         "hit_self": false,
-        "once_in": "10 s",
+        "once_in": 15,
         "message": "Your ink glands spray some ink to %2$s's eyes.",
         "npc_message": "%1$s's ink glands spay some ink to %2$s's eyes."
       }

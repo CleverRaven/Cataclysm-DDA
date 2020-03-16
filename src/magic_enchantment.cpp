@@ -375,40 +375,47 @@ void enchantment::activate_passive( Character &guy ) const
     guy.mod_num_dodges_bonus( mult_bonus( mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
 }
 
-void enchantment::cast_hit_you( Character &caster, const Creature &target )
+void enchantment::cast_hit_you( Character &caster, const Creature &target ) const
 {
-    for( fake_spell &sp : hit_you_effect ) {
+    for(const fake_spell &sp : hit_you_effect ) {
+        cast_enchantment_spell(caster, &target, sp);
+    }
+}
+
+void enchantment::cast_hit_me( Character &caster, const Creature *target ) const
+{
+    for(const fake_spell &sp : hit_me_effect ) {
         cast_enchantment_spell(caster, target, sp);
     }
 }
 
-void enchantment::cast_hit_me( Character &caster, const Creature &target )
+void enchantment::cast_enchantment_spell( Character &caster, const Creature *target,
+        const fake_spell &sp ) const
 {
-    for( fake_spell &sp : hit_me_effect ) {
-        cast_enchantment_spell(caster, target, sp);
+    // check the chances
+    if( !one_in( sp.trigger_once_in ) ) {
+        return;
     }
-}
 
-void enchantment::cast_enchantment_spell( Character &caster, const Creature &target,
-        fake_spell &sp )
-{
     if( sp.self ) {
-        sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
-    } else {
-        const spell &spell_lvl = sp.get_spell( sp.level );
-        if( !spell_lvl.is_valid_target( caster, target.pos() ) ||
-            !spell_lvl.is_target_in_range( caster, target.pos() ) ) {
-            return;
-        }
-
-        // check the cooldowns
-        if( !one_turn_in( sp.trigger_once_in ) ) {
-            return;
-        }
-        spell_lvl.cast_all_effects( caster, target.pos() );
         caster.add_msg_player_or_npc( m_good,
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
-                                      caster.name, target.disp_name() );
+                                      caster.name );
+        sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
+    } else  if( target != nullptr ) {
+        const Creature &trg_crtr = *target;
+        const spell &spell_lvl = sp.get_spell( sp.level );
+        if( !spell_lvl.is_valid_target( caster, trg_crtr.pos() ) ||
+            !spell_lvl.is_target_in_range( caster, trg_crtr.pos() ) ) {
+            return;
+        }
+
+        caster.add_msg_player_or_npc( m_good,
+                                      sp.trigger_message,
+                                      sp.npc_trigger_message,
+                                      caster.name, trg_crtr.disp_name() );
+
+        spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
     }
 }

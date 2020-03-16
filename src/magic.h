@@ -96,8 +96,8 @@ struct fake_spell {
     int level = 0;
     // target tripoint is source (true) or target (false)
     bool self = false;
-    // a chance to trigger the enchantment spells once per time duration depending on a chance
-    time_duration trigger_once_in;
+    // a chance to trigger the enchantment spells
+    int trigger_once_in;
     // a message when the enchantment is triggered
     translation trigger_message;
     // a message when the enchantment is triggered and is on npc
