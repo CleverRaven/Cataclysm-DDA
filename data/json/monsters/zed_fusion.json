@@ -139,7 +139,7 @@
   {
     "id": "mon_zombie_gasbag_crawler",
     "type": "MONSTER",
-    "name": "gangrenous crawler",
+    "name": { "str": "gangrenous crawler" },
     "description": "A nightmarish spidery abomination, born from human gore.  It deftly crawls between walls and ceiling with limbs grown from its own disjointed ribs.",
     "default_faction": "zombie",
     "bodytype": "spider",
@@ -169,7 +169,7 @@
   {
     "id": "mon_zombie_gasbag_impaler",
     "type": "MONSTER",
-    "name": "gangrenous impaler",
+    "name": { "str": "gangrenous impaler" },
     "description": "A corpse hideously twisted into an insect-like form.  A hollow tendril reaches out from its open thorax.",
     "default_faction": "zombie",
     "bodytype": "spider",

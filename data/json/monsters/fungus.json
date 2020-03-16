@@ -198,7 +198,7 @@
   {
     "id": "mon_fungaloid_seeder",
     "type": "MONSTER",
-    "name": "giant fungal blossom",
+    "name": { "str": "giant fungal blossom" },
     "description": "An immense fungal blossom, towering over its surroundings.  It pulses with a soft blue glow, continuously pumping its spores into the air.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],

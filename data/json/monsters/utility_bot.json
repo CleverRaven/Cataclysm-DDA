@@ -28,7 +28,7 @@
   {
     "id": "mon_grocerybot",
     "type": "MONSTER",
-    "name": "grocery bot",
+    "name": { "str": "grocery bot" },
     "description": "A popular product from Uncanny, this friendly android can carry your bag or push your Grocery Cart for you.  You know it's friendly because its human face is constantly smiling at you.  According to the ads it uses a state-machine of a complexity never seen before, Uncanny even hired professional actors to record its lines.  Examine to befriend.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],

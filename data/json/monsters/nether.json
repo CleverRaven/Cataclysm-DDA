@@ -338,7 +338,7 @@
   {
     "id": "mon_gozu",
     "type": "MONSTER",
-    "name": "gozu",
+    "name": { "str": "gozu" },
     "description": "This is some sort of unnatural cross between a bull and a man.  Quite different from the minotaur of legend, it possesses a shaggy white bull’s head on an otherwise unremarkable human body.  Clad in sagging socks and stained jockey shorts, it grunts and snuffles, drooling ropey strands of white slobber down its chest.  Its mere presence fills you with an unfathomable dread.",
     "default_faction": "nether",
     "bodytype": "human",
@@ -378,7 +378,7 @@
   {
     "id": "mon_gracke",
     "type": "MONSTER",
-    "name": "gracken",
+    "name": { "str": "gracken" },
     "description": "This is some form of eldritch monstrosity; an uncouth black being with smooth, oily, skin and unpleasant horns that curve inward toward each other.  Tall and thin, the shadows cling unnaturally to its vaguely defined humanoid form as it shuffles along, its hands twitching and spasming so rapidly as to appear a little more than a black blur of claws.  Gazing upon its disturbing form fills you with an unspeakable terror.",
     "default_faction": "nether",
     "bodytype": "human",
@@ -545,7 +545,7 @@
   {
     "id": "mon_human_snail",
     "type": "MONSTER",
-    "name": "human snail",
+    "name": { "str": "human snail" },
     "description": "An enormous fleshy snail, with an oddly human face.  Eyestalks protrude from where the eyes should be.",
     "default_faction": "mutant",
     "species": [ "ABERRATION" ],
@@ -573,7 +573,7 @@
   {
     "id": "mon_hunting_horror",
     "type": "MONSTER",
-    "name": "hunting horror",
+    "name": { "str": "hunting horror" },
     "description": "This is some sort of great viperine creature, possessed of a curiously distorted head and massive clawed appendages.  It partially supports itself with the aid of black rubbery wings of monstrous dimensions.  Its form writhes and changes before your eyes, filling you with unnameable horror.",
     "default_faction": "nether",
     "species": [ "NETHER" ],

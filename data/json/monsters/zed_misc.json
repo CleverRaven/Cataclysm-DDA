@@ -301,7 +301,7 @@
   {
     "id": "mon_zombie_grabber",
     "type": "MONSTER",
-    "name": "grabber zombie",
+    "name": { "str": "grabber zombie" },
     "description": "A deformed human body, once living.  Its arms dangle from its sides like the limbs of some skinless ape, mindlessly groping at their surroundings.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -348,7 +348,7 @@
   {
     "id": "mon_zombie_grappler",
     "type": "MONSTER",
-    "name": "grappler zombie",
+    "name": { "str": "grappler zombie" },
     "description": "An undead humanoid, its elongated arms drag along the ground as it moves.  It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
     "default_faction": "zombie",
     "bodytype": "human",

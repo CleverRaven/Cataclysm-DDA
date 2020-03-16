@@ -1363,7 +1363,7 @@
   {
     "id": "mon_groundhog",
     "type": "MONSTER",
-    "name": "groundhog",
+    "name": { "str": "groundhog" },
     "description": "Also known as the woodchuck, this ground squirrel has no actual talent for chucking wood.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1415,7 +1415,7 @@
   {
     "id": "mon_horse",
     "type": "MONSTER",
-    "name": "horse",
+    "name": { "str": "horse" },
     "description": "A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-looking muscles.",
     "default_faction": "herbivore",
     "bodytype": "horse",
@@ -1577,7 +1577,7 @@
   {
     "id": "mon_nakedmolerat_giant",
     "type": "MONSTER",
-    "name": "gigantic naked mole-rat",
+    "name": { "str": "gigantic naked mole-rat" },
     "description": "A huge, rumbling mutated mass of wrinkly, nearly translucent skin that has been toughened by constant tunneling.  Its hide is riddled with giant scabs, as a pair of incisors the size of an industrial excavator's buckets gnash constantly and several car-length whiskers twitch in the air.  It regularly makes high-pitched chirps as it roams around.",
     "default_faction": "molerat",
     "bodytype": "pig",

@@ -47,7 +47,7 @@
   {
     "id": "mon_boomer_huge",
     "type": "MONSTER",
-    "name": "huge boomer",
+    "name": { "str": "huge boomer" },
     "description": "This boomer, normally swollen and ready to burst, has strengthened and solidified.  The bile dribbling from its mouth also appears to have changed…",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -93,7 +93,7 @@
   {
     "id": "mon_gas_zombie",
     "type": "MONSTER",
-    "name": "gasoline zombie",
+    "name": { "str": "gasoline zombie" },
     "description": "A huge bloated zombie that appears to have fed upon gasoline; fumes and flames escape from its mouth and fuel leaks from its waddling form.",
     "default_faction": "zombie",
     "bodytype": "human",
