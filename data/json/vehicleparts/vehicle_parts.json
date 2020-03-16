@@ -988,7 +988,7 @@
   {
     "type": "vehicle_part",
     "id": "minifridge",
-    "name": "minifridge",
+    "name": { "str": "minifridge" },
     "symbol": "H",
     "looks_like": "f_fridge",
     "color": "light_blue",
