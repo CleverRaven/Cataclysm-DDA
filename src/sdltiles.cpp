@@ -3215,7 +3215,6 @@ static void CheckMessages()
         // on focus gain. This seems to mess up the first redraw and
         // causes black screen that lasts ~0.5 seconds before the screen
         // contents are redrawn in the following code.
-
         // Main menu redraw
         reinitialize_framebuffer();
         window_dimensions dim = get_window_dimensions( catacurses::stdscr );
