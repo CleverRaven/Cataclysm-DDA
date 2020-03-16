@@ -104,7 +104,7 @@
   {
     "id": "mon_zombie_soldier_blackops_2",
     "type": "MONSTER",
-    "name": "hunter-killer zombie",
+    "name": { "str": "hunter-killer zombie" },
     "description": "Fragments of visible uniform hint that this monstrosity was once a soldier.  Anything human is invisible, hidden inside a sheath of living shadow.  It moves with preternatural fluidity and grace.",
     "copy-from": "mon_zombie_soldier_blackops_1",
     "looks_like": "mon_zombie_soldier_blackops_1",

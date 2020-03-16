@@ -47,7 +47,7 @@
   {
     "id": "mon_boomer_huge",
     "type": "MONSTER",
-    "name": "huge boomer",
+    "name": { "str": "huge boomer" },
     "description": "This boomer, normally swollen and ready to burst, has strengthened and solidified.  The bile dribbling from its mouth also appears to have changed…",
     "default_faction": "zombie",
     "bodytype": "human",

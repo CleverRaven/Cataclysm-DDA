@@ -253,7 +253,7 @@
   {
     "id": "mon_zombie_waif",
     "type": "MONSTER",
-    "name": "howling waif",
+    "name": { "str": "howling waif" },
     "description": "Undeath has not been kind to the children of the apocalypse.  This one is little more than a reanimated membrane of skin stretched across tiny brittle bones.",
     "default_faction": "zombie",
     "bodytype": "human",

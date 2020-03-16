@@ -545,7 +545,7 @@
   {
     "id": "mon_human_snail",
     "type": "MONSTER",
-    "name": "human snail",
+    "name": { "str": "human snail" },
     "description": "An enormous fleshy snail, with an oddly human face.  Eyestalks protrude from where the eyes should be.",
     "default_faction": "mutant",
     "species": [ "ABERRATION" ],
@@ -573,7 +573,7 @@
   {
     "id": "mon_hunting_horror",
     "type": "MONSTER",
-    "name": "hunting horror",
+    "name": { "str": "hunting horror" },
     "description": "This is some sort of great viperine creature, possessed of a curiously distorted head and massive clawed appendages.  It partially supports itself with the aid of black rubbery wings of monstrous dimensions.  Its form writhes and changes before your eyes, filling you with unnameable horror.",
     "default_faction": "nether",
     "species": [ "NETHER" ],

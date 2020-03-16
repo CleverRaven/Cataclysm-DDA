@@ -169,7 +169,7 @@
   {
     "id": "mon_zombie_gasbag_impaler",
     "type": "MONSTER",
-    "name": "gangrenous impaler",
+    "name": { "str": "gangrenous impaler" },
     "description": "A corpse hideously twisted into an insect-like form.  A hollow tendril reaches out from its open thorax.",
     "default_faction": "zombie",
     "bodytype": "spider",

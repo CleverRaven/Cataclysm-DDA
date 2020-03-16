@@ -1363,7 +1363,7 @@
   {
     "id": "mon_groundhog",
     "type": "MONSTER",
-    "name": "groundhog",
+    "name": { "str": "groundhog" },
     "description": "Also known as the woodchuck, this ground squirrel has no actual talent for chucking wood.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1415,7 +1415,7 @@
   {
     "id": "mon_horse",
     "type": "MONSTER",
-    "name": "horse",
+    "name": { "str": "horse" },
     "description": "A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-looking muscles.",
     "default_faction": "herbivore",
     "bodytype": "horse",
