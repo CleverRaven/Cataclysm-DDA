@@ -551,7 +551,7 @@
   {
     "type": "vehicle_part",
     "id": "hdroof",
-    "name": "heavy duty roof",
+    "name": { "str": "heavy duty roof" },
     "symbol": "#",
     "color": "dark_gray",
     "broken_symbol": "#",
@@ -620,7 +620,7 @@
   {
     "type": "vehicle_part",
     "id": "hddoor",
-    "name": "heavy duty door",
+    "name": { "str": "heavy duty door" },
     "symbol": "+",
     "color": "cyan",
     "looks_like": "door",
@@ -644,7 +644,7 @@
   {
     "type": "vehicle_part",
     "id": "hddoor_opaque",
-    "name": "heavy duty opaque door",
+    "name": { "str": "heavy duty opaque door" },
     "symbol": "+",
     "color": "cyan",
     "looks_like": "door_opaque",
@@ -668,7 +668,7 @@
   {
     "type": "vehicle_part",
     "id": "door_internal",
-    "name": "internal door",
+    "name": { "str": "internal door" },
     "symbol": "+",
     "looks_like": "door",
     "color": "cyan",
@@ -691,7 +691,7 @@
   {
     "type": "vehicle_part",
     "id": "hatch",
-    "name": "hatch",
+    "name": { "str": "hatch" },
     "symbol": "+",
     "looks_like": "door",
     "color": "light_gray",
@@ -739,7 +739,7 @@
   {
     "type": "vehicle_part",
     "id": "hdhatch",
-    "name": "heavy duty hatch",
+    "name": { "str": "heavy duty hatch" },
     "symbol": "+",
     "color": "dark_gray",
     "looks_like": "hatch",
@@ -1521,7 +1521,7 @@
   {
     "type": "vehicle_part",
     "id": "inflatable_section",
-    "name": "inflatable section",
+    "name": { "str": "inflatable section" },
     "symbol": "O",
     "looks_like": "inflatable_airbag",
     "color": "green",
@@ -1544,7 +1544,7 @@
   {
     "type": "vehicle_part",
     "id": "inflatable_airbag",
-    "name": "inflatable airbag",
+    "name": { "str": "inflatable airbag" },
     "symbol": "O",
     "color": "green",
     "broken_symbol": "x",
@@ -1680,7 +1680,7 @@
   {
     "type": "vehicle_part",
     "id": "dashboard",
-    "name": "dashboard",
+    "name": { "str": "dashboard" },
     "symbol": "$",
     "color": "light_cyan",
     "broken_symbol": "$",
@@ -2657,7 +2657,7 @@
   {
     "type": "vehicle_part",
     "id": "hddoor_trunk",
-    "name": "heavy duty trunk door",
+    "name": { "str": "heavy duty trunk door" },
     "symbol": "+",
     "color": "light_gray",
     "looks_like": "door_trunk",
@@ -2844,7 +2844,7 @@
   {
     "type": "vehicle_part",
     "id": "inboard_mirror",
-    "name": "inboard mirror",
+    "name": { "str": "inboard mirror" },
     "symbol": "o",
     "color": "light_cyan",
     "broken_symbol": "*",
@@ -2934,7 +2934,7 @@
   {
     "type": "vehicle_part",
     "id": "jumper_cable_heavy",
-    "name": "heavy-duty cable",
+    "name": { "str": "heavy-duty cable" },
     "symbol": "{",
     "color": "yellow",
     "broken_symbol": "*",

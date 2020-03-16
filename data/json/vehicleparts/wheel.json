@@ -61,7 +61,7 @@
   {
     "type": "vehicle_part",
     "id": "wheel_mount_heavy",
-    "name": "heavy wheel hub assembly",
+    "name": { "str": "heavy wheel hub assembly" },
     "symbol": "-",
     "color": "light_gray",
     "location": "axle",
@@ -84,7 +84,7 @@
     "id": "wheel_mount_heavy_steerable",
     "copy-from": "wheel_mount_heavy",
     "type": "vehicle_part",
-    "name": "heavy wheel hub assembly (steerable)",
+    "name": { "str": "heavy wheel hub assembly (steerable)" },
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
