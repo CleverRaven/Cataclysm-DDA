@@ -610,7 +610,7 @@
   {
     "id": "mon_kreck",
     "type": "MONSTER",
-    "name": "kreck",
+    "name": { "str": "kreck" },
     "description": "This is some form of otherworldly hound.  Lean and hungry looking, its twisted red flesh is stretched tightly across its misshapen, angular frame.  Loping grotesquely along, its unusually long neck stretches forward, its skull-like head near the ground as it sniffs out its prey.  Its foulness partially veiled by some arcane force, it seems to almost flicker in and out of your perceptions in a fashion that awakens ancient nameless terrors in the back of your mind",
     "default_faction": "nether",
     "bodytype": "dog",

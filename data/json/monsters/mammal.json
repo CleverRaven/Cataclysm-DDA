@@ -184,7 +184,7 @@
     "id": "mon_cat_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "kitten",
+    "name": { "str": "kitten" },
     "description": "A cuddly kitten meowing and scampering amidst the death.  Currently feral.",
     "default_faction": "cat",
     "bodytype": "dog",
@@ -1390,7 +1390,7 @@
   {
     "id": "mon_hare",
     "type": "MONSTER",
-    "name": "jackrabbit",
+    "name": { "str": "jackrabbit" },
     "description": "The snowshoe hare, a small grass-eater with a brown fur coat that changes to white in the wintertime.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1457,7 +1457,7 @@
   {
     "id": "mon_lemming",
     "type": "MONSTER",
-    "name": "lemming",
+    "name": { "str": "lemming" },
     "description": "The Northern bog lemming, a small, predominantly vegetarian rodent that spends its life in the murk of swamps and other wetlands.  Contrary to popular belief, these creatures are not particularly hapless or suicidal, but they can eat themselves into scarcity within a few generations.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1483,7 +1483,7 @@
   {
     "id": "mon_mink",
     "type": "MONSTER",
-    "name": "mink",
+    "name": { "str": "mink" },
     "description": "The American mink, a partially aquatic weasel, once factory-farmed for its fur.  It is a capable fisher, but the presence of otters in these parts makes it rely more on food from the land.",
     "default_faction": "small_animal",
     "bodytype": "dog",
@@ -1549,7 +1549,7 @@
   {
     "id": "mon_muskrat",
     "type": "MONSTER",
-    "name": "muskrat",
+    "name": { "str": "muskrat" },
     "description": "A large omnivorous rodent with a thick furry pelt, found in wetlands across the northern hemisphere.  It marks its territory with a musky odor for which it is named.",
     "default_faction": "small_animal",
     "bodytype": "pig",
