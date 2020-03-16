@@ -121,7 +121,7 @@ class enchantment
         bool is_active( const Character &guy, const item &parent ) const;
 
         // this enchantment has a valid item independent conditions
-        bool is_active(const Character &guy) const;
+        bool is_active( const Character &guy ) const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
@@ -162,7 +162,8 @@ class enchantment
         int mult_bonus( mod value_type, int base_value ) const;
 
         // performs cooldown and distance checks before casting enchantment spells
-        void cast_enchantment_spell( Character &caster, const Creature *target, const fake_spell &sp ) const;
+        void cast_enchantment_spell( Character &caster, const Creature *target,
+                                     const fake_spell &sp ) const;
 };
 
 #endif

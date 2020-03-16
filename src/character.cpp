@@ -7596,7 +7596,7 @@ void Character::did_hit( Creature &target )
 void Character::on_hit( Creature *source, body_part /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
-    enchantment_cache.cast_hit_me( *this, source);
+    enchantment_cache.cast_hit_me( *this, source );
 }
 
 void Character::heal( body_part healed, int dam )

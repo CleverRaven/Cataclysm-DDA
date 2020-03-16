@@ -377,15 +377,15 @@ void enchantment::activate_passive( Character &guy ) const
 
 void enchantment::cast_hit_you( Character &caster, const Creature &target ) const
 {
-    for(const fake_spell &sp : hit_you_effect ) {
-        cast_enchantment_spell(caster, &target, sp);
+    for( const fake_spell &sp : hit_you_effect ) {
+        cast_enchantment_spell( caster, &target, sp );
     }
 }
 
 void enchantment::cast_hit_me( Character &caster, const Creature *target ) const
 {
-    for(const fake_spell &sp : hit_me_effect ) {
-        cast_enchantment_spell(caster, target, sp);
+    for( const fake_spell &sp : hit_me_effect ) {
+        cast_enchantment_spell( caster, target, sp );
     }
 }
 
