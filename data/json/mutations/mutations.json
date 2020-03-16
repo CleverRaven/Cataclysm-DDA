@@ -29,7 +29,7 @@
   {
     "type": "mutation",
     "id": "BIOLUM2",
-    "name": "Photophore",
+    "name": { "str": "Photophore" },
     "points": 2,
     "description": "Your can make your photophore glow brightly.",
     "active": true,
@@ -185,7 +185,7 @@
   {
     "type": "mutation",
     "id": "EASYSLEEPER2",
-    "name": "Practiced Sleeper",
+    "name": { "str": "Practiced Sleeper" },
     "points": 2,
     "description": "Your body's demanding energy needs mean you can fall asleep just about anywhere.",
     "prereqs": [ "MET_RAT" ],
@@ -220,7 +220,7 @@
   {
     "type": "mutation",
     "id": "POISRESIST",
-    "name": "Poison Resistant",
+    "name": { "str": "Poison Resistant" },
     "points": 1,
     "description": "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
     "starting_trait": true,
@@ -724,7 +724,7 @@
   {
     "type": "mutation",
     "id": "PRETTY",
-    "name": "Pretty",
+    "name": { "str": "Pretty" },
     "points": 1,
     "visibility": 1,
     "ugliness": -2,
@@ -780,7 +780,7 @@
   {
     "type": "mutation",
     "id": "SLOWHEALER2",
-    "name": "Poor Healer",
+    "name": { "str": "Poor Healer" },
     "points": -4,
     "description": "Your health recovery through sleeping is severely impaired and causes you to recover only a third of usual HP.",
     "starting_trait": true,
@@ -1124,7 +1124,7 @@
   {
     "type": "mutation",
     "id": "ANIMALDISCORD2",
-    "name": "Prey Animal",
+    "name": { "str": "Prey Animal" },
     "points": -3,
     "description": "Natural animals like dogs and wolves see you as prey, and are liable to attack you on sight.",
     "cancels": [ "ANIMALEMPATH" ],
@@ -2205,7 +2205,7 @@
   {
     "type": "mutation",
     "id": "PLANTSKIN",
-    "name": "Phelloderm",
+    "name": { "str": "Phelloderm" },
     "points": 3,
     "visibility": 3,
     "ugliness": 2,
@@ -3498,7 +3498,7 @@
   {
     "type": "mutation",
     "id": "PRED3",
-    "name": "Predator",
+    "name": { "str": "Predator" },
     "points": 3,
     "description": "You consider yourself something other than human and no longer empathize with them.  Combat skills are easy to learn and maintain, but your critical thinking, so characteristic to these creatures, suffers.",
     "social_modifiers": { "intimidate": 4 },
@@ -3714,7 +3714,7 @@
   {
     "type": "mutation",
     "id": "ELFA_EARS",
-    "name": "Pointed Ears",
+    "name": { "str": "Pointed Ears" },
     "points": 0,
     "visibility": 4,
     "ugliness": 1,
@@ -3964,7 +3964,7 @@
   {
     "type": "mutation",
     "id": "STR_ALPHA",
-    "name": "Prime Strength",
+    "name": { "str": "Prime Strength" },
     "points": 6,
     "description": "Your muscles are perfectly developed.",
     "valid": false,
@@ -4019,7 +4019,7 @@
   {
     "type": "mutation",
     "id": "DEX_ALPHA",
-    "name": "Prime Dexterity",
+    "name": { "str": "Prime Dexterity" },
     "points": 6,
     "description": "You're perfectly coordinated.",
     "valid": false,
@@ -4077,7 +4077,7 @@
   {
     "type": "mutation",
     "id": "INT_ALPHA",
-    "name": "Prime Intelligence",
+    "name": { "str": "Prime Intelligence" },
     "points": 6,
     "description": "You understand almost everything about which you think, with minimal effort.",
     "valid": false,
@@ -4149,7 +4149,7 @@
   {
     "type": "mutation",
     "id": "PER_ALPHA",
-    "name": "Prime Perception",
+    "name": { "str": "Prime Perception" },
     "points": 6,
     "description": "Your senses are keenly honed.",
     "valid": false,
@@ -4582,7 +4582,7 @@
   {
     "type": "mutation",
     "id": "PROBOSCIS",
-    "name": "Proboscis",
+    "name": { "str": "Proboscis" },
     "points": -4,
     "visibility": 5,
     "ugliness": 7,
@@ -5135,7 +5135,7 @@
   {
     "type": "mutation",
     "id": "PONDEROUS1",
-    "name": "Ponderous",
+    "name": { "str": "Ponderous" },
     "points": -3,
     "description": "Your muscles are generally slow to move.  You move 10% slower.",
     "types": [ "RUNNING" ],
@@ -5817,7 +5817,7 @@
   {
     "type": "mutation",
     "id": "THRESH_PLANT",
-    "name": "Plant",
+    "name": { "str": "Plant" },
     "points": 1,
     "description": "Well, you still have those other walking flowers-and the mushrooms too-to deal with.  But you'll manage.",
     "valid": false,
@@ -5877,7 +5877,7 @@
   {
     "type": "mutation",
     "id": "THRESH_MEDICAL",
-    "name": "Prototype",
+    "name": { "str": "Prototype" },
     "points": 1,
     "description": "After all those experiments, what's a few more, hmm?",
     "valid": false,
@@ -5887,7 +5887,7 @@
   {
     "type": "mutation",
     "id": "THRESH_ALPHA",
-    "name": "Prime",
+    "name": { "str": "Prime" },
     "points": 1,
     "description": "You're the perfect candidate to tidy this mess.",
     "valid": false,
@@ -6073,7 +6073,7 @@
   {
     "type": "mutation",
     "id": "PROF_POLICE",
-    "name": "Police Officer",
+    "name": { "str": "Police Officer" },
     "points": 0,
     "description": "You are a duly sworn law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
     "valid": false,
@@ -6113,7 +6113,7 @@
   {
     "type": "mutation",
     "id": "PROF_PD_DET",
-    "name": "Police Detective",
+    "name": { "str": "Police Detective" },
     "points": 0,
     "description": "You are a duly sworn law enforcement investigator, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether your shield means anything now is another question.",
     "valid": false,
