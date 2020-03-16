@@ -2,7 +2,7 @@
   {
     "type": "martial_art",
     "id": "style_none",
-    "name": "No style",
+    "name": { "str": "No style" },
     "description": "Not a martial art, this is just plain old punching and kicking.",
     "initiate": [ "You decide to not use any martial arts.", "%s enters a generic combat stance." ],
     "arm_block": 1,
@@ -682,7 +682,7 @@
   {
     "type": "martial_art",
     "id": "style_swordsmanship",
-    "name": "Medieval Swordsmanship",
+    "name": { "str": "Medieval Swordsmanship" },
     "description": "The art of the longsword and sword & shield, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This treatise compares the Italian and German traditions of medieval combat with detailed step-by-step pictures.",
     "initiate": [ "You take on a knightly stance.", "%s takes on a knightly stance." ],
     "strictly_melee": true,
@@ -749,7 +749,7 @@
   {
     "type": "martial_art",
     "id": "style_muay_thai",
-    "name": "Muay Thai",
+    "name": { "str": "Muay Thai" },
     "description": "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes.  Your strength decreases blocked damage.  Blocking attacks or getting hit will increase your damage and blocked damage further.",
     "initiate": [ "You perform a short wai khru in honor of your teachers.", "%s performs a short war-dance." ],
     "learn_difficulty": 5,
@@ -780,7 +780,7 @@
   {
     "type": "martial_art",
     "id": "style_ninjutsu",
-    "name": "Ninjutsu",
+    "name": { "str": "Ninjutsu" },
     "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent and does extra damage if on the first attack.  It also provides small combat bonuses every time you move.",
     "initiate": [ "You perform a kuji-in mantra with your hands. Rin, Kai, Jin!", "%s performs a series of intricate hand signs." ],
     "learn_difficulty": 6,
@@ -915,7 +915,7 @@
   {
     "type": "martial_art",
     "id": "style_niten",
-    "name": "Niten Ichi-Ryu",
+    "name": { "str": "Niten Ichi-Ryu" },
     "description": "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  Perception increases damage and reduces blocked damage.  Moving and attacking reduces dodging and damage until you pause.  Pausing for a moment increases Dodge skill.",
     "initiate": [ "You clear your mind as you prepare yourself for combat.", "%s relaxes and prepares for combat." ],
     "learn_difficulty": 8,
@@ -993,7 +993,7 @@
   {
     "type": "martial_art",
     "id": "style_pankration",
-    "name": "Pankration",
+    "name": { "str": "Pankration" },
     "description": "An ancient Greek martial art once used by the Spartans.  It combines boxing and wrestling techniques to create a brutal sport, though modern revival of the art is less of no-holds-barred in nature.",
     "initiate": [ "You crouch slightly and prepare to rush forward.", "%s crouches slightly, ready to rush forward." ],
     "learn_difficulty": 3,
@@ -1034,7 +1034,7 @@
   {
     "type": "martial_art",
     "id": "style_silat",
-    "name": "Silat",
+    "name": { "str": "Silat" },
     "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
     "initiate": [ "You give a salute of respect as you prepare to combat.", "%s gives a combat salute." ],
     "learn_difficulty": 7,
@@ -1144,7 +1144,7 @@
   {
     "type": "martial_art",
     "id": "style_snake",
-    "name": "Snake Kung Fu",
+    "name": { "str": "Snake Kung Fu" },
     "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines your Accuracy, rather than Dexterity.  Standing still will increases your accuracy and damage of your next attack.",
     "initiate": [ "You adopt a fluid stance, ready to strike like a snake.", "%s assumes a snake-like stance." ],
     "learn_difficulty": 10,
@@ -1175,7 +1175,7 @@
   {
     "type": "martial_art",
     "id": "style_sojutsu",
-    "name": "Sōjutsu",
+    "name": { "str": "Sōjutsu" },
     "description": "Sōjutsu, \"The Way of the Spear\", is the Japanese martial art of fighting with a spear.  Sōjutsu focuses on keeping opponents at a distance in order to maintain advantage in combat.  Standing still gives you an extra block attempt but moving will briefly increase your damage.",
     "initiate": [ "You prepare to defend against all that approach you.", "%s assumes a wide, defensive stance." ],
     "learn_difficulty": 7,
@@ -1234,7 +1234,7 @@
   {
     "type": "martial_art",
     "id": "style_taekwondo",
-    "name": "Taekwondo",
+    "name": { "str": "Taekwondo" },
     "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage and your attacks do more damage if you are not holding anything.",
     "initiate": [ "You adopt a narrow fighting stance.", "You adopts a narrow fighting stance." ],
     "learn_difficulty": 5,
@@ -1269,7 +1269,7 @@
   {
     "type": "martial_art",
     "id": "style_tai_chi",
-    "name": "Tai Chi",
+    "name": { "str": "Tai Chi" },
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.  Pausing for a moment enables powerful palm strike techniques.",
     "initiate": [ "You settle into a gentle stance and prepare to defend yourself.", "%s settles into a gentle stance." ],
     "learn_difficulty": 4,
@@ -1311,7 +1311,7 @@
   {
     "type": "martial_art",
     "id": "style_tiger",
-    "name": "Tiger Kung Fu",
+    "name": { "str": "Tiger Kung Fu" },
     "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
     "initiate": [ "You clench your hands into ferocious, tiger-like claws.", "%s assumes a tiger-like stance." ],
     "learn_difficulty": 10,
@@ -1353,7 +1353,7 @@
   {
     "type": "martial_art",
     "id": "style_wingchun",
-    "name": "Wing Chun",
+    "name": { "str": "Wing Chun" },
     "description": "Wing Chun is a Chinese martial art that began by selecting the easiest-to-learn effective techniques from the various Shaolin animal forms.  It has a high stance, with weight entirely on the rear leg.  Wing Chun focuses on sensitivity to the opponent's direction of force, and flowing around it to get back to hitting.",
     "initiate": [
       "You take your stance and prepare to receive the gift of violence.",
@@ -1406,7 +1406,7 @@
   {
     "type": "martial_art",
     "id": "style_zui_quan",
-    "name": "Zui Quan",
+    "name": { "str": "Zui Quan" },
     "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy.  You gain a passive dodge bonus and accuracy bonus based on your intelligence.  Moving gives you additional dodge attempts and each time you dodge, you inflict more damage with your counterattack for until the end of your next turn.",
     "initiate": [ "You begin to sway to and fro with a confident swagger.", "%s stumbles as if pretending to be drunk." ],
     "learn_difficulty": 8,
