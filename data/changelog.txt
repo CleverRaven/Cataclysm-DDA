@@ -487,8 +487,6 @@ Mythological Replicas mod works with martial arts.
 Completely overhauls generic guns.
 Adds the Ultica tileset to mainline.
 Add BrownLikeBears to the list of tilesets.
-Mi-Go Mutation line and NPC for Aftershock.
-Added partial conversion mod 'Dark Skies Above'.
 
 ## Balance:
 Overhaul of all Martial arts.
@@ -833,7 +831,6 @@ martial arts skill and damage requirements, hunger messages, artifact effects,
 Add scenario whitelist/blacklist capability.
 Adds a getting started type of guide for mapgen.
 Add debug menu item for spawning nested mapgen
-Add looks_like to most Fields.
 Move food morale modifiers to modify_morale.
 Add script to generate tags for CDDA json data for easier navigation in standard text editors.
 Use github's code owner system to alert mod maintainers to changes.
@@ -860,7 +857,6 @@ Check translator comments with clang-tidy.
 Check text style in json strings loaded with class translation.
 gfx tools improvements.
 Check text style in macro expansions.
-compose: handle multiple entries in a single `tile_entry.json` file.
 Document how to build and run the custom clang-tidy checks on Windows.
 Provide NOOPT=1 build option for make.
 Made JSON formatter conserve escape sequences.
