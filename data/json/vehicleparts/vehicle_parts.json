@@ -1947,7 +1947,7 @@
   {
     "type": "vehicle_part",
     "id": "xl_water_wheel",
-    "name": "large water wheel",
+    "name": { "str": "large water wheel" },
     "symbol": "o",
     "looks_like": "water_wheel",
     "color": "yellow",
