@@ -38,7 +38,7 @@
     "id": "alternator_motorbike",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
-    "name": "motorbike alternator",
+    "name": { "str": "motorbike alternator" },
     "//": "30A @12VDC ~ 1HP drain @ 48% efficiency",
     "item": "alternator_motorbike",
     "durability": 250,

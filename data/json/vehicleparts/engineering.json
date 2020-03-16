@@ -164,7 +164,7 @@
   {
     "type": "vehicle_part",
     "id": "motorcycle_kickstand",
-    "name": "motorcycle kickstand",
+    "name": { "str": "motorcycle kickstand" },
     "item": "v_motorcycle_kickstand_item",
     "symbol": "[",
     "broken_symbol": "/",

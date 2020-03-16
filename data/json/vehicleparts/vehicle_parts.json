@@ -2329,7 +2329,7 @@
   {
     "type": "vehicle_part",
     "id": "veh_forge",
-    "name": "mounted electric forge",
+    "name": { "str": "mounted electric forge" },
     "symbol": "&",
     "looks_like": "f_forge_rock",
     "color": "red",
