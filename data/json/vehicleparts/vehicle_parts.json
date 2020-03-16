@@ -136,7 +136,7 @@
     "id": "seat_leather",
     "copy-from": "seat",
     "looks_like": "seat",
-    "name": "leather seat",
+    "name": { "str": "leather seat" },
     "item": "seat_leather",
     "breaks_into": "ig_vp_seat_leather"
   },
@@ -380,7 +380,7 @@
   {
     "type": "vehicle_part",
     "id": "frame_wood_light_handle",
-    "name": "light wooden handle",
+    "name": { "str": "light wooden handle" },
     "symbol": "^",
     "looks_like": "frame_wood_light_cover",
     "color": "light_red",
@@ -3247,7 +3247,7 @@
   {
     "type": "vehicle_part",
     "id": "leather_funnel",
-    "name": "leather funnel",
+    "name": { "str": "leather funnel" },
     "symbol": "V",
     "looks_like": "funnel",
     "color": "brown",

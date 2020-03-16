@@ -2,7 +2,7 @@
   {
     "type": "vehicle_part",
     "id": "wheel_mount_light",
-    "name": "light wheel mount",
+    "name": { "str": "light wheel mount" },
     "symbol": "-",
     "color": "light_gray",
     "location": "axle",
