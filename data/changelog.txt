@@ -260,7 +260,7 @@ Prevent martial arts message when not using martial arts.
 Add deployable workspaces, and UI support for them.
 Added crashed airliner location.
 Adds steel mill location to the game.
-Add mi-go scout tower and encamplment with new mi-go variants and custom alien terrain.
+Add mi-go scout tower and encampment with new mi-go variants and custom alien terrain.
 Ensure proper road connections, add subway connector level.
 Some Free Merchant missions will lead to minor changes around the Refugee Center.
 Adds microlabs, small 4x4 labs that open only to the subway network.
@@ -758,7 +758,7 @@ Added override_option class to help write tests which require a particular optio
 Can specify delay in emit_fields for monsters.
 CONSOLE_DESPAWN flag to despawn turrets with a console.
 Moved entity definitions to JSON: zone types, loot zones, scent neutralization, ammo effects,
-flag inheritance in crafting, comestable enjoyability, gunmod weight modifier, allergen handling,
+flag inheritance in crafting, comestible enjoyability, gunmod weight modifier, allergen handling,
 species footsteps sound, bionic slots, swim speed modifiers, construction categories,
 martial arts skill and damage requirements, hunger messages, artifact effects and food morale modifiers.
 
