@@ -935,7 +935,7 @@
   {
     "type": "vehicle_part",
     "id": "black_box",
-    "name": "military black box",
+    "name": { "str": "military black box" },
     "item": "black_box",
     "description": "An armored black box, a device meant to record and preserve data of a military vehicle in the field in case it gets destroyed.",
     "durability": 400,
@@ -1475,7 +1475,7 @@
   {
     "type": "vehicle_part",
     "id": "metal_boat_hull",
-    "name": "metal boat hull",
+    "name": { "str": "metal boat hull" },
     "description": "A metal sheet that keeps the water out of your boat.",
     "symbol": "o",
     "color": "dark_gray",
@@ -2752,7 +2752,7 @@
   {
     "type": "vehicle_part",
     "id": "livestock_stall",
-    "name": "livestock stall",
+    "name": { "str": "livestock stall" },
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "cargo_space",
@@ -2916,7 +2916,7 @@
   {
     "type": "vehicle_part",
     "id": "jumper_cable",
-    "name": "jumper cable",
+    "name": { "str": "jumper cable" },
     "symbol": "{",
     "color": "yellow",
     "broken_symbol": "*",
@@ -3295,7 +3295,7 @@
   {
     "type": "vehicle_part",
     "id": "makeshift_funnel",
-    "name": "makeshift funnel",
+    "name": { "str": "makeshift funnel" },
     "symbol": "V",
     "looks_like": "funnel",
     "color": "yellow",
