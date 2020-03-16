@@ -2501,8 +2501,8 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
     if( settings.river_scale == 0.0 ) {
         return;
     }
-    const int river_chance = 10;
-    int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
+
+    int river_scale = 1.0 + static_cast<int>( std::max( 1.0, settings.river_scale ) );
 
     // West/North endpoints of rivers
     std::vector<point> river_start;
@@ -2578,71 +2578,53 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         }
     }
 
-    // Even up the start and end points of rivers. (difference of 1 is acceptable)
-    // Also ensure there's at least one of each.
-    const int max_nr = river_start.size() + rng( 0, 3 );
+    const bool can_spawn_new = ( north == nullptr || west == nullptr ) && ( east == nullptr ||
+                               south == nullptr );
+    const size_t max_rivers = 2;
 
-    std::vector<point> new_rivers;
-    if( north == nullptr || west == nullptr ) {
-        while( river_start.size() < max_nr ) {
-            new_rivers.clear();
-            if( north == nullptr ) {
-                new_rivers.push_back( point( rng( 10, OMAPX - 11 ), OMAPY - 1 ) );
+    // Even up river start and ends
+    if( river_start.size() < river_end.size() || river_start.size() < max_rivers ) {
+        while( river_start.size() < river_end.size() || river_start.size() < max_rivers ) {
+            point ns;
+            if( north == nullptr && one_in( 2 ) ) {
+                ns = { rng( 11, ( OMAPX - 1 ) - 11 ), OMAPY - 1  };
+            } else if( west == nullptr ) {
+                ns = { 0, rng( 11, ( OMAPY - 1 ) - 11 ) };
+            } else {
+                continue;
             }
-            if( west == nullptr ) {
-                new_rivers.push_back( point( 0, rng( 10, OMAPY - 11 ) ) );
+            river_start.push_back( ns );
+
+            if( river_start.size() > river_end.size() && !one_in( 5 ) ) {
+                break;
             }
-            river_start.push_back( new_rivers.back() );
         }
     }
 
-    if( south == nullptr || east == nullptr ) {
+    if( river_end.size() < river_start.size() ) {
         while( river_end.size() < river_start.size() ) {
-            new_rivers.clear();
-            if( south == nullptr && one_in( river_chance ) ) {
-                new_rivers.push_back( point( rng( 10, OMAPX - 11 ), 0 ) );
+            point ne;
+            if( east == nullptr && one_in( 2 ) ) {
+                ne = { OMAPX - 1, rng( 11, ( OMAPY - 1 ) - 11 ) };
+            } else if( south == nullptr ) {
+                ne = { rng( 11, ( OMAPX - 1 ) - 11 ), 0 };
+            } else {
+                continue;
             }
-            if( east == nullptr && one_in( river_chance ) ) {
-                new_rivers.push_back( point( OMAPX - 1, rng( 10, OMAPY - 11 ) ) );
+
+            if( east != nullptr && south != nullptr ) {
+                ne = { rng( 11, ( OMAPX - 1 ) - 11 ), rng( 11, ( OMAPY - 1 ) - 11 ) };
             }
-            river_end.push_back( new_rivers.back() );
+
+            river_end.push_back( ne );
         }
     }
 
-    // Now actually place those rivers.
-    if( river_start.size() > river_end.size() && !river_end.empty() ) {
-        std::vector<point> river_end_copy = river_end;
-        while( !river_start.empty() ) {
-            const point start = random_entry_removed( river_start );
-            if( !river_end.empty() ) {
-                place_river( start, river_end[0], river_scale );
-                river_end.erase( river_end.begin() );
-            } else {
-                place_river( start, random_entry( river_end_copy ), river_scale );
-            }
-        }
-    } else if( river_end.size() > river_start.size() && !river_start.empty() ) {
-        std::vector<point> river_start_copy = river_start;
-        while( !river_end.empty() ) {
-            const point end = random_entry_removed( river_end );
-            if( !river_start.empty() ) {
-                place_river( river_start[0], end, river_scale );
-                river_start.erase( river_start.begin() );
-            } else {
-                place_river( random_entry( river_start_copy ), end, river_scale );
-            }
-        }
-    } else if( !river_end.empty() ) {
-        if( river_start.size() != river_end.size() ) {
-            river_start.push_back( point( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
-                                          OMAPY - 1 ) );
-        }
-        for( size_t i = 0; i < river_start.size(); i++ ) {
-            place_river( river_start[i], river_end[i], river_scale );
-        }
+    for( int i = 0; i < river_start.size(); i++ ) {
+        point pa = river_start.at( i );
+        point pb = river_end.at( i );
+        place_river( pa, pb, river_scale );
     }
-
-
 }
 
 void overmap::place_swamps()
@@ -2650,7 +2632,7 @@ void overmap::place_swamps()
     // Buffer our river terrains by a variable radius and increment a counter for the location each
     // time it's included in a buffer. It's a floodplain that we'll then intersect later with some
     // noise to adjust how frequently it occurs.
-    std::vector<std::vector<int>> floodplain( OMAPX, std::vector<int>( OMAPY, 0 ) );
+    std::vector <std::vector<int>> floodplain( OMAPX, std::vector<int>( OMAPY, 0 ) );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             const tripoint pos( x, y, 0 );
@@ -2762,89 +2744,73 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
 void overmap::place_river( point pa, point pb, int river_scale )
 {
     const oter_id river_center( "river_center" );
-    const int n_segs = 12;
+    const int n_segs = 32;
     std::vector<point> points;
     std::vector<point> sub_ends;
-    int size = 0;
+    size_t size = 0;
 
-    const auto catmull_spline = [&]( point & pa, point & pb, point & pc, point & pd, const int n_segs,
-    double a ) {
-        const auto GetT = [&]( double t, point p0, point p1, double alpha ) {
-            double a = pow( ( p1.x - p0.x ), 2.0f ) + pow( ( p1.y - p0.y ), 2.0f );
-            double b = pow( a, 0.5f );
-            double c = pow( b, alpha );
+    if( river_scale <= 0 ) {
+        return;
+    }
 
-            return ( c + t );
-        };
-
+    const auto cubic_bezier = [&]( point & pa, point & pb, point & pc, point & pd, const int n_segs ) {
         std::vector<point> pts;
-        double t0 = 0.0f;
-        double t1 = GetT( t0, pa, pb, a );
-        double t2 = GetT( t1, pb, pc, a );
-        double t3 = GetT( t2, pc, pd, a );
+        for( int i = 0; i <= n_segs; ++i ) {
+            double t = ( double )i / ( double )n_segs;
+            int x = static_cast<int>( pow( ( 1.0 - t ), 3.0 ) * pa.x + ( 3.0 * t * pow( ( 1.0 - t ),
+                                      2.0 ) ) * pb.x + ( 3.0 * pow( t, 2.0 ) * ( 1.0 - t ) ) * pc.x + pow( t, 3.0 ) * pd.x );
 
-        for( double t = t1; t < t2; t += ( ( t2 - t1 ) / ( double )n_segs ) ) {
-            //TODO: Optimize and clean
-            double A1x = ( t1 - t ) / ( t1 - t0 ) * pa.x + ( t - t0 ) / ( t1 - t0 ) * pb.x;
-            double A1y = ( t1 - t ) / ( t1 - t0 ) * pa.y + ( t - t0 ) / ( t1 - t0 ) * pb.y;
-
-            double A2x = ( t2 - t ) / ( t2 - t1 ) * pb.x + ( t - t1 ) / ( t2 - t1 ) * pc.x;
-            double A2y = ( t2 - t ) / ( t2 - t1 ) * pb.y + ( t - t1 ) / ( t2 - t1 ) * pc.y;
-
-            double A3x = ( t3 - t ) / ( t3 - t2 ) * pc.x + ( t - t2 ) / ( t3 - t2 ) * pd.x;
-            double A3y = ( t3 - t ) / ( t3 - t2 ) * pc.y + ( t - t2 ) / ( t3 - t2 ) * pd.y;
-
-            double B1x = ( t2 - t ) / ( t2 - t0 ) * A1x + ( t - t0 ) / ( t2 - t0 ) * A2x;
-            double B1y = ( t2 - t ) / ( t2 - t0 ) * A1y + ( t - t0 ) / ( t2 - t0 ) * A2y;
-
-            double B2x = ( t3 - t ) / ( t3 - t1 ) * A2x + ( t - t1 ) / ( t3 - t1 ) * A3x;
-            double B2y = ( t3 - t ) / ( t3 - t1 ) * A2y + ( t - t1 ) / ( t3 - t1 ) * A3y;
-
-            int Cx = static_cast<int>( t2 - t ) / ( t2 - t1 ) * B1x + ( t - t1 ) / ( t2 - t1 ) * B2x;
-            int Cy = static_cast<int>( t2 - t ) / ( t2 - t1 ) * B1y + ( t - t1 ) / ( t2 - t1 ) * B2y;
-
-            pts.push_back( point{ Cx, Cy } );
+            int y = static_cast<int>( pow( ( 1.0 - t ), 3.0 ) * pa.y + ( 3.0 * t * pow( ( 1.0 - t ),
+                                      2.0 ) ) * pb.y + ( 3.0 * pow( t, 2.0 ) * ( 1.0 - t ) ) * pc.y + pow( t, 3.0 ) * pd.y );
+            pts.push_back( point{ x, y } );
         }
-
         return pts;
     };
 
     // Generate control points
     // TODO: A lot of work needed on these yet.
     point cpm = { ( pa.x + pb.x ) / 2, ( pa.y + pb.y ) / 2 };
-
     double tension = 0.5;
 
     double d01 = rl_dist( pa, cpm );
     double d12 = rl_dist( cpm, pb );
+    // calculate scaling factors as fractions of total
     double sa = tension * d01 / ( d01 + d12 );
     double sb = tension * d12 / ( d01 + d12 );
 
     int c1x = static_cast<int>( cpm.x - sa * ( pb.x - pa.x ) );
     int c1y = static_cast<int>( cpm.y - sa * ( pb.y - pa.y ) );
-
     int c2x = static_cast<int>( cpm.x + sb * ( pb.x - pa.x ) );
     int c2y = static_cast<int>( cpm.y + sb * ( pb.y - pa.y ) );
 
-    sub_ends = catmull_spline( pa, point{ c1x, c1y }, point{ c2x, c2y }, pb, n_segs, 0.5 );
+    point c1 = { c1x, c1y };
+    point c2 = { c2x, c2y };
+
+    sub_ends = cubic_bezier( pa, c1, c2, pb, n_segs );
     sub_ends.insert( sub_ends.begin(), pa );
     sub_ends.push_back( pb );
 
+    DebugLog( D_ERROR, D_MAP ) << "Sub ends: " << sub_ends.size() << " CP1: " << c1 << " CP2: " << c2 <<
+                               " Entry: " << pa << " Exit: " << pb;
+
     std::vector<point> tmp;
+    point last;
     for( int i = 0; i < sub_ends.size(); i++ ) {
+        tmp.clear();
         int j = i + 1;
 
-        if( j >= sub_ends.size() ) {
+        if( j >= sub_ends.size() - 1 ) {
             break;
         }
 
-        tmp = line_to( sub_ends.at( i ), sub_ends.at( j ), 1 );
+        tmp = line_to( sub_ends.at( i ), sub_ends.at( j ), 0 );
 
         // fill points in line
         for( point p : tmp ) {
+            last = p;
             // create branches
-            if( inbounds( p, 40 ) && i + 4 < sub_ends.size() && one_in( 100 ) ) {
-                place_river( p, sub_ends.at( i + 4 ), river_scale );
+            if( inbounds( p, 40 ) && i + 4 < ( sub_ends.size() - 4 ) && one_in( 50 ) ) {
+                place_river( p, sub_ends.at( i + 4 ), river_scale - 1.0 );
             }
 
             for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
@@ -2860,7 +2826,7 @@ void overmap::place_river( point pa, point pb, int river_scale )
     }
     tmp.clear();
 
-    overmap_river_node new_node = { pa, pb, size };
+    overmap_river_node new_node = { pa, last, size };
     rivers.push_back( new_node );
 }
 
