@@ -220,7 +220,8 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     proj.impact.add( dam );
     proj.proj_effects.insert( "NO_OVERSHOOT" );
 
-    dealt_projectile_attack atk = projectile_attack( proj, z->pos(), target->pos(), { 500 }, z );
+    dealt_projectile_attack atk = projectile_attack( proj, z->pos(), target->pos(),
+                                  dispersion_sources{ 500 }, z );
     if( atk.dealt_dam.total_damage() > 0 ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name() );
         return true;
@@ -570,7 +571,7 @@ bool mattack::acid( monster *z )
     proj.impact.add_damage( DT_ACID, 5 );
     proj.range = 10;
     proj.proj_effects.insert( "NO_OVERSHOOT" );
-    auto dealt = projectile_attack( proj, z->pos(), target->pos(), { 5400 }, z );
+    auto dealt = projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 5400 }, z );
     const tripoint &hitp = dealt.end_point;
     const Creature *hit_critter = dealt.hit_critter;
     if( hit_critter == nullptr && g->m.hit_with_acid( hitp ) && g->u.sees( hitp ) ) {
@@ -683,7 +684,7 @@ bool mattack::acid_accurate( monster *z )
     proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
     proj.impact.add_damage( DT_ACID, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
-    projectile_attack( proj, z->pos(), target->pos(), { 8000.0 * static_cast<double>( range ) }, z );
+    projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 8000.0 * range }, z );
 
     return true;
 }
@@ -1562,7 +1563,7 @@ bool mattack::spit_sap( monster *z )
     proj.range = 12;
     proj.proj_effects.insert( "APPLY_SAP" );
     proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
-    projectile_attack( proj, z->pos(), target->pos(), { 150 }, z );
+    projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 150 }, z );
 
     return true;
 }
