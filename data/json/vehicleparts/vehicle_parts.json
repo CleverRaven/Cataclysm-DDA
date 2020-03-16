@@ -2205,7 +2205,7 @@
   {
     "type": "vehicle_part",
     "id": "kitchen_unit",
-    "name": "kitchen unit",
+    "name": { "str": "kitchen unit" },
     "symbol": "&",
     "looks_like": "f_oven",
     "color": "light_cyan",
