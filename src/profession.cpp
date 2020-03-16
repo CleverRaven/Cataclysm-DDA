@@ -225,6 +225,7 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "CBMs", _starting_CBMs, auto_flags_reader<bionic_id> {} );
     // TODO: use string_id<mutation_branch> or so
     optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
+    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 }
 
@@ -513,6 +514,11 @@ std::vector<trait_id> profession::get_locked_traits() const
     return _starting_traits;
 }
 
+std::set<trait_id> profession::get_forbidden_traits() const
+{
+    return _forbidden_traits;
+}
+
 profession::StartingSkillList profession::skills() const
 {
     return _starting_skills;
@@ -532,6 +538,11 @@ bool profession::is_locked_trait( const trait_id &trait ) const
 {
     return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
            _starting_traits.end();
+}
+
+bool profession::is_forbidden_trait( const trait_id &trait ) const
+{
+    return _forbidden_traits.count( trait ) != 0;
 }
 
 std::map<spell_id, int> profession::spells() const
