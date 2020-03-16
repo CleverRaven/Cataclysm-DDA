@@ -124,7 +124,7 @@
   {
     "type": "martial_art",
     "id": "style_scorpion",
-    "name": "Scorpion Kung Fu",
+    "name": { "str": "Scorpion Kung Fu" },
     "description": "One of the Five Deadly Venoms, used by Gao Ji.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Moving enables a stunning pincer attack.  Critical hits do massive damage and knock your opponent back along with anyone your opponent comes in contact with.",
     "initiate": [ "You prepare to capture and sting your foes.", "%s assumes a scorpion-like stance." ],
     "learn_difficulty": 10,
@@ -166,7 +166,7 @@
   {
     "type": "martial_art",
     "id": "style_toad",
-    "name": "Toad Kung Fu",
+    "name": { "str": "Toad Kung Fu" },
     "description": "One of the Five Deadly Venoms, used by Liang Shen.  Masters of Toad Style can focus themselves to protect against all attacks.  You have powerful armor against physical attacks, though you will lose focus when you move.  You can meditate by pausing, giving yourself more armor for a short time.",
     "initiate": [ "You pause for a moment and focus on your invincible body.", "%s assumes a toad-like stance." ],
     "learn_difficulty": 10,
@@ -219,7 +219,7 @@
   {
     "type": "martial_art",
     "id": "style_venom_snake",
-    "name": "Viper Kung Fu",
+    "name": { "str": "Viper Kung Fu" },
     "description": "A legacy of the Five Deadly Venoms, use by Qi Dong.  Viper Style (originally called Snake Style) has a unique three-part combo, which initiates on a dodge, then follows up with a stunning Viper Bite and then finishes with the legendary Viper Strike.",
     "initiate": [ "You prepare to strike your foes' weaknesses.", "%s assumes a viper-like stance." ],
     "learn_difficulty": 10,
