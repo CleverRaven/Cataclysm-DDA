@@ -68,7 +68,7 @@
   {
     "type": "mutation",
     "id": "OUTDOORSMAN",
-    "name": "Outdoorsman",
+    "name": { "str": "Outdoorsman" },
     "points": 1,
     "description": "You are accustomed to being exposed to the elements.  This decreases morale penalties for being wet.",
     "starting_trait": true,
@@ -89,7 +89,7 @@
   {
     "type": "mutation",
     "id": "PARKOUR",
-    "name": "Parkour Expert",
+    "name": { "str": "Parkour Expert" },
     "points": 2,
     "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
     "starting_trait": true,
@@ -136,7 +136,7 @@
   {
     "type": "mutation",
     "id": "OPTIMISTIC",
-    "name": "Optimist",
+    "name": { "str": "Optimist" },
     "points": 2,
     "description": "Nothing gets you down!  You savor the joys of life, ignore its hardships, and are generally happier than most people.",
     "starting_trait": true,
@@ -196,7 +196,7 @@
   {
     "type": "mutation",
     "id": "PAINRESIST",
-    "name": "Pain Resistant",
+    "name": { "str": "Pain Resistant" },
     "points": 2,
     "description": "You have a high tolerance for pain.",
     "starting_trait": true,
@@ -207,7 +207,7 @@
   {
     "type": "mutation",
     "id": "NIGHTVISION",
-    "name": "Night Vision",
+    "name": { "str": "Night Vision" },
     "points": 2,
     "description": "You possess natural night vision, and can see further in the dark than most.  Activate to toggle NV-visible areas on or off.",
     "starting_trait": true,
@@ -306,7 +306,7 @@
   {
     "type": "mutation",
     "id": "PACKMULE",
-    "name": "Packmule",
+    "name": { "str": "Packmule" },
     "points": 2,
     "description": "You can manage to find space for anything!  You can carry 40% more volume.",
     "starting_trait": true,
@@ -759,7 +759,7 @@
   {
     "type": "mutation",
     "id": "MYOPIC",
-    "name": "Near-Sighted",
+    "name": { "str": "Near-Sighted" },
     "points": -2,
     "description": "Without glasses, your seeing radius is severely reduced!  However, you are guaranteed to start with a pair of glasses.",
     "starting_trait": true,
@@ -1155,7 +1155,7 @@
   {
     "type": "mutation",
     "id": "NARCOLEPTIC",
-    "name": "Narcoleptic",
+    "name": { "str": "Narcoleptic" },
     "points": -3,
     "description": "You randomly fall asleep without any reason.",
     "starting_trait": true,
@@ -1203,7 +1203,7 @@
   {
     "type": "mutation",
     "id": "PACIFIST",
-    "name": "Pacifist",
+    "name": { "str": "Pacifist" },
     "points": -4,
     "description": "You don't like thinking about violence.  Your combat skills advance much slower than usual, and you feel more guilt about killing.",
     "starting_trait": true,
@@ -1666,7 +1666,7 @@
   {
     "type": "mutation",
     "id": "MEMBRANE",
-    "name": "Nictitating Membrane",
+    "name": { "str": "Nictitating Membrane" },
     "points": 1,
     "visibility": 1,
     "ugliness": 2,
@@ -2675,7 +2675,7 @@
   {
     "type": "mutation",
     "id": "PARAIMMUNE",
-    "name": "Parasite Immune",
+    "name": { "str": "Parasite Immune" },
     "points": 1,
     "description": "Your body is unusually inhospitable to parasitic lifeforms.  You will never become infested with internal parasites.",
     "prereqs": [ "DISRESISTANT" ],
@@ -2778,7 +2778,7 @@
   {
     "type": "mutation",
     "id": "PADDED_FEET",
-    "name": "Padded Feet",
+    "name": { "str": "Padded Feet" },
     "points": 1,
     "visibility": 1,
     "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
@@ -3346,7 +3346,7 @@
   {
     "type": "mutation",
     "id": "PAINREC1",
-    "name": "Pain Recovery",
+    "name": { "str": "Pain Recovery" },
     "points": 3,
     "description": "You recover from pain slightly faster than normal.",
     "changes_to": [ "PAINREC2" ]
@@ -3372,7 +3372,7 @@
   {
     "type": "mutation",
     "id": "MASOCHIST_MED",
-    "name": "Pain Junkie",
+    "name": { "str": "Pain Junkie" },
     "points": 4,
     "visibility": 3,
     "ugliness": 2,
@@ -3420,7 +3420,7 @@
   {
     "type": "mutation",
     "id": "MORE_PAIN",
-    "name": "Pain Sensitive",
+    "name": { "str": "Pain Sensitive" },
     "points": -2,
     "description": "For some reason things always seem to hurt you more.  Pain dealt to you is increased by 25%.",
     "starting_trait": true,
@@ -4106,7 +4106,7 @@
   {
     "type": "mutation",
     "id": "PER_UP",
-    "name": "Perceptive",
+    "name": { "str": "Perceptive" },
     "points": 1,
     "description": "Your senses are a little keener.  Perception + 1",
     "changes_to": [ "PER_UP_2" ],
@@ -4365,7 +4365,7 @@
   {
     "type": "mutation",
     "id": "PALE",
-    "name": "Pale Skin",
+    "name": { "str": "Pale Skin" },
     "points": 0,
     "visibility": 3,
     "ugliness": 1,
@@ -4613,7 +4613,7 @@
   {
     "type": "mutation",
     "id": "NAUSEA",
-    "name": "Nausea",
+    "name": { "str": "Nausea" },
     "points": -2,
     "description": "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.  You can, if desired, think yourself into vomiting, too.",
     "prereqs": [ "WEAKSTOMACH" ],
@@ -4863,7 +4863,7 @@
   {
     "type": "mutation",
     "id": "PAWS",
-    "name": "Paws",
+    "name": { "str": "Paws" },
     "points": -3,
     "visibility": 3,
     "ugliness": 2,
@@ -5096,7 +5096,7 @@
   {
     "type": "mutation",
     "id": "SLIMESPAWNER",
-    "name": "Omnicellular",
+    "name": { "str": "Omnicellular" },
     "points": 10,
     "visibility": 10,
     "ugliness": 10,
@@ -6501,7 +6501,7 @@
   {
     "type": "mutation",
     "id": "NOMAD",
-    "name": "Nomad",
+    "name": { "str": "Nomad" },
     "points": -1,
     "starting_trait": true,
     "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
