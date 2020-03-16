@@ -136,7 +136,7 @@
     "id": "seat_leather",
     "copy-from": "seat",
     "looks_like": "seat",
-    "name": "leather seat",
+    "name": { "str": "leather seat" },
     "item": "seat_leather",
     "breaks_into": "ig_vp_seat_leather"
   },
@@ -380,7 +380,7 @@
   {
     "type": "vehicle_part",
     "id": "frame_wood_light_handle",
-    "name": "light wooden handle",
+    "name": { "str": "light wooden handle" },
     "symbol": "^",
     "looks_like": "frame_wood_light_cover",
     "color": "light_red",
@@ -935,7 +935,7 @@
   {
     "type": "vehicle_part",
     "id": "black_box",
-    "name": "military black box",
+    "name": { "str": "military black box" },
     "item": "black_box",
     "description": "An armored black box, a device meant to record and preserve data of a military vehicle in the field in case it gets destroyed.",
     "durability": 400,
@@ -958,7 +958,7 @@
   {
     "type": "vehicle_part",
     "id": "minireactor",
-    "name": "minireactor",
+    "name": { "str": "minireactor" },
     "symbol": "O",
     "color": "light_green",
     "broken_symbol": "#",
@@ -988,7 +988,7 @@
   {
     "type": "vehicle_part",
     "id": "minifridge",
-    "name": "minifridge",
+    "name": { "str": "minifridge" },
     "symbol": "H",
     "looks_like": "f_fridge",
     "color": "light_blue",
@@ -1020,7 +1020,7 @@
   {
     "type": "vehicle_part",
     "id": "minifreezer",
-    "name": "minifreezer",
+    "name": { "str": "minifreezer" },
     "symbol": "H",
     "color": "light_blue",
     "broken_symbol": "#",
@@ -1475,7 +1475,7 @@
   {
     "type": "vehicle_part",
     "id": "metal_boat_hull",
-    "name": "metal boat hull",
+    "name": { "str": "metal boat hull" },
     "description": "A metal sheet that keeps the water out of your boat.",
     "symbol": "o",
     "color": "dark_gray",
@@ -1947,7 +1947,7 @@
   {
     "type": "vehicle_part",
     "id": "xl_water_wheel",
-    "name": "large water wheel",
+    "name": { "str": "large water wheel" },
     "symbol": "o",
     "looks_like": "water_wheel",
     "color": "yellow",
@@ -2029,7 +2029,7 @@
   {
     "type": "vehicle_part",
     "id": "xl_wind_turbine",
-    "name": "large wind turbine",
+    "name": { "str": "large wind turbine" },
     "symbol": "Y",
     "looks_like": "wind_turbine",
     "color": "yellow",
@@ -2205,7 +2205,7 @@
   {
     "type": "vehicle_part",
     "id": "kitchen_unit",
-    "name": "kitchen unit",
+    "name": { "str": "kitchen unit" },
     "symbol": "&",
     "looks_like": "f_oven",
     "color": "light_cyan",
@@ -2500,7 +2500,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_military",
-    "name": "military composite armor plating",
+    "name": { "str": "military composite armor plating" },
     "symbol": ")",
     "color": "green",
     "broken_symbol": ")",
@@ -2752,7 +2752,7 @@
   {
     "type": "vehicle_part",
     "id": "livestock_stall",
-    "name": "livestock stall",
+    "name": { "str": "livestock stall" },
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "cargo_space",
@@ -2916,7 +2916,7 @@
   {
     "type": "vehicle_part",
     "id": "jumper_cable",
-    "name": "jumper cable",
+    "name": { "str": "jumper cable" },
     "symbol": "{",
     "color": "yellow",
     "broken_symbol": "*",
@@ -3247,7 +3247,7 @@
   {
     "type": "vehicle_part",
     "id": "leather_funnel",
-    "name": "leather funnel",
+    "name": { "str": "leather funnel" },
     "symbol": "V",
     "looks_like": "funnel",
     "color": "brown",
@@ -3295,7 +3295,7 @@
   {
     "type": "vehicle_part",
     "id": "makeshift_funnel",
-    "name": "makeshift funnel",
+    "name": { "str": "makeshift funnel" },
     "symbol": "V",
     "looks_like": "funnel",
     "color": "yellow",
@@ -3341,7 +3341,7 @@
   {
     "type": "vehicle_part",
     "id": "metal_funnel",
-    "name": "metal funnel",
+    "name": { "str": "metal funnel" },
     "symbol": "V",
     "looks_like": "funnel",
     "color": "light_gray",

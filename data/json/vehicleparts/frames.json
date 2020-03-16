@@ -77,7 +77,7 @@
   {
     "abstract": "frame_wood_light",
     "type": "vehicle_part",
-    "name": "light wooden frame",
+    "name": { "str": "light wooden frame" },
     "item": "frame_wood_light",
     "location": "structure",
     "color": "brown",

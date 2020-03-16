@@ -2,7 +2,7 @@
   {
     "type": "vehicle_part",
     "id": "wheel_mount_light",
-    "name": "light wheel mount",
+    "name": { "str": "light wheel mount" },
     "symbol": "-",
     "color": "light_gray",
     "location": "axle",
@@ -26,7 +26,7 @@
     "id": "wheel_mount_light_steerable",
     "copy-from": "wheel_mount_light",
     "type": "vehicle_part",
-    "name": "light wheel mount (steerable)",
+    "name": { "str": "light wheel mount (steerable)" },
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
