@@ -1020,7 +1020,7 @@
   {
     "type": "vehicle_part",
     "id": "minifreezer",
-    "name": "minifreezer",
+    "name": { "str": "minifreezer" },
     "symbol": "H",
     "color": "light_blue",
     "broken_symbol": "#",
@@ -2500,7 +2500,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_military",
-    "name": "military composite armor plating",
+    "name": { "str": "military composite armor plating" },
     "symbol": ")",
     "color": "green",
     "broken_symbol": ")",
@@ -3341,7 +3341,7 @@
   {
     "type": "vehicle_part",
     "id": "metal_funnel",
-    "name": "metal funnel",
+    "name": { "str": "metal funnel" },
     "symbol": "V",
     "looks_like": "funnel",
     "color": "light_gray",
