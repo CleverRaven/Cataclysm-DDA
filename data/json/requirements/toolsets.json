@@ -105,7 +105,7 @@
         [ "boltcutters", -1 ],
         [ "toolset", -1 ],
         [ "toolbox", -1 ],
-        [ "survivor_belt", -1 ]
+        [ "survivor_belt", -1 ],
         [ "toolbox_workshop", -1 ]
       ]
     ]
