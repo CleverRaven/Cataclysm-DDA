@@ -958,7 +958,7 @@
   {
     "type": "vehicle_part",
     "id": "minireactor",
-    "name": "minireactor",
+    "name": { "str": "minireactor" },
     "symbol": "O",
     "color": "light_green",
     "broken_symbol": "#",
