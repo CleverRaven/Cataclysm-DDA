@@ -1178,10 +1178,10 @@
   {
     "id": "ring_wedding",
     "type": "ARMOR",
-    "name": "wedding ring",
+    "name": { "str": "wedding ring" },
     "description": "A flawless ring, ensnaring a diamond with twists of pure gold.  It's a constant reminder that the wearer is married.",
     "weight": "16 g",
-    "volume": 0,
+    "volume": "5 ml",
     "price": 150000,
     "price_postapoc": 8900,
     "material": [ "gold", "diamond" ],

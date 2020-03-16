@@ -472,7 +472,7 @@
   {
     "id": "mon_zombie_hunter",
     "type": "MONSTER",
-    "name": "feral hunter",
+    "name": { "str": "feral hunter" },
     "description": "This once-human body is barely recognizable, scrambling about on all fours, its nails and teeth both sharpened into dangerous looking spikes.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -699,7 +699,7 @@
   {
     "id": "mon_zombie_runner",
     "type": "MONSTER",
-    "name": "feral runner",
+    "name": { "str": "feral runner" },
     "description": "This recently-risen body moves quickly, darting its head back and forth and gnawing at its hands.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -738,7 +738,7 @@
   {
     "id": "mon_zombie_predator",
     "type": "MONSTER",
-    "name": "feral predator",
+    "name": { "str": "feral predator" },
     "description": "With its joints in odd places and angles, this humanoid creature prowls across the landscape with surprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
     "default_faction": "zombie",
     "bodytype": "human",

@@ -84,7 +84,7 @@
   {
     "id": "mon_zombie_creepy",
     "type": "MONSTER",
-    "name": "creepy crawler",
+    "name": { "str": "creepy crawler" },
     "description": "What was once a child is now a mutant beast with blackened skin and massive eyes.  This abomination's vile form makes mockery of its human origin.",
     "default_faction": "zombie",
     "bodytype": "human",

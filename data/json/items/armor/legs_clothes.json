@@ -269,7 +269,7 @@
   {
     "id": "loincloth_wool",
     "type": "ARMOR",
-    "name": "wool loincloth",
+    "name": { "str": "wool loincloth" },
     "description": "Bits of wool stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
     "weight": "56 g",
     "volume": "250 ml",
@@ -660,7 +660,7 @@
   {
     "id": "zubon_gi",
     "type": "ARMOR",
-    "name": "zubon",
+    "name": { "str": "zubon" },
     "description": "Plain white zubon for use in martial arts.",
     "weight": "150 g",
     "volume": "750 ml",

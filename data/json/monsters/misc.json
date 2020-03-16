@@ -2,7 +2,7 @@
   {
     "id": "debug_mon",
     "type": "MONSTER",
-    "name": "debug monster",
+    "name": { "str": "debug monster" },
     "description": "This monster exists only for testing purposes.",
     "default_faction": "",
     "species": [ "ZOMBIE" ],
@@ -97,7 +97,7 @@
   {
     "id": "mon_hallu_multicooker",
     "type": "MONSTER",
-    "name": "evil multi-cooker",
+    "name": { "str": "evil multi-cooker" },
     "description": "The multi-cooker's got a mind of its own!  Look out!",
     "default_faction": "factionless",
     "species": [ "HALLUCINATION" ],

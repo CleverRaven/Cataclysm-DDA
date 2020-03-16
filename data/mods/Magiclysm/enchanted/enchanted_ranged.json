@@ -1,11 +1,11 @@
 [
   {
     "id": "rune_druid_weapon",
+    "copy-from": "compositebow",
     "type": "GUN",
-    "symbol": "(",
     "color": "yellow",
     "name": "Druid composite bow",
-    "//": "Equivalent to composite bow +1 for dispersion/reload/weight/range/encumb/bash, with two mod slots added equivalent to other weapons getting techniques",
+    "//": "Equivalent to composite bow for dispersion/reload/weight/range/encumb/bash, with two mod slots added equivalent to other weapons getting techniques",
     "description": "A bow made of multiple materials to maximize energy efficiency.  There are two Druid runes embedded at the tips.",
     "price": 32000,
     "material": [ "wood", "bone" ],
@@ -20,21 +20,8 @@
       "DURABLE_MELEE",
       "WATER_FRIENDLY"
     ],
-    "skill": "archery",
-    "min_strength": 5,
-    "ammo": "arrow",
-    "weight": "360 g",
-    "volume": "1750 ml",
-    "bashing": 9,
+    "min_strength": 10,
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 13 },
-    "reload_noise_volume": 3,
-    "loudness": 6,
-    "ranged_damage": 5,
-    "range": 13,
-    "dispersion": 135,
-    "durability": 7,
-    "clip_size": 1,
-    "reload": 32,
     "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 1 ], [ "dampening", 1 ] ]
   },
   {
