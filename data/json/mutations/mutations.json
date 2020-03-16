@@ -4582,7 +4582,7 @@
   {
     "type": "mutation",
     "id": "PROBOSCIS",
-    "name": "Proboscis",
+    "name": { "str": "Proboscis" },
     "points": -4,
     "visibility": 5,
     "ugliness": 7,
@@ -5877,7 +5877,7 @@
   {
     "type": "mutation",
     "id": "THRESH_MEDICAL",
-    "name": "Prototype",
+    "name": { "str": "Prototype" },
     "points": 1,
     "description": "After all those experiments, what's a few more, hmm?",
     "valid": false,
@@ -5887,7 +5887,7 @@
   {
     "type": "mutation",
     "id": "THRESH_ALPHA",
-    "name": "Prime",
+    "name": { "str": "Prime" },
     "points": 1,
     "description": "You're the perfect candidate to tidy this mess.",
     "valid": false,
