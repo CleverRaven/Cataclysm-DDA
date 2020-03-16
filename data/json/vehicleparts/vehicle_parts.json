@@ -2357,7 +2357,7 @@
   {
     "type": "vehicle_part",
     "id": "veh_kiln",
-    "name": "mounted electric kiln",
+    "name": { "str": "mounted electric kiln" },
     "symbol": "&",
     "looks_like": "f_kiln_empty",
     "color": "red",

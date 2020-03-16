@@ -93,7 +93,7 @@
   {
     "id": "mounted_spare_tire",
     "type": "vehicle_part",
-    "name": "mounted spare tire",
+    "name": { "str": "mounted spare tire" },
     "item": "mounted_spare_tire",
     "location": "structure",
     "symbol": "o",
