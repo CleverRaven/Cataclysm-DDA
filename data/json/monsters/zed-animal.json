@@ -156,7 +156,7 @@
   {
     "id": "mon_zolf",
     "type": "MONSTER",
-    "name": "grim howler",
+    "name": { "str": "grim howler" },
     "description": "A zombified wolf.  Its mouth oozes with a black substance, coating the vicious-looking white fangs.",
     "default_faction": "zombie",
     "bodytype": "dog",

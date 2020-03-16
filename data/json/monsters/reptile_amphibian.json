@@ -2,7 +2,7 @@
   {
     "id": "mon_frog_giant",
     "type": "MONSTER",
-    "name": "giant frog",
+    "name": { "str": "giant frog" },
     "description": "A mutated bullfrog taller than you are.  It stares with amber eyes as it considers the easiest way to swallow you whole.",
     "default_faction": "frog",
     "bodytype": "frog",
@@ -114,7 +114,7 @@
   {
     "id": "mon_rattlesnake_giant",
     "type": "MONSTER",
-    "name": "giant rattlesnake",
+    "name": { "str": "giant rattlesnake" },
     "description": "A mutated timber rattlesnake, about three times as large as the norm.  While it isn't big enough to regard humans as potential prey, it is more aggressive and dangerous compared to a normal rattler.",
     "default_faction": "animal",
     "bodytype": "snake",

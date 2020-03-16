@@ -29,7 +29,7 @@
   {
     "id": "mon_graboid",
     "type": "MONSTER",
-    "name": "graboid",
+    "name": { "str": "graboid" },
     "description": "A monstrous beast the size of a semi truck with a tripartite mouth that opens to reveal hundreds of writhing tongues with razor sharp edges.  It keeps most of its enormous body hidden underground.",
     "default_faction": "worm",
     "bodytype": "snake",

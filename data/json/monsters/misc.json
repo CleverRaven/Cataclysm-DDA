@@ -51,7 +51,7 @@
   {
     "id": "mon_generator",
     "type": "MONSTER",
-    "name": "generator",
+    "name": { "str": "generator" },
     "description": "Your precious generator, noisily humming away.  Defend it at all costs!",
     "default_faction": "player",
     "species": [ "UNKNOWN" ],
