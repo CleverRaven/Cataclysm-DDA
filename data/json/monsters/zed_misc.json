@@ -253,7 +253,7 @@
   {
     "id": "mon_zombie_ears",
     "type": "MONSTER",
-    "name": "listener zombie",
+    "name": { "str": "listener zombie" },
     "//": "Upgraded version of brainless.  Regenerating Skull with huge ears.",
     "description": "The head of this zombie was once obviously destroyed, the gaps in its scraps of face now filling with a peculiar gray goo.  Human ears hang from the sides, enormous and unsettling.  Thin slits at the front suggest it may be able to see.",
     "default_faction": "zombie",

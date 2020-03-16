@@ -2,7 +2,7 @@
   {
     "id": "mon_turret",
     "type": "MONSTER",
-    "name": "improvised MP5 turret",
+    "name": { "str": "improvised MP5 turret" },
     "description": "An MP5 attached to a motorized chassis with basic autonomous software control.  There is no mechanism to reload the weapon when its magazine is empty and the fire control system is only designed for semi automatic fire.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
@@ -49,7 +49,7 @@
   {
     "id": "mon_turret_searchlight",
     "type": "MONSTER",
-    "name": "milspec searchlight",
+    "name": { "str": "milspec searchlight" },
     "description": "Three high-powered searchlights with automated search AI and mounting, continually seeking targets.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
@@ -76,7 +76,7 @@
   {
     "id": "mon_laserturret",
     "type": "MONSTER",
-    "name": "laser turret",
+    "name": { "str": "laser turret" },
     "description": "The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state of the art revolving laser cannon system with three barrels that charge from solar cells embedded in its hull.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
