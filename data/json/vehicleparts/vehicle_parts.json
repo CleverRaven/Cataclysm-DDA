@@ -2029,7 +2029,7 @@
   {
     "type": "vehicle_part",
     "id": "xl_wind_turbine",
-    "name": "large wind turbine",
+    "name": { "str": "large wind turbine" },
     "symbol": "Y",
     "looks_like": "wind_turbine",
     "color": "yellow",
