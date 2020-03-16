@@ -449,7 +449,7 @@ Return the default font to Terminus and slightly improve fallback handling.
 Improve directional highlight prompts.
 Blind firing at unseen targets won't show info about hits and "Really attack?" query.
 Fixed translated strings sometimes not fitting in character creation menu.
-Rename existing font to terminus-bold, add latest terminus as new default font.
+Updated terminus font to latest version and set it as new default font.
 Make ESC key stop trying to sleep.
 Skimming through book's contents won't show skill progress indicator.
 Adjust display of item value precision.
