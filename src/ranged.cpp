@@ -1293,7 +1293,14 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
         pc.last_target_pos = cata::nullopt;
     } else {
         idx = 0;
-        dst = local_last_tgt_pos ? *local_last_tgt_pos : targets[0]->pos();
+        // No remembered target creature, if we have a remembered aim point, use that.
+        if( local_last_tgt_pos ) {
+            dst = *local_last_tgt_pos;
+        } else {
+            // If we don't have an aim point either, pick the nearest target.
+            dst = targets[0]->pos();
+            pc.recoil = MAX_RECOIL;
+        }
         pc.last_target.reset();
     }
 }
