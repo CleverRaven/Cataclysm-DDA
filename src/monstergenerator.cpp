@@ -501,6 +501,8 @@ void MonsterGenerator::init_death()
     death_map["FIREBALL"] = &mdeath::fireball;
     // Explode in a huge fireball
     death_map["CONFLAGRATION"] = &mdeath::conflagration;
+    // resurrect all zombies in the area and upgrade all zombies in the area
+    death_map["NECRO_BOOMER"] = &mdeath::necro_boomer;
 
     /* Currently Unimplemented */
     // Screams loudly

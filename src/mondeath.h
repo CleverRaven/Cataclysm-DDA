@@ -80,6 +80,8 @@ void preg_roach( monster &z );
 void fireball( monster &z );
 // Similar to above but bigger and guaranteed.
 void conflagration( monster &z );
+// raises and then upgrades all zombies in a radius
+void necro_boomer( monster &z );
 
 // Game over!  Defense mode
 void gameover( monster &z );
