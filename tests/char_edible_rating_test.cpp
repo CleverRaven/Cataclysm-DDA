@@ -312,6 +312,34 @@ TEST_CASE( "comestible requiring tool to use", "[can_eat][edible_rating][tool][!
     }
 }
 
+TEST_CASE( "mycus dependency", "[can_eat][edible_rating][mycus]" )
+{
+    avatar dummy;
+
+    GIVEN( "character is mycus-dependent" ) {
+        dummy.toggle_trait( trait_id( "M_DEPENDENT" ) );
+        REQUIRE( dummy.has_trait( trait_id( "M_DEPENDENT" ) ) );
+
+        THEN( "they cannot eat normal food" ) {
+            item nuts( "pine_nuts" );
+            REQUIRE_FALSE( nuts.has_flag( "MYCUS_OK" ) );
+
+            auto rating = dummy.can_eat( nuts );
+            CHECK_FALSE( rating.success() );
+            CHECK( rating.str() == "We can't eat that.  It's not right for us." );
+        }
+
+        THEN( "they can eat mycus food" ) {
+            item berry( "marloss_berry" );
+            REQUIRE( berry.has_flag( "MYCUS_OK" ) );
+
+            auto rating = dummy.can_eat( berry );
+            CHECK( rating.success() );
+            CHECK( rating.str() == "" );
+        }
+    }
+}
+
 TEST_CASE( "proboscis trait", "[can_eat][edible_rating][proboscis]" )
 {
     avatar dummy;
