@@ -18,8 +18,6 @@
 //
 // Cannot eat food made of inedible materials(?)
 //
-// Mycus-dependent(?) avatar cannot eat non-mycus food
-//
 // FINALLY, CHECK EVERY SINGLE MUTATION for can_only_eat incompatibilities
 
 /*
@@ -99,6 +97,7 @@ TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
             THEN( "they can eat it" ) {
                 auto rating = dummy.can_eat( apple );
                 CHECK( rating.success() );
+                CHECK( rating.value() == EDIBLE );
                 CHECK( rating.str() == "" );
             }
         }
@@ -126,6 +125,7 @@ TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
             THEN( "they can drink it" ) {
                 auto rating = dummy.can_eat( water );
                 CHECK( rating.success() );
+                CHECK( rating.value() == EDIBLE );
                 CHECK( rating.str() == "" );
             }
         }
@@ -153,6 +153,7 @@ TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
             THEN( "they can eat it" ) {
                 auto rating = dummy.can_eat( necco );
                 CHECK( rating.success() );
+                CHECK( rating.value() == EDIBLE );
                 CHECK( rating.str() == "" );
             }
         }
@@ -200,6 +201,7 @@ TEST_CASE( "inedible animal food", "[can_eat][edible_rating][inedible][animal]" 
             THEN( "they can eat bird food" ) {
                 auto rating = dummy.can_eat( birdfood );
                 CHECK( rating.success() );
+                CHECK( rating.value() == EDIBLE );
                 CHECK( rating.str() == "" );
             }
         }
@@ -211,6 +213,7 @@ TEST_CASE( "inedible animal food", "[can_eat][edible_rating][inedible][animal]" 
             THEN( "they can eat cattle fodder" ) {
                 auto rating = dummy.can_eat( cattlefodder );
                 CHECK( rating.success() );
+                CHECK( rating.value() == EDIBLE );
                 CHECK( rating.str() == "" );
             }
         }
@@ -231,6 +234,7 @@ TEST_CASE( "food not ok for herbivores", "[can_eat][edible_rating][herbivore]" )
 
             auto rating = dummy.can_eat( meat );
             CHECK_FALSE( rating.success() );
+            CHECK( rating.value() == INEDIBLE_MUTATION );
             CHECK( rating.str() == "The thought of eating that makes you feel sick." );
         }
 
@@ -240,6 +244,7 @@ TEST_CASE( "food not ok for herbivores", "[can_eat][edible_rating][herbivore]" )
 
             auto rating = dummy.can_eat( eggs );
             CHECK_FALSE( rating.success() );
+            CHECK( rating.value() == INEDIBLE_MUTATION );
             CHECK( rating.str() == "The thought of eating that makes you feel sick." );
         }
     }
@@ -259,6 +264,7 @@ TEST_CASE( "food not ok for carnivores", "[can_eat][edible_rating][carnivore]" )
 
             auto rating = dummy.can_eat( veggy );
             CHECK_FALSE( rating.success() );
+            CHECK( rating.value() == INEDIBLE_MUTATION );
             CHECK( rating.str() == "Eww.  Inedible plant stuff!" );
         }
 
@@ -268,6 +274,7 @@ TEST_CASE( "food not ok for carnivores", "[can_eat][edible_rating][carnivore]" )
 
             auto rating = dummy.can_eat( apple );
             CHECK_FALSE( rating.success() );
+            CHECK( rating.value() == INEDIBLE_MUTATION );
             CHECK( rating.str() == "Eww.  Inedible plant stuff!" );
         }
 
@@ -277,6 +284,7 @@ TEST_CASE( "food not ok for carnivores", "[can_eat][edible_rating][carnivore]" )
 
             auto rating = dummy.can_eat( bread );
             CHECK_FALSE( rating.success() );
+            CHECK( rating.value() == INEDIBLE_MUTATION );
             CHECK( rating.str() == "Eww.  Inedible plant stuff!" );
         }
 
@@ -286,6 +294,7 @@ TEST_CASE( "food not ok for carnivores", "[can_eat][edible_rating][carnivore]" )
 
             auto rating = dummy.can_eat( nuts );
             CHECK_FALSE( rating.success() );
+            CHECK( rating.value() == INEDIBLE_MUTATION );
             CHECK( rating.str() == "Eww.  Inedible plant stuff!" );
         }
     }
@@ -306,6 +315,7 @@ TEST_CASE( "comestible requiring tool to use", "[can_eat][edible_rating][tool][!
             THEN( "they cannot consume the substance" ) {
                 auto rating = dummy.can_eat( heroin );
                 CHECK_FALSE( rating.success() );
+                CHECK( rating.value() == NO_TOOL );
                 CHECK( rating.str() == "You need a syringe to consume that!" );
             }
         }
@@ -326,6 +336,7 @@ TEST_CASE( "mycus dependency", "[can_eat][edible_rating][mycus]" )
 
             auto rating = dummy.can_eat( nuts );
             CHECK_FALSE( rating.success() );
+            CHECK( rating.value() == INEDIBLE_MUTATION );
             CHECK( rating.str() == "We can't eat that.  It's not right for us." );
         }
 
@@ -335,6 +346,7 @@ TEST_CASE( "mycus dependency", "[can_eat][edible_rating][mycus]" )
 
             auto rating = dummy.can_eat( berry );
             CHECK( rating.success() );
+            CHECK( rating.value() == EDIBLE );
             CHECK( rating.str() == "" );
         }
     }
@@ -357,6 +369,7 @@ TEST_CASE( "proboscis trait", "[can_eat][edible_rating][proboscis]" )
             THEN( "they cannot drink it" ) {
                 auto rating = dummy.can_eat( soup );
                 CHECK_FALSE( rating.success() );
+                CHECK( rating.value() == INEDIBLE_MUTATION );
                 CHECK( rating.str() == "Ugh, you can't drink that!" );
             }
         }
@@ -368,6 +381,7 @@ TEST_CASE( "proboscis trait", "[can_eat][edible_rating][proboscis]" )
             THEN( "they cannot drink it" ) {
                 auto rating = dummy.can_eat( toastem );
                 CHECK_FALSE( rating.success() );
+                CHECK( rating.value() == INEDIBLE_MUTATION );
                 CHECK( rating.str() == "Ugh, you can't drink that!" );
             }
         }
@@ -381,6 +395,7 @@ TEST_CASE( "proboscis trait", "[can_eat][edible_rating][proboscis]" )
             THEN( "they can drink it" ) {
                 auto rating = dummy.can_eat( broth );
                 CHECK( rating.success() );
+                CHECK( rating.value() == EDIBLE );
                 CHECK( rating.str() == "" );
             }
         }
@@ -392,6 +407,7 @@ TEST_CASE( "proboscis trait", "[can_eat][edible_rating][proboscis]" )
             THEN( "they can consume it" ) {
                 auto rating = dummy.can_eat( aspirin );
                 CHECK( rating.success() );
+                CHECK( rating.value() == EDIBLE );
                 CHECK( rating.str() == "" );
             }
         }
