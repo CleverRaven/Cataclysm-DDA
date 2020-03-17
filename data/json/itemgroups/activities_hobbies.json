@@ -37,6 +37,8 @@
       [ "jersey", 30 ],
       [ "puck", 30 ],
       [ "basketball", 25 ],
+      [ "indoor_volleyball", 20 ],
+      [ "beach_volleyball", 20 ],
       [ "golf_club", 35 ],
       [ "hat_golf", 20 ],
       [ "gloves_golf", 20 ],
