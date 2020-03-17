@@ -4,6 +4,7 @@
 
 #include "cursesdef.h"
 #include "advanced_inv_listitem.h"
+#include "uistate.h"
 
 #include <functional>
 #include <map>
