@@ -349,7 +349,7 @@
   {
     "id": "wheel_motorbike",
     "type": "vehicle_part",
-    "name": "motorbike wheel",
+    "name": { "str": "motorbike wheel" },
     "item": "wheel_motorbike",
     "location": "under",
     "looks_like": "wheel",

@@ -2329,7 +2329,7 @@
   {
     "type": "vehicle_part",
     "id": "veh_forge",
-    "name": "mounted electric forge",
+    "name": { "str": "mounted electric forge" },
     "symbol": "&",
     "looks_like": "f_forge_rock",
     "color": "red",
@@ -2357,7 +2357,7 @@
   {
     "type": "vehicle_part",
     "id": "veh_kiln",
-    "name": "mounted electric kiln",
+    "name": { "str": "mounted electric kiln" },
     "symbol": "&",
     "looks_like": "f_kiln_empty",
     "color": "red",

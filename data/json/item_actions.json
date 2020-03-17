@@ -2,12 +2,12 @@
   {
     "type": "item_action",
     "id": "repair_fabric",
-    "name": "Repair cotton/leather/wool/Nomex/fur"
+    "name": { "str": "Repair cotton/leather/wool/Nomex/fur" }
   },
   {
     "type": "item_action",
     "id": "repair_metal",
-    "name": "Repair metal/plastic/kevlar"
+    "name": { "str": "Repair metal/plastic/kevlar" }
   },
   {
     "type": "item_action",
@@ -22,12 +22,12 @@
   {
     "type": "item_action",
     "id": "HAMMER",
-    "name": "Pull out nails"
+    "name": { "str": "Pull out nails" }
   },
   {
     "type": "item_action",
     "id": "picklock",
-    "name": "Pick a lock"
+    "name": { "str": "Pick a lock" }
   },
   {
     "type": "item_action",
@@ -37,7 +37,7 @@
   {
     "type": "item_action",
     "id": "CROWBAR",
-    "name": "Pry crate, window or door"
+    "name": { "str": "Pry crate, window or door" }
   },
   {
     "type": "item_action",
@@ -57,7 +57,7 @@
   {
     "type": "item_action",
     "id": "PACK_CBM",
-    "name": "Pack CBM in pouch"
+    "name": { "str": "Pack CBM in pouch" }
   },
   {
     "type": "item_action",
@@ -97,7 +97,7 @@
   {
     "type": "item_action",
     "id": "GUN_REPAIR",
-    "name": "Repair a gun"
+    "name": { "str": "Repair a gun" }
   },
   {
     "type": "item_action",
@@ -137,7 +137,7 @@
   {
     "type": "item_action",
     "id": "REMOVE_ALL_MODS",
-    "name": "Remove tool mods"
+    "name": { "str": "Remove tool mods" }
   },
   {
     "type": "item_action",
@@ -287,7 +287,7 @@
   {
     "type": "item_action",
     "id": "BELL",
-    "name": "Ring"
+    "name": { "str": "Ring" }
   },
   {
     "type": "item_action",
@@ -322,7 +322,7 @@
   {
     "type": "item_action",
     "id": "CAN_GOO",
-    "name": "Pour out"
+    "name": { "str": "Pour out" }
   },
   {
     "type": "item_action",
@@ -342,7 +342,7 @@
   {
     "type": "item_action",
     "id": "CATFOOD",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
@@ -432,7 +432,7 @@
   {
     "type": "item_action",
     "id": "DOGFOOD",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
@@ -597,7 +597,7 @@
   {
     "type": "item_action",
     "id": "LADDER",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
@@ -607,7 +607,7 @@
   {
     "type": "item_action",
     "id": "PLAY_GAME",
-    "name": "Play"
+    "name": { "str": "Play" }
   },
   {
     "type": "item_action",
@@ -627,7 +627,7 @@
   {
     "type": "item_action",
     "id": "MA_MANUAL",
-    "name": "Read"
+    "name": { "str": "Read" }
   },
   {
     "type": "item_action",
@@ -652,7 +652,7 @@
   {
     "type": "item_action",
     "id": "MP3",
-    "name": "Play music"
+    "name": { "str": "Play music" }
   },
   {
     "type": "item_action",
@@ -662,12 +662,12 @@
   {
     "type": "item_action",
     "id": "RPGDIE",
-    "name": "Roll die"
+    "name": { "str": "Roll die" }
   },
   {
     "type": "item_action",
     "id": "GASMASK",
-    "name": "Prepare to use"
+    "name": { "str": "Prepare to use" }
   },
   {
     "type": "item_action",
@@ -752,12 +752,12 @@
   {
     "type": "item_action",
     "id": "deploy_tent",
-    "name": "Put up"
+    "name": { "str": "Put up" }
   },
   {
     "type": "item_action",
     "id": "PORTAL",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
@@ -932,7 +932,7 @@
   {
     "type": "item_action",
     "id": "HAND_CRANK",
-    "name": "Recharge a battery"
+    "name": { "str": "Recharge a battery" }
   },
   {
     "type": "item_action",
@@ -962,7 +962,7 @@
   {
     "type": "item_action",
     "id": "WATER_PURIFIER",
-    "name": "Purify some water"
+    "name": { "str": "Purify some water" }
   },
   {
     "type": "item_action",
@@ -982,7 +982,7 @@
   {
     "type": "item_action",
     "id": "ammobelt",
-    "name": "Reload"
+    "name": { "str": "Reload" }
   },
   {
     "type": "item_action",
@@ -1032,12 +1032,12 @@
   {
     "type": "item_action",
     "id": "place_trap",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
     "id": "reveal_map",
-    "name": "Read"
+    "name": { "str": "Read" }
   },
   {
     "type": "item_action",
@@ -1057,12 +1057,12 @@
   {
     "type": "item_action",
     "id": "CATTLEFODDER",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
     "id": "BIRDFOOD",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
