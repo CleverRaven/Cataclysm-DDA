@@ -2792,7 +2792,7 @@
   {
     "type": "vehicle_part",
     "id": "recharge_station",
-    "name": "recharging station",
+    "name": { "str": "recharging station" },
     "symbol": "o",
     "color": "light_green",
     "broken_symbol": "#",
@@ -3488,7 +3488,7 @@
   {
     "type": "vehicle_part",
     "id": "reaper",
-    "name": "reaper",
+    "name": { "str": "reaper" },
     "symbol": "/",
     "color": "light_gray",
     "broken_symbol": "*",
