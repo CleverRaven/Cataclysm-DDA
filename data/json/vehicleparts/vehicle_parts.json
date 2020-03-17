@@ -877,7 +877,7 @@
   {
     "type": "vehicle_part",
     "id": "programmable_autopilot",
-    "name": "programmable autopilot",
+    "name": { "str": "programmable autopilot" },
     "symbol": "A",
     "color": "light_blue",
     "broken_symbol": "#",
@@ -892,11 +892,11 @@
     "flags": [ "ENABLED_DRAINS_EPOWER", "AUTOPILOT" ],
     "requirements": {
       "install": {
-        "time": 35000,
+        "time": "12 m",
         "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ], [ "computer", 5 ] ],
         "qualities": [ { "id": "SCREW", "level": 1 } ]
       },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 8000, "using": [ [ "adhesive", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "3 m", "using": [ [ "adhesive", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": [
