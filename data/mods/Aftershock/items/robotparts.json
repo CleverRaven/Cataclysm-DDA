@@ -1,0 +1,58 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "spidery_legs_big",
+    "name": "set of spidery legs",
+    "name_plural": "sets of spidery legs",
+    "description": "A set of big pointy legs, like the ones found under a tripod.",
+    "symbol": "W",
+    "color": "light_gray",
+    "weight": "40000 g",
+    "volume": "20 L",
+    "price": 200000,
+    "material": "steel",
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "tripod_chassis",
+    "name": "tripod chassis",
+    "name_plural": "tripod chassis",
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the tripod.",
+    "symbol": "c",
+    "color": "light_gray",
+    "weight": "40000 g",
+    "volume": "70000 ml",
+    "price": 200000,
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "chickenbot_chassis",
+    "name": "chicken walker chassis",
+    "name_plural": "chicken walker chassis",
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the chicken walker.",
+    "symbol": "c",
+    "color": "light_gray",
+    "weight": "60000 g",
+    "volume": "80000 ml",
+    "price": 300000,
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "tankbot_chassis",
+    "name": "Beagle chassis",
+    "name_plural": "Beagle chassis",
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Beagle tank.",
+    "symbol": "c",
+    "color": "light_gray",
+    "weight": "150000 g",
+    "volume": "575000 ml",
+    "price": 1000000,
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  }
+]

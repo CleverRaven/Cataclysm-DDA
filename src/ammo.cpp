@@ -20,7 +20,7 @@ ammo_map_t &all_ammunition_types()
 }
 } //namespace
 
-void ammunition_type::load_ammunition_type( JsonObject &jsobj )
+void ammunition_type::load_ammunition_type( const JsonObject &jsobj )
 {
     ammunition_type &res = all_ammunition_types()[ ammotype( jsobj.get_string( "id" ) ) ];
     res.name_             = jsobj.get_string( "name" );

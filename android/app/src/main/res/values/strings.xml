@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Cataclysm DDA</string>
-    <string name="installing">Installing game data...</string>
-    <string name="upgrading">Upgrading game data...</string>
+    <string name="installTitle">Installing game data...</string>
+    <string name="upgradeTitle">Upgrading game data...</string>
+    <string name="helpTitle">Help &amp; Controls</string>
+    <string name="helpMessage">"Swipe" for directional movement (hold for virtual joystick). "Tap" to confirm selection in menu or Pause one turn in-game (hold to Pause several turns in-game). "Double tap" to cancel or go back in menus (works like Escape key). "Pinch" to zoom in/out (in-game). Use hardware "Back" button to toggle virtual keyboard (hold to toggle keyboard shortcuts).</string>
 </resources>

@@ -157,7 +157,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CLAIRE2",
-    "dynamic_line": "You don't need as much luck if you are prepared and work together.  We've had our losses, my brother in law, Barry, was our best hunter but things are so different now...",
+    "dynamic_line": "You don't need as much luck if you are prepared and work together.  We've had our losses, my brother in law, Barry, was our best hunter but things are so different now…",
     "responses": [
       { "text": "What happened to Barry?", "topic": "TALK_BARRY" },
       { "text": "A farm must be a pretty safe place these days.", "topic": "TALK_CLAIRE_FARM" },
@@ -167,7 +167,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CLAIRE_TALK3",
-    "dynamic_line": "Well, nice to meet you. I imagine Jack was boasting about my herbal remedies, he's proud of what we've put together here.",
+    "dynamic_line": "Well, nice to meet you.  I imagine Jack was boasting about my herbal remedies, he's proud of what we've put together here.",
     "responses": [
       { "text": "He did mention you make remedies, are they effective?", "topic": "TALK_CLAIRE_MEDICINE" },
       { "text": "Must be nice, to have the quiet place amid so much madness.", "topic": "TALK_CLAIRE_FARM" },
@@ -222,7 +222,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CLAIRE_DAUGHTER",
-    "dynamic_line": "Jesse and her family live up at the horse farm. They may have some jobs for you.",
+    "dynamic_line": "Jesse and her family live up at the horse farm.  They may have some jobs for you.",
     "responses": [
       { "text": "I'd like to ask you something else…", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -286,7 +286,7 @@
       "inquire": "How is the search going?",
       "success": "Thanks.  Here's a small reward to show my appreciation for your help.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder if the wildlife ate all the greens..."
+      "failure": "I wonder if the wildlife ate all the greens…"
     }
   },
   {
@@ -318,7 +318,7 @@
       "inquire": "How is the search going?",
       "success": "Wow, perfect.  Here are some of my own remedies and if those don't work try my other gift.",
       "success_lie": "What good does this do us?",
-      "failure": "I'll have to find someone more at home in the forest..."
+      "failure": "I'll have to find someone more at home in the forest…"
     }
   },
   {
@@ -345,13 +345,13 @@
     "dialogue": {
       "describe": "I could use a barn cat to keep the mice down.",
       "offer": "I saw some feral cats out by the old cabin.  Can you capture one for me?",
-      "accepted": "Thank you!  Please hurry back! Take this cage so you have a chance of capturing one.",
+      "accepted": "Thank you!  Please hurry back!  Take this cage so you have a chance of capturing one.",
       "rejected": "I didn't want to use chemicals on these rats.",
       "advice": "Take this pet carrier; if you can get close to a cat, you can put it inside.  If you're having problems, try befriending it with cat food.",
       "inquire": "Have you found a cat?",
-      "success": "Thank you so much, I want you to have this copy of my natural remedy journal. I'll name this handsome fellow Joshua.",
+      "success": "Thank you so much, I want you to have this copy of my natural remedy journal.  I'll name this handsome fellow Joshua.",
       "success_lie": "What?!  You're lying, I can tell!  Did you even bring back my cage?",
-      "failure": "Oh no!  I guess they are too nimble for you..."
+      "failure": "Oh no!  I guess they are too nimble for you…"
     }
   }
 ]

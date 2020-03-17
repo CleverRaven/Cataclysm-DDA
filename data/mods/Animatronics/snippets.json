@@ -3,40 +3,26 @@
     "type": "snippet",
     "category": "flier",
     "text": [
-      "This is a crumpled old advertisement for a local pizzaria.  It depicts smiling kids and some sort of animal mascot.  The flier reads \"Eat, rock, party, play.\""
+      {
+        "id": "flier_animatronics_1",
+        "text": "This is a crumpled old advertisement for a local pizzaria.  It depicts smiling kids and some sort of animal mascot.  The flier reads \"Eat, rock, party, play.\""
+      },
+      {
+        "id": "flier_animatronics_2",
+        "//": "Reference to 11 Drunk Guys Play FNAF.",
+        "text": "This is a crumpled old advertisement for a local pizzaria.  It depicts smiling kids and some sort of animal mascot.  The flier reads \"Eat, rock, party, play!\"  Someone has crudely scrawled underneath it \"Smoke weed every day!\""
+      }
     ]
   },
   {
     "type": "snippet",
-    "category": "flier",
-    "//": "Reference to 11 Drunk Guys Play FNAF.",
+    "category": "note",
     "text": [
-      "This is a crumpled old advertisement for a local pizzaria.  It depicts smiling kids and some sort of animal mascot.  The flier reads \"Eat, rock, party, play!\"  Someone has crudely scrawled underneath it \"Smoke weed every day!\""
+      { "id": "note_animatronics_1", "text": "\"This is a kids place, why is their mascot so stacked!?\"" },
+      { "id": "note_animatronics_2", "text": "\"NO BAD ROBOT I DON'T WANT PIZZA.\"" },
+      { "id": "note_animatronics_3", "text": "\"Fuckin haunted pizza joint, just burn it down\"" },
+      { "id": "note_animatronics_4", "text": "\"Pizza, arcade tokens, horrible death, got my bases covered.\"" },
+      { "id": "note_animatronics_5", "text": "\"leg eaten by zombie robot furry help\"" }
     ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"This is a kids place, why is their mascot so stacked!?\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"NO BAD ROBOT I DON'T WANT PIZZA.\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"Fuckin haunted pizza joint, just burn it down\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"Pizza, arcade tokens, horrible death, got my bases covered.\"" ]
-  },
-  {
-    "type": "snippet",
-    "category": "note",
-    "text": [ "\"leg eaten by zombie robot furry help\"" ]
   }
 ]

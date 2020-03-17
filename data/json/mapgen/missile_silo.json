@@ -509,7 +509,7 @@
           "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 10,
           "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ],
-          "options": [ { "name": "Launch Missile", "action": "miss_launch" }, { "name": "Disarm Missile", "action": "miss_disarm" } ]
+          "options": [ { "name": "Disarm Missile", "action": "miss_disarm" } ]
         }
       },
       "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],

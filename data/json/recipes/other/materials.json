@@ -1,6 +1,28 @@
 [
   {
     "type": "recipe",
+    "result": "cordage_6",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "withered", 1 ], [ "straw_pile", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cordage_36",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "cordage_6", 6 ], [ "withered", 6 ], [ "straw_pile", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "tanned_hide",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -69,6 +91,17 @@
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "tin_plate", 1 ], [ "tin_cup", 1 ], [ "bowl_pewter", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "vine_30",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "7 m 30 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "vine_6", 5 ] ] ]
   },
   {
     "result": "fuse",

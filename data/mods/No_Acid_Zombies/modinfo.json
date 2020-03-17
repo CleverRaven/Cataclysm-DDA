@@ -5,7 +5,8 @@
     "name": "No Acid Zombies",
     "description": "Removes all acid-based zombies from the game.",
     "category": "monster_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "MONSTER_BLACKLIST",
@@ -14,7 +15,8 @@
       "mon_zombie_corrosive",
       "mon_zombie_acidic",
       "mon_zombie_soldier_acid_1",
-      "mon_zombie_soldier_acid_2"
+      "mon_zombie_soldier_acid_2",
+      "mon_zombie_wretched"
     ]
   }
 ]

@@ -1,0 +1,49 @@
+[
+  {
+    "type": "item_group",
+    "id": "knifeblock",
+    "items": [ [ "knife_steak", 85 ], [ "knife_butcher", 10 ], [ "kukri", 1 ], [ "tongs", 28 ], [ "meat", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "oven",
+    "items": [
+      [ "pan", 80 ],
+      [ "rolling_pin", 25 ],
+      [ "waffleiron", 25 ],
+      [ "teapot", 25 ],
+      [ "pot", 80 ],
+      [ "pot_copper", 20 ],
+      [ "pot_canning", 15 ],
+      [ "pressure_cooker", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bed",
+    "items": [ [ "blanket", 25 ], [ "down_blanket", 13 ], [ "pillow", 30 ], [ "down_pillow", 15 ], [ "electric_blanket", 4 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "pool_table",
+    "items": [ [ "pool_cue", 4 ], [ "pool_ball", 40 ] ]
+  },
+  {
+    "id": "barrels",
+    "type": "item_group",
+    "items": [ [ "wooden_barrel", 30 ], [ "30gal_barrel", 50 ], [ "30gal_drum", 45 ], [ "55gal_drum", 35 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "flower_pots",
+    "items": [ [ "clay_pot_flower", 65 ], [ "plastic_pot_flower", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "flower_pots_broken",
+    "items": [
+      { "item": "ceramic_shard", "prob": 65, "count-min": 2, "count-max": 5 },
+      { "item": "plastic_chunk", "prob": 100, "count-min": 2, "count-max": 5 }
+    ]
+  }
+]

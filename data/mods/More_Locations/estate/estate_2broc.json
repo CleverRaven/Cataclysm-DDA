@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "estate_2broc",
-    "comment": "second floor, bottom right outer corner",
+    "//": "second floor, bottom right outer corner",
     "weight": 0,
     "method": "json",
     "object": {

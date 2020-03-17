@@ -4,7 +4,7 @@
     "ident": "aftershock",
     "name": "Aftershock",
     "authors": [ "Esther", "Coolthulu" ],
-    "maintainers": [ "Esther" ],
+    "maintainers": [ "Maleclypse" ],
     "description": "Drifts the game away from realism and more towards sci-fi.",
     "category": "content",
     "dependencies": [ "dda" ]

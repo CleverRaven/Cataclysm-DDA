@@ -165,7 +165,6 @@
             "I": "f_hay"
           },
           "toilets": { "B": {  } },
-          "comment": "randomly picked from a group ---v",
           "place_items": [
             { "item": "fieldoffice_weapons", "chance": 70, "x": [ 20, 21 ], "y": 20 },
             { "item": "fieldoffice_tools", "chance": 80, "x": [ 18, 19 ], "y": 20 },
@@ -189,12 +188,10 @@
             { "monster": "GROUP_DINOSAUR_HARMLESS", "chance": 3, "x": [ 9, 13 ], "y": [ 16, 20 ], "density": 0.15 },
             { "monster": "GROUP_FIELDOFFICE_ZOMBIE", "chance": 2, "x": [ 1, 22 ], "y": [ 1, 6 ], "density": 0.15 },
             { "monster": "GROUP_FIELDOFFICE_ZOMBIE", "chance": 2, "x": [ 16, 22 ], "y": [ 8, 21 ], "density": 0.15 }
-          ],
-          "comment": "end of mapgen json definition ---v"
-        },
-        "comment": "end of mapgen entry ---v",
-        "flags": [ "SIDEWALK" ]
+          ]
+        }
       }
-    ]
+    ],
+    "flags": [ "SIDEWALK" ]
   }
 ]

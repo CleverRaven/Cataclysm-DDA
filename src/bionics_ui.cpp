@@ -1,7 +1,6 @@
 #include "player.h" // IWYU pragma: associated
 
 #include <algorithm> //std::min
-#include <sstream>
 #include <cstddef>
 
 #include "bionics.h"
@@ -13,6 +12,7 @@
 #include "translations.h"
 #include "options.h"
 #include "string_id.h"
+#include "cata_string_consts.h"
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -137,7 +137,8 @@ void print_columnns( bionic *bio, bool is_selected, bool name_only, const catacu
 
 bionic *player::bionic_by_invlet( const int ch )
 {
-    if( ch == ' ' ) {  // space is a special case for unassigned
+    // space is a special case for unassigned
+    if( ch == ' ' ) {
         return nullptr;
     }
 
@@ -161,18 +162,42 @@ char get_free_invlet( player &p )
 
 static void draw_bionics_titlebar( const catacurses::window &window, player *p )
 {
+    input_context ctxt( "BIONICS" );
+
     werase( window );
-    std::ostringstream fuel_stream;
-    fuel_stream << _( "Available Fuel: " );
+    std::string fuel_string;
+    bool found_fuel = false;
+    fuel_string = _( "Available Fuel: " );
     for( const bionic &bio : *p->my_bionics ) {
-        for( const itype_id fuel : p->get_fuel_available( bio.id ) ) {
-            const item temp_fuel( fuel ) ;
-            if( temp_fuel.has_flag( "PERPETUAL" ) ) {
+        for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
+            found_fuel = true;
+            const item temp_fuel( fuel );
+            if( temp_fuel.has_flag( flag_PERPETUAL ) ) {
+                if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
+                    continue;
+                }
+                fuel_string += colorize( temp_fuel.tname(), c_green ) + " ";
                 continue;
             }
-            fuel_stream << temp_fuel.tname() << ": " << "<color_green>" << p->get_value(
-                            fuel ) << "</color>" << "/" << p->get_total_fuel_capacity( fuel ) << " ";
+            fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel ),
+                           c_green ) + "/" + std::to_string( p->get_total_fuel_capacity( fuel ) ) + " ";
         }
+        if( bio.info().is_remote_fueled && p->has_active_bionic( bio.id ) ) {
+            const itype_id rem_fuel = p->find_remote_fuel( true );
+            if( !rem_fuel.empty() ) {
+                const item tmp_rem_fuel( rem_fuel );
+                if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
+                    fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
+                } else {
+                    fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel ),
+                                   c_green ) + " ";
+                }
+                found_fuel = true;
+            }
+        }
+    }
+    if( !found_fuel ) {
+        fuel_string.clear();
     }
     fold_and_print( window, point_east, getmaxx( window ), c_white, fuel_stream.str() );
     wrefresh( window );
@@ -198,11 +223,15 @@ static void draw_bionics_tabs( const catacurses::window &win, std::vector<bvecto
     int width = getmaxx( win );
     int height = getmaxy( win );
     for( int i = 0; i < height - 1; ++i ) {
-        mvwputch( win, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( win, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
+        // |
+        mvwputch( win, point( 0, i ), BORDER_COLOR, LINE_XOXO );
+        // |
+        mvwputch( win, point( width - 1, i ), BORDER_COLOR, LINE_XOXO );
     }
-    mvwputch( win, point( 0, height - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
+    // |-
+    mvwputch( win, point( 0, height - 1 ), BORDER_COLOR, LINE_XXXO );
+    // -|
+    mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX );
 
     wrefresh( win );
 }
@@ -271,19 +300,33 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     }
 
     // define and draw a proper intersection character
-    int bionic_chr = LINE_OXOX; // '-'                // 001
-    if( move_up && !move_down && !move_same ) {        // 100
-        bionic_chr = LINE_XOOX;  // '_|'
-    } else if( move_up && move_down && !move_same ) {  // 110
-        bionic_chr = LINE_XOXX;  // '-|'
-    } else if( move_up && move_down && move_same ) {   // 111
-        bionic_chr = LINE_XXXX;  // '-|-'
-    } else if( move_up && !move_down && move_same ) {  // 101
-        bionic_chr = LINE_XXOX;  // '_|_'
-    } else if( !move_up && move_down && !move_same ) { // 010
-        bionic_chr = LINE_OOXX;  // '^|'
-    } else if( !move_up && move_down && move_same ) {  // 011
-        bionic_chr = LINE_OXXX;  // '^|^'
+    // 001
+    // '-'
+    int bionic_chr = LINE_OXOX;
+    if( move_up && !move_down && !move_same ) {
+        // 100
+        // '_|'
+        bionic_chr = LINE_XOOX;
+    } else if( move_up && move_down && !move_same ) {
+        // 110
+        // '-|'
+        bionic_chr = LINE_XOXX;
+    } else if( move_up && move_down && move_same ) {
+        // 111
+        // '-|-'
+        bionic_chr = LINE_XXXX;
+    } else if( move_up && !move_down && move_same ) {
+        // 101
+        // '_|_'
+        bionic_chr = LINE_XXOX;
+    } else if( !move_up && move_down && !move_same ) {
+        // 010
+        // '^|'
+        bionic_chr = LINE_OOXX;
+    } else if( !move_up && move_down && move_same ) {
+        // 011
+        // '^|^'
+        bionic_chr = LINE_OXXX;
     }
     mvwputch( win, point( turn_x, start_y ), BORDER_COLOR, bionic_chr );
 }
@@ -378,6 +421,8 @@ void player::power_bionics()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "USAGE_HELP" );
+    ctxt.register_action( "TOGGLE_SAFE_FUEL" );
+    ctxt.register_action( "TOGGLE_AUTO_START" );
 
     int cur_tab_idx = 0;
     for( ; static_cast<size_t>( cur_tab_idx ) < bionics_by_type.size() &&
@@ -503,6 +548,9 @@ void player::power_bionics()
         const std::string action = ctxt.handle_input();
         const int ch = ctxt.get_raw_input().get_first_input();
         bionic *tmp = nullptr;
+        bool confirmCheck = false;
+        bool toggle_safe_fuel = false;
+        bool toggle_auto_start = false;
 
         bool need_activate = false;
         if( action == "DOWN" ) {
@@ -578,6 +626,12 @@ void player::power_bionics()
                     }
                 } while( bionics_by_type[cur_tab_idx].empty() );
             }
+        } else if( action == "REASSIGN" ) {
+            menu_mode = REASSIGNING;
+        } else if( action == "TOGGLE_SAFE_FUEL" ) {
+            toggle_safe_fuel = true;
+        } else if( action == "TOGGLE_AUTO_START" ) {
+            toggle_auto_start = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             redraw = true;
         } else if( action == "CONFIRM" ) {
@@ -597,7 +651,7 @@ void player::power_bionics()
             popup( help_str );
             redraw = true;
         } else {
-            if( ch == ' ' || ch == KEY_ESCAPE ) {
+<            if( ch == ' ' || ch == KEY_ESCAPE ) {
                 break;
             }
             tmp = bionic_by_invlet( ch );
@@ -617,6 +671,50 @@ void player::power_bionics()
                                 scroll_position++;
                             }
                             is_found = true;
+            confirmCheck = true;
+        }
+
+        if( toggle_safe_fuel ) {
+            auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            if( !current_bionic_list->empty() ) {
+                tmp = bio_list[cursor];
+                if( !tmp->info().fuel_opts.empty() || tmp->info().is_remote_fueled ) {
+                    tmp->toggle_safe_fuel_mod();
+                    g->refresh_all();
+                    redraw = true;
+                } else {
+                    popup( _( "You can't toggle fuel saving mode on a non-fueled CBM." ) );
+                }
+
+            }
+        }
+
+        if( toggle_auto_start ) {
+            auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            if( !current_bionic_list->empty() ) {
+                tmp = bio_list[cursor];
+                if( !tmp->info().fuel_opts.empty() || tmp->info().is_remote_fueled ) {
+                    tmp->toggle_auto_start_mod();
+                    g->refresh_all();
+                    redraw = true;
+                } else {
+                    popup( _( "You can't toggle auto start mode on a non-fueled CBM." ) );
+                }
+            }
+        }
+
+        //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
+        if( confirmCheck ) {
+            auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            if( action == "CONFIRM" && !current_bionic_list->empty() ) {
+                tmp = bio_list[cursor];
+            } else {
+                tmp = bionic_by_invlet( ch );
+                if( tmp && tmp != bio_last ) {
+                    // new bionic selected, update cursor and scroll position
+                    int temp_cursor = 0;
+                    for( temp_cursor = 0; temp_cursor < static_cast<int>( bio_list.size() ); temp_cursor++ ) {
+                        if( bio_list[temp_cursor] == tmp ) {
                             break;
                         }
                     }

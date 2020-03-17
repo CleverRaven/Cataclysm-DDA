@@ -261,13 +261,13 @@ const MonsterGroup &MonsterGroupManager::GetMonsterGroup( const mongroup_id &gro
     }
 }
 
-void MonsterGroupManager::LoadMonsterBlacklist( JsonObject &jo )
+void MonsterGroupManager::LoadMonsterBlacklist( const JsonObject &jo )
 {
     add_array_to_set( monster_blacklist, jo, "monsters" );
     add_array_to_set( monster_categories_blacklist, jo, "categories" );
 }
 
-void MonsterGroupManager::LoadMonsterWhitelist( JsonObject &jo )
+void MonsterGroupManager::LoadMonsterWhitelist( const JsonObject &jo )
 {
     if( jo.has_string( "mode" ) && jo.get_string( "mode" ) == "EXCLUSIVE" ) {
         monster_whitelist_is_exclusive = true;
@@ -328,7 +328,7 @@ void MonsterGroupManager::FinalizeMonsterGroups()
     }
 }
 
-void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
+void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
 {
     float mon_upgrade_factor = get_option<float>( "MONSTER_UPGRADE_FACTOR" );
 
@@ -346,10 +346,7 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
     }
     g.is_animal = jo.get_bool( "is_animal", false );
     if( jo.has_array( "monsters" ) ) {
-        JsonArray monarr = jo.get_array( "monsters" );
-
-        while( monarr.has_more() ) {
-            JsonObject mon = monarr.next_object();
+        for( JsonObject mon : jo.get_array( "monsters" ) ) {
             const mtype_id name = mtype_id( mon.get_string( "monster" ) );
 
             int freq = mon.get_int( "freq" );
@@ -373,9 +370,8 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
             MonsterGroupEntry new_mon_group = MonsterGroupEntry( name, freq, cost, pack_min, pack_max, starts,
                                               ends );
             if( mon.has_member( "conditions" ) ) {
-                JsonArray conditions_arr = mon.get_array( "conditions" );
-                while( conditions_arr.has_more() ) {
-                    new_mon_group.conditions.push_back( conditions_arr.next_string() );
+                for( const std::string line : mon.get_array( "conditions" ) ) {
+                    new_mon_group.conditions.push_back( line );
                 }
             }
 

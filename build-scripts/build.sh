@@ -2,13 +2,14 @@
 
 # Build script intended for use in Travis CI
 
-set -ex
+set -exo pipefail
 
 num_jobs=3
 
 function run_tests
 {
-    $WINE "$@" -d yes --rng-seed time $EXTRA_TEST_OPTS
+    # The grep supresses lines that begin with "0.0## s:", which are timing lines for tests with a very short duration.
+    $WINE "$@" -d yes --use-colour yes --rng-seed time $EXTRA_TEST_OPTS | grep -Ev "^0\.0[0-9]{2} s:"
 }
 
 date +%s > build-start-time
@@ -112,7 +113,8 @@ then
         {
             if [ -n "$1" ]
             then
-                echo "$1" | shuf | xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh
+                echo "$1" | shuf | \
+                    xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh -quiet
             else
                 echo "No files to analyze"
             fi
@@ -144,7 +146,7 @@ then
     cd android
     # Specify dumb terminal to suppress gradle's constatnt output of time spent building, which
     # fills the log with nonsense.
-    TERM=dumb ./gradlew assembleRelease -Pj=$num_jobs -Plocalize=false -Pabi32=false -Pabi64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
+    TERM=dumb ./gradlew assembleRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
     make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 
@@ -159,6 +161,18 @@ else
             wait -n
         fi
         wait -n
+    fi
+
+    if [ -n "$TEST_STAGE" ]
+    then
+        # Run the tests one more time, without actually running any tests, just to verify that all
+        # the mod data can be successfully loaded
+
+        # Use a blacklist of mods that currently fail to load cleanly.  Hopefully this list will
+        # shrink over time.
+        blacklist=build-scripts/mod_test_blacklist
+        mods="$(./build-scripts/get_all_mods.py $blacklist)"
+        run_tests ./tests/cata_test --user-dir=all_modded --mods="$mods" '~*'
     fi
 fi
 ccache --show-stats

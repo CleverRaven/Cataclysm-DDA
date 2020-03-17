@@ -2,7 +2,7 @@
 #ifndef MAP_EXTRAS_H
 #define MAP_EXTRAS_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <unordered_map>
 
@@ -38,7 +38,7 @@ class map_extra
         std::string name;
         std::string description;
         std::string generator_id;
-        map_extra_method generator_method;
+        map_extra_method generator_method = map_extra_method::null;
         bool autonote = false;
         uint32_t symbol = UTF8_getch( "X" );
         nc_color color = c_red;
@@ -49,7 +49,7 @@ class map_extra
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void check() const;
 };
 
@@ -63,8 +63,10 @@ FunctionMap all_functions();
 void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs_sub );
 void apply_function( const std::string &id, map &m, const tripoint &abs_sub );
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void check_consistency();
+
+void debug_spawn_test();
 
 /// This function provides access to all loaded map extras.
 const generic_factory<map_extra> &mapExtraFactory();

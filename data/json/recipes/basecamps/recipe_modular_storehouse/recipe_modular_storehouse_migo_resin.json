@@ -1,0 +1,173 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_east",
+    "description": "We could use a large mi-go resin central storage building.  Begin by building the east wing.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_room0_migo_resin_east",
+    "blueprint_name": "east storage wing",
+    "blueprint_requires": [ { "id": "fbms_0" } ],
+    "blueprint_provides": [ { "id": "fbms_east" } ],
+    "blueprint_excludes": [ { "id": "fbms_east" } ],
+    "blueprint_needs": {
+      "time": "1 d",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 48 ] ] ] }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_west",
+    "description": "We could use a large mi-go resin central storage building.  Continue by building the west wing.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_room1_migo_resin_west",
+    "blueprint_name": "east storage wing",
+    "blueprint_requires": [ { "id": "fbms_0" } ],
+    "blueprint_provides": [ { "id": "fbms_west" } ],
+    "blueprint_excludes": [ { "id": "fbms_west" } ],
+    "blueprint_needs": {
+      "time": "1 d",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 48 ] ] ] }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_northwest",
+    "description": "We could use a large mi-go resin central storage building.  Continue by building the northwest corner.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_room2_migo_resin_northwest",
+    "blueprint_name": "northwest storeroom corner",
+    "blueprint_requires": [ { "id": "fbms_west" } ],
+    "blueprint_provides": [ { "id": "fbms_northwest" } ],
+    "blueprint_excludes": [ { "id": "fbms_northwest" } ],
+    "blueprint_needs": {
+      "time": "10 h",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 17 ] ] ] }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_southwest",
+    "description": "We could use a large mi-go resin central storage building.  Continue by building the southwest corner.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_room3_migo_resin_southwest",
+    "blueprint_name": "southwest storeroom corner",
+    "blueprint_requires": [ { "id": "fbms_west" } ],
+    "blueprint_provides": [ { "id": "fbms_southwest" } ],
+    "blueprint_excludes": [ { "id": "fbms_southwest" } ],
+    "blueprint_needs": {
+      "time": "10 h",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 17 ] ] ] }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_northeast",
+    "description": "We could use a large mi-go resin central storage building.  Continue by building the northeast corner.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_room4_migo_resin_northeast",
+    "blueprint_name": "northeast storeroom corner",
+    "blueprint_requires": [ { "id": "fbms_east" } ],
+    "blueprint_provides": [ { "id": "fbms_northeast" } ],
+    "blueprint_excludes": [ { "id": "fbms_northeast" } ],
+    "blueprint_needs": {
+      "time": "10 h",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 17 ] ] ] }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_southeast",
+    "description": "We could use a large mi-go resin central storage building.  Continue by building the southeast corner.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_room5_migo_resin_southeast",
+    "blueprint_name": "southeast storeroom corner",
+    "blueprint_requires": [ { "id": "fbms_east" } ],
+    "blueprint_provides": [ { "id": "fbms_southeast" } ],
+    "blueprint_excludes": [ { "id": "fbms_southeast" } ],
+    "blueprint_needs": {
+      "time": "10 h",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 17 ] ] ] }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_south",
+    "description": "We could use a large mi-go resin central storage building.  Continue by building the southern entrance.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_room6_migo_resin_south",
+    "blueprint_name": "south storeroom entrance",
+    "blueprint_requires": [ { "id": "fbms_southeast" }, { "id": "fbms_southwest" } ],
+    "blueprint_provides": [ { "id": "fbms_south" } ],
+    "blueprint_excludes": [ { "id": "fbms_south" } ],
+    "blueprint_needs": {
+      "time": "1 d 18 h",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 58 ] ] ] }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_north",
+    "description": "We could use a large mi-go resin central storage building.  Continue by building the northern entrance.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_room7_migo_resin_north",
+    "blueprint_name": "north storeroom entrance",
+    "blueprint_requires": [ { "id": "fbms_northeast" }, { "id": "fbms_northwest" } ],
+    "blueprint_provides": [ { "id": "fbms_north" } ],
+    "blueprint_excludes": [ { "id": "fbms_north" } ],
+    "blueprint_needs": {
+      "time": "1 d 18 h",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 58 ] ] ] }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_storehouse_migo_resin_center",
+    "description": "We could use a large mi-go resin central storage building.  Continue by filling in the floor.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_room8_migo_resin_center",
+    "blueprint_name": "north storeroom entrance",
+    "blueprint_requires": [ { "id": "fbms_north" }, { "id": "fbms_south" } ],
+    "blueprint_provides": [ { "id": "fbms_center" } ],
+    "blueprint_excludes": [ { "id": "fbms_center" } ],
+    "blueprint_needs": {
+      "time": "3 d 18 h",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 120 ] ] ] }
+    }
+  }
+]

@@ -141,10 +141,9 @@ class mod_manager
         /**
          * Load mod info from a json object. Put the loaded modinfo
          * directly into @ref mod_map.
-         * @throws std::string on all kind of errors. The string
-         * contains the error message.
+         * @throws JsonError on all kind of errors.
          */
-        void load_modfile( JsonObject &jo, const std::string &path );
+        void load_modfile( const JsonObject &jo, const std::string &path );
 
         bool set_default_mods( const mod_id &ident );
         void remove_mod( const mod_id &ident );

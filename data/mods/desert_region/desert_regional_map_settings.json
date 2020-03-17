@@ -3,7 +3,19 @@
     "type": "region_settings",
     "id": "default",
     "default_oter": "desert",
-    "default_groundcover": [ [ "t_searth_test", 4 ], [ "t_sand", 1 ] ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "region_terrain_and_furniture": {
+      "terrain": {
+        "t_region_groundcover": { "t_searth_test": 4, "t_sand": 1 },
+        "t_region_shrub": { "t_shrub": 1 },
+        "t_region_groundcover_urban": { "t_searth_test": 20, "t_grass_dead": 2 },
+        "t_region_groundcover_forest": { "t_shrub": 5, "t_tree_dead": 5, "t_grass_dead": 3, "t_dirt": 1 },
+        "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_dirt": 1 },
+        "t_region_tree": { "t_tree_willow": 1, "t_tree_dead": 1 },
+        "t_region_groundcover_barren": { "t_searth_test": 30, "t_sand": 5, "t_grass_dead": 2, "t_railroad_rubble": 1 }
+      },
+      "furniture": { "f_region_flower": { "f_mutcactus_test": 1 } }
+    },
     "river_scale": 0.0,
     "field_coverage": {
       "percent_coverage": 0.1333,
@@ -519,14 +531,7 @@
         "extras": { "mx_military": 5, "mx_science": 12, "mx_collegekids": 15, "mx_portal": 7, "mx_portal_in": 1, "mx_anomaly": 3 }
       }
     },
-    "num_forests": 250,
-    "forest_size_min": 15,
-    "forest_size_max": 40,
-    "swamp_maxsize": 4,
-    "swamp_river_influence": 5,
-    "swamp_spread_chance": 8500,
     "city": {
-      "type": "town",
       "shop_radius": 30,
       "shop_sigma": 50,
       "park_radius": 20,
@@ -547,7 +552,7 @@
         "trailerpark_city": 15,
         "railroad_city": 10
       },
-      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25, "basement_bionic": 50 },
+      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25 },
       "parks": {
         "park": 400,
         "pool": 100,
@@ -677,7 +682,9 @@
         "s_thrift": 100,
         "s_petstore": 100,
         "megastore": 150,
-        "hotel": 75,
+        "hotel_1": 75,
+        "hotel_2": 75,
+        "hotel_3": 75,
         "hospital": 175,
         "public_works": 200,
         "office_tower_2": 150,

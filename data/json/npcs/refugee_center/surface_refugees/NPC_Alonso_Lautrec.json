@@ -134,7 +134,7 @@
       "type": "general",
       "context": "none",
       "value": "asked",
-      "no": "Now that you are here, everything.  Is there anything Alonso can... *do for you*?",
+      "no": "Now that you are here, everything.  Is there anything Alonso can… *do for you*?",
       "yes": "Well, it's a lot better now that you're here.  Nice to see a familiar face."
     },
     "responses": [

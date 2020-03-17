@@ -1,3 +1,4 @@
+#include "advanced_inv_area.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_utility.h"
@@ -6,6 +7,7 @@
 #include "item_category.h"
 #include "item_search.h"
 #include "item_stack.h"
+#include "game.h"
 #include "output.h"
 #include "player.h"
 #include "string_formatter.h"
@@ -27,6 +29,7 @@
 #include "advanced_inv_pane.h"
 #include "vehicle.h"
 #include "map.h"
+#include "options.h"
 
 #include <algorithm>
 #include <cassert>
@@ -37,9 +40,40 @@
 #include <iterator>
 #include <utility>
 #include <numeric>
+#include "cata_string_consts.h"
+
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
+void advanced_inventory_pane::save_settings()
+{
+    save_state->in_vehicle = in_vehicle();
+    save_state->area_idx = get_area();
+    save_state->selected_idx = index;
+    save_state->filter = filter;
+    save_state->sort_idx = sortby;
+}
+
+void advanced_inventory_pane::load_settings( int saved_area_idx,
+        const std::array<advanced_inv_area, NUM_AIM_LOCATIONS> &squares, bool is_re_enter )
+{
+    const int i_location = ( get_option<bool>( "OPEN_DEFAULT_ADV_INV" ) ) ? saved_area_idx :
+                           save_state->area_idx;
+    const aim_location location = static_cast<aim_location>( i_location );
+    auto square = squares[location];
+    // determine the square's vehicle/map item presence
+    bool has_veh_items = square.can_store_in_vehicle() ?
+                         !square.veh->get_items( square.vstor ).empty() : false;
+    bool has_map_items = !g->m.i_at( square.pos ).empty();
+    // determine based on map items and settings to show cargo
+    bool show_vehicle = is_re_enter ?
+                        save_state->in_vehicle : has_veh_items ? true :
+                        has_map_items ? false : square.can_store_in_vehicle();
+    set_area( square, show_vehicle );
+    sortby = static_cast<advanced_inv_sortby>( save_state->sort_idx );
+    index = save_state->selected_idx;
+    filter = save_state->filter;
+}
 
 bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const
 {
@@ -48,7 +82,7 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
-    if( it.has_flag( "HIDDEN_ITEM" ) ) {
+    if( it.has_flag( flag_HIDDEN_ITEM ) ) {
         return true;
     }
     if( filter.empty() ) {
@@ -138,8 +172,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
 
 void advanced_inventory_pane::paginate( size_t itemsPerPage )
 {
+    // not needed as there are no category entries here.
     if( sortby != SORTBY_CATEGORY ) {
-        return; // not needed as there are no category entries here.
+        return;
     }
     // first, we insert all the items, then we sort the result
     for( size_t i = 0; i < items.size(); ++i ) {
@@ -175,10 +210,14 @@ void advanced_inventory_pane::fix_index()
 
 void advanced_inventory_pane::skip_category_headers( int offset )
 {
-    assert( offset != 0 ); // 0 would make no sense
-    assert( static_cast<size_t>( index ) < items.size() ); // valid index is required
-    assert( offset == -1 || offset == +1 ); // only those two offsets are allowed
-    assert( !items.empty() ); // index would not be valid, and this would be an endless loop
+    // 0 would make no sense
+    assert( offset != 0 );
+    // valid index is required
+    assert( static_cast<size_t>( index ) < items.size() );
+    // only those two offsets are allowed
+    assert( offset == -1 || offset == +1 );
+    // index would not be valid, and this would be an endless loop
+    assert( !items.empty() );
     while( !items[index].is_item_entry() ) {
         mod_index( offset );
     }
@@ -186,7 +225,8 @@ void advanced_inventory_pane::skip_category_headers( int offset )
 
 void advanced_inventory_pane::mod_index( int offset )
 {
-    assert( offset != 0 ); // 0 would make no sense
+    // 0 would make no sense
+    assert( offset != 0 );
     assert( !items.empty() );
     index += offset;
     if( index < 0 ) {
@@ -198,7 +238,8 @@ void advanced_inventory_pane::mod_index( int offset )
 
 void advanced_inventory_pane::scroll_by( int offset )
 {
-    assert( offset != 0 ); // 0 would make no sense
+    // 0 would make no sense
+    assert( offset != 0 );
     if( items.empty() ) {
         return;
     }
@@ -209,26 +250,31 @@ void advanced_inventory_pane::scroll_by( int offset )
 
 void advanced_inventory_pane::scroll_category( int offset )
 {
-    assert( offset != 0 ); // 0 would make no sense
-    assert( offset == -1 || offset == +1 ); // only those two offsets are allowed
+    // 0 would make no sense
+    assert( offset != 0 );
+    // only those two offsets are allowed
+    assert( offset == -1 || offset == +1 );
     if( items.empty() ) {
         return;
     }
-    assert( get_cur_item_ptr() != nullptr ); // index must already be valid!
+    // index must already be valid!
+    assert( get_cur_item_ptr() != nullptr );
     auto cur_cat = items[index].cat;
     if( offset > 0 ) {
         while( items[index].cat == cur_cat ) {
             index++;
+            // wrap to begin, stop there.
             if( static_cast<size_t>( index ) >= items.size() ) {
-                index = 0; // wrap to begin, stop there.
+                index = 0;
                 break;
             }
         }
     } else {
         while( items[index].cat == cur_cat ) {
             index--;
+            // wrap to end, stop there.
             if( index < 0 ) {
-                index = static_cast<int>( items.size() ) - 1; // wrap to end, stop there.
+                index = static_cast<int>( items.size() ) - 1;
                 break;
             }
         }

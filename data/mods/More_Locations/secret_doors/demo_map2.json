@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "motel_1",
-    "comment": "example for secret door terrains.",
+    "//": "example for secret door terrains.",
     "weight": 0,
     "method": "json",
     "object": {

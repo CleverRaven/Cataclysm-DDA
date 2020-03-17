@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "estate_umid",
-    "comment": "underground, mid. ",
+    "//": "underground, mid. ",
     "weight": 99,
     "method": "json",
     "object": {

@@ -80,25 +80,35 @@ struct bionic_data {
     */
     bool included = false;
     /**Factor modifiying weight capacity*/
-    float weight_capacity_modifier;
+    float weight_capacity_modifier = 0.0f;
     /**Bonus to weight capacity*/
-    units::mass weight_capacity_bonus;
+    units::mass weight_capacity_bonus = 0_gram;
     /**Map of stats and their corresponding bonuses passively granted by a bionic*/
     std::map<Character::stat, int> stat_bonus;
+    /**This bionic draws power through a cable*/
+    bool is_remote_fueled = false;
     /**Fuel types that can be used by this bionic*/
     std::vector<itype_id> fuel_opts;
     /**How much fuel this bionic can hold*/
-    int fuel_capacity;
+    int fuel_capacity = 0;
     /**Fraction of fuel energy converted to bionic power*/
-    float fuel_efficiency;
+    float fuel_efficiency = 0.0f;
     /**Fraction of fuel energy passively converted to bionic power*/
-    float passive_fuel_efficiency;
+    float passive_fuel_efficiency = 0.0f;
+    /**Fraction of coverage diminishing fuel_efficiency*/
+    cata::optional<float> coverage_power_gen_penalty;
     /**If true this bionic emits heat when producing power*/
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/
     emit_id power_gen_emission = emit_id::NULL_ID();
     /**Amount of environemental protection offered by this bionic*/
     std::map<body_part, size_t> env_protec;
+
+    /**Amount of bash protection offered by this bionic*/
+    std::map<body_part, size_t> bash_protec;
+    /**Amount of cut protection offered by this bionic*/
+    std::map<body_part, size_t> cut_protec;
+
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
@@ -138,33 +148,46 @@ struct bionic_data {
 };
 
 struct bionic {
-    bionic_id id;
-    int         charge_timer  = 0;
-    char        invlet  = 'a';
-    bool        powered = false;
-    /* Ammunition actually loaded in this bionic gun in deactivated state */
-    itype_id    ammo_loaded = "null";
-    /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
-    unsigned int         ammo_count = 0;
-    /* An amount of time during which this bionic has been rendered inoperative. */
-    time_duration        incapacitated_time;
+        bionic_id id;
+        int         charge_timer  = 0;
+        char        invlet  = 'a';
+        bool        powered = false;
+        /* Ammunition actually loaded in this bionic gun in deactivated state */
+        itype_id    ammo_loaded = "null";
+        /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
+        unsigned int         ammo_count = 0;
+        /* An amount of time during which this bionic has been rendered inoperative. */
+        time_duration        incapacitated_time;
+        bionic()
+            : id( "bio_batteries" ), incapacitated_time( 0_turns ) {
+        }
+        bionic( bionic_id pid, char pinvlet )
+            : id( std::move( pid ) ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
 
-    bionic()
-        : id( "bio_batteries" ), incapacitated_time( 0_turns ) {
-    }
-    bionic( bionic_id pid, char pinvlet )
-        : id( std::move( pid ) ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
+        const bionic_data &info() const {
+            return *id;
+        }
 
-    const bionic_data &info() const {
-        return *id;
-    }
+        void set_flag( const std::string &flag );
+        void remove_flag( const std::string &flag );
+        bool has_flag( const std::string &flag ) const;
 
-    int get_quality( const quality_id &quality ) const;
+        int get_quality( const quality_id &quality ) const;
 
-    bool is_this_fuel_powered( const itype_id this_fuel ) const;
+        bool is_this_fuel_powered( const itype_id &this_fuel ) const;
+        void toggle_safe_fuel_mod();
+        void toggle_auto_start_mod();
 
-    void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+        void set_auto_start_thresh( float val );
+        float get_auto_start_thresh() const;
+        bool is_auto_start_on() const;
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+    private:
+        // generic bionic specific flags
+        cata::flat_set<std::string> bionic_tags;
+        float auto_start_threshold = -1.0;
 };
 
 // represents a tab in the Bionics menu
@@ -211,7 +234,8 @@ std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid );
 void check_bionics();
 void finalize_bionics();
 void reset_bionics();
-void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
+// load a bionic from JSON
+void load_bionic( const JsonObject &jsobj );
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );

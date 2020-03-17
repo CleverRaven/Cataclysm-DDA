@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "mil_outpost_utea" ],
-    "comment": "underground top edge. A stairs",
+    "//": "underground top edge. A stairs",
     "method": "json",
     "weight": 100,
     "object": {

@@ -299,128 +299,6 @@ This is where the real meat of the effect JSON definition lies. Each one can tak
 Decimals are valid but must be formatted as "0.X" or "-0.X". The game will round towards zero at the end
 when calculating actually applied values
 
-Valid arguments:
-```C++
-"str_mod"
-"dex_mod"
-"per_mod"
-"int_mod"
-"speed_mod"
-
-"pain_amount"
-"pain_min"
-"pain_max"          - if 0 or missing value will be exactly "pain_min"
-"pain_max_val"      - Defaults to 0, which means uncapped
-"pain_chance"
-"pain_chance_bot"
-"pain_tick"         - Defaults to every tick
-
-"hurt_amount"
-"hurt_min"
-"hurt_max"          - if 0 or missing value will be exactly "hurt_min"
-"hurt_chance"
-"hurt_chance_bot"
-"hurt_tick"         - Defaults to every tick
-
-"sleep_amount"
-"sleep_min"
-"sleep_max"         - if 0 or missing value will be exactly "sleep_min"
-"sleep_chance"
-"sleep_chance_bot"
-"sleep_tick"        - Defaults to every tick
-
-"pkill_amount"
-"pkill_min"
-"pkill_max"         - if 0 or missing value will be exactly "pkill_min"
-"pkill_max_val"     - Defaults to 0, which means uncapped
-"pkill_chance"
-"pkill_chance_bot"
-"pkill_tick"        - Defaults to every tick
-
-"stim_amount"
-"stim_min"
-"stim_max"          - if 0 or missing value will be exactly "stim_min"
-"stim_min_val"      - Defaults to 0, which means uncapped
-"stim_max_val"      - Defaults to 0, which means uncapped
-"stim_chance"
-"stim_chance_bot"
-"stim_tick"         - Defaults to every tick
-
-"health_amount"
-"health_min"
-"health_max"        - if 0 or missing value will be exactly "health_min"
-"health_min_val"    - Defaults to 0, which means uncapped
-"health_max_val"    - Defaults to 0, which means uncapped
-"health_chance"
-"health_chance_bot"
-"health_tick"       - Defaults to every tick
-
-"h_mod_amount"
-"h_mod_min"
-"h_mod_max"         - if 0 or missing value will be exactly "h_mod_min"
-"h_mod_min_val"     - Defaults to 0, which means uncapped
-"h_mod_max_val"     - Defaults to 0, which means uncapped
-"h_mod_chance"
-"h_mod_chance_bot"
-"h_mod_tick"        - Defaults to every tick
-
-"rad_amount"
-"rad_min"
-"rad_max"           - if 0 or missing value will be exactly "rad_min"
-"rad_max_val"       - Defaults to 0, which means uncapped
-"rad_chance"
-"rad_chance_bot"
-"rad_tick"          - Defaults to every tick
-
-"hunger_amount"
-"hunger_min"
-"hunger_max"        - if 0 or missing value will be exactly "hunger_min"
-"hunger_min_val"    - Defaults to 0, which means uncapped
-"hunger_max_val"    - Defaults to 0, which means uncapped
-"hunger_chance"
-"hunger_chance_bot"
-"hunger_tick"       - Defaults to every tick
-
-"thirst_amount"
-"thirst_min"
-"thirst_max"        - if 0 or missing value will be exactly "thirst_min"
-"thirst_min_val"    - Defaults to 0, which means uncapped
-"thirst_max_val"    - Defaults to 0, which means uncapped
-"thirst_chance"
-"thirst_chance_bot"
-"thirst_tick"       - Defaults to every tick
-
-"fatigue_amount"
-"fatigue_min"
-"fatigue_max"       - if 0 or missing value will be exactly "fatigue_min"
-"fatigue_min_val"   - Defaults to 0, which means uncapped
-"fatigue_max_val"   - Defaults to 0, which means uncapped
-"fatigue_chance"
-"fatigue_chance_bot"
-"fatigue_tick"      - Defaults to every tick
-
-"stamina_amount"
-"stamina_min"
-"stamina_max"       - if 0 or missing value will be exactly "stamina_min"
-"stamina_min_val"   - Defaults to 0, which means uncapped
-"stamina_max_val"   - Defaults to 0, which means uncapped
-"stamina_chance"
-"stamina_chance_bot"
-"stamina_tick"      - Defaults to every tick
-
-"cough_chance"
-"cough_chance_bot"
-"cough_tick"
-
-"vomit_chance"
-"vomit_chance_bot"
-"vomit_tick"
-
-"healing_rate"      - Healed rate per day
-"healing_head"      - Percentage of healing value for head
-"healing_torso"     - Percentage of healing value for torso
-
-```
 Basic definitions:
 ```C++
 "X_amount"      - Amount applied of X when effect is placed. Like apply messages it will only trigger on new effects
@@ -431,6 +309,129 @@ Basic definitions:
 "X_chance"      - Basic chance of X triggering each time, depends on "X_chance_bot" for exact formula
 "X_chance_bot"  - If this doesn't exist then the trigger chance is (1 in "X_chance"). If this does exist then the chance is ("X_chance" in "X_chance_bot")
 "X_tick"        - Effect rolls for X triggering every Y ticks
+```
+
+Valid arguments:
+```C++
+"str_mod"           - Positive values raises stat, negative values lowers stat
+"dex_mod"           - Positive values raises stat, negative values lowers stat
+"per_mod"           - Positive values raises stat, negative values lowers stat
+"int_mod"           - Positive values raises stat, negative values lowers stat
+"speed_mod"         - Positive values raises stat, negative values lowers stat
+
+"pain_amount"       - Positives raise pain, negatives don't make anything. Don't make it too high.
+"pain_min"          - Minimal amount of pain, certain effect will give/take
+"pain_max"          - if 0 or missing value will be exactly "pain_min"
+"pain_max_val"      - Defaults to 0, which means uncapped
+"pain_chance"       - Chance to get more pain
+"pain_chance_bot"
+"pain_tick"         - Defaults to every tick.
+
+"hurt_amount"       - Positives will give damage, negatives will heal instead. Don't make it too high.
+"hurt_min"          - Minimal amount of damage, certain effect will give/take
+"hurt_max"          - if 0 or missing value will be exactly "hurt_min"
+"hurt_chance"       - Chance to cause damage
+"hurt_chance_bot"
+"hurt_tick"         - Defaults to every tick
+
+"sleep_amount"      - Amount of turns spent sleeping.
+"sleep_min"         - Minimal amount of sleep in turns, certain effect can give
+"sleep_max"         - if 0 or missing value will be exactly "sleep_min"
+"sleep_chance"      - Chance to fall asleep
+"sleep_chance_bot"
+"sleep_tick"        - Defaults to every tick
+
+"pkill_amount"      - Amount of painkiller effect. Don't go too high with it.
+"pkill_min"         - Minimal amount of painkiller, certain effect will give
+"pkill_max"         - if 0 or missing value will be exactly "pkill_min"
+"pkill_max_val"     - Defaults to 0, which means uncapped
+"pkill_chance"      - Chance to cause painkiller effect(lowers pain)
+"pkill_chance_bot"
+"pkill_tick"        - Defaults to every tick
+
+"stim_amount"       - Negatives cause depressants effect and positives cause stimulants effect.
+"stim_min"          - Minimal amount of stimulant, certain effect will give. 
+"stim_max"          - if 0 or missing value will be exactly "stim_min"
+"stim_min_val"      - Defaults to 0, which means uncapped
+"stim_max_val"      - Defaults to 0, which means uncapped
+"stim_chance"       - Chance to cause one of two stimulant effects
+"stim_chance_bot"
+"stim_tick"         - Defaults to every tick
+
+"health_amount"     - Negatives decrease health and positives increase it. It's semi-hidden stat, which affects healing.
+"health_min"        - Minimal amount of health, certain effect will give/take. 
+"health_max"        - if 0 or missing value will be exactly "health_min"
+"health_min_val"    - Defaults to 0, which means uncapped
+"health_max_val"    - Defaults to 0, which means uncapped
+"health_chance"     - Chance to change health
+"health_chance_bot"
+"health_tick"       - Defaults to every tick
+
+"h_mod_amount"      - Affects health stat growth, positives increase it and negatives decrease it
+"h_mod_min"         - Minimal amount of health_modifier, certain effect will give/take
+"h_mod_max"         - if 0 or missing value will be exactly "h_mod_min"
+"h_mod_min_val"     - Defaults to 0, which means uncapped
+"h_mod_max_val"     - Defaults to 0, which means uncapped
+"h_mod_chance"      - Chance to change health_modifier
+"h_mod_chance_bot"
+"h_mod_tick"        - Defaults to every tick
+
+"rad_amount"        - Amount of radiation it can give/take. Just be aware that anything above [50] is fatal.
+"rad_min"           - Minimal amount of radiation, certain effect will give/take
+"rad_max"           - if 0 or missing value will be exactly "rad_min"
+"rad_max_val"       - Defaults to 0, which means uncapped
+"rad_chance"        - Chance to get more radiation
+"rad_chance_bot"
+"rad_tick"          - Defaults to every tick
+
+"hunger_amount"     - Amount of hunger it can give/take.
+"hunger_min"        - Minimal amount of hunger, certain effect will give/take
+"hunger_max"        - if 0 or missing value will be exactly "hunger_min"
+"hunger_min_val"    - Defaults to 0, which means uncapped
+"hunger_max_val"    - Defaults to 0, which means uncapped
+"hunger_chance"     - Chance to become more hungry
+"hunger_chance_bot"
+"hunger_tick"       - Defaults to every tick
+
+"thirst_amount"     - Amount of thirst it can give/take.
+"thirst_min"        - Minimal amount of thirst, certain effect will give/take
+"thirst_max"        - if 0 or missing value will be exactly "thirst_min"
+"thirst_min_val"    - Defaults to 0, which means uncapped
+"thirst_max_val"    - Defaults to 0, which means uncapped
+"thirst_chance"     - Chance to become more thirsty
+"thirst_chance_bot"
+"thirst_tick"       - Defaults to every tick
+
+"fatigue_amount"    - Amount of fatigue it can give/take. After certain amount character will need to sleep.
+"fatigue_min"       - Minimal amount of fatigue, certain effect will give/take
+"fatigue_max"       - if 0 or missing value will be exactly "fatigue_min"
+"fatigue_min_val"   - Defaults to 0, which means uncapped
+"fatigue_max_val"   - Defaults to 0, which means uncapped
+"fatigue_chance"    - Chance to get more tired
+"fatigue_chance_bot"
+"fatigue_tick"      - Defaults to every tick
+
+"stamina_amount"    - Amount of stamina it can give/take.
+"stamina_min"       - Minimal amount of stamina, certain effect will give/take
+"stamina_max"       - if 0 or missing value will be exactly "stamina_min"
+"stamina_min_val"   - Defaults to 0, which means uncapped
+"stamina_max_val"   - Defaults to 0, which means uncapped
+"stamina_chance"    - Chance to get stamina changes
+"stamina_chance_bot"
+"stamina_tick"      - Defaults to every tick
+
+"cough_chance"      - Chance to cause cough
+"cough_chance_bot"
+"cough_tick"        - Defaults to every tick
+
+"vomit_chance"      - Chance to cause vomiting
+"vomit_chance_bot"
+"vomit_tick"        - Defaults to every tick
+
+"healing_rate"      - Healed rate per day
+"healing_head"      - Percentage of healing value for head
+"healing_torso"     - Percentage of healing value for torso
+
 ```
 Each argument can also take either one or two values.
 ```C++

@@ -17,6 +17,7 @@ class live_view
         void init();
         int draw( const catacurses::window &win, int max_height );
         void show( const tripoint &p );
+        bool is_enabled();
         void hide();
 
     private:

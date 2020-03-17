@@ -1,0 +1,181 @@
+[
+  {
+    "id": "private_resort_dancer_drop",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "female_underwear_top" },
+      { "group": "female_underwear_bottom" },
+      { "group": "private_resort_dancer_fancy", "prob": 50 },
+      { "item": "stockings", "prob": 60 },
+      { "item": "nanoskirt", "prob": 80 },
+      { "group": "accesories_personal_womens", "prob": 40 },
+      { "item": "bondage_mask", "prob": 5 },
+      { "item": "bondage_suit", "prob": 5 },
+      { "group": "shoes_womens", "prob": 66 },
+      { "item": "halter_top", "prob": 40 },
+      { "group": "clothing_glasses", "prob": 25 }
+    ]
+  },
+  {
+    "id": "private_resort_dancer_fancy",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "faux_fur_cat_ears", "prob": 80 },
+      { "item": "leather_cat_ears", "prob": 50 },
+      { "item": "fur_cat_ears", "prob": 10 },
+      { "item": "faux_fur_cat_tail", "prob": 80 },
+      { "item": "leather_cat_tail", "prob": 50 },
+      { "item": "fur_cat_tail", "prob": 10 },
+      { "item": "faux_fur_collar", "prob": 80 },
+      { "item": "leather_collar", "prob": 50 },
+      { "item": "fur_collar", "prob": 10 },
+      { "item": "maid_hat", "prob": 25 }
+    ]
+  },
+  {
+    "id": "private_resort_staff_drop",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "private_resort_staff_male", "prob": 50 },
+          { "group": "private_resort_staff_female", "prob": 50 },
+          { "group": "private_resort_staff_bartender", "prob": 20 },
+          { "group": "private_resort_staff_office", "prob": 10 },
+          { "group": "clothing_work_set", "prob": 10 }
+        ]
+      },
+      { "group": "accesories_personal_unisex", "prob": 40, "count": [ 0, 2 ] },
+      { "group": "default_zombie_items_pockets", "prob": 25, "count": [ 0, 4 ] },
+      { "group": "socks_unisex", "prob": 80 }
+    ]
+  },
+  {
+    "id": "private_resort_staff_male",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "underwear_mens" },
+      { "item": "pants" },
+      { "item": "long_undertop", "prob": 25 },
+      { "item": "dress_shoes", "prob": 80 },
+      { "item": "tie_skinny", "prob": 50 },
+      { "item": "dress_shirt", "prob": 95 }
+    ]
+  },
+  {
+    "id": "private_resort_staff_female",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "underwear_womens" },
+      {
+        "distribution": [ { "item": "dress_shoes", "prob": 10 }, { "group": "shoes_womens", "prob": 90 } ],
+        "prob": 90
+      },
+      { "item": "maid_dress" },
+      { "item": "maid_hat", "prob": 66 }
+    ]
+  },
+  {
+    "id": "private_resort_staff_bartender",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "underwear_mens" },
+      { "item": "pants" },
+      { "item": "long_undertop", "prob": 25 },
+      { "item": "dress_shoes", "prob": 80 },
+      { "item": "tie_bow", "prob": 90 },
+      { "item": "dress_shirt", "prob": 95 },
+      { "item": "porkpie", "prob": 60 },
+      { "item": "apron_leather", "prob": 30 }
+    ]
+  },
+  {
+    "id": "private_resort_staff_office",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "underwear_mens" },
+      { "distribution": [ { "item": "suit", "prob": 90 }, { "item": "wool_suit", "prob": 10 } ], "prob": 90 },
+      { "item": "long_undertop", "prob": 25 },
+      { "item": "dress_shoes", "prob": 80 },
+      { "item": "tie_necktie", "prob": 66 },
+      { "item": "fedora", "prob": 25 },
+      { "item": "suitcase_m", "prob": 10 }
+    ]
+  },
+  {
+    "id": "private_resort_dancing_clothes",
+    "type": "item_group",
+    "items": [
+      { "group": "underwear_womens", "prob": 95, "count": [ 1, 3 ] },
+      { "group": "accesories_personal_womens", "prob": 40 },
+      { "group": "underwear_mens", "prob": 15 },
+      { "item": "bondage_mask", "prob": 5 },
+      { "item": "bondage_suit", "prob": 5 },
+      { "group": "shoes_womens", "prob": 66 }
+    ]
+  },
+  {
+    "id": "private_resort_gambling_table",
+    "type": "item_group",
+    "items": [
+      { "group": "bar_table", "prob": 40 },
+      { "group": "bar_alcohol", "prob": 20 },
+      { "group": "underwear_mens", "prob": 10 },
+      { "item": "money_bundle", "prob": 50 },
+      { "item": "deck_of_cards", "prob": 90 },
+      { "item": "plastic_six_dice", "prob": 40 }
+    ]
+  },
+  {
+    "id": "private_resort_instruments",
+    "type": "item_group",
+    "items": [
+      { "item": "acoustic_guitar", "prob": 80 },
+      { "item": "guitar_electric", "prob": 20 },
+      { "item": "saxophone", "prob": 50 },
+      { "item": "harmonica_holder", "prob": 30 }
+    ]
+  },
+  {
+    "id": "private_resort_coffee_table",
+    "type": "item_group",
+    "items": [
+      { "item": "cup_plastic", "prob": 50 },
+      { "item": "cig", "prob": 50 },
+      { "item": "matches", "prob": 50 },
+      { "item": "rolling_paper", "prob": 50 },
+      { "item": "wrapper", "prob": 50 },
+      { "item": "news_regional", "prob": 50 },
+      { "item": "mag_news", "prob": 50 },
+      { "group": "stash_drugs", "prob": 10 },
+      { "item": "mag_porn", "prob": 50 }
+    ]
+  },
+  {
+    "id": "private_resort_wardrobe",
+    "type": "item_group",
+    "items": [
+      { "group": "jackets", "prob": 20 },
+      { "group": "suits", "prob": 50 },
+      { "group": "hatstore_hats", "prob": 25 },
+      { "group": "bags_trip", "prob": 15 },
+      { "group": "mil_accessories", "prob": 5, "damage": [ 0, 4 ] }
+    ]
+  },
+  {
+    "id": "private_resort_sec_weapon",
+    "type": "item_group",
+    "items": [
+      { "item": "tazer", "prob": 20, "damage": [ 1, 4 ] },
+      { "item": "PR24-retracted", "prob": 50 },
+      { "item": "shot_beanbag", "prob": 50 }
+    ]
+  }
+]

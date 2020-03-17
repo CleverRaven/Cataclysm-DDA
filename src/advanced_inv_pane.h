@@ -1,20 +1,18 @@
 #pragma once
 #ifndef ADVANCED_INV_PANE_H
 #define ADVANCED_INV_PANE_H
-#include "cursesdef.h"
-#include "point.h"
-#include "units.h"
-#include "advanced_inv_area.h"
-#include "advanced_inv_listitem.h"
-#include "color.h"
-#include "uistate.h"
 
-#include <array>
+#include "cursesdef.h"
+#include "advanced_inv_listitem.h"
+
 #include <functional>
-#include <list>
+#include <map>
 #include <string>
 #include <vector>
-#include <utility>
+
+struct advanced_inv_pane_save_state;
+
+enum aim_location : char;
 
 enum advanced_inv_sortby {
     SORTBY_NONE,
@@ -25,8 +23,10 @@ enum advanced_inv_sortby {
     SORTBY_CATEGORY,
     SORTBY_DAMAGE,
     SORTBY_AMMO,
-    SORTBY_SPOILAGE
+    SORTBY_SPOILAGE,
+    SORTBY_PRICE
 };
+
 /**
  * Displayed pane, what is shown on the screen.
  */
@@ -40,7 +40,7 @@ class advanced_inventory_pane
         bool prev_viewing_cargo = false;
     public:
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
-        void set_area( advanced_inv_area &square, bool in_vehicle_cargo = false ) {
+        void set_area( const advanced_inv_area &square, bool in_vehicle_cargo = false ) {
             prev_area = area;
             prev_viewing_cargo = viewing_cargo;
             area = square.id;
@@ -59,14 +59,15 @@ class advanced_inventory_pane
         bool in_vehicle() const {
             return viewing_cargo;
         }
-        bool on_ground() const {
-            return area > AIM_INVENTORY && area < AIM_DRAGGED;
-        }
+        advanced_inv_pane_save_state *save_state;
+        void save_settings();
+        void load_settings( int saved_area_idx,
+                            const std::array<advanced_inv_area, NUM_AIM_LOCATIONS> &squares, bool is_re_enter );
         /**
          * Index of the selected item (index of @ref items),
          */
-        int index;
-        advanced_inv_sortby sortby;
+        int index = 0;
+        advanced_inv_sortby sortby = advanced_inv_sortby::SORTBY_NONE;
         catacurses::window window;
         std::vector<advanced_inv_listitem> items;
         /**
@@ -77,11 +78,11 @@ class advanced_inventory_pane
          * Whether to recalculate the content of this pane.
          * Implies @ref redraw.
          */
-        bool recalc;
+        bool recalc = false;
         /**
          * Whether to redraw this pane.
          */
-        bool redraw;
+        bool redraw = false;
 
         void add_items_from_area( advanced_inv_area &square, bool vehicle_override = false );
         /**

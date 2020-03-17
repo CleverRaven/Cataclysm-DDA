@@ -22,6 +22,7 @@
     "container": "bottle_plastic",
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "EATEN_COLD" ],
+    "use_action": "BLECH_BECAUSE_UNCLEAN"
   }
 ]

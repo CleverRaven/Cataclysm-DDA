@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 #include <utility>
 #include <vector>
@@ -37,7 +37,7 @@ bool Messages::has_undisplayed_messages()
 void Messages::display_messages() {}
 void Messages::display_messages( const catacurses::window &, int, int, int, int ) {}
 void Messages::serialize( JsonOut & ) {}
-void Messages::deserialize( JsonObject & ) {}
+void Messages::deserialize( const JsonObject & ) {}
 
 void add_msg( std::string ) {}
 void add_msg( const game_message_params &, std::string ) {}

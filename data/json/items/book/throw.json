@@ -2,8 +2,7 @@
   {
     "id": "mag_throwing",
     "type": "BOOK",
-    "name": "Diskobolus",
-    "name_plural": "Diskobolus",
+    "name": { "str": "Diskobolus", "str_pl": "issues of Diskobolus" },
     "description": "A biannual magazine devoted to the art and science of discus-throwing.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -21,8 +20,7 @@
   {
     "id": "manual_throw",
     "type": "BOOK",
-    "name": "The Complete Guide to Pitching",
-    "name_plural": "Complete Guides to Pitching",
+    "name": { "str": "The Complete Guide to Pitching", "str_pl": "copies of The Complete Guide to Pitching" },
     "description": "A detailed guide for baseball pitchers that combines time-tested techniques and information mixed with a common sense approach to pitching.",
     "weight": "400 g",
     "volume": "500 ml",
