@@ -65,5 +65,13 @@
     "description": "A very small dishwasher designed for use in vehicles.",
     "looks_like": "washing_machine",
     "copy-from": "washing_machine"
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "washing_machine",
+    "id": "fridgetank",
+    "name": "refrigerated tank",
+    "description": "A 60L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
+    "insulation": 2
   }
 ]
