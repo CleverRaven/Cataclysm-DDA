@@ -596,7 +596,7 @@
   {
     "type": "vehicle_part",
     "id": "door_opaque",
-    "name": "opaque door",
+    "name": { "str": "opaque door" },
     "symbol": "+",
     "looks_like": "door",
     "color": "cyan",
@@ -715,7 +715,7 @@
   {
     "type": "vehicle_part",
     "id": "hatch_opaque",
-    "name": "opaque hatch",
+    "name": { "str": "opaque hatch" },
     "symbol": "+",
     "looks_like": "door_opaque",
     "color": "light_gray",
@@ -763,7 +763,7 @@
   {
     "type": "vehicle_part",
     "id": "hdhatch_opaque",
-    "name": "opaque heavy duty hatch",
+    "name": { "str": "opaque heavy duty hatch" },
     "symbol": "+",
     "color": "dark_gray",
     "looks_like": "hatch_opaque",
@@ -1452,7 +1452,7 @@
   {
     "type": "vehicle_part",
     "id": "plastic_boat_hull",
-    "name": "plastic boat hull",
+    "name": { "str": "plastic boat hull" },
     "description": "A rigid plastic sheet that keeps water out of your boat.",
     "symbol": "o",
     "color": "brown",
@@ -3037,7 +3037,7 @@
   {
     "type": "vehicle_part",
     "id": "door_wood_opaque",
-    "name": "opaque wooden door",
+    "name": { "str": "opaque wooden door" },
     "symbol": "+",
     "looks_like": "door_wood",
     "color": "brown",
@@ -3411,7 +3411,7 @@
   {
     "type": "vehicle_part",
     "id": "plow",
-    "name": "plow",
+    "name": { "str": "plow" },
     "symbol": "&",
     "color": "blue",
     "broken_symbol": "*",

@@ -120,7 +120,7 @@
   {
     "id": "rail_wheel_small_pair",
     "type": "vehicle_part",
-    "name": "pair of small rail wheels",
+    "name": { "str": "pair of small rail wheels" },
     "item": "wheel_rail_small_pair",
     "copy-from": "rail_wheel",
     "symbol": "=",
@@ -526,7 +526,7 @@
     "id": "wheel_wide_or",
     "copy-from": "wheel_wide",
     "type": "vehicle_part",
-    "name": "off-road wide wheel",
+    "name": { "str": "off-road wide wheel" },
     "item": "wheel_wide_or",
     "wheel_type": "off-road",
     "contact_area": 320,
