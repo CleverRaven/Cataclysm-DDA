@@ -86,8 +86,12 @@
 #include "weather_gen.h"
 #include "monstergenerator.h"
 #include "cata_string_consts.h"
+#include "mapgendata.h"
 
 class vehicle;
+
+extern std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>>>
+nested_mapgen;
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
@@ -151,7 +155,8 @@ enum debug_menu_index {
     DEBUG_DISPLAY_RADIATION,
     DEBUG_LEARN_SPELLS,
     DEBUG_LEVEL_SPELLS,
-    DEBUG_TEST_MAP_EXTRA_DISTRIBUTION
+    DEBUG_TEST_MAP_EXTRA_DISTRIBUTION,
+    DEBUG_NESTED_MAPGEN
 };
 
 class mission_debug
@@ -267,6 +272,7 @@ static int map_uilist()
         { uilist_entry( DEBUG_CHANGE_TIME, true, 't', _( "Change time" ) ) },
         { uilist_entry( DEBUG_OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( DEBUG_MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
+        { uilist_entry( DEBUG_NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
     };
 
     return uilist( _( "Map…" ), uilist_initializer );
@@ -375,6 +381,39 @@ void teleport_overmap()
     add_msg( _( "You teleport to overmap (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
+void spawn_nested_mapgen()
+{
+    uilist nest_menu;
+    std::vector<std::string> nest_str;
+    for( auto &nested : nested_mapgen ) {
+        nest_menu.addentry( -1, true, -1, nested.first );
+        nest_str.push_back( nested.first );
+    }
+    nest_menu.query();
+    const int nest_choice = nest_menu.ret;
+    if( nest_choice >= 0 && nest_choice < static_cast<int>( nest_str.size() ) ) {
+        const cata::optional<tripoint> where = g->look_around();
+        if( !where ) {
+            return;
+        }
+
+        const tripoint abs_ms = g->m.getabs( *where );
+        const tripoint abs_omt = ms_to_omt_copy( abs_ms );
+        const tripoint abs_sub = ms_to_sm_copy( abs_ms );
+
+        map target_map;
+        target_map.load( abs_sub, true );
+        const tripoint local_ms = target_map.getlocal( abs_ms );
+        mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
+        const auto &ptr = random_entry_ref( nested_mapgen[nest_str[nest_choice]] );
+        ptr->nest( md, local_ms.xy() );
+        target_map.save();
+        g->load_npcs();
+        g->m.invalidate_map_cache( g->get_levz() );
+        g->refresh_all();
+    }
+}
+
 void character_edit_menu()
 {
     std::vector< tripoint > locations;
@@ -441,7 +480,7 @@ void character_edit_menu()
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU, D_ASTHMA
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -460,6 +499,7 @@ void character_edit_menu()
     nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
     nmenu.addentry( D_FLU, true, 'f', "%s", _( "Give the [f]lu" ) );
+    nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
@@ -831,6 +871,12 @@ void character_edit_menu()
         break;
         case D_FLU: {
             p.add_effect( effect_flu, 1000_minutes );
+            break;
+        }
+        break;
+        case D_ASTHMA: {
+            p.set_mutation( trait_ASTHMA );
+            p.add_effect( effect_asthma, 10_minutes );
             break;
         }
     }
@@ -1553,6 +1599,9 @@ void debug()
             }
             break;
         }
+        case DEBUG_NESTED_MAPGEN:
+            debug_menu::spawn_nested_mapgen();
+            break;
         case DEBUG_DISPLAY_NPC_PATH:
             g->debug_pathfinding = !g->debug_pathfinding;
             break;

@@ -52,8 +52,6 @@
 
 struct itype;
 
-#define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
-
 void spawn_animal( npc &p, const mtype_id &mon );
 
 void talk_function::nothing( npc & )
@@ -591,15 +589,13 @@ static void generic_barber( const std::string &mut_type )
     }
 }
 
-void talk_function::barber_beard( npc &p )
+void talk_function::barber_beard( npc &/*p*/ )
 {
-    ( void )p;
     generic_barber( "facial_hair" );
 }
 
-void talk_function::barber_hair( npc &p )
+void talk_function::barber_hair( npc &/*p*/ )
 {
-    ( void )p;
     generic_barber( "hair_style" );
 }
 
@@ -762,6 +758,8 @@ void talk_function::leave( npc &p )
     }
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     p.set_attitude( NPCATT_NULL );
+    p.mission = NPC_MISSION_NULL;
+    p.long_term_goal_action();
 }
 
 void talk_function::stop_following( npc &p )
@@ -831,15 +829,13 @@ void talk_function::drop_weapon( npc &p )
     g->m.add_item_or_charges( p.pos(), p.remove_weapon() );
 }
 
-void talk_function::player_weapon_away( npc &p )
+void talk_function::player_weapon_away( npc &/*p*/ )
 {
-    ( void )p; //unused
     g->u.i_add( g->u.remove_weapon() );
 }
 
-void talk_function::player_weapon_drop( npc &p )
+void talk_function::player_weapon_drop( npc &/*p*/ )
 {
-    ( void )p; // unused
     g->m.add_item_or_charges( g->u.pos(), g->u.remove_weapon() );
 }
 
@@ -904,7 +900,8 @@ void talk_function::start_training( npc &p )
     }
 
     mission *miss = p.chatbin.mission_selected;
-    if( miss != nullptr && miss->get_assigned_player_id() == g->u.getID() ) {
+    if( miss != nullptr && miss->get_assigned_player_id() == g->u.getID() &&
+        miss->is_complete( g->u.getID() ) ) {
         clear_mission( p );
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;

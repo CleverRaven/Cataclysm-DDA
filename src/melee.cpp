@@ -994,10 +994,9 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
     di.add_damage( DT_CUT, cut_dam, arpen, armor_mult, cut_mul );
 }
 
-void player::roll_stab_damage( bool crit, damage_instance &di, bool average,
+void player::roll_stab_damage( bool crit, damage_instance &di, bool /*average*/,
                                const item &weap ) const
 {
-    ( void )average; // No random rolls in stab damage
     float cut_dam = mabuff_damage_bonus( DT_STAB ) + weap.damage_melee( DT_STAB );
 
     int unarmed_skill = get_skill_level( skill_unarmed );

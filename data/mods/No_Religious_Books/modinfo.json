@@ -6,7 +6,8 @@
     "authors": [ "dvolk" ],
     "description": "Removes religious text items from the game.",
     "category": "item_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "replace": "philosophy_book",

@@ -162,7 +162,8 @@ struct vehicle_part {
         enum : int { passenger_flag = 1,
                      animal_flag = 2,
                      carried_flag = 4,
-                     carrying_flag = 8
+                     carrying_flag = 8,
+                     tracked_flag = 16 //carried vehicle part with tracking enabled
                    };
 
         vehicle_part(); /** DefaultConstructible */
@@ -312,6 +313,12 @@ struct vehicle_part {
 
         /** Is this part a reactor? */
         bool is_reactor() const;
+
+        /** is this part currently unable to retain to fluid/charge?
+         *  this doesn't take into account whether or not the part has any contents
+         *  remaining to leak
+         */
+        bool is_leaking() const;
 
         /** Can this part function as a turret? */
         bool is_turret() const;
@@ -512,7 +519,7 @@ class turret_data
     private:
         turret_data( vehicle *veh, vehicle_part *part )
             : veh( veh ), part( part ) {}
-        double cached_recoil;
+        double cached_recoil = 0;
 
     protected:
         vehicle *veh = nullptr;
@@ -837,8 +844,10 @@ class vehicle
         bool remove_part( int p );
         void part_removal_cleanup();
 
-        // remove the carried flag from a vehicle after it has bee removed from a rack
+        // remove the carried flag from a vehicle after it has been removed from a rack
         void remove_carried_flag();
+        // remove the tracked flag from a tracked vehicle after it has been removed from a rack
+        void remove_tracked_flag();
         // remove a vehicle specified by a list of part indices
         bool remove_carried_vehicle( const std::vector<int> &carried_parts );
         // split the current vehicle into up to four vehicles if they have no connection other
@@ -1238,6 +1247,12 @@ class vehicle
          * times a dimensional constant based on the vehicle's shape
          */
         double coeff_water_drag() const;
+
+        /**
+         * watertight hull height in meters measures distance from bottom of vehicle
+         * to the point where the vehicle will start taking on water
+         */
+        double water_hull_height() const;
 
         /**
          * water draft in meters - how much of the vehicle's body is under water

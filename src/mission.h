@@ -204,7 +204,7 @@ struct mission_type {
     public:
         translation description;
         // The basic goal type
-        mission_goal goal;
+        mission_goal goal = mission_goal::MGOAL_NULL;
         // Difficulty; TODO: come up with a scale
         int difficulty = 0;
         // Value; determines rewards and such

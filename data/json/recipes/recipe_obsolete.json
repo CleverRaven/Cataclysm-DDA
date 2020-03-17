@@ -2253,5 +2253,100 @@
     "type": "recipe",
     "result": "crucible",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battletorch_done",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battletorch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shishkebab_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "firemachete_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broadfire_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "firekatana_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "zweifire_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_survivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_hsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_xlsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_HFPack",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mosin91_30",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mosin44",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mosin91_30_ebr",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mosin44_ebr",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_car_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_mbr_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_dsr_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_lmg_223",
+    "obsolete": true
   }
 ]

@@ -78,7 +78,12 @@
         "    | =........c..x|    ",
         "    |||||:||+|:|||||    "
       ],
-      "terrain": { "x": "t_console_broken" },
+      "terrain": {
+        ":": [ "t_window_frame", "t_window_no_curtains" ],
+        "+": [ "t_door_c", "t_door_b" ],
+        "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
+        "x": "t_console_broken"
+      },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
       "computers": {
         "6": {
@@ -222,15 +227,20 @@
         "    |...........cc.|    ",
         "    |.bbbbb........|    ",
         "    |.......l|||...|    ",
-        "    |.-----.l| =...|    ",
+        "    |.|||||.l| =...|    ",
         "    :.......l|||...:    ",
-        "    |.b.b.b...c|-+-|    ",
+        "    |.b.b.b...c||+||    ",
         "    |.b.b.b...c|..l|    ",
         "    |.b.b.b...c|..l|    ",
         "    |..........|..l|    ",
         "    |||||:||+|:|||||    "
       ],
-      "terrain": { "x": "t_console_broken" },
+      "terrain": {
+        "x": "t_console_broken",
+        ":": [ "t_window_frame", "t_window" ],
+        "+": [ "t_door_c", "t_door_b" ],
+        "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ]
+      },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
       "computers": {
         "6": {
@@ -275,9 +285,9 @@
         "    |...........cc.|    ",
         "    |.bbbbb........|    ",
         "    |.......l|||...|    ",
-        "    |.-----.l| =...|    ",
+        "    |.|||||.l| =...|    ",
         "    :.......l|||...:    ",
-        "    |.b.b.b...c|-+-|    ",
+        "    |.b.b.b...c||+||    ",
         "    |.b.b.b...c|..l|    ",
         "    |.b.b.b...c|..l|    ",
         "    |..........|..l|    ",
@@ -333,6 +343,16 @@
       ],
       "terrain": { " ": "t_null" },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer",
+          "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" },
+            { "name": "Contact Us", "action": "emerg_ref_center" }
+          ]
+        }
+      },
       "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 70 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 50 } }
     }
   },
@@ -353,22 +373,28 @@
         "   |||||||||%......l|   ",
         "   |*|cccc6........l|   ",
         "   |.=.............l|   ",
-        "  |--|.............|||  ",
+        "  ||||.............|||  ",
         "  |b.....bbbbb...b..b|  ",
         "  :b..b..........b..b:  ",
         "  |b..b...llll...b..b|  ",
-        "  |b..b...|--|...b..b|  ",
+        "  |b..b...||||...b..b|  ",
         "  |b..b..........b..b|  ",
         "  |b..b..........b..b|  ",
-        "  :b..b...|--|...b..b:  ",
+        "  :b..b...||||...b..b:  ",
         "  |b..b...llll...b..b|  ",
         "  |b..b..........b..b|  ",
-        "  |--.....bbbb.....|||  ",
+        "  |||.....bbbb.....|||  ",
         "   |l..............x|   ",
         "   ||||||||||......c|   ",
         "            ||:|+|:||   "
       ],
-      "terrain": { "x": "t_console_broken" },
+      "terrain": {
+        ":": [ "t_window_frame", "t_window_no_curtains" ],
+        "+": [ "t_door_c", "t_door_b" ],
+        "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
+        "*": "t_ladder_up",
+        "x": "t_console_broken"
+      },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
       "computers": {
         "6": {
@@ -410,17 +436,17 @@
         "   |||||||||%......l|   ",
         "   |*|cccc6........l|   ",
         "   |.=.............l|   ",
-        "  |--|.............|||  ",
+        "  ||||.............|||  ",
         "  |b.....bbbbb...b..b|  ",
         "  :b..b..........b..b:  ",
         "  |b..b...llll...b..b|  ",
-        "  |b..b...|--|...b..b|  ",
+        "  |b..b...||||...b..b|  ",
         "  |b..b..........b..b|  ",
         "  |b..b..........b..b|  ",
-        "  :b..b...|--|...b..b:  ",
+        "  :b..b...||||...b..b:  ",
         "  |b..b..........b..b|  ",
         "  |b..b..........b..b|  ",
-        "  |--.....bbbb.....|||  ",
+        "  |||.....bbbb.....|||  ",
         "   |l..............x|   ",
         "   ||||||||||......c|   ",
         "            ||:|+|:||   "
@@ -429,7 +455,9 @@
         ":": [ "t_window_frame", "t_window" ],
         "+": [ "t_door_c", "t_door_b" ],
         "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
-        "6": [ "t_console", "t_console_broken" ]
+        "*": "t_ladder_up",
+        "6": [ "t_console", "t_console_broken" ],
+        "x": "t_console_broken"
       },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": [ [ "f_locker", 2 ], "f_wreckage" ], "S": "f_sink", "%": "f_trashcan" },
       "items": {
