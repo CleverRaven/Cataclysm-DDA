@@ -1224,7 +1224,7 @@ static void fire()
         }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
-            if( vp->vehicle().turrets_aim_and_fire() ) {
+            if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
                 return;
             }
         }
