@@ -202,7 +202,7 @@ class BionicsDisplayType
         bool _hide_columns;
     public:
         static std::vector<BionicsDisplayType> displayTypes;
-        static void load( JsonObject &jsobj );
+        static void load( const JsonObject &jsobj );
         static void reset();
         //if bionic doesn't have "display_type" filed in .json, use this to infer it from other parameters
         static bionics_displayType_id infer_type( const bionic_data &b );
