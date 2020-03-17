@@ -126,7 +126,7 @@
   {
     "type": "mutation",
     "id": "QUICK",
-    "name": "Quick",
+    "name": { "str": "Quick" },
     "points": 3,
     "description": "You're just generally quick!  You get a 10% bonus to action points.",
     "starting_trait": true,
@@ -598,7 +598,7 @@
   {
     "type": "mutation",
     "id": "PSYCHOPATH",
-    "name": "Psychopath",
+    "name": { "str": "Psychopath" },
     "points": 2,
     "description": "You don't experience guilt like others do.  Even when you know your actions are wrong, you just don't care.",
     "starting_trait": true,
@@ -1507,7 +1507,7 @@
   {
     "type": "mutation",
     "id": "LIZ_EYE",
-    "name": "Reptilian Eyes",
+    "name": { "str": "Reptilian Eyes" },
     "points": 0,
     "visibility": 2,
     "ugliness": 1,
@@ -1520,7 +1520,7 @@
   {
     "type": "mutation",
     "id": "LIZ_IR",
-    "name": "Reptilian IR",
+    "name": { "str": "Reptilian IR" },
     "points": 5,
     "description": "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
     "prereqs": [ "LIZ_EYE" ],
@@ -1544,7 +1544,7 @@
   {
     "type": "mutation",
     "id": "REGEN",
-    "name": "Regeneration",
+    "name": { "str": "Regeneration" },
     "points": 6,
     "description": "Your flesh regenerates from wounds incredibly quickly.",
     "types": [ "HEALING" ],
@@ -1557,7 +1557,7 @@
   {
     "type": "mutation",
     "id": "REGEN_LIZ",
-    "name": "Reptilian Healing",
+    "name": { "str": "Reptilian Healing" },
     "points": 5,
     "valid": false,
     "purifiable": false,
@@ -2181,7 +2181,7 @@
   {
     "type": "mutation",
     "id": "QUILLS",
-    "name": "Quills",
+    "name": { "str": "Quills" },
     "points": 2,
     "visibility": 3,
     "ugliness": 3,
@@ -2472,7 +2472,7 @@
   {
     "type": "mutation",
     "id": "CLAWS_RAT",
-    "name": "Rat Claws",
+    "name": { "str": "Rat Claws" },
     "points": 3,
     "visibility": 3,
     "ugliness": 4,
@@ -2507,7 +2507,7 @@
   {
     "type": "mutation",
     "id": "CLAWS_RETRACT",
-    "name": "Retractable Claws",
+    "name": { "str": "Retractable Claws" },
     "points": 2,
     "ugliness": 1,
     "cut_dmg_bonus": 3,
@@ -2555,7 +2555,7 @@
   {
     "type": "mutation",
     "id": "RADIOGENIC",
-    "name": "Radiogenic",
+    "name": { "str": "Radiogenic" },
     "points": 3,
     "description": "Your system has adapted to radiation.  While irradiated, you will actually heal slowly, converting the radiation into hit points.",
     "category": [ "SLIME", "MEDICAL" ]
@@ -2748,7 +2748,7 @@
   {
     "type": "mutation",
     "id": "BENDY3",
-    "name": "Pseudolimbs",
+    "name": { "str": "Pseudolimbs" },
     "points": 0,
     "visibility": 2,
     "ugliness": 2,
@@ -3220,7 +3220,7 @@
   {
     "type": "mutation",
     "id": "TAIL_RAPTOR",
-    "name": "Raptor Tail",
+    "name": { "str": "Raptor Tail" },
     "points": 1,
     "visibility": 8,
     "ugliness": 2,
@@ -3303,7 +3303,7 @@
   {
     "type": "mutation",
     "id": "MUT_TOUGH",
-    "name": "Resilient",
+    "name": { "str": "Resilient" },
     "points": 2,
     "description": "You can survive injuries that would incapacitate humans: you get a 20% bonus to all hit points.  Stacks with Tough, etc.",
     "social_modifiers": { "intimidate": 2 },
@@ -3354,7 +3354,7 @@
   {
     "type": "mutation",
     "id": "PAINREC2",
-    "name": "Quick Pain Recovery",
+    "name": { "str": "Quick Pain Recovery" },
     "points": 5,
     "description": "You recover from pain faster than normal.",
     "prereqs": [ "PAINREC1" ],
@@ -4648,7 +4648,7 @@
   {
     "type": "mutation",
     "id": "MET_RAT",
-    "name": "Rapid Metabolism",
+    "name": { "str": "Rapid Metabolism" },
     "points": -2,
     "valid": false,
     "description": "You require more resources than most, but heal more rapidly as well.  Provides weak regeneration even when not asleep.",
@@ -5917,7 +5917,7 @@
   {
     "type": "mutation",
     "id": "THRESH_RAPTOR",
-    "name": "Raptor",
+    "name": { "str": "Raptor" },
     "points": 1,
     "description": "The chance to undo not one but TWO extinction events.  You're confident you'll do fine.",
     "valid": false,
@@ -5979,7 +5979,7 @@
   {
     "type": "mutation",
     "id": "PYROMANIA",
-    "name": "Pyromaniac",
+    "name": { "str": "Pyromaniac" },
     "starting_trait": true,
     "points": -2,
     "description": "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so."
@@ -6222,7 +6222,7 @@
   {
     "type": "mutation",
     "id": "PROF_BOXER",
-    "name": "Pugilist",
+    "name": { "str": "Pugilist" },
     "points": 0,
     "description": "You are experienced in the Sweet Science of boxing.  You could've had a shot at a local boxing tournament, if the Cataclysm hadn't screwed that up.",
     "valid": false,
@@ -6521,7 +6521,7 @@
   {
     "type": "mutation",
     "id": "NOMAD3",
-    "name": "Restless",
+    "name": { "str": "Restless" },
     "points": -4,
     "description": "Spending any amount of time in familiar places makes you miserable.  Must.  Keep.  Moving.",
     "prereqs": [ "NOMAD2" ],
