@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "enums.h"
+#include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
 
@@ -62,7 +63,7 @@ class uistatedata
         bool overmap_show_hordes = true;
         bool overmap_show_forest_trails = true;
 
-        bool debug_ranged;
+        bool debug_ranged = false;
         tripoint adv_inv_last_coords = {-999, -999, -999};
         int last_inv_start = -2;
         int last_inv_sel = -2;
@@ -80,7 +81,8 @@ class uistatedata
 
         // construction menu selections
         std::string construction_filter;
-        std::string last_construction;
+        cata::optional<std::string> last_construction;
+        construction_category_id construction_tab = construction_category_id::NULL_ID();
 
         // overmap editor selections
         const oter_t *place_terrain = nullptr;

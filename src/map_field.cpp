@@ -383,7 +383,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             const tripoint &p = thep;
             // Get a reference to the field variable from the submap;
             // contains all the pointers to the real field effects.
-            field &curfield = current_submap->fld[locx][locy];
+            field &curfield = current_submap->get_field( { static_cast<int>( locx ), static_cast<int>( locy ) } );
             for( auto it = curfield.begin(); it != curfield.end(); ) {
                 // Iterating through all field effects in the submap's field.
                 field_entry &cur = it->second;

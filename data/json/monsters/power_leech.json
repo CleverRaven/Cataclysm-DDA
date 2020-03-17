@@ -2,7 +2,7 @@
   {
     "id": "mon_leech_blossom",
     "type": "MONSTER",
-    "name": "leech blossom",
+    "name": { "str": "leech blossom" },
     "description": "A resplendent alien fern, crowned with flowers colored deep indigo.  It appears to be the centerpiece of this otherworldly bloom.",
     "default_faction": "nether",
     "species": [ "LEECH_PLANT" ],
@@ -42,7 +42,7 @@
   {
     "id": "mon_leech_stalk",
     "type": "MONSTER",
-    "name": "leech stalk",
+    "name": { "str": "leech stalk" },
     "description": "A resplendent and voluminous alien fern.  A faint buzzing sound emanates from it, and the shadow cast by its canopy continuously glows with electric charge.",
     "default_faction": "nether",
     "species": [ "LEECH_PLANT" ],
@@ -80,7 +80,7 @@
   {
     "id": "mon_leech_pod_cluster",
     "type": "MONSTER",
-    "name": "leech pod cluster",
+    "name": { "str": "leech pod cluster" },
     "description": "The translucent egg pods of an alien plant, firmly attached by luminous rhizomes.  You can barely distinguish a root drone floating within a cloudy substance.",
     "default_faction": "nether",
     "species": [ "LEECH_PLANT" ],
@@ -114,7 +114,7 @@
   {
     "id": "mon_leech_root_runner",
     "type": "MONSTER",
-    "name": "root runner",
+    "name": { "str": "root runner" },
     "description": "This clump of woody vegetation hastily clambers around in a lizard-like fashion.  Three translucent scale-leaves stand tall on the backside of the creature, and the thin ridges within them periodically glow through some unknown mean.  It's seemingly a symbiote of the nearby alien ferns, and looks ready to defend them with its life.",
     "default_faction": "nether",
     "species": [ "LEECH_PLANT" ],
@@ -157,7 +157,7 @@
   {
     "id": "mon_leech_root_drone",
     "type": "MONSTER",
-    "name": "root drone",
+    "name": { "str": "root drone" },
     "description": "A small bulb with a beak-like protuberance, skittishly roaming about under three tendril rhizomes.  Dripping and glistening, it resembles a creature newly born rather than a sapling grown from seeds.",
     "default_faction": "nether",
     "species": [ "LEECH_PLANT" ],

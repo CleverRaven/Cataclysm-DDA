@@ -19,7 +19,7 @@
     "time": "1 m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "soap", 1 ], [ "detergent", 1 ] ] ]
+    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -340,7 +340,7 @@
         [ "tobacco_raw", 50 ],
         [ "nicotine_liquid", 50 ]
       ],
-      [ [ "lye", 50 ] ]
+      [ [ "lye", 2 ], [ "lye_powder", 50 ] ]
     ]
   },
   {

@@ -2,7 +2,10 @@
   {
     "copy-from": "heli_crash",
     "type": "scenario",
-    "extend": { "map_special": "mx_helicopter", "professions": [ "afs_affluent_executive", "afs_wraitheon_executive" ] },
+    "extend": {
+      "map_special": "mx_helicopter",
+      "professions": [ "afs_affluent_executive", "afs_wraitheon_executive", "afs_vatgrown_bodyguard" ]
+    },
     "ident": "heli_crash"
   }
 ]

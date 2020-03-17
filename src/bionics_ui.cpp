@@ -59,6 +59,8 @@ char get_free_invlet( player &p )
 static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                    bionic_menu_mode mode )
 {
+    input_context ctxt( "BIONICS" );
+
     werase( window );
     std::string fuel_string;
     bool found_fuel = false;
@@ -130,14 +132,24 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     mvwputch( window, point( pwr_str_pos - 1, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
     center_print( window, 0, c_light_red, _( " BIONICS " ) );
 
+    std::string desc_append = string_format(
+                                  _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "
+                                     "[<color_yellow>%s</color>] Toggle fuel saving mode, "
+                                     "[<color_yellow>%s</color>] Toggle auto start mode." ),
+                                  ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
+                                  ctxt.get_desc( "TOGGLE_AUTO_START" ) );
     std::string desc;
     if( mode == REASSIGNING ) {
-        desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
+        desc = _( "Reassigning.  Select a bionic to reassign or press [<color_yellow>SPACE</color>] to cancel." );
         fuel_string.clear();
     } else if( mode == ACTIVATING ) {
-        desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode, <color_yellow>A</color> to toggle auto start mode." );
+        desc = string_format( _( "<color_green>Activating</color>  "
+                                 "[<color_yellow>%s</color>] Examine, %s" ),
+                              ctxt.get_desc( "TOGGLE_EXAMINE" ), desc_append );
     } else if( mode == EXAMINING ) {
-        desc = _( "<color_light_blue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs, <color_yellow>s</color> to toggle fuel saving mode, <color_yellow>A</color> to toggle auto start mode." );
+        desc = string_format( _( "<color_light_blue>Examining</color>  "
+                                 "[<color_yellow>%s</color>] Activate, %s" ),
+                              ctxt.get_desc( "TOGGLE_EXAMINE" ), desc_append );
     }
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -249,7 +261,7 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
 static void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
                              const int last_x, const bionic_id &bio_id )
 {
-    const int LIST_START_Y = 6;
+    const int LIST_START_Y = 7;
     // first: pos_y, second: occupied slots
     std::vector<std::pair<int, size_t>> pos_and_num;
     for( const auto &elem : bio_id->occupied_bodyparts ) {
@@ -437,7 +449,7 @@ void player::power_bionics()
 
     // Title window
     const int TITLE_START_Y = START_Y + 1;
-    const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
+    const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT;
     catacurses::window w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, point( START_X + 1,
                                  START_Y ) );
 
@@ -777,8 +789,8 @@ void player::power_bionics()
                     continue;
                 } else {
                     popup( _( "You can not activate %s!\n"
-                              "To read a description of %s, press '!', then '%c'." ), bio_data.name,
-                           bio_data.name, tmp->invlet );
+                              "To read a description of %s, press '%s', then '%c'." ), bio_data.name,
+                           bio_data.name, ctxt.get_desc( "TOGGLE_EXAMINE" ), tmp->invlet );
                     redraw = true;
                 }
             } else if( menu_mode == EXAMINING ) {

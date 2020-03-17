@@ -134,7 +134,7 @@ input_context game::get_player_input( std::string &action )
             ctxt.register_action( action_ident( id ) );
         }
         // *INDENT-ON*
-        ctxt.register_action( "QUIT", _( "Accept your fate" ) );
+        ctxt.register_action( "QUIT", to_translation( "Accept your fate" ) );
     } else {
         ctxt = get_default_mode_input_context();
     }
@@ -443,7 +443,9 @@ static void open()
     map &m = g->m;
 
     const cata::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
-                                            ACTION_OPEN );
+                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                                            ACTION_OPEN, false );
+
     if( !openp_ ) {
         return;
     }
@@ -517,7 +519,8 @@ static void open()
 static void close()
 {
     if( const cata::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
-            ACTION_CLOSE ) ) {
+            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+            ACTION_CLOSE, false ) ) {
         doors::close_door( g->m, g->u, *pnt );
     }
 }
@@ -898,23 +901,23 @@ static void sleep()
         return;
     }
     uilist as_m;
-    as_m.text = _( "Are you sure you want to sleep?" );
+    as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
     // (Y)es/(S)ave before sleeping/(N)o
-    as_m.entries.emplace_back( 0, true,
-                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
-                               _( "Yes." ) );
-    as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
-                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
-                               _( "Yes, and save game before sleeping." ) );
     as_m.entries.emplace_back( 2, true,
                                get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
                                _( "No." ) );
+    as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
+                               _( "Yes, and save game before sleeping." ) );
+    as_m.entries.emplace_back( 0, true,
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
+                               _( "Yes." ) );
 
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
-        if( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) &&
-            it->is_transformable() ) {
+        if( it->has_flag( flag_LITCIG ) ||
+            ( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() ) ) {
             active.push_back( it->tname() );
         }
     }
@@ -956,10 +959,10 @@ static void sleep()
     std::stringstream data;
     if( !active.empty() ) {
         data << as_m.text << std::endl;
-        data << _( "You may want to deactivate these before you sleep." ) << std::endl;
+        data << _( "You may want to turn off:" ) << std::endl;
         data << " " << std::endl;
         for( auto &a : active ) {
-            data << a << std::endl;
+            data << "<color_red>" << a << "</color>" << std::endl;
         }
         as_m.text = data.str();
     }
@@ -1171,12 +1174,17 @@ static void read()
 {
     avatar &u = g->u;
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = game_menus::inv::read( u );
+    item_location loc = game_menus::inv::read( u );
 
     if( loc ) {
-        // calling obtain() invalidates the item pointer
-        // TODO: find a way to do this without an int index
-        u.read( u.i_at( loc.obtain( u ) ) );
+        if( loc->type->can_use( "learn_spell" ) ) {
+            item spell_book = *loc.get_item();
+            spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
+        } else {
+            // calling obtain() invalidates the item pointer
+            // TODO: find a way to do this without an int index
+            u.read( u.i_at( loc.obtain( u ) ) );
+        }
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1210,68 +1218,13 @@ static void fire()
         const optional_vpart_position vp = g->m.veh_at( u.pos() );
 
         turret_data turret;
-        // TODO: move direct turret firing from ACTION_FIRE to separate function.
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
-            switch( turret.query() ) {
-                case turret_data::status::no_ammo:
-                    add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
-                    break;
-
-                case turret_data::status::no_power:
-                    add_msg( m_bad,  _( "The %s is not powered." ), turret.name() );
-                    break;
-
-                case turret_data::status::ready: {
-                    // if more than one firing mode provide callback to cycle through them
-                    target_callback switch_mode;
-                    if( turret.base()->gun_all_modes().size() > 1 ) {
-                        switch_mode = [&turret]( item * obj ) {
-                            obj->gun_cycle_mode();
-                            // currently gun modes do not change ammo but they may in the future
-                            return turret.ammo_current() == "null" ? nullptr :
-                                   item::find_type( turret.ammo_current() );
-                        };
-                    }
-
-                    // if multiple ammo types available provide callback to cycle alternatives
-                    target_callback switch_ammo;
-                    if( turret.ammo_options().size() > 1 ) {
-                        switch_ammo = [&turret]( item * ) {
-                            const auto opts = turret.ammo_options();
-                            auto iter = opts.find( turret.ammo_current() );
-                            turret.ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
-                            return item::find_type( turret.ammo_current() );
-                        };
-                    }
-
-                    // callbacks for handling setup and cleanup of turret firing
-                    firing_callback prepare_fire = [&u, &turret]( const int ) {
-                        turret.prepare_fire( u );
-                    };
-                    firing_callback post_fire = [&u, &turret]( const int shots ) {
-                        turret.post_fire( u, shots );
-                    };
-
-                    targeting_data args = {
-                        TARGET_MODE_TURRET_MANUAL, & *turret.base(),
-                        turret.range(), 0, false, turret.ammo_data(),
-                        switch_mode, switch_ammo, prepare_fire, post_fire
-                    };
-                    u.set_targeting_data( args );
-                    avatar_action::fire( g->u, g->m );
-
-                    break;
-                }
-
-                default:
-                    debugmsg( "unknown turret status" );
-                    break;
-            }
+            avatar_action::fire_turret_manual( g->u, g->m, turret );
             return;
         }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
-            if( vp->vehicle().turrets_aim_and_fire() ) {
+            if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
                 return;
             }
         }
@@ -1306,7 +1259,7 @@ static void fire()
     }
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
-        avatar_action::fire( g->u, g->m, u.weapon );
+        avatar_action::fire_wielded_weapon( g->u, g->m );
     } else if( u.weapon.has_flag( flag_REACH_ATTACK ) ) {
         int range = u.weapon.has_flag( flag_REACH3 ) ? 3 : 2;
         if( u.has_effect( effect_relax_gas ) ) {
@@ -1422,7 +1375,8 @@ static void cast_spell()
             distraction_type::noise,
             distraction_type::pain,
             distraction_type::attacked,
-            distraction_type::hostile_spotted,
+            distraction_type::hostile_spotted_near,
+            distraction_type::hostile_spotted_far,
             distraction_type::talked_to,
             distraction_type::asthma,
             distraction_type::motion_alarm,
@@ -2005,7 +1959,7 @@ bool game::handle_action()
             case ACTION_FIRE_BURST: {
                 gun_mode_id original_mode = u.weapon.gun_get_mode_id();
                 if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
-                    avatar_action::fire( u, m, u.weapon );
+                    avatar_action::fire_wielded_weapon( u, m );
                     u.weapon.gun_set_mode( original_mode );
                 }
                 break;

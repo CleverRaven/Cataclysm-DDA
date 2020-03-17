@@ -82,6 +82,7 @@
       [ "manual_smg", 20 ],
       [ "manual_stabbing", 40 ],
       [ "manual_swimming", 30 ],
+      [ "manual_traps_mil", 30 ],
       [ "pocket_firearms", 10 ],
       [ "textbook_firstaid", 30 ]
     ]
@@ -249,6 +250,7 @@
       [ "brewing_cookbook", 4 ],
       [ "computer_science", 8 ],
       [ "book_icef", 8 ],
+      [ "preserving_juice", 10 ],
       { "group": "magazines", "prob": 580 },
       [ "atomic_survival", 1 ],
       [ "recipe_augs", 4 ],
@@ -276,10 +278,8 @@
     "type": "item_group",
     "id": "manuals",
     "items": [
-      [ "manual_brawl", 30 ],
-      [ "manual_dodge", 1 ],
+      { "group": "manuals_school", "prob": 424 },
       [ "manual_melee", 6 ],
-      [ "manual_throw", 12 ],
       [ "manual_cutting", 12 ],
       [ "manual_stabbing", 6 ],
       [ "manual_knives", 8 ],
@@ -290,27 +290,9 @@
       [ "manual_smg", 2 ],
       [ "manual_launcher", 1 ],
       [ "recipe_bullets", 2 ],
-      [ "manual_mechanics", 35 ],
-      [ "manual_speech", 50 ],
-      [ "manual_business", 40 ],
-      [ "manual_first_aid", 40 ],
-      [ "manual_computers", 20 ],
-      [ "recipe_augs", 5 ],
-      [ "howto_computer", 10 ],
-      [ "cookbook", 35 ],
-      [ "cookbook_italian", 25 ],
-      [ "offalcooking", 10 ],
-      [ "manual_electronics", 20 ],
-      [ "manual_tailor", 15 ],
       [ "howto_traps", 10 ],
-      [ "manual_traps", 12 ],
-      [ "manual_carpentry", 10 ],
-      [ "101_carpentry", 6 ],
-      [ "manual_fabrication", 20 ],
-      [ "manual_driving", 15 ],
-      [ "manual_survival", 20 ],
-      [ "dnd_handbook", 2 ],
-      [ "survnote", 3 ]
+      [ "preserving_juice", 10 ],
+      [ "manual_traps", 12 ]
     ]
   },
   {
@@ -350,55 +332,15 @@
     "type": "item_group",
     "id": "textbooks",
     "items": [
-      [ "textbook_computer", 4 ],
-      [ "computer_science", 8 ],
-      [ "book_icef", 8 ],
-      [ "textbook_electronics", 6 ],
-      [ "advanced_electronics", 6 ],
-      [ "textbook_business", 12 ],
-      [ "adv_chemistry", 4 ],
-      [ "tailor_portfolio", 3 ],
-      [ "textbook_chemistry", 11 ],
-      [ "brewing_cookbook", 3 ],
-      [ "textbook_carpentry", 6 ],
-      [ "SICP", 3 ],
-      [ "survival_book", 8 ],
-      [ "emergency_book", 3 ],
-      [ "carpentry_book", 4 ],
-      [ "textbook_robots", 1 ],
-      [ "textbook_mechanics", 12 ],
-      [ "textbook_biodiesel", 12 ],
-      [ "textbook_fabrication", 12 ],
-      [ "welding_book", 2 ],
-      [ "glassblowing_book", 2 ],
+      { "group": "textbooks_school", "prob": 228 },
       [ "textbook_gaswarfare", 5 ],
       [ "recipe_bullets", 8 ],
-      [ "textbook_tailor", 12 ],
-      [ "recipe_fauxfur", 4 ],
-      [ "recipe_bows", 4 ],
-      [ "recipe_arrows", 4 ],
-      [ "textbook_firstaid", 8 ],
-      [ "pocket_firstaid", 4 ],
-      [ "pocket_survival", 2 ],
       [ "pocket_firearms", 2 ],
-      [ "textbook_anarch", 1 ],
-      [ "textbook_survival", 8 ],
-      [ "modern_tanner", 4 ],
       [ "textbook_traps", 4 ],
-      [ "manual_survival", 3 ],
-      [ "manual_swimming", 5 ],
-      [ "textbook_speech", 12 ],
-      [ "textbook_fireman", 10 ],
-      [ "textbook_armschina", 3 ],
-      [ "textbook_weapwest", 3 ],
-      [ "textbook_weapeast", 3 ],
-      [ "textbook_armwest", 3 ],
-      [ "textbook_armeast", 3 ],
       [ "reference_cooking", 2 ],
       [ "reference_fabrication1", 6 ],
       [ "reference_firstaid1", 2 ],
-      [ "reference_firstaid2", 1 ],
-      [ "survnote", 2 ]
+      [ "reference_firstaid2", 1 ]
     ]
   },
   {
@@ -489,6 +431,7 @@
     "//": "Those rich mansion people have all sorts of weird books.",
     "items": [
       [ "offalcooking", 22 ],
+      [ "preserving_juice", 16 ],
       { "group": "novels", "prob": 370 },
       { "group": "literature", "prob": 100 },
       [ "photo_album", 30 ],
@@ -654,9 +597,7 @@
       { "group": "book_mag_surv", "prob": 90 },
       [ "mag_porn", 20 ],
       [ "mag_comic", 20 ],
-      [ "months_old_newspaper", 1 ],
-      [ "weeks_old_newspaper", 4 ],
-      [ "newest_newspaper", 10 ],
+      { "group": "newspaper_recent", "prob": 15 },
       [ "survnote", 1 ]
     ]
   },
@@ -714,5 +655,20 @@
     "id": "book_mag_surv",
     "type": "item_group",
     "items": [ [ "mag_survival", 40 ], [ "mag_traps", 20 ], [ "fun_survival", 10 ], [ "mag_archery", 20 ] ]
+  },
+  {
+    "id": "newspaper",
+    "type": "item_group",
+    "items": [ { "group": "newspaper_recent", "prob": 80 }, { "group": "newspaper_old", "prob": 20 } ]
+  },
+  {
+    "id": "newspaper_recent",
+    "type": "item_group",
+    "items": [ [ "months_old_newspaper", 10 ], [ "weeks_old_newspaper", 15 ], [ "newest_newspaper", 20 ] ]
+  },
+  {
+    "id": "newspaper_old",
+    "type": "item_group",
+    "items": [ [ "many_years_old_newspaper", 5 ], [ "years_old_newspaper", 10 ], [ "one_year_old_newspaper", 20 ] ]
   }
 ]

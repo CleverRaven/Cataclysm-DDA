@@ -918,7 +918,7 @@
         "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
+          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "lighter", "charges": 100 }
@@ -1200,7 +1200,7 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_two_way_radio" },
-          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 6, "container-item": "sholster" },
+          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 6, "container-item": "holster" },
           { "item": "357mag_fmj", "charges": 24 }
         ]
       },
@@ -1226,7 +1226,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "tacvest", "contents-group": [ "army_mags_mp5", "army_mags_usp9" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
-          { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "sholster" },
+          { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           {
             "item": "hk_mp5",
             "ammo-item": "9mm",
@@ -1262,7 +1262,7 @@
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
-          { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "sholster" },
+          { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
           { "item": "baton-extended", "container-item": "police_belt" },
           { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" }
         ]
@@ -1617,7 +1617,7 @@
     "items": {
       "both": { "items": [ "socks", "knit_scarf", "dance_shoes" ], "entries": [ { "group": "charged_cell_phone" } ] },
       "male": [ "briefs", "tux" ],
-      "female": [ "bra", "panties", "dress" ]
+      "female": [ "bra", "panties", "dress", "purse" ]
     }
   },
   {
@@ -1990,7 +1990,6 @@
           "tent_kit",
           "rollmat",
           "e_tool",
-          "binoculars",
           "knife_hunting"
         ],
         "entries": [
@@ -2089,7 +2088,7 @@
       "both": {
         "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "shot_00" ],
         "entries": [
-          { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
+          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "ref_lighter", "charges": 100 }
         ]
@@ -2223,7 +2222,10 @@
     "description": "You haven't seen this much blood since the war.  The whole world's gone crazy!  They ate your grandkids!  But dagnabbit, you'll make them all pay for what they've done.",
     "points": 0,
     "items": {
-      "both": [ "tobacco", "pipe_tobacco", "ref_lighter", "socks", "dress_shoes", "knit_scarf", "cane" ],
+      "both": {
+        "items": [ "tobacco", "pipe_tobacco", "ref_lighter", "socks", "dress_shoes", "knit_scarf" ],
+        "entries": [ { "item": "cane", "custom-flags": [ "auto_wield" ] } ]
+      },
       "male": [ "briefs", "dress_shirt", "pants_checkered", "pocketwatch" ],
       "female": [ "panties", "bra", "dress", "fanny", "gold_watch" ]
     }
@@ -2266,7 +2268,7 @@
     "items": {
       "both": { "items": [  ], "entries": [ { "group": "charged_cell_phone" } ] },
       "male": [ "tux", "socks", "dress_shoes", "briefs" ],
-      "female": [ "veil_wedding", "dress_wedding", "stockings", "dress_shoes", "bra", "panties" ]
+      "female": [ "veil_wedding", "dress_wedding", "stockings", "dress_shoes", "bra", "panties", "purse" ]
     }
   },
   {
@@ -2539,7 +2541,7 @@
     "skills": [ { "level": 1, "name": "electronics" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "tank_top", "shorts", "socks", "lowtops", "aspirin", "anesthesia", "pockknife", "backpack", "wristwatch" ],
+        "items": [ "tank_top", "shorts", "socks", "lowtops", "aspirin", "anesthetic_kit", "pockknife", "backpack", "wristwatch" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -3672,7 +3674,7 @@
           "dress_shoes",
           "coat_lab",
           "bandages",
-          "anesthesia",
+          "anesthetic_kit",
           "1st_aid",
           "wristwatch",
           "stethoscope"
