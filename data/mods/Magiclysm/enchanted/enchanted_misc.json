@@ -92,8 +92,7 @@
   {
     "id": "mtorch_everburning_lit",
     "type": "TOOL",
-    "name": "everburning torch",
-    "name_plural": "everburning torches",
+    "name": { "str": "everburning torch", "str_pl": "everburning torches" },
     "copy-from": "mtorch_everburning",
     "revert_to": "mtorch_everburning",
     "use_action": [

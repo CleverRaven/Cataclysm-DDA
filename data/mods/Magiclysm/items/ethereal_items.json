@@ -235,8 +235,7 @@
   {
     "id": "fleshpouch",
     "type": "ARMOR",
-    "name": "flesh pouch",
-    "name_plural": "flesh pouches",
+    "name": { "str": "flesh pouch", "str_pl": "flesh pouches" },
     "description": "A large pouch of tough flesh on your back, filled with tiny tentacles that grasp and hold anything you place inside.  It shifts and adjusts itself to minimize encumbrance.",
     "weight": 0,
     "volume": 0,
