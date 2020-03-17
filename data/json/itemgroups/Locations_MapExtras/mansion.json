@@ -747,6 +747,8 @@
       [ "helmet_football", 10 ],
       [ "football", 60 ],
       [ "basketball", 50 ],
+      [ "beach_volleyball", 40 ],
+      [ "indoor_volleyball", 40 ],
       [ "helmet_bike", 25 ],
       [ "helmet_ball", 25 ],
       [ "headgear", 20 ],
