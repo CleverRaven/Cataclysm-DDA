@@ -437,13 +437,9 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
 #if defined(TILES)
 /* Bullet Animation -- Maybe change this to animate the ammo itself flying through the air?*/
 // need to have a version where there is no player defined, possibly. That way shrapnel works as intended
-void game::draw_bullet( const tripoint &t, const int i, const std::vector<tripoint> &trajectory,
-                        const char bullet )
+void game::draw_bullet( const tripoint &t, const int /*i*/,
+                        const std::vector<tripoint> &/*trajectory*/, const char bullet )
 {
-    // TODO: signature and impl could be changed to eliminate these params
-    ( void )i;
-    ( void )trajectory;
-
     if( !use_tiles ) {
         draw_bullet_curses( m, t, bullet, nullptr );
         return;
@@ -557,11 +553,9 @@ void game::draw_hit_player( const player &p, const int dam )
 /* Line drawing code, not really an animation but should be separated anyway */
 namespace
 {
-void draw_line_curses( game &g, const tripoint &pos, const tripoint &center,
+void draw_line_curses( game &g, const tripoint &/*pos*/, const tripoint &center,
                        const std::vector<tripoint> &ret )
 {
-    ( void )pos;
-
     for( const tripoint &p : ret ) {
         const auto critter = g.critter_at( p, true );
 
@@ -624,10 +618,8 @@ void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
     tilecontext->init_draw_line( p, points, "line_trail", false );
 }
 #else
-void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
+void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points )
 {
-    ( void )p;
-
     draw_line_curses( *this, points );
 }
 #endif

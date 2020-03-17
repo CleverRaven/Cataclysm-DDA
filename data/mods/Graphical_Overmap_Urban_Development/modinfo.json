@@ -7,6 +7,7 @@
     "maintainers": [ "Kilvoctu" ],
     "description": "Urban Development mod support for Graphical Overmap.",
     "category": "graphical",
-    "dependencies": [ "dda", "Graphical_Overmap", "Urban_Development" ]
+    "dependencies": [ "dda", "Graphical_Overmap", "Urban_Development" ],
+    "obsolete": true
   }
 ]

@@ -3,6 +3,7 @@
 Use the `Home` key to return to the top.
 
 - [Introduction](#introduction)
+- [Navigating the JSON](#navigating-the-json)
 - [File descriptions](#file-descriptions)
   * [`data/json/`](#datajson)
   * [`data/json/items/`](#datajsonitems)
@@ -161,6 +162,16 @@ Use the `Home` key to return to the top.
 
 # Introduction
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
+
+# Navigating the JSON
+A lot of the JSON involves cross-references to other JSON entities.  To make it easier to navigate, we provide a script `tools/json_tools/cddatags.py` that can build a `tags` file for you.
+
+To run the script you'll need Python 3.  On Windows you'll probably need to install that, and associate `.py` files with Python.  Then open a command prompt, navigate to your CDDA folder, and run `tools\json_tools\cddatags.py`.
+
+To use this feature your editor will need [ctags support](http://ctags.sourceforge.net/).  When that's working you should be able to easily jump to the definition of any entity.  For example, by positioning your cursor over an id and hitting the appropriate key combination.
+
+* In Vim, this feature exists by default, and you can jump to a definition using [`^]`](http://vimdoc.sourceforge.net/htmldoc/tagsrch.html#tagsrch.txt).
+* In Notepad++ go to "Plugins" -> "Plugins Admin" and enable the "TagLEET" plugin.  Then select any id and press Alt+Space to open the references window.
 
 # File descriptions
 Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is not comprehensive, but covers the broad strokes.
@@ -379,6 +390,8 @@ This section describes each json file and their contents. Each json has their ow
 | included_bionics            | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | included                    | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | env_protec                  | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
+| bash_protec                 | (_optional_) How much bash protection does this bionic provide on the specified body parts.
+| cut_protec                  | (_optional_) How much cut protection does this bionic provide on the specified body parts.
 | occupied_bodyparts          | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
 | capacity                    | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | fuel_options                | (_optional_) A list of fuel that this bionic can use to produce bionic power.
@@ -416,6 +429,8 @@ This section describes each json file and their contents. Each json has their ow
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
     "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
     "env_protec": [ [ "MOUTH", 7 ] ],
+    "bash_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "cut_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
 }
 ```
@@ -1126,6 +1141,7 @@ Note that even though most statistics yield an integer, you should still use
 "fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
+"mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
 ```
 
 ### Vehicle Groups
@@ -1278,36 +1294,64 @@ See also VEHICLE_JSON.md
 "symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description": "Socks. Put 'em on your feet.", // Description of the item
-"phase": "solid",                // (Optional, default = "solid") What phase it is
-"weight": "350 g",               // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
-"volume": "250 ml",              // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
-"integral_volume": 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
-"integral_weight": 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
-"rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
-"insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
-"price": 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
-"price_post": "1 USD",           // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
-"material": ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
-"cutting": 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
-"bashing": 0,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
-"to_hit": 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
-"flags": ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
-"magazine_well": 0,              // Volume above which the magazine starts to protrude from the item and add extra volume
-"magazines": [                   // Magazines types for each ammo type (if any) which can be used to reload this item
-    [ "9mm", [ "glockmag" ] ]     // The first magazine specified for each ammo type is the default
+"ascii_picture": [
+      "        ,,,,,,,,,,,,,",
+      "    .;;;;;;;;;;;;;;;;;;;,.",
+      " .;;;;;;;;;;;;;;;;;;;;;;;;,",
+      ".;;;;;;;;;;;;;;;;;;;;;;;;;;;;.",
+      ";;;;;@;;;;;;;;;;;;;;;;;;;;;;;;' .............",
+      ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'.................",
+      ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'...................`",
+      ";;;;@;;;;;;;;;;;;;;;@;;;;;;;'.....................",
+      " `;;;;;;;;;;;;;;;;;;;@@;;;;;'..................;....", // Ascii art that  will be displayed at the bottom of the item description. Array of string with each element being a line of the picture. Lines longer than 42 characters won't display properly.
+      "   `;;;;;;;;;;;;;;;;@@;;;;'....................;;...",
+      "     `;;;;;;;;;;;;;@;;;;'...;.................;;....",
+      "        `;;;;;;;;;;;;'   ...;;...............;.....",
+      "           `;;;;;;'        ...;;..................",
+      "              ;;              ..;...............",
+      "              `                  ............",
+      "             `                      ......",
+      "             `                         ..",
+      "           `                           '",
+      "          `                           '",
+      "         `                           '",
+      "        `                           `",
+      "        `                           `,",
+      "        `",
+      "         `",
+      "           `."
+    ],
+"phase": "solid",                            // (Optional, default = "solid") What phase it is
+"weight": "350 g",                           // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
+"volume": "250 ml",                          // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
+"integral_volume": 0,                        // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
+"integral_weight": 0,                        // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
+"rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
+"insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
+"price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
+"price_post": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
+"cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
+"bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
+"to_hit": 0,                                 // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
+"environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
+"magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
+"magazines": [                               // Magazines types for each ammo type (if any) which can be used to reload this item
+    [ "9mm", [ "glockmag" ] ]                // The first magazine specified for each ammo type is the default
     [ "45", [ "m1911mag", "m1911bigmag" ] ],
 ],
-"explode_in_fire": true,         // Should the item explode if set on fire
-"explosion": {                    // Physical explosion data
-    "power": 10,                 // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
-    "distance_factor": 0.9,      // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
-    "fire": true,                // Should the explosion leave fire
-    "shrapnel": 200,              // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
+"explode_in_fire": true,                     // Should the item explode if set on fire
+"explosion": {                               // Physical explosion data
+    "power": 10,                             // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
+    "distance_factor": 0.9,                  // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
+    "fire": true,                            // Should the explosion leave fire
+    "shrapnel": 200,                         // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
     "shrapnel": {
-        "casing_mass": 200,      // Total mass of casing, casing/power ratio determines fragment velocity.
-        "fragment_mass": 0.05,   // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
-        "recovery": 10,          // Percentage chance to drop an item at landing point.
-        "drop": "nail"           // Which item to drop at landing point.
+        "casing_mass": 200,                  // Total mass of casing, casing/power ratio determines fragment velocity.
+        "fragment_mass": 0.05,               // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
+        "recovery": 10,                      // Percentage chance to drop an item at landing point.
+        "drop": "nail"                       // Which item to drop at landing point.
     }
 },
 ```
@@ -1618,7 +1662,7 @@ Guns can be defined like this:
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
-"barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 9mL per inch is a decent approximation.
+"barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
 "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
@@ -1652,7 +1696,8 @@ Gun mods can be defined like this:
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "recoil_modifier": -100,       // Optional field increasing or decreasing base gun recoil
-"ups_charges": 200,            // Optional field increasing or decreasing base gun UPS consumption (per shot)
+"ups_charges_modifier": 200,   // Optional field increasing or decreasing base gun UPS consumption (per shot) by adding given value
+"ups_charges_multiplier": 2.5, // Optional field increasing or decreasing base gun UPS consumption (per shot) by multiplying by given value
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
 "min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
 ```
@@ -1712,7 +1757,7 @@ Every item type can have optional seed data, if the item has seed data, it's con
 
 ```C++
 "seed_data" : {
-    "fruits": "weed", // The item id of the fruits that this seed will produce.
+    "fruit": "weed", // The item id of the fruits that this seed will produce.
     "seeds": false, // (optional, default is true). If true, harvesting the plant will spawn seeds (the same type as the item used to plant). If false only the fruits are spawned, no seeds.
     "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
     "byproducts": ["withered", "straw_pile"], // A list of further items that should spawn upon harvest.
@@ -2072,7 +2117,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "fun": -5, // Together with fun_bonus, this defines how much morale the character gets from playing the instrument. They get `fun + fun_bonus * <character-perception>` morale points out of it. Both values and the result may be negative.
     "fun_bonus": 2,
     "description_frequency": 20, // Once every Nth turn, a randomly chosen description (from the that array) is displayed.
-    "descriptions": [
+    "player_descriptions": [
         "You play a little tune on your flute.",
         "You play a beautiful piece on your flute.",
         "You play a piece on your flute that sounds harmonious with nature."

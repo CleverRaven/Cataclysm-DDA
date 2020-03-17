@@ -3,8 +3,7 @@
     "id": "manual_crt_enforcement",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "C.R.I.T Enforcement manual",
-    "name_plural": "C.R.I.T Enforcement manuals",
+    "name": { "str": "C.R.I.T Enforcement manual" },
     "description": "An advanced military manual on C.R.I.T Enforcer melee.",
     "book_data": { "martial_art": "style_crt_enforcement" }
   },
@@ -30,9 +29,9 @@
         "melee_allowed": true,
         "flat_bonuses": [
           [ "arpen", "bash", "str", 0.15 ],
-          [ "armor", "bash", 1 ],
-          [ "armor", "cut", 1 ],
-          [ "armor", "stab", 1 ],
+          [ "armor", "bash", 1.0 ],
+          [ "armor", "cut", 1.0 ],
+          [ "armor", "stab", 1.0 ],
           [ "hit", "str", 0.4 ]
         ]
       }
@@ -90,7 +89,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 1 }, { "name": "melee", "level": 1 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "damage", "bash", 1 ], [ "damage", "cut", 1 ], [ "damage", "stab", 1 ] ],
+    "mult_bonuses": [ [ "damage", "bash", 1.0 ], [ "damage", "cut", 1.0 ], [ "damage", "stab", 1.0 ] ],
     "flat_bonuses": [ [ "damage", "bash", "str", 0.15 ], [ "movecost", "str", -0.7 ] ],
     "messages": [ "You clock %s's in a weak spot to knock em down", "<npcname> smashes in %s's face" ],
     "down_dur": 1
@@ -102,7 +101,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 }, { "name": "melee", "level": 2 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 1.04 ], [ "damage", "bash", 1 ], [ "damage", "cut", 1.05 ], [ "damage", "stab", 1.05 ] ],
+    "mult_bonuses": [ [ "movecost", 1.04 ], [ "damage", "bash", 1.0 ], [ "damage", "cut", 1.05 ], [ "damage", "stab", 1.05 ] ],
     "flat_bonuses": [ [ "arpen", "bash", "str", 0.2 ], [ "movecost", "str", -1.2 ] ],
     "messages": [ "You swiftly swipe your weapon's tip at %s", "<npcname> swiftly jabs their weapon into %s" ]
   },

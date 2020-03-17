@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/env python
 
 # compose.py
 # Split a gfx directory made of 1000s of little images and files into a set of tilesheets
@@ -236,6 +236,12 @@ class TilesheetData(object):
                 try:
                     if not vips_image.hasalpha():
                         vips_image = vips_image.addalpha()
+                except Vips.Error:
+                    pass
+
+                try:
+                    if vips_image.get_typeof("icc-profile-data") != 0:
+                        vips_image = vips_image.icc_transform("srgb")
                 except Vips.Error:
                     pass
 

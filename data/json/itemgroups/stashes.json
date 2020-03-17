@@ -1,0 +1,70 @@
+[
+  {
+    "type": "item_group",
+    "id": "stash_food",
+    "items": [
+      [ "water_clean", 90 ],
+      [ "water_mineral", 5 ],
+      { "group": "softdrinks_canned", "prob": 380 },
+      { "group": "salty_snacks", "prob": 135 },
+      { "item": "cola", "prob": 25, "container-item": "bottle_glass" },
+      { "item": "creamsoda", "prob": 25, "container-item": "bottle_glass" },
+      { "item": "lemonlime", "prob": 25, "container-item": "bottle_glass" },
+      { "item": "orangesoda", "prob": 25, "container-item": "bottle_glass" },
+      { "item": "colamdew", "prob": 25, "container-item": "bottle_glass" },
+      [ "salted_fish", 35 ],
+      [ "ravioli", 25 ],
+      [ "cheese_hard", 15 ],
+      [ "can_beans", 40 ],
+      [ "pork_beans", 40 ],
+      [ "can_corn", 35 ],
+      [ "cooked_pumpkin", 20 ],
+      [ "can_spam", 30 ],
+      [ "salt", 10 ],
+      [ "seasoning_salt", 5 ],
+      [ "vinegar", 10 ],
+      { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
+      [ "jar_sauerkraut_pickled", 20 ],
+      [ "con_milk", 10 ],
+      [ "milk_evap", 10 ],
+      { "item": "fish_pickled", "prob": 26, "charges": 2, "container-item": "jar_glass_sealed" },
+      [ "lutefisk", 1 ],
+      [ "pemmican", 10 ],
+      { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "stash_wood",
+    "items": [ [ "stick", 95 ], [ "ax", 8 ], [ "saw", 15 ], [ "2x4", 60 ], [ "log", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "stash_drugs",
+    "items": [
+      [ "pills_sleep", 15 ],
+      [ "oxycodone", 4 ],
+      [ "morphine", 4 ],
+      [ "xanax", 10 ],
+      [ "adderall", 10 ],
+      [ "pipe_tobacco", 2 ],
+      [ "tobacco", 2 ],
+      [ "adrenaline_injector", 2 ],
+      [ "weed", 50 ],
+      [ "joint", 10 ],
+      [ "seed_weed", 35 ],
+      [ "seed_tobacco", 15 ],
+      [ "rolling_paper", 9 ],
+      [ "pipe_glass", 17 ],
+      [ "coke", 8 ],
+      [ "meth", 2 ],
+      [ "heroin", 1 ],
+      [ "crack", 4 ],
+      [ "crackpipe", 7 ],
+      [ "antifungal", 1 ],
+      [ "antiparasitic", 2 ],
+      [ "diazepam", 1 ],
+      [ "lsd", 6 ]
+    ]
+  }
+]

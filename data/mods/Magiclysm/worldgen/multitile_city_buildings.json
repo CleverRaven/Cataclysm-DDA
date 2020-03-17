@@ -32,5 +32,15 @@
       { "point": [ 0, 0, 3 ], "overmap": "wizardtower2_study_north" },
       { "point": [ 0, 0, 4 ], "overmap": "wizardtower2_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_detatched5",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_detatched5_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_detatched5_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "magic_basement_north" }
+    ]
   }
 ]

@@ -57,8 +57,7 @@
 #include "mapdata.h"
 #include "point.h"
 #include "material.h"
-
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+#include "cata_string_consts.h"
 
 class player;
 
@@ -85,12 +84,6 @@ static auto can_refill = []( const vehicle_part &pt )
     return pt.can_reload();
 };
 
-static const quality_id LIFT( "LIFT" );
-static const quality_id JACK( "JACK" );
-static const quality_id SELF_JACK( "SELF_JACK" );
-static const skill_id skill_mechanics( "mechanics" );
-static const itype_id fuel_type_battery( "battery" );
-
 void act_vehicle_siphon( vehicle *veh );
 void act_vehicle_unload_fuel( vehicle *veh );
 
@@ -109,26 +102,31 @@ player_activity veh_interact::serialize_activity()
             time = vp->install_time( g->u );
             break;
         case 'r':
-            if( pt->is_broken() ) {
-                time = vp->install_time( g->u );
-            } else if( pt->base.max_damage() > 0 ) {
-                time = vp->repair_time( g->u ) * pt->base.damage() / pt->base.max_damage();
+            if( pt != nullptr ) {
+                if( pt->is_broken() ) {
+                    time = vp->install_time( g->u );
+                } else if( pt->base.max_damage() > 0 ) {
+                    time = vp->repair_time( g->u ) * pt->base.damage() / pt->base.max_damage();
+                }
             }
             break;
         case 'o':
             time = vp->removal_time( g->u );
             break;
+        default:
+            break;
     }
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         time = 1;
     }
-    player_activity res( activity_id( "ACT_VEHICLE" ), time, static_cast<int>( sel_cmd ) );
+    player_activity res( ACT_VEHICLE, time, static_cast<int>( sel_cmd ) );
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
-    point q = veh->coord_translate( pt ? pt->mount : veh->parts[0].mount );
-    for( const auto pt : veh->get_points( true ) ) {
-        res.coord_set.insert( g->m.getabs( pt ) );
+    const point q = veh->coord_translate( pt ? pt->mount : veh->parts[0].mount );
+    const vehicle_part *vpt = pt ? pt : &veh->parts[0];
+    for( const tripoint &p : veh->get_points( true ) ) {
+        res.coord_set.insert( g->m.getabs( p ) );
     }
     res.values.push_back( g->m.getabs( veh->global_pos3() ).x + q.x );    // values[0]
     res.values.push_back( g->m.getabs( veh->global_pos3() ).y + q.y );    // values[1]
@@ -136,7 +134,7 @@ player_activity veh_interact::serialize_activity()
     res.values.push_back( dd.y );   // values[3]
     res.values.push_back( -dd.x );   // values[4]
     res.values.push_back( -dd.y );   // values[5]
-    res.values.push_back( veh->index_of_part( pt ) ); // values[6]
+    res.values.push_back( veh->index_of_part( vpt ) ); // values[6]
     res.str_values.push_back( vp->get_id().str() );
     res.targets.emplace_back( std::move( target ) );
 
@@ -461,9 +459,9 @@ void veh_interact::cache_tool_availability()
     if( g->u.is_mounted() ) {
         mech_jack = g->u.mounted_creature->mech_str_addition() + 10;
     }
-    max_jack = std::max( { g->u.max_quality( JACK ), mech_jack,
-                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
-                           vehicle_selector( g->u.pos(), 2, true, *veh ).max_quality( JACK )
+    max_jack = std::max( { g->u.max_quality( qual_JACK ), mech_jack,
+                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( qual_JACK ),
+                           vehicle_selector( g->u.pos(), 2, true, *veh ).max_quality( qual_JACK )
                          } );
 }
 
@@ -637,7 +635,7 @@ bool veh_interact::can_self_jack()
     int lvl = jack_quality( *veh );
 
     for( const vpart_reference &vp : veh->get_avail_parts( "SELF_JACK" ) ) {
-        if( vp.part().base.has_quality( SELF_JACK, lvl ) ) {
+        if( vp.part().base.has_quality( qual_SELF_JACK, lvl ) ) {
             return true;
         }
     }
@@ -746,13 +744,13 @@ bool veh_interact::can_install_part()
     bool use_str = false;
     item base( sel_vpart_info->item );
     if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
-        qual = JACK;
+        qual = qual_JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
-        qual = LIFT;
+        qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          TOOL_LIFT_FACTOR );
         str = base.lift_strength();
@@ -1295,6 +1293,12 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         if( hotkey == '{' ) {
             hotkey = 'A';
         }
+
+        while( hotkey == 'c' || hotkey == 'g' || hotkey == 'j' || hotkey == 'k' || hotkey == 'l' ||
+               hotkey == 'p' || hotkey == 'q' || hotkey == 't' || hotkey == 'v' || hotkey == 'x' ||
+               hotkey == 'z' ) {
+            hotkey += 1;
+        }
         return hotkey;
     };
 
@@ -1403,7 +1407,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     int offset = 1;
                     std::string fmtstring = "%s %s  %5.1fL";
-                    if( pt.damage_percent() >= 0.5 ) {
+                    if( pt.is_leaking() ) {
                         fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
                         offset = 0;
                     }
@@ -1411,7 +1415,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                                  string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
                                                 round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
                 } else {
-                    if( pt.damage_percent() >= 0.5 ) {
+                    if( pt.is_leaking() ) {
                         std::string outputstr = leak_marker + "      " + leak_marker;
                         right_print( w, y, 0, c_light_gray, outputstr );
                     }
@@ -1422,15 +1426,17 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         } else if( pt.is_fuel_store() && !( pt.is_battery() || pt.is_reactor() ) && !pt.is_broken() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_current() != "null" ) {
+                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                    auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     int offset = 1;
-                    std::string fmtstring = "%s  %6i";
-                    if( pt.damage_percent() >= 0.5 ) {
-                        fmtstring = "%s  " + leak_marker + "%6i" + leak_marker;
+                    std::string fmtstring = "%s  %5.1fL";
+                    if( pt.is_leaking() ) {
+                        fmtstring = "%s  " + leak_marker + "%5.1fL" + leak_marker;
                         offset = 0;
                     }
-                    right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                    right_print( w, y, offset, pt_ammo_cur->color,
                                  string_format( fmtstring, item::nname( pt.ammo_current() ),
-                                                pt.ammo_remaining() ) );
+                                                round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
                 }
             };
             opts.emplace_back( "TANK", &pt, action && enable &&
@@ -1445,7 +1451,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
                 int offset = 1;
                 std::string fmtstring = "%i    %3i%%";
-                if( pt.damage_percent() >= 0.5 ) {
+                if( pt.is_leaking() ) {
                     fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
                     offset = 0;
                 }
@@ -1459,8 +1465,14 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
 
     auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
         if( pt.ammo_remaining() ) {
-            right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                         string_format( "%s   %5i", item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
+            int offset = 1;
+            std::string fmtstring = "%s   %5i";
+            if( pt.is_leaking() ) {
+                fmtstring = "%s  " + leak_marker + "%5i" + leak_marker;
+                offset = 0;
+            }
+            right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                         string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
         }
     };
 
@@ -1668,13 +1680,13 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     bool use_str = false;
     item base( sel_vpart_info->item );
     if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
-        qual = JACK;
+        qual = qual_JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else {
-        qual = LIFT;
+        qual = qual_LIFT;
         lvl = ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
@@ -2183,9 +2195,9 @@ static std::string wheel_state_description( const vehicle &veh )
 
     std::string boat_status;
     if( !suf_boat ) {
-        boat_status = _( "<color_light_red>leaks</color>" );
+        boat_status = _( "<color_light_red>sinks</color>" );
     } else {
-        boat_status = _( "<color_blue>swims</color>" );
+        boat_status = _( "<color_light_blue>floats</color>" );
     }
 
     if( is_boat && is_land ) {
@@ -2362,9 +2374,15 @@ void veh_interact::display_stats() const
     i += 1;
 
     if( is_boat ) {
+
+        const double water_clearance = veh->water_hull_height() - veh->water_draft();
+        std::string draft_string = water_clearance > 0 ?
+                                   _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_blue>%4.2f</color>m" ) :
+                                   _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_red>%4.2f</color>m" ) ;
+
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        _( "Draft:          <color_light_blue>%4.2f</color>m" ),
-                        veh->water_draft() );
+                        draft_string.c_str(),
+                        veh->water_draft(), water_clearance );
         i += 1;
     }
 

@@ -2,7 +2,7 @@
   {
     "abstract": "fake_item",
     "type": "GENERIC",
-    "name": "fake item",
+    "name": { "str": "fake item" },
     "description": "Dummy item.  If you see this, then something went wrong.",
     "symbol": "@",
     "color": "red"
@@ -11,7 +11,7 @@
     "id": "arcfurnace",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "arc furnace"
+    "name": { "str": "arc furnace" }
   },
   {
     "id": "fake_burrowing",
@@ -26,8 +26,8 @@
     "id": "toolset",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "integrated toolset",
-    "flags": "TRADER_AVOID",
+    "name": { "str": "integrated toolset" },
+    "flags": [ "TRADER_AVOID" ],
     "max_charges": 10000,
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
@@ -42,7 +42,7 @@
       [ "SCREW_FINE", 1 ],
       [ "CUT", 1 ],
       [ "PRY", 1 ],
-      [ "DRILL", 1 ],
+      [ "DRILL", 3 ],
       [ "BUTCHER", -38 ]
     ]
   },
@@ -50,8 +50,7 @@
     "id": "fake_goggles",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "bionic goggles",
-    "name_plural": "bionic goggles",
+    "name": { "str": "bionic goggles", "str_pl": "bionic goggles" },
     "qualities": [ [ "GLARE", 2 ] ]
   },
   {
@@ -66,7 +65,7 @@
     "id": "fake_razor",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "bionic razor",
+    "name": { "str": "bionic razor" },
     "qualities": [ [ "BUTCHER", 8 ] ]
   },
   {
@@ -74,7 +73,7 @@
     "type": "TOOL",
     "symbol": "v",
     "color": "red",
-    "name": "clairvoyance rod",
+    "name": { "str": "clairvoyance rod" },
     "description": "Item to test aep_clairvoyance_plus flag.  If this spawns randomly, then it's a bug.",
     "price": 5000,
     "material": [ "steel" ],
@@ -88,7 +87,7 @@
     "id": "acid_spit",
     "type": "GUN",
     "copy-from": "fake_item",
-    "name": "acid spit gun",
+    "name": { "str": "acid spit gun" },
     "description": "Fake gun that fires acid globs.",
     "flags": [ "NEVER_JAMS" ],
     "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
@@ -103,7 +102,7 @@
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
-    "name": "reach bow",
+    "name": { "str": "reach bow" },
     "description": "A test item that is both a ranged weapon and a reach weapon",
     "price": 16000,
     "material": "steel",
@@ -125,15 +124,14 @@
     "id": "boulder_anvil",
     "type": "TOOL",
     "copy-from": "fake_item",
-    "name": "boulder anvil",
+    "name": { "str": "boulder anvil" },
     "qualities": [ [ "ANVIL", 1 ] ]
   },
   {
     "id": "fake_milling_item",
     "copy-from": "fake_item",
     "type": "GENERIC",
-    "name": "semi ground grains",
-    "name_plural": "semi ground grains",
+    "name": { "str": "semi ground grains", "str_pl": "semi ground grains" },
     "description": "A paste of half-finished milled grains, not yet flour.",
     "flags": [ "TRADER_AVOID", "FAKE_MILL" ]
   },
@@ -141,8 +139,7 @@
     "id": "fake_smoke_plume",
     "copy-from": "fake_item",
     "type": "GENERIC",
-    "name": "smoldering embers",
-    "name_plural": "smoldering embers",
+    "name": { "str": "smoldering embers", "str_pl": "smoldering embers" },
     "description": "A handful of smoldering embers emitting smoke.  They are fading away even when you look at them.",
     "emits": [ "emit_small_smoke_plume" ],
     "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]
@@ -151,14 +148,14 @@
     "id": "fake_firestarter",
     "copy-from": "fake_item",
     "type": "TOOL",
-    "name": "bionic firestarter",
+    "name": { "str": "bionic firestarter" },
     "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "migo_bio_gun",
     "type": "GUN",
     "copy-from": "fake_item",
-    "name": "mi-go bio-gun",
+    "name": { "str": "mi-go bio-gun" },
     "description": "Fake gun that fires some sort of solidified organic matter at very high speed by unknown means of propulsion.",
     "flags": [ "NEVER_JAMS" ],
     "ammo_effects": [ "NEVER_MISFIRES" ],

@@ -42,6 +42,11 @@ On Windows, there is an [AStyle extension for Visual Studio](https://github.com/
 
 See the [JSON style guide](JSON_STYLE.md).
 
+## ctags
+
+In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http://ctags.sourceforge.net/), we provide `tools/json_tools/cddatags.py` to augment a `tags` file with locations of definitions taken from CDDA JSON data.  `cddatags.py` is designed to safely update a tags file containing source code tags, so if you want both types of tag in your `tags` file then you can run `ctags -R . && tools/json_tools/cddatags.py`.  Alternatively, there is a rule in the `Makefile` to do this for you; just run `make ctags` or `make etags`.
+
+
 ## clang-tidy
 
 Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have

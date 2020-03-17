@@ -79,7 +79,11 @@
       "sealed_item": {
         "~": { "item": { "item": "seed_weed" }, "furniture": "f_plant_harvest" },
         "&": { "item": { "item": "seed_weed" }, "furniture": "f_plant_harvest" }
-      }
+      },
+      "place_monsters": [
+        { "chance": 10, "density": 1, "monster": "GROUP_DOGS", "x": 14, "y": 15 },
+        { "chance": 8, "density": 1, "monster": "GROUP_DOGS", "x": 8, "y": 6 }
+      ]
     }
   },
   {
@@ -116,6 +120,41 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_detatched6_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        " |||||||||||||||||||||| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |............<..F.gUU| ",
+        " |.......ZJW||||||||||| ",
+        " |......|||||           ",
+        " |......|               ",
+        " |......|               ",
+        " |......|               ",
+        " |......|               ",
+        " ||||||||               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ]
     }
   }
 ]

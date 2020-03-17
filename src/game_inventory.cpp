@@ -107,6 +107,8 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
 
     std::pair<size_t, size_t> init_pair;
     bool init_selection = false;
+    std::string init_filter;
+    bool has_init_filter = false;
 
     const std::vector<activity_id> consuming {
         ACT_EAT_MENU,
@@ -119,6 +121,10 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         init_pair.second = u.activity.values[1];
         init_selection = true;
     }
+    if( u.has_activity( consuming ) && !u.activity.str_values.empty() ) {
+        init_filter = u.activity.str_values[0];
+        has_init_filter = true;
+    }
 
     bool need_refresh = true;
     do {
@@ -128,10 +134,18 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
         inv_s.add_character_items( u );
         inv_s.add_nearby_items( radius );
 
-        if( init_selection ) {
+        if( init_selection || has_init_filter ) {
             inv_s.update( need_refresh );
-            inv_s.select_position( init_pair );
-            init_selection = false;
+            if( has_init_filter ) {
+                inv_s.set_filter( init_filter );
+                has_init_filter = false;
+                inv_s.update( need_refresh );
+            }
+            // Set position after filter to keep cursor at the right position
+            if( init_selection ) {
+                inv_s.select_position( init_pair );
+                init_selection = false;
+            }
         }
 
         if( inv_s.empty() ) {
@@ -154,6 +168,8 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             init_pair = inv_s.get_selection_position();
             u.activity.values.push_back( init_pair.first );
             u.activity.values.push_back( init_pair.second );
+            u.activity.str_values.clear();
+            u.activity.str_values.emplace_back( inv_s.get_filter() );
         }
 
         return location;
@@ -671,6 +687,9 @@ static std::string get_consume_needs_hint( player &p )
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = p.get_pain_description();
     hint.append( string_format( "%s %s", _( "Pain :" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
+    desc = p.get_fatigue_description();
+    hint.append( string_format( "%s %s", _( "Rest :" ), colorize( desc.first, desc.second ) ) );
     return hint;
 }
 
@@ -963,7 +982,7 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_book();
+            return loc->is_book() || loc->type->can_use( "learn_spell" );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -975,7 +994,8 @@ class read_inventory_preset: public pickup_inventory_preset
             }
 
             std::vector<std::string> denials;
-            if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() ) {
+            if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
+                !loc->type->can_use( "learn_spell" ) ) {
                 return denials.front();
             }
             return pickup_inventory_preset::get_denial( loc );
@@ -1101,7 +1121,7 @@ class weapon_inventory_preset: public inventory_selector_preset
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
                     if( loc->ammo_data()->ammo->prop_damage ) {
-                        const int ammo_mult = *loc->ammo_data()->ammo->prop_damage;
+                        const float ammo_mult = *loc->ammo_data()->ammo->prop_damage;
 
                         return string_format( "%s<color_light_gray>*</color>%s <color_light_gray>=</color> %s",
                                               get_damage_string( basic_damage, true ),
@@ -1164,9 +1184,9 @@ class weapon_inventory_preset: public inventory_selector_preset
             return it.damage_melee( DT_BASH ) || it.damage_melee( DT_CUT ) || it.damage_melee( DT_STAB );
         }
 
-        std::string get_damage_string( int damage, bool display_zeroes = false ) const {
+        std::string get_damage_string( float damage, bool display_zeroes = false ) const {
             return damage ||
-                   display_zeroes ? string_format( "<color_yellow>%d</color>", damage ) : std::string();
+                   display_zeroes ? string_format( "<color_yellow>%g</color>", damage ) : std::string();
         }
 
         const player &p;
