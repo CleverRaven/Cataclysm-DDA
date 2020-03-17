@@ -45,8 +45,7 @@
   {
     "type": "AMMO",
     "id": "blood",
-    "name": "blood",
-    "name_plural": "blood",
+    "name": { "str": "blood", "str_pl": "blood" },
     "weight": "265 g",
     "color": "red",
     "container": "flask_glass",

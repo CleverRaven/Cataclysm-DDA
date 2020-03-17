@@ -3,8 +3,8 @@
     "id": "belt_str",
     "copy-from": "leather_belt",
     "type": "ARMOR",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] }
-    "name": { "str": "belt of strength +2", "str_pl": "belts of strength +2" },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] },
+    "name": { "str": "belt of strength +2", "str_pl": "belts of strength +2" }
   },
   {
     "id": "belt_haste",
