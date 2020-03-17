@@ -42,9 +42,9 @@ class Skill
         std::unordered_map<std::string, int> _companion_skill_practice;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
-        int _companion_combat_rank_factor;
-        int _companion_survival_rank_factor;
-        int _companion_industry_rank_factor;
+        int _companion_combat_rank_factor = 0;
+        int _companion_survival_rank_factor = 0;
+        int _companion_industry_rank_factor = 0;
     public:
         static std::vector<Skill> skills;
         static void load_skill( const JsonObject &jsobj );
@@ -110,7 +110,7 @@ class SkillLevel
 {
         int _level = 0;
         int _exercise = 0;
-        time_point _lastPracticed = calendar::turn_zero;
+        time_point _lastPracticed = calendar::turn;
         bool _isTraining = true;
         int _highestLevel = 0;
 
@@ -150,7 +150,7 @@ class SkillLevel
 
         void train( int amount, bool skip_scaling = false );
         bool isRusting() const;
-        bool rust( bool charged_bio_mem );
+        bool rust( bool charged_bio_mem, int character_rate );
         void practice();
         bool can_train() const;
 
@@ -234,7 +234,7 @@ class SkillDisplayType
         static std::vector<SkillDisplayType> skillTypes;
         static void load( const JsonObject &jsobj );
 
-        static const SkillDisplayType &get_skill_type( skill_displayType_id );
+        static const SkillDisplayType &get_skill_type( const skill_displayType_id & );
 
         SkillDisplayType();
         SkillDisplayType( const skill_displayType_id &ident, const translation &display_string );

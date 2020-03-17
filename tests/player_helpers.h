@@ -3,6 +3,7 @@
 #define PLAYER_HELPERS_H
 
 #include <string>
+#include "bionics.h"
 
 class npc;
 class player;
@@ -15,5 +16,6 @@ void clear_avatar();
 void process_activity( player &dummy );
 
 npc &spawn_npc( const point &, const std::string &npc_class );
+void give_and_activate_bionic( player &, bionic_id const & );
 
 #endif

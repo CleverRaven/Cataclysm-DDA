@@ -285,7 +285,7 @@
         "b": "t_dirt",
         "P": "t_dirt",
         "&": "t_dirt",
-        "s": "t_sidewalk",
+        "_": "t_sidewalk",
         "t": "t_region_tree_shade",
         "z": "t_region_shrub_decorative",
         "~": "t_water_pool_shallow"

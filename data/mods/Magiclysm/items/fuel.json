@@ -33,7 +33,7 @@
     "color": "black",
     "container": "flask_glass",
     "symbol": "~",
-    "description": "Blood from a blob corrupted creature.  The surface of this black sluge ondulate slowy as if agitated by a soft breeze.",
+    "description": "Blood from a blob corrupted creature.  The surface of this black sludge undulates slowly as if agitated by a soft breeze.",
     "price": 0,
     "material": "flesh",
     "volume": "1 ml",
@@ -45,8 +45,7 @@
   {
     "type": "AMMO",
     "id": "blood",
-    "name": "blood",
-    "name_plural": "blood",
+    "name": { "str": "blood", "str_pl": "blood" },
     "weight": "265 g",
     "color": "red",
     "container": "flask_glass",

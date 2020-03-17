@@ -12,7 +12,23 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_fire" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom1" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom1" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 13 h 30 m",
+      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 14 ] ],
+          [ [ "nail", 36 ] ],
+          [ [ "wood_panel", 1 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "rock", 144 ] ],
+          [ [ "pebble", 300 ] ],
+          [ [ "mortar_build", 12 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,7 +43,23 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom1" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom2" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom2" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 13 h 30 m",
+      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 14 ] ],
+          [ [ "nail", 36 ] ],
+          [ [ "wood_panel", 1 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "rock", 144 ] ],
+          [ [ "pebble", 300 ] ],
+          [ [ "mortar_build", 12 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -42,7 +74,23 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom2" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom3" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom3" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 7 h 30 m",
+      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 14 ] ],
+          [ [ "nail", 36 ] ],
+          [ [ "wood_panel", 1 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "rock", 216 ] ],
+          [ [ "pebble", 450 ] ],
+          [ [ "mortar_build", 18 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -57,7 +105,23 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom3" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom4" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom4" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "1 d 13 h 30 m",
+      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 14 ] ],
+          [ [ "nail", 36 ] ],
+          [ [ "wood_panel", 1 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "rock", 144 ] ],
+          [ [ "pebble", 300 ] ],
+          [ [ "mortar_build", 12 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -72,6 +136,22 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom4" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom5" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom5" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "13 h 30 m",
+      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 14 ] ],
+          [ [ "nail", 36 ] ],
+          [ [ "wood_panel", 1 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "rock", 48 ] ],
+          [ [ "pebble", 100 ] ],
+          [ [ "mortar_build", 4 ] ]
+        ]
+      }
+    }
   }
 ]

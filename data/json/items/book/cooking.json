@@ -116,7 +116,7 @@
   {
     "id": "family_cookbook",
     "type": "BOOK",
-    "name": "family cookbook",
+    "name": { "str": "family cookbook" },
     "description": "A big binder full of somebody's family recipes.  The well-turned pages and creased corners speak volumes of the culinary knowledge contained within.  You could probably learn a lot about cooking from studying this domestic artifact.",
     "weight": "1887 g",
     "volume": "1250 ml",
@@ -130,7 +130,7 @@
     "required_level": 1,
     "max_level": 5,
     "intelligence": 7,
-    "time": "45 m",
+    "time": "30 m",
     "fun": 1
   },
   {
@@ -266,7 +266,7 @@
   {
     "id": "recipe_elfa",
     "type": "BOOK",
-    "name": "standpipe maintenance log",
+    "name": { "str": "standpipe maintenance log" },
     "description": "This binder details the scheduled maintenance for several plumbing systems throughout the facility.  However, some of the log sheets seem to be filled with… a chemical formula?",
     "weight": "400 g",
     "volume": "750 ml",
@@ -425,7 +425,7 @@
   {
     "id": "textbook_chemistry",
     "type": "BOOK",
-    "name": "chemistry textbook",
+    "name": { "str": "chemistry textbook" },
     "description": "A college textbook on chemistry.",
     "weight": "1587 g",
     "volume": "2 L",
@@ -441,6 +441,14 @@
     "intelligence": 12,
     "time": "35 m",
     "fun": -1
+  },
+  {
+    "id": "preserving_juice",
+    "type": "BOOK",
+    "name": { "str": "Drink the Harvest", "str_pl": "copies of Drink the Harvest" },
+    "description": "Canning foods doesn't have to stop with jam and pickles.  This book provides a plethora of juices that can be preserved.",
+    "copy-from": "brewing_cookbook",
+    "//": "Later on add mead transforms that don't require distilling to this book that match the source book. Possibly wait til beekeeping is added."
   },
   {
     "id": "offalcooking",
@@ -477,7 +485,7 @@
     "required_level": 1,
     "max_level": 2,
     "intelligence": 5,
-    "time": "45 m"
+    "time": "20 m"
   },
   {
     "id": "cookbook_daintydishes",
@@ -488,7 +496,7 @@
     "price": 3000,
     "price_postapoc": 4700,
     "max_level": 3,
-    "time": "60 m",
+    "time": "18 m",
     "fun": 1,
     "copy-from": "cookbook_liverforkids"
   },
@@ -501,7 +509,7 @@
     "volume": "1100 ml",
     "required_level": 0,
     "max_level": 1,
-    "time": "70 m",
+    "time": "25 m",
     "fun": -1,
     "copy-from": "cookbook_liverforkids"
   },

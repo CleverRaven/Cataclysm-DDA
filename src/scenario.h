@@ -44,7 +44,7 @@ class scenario
         std::set<trait_id> _forced_traits;
         std::set<trait_id> _forbidden_traits;
         std::vector<start_location_id> _allowed_locs;
-        int _point_cost;
+        int _point_cost = 0;
         std::set<std::string> flags; // flags for some special properties of the scenario
         std::string _map_extra;
         std::vector<mission_type_id> _missions;
@@ -95,6 +95,9 @@ class scenario
         */
         std::string prof_count_str() const;
 
+        // Is this scenario blacklisted?
+        bool scen_is_blacklisted() const;
+
         /** Such as a seasonal start, fiery start, surrounded start, etc. */
         bool has_flag( const std::string &flag ) const;
 
@@ -106,5 +109,16 @@ class scenario
         const std::vector<mission_type_id> &missions() const;
 
 };
+
+struct scen_blacklist {
+    std::set<string_id<scenario>> scenarios;
+    bool whitelist = false;
+
+    static void load_scen_blacklist( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, const std::string & );
+    void finalize();
+};
+
+void reset_scenarios_blacklist();
 
 #endif

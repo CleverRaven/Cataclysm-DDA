@@ -436,8 +436,7 @@ place the shop or park are based on the formula `rng( 0, 99 ) > X_radius * dista
 		},
 		"basements": {
 			"basement": 1000,
-			"basement_hidden_lab_stairs": 50,
-			"basement_bionic": 50
+			"basement_hidden_lab_stairs": 50
 		},
 		"parks": {
 			"park": 4,

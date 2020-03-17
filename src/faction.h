@@ -5,10 +5,11 @@
 #include <bitset>
 #include <vector>
 #include <map>
+#include <set>
 #include <string>
 #include <unordered_map>
 
-#include "character.h"
+#include "character_id.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "string_id.h"

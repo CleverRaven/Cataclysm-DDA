@@ -82,8 +82,7 @@
   {
     "type": "overmap_terrain",
     "id": "magic_basement",
-    "copy-from": "generic_city_house_basement",
-    "extend": { "flags": [ "NO_ROTATE" ] }
+    "copy-from": "generic_city_house_basement"
   },
   {
     "type": "overmap_terrain",

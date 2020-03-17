@@ -39,8 +39,7 @@
   {
     "type": "COMESTIBLE",
     "id": "toasterpastryfrozen",
-    "name": "toaster pastry (uncooked)",
-    "name_plural": "toaster pastries (uncooked)",
+    "name": { "str": "toaster pastry (uncooked)", "str_pl": "toaster pastries (uncooked)" },
     "weight": "52 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
@@ -61,8 +60,7 @@
   {
     "type": "COMESTIBLE",
     "id": "toasterpastry",
-    "name": "toaster pastry",
-    "name_plural": "toaster pastries",
+    "name": { "str": "toaster pastry", "str_pl": "toaster pastries" },
     "copy-from": "toasterpastryfrozen",
     "quench": 4,
     "description": "A delicious fruit-filled pastry that you've cooked.  It even comes with frosting!",
@@ -71,8 +69,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chips2",
-    "name": "potato chips",
-    "name_plural": "potato chips",
+    "name": { "str": "potato chips", "str_pl": "potato chips" },
     "copy-from": "chips",
     "description": "Some plain, salted potato chips.",
     "fun": 3
@@ -80,8 +77,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chips3",
-    "name": "potato chips",
-    "name_plural": "potato chips",
+    "name": { "str": "potato chips", "str_pl": "potato chips" },
     "copy-from": "chips",
     "description": "Oh man, you love these chips!  Score!",
     "//": "Favorite flavor varies.",
@@ -90,8 +86,7 @@
   {
     "type": "COMESTIBLE",
     "id": "kernels",
-    "name": "popcorn kernels",
-    "name_plural": "popcorn kernels",
+    "name": { "str": "popcorn kernels", "str_pl": "popcorn kernels" },
     "weight": "32 g",
     "color": "brown",
     "container": "bag_plastic",
@@ -109,8 +104,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn",
-    "name": "popcorn",
-    "name_plural": "popcorn",
+    "name": { "str": "popcorn", "str_pl": "popcorn" },
     "weight": "8 g",
     "color": "white",
     "spoils_in": "360 days",
@@ -132,8 +126,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn2",
-    "name": "salted popcorn",
-    "name_plural": "salted popcorn",
+    "name": { "str": "salted popcorn", "str_pl": "salted popcorn" },
     "copy-from": "popcorn",
     "quench": -3,
     "healthy": -1,
@@ -144,8 +137,7 @@
   {
     "type": "COMESTIBLE",
     "id": "popcorn3",
-    "name": "buttered popcorn",
-    "name_plural": "buttered popcorn",
+    "name": { "str": "buttered popcorn", "str_pl": "buttered popcorn" },
     "copy-from": "popcorn",
     "healthy": -1,
     "description": "Popcorn with a light covering of butter for extra flavor.",
@@ -155,8 +147,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pretzels",
-    "name": "pretzels",
-    "name_plural": "pretzels",
+    "name": { "str": "pretzels", "str_pl": "pretzels" },
     "weight": "62 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -216,8 +207,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marshmallow",
-    "name": "marshmallows",
-    "name_plural": "marshmallows",
+    "name": { "str": "marshmallows", "str_pl": "marshmallows" },
     "weight": "53 g",
     "color": "white",
     "spoils_in": "90 days",
@@ -235,8 +225,7 @@
   {
     "type": "COMESTIBLE",
     "id": "smores",
-    "name": "s'mores",
-    "name_plural": "s'mores",
+    "name": { "str": "s'mores", "str_pl": "s'mores" },
     "weight": "180 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -255,8 +244,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy",
-    "name": "peanut butter candy",
-    "name_plural": "peanut butter candies",
+    "name": { "str": "peanut butter candy", "str_pl": "peanut butter candies" },
     "weight": "39 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -277,8 +265,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy2",
-    "name": "chocolate candy",
-    "name_plural": "chocolate candies",
+    "name": { "str": "chocolate candy", "str_pl": "chocolate candies" },
     "weight": "57 g",
     "color": "red",
     "spoils_in": "360 days",
@@ -299,8 +286,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy3",
-    "name": "chewy candy",
-    "name_plural": "chewy candies",
+    "name": { "str": "chewy candy", "str_pl": "chewy candy" },
     "weight": "46 g",
     "color": "yellow",
     "spoils_in": "360 days",
@@ -320,8 +306,7 @@
   {
     "type": "COMESTIBLE",
     "id": "powder_candy",
-    "name": "powder candy sticks",
-    "name_plural": "powder candy sticks",
+    "name": { "str": "powder candy sticks", "str_pl": "powder candy sticks" },
     "weight": "46 g",
     "color": "red",
     "spoils_in": "360 days",
@@ -341,8 +326,7 @@
   {
     "type": "COMESTIBLE",
     "id": "maple_candy",
-    "name": "maple syrup candy",
-    "name_plural": "maple syrup candies",
+    "name": { "str": "maple syrup candy", "str_pl": "maple syrup candies" },
     "weight": "18 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -406,8 +390,7 @@
   {
     "type": "COMESTIBLE",
     "id": "syrup",
-    "name": "maple syrup",
-    "name_plural": "maple syrup",
+    "name": { "str": "maple syrup", "str_pl": "maple syrup" },
     "weight": "21 g",
     "color": "brown",
     "container": "bottle_glass",
@@ -428,8 +411,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beet_syrup",
-    "name": "sugar beet syrup",
-    "name_plural": "sugar beet syrup",
+    "name": { "str": "sugar beet syrup", "str_pl": "sugar beet syrup" },
     "weight": "15 g",
     "color": "brown",
     "container": "bottle_glass",
@@ -509,8 +491,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fries",
-    "name": "fast-food French fries",
-    "name_plural": "fast-food French fries",
+    "name": { "str": "fast-food French fries", "str_pl": "fast-food French fries" },
     "weight": "71 g",
     "color": "yellow",
     "container": "box_small",
@@ -530,18 +511,16 @@
   {
     "type": "COMESTIBLE",
     "id": "fresh_fries",
-    "name": "French fries",
-    "name_plural": "French fries",
+    "name": { "str": "French fries", "str_pl": "French fries" },
     "copy-from": "fries",
     "spoils_in": "3 days",
-    "description": "Deep fried potatoes with a touch of salt.  Crunchy and delicious.",
+    "description": "Deep-fried potatoes with a touch of salt.  Crunchy and delicious.",
     "fun": 3
   },
   {
     "type": "COMESTIBLE",
     "id": "mintpatties",
-    "name": "peppermint patty",
-    "name_plural": "peppermint patties",
+    "name": { "str": "peppermint patty", "str_pl": "peppermint patties" },
     "weight": "43 g",
     "color": "brown",
     "spoils_in": "180 days",
@@ -561,8 +540,7 @@
   {
     "type": "COMESTIBLE",
     "id": "neccowafers",
-    "name": "Necco wafers",
-    "name_plural": "Necco wafers",
+    "name": { "str": "Necco wafers", "str_pl": "Necco wafers" },
     "weight": "60 g",
     "color": "magenta",
     "spoils_in": "180 days",
@@ -603,8 +581,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sugar_fried",
-    "name": "caramel",
-    "name_plural": "caramel",
+    "name": { "str": "caramel", "str_pl": "caramel" },
     "weight": "67 g",
     "color": "white",
     "container": "box_small",
@@ -624,8 +601,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chips",
-    "name": "potato chips",
-    "name_plural": "potato chips",
+    "name": { "str": "potato chips", "str_pl": "potato chips" },
     "weight": "28 g",
     "color": "yellow",
     "spoils_in": "30 days",
@@ -686,8 +662,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nachos",
-    "name": "tortilla chips",
-    "name_plural": "tortilla chips",
+    "name": { "str": "tortilla chips", "str_pl": "tortilla chips" },
     "weight": "80 g",
     "color": "yellow",
     "spoils_in": "30 days",
@@ -707,8 +682,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nachosc",
-    "name": "cheese nachos",
-    "name_plural": "cheese nachos",
+    "name": { "str": "cheese nachos", "str_pl": "cheese nachos" },
     "weight": "85 g",
     "color": "yellow",
     "spoils_in": "1 day",
@@ -729,8 +703,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nachosm",
-    "name": "meat nachos",
-    "name_plural": "meat nachos",
+    "name": { "str": "meat nachos", "str_pl": "meat nachos" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "niño nachos", "str_pl": "niño nachos" } },
       {
@@ -759,8 +732,7 @@
   {
     "type": "COMESTIBLE",
     "id": "nachosmc",
-    "name": "meat nachos with cheese",
-    "name_plural": "meat nachos with cheese",
+    "name": { "str": "meat nachos with cheese", "str_pl": "meat nachos with cheese" },
     "conditional_names": [
       {
         "type": "FLAG",
@@ -897,8 +869,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chilidogs",
-    "name": "chili dogs",
-    "name_plural": "chili dogs",
+    "name": { "str": "chili dogs", "str_pl": "chili dogs" },
     "weight": "318 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -919,8 +890,7 @@
   {
     "type": "COMESTIBLE",
     "id": "corndogs_frozen",
-    "name": "uncooked corn dogs",
-    "name_plural": "uncooked corn dogs",
+    "name": { "str": "uncooked corn dogs", "str_pl": "uncooked corn dogs" },
     "weight": "78 g",
     "color": "yellow",
     "spoils_in": "11 days 16 hours",
@@ -929,7 +899,7 @@
     "symbol": "%",
     "healthy": -6,
     "calories": 195,
-    "description": "A heavily processed sausage, dipped in batter and deep fried.  It would taste much better prepared.",
+    "description": "A heavily processed sausage, dipped in batter and deep-fried.  It would taste much better prepared.",
     "price": 900,
     "material": [ "flesh", "junk" ],
     "volume": "250 ml",
@@ -946,15 +916,14 @@
     "spoils_in": "1 day",
     "container": "wrapper",
     "healthy": -2,
-    "description": "A heavily processed sausage, dipped in batter and deep fried.  Cooked, this corn dog now tastes much better, but will spoil.",
+    "description": "A heavily processed sausage, dipped in batter and deep-fried.  Cooked, this corn dog now tastes much better, but will spoil.",
     "fun": 18
   },
   {
     "type": "COMESTIBLE",
     "id": "choc_pancakes",
     "copy-from": "pancakes",
-    "name": "chocolate pancake",
-    "name_plural": "chocolate pancakes",
+    "name": { "str": "chocolate pancake", "str_pl": "chocolate pancakes" },
     "weight": "78 g",
     "healthy": 0,
     "calories": 219,
@@ -1008,8 +977,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cheese_fries",
-    "name": "cheese fries",
-    "name_plural": "cheese fries",
+    "name": { "str": "cheese fries", "str_pl": "cheese fries" },
     "weight": "101 g",
     "color": "yellow",
     "spoils_in": "3 days",
@@ -1050,8 +1018,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hotdogs_frozen",
-    "name": "uncooked hot dog",
-    "name_plural": "uncooked hot dogs",
+    "name": { "str": "uncooked hot dog" },
     "weight": "43 g",
     "color": "red",
     "spoils_in": "11 days 16 hours",
@@ -1072,8 +1039,7 @@
   {
     "id": "hotdogs_campfire",
     "type": "COMESTIBLE",
-    "name": "campfire hot dog",
-    "name_plural": "campfire hot dogs",
+    "name": { "str": "campfire hot dog" },
     "copy-from": "hotdogs_frozen",
     "description": "The simple hot dog, cooked over an open fire.  Would be better on a bun, but it's quite an improvement over eating it uncooked",
     "stack_size": 4,
@@ -1083,8 +1049,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hotdogs_cooked",
-    "name": "cooked hot dog",
-    "name_plural": "cooked hot dogs",
+    "name": { "str": "cooked hot dog" },
     "weight": "383 g",
     "color": "red",
     "spoils_in": "1 day",

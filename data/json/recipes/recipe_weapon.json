@@ -74,7 +74,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "duct_tape", 50 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ],
-      [ [ "scrap_copper", 2 ], [ "copper", 200 ] ]
+      [ [ "copper_scrap_equivalent", 8, "LIST" ] ]
     ]
   },
   {
@@ -249,7 +249,7 @@
       [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
       [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "duct_tape", 20 ], [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ],
-      [ [ "scrap_copper", 3 ], [ "copper", 300 ] ]
+      [ [ "copper_scrap_equivalent", 12, "LIST" ] ]
     ]
   },
   {
@@ -716,126 +716,6 @@
   },
   {
     "type": "recipe",
-    "result": "mosin91_30",
-    "byproducts": [ [ "mn_ebr_kit" ] ],
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 5,
-    "time": "3 h",
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "autolearn": true,
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "mosin91_30_ebr", 1 ] ], [ [ "mn_classic_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "mosin44",
-    "byproducts": [ [ "mn_ebr_kit" ] ],
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 5,
-    "time": "3 h",
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "autolearn": true,
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "mosin44_ebr", 1 ] ], [ [ "mn_classic_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "mosin91_30_ebr",
-    "byproducts": [ [ "mn_classic_kit" ] ],
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 5,
-    "time": "3 h",
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "autolearn": true,
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "mosin91_30", 1 ] ], [ [ "mn_ebr_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "mosin44_ebr",
-    "byproducts": [ [ "mn_classic_kit" ] ],
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 5,
-    "time": "3 h",
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "autolearn": true,
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "mosin44", 1 ] ], [ [ "mn_ebr_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "l_car_223",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 5,
-    "time": "1 h 30 m",
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "l_base_223", 1 ] ], [ [ "l_car_223_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "l_mbr_223",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 5,
-    "time": "1 h 35 m",
-    "reversible": true,
-    "autolearn": true,
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "l_base_223", 1 ] ], [ [ "l_mbr_223_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "l_dsr_223",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 6 ] ],
-    "difficulty": 6,
-    "time": "2 h",
-    "reversible": true,
-    "autolearn": true,
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "l_base_223", 1 ] ], [ [ "l_dsr_223_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "l_lmg_223",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 5 ] ],
-    "difficulty": 7,
-    "time": "1 h 40 m",
-    "//": "Firearms kits are mandatory by design--you're doing significant modifications to your gun and should use the right gear to sight everything in, etc.",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [ [ [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "l_base_223", 1 ] ], [ [ "l_lmg_223_kit", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "hand_crossbow",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -1179,28 +1059,6 @@
     "book_learn": [ [ "manual_shotgun", 4 ], [ "mag_shotgun", 5 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "duct_tape", 75 ] ], [ [ "nail", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "aux_flamer",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
-    "skills_required": [ "fabrication", 3 ],
-    "difficulty": 6,
-    "time": "18 m",
-    "reversible": true,
-    "decomp_learn": 5,
-    "autolearn": true,
-    "book_learn": [ [ "book_icef", 4 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "duct_tape", 50 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "hose", 2 ] ],
-      [ [ "metal_tank_little", 1 ] ]
-    ]
   },
   {
     "type": "recipe",
@@ -1729,105 +1587,6 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "sword_wood", 1 ] ], [ [ "nail", 12 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "shishkebab_off",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "mechanics",
-    "difficulty": 1,
-    "time": "10 m",
-    "reversible": true,
-    "decomp_learn": 3,
-    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "components": [
-      [ [ "leather", 5 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "makeshift_machete", 1 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "aux_pressurized_tank", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "firemachete_off",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "mechanics",
-    "difficulty": 4,
-    "time": "20 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
-    "components": [
-      [ [ "leather", 5 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "machete", 1 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "aux_pressurized_tank", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "broadfire_off",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "mechanics",
-    "difficulty": 5,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
-    "components": [
-      [ [ "leather", 5 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "broadsword", 1 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "aux_pressurized_tank", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "firekatana_off",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "mechanics",
-    "difficulty": 5,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
-    "components": [
-      [ [ "leather", 5 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "katana", 1 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "aux_pressurized_tank", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "zweifire_off",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "mechanics",
-    "difficulty": 5,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
-    "components": [
-      [ [ "leather", 5 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "zweihander", 1 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "aux_pressurized_tank", 1 ] ]
-    ]
   },
   {
     "type": "recipe",

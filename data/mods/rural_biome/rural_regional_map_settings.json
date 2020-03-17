@@ -10,6 +10,9 @@
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 2, "t_dirt": 1 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
         "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
+        "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
+        "t_region_grass": { "t_grass": 1 },
+        "t_region_soil": { "t_dirt": 1 },
         "t_region_shrub": {
           "t_underbrush": 60,
           "t_shrub": 15,
@@ -521,7 +524,7 @@
         "motel_city": 5,
         "trailerpark_city": 15
       },
-      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25, "basement_bionic": 50 },
+      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25 },
       "parks": {
         "s_gas": 200,
         "s_gas_1": 200,
