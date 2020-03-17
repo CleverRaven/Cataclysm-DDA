@@ -14,11 +14,9 @@
 
 // Tests for can_eat
 //
-// Non-fish(?) cannot eat anything while underwater
-//
 // Cannot eat food made of inedible materials(?)
 //
-// FINALLY, CHECK EVERY SINGLE MUTATION for can_only_eat incompatibilities
+// Check every mutation for can_only_eat incompatibilities
 
 /*
 // This tries to represent both rating and
@@ -78,6 +76,49 @@ TEST_CASE( "dirty food", "[can_eat][edible_rating][dirty]" )
             auto rating = dummy.can_eat( chocolate );
             CHECK_FALSE( rating.success() );
             CHECK( rating.str() == "This is full of dirt after being on the ground." );
+        }
+    }
+}
+
+TEST_CASE( "eating while underwater", "[can_eat][edible_rating][underwater]" )
+{
+    avatar dummy;
+    item sushi( "sushi_fishroll" );
+    item water( "water_clean" );
+
+    GIVEN( "character is underwater" ) {
+        dummy.set_underwater( true );
+        REQUIRE( dummy.is_underwater() );
+
+        WHEN( "they have no special mutation" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "WATERSLEEP" ) ) );
+
+            THEN( "they cannot eat" ) {
+                auto rating = dummy.can_eat( sushi );
+                CHECK( rating.str() == "You can't do that while underwater." );
+            }
+
+            THEN( "they cannot drink" ) {
+                auto rating = dummy.can_eat( water );
+                CHECK( rating.str() == "You can't do that while underwater." );
+            }
+        }
+
+        WHEN( "they have the Aqueous Repose mutation" ) {
+            dummy.toggle_trait( trait_id( "WATERSLEEP" ) );
+            REQUIRE( dummy.has_trait( trait_id( "WATERSLEEP" ) ) );
+
+            THEN( "they can eat" ) {
+                auto rating = dummy.can_eat( sushi );
+                CHECK( rating.success() );
+                CHECK( rating.str() == "" );
+            }
+            // FIXME: This fails, despite what it says in the mutation description
+            THEN( "they cannot drink" ) {
+                auto rating = dummy.can_eat( water );
+                CHECK_FALSE( rating.success() );
+                CHECK( rating.str() == "You can't do that while underwater." );
+            }
         }
     }
 }
@@ -158,6 +199,27 @@ TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
             }
         }
     }
+
+    GIVEN( "food that melts" ) {
+        item milkshake( "milkshake" );
+
+        // When food does not have EDIBLE_FROZEN, it will still be edible
+        // frozen if it MELTS. Ice cream, milkshakes and such do not have
+        // EDIBLE_FROZEN, but they have MELTS, which has the same effect.
+        REQUIRE( milkshake.has_flag( "MELTS" ) );
+
+        WHEN( "it is frozen" ) {
+            milkshake.item_tags.insert( "FROZEN" );
+            REQUIRE( milkshake.item_tags.count( "FROZEN" ) );
+
+            THEN( "they can eat it" ) {
+                auto rating = dummy.can_eat( milkshake );
+                CHECK( rating.success() );
+                CHECK( rating.value() == EDIBLE );
+                CHECK( rating.str() == "" );
+            }
+        }
+    }
 }
 
 TEST_CASE( "inedible animal food", "[can_eat][edible_rating][inedible][animal]" )
@@ -220,7 +282,7 @@ TEST_CASE( "inedible animal food", "[can_eat][edible_rating][inedible][animal]" 
     }
 }
 
-TEST_CASE( "food not ok for herbivores", "[can_eat][edible_rating][herbivore]" )
+TEST_CASE( "herbivore mutation", "[can_eat][edible_rating][herbivore]" )
 {
     avatar dummy;
 
@@ -250,7 +312,7 @@ TEST_CASE( "food not ok for herbivores", "[can_eat][edible_rating][herbivore]" )
     }
 }
 
-TEST_CASE( "food not ok for carnivores", "[can_eat][edible_rating][carnivore]" )
+TEST_CASE( "carnivore mutation", "[can_eat][edible_rating][carnivore]" )
 {
     avatar dummy;
 
@@ -307,6 +369,7 @@ TEST_CASE( "comestible requiring tool to use", "[can_eat][edible_rating][tool][!
     GIVEN( "substance requiring a tool to consume" ) {
         item heroin( "heroin" );
         item syringe( "syringe" );
+        REQUIRE( heroin.get_comestible()->tool == "syringe" );
 
         WHEN( "they don't have the necessary tool" ) {
             //REQUIRE_FALSE( dummy.has_item( syringe, 1 ) );
@@ -322,7 +385,7 @@ TEST_CASE( "comestible requiring tool to use", "[can_eat][edible_rating][tool][!
     }
 }
 
-TEST_CASE( "mycus dependency", "[can_eat][edible_rating][mycus]" )
+TEST_CASE( "mycus dependency mutation", "[can_eat][edible_rating][mycus]" )
 {
     avatar dummy;
 
@@ -352,7 +415,7 @@ TEST_CASE( "mycus dependency", "[can_eat][edible_rating][mycus]" )
     }
 }
 
-TEST_CASE( "proboscis trait", "[can_eat][edible_rating][proboscis]" )
+TEST_CASE( "proboscis mutation", "[can_eat][edible_rating][proboscis]" )
 {
     avatar dummy;
 
