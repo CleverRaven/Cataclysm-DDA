@@ -89,8 +89,7 @@
     "name": "small power substation",
     "sym": "H",
     "color": "light_cyan",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -98,8 +97,7 @@
     "name": "small power substation roof",
     "sym": "H",
     "color": "light_cyan",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -107,8 +105,7 @@
     "name": "large power substation",
     "sym": "H",
     "color": "cyan",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -116,8 +113,7 @@
     "name": "large power substation roof",
     "sym": "H",
     "color": "cyan",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -125,8 +121,7 @@
     "name": "large power substation",
     "sym": "H",
     "color": "cyan",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -134,8 +129,7 @@
     "name": "large power substation roof",
     "sym": "H",
     "color": "cyan",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -143,8 +137,7 @@
     "name": "large power substation",
     "sym": "H",
     "color": "cyan",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -152,8 +145,7 @@
     "name": "large power substation",
     "sym": "H",
     "color": "cyan",
-    "see_cost": 5,
-    "extras": "field"
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -210,7 +202,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -219,7 +211,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -228,7 +220,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -237,7 +229,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -278,7 +270,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -287,7 +279,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -296,7 +288,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -305,7 +297,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",
@@ -346,7 +338,6 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "sym": "L",
     "color": "green",
-    "extras": "field",
     "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
@@ -356,7 +347,7 @@
     "copy-from": "generic_city_building",
     "sym": "x",
     "color": "i_light_gray",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
     "type": "overmap_terrain",

@@ -1,15 +1,16 @@
 [
   {
     "id": "paintballgun",
+    "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 6,
     "symbol": "(",
     "color": "light_gray",
-    "name": "Paintball gun",
+    "name": { "str": "Paintball gun" },
     "description": "A fairly harmless gun that shoots small paintballs.",
     "price": 8000,
     "material": [ "aluminum", "plastic" ],
-    "flags": "NEVER_JAMS",
+    "flags": [ "NEVER_JAMS", "NON-FOULING" ],
     "skill": "smg",
     "ammo": "paintball",
     "weight": "1600 g",

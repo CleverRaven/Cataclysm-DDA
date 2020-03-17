@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "mil_outpost_ytlc" ],
-    "comment": "outer yard top left corner",
+    "//": "outer yard top left corner",
     "method": "json",
     "weight": 250,
     "object": {

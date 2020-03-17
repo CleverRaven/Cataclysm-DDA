@@ -19,6 +19,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "game_ui.h"
+#include "ui_manager.h"
 
 extern int VIEW_OFFSET_X; // X position of terrain window
 extern int VIEW_OFFSET_Y; // Y position of terrain window
@@ -32,7 +33,8 @@ static void curses_check_result( const int result, const int expected, const cha
 
 catacurses::window catacurses::newwin( const int nlines, const int ncols, const point &begin )
 {
-    const auto w = ::newwin( nlines, ncols, begin.y, begin.x ); // TODO: check for errors
+    // TODO: check for errors
+    const auto w = ::newwin( nlines, ncols, begin.y, begin.x );
     return std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
     } );
@@ -203,6 +205,7 @@ void catacurses::resizeterm()
     const int new_y = ::getmaxy( stdscr.get<::WINDOW>() );
     if( ::is_term_resized( new_x, new_y ) ) {
         game_ui::init_ui();
+        ui_manager::screen_resized();
     }
 }
 
@@ -217,7 +220,7 @@ void catacurses::init_interface()
     }
 #if !defined(__CYGWIN__)
     // ncurses mouse registration
-    mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL );
+    mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, nullptr );
 #endif
     // our curses wrapper does not support changing this behavior, ncurses must
     // behave exactly like the wrapper, therefor:
@@ -225,7 +228,8 @@ void catacurses::init_interface()
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
     set_escdelay( 10 ); // Make Escape actually responsive
-    start_color(); // TODO: error checking
+    // TODO: error checking
+    start_color();
     init_colors();
 }
 

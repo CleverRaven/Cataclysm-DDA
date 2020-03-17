@@ -2,7 +2,6 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "MAX_HARVEST_COUNT",
-    "info": "The maximum amount of produce that can be harvested from a plant.",
     "stype": "int",
     "value": 30
   }

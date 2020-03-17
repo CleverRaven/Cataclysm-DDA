@@ -33,6 +33,8 @@
 #include "int_id.h"
 #include "item.h"
 #include "point.h"
+#include "memory_fast.h"
+#include "sounds.h"
 
 namespace auto_pickup
 {
@@ -59,8 +61,10 @@ using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
 
-void parse_tags( std::string &phrase, const player &u, const player &me,
+void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = "null" );
 
 /*
@@ -118,13 +122,13 @@ enum npc_job : int {
     NPCJOB_MENIAL,  // sorting items, cleaning, refilling furniture ( charcoal kilns etc )
     NPCJOB_VEHICLES,  // deconstructing/repairing/constructing/refuelling vehicles
     NPCJOB_CONSTRUCTING, // building stuff from blueprint zones
-    NPCJOB_CRAFTING, // crafting stuff generally.
-    NPCJOB_SECURITY,  // patrolling
+    NPCJOB_CRAFTING, // crafting stuff generally. currently placeholder
+    NPCJOB_SECURITY,  // patrolling - currently placeholder
     NPCJOB_FARMING,   // tilling, planting, harvesting, fertilizing, making seeds
     NPCJOB_LUMBERJACK, // chopping trees down, chopping logs into planks, other wood-related tasks
     NPCJOB_HUSBANDRY, // feeding animals, shearing sheep, collecting eggs/milk, training animals
     NPCJOB_HUNTING,  // hunting for meat ( this is currently handled by off-screen companion_mission )
-    NPCJOB_FORAGING, // foraging for edibles ( this is currently handled by off-screen companion_mission )
+    NPCJOB_FORAGING, // foraging for edibles ( this is currently handled by off-screen companion_mission ) currently placeholder
     NPCJOB_END
 };
 
@@ -490,7 +494,7 @@ struct npc_follower_rules {
 
 struct dangerous_sound {
     tripoint abs_pos;
-    int type;
+    sounds::sound_t type;
     int volume;
 };
 
@@ -499,23 +503,26 @@ const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
                                     };
 
 struct healing_options {
-    bool bandage;
-    bool bleed;
-    bool bite;
-    bool infect;
+    bool bandage = false;
+    bool disinfect = false;
+    bool bleed = false;
+    bool bite = false;
+    bool infect = false;
     void clear_all();
     void set_all();
+    bool any_true();
+    bool all_false();
 };
 
 // Data relevant only for this action
 struct npc_short_term_cache {
-    float danger;
-    float total_danger;
-    float danger_assessment;
+    float danger = 0;
+    float total_danger = 0;
+    float danger_assessment = 0;
     // Use weak_ptr to avoid circular references between Creatures
-    std::weak_ptr<Creature> target;
+    weak_ptr_fast<Creature> target;
     // target is hostile, ally is for aiding actions
-    std::weak_ptr<Creature> ally;
+    weak_ptr_fast<Creature> ally;
     healing_options can_heal;
     // map of positions / type / volume of suspicious sounds
     std::vector<dangerous_sound> sound_alerts;
@@ -525,12 +532,11 @@ struct npc_short_term_cache {
     int stuck = 0;
     // Position to return to guarding
     cata::optional<tripoint> guard_pos;
-    double my_weapon_value;
+    double my_weapon_value = 0;
 
     // Use weak_ptr to avoid circular references between Creatures
-    std::vector<std::weak_ptr<Creature>> friends;
+    std::vector<weak_ptr_fast<Creature>> friends;
     std::vector<sphere> dangerous_explosives;
-
     std::map<direction, float> threat_map;
     // Cache of locations the NPC has searched recently in npc::find_item()
     lru_cache<tripoint, int> searched_tiles;
@@ -749,9 +755,6 @@ struct npc_chatbin {
 };
 
 class npc_template;
-struct epilogue;
-
-using epilogue_map = std::map<std::string, epilogue>;
 
 class npc : public player
 {
@@ -772,7 +775,7 @@ class npc : public player
         }
         void load_npc_template( const string_id<npc_template> &ident );
         void npc_dismount();
-        std::weak_ptr<monster> chosen_mount;
+        weak_ptr_fast<monster> chosen_mount;
         // Generating our stats, etc.
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
@@ -904,7 +907,7 @@ class npc : public player
         void update_worst_item_value();
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
-        bool wear_if_wanted( const item &it );
+        bool wear_if_wanted( const item &it, std::string &reason );
         void start_read( item &chosen, player *pl );
         void finish_read( item &book );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
@@ -912,8 +915,11 @@ class npc : public player
         void do_npc_read();
         void stow_item( item &it );
         bool wield( item &it ) override;
+        void drop( const drop_locations &what, const tripoint &target,
+                   bool stash ) override;
         bool adjust_worn();
         bool has_healing_item( healing_options try_to_fix );
+        healing_options patient_assessment( const Character &c );
         healing_options has_healing_options();
         healing_options has_healing_options( healing_options try_to_fix );
         item &get_healing_item( healing_options try_to_fix, bool first_best = false );
@@ -951,7 +957,6 @@ class npc : public player
         float danger_assessment();
         // Our guess at how much damage we can deal
         float average_damage_dealt();
-        bool need_heal( const player &n );
         bool bravery_check( int diff );
         bool emergency() const;
         bool emergency( float danger ) const;
@@ -960,8 +965,9 @@ class npc : public player
         void say( const char *const line, Args &&... args ) const {
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
-        void say( const std::string &line, int priority = 0 ) const;
+        void say( const std::string &line, sounds::sound_t spriority = sounds::sound_t::speech ) const;
         void decide_needs();
+        void reboot();
         void die( Creature *killer ) override;
         bool is_dead() const;
         // How well we smash terrain (not corpses!)
@@ -1002,7 +1008,7 @@ class npc : public player
         // @param speech words of this complaint
         bool complain_about( const std::string &issue, const time_duration &dur,
                              const std::string &speech, bool force = false,
-                             int priority = 0 );
+                             sounds::sound_t priority = sounds::sound_t::speech );
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
@@ -1012,8 +1018,8 @@ class npc : public player
 
         int calc_spell_training_cost( bool knows, int difficulty, int level );
 
-        void handle_sound( int priority, const std::string &description, int heard_volume,
-                           const tripoint &spos );
+        void handle_sound( sounds::sound_t priority, const std::string &description,
+                           int heard_volume, const tripoint &spos );
 
         void witness_thievery( item *it );
 
@@ -1027,6 +1033,11 @@ class npc : public player
         void move(); // Picks an action & a target and calls execute_action
         void execute_action( npc_action action ); // Performs action
         void process_turn() override;
+
+        using Character::invoke_item;
+        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item *used, const std::string &method ) override;
+        bool invoke_item( item * ) override;
 
         /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
         float evaluate_enemy( const Creature &target ) const;
@@ -1057,6 +1068,7 @@ class npc : public player
         int confident_shoot_range( const item &it, int at_recoil ) const;
         int confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const;
         int confident_throw_range( const item &, Creature * ) const;
+        void invalidate_range_cache();
         bool wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const;
         bool enough_time_to_reload( const item &gun ) const;
         /** Can reload currently wielded gun? */
@@ -1180,6 +1192,7 @@ class npc : public player
         bool query_yn( const std::string &mes ) const override;
 
         std::string extended_description() const override;
+        std::string get_epilogue() const;
 
         std::pair<std::string, nc_color> hp_description() const;
 
@@ -1292,6 +1305,7 @@ class npc : public player
         bool hit_by_player;
         bool hallucination; // If true, NPC is an hallucination
         std::vector<npc_need> needs;
+        cata::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint no_goal_point = tripoint_min;
 
@@ -1328,7 +1342,7 @@ class npc : public player
 
     protected:
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
 
     private:
         // the weapon we're actually holding when using bionic fake guns
@@ -1350,7 +1364,9 @@ class npc : public player
 class standard_npc : public npc
 {
     public:
-        standard_npc( const std::string &name = "", const std::vector<itype_id> &clothing = {},
+        standard_npc( const std::string &name = "",
+                      const tripoint &pos = tripoint( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
+                      const std::vector<itype_id> &clothing = {},
                       int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
 };
 
@@ -1370,23 +1386,9 @@ class npc_template
         };
         gender gender_override;
 
-        static void load( JsonObject &jsobj );
+        static void load( const JsonObject &jsobj );
         static void reset();
         static void check_consistency();
-};
-
-struct epilogue {
-    epilogue();
-
-    std::string id; //Unique name for declaring an ending for a given individual
-    std::string group; //Male/female (dog/cyborg/mutant... whatever you want)
-    std::string text;
-
-    static epilogue_map _all_epilogue;
-
-    static void load_epilogue( JsonObject &jsobj );
-    epilogue *find_epilogue( const std::string &ident );
-    void random_by_group( std::string group );
 };
 
 std::ostream &operator<< ( std::ostream &os, const npc_need &need );

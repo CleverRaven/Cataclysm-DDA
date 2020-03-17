@@ -4,6 +4,7 @@
 #include <cmath>
 #include <random>
 #include <string>
+#include <chrono>
 
 #include "game_constants.h"
 #include "cata_utility.h"
@@ -144,19 +145,18 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         10 * ( -seasonality + 2 );
 
     // Wind power
-    W = std::max( 0, static_cast<int>( base_wind  / pow( P / 1014.78, rng( 9,
+    W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 )  / pow( ( P + W ) / 1014.78, rng( 9,
                                        base_wind_distrib_peaks ) ) +
-                                       -cyf / base_wind_season_variation * rng( 1, 2 ) * W ) );
-    // Wind direction
+                                       -cyf / base_wind_season_variation * rng( 1, 2 ) ) );
     // Initial static variable
     if( current_winddir == 1000 ) {
-        current_winddir = get_wind_direction( season, seed );
+        current_winddir = get_wind_direction( season );
         current_winddir = convert_winddir( current_winddir );
     } else {
         // When wind strength is low, wind direction is more variable
-        bool changedir = one_in( W * 360 );
+        bool changedir = one_in( W * 2160 );
         if( changedir ) {
-            current_winddir = get_wind_direction( season, seed );
+            current_winddir = get_wind_direction( season );
             current_winddir = convert_winddir( current_winddir );
         }
     }
@@ -188,13 +188,16 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     if( w.pressure < 1010 && w.humidity > 40 ) {
         r = WEATHER_CLOUDY;
     }
-    if( r == WEATHER_CLOUDY && ( w.humidity > 97 || w.pressure < 1000 ) ) {
+    if( r == WEATHER_CLOUDY && ( w.humidity > 96 || w.pressure < 1003 ) ) {
+        r = WEATHER_LIGHT_DRIZZLE;
+    }
+    if( r >= WEATHER_LIGHT_DRIZZLE && ( w.humidity > 97 || w.pressure < 1000 ) ) {
         r = WEATHER_DRIZZLE;
     }
-    if( r >= WEATHER_CLOUDY && ( w.humidity > 98 || w.pressure < 994 ) ) {
+    if( r >= WEATHER_CLOUDY && ( w.humidity > 98 || w.pressure < 993 ) ) {
         r = WEATHER_RAINY;
     }
-    if( r == WEATHER_RAINY && w.pressure < 997 ) {
+    if( r == WEATHER_RAINY && w.pressure < 996 ) {
         r = WEATHER_THUNDER;
     }
     if( r == WEATHER_THUNDER && w.pressure < 990 ) {
@@ -222,9 +225,9 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     return r;
 }
 
-int weather_generator::get_wind_direction( const season_type season, unsigned seed ) const
+int weather_generator::get_wind_direction( const season_type season ) const
 {
-    unsigned dirseed = seed;
+    unsigned dirseed = std::chrono::system_clock::now().time_since_epoch().count();
     cata_default_random_engine wind_dir_gen( dirseed );
     // Assign chance to angle direction
     if( season == SPRING ) {
@@ -315,7 +318,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
     }, "weather test file" );
 }
 
-weather_generator weather_generator::load( JsonObject &jo )
+weather_generator weather_generator::load( const JsonObject &jo )
 {
     weather_generator ret;
     ret.base_temperature = jo.get_float( "base_temperature", 0.0 );

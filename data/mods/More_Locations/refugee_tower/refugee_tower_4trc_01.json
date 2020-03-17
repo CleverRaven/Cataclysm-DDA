@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "refugee_tower_4trc",
-    "comment": "top right corner, fourth story and even levels",
+    "//": "top right corner, fourth story and even levels",
     "weight": 250,
     "method": "json",
     "object": {

@@ -1,0 +1,109 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_saltpan_metal_northeast",
+    "description": "We could divert saltwater from the swamp nearby to create a steady supply of salt for our needs in a metal shed.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmsw_saltpan_metal_northeast",
+    "blueprint_name": "NE metal wall saltpan",
+    "blueprint_requires": [ { "id": "fbmsw_0" } ],
+    "blueprint_provides": [ { "id": "fbmsw_northeast" } ],
+    "blueprint_excludes": [ { "id": "fbmsw_northeast" } ],
+    "blueprint_needs": {
+      "time": "2 d 20 h 40 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 400 ], [ "welder", 2000 ], [ "welder_crude", 3000 ], [ "toolset", 3000 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 71 ] ],
+          [ [ "nail", 158 ] ],
+          [ [ "wood_panel", 6 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "glass_sheet", 3 ] ],
+          [ [ "steel_plate", 80 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shack_metal_southeast",
+    "description": "We could use a storage room for chemicals and tools, so build a metal shack with a roof on the southeast side of the saltworks field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmsw_shack_metal_southeast",
+    "blueprint_name": "SE metal wall storage room",
+    "blueprint_requires": [ { "id": "fbmsw_0" } ],
+    "blueprint_provides": [ { "id": "fbmsw_southeast" } ],
+    "blueprint_excludes": [ { "id": "fbmsw_southeast" } ],
+    "blueprint_needs": {
+      "time": "1 d 23 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 220 ], [ "welder", 1100 ], [ "welder_crude", 1650 ], [ "toolset", 1650 ] ] ],
+        "qualities": [
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 78 ] ],
+          [ [ "nail", 164 ] ],
+          [ [ "wood_panel", 2 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "pipe", 60 ] ],
+          [ [ "sheet_metal", 10 ] ],
+          [ [ "glass_sheet", 4 ] ],
+          [ [ "steel_plate", 44 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_brewery0_metal_southwest",
+    "description": "We could take advantage of the designation of this area to build a metal wall brewery.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmsw_brewery0_metal_southwest",
+    "blueprint_name": "SW metal wall brewery",
+    "blueprint_requires": [ { "id": "fbmsw_0" } ],
+    "blueprint_provides": [ { "id": "fbmsw_southwest" }, { "id": "brewery" } ],
+    "blueprint_excludes": [ { "id": "fbmsw_southwest" } ],
+    "blueprint_needs": {
+      "time": "3 d 2 h 30 m",
+      "skills": [ [ "cooking", 3 ], [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 420 ], [ "welder", 2100 ], [ "welder_crude", 3150 ], [ "toolset", 3150 ] ] ],
+        "qualities": [
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_M", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 76 ] ],
+          [ [ "nail", 122 ] ],
+          [ [ "wood_panel", 1 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "pipe", 36 ] ],
+          [ [ "sheet_metal", 7 ] ],
+          [ [ "sheet_metal_small", 12 ] ],
+          [ [ "water_faucet", 2 ] ],
+          [ [ "glass_sheet", 2 ] ],
+          [ [ "steel_plate", 84 ] ]
+        ]
+      }
+    }
+  }
+]

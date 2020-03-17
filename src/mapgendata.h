@@ -28,8 +28,8 @@ enum class type : int;
  * An instance of this class is passed through most of the mapgen code.
  * If any of these functions need more information, add them here.
  */
-// @todo documentation
-// @todo encapsulate data member
+// TODO: documentation
+// TODO: encapsulate data member
 class mapgendata
 {
     private:
@@ -94,7 +94,7 @@ class mapgendata
             return mission_;
         }
         int zlevel() const {
-            // @todo should be able to determine this from the map itself
+            // TODO: should be able to determine this from the map itself
             return zlevel_;
         }
 

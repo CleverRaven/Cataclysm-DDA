@@ -202,7 +202,7 @@ namespace std
 {
 template<typename T>
 struct hash< string_id<T> > {
-    std::size_t operator()( const string_id<T> &v ) const {
+    std::size_t operator()( const string_id<T> &v ) const noexcept {
         return hash<std::string>()( v.str() );
     }
 };

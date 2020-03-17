@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "silo_ftlc" ],
-    "comment": "finale. top left corner. A stairs",
+    "//": "finale. top left corner. A stairs",
     "method": "json",
     "weight": 100,
     "object": {

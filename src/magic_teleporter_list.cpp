@@ -1,6 +1,6 @@
 #include "magic_teleporter_list.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <algorithm>
 #include <memory>
@@ -141,10 +141,7 @@ void teleporter_list::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
 
-    JsonArray parray = data.get_array( "known_teleporters" );
-    while( parray.has_more() ) {
-        JsonObject jo = parray.next_object();
-
+    for( JsonObject jo : data.get_array( "known_teleporters" ) ) {
         tripoint temp_pos;
         jo.read( "position", temp_pos );
         std::string name;
@@ -170,7 +167,7 @@ class teleporter_callback : public uilist_callback
             }
             overmap_ui::draw_overmap_chunk( menu->window, g->u, index_pairs[entnum], 1, start_x + 1, 29, 21 );
             mvwprintz( menu->window, point( start_x + 2, 1 ), c_white,
-                       string_format( "Distance: %d (%d, %d)",
+                       string_format( _( "Distance: %d (%d, %d)" ),
                                       rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ),
                                       index_pairs[entnum].x, index_pairs[entnum].y ) );
         }
@@ -187,7 +184,7 @@ cata::optional<tripoint> teleporter_list::choose_teleport_location()
     int index = 0;
     int column_width = 25;
     std::map<int, tripoint> index_pairs;
-    for( const std::pair<tripoint, std::string> &gate : known_teleporters ) {
+    for( const std::pair<const tripoint, std::string> &gate : known_teleporters ) {
         teleport_selector.addentry( index, true, 0, gate.second );
         column_width = std::max( column_width, utf8_width( gate.second ) );
         index_pairs.emplace( index, gate.first );

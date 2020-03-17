@@ -2,7 +2,7 @@
   {
     "id": "spider",
     "type": "item_group",
-    "items": [ [ "410shot", 6 ], [ "m6_asw", 1 ] ]
+    "items": [ [ "410shot_000", 6 ], [ "m6_asw", 1 ] ]
   },
   {
     "id": "helicopter",
@@ -10,29 +10,14 @@
     "items": [ [ "m6_asw", 1 ] ]
   },
   {
-    "id": "guns_pistol_common",
-    "type": "item_group",
-    "items": [ [ "model_10_revolver", 20 ] ]
-  },
-  {
-    "id": "guns_pistol_rare",
-    "type": "item_group",
-    "items": [ [ "bond_410", 20 ] ]
-  },
-  {
     "id": "guns_pistol_obscure",
     "type": "item_group",
-    "items": [ [ "af2011a1_38super", 100 ], [ "m1991a1_38super", 150 ] ]
+    "items": [ [ "m1911a1_38super", 150 ] ]
   },
   {
     "id": "guns_rifle_rare",
     "type": "item_group",
-    "items": [ [ "colt_lightning", 15 ], [ "m6_asw", 15 ] ]
-  },
-  {
-    "id": "guns_shotgun_common",
-    "type": "item_group",
-    "items": [ [ "shotgun_410", 30 ] ]
+    "items": [ [ "m6_asw", 15 ] ]
   },
   {
     "id": "guns_shotgun_improvised",
@@ -42,7 +27,7 @@
   {
     "id": "guns_survival",
     "type": "item_group",
-    "items": [ [ "m6_asw", 5 ], [ "shotgun_410", 10 ] ]
+    "items": [ [ "m6_asw", 5 ] ]
   },
   {
     "id": "museum_guns",
@@ -53,6 +38,6 @@
   {
     "id": "mags_obscure",
     "type": "item_group",
-    "items": [ [ "m1991_38smag", 10 ], [ "af2011a1mag", 10 ] ]
+    "items": [ [ "m1911mag_10rd_38super", 10 ] ]
   }
 ]

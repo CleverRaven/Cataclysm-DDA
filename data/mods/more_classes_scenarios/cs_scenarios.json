@@ -4,7 +4,7 @@
     "ident": "fema_help",
     "name": "Challenge-FEMA Death Camp",
     "points": -6,
-    "description": "You were one of the many law-enforcement and military personnel alike called in to keep order on one of the FEMA camps.  It all went to shit fast...wounded, infected, surrounded by fire you lie on the ground...and they just keep coming...",
+    "description": "You were one of the many law-enforcement and military personnel alike called in to keep order on one of the FEMA camps.  It all went to shit fast… wounded, infected, surrounded by fire you lie on the ground… and they just keep coming…",
     "allowed_locs": [ "fema_entrance_s", "fema_s" ],
     "professions": [
       "cop",

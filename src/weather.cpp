@@ -2,7 +2,6 @@
 
 #include <array>
 #include <cmath>
-#include <sstream>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -36,14 +35,7 @@
 #include "colony.h"
 #include "player_activity.h"
 #include "regional_settings.h"
-
-const efftype_id effect_glare( "glare" );
-const efftype_id effect_snow_glare( "snow_glare" );
-const efftype_id effect_blind( "blind" );
-const efftype_id effect_sleep( "sleep" );
-
-static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
-static const trait_id trait_FEATHERS( "FEATHERS" );
+#include "cata_string_consts.h"
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -67,8 +59,8 @@ void weather_effect::glare( sun_intensity intensity )
 {
     //General prepequisites for glare
     if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
-        g->u.worn_with_flag( "SUN_GLASSES" ) ||
-        g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ||
+        g->u.worn_with_flag( flag_SUN_GLASSES ) ||
+        g->u.has_bionic( bio_sunglasses ) ||
         g->u.is_blind() ) {
         return;
     }
@@ -106,6 +98,9 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
 {
     switch( wtype ) {
+        case WEATHER_LIGHT_DRIZZLE:
+            data.rain_amount += 1 * to_turns<int>( tick_size );
+            break;
         case WEATHER_DRIZZLE:
             data.rain_amount += 4 * to_turns<int>( tick_size );
             break;
@@ -157,7 +152,8 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
 
         weather_type wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
-        data.wind_amount += get_local_windpower( g->weather.windspeed, overmap_buffer.ter( location ),
+        data.wind_amount += get_local_windpower( g->weather.windspeed,
+                            overmap_buffer.ter( ms_to_omt_copy( location ) ),
                             location,
                             g->weather.winddirection, false ) * to_turns<int>( tick_size );
     }
@@ -308,7 +304,8 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
     const std::vector<tripoint> &funnel_locs = g->m.trap_locations( tr.loadid );
     for( const tripoint &loc : funnel_locs ) {
         units::volume maxcontains = 0_ml;
-        if( one_in( turns_per_charge ) ) { // FIXME:
+        if( one_in( turns_per_charge ) ) {
+            // FIXME:
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
@@ -361,8 +358,12 @@ static void wet_player( int amount )
         ( !one_in( 50 ) && g->u.worn_with_flag( "RAINPROOF" ) ) ) {
         return;
     }
-
-    if( rng( 0, 100 - amount + g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5 ) > 10 ) {
+    // Coarse correction to get us back to previously intended soaking rate.
+    if( !calendar::once_every( 6_seconds ) ) {
+        return;
+    }
+    const int warmth_delay = g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5;
+    if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
     }
@@ -383,6 +384,7 @@ double precip_mm_per_hour( precip_class const p )
 // the precipitation were rain (rather than snow).
 {
     return
+        p == PRECIP_VERY_LIGHT ? 0.5 :
         p == PRECIP_LIGHT ? 1.5 :
         p == PRECIP_HEAVY ? 3   :
         0;
@@ -390,13 +392,24 @@ double precip_mm_per_hour( precip_class const p )
 
 void do_rain( weather_type const w )
 {
-    if( ! weather::rains( w ) || weather::precip( w ) == PRECIP_NONE ) {
+    if( !weather::rains( w ) || weather::precip( w ) == PRECIP_NONE ) {
         return;
     }
     fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );
-    bool light = weather::precip( w ) == PRECIP_LIGHT;
-    g->m.decay_fields_and_scent( light ? 15_turns : 45_turns );
-    wet_player( light ? 30 : 60 );
+    int wetness = 0;
+    time_duration decay_time = 60_turns;
+    if( weather::precip( w ) == PRECIP_VERY_LIGHT ) {
+        wetness = 5;
+        decay_time = 5_turns;
+    } else if( weather::precip( w ) == PRECIP_LIGHT ) {
+        wetness = 30;
+        decay_time = 15_turns;
+    } else if( weather::precip( w ) == PRECIP_HEAVY ) {
+        decay_time = 45_turns;
+        wetness = 60;
+    }
+    g->m.decay_fields_and_scent( decay_time );
+    wet_player( wetness );
 }
 
 void weather_effect::none()
@@ -567,26 +580,26 @@ static std::string print_time_just_hour( const time_point &p )
  */
 std::string weather_forecast( const point &abs_sm_pos )
 {
-    std::ostringstream weather_report;
+    std::string weather_report;
     // Local conditions
     const auto cref = overmap_buffer.closest_city( tripoint( abs_sm_pos, 0 ) );
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
-    weather_report << string_format(
-                       //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
-                       _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
-                       to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
-                       city_name,
-                       weather::name( g->weather.weather ), print_temperature( g->weather.temperature )
-                   );
+    weather_report += string_format(
+                          //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
+                          _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
+                          to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
+                          city_name,
+                          weather::name( g->weather.weather ), print_temperature( g->weather.temperature )
+                      );
 
-    //weather_report << ", the dewpoint ???, and the relative humidity ???.  ";
-    //weather_report << "The wind was <direction> at ? mi/km an hour.  ";
-    //weather_report << "The pressure was ??? in/mm and steady/rising/falling.";
+    //weather_report += ", the dewpoint ???, and the relative humidity ???.  ";
+    //weather_report += "The wind was <direction> at ? mi/km an hour.  ";
+    //weather_report += "The pressure was ??? in/mm and steady/rising/falling.";
 
     // Regional conditions (simulated by choosing a random range containing the current conditions).
     // Adjusted for weather volatility based on how many weather changes are coming up.
-    //weather_report << "Across <region>, skies ranged from <cloudiest> to <clearest>.  ";
+    //weather_report += "Across <region>, skies ranged from <cloudiest> to <clearest>.  ";
     // TODO: Add fake reports for nearby cities
 
     // TODO: weather forecast
@@ -619,18 +632,18 @@ std::string weather_forecast( const point &abs_sm_pos )
             day = _( "Today" );
             started_at_night = false;
         }
-        if( d > 0 && ( ( started_at_night && !( d % 2 ) ) || ( !started_at_night && d % 2 ) ) ) {
+        if( d > 0 && static_cast<int>( started_at_night ) != d % 2 ) {
             day = string_format( pgettext( "Mon Night", "%s Night" ), to_string( day_of_week( c ) ) );
         } else {
             day = to_string( day_of_week( c ) );
         }
-        weather_report << string_format(
-                           _( "%s… %s. Highs of %s. Lows of %s. " ),
-                           day, weather::name( forecast ),
-                           print_temperature( high ), print_temperature( low )
-                       );
+        weather_report += string_format(
+                              _( "%s… %s. Highs of %s. Lows of %s. " ),
+                              day, weather::name( forecast ),
+                              print_temperature( high ), print_temperature( low )
+                          );
     }
-    return weather_report.str();
+    return weather_report;
 }
 
 /**
@@ -638,19 +651,18 @@ std::string weather_forecast( const point &abs_sm_pos )
  */
 std::string print_temperature( double fahrenheit, int decimals )
 {
-    std::ostringstream ret;
-    ret.precision( decimals );
-    ret << std::fixed;
+    const auto text = [&]( const double value ) {
+        return string_format( "%.*f", decimals, value );
+    };
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
-        ret << temp_to_celsius( fahrenheit );
-        return string_format( pgettext( "temperature in Celsius", "%sC" ), ret.str() );
+        return string_format( pgettext( "temperature in Celsius", "%sC" ),
+                              text( temp_to_celsius( fahrenheit ) ) );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
-        ret << temp_to_kelvin( fahrenheit );
-        return string_format( pgettext( "temperature in Kelvin", "%sK" ), ret.str() );
+        return string_format( pgettext( "temperature in Kelvin", "%sK" ),
+                              text( temp_to_kelvin( fahrenheit ) ) );
     } else {
-        ret << fahrenheit;
-        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), ret.str() );
+        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), text( fahrenheit ) );
     }
 }
 
@@ -659,12 +671,8 @@ std::string print_temperature( double fahrenheit, int decimals )
  */
 std::string print_humidity( double humidity, int decimals )
 {
-    std::ostringstream ret;
-    ret.precision( decimals );
-    ret << std::fixed;
-
-    ret << humidity;
-    return string_format( pgettext( "humidity in percent", "%s%%" ), ret.str() );
+    const std::string ret = string_format( "%.*f", decimals, humidity );
+    return string_format( pgettext( "humidity in percent", "%s%%" ), ret );
 }
 
 /**
@@ -672,12 +680,8 @@ std::string print_humidity( double humidity, int decimals )
  */
 std::string print_pressure( double pressure, int decimals )
 {
-    std::ostringstream ret;
-    ret.precision( decimals );
-    ret << std::fixed;
-
-    ret << pressure / 10;
-    return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret.str() );
+    const std::string ret = string_format( "%.*f", decimals, pressure / 10 );
+    return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret );
 }
 
 int get_local_windchill( double temperature, double humidity, double windpower )
@@ -695,17 +699,25 @@ int get_local_windchill( double temperature, double humidity, double windpower )
         windchill = 35.74 + 0.6215 * tmptemp - 35.75 * pow( tmpwind,
                     0.16 ) + 0.4275 * tmptemp * pow( tmpwind, 0.16 ) - tmptemp;
         if( tmpwind < 4 ) {
-            windchill = 0;    // This model fails when there is 0 wind.
+            // This model fails when there is 0 wind.
+            windchill = 0;
         }
     } else {
         /// Model 2, warm wind chill
 
         // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
-        tmpwind = tmpwind * 0.44704; // Convert to meters per second.
+        // Convert to meters per second.
+        tmpwind = tmpwind * 0.44704;
         tmptemp = temp_to_celsius( tmptemp );
 
-        windchill = 0.33 * ( humidity / 100.00 * 6.105 * exp( 17.27 * tmptemp /
-                             ( 237.70 + tmptemp ) ) ) - 0.70 * tmpwind - 4.00;
+        // Cap the vapor pressure term to 50C of extra heat, as this term
+        // otherwise grows logistically to an asymptotic value of about 2e7
+        // for large values of temperature. This is presumably due to the
+        // model being designed for reasonable ambient temperature values,
+        // rather than extremely high ones.
+        windchill = 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
+                                            exp( 17.27 * tmptemp / ( 237.70 + tmptemp ) ) ) - 0.70 *
+                    tmpwind - 4.00;
         // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
         windchill = windchill * 9 / 5;
     }
@@ -931,7 +943,6 @@ bool warm_enough_to_plant( const tripoint &pos )
 
 weather_manager::weather_manager()
 {
-
     lightning_active = false;
     weather_override = WEATHER_NULL;
     nextweather = calendar::before_time_starts;
@@ -973,13 +984,13 @@ void weather_manager::update_weather()
         const weather_datum wdata = weather_data( weather );
         if( weather != old_weather && wdata.dangerous &&
             g->get_levz() >= 0 && g->m.is_outside( g->u.pos() )
-            && !g->u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
+            && !g->u.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                                 string_format( _( "The weather changed to %s!" ), wdata.name ) );
         }
 
-        if( weather != old_weather && g->u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
-            g->u.assign_activity( activity_id( "ACT_WAIT_WEATHER" ), 0, 0 );
+        if( weather != old_weather && g->u.has_activity( ACT_WAIT_WEATHER ) ) {
+            g->u.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
         }
 
         if( wdata.sight_penalty !=
@@ -1004,7 +1015,8 @@ int weather_manager::get_temperature( const tripoint &location )
         return cached->second;
     }
 
-    int temp_mod = 0; // local modifier
+    // local modifier
+    int temp_mod = 0;
 
     if( !g->new_game ) {
         temp_mod += get_heat_radiation( location, false );

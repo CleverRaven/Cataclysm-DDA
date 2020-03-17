@@ -33,8 +33,7 @@
 #include "units.h"
 #include "type_id.h"
 #include "point.h"
-
-const efftype_id effect_bounced( "bounced" );
+#include "cata_string_consts.h"
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
@@ -73,7 +72,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             g->m.add_item_or_charges( pt, i );
         }
 
-        //TODO: Sound
+        // TODO: Sound
         return;
     }
 
@@ -126,7 +125,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
 
         if( effects.count( "HEAVY_HIT" ) ) {
-            if( g->m.has_flag( "LIQUID", pt ) ) {
+            if( g->m.has_flag( flag_LIQUID, pt ) ) {
                 sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
             } else {
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
@@ -198,7 +197,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         proj_arg, nullptr, dealt_damage_instance(), source, aim.missed_by
     };
 
-    if( source == target_arg ) { // No suicidal shots
+    // No suicidal shots
+    if( source == target_arg ) {
         debugmsg( "Projectile_attack targeted own square." );
         return attack;
     }
@@ -276,7 +276,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     tripoint &tp = attack.end_point;
     tripoint prev_point = source;
 
-    trajectory.insert( trajectory.begin(), source ); // Add the first point to the trajectory
+    // Add the first point to the trajectory
+    trajectory.insert( trajectory.begin(), source );
 
     static emit_id muzzle_smoke( "emit_smaller_smoke_plume" );
     if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
@@ -333,7 +334,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         if( in_veh != nullptr ) {
             const optional_vpart_position other = g->m.veh_at( tp );
             if( in_veh == veh_pointer_or_null( other ) && other->is_inside() ) {
-                continue; // Turret is on the roof and can't hit anything inside
+                // Turret is on the roof and can't hit anything inside
+                continue;
             }
         }
 
@@ -404,8 +406,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             traj_len = i;
             break;
         }
-    } // Done with the trajectory!
-
+    }
+    // Done with the trajectory!
     if( do_animation && do_draw_line && traj_len > 2 ) {
         trajectory.erase( trajectory.begin() );
         trajectory.resize( traj_len-- );

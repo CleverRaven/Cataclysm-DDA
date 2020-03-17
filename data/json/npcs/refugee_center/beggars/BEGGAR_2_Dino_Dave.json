@@ -166,7 +166,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD",
-    "dynamic_line": "Kind of a question's that?  Yeah man, you got cardboard, I got a whole... a whole shopping list.  Got it here.",
+    "dynamic_line": "Kind of a question's that?  Yeah man, you got cardboard, I got a whole… a whole shopping list.  Got it here.",
     "speaker_effect": { "effect": { "npc_add_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" } },
     "responses": [
       { "text": "What's next on the list?", "topic": "TALK_MISSION_LIST" },
@@ -221,7 +221,7 @@
       "type": "general",
       "context": "recruit",
       "value": "yes",
-      "yes": "Well... I had it all pretty together, but the others have left, and now the masters won't let me build my sanctuary.  Can you help me figure them out?",
+      "yes": "Well… I had it all pretty together, but the others have left, and now the masters won't let me build my sanctuary.  Can you help me figure them out?",
       "no": "That's it!  I'm just gonna need a little time to get it all set up.  Thanks.  You've helped me a lot.  I'm feeling much more myself with all this to keep me going."
     },
     "responses": [
@@ -252,7 +252,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.",
-      "offer": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.  I need a bunch of 'em.  Little ones, you know?  Can you bring me like... like... forty?",
+      "offer": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.  I need a bunch of 'em.  Little ones, you know?  Can you bring me like… like… forty?",
       "accepted": "Oh man, thanks so much my friend.  You won't regret it.",
       "rejected": "I didn't think so.",
       "advice": "Watch out, he's looking for it too.",
@@ -278,7 +278,7 @@
       "accepted": "Oh man, thanks so much my friend.  You won't regret it.",
       "rejected": "I didn't think so.",
       "advice": "Watch out, he's looking for it too.",
-      "inquire": "It's all around us... but did you get it in a crude matter form?",
+      "inquire": "It's all around us… but did you get it in a crude matter form?",
       "success": "Oh this is so great, so great!",
       "success_lie": "Oh this is so great, so great!",
       "failure": "Oh, that's too bad.  Guess they're eating it all."
@@ -343,13 +343,13 @@
     "dialogue": {
       "describe": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?",
       "offer": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?  Five more cardboard boxes, as big as it gets.  I have a few already stored up, that should be all I need.",
-      "accepted": "Yes! The home stretch!",
+      "accepted": "Yes!  The home stretch!",
       "rejected": "Oh man, but we're so close!",
       "advice": "Try looking in cargo storage areas.",
       "inquire": "Did you bring me those last few boxes?",
       "success": "Brilliant!  You're a true hero.  I'll see if I can find a place to set these up now.",
       "success_lie": "Brilliant!  You're a true hero.  I'll see if I can find a place to set these up now.",
-      "failure": "No!  Oh god, no, this can't be happening..."
+      "failure": "No!  Oh god, no, this can't be happening…"
     }
   }
 ]

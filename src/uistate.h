@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "enums.h"
+#include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
 
@@ -130,7 +131,8 @@ class uistatedata
 
         // construction menu selections
         std::string construction_filter;
-        std::string last_construction;
+        cata::optional<std::string> last_construction;
+        construction_category_id construction_tab = construction_category_id::NULL_ID();
 
         // overmap editor selections
         const oter_t *place_terrain = nullptr;
@@ -253,14 +255,11 @@ class uistatedata
             jo.read( "list_item_downvote_active", list_item_downvote_active );
             jo.read( "list_item_priority_active", list_item_priority_active );
 
-            auto inhist = jo.get_object( "input_history" );
-            std::set<std::string> inhist_members = inhist.get_member_names();
-            for( const auto &inhist_member : inhist_members ) {
-                auto ja = inhist.get_array( inhist_member );
-                std::vector<std::string> &v = gethistory( inhist_member );
+            for( const JsonMember member : jo.get_object( "input_history" ) ) {
+                std::vector<std::string> &v = gethistory( member.name() );
                 v.clear();
-                while( ja.has_more() ) {
-                    v.push_back( ja.next_string() );
+                for( const std::string line : member.get_array() ) {
+                    v.push_back( line );
                 }
             }
             // fetch list_item settings from input_history

@@ -19,6 +19,12 @@ std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
 
+enum requirement_check_result : int {
+    SKIP_LOCATION = 0,
+    CAN_DO_LOCATION,
+    RETURN_EARLY       //another activity like a fetch activity has been started.
+};
+
 enum butcher_type : int {
     BUTCHER,        // quick butchery
     BUTCHER_FULL,   // full workshop butchery
@@ -56,12 +62,15 @@ enum do_activity_reason : int {
 };
 
 struct activity_reason_info {
-    do_activity_reason reason;          //reason for success or fail
-    bool can_do;                        //is it possible to do this
-    cata::optional<size_t> con_idx;     //construction index
+    //reason for success or fail
+    do_activity_reason reason;
+    //is it possible to do this
+    bool can_do;
+    //construction index
+    cata::optional<construction_id> con_idx;
 
     activity_reason_info( do_activity_reason reason_, bool can_do_,
-                          cata::optional<size_t> con_idx_ = cata::optional<size_t>() ) :
+                          const cata::optional<construction_id> &con_idx_ = cata::nullopt ) :
         reason( reason_ ),
         can_do( can_do_ ),
         con_idx( con_idx_ )
@@ -72,7 +81,7 @@ struct activity_reason_info {
     }
 
     static activity_reason_info build( const do_activity_reason &reason_, bool can_do_,
-                                       size_t con_idx_ ) {
+                                       const construction_id &con_idx_ ) {
         return activity_reason_info( reason_, can_do_, con_idx_ );
     }
 
@@ -87,7 +96,8 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type 
 void activity_on_turn_drop();
 void activity_on_turn_move_items( player_activity &act, player &p );
 void activity_on_turn_move_loot( player_activity &act, player &p );
-void generic_multi_activity_handler( player_activity &act, player &p );
+//return true if there is an activity that can be done potentially, return false if no work can be found.
+bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );
 void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_pickup();
 void activity_on_turn_wear( player_activity &act, player &p );
@@ -109,6 +119,20 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
 namespace activity_handlers
 {
 
+enum hack_result {
+    HACK_UNABLE,
+    HACK_FAIL,
+    HACK_NOTHING,
+    HACK_SUCCESS
+};
+
+enum hack_type {
+    HACK_SAFE,
+    HACK_DOOR,
+    HACK_GAS,
+    HACK_NULL
+};
+
 bool resume_for_multi_activities( player &p );
 /** activity_do_turn functions: */
 void burrow_do_turn( player_activity *act, player *p );
@@ -119,6 +143,7 @@ void drop_do_turn( player_activity *act, player *p );
 void stash_do_turn( player_activity *act, player *p );
 void pulp_do_turn( player_activity *act, player *p );
 void game_do_turn( player_activity *act, player *p );
+void generic_game_do_turn( player_activity *act, player *p );
 void churn_do_turn( player_activity *act, player *p );
 void start_fire_do_turn( player_activity *act, player *p );
 void vibe_do_turn( player_activity *act, player *p );
@@ -151,6 +176,7 @@ void fish_do_turn( player_activity *act, player *p );
 void cracking_do_turn( player_activity *act, player *p );
 void repair_item_do_turn( player_activity *act, player *p );
 void butcher_do_turn( player_activity *act, player *p );
+void pry_nails_do_turn( player_activity *act, player *p );
 void hacksaw_do_turn( player_activity *act, player *p );
 void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
@@ -160,10 +186,7 @@ void dig_do_turn( player_activity *act, player *p );
 void build_do_turn( player_activity *act, player *p );
 void dig_channel_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
-void till_plot_do_turn( player_activity *act, player *p );
-void plant_plot_do_turn( player_activity *act, player *p );
 void fertilize_plot_do_turn( player_activity *act, player *p );
-void harvest_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );
 void operation_do_turn( player_activity *act, player *p );
 void robot_control_do_turn( player_activity *act, player *p );
@@ -191,9 +214,11 @@ void pickaxe_finish( player_activity *act, player *p );
 void reload_finish( player_activity *act, player *p );
 void start_fire_finish( player_activity *act, player *p );
 void train_finish( player_activity *act, player *p );
+void milk_finish( player_activity *act, player *p );
 void vehicle_finish( player_activity *act, player *p );
 void start_engines_finish( player_activity *act, player *p );
 void churn_finish( player_activity *act, player *p );
+void plant_seed_finish( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );
 void cracking_finish( player_activity *act, player *p );
 void open_gate_finish( player_activity *act, player * );
@@ -220,6 +245,7 @@ void aim_finish( player_activity *act, player *p );
 void eat_menu_finish( player_activity *act, player *p );
 void washing_finish( player_activity *act, player *p );
 void hacksaw_finish( player_activity *act, player *p );
+void pry_nails_finish( player_activity *act, player *p );
 void chop_tree_finish( player_activity *act, player *p );
 void chop_logs_finish( player_activity *act, player *p );
 void chop_planks_finish( player_activity *act, player *p );
@@ -233,8 +259,7 @@ void haircut_finish( player_activity *act, player *p );
 void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
 void mind_splicer_finish( player_activity *act, player *p );
-void hack_door_finish( player_activity *act, player *p );
-void hack_safe_finish( player_activity *act, player *p );
+void hacking_finish( player_activity *act, player *p );
 void spellcasting_finish( player_activity *act, player *p );
 void study_spell_finish( player_activity *act, player *p );
 

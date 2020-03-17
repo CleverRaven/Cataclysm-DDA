@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_bird",
-    "name": "bird egg",
+    "name": { "str": "bird egg" },
     "weight": "57 g",
     "color": "brown",
     "spoils_in": "7 days",
@@ -17,7 +17,7 @@
     "volume": "50 ml",
     "stack_size": 1,
     "fun": -8,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "RAW" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
     "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 4 ], [ "vitB", 21 ] ],
     "rot_spawn_chance": 50
@@ -109,13 +109,14 @@
     "volume": "250 ml",
     "stack_size": 4,
     "fun": -12,
+    "flags": [ "RAW" ],
     "rot_spawn": "GROUP_EGG_SNAKE",
     "rot_spawn_chance": 60
   },
   {
     "type": "COMESTIBLE",
     "id": "ant_egg",
-    "name": "ant egg",
+    "name": { "str": "ant egg" },
     "copy-from": "egg_chicken",
     "color": "white",
     "symbol": "%",
@@ -125,7 +126,7 @@
     "material": "egg",
     "volume": "600 ml",
     "fun": -10,
-    "proportional": { "weight": 12, "calories": 12 },
+    "proportional": { "weight": 12.0, "calories": 12.0 },
     "vitamins": [ [ "vitA", 108 ], [ "calcium", 36 ], [ "iron", 48 ], [ "vitB", 252 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
     "rot_spawn_chance": 60
@@ -194,12 +195,13 @@
     "symbol": "o",
     "quench": 10,
     "calories": 338,
-    "description": "A clump of razorclaw eggs.  A post-cataclysm delicacy.",
+    "description": "A clump of razorclaw eggs.  A post-Cataclysm delicacy.",
     "price": 3000,
     "material": "flesh",
     "volume": "250 ml",
     "vitamins": [ [ "vitA", 24 ], [ "vitC", 42 ], [ "calcium", 5 ], [ "iron", 8 ], [ "vitB", 985 ] ],
-    "fun": 5
+    "fun": 5,
+    "flags": [ "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -219,13 +221,13 @@
     "volume": "25 ml",
     "stack_size": 4,
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ], [ "vitB", 24 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "vitB", 24 ] ],
+    "flags": [ "RAW" ]
   },
   {
     "type": "COMESTIBLE",
     "id": "powder_eggs",
-    "name": "powdered egg",
-    "name_plural": "powdered eggs",
+    "name": { "str": "powdered egg" },
     "weight": "7 g",
     "color": "yellow",
     "container": "bottle_plastic_small",
@@ -246,8 +248,7 @@
   {
     "type": "COMESTIBLE",
     "id": "scrambled_eggs",
-    "name": "scrambled eggs",
-    "name_plural": "scrambled eggs",
+    "name": { "str": "scrambled eggs", "str_pl": "scrambled eggs" },
     "copy-from": "egg_chicken",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -263,13 +264,12 @@
   {
     "type": "COMESTIBLE",
     "id": "boiled_egg",
-    "name": "boiled egg",
-    "name_plural": "boiled eggs",
+    "name": { "str": "boiled egg" },
     "copy-from": "egg_chicken",
     "color": "white",
     "symbol": "o",
     "quench": -1,
-    "description": "A hard boiled egg, still in its shell.  Portable and nutritious!",
+    "description": "A hard-boiled egg, still in its shell.  Portable and nutritious!",
     "price": 95,
     "material": "egg",
     "fun": 2,
@@ -287,6 +287,7 @@
     "description": "A pickled egg.  Rather salty, but tastes good and lasts for a long time.",
     "price": 95,
     "material": "egg",
-    "fun": 2
+    "fun": 2,
+    "flags": [ "FREEZERBURN" ]
   }
 ]

@@ -170,19 +170,19 @@
   {
     "type": "speech",
     "speaker": "mon_craftbuddy",
-    "sound": "\"Bedeep. Whurrrrrmmmm.\"",
+    "sound": "\"Bedeep.  Whurrrrrmmmm.\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": "mon_craftbuddy",
-    "sound": "\"Pwwowm. Fsht fshrrrr.\"",
+    "sound": "\"Pwwowm.  Fsht fshrrrr.\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": "mon_craftbuddy",
-    "sound": "\"Click. Clicliclick. Vrnnnk.\"",
+    "sound": "\"Click.  Clicliclick.  Vrnnnk.\"",
     "volume": 10
   },
   {
@@ -212,7 +212,7 @@
   {
     "type": "speech",
     "speaker": "mon_defbot_paladin",
-    "sound": "\"Creak! Clang clang.\"",
+    "sound": "\"Creak!  Clang clang.\"",
     "volume": 50
   },
   {

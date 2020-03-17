@@ -1,6 +1,7 @@
 [
   {
     "type": "construction",
+    "id": "constr_blaze_blob_pit",
     "category": "OTHER",
     "description": "Harvest Blob Feed from Corpse Pit: Smash to Harvest",
     "difficulty": 0,
@@ -13,6 +14,7 @@
   },
   {
     "type": "construction",
+    "id": "constr_blaze_blob_pit_slime",
     "category": "OTHER",
     "description": "Harvest Blob Feed from Slime: Smash to Harvest",
     "difficulty": 0,
@@ -29,7 +31,7 @@
     "name": "mass of blob feed",
     "description": "",
     "symbol": "O",
-    "color": [ "light_green" ],
+    "color": "light_green",
     "move_cost": 0,
     "bash": {
       "str_min": 1,
@@ -47,7 +49,7 @@
     "name": "mound of blob feed",
     "description": "",
     "symbol": "O",
-    "color": [ "light_green" ],
+    "color": "light_green",
     "move_cost": 0,
     "bash": {
       "str_min": 1,

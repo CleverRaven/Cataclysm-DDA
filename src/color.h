@@ -382,7 +382,7 @@ namespace std
 {
 template<>
 struct hash<nc_color> {
-    std::size_t operator()( const nc_color &v ) const {
+    std::size_t operator()( const nc_color &v ) const noexcept {
         return hash<int>()( v.operator int() );
     }
 };

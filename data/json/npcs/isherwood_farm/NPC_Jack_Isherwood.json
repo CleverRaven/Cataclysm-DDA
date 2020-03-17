@@ -66,7 +66,6 @@
       [ "crossbow", 20 ],
       [ "shortbow", 5 ],
       [ "compbow", 15 ],
-      [ "compositebow", 15 ],
       [ "recurbow", 15 ],
       [ "reflexbow", 10 ],
       [ "longbow", 10 ],
@@ -188,7 +187,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JACK2",
-    "dynamic_line": "We've had our losses... now we stay close to home, preparing for trouble.  We've always taken disaster preparedness seriously, but we didn't expect anything like this though.",
+    "dynamic_line": "We've had our losses… now we stay close to home, preparing for trouble.  We've always taken disaster preparedness seriously, but we didn't expect anything like this though.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -197,7 +196,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JACK_FARM",
-    "dynamic_line": "Even out here we've had some attacks and seen ... other things.  We have been working on our defenses, but it takes time.  We've been able to keep up with the crops and animals though so we won't have to risk our necks for supplies.",
+    "dynamic_line": "Even out here we've had some attacks and seen … other things.  We have been working on our defenses, but it takes time.  We've been able to keep up with the crops and animals though so we won't have to risk our necks for supplies.",
     "responses": [
       { "text": "What sort of defenses do you want?", "topic": "TALK_FARM_DEFENSE" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
@@ -230,7 +229,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JACK_DAUGHTER",
-    "dynamic_line": "Jesse and her family live up at the horse farm. Her husband, Carlos, may have some jobs for you.",
+    "dynamic_line": "Jesse and her family live up at the horse farm.  Her husband, Carlos, may have some jobs for you.",
     "speaker_effect": { "effect": { "u_add_var": "u_learned_about_jesse", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
@@ -327,7 +326,7 @@
       "inquire": "How is the search going?",
       "success": "Wow, perfect.  Thanks.  Here's your reward.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the jars went..."
+      "failure": "I wonder where all the jars went…"
     }
   },
   {
@@ -359,7 +358,7 @@
       "inquire": "How is the search going?",
       "success": "Wow, perfect.  Thanks.  Here's your reward.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the seeds went..."
+      "failure": "I wonder where all the seeds went…"
     }
   }
 ]

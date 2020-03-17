@@ -41,7 +41,9 @@
         "tanto_plus_one",
         "tanto_plus_two",
         "rune_animist_weapon",
-        "springstaff-retracted"
+        "springstaff-retracted",
+        "mjolnir",
+        "gram"
       ]
     }
   },
@@ -132,7 +134,8 @@
         "tanto_plus_two",
         "rune_animist_weapon",
         "m47a1",
-        "springstaff-retracted"
+        "springstaff-retracted",
+        "gram"
       ]
     }
   },
@@ -154,7 +157,8 @@
         "zweihander_plus_one",
         "zweihander_plus_two",
         "rune_kelvinist_weapon",
-        "gunblade"
+        "gunblade",
+        "gram"
       ]
     }
   },
@@ -269,7 +273,9 @@
         "rune_magus_weapon",
         "bonespear",
         "springstaff-retracted",
-        "springstaff-extended"
+        "springstaff-extended",
+        "gungnir",
+        "laevateinn"
       ]
     }
   },
@@ -291,7 +297,8 @@
         "qiang_plus_one",
         "qiang_plus_two",
         "rune_biomancer_weapon",
-        "bonespear"
+        "bonespear",
+        "gungnir"
       ]
     }
   }

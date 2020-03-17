@@ -5,15 +5,13 @@
 #include <utility>
 
 #include "morale_types.h"
-#include "player.h"
+#include "character.h"
 #include "pldata.h"
 #include "rng.h"
 #include "translations.h"
 #include "calendar.h"
 #include "enums.h"
-
-const efftype_id effect_hallu( "hallu" );
-const efftype_id effect_shakes( "shakes" );
+#include "cata_string_consts.h"
 
 namespace io
 {
@@ -47,9 +45,9 @@ std::string enum_to_string<add_type>( add_type data )
 
 } // namespace io
 
-void marloss_add( player &u, int in, const char *msg );
+void marloss_add( Character &u, int in, const char *msg );
 
-void addict_effect( player &u, addiction &add )
+void addict_effect( Character &u, addiction &add )
 {
     const int in = std::min( 20, add.intensity );
     const int current_stim = u.get_stim();
@@ -127,9 +125,11 @@ void addict_effect( player &u, addiction &add )
         case ADD_PKILLER:
             if( calendar::once_every( time_duration::from_turns( 100 - in * 4 ) ) &&
                 u.get_painkiller() > 20 - in ) {
-                u.mod_painkiller( -1 );    // Tolerance increases!
+                // Tolerance increases!
+                u.mod_painkiller( -1 );
             }
-            if( u.get_painkiller() >= 35 ) { // No further effects if we're doped up.
+            // No further effects if we're doped up.
+            if( u.get_painkiller() >= 35 ) {
                 add.sated = 0_turns;
                 break;
             }
@@ -203,7 +203,7 @@ void addict_effect( player &u, addiction &add )
         }
 
         case ADD_MUTAGEN:
-            if( u.has_trait( trait_id( "MUT_JUNKIE" ) ) ) {
+            if( u.has_trait( trait_MUT_JUNKIE ) ) {
                 if( one_in( 600 - 50 * in ) ) {
                     u.add_msg_if_player( m_warning, rng( 0,
                                                          6 ) < in ? _( "You so miss the exquisite rainbow of post-humanity." ) :
@@ -381,7 +381,7 @@ std::string addiction_text( const addiction &cur )
     return "You crave to report this bug.";
 }
 
-void marloss_add( player &u, int in, const char *msg )
+void marloss_add( Character &u, int in, const char *msg )
 {
     if( one_in( 800 - 20 * in ) ) {
         u.add_morale( MORALE_CRAVING_MARLOSS, -5, -25 );

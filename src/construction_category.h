@@ -2,7 +2,7 @@
 #ifndef CONSTRUCTION_CATEGORY_H
 #define CONSTRUCTION_CATEGORY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 #include <vector>
 
@@ -12,7 +12,7 @@
 class JsonObject;
 
 struct construction_category {
-    void load( JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, const std::string &src );
 
     construction_category_id id;
     bool was_loaded = false;
@@ -25,7 +25,7 @@ struct construction_category {
 namespace construction_categories
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void reset();
 
 const std::vector<construction_category> &get_all();

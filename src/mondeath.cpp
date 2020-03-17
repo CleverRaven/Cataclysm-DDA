@@ -47,42 +47,7 @@
 #include "colony.h"
 #include "point.h"
 #include "mattack_actors.h"
-
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_blob_brain( "mon_blob_brain" );
-const mtype_id mon_blob_small( "mon_blob_small" );
-const mtype_id mon_breather( "mon_breather" );
-const mtype_id mon_breather_hub( "mon_breather_hub" );
-const mtype_id mon_creeper_hub( "mon_creeper_hub" );
-const mtype_id mon_creeper_vine( "mon_creeper_vine" );
-const mtype_id mon_halfworm( "mon_halfworm" );
-const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-const mtype_id mon_thing( "mon_thing" );
-const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
-const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-const mtype_id mon_giant_cockroach( "mon_giant_cockroach" );
-const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
-const mtype_id mon_pregnant_giant_cockroach( "mon_pregnant_giant_cockroach" );
-
-const species_id ZOMBIE( "ZOMBIE" );
-const species_id BLOB( "BLOB" );
-
-const efftype_id effect_amigara( "amigara" );
-const efftype_id effect_boomered( "boomered" );
-const efftype_id effect_controlled( "controlled" );
-const efftype_id effect_darkness( "darkness" );
-const efftype_id effect_glowing( "glowing" );
-const efftype_id effect_no_ammo( "no_ammo" );
-const efftype_id effect_pacified( "pacified" );
-const efftype_id effect_rat( "rat" );
-
-static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PRED1( "PRED1" );
-static const trait_id trait_PRED2( "PRED2" );
-static const trait_id trait_PRED3( "PRED3" );
-static const trait_id trait_PRED4( "PRED4" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_KILLER( "KILLER" );
+#include "cata_string_consts.h"
 
 void mdeath::normal( monster &z )
 {
@@ -221,7 +186,7 @@ void mdeath::splatter( monster &z )
                             chunk_amount / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
-        item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );
+        item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
         corpse.set_flag( "GIBBED" );
@@ -280,7 +245,7 @@ void mdeath::boomer_glow( monster &z )
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
                 body_part bp = random_body_part();
                 critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
-                if( critter != nullptr && critter->has_effect( effect_glowing ) ) {
+                if( critter->has_effect( effect_glowing ) ) {
                     break;
                 }
             }
@@ -416,8 +381,8 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[50] = _( "You regret killing %s." );
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
-    if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_PRED3 ) ||
-        g->u.has_trait( trait_PRED4 ) || g->u.has_trait( trait_KILLER ) ) {
+    if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait_flag( "PRED3" ) ||
+        g->u.has_trait_flag( "PRED4" ) || g->u.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {
@@ -436,7 +401,7 @@ void mdeath::guilt( monster &z )
                                 "about their deaths anymore." ), z.name( maxKills ) );
         }
         return;
-    } else if( ( g->u.has_trait( trait_PRED1 ) ) || ( g->u.has_trait( trait_PRED2 ) ) ) {
+    } else if( ( g->u.has_trait_flag( "PRED1" ) ) || ( g->u.has_trait_flag( "PRED2" ) ) ) {
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
@@ -459,9 +424,9 @@ void mdeath::guilt( monster &z )
         moraleMalus /= 10;
         if( g->u.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
-        } else if( g->u.has_trait( trait_PRED1 ) ) {
+        } else if( g->u.has_trait_flag( "PRED1" ) ) {
             moraleMalus /= 4;
-        } else if( g->u.has_trait( trait_PRED2 ) ) {
+        } else if( g->u.has_trait_flag( "PRED2" ) ) {
             moraleMalus /= 5;
         }
     }
@@ -501,7 +466,7 @@ void mdeath::blobsplit( monster &z )
 void mdeath::brainblob( monster &z )
 {
     for( monster &critter : g->all_monsters() ) {
-        if( critter.type->in_species( BLOB ) && critter.type->id != mon_blob_brain ) {
+        if( critter.type->in_species( species_BLOB ) && critter.type->id != mon_blob_brain ) {
             critter.remove_effect( effect_controlled );
         }
     }
@@ -602,7 +567,7 @@ void mdeath::focused_beam( monster &z )
 
         std::vector <tripoint> traj = line_to( z.pos(), p, 0, 0 );
         for( auto &elem : traj ) {
-            if( !g->m.trans( elem ) ) {
+            if( !g->m.is_transparent( elem ) ) {
                 break;
             }
             g->m.add_field( elem, fd_dazzling, 2 );
@@ -635,10 +600,10 @@ void mdeath::broken( monster &z )
     g->m.add_item_or_charges( z.pos(), broken_mon );
 
     if( z.type->has_flag( MF_DROPS_AMMO ) ) {
-        for( const std::pair<std::string, int> &ammo_entry : z.type->starting_ammo ) {
+        for( const std::pair<const std::string, int> &ammo_entry : z.type->starting_ammo ) {
             if( z.ammo[ammo_entry.first] > 0 ) {
                 bool spawned = false;
-                for( const std::pair<std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
+                for( const std::pair<const std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
                     if( attack.second->id == "gun" ) {
                         item gun = item( dynamic_cast<const gun_actor *>( attack.second.get() )->gun_type );
                         bool same_ammo = false;
@@ -673,7 +638,7 @@ void mdeath::broken( monster &z )
         }
     }
 
-    //TODO: make mdeath::splatter work for robots
+    // TODO: make mdeath::splatter work for robots
     if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
     } else if( g->u.sees( z.pos() ) ) {
@@ -757,9 +722,8 @@ void mdeath::gameover( monster &z )
     g->u.hp_cur[hp_torso] = 0;
 }
 
-void mdeath::kill_breathers( monster &z )
+void mdeath::kill_breathers( monster &/*z*/ )
 {
-    ( void )z; //unused
     for( monster &critter : g->all_monsters() ) {
         const mtype_id &monID = critter.type->id;
         if( monID == mon_breather_hub || monID == mon_breather ) {
@@ -852,7 +816,7 @@ void mdeath::broken_ammo( monster &z )
 
 void make_mon_corpse( monster &z, int damageLvl )
 {
-    item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );
+    item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
     // All corpses are at 37 C at time of death
     // This may not be true but anything better would be way too complicated
     if( z.is_warm() ) {

@@ -2,7 +2,7 @@
   {
     "abstract": "book_magazine",
     "type": "BOOK",
-    "name": "Readable magazine",
+    "name": { "str": "readable magazine" },
     "weight": "70 g",
     "volume": "250 ml",
     "material": "paper",
@@ -10,14 +10,14 @@
     "color": "pink",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8,
+    "time": "8 m",
     "fun": 1
   },
   {
     "abstract": "book_martial",
     "type": "GENERIC",
     "category": "books",
-    "name": "Martial art manual",
+    "name": { "str": "martial art manual" },
     "weight": "150 g",
     "volume": "250 ml",
     "price": 20000,

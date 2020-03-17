@@ -10,7 +10,6 @@
 #include <set>
 #include <utility>
 #include <vector>
-#include <sstream>
 
 #include "calendar.h"
 #include "color.h"
@@ -19,7 +18,6 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
-#include "vehicle.h"
 #include "requirements.h"
 #include "point.h"
 #include "translations.h"
@@ -28,6 +26,7 @@ using itype_id = std::string;
 
 class JsonObject;
 class Character;
+class vehicle;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
@@ -103,24 +102,26 @@ struct vpslot_engine {
 };
 
 struct veh_ter_mod {
-    int movecost;   /* movecost for moving through this terrain (overrides current terrain movecost)
+    /* movecost for moving through this terrain (overrides current terrain movecost)
                      * if movecost <= 0 ignore this parameter */
-    int penalty;    // penalty while not on this terrain (adds to movecost)
+    int movecost;
+    // penalty while not on this terrain (adds to movecost)
+    int penalty;
 };
 
 struct vpslot_wheel {
-    float rolling_resistance = 1;
+    float rolling_resistance = 1.0f;
     int contact_area = 1;
     std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
-    float or_rating;
+    float or_rating = 0.0f;
 };
 
 struct vpslot_workbench {
     // Base multiplier applied for crafting here
-    float multiplier;
+    float multiplier = 1.0f;
     // Mass/volume allowed before a crafting speed penalty is applied
-    units::mass allowed_mass;
-    units::volume allowed_volume;
+    units::mass allowed_mass = 0_gram;
+    units::volume allowed_volume = 0_ml;
 };
 
 struct transform_terrain_data {
@@ -128,8 +129,8 @@ struct transform_terrain_data {
     std::string post_terrain;
     std::string post_furniture;
     std::string post_field;
-    int post_field_intensity;
-    time_duration post_field_age;
+    int post_field_intensity = 0;
+    time_duration post_field_age = 0_turns;
 };
 
 class vpart_info
@@ -220,7 +221,7 @@ class vpart_info
         bool legacy = true;
 
         /** Format the description for display */
-        int format_description( std::ostringstream &msg, const nc_color &format_color, int width ) const;
+        int format_description( std::string &msg, const nc_color &format_color, int width ) const;
 
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
@@ -314,8 +315,9 @@ class vpart_info
         /** Name from vehicle part definition which if set overrides the base item name */
         translation name_;
 
-        std::set<std::string> flags;    // flags
-        std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp
+        std::set<std::string> flags;
+        // flags checked so often that things slow down due to string cmp
+        std::bitset<NUM_VPFLAGS> bitflags;
 
         /** Second field is the multiplier */
         std::vector<std::pair<requirement_id, int>> install_reqs;
@@ -324,8 +326,10 @@ class vpart_info
 
     public:
 
-        int z_order;        // z-ordering, inferred from location, cached here
-        int list_order;     // Display order in vehicle interact display
+        // z-ordering, inferred from location, cached here
+        int z_order = 0;
+        // Display order in vehicle interact display
+        int list_order = 0;
 
         bool has_flag( const std::string &flag ) const {
             return flags.count( flag ) != 0;
@@ -335,11 +339,11 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
-        static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
+        static void load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
                                  const itype_id &fuel_type );
-        static void load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo );
-        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, JsonObject &jo );
-        static void load( JsonObject &jo, const std::string &src );
+        static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
+        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
+        static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
         static void reset();
@@ -349,7 +353,7 @@ class vpart_info
 
 struct vehicle_item_spawn {
     point pos;
-    int chance;
+    int chance = 0;
     /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necessary) */
     int with_ammo = 0;
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
@@ -372,13 +376,22 @@ struct vehicle_prototype {
         itype_id fuel = "null";
     };
 
+    vehicle_prototype();
+    vehicle_prototype( const std::string &name, const std::vector<part_def> &parts,
+                       const std::vector<vehicle_item_spawn> &item_spawns,
+                       std::unique_ptr<vehicle> &&blueprint );
+    vehicle_prototype( vehicle_prototype && );
+    ~vehicle_prototype();
+
+    vehicle_prototype &operator=( vehicle_prototype && );
+
     std::string name;
     std::vector<part_def> parts;
     std::vector<vehicle_item_spawn> item_spawns;
 
     std::unique_ptr<vehicle> blueprint;
 
-    static void load( JsonObject &jo );
+    static void load( const JsonObject &jo );
     static void reset();
     static void finalize();
 

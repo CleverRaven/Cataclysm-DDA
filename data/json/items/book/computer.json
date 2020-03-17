@@ -2,7 +2,7 @@
   {
     "id": "SICP",
     "type": "BOOK",
-    "name": "SICP",
+    "name": { "str": "SICP", "str_pl": "copies of SICP" },
     "description": "A classic text, \"The Structure and Interpretation of Computer Programs.\" Written with examples in LISP, but applicable to any language.",
     "weight": "1587 g",
     "volume": "1500 ml",
@@ -22,8 +22,7 @@
   {
     "id": "computer_science",
     "type": "BOOK",
-    "name": "Computer Science 301",
-    "name_plural": "Computer Science 301",
+    "name": { "str": "Computer Science 301", "str_pl": "copies of Computer Science 301" },
     "description": "A college textbook on computer science.",
     "weight": "1587 g",
     "volume": "1750 ml",
@@ -43,8 +42,7 @@
   {
     "id": "howto_computer",
     "type": "BOOK",
-    "name": "How to Browse the Web",
-    "name_plural": "How to Browse the Web",
+    "name": { "str": "How to Browse the Web", "str_pl": "copies of How to Browse the Web" },
     "description": "Very beginner-level information about computers.",
     "weight": "454 g",
     "volume": "750 ml",
@@ -61,8 +59,7 @@
   {
     "id": "mag_computer",
     "type": "BOOK",
-    "name": "Computer World",
-    "name_plural": "Computer World",
+    "name": { "str": "Computer World", "str_pl": "issues of Computer World" },
     "description": "An informative magazine all about computers, both hardware and software.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -79,8 +76,7 @@
   {
     "id": "manual_computers",
     "type": "BOOK",
-    "name": "Computer Science 101",
-    "name_plural": "Computer Science 101",
+    "name": { "str": "Computer Science 101", "str_pl": "copies of Computer Science 101" },
     "//": "College-level textbooks are Cheap at $60.",
     "description": "An entry-level textbook about computers.",
     "weight": "462 g",
@@ -98,8 +94,7 @@
   {
     "id": "textbook_computer",
     "type": "BOOK",
-    "name": "Principles of Advanced Programming",
-    "name_plural": "Principles of Advanced Programming",
+    "name": { "str": "Principles of Advanced Programming", "str_pl": "copies of Principles of Advanced Programming" },
     "description": "A heavy textbook dedicated to advanced-level software design, written for several different programming languages.",
     "weight": "2206 g",
     "volume": "1750 ml",

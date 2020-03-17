@@ -65,7 +65,7 @@
     "description": "A worn-out gravestone.",
     "symbol": "^",
     "color": "dark_gray",
-    "move_cost_mod": 1.5,
+    "move_cost_mod": 2,
     "coverage": 50,
     "required_str": -1,
     "flags": [ "MINEABLE", "NOITEM", "TRANSPARENT", "MOUNTABLE", "ROUGH", "PLACE_ITEM", "UNSTABLE" ],

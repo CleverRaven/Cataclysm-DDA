@@ -13,7 +13,7 @@ struct tripoint;
 namespace gates
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void check();
 void reset();
 

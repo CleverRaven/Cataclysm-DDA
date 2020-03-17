@@ -1,0 +1,22 @@
+[
+  {
+    "id": "rifle_huge_belt",
+    "copy-from": "magazine_belt",
+    "type": "MAGAZINE",
+    "name": "heavy machine gun belt",
+    "description": "An ammo belt consisting of metal linkages which separate from the belt upon firing.  Holds huge rifle ammunition.",
+    "ammo_type": "ammo_rifle_huge",
+    "linkage": "ammolinkrifle_huge",
+    "capacity": 100,
+    "count": 100
+  },
+  {
+    "id": "rifle_huge_amr_mag",
+    "type": "MAGAZINE",
+    "copy-from": "m107a1mag",
+    "name": "anti-materiel rifle magazine",
+    "description": "A huge 10 round magazine for anti-materiel rifles.",
+    "delete": { "ammo_type": "50" },
+    "ammo_type": "ammo_rifle_huge"
+  }
+]

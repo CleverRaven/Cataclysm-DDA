@@ -94,13 +94,13 @@ class npc_class
 
         const Group_tag &get_shopkeeper_items() const;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
         static const npc_class_id &from_legacy_int( int i );
 
         static const npc_class_id &random_common();
 
-        static void load_npc_class( JsonObject &jo, const std::string &src );
+        static void load_npc_class( const JsonObject &jo, const std::string &src );
 
         static const std::vector<npc_class> &get_all();
 

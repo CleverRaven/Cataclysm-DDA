@@ -59,7 +59,7 @@
     "id": "CONTROL_AUTOPILOT",
     "type": "keybinding",
     "category": "VEHICLE",
-    "name": "Control autopiot",
+    "name": "Control autopilot",
     "bindings": [ { "input_method": "keyboard", "key": "a" } ]
   },
   {

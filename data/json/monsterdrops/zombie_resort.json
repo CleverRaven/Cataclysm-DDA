@@ -1,0 +1,33 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_resort_dancer_death_drops",
+    "entries": [ { "group": "private_resort_dancer_drop", "damage": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_resort_bouncer_death_drops",
+    "entries": [
+      { "item": "polo_shirt", "damage": [ 1, 4 ] },
+      { "item": "pants", "damage": [ 1, 4 ] },
+      { "item": "blazer", "damage": [ 1, 4 ] },
+      { "group": "underwear_mens", "damage": [ 1, 4 ] },
+      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
+      { "group": "misc_smoking", "prob": 30 },
+      { "group": "accesories_personal_unisex", "prob": 25, "count": [ 0, 2 ] },
+      { "item": "tool_belt", "prob": 50 },
+      { "item": "tazer", "prob": 10, "damage": [ 1, 4 ] },
+      { "item": "bootsheath", "prob": 15 },
+      { "item": "switchblade", "prob": 15 },
+      { "group": "default_zombie_items_pockets", "prob": 25, "count": [ 0, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_resort_staff_death_drops",
+    "entries": [ { "group": "private_resort_staff_drop", "damage": [ 0, 4 ] } ]
+  }
+]

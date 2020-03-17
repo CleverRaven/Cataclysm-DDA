@@ -66,14 +66,14 @@ struct MonsterGroup {
     mtype_id defaultMonster;
     FreqDef  monsters;
     bool IsMonsterInGroup( const mtype_id &id ) const;
-    bool is_animal;
+    bool is_animal = false;
     // replaces this group after a period of
     // time when exploring an unexplored portion of the map
-    bool replace_monster_group;
+    bool replace_monster_group = false;
     mongroup_id new_monster_group;
     time_duration monster_group_time = 0_turns;
-    bool is_safe; /// Used for @ref mongroup::is_safe()
-    int freq_total; // Default 1000 unless specified - max number to roll for spawns
+    bool is_safe = false; /// Used for @ref mongroup::is_safe()
+    int freq_total = 0; // Default 1000 unless specified - max number to roll for spawns
 };
 
 struct mongroup {
@@ -160,9 +160,9 @@ struct mongroup {
 class MonsterGroupManager
 {
     public:
-        static void LoadMonsterGroup( JsonObject &jo );
-        static void LoadMonsterBlacklist( JsonObject &jo );
-        static void LoadMonsterWhitelist( JsonObject &jo );
+        static void LoadMonsterGroup( const JsonObject &jo );
+        static void LoadMonsterBlacklist( const JsonObject &jo );
+        static void LoadMonsterWhitelist( const JsonObject &jo );
         static void FinalizeMonsterGroups();
         static MonsterGroupResult GetResultFromGroup( const mongroup_id &group, int *quantity = nullptr );
         static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster );

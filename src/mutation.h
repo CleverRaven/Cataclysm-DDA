@@ -47,7 +47,7 @@ struct dream {
             strength = 0;
         }
 
-        static void load( JsonObject &jsobj );
+        static void load( const JsonObject &jsobj );
 };
 
 struct mut_attack {
@@ -80,13 +80,13 @@ struct mutation_branch {
         // True if this is a valid mutation (False for "unavailable from generic mutagen").
         bool valid = false;
         // True if Purifier can remove it (False for *Special* mutations).
-        bool purifiable;
+        bool purifiable = false;
         // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
-        bool threshold;
+        bool threshold = false;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
-        bool profession;
-        //True if the mutation is obtained through the debug menu
-        bool debug;
+        bool profession = false;
+        // True if the mutation is obtained through the debug menu
+        bool debug = false;
         // True if the mutation should be displayed in the `@` menu
         bool player_display = true;
         // Whether it has positive as well as negative effects.
@@ -117,6 +117,8 @@ struct mutation_branch {
         // Healing per turn
         float healing_awake = 0.0f;
         float healing_resting = 0.0f;
+        // Limb mending bonus
+        float mending_modifier = 1.0f;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
         float hp_modifier = 0.0f;
         // Second HP modifier that stacks with first but is otherwise identical.
@@ -125,6 +127,11 @@ struct mutation_branch {
         float hp_adjustment = 0.0f;
         // Modify strength stat without changing HP
         float str_modifier = 0.0f;
+        //melee bonuses
+        int cut_dmg_bonus = 0;
+        std::pair<int, int> rand_cut_bonus;
+        int bash_dmg_bonus = 0;
+        std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
         float dodge_modifier = 0.0f;
         float speed_modifier = 1.0f;
@@ -135,9 +142,21 @@ struct mutation_branch {
         float max_stamina_modifier = 1.0f;
         float weight_capacity_modifier = 1.0f;
         float hearing_modifier = 1.0f;
+        float movecost_swim_modifier = 1.0f;
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
+        cata::optional<int> scent_intensity;
+        cata::optional<int> scent_mask;
         int bleed_resist = 0;
+
+        /**Map of crafting skills modifiers, can be negative*/
+        std::map<skill_id, int> craft_skill_bonus;
+
+        /**What do you smell like*/
+        cata::optional<scenttype_id> scent_typeid;
+
+        /**Map of glowing body parts and their glow intensity*/
+        std::map<body_part, float> lumination;
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;
@@ -172,6 +191,9 @@ struct mutation_branch {
         // Multiplier for map memory capacity, defaulting to 1.
         float map_memory_capacity_multiplier = 1.0f;
 
+        // Multiplier for reading speed, defaulting to 1.
+        float reading_speed_multiplier = 1.0f;
+
         // Multiplier for skill rust, defaulting to 1.
         float skill_rust_multiplier = 1.0f;
 
@@ -183,6 +205,9 @@ struct mutation_branch {
 
         /**Species ignoring character with the mutation*/
         std::vector<species_id> ignored_by;
+
+        /**Map of angered species and there intensity*/
+        std::map<species_id, int> anger_relations;
 
         /**List of material required for food to be be edible*/
         std::set<material_id> can_only_eat;
@@ -198,9 +223,9 @@ struct mutation_branch {
         std::set<body_part> no_cbm_on_bp;
 
         // amount of mana added or subtracted from max
-        float mana_modifier;
-        float mana_multiplier;
-        float mana_regen_multiplier;
+        float mana_modifier = 0.0f;
+        float mana_multiplier = 1.0f;
+        float mana_regen_multiplier = 1.0f;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
     private:
@@ -277,15 +302,15 @@ struct mutation_branch {
         // For init.cpp: reset (clear) the mutation data
         static void reset_all();
         // For init.cpp: load mutation data from json
-        void load( JsonObject &jo, const std::string &src );
-        static void load_trait( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
+        static void load_trait( const JsonObject &jo, const std::string &src );
         // For init.cpp: check internal consistency (valid ids etc.) of all mutations
         static void check_consistency();
 
         /**
          * Load a trait blacklist specified by the given JSON object.
          */
-        static void load_trait_blacklist( JsonObject &jsobj );
+        static void load_trait_blacklist( const JsonObject &jsobj );
 
         /**
          * Check if the trait with the given ID is blacklisted.
@@ -308,9 +333,9 @@ struct mutation_branch {
          * Callback for the init system (@ref DynamicDataLoader), loads a trait
          * group definitions.
          * @param jsobj The json object to load from.
-         * @throw std::string if the json object contains invalid data.
+         * @throw JsonError if the json object contains invalid data.
          */
-        static void load_trait_group( JsonObject &jsobj );
+        static void load_trait_group( const JsonObject &jsobj );
 
         /**
          * Load a trait group from json. It differs from the other load_trait_group function as it
@@ -324,9 +349,9 @@ struct mutation_branch {
          * @param gid The ID of the group that is to be loaded.
          * @param subtype The type of the trait group, either "collection", "distribution" or "old"
          * (i.e. the old list-based format, `[ ["TRAIT", 100] ]`).
-         * @throw std::string if the json object contains invalid data.
+         * @throw JsonError if the json object contains invalid data.
          */
-        static void load_trait_group( JsonObject &jsobj, const trait_group::Trait_group_tag &gid,
+        static void load_trait_group( const JsonObject &jsobj, const trait_group::Trait_group_tag &gid,
                                       const std::string &subtype );
 
         /**
@@ -347,20 +372,20 @@ struct mutation_branch {
          * Note that each entry in the array has to be a JSON object. The other function above
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
-        static void load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
+        static void load_trait_group( const JsonArray &entries, const trait_group::Trait_group_tag &gid,
                                       bool is_collection );
 
         /**
          * Create a new trait group as specified by the given JSON object and register
          * it as part of the given trait group.
          */
-        static void add_entry( Trait_group &tg, JsonObject &obj );
+        static void add_entry( Trait_group &tg, const JsonObject &obj );
 
         /**
          * Get the trait group object specified by the given ID, or null if no
          * such group exists.
          */
-        static std::shared_ptr<Trait_group> get_group( const trait_group::Trait_group_tag &gid );
+        static shared_ptr_fast<Trait_group> get_group( const trait_group::Trait_group_tag &gid );
 
         /**
          * Return the idents of all trait groups that are known.
@@ -430,15 +455,22 @@ struct mutation_category_trait {
         static void reset();
         static void check_consistency();
 
-        static void load( JsonObject &jsobj );
+        static void load( const JsonObject &jsobj );
 };
 
-void load_mutation_type( JsonObject &jsobj );
+void load_mutation_type( const JsonObject &jsobj );
 bool mutation_category_is_valid( const std::string &cat );
 bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
+
+bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
+bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
+bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
+bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
+bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
+bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
 
 enum class mutagen_technique : int {
     consumed_mutagen,

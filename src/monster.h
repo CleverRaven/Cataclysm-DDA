@@ -27,6 +27,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "point.h"
+#include "value_ptr.h"
 
 class JsonObject;
 class JsonIn;
@@ -88,7 +89,7 @@ class monster : public Creature
         monster();
         monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
-        monster( const monster & ) ;
+        monster( const monster & );
         monster( monster && );
         ~monster() override;
         monster &operator=( const monster & );
@@ -101,12 +102,16 @@ class monster : public Creature
         void poly( const mtype_id &id );
         bool can_upgrade();
         void hasten_upgrade();
+        int get_upgrade_time() const;
+        void allow_upgrade();
         void try_upgrade( bool pin_time );
         void try_reproduce();
         void try_biosignature();
+        void refill_udders();
         void spawn( const tripoint &p );
         m_size get_size() const override;
         units::mass get_weight() const override;
+        units::mass weight_capacity() const override;
         units::volume get_volume() const;
         int get_hp( hp_part ) const override;
         int get_hp() const override;
@@ -121,7 +126,7 @@ class monster : public Creature
         std::string name( unsigned int quantity = 1 ) const; // Returns the monster's formal name
         std::string name_with_armor() const; // Name, with whatever our armor is called
         // the creature-class versions of the above
-        std::string disp_name( bool possessive = false ) const override;
+        std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
         std::string skin_name() const override;
         void get_HP_Bar( nc_color &color, std::string &text ) const;
         std::pair<std::string, nc_color> get_attitude() const;
@@ -138,11 +143,17 @@ class monster : public Creature
         std::string extended_description() const override;
         // Inverts color if inv==true
         bool has_flag( m_flag f ) const override; // Returns true if f is set (see mtype.h)
-        bool can_see() const;      // MF_SEES and no ME_BLIND
-        bool can_hear() const;     // MF_HEARS and no ME_DEAF
-        bool can_submerge() const; // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
-        bool can_drown() const;    // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
-        bool digging() const override;      // MF_DIGS or MF_CAN_DIG and diggable terrain
+        bool can_see() const;      // MF_SEES and no MF_BLIND
+        bool can_hear() const;     // MF_HEARS and no MF_DEAF
+        bool can_submerge() const; // MF_AQUATIC or swims() or MF_NO_BREATH, and not MF_ELECTRONIC
+        bool can_drown() const;    // MF_AQUATIC or swims() or MF_NO_BREATHE or flies()
+        bool can_climb() const;         // climbs() or flies()
+        bool digging() const override;  // digs() or can_dig() and diggable terrain
+        bool can_dig() const;
+        bool digs() const;
+        bool flies() const;
+        bool climbs() const;
+        bool swims() const;
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
         int sight_range( int light_level ) const override;
@@ -169,8 +180,13 @@ class monster : public Creature
          *
          * This is used in pathfinding and ONLY checks the terrain. It ignores players
          * and monsters, which might only block this tile temporarily.
+         * will_move_to() checks for impassable terrain etc
+         * can_reach_to() checks for z-level difference.
+         * can_move_to() is a wrapper for both of them.
          */
         bool can_move_to( const tripoint &p ) const;
+        bool can_reach_to( const tripoint &p ) const;
+        bool will_move_to( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
@@ -200,6 +216,10 @@ class monster : public Creature
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
                             const tripoint &nearby_destination ); // shove vehicles out of the way
+
+        // check if the given square could drown a drownable monster
+        bool is_aquatic_danger( const tripoint &at_pos );
+
         // check if a monster at a position will drown and kill it if necessary
         // returns true if the monster dies
         // chance is the one_in( chance ) that the monster will drown
@@ -209,7 +229,7 @@ class monster : public Creature
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
-        bool is_immune_field( field_type_id fid ) const override;
+        bool is_immune_field( const field_type_id &fid ) const override;
 
         /**
          * Attempt to move to p.
@@ -220,13 +240,16 @@ class monster : public Creature
          *
          * @param p Destination of movement
          * @param force If this is set to true, the movement will happen even if
-         *              there's currently something blocking the destination.
+         *              there's currently something, else than a creature, blocking the destination.
+         * @param step_on_critter If this is set to true, the movement will happen even if
+         *              there's currently a creature blocking the destination.
          *
          * @param stagger_adjustment is a multiplier for move cost to compensate for staggering.
          *
          * @return true if movement successful, false otherwise
          */
-        bool move_to( const tripoint &p, bool force = false, float stagger_adjustment = 1.0 );
+        bool move_to( const tripoint &p, bool force = false, bool step_on_critter = false,
+                      float stagger_adjustment = 1.0 );
 
         /**
          * Attack any enemies at the given location.
@@ -319,7 +342,7 @@ class monster : public Creature
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
         /** Returns a std::string containing effects for descriptions */
@@ -402,8 +425,8 @@ class monster : public Creature
         /**
          * Makes monster react to heard sound
          *
-         * @param from Location of the sound source
-         * @param source_volume Volume at the center of the sound source
+         * @param source Location of the sound source
+         * @param vol Volume at the center of the sound source
          * @param distance Distance to sound source (currently just rl_dist)
          */
         void hear_sound( const tripoint &source, int vol, int distance );
@@ -428,8 +451,15 @@ class monster : public Creature
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
-        cata::optional<item> tied_item; // item used to tie the monster
-        cata::optional<item> battery_item; // item to power mechs
+        cata::value_ptr<item> tied_item; // item used to tie the monster
+        cata::value_ptr<item> tack_item; // item representing saddle and reins and such
+        cata::value_ptr<item> armor_item; // item of armor the monster may be wearing
+        cata::value_ptr<item> storage_item; // storage item for monster carrying items
+        cata::value_ptr<item> battery_item; // item to power mechs
+        units::mass get_carried_weight();
+        units::volume get_carried_volume();
+        void move_special_item_to_inv( cata::value_ptr<item> &it );
+
         // DEFINING VALUES
         int friendly;
         int anger = 0;
@@ -526,6 +556,7 @@ class monster : public Creature
         cata::optional<time_point> baby_timer;
         bool biosignatures;
         cata::optional<time_point> biosig_timer;
+        time_point udder_timer;
         monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
@@ -537,7 +568,7 @@ class monster : public Creature
 
     protected:
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
 
         /** Processes monster-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;

@@ -128,7 +128,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_1_firstmeet",
-    "dynamic_line": "Nice to meet you too.  What brings you to these parts?  Got any stories to share?  Happy ones, hopefully... we've had our fill of sadness around here.",
+    "dynamic_line": "Nice to meet you too.  What brings you to these parts?  Got any stories to share?  Happy ones, hopefully… we've had our fill of sadness around here.",
     "responses": [
       { "text": "What about you, how're you doing?", "topic": "TALK_REFUGEE_Draco_2" },
       { "text": "Yeah, it's tough everywhere.  Well, bye.", "topic": "TALK_DONE" }
@@ -137,7 +137,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_2",
-    "dynamic_line": "Well, look at you.  Asking after random folks like some sort of shepherd!  No, don't take offense now... I mean it well.  We could use more folks askin' after other folks.  I figure it makes the world go round, now, more than ever.  I'm well, friend, considering I have both of my legs and much of my health left to me.  A bit of pain in the back, but can't really complain much if that's the worst of it, right?  You look like you've had a story of your own to tell, just getting here.  I'm writing it in my imagination right now.  Fought through countless hordes, run ragged, chased at every turn, yeah, no thank-you any more of that for me!",
+    "dynamic_line": "Well, look at you.  Asking after random folks like some sort of shepherd!  No, don't take offense now… I mean it well.  We could use more folks askin' after other folks.  I figure it makes the world go round, now, more than ever.  I'm well, friend, considering I have both of my legs and much of my health left to me.  A bit of pain in the back, but can't really complain much if that's the worst of it, right?  You look like you've had a story of your own to tell, just getting here.  I'm writing it in my imagination right now.  Fought through countless hordes, run ragged, chased at every turn, yeah, no thank-you any more of that for me!",
     "responses": [
       {
         "text": "What about you, what's your story?",
@@ -335,7 +335,7 @@
     "dynamic_line": {
       "npc_has_effect": "u_sold_to_Draco",
       "yes": "Yeah, no worries, though.  I'm good at the moment.  Ask me again later and maybe I'll have scrounged up some more cash for you.",
-      "no": "Amazing!  My lucky day.  Let's see here.  What can I offer... I can scrounge up some Merch bucks for, say, five joints or joints-worth of the good stuff."
+      "no": "Amazing!  My lucky day.  Let's see here.  What can I offer… I can scrounge up some Merch bucks for, say, five joints or joints-worth of the good stuff."
     },
     "responses": [
       {
@@ -443,11 +443,11 @@
       "describe": "Yeah, sure, imagine how things would be if we had some live music around here?  I don't know how much I could thank you, though, if you're looking for payment.  You'd sure be improving the mood, though.",
       "offer": "I just want a functional acoustic guitar.  Preferably one that hasn't been used to cave in any zombie skulls.",
       "accepted": "Great!  We'll be makin' music in no time!",
-      "rejected": "Oh well.  I understand your reluctancy... I guess.",
+      "rejected": "Oh well.  I understand your reluctancy… I guess.",
       "advice": "Well, I'll let you in on a little secret.  Guitars COULD be found at a music store.  Let that one sink in a bit.",
       "inquire": "How's my guitar comin', friend?",
       "success": "Hell yeah, bud!  You just made a lot of people really happy!  In thanks, I'll have enough cash to offer you more recompense for our little dealings.",
-      "success_lie": "Huh.  This... is something, isn't it.",
+      "success_lie": "Huh.  This… is something, isn't it.",
       "failure": "No worries.  They don't grow from trees, but we have time."
     }
   }

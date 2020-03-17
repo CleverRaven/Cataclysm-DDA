@@ -113,7 +113,7 @@ void ofstream_wrapper::open( const std::ios::openmode mode )
     temp_path = path + "." + std::to_string( GetCurrentProcessId() ) + ".temp";
 
 #else
-    // @todo exclusive I/O for other systems
+    // TODO: exclusive I/O for other systems
     temp_path = path + ".temp";
 
 #endif

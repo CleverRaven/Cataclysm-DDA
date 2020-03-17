@@ -26,9 +26,6 @@
   {
     "type": "uncraft",
     "result": "gp_tomato_ready",
-    "id_suffix": "for_tomato",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
     "time": 500,
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "tomato", 21 ] ] ]
@@ -47,8 +44,6 @@
   {
     "type": "uncraft",
     "result": "gp_wheat_ready",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
     "time": 500,
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "wheat", 21 ] ] ]
@@ -67,8 +62,6 @@
   {
     "type": "uncraft",
     "result": "gp_hops_ready",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
     "time": 500,
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "hops", 21 ] ] ]
@@ -87,8 +80,6 @@
   {
     "type": "uncraft",
     "result": "gp_buckwheat_ready",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
     "time": 500,
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "buckwheat", 21 ] ] ]
@@ -107,8 +98,6 @@
   {
     "type": "uncraft",
     "result": "gp_broccoli_ready",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
     "time": 500,
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "broccoli", 21 ] ] ]
@@ -127,8 +116,6 @@
   {
     "type": "uncraft",
     "result": "gp_oats_ready",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
     "time": 500,
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "oats", 21 ] ] ]
@@ -147,8 +134,6 @@
   {
     "type": "uncraft",
     "result": "gp_barley_ready",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
     "time": 500,
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "barley", 21 ] ] ]
@@ -167,8 +152,6 @@
   {
     "type": "uncraft",
     "result": "gp_carrot_ready",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
     "time": 500,
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "seed_carrot", 1 ] ], [ [ "carrot", 20 ] ] ]
@@ -187,8 +170,6 @@
   {
     "type": "uncraft",
     "result": "gp_cotton_boll_ready",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
     "time": 500,
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "seed_cotton_boll", 1 ] ], [ [ "cotton_boll", 20 ] ] ]
@@ -207,8 +188,6 @@
   {
     "type": "uncraft",
     "result": "gp_cabbage_ready",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
     "time": 500,
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "seed_cabbage", 1 ] ], [ [ "cabbage", 20 ] ] ]
@@ -227,8 +206,6 @@
   {
     "type": "uncraft",
     "result": "gp_cucumber_ready",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
     "time": 500,
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "cucumber", 20 ] ] ]
@@ -247,8 +224,6 @@
   {
     "type": "uncraft",
     "result": "gp_garlic_ready",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "survival",
     "time": 500,
     "components": [ [ [ "gp_pot", 1 ] ], [ [ "garlic", 20 ] ] ]

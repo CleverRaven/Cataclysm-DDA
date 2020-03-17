@@ -27,12 +27,12 @@ cata::optional<skill_boost> skill_boost::get( const std::string &stat_str )
     return cata::nullopt;
 }
 
-void skill_boost::load_boost( JsonObject &jo, const std::string &src )
+void skill_boost::load_boost( const JsonObject &jo, const std::string &src )
 {
     all_skill_boosts.load( jo, src );
 }
 
-void skill_boost::load( JsonObject &jo, const std::string & )
+void skill_boost::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "skills", _skills );
     mandatory( jo, was_loaded, "skill_offset", _offset );

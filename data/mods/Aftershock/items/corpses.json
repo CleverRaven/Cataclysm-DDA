@@ -1,0 +1,37 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "broken_afs_mon_sentinel_lx",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken sentinel-lx",
+    "category": "other",
+    "description": "The irreparably broken remains of a Sentinel-lx.  Could be gutted for valuable parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "140000 g",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_bloodhound_drone",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken bloodhound drone",
+    "category": "other",
+    "description": "This bloodhound won't be chasing anyone anymore.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "31520 g",
+    "volume": "15 L",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  }
+]

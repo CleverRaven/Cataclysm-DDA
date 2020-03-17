@@ -23,7 +23,7 @@
   {
     "id": "BGSS_RURAL_2_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "We got to my buddy's ranch, but the <swear> g-men had been there first.  It was all boarded up and there was a police barricade out front.  One of those <swear> turrets...  <swear> shot Buck.  Almost got me too.  I managed to get my pup...  get him outta there, that...  it wasn't easy, had to use a police car door as a shield, had to kill a cop-zombie first.  And then, well, while I was still cryin', Buck came back.  I had to ...  <swear!>.  I...  I can't say it.  You know.",
+    "dynamic_line": "We got to my buddy's ranch, but the <swear> g-men had been there first.  It was all boarded up and there was a police barricade out front.  One of those <swear> turrets…  <swear> shot Buck.  Almost got me too.  I managed to get my pup…  get him outta there, that…  it wasn't easy, had to use a police car door as a shield, had to kill a cop-zombie first.  And then, well, while I was still cryin', Buck came back.  I had to …  <swear!>.  I…  I can't say it.  You know.",
     "responses": [
       { "text": "I'm sorry about Buck.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "I'm sorry about Buck.  <end_talking>", "topic": "TALK_DONE" }

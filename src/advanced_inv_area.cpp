@@ -2,6 +2,7 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "game.h"
 #include "item_category.h"
 #include "item_search.h"
 #include "item_stack.h"
@@ -15,6 +16,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
@@ -40,7 +42,6 @@
 #include <utility>
 #include <numeric>
 
-
 int advanced_inv_area::get_item_count() const
 {
     if( id == AIM_INVENTORY ) {
@@ -56,13 +57,27 @@ int advanced_inv_area::get_item_count() const
     }
 }
 
+advanced_inv_area::advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
+                                      const std::string &name, const std::string &shortname,
+                                      std::string minimapname, std::string actionname,
+                                      aim_location relative_location ) :
+    id( id ), hscreen( hscreenx, hscreeny ),
+    off( off ), name( name ), shortname( shortname ),
+    canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
+    weight( 0_gram ), max_size( 0 ), minimapname( minimapname ), actionname( actionname ),
+    relative_location( relative_location )
+{
+}
+
 void advanced_inv_area::init()
 {
     pos = g->u.pos() + off;
     veh = nullptr;
     vstor = -1;
-    volume = 0_ml;   // must update in main function
-    weight = 0_gram; // must update in main function
+    // must update in main function
+    volume = 0_ml;
+    // must update in main function
+    weight = 0_gram;
     switch( id ) {
         case AIM_INVENTORY:
         case AIM_WORN:
@@ -118,9 +133,10 @@ void advanced_inv_area::init()
         case AIM_EAST:
         case AIM_NORTHWEST:
         case AIM_NORTH:
-        case AIM_NORTHEAST:
-            if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO",
-                    false ) ) {
+        case AIM_NORTHEAST: {
+            const cata::optional<vpart_reference> vp =
+                g->m.veh_at( pos ).part_with_feature( "CARGO", false );
+            if( vp ) {
                 veh = &vp->vehicle();
                 vstor = vp->part_index();
             } else {
@@ -130,11 +146,13 @@ void advanced_inv_area::init()
             canputitemsloc = can_store_in_vehicle() || g->m.can_put_items_ter_furn( pos );
             max_size = MAX_ITEM_IN_SQUARE;
             if( can_store_in_vehicle() ) {
-                desc[1] = vpart_position( *veh, vstor ).get_label().value_or( "" );
+                std::string part_name = vp->info().name();
+                desc[1] = vp->get_label().value_or( part_name );
             }
             // get graffiti or terrain name
             desc[0] = g->m.has_graffiti_at( pos ) ?
                       g->m.graffiti_at( pos ) : g->m.name( pos );
+        }
         default:
             break;
     }
@@ -181,10 +199,10 @@ void advanced_inv_area::init()
     }
 }
 
-
 units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
 {
-    assert( id != AIM_ALL ); // should be a specific location instead
+    // should be a specific location instead
+    assert( id != AIM_ALL );
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
         return g->u.volume_capacity() - g->u.volume_carried();
     }
@@ -403,7 +421,6 @@ void advanced_inv_area::set_container_position()
     }
 }
 
-
 aim_location advanced_inv_area::offset_to_location() const
 {
     static aim_location loc_array[3][3] = {
@@ -450,3 +467,10 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
     }
     return stacks;
 }
+
+// instantiate the template
+template
+advanced_inv_area::itemstack advanced_inv_area::i_stacked<vehicle_stack>( vehicle_stack items );
+
+template
+advanced_inv_area::itemstack advanced_inv_area::i_stacked<map_stack>( map_stack items );

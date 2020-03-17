@@ -129,7 +129,7 @@
           { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight", "m203" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "modularvestceramic", "contents-group": "army_mags_m4" },
-          { "item": "40mm_frag", "charges": 4, "container-item": "grenade_pouch" },
+          { "item": "40x46mm_m433", "charges": 4, "container-item": "grenade_pouch" },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
         ]

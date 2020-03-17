@@ -8,7 +8,7 @@
     "bodytype": "kangaroo",
     "species": [ "ZOMBIE" ],
     "volume": "90718 ml",
-    "weight": 90718,
+    "weight": "90718 g",
     "hp": 125,
     "speed": 130,
     "material": [ "flesh" ],

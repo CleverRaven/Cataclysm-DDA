@@ -1,0 +1,72 @@
+[
+  {
+    "id": "pistol_magnum_automag",
+    "copy-from": "deagle_44",
+    "type": "GUN",
+    "name": "hand cannon",
+    "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
+    "//": "We're just going to prtend that .357 and .44 magnum deagles will run .38's and .44 special just fine",
+    "description": "This large pistol is almost as heavy as a small carbine, and just about as powerful too.   Chambered in hard hitting magnum calibers, it is suitable for hunting medium game, humans, or offsetting any of one's perceived deficiencies.  Though tradtionally such magnums are revolvers, this one is a magazine fed semi-automatic.",
+    "magazines": [ [ "ammo_pistol", [ "pistol_magnum_mag" ] ], [ "ammo_pistol_magnum", [ "pistol_magnum_mag" ] ] ]
+  },
+  {
+    "id": "pistol_magnum_levergun",
+    "copy-from": "henry_big_boy",
+    "type": "GUN",
+    "name": "magnum levergun",
+    "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
+    "description": "A modern re-imagining of the classic western lever-action, this larger rifle accepts powerful magnum pistol ammunition as well as weaker pistol ammo.  Carrying this along side a magnum pistol would allow one to reduce the number of calibers carried, and allow you to squeeze more power from ammuntion.",
+    "clip_size": 10
+  },
+  {
+    "id": "pistol_magnum_pipe_levergun",
+    "copy-from": "henry_big_boy",
+    "type": "GUN",
+    "name": "handmade magnum carbine",
+    "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
+    "description": "A crudely constructed carbine, chambered for magnum pistol ammo and standard pistol ammo.  It feeds from commerical magnum pistol magazines, and locks with a rudimentary lever action system.  Its powerful cartridge and relative precision should serve well against zombies and medium game.",
+    "weight": "2114 g",
+    "volume": "2 L",
+    "price": 10000,
+    "bashing": 10,
+    "color": "brown",
+    "ranged_damage": 0,
+    "dispersion": 550,
+    "durability": 6,
+    "blackpowder_tolerance": 60,
+    "loudness": 25,
+    "barrel_length": 1,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "magazines": [ [ "ammo_pistol", [ "pistol_magnum_mag" ] ], [ "ammo_pistol_magnum", [ "pistol_magnum_mag" ] ] ]
+  },
+  {
+    "id": "pistol_magnum_pipe",
+    "copy-from": "ashot",
+    "type": "GUN",
+    "name": "pipe magnum",
+    "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
+    "ranged_damage": -2,
+    "description": "A firearm made from a stout pipe, reinforced at the chamber.  It holds a single a round of standard or magnum pistol ammunition, and has a crude assembly to fire it.  There's no extractor, so it might be slow to reload, and its construction makes for poor reliability and longevity.",
+    "dispersion": 440,
+    "reload": 110
+  },
+  {
+    "id": "pistol_magnum_revolver",
+    "copy-from": "sw629",
+    "type": "GUN",
+    "name": "hunting magnum",
+    "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
+    "description": "Early handgun hunters helped develop this revolver's magnum ammunition from standard calibers, which needed heavier revolvers to safely fire it.  These revolvers' cylinders can thus chamber both magnum and standard pistol ammunition.  You could take medium to large game with this hefty piece.",
+    "clip_size": 6,
+    "magazines": [ [ "ammo_pistol", [ "pistol_speedloader" ] ], [ "ammo_pistol_magnum", [ "pistol_speedloader" ] ] ]
+  }
+]

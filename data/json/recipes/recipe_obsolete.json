@@ -88,6 +88,11 @@
   },
   {
     "type": "recipe",
+    "result": "royal_jelly",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "scythe_war",
     "obsolete": true
   },
@@ -194,6 +199,258 @@
   {
     "type": "recipe",
     "result": "bag_apple_vac",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dry_hflesh",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dry_hflesh",
+    "id_suffix": "frozen_ingredients",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rehydrated_hflesh",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "human_haggis",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hfleshbologna",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "h_currywurst",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mannwurstgravy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hflesh_aspic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hflesh_pemmican",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sandwich_human",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sandwich_dudeluxe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hobo_helper",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chili_human",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pie_human",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pizza_human",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "human_canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "human_canned",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hflesh_salted",
+    "id_suffix": "vacuum_packed",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "spaghetti_human",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "luigilasagne",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cheeseburgerhuman",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bobburger",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "manwich",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tiotaco",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mannwurst_raw",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mannwurst_cooked",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mann_bratwurst",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "human_pickled",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "human_pickled",
+    "id_suffix": "jarred_3l",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "human_smoked",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jerky_human",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hflesh_drink",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hflesh_powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hflesh_powder",
+    "id_suffix": "with_from_food_processor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hflesh_shake",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hflesh_shake_fortified",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broth_human",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broth_human",
+    "id_suffix": "canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broth_human",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broth_human",
+    "id_suffix": "jarred_3l",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "soup_human",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "soup_human",
+    "id_suffix": "canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "soup_human",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "soup_human",
+    "id_suffix": "jarred_3l",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "nachoshf",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "nachoshc",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chilidogs_human",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mannwurst",
     "obsolete": true
   },
   {
@@ -419,11 +676,6 @@
   {
     "type": "recipe",
     "result": "bio_recycleruncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_solar",
     "obsolete": true
   },
   {
@@ -1558,6 +1810,11 @@
   },
   {
     "type": "recipe",
+    "result": "rock_pot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "small_storage_battery",
     "obsolete": true
   },
@@ -1919,6 +2176,177 @@
   {
     "type": "recipe",
     "result": "pressure_cooker",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xacto",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "abzats",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40mm_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40mm_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40mm_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scrambler",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_chickenbot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bot_chickenbot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_tripod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bot_tripod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_tankbot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bot_tankbot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "soap_flakes",
+    "id_suffix": "fast_cut",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hand_vice",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "crucible",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battletorch_done",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battletorch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shishkebab_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "firemachete_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broadfire_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "firekatana_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "zweifire_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_survivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_hsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_xlsurvivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_HFPack",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mosin91_30",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mosin44",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mosin91_30_ebr",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mosin44_ebr",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_car_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_mbr_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_dsr_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_lmg_223",
     "obsolete": true
   }
 ]

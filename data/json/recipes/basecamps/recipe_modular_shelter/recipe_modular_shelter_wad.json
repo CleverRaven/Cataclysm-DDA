@@ -12,7 +12,23 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_fire" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom1" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom1" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "11 h 30 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 78 ] ],
+          [ [ "nail", 24 ] ],
+          [ [ "material_quicklime", 48 ], [ "material_limestone", 48 ], [ "clay_lump", 48 ] ],
+          [ [ "pebble", 120 ], [ "material_sand", 120 ] ],
+          [ [ "straw_pile", 48 ], [ "cattail_stalk", 48 ], [ "dogbane", 48 ], [ "pine_bough", 48 ] ],
+          [ [ "water", 60 ], [ "water_clean", 60 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,7 +43,23 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom1" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom2" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom2" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "11 h 30 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 78 ] ],
+          [ [ "nail", 24 ] ],
+          [ [ "material_quicklime", 48 ], [ "material_limestone", 48 ], [ "clay_lump", 48 ] ],
+          [ [ "pebble", 120 ], [ "material_sand", 120 ] ],
+          [ [ "straw_pile", 48 ], [ "cattail_stalk", 48 ], [ "dogbane", 48 ], [ "pine_bough", 48 ] ],
+          [ [ "water", 60 ], [ "water_clean", 60 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -42,7 +74,23 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom2" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom3" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom3" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "16 h 30 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 108 ] ],
+          [ [ "nail", 24 ] ],
+          [ [ "material_quicklime", 72 ], [ "material_limestone", 72 ], [ "clay_lump", 72 ] ],
+          [ [ "pebble", 180 ], [ "material_sand", 180 ] ],
+          [ [ "straw_pile", 72 ], [ "cattail_stalk", 72 ], [ "dogbane", 72 ], [ "pine_bough", 72 ] ],
+          [ [ "water", 90 ], [ "water_clean", 90 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -57,7 +105,23 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom3" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom4" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom4" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "11 h 30 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 78 ] ],
+          [ [ "nail", 24 ] ],
+          [ [ "material_quicklime", 48 ], [ "material_limestone", 48 ], [ "clay_lump", 48 ] ],
+          [ [ "pebble", 120 ], [ "material_sand", 120 ] ],
+          [ [ "straw_pile", 48 ], [ "cattail_stalk", 48 ], [ "dogbane", 48 ], [ "pine_bough", 48 ] ],
+          [ [ "water", 60 ], [ "water_clean", 60 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -72,6 +136,22 @@
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom4" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_bedroom5" } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom5" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "4 h 50 m",
+      "skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 38 ] ],
+          [ [ "nail", 24 ] ],
+          [ [ "material_quicklime", 16 ], [ "material_limestone", 16 ], [ "clay_lump", 16 ] ],
+          [ [ "pebble", 40 ], [ "material_sand", 40 ] ],
+          [ [ "straw_pile", 16 ], [ "cattail_stalk", 16 ], [ "dogbane", 16 ], [ "pine_bough", 16 ] ],
+          [ [ "water", 20 ], [ "water_clean", 20 ] ],
+          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ]
+        ]
+      }
+    }
   }
 ]

@@ -1,22 +1,37 @@
 #!/bin/sh
+
+printerr() {
+    echo "ERROR: $*" >&2
+}
+
 TARGET_FILE=$0
 
-cd `dirname $TARGET_FILE`
-TARGET_FILE=`basename $TARGET_FILE`
+cd "$(dirname "$TARGET_FILE")" || {
+    printerr "Could not change directory to '$TARGET_FILE'"
+    exit 1
+}
+TARGET_FILE="$(basename "$TARGET_FILE")"
 
 # Iterate down a (possible) chain of symlinks.
 while [ -L "$TARGET_FILE" ]
 do
-    TARGET_FILE=`readlink $TARGET_FILE`
-    cd `dirname $TARGET_FILE`
-    TARGET_FILE=`basename $TARGET_FILE`
+    TARGET_FILE="$(readlink "$TARGET_FILE")"
+    cd "$(dirname "$TARGET_FILE")" || {
+        printerr "Could not change directory to '$TARGET_FILE'"
+        exit 1
+    }
+    TARGET_FILE="$(basename "$TARGET_FILE")"
 done
 
 # Find the physical path and name of target file.
-DIR=`pwd -P`
-BIN=`basename $0`
+DIR=$(pwd -P)
+BIN=$(basename "$0")
 
-cd "$DIR" || exit $?
+cd "$DIR" || {
+    _errcode=$?
+    printerr "Could not change directory to '$DIR'"
+    exit $_errcode
+}
 
 # If name does not match a binary or is this same script, find the right one
 if [ ! -f "$BIN" ] || [ "$BIN" = "cataclysm-launcher" ]
@@ -24,14 +39,14 @@ then
     BIN=
     for bin in cataclysm-tiles cataclysm
     do
-	[ -f "$bin" ] && BIN="$bin" && break
+    [ -f "$bin" ] && BIN="$bin" && break
     done
 fi
 
 if [ "$BIN" ]
 then
-    exec "./$BIN"
+    exec ./$BIN "$@"
 else
-    echo "Couldn't find cataclysm game binary in $DIR/"
+    printerr "Couldn't find cataclysm game binary in '$DIR'/"
     exit 1
 fi

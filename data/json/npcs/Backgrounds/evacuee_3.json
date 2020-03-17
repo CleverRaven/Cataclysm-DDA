@@ -2,7 +2,7 @@
   {
     "id": "BGSS_EVACUEE_3_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "There's nothing too special about me, I'm not sure why I survived.  I got evacuated with a handful of others, but we were too late to make the second trip to a FEMA center.  We got attacked by the dead...  I was the only one to make it out.  I never looked back.",
+    "dynamic_line": "There's nothing too special about me, I'm not sure why I survived.  I got evacuated with a handful of others, but we were too late to make the second trip to a FEMA center.  We got attacked by the dead…  I was the only one to make it out.  I never looked back.",
     "responses": [
       {
         "text": "How did you survive after that?",
@@ -63,7 +63,7 @@
   {
     "id": "BGSS_EVACUEE_3_STORY4",
     "type": "talk_topic",
-    "dynamic_line": "Yeah.  I had it pretty good there, but eventually I just started going a bit nuts.  Always dark, a bit cold, living off scavenged junk food... a soul can only live like that for so long.  When the weather above ground got warmer and the daylight hours got longer I decided to get a bit braver.  I'd learned enough about the <zombies> that I was able to live pretty well after that.  I've camped a few places, scavenged berries and whatnot, lived a pretty good life compared to those first few months.",
+    "dynamic_line": "Yeah.  I had it pretty good there, but eventually I just started going a bit nuts.  Always dark, a bit cold, living off scavenged junk food… a soul can only live like that for so long.  When the weather above ground got warmer and the daylight hours got longer I decided to get a bit braver.  I'd learned enough about the <zombies> that I was able to live pretty well after that.  I've camped a few places, scavenged berries and whatnot, lived a pretty good life compared to those first few months.",
     "responses": [
       { "text": "I didn't meet you in the subway though.  You left.", "topic": "BGSS_EVACUEE_3_STORY4" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

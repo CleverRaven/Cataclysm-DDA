@@ -2,7 +2,7 @@
 #ifndef STRING_INPUT_POPUP_H
 #define STRING_INPUT_POPUP_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <cstddef>
 #include <functional>
 #include <map>
@@ -66,6 +66,14 @@ class string_input_popup // NOLINT(cata-xy)
         //Counts only when @_hist_use_uilist is false
         const size_t _hist_max_size = 100;
 
+        // Cache when using the default window
+        int w_width = 0;
+        int w_height = 0;
+        std::vector<std::string> descformatted;
+        std::vector<std::string> title_split;
+        int titlesize = 0;
+
+        bool custom_window = false;
         catacurses::window w;
 
         std::unique_ptr<input_context> ctxt_ptr;
@@ -161,6 +169,9 @@ class string_input_popup // NOLINT(cata-xy)
          * text will be printed at the given part of the given window.
          * Integer parameters define the area (one line) where the editable
          * text is printed.
+         *
+         * This method only has effect before the default window is initialized.
+         * After that calls to this method are just ignored.
          */
         string_input_popup &window( const catacurses::window &w, int startx, int starty, int endx );
         /**
