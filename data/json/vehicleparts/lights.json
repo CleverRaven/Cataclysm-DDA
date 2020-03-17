@@ -118,7 +118,7 @@
   {
     "id": "motorcycle_headlight",
     "type": "vehicle_part",
-    "name": "motorcycle headlight",
+    "name": { "str": "motorcycle headlight" },
     "item": "motorcycle_headlight",
     "symbol": "*",
     "broken_symbol": "*",
