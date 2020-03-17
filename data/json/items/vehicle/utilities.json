@@ -70,7 +70,7 @@
     "type": "GENERIC",
     "copy-from": "washing_machine",
     "id": "fridgetank",
-    "name": "refrigerated tank",
+    "name": { "str": "refrigerated tank" },
     "description": "A 60L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
     "insulation": 2
   }
