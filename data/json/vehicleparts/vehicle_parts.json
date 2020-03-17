@@ -2060,7 +2060,7 @@
     "id": "reinforced_solar_panel",
     "copy-from": "solar_panel",
     "looks_like": "solar_panel",
-    "name": "reinforced solar panel",
+    "name": { "str": "reinforced solar panel" },
     "color": "light_blue",
     "broken_color": "light_gray",
     "proportional": { "epower": 0.9 },
@@ -2525,7 +2525,7 @@
   {
     "type": "vehicle_part",
     "id": "reinforced_windshield",
-    "name": "reinforced windshield",
+    "name": { "str": "reinforced windshield" },
     "symbol": "\"",
     "looks_like": "windshield",
     "color": "light_blue",
