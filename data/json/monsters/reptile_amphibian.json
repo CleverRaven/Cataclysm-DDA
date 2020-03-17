@@ -80,7 +80,7 @@
   {
     "id": "mon_rattlesnake",
     "type": "MONSTER",
-    "name": "rattlesnake",
+    "name": { "str": "rattlesnake" },
     "description": "The timber rattlesnake is the most venomous viper native to New England.  Climatic changes have extended its range far into the north.",
     "default_faction": "small_animal",
     "bodytype": "snake",
