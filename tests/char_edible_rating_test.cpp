@@ -2,6 +2,7 @@
 
 #include "avatar.h"
 #include "character.h"
+#include "itype.h"
 #include "type_id.h"
 
 #include "catch/catch.hpp"
@@ -18,8 +19,6 @@
 // Cannot eat food made of inedible materials(?)
 //
 // Mycus-dependent(?) avatar cannot eat non-mycus food
-//
-// Avatar with proboscis cannot consume non-drinkables
 //
 // FINALLY, CHECK EVERY SINGLE MUTATION for can_only_eat incompatibilities
 
@@ -49,6 +48,10 @@ enum edible_rating {
     NO_TOOL
 };
 */
+
+// NOTE: Lines 558-564 of src/game_inventory.cpp also dealing with can_eat - refactor?
+//   "Can't drink spilt liquids"
+//   "Your biology is not compatible with that item")
 
 TEST_CASE( "non-comestible", "[can_eat][edible_rating][nonfood]" )
 {
@@ -304,6 +307,64 @@ TEST_CASE( "comestible requiring tool to use", "[can_eat][edible_rating][tool][!
                 auto rating = dummy.can_eat( heroin );
                 CHECK_FALSE( rating.success() );
                 CHECK( rating.str() == "You need a syringe to consume that!" );
+            }
+        }
+    }
+}
+
+TEST_CASE( "proboscis trait", "[can_eat][edible_rating][proboscis]" )
+{
+    avatar dummy;
+
+    GIVEN( "character has a proboscis" ) {
+        dummy.toggle_trait( trait_id( "PROBOSCIS" ) );
+        REQUIRE( dummy.has_trait( trait_id( "PROBOSCIS" ) ) );
+
+        // Cannot drink
+
+        GIVEN( "a drink that is 'eaten' (USE_EAT_VERB)" ) {
+            item soup( "soup_veggy" );
+            REQUIRE( soup.has_flag( "USE_EAT_VERB" ) );
+
+            THEN( "they cannot drink it" ) {
+                auto rating = dummy.can_eat( soup );
+                CHECK_FALSE( rating.success() );
+                CHECK( rating.str() == "Ugh, you can't drink that!" );
+            }
+        }
+
+        GIVEN( "food that must be chewed" ) {
+            item toastem( "toastem" );
+            REQUIRE( toastem.get_comestible()->comesttype == "FOOD" );
+
+            THEN( "they cannot drink it" ) {
+                auto rating = dummy.can_eat( toastem );
+                CHECK_FALSE( rating.success() );
+                CHECK( rating.str() == "Ugh, you can't drink that!" );
+            }
+        }
+
+        // Can drink
+
+        GIVEN( "a drink that is not 'eaten'" ) {
+            item broth( "broth" );
+            REQUIRE_FALSE( broth.has_flag( "USE_EAT_VERB" ) );
+
+            THEN( "they can drink it" ) {
+                auto rating = dummy.can_eat( broth );
+                CHECK( rating.success() );
+                CHECK( rating.str() == "" );
+            }
+        }
+
+        GIVEN( "some medicine" ) {
+            item aspirin( "aspirin" );
+            REQUIRE( aspirin.is_medication() );
+
+            THEN( "they can consume it" ) {
+                auto rating = dummy.can_eat( aspirin );
+                CHECK( rating.success() );
+                CHECK( rating.str() == "" );
             }
         }
     }
