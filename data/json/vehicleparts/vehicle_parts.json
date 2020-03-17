@@ -3613,7 +3613,7 @@
   {
     "type": "vehicle_part",
     "id": "fridgetank",
-    "name": {  "str": "refrigerated tank (60L)" },
+    "name": { "str": "refrigerated tank (60L)" },
     "symbol": "O",
     "looks_like": "f_fridge",
     "color": "light_gray",
