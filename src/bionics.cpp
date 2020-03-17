@@ -2752,7 +2752,7 @@ BionicsDisplayType::BionicsDisplayType( const bionics_displayType_id &ident,
 {
 }
 
-void BionicsDisplayType::load( JsonObject &jsobj )
+void BionicsDisplayType::load( const JsonObject &jsobj )
 {
     bionics_displayType_id ident = bionics_displayType_id( jsobj.get_string( "ident" ) );
     displayTypes.erase( std::remove_if( begin( displayTypes ),
