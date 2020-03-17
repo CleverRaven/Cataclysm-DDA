@@ -11,7 +11,6 @@
 // can_eat: Can the food be [theoretically] eaten no matter the consequences?
 // will_eat: Same, but includes consequences. Asks about them if interactive is true.
 
-
 // Tests for can_eat
 //
 // Non-fish(?) cannot eat anything while underwater
@@ -21,8 +20,6 @@
 // Mycus-dependent(?) avatar cannot eat non-mycus food
 //
 // Avatar with proboscis cannot consume non-drinkables
-//
-// Carnivore cannot eat from the carnivore blacklist (?unless it gives no nutrition?)
 //
 // FINALLY, CHECK EVERY SINGLE MUTATION for can_only_eat incompatibilities
 
@@ -221,24 +218,72 @@ TEST_CASE( "food not ok for herbivores", "[can_eat][edible_rating][herbivore]" )
 {
     avatar dummy;
 
-    item meat( "meat_cooked" );
-    item eggs( "scrambled_eggs" );
-    REQUIRE( meat.has_flag( "ALLERGEN_MEAT" ) );
-    REQUIRE( eggs.has_flag( "ALLERGEN_EGG" ) );
-
     GIVEN( "character is an herbivore" ) {
         dummy.toggle_trait( trait_id( "HERBIVORE" ) );
         REQUIRE( dummy.has_trait( trait_id( "HERBIVORE" ) ) );
+
         THEN( "they cannot eat meat" ) {
+            item meat( "meat_cooked" );
+            REQUIRE( meat.has_flag( "ALLERGEN_MEAT" ) );
+
             auto rating = dummy.can_eat( meat );
             CHECK_FALSE( rating.success() );
             CHECK( rating.str() == "The thought of eating that makes you feel sick." );
         }
 
         THEN( "they cannot eat eggs" ) {
+            item eggs( "scrambled_eggs" );
+            REQUIRE( eggs.has_flag( "ALLERGEN_EGG" ) );
+
             auto rating = dummy.can_eat( eggs );
             CHECK_FALSE( rating.success() );
             CHECK( rating.str() == "The thought of eating that makes you feel sick." );
+        }
+    }
+}
+
+TEST_CASE( "food not ok for carnivores", "[can_eat][edible_rating][carnivore]" )
+{
+    avatar dummy;
+
+    GIVEN( "character is a carnivore" ) {
+        dummy.toggle_trait( trait_id( "CARNIVORE" ) );
+        REQUIRE( dummy.has_trait( trait_id( "CARNIVORE" ) ) );
+
+        THEN( "they cannot eat veggies" ) {
+            item veggy( "veggy" );
+            REQUIRE( veggy.has_flag( "ALLERGEN_VEGGY" ) );
+
+            auto rating = dummy.can_eat( veggy );
+            CHECK_FALSE( rating.success() );
+            CHECK( rating.str() == "Eww.  Inedible plant stuff!" );
+        }
+
+        THEN( "they cannot eat fruit" ) {
+            item apple( "apple" );
+            REQUIRE( apple.has_flag( "ALLERGEN_FRUIT" ) );
+
+            auto rating = dummy.can_eat( apple );
+            CHECK_FALSE( rating.success() );
+            CHECK( rating.str() == "Eww.  Inedible plant stuff!" );
+        }
+
+        THEN( "they cannot eat wheat" ) {
+            item bread( "sourdough_bread" );
+            REQUIRE( bread.has_flag( "ALLERGEN_WHEAT" ) );
+
+            auto rating = dummy.can_eat( bread );
+            CHECK_FALSE( rating.success() );
+            CHECK( rating.str() == "Eww.  Inedible plant stuff!" );
+        }
+
+        THEN( "they cannot eat nuts" ) {
+            item nuts( "pine_nuts" );
+            REQUIRE( nuts.has_flag( "ALLERGEN_NUT" ) );
+
+            auto rating = dummy.can_eat( nuts );
+            CHECK_FALSE( rating.success() );
+            CHECK( rating.str() == "Eww.  Inedible plant stuff!" );
         }
     }
 }
