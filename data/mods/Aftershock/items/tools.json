@@ -38,8 +38,7 @@
     "id": "afs_atomic_smartphone_flashlight",
     "copy-from": "afs_atomic_smartphone",
     "type": "TOOL",
-    "name": "atomic smartphone - Flashlight",
-    "name_plural": "atomic smartphones - Flashlight",
+    "name": { "str": "atomic smartphone - Flashlight", "str_pl": "atomic smartphones - Flashlight" },
     "revert_to": "afs_atomic_smartphone",
     "use_action": {
       "target": "afs_atomic_smartphone",
@@ -112,8 +111,7 @@
   {
     "id": "afs_chain_wrench",
     "type": "TOOL",
-    "name": "chain wrench",
-    "name_plural": "chain wrenches",
+    "name": { "str": "chain wrench", "str_pl": "chain wrenches" },
     "description": "An adjustable chain wrench, designed for hard-to-reach places.  Being handmade, it lacks the precision of a proper wrench.",
     "weight": "1614 g",
     "volume": "250 ml",
