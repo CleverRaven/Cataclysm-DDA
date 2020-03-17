@@ -530,7 +530,7 @@
   {
     "type": "vehicle_part",
     "id": "roof",
-    "name": "roof",
+    "name": { "str": "roof" },
     "symbol": "#",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -3200,7 +3200,7 @@
   {
     "type": "vehicle_part",
     "id": "robot_controls",
-    "name": "robot controls",
+    "name": { "str": "robot controls" },
     "symbol": "&",
     "color": "white",
     "broken_symbol": "x",
