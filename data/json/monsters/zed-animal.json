@@ -126,7 +126,7 @@
   {
     "id": "mon_dog_zombie_rot",
     "type": "MONSTER",
-    "name": "rot-weiler",
+    "name": { "str": "rot-weiler" },
     "description": "Acrid smell accompanies this corpse of canine.  Its whole body is covered in chains of pulsing cysts and slime-dribbling ulcers.",
     "default_faction": "zombie",
     "bodytype": "dog",

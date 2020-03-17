@@ -1170,7 +1170,7 @@
     "id": "mon_dog_rottweiler",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": "rottweiler",
+    "name": { "str": "rottweiler" },
     "//": "Rare, location specific only",
     "description": "A terrifying breed to face feral, Rottweilers are descended from Roman legion mastiffs.  It's robust, vicious, and quite capable of mauling a human to death.",
     "volume": "50000 ml",
@@ -1615,7 +1615,7 @@
   {
     "id": "mon_opossum",
     "type": "MONSTER",
-    "name": "opossum",
+    "name": { "str": "opossum" },
     "description": "The Virginia opossum, a small omnivorous marsupial native to North America.  About the size of a cat, it is hardy and adaptive, and a fairly common sight in urban areas.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1644,7 +1644,7 @@
   {
     "id": "mon_otter",
     "type": "MONSTER",
-    "name": "otter",
+    "name": { "str": "otter" },
     "description": "The North American river otter is a shy water dwelling relative of the weasel, living in large families along the banks of streams.  It is an excellent fisher and a resourceful survivor, using the abandoned dens of beavers and other animals to raise its own young.",
     "default_faction": "otter",
     "bodytype": "pig",
@@ -1671,7 +1671,7 @@
   {
     "id": "mon_pig_piglet",
     "type": "MONSTER",
-    "name": "piglet",
+    "name": { "str": "piglet" },
     "description": "A domesticated omnivore descended from the wild boar, intelligent and inquisitive.  Left to its own devices, it has gone feral.  Unlike the fully grown version it can be tamed.",
     "default_faction": "pig",
     "bodytype": "pig",
@@ -1716,7 +1716,7 @@
   {
     "id": "mon_pig",
     "type": "MONSTER",
-    "name": "pig",
+    "name": { "str": "pig" },
     "description": "A domesticated omnivore descended from the wild boar, intelligent and inquisitive.  Left to its own devices, it has gone feral.",
     "default_faction": "pig",
     "bodytype": "pig",
@@ -1752,7 +1752,7 @@
   {
     "id": "mon_rabbit",
     "type": "MONSTER",
-    "name": "rabbit",
+    "name": { "str": "rabbit" },
     "description": "A small mammal with a cute wiggling nose, cotton tail, and made of delicious flesh.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1778,7 +1778,7 @@
   {
     "id": "mon_raccoon",
     "type": "MONSTER",
-    "name": "raccoon",
+    "name": { "str": "raccoon" },
     "description": "A small mammal native to North America, distinctive for its dexterous paws and facial markings.  It is resourceful and agile enough to open sealed containers with its paws.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1807,7 +1807,7 @@
   {
     "id": "mon_rat_king",
     "type": "MONSTER",
-    "name": "rat king",
+    "name": { "str": "rat king" },
     "description": "A towering swarm of mutated rats, their tails knotted together in a filthy mass.  A fetid stench flows from its filthy presence.",
     "default_faction": "rat",
     "species": [ "MAMMAL" ],
