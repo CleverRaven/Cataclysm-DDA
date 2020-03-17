@@ -12,11 +12,12 @@
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
-#include "uistate.h"
 
 class uilist;
 class vehicle;
 class item;
+
+struct advanced_inv_save_state;
 
 struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
     bool operator()( char x, char y ) const {
