@@ -12,6 +12,7 @@
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
+#include "uistate.h"
 
 class uilist;
 class vehicle;
