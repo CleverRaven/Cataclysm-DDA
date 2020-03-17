@@ -143,7 +143,7 @@
   {
     "type": "vehicle_part",
     "id": "reclining_seat",
-    "name": "reclining seat",
+    "name": { "str": "reclining seat" },
     "symbol": "#",
     "looks_like": "seat",
     "color": "red",

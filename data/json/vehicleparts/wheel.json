@@ -191,7 +191,7 @@
     "id": "wheel_slick",
     "copy-from": "wheel",
     "type": "vehicle_part",
-    "name": "racing slick",
+    "name": { "str": "racing slick" },
     "item": "wheel_slick",
     "wheel_type": "racing",
     "contact_area": 180,
