@@ -3,8 +3,7 @@
     "id": "manual_crt_blade",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "C.R.I.T Blade-work manual",
-    "name_plural": "C.R.I.T Blade-work manuals",
+    "name": { "str": "C.R.I.T Blade-work manual" },
     "description": "An advanced military manual on C.R.I.T Blade-work.",
     "book_data": { "martial_art": "style_crt_blade" }
   },
@@ -30,10 +29,10 @@
         "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "flat_bonuses": [
-          { "stat": "damage", "type": "stab", "scale": 1 },
-          { "stat": "damage", "type": "cut", "scale": 1 },
-          { "stat": "arpen", "type": "stab", "scale": 1 },
-          { "stat": "arpen", "type": "cut", "scale": 1 }
+          { "stat": "damage", "type": "stab", "scale": 1.0 },
+          { "stat": "damage", "type": "cut", "scale": 1.0 },
+          { "stat": "arpen", "type": "stab", "scale": 1.0 },
+          { "stat": "arpen", "type": "cut", "scale": 1.0 }
         ]
       }
     ],
@@ -50,7 +49,7 @@
         "flat_bonuses": [
           { "stat": "damage", "type": "stab", "scale": 0.25 },
           { "stat": "damage", "type": "cut", "scale": 0.5 },
-          { "stat": "arpen", "type": "cut", "scale": 1 }
+          { "stat": "arpen", "type": "cut", "scale": 1.0 }
         ]
       }
     ],

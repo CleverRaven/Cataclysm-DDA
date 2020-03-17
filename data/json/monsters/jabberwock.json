@@ -62,7 +62,7 @@
   {
     "id": "mon_jabberwock",
     "type": "MONSTER",
-    "name": "jabberwock",
+    "name": { "str": "jabberwock" },
     "description": "A putrid amalgamation of body parts from humans and other creatures have fused together in this aberration of flesh.  The eyes of all the heads dart about rapidly and the mouths form a chorus of groaning screams.",
     "default_faction": "jabberwock",
     "species": [ "ABERRATION" ],

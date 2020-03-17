@@ -311,7 +311,7 @@
   {
     "id": "mon_zombie_hazmat",
     "type": "MONSTER",
-    "name": "hazmat zombie",
+    "name": { "str": "hazmat zombie" },
     "description": "This zombie's face and body is completely covered by a protective suit.  It wanders around, unsteadily.",
     "default_faction": "zombie",
     "bodytype": "human",

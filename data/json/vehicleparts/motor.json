@@ -88,7 +88,7 @@
     "id": "engine_electric_large",
     "copy-from": "engine_motor",
     "type": "vehicle_part",
-    "name": "large electric motor",
+    "name": { "str": "large electric motor" },
     "item": "motor_large",
     "durability": 400,
     "power": 150000,

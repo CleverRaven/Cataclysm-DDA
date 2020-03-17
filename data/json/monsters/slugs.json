@@ -32,7 +32,7 @@
   {
     "id": "mon_slug_giant",
     "type": "MONSTER",
-    "name": "giant slug",
+    "name": { "str": "giant slug" },
     "description": "A mutated leopard slug, as wide as a golf cart.  Venom dripping from its fanged maw, it slithers ahead slowly, leaving a trail of glistening slime.",
     "default_faction": "slug",
     "species": [ "MOLLUSK" ],

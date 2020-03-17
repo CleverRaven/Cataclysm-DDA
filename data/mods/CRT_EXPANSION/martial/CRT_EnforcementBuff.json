@@ -3,8 +3,7 @@
     "id": "manual_crt_enforcement",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "C.R.I.T Enforcement manual",
-    "name_plural": "C.R.I.T Enforcement manuals",
+    "name": { "str": "C.R.I.T Enforcement manual" },
     "description": "An advanced military manual on C.R.I.T Enforcer melee.",
     "book_data": { "martial_art": "style_crt_enforcement" }
   },
@@ -30,9 +29,9 @@
         "melee_allowed": true,
         "flat_bonuses": [
           { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.15 },
-          { "stat": "armor", "type": "bash", "scale": 1 },
-          { "stat": "armor", "type": "cut", "scale": 1 },
-          { "stat": "armor", "type": "stab", "scale": 1 },
+          { "stat": "armor", "type": "bash", "scale": 1.0 },
+          { "stat": "armor", "type": "cut", "scale": 1.0 },
+          { "stat": "armor", "type": "stab", "scale": 1.0 },
           { "stat": "hit", "scaling-stat": "str", "scale": 0.4 }
         ]
       }
@@ -91,9 +90,9 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1 },
-      { "stat": "damage", "type": "cut", "scale": 1 },
-      { "stat": "damage", "type": "stab", "scale": 1 }
+      { "stat": "damage", "type": "bash", "scale": 1.0 },
+      { "stat": "damage", "type": "cut", "scale": 1.0 },
+      { "stat": "damage", "type": "stab", "scale": 1.0 }
     ],
     "flat_bonuses": [
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.15 },
@@ -111,7 +110,7 @@
     "melee_allowed": true,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 1.04 },
-      { "stat": "damage", "type": "bash", "scale": 1 },
+      { "stat": "damage", "type": "bash", "scale": 1.0 },
       { "stat": "damage", "type": "cut", "scale": 1.05 },
       { "stat": "damage", "type": "stab", "scale": 1.05 }
     ],
