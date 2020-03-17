@@ -171,7 +171,7 @@
     "id": "reclining_seat_leather",
     "looks_like": "seat_leather",
     "copy-from": "reclining_seat",
-    "name": "reclining leather seat",
+    "name": { "str": "reclining leather seat" },
     "item": "seat_leather",
     "breaks_into": "ig_vp_seat_leather"
   },
@@ -1630,7 +1630,7 @@
   {
     "type": "vehicle_part",
     "id": "reins_tackle",
-    "name": "reins and tackle",
+    "name": { "str": "reins and tackle" },
     "symbol": "W",
     "color": "light_gray",
     "broken_symbol": "X",
