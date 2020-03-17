@@ -43,8 +43,7 @@
     "type": "GENERIC",
     "id": "afs_kitchen_rig",
     "copy-from": "vehicle_rig",
-    "name": "KitchenMaster cooking buddy",
-    "name_plural": "KitchenMaster cooking buddies",
+    "name": { "str": "KitchenMaster cooking buddy", "str_pl": "KitchenMaster cooking buddies" },
     "description": "Because it *clearly* needed one, this large all-in-one station provides the functions of FOODCO's kitchen buddy, now with complementary fume hoods and chemistry materials.  Why a chef would need a chemical rig is anyone's guess, but you can mount it on a vehicle to make use of it."
   },
   {
