@@ -2,7 +2,7 @@
   {
     "id": "axe_ring",
     "type": "ARMOR",
-    "name": "axe ring holster",
+    "name": { "str": "axe ring holster" },
     "description": "A combination of leather and a metal ring to hold an axe on your waist.",
     "weight": "130 g",
     "volume": "600 ml",
@@ -28,7 +28,7 @@
   {
     "id": "baldric",
     "type": "ARMOR",
-    "name": "baldric",
+    "name": { "str": "baldric" },
     "description": "A leather scabbard, big enough for anything up to a longsword, or even a bit larger than that.  Designed to be worn at the waist, secured by a shoulder belt.  Activate to sheath/draw a sword.",
     "weight": "1625 g",
     "volume": "2 L",
@@ -55,7 +55,7 @@
   {
     "id": "bootsheath",
     "type": "ARMOR",
-    "name": "ankle sheath",
+    "name": { "str": "ankle sheath" },
     "description": "A small concealed knife sheath worn on the ankle.  It is awkward to use without practice.  Activate to sheathe/draw a weapon.",
     "weight": "160 g",
     "volume": "500 ml",
@@ -82,7 +82,7 @@
   {
     "id": "bscabbard",
     "type": "ARMOR",
-    "name": "back scabbard",
+    "name": { "str": "back scabbard" },
     "description": "A leather scabbard, big enough for almost any sword.  Designed to be strapped to the back, it's very difficult to draw from without considerable practice.  Activate to sheath/draw a sword.",
     "weight": "1890 g",
     "volume": "2250 ml",
@@ -109,7 +109,7 @@
   {
     "id": "scabbard",
     "type": "ARMOR",
-    "name": "scabbard",
+    "name": { "str": "scabbard" },
     "description": "A large, adjustable sheath for holding swords and other large blades.  Activate to sheathe/draw a weapon.",
     "weight": "1360 g",
     "volume": "1750 ml",
@@ -160,7 +160,7 @@
   {
     "id": "spearsling",
     "type": "ARMOR",
-    "name": "spear strap",
+    "name": { "str": "spear strap" },
     "description": "A leather strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
     "weight": "160 g",
     "volume": "500 ml",

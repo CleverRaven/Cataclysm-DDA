@@ -287,9 +287,9 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "liver", 8 ] ]
+      [ [ "liver", 4 ] ]
     ],
-    "charges": 8,
+    "charges": 4,
     "autolearn": true
   },
   {

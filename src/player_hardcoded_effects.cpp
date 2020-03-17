@@ -517,7 +517,7 @@ void player::hardcoded_effects( effect &it )
                                                        GROUP_NETHER );
                 g->place_critter_at( spawn_details.name, dest );
                 if( g->u.sees( dest ) ) {
-                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                 }
@@ -617,7 +617,7 @@ void player::hardcoded_effects( effect &it )
                                                            GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
                     if( g->u.sees( dest ) ) {
-                        g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                        g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                             _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                     }
@@ -1011,7 +1011,7 @@ void player::hardcoded_effects( effect &it )
             }
             if( has_trait( trait_M_SKIN3 ) ) {
                 // Spores happen!
-                if( g->m.has_flag_ter_or_furn( flag_FUNGUS, pos() ) ) {
+                if( g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
                     if( get_fatigue() >= 0 ) {
                         mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
                     }
@@ -1145,7 +1145,7 @@ void player::hardcoded_effects( effect &it )
                         if( mp == pos() ) {
                             continue;
                         }
-                        if( g->m.has_flag( flag_FLAT, mp ) &&
+                        if( g->m.has_flag( "FLAT", mp ) &&
                             g->m.pl_sees( mp, 2 ) ) {
                             g->spawn_hallucination( mp );
                             if( ++count > max_count ) {

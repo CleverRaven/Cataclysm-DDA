@@ -19,6 +19,7 @@
 #include "ballistics.h"
 #include "bodypart.h"
 #include "debug.h"
+#include "dispersion.h"
 #include "effect.h"
 #include "timed_event.h"
 #include "field.h"
@@ -192,7 +193,7 @@ bool mattack::none( monster * )
 bool mattack::eat_crop( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
-        if( g->m.has_flag( flag_PLANT, p ) && one_in( 4 ) ) {
+        if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
             g->m.furn_set( p, furn_str_id( g->m.furn( p )->plant->base ) );
             g->m.i_clear( p );
             return true;
@@ -205,7 +206,7 @@ bool mattack::eat_food( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
         //Protect crop seeds from carnivores, give omnivores eat_crop special also
-        if( g->m.has_flag( flag_PLANT, p ) ) {
+        if( g->m.has_flag( "PLANT", p ) ) {
             continue;
         }
         auto items = g->m.i_at( p );
@@ -427,8 +428,7 @@ bool mattack::rattle( monster *z )
     const int min_dist = z->friendly != 0 ? 1 : 4;
     Creature *target = &g->u;
     // Can't use attack_target - the snake has no target
-    if( target == nullptr ||
-        rl_dist( z->pos(), target->pos() ) > min_dist ||
+    if( rl_dist( z->pos(), target->pos() ) > min_dist ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -672,7 +672,7 @@ bool mattack::pull_metal_weapon( monster *z )
     player *foe = dynamic_cast< player * >( target );
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
-        if( !foe->weapon.has_flag( flag_NO_UNWIELD ) &&
+        if( !foe->weapon.has_flag( "NO_UNWIELD" ) &&
             ( foe->weapon.made_of( material_id( "iron" ) ) ||
               foe->weapon.made_of( material_id( "hardsteel" ) ) ||
               foe->weapon.made_of( material_id( "steel" ) ) ||
@@ -1276,8 +1276,8 @@ bool mattack::growplants( monster *z )
     for( const auto &p : g->m.points_in_radius( z->pos(), 3 ) ) {
 
         // Only affect natural, dirtlike terrain or trees.
-        if( !( g->m.has_flag_ter( flag_DIGGABLE, p ) ||
-               g->m.has_flag_ter( flag_TREE, p ) ||
+        if( !( g->m.has_flag_ter( "DIGGABLE", p ) ||
+               g->m.has_flag_ter( "TREE", p ) ||
                g->m.ter( p ) == t_tree_young ) ) {
             continue;
         }
@@ -2106,7 +2106,7 @@ bool mattack::plant( monster *z )
 {
     fungal_effects fe( *g, g->m );
     const tripoint monster_position = z->pos();
-    const bool is_fungi = g->m.has_flag_ter( flag_FUNGUS, monster_position );
+    const bool is_fungi = g->m.has_flag_ter( "FUNGUS", monster_position );
     // Spores taking seed and growing into a fungaloid
     fe.spread_fungus( monster_position );
     if( is_fungi && one_in( 10 + g->num_creatures() / 5 ) ) {
@@ -2602,11 +2602,10 @@ bool mattack::grab( monster *z )
 
 bool mattack::grab_drag( monster *z )
 {
-    if( !z->can_act() ) {
+    if( !z || !z->can_act() ) {
         return false;
     }
     Creature *target = z->attack_target();
-    monster *zz = dynamic_cast<monster *>( target );
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
         return false;
     }
@@ -2618,17 +2617,17 @@ bool mattack::grab_drag( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
-
     // First, grab the target
     grab( z );
 
     if( !target->has_effect( effect_grabbed ) ) { //Can't drag if isn't grabbed, otherwise try and move
         return false;
     }
-    tripoint target_square = z->pos() - ( target->pos() - z->pos() );
+    const tripoint target_square = z->pos() - ( target->pos() - z->pos() );
     if( z->can_move_to( target_square ) &&
         target->stability_roll() < dice( z->type->melee_sides, z->type->melee_dice ) ) {
+        player *foe = dynamic_cast<player *>( target );
+        monster *zz = dynamic_cast<monster *>( target );
         tripoint zpt = z->pos();
         z->move_to( target_square );
         if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
@@ -2724,8 +2723,8 @@ bool mattack::stare( monster *z )
     z->moves -= 200;
     if( z->sees( g->u ) ) {
         //dimensional effects don't take against dimensionally anchored foes.
-        if( g->u.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
-            g->u.has_effect_with_flag( flag_DIMENSIONAL_ANCHOR ) ) {
+        if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
+            g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
@@ -2747,7 +2746,7 @@ bool mattack::fear_paralyze( monster *z )
         return false;
     }
     if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
-        if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( flag_PSYSHIELD_PARTIAL ) &&
+        if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
                 one_in( 4 ) ) ) {
             add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
             ///\EFFECT_INT decreases chance of being paralyzed by fear attack
@@ -3376,7 +3375,7 @@ bool mattack::searchlight( monster *z )
         for( int x = zposx - 24; x < zposx + 24; x++ ) {
             for( int y = zposy - 24; y < zposy + 24; y++ ) {
                 tripoint dest( x, y, z->posz() );
-                if( g->m.ter( dest ) == ter_plut_generator ) {
+                if( g->m.ter( dest ) == ter_str_id( "t_plut_generator" ) ) {
                     generator_ok = true;
                 }
             }

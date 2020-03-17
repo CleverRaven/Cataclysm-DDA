@@ -113,5 +113,24 @@
     "intelligence": 9,
     "time": "20 m",
     "fun": 1
+  },
+  {
+    "id": "magic_armormaking",
+    "type": "BOOK",
+    "name": { "str": "Protection from Magical Beasts", "str_pl": "copies of Protection from Magical Beasts" },
+    "description": "A leatherbound book with a picture of a shield holding back dragonfire on the cover.  There are many ways to turn monster skins and hides into protective equipment inside.",
+    "weight": "1 kg",
+    "volume": "750 ml",
+    "price": 7900,
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "white",
+    "skill": "tailor",
+    "required_level": 6,
+    "max_level": 8,
+    "intelligence": 10,
+    "time": "25 m",
+    "fun": -1
   }
 ]

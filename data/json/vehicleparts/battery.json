@@ -2,7 +2,7 @@
   {
     "id": "battery_car",
     "type": "vehicle_part",
-    "name": "car battery",
+    "name": { "str": "car battery" },
     "item": "battery_car",
     "fuel_type": "battery",
     "symbol": "o",
