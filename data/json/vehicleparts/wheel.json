@@ -379,7 +379,7 @@
     "id": "wheel_motorbike_or",
     "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
-    "name": "off-road motorbike wheel",
+    "name": { "str": "off-road motorbike wheel" },
     "item": "wheel_motorbike_or",
     "contact_area": 60,
     "wheel_type": "off-road",

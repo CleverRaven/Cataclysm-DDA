@@ -94,7 +94,7 @@
   {
     "type": "vehicle_part",
     "id": "null",
-    "name": "null part",
+    "name": { "str": "null part" },
     "symbol": "?",
     "color": "red",
     "broken_symbol": "?",
@@ -1771,7 +1771,7 @@
   {
     "type": "vehicle_part",
     "id": "muffler",
-    "name": "muffler",
+    "name": { "str": "muffler" },
     "symbol": "/",
     "color": "light_gray",
     "broken_symbol": "/",
