@@ -44,6 +44,20 @@
     "copy-from": "book_nonf_tpl"
   },
   {
+    "abstract": "book_nonf_soft_tpl",
+    "type": "BOOK",
+    "name": "Nonfiction Paperback",
+    "description": "template for a paperback nonfiction book",
+    "weight": "460 g",
+    "volume": "500 ml",
+    "price": 990,
+    "price_postapoc": 2700,
+    "material": [ "paper" ],
+    "bashing": 1,
+    "chapters": 18,
+    "copy-from": "book_nonf_tpl"
+  },
+  {
     "abstract": "book_nonf_hard_homemk_tpl",
     "type": "BOOK",
     "name": "Homemaking Book",
