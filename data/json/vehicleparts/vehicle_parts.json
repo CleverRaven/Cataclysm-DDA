@@ -2298,7 +2298,7 @@
   {
     "type": "vehicle_part",
     "id": "chemlab",
-    "name": "onboard chemistry lab",
+    "name": { "str": "onboard chemistry lab" },
     "symbol": "&",
     "looks_like": "f_workbench",
     "color": "yellow",

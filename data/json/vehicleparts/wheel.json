@@ -285,7 +285,7 @@
     "id": "wheel_bicycle_or",
     "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
-    "name": "off-road bicycle wheel",
+    "name": { "str": "off-road bicycle wheel" },
     "item": "wheel_bicycle_or",
     "contact_area": 36,
     "wheel_type": "off-road"
