@@ -17,7 +17,7 @@
   {
     "type": "item_action",
     "id": "firestarter",
-    "name": "Start a fire quickly"
+    "name": { "str": "Start a fire quickly" }
   },
   {
     "type": "item_action",
@@ -117,7 +117,7 @@
   {
     "type": "item_action",
     "id": "METH",
-    "name": "Smoke/snort meth"
+    "name": { "str": "Smoke/snort meth" }
   },
   {
     "type": "item_action",
@@ -127,7 +127,7 @@
   {
     "type": "item_action",
     "id": "ANTICONVULSANT",
-    "name": "Take anticonvulsant"
+    "name": { "str": "Take anticonvulsant" }
   },
   {
     "type": "item_action",
@@ -202,7 +202,7 @@
   {
     "type": "item_action",
     "id": "countdown",
-    "name": "Start countdown"
+    "name": { "str": "Start countdown" }
   },
   {
     "type": "item_action",
@@ -222,7 +222,7 @@
   {
     "type": "item_action",
     "id": "saw_barrel",
-    "name": "Saw down barrel"
+    "name": { "str": "Saw down barrel" }
   },
   {
     "type": "item_action",
@@ -252,17 +252,17 @@
   {
     "type": "item_action",
     "id": "ANTIBIOTIC",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "ANTIFUNGAL",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "ANTIPARASITIC",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -282,7 +282,7 @@
   {
     "type": "item_action",
     "id": "AUTOCLAVE",
-    "name": "Sterilize"
+    "name": { "str": "Sterilize" }
   },
   {
     "type": "item_action",
@@ -367,7 +367,7 @@
   {
     "type": "item_action",
     "id": "COKE",
-    "name": "Snort coke"
+    "name": { "str": "Snort coke" }
   },
   {
     "type": "item_action",
@@ -457,7 +457,7 @@
   {
     "type": "item_action",
     "id": "EHANDCUFFS",
-    "name": "Take off"
+    "name": { "str": "Take off" }
   },
   {
     "type": "item_action",
@@ -472,7 +472,7 @@
   {
     "type": "item_action",
     "id": "EXTINGUISHER",
-    "name": "Spray"
+    "name": { "str": "Spray" }
   },
   {
     "type": "item_action",
@@ -512,17 +512,17 @@
   {
     "type": "item_action",
     "id": "FISH_TRAP",
-    "name": "Set"
+    "name": { "str": "Set" }
   },
   {
     "type": "item_action",
     "id": "FLUMED",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "FLUSLEEP",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -537,7 +537,7 @@
   {
     "type": "item_action",
     "id": "FUNGICIDE",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -732,7 +732,7 @@
   {
     "type": "item_action",
     "id": "PHEROMONE",
-    "name": "Squeeze"
+    "name": { "str": "Squeeze" }
   },
   {
     "type": "item_action",
@@ -762,7 +762,7 @@
   {
     "type": "item_action",
     "id": "PROZAC",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -847,7 +847,7 @@
   {
     "type": "item_action",
     "id": "SHAVEKIT",
-    "name": "Shave"
+    "name": { "str": "Shave" }
   },
   {
     "type": "item_action",
@@ -862,12 +862,12 @@
   {
     "type": "item_action",
     "id": "SIPHON",
-    "name": "Siphon"
+    "name": { "str": "Siphon" }
   },
   {
     "type": "item_action",
     "id": "SLEEP",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -892,7 +892,7 @@
   {
     "type": "item_action",
     "id": "THORAZINE",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -977,7 +977,7 @@
   {
     "type": "item_action",
     "id": "XANAX",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -987,7 +987,7 @@
   {
     "type": "item_action",
     "id": "bandolier",
-    "name": "Store/unload ammo"
+    "name": { "str": "Store/unload ammo" }
   },
   {
     "type": "item_action",
@@ -1087,7 +1087,7 @@
   {
     "type": "item_action",
     "id": "WEAK_ANTIBIOTIC",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -1097,12 +1097,12 @@
   {
     "type": "item_action",
     "id": "STRONG_ANTIBIOTIC",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "PANACEA",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
