@@ -1,3 +1,5 @@
+#include <vector>
+
 #include "avatar.h"
 #include "character.h"
 #include "type_id.h"
@@ -12,24 +14,15 @@
 
 // Tests for can_eat
 //
-// Cannot eat partially-crafted food
-//
 // Non-fish(?) cannot eat anything while underwater
 //
 // Cannot eat food made of inedible materials(?)
-//
-// Cannot eat frozen food
-// Cannot drink frozen drink
-//
-// Cannot eat a food requiring a tool you don't have(?)
 //
 // Mycus-dependent(?) avatar cannot eat non-mycus food
 //
 // Avatar with proboscis cannot consume non-drinkables
 //
 // Carnivore cannot eat from the carnivore blacklist (?unless it gives no nutrition?)
-//
-// Herbivore/ruminant cannot eat from the herbivore blacklist
 //
 // FINALLY, CHECK EVERY SINGLE MUTATION for can_only_eat incompatibilities
 
@@ -166,54 +159,88 @@ TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
     }
 }
 
-TEST_CASE( "bird food", "[can_eat][edible_rating][bird]" )
+TEST_CASE( "inedible animal food", "[can_eat][edible_rating][inedible][animal]" )
 {
     avatar dummy;
 
-    item birdfood( "birdfood" );
-    REQUIRE( birdfood.has_flag( "INEDIBLE" ) );
-    REQUIRE( birdfood.has_flag( "BIRD" ) );
+    // Note: There are similar conditions for INEDIBLE food with FELINE or LUPINE flags, but
+    // "birdfood" and "cattlefodder" are the only INEDIBLE items that exist in the game.
 
-    GIVEN( "character is not a bird" ) {
-        REQUIRE_FALSE( dummy.has_trait( trait_id( "THRESH_BIRD" ) ) );
+    GIVEN( "food for animals" ) {
+        item birdfood( "birdfood" );
+        item cattlefodder( "cattlefodder" );
 
-        THEN( "they cannot eat it" ) {
-            auto rating = dummy.can_eat( birdfood );
-            CHECK_FALSE( rating.success() );
-            CHECK( rating.str() == "That doesn't look edible to you." );
+        REQUIRE( birdfood.has_flag( "INEDIBLE" ) );
+        REQUIRE( cattlefodder.has_flag( "INEDIBLE" ) );
+
+        REQUIRE( birdfood.has_flag( "BIRD" ) );
+        REQUIRE( cattlefodder.has_flag( "CATTLE" ) );
+
+        WHEN( "character is not bird or cattle" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "THRESH_BIRD" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "THRESH_CATTLE" ) ) );
+
+            THEN( "they cannot eat bird food" ) {
+                auto rating = dummy.can_eat( birdfood );
+                CHECK_FALSE( rating.success() );
+                CHECK( rating.str() == "That doesn't look edible to you." );
+            }
+
+            THEN( "they cannot eat cattle fodder" ) {
+                auto rating = dummy.can_eat( cattlefodder );
+                CHECK_FALSE( rating.success() );
+                CHECK( rating.str() == "That doesn't look edible to you." );
+            }
+        }
+
+        WHEN( "character is a bird" ) {
+            dummy.toggle_trait( trait_id( "THRESH_BIRD" ) );
+            REQUIRE( dummy.has_trait( trait_id( "THRESH_BIRD" ) ) );
+
+            THEN( "they can eat bird food" ) {
+                auto rating = dummy.can_eat( birdfood );
+                CHECK( rating.success() );
+                CHECK( rating.str() == "" );
+            }
+        }
+
+        WHEN( "character is cattle" ) {
+            dummy.toggle_trait( trait_id( "THRESH_CATTLE" ) );
+            REQUIRE( dummy.has_trait( trait_id( "THRESH_CATTLE" ) ) );
+
+            THEN( "they can eat cattle fodder" ) {
+                auto rating = dummy.can_eat( cattlefodder );
+                CHECK( rating.success() );
+                CHECK( rating.str() == "" );
+            }
         }
     }
-
-    GIVEN( "character is a bird" ) {
-        dummy.toggle_trait( trait_id( "THRESH_BIRD" ) );
-        REQUIRE( dummy.has_trait( trait_id( "THRESH_BIRD" ) ) );
-
-        THEN( "they can eat it" ) {
-            auto rating = dummy.can_eat( birdfood );
-            CHECK( rating.success() );
-            CHECK( rating.str() == "" );
-        }
-    }
-}
-
-TEST_CASE( "cat food", "[can_eat][edible_rating][cat]" )
-{
-}
-
-TEST_CASE( "cattle food", "[can_eat][edible_rating][cattle]" )
-{
-}
-
-TEST_CASE( "dog food", "[can_eat][edible_rating][dog]" )
-{
-}
-
-TEST_CASE( "food not ok for carnivores", "[can_eat][edible_rating][carnivore]" )
-{
 }
 
 TEST_CASE( "food not ok for herbivores", "[can_eat][edible_rating][herbivore]" )
 {
+    avatar dummy;
+
+    item meat( "meat_cooked" );
+    item eggs( "scrambled_eggs" );
+    REQUIRE( meat.has_flag( "ALLERGEN_MEAT" ) );
+    REQUIRE( eggs.has_flag( "ALLERGEN_EGG" ) );
+
+    GIVEN( "character is an herbivore" ) {
+        dummy.toggle_trait( trait_id( "HERBIVORE" ) );
+        REQUIRE( dummy.has_trait( trait_id( "HERBIVORE" ) ) );
+        THEN( "they cannot eat meat" ) {
+            auto rating = dummy.can_eat( meat );
+            CHECK_FALSE( rating.success() );
+            CHECK( rating.str() == "The thought of eating that makes you feel sick." );
+        }
+
+        THEN( "they cannot eat eggs" ) {
+            auto rating = dummy.can_eat( eggs );
+            CHECK_FALSE( rating.success() );
+            CHECK( rating.str() == "The thought of eating that makes you feel sick." );
+        }
+    }
 }
 
 TEST_CASE( "comestible requiring tool to use", "[can_eat][edible_rating][tool][!mayfail]" )
@@ -232,6 +259,29 @@ TEST_CASE( "comestible requiring tool to use", "[can_eat][edible_rating][tool][!
                 auto rating = dummy.can_eat( heroin );
                 CHECK_FALSE( rating.success() );
                 CHECK( rating.str() == "You need a syringe to consume that!" );
+            }
+        }
+    }
+}
+
+TEST_CASE( "crafted food", "[can_eat][edible_rating][craft]" )
+{
+    avatar dummy;
+    std::vector<item> parts;
+
+    parts.emplace_back( "water" );
+    parts.emplace_back( "water_purifier" );
+
+    recipe_id clean_water( "water_clean_using_water_purifier" );
+
+    GIVEN( "food that is crafted" ) {
+        WHEN( "crafting is not finished" ) {
+            THEN( "they cannot eat it" ) {
+            }
+
+            AND_WHEN( "crafting is finished" ) {
+                THEN( "they can eat it" ) {
+                }
             }
         }
     }
