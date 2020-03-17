@@ -56,7 +56,7 @@
   {
     "id": "crane_tiny",
     "type": "vehicle_part",
-    "name": "pallet lifter",
+    "name": { "str": "pallet lifter" },
     "item": "pallet_lifter",
     "location": "center",
     "symbol": "=",

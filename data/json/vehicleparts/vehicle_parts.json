@@ -94,7 +94,7 @@
   {
     "type": "vehicle_part",
     "id": "null",
-    "name": "null part",
+    "name": { "str": "null part" },
     "symbol": "?",
     "color": "red",
     "broken_symbol": "?",
@@ -596,7 +596,7 @@
   {
     "type": "vehicle_part",
     "id": "door_opaque",
-    "name": "opaque door",
+    "name": { "str": "opaque door" },
     "symbol": "+",
     "looks_like": "door",
     "color": "cyan",
@@ -715,7 +715,7 @@
   {
     "type": "vehicle_part",
     "id": "hatch_opaque",
-    "name": "opaque hatch",
+    "name": { "str": "opaque hatch" },
     "symbol": "+",
     "looks_like": "door_opaque",
     "color": "light_gray",
@@ -763,7 +763,7 @@
   {
     "type": "vehicle_part",
     "id": "hdhatch_opaque",
-    "name": "opaque heavy duty hatch",
+    "name": { "str": "opaque heavy duty hatch" },
     "symbol": "+",
     "color": "dark_gray",
     "looks_like": "hatch_opaque",
@@ -877,7 +877,7 @@
   {
     "type": "vehicle_part",
     "id": "programmable_autopilot",
-    "name": "programmable autopilot",
+    "name": { "str": "programmable autopilot" },
     "symbol": "A",
     "color": "light_blue",
     "broken_symbol": "#",
@@ -892,11 +892,11 @@
     "flags": [ "ENABLED_DRAINS_EPOWER", "AUTOPILOT" ],
     "requirements": {
       "install": {
-        "time": 35000,
+        "time": "12 m",
         "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ], [ "computer", 5 ] ],
         "qualities": [ { "id": "SCREW", "level": 1 } ]
       },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 8000, "using": [ [ "adhesive", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "3 m", "using": [ [ "adhesive", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": [
@@ -1452,7 +1452,7 @@
   {
     "type": "vehicle_part",
     "id": "plastic_boat_hull",
-    "name": "plastic boat hull",
+    "name": { "str": "plastic boat hull" },
     "description": "A rigid plastic sheet that keeps water out of your boat.",
     "symbol": "o",
     "color": "brown",
@@ -1771,7 +1771,7 @@
   {
     "type": "vehicle_part",
     "id": "muffler",
-    "name": "muffler",
+    "name": { "str": "muffler" },
     "symbol": "/",
     "color": "light_gray",
     "broken_symbol": "/",
@@ -2140,7 +2140,7 @@
     "type": "vehicle_part",
     "id": "solar_panel_v3",
     "copy-from": "solar_panel",
-    "name": "quantum solar panel",
+    "name": { "str": "quantum solar panel" },
     "looks_like": "solar_panel_v2",
     "proportional": { "epower": 6.0 },
     "item": "solar_panel_v3",
@@ -2298,7 +2298,7 @@
   {
     "type": "vehicle_part",
     "id": "chemlab",
-    "name": "onboard chemistry lab",
+    "name": { "str": "onboard chemistry lab" },
     "symbol": "&",
     "looks_like": "f_workbench",
     "color": "yellow",
@@ -3037,7 +3037,7 @@
   {
     "type": "vehicle_part",
     "id": "door_wood_opaque",
-    "name": "opaque wooden door",
+    "name": { "str": "opaque wooden door" },
     "symbol": "+",
     "looks_like": "door_wood",
     "color": "brown",
@@ -3411,7 +3411,7 @@
   {
     "type": "vehicle_part",
     "id": "plow",
-    "name": "plow",
+    "name": { "str": "plow" },
     "symbol": "&",
     "color": "blue",
     "broken_symbol": "*",
