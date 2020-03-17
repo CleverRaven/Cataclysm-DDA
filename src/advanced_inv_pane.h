@@ -4,12 +4,13 @@
 
 #include "cursesdef.h"
 #include "advanced_inv_listitem.h"
-#include "uistate.h"
 
 #include <functional>
 #include <map>
 #include <string>
 #include <vector>
+
+struct advanced_inv_pane_save_state;
 
 enum aim_location : char;
 
