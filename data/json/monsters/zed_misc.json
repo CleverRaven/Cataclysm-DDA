@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_biter",
     "type": "MONSTER",
-    "name": "slavering biter",
+    "name": { "str": "slavering biter" },
     "description": "A distorted and swollen human body.  Its jaws have elongated into a crocodile like snout, dripping with foul smelling saliva.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -780,7 +780,7 @@
   {
     "id": "mon_zombie_screecher",
     "type": "MONSTER",
-    "name": "screecher zombie",
+    "name": { "str": "screecher zombie" },
     "description": "A thin corpse, its chest is swollen in what appears to be preparation.  A thick black ooze drips from its open mouth.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -812,7 +812,7 @@
   {
     "id": "mon_zombie_shady",
     "type": "MONSTER",
-    "name": "shady zombie",
+    "name": { "str": "shady zombie" },
     "description": "An uncanny shadow envelops this creature, as if light itself were too repulsed to touch it.  All you can make out is its shambling, human shaped outline.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -900,7 +900,7 @@
   {
     "id": "mon_zombie_shrieker",
     "type": "MONSTER",
-    "name": "shrieker zombie",
+    "name": { "str": "shrieker zombie" },
     "description": "An elongated human body with a swollen chest and a gaping hole where its jaw used to be.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -946,7 +946,7 @@
   {
     "id": "mon_zombie_skull",
     "type": "MONSTER",
-    "name": "skull zombie",
+    "name": { "str": "skull zombie" },
     "//": "Highest upgrade of brainless/ear zombie.  Still immune to headshots, as there's nothing critical there.",
     "description": "This creature's head is a hideous gray skull, formed of human bone fragments and some sort of goo.  Jagged teeth are visible as the thing works its jaw and disturbingly human, lidless eyes stare at you from their sockets.  The thing's fleshy ears are four sizes too large and droop under their own weight.",
     "default_faction": "zombie",

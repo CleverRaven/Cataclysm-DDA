@@ -1832,7 +1832,7 @@
   {
     "id": "mon_sewer_rat",
     "type": "MONSTER",
-    "name": "sewer rat",
+    "name": { "str": "sewer rat" },
     "description": "A worm-tailed rodent with long whiskers and beady eyes.  The way it squeaks makes it sound… hungry.",
     "default_faction": "rat",
     "bodytype": "pig",

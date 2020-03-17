@@ -129,7 +129,7 @@
   {
     "id": "mon_zombie_shriekling",
     "type": "MONSTER",
-    "name": "shriekling",
+    "name": { "str": "shriekling" },
     "description": "This heavily mutated child zombie twitches and flails its limbs in painful looking spasms as it runs about.",
     "default_faction": "zombie",
     "bodytype": "human",
