@@ -1253,7 +1253,7 @@
   {
     "type": "vehicle_part",
     "id": "cargo_bag",
-    "name": "storage bag",
+    "name": { "str": "storage bag" },
     "symbol": "o",
     "color": "light_gray",
     "broken_symbol": "#",
