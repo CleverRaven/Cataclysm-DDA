@@ -527,5 +527,18 @@
     "allowed_locs": [ "mil_base_2g" ],
     "professions": [ "unemployed", "soldier", "specops", "bio_soldier", "bio_sniper", "labtech", "medic" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
-  }
+  },
+{
+"type":"scenario",	
+"ident": "breachS9B",
+"name": "breach S-9B",
+"description":"…pain… …my head… …who I’m… …what’s that scrap around me… …is it helicopter wreck?",
+"flags": ["HELI_CRASH", "LONE_START"  ],
+"points": -3,
+"start_name": "S-9B",
+"allowed_locs": ["field", "forest"  ],
+"professions": [ "S-9B" ]
+}	
+
+
 ]
