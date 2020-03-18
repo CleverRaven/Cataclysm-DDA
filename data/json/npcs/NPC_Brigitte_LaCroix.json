@@ -174,7 +174,7 @@
     "id": "TALK_BONE_SEER_OTHERS",
     "dynamic_line": "There are others who follow this cause. You'd do well to aid them, for though we may not be numerous, we are emboldened by the songs we carry.",
     "responses": [
-      { "text": "I will bear that in mind", "topic": "TALK_NONE" },
+      { "text": "I will bear that in mind.", "topic": "TALK_NONE" },
       { "text": "Cause?  Why do you gather these bones anyway?", "topic": "TALK_BONE_SEER_BONES" }
     ]
   },
@@ -211,7 +211,7 @@
   {
     "id": "MISSION_SEER_GATHER_BONE",
     "type": "mission_definition",
-    "name": "Gather bones for the Brigitte.  About 8 should do it.",
+    "name": "Gather bones for Brigitte LaCroix.  About 8 should do it.",
     "difficulty": 1,
     "value": 10000,
     "goal": "MGOAL_FIND_ITEM",

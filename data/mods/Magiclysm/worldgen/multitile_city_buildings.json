@@ -8,5 +8,39 @@
       { "point": [ 0, 0, 1 ], "overmap": "magic_shop_2ndfloor_north" },
       { "point": [ 0, 0, 2 ], "overmap": "magic_shop_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "wizard_tower_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "wizardtower1_ground_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "wizardtower1_living_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "wizardtower1_golems_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "wizardtower1_study_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "wizardtower1_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "wizard_tower_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "wizardtower2_ground_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "wizardtower2_stairs1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "wizardtower2_stairs2_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "wizardtower2_study_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "wizardtower2_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_detatched5",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_detatched5_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_detatched5_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "magic_basement_north" }
+    ]
   }
 ]

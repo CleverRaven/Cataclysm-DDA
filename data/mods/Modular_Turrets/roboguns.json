@@ -45,7 +45,6 @@
     "name": "integral teargas launcher",
     "skill": "launcher",
     "ammo": "40x46mm",
-    "ammo_effects": "NO_BOOM",
     "clip_size": 50,
     "dispersion": 270,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ]
@@ -57,7 +56,6 @@
     "name": "integral beanbag launcher",
     "skill": "launcher",
     "ammo": "40x46mm",
-    "ammo_effects": "NO_BOOM",
     "clip_size": 50,
     "dispersion": 270,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ]
@@ -145,7 +143,7 @@
     "skill": "launcher",
     "ammo": "flammable",
     "clip_size": 200,
-    "ammo_effects": [ "NO_BOOM", "FIRE_20", "WIDE" ],
+    "ammo_effects": [ "FIRE_20", "WIDE" ],
     "range": 4,
     "dispersion": 300,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "4 rd.", 4 ] ]
@@ -163,7 +161,7 @@
     "durability": 8,
     "loudness": 12,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "4 rd.", 4 ], [ "AUTO", "auto", 6 ] ],
-    "ammo_effects": [ "LASER", "INCENDIARY", "NO_BOOM" ]
+    "ammo_effects": [ "LASER", "INCENDIARY" ]
   },
   {
     "id": "robogun_plasma",

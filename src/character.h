@@ -59,6 +59,8 @@ struct points_left;
 class faction;
 struct construction;
 
+struct bionic;
+
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
@@ -119,6 +121,38 @@ enum sleep_deprivation_levels {
     SLEEP_DEPRIVATION_SERIOUS = 7 * 24 * 60,
     SLEEP_DEPRIVATION_MAJOR = 10 * 24 * 60,
     SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
+};
+
+// This tries to represent both rating and
+// character's decision to respect said rating
+enum edible_rating {
+    // Edible or we pretend it is
+    EDIBLE,
+    // Not food at all
+    INEDIBLE,
+    // Not food because mutated mouth/system
+    INEDIBLE_MUTATION,
+    // You can eat it, but it will hurt morale
+    ALLERGY,
+    // Smaller allergy penalty
+    ALLERGY_WEAK,
+    // Cannibalism (unless psycho/cannibal)
+    CANNIBALISM,
+    // Rotten or not rotten enough (for saprophages)
+    ROTTEN,
+    // Can provoke vomiting if you already feel nauseous.
+    NAUSEA,
+    // We can eat this, but we'll overeat
+    TOO_FULL,
+    // Some weird stuff that requires a tool we don't have
+    NO_TOOL
+};
+
+enum class rechargeable_cbm {
+    none = 0,
+    reactor,
+    furnace,
+    other
 };
 
 struct layer_details {
@@ -228,6 +262,15 @@ class Character : public Creature, public visitable<Character>
 
         const std::string &symbol() const override;
 
+        enum class comfort_level {
+            impossible = -999,
+            uncomfortable = -7,
+            neutral = 0,
+            slightly_comfortable = 3,
+            comfortable = 5,
+            very_comfortable = 10
+        };
+
         enum stat {
             STRENGTH,
             DEXTERITY,
@@ -307,11 +350,15 @@ class Character : public Creature, public visitable<Character>
         virtual int get_hunger() const;
         virtual int get_starvation() const;
         virtual int get_thirst() const;
-        virtual std::pair<std::string, nc_color> get_thirst_description() const;
-        virtual std::pair<std::string, nc_color> get_hunger_description() const;
-        virtual std::pair<std::string, nc_color> get_fatigue_description() const;
-        virtual int get_fatigue() const;
-        virtual int get_sleep_deprivation() const;
+        /** Gets character's minimum hunger and thirst */
+        int stomach_capacity() const;
+        std::pair<std::string, nc_color> get_thirst_description() const;
+        std::pair<std::string, nc_color> get_hunger_description() const;
+        std::pair<std::string, nc_color> get_fatigue_description() const;
+        int get_fatigue() const;
+        int get_sleep_deprivation() const;
+
+        std::pair<std::string, nc_color> get_pain_description() const override;
 
         /** Modifiers for need values exclusive to characters */
         virtual void mod_stored_kcal( int nkcal );
@@ -332,6 +379,9 @@ class Character : public Creature, public visitable<Character>
 
         /**Get bonus to max_hp from excess stored fat*/
         int get_fat_to_hp() const;
+
+        /** Get size class of character **/
+        m_size get_size() const override;
 
         /** Returns either "you" or the player's name. capitalize_first assumes
             that the character's name is already upper case and uses it only for
@@ -382,14 +432,43 @@ class Character : public Creature, public visitable<Character>
          */
         std::string get_miss_reason();
 
+        /**
+          * Handles passive regeneration of pain and maybe hp.
+          */
+        void regen( int rate_multiplier );
+        // called once per 24 hours to enforce the minimum of 1 hp healed per day
+        // TODO: Move to Character once heal() is moved
+        void enforce_minimum_healing();
+
         /** Handles health fluctuations over time */
         virtual void update_health( int external_modifiers = 0 );
-
+        /** Updates all "biology" by one turn. Should be called once every turn. */
+        void update_body();
+        /** Updates all "biology" as if time between `from` and `to` passed. */
+        void update_body( const time_point &from, const time_point &to );
+        /** Updates the stomach to give accurate hunger messages */
+        void update_stomach( const time_point &from, const time_point &to );
+        /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
+        void update_needs( int rate_multiplier );
+        needs_rates calc_needs_rates() const;
+        /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
+        void check_needs_extremes();
+        /** Handles the chance to be infected by random diseases */
+        void get_sick();
+        /** Returns if the player has hibernation mutation and is asleep and well fed */
+        bool is_hibernating() const;
         /** Maintains body temperature */
         void update_bodytemp();
 
         /** Equalizes heat between body parts */
         void temp_equalizer( body_part bp1, body_part bp2 );
+
+        struct comfort_response_t {
+            comfort_level level = comfort_level::neutral;
+            const item *aid = nullptr;
+        };
+        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
+        comfort_response_t base_comfort_value( const tripoint &p ) const;
 
         /** Define blood loss (in percents) */
         int blood_loss( body_part bp ) const;
@@ -457,7 +536,7 @@ class Character : public Creature, public visitable<Character>
         virtual void set_movement_mode( character_movemode mode ) = 0;
 
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
         /**
@@ -664,6 +743,7 @@ class Character : public Creature, public visitable<Character>
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
     protected:
+        void do_skill_rust();
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );
 
@@ -687,8 +767,6 @@ class Character : public Creature, public visitable<Character>
 
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
 
-        void serialize_consumption_history( JsonOut jsout ) const;
-        void deserialize_consumption_history( JsonArray jarr );
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
@@ -774,6 +852,8 @@ class Character : public Creature, public visitable<Character>
         float mutation_armor( body_part bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
+        /** Handles bionic activation effects of the entered bionic, returns if anything activated */
+        bool activate_bionic( int b, bool eff_only = false );
         std::vector<bionic_id> get_bionics() const;
         /** Returns true if the player has the entered bionic id */
         bool has_bionic( const bionic_id &b ) const;
@@ -787,14 +867,16 @@ class Character : public Creature, public visitable<Character>
         std::vector<bionic_id> get_bionic_fueled_with( const item &it ) const;
         /**Return bionic_id of fueled bionics*/
         std::vector<bionic_id> get_fueled_bionics() const;
+        /**Returns bionic_id of first remote fueled bionic found*/
+        bionic_id get_remote_fueled_bionic() const;
         /**Return bionic_id of bionic of most fuel efficient bionic*/
         bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
         /**Return list of available fuel for this bionic*/
         std::vector<itype_id> get_fuel_available( const bionic_id &bio ) const;
         /**Return available space to store specified fuel*/
-        int get_fuel_capacity( itype_id fuel ) const;
+        int get_fuel_capacity( const itype_id &fuel ) const;
         /**Return total space to store specified fuel*/
-        int get_total_fuel_capacity( itype_id fuel ) const;
+        int get_total_fuel_capacity( const itype_id &fuel ) const;
         /**Updates which bionic contain fuel and which is empty*/
         void update_fuel_storage( const itype_id &fuel );
         /**Get stat bonus from bionic*/
@@ -807,10 +889,72 @@ class Character : public Creature, public visitable<Character>
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         virtual bool deactivate_bionic( int b, bool eff_only = false );
+
+        int get_used_bionics_slots( body_part bp ) const;
+        int get_total_bionics_slots( body_part bp ) const;
+        int get_free_bionics_slots( body_part bp ) const;
+
+        /**Has enough anesthetic for surgery*/
+        bool has_enough_anesth( const itype *cbm, player &patient );
+        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
+        void introduce_into_anesthesia( const time_duration &duration, player &installer,
+                                        bool needs_anesthesia );
+        /** Removes a bionic from my_bionics[] */
+        void remove_bionic( const bionic_id &b );
+        /** Adds a bionic to my_bionics[] */
+        void add_bionic( const bionic_id &b );
+        /** Calculate skill for (un)installing bionics */
+        float bionics_adjusted_skill( const skill_id &most_important_skill,
+                                      const skill_id &important_skill,
+                                      const skill_id &least_important_skill,
+                                      int skill_level = -1 );
+        /** Calculate non adjusted skill for (un)installing bionics */
+        int bionics_pl_skill( const skill_id &most_important_skill,
+                              const skill_id &important_skill,
+                              const skill_id &least_important_skill,
+                              int skill_level = -1 );
+        /**Is the installation possible*/
+        bool can_install_bionics( const itype &type, player &installer, bool autodoc = false,
+                                  int skill_level = -1 );
+        std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
+        /** Initialize all the values needed to start the operation player_activity */
+        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
+                              int skill_level = -1 );
+        /**Success or failure of installation happens here*/
+        void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
+                              int pl_skill, const std::string &installer_name,
+                              const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos );
+        void bionics_install_failure( const bionic_id &bid, const std::string &installer, int difficulty,
+                                      int success, float adjusted_skill, const tripoint &patient_pos );
+
+        /**Is The uninstallation possible*/
+        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+                                   int skill_level = -1 );
+        /** Initialize all the values needed to start the operation player_activity */
+        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+                               int skill_level = -1 );
+        /**Succes or failure of removal happens here*/
+        void perform_uninstall( bionic_id bid, int difficulty, int success, const units::energy &power_lvl,
+                                int pl_skill );
+        /**When a player fails the surgery*/
+        void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
+
+        /**Used by monster to perform surgery*/
+        bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+                               float adjusted_skill, bool autodoc = false );
+        /**When a monster fails the surgery*/
+        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
+                                        float adjusted_skill );
+
         /**Convert fuel to bionic power*/
         bool burn_fuel( int b, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( int b );
+        /**Find fuel used by remote powered bionic*/
+        itype_id find_remote_fuel( bool look_only = false );
+        /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
+        int consume_remote_fuel( int amount );
+        void reset_remote_fuel();
         /**Handle heat from exothermic power generation*/
         void heat_emission( int b, int fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
@@ -818,10 +962,10 @@ class Character : public Creature, public visitable<Character>
 
         units::energy get_power_level() const;
         units::energy get_max_power_level() const;
-        void mod_power_level( units::energy npower );
-        void mod_max_power_level( units::energy npower_max );
-        void set_power_level( units::energy npower );
-        void set_max_power_level( units::energy npower_max );
+        void mod_power_level( const units::energy &npower );
+        void mod_max_power_level( const units::energy &npower_max );
+        void set_power_level( const units::energy &npower );
+        void set_max_power_level( const units::energy &npower_max );
         bool is_max_power() const;
         bool has_power() const;
         bool has_max_power() const;
@@ -863,6 +1007,14 @@ class Character : public Creature, public visitable<Character>
         virtual bool invoke_item( item *, const std::string & );
 
         /**
+         * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
+         * @param obj item to dispose of
+         * @param prompt optional message to display in any menu
+         * @return whether the item was successfully disposed of
+         */
+        virtual bool dispose_item( item_location &&obj, const std::string &prompt = std::string() );
+
+        /**
          * Has the item enough charges to invoke its use function?
          * Also checks if UPS from this player is used instead of item charges.
          */
@@ -894,6 +1046,18 @@ class Character : public Creature, public visitable<Character>
          */
         int item_store_cost( const item &it, const item &container, bool penalties = true,
                              int base_cost = INVENTORY_HANDLING_PENALTY ) const;
+
+        /** Calculate (but do not deduct) the number of moves required to wear an item */
+        int item_wear_cost( const item &it ) const;
+
+        /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
+         * If interactive is false, don't alert the player or drain moves on completion.
+         */
+        cata::optional<std::list<item>::iterator>
+        wear_item( const item &to_wear, bool interactive = true );
+
+        /** Returns the amount of item `type' that is currently worn */
+        int  amount_worn( const itype_id &id ) const;
 
         /** Returns nearby items which match the provided predicate */
         std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
@@ -1060,6 +1224,12 @@ class Character : public Creature, public visitable<Character>
          */
         bool can_use( const item &it, const item &context = item() ) const;
         /**
+         * Check character capable of wearing an item.
+         * @param it Thing to be worn
+         * @param with_equip_change If true returns if it could be worn if things were taken off
+         */
+        ret_val<bool> can_wear( const item &it, bool with_equip_change = false ) const;
+        /**
          * Returns true if the character is wielding something.
          * Note: this item may not actually be used to attack.
          */
@@ -1100,6 +1270,8 @@ class Character : public Creature, public visitable<Character>
         bool is_wearing_on_bp( const itype_id &it, body_part bp ) const;
         /** Returns true if the player is wearing an item with the given flag. */
         bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        /** Returns the first worn item with a given flag. */
+        item item_worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
 
         // drawing related stuff
         /**
@@ -1131,6 +1303,13 @@ class Character : public Creature, public visitable<Character>
         bool meets_requirements( const item &it, const item &context = item() ) const;
         /** Returns a string of missed requirements (both stats and skills) */
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
+
+        /** Returns the player's skill rust rate */
+        int rust_rate() const;
+
+        // Mental skills and stats
+        /** Returns the player's reading speed */
+        int read_speed( bool return_stat_effect = true ) const;
 
         // --------------- Other Stuff ---------------
 
@@ -1171,7 +1350,7 @@ class Character : public Creature, public visitable<Character>
         }
         virtual bool query_yn( const std::string &msg ) const = 0;
 
-        bool is_immune_field( field_type_id fid ) const override;
+        bool is_immune_field( const field_type_id &fid ) const override;
         /** Returns true is the player is protected from electric shocks */
         bool is_elec_immune() const override;
         /** Returns true if the player is immune to this kind of effect */
@@ -1320,7 +1499,7 @@ class Character : public Creature, public visitable<Character>
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
         void assign_stashed_activity();
-        bool check_outbounds_activity( player_activity act, bool check_only = false );
+        bool check_outbounds_activity( const player_activity &act, bool check_only = false );
         /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
@@ -1335,7 +1514,8 @@ class Character : public Creature, public visitable<Character>
         void cancel_activity();
         void cancel_stashed_activity();
         player_activity get_stashed_activity() const;
-        void set_stashed_activity( player_activity act, player_activity act_back = player_activity() );
+        void set_stashed_activity( const player_activity &act,
+                                   const player_activity &act_back = player_activity() );
         bool has_stashed_activity() const;
         void initialize_stomach_contents();
 
@@ -1369,6 +1549,21 @@ class Character : public Creature, public visitable<Character>
         void reset_activity_level();
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
+
+        /** Returns overall bashing resistance for the body_part */
+        int get_armor_bash( body_part bp ) const override;
+        /** Returns overall cutting resistance for the body_part */
+        int get_armor_cut( body_part bp ) const override;
+        /** Returns bashing resistance from the creature and armor only */
+        int get_armor_bash_base( body_part bp ) const override;
+        /** Returns cutting resistance from the creature and armor only */
+        int get_armor_cut_base( body_part bp ) const override;
+        /** Returns overall env_resist on a body_part */
+        int get_env_resist( body_part bp ) const override;
+        /** Returns overall acid resistance for the body part */
+        int get_armor_acid( body_part bp ) const;
+        /** Returns overall resistance to given type on the bod part */
+        int get_armor_type( damage_type dt, body_part bp ) const override;
 
         int get_stim() const;
         void set_stim( int new_stim );
@@ -1417,9 +1612,11 @@ class Character : public Creature, public visitable<Character>
         std::map<std::string, int> mutation_category_level;
 
         void update_type_of_scent( bool init = false );
-        void update_type_of_scent( trait_id mut, bool gain = true );
-        void set_type_of_scent( scenttype_id id );
+        void update_type_of_scent( const trait_id &mut, bool gain = true );
+        void set_type_of_scent( const scenttype_id &id );
         scenttype_id get_type_of_scent() const;
+        /**restore scent after masked_scent effect run out or is removed by water*/
+        void restore_scent();
         /** Modifies intensity of painkillers  */
         void mod_painkiller( int npkill );
         /** Sets intensity of painkillers  */
@@ -1484,17 +1681,91 @@ class Character : public Creature, public visitable<Character>
          */
         int vitamin_get( const vitamin_id &vit ) const;
         /**
-         * Add or subtract vitamins from player storage pools
+         * Sets level of a vitamin or returns false if id given in vit does not exist
+         *
+         * @note status effects are still set for deficiency/excess
+         *
+         * @param[in] vit ID of vitamin to adjust quantity for
+         * @param[in] qty Quantity to set level to
+         * @returns false if given vitamin_id does not exist, otherwise true
+         */
+        bool vitamin_set( const vitamin_id &vit, int qty );
+        /**
+          * Add or subtract vitamins from character storage pools
          * @param vit ID of vitamin to modify
          * @param qty amount by which to adjust vitamin (negative values are permitted)
          * @param capped if true prevent vitamins which can accumulate in excess from doing so
          * @return adjusted level for the vitamin or zero if vitamin does not exist
          */
         int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
+        void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
+        /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
+        time_duration vitamin_rate( const vitamin_id &vit ) const;
 
-        /** Returns true if the player is wearing something on the entered body_part */
+        /** Handles the nutrition value for a comestible **/
+        int nutrition_for( const item &comest ) const;
+        /** Can the food be [theoretically] eaten no matter the consequen
+        ces? */
+        ret_val<edible_rating> can_eat( const item &food ) const;
+        /**
+         * Same as @ref can_eat, but takes consequences into account.
+         * Asks about them if @param interactive is true, refuses otherwise.
+         */
+        ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
+        /** Determine character's capability of recharging their CBMs. */
+        bool can_feed_reactor_with( const item &it ) const;
+        bool can_feed_furnace_with( const item &it ) const;
+        rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
+        int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
+        int get_acquirable_energy( const item &it ) const;
+
+        /**
+        * Recharge CBMs whenever possible.
+        * @return true when recharging was successful.
+        */
+        bool feed_reactor_with( item &it );
+        bool feed_furnace_with( item &it );
+        bool fuel_bionic_with( item &it );
+        /** Used to apply stimulation modifications from food and medication **/
+        void modify_stimulation( const islot_comestible &comest );
+        /** Used to apply addiction modifications from food and medication **/
+        void modify_addiction( const islot_comestible &comest );
+        /** Used to apply health modifications from food and medication **/
+        void modify_health( const islot_comestible &comest );
+        /** Handles the effects of consuming an item */
+        bool consume_effects( item &food );
+        /** Check character's capability of consumption overall */
+        bool can_consume( const item &it ) const;
+        /** True if the character has enough skill (in cooking or survival) to estimate time to rot */
+        bool can_estimate_rot() const;
+        /** Check whether character can consume this very item */
+        bool can_consume_as_is( const item &it ) const;
+        bool can_consume_for_bionic( const item &it ) const;
+        /**
+         * Returns a reference to the item itself (if it's consumable),
+         * the first of its contents (if it's consumable) or null item otherwise.
+         * WARNING: consumable does not necessarily guarantee the comestible type.
+         */
+        item &get_consumable_from( item &it ) const;
+
+        hint_rating rate_action_eat( const item &it ) const;
+
+        /** Get calorie & vitamin contents for a comestible, taking into
+         * account character traits */
+        /** Get range of possible nutrient content, for a particular recipe,
+         * depending on choice of ingredients */
+        std::pair<nutrients, nutrients> compute_nutrient_range(
+            const item &, const recipe_id &,
+            const cata::flat_set<std::string> &extra_flags = {} ) const;
+        /** Same, but across arbitrary recipes */
+        std::pair<nutrients, nutrients> compute_nutrient_range(
+            const itype_id &, const cata::flat_set<std::string> &extra_flags = {} ) const;
+        /** Returns allergy type or MORALE_NULL if not allergic for this character */
+        morale_type allergy_type( const item &food ) const;
+        nutrients compute_effective_nutrients( const item & ) const;
+        /** Returns true if the character is wearing something on the entered body_part */
         bool wearing_something_on( body_part bp ) const;
-        /** Returns true if the player is wearing something occupying the helmet slot */
+        /** Returns true if the character is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
         /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items coveringi
          *  the head */
@@ -1601,6 +1872,8 @@ class Character : public Creature, public visitable<Character>
 
         /**height at character creation*/
         int init_height = 175;
+        /** Size class of character. */
+        m_size size_class = MS_MEDIUM;
 
         // the player's activity level for metabolism calculations
         float activity_level = NO_EXERCISE;
@@ -1710,6 +1983,10 @@ class Character : public Creature, public visitable<Character>
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
+        int cached_moves;
+        tripoint cached_position;
+        inventory cached_crafting_inventory;
+
     protected:
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
@@ -1723,6 +2000,9 @@ class Character : public Creature, public visitable<Character>
         time_point next_climate_control_check;
         bool last_climate_control_ret;
 };
+
+// Little size helper, exposed for use in deserialization code.
+m_size calculate_size( const Character &c );
 
 template<>
 struct enum_traits<Character::stat> {

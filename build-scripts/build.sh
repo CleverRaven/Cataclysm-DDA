@@ -113,7 +113,8 @@ then
         {
             if [ -n "$1" ]
             then
-                echo "$1" | shuf | xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh
+                echo "$1" | shuf | \
+                    xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh -quiet
             else
                 echo "No files to analyze"
             fi

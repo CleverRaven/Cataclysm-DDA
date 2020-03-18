@@ -86,7 +86,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE2",
-    "dynamic_line": "I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge. My dad doesn't want me leaving the farm to find some things, says it is too dangerous.",
+    "dynamic_line": "I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge.  My dad doesn't want me leaving the farm to find some things, says it is too dangerous.",
     "responses": [
       { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
@@ -166,7 +166,7 @@
     "dialogue": {
       "describe": "I need more knowledge to get the glass blowing started.",
       "offer": "I could really use a book on glass blowing.  With the internet gone, I don't have any handy references.",
-      "accepted": "Fantasic, I'm not supposed to leave our land.",
+      "accepted": "Fantastic, I'm not supposed to leave our land.",
       "rejected": "Oh well, figured I'd have to do a lot of practice anyway.",
       "advice": "A library, bookstore or a glass blower's studio should have one.",
       "inquire": "Do you have the book?",

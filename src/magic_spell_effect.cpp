@@ -112,6 +112,15 @@ void spell_effect::teleport_random( const spell &sp, Creature &caster, const tri
     teleport::teleport( caster, min_distance, max_distance, safe, false );
 }
 
+static void swap_pos( Creature &caster, const tripoint &target )
+{
+    Creature *const critter = g->critter_at<Creature>( target );
+    critter->setpos( caster.pos() );
+    caster.setpos( target );
+    //update map in case a monster swapped positions with the player
+    g->update_map( g->u );
+}
+
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
 {
     player *p = caster.as_player();
@@ -389,7 +398,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     }
 }
 
-static void damage_targets( const spell &sp, const Creature &caster,
+static void damage_targets( const spell &sp, Creature &caster,
                             const std::set<tripoint> &targets )
 {
     for( const tripoint &target : targets ) {
@@ -417,7 +426,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
             add_effect_to_target( target, sp );
         }
         if( sp.damage() > 0 ) {
-            cr->deal_projectile_attack( &g->u, atk, true );
+            cr->deal_projectile_attack( &caster, atk, true );
         } else if( sp.damage() < 0 ) {
             sp.heal( target );
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
@@ -447,6 +456,9 @@ void spell_effect::target_attack( const spell &sp, Creature &caster,
 {
     damage_targets( sp, caster, spell_effect_area( sp, epicenter, spell_effect_blast, caster,
                     sp.has_flag( spell_flag::IGNORE_WALLS ) ) );
+    if( sp.has_flag( spell_flag::SWAP_POS ) ) {
+        swap_pos( caster, epicenter );
+    }
 }
 
 void spell_effect::cone_attack( const spell &sp, Creature &caster,

@@ -15,6 +15,7 @@ option(TILES        "Build graphical tileset version."   "OFF")
 option(CURSES       "Build curses version."   "ON")
 option(SOUND        "Support for in-game sounds & music."   "OFF")
 option(BACKTRACE    "Support for printing stack backtraces on crash"   "ON")
+option(LIBBACKTRACE "Print backtrace with libbacktrace."    "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files."   "ON")
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."   "ON")
 option(LANGUAGES    "Compile localization files for specified languages."   "")
@@ -192,7 +193,7 @@ ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
     MESSAGE(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
     MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
     ADD_DEFINITIONS(-DRELEASE)
-    # Use PREFIX as storage of data,gfx, etc.. Usefull only on *nix OS.
+    # Use PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
     IF (PREFIX AND NOT WIN32)
       ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
     ENDIF (PREFIX AND NOT WIN32)
@@ -220,13 +221,21 @@ IF(MSVC)
 ELSE()
     SET(CATA_WARNINGS
       "-Werror -Wall -Wextra \
+       -Wformat-signedness \
+       -Wlogical-op \
        -Wmissing-declarations \
-      -Wold-style-cast \
-     -Woverloaded-virtual \
-     -Wpedantic")
-    IF(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-      SET(CATA_WARNINGS "${CATA_WARNINGS} -Wsuggest-override")
-    ENDIF(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+       -Wmissing-noreturn \
+       -Wnon-virtual-dtor \
+       -Wold-style-cast \
+       -Woverloaded-virtual \
+       -Wpedantic \
+       -Wsuggest-override \
+       -Wunused-macros \
+       -Wzero-as-null-pointer-constant \
+       -Wno-unknown-warning-option")
+    IF (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
+        SET(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
+    ENDIF()
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")
@@ -323,6 +332,9 @@ ENDIF(SOUND)
 
 IF(BACKTRACE)
     ADD_DEFINITIONS(-DBACKTRACE)
+    IF(LIBBACKTRACE)
+      ADD_DEFINITIONS(-DLIBBACKTRACE)
+    ENDIF(LIBBACKTRACE)
 ENDIF(BACKTRACE)
 
 # Ok. Now create build and install recipes

@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 using itype_id = std::string;
@@ -86,7 +87,7 @@ class harvest_list
         harvest_id id_;
         std::list<harvest_entry> entries_;
         std::set<std::string> names_;
-        std::string message_;
+        translation message_;
 
         void finalize();
 };

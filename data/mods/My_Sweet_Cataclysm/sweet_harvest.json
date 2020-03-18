@@ -1,0 +1,37 @@
+[
+  {
+    "id": "marshmallow_boy",
+    "type": "harvest",
+    "entries": [ { "drop": "marshmallow", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "armored_marshmallow_boy",
+    "type": "harvest",
+    "entries": [ { "drop": "smores", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "gummy_bear",
+    "type": "harvest",
+    "entries": [ { "drop": "candy3", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "cracker_boy",
+    "type": "harvest",
+    "entries": [ { "drop": "grahmcrackers", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "cookie_beast",
+    "type": "harvest",
+    "entries": [ { "drop": "cookies", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "gum_spider",
+    "type": "harvest",
+    "entries": [ { "drop": "gum", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "caff_gum_spider",
+    "type": "harvest",
+    "entries": [ { "drop": "caff_gum", "type": "flesh", "mass_ratio": 0.7 } ]
+  }
+]

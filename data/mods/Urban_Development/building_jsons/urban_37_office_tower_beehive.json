@@ -5,7 +5,7 @@
     "name": "filing cabinet",
     "description": "",
     "symbol": "}",
-    "color": [ "dark_gray" ],
+    "color": "dark_gray",
     "move_cost_mod": 2,
     "max_volume": "1000 L",
     "required_str": 8,

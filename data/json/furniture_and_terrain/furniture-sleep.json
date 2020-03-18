@@ -29,6 +29,37 @@
   },
   {
     "type": "furniture",
+    "id": "f_bunkbed",
+    "name": "bunk bed",
+    "symbol": "#",
+    "looks_like": "f_bed",
+    "description": "A wooden bunk bed with mattresses for two people.",
+    "color": "magenta",
+    "move_cost_mod": 6,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [ { "item": "mattress", "count": 2 }, { "item": "2x4", "count": 28 }, { "item": "nail", "charges": [ 20, 30 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "CAN_SIT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 8, 15 ] },
+        { "item": "nail", "charges": [ 15, 20 ] },
+        { "item": "splinter", "count": [ 8, 15 ] },
+        { "item": "rag", "count": [ 80, 110 ] },
+        { "item": "scrap", "count": [ 20, 40 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_bed_frame",
     "name": "bed frame",
     "symbol": "#",

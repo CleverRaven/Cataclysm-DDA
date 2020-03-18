@@ -174,17 +174,15 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
 bool Pickup::query_thief()
 {
     player &u = g->u;
-    bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto allow_key = [force_uc]( const input_event & evt ) {
-        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
-               // std::lower is undefined outside unsigned char range
-               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
-    };
+    const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+                            : input_context::allow_all_keys;
     std::string answer = query_popup()
                          .allow_cancel( false )
                          .context( "YES_NO_ALWAYS_NEVER" )
-                         .message( "%s",
-                                   _( "Picking up this item will be considered stealing, continue?" ) )
+                         .message( "%s", force_uc
+                                   ? _( "Picking up this item will be considered stealing, continue?  (Case sensitive)" )
+                                   : _( "Picking up this item will be considered stealing, continue?" ) )
                          .option( "YES", allow_key ) // yes, steal all items in this location that is selected
                          .option( "NO", allow_key ) // no, pick up only what is free
                          .option( "ALWAYS", allow_key ) // Yes, steal all items and stop asking me this question
@@ -316,7 +314,10 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         case WIELD:
             if( wield_check.success() ) {
                 //using original item, possibly modifying it
-                picked_up = u.wield( newit );
+                picked_up = u.wield( it );
+                if( picked_up ) {
+                    u.weapon.charges = newit.charges;
+                }
                 if( u.weapon.invlet ) {
                     add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
                              u.weapon.display_name() );
@@ -601,13 +602,13 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         ctxt.register_action( "DOWN" );
         ctxt.register_action( "RIGHT" );
         ctxt.register_action( "LEFT" );
-        ctxt.register_action( "NEXT_TAB", translate_marker( "Next page" ) );
-        ctxt.register_action( "PREV_TAB", translate_marker( "Previous page" ) );
+        ctxt.register_action( "NEXT_TAB", to_translation( "Next page" ) );
+        ctxt.register_action( "PREV_TAB", to_translation( "Previous page" ) );
         ctxt.register_action( "SCROLL_UP" );
         ctxt.register_action( "SCROLL_DOWN" );
         ctxt.register_action( "CONFIRM" );
         ctxt.register_action( "SELECT_ALL" );
-        ctxt.register_action( "QUIT", translate_marker( "Cancel" ) );
+        ctxt.register_action( "QUIT", to_translation( "Cancel" ) );
         ctxt.register_action( "ANY_INPUT" );
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
@@ -864,12 +865,6 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         wprintw( w_pickup, " - " );
                     }
                     std::string item_name;
-                    std::string stolen;
-                    bool stealing = false;
-                    if( !this_item.is_owned_by( g->u, true ) ) {
-                        stolen = "<color_light_red>!</color>";
-                        stealing = true;
-                    }
                     if( stacked_here[true_it].front()->is_money() ) {
                         //Count charges
                         // TODO: transition to the item_location system used for the inventory
@@ -888,38 +883,25 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                  it != stacked_here[true_it].end() && c > 0; ++it, --c ) {
                                 charges += ( *it )->charges;
                             }
-                            if( stealing ) {
-                                item_name = string_format( "%s %s", stolen,
-                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total, charges ) );
-                            } else {
-                                item_name = stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total,
-                                            charges );
-                            }
+                            item_name = stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total,
+                                        charges );
                         }
                     } else {
-                        if( stealing ) {
-                            item_name = string_format( "%s %s", stolen,
-                                                       this_item.display_name( stacked_here[true_it].size() ) );
-                        } else {
-                            item_name = this_item.display_name( stacked_here[true_it].size() );
-                        }
+                        item_name = this_item.display_name( stacked_here[true_it].size() );
                     }
                     if( stacked_here[true_it].size() > 1 ) {
-                        if( stealing ) {
-                            item_name = string_format( "%s %d %s", stolen, stacked_here[true_it].size(), item_name );
-                        } else {
-                            item_name = string_format( "%d %s", stacked_here[true_it].size(), item_name );
-                        }
+                        item_name = string_format( "%d %s", stacked_here[true_it].size(), item_name );
                     }
                     if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
-                        if( stealing ) {
-                            item_name = string_format( "%s %s %s", stolen, this_item.symbol().c_str(),
-                                                       item_name.c_str() );
-                        } else {
-                            item_name = string_format( "%s %s", this_item.symbol().c_str(),
-                                                       item_name );
-                        }
+                        item_name = string_format( "%s %s", this_item.symbol().c_str(),
+                                                   item_name );
                     }
+
+                    // if the item does not belong to your fraction then add the stolen symbol
+                    if( !this_item.is_owned_by( g->u, true ) ) {
+                        item_name = string_format( "<color_light_red>!</color> %s", item_name );
+                    }
+
                     trim_and_print( w_pickup, point( 6, 1 + ( cur_it % maxitems ) ), pickupW - 4, icolor,
                                     item_name );
                 }
@@ -973,8 +955,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 wprintz( w_pickup, c_white, "/%.1f", round_up( convert_weight( g->u.weight_capacity() ), 1 ) );
 
                 std::string fmted_volume_predict = format_volume( volume_predict );
-                mvwprintz( w_pickup, point( 18, 0 ), volume_predict > g->u.volume_capacity() ? c_red : c_white,
-                           _( "Vol %s" ), fmted_volume_predict );
+                wprintz( w_pickup, volume_predict > g->u.volume_capacity() ? c_red : c_white, _( "  Vol %s" ),
+                         fmted_volume_predict );
 
                 std::string fmted_volume_capacity = format_volume( g->u.volume_capacity() );
                 wprintz( w_pickup, c_white, "/%s", fmted_volume_capacity );

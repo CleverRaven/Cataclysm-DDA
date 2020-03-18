@@ -2,7 +2,7 @@
   {
     "type": "region_overlay",
     "regions": [ "all" ],
-    "city": { "shops": { "magic_shop": 100, "used_bookstore": 225 }, "basements": { "magic_basement": 50 } },
+    "city": { "houses": { "wizard_tower_1": 10, "wizard_tower_2": 20 }, "shops": { "magic_shop": 100, "used_bookstore": 225 } },
     "field_coverage": { "other": { "f_boulder_large": 0.6667, "f_glow_boulder": 0.3333 } }
   }
 ]

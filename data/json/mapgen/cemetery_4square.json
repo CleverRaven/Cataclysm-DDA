@@ -32,12 +32,7 @@
       [ "teleumbrella", 2 ],
       [ "thawb", 1 ],
       [ "umbrella", 10 ],
-      [ "many_years_old_newspaper", 2 ],
-      [ "years_old_newspaper", 5 ],
-      [ "one_year_old_newspaper", 4 ],
-      [ "months_old_newspaper", 3 ],
-      [ "weeks_old_newspaper", 3 ],
-      [ "newest_newspaper", 1 ],
+      { "group": "newspaper", "prob": 20 },
       [ "survnote", 3 ],
       [ "cig_butt", 5 ],
       [ "cigar_butt", 10 ]

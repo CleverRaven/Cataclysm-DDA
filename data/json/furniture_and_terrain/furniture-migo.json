@@ -11,7 +11,14 @@
     "light_emitted": 15,
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
-    "bash": { "str_min": 8, "str_max": 20, "sound": "splorch!", "sound_fail": "whump!", "furn_set": "f_alien_scar" }
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "splorch!",
+      "sound_fail": "whump!",
+      "furn_set": "f_alien_scar",
+      "items": [ { "item": "fetid_goop", "count": [ 3, 5 ], "prob": 100 } ]
+    }
   },
   {
     "type": "furniture",
@@ -26,7 +33,14 @@
     "light_emitted": 3,
     "flags": [ "TRANSPARENT", "EMITTER" ],
     "emissions": [ "emit_hot_air_migo_seep" ],
-    "bash": { "str_min": 13, "str_max": 26, "sound": "splorch!", "sound_fail": "whump!", "furn_set": "f_alien_scar" }
+    "bash": {
+      "str_min": 13,
+      "str_max": 26,
+      "sound": "splorch!",
+      "sound_fail": "whump!",
+      "furn_set": "f_alien_scar",
+      "items": [ { "item": "fetid_goop", "count": [ 3, 7 ], "prob": 100 } ]
+    }
   },
   {
     "type": "furniture",
@@ -41,7 +55,14 @@
     "flags": [ "TRANSPARENT", "EMITTER" ],
     "emissions": [ "emit_migo_atmosphere", "emit_hot_air_migo_blast" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
-    "bash": { "str_min": 30, "str_max": 60, "sound": "splorch!", "sound_fail": "whump!", "furn_set": "f_alien_scar" }
+    "bash": {
+      "str_min": 30,
+      "str_max": 60,
+      "sound": "splorch!",
+      "sound_fail": "whump!",
+      "furn_set": "f_alien_scar",
+      "items": [ { "item": "fetid_goop", "count": [ 15, 25 ], "prob": 100 } ]
+    }
   },
   {
     "type": "furniture",
@@ -62,7 +83,7 @@
     "type": "furniture",
     "id": "f_alien_scar",
     "name": "scarred lump",
-    "description": "This is a pile of undentified twitching alien flesh, belching strange gases out of injured vessels.",
+    "description": "This is a pile of unidentified twitching alien flesh, belching strange gases out of injured vessels.",
     "symbol": "{",
     "color": "green",
     "move_cost_mod": 6,
@@ -71,7 +92,13 @@
     "flags": [ "TRANSPARENT", "EMITTER" ],
     "emissions": [ "emit_hot_air_migo_seep", "emit_shock_burst" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
-    "bash": { "str_min": 250, "str_max": 600, "sound": "splorch!", "sound_fail": "splat!" }
+    "bash": {
+      "str_min": 250,
+      "str_max": 600,
+      "sound": "splorch!",
+      "sound_fail": "splat!",
+      "items": [ { "item": "fetid_goop", "count": [ 6, 13 ], "prob": 100 } ]
+    }
   },
   {
     "type": "furniture",
@@ -84,7 +111,13 @@
     "coverage": 40,
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
-    "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "splorch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "fetid_goop", "count": [ 5, 10 ], "prob": 100 } ]
+    }
   },
   {
     "type": "furniture",

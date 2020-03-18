@@ -97,14 +97,14 @@ int scent_map::get( const tripoint &p ) const
     return 0;
 }
 
-void scent_map::set( const tripoint &p, int value, scenttype_id type )
+void scent_map::set( const tripoint &p, int value, const scenttype_id &type )
 {
     if( inbounds( p ) ) {
         set_unsafe( p, value, type );
     }
 }
 
-void scent_map::set_unsafe( const tripoint &p, int value, scenttype_id type )
+void scent_map::set_unsafe( const tripoint &p, int value, const scenttype_id &type )
 {
     grscent[p.x][p.y] = value;
     if( !type.is_empty() ) {
@@ -127,7 +127,7 @@ scenttype_id scent_map::get_type( const tripoint &p ) const
 
 bool scent_map::inbounds( const tripoint &p ) const
 {
-    // This weird long check here is a hack around the fact that scentmap is 2D
+    // HACK: This weird long check here is a hack around the fact that scentmap is 2D
     // A z-level can access scentmap if it is within SCENT_MAP_Z_REACH flying z-level move from player's z-level
     // That is, if a flying critter could move directly up or down (or stand still) and be on same z-level as player
     const int levz = gm.get_levz();
@@ -289,4 +289,9 @@ void scent_type::check_scent_consistency()
             }
         }
     }
+}
+
+void scent_type::reset()
+{
+    scent_factory.reset();
 }

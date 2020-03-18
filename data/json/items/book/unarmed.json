@@ -21,7 +21,7 @@
     "id": "manual_brawl",
     "type": "BOOK",
     "name": { "str": "101 Wrestling Moves", "str_pl": "copies of 101 Wrestling Moves" },
-    "description": "It seems to be a wrestling manual, poorly photocopied and released on spiral- bound paper.  Still, there are lots of useful tips for unarmed combat.",
+    "description": "It seems to be a wrestling manual, poorly photocopied and released on spiral-bound paper.  Still, there are lots of useful tips for unarmed combat.",
     "weight": "227 g",
     "volume": "500 ml",
     "price": 3800,

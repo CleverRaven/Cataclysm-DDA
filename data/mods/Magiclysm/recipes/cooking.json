@@ -1,0 +1,55 @@
+[
+  {
+    "type": "recipe",
+    "result": "purified_meat",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 1 ],
+    "difficulty": 3,
+    "book_learn": [ [ "cooking_poison", 2 ] ],
+    "time": "15 m",
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "MAGIC_MUTAGEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "mutant_meat", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "impure_meat",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 3 ],
+    "difficulty": 5,
+    "book_learn": [ [ "cooking_poison", 2 ] ],
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "MAGIC_MUTAGEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "meat_tainted", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "flu_shot",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 5 ],
+    "difficulty": 6,
+    "book_learn": [ [ "cooking_poison", 2 ] ],
+    "time": "120 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "MAGIC_MUTAGEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+      [ [ "mutant_fat", 2 ] ],
+      [ [ "syringe", 1 ] ],
+      [ [ "owlbear_stone", 1 ] ],
+      [ [ "glow_dust", 2 ] ],
+      [ [ "aspirin", 20 ] ],
+      [ [ "meth", 3 ] ]
+    ]
+  }
+]

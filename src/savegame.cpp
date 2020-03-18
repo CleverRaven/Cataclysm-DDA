@@ -49,7 +49,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 26;
+const int savegame_version = 27;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -172,6 +172,11 @@ void game::unserialize( std::istream &fin )
         data.read( "calendar_start", tmpcalstart );
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
+        // 0.E stable
+        if( savegame_loading_version < 26 ) {
+            tmpturn *= 6;
+            tmpcalstart *= 6;
+        }
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
@@ -214,11 +219,11 @@ void game::unserialize( std::istream &fin )
             // Legacy support for when kills were stored directly in game
             std::map<mtype_id, int> kills;
             std::vector<std::string> npc_kills;
-            for( const JsonMember &member : data.get_object( "kills" ) ) {
+            for( const JsonMember member : data.get_object( "kills" ) ) {
                 kills[mtype_id( member.name() )] = member.get_int();
             }
 
-            for( const std::string &npc_name : data.get_array( "npc_kills" ) ) {
+            for( const std::string npc_name : data.get_array( "npc_kills" ) ) {
                 npc_kills.push_back( npc_name );
             }
 
@@ -307,7 +312,7 @@ std::unordered_set<std::string> obsolete_terrains;
 
 void overmap::load_obsolete_terrains( const JsonObject &jo )
 {
-    for( const std::string &line : jo.get_array( "terrains" ) ) {
+    for( const std::string line : jo.get_array( "terrains" ) ) {
         obsolete_terrains.emplace( line );
     }
 }
@@ -718,6 +723,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             ter_set( pos, oter_id( old + "_north" ) );
 
         } else if( old == "hunter_shack" ||
+                   old == "magic_basement" ||
+                   old == "basement_bionic" ||
                    old == "outpost" ||
                    old == "park" ||
                    old == "pool" ||
@@ -736,7 +743,6 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
 
         } else if( old == "megastore_entrance" ) {
             const std::string megastore = "megastore";
-            const std::string megastore_entrance = "megastore_entrance";
             const auto ter_test_n = needs_conversion.find( pos + point( 0, -2 ) );
             const auto ter_test_s = needs_conversion.find( pos + point( 0,  2 ) );
             const auto ter_test_e = needs_conversion.find( pos + point( 2,  0 ) );
@@ -1170,6 +1176,8 @@ void overmap::unserialize_view( std::istream &fin )
                     jsin.read( tmp.p.x );
                     jsin.read( tmp.p.y );
                     jsin.read( tmp.text );
+                    jsin.read( tmp.dangerous );
+                    jsin.read( tmp.danger_radius );
                     jsin.end_array();
 
                     layer[z].notes.push_back( tmp );
@@ -1224,8 +1232,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
 
 void overmap::serialize_view( std::ostream &fout ) const
 {
-    static const int first_overmap_view_json_version = 25;
-    fout << "# version " << first_overmap_view_json_version << std::endl;
+    fout << "# version " << savegame_version << std::endl;
 
     JsonOut json( fout, false );
     json.start_object();
@@ -1259,6 +1266,8 @@ void overmap::serialize_view( std::ostream &fout ) const
             json.write( i.p.x );
             json.write( i.p.y );
             json.write( i.text );
+            json.write( i.dangerous );
+            json.write( i.danger_radius );
             json.end_array();
             fout << std::endl;
         }
@@ -1349,8 +1358,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
 
 void overmap::serialize( std::ostream &fout ) const
 {
-    static const int first_overmap_json_version = 26;
-    fout << "# version " << first_overmap_json_version << std::endl;
+    fout << "# version " << savegame_version << std::endl;
 
     JsonOut json( fout, false );
     json.start_object();
@@ -1721,7 +1729,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     monsters_by_location.clear();
     jsin.start_array();
     while( !jsin.end_array() ) {
-        // @todo would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
+        // TODO: would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
         shared_ptr_fast<monster> mptr = make_shared_fast<monster>();
         jsin.read( *mptr );
         add( mptr );

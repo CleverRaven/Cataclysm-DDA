@@ -1,0 +1,69 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ANT",
+    "default": "mon_ant",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_ant_larva", "freq": 40, "cost_multiplier": 0 },
+      { "monster": "mon_ant_soldier", "freq": 90, "cost_multiplier": 5 },
+      { "monster": "mon_ant_queen", "freq": 0, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ANT_ACID",
+    "default": "mon_ant_acid",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_ant_acid_larva", "freq": 35, "cost_multiplier": 0 },
+      { "monster": "mon_ant_acid_soldier", "freq": 100, "cost_multiplier": 5 },
+      { "monster": "mon_ant_acid_queen", "freq": 0, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BEE",
+    "default": "mon_bee",
+    "monsters": [  ]
+  },
+  {
+    "name": "GROUP_DERMATIK",
+    "type": "monstergroup",
+    "default": "mon_dermatik",
+    "monsters": [ { "monster": "mon_dermatik", "freq": 100, "cost_multiplier": 1, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROACH",
+    "default": "mon_giant_cockroach",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_giant_cockroach", "freq": 40, "cost_multiplier": 0 },
+      { "monster": "mon_pregnant_giant_cockroach", "freq": 5, "cost_multiplier": 2 },
+      { "monster": "mon_giant_cockroach_nymph", "freq": 20, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SPIDER",
+    "default": "mon_spider_web",
+    "monsters": [  ]
+  },
+  {
+    "name": "GROUP_WASP",
+    "type": "monstergroup",
+    "default": "mon_wasp",
+    "monsters": [ { "monster": "mon_wasp", "freq": 100, "cost_multiplier": 1, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_WORM",
+    "default": "mon_worm",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_graboid", "freq": 30, "cost_multiplier": 20 },
+      { "monster": "mon_halfworm", "freq": 0, "cost_multiplier": 0 }
+    ]
+  }
+]

@@ -81,7 +81,7 @@
         [ "bandages", 2 ]
       ]
     ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "NO_RESIZE" ]
   },
   {
     "result": "cowboy_hat",
@@ -407,38 +407,6 @@
     "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ]
   },
   {
-    "result": "helmet_hsurvivor",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "difficulty": 7,
-    "skills_required": [ "fabrication", 5 ],
-    "time": "45 m",
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
-    "components": [
-      [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
-      [ [ "tac_helmet", 1 ], [ "tac_fullhelmet", 1 ], [ "helmet_army", 1 ], [ "kevlar_plate", 6 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
-      [ [ "duct_tape", 75 ] ],
-      [
-        [ "helmet_riot", 1 ],
-        [ "helmet_motor", 1 ],
-        [ "helmet_football", 1 ],
-        [ "helmet_ball", 1 ],
-        [ "helmet_skid", 1 ],
-        [ "helmet_bike", 1 ],
-        [ "hat_hard", 1 ],
-        [ "firehelmet", 1 ],
-        [ "pickelhaube", 1 ],
-        [ "plastic_chunk", 8 ]
-      ]
-    ]
-  },
-  {
     "result": "helmet_kabuto",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -539,60 +507,6 @@
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 30 ] ] ]
-  },
-  {
-    "result": "helmet_survivor",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 4 ],
-    "time": "45 m",
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
-    "components": [
-      [ [ "helmet_liner", 1 ], [ "hat_cotton", 1 ], [ "rag", 3 ] ],
-      [ [ "tac_helmet", 1 ], [ "tac_fullhelmet", 1 ], [ "helmet_army", 1 ], [ "kevlar_plate", 6 ] ],
-      [ [ "hood_rain", 1 ], [ "bag_plastic", 2 ] ],
-      [ [ "leather", 8 ], [ "tanned_hide", 2 ] ],
-      [ [ "duct_tape", 150 ] ],
-      [
-        [ "helmet_riot", 1 ],
-        [ "helmet_motor", 1 ],
-        [ "helmet_football", 1 ],
-        [ "helmet_ball", 1 ],
-        [ "helmet_skid", 1 ],
-        [ "helmet_bike", 1 ],
-        [ "hat_hard", 1 ],
-        [ "firehelmet", 1 ],
-        [ "pickelhaube", 1 ],
-        [ "plastic_chunk", 8 ]
-      ]
-    ]
-  },
-  {
-    "result": "helmet_xlsurvivor",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "difficulty": 6,
-    "skills_required": [ "fabrication", 4 ],
-    "time": "1 h",
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "welder", 84 ], [ "welder_crude", 126 ], [ "soldering_iron", 126 ], [ "toolset", 126 ] ] ],
-    "components": [
-      [ [ "scrap", 4 ] ],
-      [ [ "rag", 6 ] ],
-      [ [ "leather", 16 ], [ "tanned_hide", 3 ] ],
-      [ [ "plastic_chunk", 20 ] ],
-      [ [ "kevlar_plate", 14 ] ],
-      [ [ "hood_rain", 2 ], [ "bag_plastic", 4 ] ],
-      [ [ "duct_tape", 300 ] ]
-    ]
   },
   {
     "result": "hood_fsurvivor",
@@ -1002,7 +916,7 @@
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "tshirt", 1 ], [ "flag_shirt", 1 ], [ "linuxtshirt", 1 ], [ "tshirt_text", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": [ "BLIND_HARD", "NO_RESIZE" ]
   },
   {
     "result": "mask_ski",

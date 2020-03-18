@@ -39,7 +39,7 @@ check: $(TEST_TARGET)
 	cd .. && tests/$(TEST_TARGET) -d yes --rng-seed time
 
 clean:
-	rm -rf *obj
+	rm -rf *obj *objwin
 	rm -f *cata_test
 
 #Unconditionally create object directory on invocation.

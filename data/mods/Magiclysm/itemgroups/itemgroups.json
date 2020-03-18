@@ -60,7 +60,7 @@
   {
     "type": "item_group",
     "id": "displays",
-    "items": [ [ "mana_potion_lesser", 50 ], [ "magi_staff_minor", 5 ], [ "wizard_hat", 5 ] ]
+    "items": [ [ "mana_potion_lesser", 50 ], [ "magi_staff_minor", 5 ], [ "wizard_hat", 5 ], [ "cauldron_demon_chitin", 3 ] ]
   },
   {
     "id": "coffee_display_2",
@@ -149,6 +149,31 @@
       [ "glow_light_off", 1 ],
       [ "bulette_plate", 10 ],
       { "item": "bulette_pearl", "prob": 8, "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_tools_and_loot",
+    "//": "Stuff you would find in an average wizard's workshop or other place where someone stores magical goodies.",
+    "subtype": "collection",
+    "items": [
+      { "group": "tools_common", "prob": 60 },
+      { "group": "jewelry_safe", "prob": 10 },
+      { "group": "jewelry_front", "prob": 8 },
+      { "group": "potions_common", "prob": 15 },
+      {
+        "distribution": [
+          { "group": "enchanted_wands_lesser", "prob": 15 },
+          { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] },
+          { "group": "enchanted_rings_common", "prob": 20 },
+          { "group": "enchanted_rings_uncommon", "prob": 5 },
+          { "group": "enchanted_combat_items", "prob": 10 },
+          { "group": "enchanted_belts", "prob": 2 }
+        ],
+        "prob": 15
+      },
+      { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
+      [ "toolbox", 10 ]
     ]
   },
   {
@@ -256,7 +281,8 @@
       { "item": "mtorch_everburning", "prob": 10 },
       { "item": "mflask_hip_whiskey", "prob": 10 },
       { "item": "mtailors_kit", "prob": 10 },
-      { "item": "mspider_box", "prob": 10 }
+      { "item": "mspider_box", "prob": 10 },
+      { "item": "cauldron_demon_chitin", "prob": 2 }
     ]
   },
   {

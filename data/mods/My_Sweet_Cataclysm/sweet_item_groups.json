@@ -1,0 +1,121 @@
+[
+  {
+    "type": "item_group",
+    "id": "kitchen",
+    "items": [ [ "cookies", 300 ], [ "grahmcrackers", 200 ], [ "marshmallow", 100 ], [ "smores", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "snacks",
+    "items": [
+      [ "cookies", 300 ],
+      [ "grahmcrackers", 200 ],
+      [ "marshmallow", 100 ],
+      [ "smores", 60 ],
+      [ "gum", 150 ],
+      [ "caff_gum", 250 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "MRE",
+    "items": [
+      [ "cookies", 300 ],
+      [ "grahmcrackers", 200 ],
+      [ "marshmallow", 100 ],
+      [ "smores", 60 ],
+      [ "gum", 150 ],
+      [ "caff_gum", 250 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "coffee_shop",
+    "items": [
+      [ "candy3", 100 ],
+      [ "cookies", 300 ],
+      [ "grahmcrackers", 200 ],
+      [ "marshmallow", 100 ],
+      [ "gum", 150 ],
+      [ "smores", 50 ],
+      [ "caff_gum", 150 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "coffee_display",
+    "items": [ [ "cookies", 300 ], [ "marshmallow", 100 ], [ "smores", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "coffee_table",
+    "items": [ [ "candy3", 100 ], [ "cookies", 300 ], [ "marshmallow", 100 ], [ "smores", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "vitamin_shop",
+    "items": [ [ "caff_gum", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "child_items",
+    "items": [
+      [ "candy3", 100 ],
+      [ "cookies", 300 ],
+      [ "grahmcrackers", 200 ],
+      [ "marshmallow", 100 ],
+      [ "gum", 150 ],
+      [ "smores", 50 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "livingroom",
+    "items": [
+      [ "candy3", 50 ],
+      [ "cookies", 150 ],
+      [ "grahmcrackers", 100 ],
+      [ "marshmallow", 50 ],
+      [ "gum", 75 ],
+      [ "smores", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bed",
+    "items": [ [ "candy3", 5 ], [ "cookies", 3 ], [ "marshmallow", 2 ], [ "gum", 2 ], [ "smores", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "bedroom",
+    "items": [ [ "candy3", 20 ], [ "cookies", 15 ], [ "marshmallow", 10 ], [ "gum", 10 ], [ "smores", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "camping",
+    "items": [ [ "grahmcrackers", 200 ], [ "marshmallow", 100 ], [ "smores", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "trash",
+    "items": [ [ "candy3", 5 ], [ "gum", 10 ], [ "caff_gum", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "ant_food",
+    "items": [ [ "candy3", 50 ], [ "cookies", 150 ], [ "grahmcrackers", 100 ], [ "marshmallow", 50 ], [ "smores", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "stash_food",
+    "items": [
+      [ "candy3", 1 ],
+      [ "cookies", 3 ],
+      [ "grahmcrackers", 2 ],
+      [ "marshmallow", 1 ],
+      [ "gum", 2 ],
+      [ "smores", 2 ],
+      [ "caff_gum", 2 ]
+    ]
+  }
+]

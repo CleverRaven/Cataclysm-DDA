@@ -203,12 +203,10 @@ class iuse
         int weak_antibiotic( player *, item *, bool, const tripoint & );
         int strong_antibiotic( player *, item *, bool, const tripoint & );
         int panacea( player *, item *, bool, const tripoint & );
-        int magnesium_tablet( player *, item *, bool, const tripoint & );
+        int melatonin_tablet( player *, item *, bool, const tripoint & );
         int coin_flip( player *, item *, bool, const tripoint & );
         int play_game( player *, item *, bool, const tripoint & );
         int magic_8_ball( player *, item *, bool, const tripoint & );
-        int gobag_normal( player *, item *, bool, const tripoint & );
-        int gobag_personal( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 
@@ -250,7 +248,7 @@ struct washing_requirements {
     int cleanser;
     int time;
 };
-washing_requirements washing_requirements_for_volume( units::volume );
+washing_requirements washing_requirements_for_volume( const units::volume & );
 
 using use_function_pointer = int ( iuse::* )( player *, item *, bool, const tripoint & );
 

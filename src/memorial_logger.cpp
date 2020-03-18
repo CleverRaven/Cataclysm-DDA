@@ -19,11 +19,7 @@
 #include "profession.h"
 #include "skill.h"
 #include "stats_tracker.h"
-
-static const efftype_id effect_adrenaline( "adrenaline" );
-static const efftype_id effect_datura( "datura" );
-static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_jetinjector( "jetinjector" );
+#include "cata_string_consts.h"
 
 static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
 static const trap_str_id tr_glass( "tr_glass" );
@@ -54,10 +50,6 @@ static const trap_str_id tr_shadow( "tr_shadow" );
 static const trap_str_id tr_drain( "tr_drain" );
 static const trap_str_id tr_snake( "tr_snake" );
 static const trap_str_id tr_glass_pit( "tr_glass_pit" );
-
-static const trait_id trait_CANNIBAL( "CANNIBAL" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 
 void memorial_logger::clear()
 {
@@ -229,7 +221,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         }
     }
 
-    for( const std::pair<std::tuple<std::string, std::string>, int> &entry : kill_counts ) {
+    for( const std::pair<const std::tuple<std::string, std::string>, int> &entry : kill_counts ) {
         file << "  " << std::get<1>( entry.first ) << " - "
              << string_format( "%4d", entry.second ) << " "
              << std::get<0>( entry.first ) << eol;
@@ -244,7 +236,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Skills
     file << _( "Skills:" ) << eol;
-    for( const std::pair<skill_id, SkillLevel> &pair : u.get_all_skills() ) {
+    for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
         const SkillLevel &lobj = pair.second;
         //~ 1. skill name, 2. skill level, 3. exercise percentage to next level
         file << indent << string_format( _( "%s: %d (%d %%)" ), pair.first->name(), lobj.level(),
@@ -276,7 +268,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Bionics
     file << _( "Bionics:" ) << eol;
-    for( const bionic_id bionic : u.get_bionics() ) {
+    for( const bionic_id &bionic : u.get_bionics() ) {
         file << indent << bionic->name << eol;
     }
     if( u.get_bionics().empty() ) {
