@@ -53,8 +53,8 @@ static void expect_can_eat( avatar &dummy, item &food )
 {
     auto rate_can = dummy.can_eat( food );
     CHECK( rate_can.success() );
-    CHECK( rate_can.value() == EDIBLE );
     CHECK( rate_can.str() == "" );
+    CHECK( rate_can.value() == EDIBLE );
 }
 
 static void expect_cannot_eat( avatar &dummy, item &food, std::string expect_reason,
@@ -62,8 +62,18 @@ static void expect_cannot_eat( avatar &dummy, item &food, std::string expect_rea
 {
     auto rate_can = dummy.can_eat( food );
     CHECK_FALSE( rate_can.success() );
-    CHECK( rate_can.value() == expect_rating );
     CHECK( rate_can.str() == expect_reason );
+    CHECK( rate_can.value() == expect_rating );
+}
+
+static void expect_will_eat( avatar &dummy, item &food, std::string expect_consequence,
+                             int expect_rating )
+{
+    // will_eat returns the first element in a vector of ret_val<edible_rating>
+    // this function only looks at the first
+    auto rate_will = dummy.will_eat( food );
+    CHECK( rate_will.str() == expect_consequence );
+    CHECK( rate_will.value() == expect_rating );
 }
 
 
@@ -330,28 +340,13 @@ TEST_CASE( "carnivore mutation", "[can_eat][edible_rating][carnivore]" )
 
             expect_cannot_eat( dummy, nuts, expect_reason, INEDIBLE_MUTATION );
         }
-    }
-}
 
-TEST_CASE( "comestible requiring tool to use", "[can_eat][edible_rating][tool][!mayfail]" )
-{
-    avatar dummy;
+        THEN( "they can eat junk food, but are allergic to it" ) {
+            item chocolate( "chocolate" );
+            REQUIRE( chocolate.has_flag( "ALLERGEN_JUNK" ) );
 
-    GIVEN( "substance requiring a tool to consume" ) {
-        item heroin( "heroin" );
-        item syringe( "syringe" );
-        REQUIRE( heroin.get_comestible()->tool == "syringe" );
-
-        WHEN( "they don't have the necessary tool" ) {
-            //REQUIRE_FALSE( dummy.has_item( syringe, 1 ) );
-
-            // FIXME: This is failing - heroin is can_eat without a tool!?
-            THEN( "they cannot consume the substance" ) {
-                auto rating = dummy.can_eat( heroin );
-                CHECK_FALSE( rating.success() );
-                CHECK( rating.value() == NO_TOOL );
-                CHECK( rating.str() == "You need a syringe to consume that!" );
-            }
+            expect_can_eat( dummy, chocolate );
+            expect_will_eat( dummy, chocolate, "Your stomach won't be happy (allergy).", ALLERGY );
         }
     }
 }
@@ -464,11 +459,75 @@ TEST_CASE( "crafted food", "[can_eat][edible_rating][craft]" )
 // "Your stomach won't be happy (not rotten enough)."
 // "You're full already and will be forcing yourself to eat."
 // "You're full already and will be forcing yourself to drink."
-//
+
+TEST_CASE( "rotten food", "[will_eat][edible_rating][rotten]" )
+{
+    avatar dummy;
+
+    GIVEN( "food just barely rotten" ) {
+        item toastem_rotten = item( "toastem" );
+        toastem_rotten.set_relative_rot( 1.01 );
+        REQUIRE( toastem_rotten.rotten() );
+
+        WHEN( "character is normal" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "SAPROPHAGE" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
+
+            THEN( "they can eat it, though they are disgusted by it" ) {
+                expect_can_eat( dummy, toastem_rotten );
+
+                auto conseq = dummy.will_eat( toastem_rotten, false );
+                CHECK( conseq.value() == ROTTEN );
+                CHECK( conseq.str() == "This is rotten and smells awful!" );
+            }
+        }
+
+        WHEN( "character is a saprovore" ) {
+            dummy.toggle_trait( trait_id( "SAPROVORE" ) );
+            REQUIRE( dummy.has_trait( trait_id( "SAPROVORE" ) ) );
+
+            THEN( "they can eat it, and don't mind that it is rotten" ) {
+                expect_can_eat( dummy, toastem_rotten );
+
+                auto conseq = dummy.will_eat( toastem_rotten, false );
+                CHECK( conseq.value() == EDIBLE );
+                CHECK( conseq.str() == "" );
+            }
+        }
+
+        WHEN( "character is a saprophage" ) {
+            dummy.toggle_trait( trait_id( "SAPROPHAGE" ) );
+            REQUIRE( dummy.has_trait( trait_id( "SAPROPHAGE" ) ) );
+
+            THEN( "they can eat it, but would prefer it to be more rotten" ) {
+                expect_can_eat( dummy, toastem_rotten );
+
+                auto conseq = dummy.will_eat( toastem_rotten, false );
+                CHECK( conseq.value() == ALLERGY_WEAK );
+                CHECK( conseq.str() == "Your stomach won't be happy (not rotten enough)." );
+            }
+
+            /* NOT TRUE
+             *
+            AND_WHEN( "the food is thoroughly rotten" ) {
+                toastem_rotten.set_relative_rot( 2.01 );
+                REQUIRE( toastem_rotten.has_rotten_away() );
+
+                THEN( "they can eat it without any qualms" ) {
+                    expect_can_eat( dummy, toastem_rotten );
+
+                    auto conseq = dummy.will_eat( toastem_rotten, false );
+                    CHECK( conseq.value() == EDIBLE );
+                    CHECK( conseq.str() == "" );
+                }
+            }
+            */
+        }
+    }
+}
 
 TEST_CASE( "", "[will_eat][edible_rating]" )
 {
-
 }
 
 TEST_CASE( "", "[will_eat][edible_rating]" )
