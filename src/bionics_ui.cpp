@@ -14,6 +14,7 @@
 #include "options.h"
 #include "string_id.h"
 
+
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
 bionic_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
