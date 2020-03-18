@@ -767,9 +767,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```mx_portal_in``` ... Another portal to neither space.
 - ```mx_portal``` ... Portal to neither space.
 - ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
-- ```mx_roadworks``` ... Partialy closed damaged road with chance of work equipment and utility vehicles.
+- ```mx_roadworks``` ... Partially closed damaged road with chance of work equipment and utility vehicles.
 - ```mx_science``` ... Corpses and some scientist items.
-- ```mx_shia``` ... A *chance* of Shia, if Crazy Catalcysm is enabled.
+- ```mx_shia``` ... A *chance* of Shia, if Crazy Cataclysm is enabled.
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
 - ```mx_spider``` ... A big spider web, complete with spiders and eggs.
 - ```mx_supplydrop``` ... Crates with some military items in it.
@@ -1383,7 +1383,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```PLOW``` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a level proportional to the speed of the vehicle.
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle).
 - ```PROTRUSION``` Part sticks out so no other parts can be installed over it.
-- ```REACTOR``` When enabled, part consumes fuel to generate epower.
+- ```REACTOR``` When enabled, part consumes fuel to generate power.
 - ```REAPER``` Cuts down mature crops, depositing them on the square.
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
 - ```REMOTE_CONTROLS```

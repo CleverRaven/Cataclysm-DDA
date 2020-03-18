@@ -1138,7 +1138,7 @@ class item : public visitable<item>
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
-        float get_freeze_point() const; // Farenheit
+        float get_freeze_point() const; // Fahrenheit
 
         // If this is food, returns itself.  If it contains food, return that
         // contents.  Otherwise, returns nullptr.
@@ -1543,10 +1543,10 @@ class item : public visitable<item>
          * item provides when worn. See @ref player::get_env_resist. Higher values are better.
          * For non-armor it returns 0.
          *
-         * @param override_base_resist Pass this to artifically increase the
+         * @param override_base_resist Pass this to artificially increase the
          * base resistance, so that the function can take care of other
          * modifications to resistance for you. Note that this parameter will
-         * never decrease base resistnace.
+         * never decrease base resistance.
          */
         int get_env_resist( int override_base_resist = 0 ) const;
         /**

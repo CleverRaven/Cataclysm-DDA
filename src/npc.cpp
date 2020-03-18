@@ -842,8 +842,8 @@ void npc::finish_read( item &book )
         return;
     }
     const skill_id &skill = reading->skill;
-    // NPCs dont need to identify the book or learn recipes yet.
-    // NPCs dont read to other NPCs yet.
+    // NPCs don't need to identify the book or learn recipes yet.
+    // NPCs don't read to other NPCs yet.
     const bool display_messages = my_fac->id == faction_your_followers && g->u.sees( pos() );
     bool continuous = false; //whether to continue reading or not
     std::set<std::string> little_learned; // NPCs who learned a little about the skill

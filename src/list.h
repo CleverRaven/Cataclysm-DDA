@@ -203,7 +203,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 group_pointer_type last_endpoint_group, block_pointer, last_searched_group;
                 size_type size;
 
-                struct ebco_pair2 : allocator_type { // empty-base-class optimisation
+                struct ebco_pair2 : allocator_type { // empty-base-class optimization
                     size_type capacity; // Total element capacity of all initialized groups
                     explicit ebco_pair2( const size_type number_of_elements ) noexcept: capacity(
                             number_of_elements ) {}
@@ -379,7 +379,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         std::uninitialized_copy( std::make_move_iterator( old_block ),
                                                  std::make_move_iterator( old_block + size ), block_pointer );
                     } else {
-                        // If allocator supplies non-trivial pointers it becomes necessary to destroy the group. uninitialized_copy will not work in this context as the copy constructor for "group" is overriden in C++03/98. The = operator for "group" has been overriden to make the following work:
+                        // If allocator supplies non-trivial pointers it becomes necessary to destroy the group. uninitialized_copy will not work in this context as the copy constructor for "group" is overridden in C++03/98. The = operator for "group" has been overridden to make the following work:
                         const group_pointer_type beyond_end = old_block + size;
                         group_pointer_type current_new_group = block_pointer;
 
@@ -781,7 +781,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_iterator &operator++() noexcept {
-                    assert( node_pointer != nullptr ); // covers uninitialised list_iterator
+                    assert( node_pointer != nullptr ); // covers uninitialized list_iterator
                     node_pointer = node_pointer->next;
                     return *this;
                 }
@@ -793,7 +793,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_iterator &operator--() noexcept {
-                    assert( node_pointer != nullptr ); // covers uninitialised list_iterator
+                    assert( node_pointer != nullptr ); // covers uninitialized list_iterator
                     node_pointer = node_pointer->previous;
                     return *this;
                 }
@@ -885,7 +885,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_reverse_iterator &operator++() noexcept {
-                    assert( node_pointer != nullptr ); // covers uninitialised list_reverse_iterator
+                    assert( node_pointer != nullptr ); // covers uninitialized list_reverse_iterator
                     node_pointer = node_pointer->previous;
                     return *this;
                 }
@@ -966,7 +966,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         iterator end_iterator; // end_iterator is always the last entry point in last group in list (or one past the end of group)
         iterator begin_iterator;
 
-        // Packaging the group allocator with least-used member variables, for empty-base-class optimisation
+        // Packaging the group allocator with least-used member variables, for empty-base-class optimization
         struct ebco_pair1 : node_pointer_allocator_type {
             size_type total_number_of_elements;
             explicit ebco_pair1( const size_type total_num_elements ) noexcept: total_number_of_elements(

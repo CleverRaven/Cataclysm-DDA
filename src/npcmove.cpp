@@ -412,8 +412,8 @@ void npc::assess_danger()
         const auto test_too_close = [critter, def_radius,
                  &is_too_close]( const weak_ptr_fast<Creature> &guy ) {
             // HACK: Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
-            // friendly NPC when the NPC is riding a creature - I dont know why.
-            // so this skips the bad weak_ptrs, but this doesnt functionally change the AI Priority
+            // friendly NPC when the NPC is riding a creature - I don't know why.
+            // so this skips the bad weak_ptrs, but this doesn't functionally change the AI Priority
             // because the horse the NPC is riding is still in the ai_cache.friends vector,
             // so either one would count as a friendly for this purpose.
             if( guy.lock() ) {
@@ -616,7 +616,7 @@ void npc::regen_ai_cache()
 
 void npc::move()
 {
-    // dont just return from this function without doing something
+    // don't just return from this function without doing something
     // that will eventually subtract moves, or change the NPC to a different type of action.
     // because this will result in an infinite loop
     if( attitude == NPCATT_FLEE ) {
@@ -963,7 +963,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_drop_items:
-            /* NPCs cant choose this action anymore, but at least it works */
+            /* NPCs can't choose this action anymore, but at least it works */
             drop_invalid_inventory();
             /* drop_items is still broken
              * drop_items( weight_carried() - weight_capacity(),
@@ -2214,7 +2214,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             realnomove->insert( pos() );
             say( "<let_me_pass>" );
             np->move_away_from( pos(), true, realnomove );
-            // if we moved NPC, readjust their path, so NPCs dont jostle each other out of their activity paths.
+            // if we moved NPC, readjust their path, so NPCs don't jostle each other out of their activity paths.
             if( np->attitude == NPCATT_ACTIVITY ) {
                 std::vector<tripoint> activity_route = np->get_auto_move_route();
                 if( !activity_route.empty() && !np->has_destination_activity() ) {
@@ -2772,7 +2772,7 @@ void npc::pick_up_item()
     }
 
     if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
-        add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name );
+        add_msg( m_debug, "%s::pick_up_item(); Canceling on player's request", name );
         fetching_item = false;
         moves -= 1;
         return;
@@ -3901,7 +3901,7 @@ void npc::set_omt_destination()
 
     std::string dest_type;
     for( const auto &fulfill : needs ) {
-        // look for the closest occurence of any of that locations terrain types
+        // look for the closest occurrence of any of that locations terrain types
         std::vector<oter_type_id> loc_list = get_location_for( fulfill )->get_all_terrains();
         std::shuffle( loc_list.begin(), loc_list.end(), rng_get_engine() );
         omt_find_params find_params;
@@ -3973,7 +3973,7 @@ void npc::go_to_omt_destination()
         return;
     }
     if( !path.empty() ) {
-        // we already have a path, just use that until we cant.
+        // we already have a path, just use that until we can't.
         move_to_next();
         return;
     }

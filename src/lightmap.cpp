@@ -115,7 +115,7 @@ bool map::build_transparency_cache( const int zlev )
 
                     if( outside_cache[x][y] ) {
                         // FIXME: Places inside vehicles haven't been marked as
-                        // inside yet so this is incorrectly penalising for
+                        // inside yet so this is incorrectly penalizing for
                         // weather in vehicles.
                         value *= sight_penalty;
                     }
@@ -225,7 +225,7 @@ void map::build_sunlight_cache( int zlev )
                 }
             }
             // The formula to apply transparency to the light rays doesn't handle full opacity,
-            // so handle that seperately.
+            // so handle that separately.
             if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
                 !prev_floor_cache[x][y] && prev_light.max() > 0.0 && outside_cache[x][y] ) {
                 lm[x][y].fill( std::max( inside_light_level,
@@ -353,7 +353,7 @@ void map::generate_lightmap( const int zlev )
                 apply_light_source( mp, 8 );
             }
             // TODO: [lightmap] Attach natural light brightness to creatures
-            // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
+            // TODO: [lightmap] Allow creatures to have light attacks (i.e.: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
             if( critter.type->luminance > 0 ) {
                 apply_light_source( mp, critter.type->luminance );
@@ -554,7 +554,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
                 map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) {
                 continue;
             }
-            // This is a non-opaque visible neighbour, so count visibility from the relevant
+            // This is a non-opaque visible neighbor, so count visibility from the relevant
             // quadrants
             seen_from[oq.quadrants[0]] = vis;
             seen_from[oq.quadrants[1]] = vis;
@@ -977,7 +977,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         float away = start - ( -distance + 0.5f ) / ( -distance -
                      0.5f ); //The distance between our first leadingEdge and start
 
-        //We initialise delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
+        //We initialize delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
         delta.x = -distance + std::max( static_cast<int>( ceil( away * ( -distance - 0.5f ) ) ),
                                         0 );
 

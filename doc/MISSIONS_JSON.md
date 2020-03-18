@@ -92,7 +92,7 @@ For "MGOAL_KILL_MONSTER_SPEC" and "MGOAL_KILL_MONSTER_TYPE", sets the number of 
 the player's current kill count that must be killed to complete the mission.
 
 ### goal_condition
-For "MGOAL_CONDITION", defines the condition that must be satisified for the mission to be considered complete.
+For "MGOAL_CONDITION", defines the condition that must be satisfied for the mission to be considered complete.
 Conditions are explained in more detail in [NPCs.md](./NPCs.md), and are used here in exactly the same way.
 
 ### dialogue
@@ -196,7 +196,7 @@ overmap special definition, respecting allowed terrains, distance from cities, r
 and so on. Consequently, the more restrictive the rules, the less likely this placement will
 succeed (as it is competing for space with already-spawned specials).
 
-`om_terrain_replace` is only relevent if the `om_terrain` is not part of an overmap special.
+`om_terrain_replace` is only relevant if the `om_terrain` is not part of an overmap special.
 This value is used if the `om_terrain` cannot be found, and will be used as an alternative target
 which will then be replaced with the `om_terrain` value.
 
@@ -252,7 +252,7 @@ Add a new line that defines the NPC's starting mission, eg:
 Any NPC that has missions needs to have a dialogue option that leads to TALK_MISSION_LIST, to get the player
 started on their first mission for the NPC, and either:
 
-* Add one of their talk_topic IDs to the list of generic mission reponse IDs in the first
+* Add one of their talk_topic IDs to the list of generic mission response IDs in the first
 talk_topic of data/json/npcs/TALK_COMMON_MISSION.json, or
 * Have a similar talk_topic with responses that lead to TALK_MISSION_INQUIRE and
 TALK_MISSION_LIST_ASSIGNED.

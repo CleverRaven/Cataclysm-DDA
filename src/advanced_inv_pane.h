@@ -90,7 +90,7 @@ class advanced_inventory_pane
          */
         void fix_index();
         /**
-         * @param it The item to check, oly the name member is examined.
+         * @param it The item to check, only the name member is examined.
          * @return Whether the item should be filtered (and not shown).
          */
         bool is_filtered( const advanced_inv_listitem &it ) const;

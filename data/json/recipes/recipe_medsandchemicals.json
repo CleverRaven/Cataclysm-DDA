@@ -1183,7 +1183,7 @@
     "difficulty": 4,
     "time": "20 m",
     "batch_time_factors": [ 80, 4 ],
-    "//": "chloralkali process, same as with bleach except we wont be washing gases",
+    "//": "chloralkali process, same as with bleach except we won't be washing gases",
     "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "recipe_labchem", 3 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "electrolysis_kit", 250 ] ] ],

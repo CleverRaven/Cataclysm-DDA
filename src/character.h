@@ -876,7 +876,7 @@ class Character : public Creature, public visitable<Character>
         void update_fuel_storage( const itype_id &fuel );
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const Character::stat &Stat ) const;
-        // route for overmap-scale travelling
+        // route for overmap-scale traveling
         std::vector<tripoint> omt_path;
 
         /** Handles bionic effects over time of the entered bionic */
@@ -1176,7 +1176,7 @@ class Character : public Creature, public visitable<Character>
         /// returning the highest quality in range.
         int best_nearby_lifting_assist() const;
 
-        /// Alternate version if you need to specify a different orign point for nearby vehicle sources of lifting
+        /// Alternate version if you need to specify a different origin point for nearby vehicle sources of lifting
         /// used for operations on distant objects (e.g. vehicle installation/uninstallation)
         int best_nearby_lifting_assist( const tripoint &world_pos ) const;
 
@@ -1188,7 +1188,7 @@ class Character : public Creature, public visitable<Character>
 
         /// Sometimes we need to calculate hypothetical volume or weight.  This
         /// struct offers two possible tweaks: a collection of items and
-        /// coutnts to remove, or an entire replacement inventory.
+        /// counts to remove, or an entire replacement inventory.
         struct item_tweaks {
             item_tweaks() = default;
             item_tweaks( const std::map<const item *, int> &w ) :

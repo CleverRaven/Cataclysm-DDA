@@ -108,7 +108,7 @@ class player_morale
                           time_duration new_decay_start, bool new_cap );
                 void decay( const time_duration &ticks = 1_turns );
                 /*
-                 *contribution should be bettween [0,100] (inclusive)
+                 *contribution should be between [0,100] (inclusive)
                  */
                 void set_percent_contribution( double contribution );
                 double get_percent_contribution();

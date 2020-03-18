@@ -984,7 +984,7 @@ item::sizing item::get_sizing( const Character &p, bool wearable ) const
                          p.has_trait( trait_HUGE_OK );
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
-        // but that is fine because we have separate logic to adjust encumberance per each. One day we
+        // but that is fine because we have separate logic to adjust encumbrance per each. One day we
         // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
         // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
         const bool undersize = has_flag( flag_UNDERSIZE );
@@ -1033,9 +1033,9 @@ static int get_base_env_resist( const item &it )
 
 bool item::is_owned_by( const Character &c, bool available_to_take ) const
 {
-    // owner.is_null() implies faction_id( "no_faction" ) which shouldnt happen, or no owner at all.
+    // owner.is_null() implies faction_id( "no_faction" ) which shouldn't happen, or no owner at all.
     // either way, certain situations this means the thing is available to take.
-    // in other scenarios we actaully really want to check for id == id, even for no_faction
+    // in other scenarios we actually really want to check for id == id, even for no_faction
     if( owner.is_null() ) {
         return available_to_take;
     }
@@ -3629,7 +3629,7 @@ void item::on_wear( Character &p )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
     }
-    // if game is loaded - dont want ownership assigned during char creation
+    // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
@@ -3692,7 +3692,7 @@ void item::on_wield( player &p, int mv )
     } else {
         msg = _( "You wield your %s." );
     }
-    // if game is loaded - dont want ownership assigned during char creation
+    // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
@@ -3755,7 +3755,7 @@ void item::on_pickup( Character &p )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_carried );
     }
-    // if game is loaded - dont want ownership assigned during char creation
+    // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
@@ -8330,7 +8330,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
 
         // Process the past of this item since the last time it was processed
         while( time < now - 1_hours ) {
-            // Get the enviroment temperature
+            // Get the environment temperature
             time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
             time += time_delta;
 
@@ -8363,8 +8363,8 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
                     debugmsg( "Temperature flag enum not valid.  Using normal temperature." );
             }
 
-            // Calculate item temperature from enviroment temperature
-            // If the time was more than 2 d ago just set the item to enviroment temperature
+            // Calculate item temperature from environment temperature
+            // If the time was more than 2 d ago just set the item to environment temperature
             if( now - time > 2_days ) {
                 // This value shouldn't be there anymore after the loop is done so we don't bother with the set_item_temperature()
                 temperature = static_cast<int>( 100000 * temp_to_kelvin( env_temperature ) );
@@ -8413,7 +8413,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     }
     const float mass = to_gram( weight() ); // g
 
-    // If item has negative energy set to enviroment temperature (it not been processed ever)
+    // If item has negative energy set to environment temperature (it not been processed ever)
     if( specific_energy < 0 ) {
         set_item_temperature( env_temperature );
         last_temp_check = time;
@@ -8464,7 +8464,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
             if( new_specific_energy > completely_liquid_specific_energy ) {
                 // The item then also finished melting.
                 // This may happen rarely with very small items
-                // Just set the item to enviroment temperature
+                // Just set the item to environment temperature
                 set_item_temperature( env_temperature );
                 last_temp_check = time;
                 return;
@@ -8493,7 +8493,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
             if( new_specific_energy < completely_frozen_specific_energy ) {
                 // The item then also finished freezing.
                 // This may happen rarely with very small items
-                // Just set the item to enviroment temperature
+                // Just set the item to environment temperature
                 set_item_temperature( env_temperature );
                 last_temp_check = time;
                 return;

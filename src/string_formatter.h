@@ -369,7 +369,7 @@ class string_formatter
          * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
          * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
          * @throws std::exception if the format is invalid / does not match the arguments, but that's
-         * not guaranteed - technically it's undefined behaviour.
+         * not guaranteed - technically it's undefined behavior.
          */
         // Implemented in output.cpp
         static std::string raw_string_format( const char *format, ... ) PRINTF_LIKE( 1, 2 );

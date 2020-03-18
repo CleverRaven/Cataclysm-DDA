@@ -14,7 +14,7 @@
 //
 // 1. The origin of this software must not be misrepresented; you must not
 //    claim that you wrote the original software. If you use this software
-//    in a product, an acknowledgement in the product documentation would be
+//    in a product, an acknowledgment in the product documentation would be
 //    appreciated but is not required.
 // 2. Altered source versions must be plainly marked as such, and must not be
 //    misrepresented as being the original software.
@@ -71,7 +71,7 @@ namespace cata
 template <class element_type, class element_allocator_type = std::allocator<element_type>, typename element_skipfield_type = unsigned short >
 // Empty base class optimization - inheriting allocator functions
 class colony : private element_allocator_type
-// Note: unsigned short is equivalent to uint_least16_t ie. Using 16-bit unsigned integer in best-case scenario, greater-than-16-bit unsigned integer where platform doesn't support 16-bit types
+// Note: unsigned short is equivalent to uint_least16_t i.e. Using 16-bit unsigned integer in best-case scenario, greater-than-16-bit unsigned integer where platform doesn't support 16-bit types
 {
     public:
         // Standard container typedefs:
@@ -156,7 +156,7 @@ class colony : private element_allocator_type
                                    uchar_allocator_type, ( ( elements_per_group * ( sizeof( aligned_element_type ) ) ) + ( (
                                                elements_per_group + 1u ) * sizeof( skipfield_type ) ) ),
                                    ( previous == nullptr ) ? nullptr :
-                                   previous->elements ) ) ), /* allocating to here purely because it is first in the struct sequence - actual pointer is elements, last_endpoint is only initialised to element's base value initially, then incremented by one below */
+                                   previous->elements ) ) ), /* allocating to here purely because it is first in the struct sequence - actual pointer is elements, last_endpoint is only initialized to element's base value initially, then incremented by one below */
                 next_group( nullptr ),
                 elements( last_endpoint++ ),
                 skipfield( reinterpret_cast<skipfield_pointer_type>( elements + elements_per_group ) ),
@@ -273,7 +273,7 @@ class colony : private element_allocator_type
                 }
 
                 colony_iterator &operator++() {
-                    // covers uninitialised colony_iterator
+                    // covers uninitialized colony_iterator
                     assert( group_pointer != nullptr );
                     // Assert that iterator is not already at end()
                     assert( !( element_pointer == group_pointer->last_endpoint &&
@@ -599,7 +599,7 @@ class colony : private element_allocator_type
         group_pointer_type groups_with_erasures_list_head;
         size_type total_number_of_elements, total_capacity;
 
-        // Packaging the element pointer allocator with a lesser-used member variable, for empty-base-class optimisation
+        // Packaging the element pointer allocator with a lesser-used member variable, for empty-base-class optimization
         struct ebco_pair2 : pointer_allocator_type {
             skipfield_type min_elements_per_group;
             explicit ebco_pair2( const skipfield_type min_elements ) noexcept:
@@ -1735,7 +1735,7 @@ class colony : private element_allocator_type
          * iterator pointing to the next non-erased element in the colony (or to end() if no more
          * elements are available). This must return an iterator because if a colony group becomes
          * entirely empty, it will be removed from the colony, invalidating the existing iterator.
-         * Attempting to erase a previously-erased element results in undefined behaviour (this is
+         * Attempting to erase a previously-erased element results in undefined behavior (this is
          * checked for via an assert in debug mode).
          *
          * must return iterator to subsequent non-erased element (or end()), in case the group
@@ -1976,7 +1976,7 @@ class colony : private element_allocator_type
          * than sequential single-element erase calls in that scenario.
          */
         void erase( const const_iterator &iterator1, const const_iterator &iterator2 ) {
-            // if uninitialized/invalid iterators supplied, function could generate an exception. If iterator1 > iterator2, behaviour is undefined.
+            // if uninitialized/invalid iterators supplied, function could generate an exception. If iterator1 > iterator2, behavior is undefined.
             assert( iterator1 <= iterator2 );
 
             iterator current = iterator1;
@@ -3036,7 +3036,7 @@ class colony : private element_allocator_type
 
                 // Process initial group:
                 if( iterator1.group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
-                    // If no prior erasures have occured in this group we can do simple addition
+                    // If no prior erasures have occurred in this group we can do simple addition
                     distance += static_cast<diff_type>( iterator1.group_pointer->last_endpoint -
                                                         iterator1.element_pointer );
                 } else if( iterator1.element_pointer == iterator1.group_pointer->elements ) {

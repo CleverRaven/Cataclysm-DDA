@@ -23,7 +23,7 @@ _TEMPLATE_FUNC_STR_FORMAT = "string_format"
 def division_split(div, single_list):
     '''Divides a list into a list of lists each containing div amount of
     elements.  The last list will contain less than the div amount if the
-    list has a non-divisable amount of elements.
+    list has a non-divisible amount of elements.
     '''
 
     ret_list = []
@@ -51,7 +51,7 @@ def get_map_cells(infile, cell_size):
     cells_per_line = None
     line_no = None
 
-    # all_cells holds completed cells.  cell_list holds incompleted cells.
+    # all_cells holds completed cells.  cell_list holds uncompleted cells.
     all_cells = []
     cell_list = [[]]
 
@@ -60,8 +60,8 @@ def get_map_cells(infile, cell_size):
         line = line[:-1]
 
         assert len(line) % cell_size == 0, \
-            "Map {infile} does not have colums equal to a multiple of the " \
-            "map cell size. Error occured on line {line_no}.".format(
+            "Map {infile} does not have columns equal to a multiple of the " \
+            "map cell size. Error occurred on line {line_no}.".format(
                 infile=infile.name,
                 line_no=line_no)
 
@@ -72,7 +72,7 @@ def get_map_cells(infile, cell_size):
         else:
             assert cells_per_line == len(line) // cell_size, \
                 "Map {infile} starts new cells before finishing cells " \
-                "{cell_begin} to {cell_end}. Error occured on line " \
+                "{cell_begin} to {cell_end}. Error occurred on line " \
                 "{line_no}.".format(
                     infile=infile.name,
                     cell_begin=len(all_cells) + 1,
@@ -200,7 +200,7 @@ def cli_interface():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description="A script for combining multi-cell maps with their json "
         "data.",
-        epilog='''template explaination:
+        epilog='''template explanation:
   To format the json template, add the key '{section}' to the root
   dictionary.  In that section, create a dictionary with one or more template
   type keys.  Each type key should have a dictionary of function keys.  Each

@@ -1109,7 +1109,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // all action types - yields
     butchery_drops_harvest( &corpse_item, *corpse, *p, roll_butchery, action, roll_drops );
     // after this point, if there was a liquid handling from the harvest,
-    // and the liquid handling was interrupted, then the activity was cancelled,
+    // and the liquid handling was interrupted, then the activity was canceled,
     // therefore operations on this activities targets and values may be invalidated.
     // reveal hidden items / hidden content
     if( action != F_DRESS && action != SKIN ) {
@@ -2784,7 +2784,7 @@ void activity_handlers::drive_do_turn( player_activity *act, player *p )
         }
         p->moves = 0;
     } else {
-        p->add_msg_if_player( m_info, _( "Auto-drive cancelled." ) );
+        p->add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
         if( !player_veh->omt_path.empty() ) {
             player_veh->omt_path.clear();
         }
@@ -2891,7 +2891,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         survival_skill *= 2;
     }
     std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
-    // Fish are always there, even if it dosnt seem like they are visible!
+    // Fish are always there, even if it doesn't seem like they are visible!
     if( fishables.empty() ) {
         fish_chance += survival_skill / 2;
     } else {
@@ -3400,7 +3400,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     pc->counter = std::min( pc->counter, 10000000 );
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
-        // Activity is cancelled in complete_construction()
+        // Activity is canceled in complete_construction()
         complete_construction( p );
     }
 }

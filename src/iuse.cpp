@@ -2480,9 +2480,9 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     // requiring saws to remove tree roots), using an appropriate (but manual)
     // implement designed for the task (e.g. a shovel). The Canadian Centre for
     // Occupational Health and Safety has some interesting recommendations on the rate
-    // of shovelling, weight of the load, and throw distance at
+    // of shoveling, weight of the load, and throw distance at
     // https://www.ccohs.ca/oshanswers/ergonomics/shovel.html. Of particular interest
-    // is the table of "recommended workload for continuous shovelling", which gives a
+    // is the table of "recommended workload for continuous shoveling", which gives a
     // weight per minute and a total weight per 15 minutes, as well as a description of
     // the conditions. It also discusses the need to take breaks, for example
     // alternating 15 minutes of shoveling and 15 minutes of rest in extreme
@@ -8226,7 +8226,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
         }
     } else if( choice == 1 ) {
         const auto rctrl_parts = veh->get_avail_parts( "REMOTE_CONTROLS" );
-        // Revert to original behaviour if we can't find remote controls.
+        // Revert to original behavior if we can't find remote controls.
         if( empty( rctrl_parts ) ) {
             veh->use_controls( pos );
         } else {

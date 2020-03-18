@@ -1692,7 +1692,7 @@ void JsonOut::write_separator()
     }
     stream->put( ',' );
     if( pretty_print ) {
-        // Wrap after seperator between objects and between members of top-level objects.
+        // Wrap after separator between objects and between members of top-level objects.
         if( indent_level < 2 || need_wrap.back() ) {
             stream->put( '\n' );
             write_indent();

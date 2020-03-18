@@ -7563,7 +7563,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     // Find and cache all the map obstacles.
     // For now setting obstacles to be extremely dense and fill their squares.
     // In future, scale effective obstacle density by the thickness of the obstacle.
-    // Also consider modelling partial obstacles.
+    // Also consider modeling partial obstacles.
     // TODO: Support z-levels.
     for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
         for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {

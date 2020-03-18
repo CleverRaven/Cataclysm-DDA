@@ -926,7 +926,7 @@ These overlap because both list the high-quality lens.
 A small amount of overlap (such as the above) can be handled, but if you have
 too many component lists which overlap in too many ways, then you may see an
 error during recipe finalization that your recipe is too complex.  In this
-case, the game may not be able to corectly predict whether it can be crafted.
+case, the game may not be able to correctly predict whether it can be crafted.
 
 To work around this issue, if you do not wish to simplify the recipe
 requirements, then you can split your recipe into multiple steps.  For
@@ -1124,13 +1124,13 @@ Note that even though most statistics yield an integer, you should still use
 "scent_intensity": 800,// int affecting the target scent toward which you current smell gravitates. (default: 500)
 "scent_mask": -200,// int added to your target scent value. (default: 0)
 "scent_type": "sc_flower",// scent_typeid, defined in scent_types.json, The type scent you emit. (default: empty)
-"bleed_resist": 1000, // Int quantifiying your resistance to bleed effect, if its > to the intensity of the effect you don't get any bleeding. (default: 0)
+"bleed_resist": 1000, // Int quantifying your resistance to bleed effect, if its > to the intensity of the effect you don't get any bleeding. (default: 0)
 "fat_to_max_hp": 1.0, // Amount of hp_max gained for each unit of bmi above character_weight_category::normal. (default: 0.0)
 "healthy_rate": 0.0, // How fast your health can change. If set to 0 it never changes. (default: 1.0)
 "weakness_to_water": 5, // How much damage water does to you, negative values heal you. (default: 0)
 "ignored_by": [ "ZOMBIE" ], // List of species ignoring you. (default: empty)
 "anger_relations": [ [ "MARSHMALLOW", 20 ], [ "GUMMY", 5 ], [ "CHEWGUM", 20 ] ], // List of species angered by you and by how much, can use negative value to calm.  (default: empty)
-"can_only_eat": [ "junk" ], // List of materiel required for food to be comestible for you. (default: empty)
+"can_only_eat": [ "junk" ], // List of material required for food to be comestible for you. (default: empty)
 "can_only_heal_with": [ "bandage" ], // List of med you are restricted to, this includes mutagen,serum,aspirin,bandages etc... (default: empty)
 "can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
 "allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
@@ -1211,7 +1211,7 @@ Vehicle components when installed on a vehicle.
 ### Part Resistance
 
 ```C++
-"all" : 0.0f,        // Initial value of all resistances, overriden by more specific types
+"all" : 0.0f,        // Initial value of all resistances, overridden by more specific types
 "physical" : 10,     // Initial value for bash, cut and stab
 "non_physical" : 10, // Initial value for acid, heat, cold, electricity and biological
 "biological" : 0.2f, // Resistances to specific types. Those override the general ones.
@@ -1266,7 +1266,7 @@ See also VEHICLE_JSON.md
     {"x": 0, "y": 0, "part": "casters"}    // See vehicle_parts.json for part ids
 ]
                                            /* Important! Vehicle parts must be defined in the same order you would install
-                                            * them in the game (ie, frames and mount points first).
+                                            * them in the game (i.e., frames and mount points first).
                                             * You also cannot break the normal rules of installation
                                             * (you can't stack non-stackable part flags). */
 ```
@@ -1590,7 +1590,7 @@ CBMs can be defined like this:
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
-"parasites": 10,            // (Optional) Probability of becoming parasitised when eating
+"parasites": 10,            // (Optional) Probability of becoming parasitized when eating
 "contamination": 5,         // (Optional) Probability to get food poisoning from this comestible. Values must be in the [0, 100] range.
 ```
 
@@ -1839,7 +1839,7 @@ Possible values (see src/enums.h for an up-to-date list):
 - `AEP_THIRST` Increases thirst
 - `AEP_SMOKE` Emits smoke occasionally
 - `AEP_EVIL` Addiction to the power
-- `AEP_SCHIZO` Mimicks schizophrenia
+- `AEP_SCHIZO` Mimics schizophrenia
 - `AEP_RADIOACTIVE` Increases your radiation
 - `AEP_MUTAGENIC` Mutates you slowly
 - `AEP_ATTENTION` Draws netherworld attention slowly
@@ -1923,7 +1923,7 @@ Every item type can have software data, it does not have any behavior:
 
 ### Fuel data
 
-Every item type can have fuel data that determines how much horse power it produces per unit consumed. Currently, gasses and plasmas cannot really be fuels.
+Every item type can have fuel data that determines how much horse power it produces per unit consumed. Currently, gases and plasmas cannot really be fuels.
 
 If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  This is primarily intended for the muscle pseudo-fuel, but mods may take advantage of it to make perpetual motion machines.
 
@@ -2036,7 +2036,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 }
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
-    "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
+    "transform_age" : 600, // The minimal age of the item. Items that are younger won't transform. In turns (60 turns = 1 minute)
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
 },
 "use_action": {

@@ -96,7 +96,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     int fallen_count = 0;
     int into_vehicle_count = 0;
 
-    // cant use constant reference here because of the spill_contents()
+    // can't use constant reference here because of the spill_contents()
     for( auto it : items ) {
         if( Pickup::handle_spillable_contents( c, it, g->m ) ) {
             continue;
@@ -554,7 +554,7 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
 
 void activity_on_turn_wear( player_activity &act, player &p )
 {
-    // ACT_WEAR has item_location targets, and int quatities
+    // ACT_WEAR has item_location targets, and int quantities
     while( p.moves > 0 && !act.targets.empty() ) {
         item_location target = std::move( act.targets.back() );
         int quantity = act.values.back();
@@ -601,7 +601,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
 {
     std::list<act_item> items = reorder_for_dropping( *p, convert_to_locations( *act ) );
 
-    // Check again that we have enough water and soap incase the amount in our inventory changed somehow
+    // Check again that we have enough water and soap in case the amount in our inventory changed somehow
     // Consume the water and soap
     units::volume total_volume = 0_ml;
 
@@ -680,7 +680,7 @@ void activity_on_turn_pickup()
     if( !g->u.activity.coords.empty() && g->u.activity.coords.at( 0 ) != g->u.pos() ) {
         g->u.cancel_activity();
         if( g->u.is_player() ) {
-            g->u.add_msg_if_player( _( "Moving cancelled auto-pickup." ) );
+            g->u.add_msg_if_player( _( "Moving canceled auto-pickup." ) );
         }
         return;
     }
@@ -805,7 +805,7 @@ void activity_on_turn_move_items( player_activity &act, player &p )
 
 static double get_capacity_fraction( int capacity, int volume )
 {
-    // fration of capacity the item would occupy
+    // fraction of capacity the item would occupy
     // fr = 1 is for capacity smaller than is size of item
     // in such case, let's assume player does the trip for full cost with item in hands
     double fr = 1;
@@ -823,7 +823,7 @@ static int move_cost_inv( const item &it, const tripoint &src, const tripoint &d
     const int MAX_COST = 500;
 
     // it seems that pickup cost is flat 100
-    // in function pick_one_up, varible moves_taken has initial value of 100
+    // in function pick_one_up, variable moves_taken has initial value of 100
     // and never changes until it is finally used in function
     // remove_from_map_or_vehicle
     const int pickup_cost = 100;
@@ -903,8 +903,8 @@ static void vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
     }
     int time_to_take = 0;
     if( vpindex >= static_cast<int>( veh->parts.size() ) ) {
-        // if parts got removed dduring our work, we cant just carry on removing, we want to repair parts!
-        // so just bail out, as we dont know if th enext shifted part is suitable for repair.
+        // if parts got removed during our work, we can't just carry on removing, we want to repair parts!
+        // so just bail out, as we don't know if the next shifted part is suitable for repair.
         if( type == 'r' ) {
             return;
         } else if( type == 'o' ) {
@@ -1043,7 +1043,7 @@ static activity_reason_info find_base_construction(
             }
         }
     }
-    //if theres an apropriate partial construction on the tile, then we can work on it, no need to check inventories.
+    //if theres an appropriate partial construction on the tile, then we can work on it, no need to check inventories.
     const bool has_skill = p.meets_skill_requirements( build );
     if( part_con_idx && *part_con_idx == idx ) {
         if( !has_skill ) {
@@ -1073,7 +1073,7 @@ static activity_reason_info find_base_construction(
         return activity_reason_info::build( BLOCKING_TILE, false, idx );
     }
 
-    // cant build it
+    // can't build it
     // maybe we can build the pre-requisite instead
     // see if the reason is because of pre-terrain requirement
     if( !build.pre_terrain.empty() &&
@@ -1190,8 +1190,8 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
         temp_inv += *elem;
     }
     for( const tripoint &elem : loot_spots ) {
-        // if we are searching for things to fetch, we can skip certain thngs.
-        // if, however they are already near the work spot, then the crafting / inventory fucntions will have their own method to use or discount them.
+        // if we are searching for things to fetch, we can skip certain things.
+        // if, however they are already near the work spot, then the crafting / inventory functions will have their own method to use or discount them.
         if( in_loot_zones ) {
             // skip tiles in IGNORE zone and tiles on fire
             // (to prevent taking out wood off the lit brazier)
@@ -1282,13 +1282,13 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             if( &guy == &p ) {
                 continue;
             }
-            // If the NPC has an activity - make sure theyre not duplicating work.
+            // If the NPC has an activity - make sure they're not duplicating work.
             tripoint guy_work_spot;
             if( guy.has_player_activity() && guy.activity.placement != tripoint_min ) {
                 guy_work_spot = g->m.getlocal( guy.activity.placement );
             }
             // If their position or intended position or player position/intended position
-            // then discount, dont need to move each other out of the way.
+            // then discount, don't need to move each other out of the way.
             if( g->m.getlocal( g->u.activity.placement ) == src_loc ||
                 guy_work_spot == src_loc || guy.pos() == src_loc || ( p.is_npc() && g->u.pos() == src_loc ) ) {
                 return activity_reason_info::fail( ALREADY_WORKING );
@@ -1319,7 +1319,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                                vpindex ) != already_working_indexes.end() ) {
                     continue;
                 }
-                // dont have skill to remove it
+                // don't have skill to remove it
                 if( !has_skill_for_vehicle_work( vpinfo.removal_skills, p ) ) {
                     continue;
                 }
@@ -1341,7 +1341,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
 
                 const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                 p.set_value( "veh_index_type", vpinfo.name() );
-                // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
+                // temporarily store the intended index, we do this so two NPCs don't try and work on the same part at same time.
                 p.activity_vehicle_part_index = vpindex;
                 if( !can_make ) {
                     return activity_reason_info::fail( NEEDS_VEH_DECONST );
@@ -1364,7 +1364,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                                vpindex ) != already_working_indexes.end() ) {
                     continue;
                 }
-                // dont have skill to repair it
+                // don't have skill to repair it
                 if( !has_skill_for_vehicle_work( vpinfo.repair_skills, p ) ) {
                     continue;
                 }
@@ -1372,7 +1372,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 const inventory &inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1, false );
                 const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                 p.set_value( "veh_index_type", vpinfo.name() );
-                // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
+                // temporarily store the intended index, we do this so two NPCs don't try and work on the same part at same time.
                 p.activity_vehicle_part_index = vpindex;
                 if( !can_make ) {
                     return activity_reason_info::fail( NEEDS_VEH_REPAIR );
@@ -1534,13 +1534,13 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                             return activity_reason_info::ok( NEEDS_PLANTING );
                         }
                     }
-                    // didnt find the seed, but maybe there are overlapping farm zones
+                    // didn't find the seed, but maybe there are overlapping farm zones
                     // and another of the zones is for a seed that we have
                     // so loop again, and return false once all zones done.
                 }
 
             } else {
-                // cant plant, till or harvest
+                // can't plant, till or harvest
                 return activity_reason_info::fail( ALREADY_DONE );
             }
 
@@ -1553,7 +1553,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         // 2. when we form the src_set to loop through at the beginning of the fetch activity.
         return activity_reason_info::ok( CAN_DO_FETCH );
     }
-    // Shouldnt get here because the zones were checked previously. if it does, set enum reason as "no zone"
+    // Shouldn't get here because the zones were checked previously. if it does, set enum reason as "no zone"
     return activity_reason_info::fail( NO_ZONE );
 }
 
@@ -1593,12 +1593,12 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
     }
     for( const tripoint &elem : mgr.get_point_set_loot( g->m.getabs( p.pos() ), distance,
             p.is_npc() ) ) {
-        // if there is a loot zone thats already near the work spot, we dont want it to be added twice.
+        // if there is a loot zone thats already near the work spot, we don't want it to be added twice.
         if( std::find( already_there_spots.begin(), already_there_spots.end(),
                        elem ) != already_there_spots.end() ) {
-            // construction tasks dont need the loot spot *and* the already_there/cmbined spots both added.
+            // construction tasks don't need the loot spot *and* the already_there/combined spots both added.
             // but a farming task will need to go and fetch the tool no matter if its near the work spot.
-            // wheras the construction will automaticlaly use whats nearby anyway.
+            // whereas the construction will automatically use whats nearby anyway.
             if( pickup_task ) {
                 loot_spots.push_back( elem );
             } else {
@@ -1609,7 +1609,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             combined_spots.push_back( elem );
         }
     }
-    // if the requirements arent available, then stop.
+    // if the requirements aren't available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
                                   activity_to_restore, pickup_task, src_loc ) ) {
         return requirement_map;
@@ -1649,7 +1649,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                             comp_elem.count -= stack_elem.count();
                         }
                         if( comp_elem.by_charges() ) {
-                            // we dont care if there are 10 welders with 5 charges each
+                            // we don't care if there are 10 welders with 5 charges each
                             // we only want the one welder that has the required charge.
                             if( stack_elem.ammo_remaining() >= comp_elem.count ) {
                                 temp_map[stack_elem.typeId()] += stack_elem.ammo_remaining();
@@ -1679,7 +1679,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         for( const auto &map_elem : temp_map ) {
             total_map[map_elem.first] += map_elem.second;
             // if its a construction/crafting task, we can discount any items already near the work spot.
-            // we dont need to fetch those, they will be used automatically in the construction.
+            // we don't need to fetch those, they will be used automatically in the construction.
             // a shovel for tilling, for example, however, needs to be picked up, no matter if its near the spot or not.
             if( !pickup_task ) {
                 if( std::find( already_there_spots.begin(), already_there_spots.end(),
@@ -1690,7 +1690,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             requirement_map.push_back( std::make_tuple( point_elem, map_elem.first, map_elem.second ) );
         }
     }
-    // Ok we now have a list of all the items that match the requirements, their points, and a quantity for each one.
+    // OK we now have a list of all the items that match the requirements, their points, and a quantity for each one.
     // we need to consolidate them, and winnow it down to the minimum required counts, instead of all matching.
     for( const std::vector<item_comp> &elem : req_comps ) {
         bool line_found = false;
@@ -1710,7 +1710,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     item_quantity += quantity_here;
                 }
                 if( item_quantity >= quantity_required ) {
-                    // it's just this spot that can fulfil the requirement on its own
+                    // it's just this spot that can fulfill the requirement on its own
                     final_map.push_back( std::make_tuple( pos_here, item_here, std::min<int>( quantity_here,
                                                           quantity_required ) ) );
                     if( quantity_here >= quantity_required ) {
@@ -1768,7 +1768,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     item_quantity += quantity_here;
                 }
                 if( item_quantity >= quantity_required ) {
-                    // it's just this spot that can fulfil the requirement on its own
+                    // it's just this spot that can fulfill the requirement on its own
                     final_map.push_back( std::make_tuple( pos_here, item_here, std::min<int>( quantity_here,
                                                           quantity_required ) ) );
                     if( quantity_here >= quantity_required ) {
@@ -1821,7 +1821,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 itype_id item_here = std::get<1>( *it );
                 item test_item = item( item_here, 0 );
                 if( test_item.has_quality( tool_qual, qual_level ) ) {
-                    // it's just this spot that can fulfil the requirement on its own
+                    // it's just this spot that can fulfill the requirement on its own
                     final_map.push_back( std::make_tuple( pos_here, item_here, 1 ) );
                     line_found = true;
                     break;
@@ -1962,7 +1962,7 @@ static void fetch_activity( player &p, const tripoint &src_loc,
         item &it = *item_iter;
         for( auto elem : mental_map_2 ) {
             if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
-                // construction/crafting tasks want the requred item moved near the work spot.
+                // construction/crafting tasks want the required item moved near the work spot.
                 if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
                     move_item( p, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
                                g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
@@ -2162,8 +2162,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                     route = g->m.route( p.pos(), src_loc, p.get_pathfinding_settings(),
                                         p.get_path_avoid() );
                 } else {
-                    // immpassable source tile (locker etc.),
-                    // get route to nerest adjacent tile instead
+                    // impassable source tile (locker etc.),
+                    // get route to nearest adjacent tile instead
                     route = route_adjacent( p, src_loc );
                     adjacent = true;
                 }
@@ -2413,7 +2413,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
         for( const tripoint &elem : g->m.points_in_radius( g->m.getlocal( abspos ),
                 ACTIVITY_SEARCH_DISTANCE ) ) {
             if( mgr.has( zone_type_id( z_loot_unsorted ), g->m.getabs( elem ) ) ) {
-                // it already has a unsorted loot spot, and therefore dont need to go and pick up items there.
+                // it already has a unsorted loot spot, and therefore don't need to go and pick up items there.
                 if( unsorted_spot == tripoint_zero ) {
                     unsorted_spot = elem;
                 }
@@ -2450,7 +2450,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
                     src_set.insert( g->m.getabs( elem ) );
                 }
             }
-            // farming activies encompass tilling, planting, harvesting.
+            // farming activities encompass tilling, planting, harvesting.
         } else if( act_id == ACT_MULTIPLE_FARM ) {
             dark_capable = true;
         }
@@ -2473,7 +2473,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
         const tripoint set_pt = g->m.getlocal( *it2 );
         if( g->m.dangerous_field_at( set_pt ) ) {
             it2 = src_set.erase( it2 );
-            // remove tiles in darkness, if we arent lit-up ourselves
+            // remove tiles in darkness, if we aren't lit-up ourselves
         } else if( !dark_capable && p.fine_detail_vision_mod( set_pt ) > 4.0 ) {
             it2 = src_set.erase( it2 );
         } else if( act_id == ACT_MULTIPLE_FISH ) {
@@ -2518,7 +2518,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
                                      ( act_id == ACT_MULTIPLE_CONSTRUCTION &&
                                        !g->m.partial_con_at( src_loc ) );
     // some activities require the target tile to be part of a zone.
-    // tidy up activity dosnt - it wants things that may not be in a zone already - things that may have been left lying around.
+    // tidy up activity doesn't - it wants things that may not be in a zone already - things that may have been left lying around.
     if( needs_to_be_in_zone && !zone ) {
         can_do_it = false;
         return true;
@@ -2566,7 +2566,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             what_we_need = built_chosen.requirements;
         } else if( reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ) {
             const vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
-            // we already checked this in can_do_activity() but check again just incase.
+            // we already checked this in can_do_activity() but check again just in case.
             if( !veh ) {
                 p.activity_vehicle_part_index = 1;
                 return true;
@@ -2617,7 +2617,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
         bool tool_pickup = reason == NEEDS_TILLING || reason == NEEDS_PLANTING ||
                            reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING ||
                            reason == NEEDS_TREE_CHOPPING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR;
-        // is it even worth fetching anything if there isnt enough nearby?
+        // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
                                       act_id, tool_pickup, src_loc ) ) {
             p.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
@@ -2631,7 +2631,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
             player_activity &act_prev = p.backlog.front();
             act_prev.str_values.push_back( what_we_need.str() );
             act_prev.values.push_back( reason );
-            // come back here after succesfully fetching your stuff
+            // come back here after successfully fetching your stuff
             std::vector<tripoint> candidates;
             if( act_prev.coords.empty() ) {
                 std::vector<tripoint> local_src_set;
@@ -2640,7 +2640,7 @@ static bool generic_multi_activity_check_requirement( player &p, const activity_
                 }
                 std::vector<tripoint> candidates;
                 for( const tripoint &point_elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
-                    // we dont want to place the components where they could interfere with our ( or someone elses ) construction spots
+                    // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
                     if( !p.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
                                                    point_elem ) != local_src_set.end() ) || !g->m.can_put_items_ter_furn( point_elem ) ) {
                         continue;
@@ -2692,7 +2692,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
             std::vector<item *> seed_inv = p.items_with( [seed]( const item & itm ) {
                 return itm.typeId() == itype_id( seed );
             } );
-            // we dont have the required seed, even though we should at this point.
+            // we don't have the required seed, even though we should at this point.
             // move onto the next tile, and if need be that will prompt a fetch seeds activity.
             if( seed_inv.empty() ) {
                 continue;
@@ -2736,7 +2736,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         }
     } else if( reason == NEEDS_FISHING && p.has_quality( quality_FISHING, 1 ) ) {
         p.backlog.push_front( act_id );
-        // we dont want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
+        // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         p.activity = player_activity();
         item *best_rod = best_quality_item( p, quality_FISHING );
         p.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
@@ -2764,12 +2764,12 @@ void generic_multi_activity_handler( player_activity &act, player &p )
     activity_id activity_to_restore = act.id();
     // Nuke the current activity, leaving the backlog alone
     p.activity = player_activity();
-    // now we setup the target spots based on whch activity is occuring
-    // the set of target work spots - potentally after we have fetched required tools.
+    // now we setup the target spots based on which activity is occurring
+    // the set of target work spots - potentially after we have fetched required tools.
     std::unordered_set<tripoint> src_set = generic_multi_activity_locations( p, activity_to_restore );
     // now we have our final set of points
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-    // now loop through the work-spot tiles and judge whether its worth travelling to it yet
+    // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
     for( const tripoint &src : src_sorted ) {
         const tripoint &src_loc = g->m.getlocal( src );

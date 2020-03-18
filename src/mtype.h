@@ -138,7 +138,7 @@ enum m_flag : int {
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_SWARMS,              // Monsters that like to group together and form loose packs
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
-    MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
+    MF_INTERIOR_AMMO,       // Monster contains its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PACIFIST,            // Monsters that will never use melee attack, useful for having them use grab without attacking the player
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
@@ -162,13 +162,13 @@ enum m_flag : int {
     MF_MILKABLE,            // This monster is milkable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
-    MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
+    MF_DRIPS_NAPALM,        // This monster occasionally drips napalm on move
     MF_DRIPS_GASOLINE,      // This monster occasionally drips gasoline on move
     MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
     MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
-    MF_DROPS_AMMO,          // This monster drops ammo. Check to make sure starting_ammo paramter is present for this monster type!
+    MF_DROPS_AMMO,          // This monster drops ammo. Check to make sure starting_ammo parameter is present for this monster type!
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

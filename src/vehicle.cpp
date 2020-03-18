@@ -165,7 +165,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
             debugmsg( "Tried to spawn animal from vehicle part during mapgen!" );
             // Ignored. The base item will not be changed and will spawn as is:
             // still containing the animal.
-            // This should not happend during mapgen anyway.
+            // This should not happen during mapgen anyway.
             // TODO: *if* this actually happens: create a spawn point for the animal instead.
         }
 };
@@ -630,12 +630,12 @@ void vehicle::autopilot_patrol()
     /** choose one single zone ( multiple zones too complex for now )
      * choose a point at the far edge of the zone
      * the edge chosen is the edge that is smaller, therefore the longer side
-     * of the rectangle is the one the vehicle drives mostly parrallel too.
+     * of the rectangle is the one the vehicle drives mostly parallel too.
      * if its  perfect square then choose a point that is on any edge that the
      * vehicle is not currently at
      * drive to that point.
      * then once arrived, choose a random opposite point of the zone.
-     * this should ( in a simple fashion ) cause a patrolling behaviour
+     * this should ( in a simple fashion ) cause a patrolling behavior
      * in a criss-cross fashion.
      * in an auto-tractor, this would eventually cover the entire rectangle.
      */
@@ -826,7 +826,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     }
     int accel_y = 0;
     // best to cruise around at a safe velocity or 40mph, whichever is lowest
-    // accelerate when it dosnt need to turn.
+    // accelerate when it doesn't need to turn.
     // when following player, take distance to player into account.
     // we really want to avoid running the player over.
     int safe_player_follow_speed = 400;
@@ -926,7 +926,7 @@ void vehicle::do_autodrive()
 /**
  * Smashes up a vehicle that has already been placed; used for generating
  * very damaged vehicles. Additionally, any spot where two vehicles overlapped
- * (ie, any spot with multiple frames) will be completely destroyed, as that
+ * (i.e., any spot with multiple frames) will be completely destroyed, as that
  * was the collision point.
  */
 void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_max,
@@ -1122,7 +1122,7 @@ void vehicle::backfire( const int e ) const
     const int power = part_vpower_w( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
     sounds::sound( pos, 40 + power / 10000, sounds::sound_t::movement,
-                   // single space after the exclaimation mark because it does not end the sentence
+                   // single space after the exclamation mark because it does not end the sentence
                    //~ backfire sound
                    string_format( _( "a loud BANG! from the %s" ), // NOLINT(cata-text-style)
                                   parts[ engines[ e ] ].name() ), true, "vehicle", "engine_backfire" );
@@ -1280,7 +1280,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     if( parts_in_square.empty() && part.location != part_location_structure ) {
         return false;
     }
-    // If its a part that harnesses animals that dont allow placing on it.
+    // If its a part that harnesses animals that don't allow placing on it.
     if( !parts_in_square.empty() && part_info( parts_in_square[0] ).has_flag( flag_ANIMAL_CTRL ) ) {
         return false;
     }
@@ -1875,8 +1875,8 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     }
 
     // We look at each of the structure parts (mount points, i.e. frames) for the
-    // carry vehicle and then find a rack part adjacent to it. If we dont find a rack part,
-    // then we cant merge.
+    // carry vehicle and then find a rack part adjacent to it. If we don't find a rack part,
+    // then we can't merge.
     bool found_all_parts = true;
     for( auto carry_part : carry_veh_structs ) {
 
@@ -2892,7 +2892,7 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
 }
 
 // another NPC probably removed a part in the time it took to walk here and start the activity.
-// as the part index was first "chosen" before the NPC started travelling here.
+// as the part index was first "chosen" before the NPC started traveling here.
 // therefore the part index is now invalid shifted by one or two ( depending on how many other NPCs working on this vehicle )
 // so loop over the part indexes in reverse order to get the next one down that matches the part type we wanted to remove
 int vehicle::get_next_shifted_index( int original_index, player &p )
@@ -2907,8 +2907,8 @@ int vehicle::get_next_shifted_index( int original_index, player &p )
         }
     }
     if( !found_shifted_index ) {
-        // we are probably down to a few parts left, and things get messy here, so an alternative index maybe cant be found
-        // if loads of npcs are all removign parts at the same time.
+        // we are probably down to a few parts left, and things get messy here, so an alternative index maybe can't be found
+        // if loads of npcs are all removing parts at the same time.
         // if thats the case, just bail out and give up, somebody else is probably doing the job right now anyway.
         return -1;
     } else {
@@ -4257,7 +4257,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         set_owner( p.get_faction()->id );
         remove_old_owner();
         return true;
-        // No witnesses? then dont need to prompt, we assume the player is in process of stealing it.
+        // No witnesses? then don't need to prompt, we assume the player is in process of stealing it.
         // Ownership transfer checking is handled above, and warnings handled below.
         // This is just to perform interaction with the vehicle without a prompt.
         // It will prompt first-time, even with no witnesses, to inform player it is owned by someone else

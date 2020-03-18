@@ -1093,7 +1093,7 @@ tripoint monster::scent_move()
         if( !tracked_scents.empty() ) {
             right_scent = tracked_scents.find( type_scent ) != tracked_scents.end();
         }
-        //is this scent recognised by the monster species
+        //is this scent recognized by the monster species
         if( !type_scent.is_empty() ) {
             const std::set<species_id> &receptive_species = type_scent->receptive_species;
             const std::set<species_id> &monster_species = type->species;
@@ -1547,7 +1547,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                 factor = 1;
                 break;
         }
-        // TODO: make this take terrain type into account so diggers travelling under sand will create mounds of sand etc.
+        // TODO: make this take terrain type into account so diggers traveling under sand will create mounds of sand etc.
         if( one_in( factor ) ) {
             g->m.ter_set( pos(), t_dirtmound );
         }

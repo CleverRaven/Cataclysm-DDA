@@ -282,7 +282,7 @@ void user_interface::show()
                                     "heAVY*woOD*arrOW      case insensitive search\n"
                                     "\n"
                                     "Pickup based on item materials:\n"
-                                    "m:kevlar        matches items made of kevlar\n"
+                                    "m:kevlar        matches items made of Kevlar\n"
                                     "M:copper        matches items made purely of copper\n"
                                     "M:steel,iron    multiple materials allowed (OR search)" )
                               );

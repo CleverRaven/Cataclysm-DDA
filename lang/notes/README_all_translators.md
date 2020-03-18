@@ -12,9 +12,9 @@ Translations are stored in ".po" files, named with a language code specific to e
 
 It is a plain-text filetype, so you can edit it however you choose, but translators often prefer to use purpose-built translation editors (such as Poedit from poedit.net), or web-based translation tools (such as translations.launchpad.net).
 
-The format of ".po" files is a list of entries, with the english phrase to be translated, followed by the local translation. The english phrase is on the line or lines beginning with `msgid`, and the translated phrase goes on the line or lines beginning with `msgstr`.
+The format of ".po" files is a list of entries, with the English phrase to be translated, followed by the local translation. The English phrase is on the line or lines beginning with `msgid`, and the translated phrase goes on the line or lines beginning with `msgstr`.
 
-Before the `msgid` line there will be a comment line indicating where in the source code the word or phrase came from. This can often help when the meaning of the english is not obvious. There may also be comments left by the developers to make translation easier.
+Before the `msgid` line there will be a comment line indicating where in the source code the word or phrase came from. This can often help when the meaning of the English is not obvious. There may also be comments left by the developers to make translation easier.
 
 Most entries will look something like this:
 
@@ -22,7 +22,7 @@ Most entries will look something like this:
     msgid "Construct Terrain"
     msgstr "niarreT tcurtsnoC"
 
-The english phrase here is "Construct Terrain", and it comes from line 421 of the file "action.cpp". The example translation is just a reversal of the english letters. With this, in stead of "Construct Terrain", the game will display "niarreT tcurtsnoC".
+The English phrase here is "Construct Terrain", and it comes from line 421 of the file "action.cpp". The example translation is just a reversal of the English letters. With this, in stead of "Construct Terrain", the game will display "niarreT tcurtsnoC".
 
 Another exmple is:
 
@@ -96,7 +96,7 @@ As an example, if there is a string with `%s shoots %s!`, it might change in tra
 
 In this case, each `%s` should be numbered with a digit (1-9) then a dollar sign ($) between the `%` and the `s`. For example `%1$s shoots %2$s!` would be equivalent to `%s shoots %s!`. So the example translation above could be `%2$s is shot by %1$s!`, and this would work correctly.
 
-The game can figure out these `%1$s` `%2$s` parameters automatically, but you must make sure that (A): all of the `%` terms in the translation are numbered; and (B): the numbers are correct in terms of the original ordering in the english text.
+The game can figure out these `%1$s` `%2$s` parameters automatically, but you must make sure that (A): all of the `%` terms in the translation are numbered; and (B): the numbers are correct in terms of the original ordering in the English text.
 
 For example:
 

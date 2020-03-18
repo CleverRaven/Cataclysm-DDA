@@ -226,7 +226,7 @@ namespace Catch {
 #  endif
 
 // Universal Windows platform does not support SEH
-// Or console colours (or console at all...)
+// Or console colors (or console at all...)
 #  if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
 #    define CATCH_CONFIG_COLOUR_NONE
 #  else
@@ -2251,7 +2251,7 @@ namespace Catch {
         {}
     };
 
-    // Specialised comparison functions to handle equality comparisons between ints and pointers (NULL deduces as an int)
+    // Specialized comparison functions to handle equality comparisons between ints and pointers (NULL deduces as an int)
     template<typename LhsT, typename RhsT>
     auto compareEqual( LhsT const& lhs, RhsT const& rhs ) -> bool { return static_cast<bool>(lhs == rhs); }
     template<typename T>
@@ -3523,7 +3523,7 @@ namespace Matchers {
             bool match(std::vector<T> const &v) const override {
                 // !TBD: This currently works if all elements can be compared using !=
                 // - a more general approach would be via a compare template that defaults
-                // to using !=. but could be specialised for, e.g. std::vector<T> etc
+                // to using !=. but could be specialized for, e.g. std::vector<T> etc
                 // - then just call that directly
                 if (m_comparator.size() != v.size())
                     return false;
@@ -8704,7 +8704,7 @@ namespace detail {
         else if (srcLC == "n" || srcLC == "0" || srcLC == "false" || srcLC == "no" || srcLC == "off")
             target = false;
         else
-            return ParserResult::runtimeError( "Expected a boolean value but did not recognise: '" + source + "'" );
+            return ParserResult::runtimeError( "Expected a boolean value but did not recognize: '" + source + "'" );
         return ParserResult::ok( ParseResultType::Matched );
     }
 #ifdef CLARA_CONFIG_OPTIONAL_TYPE
@@ -9251,7 +9251,7 @@ namespace detail {
                 if( result.value().type() == ParseResultType::ShortCircuitAll )
                     return result;
                 if( !tokenParsed )
-                    return InternalParseResult::runtimeError( "Unrecognised token: " + result.value().remainingTokens()->token );
+                    return InternalParseResult::runtimeError( "Unrecognized token: " + result.value().remainingTokens()->token );
             }
             // !TBD Check missing required options
             return result;
@@ -9331,7 +9331,7 @@ namespace Catch {
                 }();
 
                 if (warningSet == WarnAbout::Nothing)
-                    return ParserResult::runtimeError( "Unrecognised warning: '" + warning + "'" );
+                    return ParserResult::runtimeError( "Unrecognized warning: '" + warning + "'" );
                 config.warnings = static_cast<WarnAbout::What>( config.warnings | warningSet );
                 return ParserResult::ok( ParseResultType::Matched );
             };
@@ -9359,7 +9359,7 @@ namespace Catch {
                 else if( startsWith( "random", order ) )
                     config.runOrder = RunTests::InRandomOrder;
                 else
-                    return clara::ParserResult::runtimeError( "Unrecognised ordering: '" + order + "'" );
+                    return clara::ParserResult::runtimeError( "Unrecognized ordering: '" + order + "'" );
                 return ParserResult::ok( ParseResultType::Matched );
             };
         auto const setRngSeed = [&]( std::string const& seed ) {
@@ -9378,7 +9378,7 @@ namespace Catch {
                     else if( mode == "auto" )
                         config.useColour = UseColour::Auto;
                     else
-                        return ParserResult::runtimeError( "colour mode must be one of: auto, yes or no. '" + useColour + "' not recognised" );
+                        return ParserResult::runtimeError( "color mode must be one of: auto, yes or no. '" + useColour + "' not recognized" );
                 return ParserResult::ok( ParseResultType::Matched );
             };
         auto const setWaitForKeypress = [&]( std::string const& keypress ) {
@@ -9390,7 +9390,7 @@ namespace Catch {
                 else if( keypressLc == "both" )
                     config.waitForKeypress = WaitForKeypress::BeforeStartAndExit;
                 else
-                    return ParserResult::runtimeError( "keypress argument must be one of: start, exit or both. '" + keypress + "' not recognised" );
+                    return ParserResult::runtimeError( "keypress argument must be one of: start, exit or both. '" + keypress + "' not recognized" );
             return ParserResult::ok( ParseResultType::Matched );
             };
         auto const setVerbosity = [&]( std::string const& verbosity ) {
@@ -9402,7 +9402,7 @@ namespace Catch {
             else if( lcVerbosity == "high" )
                 config.verbosity = Verbosity::High;
             else
-                return ParserResult::runtimeError( "Unrecognised verbosity, '" + verbosity + "'" );
+                return ParserResult::runtimeError( "Unrecognized verbosity, '" + verbosity + "'" );
             return ParserResult::ok( ParseResultType::Matched );
         };
         auto const setReporter = [&]( std::string const& reporter ) {
@@ -9486,7 +9486,7 @@ namespace Catch {
                 ( "set a specific seed for random numbers" )
             | Opt( setColourUsage, "yes|no" )
                 ["--use-colour"]
-                ( "should output be colourised" )
+                ( "should output be colorized" )
             | Opt( config.libIdentify )
                 ["--libidentify"]
                 ( "report name and version according to libidentify standard" )
@@ -9698,10 +9698,10 @@ namespace {
                 case Colour::BrightWhite:   return setTextAttribute( FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE );
                 case Colour::BrightYellow:  return setTextAttribute( FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN );
 
-                case Colour::Bright: CATCH_INTERNAL_ERROR( "not a colour" );
+                case Colour::Bright: CATCH_INTERNAL_ERROR( "not a color" );
 
                 default:
-                    CATCH_ERROR( "Unknown colour requested" );
+                    CATCH_ERROR( "Unknown color requested" );
             }
         }
 
@@ -9761,8 +9761,8 @@ namespace {
                 case Colour::BrightWhite:   return setColour( "[1;37m" );
                 case Colour::BrightYellow:  return setColour( "[1;33m" );
 
-                case Colour::Bright: CATCH_INTERNAL_ERROR( "not a colour" );
-                default: CATCH_INTERNAL_ERROR( "Unknown colour requested" );
+                case Colour::Bright: CATCH_INTERNAL_ERROR( "not a color" );
+                default: CATCH_INTERNAL_ERROR( "Unknown color requested" );
             }
         }
         static IColourImpl* instance() {
@@ -11415,7 +11415,7 @@ namespace Catch {
 
 #if defined(CATCH_CONFIG_NEW_CAPTURE)
 
-    // Windows's implementation of std::tmpfile is terrible (it tries
+    // Windows' implementation of std::tmpfile is terrible (it tries
     // to create a file inside system folder, thus requiring elevated
     // privileges for the binary), so we have to use tmpnam(_s) and
     // create the file ourselves there.
@@ -11682,7 +11682,7 @@ namespace Catch {
         mutable RunTests::InWhatOrder m_currentSortOrder = RunTests::InDeclarationOrder;
         mutable std::vector<TestCase> m_sortedFunctions;
         std::size_t m_unnamedCount = 0;
-        std::ios_base::Init m_ostreamInit; // Forces cout/ cerr to be initialised
+        std::ios_base::Init m_ostreamInit; // Forces cout/ cerr to be initialized
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -13000,7 +13000,7 @@ namespace Catch {
             if( filename == "%debug" )
                 return new Detail::DebugOutStream();
             else
-                CATCH_ERROR( "Unrecognised stream: '" << filename << "'" );
+                CATCH_ERROR( "Unrecognized stream: '" << filename << "'" );
         }
         else
             return new Detail::FileStream( filename );

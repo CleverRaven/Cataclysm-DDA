@@ -420,7 +420,7 @@ Example: `"place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Se
 This places a single random monster from group "GROUP_REFUGEE_BOSS_ZOMBIE", sets the name to "Sean McLaughlin", spawns the monster at coordinate (10, 10) and also sets the monster as the target of this mission.
 
 Example: `"place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": [1, 3] } ]`  
-This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probablity. The placement is repeated by random number of times [1-3].
+This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probability. The placement is repeated by random number of times [1-3].
 
 ## 2.5 "place_item"
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too

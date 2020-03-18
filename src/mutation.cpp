@@ -1285,11 +1285,11 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p.fall_asleep( 5_hours - 1_minutes * ( p.int_cur + ( strong ? 100 : 0 ) ) );
         p.set_mutation( trait_MUTAGEN_AVOID );
-        // Injected mutagen purges marloss, ingested doesn't
+        // Injected mutagen purges Marloss, ingested doesn't
         if( strong ) {
             p.unset_mutation( trait_THRESH_MARLOSS );
             p.add_msg_if_player( m_warning,
-                                 _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
+                                 _( "It was probably that Marloss -- how did you know to call it \"Marloss\" anyway?" ) );
             p.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
             if( p.is_avatar() ) {
                 g->memorial().add(
@@ -1304,8 +1304,8 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
                                  it.tname() );
             if( p.is_avatar() ) {
                 g->memorial().add(
-                    pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
-                    pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
+                    pgettext( "memorial_male", "Suffered a toxic Marloss/mutagen reaction." ),
+                    pgettext( "memorial_female", "Suffered a toxic Marloss/mutagen reaction." ) );
             }
         }
 

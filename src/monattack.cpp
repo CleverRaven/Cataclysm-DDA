@@ -4375,7 +4375,7 @@ bool mattack::darkman( monster *z )
                      z->name() );
         }
     }
-    // Wont do the combat stuff unless it can see you
+    // Won't do the combat stuff unless it can see you
     if( !z->sees( g->u ) ) {
         return true;
     }
@@ -4875,7 +4875,7 @@ bool mattack::tindalos_teleport( monster *z )
                 }
             }
         }
-        // couldnt teleport without losing sight of target
+        // couldn't teleport without losing sight of target
         z->setpos( oldpos );
         return true;
     }

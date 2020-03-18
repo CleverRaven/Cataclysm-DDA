@@ -2419,7 +2419,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
     if( cleared_destination ) {
         // Produce no-op if auto-move had just been cleared on this action
         // e.g. from a previous single left mouse click. This has the effect
-        // of right-click cancelling an auto-move before it is initiated.
+        // of right-click canceling an auto-move before it is initiated.
         return false;
     }
 
@@ -4908,7 +4908,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     }
     const tripoint kbp( kbx, kby, p.z );
     if( kbp == p ) {
-        // cant pushback any creatures anywhere, that means the door cant close.
+        // can't pushback any creatures anywhere, that means the door can't close.
         return false;
     }
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
@@ -4980,7 +4980,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
                 // Liquids are OK, will be destroyed later
                 continue;
             } else if( elem.volume() < 250_ml ) {
-                // Dito for small items, will be moved away
+                // Ditto for small items, will be moved away
                 continue;
             }
             // Everything else prevents the door from closing
@@ -9331,7 +9331,7 @@ point game::place_player( const tripoint &dest_loc )
 
 void game::place_player_overmap( const tripoint &om_dest )
 {
-    // if player is teleporting around, they dont bring their horse with them
+    // if player is teleporting around, they don't bring their horse with them
     if( u.is_mounted() ) {
         u.remove_effect( effect_riding );
         u.mounted_creature->remove_effect( effect_ridden );
@@ -10041,7 +10041,7 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() ) {
         const tripoint to = u.pos();
         for( monster &critter : all_monsters() ) {
-            // if its a ladder instead of stairs - most zombies cant climb that.
+            // if its a ladder instead of stairs - most zombies can't climb that.
             // unless that have a special flag to allow them to do so.
             if( ( m.has_flag( flag_DIFFICULT_Z, u.pos() ) && !critter.climbs() ) ||
                 critter.has_effect( effect_ridden ) ||
@@ -10851,7 +10851,7 @@ void game::perhaps_add_random_npc()
         spawn_point = tripoint( rng( 0, OMAPX - 1 ), rng( 0, OMAPY - 1 ), 0 );
         spawn_point.z = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
-        // shouldnt spawn on lakes or rivers.
+        // shouldn't spawn on lakes or rivers.
         if( !is_river_or_lake( oter ) ) {
             spawn_allowed = true;
         }
