@@ -98,7 +98,7 @@
   {
     "id": "mon_triffid_sprig",
     "type": "MONSTER",
-    "name": "triffid sprig",
+    "name": { "str": "triffid sprig" },
     "description": "A teeny-tiny triffid that has recently germinated.  Like a house cat, you know it wants to eat you but it just can't figure out how.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],
@@ -123,7 +123,7 @@
   {
     "id": "mon_triffid_young",
     "type": "MONSTER",
-    "name": "triffid sprout",
+    "name": { "str": "triffid sprout" },
     "description": "A small triffid, only a few feet tall.  It has not yet developed bark, but its sting is still sharp and deadly.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],
@@ -148,7 +148,7 @@
   {
     "id": "mon_triffid",
     "type": "MONSTER",
-    "name": "triffid",
+    "name": { "str": "triffid" },
     "description": "A creeping animate plant, growing as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],
@@ -174,7 +174,7 @@
   {
     "id": "mon_triffid_queen",
     "type": "MONSTER",
-    "name": "triffid queen",
+    "name": { "str": "triffid queen" },
     "description": "A ponderous and particularly arborescent triffid.  It has enormous red petals surrounded by a haze of spores, and two thick barbed vines stick out from the stems like wary harpoons.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],
@@ -260,7 +260,7 @@
   {
     "id": "mon_triffid_flower",
     "type": "MONSTER",
-    "name": "triffid flower",
+    "name": { "str": "triffid flower" },
     "description": "A giant plant with a thick stalk adorned by a purple flower.  Its petals are open with ominous shine in center.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],
@@ -283,7 +283,7 @@
   {
     "id": "mon_triffid_heart",
     "type": "MONSTER",
-    "name": "triffid heart",
+    "name": { "str": "triffid heart" },
     "description": "A knot of tubular roots, flowing with sap and beating like a heart.  Strands of vascular tissue reach out to the surrounding root walls.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],

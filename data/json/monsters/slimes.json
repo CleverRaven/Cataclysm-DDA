@@ -91,7 +91,7 @@
   {
     "id": "mon_blob_small",
     "type": "MONSTER",
-    "name": "small blob",
+    "name": { "str": "small blob" },
     "description": "A small black blob of viscous goo, oozing across the ground like a glob of living oil.",
     "default_faction": "blob",
     "bodytype": "blob",
