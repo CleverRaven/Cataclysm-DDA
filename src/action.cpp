@@ -34,6 +34,9 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_CUT_FINE( "CUT_FINE" );
+
 class inventory;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,

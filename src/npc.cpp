@@ -65,6 +65,17 @@
 #include "stomach.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_archery( "archery" );
+static const skill_id skill_barter( "barter" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_pistol( "pistol" );
+static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_shotgun( "shotgun" );
+static const skill_id skill_smg( "smg" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_throw( "throw" );
+
 class basecamp;
 class monfaction;
 

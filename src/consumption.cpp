@@ -38,6 +38,12 @@
 #include "flat_set.h"
 #include "cata_string_consts.h"
 
+static const std::string comesttype_DRINK( "DRINK" );
+static const std::string comesttype_FOOD( "FOOD" );
+
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_survival( "survival" );
+
 const std::vector<std::string> carnivore_blacklist {{
         flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
     }

@@ -59,6 +59,14 @@
 #include "material.h"
 #include "cata_string_consts.h"
 
+static const itype_id fuel_type_battery( "battery" );
+
+static const skill_id skill_mechanics( "mechanics" );
+
+static const quality_id qual_JACK( "JACK" );
+static const quality_id qual_LIFT( "LIFT" );
+static const quality_id qual_SELF_JACK( "SELF_JACK" );
+
 class player;
 
 static inline std::string status_color( bool status )

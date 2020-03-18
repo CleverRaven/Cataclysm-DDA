@@ -27,6 +27,8 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const quality_id qual_BUTCHER( "BUTCHER" );
+
 /** @relates visitable */
 template <typename T>
 item *visitable<T>::find_parent( const item &it )

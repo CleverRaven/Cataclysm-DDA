@@ -42,6 +42,11 @@
 #include "string_formatter.h"
 #include "cata_string_consts.h"
 
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
 #define MONSTER_FOLLOW_DIST 8
 
 bool monster::wander()

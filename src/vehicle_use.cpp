@@ -54,6 +54,19 @@
 #include "weather.h"
 #include "cata_string_consts.h"
 
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_none( "null" );
+static const itype_id fuel_type_wind( "wind" );
+
+static const fault_id fault_diesel( "fault_engine_pump_diesel" );
+static const fault_id fault_glowplug( "fault_engine_glow_plug" );
+static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
+static const fault_id fault_pump( "fault_engine_pump_fuel" );
+static const fault_id fault_starter( "fault_engine_starter" );
+
+static const skill_id skill_mechanics( "mechanics" );
+
 enum change_types : int {
     OPENCURTAINS = 0,
     OPENBOTH,

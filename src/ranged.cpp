@@ -65,6 +65,19 @@
 #include "skill.h"
 #include "cata_string_consts.h"
 
+static const trap_str_id tr_practice_target( "tr_practice_target" );
+
+static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
+static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
+
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_driving( "driving" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_throw( "throw" );
+
 static projectile make_gun_projectile( const item &gun );
 int time_to_attack( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );

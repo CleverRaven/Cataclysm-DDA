@@ -463,7 +463,6 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
-static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEBUG_NOSCENT( "DEBUG_NOSCENT" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DEBUG_SILENT( "DEBUG_SILENT" );
@@ -718,8 +717,6 @@ static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
-
-static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
 static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
 static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
@@ -1224,168 +1221,5 @@ static const std::string flag_WIN_START( "WIN_START" );
 static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
 static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 static const std::string flag_YOUNG( "YOUNG" );
-
-static const skill_id skill_archery( "archery" );
-static const skill_id skill_barter( "barter" );
-static const skill_id skill_bashing( "bashing" );
-static const skill_id skill_computer( "computer" );
-static const skill_id skill_cooking( "cooking" );
-static const skill_id skill_cutting( "cutting" );
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_driving( "driving" );
-static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_launcher( "launcher" );
-static const skill_id skill_mechanics( "mechanics" );
-static const skill_id skill_melee( "melee" );
-static const skill_id skill_pistol( "pistol" );
-static const skill_id skill_rifle( "rifle" );
-static const skill_id skill_shotgun( "shotgun" );
-static const skill_id skill_smg( "smg" );
-static const skill_id skill_speech( "speech" );
-static const skill_id skill_stabbing( "stabbing" );
-static const skill_id skill_survival( "survival" );
-static const skill_id skill_swimming( "swimming" );
-static const skill_id skill_tailor( "tailor" );
-static const skill_id skill_throw( "throw" );
-static const skill_id skill_traps( "traps" );
-static const skill_id skill_unarmed( "unarmed" );
-static const skill_id weapon_skill( "weapon" );
-
-static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
-static const quality_id qual_AXE( "AXE" );
-static const quality_id qual_BUTCHER( "BUTCHER" );
-static const quality_id qual_CUT( "CUT" );
-static const quality_id qual_CUT_FINE( "CUT_FINE" );
-static const quality_id qual_DIG( "DIG" );
-static const quality_id qual_FISHING( "FISHING" );
-static const quality_id qual_JACK( "JACK" );
-static const quality_id qual_LIFT( "LIFT" );
-static const quality_id qual_SAW_M( "SAW_M" );
-static const quality_id qual_SAW_W( "SAW_W" );
-static const quality_id qual_SELF_JACK( "SELF_JACK" );
-static const quality_id qual_WELD( "WELD" );
-
-static const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
-static const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
-static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
-static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
-static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
-static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
-static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
-static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
-static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
-static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
-static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
-static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-
-static const zone_type_id z_camp_food( "CAMP_FOOD" );
-static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
-static const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
-static const zone_type_id zone_source_firewood( "SOURCE_FIREWOOD" );
-
-static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_practice_target( "tr_practice_target" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
-
-static const itype_id fuel_type_animal( "animal" );
-static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_none( "null" );
-static const itype_id fuel_type_plutonium_cell( "plut_cell" );
-static const itype_id fuel_type_sun_light( "sunlight" );
-static const itype_id fuel_type_wind( "wind" );
-
-static const fault_id fault_belt( "fault_engine_belt_drive" );
-static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
-static const fault_id fault_diesel( "fault_engine_pump_diesel" );
-static const fault_id fault_filter_air( "fault_engine_filter_air" );
-static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
-static const fault_id fault_glowplug( "fault_engine_glow_plug" );
-static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
-static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
-static const fault_id fault_gun_dirt( "fault_gun_dirt" );
-static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
-static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
-static const fault_id fault_pump( "fault_engine_pump_fuel" );
-static const fault_id fault_starter( "fault_engine_starter" );
-
-static const std::string comesttype_DRINK( "DRINK" );
-static const std::string comesttype_FOOD( "FOOD" );
-
-static const matype_id style_aikido( "style_aikido" );
-static const matype_id style_biojutsu( "style_biojutsu" );
-static const matype_id style_boxing( "style_boxing" );
-static const matype_id style_capoeira( "style_capoeira" );
-static const matype_id style_crane( "style_crane" );
-static const matype_id style_dragon( "style_dragon" );
-static const matype_id style_judo( "style_judo" );
-static const matype_id style_karate( "style_karate" );
-static const matype_id style_kicks( "style_kicks" );
-static const matype_id style_krav_maga( "style_krav_maga" );
-static const matype_id style_leopard( "style_leopard" );
-static const matype_id style_muay_thai( "style_muay_thai" );
-static const matype_id style_ninjutsu( "style_ninjutsu" );
-static const matype_id style_none( "style_none" );
-static const matype_id style_pankration( "style_pankration" );
-static const matype_id style_snake( "style_snake" );
-static const matype_id style_taekwondo( "style_taekwondo" );
-static const matype_id style_tai_chi( "style_tai_chi" );
-static const matype_id style_tiger( "style_tiger" );
-static const matype_id style_wingchun( "style_wingchun" );
-static const matype_id style_zui_quan( "style_zui_quan" );
-
-static const species_id ABERRATION( "ABERRATION" );
-static const species_id species_BLOB( "BLOB" );
-static const species_id FISH( "FISH" );
-static const species_id FUNGUS( "FUNGUS" );
-static const species_id HALLUCINATION( "HALLUCINATION" );
-static const species_id HUMAN( "HUMAN" );
-static const species_id INSECT( "INSECT" );
-static const species_id LEECH_PLANT( "LEECH_PLANT" );
-static const species_id MAMMAL( "MAMMAL" );
-static const species_id MOLLUSK( "MOLLUSK" );
-static const species_id PLANT( "PLANT" );
-static const species_id ROBOT( "ROBOT" );
-static const species_id SPIDER( "SPIDER" );
-static const species_id ZOMBIE( "ZOMBIE" );
-
-static const matec_id tec_none( "tec_none" );
-static const matec_id WBLOCK_1( "WBLOCK_1" );
-static const matec_id WBLOCK_2( "WBLOCK_2" );
-static const matec_id WBLOCK_3( "WBLOCK_3" );
-static const matec_id WHIP_DISARM( "WHIP_DISARM" );
-
-static const ter_str_id ter_dirt( "t_dirt" );
-static const ter_str_id ter_grass_dead( "t_grass_dead" );
-static const ter_str_id ter_stump( "t_stump" );
-static const ter_str_id ter_tree_dead( "t_tree_dead" );
-static const ter_str_id ter_tree_deadpine( "t_tree_deadpine" );
-static const ter_str_id ter_tree_birch_harvested( "t_tree_birch_harvested" );
-static const ter_str_id ter_tree_willow_harvested( "t_tree_willow_harvested" );
-static const ter_str_id ter_tree_hickory_dead( "t_tree_hickory_dead" );
-static const ter_str_id ter_trunk( "t_trunk" );
-
-static const std::string part_location_structure( "structure" );
-static const std::string part_location_center( "center" );
-static const std::string part_location_onroof( "on_roof" );
-
-static const std::string GUN_MODE_VAR_NAME( "item::mode" );
-static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
-
-static const faction_id your_followers( "your_followers" );
-static const faction_id no_faction( "no_faction" );
-
-static const std::string errstring( "ERROR" );
-
-static const ammotype ammo_battery( "battery" );
-static const ammotype ammo_reactor_slurry( "reactor_slurry" );
-static const ammotype ammo_plutonium( "plutonium" );
-
-const vitamin_id vitamin_iron( "iron" );
-
-static const std::string null_item_id( "null" );
 
 #endif // STRING_CONSTS_H

@@ -30,6 +30,8 @@
 #include "type_id.h"
 #include "cata_string_consts.h"
 
+static const std::string errstring( "ERROR" );
+
 struct tripoint;
 
 static item_action nullaction;

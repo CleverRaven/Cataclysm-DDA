@@ -23,6 +23,8 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_traps( "traps" );
+
 namespace
 {
 

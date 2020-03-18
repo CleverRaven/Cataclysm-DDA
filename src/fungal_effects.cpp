@@ -30,6 +30,10 @@
 #include "string_formatter.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_melee( "melee" );
+
+static const species_id FUNGUS( "FUNGUS" );
+
 fungal_effects::fungal_effects( game &g, map &mp )
     : gm( g ), m( mp )
 {

@@ -55,6 +55,15 @@
 #include "weather.h"
 #include "cata_string_consts.h"
 
+static const species_id FISH( "FISH" );
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id MAMMAL( "MAMMAL" );
+static const species_id MOLLUSK( "MOLLUSK" );
+static const species_id ROBOT( "ROBOT" );
+static const species_id SPIDER( "SPIDER" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
 struct pathfinding_settings;
 
 // Limit the number of iterations for next upgrade_time calculations.

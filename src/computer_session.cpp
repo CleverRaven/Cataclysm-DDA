@@ -52,6 +52,11 @@
 #include "type_id.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_computer( "computer" );
+
+static const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
 static catacurses::window init_window()
 {
     const int width = std::min( FULL_SCREEN_WIDTH, TERMX );

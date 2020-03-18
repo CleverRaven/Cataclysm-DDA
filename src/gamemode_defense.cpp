@@ -35,6 +35,8 @@
 #include "weather.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_barter( "barter" );
+
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
 

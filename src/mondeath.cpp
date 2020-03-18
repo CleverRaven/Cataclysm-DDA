@@ -49,6 +49,9 @@
 #include "mattack_actors.h"
 #include "cata_string_consts.h"
 
+static const species_id species_BLOB( "BLOB" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
 void mdeath::normal( monster &z )
 {
     if( z.no_corpse_quiet ) {

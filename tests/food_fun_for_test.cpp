@@ -1,10 +1,19 @@
 #include "avatar.h"
-#include "cata_string_consts.h"
 #include "catch/catch.hpp"
 #include "itype.h"
 #include "player_helpers.h"
 #include "type_id.h"
 
+static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
+
+static const std::string flag_COLD( "COLD" );
+static const std::string flag_EATEN_COLD( "EATEN_COLD" );
+static const std::string flag_FELINE( "FELINE" );
+static const std::string flag_FROZEN( "FROZEN" );
+static const std::string flag_LUPINE( "LUPINE" );
+static const std::string flag_MELTS( "MELTS" );
+static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
+static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 
 // Test cases for `Character::fun_for` defined in `src/consumption.cpp`
 

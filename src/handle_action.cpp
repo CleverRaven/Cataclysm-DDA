@@ -68,6 +68,10 @@
 #include "item.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_melee( "melee" );
+
+static const quality_id qual_CUT( "CUT" );
+
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 #if defined(__ANDROID__)

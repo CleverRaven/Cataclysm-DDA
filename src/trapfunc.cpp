@@ -35,6 +35,10 @@
 #include "teleport.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_throw( "throw" );
+
+static const species_id ROBOT( "ROBOT" );
+
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
 {

@@ -31,6 +31,8 @@
 #include "optional.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_unarmed( "unarmed" );
+
 namespace
 {
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
