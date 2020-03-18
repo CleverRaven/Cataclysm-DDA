@@ -2,7 +2,14 @@
   {
     "type": "item_group",
     "id": "NC_ARSONIST_pants_male",
-    "items": [ [ "jeans", 20 ], [ "pants", 20 ], [ "pants_leather", 20 ], [ "pants_cargo", 20 ], [ "bunker_pants", 10 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jeans", "prob": 20 },
+      { "item": "pants", "prob": 20 },
+      { "item": "pants_leather", "prob": 20 },
+      { "item": "pants_cargo", "prob": 20 },
+      { "item": "bunker_pants", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",
@@ -29,7 +36,13 @@
   {
     "type": "item_group",
     "id": "NC_ARSONIST_gloves",
-    "items": [ [ "null", 60 ], [ "gloves_leather", 20 ], [ "gloves_fingerless", 20 ], [ "fire_gauntlets", 20 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 60 },
+      { "item": "gloves_leather", "prob": 20 },
+      { "item": "gloves_fingerless", "prob": 20 },
+      { "item": "fire_gauntlets", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",
@@ -54,24 +67,32 @@
   {
     "type": "item_group",
     "id": "NC_ARSONIST_masks",
-    "items": [ [ "null", 80 ], [ "mask_dust", 10 ], [ "bandana", 10 ], [ "mask_filter", 10 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 80 },
+      { "item": "mask_dust", "prob": 10 },
+      { "item": "bandana", "prob": 10 },
+      { "item": "mask_filter", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_ARSONIST_eyes",
-    "items": [ [ "null", 80 ], [ "glasses_safety", 20 ], [ "sunglasses", 20 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 80 }, { "item": "glasses_safety", "prob": 20 }, { "item": "sunglasses", "prob": 20 } ]
   },
   {
     "type": "item_group",
     "id": "NC_ARSONIST_hat",
-    "items": [
-      [ "null", 80 ],
-      [ "hat_ball", 10 ],
-      [ "hat_hard", 10 ],
-      [ "helmet_bike", 10 ],
-      [ "helmet_riot", 10 ],
-      [ "helmet_motor", 10 ],
-      [ "hat_hunting", 10 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 80 },
+      { "item": "hat_ball", "prob": 10 },
+      { "item": "hat_hard", "prob": 10 },
+      { "item": "helmet_bike", "prob": 10 },
+      { "item": "helmet_riot", "prob": 10 },
+      { "item": "helmet_motor", "prob": 10 },
+      { "item": "hat_hunting", "prob": 10 }
     ]
   },
   {
@@ -143,7 +164,8 @@
   {
     "type": "item_group",
     "id": "NC_ARSONIST_launcher",
-    "items": [ [ "flamethrower", 50 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "flamethrower", "prob": 50 } ]
   },
   {
     "type": "item_group",
