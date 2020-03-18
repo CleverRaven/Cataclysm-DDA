@@ -56,6 +56,8 @@ static const skill_id skill_firstaid( "firstaid" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
+static const bionic_id bio_painkiller( "bio_painkiller" );
+
 class Character;
 
 using item_filter = std::function<bool ( const item & )>;

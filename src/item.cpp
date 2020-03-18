@@ -107,6 +107,9 @@ static const species_id ROBOT( "ROBOT" );
 
 static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
 
+static const bionic_id bio_digestion( "bio_digestion" );
+static const bionic_id bio_scent_vision( "bio_scent_vision" );
+
 class npc_class;
 
 using npc_class_id = string_id<npc_class>;
