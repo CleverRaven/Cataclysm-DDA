@@ -74,6 +74,16 @@
 #include "units.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_unarmed( "unarmed" );
+
+static const species_id species_BLOB( "BLOB" );
+static const species_id LEECH_PLANT( "LEECH_PLANT" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
 // shared utility functions
 static bool within_visual_range( monster *z, int max_range )
 {

@@ -50,6 +50,8 @@
 #include "rng.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_swimming( "swimming" );
+
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )

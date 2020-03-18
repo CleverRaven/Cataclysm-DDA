@@ -74,6 +74,13 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const itype_id fuel_type_animal( "animal" );
+
+static const zone_type_id zone_type_npc_investigate_only( "NPC_INVESTIGATE_ONLY" );
+static const zone_type_id zone_type_npc_no_investigate( "NPC_NO_INVESTIGATE" );
+
+static const skill_id skill_speech( "speech" );
+
 class basecamp;
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
@@ -599,10 +606,10 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             bool should_check = rl_dist( pos(), spos ) < investigate_dist;
             if( should_check ) {
                 const zone_manager &mgr = zone_manager::get_manager();
-                if( mgr.has( zone_no_investigate, s_abs_pos, fac_id ) ) {
+                if( mgr.has( zone_type_npc_no_investigate, s_abs_pos, fac_id ) ) {
                     should_check = false;
-                } else if( mgr.has( zone_investigate_only, my_abs_pos, fac_id ) &&
-                           !mgr.has( zone_investigate_only, s_abs_pos, fac_id ) ) {
+                } else if( mgr.has( zone_type_npc_investigate_only, my_abs_pos, fac_id ) &&
+                           !mgr.has( zone_type_npc_investigate_only, s_abs_pos, fac_id ) ) {
                     should_check = false;
                 }
             }

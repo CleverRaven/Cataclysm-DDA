@@ -39,6 +39,8 @@
 #include <functional>
 #include <algorithm>
 
+const vitamin_id vitamin_iron( "iron" );
+
 static void eff_fun_onfire( player &u, effect &it )
 {
     const int intense = it.get_intensity();

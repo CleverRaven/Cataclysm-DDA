@@ -52,6 +52,15 @@
 #include "rng.h"
 #include "cata_string_consts.h"
 
+static const ter_str_id ter_dirt( "t_dirt" );
+static const ter_str_id ter_grass_dead( "t_grass_dead" );
+static const ter_str_id ter_stump( "t_stump" );
+static const ter_str_id ter_tree_dead( "t_tree_dead" );
+static const ter_str_id ter_tree_deadpine( "t_tree_deadpine" );
+static const ter_str_id ter_tree_birch_harvested( "t_tree_birch_harvested" );
+static const ter_str_id ter_tree_hickory_dead( "t_tree_hickory_dead" );
+static const ter_str_id ter_trunk( "t_trunk" );
+
 class npc_template;
 
 namespace io

@@ -48,6 +48,14 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+
+static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+
 class Character;
 
 using item_filter = std::function<bool ( const item & )>;

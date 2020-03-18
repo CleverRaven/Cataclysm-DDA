@@ -38,6 +38,10 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_survival( "survival" );
+
+static const species_id ZOMBIE( "ZOMBIE" );
+
 bool monexamine::pet_menu( monster &z )
 {
     enum choices {

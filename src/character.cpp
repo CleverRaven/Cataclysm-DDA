@@ -68,6 +68,14 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_throw( "throw" );
+
+static const species_id HUMAN( "HUMAN" );
+static const species_id ROBOT( "ROBOT" );
+
 // *INDENT-OFF*
 Character::Character() :
 
@@ -5468,7 +5476,7 @@ nc_color Character::symbol_color() const
 bool Character::is_immune_field( const field_type_id &fid ) const
 {
     // Obviously this makes us invincible
-    if( has_trait( debug_nodmg ) ) {
+    if( has_trait( trait_DEBUG_NODMG ) ) {
         return true;
     }
     // Check to see if we are immune

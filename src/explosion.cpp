@@ -61,6 +61,10 @@
 #include "type_id.h"
 #include "cata_string_consts.h"
 
+static const itype_id fuel_type_none( "null" );
+
+static const species_id ROBOT( "ROBOT" );
+
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
 float fragment_mass = 0.0001;
