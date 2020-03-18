@@ -108,7 +108,7 @@
   {
     "type": "vehicle_part",
     "id": "seat",
-    "name": "seat",
+    "name": { "str": "seat" },
     "symbol": "#",
     "looks_like": "reclining_seat",
     "color": "red",
@@ -1820,7 +1820,7 @@
   {
     "type": "vehicle_part",
     "id": "vehicle_alarm",
-    "name": "security system",
+    "name": { "str": "security system" },
     "symbol": ",",
     "color": "light_red",
     "broken_symbol": ",",
