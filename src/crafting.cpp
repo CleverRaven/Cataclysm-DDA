@@ -70,6 +70,9 @@
 #include "weather.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_tailor( "tailor" );
+
 class basecamp;
 
 void drop_or_handle( const item &newit, player &p );

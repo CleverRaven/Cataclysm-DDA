@@ -63,6 +63,11 @@
 #include "stomach.h"
 #include "cata_string_consts.h"
 
+static const ammotype ammo_reactor_slurry( "reactor_slurry" );
+static const ammotype ammo_plutonium( "plutonium" );
+
+static const skill_id skill_firstaid( "firstaid" );
+
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
@@ -2606,7 +2611,7 @@ void npc::find_item()
     //int range = sight_range( g->light_level( posz() ) );
     //range = std::max( 1, std::min( 12, range ) );
 
-    static const zone_type_id no_pickup( "NO_NPC_PICKUP" );
+    static const zone_type_id zone_type_no_npc_pickup( "NO_NPC_PICKUP" );
 
     const item *wanted = nullptr;
 
@@ -2676,7 +2681,7 @@ void npc::find_item()
     for( const tripoint &p : closest_tripoints_first( pos(), range ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
-        if( is_player_ally() && g->check_zone( no_pickup, p ) ) {
+        if( is_player_ally() && g->check_zone( zone_type_no_npc_pickup, p ) ) {
             continue;
         }
 

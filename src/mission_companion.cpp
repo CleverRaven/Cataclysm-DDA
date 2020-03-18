@@ -59,6 +59,16 @@
 #include "weather.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_unarmed( "unarmed" );
+
 struct comp_rank {
     int industry;
     int combat;

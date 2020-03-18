@@ -402,7 +402,7 @@
   {
     "id": "mon_zombie_tough",
     "type": "MONSTER",
-    "name": "tough zombie",
+    "name": { "str": "tough zombie" },
     "description": "Once an athletic human, now a brutal monster.  Its facial features are twisted into an expression of pure rage.",
     "default_faction": "zombie",
     "bodytype": "human",

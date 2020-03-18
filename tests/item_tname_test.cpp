@@ -1,10 +1,23 @@
 #include "avatar.h"
-#include "cata_string_consts.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "options_helpers.h"
+
+static const std::string flag_COLD( "COLD" );
+static const std::string flag_DIAMOND( "DIAMOND" );
+static const std::string flag_FILTHY( "FILTHY" );
+static const std::string flag_FROZEN( "FROZEN" );
+static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
+static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
+static const std::string flag_HOT( "HOT" );
+static const std::string flag_MELTS( "MELTS" );
+static const std::string flag_WET( "WET" );
+
+static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+
+static const skill_id skill_survival( "survival" );
 
 // Test cases focused on item::tname
 

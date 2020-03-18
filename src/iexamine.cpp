@@ -88,6 +88,19 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_survival( "survival" );
+
+static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+static const quality_id qual_DIG( "DIG" );
+
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,
                         bool seeds = false );

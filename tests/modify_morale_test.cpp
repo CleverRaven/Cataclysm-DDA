@@ -1,12 +1,42 @@
 #include "avatar.h"
 #include "character.h"
-#include "cata_string_consts.h"
 #include "game.h"
 #include "map.h"
 #include "morale.h"
 
 #include "catch/catch.hpp"
 #include "map_helpers.h"
+
+static const std::string flag_ALLERGEN_JUNK( "ALLERGEN_JUNK" );
+static const std::string flag_CANNIBALISM( "CANNIBALISM" );
+static const std::string flag_EATEN_HOT( "EATEN_HOT" );
+static const std::string flag_HOT( "HOT" );
+static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
+
+static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
+static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
+static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
+static const trait_id trait_BADTEMPER( "BADTEMPER" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_CLAWS( "CLAWS" );
+static const trait_id trait_FAT( "FAT" );
+static const trait_id trait_HIBERNATE( "HIBERNATE" );
+static const trait_id trait_LACTOSE( "LACTOSE" );
+static const trait_id trait_LARGE( "LARGE" );
+static const trait_id trait_MEATARIAN( "MEATARIAN" );
+static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
+static const trait_id trait_PROJUNK( "PROJUNK" );
+static const trait_id trait_PROJUNK2( "PROJUNK2" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_TABLEMANNERS( "TABLEMANNERS" );
+static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
+static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
+static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
+static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
 // Test cases for `Character::modify_morale` defined in `src/consumption.cpp`
 

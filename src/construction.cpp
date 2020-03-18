@@ -54,6 +54,15 @@
 #include "units.h"
 #include "cata_string_consts.h"
 
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
+
+static const quality_id qual_CUT( "CUT" );
+
 class inventory;
 
 static bool finalized = false;

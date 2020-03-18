@@ -67,6 +67,17 @@
 #include "teleport.h"
 #include "cata_string_consts.h"
 
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_sun_light( "sunlight" );
+static const itype_id fuel_type_wind( "wind" );
+
+static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+
 namespace
 {
 std::map<bionic_id, bionic_data> bionics;

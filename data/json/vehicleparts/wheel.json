@@ -388,7 +388,7 @@
   {
     "id": "wheel_small",
     "type": "vehicle_part",
-    "name": "small wheel",
+    "name": { "str": "small wheel" },
     "item": "wheel_small",
     "location": "under",
     "symbol": "o",

@@ -58,7 +58,7 @@
   {
     "abstract": "stowboard",
     "type": "vehicle_part",
-    "name": "stow board",
+    "name": { "str": "stow board" },
     "item": "sheet_metal",
     "location": "center",
     "color": "white",

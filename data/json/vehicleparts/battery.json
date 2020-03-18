@@ -99,7 +99,7 @@
     "id": "small_storage_battery",
     "copy-from": "storage_battery",
     "type": "vehicle_part",
-    "name": "small storage battery",
+    "name": { "str": "small storage battery" },
     "item": "small_storage_battery",
     "difficulty": 1,
     "durability": 100,
@@ -114,7 +114,7 @@
   {
     "id": "storage_battery",
     "type": "vehicle_part",
-    "name": "storage battery",
+    "name": { "str": "storage battery" },
     "item": "storage_battery",
     "location": "fuel_source",
     "fuel_type": "battery",

@@ -108,7 +108,7 @@
   {
     "type": "vehicle_part",
     "id": "seat",
-    "name": "seat",
+    "name": { "str": "seat" },
     "symbol": "#",
     "looks_like": "reclining_seat",
     "color": "red",
@@ -259,7 +259,7 @@
   {
     "type": "vehicle_part",
     "id": "saddle",
-    "name": "saddle",
+    "name": { "str": "saddle" },
     "symbol": "#",
     "looks_like": "seat",
     "color": "red",
@@ -854,7 +854,7 @@
   {
     "type": "vehicle_part",
     "id": "spike",
-    "name": "spike",
+    "name": { "str": "spike" },
     "symbol": ".",
     "color": "white",
     "broken_symbol": "x",
@@ -1253,7 +1253,7 @@
   {
     "type": "vehicle_part",
     "id": "cargo_bag",
-    "name": "storage bag",
+    "name": { "str": "storage bag" },
     "symbol": "o",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -1298,7 +1298,7 @@
   {
     "type": "vehicle_part",
     "id": "basketlg",
-    "name": "shopping cart basket",
+    "name": { "str": "shopping cart basket" },
     "symbol": "o",
     "looks_like": "basketsm",
     "color": "brown",
@@ -1566,7 +1566,7 @@
   {
     "type": "vehicle_part",
     "id": "sail",
-    "name": "sail",
+    "name": { "str": "sail" },
     "symbol": "M",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -1797,7 +1797,7 @@
   {
     "type": "vehicle_part",
     "id": "seatbelt",
-    "name": "seatbelt",
+    "name": { "str": "seatbelt" },
     "symbol": ",",
     "color": "light_gray",
     "broken_symbol": ",",
@@ -1820,7 +1820,7 @@
   {
     "type": "vehicle_part",
     "id": "vehicle_alarm",
-    "name": "security system",
+    "name": { "str": "security system" },
     "symbol": ",",
     "color": "light_red",
     "broken_symbol": ",",
@@ -1971,7 +1971,7 @@
   {
     "type": "vehicle_part",
     "id": "solar_panel",
-    "name": "solar panel",
+    "name": { "str": "solar panel" },
     "symbol": "#",
     "color": "yellow",
     "broken_symbol": "x",
@@ -2405,7 +2405,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_steel",
-    "name": "steel plating",
+    "name": { "str": "steel plating" },
     "symbol": ")",
     "color": "light_cyan",
     "broken_symbol": ")",
@@ -2449,7 +2449,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_spiked",
-    "name": "spiked plating",
+    "name": { "str": "spiked plating" },
     "symbol": ")",
     "color": "red",
     "broken_symbol": ")",
@@ -2680,7 +2680,7 @@
   {
     "type": "vehicle_part",
     "id": "door_shutter",
-    "name": "shutter door",
+    "name": { "str": "shutter door" },
     "looks_like": "hatch",
     "symbol": "+",
     "color": "white",
@@ -2703,7 +2703,7 @@
   {
     "type": "vehicle_part",
     "id": "door_sliding",
-    "name": "sliding door",
+    "name": { "str": "sliding door" },
     "symbol": "+",
     "looks_like": "door",
     "color": "light_cyan",
@@ -2866,7 +2866,7 @@
   {
     "type": "vehicle_part",
     "id": "stereo",
-    "name": "stereo system",
+    "name": { "str": "stereo system" },
     "symbol": "&",
     "color": "red",
     "broken_symbol": "&",
@@ -2952,7 +2952,7 @@
   {
     "type": "vehicle_part",
     "id": "jumper_cable_debug",
-    "name": "shiny cable",
+    "name": { "str": "shiny cable" },
     "symbol": "{",
     "color": "yellow",
     "broken_symbol": "*",
@@ -3175,7 +3175,7 @@
   {
     "type": "vehicle_part",
     "id": "omnicam",
-    "name": "security camera",
+    "name": { "str": "security camera" },
     "symbol": "o",
     "color": "light_red",
     "broken_symbol": "#",
@@ -3365,7 +3365,7 @@
   {
     "type": "vehicle_part",
     "id": "vehicle_scoop",
-    "name": "scoop",
+    "name": { "str": "scoop" },
     "symbol": "R",
     "color": "light_gray",
     "broken_symbol": ";",
@@ -3435,7 +3435,7 @@
   {
     "type": "vehicle_part",
     "id": "seed_drill",
-    "name": "seed drill",
+    "name": { "str": "seed drill" },
     "symbol": "8",
     "color": "blue",
     "broken_symbol": "*",

@@ -102,6 +102,24 @@
 #include "teleport.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_survival( "survival" );
+
+static const quality_id qual_AXE( "AXE" );
+static const quality_id qual_DIG( "DIG" );
+
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id HALLUCINATION( "HALLUCINATION" );
+static const species_id INSECT( "INSECT" );
+static const species_id ROBOT( "ROBOT" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
 #include "iuse_software.h"

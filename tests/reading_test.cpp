@@ -2,7 +2,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "cata_string_consts.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
@@ -11,6 +10,12 @@
 #include "player_helpers.h"
 #include "skill.h"
 #include "type_id.h"
+
+static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
 TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {

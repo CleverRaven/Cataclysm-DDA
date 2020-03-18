@@ -98,7 +98,12 @@
 #include "flat_set.h"
 #include "stomach.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
+
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_swimming( "swimming" );
 
 const double MAX_RECOIL = 3000;
 

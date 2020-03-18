@@ -77,6 +77,16 @@
 #include "clothing_mod.h"
 #include "cata_string_consts.h"
 
+static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_survival( "survival" );
+
+static const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
 class npc;
 
 std::unique_ptr<iuse_actor> iuse_transform::clone() const

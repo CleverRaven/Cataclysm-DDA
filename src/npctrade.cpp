@@ -31,8 +31,9 @@
 #include "type_id.h"
 #include "faction.h"
 #include "pimpl.h"
-#include "cata_string_consts.h"
 #include "item_category.h"
+
+static const skill_id skill_barter( "barter" );
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
                                   player &receiver, std::list<item_location *> &from_map,

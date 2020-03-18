@@ -18,6 +18,8 @@
 #include "flat_set.h"
 #include "cata_string_consts.h"
 
+static const std::string null_item_id( "null" );
+
 Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
 {
     RecursionList rec;

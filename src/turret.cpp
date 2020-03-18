@@ -26,6 +26,8 @@
 #include "vpart_range.h"
 #include "cata_string_consts.h"
 
+static const itype_id fuel_type_battery( "battery" );
+
 std::vector<vehicle_part *> vehicle::turrets()
 {
     std::vector<vehicle_part *> res;

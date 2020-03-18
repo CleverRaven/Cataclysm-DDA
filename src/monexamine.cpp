@@ -40,6 +40,8 @@
 
 static const quality_id qual_shear( "SHEAR" );
 static const efftype_id effect_sheared( "sheared" );
+static const skill_id skill_survival( "survival" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
 bool monexamine::pet_menu( monster &z )
 {

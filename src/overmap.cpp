@@ -51,6 +51,8 @@
 #include "string_formatter.h"
 #include "cata_string_consts.h"
 
+static const species_id ZOMBIE( "ZOMBIE" );
+
 class map_extra;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
