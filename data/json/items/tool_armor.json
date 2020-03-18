@@ -2703,7 +2703,7 @@
     "encumbrance": 12,
     "material_thickness": 3,
     "use_action": "SOLARPACK",
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
   },
   {
     "id": "solarpack_on",
@@ -2724,7 +2724,8 @@
     "encumbrance": 20,
     "material_thickness": 1,
     "use_action": "SOLARPACK_OFF",
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE" ]
+    "solar_efficiency": 0.05,
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
   },
   {
     "id": "q_solarpack",
@@ -2744,7 +2745,7 @@
     "encumbrance": 12,
     "material_thickness": 3,
     "use_action": "SOLARPACK",
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
   },
   {
     "id": "q_solarpack_on",
@@ -2765,7 +2766,8 @@
     "encumbrance": 20,
     "material_thickness": 1,
     "use_action": "SOLARPACK_OFF",
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE" ]
+    "solar_efficiency": 0.3,
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
   },
   {
     "id": "helmet_riot",

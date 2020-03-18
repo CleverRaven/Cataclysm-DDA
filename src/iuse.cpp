@@ -4107,7 +4107,7 @@ int iuse::solarpack( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     // no doubled sources of power
-    if( p->is_wearing( "solarpack_on" ) || p->is_wearing( "q_solarpack_on" ) ) {
+    if( p->worn_with_flag( "SOLARPACK_ON" ) ) {
         p->add_msg_if_player( m_neutral, _( "You cannot use the %1$s with another of it's kind." ),
                               it->tname() );
         return 0;
@@ -4115,11 +4115,7 @@ int iuse::solarpack( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player(
         _( "You unfold solar array from the pack.  You still need to connect it with a cable." ) );
 
-    if( it->typeId() == "solarpack" ) {
-        it->convert( "solarpack_on" );
-    } else {
-        it->convert( "q_solarpack_on" );
-    }
+    it->convert( it->typeId() + "_on" );
     return 0;
 }
 
@@ -4131,11 +4127,7 @@ int iuse::solarpack_off( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "You unplug and fold your portable solar array into the pack." ) );
     }
 
-    if( it->typeId() == "solarpack_on" ) {
-        it->convert( "solarpack" );
-    } else {
-        it->convert( "q_solarpack" );
-    }
+    it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
     return 0;
 }
 
@@ -8660,8 +8652,8 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 {
     std::string initial_state = it->get_var( "state", "attach_first" );
     const bool has_bio_cable = !p->get_remote_fueled_bionic().is_empty();
-    const bool has_solar_pack = p->is_wearing( "solarpack" ) || p->is_wearing( "q_solarpack" );
-    const bool has_solar_pack_on = p->is_wearing( "solarpack_on" ) || p->is_wearing( "q_solarpack_on" );
+    const bool has_solar_pack = p->worn_with_flag( "SOLARPACK" );
+    const bool has_solar_pack_on = p->worn_with_flag( "SOLARPACK_ON" );
     const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
     const bool has_ups = p->has_charges( "UPS_off", 1 ) || p->has_charges( "adv_UPS_off", 1 );
 
