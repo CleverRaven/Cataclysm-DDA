@@ -3170,6 +3170,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
                 reason = _( "It doesn't look like a good idea to consume this…" );
                 return REFUSED;
             }
+            reason = _( "Thanks, I used it." );
         }
 
         to_eat.charges -= amount_used;
