@@ -42,7 +42,7 @@
   {
     "type": "item_action",
     "id": "MAKEMOUND",
-    "name": "Upturn earth"
+    "name": { "str": "Upturn earth" }
   },
   {
     "type": "item_action",
@@ -162,7 +162,7 @@
   {
     "type": "item_action",
     "id": "fireweapon_off",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -197,7 +197,7 @@
   {
     "type": "item_action",
     "id": "transform",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -322,7 +322,7 @@
   {
     "type": "item_action",
     "id": "CAMERA",
-    "name": "Use camera"
+    "name": { "str": "Use camera" }
   },
   {
     "type": "item_action",
@@ -342,7 +342,7 @@
   {
     "type": "item_action",
     "id": "CARVER_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -352,7 +352,7 @@
   {
     "type": "item_action",
     "id": "CHAINSAW_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -377,7 +377,7 @@
   {
     "type": "item_action",
     "id": "COMBATSAW_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -387,7 +387,7 @@
   {
     "type": "item_action",
     "id": "E_COMBATSAW_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -402,7 +402,7 @@
   {
     "type": "item_action",
     "id": "CS_LAJATANG_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -412,7 +412,7 @@
   {
     "type": "item_action",
     "id": "ECS_LAJATANG_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -472,7 +472,7 @@
   {
     "type": "item_action",
     "id": "ELEC_CHAINSAW_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -682,7 +682,7 @@
   {
     "type": "item_action",
     "id": "SOLARPACK",
-    "name": "Unfold"
+    "name": { "str": "Unfold" }
   },
   {
     "type": "item_action",
@@ -712,7 +712,7 @@
   {
     "type": "item_action",
     "id": "NOISE_EMITTER_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -812,7 +812,7 @@
   {
     "type": "item_action",
     "id": "RADIO_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -827,7 +827,7 @@
   {
     "type": "item_action",
     "id": "RM13ARMOR_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -857,7 +857,7 @@
   {
     "type": "item_action",
     "id": "SHOCKTONFA_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -912,17 +912,17 @@
   {
     "type": "item_action",
     "id": "TRIMMER_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "UNFOLD_GENERIC",
-    "name": "Unfold"
+    "name": { "str": "Unfold" }
   },
   {
     "type": "item_action",
     "id": "UNPACK_ITEM",
-    "name": "Unpack"
+    "name": { "str": "Unpack" }
   },
   {
     "type": "item_action",
@@ -1052,7 +1052,7 @@
   {
     "type": "item_action",
     "id": "unfold_vehicle",
-    "name": "Unfold"
+    "name": { "str": "Unfold" }
   },
   {
     "type": "item_action",
@@ -1112,7 +1112,7 @@
   {
     "type": "item_action",
     "id": "weigh_self",
-    "name": "Use Scale"
+    "name": { "str": "Use Scale" }
   },
   {
     "type": "item_action",
