@@ -2,8 +2,7 @@
   {
     "type": "AMMO",
     "id": "dragon_blood",
-    "name": "dragon blood",
-    "name_plural": "dragon blood",
+    "name": { "str": "dragon blood", "str_pl": "dragon blood" },
     "weight": "2 g",
     "color": "red",
     "container": "flask_glass",
