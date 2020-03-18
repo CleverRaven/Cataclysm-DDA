@@ -337,7 +337,7 @@
   {
     "type": "mutation",
     "id": "TABLEMANNERS",
-    "name": "Rigid Table Manners",
+    "name": { "str": "Rigid Table Manners" },
     "points": -1,
     "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without a table.  Eating without it frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
@@ -553,7 +553,7 @@
   {
     "type": "mutation",
     "id": "ROBUST",
-    "name": "Robust Genetics",
+    "name": { "str": "Robust Genetics" },
     "points": 3,
     "description": "You have a very strong genetic base.  If you mutate, the odds that the mutation will be beneficial are greatly increased.",
     "starting_trait": true,
@@ -564,7 +564,7 @@
     "type": "mutation",
     "id": "EAGLEEYED",
     "//": "Can't change the ID as that breaks save-compatibility.",
-    "name": "Scout",
+    "name": { "str": "Scout" },
     "points": 1,
     "description": "You're an excellent navigator and your ability to spot distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
     "valid": false,
@@ -1145,7 +1145,7 @@
   {
     "type": "mutation",
     "id": "SCHIZOPHRENIC",
-    "name": "Schizophrenic",
+    "name": { "str": "Schizophrenic" },
     "points": -3,
     "description": "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
     "starting_trait": true,
@@ -1194,7 +1194,7 @@
   {
     "type": "mutation",
     "id": "SAVANT",
-    "name": "Savant",
+    "name": { "str": "Savant" },
     "points": -4,
     "description": "You tend to specialize in one skill and be poor at all others.  You advance at half speed in all skills except your best one.  Note that combining this with Fast Learner will come out to a slower rate of learning for all skills.",
     "starting_trait": true,
@@ -1339,7 +1339,7 @@
   {
     "type": "mutation",
     "id": "SKIN_ROUGH",
-    "name": "Rough Skin",
+    "name": { "str": "Rough Skin" },
     "points": 0,
     "visibility": 2,
     "ugliness": 1,
@@ -1789,7 +1789,7 @@
   {
     "type": "mutation",
     "id": "SCALES",
-    "name": "Scales",
+    "name": { "str": "Scales" },
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
@@ -2342,7 +2342,7 @@
   {
     "type": "mutation",
     "id": "ROSEBUDS",
-    "name": "Rosebuds",
+    "name": { "str": "Rosebuds" },
     "points": 3,
     "visibility": 10,
     "ugliness": -6,
@@ -2731,7 +2731,7 @@
   {
     "type": "mutation",
     "id": "BENDY2",
-    "name": "Rubbery Limbs",
+    "name": { "str": "Rubbery Limbs" },
     "points": 1,
     "visibility": 1,
     "mixed_effect": true,
@@ -2865,7 +2865,7 @@
   {
     "type": "mutation",
     "id": "SAPROVORE",
-    "name": "Saprovore",
+    "name": { "str": "Saprovore" },
     "points": 2,
     "description": "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
     "cancels": [ "HERBIVORE", "RUMINANT" ],
@@ -2874,7 +2874,7 @@
   {
     "type": "mutation",
     "id": "SAPROPHAGE",
-    "name": "Saprophage",
+    "name": { "str": "Saprophage" },
     "points": -3,
     "visibility": 5,
     "ugliness": 9,
@@ -2915,7 +2915,7 @@
   {
     "type": "mutation",
     "id": "RUMINANT",
-    "name": "Ruminant",
+    "name": { "str": "Ruminant" },
     "points": 2,
     "description": "Your digestive system is capable of digesting cellulose and other rough plant material.  You can eat underbrush and shrubs by activating this, standing over your target, and pressing E.",
     "prereqs": [ "HERBIVORE" ],
@@ -3113,7 +3113,7 @@
   {
     "type": "mutation",
     "id": "FLEET2",
-    "name": "Road-Runner",
+    "name": { "str": "Road-Runner" },
     "points": 3,
     "description": "Your legs are extremely limber and fast-moving.  You move 30% faster on flat surfaces.",
     "prereqs": [ "FLEET" ],
@@ -3183,7 +3183,7 @@
   {
     "type": "mutation",
     "id": "TAIL_RAT",
-    "name": "Rodent Tail",
+    "name": { "str": "Rodent Tail" },
     "points": 1,
     "visibility": 6,
     "ugliness": 4,
@@ -3543,7 +3543,7 @@
   {
     "type": "mutation",
     "id": "SAPIOVORE",
-    "name": "Sapiovore",
+    "name": { "str": "Sapiovore" },
     "points": 1,
     "description": "The hairless apes make as good eating as any other meat.",
     "social_modifiers": { "persuade": -20, "lie": -20, "intimidate": 6 },
@@ -3786,7 +3786,7 @@
   {
     "type": "mutation",
     "id": "WEB_ROPE",
-    "name": "Rope Webs",
+    "name": { "str": "Rope Webs" },
     "points": 3,
     "description": "With spinnerets like THESE, who needs rope?!  Activate to produce rope.",
     "prereqs": [ "WEB_WEAVER" ],
@@ -4546,7 +4546,7 @@
   {
     "type": "mutation",
     "id": "MUZZLE_RAT",
-    "name": "Rodent Muzzle",
+    "name": { "str": "Rodent Muzzle" },
     "points": -2,
     "visibility": 6,
     "ugliness": 4,
@@ -5268,7 +5268,7 @@
   {
     "type": "mutation",
     "id": "ROOTS2",
-    "name": "Roots",
+    "name": { "str": "Roots" },
     "points": 2,
     "visibility": 4,
     "ugliness": 5,
@@ -5286,7 +5286,7 @@
   {
     "type": "mutation",
     "id": "ROOTS3",
-    "name": "Rooter",
+    "name": { "str": "Rooter" },
     "points": -3,
     "visibility": 5,
     "ugliness": 5,
@@ -5429,7 +5429,7 @@
   {
     "type": "mutation",
     "id": "SHOUT2",
-    "name": "Screamer",
+    "name": { "str": "Screamer" },
     "points": -3,
     "description": "You sometimes scream uncontrollably.",
     "prereqs": [ "SHOUT1" ],
@@ -6083,7 +6083,7 @@
   {
     "type": "mutation",
     "id": "PROF_SWAT",
-    "name": "SWAT Officer",
+    "name": { "str": "SWAT Officer" },
     "points": 0,
     "description": "You are a duly sworn law enforcer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
     "valid": false,
