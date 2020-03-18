@@ -501,7 +501,7 @@
   {
     "type": "mutation",
     "id": "SELFAWARE",
-    "name": "Self-Aware",
+    "name": { "str": "Self-Aware" },
     "points": 1,
     "description": "You get to see your exact amount of HP remaining and health, instead of only having a vague idea of whether you're in good condition or not.",
     "starting_trait": true,
@@ -633,7 +633,7 @@
   {
     "type": "mutation",
     "id": "MARTIAL_ARTS2",
-    "name": "Self-Defense Classes",
+    "name": { "str": "Self-Defense Classes" },
     "points": 2,
     "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "starting_trait": true,
@@ -643,7 +643,7 @@
   {
     "type": "mutation",
     "id": "MARTIAL_ARTS3",
-    "name": "Shaolin Adept",
+    "name": { "str": "Shaolin Adept" },
     "points": 2,
     "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
     "starting_trait": true,
@@ -692,7 +692,7 @@
   {
     "type": "mutation",
     "id": "LIAR",
-    "name": "Skilled Liar",
+    "name": { "str": "Skilled Liar" },
     "points": 1,
     "description": "You have no qualms about bending the truth, and have practically no tells.  Telling lies and otherwise bluffing will be much easier for you.",
     "starting_trait": true,
@@ -769,7 +769,7 @@
   {
     "type": "mutation",
     "id": "SLOWHEALER",
-    "name": "Slow Healer",
+    "name": { "str": "Slow Healer" },
     "points": -2,
     "description": "You heal a little slower than most; sleeping will heal less HP.",
     "starting_trait": true,
@@ -825,7 +825,7 @@
   {
     "type": "mutation",
     "id": "SLEEPY",
-    "name": "Sleepy",
+    "name": { "str": "Sleepy" },
     "points": -1,
     "description": "You need sleep more often, but still spend most of your time awake.",
     "changes_to": [ "SLEEPY2", "MET_RAT" ],
@@ -912,7 +912,7 @@
   {
     "type": "mutation",
     "id": "SLOWLEARNER",
-    "name": "Slow Learner",
+    "name": { "str": "Slow Learner" },
     "points": -3,
     "description": "You are slow to grasp new ideas and thus learn things more slowly than others.  Note that this only applies to real-world experience, not to skill gain from other sources like books.",
     "starting_trait": true,
@@ -1134,7 +1134,7 @@
   {
     "type": "mutation",
     "id": "SLOWREADER",
-    "name": "Slow Reader",
+    "name": { "str": "Slow Reader" },
     "points": -1,
     "description": "You're a slow reader, and it takes you longer to get through books than most.",
     "reading_speed_multiplier": 1.3,
@@ -1224,7 +1224,7 @@
   {
     "type": "mutation",
     "id": "SLOWRUNNER",
-    "name": "Slow Footed",
+    "name": { "str": "Slow Footed" },
     "points": -3,
     "description": "You can't move as fast as most, resulting in a 15% speed penalty on flat ground.",
     "starting_trait": true,
@@ -1844,7 +1844,7 @@
   {
     "type": "mutation",
     "id": "SLEEK_SCALES",
-    "name": "Sleek Scales",
+    "name": { "str": "Sleek Scales" },
     "points": 4,
     "visibility": 10,
     "ugliness": 4,
@@ -2706,7 +2706,7 @@
   {
     "type": "mutation",
     "id": "SLIME_HANDS",
-    "name": "Slime Hands",
+    "name": { "str": "Slime Hands" },
     "points": 1,
     "visibility": 5,
     "ugliness": 4,
@@ -4031,7 +4031,7 @@
   {
     "type": "mutation",
     "id": "INT_UP",
-    "name": "Smart",
+    "name": { "str": "Smart" },
     "points": 1,
     "description": "You are a little smarter.  Intelligence + 1",
     "changes_to": [ "INT_UP_2", "INT_ALPHA", "INT_SLIME" ],
@@ -4161,7 +4161,7 @@
   {
     "type": "mutation",
     "id": "PER_SLIME",
-    "name": "Sensory Disintegration",
+    "name": { "str": "Sensory Disintegration" },
     "points": -7,
     "visibility": 10,
     "ugliness": 10,
@@ -4280,7 +4280,7 @@
   {
     "type": "mutation",
     "id": "SLIT_NOSTRILS",
-    "name": "Slit Nostrils",
+    "name": { "str": "Slit Nostrils" },
     "points": -2,
     "visibility": 7,
     "ugliness": 4,
@@ -4388,7 +4388,7 @@
   {
     "type": "mutation",
     "id": "SMELLY2",
-    "name": "Smelly",
+    "name": { "str": "Smelly" },
     "points": -2,
     "visibility": 4,
     "ugliness": 5,
@@ -4475,7 +4475,7 @@
   {
     "type": "mutation",
     "id": "SNOUT",
-    "name": "Snout",
+    "name": { "str": "Snout" },
     "points": -1,
     "visibility": 4,
     "ugliness": 3,
@@ -5029,7 +5029,7 @@
   {
     "type": "mutation",
     "id": "SLIMY",
-    "name": "Slimy",
+    "name": { "str": "Slimy" },
     "points": 2,
     "visibility": 7,
     "ugliness": 6,
@@ -5399,7 +5399,7 @@
   {
     "type": "mutation",
     "id": "SNARL",
-    "name": "Snarling Voice",
+    "name": { "str": "Snarling Voice" },
     "points": -2,
     "mixed_effect": true,
     "description": "You have a threatening snarl in your voice.  Persuading NPCs will be near impossible, but threatening them will be much easier.",
@@ -5420,7 +5420,7 @@
   {
     "type": "mutation",
     "id": "SHOUT1",
-    "name": "Shouter",
+    "name": { "str": "Shouter" },
     "points": -2,
     "description": "You occasionally shout uncontrollably.",
     "changes_to": [ "SHOUT2" ],
@@ -5652,7 +5652,7 @@
   {
     "type": "mutation",
     "id": "SHELL",
-    "name": "Shell",
+    "name": { "str": "Shell" },
     "points": -5,
     "visibility": 8,
     "ugliness": 3,
@@ -6154,7 +6154,7 @@
   {
     "type": "mutation",
     "id": "PROF_SKATER",
-    "name": "Skater",
+    "name": { "str": "Skater" },
     "points": 0,
     "description": "You spent a lot of time actively maneuvering on skates before the Cataclysm, and are better at staying on your feet when checked or blocked.",
     "valid": false,
