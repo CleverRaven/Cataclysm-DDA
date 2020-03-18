@@ -56,7 +56,7 @@
   {
     "id": "crane_tiny",
     "type": "vehicle_part",
-    "name": "pallet lifter",
+    "name": { "str": "pallet lifter" },
     "item": "pallet_lifter",
     "location": "center",
     "symbol": "=",
@@ -107,7 +107,7 @@
   {
     "id": "rockwheel",
     "type": "vehicle_part",
-    "name": "rockwheel",
+    "name": { "str": "rockwheel" },
     "item": "v_rockwheel_item",
     "location": "structure",
     "symbol": "&",

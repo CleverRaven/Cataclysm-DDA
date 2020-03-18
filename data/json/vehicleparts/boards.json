@@ -48,7 +48,7 @@
     "abstract": "halfboard",
     "copy-from": "board",
     "type": "vehicle_part",
-    "name": "quarterpanel",
+    "name": { "str": "quarterpanel" },
     "description": "A half-height metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] },
@@ -58,7 +58,7 @@
   {
     "abstract": "stowboard",
     "type": "vehicle_part",
-    "name": "stow board",
+    "name": { "str": "stow board" },
     "item": "sheet_metal",
     "location": "center",
     "color": "white",
