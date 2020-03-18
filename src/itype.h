@@ -999,6 +999,11 @@ struct itype {
          */
         float insulation_factor = 1;
 
+        /**
+         * Efficiency of solar energy conversion for solarpacks.
+         */
+        float solar_efficiency = 0;
+
         std::string get_item_type_string() const {
             if( tool ) {
                 return "TOOL";

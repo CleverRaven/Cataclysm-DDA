@@ -11,8 +11,10 @@ class player;
 class avatar;
 class spell;
 class turret_data;
+class vehicle;
 struct itype;
 struct tripoint;
+struct vehicle_part;
 
 template<typename T> struct enum_traits;
 
@@ -84,17 +86,24 @@ class target_handler
     public:
         /**
          *  Prompts for target and returns trajectory to it.
+         *  TODO: pass arguments via constructor(s) and add methods for getting names and button labels,
+         *        switching ammo & firing modes, drawing - stuff like that
          *  @param pc The player doing the targeting
          *  @param mode targeting mode, which affects UI display among other things.
          *  @param relevant active item, if any (for instance, a weapon to be aimed).
          *  @param range the maximum distance to which we're allowed to draw a target.
          *  @param ammo effective ammo data (derived from @param relevant if unspecified).
          *  @param turret turret being fired (relevant for TARGET_MODE_TURRET_MANUAL)
+         *  @param veh vehicle that turrets belong to (relevant for TARGET_MODE_TURRET)
+         *  @param vturrets vehicle turrets being aimed (relevant for TARGET_MODE_TURRET)
          */
         std::vector<tripoint> target_ui( player &pc, target_mode mode,
                                          item *relevant, int range,
                                          const itype *ammo = nullptr,
-                                         turret_data *turret = nullptr );
+                                         turret_data *turret = nullptr,
+                                         vehicle *veh = nullptr,
+                                         const std::vector<vehicle_part *> &vturrets = std::vector<vehicle_part *>()
+                                       );
         // magic version of target_ui
         std::vector<tripoint> target_ui( spell_id sp, bool no_fail = false,
                                          bool no_mana = false );

@@ -639,7 +639,7 @@
   {
     "id": "mon_shadow",
     "type": "MONSTER",
-    "name": "shadow",
+    "name": { "str": "shadow" },
     "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, awakening your most horrific memories and fears.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -684,7 +684,7 @@
   {
     "id": "mon_shadow_snake",
     "type": "MONSTER",
-    "name": "shadow snake",
+    "name": { "str": "shadow snake" },
     "description": "This is an animate shadow in the form of a long and sinuous snake.  Translucent and dark, it glides silently across the floor, wriggling and flexing as it moves.",
     "default_faction": "nether",
     "bodytype": "snake",
@@ -711,7 +711,7 @@
   {
     "id": "mon_shoggoth",
     "type": "MONSTER",
-    "name": "shoggoth",
+    "name": { "str": "shoggoth" },
     "description": "A gargantuan protoplasmic blob, constantly reshaping, forming new pseudopods seemingly at will.  All over its body are eyes that form and disappear.  It looks at you with malice.",
     "default_faction": "nether",
     "bodytype": "blob",

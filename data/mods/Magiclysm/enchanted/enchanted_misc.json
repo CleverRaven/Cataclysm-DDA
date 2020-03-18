@@ -69,8 +69,7 @@
   {
     "id": "mtorch_everburning",
     "type": "TOOL",
-    "name": "everburning torch",
-    "name_plural": "everburning torches",
+    "name": { "str": "everburning torch", "str_pl": "everburning torches" },
     "description": "This is a high quality engraved wooden torch.  On command, the tip bursts into flame and produces a fair amount of light.  It will burn forever.",
     "weight": "831 g",
     "volume": "750 ml",
@@ -93,8 +92,7 @@
   {
     "id": "mtorch_everburning_lit",
     "type": "TOOL",
-    "name": "everburning torch",
-    "name_plural": "everburning torches",
+    "name": { "str": "everburning torch", "str_pl": "everburning torches" },
     "copy-from": "mtorch_everburning",
     "revert_to": "mtorch_everburning",
     "use_action": [
@@ -111,9 +109,8 @@
     "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "STURDY" ]
   },
   {
-    "name": "endless flask",
+    "name": { "str": "endless flask" },
     "id": "mflask_hip_whiskey",
-    "name_plural": "endless flasks",
     "type": "CONTAINER",
     "copy-from": "flask_hip",
     "category": "clothing",

@@ -32,7 +32,7 @@
           { "stat": "damage", "type": "stab", "scale": 1.0 },
           { "stat": "damage", "type": "cut", "scale": 1.0 },
           { "stat": "arpen", "type": "stab", "scale": 1.0 },
-          { "stat": "arpen", "type": "cut", "scale": 1 }
+          { "stat": "arpen", "type": "cut", "scale": 1.0 }
         ]
       }
     ],

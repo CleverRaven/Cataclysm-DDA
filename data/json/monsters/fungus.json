@@ -372,7 +372,7 @@
   {
     "id": "mon_zombie_smoker_fungus",
     "type": "MONSTER",
-    "name": "pollinator zombie",
+    "name": { "str": "pollinator zombie" },
     "description": "Every breath of this crooked, fungus-ridden zombie emits a fine dust of spores, and it constantly looks like it's emerging from a cloud of mist.",
     "default_faction": "fungus",
     "looks_like": "mon_zombie_smoker",
