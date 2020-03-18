@@ -174,7 +174,7 @@
   {
     "id": "mon_triffid_queen",
     "type": "MONSTER",
-    "name": "triffid queen",
+    "name": { "str": "triffid queen" },
     "description": "A ponderous and particularly arborescent triffid.  It has enormous red petals surrounded by a haze of spores, and two thick barbed vines stick out from the stems like wary harpoons.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],
@@ -260,7 +260,7 @@
   {
     "id": "mon_triffid_flower",
     "type": "MONSTER",
-    "name": "triffid flower",
+    "name": { "str": "triffid flower" },
     "description": "A giant plant with a thick stalk adorned by a purple flower.  Its petals are open with ominous shine in center.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],

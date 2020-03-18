@@ -404,7 +404,7 @@
   {
     "id": "mon_headless_dog_thing",
     "type": "MONSTER",
-    "name": "tentacle dog",
+    "name": { "str": "tentacle dog" },
     "description": "A dog's body with a mass of ropey, black tentacles reaching out from its head.",
     "default_faction": "mutant",
     "bodytype": "dog",
@@ -742,7 +742,7 @@
   {
     "id": "mon_thing",
     "type": "MONSTER",
-    "name": "thing",
+    "name": { "str": "thing" },
     "description": "An amorphous black creature, detaching and sprouting tentacles without any apparent pause.",
     "default_faction": "mutant",
     "bodytype": "blob",

@@ -994,7 +994,7 @@
   {
     "id": "mon_zombie_smoker",
     "type": "MONSTER",
-    "name": "smoker zombie",
+    "name": { "str": "smoker zombie" },
     "description": "A blackened and twisted naked human body, strips of flesh hang from its body, and it emits a constant haze of thick black smoke.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -1038,7 +1038,7 @@
   {
     "id": "mon_zombie_swimmer",
     "type": "MONSTER",
-    "name": "swimmer zombie",
+    "name": { "str": "swimmer zombie" },
     "description": "A slick and glistening human body.  Its hands and feet are webbed, and it is clad in swimwear.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -1117,7 +1117,7 @@
   {
     "id": "mon_zombie_thorny",
     "type": "MONSTER",
-    "name": "thorny shambler",
+    "name": { "str": "thorny shambler" },
     "description": "A shambling undead humanoid, body overgrown with a tangled mass of otherworldly vegetation.  Hunched over and dragging its feet as it moves, the bramble utterly enveloping its upper half twitches and moves with a life of its own, tendrils tipped with a paralytic sting.",
     "default_faction": "zombie",
     "bodytype": "human",

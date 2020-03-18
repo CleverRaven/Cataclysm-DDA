@@ -283,7 +283,7 @@
   {
     "id": "mon_spore",
     "type": "MONSTER",
-    "name": "spore cloud",
+    "name": { "str": "spore cloud" },
     "description": "A mass of spores the size of a balled fist, wafting around in the air.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],

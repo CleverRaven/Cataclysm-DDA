@@ -1929,7 +1929,7 @@
   {
     "id": "mon_squirrel",
     "type": "MONSTER",
-    "name": "squirrel",
+    "name": { "str": "squirrel" },
     "description": "A small granivorous rodent with a long bushy tail, often seen darting amid the branches of trees.  A skittish varmint with an expression of unwavering austerity, it is the mortal enemy of cat and dog alike.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1956,7 +1956,7 @@
   {
     "id": "mon_squirrel_red",
     "type": "MONSTER",
-    "name": "squirrel",
+    "name": { "str": "squirrel" },
     "description": "A tiny opportunistic rodent with a long bushy tail.  The pine squirrel is clever and cute, and hunted by nearly everything in the woods with a taste for meat.",
     "default_faction": "small_animal",
     "bodytype": "pig",
