@@ -2,7 +2,7 @@
   {
     "id": "mon_beekeeper",
     "type": "MONSTER",
-    "name": "scarred zombie",
+    "name": { "str": "scarred zombie" },
     "description": "A deformed human body, its skin transformed into one thick, calloused envelope of scar tissue.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -450,7 +450,7 @@
   {
     "id": "mon_zombie_resort_dancer",
     "type": "MONSTER",
-    "name": "sleek zombie",
+    "name": { "str": "sleek zombie" },
     "description": "This zombie is rather sleek and barely clothed.",
     "copy-from": "mon_zombie",
     "looks_like": "mon_zombie",

@@ -147,7 +147,7 @@
   {
     "id": "mon_player_blob",
     "type": "MONSTER",
-    "name": "slimespring",
+    "name": { "str": "slimespring" },
     "description": "A familiar-looking blob of goo.  It sprouts the occasional eyestalk.",
     "default_faction": "player",
     "bodytype": "blob",
