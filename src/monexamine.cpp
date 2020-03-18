@@ -124,7 +124,7 @@ bool monexamine::pet_menu( monster &z )
     if( z.has_flag( MF_SHEARABLE ) ) {
         bool available = true;
         if( season_of_year( calendar::turn ) == WINTER ) {
-            amenu.addentry( shear, false, 'S', _( "This animal would freeze if you sheared it now" ) );
+            amenu.addentry( shear, false, 'S', _( "This animal would freeze if you shear it now." ) );
             available = false;
         } else if( z.has_effect( effect_sheared ) ) {
             amenu.addentry( shear, false, 'S', _( "This animal is not ready to be sheared again yet." ) );
