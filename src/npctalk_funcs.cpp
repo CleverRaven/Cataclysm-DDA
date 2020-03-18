@@ -50,6 +50,10 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const mtype_id mon_chicken( "mon_chicken" );
+static const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_horse( "mon_horse" );
+
 struct itype;
 
 void spawn_animal( npc &p, const mtype_id &mon );

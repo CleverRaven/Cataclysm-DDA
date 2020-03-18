@@ -44,6 +44,8 @@ static const std::string comesttype_FOOD( "FOOD" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_survival( "survival" );
 
+static const mtype_id mon_player_blob( "mon_player_blob" );
+
 const std::vector<std::string> carnivore_blacklist {{
         flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
     }

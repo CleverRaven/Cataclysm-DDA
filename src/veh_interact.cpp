@@ -57,7 +57,6 @@
 #include "mapdata.h"
 #include "point.h"
 #include "material.h"
-#include "cata_string_consts.h"
 
 static const itype_id fuel_type_battery( "battery" );
 
@@ -66,6 +65,10 @@ static const skill_id skill_mechanics( "mechanics" );
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
 static const quality_id qual_SELF_JACK( "SELF_JACK" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 class player;
 

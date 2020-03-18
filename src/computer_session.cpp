@@ -57,6 +57,9 @@ static const skill_id skill_computer( "computer" );
 static const species_id HUMAN( "HUMAN" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_secubot( "mon_secubot" );
+
 static catacurses::window init_window()
 {
     const int width = std::min( FULL_SCREEN_WIDTH, TERMX );

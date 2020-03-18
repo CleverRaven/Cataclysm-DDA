@@ -61,6 +61,8 @@
 #include "player_activity.h"
 #include "cata_string_consts.h"
 
+static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
+
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
