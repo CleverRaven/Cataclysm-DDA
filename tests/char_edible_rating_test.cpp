@@ -49,16 +49,32 @@ enum edible_rating {
 //   "Can't drink spilt liquids"
 //   "Your biology is not compatible with that item")
 
-TEST_CASE( "non-comestible", "[can_eat][edible_rating][nonfood]" )
+static void expect_can_eat( avatar &dummy, item &food )
+{
+    auto rate_can = dummy.can_eat( food );
+    CHECK( rate_can.success() );
+    CHECK( rate_can.value() == EDIBLE );
+    CHECK( rate_can.str() == "" );
+}
+
+static void expect_cannot_eat( avatar &dummy, item &food, std::string expect_reason,
+                               int expect_rating = INEDIBLE )
+{
+    auto rate_can = dummy.can_eat( food );
+    CHECK_FALSE( rate_can.success() );
+    CHECK( rate_can.value() == expect_rating );
+    CHECK( rate_can.str() == expect_reason );
+}
+
+
+TEST_CASE( "non-comestible", "[can_eat][will_eat][edible_rating][nonfood]" )
 {
     avatar dummy;
     GIVEN( "something not edible" ) {
         item rag( "rag" );
 
         THEN( "they cannot eat it" ) {
-            auto rating = dummy.can_eat( rag );
-            CHECK_FALSE( rating.success() );
-            CHECK( rating.str() == "That doesn't look edible." );
+            expect_cannot_eat( dummy, rag, "That doesn't look edible.", INEDIBLE );
         }
     }
 }
@@ -73,9 +89,7 @@ TEST_CASE( "dirty food", "[can_eat][edible_rating][dirty]" )
         REQUIRE( chocolate.item_tags.count( "DIRTY" ) );
 
         THEN( "they cannot eat it" ) {
-            auto rating = dummy.can_eat( chocolate );
-            CHECK_FALSE( rating.success() );
-            CHECK( rating.str() == "This is full of dirt after being on the ground." );
+            expect_cannot_eat( dummy, chocolate, "This is full of dirt after being on the ground." );
         }
     }
 }
@@ -94,13 +108,11 @@ TEST_CASE( "eating while underwater", "[can_eat][edible_rating][underwater]" )
             REQUIRE_FALSE( dummy.has_trait( trait_id( "WATERSLEEP" ) ) );
 
             THEN( "they cannot eat" ) {
-                auto rating = dummy.can_eat( sushi );
-                CHECK( rating.str() == "You can't do that while underwater." );
+                expect_cannot_eat( dummy, sushi, "You can't do that while underwater." );
             }
 
             THEN( "they cannot drink" ) {
-                auto rating = dummy.can_eat( water );
-                CHECK( rating.str() == "You can't do that while underwater." );
+                expect_cannot_eat( dummy, water, "You can't do that while underwater." );
             }
         }
 
@@ -109,15 +121,12 @@ TEST_CASE( "eating while underwater", "[can_eat][edible_rating][underwater]" )
             REQUIRE( dummy.has_trait( trait_id( "WATERSLEEP" ) ) );
 
             THEN( "they can eat" ) {
-                auto rating = dummy.can_eat( sushi );
-                CHECK( rating.success() );
-                CHECK( rating.str() == "" );
+                expect_can_eat( dummy, sushi );
             }
+
             // FIXME: This fails, despite what it says in the mutation description
             THEN( "they cannot drink" ) {
-                auto rating = dummy.can_eat( water );
-                CHECK_FALSE( rating.success() );
-                CHECK( rating.str() == "You can't do that while underwater." );
+                expect_cannot_eat( dummy, water, "You can't do that while underwater." );
             }
         }
     }
@@ -136,10 +145,7 @@ TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
             REQUIRE_FALSE( apple.item_tags.count( "FROZEN" ) );
 
             THEN( "they can eat it" ) {
-                auto rating = dummy.can_eat( apple );
-                CHECK( rating.success() );
-                CHECK( rating.value() == EDIBLE );
-                CHECK( rating.str() == "" );
+                expect_can_eat( dummy, apple );
             }
         }
 
@@ -148,9 +154,7 @@ TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
             REQUIRE( apple.item_tags.count( "FROZEN" ) );
 
             THEN( "they cannot eat it" ) {
-                auto rating = dummy.can_eat( apple );
-                CHECK_FALSE( rating.success() );
-                CHECK( rating.str() == "It's frozen solid.  You must defrost it before you can eat it." );
+                expect_cannot_eat( dummy, apple, "It's frozen solid.  You must defrost it before you can eat it." );
             }
         }
     }
@@ -164,10 +168,7 @@ TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
             REQUIRE_FALSE( water.item_tags.count( "FROZEN" ) );
 
             THEN( "they can drink it" ) {
-                auto rating = dummy.can_eat( water );
-                CHECK( rating.success() );
-                CHECK( rating.value() == EDIBLE );
-                CHECK( rating.str() == "" );
+                expect_can_eat( dummy, water );
             }
         }
 
@@ -176,9 +177,7 @@ TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
             REQUIRE( water.item_tags.count( "FROZEN" ) );
 
             THEN( "they cannot drink it" ) {
-                auto rating = dummy.can_eat( water );
-                CHECK_FALSE( rating.success() );
-                CHECK( rating.str() == "You can't drink it while it's frozen." );
+                expect_cannot_eat( dummy, water, "You can't drink it while it's frozen." );
             }
         }
     }
@@ -192,10 +191,7 @@ TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
             REQUIRE( necco.item_tags.count( "FROZEN" ) );
 
             THEN( "they can eat it" ) {
-                auto rating = dummy.can_eat( necco );
-                CHECK( rating.success() );
-                CHECK( rating.value() == EDIBLE );
-                CHECK( rating.str() == "" );
+                expect_can_eat( dummy, necco );
             }
         }
     }
@@ -213,10 +209,7 @@ TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
             REQUIRE( milkshake.item_tags.count( "FROZEN" ) );
 
             THEN( "they can eat it" ) {
-                auto rating = dummy.can_eat( milkshake );
-                CHECK( rating.success() );
-                CHECK( rating.value() == EDIBLE );
-                CHECK( rating.str() == "" );
+                expect_can_eat( dummy, milkshake );
             }
         }
     }
@@ -243,16 +236,14 @@ TEST_CASE( "inedible animal food", "[can_eat][edible_rating][inedible][animal]" 
             REQUIRE_FALSE( dummy.has_trait( trait_id( "THRESH_BIRD" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "THRESH_CATTLE" ) ) );
 
+            std::string expect_reason = "That doesn't look edible to you.";
+
             THEN( "they cannot eat bird food" ) {
-                auto rating = dummy.can_eat( birdfood );
-                CHECK_FALSE( rating.success() );
-                CHECK( rating.str() == "That doesn't look edible to you." );
+                expect_cannot_eat( dummy, birdfood, "That doesn't look edible to you." );
             }
 
             THEN( "they cannot eat cattle fodder" ) {
-                auto rating = dummy.can_eat( cattlefodder );
-                CHECK_FALSE( rating.success() );
-                CHECK( rating.str() == "That doesn't look edible to you." );
+                expect_cannot_eat( dummy, cattlefodder, "That doesn't look edible to you." );
             }
         }
 
@@ -261,10 +252,7 @@ TEST_CASE( "inedible animal food", "[can_eat][edible_rating][inedible][animal]" 
             REQUIRE( dummy.has_trait( trait_id( "THRESH_BIRD" ) ) );
 
             THEN( "they can eat bird food" ) {
-                auto rating = dummy.can_eat( birdfood );
-                CHECK( rating.success() );
-                CHECK( rating.value() == EDIBLE );
-                CHECK( rating.str() == "" );
+                expect_can_eat( dummy, birdfood );
             }
         }
 
@@ -273,10 +261,7 @@ TEST_CASE( "inedible animal food", "[can_eat][edible_rating][inedible][animal]" 
             REQUIRE( dummy.has_trait( trait_id( "THRESH_CATTLE" ) ) );
 
             THEN( "they can eat cattle fodder" ) {
-                auto rating = dummy.can_eat( cattlefodder );
-                CHECK( rating.success() );
-                CHECK( rating.value() == EDIBLE );
-                CHECK( rating.str() == "" );
+                expect_can_eat( dummy, cattlefodder );
             }
         }
     }
@@ -290,24 +275,20 @@ TEST_CASE( "herbivore mutation", "[can_eat][edible_rating][herbivore]" )
         dummy.toggle_trait( trait_id( "HERBIVORE" ) );
         REQUIRE( dummy.has_trait( trait_id( "HERBIVORE" ) ) );
 
+        std::string expect_reason = "The thought of eating that makes you feel sick.";
+
         THEN( "they cannot eat meat" ) {
             item meat( "meat_cooked" );
             REQUIRE( meat.has_flag( "ALLERGEN_MEAT" ) );
 
-            auto rating = dummy.can_eat( meat );
-            CHECK_FALSE( rating.success() );
-            CHECK( rating.value() == INEDIBLE_MUTATION );
-            CHECK( rating.str() == "The thought of eating that makes you feel sick." );
+            expect_cannot_eat( dummy, meat, expect_reason, INEDIBLE_MUTATION );
         }
 
         THEN( "they cannot eat eggs" ) {
             item eggs( "scrambled_eggs" );
             REQUIRE( eggs.has_flag( "ALLERGEN_EGG" ) );
 
-            auto rating = dummy.can_eat( eggs );
-            CHECK_FALSE( rating.success() );
-            CHECK( rating.value() == INEDIBLE_MUTATION );
-            CHECK( rating.str() == "The thought of eating that makes you feel sick." );
+            expect_cannot_eat( dummy, eggs, expect_reason, INEDIBLE_MUTATION );
         }
     }
 }
@@ -320,44 +301,34 @@ TEST_CASE( "carnivore mutation", "[can_eat][edible_rating][carnivore]" )
         dummy.toggle_trait( trait_id( "CARNIVORE" ) );
         REQUIRE( dummy.has_trait( trait_id( "CARNIVORE" ) ) );
 
+        std::string expect_reason = "Eww.  Inedible plant stuff!";
+
         THEN( "they cannot eat veggies" ) {
             item veggy( "veggy" );
             REQUIRE( veggy.has_flag( "ALLERGEN_VEGGY" ) );
 
-            auto rating = dummy.can_eat( veggy );
-            CHECK_FALSE( rating.success() );
-            CHECK( rating.value() == INEDIBLE_MUTATION );
-            CHECK( rating.str() == "Eww.  Inedible plant stuff!" );
+            expect_cannot_eat( dummy, veggy, expect_reason, INEDIBLE_MUTATION );
         }
 
         THEN( "they cannot eat fruit" ) {
             item apple( "apple" );
             REQUIRE( apple.has_flag( "ALLERGEN_FRUIT" ) );
 
-            auto rating = dummy.can_eat( apple );
-            CHECK_FALSE( rating.success() );
-            CHECK( rating.value() == INEDIBLE_MUTATION );
-            CHECK( rating.str() == "Eww.  Inedible plant stuff!" );
+            expect_cannot_eat( dummy, apple, expect_reason, INEDIBLE_MUTATION );
         }
 
         THEN( "they cannot eat wheat" ) {
             item bread( "sourdough_bread" );
             REQUIRE( bread.has_flag( "ALLERGEN_WHEAT" ) );
 
-            auto rating = dummy.can_eat( bread );
-            CHECK_FALSE( rating.success() );
-            CHECK( rating.value() == INEDIBLE_MUTATION );
-            CHECK( rating.str() == "Eww.  Inedible plant stuff!" );
+            expect_cannot_eat( dummy, bread, expect_reason, INEDIBLE_MUTATION );
         }
 
         THEN( "they cannot eat nuts" ) {
             item nuts( "pine_nuts" );
             REQUIRE( nuts.has_flag( "ALLERGEN_NUT" ) );
 
-            auto rating = dummy.can_eat( nuts );
-            CHECK_FALSE( rating.success() );
-            CHECK( rating.value() == INEDIBLE_MUTATION );
-            CHECK( rating.str() == "Eww.  Inedible plant stuff!" );
+            expect_cannot_eat( dummy, nuts, expect_reason, INEDIBLE_MUTATION );
         }
     }
 }
@@ -397,20 +368,14 @@ TEST_CASE( "mycus dependency mutation", "[can_eat][edible_rating][mycus]" )
             item nuts( "pine_nuts" );
             REQUIRE_FALSE( nuts.has_flag( "MYCUS_OK" ) );
 
-            auto rating = dummy.can_eat( nuts );
-            CHECK_FALSE( rating.success() );
-            CHECK( rating.value() == INEDIBLE_MUTATION );
-            CHECK( rating.str() == "We can't eat that.  It's not right for us." );
+            expect_cannot_eat( dummy, nuts, "We can't eat that.  It's not right for us.", INEDIBLE_MUTATION );
         }
 
         THEN( "they can eat mycus food" ) {
             item berry( "marloss_berry" );
             REQUIRE( berry.has_flag( "MYCUS_OK" ) );
 
-            auto rating = dummy.can_eat( berry );
-            CHECK( rating.success() );
-            CHECK( rating.value() == EDIBLE );
-            CHECK( rating.str() == "" );
+            expect_can_eat( dummy, berry );
         }
     }
 }
@@ -424,16 +389,14 @@ TEST_CASE( "proboscis mutation", "[can_eat][edible_rating][proboscis]" )
         REQUIRE( dummy.has_trait( trait_id( "PROBOSCIS" ) ) );
 
         // Cannot drink
+        std::string expect_reason = "Ugh, you can't drink that!";
 
         GIVEN( "a drink that is 'eaten' (USE_EAT_VERB)" ) {
             item soup( "soup_veggy" );
             REQUIRE( soup.has_flag( "USE_EAT_VERB" ) );
 
             THEN( "they cannot drink it" ) {
-                auto rating = dummy.can_eat( soup );
-                CHECK_FALSE( rating.success() );
-                CHECK( rating.value() == INEDIBLE_MUTATION );
-                CHECK( rating.str() == "Ugh, you can't drink that!" );
+                expect_cannot_eat( dummy, soup, expect_reason, INEDIBLE_MUTATION );
             }
         }
 
@@ -442,10 +405,7 @@ TEST_CASE( "proboscis mutation", "[can_eat][edible_rating][proboscis]" )
             REQUIRE( toastem.get_comestible()->comesttype == "FOOD" );
 
             THEN( "they cannot drink it" ) {
-                auto rating = dummy.can_eat( toastem );
-                CHECK_FALSE( rating.success() );
-                CHECK( rating.value() == INEDIBLE_MUTATION );
-                CHECK( rating.str() == "Ugh, you can't drink that!" );
+                expect_cannot_eat( dummy, toastem, expect_reason, INEDIBLE_MUTATION );
             }
         }
 
@@ -456,10 +416,7 @@ TEST_CASE( "proboscis mutation", "[can_eat][edible_rating][proboscis]" )
             REQUIRE_FALSE( broth.has_flag( "USE_EAT_VERB" ) );
 
             THEN( "they can drink it" ) {
-                auto rating = dummy.can_eat( broth );
-                CHECK( rating.success() );
-                CHECK( rating.value() == EDIBLE );
-                CHECK( rating.str() == "" );
+                expect_can_eat( dummy, broth );
             }
         }
 
@@ -468,10 +425,7 @@ TEST_CASE( "proboscis mutation", "[can_eat][edible_rating][proboscis]" )
             REQUIRE( aspirin.is_medication() );
 
             THEN( "they can consume it" ) {
-                auto rating = dummy.can_eat( aspirin );
-                CHECK( rating.success() );
-                CHECK( rating.value() == EDIBLE );
-                CHECK( rating.str() == "" );
+                expect_can_eat( dummy, aspirin );
             }
         }
     }
@@ -498,5 +452,26 @@ TEST_CASE( "crafted food", "[can_eat][edible_rating][craft]" )
             }
         }
     }
+}
+
+// will_eat test cases
+//
+// Consequences:
+// "This is rotten and smells awful!"
+// "The thought of eating human flesh makes you feel sick."
+// "You still feel nauseous and will probably puke it all up again."
+// "Your stomach won't be happy (allergy)."
+// "Your stomach won't be happy (not rotten enough)."
+// "You're full already and will be forcing yourself to eat."
+// "You're full already and will be forcing yourself to drink."
+//
+
+TEST_CASE( "", "[will_eat][edible_rating]" )
+{
+
+}
+
+TEST_CASE( "", "[will_eat][edible_rating]" )
+{
 }
 
