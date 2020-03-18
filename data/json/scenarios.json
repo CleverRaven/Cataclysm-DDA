@@ -39,6 +39,29 @@
     "start_name": "In Town",
     "flags": [ "CITY_START" ]
   },
+
+
+
+
+
+
+
+{
+"type":"scenario",	
+"ident": "breachS9B",
+"name": "breach S-9B",
+"description":"…pain… …my head… …who I’m… …what’s that scrap around me… …is it helicopter wreck?",
+"flags": ["HELI_CRASH", "LONE_START"  ],
+"points": -3,
+"start_name": "S-9B",
+"allowed_locs": ["field", "forest"  ],
+"professions": [ "S-9B" ]
+},
+
+
+
+
+
   {
     "type": "scenario",
     "ident": "largebuilding",
