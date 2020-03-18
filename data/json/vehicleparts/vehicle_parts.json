@@ -1566,7 +1566,7 @@
   {
     "type": "vehicle_part",
     "id": "sail",
-    "name": "sail",
+    "name": { "str": "sail" },
     "symbol": "M",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -3175,7 +3175,7 @@
   {
     "type": "vehicle_part",
     "id": "omnicam",
-    "name": "security camera",
+    "name": { "str": "security camera" },
     "symbol": "o",
     "color": "light_red",
     "broken_symbol": "#",
