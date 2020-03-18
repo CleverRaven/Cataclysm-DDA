@@ -33,9 +33,15 @@
 #include "string_id.h"
 #include "point.h"
 #include "weather.h"
-#include "cata_string_consts.h"
 
 static const skill_id skill_barter( "barter" );
+
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+static const mongroup_id GROUP_ROBOT( "GROUP_ROBOT" );
+static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
+static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
+static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters

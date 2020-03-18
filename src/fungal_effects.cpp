@@ -32,6 +32,9 @@
 
 static const skill_id skill_melee( "melee" );
 
+static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_spore( "mon_spore" );
+
 static const species_id FUNGUS( "FUNGUS" );
 
 fungal_effects::fungal_effects( game &g, map &mp )

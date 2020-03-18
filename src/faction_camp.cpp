@@ -92,6 +92,36 @@ static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_traps( "traps" );
 static const skill_id skill_unarmed( "unarmed" );
 
+static const mtype_id mon_bear( "mon_bear" );
+static const mtype_id mon_beaver( "mon_beaver" );
+static const mtype_id mon_black_rat( "mon_black_rat" );
+static const mtype_id mon_chicken( "mon_chicken" );
+static const mtype_id mon_chipmunk( "mon_chipmunk" );
+static const mtype_id mon_cockatrice( "mon_cockatrice" );
+static const mtype_id mon_cougar( "mon_cougar" );
+static const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_coyote( "mon_coyote" );
+static const mtype_id mon_deer( "mon_deer" );
+static const mtype_id mon_duck( "mon_duck" );
+static const mtype_id mon_fox_gray( "mon_fox_gray" );
+static const mtype_id mon_fox_red( "mon_fox_red" );
+static const mtype_id mon_groundhog( "mon_groundhog" );
+static const mtype_id mon_grouse( "mon_grouse" );
+static const mtype_id mon_hare( "mon_hare" );
+static const mtype_id mon_lemming( "mon_lemming" );
+static const mtype_id mon_mink( "mon_mink" );
+static const mtype_id mon_moose( "mon_moose" );
+static const mtype_id mon_muskrat( "mon_muskrat" );
+static const mtype_id mon_opossum( "mon_opossum" );
+static const mtype_id mon_otter( "mon_otter" );
+static const mtype_id mon_pheasant( "mon_pheasant" );
+static const mtype_id mon_pig( "mon_pig" );
+static const mtype_id mon_rabbit( "mon_rabbit" );
+static const mtype_id mon_squirrel( "mon_squirrel" );
+static const mtype_id mon_turkey( "mon_turkey" );
+static const mtype_id mon_weasel( "mon_weasel" );
+static const mtype_id mon_wolf( "mon_wolf" );
+
 struct mass_volume {
     units::mass wgt;
     units::volume vol;

@@ -116,6 +116,16 @@ static const quality_id qual_SAW_W( "SAW_W" );
 static const species_id HUMAN( "HUMAN" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
+static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
+static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
+static const mtype_id mon_skeleton( "mon_skeleton" );
+static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >

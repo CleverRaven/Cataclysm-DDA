@@ -65,6 +65,8 @@ static const itype_id fuel_type_none( "null" );
 
 static const species_id ROBOT( "ROBOT" );
 
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
 float fragment_mass = 0.0001;
