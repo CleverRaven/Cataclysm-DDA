@@ -1292,7 +1292,7 @@ void activity_handlers::shear_finish( player_activity *act, player *p )
         debugmsg( "could not find source creature for shearing" );
         return;
     }
-    // 22 wool stables corresponds to an average wool-producing sheep yield of 10 lbs or so
+    // 22 wool staples corresponds to an average wool-producing sheep yield of 10 lbs or so
     for( int i = 0; i != 22; ++i ) {
         item wool_staple( "wool_staple", calendar::turn );
         g->m.add_item_or_charges( p->pos(), wool_staple );
