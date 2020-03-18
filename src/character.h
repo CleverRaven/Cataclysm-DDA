@@ -439,7 +439,8 @@ class Character : public Creature, public visitable<Character>
         // called once per 24 hours to enforce the minimum of 1 hp healed per day
         // TODO: Move to Character once heal() is moved
         void enforce_minimum_healing();
-
+        /** get best quality item that this character has */
+        item *best_quality_item( const quality_id &qual );
         /** Handles health fluctuations over time */
         virtual void update_health( int external_modifiers = 0 );
         /** Updates all "biology" by one turn. Should be called once every turn. */
