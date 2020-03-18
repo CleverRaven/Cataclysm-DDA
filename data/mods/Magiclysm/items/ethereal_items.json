@@ -188,8 +188,7 @@
     "id": "stormglove",
     "symbol": "3",
     "color": "light_gray",
-    "name": "Stormfist",
-    "name_plural": "Stormfists",
+    "name": { "str": "Stormfist" },
     "description": "Encases your arm and hand in a sheath of crackling magical lightning, you can punch and defend yourself with it in melee combat.",
     "material": [ "superalloy" ],
     "volume": "250 ml",
@@ -236,8 +235,7 @@
   {
     "id": "fleshpouch",
     "type": "ARMOR",
-    "name": "flesh pouch",
-    "name_plural": "flesh pouches",
+    "name": { "str": "flesh pouch", "str_pl": "flesh pouches" },
     "description": "A large pouch of tough flesh on your back, filled with tiny tentacles that grasp and hold anything you place inside.  It shifts and adjusts itself to minimize encumbrance.",
     "weight": 0,
     "volume": 0,
@@ -281,13 +279,11 @@
   },
   {
     "id": "druid_recurve",
+    "copy-from": "reflexbow",
     "type": "GUN",
-    "symbol": "(",
     "color": "yellow",
-    "looks_like": "recurbow",
     "name": "Woodbow",
     "description": "A magically conjured ornate recurve bow of solid flexible wood.  A matching conjured wooden arrow appears when you draw the string back for firing.",
-    "material": [ "wood" ],
     "flags": [
       "FIRE_TWOHAND",
       "PRIMITIVE_RANGED_WEAPON",
@@ -300,18 +296,8 @@
       "NO_UNLOAD",
       "NO_AMMO"
     ],
-    "skill": "archery",
-    "min_strength": 5,
     "weight": "540 g",
-    "volume": "2500 ml",
-    "bashing": 16,
-    "to_hit": 1,
-    "reload_noise_volume": 2,
-    "loudness": 2,
-    "ranged_damage": 17,
-    "range": 15,
-    "dispersion": 120,
-    "durability": 8
+    "volume": "2500 ml"
   },
   {
     "type": "TOOL",

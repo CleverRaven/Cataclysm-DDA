@@ -30,6 +30,8 @@
 #include "type_id.h"
 #include "cata_string_consts.h"
 
+static const std::string errstring( "ERROR" );
+
 struct tripoint;
 
 static item_action nullaction;
@@ -125,7 +127,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
 
             // Don't try to remove 'irremovable' toolmods
             if( actual_item->is_toolmod() && use == item_action_id( "TOOLMOD_ATTACH" ) &&
-                actual_item->has_flag( flag_IRREMOVABLE ) ) {
+                actual_item->has_flag( "IRREMOVABLE" ) ) {
                 continue;
             }
 
@@ -235,8 +237,8 @@ void game::item_action_menu()
     kmenu.input_category = "ITEM_ACTIONS";
     input_context ctxt( "ITEM_ACTIONS" );
     for( const auto &id : item_actions ) {
-        ctxt.register_action( id.first, id.second.name.translated() );
-        kmenu.additional_actions.emplace_back( id.first, id.second.name.translated() );
+        ctxt.register_action( id.first, id.second.name );
+        kmenu.additional_actions.emplace_back( id.first, id.second.name );
     }
     actmenu_cb callback( item_actions );
     kmenu.callback = &callback;

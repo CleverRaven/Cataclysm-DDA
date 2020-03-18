@@ -172,6 +172,19 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
+m_size calculate_size( const Character &c )
+{
+    if( c.has_trait( trait_id( "SMALL2" ) ) || c.has_trait( trait_id( "SMALL_OK" ) ) ||
+        c.has_trait( trait_id( "SMALL" ) ) ) {
+        return MS_SMALL;
+    } else if( c.has_trait( trait_LARGE ) || c.has_trait( trait_LARGE_OK ) ) {
+        return MS_LARGE;
+    } else if( c.has_trait( trait_HUGE ) || c.has_trait( trait_HUGE_OK ) ) {
+        return MS_HUGE;
+    }
+    return MS_MEDIUM;
+}
+
 void Character::mutation_effect( const trait_id &mut )
 {
     if( mut == "GLASSJAW" ) {
@@ -204,6 +217,8 @@ void Character::mutation_effect( const trait_id &mut )
     } else {
         apply_mods( mut, true );
     }
+
+    size_class = calculate_size( *this );
 
     const auto &branch = mut.obj();
     if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
@@ -276,6 +291,8 @@ void Character::mutation_loss_effect( const trait_id &mut )
     } else {
         apply_mods( mut, false );
     }
+
+    size_class = calculate_size( *this );
 
     const auto &branch = mut.obj();
     if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
@@ -360,7 +377,7 @@ bool Character::can_use_heal_item( const item &med ) const
         }
     }
     if( !got_restriction ) {
-        can_use = !med.has_flag( flag_CANT_HEAL_EVERYONE );
+        can_use = !med.has_flag( "CANT_HEAL_EVERYONE" );
     }
 
     if( !can_use ) {
@@ -394,8 +411,6 @@ void Character::activate_mutation( const trait_id &mut )
     const mutation_branch &mdata = mut.obj();
     trait_data &tdata = my_mutations[mut];
     int cost = mdata.cost;
-    // Preserve the fake weapon used to initiate ranged mutation firing
-    static item mut_ranged( weapon );
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
     if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
@@ -440,7 +455,7 @@ void Character::activate_mutation( const trait_id &mut )
         invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
-        monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 );
+        monster *const slime = g->place_critter_around( mtype_id( "mon_player_blob" ), pos(), 1 );
         if( !slime ) {
             // Oops, no room to divide!
             add_msg_if_player( m_bad, _( "You focus, but are too hemmed in to birth a new slimespring!" ) );
@@ -493,7 +508,7 @@ void Character::activate_mutation( const trait_id &mut )
         // Check for adjacent trees.
         bool adjacent_tree = false;
         for( const tripoint &p2 : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->m.has_flag( flag_TREE, p2 ) ) {
+            if( g->m.has_flag( "TREE", p2 ) ) {
                 adjacent_tree = true;
             }
         }
@@ -541,10 +556,9 @@ void Character::activate_mutation( const trait_id &mut )
         tdata.powered = false;
         return;
     } else if( !mdata.ranged_mutation.empty() ) {
-        mut_ranged = item( mdata.ranged_mutation );
         add_msg_if_player( mdata.ranged_mutation_message() );
         g->refresh_all();
-        avatar_action::fire( g->u, g->m, mut_ranged );
+        avatar_action::fire_ranged_mutation( g->u, g->m, item( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }

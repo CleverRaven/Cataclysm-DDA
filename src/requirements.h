@@ -23,6 +23,9 @@ class JsonOut;
 class inventory;
 class item;
 
+// Denotes the id of an item type
+using itype_id = std::string;
+
 enum available_status {
     a_true = +1, // yes, it's available
     a_false = -1, // no, it's not available

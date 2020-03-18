@@ -74,6 +74,13 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const itype_id fuel_type_animal( "animal" );
+
+static const zone_type_id zone_type_npc_investigate_only( "NPC_INVESTIGATE_ONLY" );
+static const zone_type_id zone_type_npc_no_investigate( "NPC_NO_INVESTIGATE" );
+
+static const skill_id skill_speech( "speech" );
+
 class basecamp;
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
@@ -599,10 +606,10 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             bool should_check = rl_dist( pos(), spos ) < investigate_dist;
             if( should_check ) {
                 const zone_manager &mgr = zone_manager::get_manager();
-                if( mgr.has( zone_no_investigate, s_abs_pos, fac_id ) ) {
+                if( mgr.has( zone_type_npc_no_investigate, s_abs_pos, fac_id ) ) {
                     should_check = false;
-                } else if( mgr.has( zone_investigate_only, my_abs_pos, fac_id ) &&
-                           !mgr.has( zone_investigate_only, s_abs_pos, fac_id ) ) {
+                } else if( mgr.has( zone_type_npc_investigate_only, my_abs_pos, fac_id ) &&
+                           !mgr.has( zone_type_npc_investigate_only, s_abs_pos, fac_id ) ) {
                     should_check = false;
                 }
             }
@@ -2064,7 +2071,7 @@ void talk_effect_fun_t::set_change_faction_rep( int rep_change )
 {
     function = [rep_change]( const dialogue & d ) {
         npc &p = *d.beta;
-        if( p.get_faction()->id != faction_no_faction ) {
+        if( p.get_faction()->id != faction_id( "no_faction" ) ) {
             p.get_faction()->likes_u += rep_change;
             p.get_faction()->respects_u += rep_change;
         }
@@ -3088,9 +3095,8 @@ void load_talk_topic( const JsonObject &jo )
     }
 }
 
-std::string npc::pick_talk_topic( const player &u )
+std::string npc::pick_talk_topic( const player &/*u*/ )
 {
-    ( void )u;
     if( personality.aggression > 0 ) {
         if( op_of_u.fear * 2 < personality.bravery && personality.altruism < 0 ) {
             set_attitude( NPCATT_MUG );
@@ -3171,6 +3177,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
                 reason = _( "It doesn't look like a good idea to consume this…" );
                 return REFUSED;
             }
+            reason = _( "Thanks, I used it." );
         }
 
         to_eat.charges -= amount_used;
@@ -3205,8 +3212,8 @@ std::string give_item_to( npc &p, bool allow_use )
     }
     item &given = *loc;
 
-    if( ( &given == &g->u.weapon && given.has_flag( flag_NO_UNWIELD ) ) || ( g->u.is_worn( given ) &&
-            given.has_flag( flag_NO_TAKEOFF ) ) ) {
+    if( ( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) || ( g->u.is_worn( given ) &&
+            given.has_flag( "NO_TAKEOFF" ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }

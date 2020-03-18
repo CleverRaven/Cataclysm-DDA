@@ -53,7 +53,6 @@
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"
-#include "cata_string_consts.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -148,7 +147,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
     offered_swap = true;
     // TODO: Gray out if not enough hands
     if( u.is_armed() ) {
-        amenu.addentry( WIELD, !u.weapon.has_flag( flag_NO_UNWIELD ), 'w',
+        amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
                         _( "Dispose of %s and wield %s" ), u.weapon.display_name(),
                         it.display_name() );
     } else {
@@ -438,7 +437,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             from_vehicle = cargo_part >= 0;
         } else {
             // Nothing to change, default is to pick from ground anyway.
-            if( g->m.has_flag( flag_SEALED, p ) ) {
+            if( g->m.has_flag( "SEALED", p ) ) {
                 return;
             }
         }
@@ -493,16 +492,16 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         }
 
         // Bail out if this square cannot be auto-picked-up
-        if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ) {
+        if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
             return;
-        } else if( g->m.has_flag( flag_SEALED, p ) ) {
+        } else if( g->m.has_flag( "SEALED", p ) ) {
             return;
         }
     }
 
     // Not many items, just grab them
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
-        g->u.assign_activity( ACT_PICKUP );
+        g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
         if( from_vehicle ) {
             g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), &*here.front() );
         } else {
@@ -603,13 +602,13 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         ctxt.register_action( "DOWN" );
         ctxt.register_action( "RIGHT" );
         ctxt.register_action( "LEFT" );
-        ctxt.register_action( "NEXT_TAB", translate_marker( "Next page" ) );
-        ctxt.register_action( "PREV_TAB", translate_marker( "Previous page" ) );
+        ctxt.register_action( "NEXT_TAB", to_translation( "Next page" ) );
+        ctxt.register_action( "PREV_TAB", to_translation( "Previous page" ) );
         ctxt.register_action( "SCROLL_UP" );
         ctxt.register_action( "SCROLL_DOWN" );
         ctxt.register_action( "CONFIRM" );
         ctxt.register_action( "SELECT_ALL" );
-        ctxt.register_action( "QUIT", translate_marker( "Cancel" ) );
+        ctxt.register_action( "QUIT", to_translation( "Cancel" ) );
         ctxt.register_action( "ANY_INPUT" );
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
@@ -988,7 +987,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     }
 
     // At this point we've selected our items, register an activity to pick them up.
-    g->u.assign_activity( ACT_PICKUP );
+    g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
     g->u.activity.coords.push_back( g->u.pos() );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.

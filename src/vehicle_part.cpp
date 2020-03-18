@@ -24,7 +24,9 @@
 #include "color.h"
 #include "enums.h"
 #include "flat_set.h"
-#include "cata_string_consts.h"
+
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_none( "null" );
 
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
@@ -66,7 +68,7 @@ item vehicle_part::properties_to_item() const
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag( flag_CABLE_SPOOL ) ) {
+    if( tmp.has_flag( "CABLE_SPOOL" ) ) {
         const tripoint local_pos = g->m.getlocal( target.first );
         if( !g->m.veh_at( local_pos ) ) {
             // That vehicle ain't there no more.
@@ -103,6 +105,10 @@ std::string vehicle_part::name( bool with_prefix ) const
 
     if( base.has_var( "contained_name" ) ) {
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
+    }
+
+    if( is_leaking() ) {
+        res += _( " (draining)" );
     }
 
     if( with_prefix ) {
@@ -481,6 +487,11 @@ bool vehicle_part::is_reactor() const
     return info().has_flag( VPFLAG_REACTOR );
 }
 
+bool vehicle_part::is_leaking() const
+{
+    return  health_percent() <= 0.5 && ( is_tank() || is_battery() || is_reactor() );
+}
+
 bool vehicle_part::is_turret() const
 {
     return base.is_gun();
@@ -488,7 +499,7 @@ bool vehicle_part::is_turret() const
 
 bool vehicle_part::is_seat() const
 {
-    return info().has_flag( flag_SEAT );
+    return info().has_flag( "SEAT" );
 }
 
 const vpart_info &vehicle_part::info() const
@@ -533,7 +544,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( flag_PLANTER ) && !warm_enough_to_plant( g->u.pos() ) ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( g->u.pos() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

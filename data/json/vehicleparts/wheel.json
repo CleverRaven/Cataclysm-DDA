@@ -2,7 +2,7 @@
   {
     "type": "vehicle_part",
     "id": "wheel_mount_light",
-    "name": "light wheel mount",
+    "name": { "str": "light wheel mount" },
     "symbol": "-",
     "color": "light_gray",
     "location": "axle",
@@ -26,7 +26,7 @@
     "id": "wheel_mount_light_steerable",
     "copy-from": "wheel_mount_light",
     "type": "vehicle_part",
-    "name": "light wheel mount (steerable)",
+    "name": { "str": "light wheel mount (steerable)" },
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
@@ -61,7 +61,7 @@
   {
     "type": "vehicle_part",
     "id": "wheel_mount_heavy",
-    "name": "heavy wheel hub assembly",
+    "name": { "str": "heavy wheel hub assembly" },
     "symbol": "-",
     "color": "light_gray",
     "location": "axle",
@@ -84,13 +84,13 @@
     "id": "wheel_mount_heavy_steerable",
     "copy-from": "wheel_mount_heavy",
     "type": "vehicle_part",
-    "name": "heavy wheel hub assembly (steerable)",
+    "name": { "str": "heavy wheel hub assembly (steerable)" },
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
     "id": "rail_wheel",
     "type": "vehicle_part",
-    "name": "rail wheel",
+    "name": { "str": "rail wheel" },
     "item": "wheel_rail",
     "location": "under",
     "symbol": "|",
@@ -114,13 +114,13 @@
     "id": "rail_wheel_steerable",
     "copy-from": "rail_wheel",
     "type": "vehicle_part",
-    "name": "rail wheel (steerable)",
+    "name": { "str": "rail wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
     "id": "rail_wheel_small_pair",
     "type": "vehicle_part",
-    "name": "pair of small rail wheels",
+    "name": { "str": "pair of small rail wheels" },
     "item": "wheel_rail_small_pair",
     "copy-from": "rail_wheel",
     "symbol": "=",
@@ -134,7 +134,7 @@
   {
     "id": "roller_drum",
     "type": "vehicle_part",
-    "name": "roller drum",
+    "name": { "str": "roller drum" },
     "item": "hd_steel_drum",
     "location": "center",
     "symbol": "B",
@@ -191,7 +191,7 @@
     "id": "wheel_slick",
     "copy-from": "wheel",
     "type": "vehicle_part",
-    "name": "racing slick",
+    "name": { "str": "racing slick" },
     "item": "wheel_slick",
     "wheel_type": "racing",
     "contact_area": 180,
@@ -200,7 +200,7 @@
   {
     "id": "wheel_armor",
     "type": "vehicle_part",
-    "name": "armored wheel",
+    "name": { "str": "armored wheel" },
     "item": "wheel_armor",
     "location": "under",
     "looks_like": "wheel",
@@ -255,7 +255,7 @@
   {
     "id": "wheel_bicycle",
     "type": "vehicle_part",
-    "name": "bicycle wheel",
+    "name": { "str": "bicycle wheel" },
     "item": "wheel_bicycle",
     "location": "under",
     "symbol": "|",
@@ -285,7 +285,7 @@
     "id": "wheel_bicycle_or",
     "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
-    "name": "off-road bicycle wheel",
+    "name": { "str": "off-road bicycle wheel" },
     "item": "wheel_bicycle_or",
     "contact_area": 36,
     "wheel_type": "off-road"
@@ -293,7 +293,7 @@
   {
     "id": "wheel_caster",
     "type": "vehicle_part",
-    "name": "casters",
+    "name": { "str": "casters" },
     "item": "wheel_caster",
     "location": "under",
     "symbol": "o",
@@ -349,7 +349,7 @@
   {
     "id": "wheel_motorbike",
     "type": "vehicle_part",
-    "name": "motorbike wheel",
+    "name": { "str": "motorbike wheel" },
     "item": "wheel_motorbike",
     "location": "under",
     "looks_like": "wheel",
@@ -379,7 +379,7 @@
     "id": "wheel_motorbike_or",
     "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
-    "name": "off-road motorbike wheel",
+    "name": { "str": "off-road motorbike wheel" },
     "item": "wheel_motorbike_or",
     "contact_area": 60,
     "wheel_type": "off-road",
@@ -388,7 +388,7 @@
   {
     "id": "wheel_small",
     "type": "vehicle_part",
-    "name": "small wheel",
+    "name": { "str": "small wheel" },
     "item": "wheel_small",
     "location": "under",
     "symbol": "o",
@@ -526,7 +526,7 @@
     "id": "wheel_wide_or",
     "copy-from": "wheel_wide",
     "type": "vehicle_part",
-    "name": "off-road wide wheel",
+    "name": { "str": "off-road wide wheel" },
     "item": "wheel_wide_or",
     "wheel_type": "off-road",
     "contact_area": 320,
@@ -561,7 +561,7 @@
     "id": "wheel_wood_b",
     "copy-from": "wheel_wood",
     "type": "vehicle_part",
-    "name": "banded wooden cart wheel",
+    "name": { "str": "banded wooden cart wheel" },
     "item": "wheel_wood_b",
     "location": "under",
     "breaks_into": [

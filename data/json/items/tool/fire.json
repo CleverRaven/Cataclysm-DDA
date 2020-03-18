@@ -2,7 +2,7 @@
   {
     "id": "crude_firestarter",
     "type": "TOOL",
-    "name": "electric firestarter",
+    "name": { "str": "electric firestarter" },
     "description": "This is a crudely made electric firestarter, which can function as an inefficient lighter.",
     "weight": "14 g",
     "volume": "250 ml",
@@ -33,7 +33,7 @@
   {
     "id": "fire_drill",
     "type": "TOOL",
-    "name": "fire drill",
+    "name": { "str": "fire drill" },
     "description": "This fire drill is a simple item for starting fires; it is made from two pieces of wood and some string.  Since it is constructed out of simple materials, it's slow and rather difficult to get a fire started using this tool.",
     "weight": "240 g",
     "volume": "250 ml",
@@ -50,7 +50,7 @@
   {
     "id": "fire_drill_large",
     "type": "TOOL",
-    "name": "camp fire drill",
+    "name": { "str": "camp fire drill" },
     "description": "This stout fire drill is a simple item for starting fires; it is made from two pieces of wood and some string.  Since it is constructed out of simple materials, it's slow and rather difficult to get a fire started using this tool.",
     "weight": "1280 g",
     "volume": "1250 ml",
@@ -85,7 +85,7 @@
   {
     "id": "lighter",
     "type": "TOOL",
-    "name": "lighter",
+    "name": { "str": "lighter" },
     "description": "This is a disposable plastic lighter.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
     "weight": "14 g",
     "volume": "14 ml",
@@ -117,10 +117,10 @@
   {
     "id": "matches",
     "type": "TOOL",
-    "name": "matchbook",
+    "name": { "str": "matchbook" },
     "description": "This is a small book of matches with a coarse strike surface on the outside flap.  Matches must be carried to use various drugs like cigarettes, or to light things like Molotov cocktails.  You can also use matches to light nearby items on fire.",
     "weight": "10 g",
-    "volume": 0,
+    "volume": "10 ml",
     "price": 10,
     "material": "cardboard",
     "symbol": ",",
@@ -134,7 +134,7 @@
   {
     "id": "ref_lighter",
     "type": "TOOL",
-    "name": "refillable lighter",
+    "name": { "str": "refillable lighter" },
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
     "weight": "20 g",
     "volume": "31 ml",
@@ -187,12 +187,12 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "FIRESTARTER", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
     "id": "tinderbox",
     "type": "TOOL",
-    "name": "ember carrier",
+    "name": { "str": "ember carrier" },
     "description": "This is a small container for holding tinder, with holes punched in it to provide a controlled airflow.  It can nurture a smoldering ember for a long time, to start fires without modern tools.",
     "weight": "500 g",
     "volume": "500 ml",

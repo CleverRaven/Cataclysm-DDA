@@ -25,7 +25,18 @@
 #include "pimpl.h"
 #include "colony.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const quality_id qual_BUTCHER( "BUTCHER" );
+
+static const trait_id trait_CLAWS( "CLAWS" );
+static const trait_id trait_CLAWS_RAT( "CLAWS_RAT" );
+static const trait_id trait_CLAWS_RETRACT( "CLAWS_RETRACT" );
+static const trait_id trait_CLAWS_ST( "CLAWS_ST" );
+static const trait_id trait_MANDIBLES( "MANDIBLES" );
+static const trait_id trait_TALONS( "TALONS" );
+
+static const bionic_id bio_tools( "bio_tools" );
+static const bionic_id bio_ups( "bio_ups" );
 
 /** @relates visitable */
 template <typename T>
@@ -260,7 +271,7 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
         res = std::max( res, bio.get_quality( qual ) );
     }
 
-    if( qual == quality_BUTCHER ) {
+    if( qual == qual_BUTCHER ) {
         if( self->has_trait( trait_CLAWS_ST ) ) {
             res = std::max( res, 8 );
         } else if( self->has_trait( trait_TALONS ) || self->has_trait( trait_MANDIBLES ) ||
@@ -433,7 +444,7 @@ VisitResponse visitable<map_cursor>::visit_items(
     auto cur = static_cast<map_cursor *>( this );
 
     // skip inaccessible items
-    if( g->m.has_flag( flag_SEALED, *cur ) && !g->m.has_flag( flag_LIQUIDCONT, *cur ) ) {
+    if( g->m.has_flag( "SEALED", *cur ) && !g->m.has_flag( "LIQUIDCONT", *cur ) ) {
         return VisitResponse::NEXT;
     }
 
@@ -779,7 +790,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 if( e->typeId() == id ) {
                     // includes charges from any included magazine.
                     qty = sum_no_wrap( qty, e->ammo_remaining() );
-                    if( e->has_flag( flag_USE_UPS ) ) {
+                    if( e->has_flag( "USE_UPS" ) ) {
                         found_tool_with_UPS = true;
                     }
                 }
@@ -887,7 +898,7 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e ) {
         if( ( id == "any" || e->typeId() == id ) && filter( *e ) && ( pseudo ||
-                !e->has_flag( flag_PSEUDO ) ) ) {
+                !e->has_flag( "PSEUDO" ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;

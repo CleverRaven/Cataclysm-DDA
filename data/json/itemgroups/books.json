@@ -82,6 +82,7 @@
       [ "manual_smg", 20 ],
       [ "manual_stabbing", 40 ],
       [ "manual_swimming", 30 ],
+      [ "manual_traps_mil", 30 ],
       [ "pocket_firearms", 10 ],
       [ "textbook_firstaid", 30 ]
     ]
@@ -596,9 +597,7 @@
       { "group": "book_mag_surv", "prob": 90 },
       [ "mag_porn", 20 ],
       [ "mag_comic", 20 ],
-      [ "months_old_newspaper", 1 ],
-      [ "weeks_old_newspaper", 4 ],
-      [ "newest_newspaper", 10 ],
+      { "group": "newspaper_recent", "prob": 15 },
       [ "survnote", 1 ]
     ]
   },
@@ -656,5 +655,20 @@
     "id": "book_mag_surv",
     "type": "item_group",
     "items": [ [ "mag_survival", 40 ], [ "mag_traps", 20 ], [ "fun_survival", 10 ], [ "mag_archery", 20 ] ]
+  },
+  {
+    "id": "newspaper",
+    "type": "item_group",
+    "items": [ { "group": "newspaper_recent", "prob": 80 }, { "group": "newspaper_old", "prob": 20 } ]
+  },
+  {
+    "id": "newspaper_recent",
+    "type": "item_group",
+    "items": [ [ "months_old_newspaper", 10 ], [ "weeks_old_newspaper", 15 ], [ "newest_newspaper", 20 ] ]
+  },
+  {
+    "id": "newspaper_old",
+    "type": "item_group",
+    "items": [ [ "many_years_old_newspaper", 5 ], [ "years_old_newspaper", 10 ], [ "one_year_old_newspaper", 20 ] ]
   }
 ]
