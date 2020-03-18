@@ -170,7 +170,7 @@
   {
     "id": "tourist_table",
     "type": "TOOL",
-    "name": "tourist table",
+    "name": { "str": "tourist table" },
     "description": "Metal tourist table for off-road trips.  It is folded for easy transportation.",
     "weight": "6000 g",
     "volume": "25 L",
@@ -233,7 +233,7 @@
   {
     "id": "water_mill",
     "type": "TOOL",
-    "name": "water mill",
+    "name": { "str": "water mill" },
     "description": "A small water-powered mill that can convert starchy products into flour.  Can be placed via the construction menu.",
     "weight": "120000 g",
     "volume": "22500 ml",
@@ -248,7 +248,7 @@
   {
     "id": "wind_mill",
     "type": "TOOL",
-    "name": "wind mill",
+    "name": { "str": "wind mill" },
     "description": "A small wind-powered mill that can convert starchy products into flour.  Can be placed via the construction menu.",
     "weight": "120000 g",
     "volume": "22500 ml",

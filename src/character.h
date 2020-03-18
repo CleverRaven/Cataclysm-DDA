@@ -1738,6 +1738,7 @@ class Character : public Creature, public visitable<Character>
         bool can_estimate_rot() const;
         /** Check whether character can consume this very item */
         bool can_consume_as_is( const item &it ) const;
+        bool can_consume_for_bionic( const item &it ) const;
         /**
          * Returns a reference to the item itself (if it's consumable),
          * the first of its contents (if it's consumable) or null item otherwise.

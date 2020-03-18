@@ -70,7 +70,7 @@
   {
     "id": "gobag",
     "type": "ARMOR",
-    "name": "go bag",
+    "name": { "str": "go bag" },
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Activate to unpack and enjoy.",
     "weight": "18043 g",
     "volume": "35750 ml",
@@ -92,7 +92,7 @@
     "id": "personal_gobag",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
-    "name": "personal go bag",
+    "name": { "str": "personal go bag" },
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
     "looks_like": "gobag",
     "use_action": "GOBAG_PERSONAL",
@@ -101,7 +101,7 @@
   {
     "id": "leg_splint",
     "type": "ARMOR",
-    "name": "leg splint",
+    "name": { "str": "leg splint" },
     "description": "A tool to help set bones and hold them in place.",
     "weight": "500 g",
     "volume": "1 L",
@@ -120,7 +120,7 @@
   {
     "id": "leg_xlsplint",
     "type": "ARMOR",
-    "name": "leg splint XL",
+    "name": { "str": "leg splint XL", "str_pl": "leg splints XL" },
     "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Huge people.",
     "copy-from": "leg_splint",
     "weight": "1000 g",
@@ -194,7 +194,7 @@
     "id": "welding_mask",
     "repairs_like": "goggles_swim",
     "type": "ARMOR",
-    "name": "welding mask",
+    "name": { "str": "welding mask" },
     "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to push it up your head.",
     "weight": "1 kg",
     "volume": "4 L",
@@ -1713,7 +1713,7 @@
   {
     "type": "ARMOR",
     "id": "survivor_belt",
-    "name": "survivor utility belt",
+    "name": { "str": "survivor utility belt" },
     "weight": "3390 g",
     "color": "brown",
     "covers": [ "TORSO" ],

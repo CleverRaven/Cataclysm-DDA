@@ -40,10 +40,6 @@
       { "group": "ammo_swat", "prob": 20 },
       { "group": "guns_swat", "prob": 20 },
       { "group": "mags_swat", "prob": 20 },
-      [ "l_car_223_kit", 5 ],
-      [ "l_dsr_223_kit", 5 ],
-      [ "l_lmg_223_kit", 5 ],
-      [ "l_mbr_223_kit", 5 ],
       [ "survnote", 1 ]
     ]
   },
@@ -128,7 +124,6 @@
       { "group": "guns_shotgun_common", "prob": 50 },
       { "group": "guns_survival", "prob": 100 },
       { "item": "flaregun", "prob": 25 },
-      { "item": "l_HFPack", "prob": 50 },
       { "item": "large_repairkit", "prob": 5 },
       { "item": "signal_flare", "prob": 20 },
       { "item": "small_repairkit", "prob": 5 }
@@ -1393,7 +1388,6 @@
     "type": "item_group",
     "id": "cop_evidence",
     "items": [
-      [ "lwfeed", 30 ],
       [ "crackpipe", 8 ],
       [ "weed", 10 ],
       [ "joint", 10 ],

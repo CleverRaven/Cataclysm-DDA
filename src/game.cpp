@@ -1428,7 +1428,7 @@ bool game::do_turn()
         sfx::do_hearing_loss();
     }
 
-    if( !u.has_effect( efftype_id( "sleep" ) ) ) {
+    if( !u.has_effect( efftype_id( "sleep" ) ) || uquit == QUIT_WATCH ) {
         if( u.moves > 0 || uquit == QUIT_WATCH ) {
             while( u.moves > 0 || uquit == QUIT_WATCH ) {
                 cleanup_dead();
@@ -1477,10 +1477,10 @@ bool game::do_turn()
             // regardless of previous safemode warnings
             if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
                 u.activity.moves_left > 0 &&
-                !u.activity.is_distraction_ignored( distraction_type::hostile_spotted ) ) {
+                !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
                 Creature *hostile_critter = is_hostile_very_close();
                 if( hostile_critter != nullptr ) {
-                    cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                    cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
                                                      string_format( _( "The %s is dangerously close!" ),
                                                              hostile_critter->get_name() ) );
                 }
@@ -3999,7 +3999,7 @@ void game::mon_info_update( )
         if( newseen - mostseen == 1 ) {
             if( !new_seen_mon.empty() ) {
                 monster &critter = *new_seen_mon.back();
-                cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                  string_format( _( "%s spotted!" ), critter.name() ) );
                 if( u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT ) ) {
                     add_msg( m_warning, _( "We have detected a %s - an enemy of the Mycus!" ), critter.name() );
@@ -4014,11 +4014,11 @@ void game::mon_info_update( )
                 }
             } else {
                 //Hostile NPC
-                cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                  _( "Hostile survivor spotted!" ) );
             }
         } else {
-            cancel_activity_or_ignore_query( distraction_type::hostile_spotted, _( "Monsters spotted!" ) );
+            cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far, _( "Monsters spotted!" ) );
         }
         turnssincelastmon = 0;
         if( safe_mode == SAFE_MODE_ON ) {
@@ -4524,8 +4524,10 @@ T *game::critter_at( const tripoint &p, bool allow_hallucination )
             return dynamic_cast<T *>( mon_ptr.get() );
         }
     }
-    if( p == u.pos() ) {
-        return dynamic_cast<T *>( &u );
+    if( !std::is_same<T, npc>::value && !std::is_same<T, const npc>::value ) {
+        if( p == u.pos() ) {
+            return dynamic_cast<T *>( &u );
+        }
     }
     for( auto &cur_npc : active_npc ) {
         if( cur_npc->pos() == p && !cur_npc->is_dead() ) {
@@ -7061,7 +7063,7 @@ void game::list_items_monsters()
     }
 
     if( ret == game::vmenu_ret::FIRE ) {
-        avatar_action::fire( u, m, u.weapon );
+        avatar_action::fire_wielded_weapon( u, m );
     }
     reenter_fullscreen();
 }
@@ -9169,7 +9171,8 @@ point game::place_player( const tripoint &dest_loc )
                     return u.pos().xy();
                 }
             } else {
-                critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
+                critter.move_to( u.pos(), false,
+                                 true ); // Force the movement even though the player is there right now.
                 add_msg( _( "You displace the %s." ), critter.name() );
             }
         } else if( !u.has_effect( effect_riding ) ) {
@@ -10187,7 +10190,55 @@ void game::vertical_move( int movez, bool force )
             u.mounted_creature->setpos( g->u.pos() );
         }
     }
-
+    // if an NPC or monster is on the stiars when player ascends/descends
+    // they may end up merged on th esame tile, do some displacement to resolve that.
+    // if, in the weird case of it not being possible to displace;
+    // ( how did the player even manage to approach the stairs, if so? )
+    // then nothing terrible happens, its just weird.
+    if( critter_at<npc>( u.pos(), true ) || critter_at<monster>( u.pos(), true ) ) {
+        std::string crit_name;
+        bool player_displace = false;
+        tripoint displace;
+        for( const tripoint &elem : m.points_in_radius( u.pos(), 1 ) ) {
+            if( elem == u.pos() ) {
+                continue;
+            }
+            if( !m.impassable( elem ) ) {
+                displace = elem;
+                break;
+            }
+        }
+        if( displace != tripoint_zero ) {
+            npc *guy = g->critter_at<npc>( u.pos(), true );
+            if( guy ) {
+                crit_name = guy->get_name();
+                tripoint old_pos = guy->pos();
+                if( !guy->is_enemy() ) {
+                    guy->move_away_from( u.pos(), true );
+                    if( old_pos != guy->pos() ) {
+                        add_msg( _( "%s moves out of the way for you." ), guy->get_name() );
+                    }
+                } else {
+                    player_displace = true;
+                }
+            }
+            monster *mon = g->critter_at<monster>( u.pos(), true );
+            if( mon ) {
+                crit_name = mon->get_name();
+                if( mon->friendly == -1 ) {
+                    mon->setpos( displace );
+                    add_msg( _( "Your %s moves out of the way for you." ), mon->get_name() );
+                } else {
+                    player_displace = true;
+                }
+            }
+            if( player_displace ) {
+                u.setpos( displace );
+                u.moves -= 20;
+                add_msg( _( "You push past %s blocking the way." ), crit_name );
+            }
+        }
+    }
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
         std::vector<tripoint> candidates = closest_tripoints_first( u.pos(), 1 );
@@ -10287,7 +10338,6 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     cata::optional<tripoint> stairs;
     int best = INT_MAX;
     const int movez = z_after - get_levz();
-    Creature *blocking_creature = nullptr;
     const bool going_down_1 = movez == -1;
     const bool going_up_1 = movez == 1;
     // If there are stairs on the same x and y as we currently are, use those
@@ -10297,35 +10347,28 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     if( going_up_1 && mp.has_flag( TFLAG_GOES_DOWN, u.pos() + tripoint_above ) ) {
         stairs.emplace( u.pos() + tripoint_above );
     }
-    if( stairs ) {
-        // We found stairs above or below, no need to do anything else
-        return stairs;
-    }
-    // Otherwise, search the map for them
-    for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
-        if( rl_dist( u.pos(), dest ) <= best &&
-            ( ( going_down_1 && mp.has_flag( TFLAG_GOES_UP, dest ) ) ||
-              ( going_up_1 && ( mp.has_flag( TFLAG_GOES_DOWN, dest ) ||
-                                mp.ter( dest ) == t_manhole_cover ) ) ||
-              ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
-            if( mp.has_zlevels() && critter_at( dest ) ) {
-                blocking_creature = critter_at( dest );
-                continue;
+    // We did not find stairs directly above or below, so search the map for them
+    if( !stairs.has_value() ) {
+        for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
+            if( rl_dist( u.pos(), dest ) <= best &&
+                ( ( going_down_1 && mp.has_flag( TFLAG_GOES_UP, dest ) ) ||
+                  ( going_up_1 && ( mp.has_flag( TFLAG_GOES_DOWN, dest ) ||
+                                    mp.ter( dest ) == t_manhole_cover ) ) ||
+                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
+                stairs.emplace( dest );
+                best = rl_dist( u.pos(), dest );
             }
-            stairs.emplace( dest );
-            best = rl_dist( u.pos(), dest );
         }
     }
 
-    if( stairs ) {
-        // Stairs found
+    if( stairs.has_value() ) {
+        if( Creature *blocking_creature = critter_at( stairs.value() ) ) {
+            add_msg( _( "There's a %s in the way!" ), blocking_creature->get_name() );
+            return cata::nullopt;
+        }
         return stairs;
     }
 
-    if( blocking_creature ) {
-        add_msg( _( "There's a %s in the way!" ), blocking_creature->disp_name() );
-        return cata::nullopt;
-    }
     // No stairs found! Try to make some
     rope_ladder = false;
     stairs.emplace( u.pos() );
@@ -10924,7 +10967,10 @@ void game::perhaps_add_random_npc()
         if( counter >= 10 ) {
             return;
         }
-        spawn_point = tripoint( rng( 0, OMAPX - 1 ), rng( 0, OMAPY - 1 ), 0 );
+        static constexpr int radius_spawn_range = 120;
+        const tripoint u_omt = u.global_omt_location();
+        spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
+                                     rng( -radius_spawn_range, radius_spawn_range ) );
         spawn_point.z = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
         // shouldnt spawn on lakes or rivers.

@@ -252,6 +252,7 @@
     ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "flags": [ "UNCRAFT_BY_QUANTITY" ],
     "components": [
       [ [ "oxy_powder", 50 ] ],
       [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
@@ -271,6 +272,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
+    "flags": [ "UNCRAFT_BY_QUANTITY" ],
     "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
   },
   {
@@ -285,6 +287,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
+    "flags": [ "UNCRAFT_BY_QUANTITY" ],
     "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
   },
   {
@@ -298,6 +301,7 @@
     "time": "60 m",
     "reversible": true,
     "decomp_learn": 4,
+    "flags": [ "UNCRAFT_BY_QUANTITY" ],
     "book_learn": [
       [ "textbook_fireman", 4 ],
       [ "atomic_survival", 4 ],

@@ -85,7 +85,7 @@
     "id": "razor_blade",
     "symbol": ",",
     "color": "light_cyan",
-    "name": "razor blade",
+    "name": { "str": "razor blade" },
     "description": "A double-edged razor blade.",
     "price": 600,
     "price_postapoc": 100,
@@ -161,7 +161,7 @@
   {
     "id": "washboard",
     "type": "TOOL",
-    "name": "washboard",
+    "name": { "str": "washboard" },
     "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
     "weight": "90 g",
     "volume": "250 ml",
@@ -176,7 +176,7 @@
   {
     "id": "wash_kit",
     "type": "TOOL",
-    "name": "washing kit",
+    "name": { "str": "washing kit" },
     "description": "A combination kit of a washboard and a scrubbing tool.  Everything you need to clean items after the apocalypse.",
     "weight": "80 g",
     "volume": "250 ml",

@@ -2,7 +2,7 @@
   {
     "id": "talking_doll",
     "type": "TOOL",
-    "name": "talking doll",
+    "name": { "str": "talking doll" },
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
     "weight": "907 g",
     "volume": "750 ml",
@@ -34,7 +34,7 @@
   {
     "id": "creepy_doll",
     "type": "TOOL",
-    "name": "talking doll",
+    "name": { "str": "talking doll" },
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
     "weight": "907 g",
     "volume": "750 ml",
@@ -96,7 +96,7 @@
     "id": "pool_ball",
     "symbol": "*",
     "color": "blue",
-    "name": "pool ball",
+    "name": { "str": "pool ball" },
     "description": "A colorful, hard ball.  Essentially a rock.",
     "category": "other",
     "price": 3000,

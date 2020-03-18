@@ -214,9 +214,6 @@ bool Character::activate_bionic( int b, bool eff_only )
         return false;
     }
 
-    // Preserve the fake weapon used to initiate bionic gun firing
-    static item bio_gun( weapon );
-
     // Special compatibility code for people who updated saves with their claws out
     if( ( weapon.typeId() == static_cast<std::string>( bio_claws_weapon ) &&
           bio.id == bio_claws_weapon ) ||
@@ -273,9 +270,9 @@ bool Character::activate_bionic( int b, bool eff_only )
     if( bio.info().gun_bionic ) {
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
-        bio_gun = item( bio.info().fake_item );
         g->refresh_all();
-        avatar_action::fire( g->u, g->m, bio_gun, units::to_kilojoule( bio.info().power_activate ) );
+        avatar_action::fire_ranged_bionic( g->u, g->m, item( bio.info().fake_item ),
+                                           bio.info().power_activate );
     } else if( bio.info().weapon_bionic ) {
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
             add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
@@ -298,7 +295,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         weapon.invlet = '#';
         if( bio.ammo_count > 0 ) {
             weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
-            avatar_action::fire( g->u, g->m, weapon );
+            avatar_action::fire_wielded_weapon( g->u, g->m );
             g->refresh_all();
         }
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {

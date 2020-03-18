@@ -226,7 +226,7 @@
   {
     "id": "swage",
     "type": "TOOL",
-    "name": "swage and die set",
+    "name": { "str": "swage and die set" },
     "description": "These are a set of swages and dies for metalsmithing.  These loops and metal blocks are used in some metalworking fabrication recipes.",
     "weight": "2620 g",
     "volume": "2 L",

@@ -186,8 +186,7 @@
       { "type": "COMPONENT_ID", "condition": "acorn", "name": { "str": "acorn butter", "str_pl": "acorn butter" } }
     ],
     "description": "A thick, nutty brown paste.",
-    "copy-from": "peanutbutter",
-    "container": "jar_glass"
+    "copy-from": "peanutbutter"
   },
   {
     "type": "COMESTIBLE",

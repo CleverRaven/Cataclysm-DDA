@@ -64,7 +64,7 @@
   {
     "type": "GENERIC",
     "id": "towel_hanger",
-    "name": "towel hanger",
+    "name": { "str": "towel hanger" },
     "description": "A towel hanger with towels.",
     "weight": "2000 g",
     "to_hit": -1,
@@ -79,7 +79,7 @@
   {
     "type": "GENERIC",
     "id": "recharge_station",
-    "name": "recharging station",
+    "name": { "str": "recharging station" },
     "description": "A universal recharging station designed to operate on vehicle power.  While on it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.  The system can only be installed onto existing storage compartments, and is controlled from a dashboard or electronics control unit.",
     "weight": "10000 g",
     "to_hit": 1,
@@ -94,7 +94,7 @@
   {
     "type": "GENERIC",
     "id": "washing_machine",
-    "name": "washing machine",
+    "name": { "str": "washing machine" },
     "description": "A very small washing machine designed for use in vehicles.",
     "weight": "31752 g",
     "to_hit": -8,
@@ -109,7 +109,7 @@
   {
     "type": "GENERIC",
     "id": "programmable_autopilot",
-    "name": "programmable autopilot",
+    "name": { "str": "programmable autopilot" },
     "description": "A computer system hooked up to the steering and engine of a vehicle to allow it to follow simple paths.",
     "weight": "11246 g",
     "to_hit": -2,
@@ -161,7 +161,7 @@
   {
     "type": "GENERIC",
     "id": "water_faucet",
-    "name": "water faucet",
+    "name": { "str": "water faucet" },
     "description": "A metal faucet that can be attached to a water tank for easy access.",
     "weight": "900 g",
     "to_hit": -1,

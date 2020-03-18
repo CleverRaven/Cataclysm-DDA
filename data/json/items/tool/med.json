@@ -111,7 +111,7 @@
   {
     "id": "syringe",
     "type": "TOOL",
-    "name": "syringe",
+    "name": { "str": "syringe" },
     "description": "A medical syringe.  Used for administering intravenous drugs.",
     "weight": "10 g",
     "volume": "10ml",
@@ -177,10 +177,10 @@
   {
     "id": "wrapped_rad_badge",
     "type": "TOOL",
-    "name": "wrapped radiation badge",
+    "name": { "str": "wrapped radiation badge" },
     "description": "This is a badge that detects radiation dosage sealed in a radiation-blocking bag.  Use it to remove it from the bag.",
     "weight": "20 g",
-    "volume": 0,
+    "volume": "15 ml",
     "price": 1000,
     "material": [ "plastic" ],
     "symbol": ",",
