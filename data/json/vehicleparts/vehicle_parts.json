@@ -259,7 +259,7 @@
   {
     "type": "vehicle_part",
     "id": "saddle",
-    "name": "saddle",
+    "name": { "str": "saddle" },
     "symbol": "#",
     "looks_like": "seat",
     "color": "red",
@@ -1298,7 +1298,7 @@
   {
     "type": "vehicle_part",
     "id": "basketlg",
-    "name": "shopping cart basket",
+    "name": { "str": "shopping cart basket" },
     "symbol": "o",
     "looks_like": "basketsm",
     "color": "brown",
@@ -1797,7 +1797,7 @@
   {
     "type": "vehicle_part",
     "id": "seatbelt",
-    "name": "seatbelt",
+    "name": { "str": "seatbelt" },
     "symbol": ",",
     "color": "light_gray",
     "broken_symbol": ",",
@@ -1971,7 +1971,7 @@
   {
     "type": "vehicle_part",
     "id": "solar_panel",
-    "name": "solar panel",
+    "name": { "str": "solar panel" },
     "symbol": "#",
     "color": "yellow",
     "broken_symbol": "x",
@@ -2680,7 +2680,7 @@
   {
     "type": "vehicle_part",
     "id": "door_shutter",
-    "name": "shutter door",
+    "name": { "str": "shutter door" },
     "looks_like": "hatch",
     "symbol": "+",
     "color": "white",
@@ -2703,7 +2703,7 @@
   {
     "type": "vehicle_part",
     "id": "door_sliding",
-    "name": "sliding door",
+    "name": { "str": "sliding door" },
     "symbol": "+",
     "looks_like": "door",
     "color": "light_cyan",
@@ -3435,7 +3435,7 @@
   {
     "type": "vehicle_part",
     "id": "seed_drill",
-    "name": "seed drill",
+    "name": { "str": "seed drill" },
     "symbol": "8",
     "color": "blue",
     "broken_symbol": "*",

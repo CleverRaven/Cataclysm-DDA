@@ -172,7 +172,7 @@
   {
     "id": "tearer",
     "type": "vehicle_part",
-    "name": "shredder",
+    "name": { "str": "shredder" },
     "item": "tearer",
     "location": "structure",
     "symbol": "*",
