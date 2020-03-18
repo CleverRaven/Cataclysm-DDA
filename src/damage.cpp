@@ -34,16 +34,16 @@ damage_instance damage_instance::physical( float bash, float cut, float stab, fl
     d.add_damage( DT_STAB, stab, arpen );
     return d;
 }
-damage_instance::damage_instance( damage_type dt, float a, float rp, float rm, float mul, float urm,
-                                  float udm )
+damage_instance::damage_instance( damage_type dt, float amt, float arpen, float arpen_mult,
+                                  float dmg_mult, float unc_arpen_mult, float unc_dmg_mult )
 {
-    add_damage( dt, a, rp, rm, mul, urm, udm );
+    add_damage( dt, amt, arpen, arpen_mult, dmg_mult, unc_arpen_mult, unc_dmg_mult );
 }
 
-void damage_instance::add_damage( damage_type dt, float a, float rp, float rm, float mul, float urm,
-                                  float udm )
+void damage_instance::add_damage( damage_type dt, float amt, float arpen, float arpen_mult,
+                                  float dmg_mult, float unc_arpen_mult, float unc_dmg_mult )
 {
-    damage_unit du( dt, a, rp, rm, mul, urm, udm );
+    damage_unit du( dt, amt, arpen, arpen_mult, dmg_mult, unc_arpen_mult, unc_dmg_mult );
     add( du );
 }
 

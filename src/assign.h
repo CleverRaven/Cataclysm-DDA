@@ -763,14 +763,6 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
     // What we'll eventually be returning for the damage instance
     damage_instance out;
 
-    std::string aname;
-    if( jo.has_string( "id" ) ) {
-        aname = jo.get_string( "id" );
-        if( aname == "arrow_wood" ) {
-            aname = "";
-        }
-    }
-
     if( jo.has_array( name ) ) {
         out = load_damage_instance_inherit( jo.get_array( name ), val );
     } else if( jo.has_object( name ) ) {
