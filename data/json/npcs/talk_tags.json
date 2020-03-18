@@ -8,6 +8,7 @@
       "Arg thorazine, don't touch it!",
       "Thorazine is bad for you, you know.",
       "Thorazine is poison.",
+      "Thorazine?  I wouldn't if I were you.",
       "You don't need thorazine, it's limiting you.",
       "Thorazine…  That's what 'they' use to keep you tame.",
       "Don't.  This thorazine seriously clouds your mind.  You need to stay sharp."
@@ -646,6 +647,7 @@
       "Hey <name_g>, let's talk!",
       "<name_g>, we <really> need to talk!",
       "Hey, we should talk, <okay>?",
+      "Hey, can we talk for a bit?",
       "<name_g>!  Wait up!",
       "Wait up, <okay>?",
       "Let's talk, <name_g>!",
@@ -681,6 +683,7 @@
       "Move",
       "Move your ass",
       "Get out of the way",
+      "Move it",
       "You need to move",
       "Hey <name_g>, move",
       "<swear> move it",
@@ -792,6 +795,7 @@
       "Fuck me!  A <swear>",
       "Watch out for that",
       "Watch out!  I see a",
+      "Run!  It's a",
       "<swear!>, a",
       "<swear!>, I'm doomed!  There's a <swear> <swear>",
       "<swear!>, here comes a <swear>",
@@ -988,7 +992,15 @@
     "type": "snippet",
     "category": "<speech_warning>",
     "//": "NPC complaint that they heard an unknown voice.  This goes off a lot and could use more variety.",
-    "text": [ "Quiet down over there!", "Did you hear someone talking?", "Who said that?", "Who's there?", "Who goes there?" ]
+    "text": [
+      "Quiet down over there!",
+      "Did you hear someone talking?",
+      "Who said that?",
+      "Did someone say something?",
+      "What made that noise?",
+      "Who's there?",
+      "Who goes there?"
+	 ]
   },
   {
     "type": "snippet",
@@ -1013,13 +1025,14 @@
       "What's there?  I heard",
       "Did you hear that?  Sounded like",
       "What is making that sound?  I can hear the",
-      "I could swear I heard"
+      "I could swear I heard",
+      "I could have sworn I just heard"
     ]
   },
   {
     "type": "snippet",
     "category": "<acknowledged>",
-    "//": "Generic acknowledgement of a command.  Comes up a lot and could use more variety.",
+    "//": "Generic acknowledgment of a command.  Comes up a lot and could use more variety.",
     "text": [
       "Got it!",
       "I'm on it.",
@@ -1031,6 +1044,7 @@
       "Will do.",
       "No problem.",
       "Can do.",
+      "Acknowledged.",
       "Affirmative.",
       "Roger that.",
       "Capiche.",
@@ -1046,6 +1060,7 @@
     "text": [
       "Whew… smells like skunk!",
       "Man, that smells like some good shit!",
+      "Is that marijuana you're smoking?",
       "Hey, don't bogart the joint!",
       "C'mon, <name_g>, I can smell it, pass it over.",
       "Wow, that smell takes me back.",
@@ -1078,7 +1093,12 @@
     "type": "snippet",
     "category": "<crack_smoke>",
     "//": "Complaint when the NPC is near the avatar who is smoking crack.",
-    "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "<meth_smoke>" ]
+    "text": [
+      "Ew, smells like burning rubber!",
+      "Ugh, that smells rancid!",
+      "Why are you smoking crack cocaine?",
+      "<meth_smoke>"
+	]
   },
   {
     "type": "snippet",
@@ -1292,6 +1312,8 @@
       "This place is on fire.  I'm leaving.",
       "Put the fire out!  Put it out!",
       "Fire bad!  <move>!",
+      "We need to put this fire out!",
+      "Somebody get some water!",
       "Fire, fire, FIRE!",
       "Get an extinguisher!",
       "Danger hot!"

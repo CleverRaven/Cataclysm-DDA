@@ -29,7 +29,6 @@ parser.add_argument("--human",
         help="if set, makes output human readable. default is to return output in JSON.")
 
 
-
 if __name__ == "__main__":
     args = parser.parse_args()
 

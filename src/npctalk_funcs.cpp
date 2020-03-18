@@ -301,7 +301,7 @@ void talk_function::goto_location( npc &p )
         add_msg( m_info, _( "That is not a valid destination for %s." ), p.disp_name() );
         return;
     }
-    p.set_companion_mission( p.global_omt_location(), "TRAVELLER", "travelling", destination );
+    p.set_companion_mission( p.global_omt_location(), "TRAVELER", "traveling", destination );
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.guard_pos = npc::no_goal_point;
@@ -770,7 +770,7 @@ void talk_function::stop_following( npc &p )
 {
     // this is to tell non-allied NPCs to stop following.
     // ( usually after a mission where they were temporarily tagging along )
-    // so dont tell already allied NPCs to stop following.
+    // so don't tell already allied NPCs to stop following.
     // they use the guard command for that.
     if( p.is_player_ally() ) {
         return;
@@ -890,7 +890,7 @@ void talk_function::start_training( npc &p )
         expert_multiplier = knows ? temp_spell.get_level() - g->u.magic.get_spell( sp_id ).get_level() : 1;
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
-        // if player doesnt know this spell, then the NPC will teach all of it
+        // if player doesn't know this spell, then the NPC will teach all of it
         // which takes max 6 hours, min 3 hours.
         // TODO: a system for NPCs to train new stuff in bits and pieces
         // and remember the progress.

@@ -4495,7 +4495,7 @@
         { "id": [ "cs_lajatang_on", "cs_lajatang_off" ], "fg": 1468, "rotates": false },
         { "id": "dao", "fg": 1469, "rotates": false },
         { "id": "dehydrator", "fg": 1470, "rotates": false },
-        { "id": [ "whistle", "dog_whistle" ], "fg": 1471, "rotates": false },
+        { "id": [ "whistle", "dog_whistle", "slide_whistle" ], "fg": 1471, "rotates": false },
         { "id": "dusksword", "fg": 1472, "rotates": false },
         { "id": "dynamite", "fg": 1473, "rotates": false },
         { "id": "dynamite_act", "fg": 1474, "rotates": false },

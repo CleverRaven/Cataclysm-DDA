@@ -138,5 +138,3 @@ with open(palette_source, 'w') as palette_file:
 
 #print("furniture palette {}".format(json.dumps(furn_pal, indent=2)))
 #print("terrain palette {}".format(json.dumps(ter_pal, indent=2)))
-
-

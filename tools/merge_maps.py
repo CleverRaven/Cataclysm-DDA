@@ -37,8 +37,6 @@ def x_y_sub(x, y, is_north):
         return "{}__{}".format((x - MIN_X - 1) % STRIDE_X,
                                (y - MIN_Y - 1) % STRIDE_Y)
 
-
-
 def x_y_simple(x, y):
     return "{}__{}".format(x, y)
 
@@ -108,7 +106,7 @@ def validate_old_map(old_map, entry):
             keysets[key_term] = new_keyset
         elif new_keyset != {}:
             return False
-             
+
     if not entry["weight"]:
         entry["weight"] = old_map.get("weight", 0)
     if not entry["object"].get("fill_ter"):
@@ -262,7 +260,7 @@ for z, zlevel in merge_sets.items():
                     # check that this map's keyed terms match the other keyed terms in this chunk
                     if validate_old_map(old_map, chunk_data["entry"]):
                         chunk_data["maps"].append({"x": x, "y": y})
-                        validated = True                            
+                        validated = True
                 if not validated:
                     new_entry = copy.deepcopy(basic_entry)
                     chunks.append({ "maps": [{"x": x, "y": y}], "entry": new_entry })
@@ -280,7 +278,7 @@ for z, zlevel in merge_sets.items():
             min_x = maps[0]["x"]
             maps.sort(key=itemgetter("y"))
             max_y = maps[-1]["y"]
-            min_y = maps[0]["y"] 
+            min_y = maps[0]["y"]
             # if this is a line, square, or rectangle, it's continguous
             if len(maps) == ((max_x - min_x + 1) * (max_y - min_y + 1)):
                 final_chunks.append(chunk_data)
@@ -305,7 +303,7 @@ for z, zlevel in merge_sets.items():
             if not maps:
                 continue
             first_x = maps[0]["x"]
-            first_y = maps[0]["y"] 
+            first_y = maps[0]["y"]
             for coords in maps:
                 x = coords["x"]
                 y = coords["y"]

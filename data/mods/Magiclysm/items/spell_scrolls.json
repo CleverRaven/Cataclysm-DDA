@@ -574,9 +574,9 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_taze",
-    "name": { "str": "Scroll of Taze", "str_pl": "Scrolls of Taze" },
+    "name": { "str": "Scroll of Tase", "str_pl": "Scrolls of Tase" },
     "description": "This spell creates a very short range bolt of electricity to shock your foes.",
-    "use_action": { "type": "learn_spell", "spells": [ "taze" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "tase" ] }
   },
   {
     "type": "GENERIC",

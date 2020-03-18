@@ -86,7 +86,7 @@ def convert_tile_entry(tile_entry, old_name, new_name):
         changed |= add_changed
     if new_tile_entrys:
         tile_entry["additional_tiles"] = new_tile_entrys
-    return tile_entry, changed     
+    return tile_entry, changed
 
 
 def convert_tile_entry_file(file_path, old_name, new_name):
@@ -152,5 +152,5 @@ for png_dirname in os.listdir(tileset_dirname):
             elif filename == old_name_json:
                 new_path = subdir_fpath + "/" + new_name_json
                 os.rename(old_path, new_path)
-            
+
 

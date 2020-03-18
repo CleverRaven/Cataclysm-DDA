@@ -1433,9 +1433,6 @@
             "rotates":false,
             "multitile":false
         },
-
-
-
         {
             "id": "tr_bubblewrap",
             "fg":-1,
@@ -1879,9 +1876,6 @@
             "rotates":false,
             "multitile":false
         },
-
-
-
         {
             "id": "mon_squirrel",
             "fg":-1,
@@ -2756,7 +2750,6 @@
             "rotates":false,
             "multitile":false
         },
-
         {
             "id": "mon_generator",
             "fg":-1,
@@ -2764,9 +2757,6 @@
             "rotates":false,
             "multitile":false
         },
-
-
-
         {
             "id": "f_hay",
             "fg":-1,
@@ -3124,11 +3114,6 @@
             "rotates":false,
             "multitile":false
         },
-
-
-
-
-
         {
             "id": "vp_seat",
             "fg":-1,

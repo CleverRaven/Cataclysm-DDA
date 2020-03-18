@@ -69,8 +69,8 @@ bool tazer( monster *z );
 bool flamethrower( monster *z );
 bool searchlight( monster *z );
 bool copbot( monster *z );
-bool chickenbot( monster *z );        // Pick from tazer, M4, MGL
-bool multi_robot( monster *z );       // Tazer, flame, M4, MGL, or 120mm!
+bool chickenbot( monster *z );        // Pick from taser, M4, MGL
+bool multi_robot( monster *z );       // Taser, flame, M4, MGL, or 120mm!
 bool ratking( monster *z );
 bool generator( monster *z );
 bool upgrade( monster *z );

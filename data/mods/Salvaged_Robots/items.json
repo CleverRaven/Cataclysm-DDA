@@ -584,7 +584,7 @@
     "type": "TOOL",
     "copy-from": "bot_skitterbot_base",
     "name": "inactive rat snatcher",
-    "description": "A salvaged skitterbot repurposed for hunting small game.  It attacks targets with pincers and an integrated tazer.  Activate this item to deploy the robot.",
+    "description": "A salvaged skitterbot repurposed for hunting small game.  It attacks targets with pincers and an integrated taser.  Activate this item to deploy the robot.",
     "color": "dark_gray",
     "use_action": {
       "type": "place_monster",
@@ -695,7 +695,7 @@
     "type": "TOOL",
     "copy-from": "bot_defbot_base",
     "name": "inactive shortcircuit samurai",
-    "description": "A salvaged defense robot refitted with an integrated tazer and two electrified blades.  Activate this item to deploy the robot.",
+    "description": "A salvaged defense robot refitted with an integrated taser and two electrified blades.  Activate this item to deploy the robot.",
     "color": "cyan",
     "use_action": {
       "type": "place_monster",

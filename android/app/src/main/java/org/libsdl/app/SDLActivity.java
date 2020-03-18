@@ -2287,4 +2287,3 @@ class SDLClipboardHandler_API11 implements
     }
 
 }
-

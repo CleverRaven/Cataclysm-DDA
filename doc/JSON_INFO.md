@@ -322,7 +322,6 @@ A few properties are applicable to most if not all json files and do not need to
 | [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'.
 
 
-
 ## Formatting
 When editing JSON files make sure you apply the correct formatting as shown below.
 

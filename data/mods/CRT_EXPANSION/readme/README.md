@@ -3,10 +3,9 @@ The core mod of the CRT Expansion mod pack, it currently adds an armor set, mild
 
 This mod also adds a few new classes to CDDA. To name a few: the C.R.I.T Medic, C.R.I.T Commanding Officer, C.R.I.T Automatic Rifleman, C.R.I.T Grunt, C.R.I.T NCO, C.R.I.T ROTC member, and also the highly feared (OP) C.R.I.T Spec Ops.
 
-I tried to keep the professions revolving around slightly upgraded army gear and as "balanced" as possible except for the C.R.T Spec Ops which is for trying out the new items and being stupid powerful and the Juggernaught for being a Juggernaught.
+I tried to keep the professions revolving around slightly upgraded army gear and as "balanced" as possible except for the C.R.T Spec Ops which is for trying out the new items and being stupid powerful and the Juggernaut for being a Juggernaut.
 
-I can't fix some things like the toolmods attatching to the vest and gasmask, but that doesn't hurt the game (my mod already breaks it) and it's more of a cheap way to progress instead of getting a UPS, even though it still drinks a ton of power.
-
+I can't fix some things like the toolmods attaching to the vest and gasmask, but that doesn't hurt the game (my mod already breaks it) and it's more of a cheap way to progress instead of getting a UPS, even though it still drinks a ton of power.
 
 
 # Extended Techniques

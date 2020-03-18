@@ -14,7 +14,6 @@
 #   SDL2_VERSION_STRING, human-readable string containing the version of SDL
 #
 #
-#
 # This module responds to the flag:
 #
 # ::
@@ -27,12 +26,10 @@
 #     as part of the returned SDL2_LIBRARY variable.
 #
 #
-#
 # Don't forget to include SDLmain.h and SDLmain.m your project for the
 # OS X framework based version.  (Other versions link to -lSDLmain which
 # this module will try to find on your behalf.) Also for OS X, this
 # module will automatically add the -framework Cocoa on your behalf.
-#
 #
 #
 # Additional Note: If you see an empty SDL2_LIBRARY_TEMP in your
@@ -43,7 +40,6 @@
 # value as appropriate.  These values are used to generate the final
 # SDL2_LIBRARY variable, but when these values are unset, SDL2_LIBRARY
 # does not get created.
-#
 #
 #
 # $SDLDIR is an environment variable that would correspond to the

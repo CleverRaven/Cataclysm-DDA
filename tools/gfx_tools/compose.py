@@ -227,7 +227,7 @@ class TilesheetData(object):
         refs.pngnum += spacer
 
         in_list = []
-        
+
         for png_pathname in self.row_pngs:
             if png_pathname == "null_image":
                 in_list.append(self.null_image)
@@ -347,7 +347,7 @@ for subdir_index in range(1, len(refs.tileset_info)):
 #print("pngnum to pngname {}".format(json.dumps(refs.pngnum_to_pngname, sort_keys=True, indent=2)))
 
 tiles_new = []
-    
+
 for ts_data in all_ts_data:
     if ts_data.fallback:
         fallback_name = ts_data.ts_name

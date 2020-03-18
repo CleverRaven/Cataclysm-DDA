@@ -36,7 +36,7 @@ def get_dialogue_from_json():
                if path.endswith(".json"):
                    with open(path) as dialogue_file:
                        dialogue += json.load(dialogue_file)
- 
+
     return dialogue
 
 
@@ -88,7 +88,7 @@ def parse_response(topics, response, topic_branches=None, this_ids=None):
         failure_r = response.get("failure", {})
         add_topic_by_response(topics, failure_r, topic_branches, this_ids)
 
-    
+
 def validate(dialogue):
     topics = {}
     topic_branches = {

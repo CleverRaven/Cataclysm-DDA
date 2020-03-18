@@ -3078,7 +3078,7 @@
     "type": "profession",
     "ident": "mall_cop",
     "name": "Mall Security",
-    "description": "A mall security guard.  You don't have any useful skills, other than some basic training for your job.  You do however have your trusty tazer, baton, and pocket knife.",
+    "description": "A mall security guard.  You don't have any useful skills, other than some basic training for your job.  You do however have your trusty taser, baton, and pocket knife.",
     "points": 0,
     "items": {
       "both": {

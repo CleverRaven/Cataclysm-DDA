@@ -611,7 +611,8 @@
       [ "mag_glam", 60 ],
       [ "mag_beauty", 50 ],
       [ "mag_news", 35 ],
-      [ "news_regional", 15 ]
+      [ "news_regional", 15 ],
+      [ "mag_kids", 15 ]
     ]
   },
   {

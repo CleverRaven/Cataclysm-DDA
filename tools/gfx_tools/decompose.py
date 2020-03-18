@@ -331,7 +331,7 @@ class PngRefs(object):
                         self.delete_pngnums.append(i)
 
         with open(tileset_confname) as conf_file:
-            return(json.load(conf_file))       
+            return(json.load(conf_file))
 
     def add_pngnum_to_tsfilepath(self, pngnum):
         if not isinstance(pngnum, int):

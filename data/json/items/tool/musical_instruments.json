@@ -149,6 +149,36 @@
     }
   },
   {
+    "id": "slide_whistle",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "slide whistle" },
+    "description": "A simple plastic slide whistle.",
+    "weight": "150 g",
+    "volume": "350 ml",
+    "price": 500,
+    "to_hit": 1,
+    "bashing": 2,
+    "material": [ "plastic" ],
+    "symbol": "-",
+    "color": "light_green",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 7,
+      "fun": -2,
+      "fun_bonus": 2,
+      "speed_penalty": 6,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a little tune on your slide whistle.",
+        "You play around with your your slide whistle.",
+        "You play a short song on your slide whistle."
+      ]
+    }
+  },
+  {
     "id": "ukulele",
     "type": "TOOL",
     "category": "tools",

@@ -386,7 +386,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SOLDER_WELD``` Solder or weld items, or cauterize wounds.
 - ```SPRAY_CAN``` Graffiti the town.
 - ```SURVIVORMAP``` Learn of local points-of-interest that can help you survive, and show roads.
-- ```TAZER``` Shock someone or something.
+- ```TASER``` Shock someone or something.
 - ```TELEPORT``` Teleport.
 - ```TORCH``` Light a torch.
 - ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
@@ -1006,8 +1006,8 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```BRANDISH``` Brandish a knife at the player.
 - ```BREATHE``` Spawns a `breather`
 - ```CALLBLOBS``` Calls 2/3 of nearby blobs to defend this monster, and sends 1/3 of nearby blobs after the player.
-- ```CHICKENBOT``` LEGACY - Robot can attack with tazer, M4, or MGL depending on distance.
-- ```COPBOT``` Cop-bot alerts and then tazes the player.
+- ```CHICKENBOT``` LEGACY - Robot can attack with taser, M4, or MGL depending on distance.
+- ```COPBOT``` Cop-bot alerts and then tases the player.
 - ```DANCE``` Monster dances.
 - ```DARKMAN``` Can cause darkness and wraiths to spawn.
 - ```DERMATIK_GROWTH``` Dermatik larva grows into an adult.
@@ -1040,7 +1040,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```LEAP``` leap away to an unobstructed tile.
 - ```LONGSWIPE``` Does high damage claw attack, which can even hit some distance away.
 - ```LUNGE``` Perform a jumping attack from some distance away, which can down the target.
-- ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower, M4, MGL, or 120mm cannon depending on distance.
+- ```MULTI_ROBOT``` Robot can attack with taser, flamethrower, M4, MGL, or 120mm cannon depending on distance.
 - ```NONE``` No special attack.
 - ```PARA_STING``` Shoot a paralyzing dart at the player.
 - ```PARROT``` Parrots the speech defined in `speech.json`, picks one of the lines randomly. "speaker" points to a monster id.
@@ -1070,7 +1070,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```STRETCH_ATTACK``` Long ranged piercing attack.
 - ```STRETCH_BITE``` Long ranged bite attack.
 - ```SUICIDE``` Dies after attacking.
-- ```TAZER``` Shock the player.
+- ```TASER``` Shock the player.
 - ```TENTACLE``` Lashes a tentacle at the player.
 - ```TRIFFID_GROWTH``` Young triffid grows into an adult.
 - ```TRIFFID_HEARTBEAT``` Grows and crumbles root walls around the player, and spawns more monsters.

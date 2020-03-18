@@ -18,7 +18,6 @@ JSON_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data", "json")
 JSON_FNMATCH = "*.json"
 
 
-
 def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
     """Use a UNIX like file match expression to weed out the JSON files.
 
@@ -45,7 +44,6 @@ def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
     return (data, errors)
 
 
-
 def match_primitive_values(item_value, where_value):
     """Perform any odd logic on item matching.
     """
@@ -61,7 +59,6 @@ def match_primitive_values(item_value, where_value):
         return bool(re.match(where_value, str(item_value).lower()))
     else:
         return False
-
 
 
 def matches_where(item, where_key, where_value):
@@ -100,7 +97,6 @@ def matches_where(item, where_key, where_value):
         return match_primitive_values(item_value, where_value)
 
 
-
 def matches_all_wheres(item, where_fn_list):
     """Takes a list of where functions and attempts to match against them.
 
@@ -118,7 +114,6 @@ def matches_all_wheres(item, where_fn_list):
             return False
     # Must be a match.
     return True
-
 
 
 class WhereAction(argparse.Action):
@@ -155,9 +150,8 @@ class WhereAction(argparse.Action):
             raise ValueError("Where options are strict. Must be in the form of 'where_key=where_value'")
 
 
-
 def key_counter(data, where_fn_list):
-    """Count occurences of keys found in data {list of dicts}
+    """Count occurrences of keys found in data {list of dicts}
     that also match each where_fn_list {list of fns}.
 
     Returns a tuple of data.
@@ -171,7 +165,6 @@ def key_counter(data, where_fn_list):
             # strings
             stats.update(item.keys())
     return stats, blobs_matched
-
 
 
 def value_counter(data, search_key, where_fn_list):
@@ -199,7 +192,6 @@ def value_counter(data, search_key, where_fn_list):
     return stats, blobs_matched
 
 
-
 def ui_values_to_columns(values, screen_width=80):
     """Take a list of strings and output in fixed width columns.
     """
@@ -214,7 +206,6 @@ def ui_values_to_columns(values, screen_width=80):
     print("")
 
 
-
 def ui_counts_to_columns(counts):
     """Take a Counter instance and display in single fixed width key:value
     column.
@@ -225,7 +216,6 @@ def ui_counts_to_columns(counts):
     output_template = "%%-%ds: %%s" % key_field_len
     for k_v in key_vals:
         print(output_template % k_v)
-
 
 
 class CDDAJSONWriter(object):

@@ -632,7 +632,7 @@
       "type": "place_monster",
       "monster_id": "mon_skitterbot",
       "friendly_msg": "The skitterbot gives a quick bow and scurries away.",
-      "hostile_msg": "The skitterbot darts around you and menacingly clicks its tazers.",
+      "hostile_msg": "The skitterbot darts around you and menacingly clicks its tasers.",
       "//": "Same as hacks",
       "difficulty": 4,
       "moves": 100,

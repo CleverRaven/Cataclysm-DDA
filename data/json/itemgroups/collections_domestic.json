@@ -830,6 +830,7 @@
       [ "clarinet", 10 ],
       [ "flute", 10 ],
       [ "harmonica_holder", 10 ],
+      [ "slide_whistle", 8 ],
       [ "banjo", 5 ],
       [ "ukulele", 15 ],
       [ "guitar_electric", 20 ],

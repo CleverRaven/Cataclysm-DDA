@@ -1147,7 +1147,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
         case att_shock :
             z->moves -= att_cost_shock;
 
-            // Just reuse the taze - it's a bit different (shocks torso vs all),
+            // Just reuse the tase - it's a bit different (shocks torso vs all),
             // but let's go for consistency here
             taze( z, target );
             break;
@@ -3604,7 +3604,7 @@ bool mattack::copbot( monster *z )
     player *foe = dynamic_cast<player *>( target );
     bool sees_u = foe != nullptr && z->sees( *foe );
     bool cuffed = foe != nullptr && foe->weapon.typeId() == "e_handcuffs";
-    // Taze first, then ask questions (simplifies later checks for non-humans)
+    // Tase first, then ask questions (simplifies later checks for non-humans)
     if( !cuffed && is_adjacent( z, target, true ) ) {
         taze( z, target );
         return true;
@@ -3678,7 +3678,7 @@ bool mattack::chickenbot( monster *z )
     int dist = rl_dist( z->pos(), target->pos() );
     int player_dist = rl_dist( target->pos(), g->u.pos() );
     if( dist == 1 && one_in( 2 ) ) {
-        // Use tazer at point-blank range, and even then, not continuously.
+        // Use taser at point-blank range, and even then, not continuously.
         mode = 1;
     } else if( ( z->friendly == 0 || player_dist >= 6 ) &&
                // Avoid shooting near player if we're friendly.
@@ -3701,7 +3701,7 @@ bool mattack::chickenbot( monster *z )
     switch( mode ) {
         case 0:
         case 1:
-            // If we downgraded to taze, but are out of range, don't act.
+            // If we downgraded to tase, but are out of range, don't act.
             if( dist <= 1 ) {
                 taze( z, target );
             }

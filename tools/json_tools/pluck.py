@@ -29,7 +29,6 @@ parser.add_argument("where",
         help="where exclusions of the form 'where_key=where_val', no quotes.")
 
 
-
 if __name__ == "__main__":
     args = parser.parse_args()
 

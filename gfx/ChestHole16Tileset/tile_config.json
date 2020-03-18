@@ -35147,7 +35147,7 @@
           "rotates": false
         },
         {
-          "id": ["overlay_wielded_wakizashi", "overlay_wielded_wakizashi_inferior"], 
+          "id": ["overlay_wielded_wakizashi", "overlay_wielded_wakizashi_inferior"],
           "fg": 3388,
           "bg": 632,
           "rotates": false
@@ -44768,7 +44768,7 @@
           "rotates": false
         },
         {
-          "id": ["vp_cargo_space", "vp_cargo_space_external"], 
+          "id": ["vp_cargo_space", "vp_cargo_space_external"],
           "fg": 1199,
           "bg": 677,
           "rotates": false,
@@ -54835,7 +54835,7 @@
       "rotates": false
     },
     { "id": ["blazemod_turret", "vp_TDI", "vp_TDInc", "vp_abolter", "vp_abolternc", "vp_acangun", "vp_acangunnc", "vp_acr", "vp_acrnc", "vp_agattler1", "vp_agattler1nc", "vp_ak47", "vp_ak74", "vp_alasgun", "vp_alasgunp", "vp_alasgunx", "vp_american_180", "vp_american_180nc", "vp_an94", "vp_anailer", "vp_anailernc", "vp_aneedler", "vp_aneedlernc", "vp_ar15", "vp_ar15nc", "vp_arailturret", "vp_ascorpion", "vp_ascorpionnc", "vp_ashardgun", "vp_ashardgunnc", "vp_ateslagun", "vp_atiharturret", "vp_atiharturretnc", "vp_bigun", "vp_bigun", "vp_blunderbuss", "vp_blunderbussnc", "vp_browning_blr", "vp_calico", "vp_caliconc", "vp_carbine_flintlock", "vp_carbine_flintlocknc", "vp_coilgun", "vp_coilgunnc", "vp_cx4", "vp_cx4nc", "vp_fn_fal", "vp_fn_falnc", "vp_fn_p90", "vp_h&k416a5", "vp_h&k416a5nc", "vp_heavy_rail_rifle", "vp_hk_g3", "vp_hk_g36", "vp_hk_g36nc", "vp_hk_g3nc", "vp_hk_g80", "vp_hk_mp5", "vp_hk_mp5nc", "vp_hk_mp7", "vp_hk_ump45", "vp_hk_ump45nc", "vp_ksg", "vp_ksgnc", "vp_l_base_223", "vp_l_base_223nc", "vp_l_car_223", "vp_l_car_223nc", "vp_l_def_12", "vp_l_def_12nc", "vp_l_dsr_223", "vp_l_dsr_223nc", "vp_l_lmg_223", "vp_l_lmg_223nc", "vp_l_long_45", "vp_l_long_45nc", "vp_l_mbr_223", "vp_l_mbr_223nc", "vp_launcher_simple", "vp_m1014", "vp_m1014nc", "vp_m107a1", "vp_m107a1", "vp_m14ebr", "vp_m14ebrnc", "vp_m1a", "vp_m1anc", "vp_m2010", "vp_m27iar", "vp_m27iarnc", "vp_m2browning_sawn", "vp_m2browning_sawn", "vp_m320", "vp_m4a1", "vp_m4a1nc", "vp_m60", "vp_m60nc", "vp_m79", "vp_mac_10", "vp_mac_10nc", "vp_marlin_9a", "vp_marlin_9anc", "vp_mgl", "vp_mossberg_500", "vp_mossberg_500nc", "vp_nailrifle", "vp_nailriflenc", "vp_needlegun", "vp_pipe_double_shotgun", "vp_pipe_double_shotgunnc", "vp_pipe_shotgun", "vp_pipe_shotgunnc", "vp_rebar_rifle", "vp_remington_700", "vp_remington_870", "vp_remington_870nc", "vp_repeatingcrossbow", "vp_repeatingcrossbownc", "vp_revolver_shotgun", "vp_revolver_shotgunnc", "vp_rifle_22", "vp_rifle_22nc", "vp_rifle_308", "vp_rifle_308nc", "vp_rifle_9mm", "vp_rifle_9mmnc", "vp_rifle_flintlock", "vp_rifle_flintlocknc", "vp_rm11b_sniper_rifle", "vp_rm2000_smg", "vp_rm360_carbine", "vp_rm360_carbinenc", "vp_rm51_assault_rifle", "vp_rm614_lmg", "vp_rm802", "vp_rm88_battle_rifle", "vp_rslauncher", "vp_rslauncher", "vp_ruger_1022", "vp_ruger_1022nc", "vp_ruger_mini", "vp_ruger_mininc", "vp_saiga_12", "vp_saiga_12nc", "vp_savage_111f", "vp_savage_111fnc", "vp_scar_h", "vp_scar_hnc", "vp_scar_l", "vp_scar_lnc", "vp_shotgun_d", "vp_shotgun_dnc", "vp_shotgun_s", "vp_shotgun_snc", "vp_sks", "vp_slauncher", "vp_slauncher", "vp_steyr_aug", "vp_steyr_augnc", "vp_surv_carbine_223", "vp_surv_carbine_223nc", "vp_survivor_special_700", "vp_tec9", "vp_tec9nc", "vp_uzi", "vp_uzinc", "vp_v29", "vp_v29_cheap"], "fg": 4584, "rotates": true },
-    
+
     {
       "id": [ "manual_shinigami", "relicscythes_book", "basicscythes_book" ],
       "fg": 4217,
@@ -54885,23 +54885,23 @@
     },
 
 { "id": "tiles_jpmods.png", "fg": 0, "rotates": false },
-    { "id": "mon_bandit_looter",    "fg": 4256, "rotates": false }, 
+    { "id": "mon_bandit_looter",    "fg": 4256, "rotates": false },
     { "id": "mon_bandit_m1911",      "fg": 4257, "rotates": false },
-    { "id": "mon_bandit_glock",     "fg": 4258, "rotates": false }, 
+    { "id": "mon_bandit_glock",     "fg": 4258, "rotates": false },
     { "id": "mon_bandit_melee",      "fg": 4259, "rotates": false },
-    { "id": "mon_bandit_raider",    "fg": 4260, "rotates": false }, 
+    { "id": "mon_bandit_raider",    "fg": 4260, "rotates": false },
     { "id": "mon_bandit_rifle",      "fg": 4261, "rotates": false },
-    { "id": "mon_bandit_scrapper",    "fg": 4262, "rotates": false }, 
+    { "id": "mon_bandit_scrapper",    "fg": 4262, "rotates": false },
     { "id": "mon_bandit_shotgun",    "fg": 4263, "rotates": false },
-    { "id": "mon_bandit_smg",     "fg": 4264, "rotates": false }, 
+    { "id": "mon_bandit_smg",     "fg": 4264, "rotates": false },
     { "id": "mon_bandit_alpha",      "fg": 4265, "rotates": false },
-    { "id": "mon_bandit_super_psycho",  "fg": 4266, "rotates": false }, 
+    { "id": "mon_bandit_super_psycho",  "fg": 4266, "rotates": false },
     { "id": "mon_bandit_super_snipe",  "fg": 4267, "rotates": false },
 
     { "id": ["vp_stacked_cargo_space", "stacked_cargo_carrier"], "fg": 4272, "rotates": false },
-    { "id": "vp_makeshift_funnel",    "fg": 4273, "rotates": false }, 
+    { "id": "vp_makeshift_funnel",    "fg": 4273, "rotates": false },
     { "id": "vp_leather_funnel",    "fg": 4274, "rotates": false },
-    { "id": "vp_funnel",        "fg": 4275, "rotates": false }, 
+    { "id": "vp_funnel",        "fg": 4275, "rotates": false },
     { "id": "vp_metal_funnel",      "fg": 4276, "rotates": false },
     { "id": ["vp_crane_small", "crane_small"],    "fg": 4277, "rotates": false },
     { "id": ["vp_crane_medium", "crane_medium"],     "fg": 4278, "rotates": false },
@@ -54909,58 +54909,58 @@
     { "id": ["vp_floorfridge", "floorfridge", "vp_fridge_cargo", "fridge_cargo"],    "fg": 4331, "rotates": false },
     { "id": ["rf_food_keeper", "f_rf_food_keeper"],    "fg": 4281, "rotates": false },
 
-    { "id": "uekibati",         "fg": 4288, "rotates": false }, 
+    { "id": "uekibati",         "fg": 4288, "rotates": false },
     { "id": ["ueki_tomato", "ueki_blueberries", "ueki_strawberries", "ueki_blackberries", "ueki_cranberries", "ueki_raspberries", "ueki_wheat"],       "fg": 4289, "rotates": false },
-    { "id": ["ueki_hops", "ueki_barley", "ueki_sugar_beet", "ueki_lettuce", "ueki_cabbage", "ueki_cotton_boll", "ueki_broccoli"],      "fg": 4289, "rotates": false }, 
+    { "id": ["ueki_hops", "ueki_barley", "ueki_sugar_beet", "ueki_lettuce", "ueki_cabbage", "ueki_cotton_boll", "ueki_broccoli"],      "fg": 4289, "rotates": false },
     { "id": ["ueki_zucchini", "ueki_onion", "ueki_garlic", "ueki_carrot", "ueki_corn", "ueki_oats", "ueki_daizu", "ueki_raw_beans"],      "fg": 4289, "rotates": false },
     { "id": ["ueki_potato_raw", "ueki_cucumber", "ueki_celery", "ueki_thyme", "ueki_canola", "ueki_dogbane", "ueki_bee_balm", "ueki_mugwort"],     "fg": 4289, "rotates": false },
     { "id": ["ueki_buckwheat", "ueki_wild_herbs", "ueki_veggy_wild", "ueki_raw_dandelion", "ueki_rhubarb", "ueki_mushroom", "ueki_dry_rice", "ueki_coffee_bean"],     "fg": 4289, "rotates": false },
 
     { "id": "fi_ueki_tomato",     "fg": 4290, "rotates": false },
-    { "id": "fi_ueki_blueberries",    "fg": 4291, "rotates": false }, 
+    { "id": "fi_ueki_blueberries",    "fg": 4291, "rotates": false },
     { "id": "fi_ueki_strawberries",   "fg": 4292, "rotates": false },
-    { "id": "fi_ueki_blackberries",   "fg": 4293, "rotates": false }, 
+    { "id": "fi_ueki_blackberries",   "fg": 4293, "rotates": false },
     { "id": "fi_ueki_cranberries",    "fg": 4294, "rotates": false },
-    { "id": "fi_ueki_raspberries",    "fg": 4295, "rotates": false }, 
+    { "id": "fi_ueki_raspberries",    "fg": 4295, "rotates": false },
     { "id": "fi_ueki_wheat",      "fg": 4296, "rotates": false },
-    { "id": "fi_ueki_hops",       "fg": 4297, "rotates": false }, 
+    { "id": "fi_ueki_hops",       "fg": 4297, "rotates": false },
     { "id": "fi_ueki_barley",     "fg": 4298, "rotates": false },
-    { "id": "fi_ueki_sugar_beet",   "fg": 4299, "rotates": false }, 
+    { "id": "fi_ueki_sugar_beet",   "fg": 4299, "rotates": false },
     { "id": "fi_ueki_lettuce",      "fg": 4300, "rotates": false },
-    { "id": "fi_ueki_cabbage",      "fg": 4301, "rotates": false }, 
+    { "id": "fi_ueki_cabbage",      "fg": 4301, "rotates": false },
     { "id": "fi_ueki_cotton_boll",    "fg": 4302, "rotates": false },
-    { "id": "fi_ueki_broccoli",     "fg": 4303, "rotates": false }, 
+    { "id": "fi_ueki_broccoli",     "fg": 4303, "rotates": false },
     { "id": "fi_ueki_zucchini",     "fg": 4304, "rotates": false },
-    { "id": "fi_ueki_onion",      "fg": 4305, "rotates": false }, 
+    { "id": "fi_ueki_onion",      "fg": 4305, "rotates": false },
     { "id": "fi_ueki_garlic",     "fg": 4306, "rotates": false },
-    { "id": "fi_ueki_carrot",     "fg": 4307, "rotates": false }, 
+    { "id": "fi_ueki_carrot",     "fg": 4307, "rotates": false },
     { "id": "fi_ueki_corn",       "fg": 4308, "rotates": false },
-    { "id": "fi_ueki_oats",       "fg": 4309, "rotates": false }, 
+    { "id": "fi_ueki_oats",       "fg": 4309, "rotates": false },
     { "id": "fi_ueki_edamame",      "fg": 4310, "rotates": false },
-    { "id": "fi_ueki_potato_raw",   "fg": 4311, "rotates": false }, 
+    { "id": "fi_ueki_potato_raw",   "fg": 4311, "rotates": false },
     { "id": "fi_ueki_cucumber",     "fg": 4312, "rotates": false },
-    { "id": "fi_ueki_celery",     "fg": 4313, "rotates": false }, 
+    { "id": "fi_ueki_celery",     "fg": 4313, "rotates": false },
     { "id": "fi_ueki_thyme",      "fg": 4314, "rotates": false },
-    { "id": "fi_ueki_canola",     "fg": 4315, "rotates": false }, 
+    { "id": "fi_ueki_canola",     "fg": 4315, "rotates": false },
     { "id": "fi_ueki_dogbane",      "fg": 4316, "rotates": false },
-    { "id": "fi_ueki_bee_balm",     "fg": 4317, "rotates": false }, 
+    { "id": "fi_ueki_bee_balm",     "fg": 4317, "rotates": false },
     { "id": "fi_ueki_mugwort",      "fg": 4318, "rotates": false },
-    { "id": "fi_ueki_buckwheat",    "fg": 4319, "rotates": false }, 
+    { "id": "fi_ueki_buckwheat",    "fg": 4319, "rotates": false },
     { "id": "fi_ueki_wild_herbs",   "fg": 4320, "rotates": false },
-    { "id": "fi_ueki_veggy_wild",   "fg": 4321, "rotates": false }, 
+    { "id": "fi_ueki_veggy_wild",   "fg": 4321, "rotates": false },
     { "id": "fi_ueki_raw_dandelion",  "fg": 4322, "rotates": false },
-    { "id": "fi_ueki_rhubarb",      "fg": 4323, "rotates": false }, 
+    { "id": "fi_ueki_rhubarb",      "fg": 4323, "rotates": false },
     { "id": "fi_ueki_mushroom",     "fg": 4324, "rotates": false },
-    { "id": "fi_ueki_dry_rice",     "fg": 4325, "rotates": false }, 
+    { "id": "fi_ueki_dry_rice",     "fg": 4325, "rotates": false },
     { "id": "fi_ueki_coffee_bean",    "fg": 4326, "rotates": false },
-    { "id": "fi_ueki_daizu",      "fg": 4327, "rotates": false }, 
+    { "id": "fi_ueki_daizu",      "fg": 4327, "rotates": false },
     { "id": "fi_ueki_raw_beans",    "fg": 4327, "rotates": false },
 
     { "id": "mon_shoggoth_maid",        "fg": 4334, "rotates": false },
-    { "id": ["mon_little_maid", "little_maid_human_smoked", "little_maid_human_smoked_fin", "little_maid_fish_smoked_fin", "little_maid_R18", "little_maid_R18_tane", "little_maid_R18_milk", "little_maid_R18_milk2", "little_maid_meat_smoked", "little_maid_meat_smoked_fin", "little_maid_fish_smoked"],        "fg": 4335, "rotates": false }, 
+    { "id": ["mon_little_maid", "little_maid_human_smoked", "little_maid_human_smoked_fin", "little_maid_fish_smoked_fin", "little_maid_R18", "little_maid_R18_tane", "little_maid_R18_milk", "little_maid_R18_milk2", "little_maid_meat_smoked", "little_maid_meat_smoked_fin", "little_maid_fish_smoked"],        "fg": 4335, "rotates": false },
     { "id": "survivor_maid_dress",        "fg": 4336, "rotates": false },
     { "id": "jokyu_fuku",           "fg": 4337, "rotates": false },
-    
+
     {"id":                 "ninja_katana"             , "fg": 4368, "rotates": false}, {"id": "overlay_wielded_ninja_katana"             , "fg": 5808, "rotates": false},
     {"id":                 "ninja_diamond_katana"     , "fg": 4369, "rotates": false}, {"id": "overlay_wielded_ninja_diamond_katana"     , "fg": 5809, "rotates": false},
     {"id":                 "ninja_kusari_gama"        , "fg": 4370, "rotates": false}, {"id": "overlay_wielded_ninja_kusari_gama"        , "fg": 5810, "rotates": false},
@@ -57633,7 +57633,7 @@
           "id": ["artifact_900", "artifact_901", "artifact_902", "artifact_903","artifact_904", "artifact_905", "artifact_906", "artifact_907","artifact_908", "artifact_909", "artifact_910", "artifact_911","artifact_912", "artifact_913", "artifact_914", "artifact_915","artifact_916", "artifact_917", "artifact_918", "artifact_919","artifact_920", "artifact_921", "artifact_922", "artifact_923","artifact_924", "artifact_925", "artifact_926", "artifact_927","artifact_928", "artifact_929", "artifact_930", "artifact_931","artifact_932", "artifact_933", "artifact_934", "artifact_935","artifact_936", "artifact_937", "artifact_938", "artifact_939","artifact_940", "artifact_941", "artifact_942", "artifact_943","artifact_944", "artifact_945", "artifact_946", "artifact_947","artifact_948", "artifact_949", "artifact_950", "artifact_951","artifact_952", "artifact_953", "artifact_954", "artifact_955","artifact_956", "artifact_957", "artifact_958", "artifact_959","artifact_960", "artifact_961", "artifact_962", "artifact_963","artifact_964", "artifact_965", "artifact_966", "artifact_967","artifact_968", "artifact_969", "artifact_970", "artifact_971","artifact_972", "artifact_973", "artifact_974", "artifact_975","artifact_976", "artifact_977", "artifact_978", "artifact_979","artifact_980", "artifact_981", "artifact_982", "artifact_983", "artifact_984", "artifact_985", "artifact_986", "artifact_987","artifact_988", "artifact_989", "artifact_990", "artifact_991","artifact_992", "artifact_993", "artifact_994", "artifact_995","artifact_996", "artifact_997", "artifact_998", "artifact_999"],
           "fg": 3625,
           "rotates": false
-        },        
+        },
         {
           "id": "shrapnel",
           "fg": 4222,
@@ -57819,7 +57819,7 @@
           "bg": 632,
           "rotates": true
         }
-    
+
       ]
     },
     {
@@ -58142,7 +58142,7 @@
         {
           "id": "t_tree_pine",
           "fg": 6329,
-          "bg": 6330,     
+          "bg": 6330,
           "rotates": false
         },
         {

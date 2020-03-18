@@ -675,6 +675,7 @@
       [ "slingshot", 10 ],
       [ "rock", 10 ],
       [ "bat", 10 ],
+      [ "mag_kids", 7 ],
       [ "creepy_doll", 3 ],
       [ "whistle", 3 ]
     ]

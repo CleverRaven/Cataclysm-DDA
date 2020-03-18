@@ -745,7 +745,7 @@ def extract_field_type(item):
     for fd in item.get("intensity_levels"):
        if "name" in fd:
            writestr(outfile,fd.get("name"))
-            
+
 def extract_ter_furn_transform_messages(item):
 	outfile = get_outfile("ter_furn_transform_messages")
 	writestr(outfile,item.get("fail_message"))

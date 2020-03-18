@@ -3852,12 +3852,12 @@ int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    /** @EFFECT_DEX slightly increases chance of successfully using tazer */
-    /** @EFFECT_MELEE increases chance of successfully using a tazer */
+    /** @EFFECT_DEX slightly increases chance of successfully using taser */
+    /** @EFFECT_MELEE increases chance of successfully using a taser */
     int numdice = 3 + ( p->dex_cur / 2.5 ) + p->get_skill_level( skill_melee ) * 2;
     p->moves -= to_moves<int>( 1_seconds );
 
-    /** @EFFECT_DODGE increases chance of dodging a tazer attack */
+    /** @EFFECT_DODGE increases chance of dodging a taser attack */
     const bool tazer_was_dodged = dice( numdice, 10 ) < dice( target->get_dodge(), 10 );
     if( tazer_was_dodged ) {
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
@@ -3891,7 +3891,7 @@ int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
 int iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
 {
     if( it->ammo_remaining() >= 100 ) {
-        // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
+        // Instead of having a ctrl+c+v of the function above, spawn a fake taser and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", 0 );
         fake.charges = 100;

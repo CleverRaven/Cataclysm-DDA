@@ -1617,6 +1617,23 @@
     "fun": 3
   },
   {
+    "id": "mag_kids",
+    "type": "BOOK",
+    "name": { "str": "children's magazine" },
+    "description": "A magazine collection of short stories, puzzles, and other activities designed for very young children.",
+    "weight": "160 g",
+    "volume": "250 ml",
+    "price": 700,
+    "price_postapoc": 650,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "yellow",
+    "intelligence": 2,
+    "time": "9 m",
+    "chapters": 4,
+    "fun": 2
+  },
+  {
     "type": "BOOK",
     "id": "collector_book",
     "name": { "str": "collector's edition book", "str_pl": "collector's edition books" },
