@@ -2578,10 +2578,10 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
 
     const bool can_spawn_new = ( north == nullptr || west == nullptr ) && ( east == nullptr ||
                                south == nullptr );
-    const size_t max_rivers = 4;
+    const size_t max_rivers = 2;
 
     // Even up river start and ends by generating new rivers.
-    // TODO: Try to apply some logic to the spawning of rivers and their associated end points.
+    // TODO: Try to apply some logic to the spawning of rivers and their associated end points to try avoid as much overlap.
 
     if( river_start.size() < river_end.size() || river_start.size() < max_rivers ) {
         while( river_start.size() < river_end.size() || river_start.size() < max_rivers ) {
@@ -2624,12 +2624,39 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         }
     }
 
-    DebugLog(D_ERROR, D_MAP) << "Placing rivers. Starts: " << river_start.size() << " Ends: " << river_end.size();
+    //Place rivers
     for( int i = 0; i < river_start.size(); i++ ) {
         point pa = river_start.at( i );
         point pb = river_end.at( i );
         place_river( pa, pb, river_scale );
     }
+
+    //Pre-Cleanup
+    for (int x = 0; x < OMAPX-1; x++) 
+        for (int y = 0; y < OMAPY - 1; y++) {
+            tripoint p_mine = tripoint(x, y, 0);
+
+            if (x == 0) {
+                if (west != nullptr && is_river(west->ter({OMAPX-1, y, 0}))) {
+                    ter_set(p_mine, river_center);
+                }
+            }
+            else if (y == 0) {
+                if (south != nullptr && is_river(south->ter({ x, OMAPY-1, 0 }))) {
+                    ter_set(p_mine, river_center);
+                }
+            }
+            else if (y == OMAPY - 1) {
+                if (north != nullptr && is_river(north->ter({ x, 0, 0 }))) {
+                    ter_set(p_mine, river_center);
+                }
+            }
+            else if (x == OMAPX - 1) {
+                if (east != nullptr && is_river(east->ter({ 0, y, 0 }))) {
+                    ter_set(p_mine, river_center);
+                }
+            }
+        }
 }
 
 void overmap::place_swamps()
@@ -2774,24 +2801,34 @@ void overmap::place_river( point pa, point pb, int river_scale )
 
     // Generate control points
     // TODO: A lot of work needed on these yet.
-    const int amplitude = rl_dist(pa, pb) / 3;
-    point cpm = { ( pa.x + pb.x ) / 2, ( pa.y + pb.y ) / 2 };
-    point cp1 = { (pa.x + cpm.x) / 2 + rng(amplitude,amplitude), (pa.y + cpm.y) / 2 + rng(amplitude,amplitude) };
-    point cp2 = { (pb.x + cpm.x) / 2 + rng(-amplitude,-amplitude), (pb.y + cpm.y) / 2 + rng(-amplitude,-amplitude) };
+    const double angle = (pb.y - pa.y) / (pb.x - pa.x);
+    const double th = atan(angle);
+    const double c = cos(th);
+    const double s = sin(th);
+    const double A = -angle / (2 * M_PI);
+    const double K = (pb.x - pa.x) / c;
+    int amplitude = rl_dist(pa, pb) / 2;
+    
+    point cpm = point((pa.x + pb.x) / 2, (pa.y + pb.y) / 2);
+    point cpa = point((pa.x + cpm.x) / 2, (pa.y + cpm.y) / 2);
+    point cpb = point((pb.x + cpm.x) / 2, (pb.y + cpm.y) / 2);
 
-    if (!inbounds(cp1, river_scale)) {
-        cp1 = cpm;
-    }
 
-    if (!inbounds(cp2, river_scale)) {
-        cp2 = cpm;
-    }
+    point cpmap1 = point(clamp(cpa.x + rng(0, amplitude),0,OMAPX-1), clamp(cpa.y + rng(0, amplitude),0,OMAPY-1));
+    point cpmap2 = point(clamp(cpb.x + rng(-amplitude, 0),0,OMAPX-1), clamp(cpb.y + rng(-amplitude, 0),0,OMAPY-1));
+
+    point cp1 = cpmap1;
+    point cp2 = cpmap2;
+
+    DebugLog(D_ERROR, D_MAP) << "A: " << amplitude << " PA: " << pa << " PB: " << pb << " CPM: " << cpm << " CP1: " << cp1 << " CP2: " << cp2 << " CPA: " << cpa << " CPB: " << cpb;
+    DebugLog(D_ERROR, D_MAP) << "Angle: " << angle << " th: " << th << " A: " << A << " K: " << K << " c: " << c << " s: " << s;
 
     sub_ends = cubic_bezier( pa, cp1, cp2, pb, n_segs );
     sub_ends.insert( sub_ends.begin(), pa );
     sub_ends.push_back( pb );
 
     std::vector<point> tmp;
+    std::vector<point> center_points;
     point last;
     int orig_scale = river_scale;
     for( int i = 0; i < sub_ends.size(); i++ ) {
@@ -2805,19 +2842,21 @@ void overmap::place_river( point pa, point pb, int river_scale )
         tmp = line_to( sub_ends.at( i ), sub_ends.at( j ), 0 );
 
         // fill points in line
-        for( point p : tmp ) {
+        for( point p : tmp ) {  
             last = p;
+            center_points.push_back(p);
             // create branches
             // TODO: Retain river_scale for the river node and alow branches to extend overmaps.
-            if( inbounds( p, 25 ) && i + 4 < ( sub_ends.size() - 2 ) && one_in( 125 ) ) {
-                place_river( p, random_entry(sub_ends), river_scale - 1.0 );
+            if( inbounds( p, 25 ) && i + 4 < ( sub_ends.size() - 1 ) && one_in( 125 ) ) {
+                place_river( p, sub_ends.at(rng(i,sub_ends.size() - 1)), river_scale - 1.0 );
             }
+    
 
             //TODO: Fillout random points for more varied rivers
             for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
                 for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                     tripoint pt = { p.x + j, p.y + i, 0};
-                    if( inbounds( pt ) ) {
+                    if( inbounds( pt ) && !is_river_or_lake(ter(pt)) ) {
                         size++;
                         ter_set( pt, river_center );
                     }
