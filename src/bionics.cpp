@@ -78,6 +78,48 @@ static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 
+static const bionic_id bio_adrenaline( "bio_adrenaline" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_blade_weapon( "bio_blade_weapon" );
+static const bionic_id bio_blaster( "bio_blaster" );
+static const bionic_id bio_blood_anal( "bio_blood_anal" );
+static const bionic_id bio_blood_filter( "bio_blood_filter" );
+static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
+static const bionic_id bio_cqb( "bio_cqb" );
+static const bionic_id bio_earplugs( "bio_earplugs" );
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_emp( "bio_emp" );
+static const bionic_id bio_evap( "bio_evap" );
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_flashbang( "bio_flashbang" );
+static const bionic_id bio_geiger( "bio_geiger" );
+static const bionic_id bio_gills( "bio_gills" );
+static const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_jointservo( "bio_jointservo" );
+static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_lockpick( "bio_lockpick" );
+static const bionic_id bio_magnet( "bio_magnet" );
+static const bionic_id bio_meteorologist( "bio_meteorologist" );
+static const bionic_id bio_nanobots( "bio_nanobots" );
+static const bionic_id bio_night( "bio_night" );
+static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_plutdump( "bio_plutdump" );
+static const bionic_id bio_power_storage( "bio_power_storage" );
+static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
+static const bionic_id bio_radscrubber( "bio_radscrubber" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_remote( "bio_remote" );
+static const bionic_id bio_resonator( "bio_resonator" );
+static const bionic_id bio_shockwave( "bio_shockwave" );
+static const bionic_id bio_teleport( "bio_teleport" );
+static const bionic_id bio_time_freeze( "bio_time_freeze" );
+static const bionic_id bio_tools( "bio_tools" );
+static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
+static const bionic_id bio_water_extractor( "bio_water_extractor" );
+static const bionic_id bionic_TOOLS_EXTEND( "bio_tools_extend" );
+// Aftershock stuff!
+static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
+
 namespace
 {
 std::map<bionic_id, bionic_data> bionics;

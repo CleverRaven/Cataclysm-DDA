@@ -72,6 +72,8 @@ static const skill_id skill_melee( "melee" );
 
 static const quality_id qual_CUT( "CUT" );
 
+static const bionic_id bio_remote( "bio_remote" );
+
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 #if defined(__ANDROID__)

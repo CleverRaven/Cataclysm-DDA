@@ -28,9 +28,12 @@
 #include "cursesdef.h"
 #include "iuse.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
 
 static const std::string errstring( "ERROR" );
+
+static const bionic_id bio_tools( "bio_tools" );
+static const bionic_id bio_claws( "bio_claws" );
+static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
 
 struct tripoint;
 

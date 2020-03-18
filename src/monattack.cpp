@@ -119,6 +119,8 @@ static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
+
 // shared utility functions
 static bool within_visual_range( monster *z, int max_range )
 {

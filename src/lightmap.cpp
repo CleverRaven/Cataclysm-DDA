@@ -39,6 +39,8 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const bionic_id bio_night( "bio_night" );
+
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y
 

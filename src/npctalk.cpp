@@ -81,6 +81,11 @@ static const zone_type_id zone_type_npc_no_investigate( "NPC_NO_INVESTIGATE" );
 
 static const skill_id skill_speech( "speech" );
 
+static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
+static const bionic_id bio_deformity( "bio_deformity" );
+static const bionic_id bio_face_mask( "bio_face_mask" );
+static const bionic_id bio_voice( "bio_voice" );
+
 class basecamp;
 
 static std::map<std::string, json_talk_topic> json_talk_topics;

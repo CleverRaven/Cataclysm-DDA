@@ -79,6 +79,8 @@
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
+static const bionic_id bio_syringe( "bio_syringe" );
+
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
