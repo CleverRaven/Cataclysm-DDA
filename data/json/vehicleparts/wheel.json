@@ -90,7 +90,7 @@
   {
     "id": "rail_wheel",
     "type": "vehicle_part",
-    "name": "rail wheel",
+    "name": { "str": "rail wheel" },
     "item": "wheel_rail",
     "location": "under",
     "symbol": "|",
@@ -114,7 +114,7 @@
     "id": "rail_wheel_steerable",
     "copy-from": "rail_wheel",
     "type": "vehicle_part",
-    "name": "rail wheel (steerable)",
+    "name": { "str": "rail wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
@@ -134,7 +134,7 @@
   {
     "id": "roller_drum",
     "type": "vehicle_part",
-    "name": "roller drum",
+    "name": { "str": "roller drum" },
     "item": "hd_steel_drum",
     "location": "center",
     "symbol": "B",
@@ -191,7 +191,7 @@
     "id": "wheel_slick",
     "copy-from": "wheel",
     "type": "vehicle_part",
-    "name": "racing slick",
+    "name": { "str": "racing slick" },
     "item": "wheel_slick",
     "wheel_type": "racing",
     "contact_area": 180,

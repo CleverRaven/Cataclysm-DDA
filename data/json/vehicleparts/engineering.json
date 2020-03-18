@@ -107,7 +107,7 @@
   {
     "id": "rockwheel",
     "type": "vehicle_part",
-    "name": "rockwheel",
+    "name": { "str": "rockwheel" },
     "item": "v_rockwheel_item",
     "location": "structure",
     "symbol": "&",

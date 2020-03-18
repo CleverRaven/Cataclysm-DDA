@@ -143,7 +143,7 @@
   {
     "type": "vehicle_part",
     "id": "reclining_seat",
-    "name": "reclining seat",
+    "name": { "str": "reclining seat" },
     "symbol": "#",
     "looks_like": "seat",
     "color": "red",
@@ -171,7 +171,7 @@
     "id": "reclining_seat_leather",
     "looks_like": "seat_leather",
     "copy-from": "reclining_seat",
-    "name": "reclining leather seat",
+    "name": { "str": "reclining leather seat" },
     "item": "seat_leather",
     "breaks_into": "ig_vp_seat_leather"
   },
@@ -530,7 +530,7 @@
   {
     "type": "vehicle_part",
     "id": "roof",
-    "name": "roof",
+    "name": { "str": "roof" },
     "symbol": "#",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -1630,7 +1630,7 @@
   {
     "type": "vehicle_part",
     "id": "reins_tackle",
-    "name": "reins and tackle",
+    "name": { "str": "reins and tackle" },
     "symbol": "W",
     "color": "light_gray",
     "broken_symbol": "X",
@@ -2060,7 +2060,7 @@
     "id": "reinforced_solar_panel",
     "copy-from": "solar_panel",
     "looks_like": "solar_panel",
-    "name": "reinforced solar panel",
+    "name": { "str": "reinforced solar panel" },
     "color": "light_blue",
     "broken_color": "light_gray",
     "proportional": { "epower": 0.9 },
@@ -2525,7 +2525,7 @@
   {
     "type": "vehicle_part",
     "id": "reinforced_windshield",
-    "name": "reinforced windshield",
+    "name": { "str": "reinforced windshield" },
     "symbol": "\"",
     "looks_like": "windshield",
     "color": "light_blue",
@@ -2792,7 +2792,7 @@
   {
     "type": "vehicle_part",
     "id": "recharge_station",
-    "name": "recharging station",
+    "name": { "str": "recharging station" },
     "symbol": "o",
     "color": "light_green",
     "broken_symbol": "#",
@@ -3200,7 +3200,7 @@
   {
     "type": "vehicle_part",
     "id": "robot_controls",
-    "name": "robot controls",
+    "name": { "str": "robot controls" },
     "symbol": "&",
     "color": "white",
     "broken_symbol": "x",
@@ -3488,7 +3488,7 @@
   {
     "type": "vehicle_part",
     "id": "reaper",
-    "name": "reaper",
+    "name": { "str": "reaper" },
     "symbol": "/",
     "color": "light_gray",
     "broken_symbol": "*",
