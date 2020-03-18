@@ -1362,6 +1362,10 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       iteminfo::lower_is_better, attack_time() ) );
+            double dps = ( dmg_bash + dmg_cut + dmg_stab ) * to_moves<int>( 1_seconds ) /
+                         static_cast<double>( attack_time() );
+            info.push_back( iteminfo( "BASE", _( "Damage per second: " ), "",
+                                      iteminfo::is_decimal, dps ) );
         }
     }
 
