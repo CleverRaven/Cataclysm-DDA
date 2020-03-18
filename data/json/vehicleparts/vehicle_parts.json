@@ -854,7 +854,7 @@
   {
     "type": "vehicle_part",
     "id": "spike",
-    "name": "spike",
+    "name": { "str": "spike" },
     "symbol": ".",
     "color": "white",
     "broken_symbol": "x",
@@ -2405,7 +2405,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_steel",
-    "name": "steel plating",
+    "name": { "str": "steel plating" },
     "symbol": ")",
     "color": "light_cyan",
     "broken_symbol": ")",
@@ -2449,7 +2449,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_spiked",
-    "name": "spiked plating",
+    "name": { "str": "spiked plating" },
     "symbol": ")",
     "color": "red",
     "broken_symbol": ")",
@@ -2866,7 +2866,7 @@
   {
     "type": "vehicle_part",
     "id": "stereo",
-    "name": "stereo system",
+    "name": { "str": "stereo system" },
     "symbol": "&",
     "color": "red",
     "broken_symbol": "&",

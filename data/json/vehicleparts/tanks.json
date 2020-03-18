@@ -166,7 +166,7 @@
   {
     "id": "tank_30gal_drum",
     "type": "vehicle_part",
-    "name": "steel drum (100L)",
+    "name": { "str": "steel drum (100L)" },
     "item": "30gal_drum",
     "location": "center",
     "symbol": "0",
@@ -192,7 +192,7 @@
     "id": "tank_55gal_drum",
     "copy-from": "tank_30gal_drum",
     "type": "vehicle_part",
-    "name": "steel drum (200L)",
+    "name": { "str": "steel drum (200L)" },
     "item": "55gal_drum",
     "size": 200000,
     "breaks_into": [
