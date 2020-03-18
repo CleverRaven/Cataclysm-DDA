@@ -124,7 +124,7 @@ bool monexamine::pet_menu( monster &z )
     if( z.has_flag( MF_SHEARABLE ) ) {
         bool available = true;
         if( season_of_year( calendar::turn ) == WINTER ) {
-            amenu.addentry( shear, false, 'S', _( "This animal would freeze if you sheared it now" ) );
+            amenu.addentry( shear, false, 'S', _( "This animal would freeze if you sheared it during Winter" ) );
             available = false;
         } else if( z.has_effect( effect_sheared ) ) {
             amenu.addentry( shear, false, 'S', _( "This animal is not ready to shear again yet" ) );
@@ -134,7 +134,7 @@ bool monexamine::pet_menu( monster &z )
             if( g->u.has_quality( qual_shear, 1 ) ) {
                 amenu.addentry( shear, true, 'S', _( "Shear %s" ), pet_name );
             } else {
-                amenu.addentry( shear, false, 'S', _( "You cannot shear this animal without shears." ) );
+                amenu.addentry( shear, false, 'S', _( "You cannot shear this animal without shears" ) );
             }
         }
     }
