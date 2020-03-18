@@ -92,8 +92,6 @@
       { "item": "bot_laserturret", "prob": 10 },
       { "item": "alloy_plate", "prob": 10 },
       { "item": "plasma_gun", "prob": 10 },
-      { "item": "solar_panel_v3", "prob": 10 },
-      { "item": "q_solarpack", "prob": 10 },
       { "item": "can_sealer", "prob": 10 },
       { "item": "hk_g80", "prob": 10 },
       { "item": "hk_g80mag", "prob": 10 },

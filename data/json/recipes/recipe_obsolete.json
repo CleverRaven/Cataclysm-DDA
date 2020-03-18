@@ -2368,5 +2368,15 @@
     "type": "recipe",
     "result": "reflexrecurvebow",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "q_solarpack",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "q_solarpack_on",
+    "obsolete": true
   }
 ]
