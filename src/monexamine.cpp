@@ -127,7 +127,7 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( shear, false, 'S', _( "This animal would freeze if you sheared it now" ) );
             available = false;
         } else if( z.has_effect( effect_sheared ) ) {
-            amenu.addentry( shear, false, 'S', _( "This animal is not ready to shear again yet" ) );
+            amenu.addentry( shear, false, 'S', _( "This animal is not ready to be sheared again yet." ) );
             available = false;
         }
         if( available ) {
