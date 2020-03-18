@@ -2952,7 +2952,7 @@
   {
     "type": "vehicle_part",
     "id": "jumper_cable_debug",
-    "name": "shiny cable",
+    "name": { "str": "shiny cable" },
     "symbol": "{",
     "color": "yellow",
     "broken_symbol": "*",
@@ -3365,7 +3365,7 @@
   {
     "type": "vehicle_part",
     "id": "vehicle_scoop",
-    "name": "scoop",
+    "name": { "str": "scoop" },
     "symbol": "R",
     "color": "light_gray",
     "broken_symbol": ";",
