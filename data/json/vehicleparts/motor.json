@@ -38,7 +38,7 @@
     "id": "engine_electric_small",
     "copy-from": "engine_motor",
     "type": "vehicle_part",
-    "name": "small electric motor",
+    "name": { "str": "small electric motor" },
     "item": "motor_small",
     "durability": 120,
     "power": 7040,
