@@ -44,7 +44,6 @@
 #include "translations.h"
 #include "timed_event.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
 
 namespace spell_detail
 {
@@ -399,7 +398,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     }
 }
 
-static void damage_targets( const spell &sp, const Creature &caster,
+static void damage_targets( const spell &sp, Creature &caster,
                             const std::set<tripoint> &targets )
 {
     for( const tripoint &target : targets ) {
@@ -427,7 +426,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
             add_effect_to_target( target, sp );
         }
         if( sp.damage() > 0 ) {
-            cr->deal_projectile_attack( &g->u, atk, true );
+            cr->deal_projectile_attack( &caster, atk, true );
         } else if( sp.damage() < 0 ) {
             sp.heal( target );
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
@@ -663,13 +662,13 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     item granted( sp.effect_data(), calendar::turn );
     if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) ) {
         granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
-        granted.set_flag( flag_ETHEREAL_ITEM );
+        granted.set_flag( "ETHEREAL_ITEM" );
     }
     if( granted.count_by_charges() && sp.damage() > 0 ) {
         granted.charges = sp.damage();
     }
     if( g->u.can_wear( granted ).success() ) {
-        granted.set_flag( flag_FIT );
+        granted.set_flag( "FIT" );
         g->u.wear_item( granted, false );
     } else if( !g->u.is_armed() ) {
         g->u.weapon = granted;

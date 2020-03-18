@@ -775,9 +775,8 @@ void conditional_t<T>::set_is_driving( bool is_npc )
 }
 
 template<class T>
-void conditional_t<T>::set_has_stolen_item( bool is_npc )
+void conditional_t<T>::set_has_stolen_item( bool /*is_npc*/ )
 {
-    ( void )is_npc;
     condition = []( const T & d ) {
         player *actor = d.alpha;
         npc &p = *d.beta;
@@ -1160,6 +1159,9 @@ conditional_t<T>::conditional_t( const std::string &type )
 template struct conditional_t<dialogue>;
 template void read_condition<dialogue>( const JsonObject &jo, const std::string &member_name,
                                         std::function<bool( const dialogue & )> &condition, bool default_val );
+#if !defined(MACOSX)
+template struct conditional_t<mission_goal_condition_context>;
+#endif
 template void read_condition<mission_goal_condition_context>( const JsonObject &jo,
         const std::string &member_name,
         std::function<bool( const mission_goal_condition_context & )> &condition, bool default_val );

@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "camera_control",
-    "name": "camera display",
+    "name": { "str": "camera display" },
     "description": "A set of small monitors.  Required to view cameras' output.",
     "weight": "11234 g",
     "to_hit": -3,
@@ -16,7 +16,7 @@
   {
     "type": "GENERIC",
     "id": "omnicamera",
-    "name": "security camera",
+    "name": { "str": "security camera" },
     "description": "A security camera you could connect to a display.  Image quality is quite low, but the field of vision is great.",
     "weight": "1100 g",
     "to_hit": -3,
@@ -45,7 +45,7 @@
   {
     "type": "GENERIC",
     "id": "veh_tracker",
-    "name": "vehicle tracking device",
+    "name": { "str": "vehicle tracking device" },
     "description": "A vehicle tracking device.  When installed on a vehicle it allows you track the vehicle.",
     "weight": "400 g",
     "color": "red",
@@ -75,7 +75,7 @@
   {
     "type": "GENERIC",
     "id": "vehicle_dashboard",
-    "name": "dashboard",
+    "name": { "str": "dashboard" },
     "description": "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
     "weight": "2721 g",
     "to_hit": -2,
@@ -91,7 +91,7 @@
     "type": "GENERIC",
     "id": "electronics_controls",
     "copy-from": "vehicle_dashboard",
-    "name": "electronics control unit",
+    "name": { "str": "electronics control unit" },
     "description": "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
     "weight": "1311 g",
     "to_hit": -4,
@@ -127,7 +127,7 @@
   {
     "type": "GENERIC",
     "id": "turret_controls",
-    "name": "turret control unit",
+    "name": { "str": "turret control unit" },
     "description": "A set of motor, camera, and various electronic modules banded together to allow for tracking targets, friend-or-foe identification, and firing the connected turret in full automatic mode.",
     "weight": "4000 g",
     "color": "white",

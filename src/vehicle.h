@@ -314,6 +314,12 @@ struct vehicle_part {
         /** Is this part a reactor? */
         bool is_reactor() const;
 
+        /** is this part currently unable to retain to fluid/charge?
+         *  this doesn't take into account whether or not the part has any contents
+         *  remaining to leak
+         */
+        bool is_leaking() const;
+
         /** Can this part function as a turret? */
         bool is_turret() const;
 
@@ -513,7 +519,7 @@ class turret_data
     private:
         turret_data( vehicle *veh, vehicle_part *part )
             : veh( veh ), part( part ) {}
-        double cached_recoil;
+        double cached_recoil = 0;
 
     protected:
         vehicle *veh = nullptr;
@@ -1241,6 +1247,12 @@ class vehicle
          * times a dimensional constant based on the vehicle's shape
          */
         double coeff_water_drag() const;
+
+        /**
+         * watertight hull height in meters measures distance from bottom of vehicle
+         * to the point where the vehicle will start taking on water
+         */
+        double water_hull_height() const;
 
         /**
          * water draft in meters - how much of the vehicle's body is under water

@@ -37,7 +37,7 @@
     "id": "garandclip",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": "M1 Garand clip",
+    "name": { "str": "M1 Garand clip" },
     "description": "A light-weight en-bloc clip for use with the M1 Garand that will be ejected after the last round is fired.",
     "weight": "30 g",
     "volume": "250 ml",

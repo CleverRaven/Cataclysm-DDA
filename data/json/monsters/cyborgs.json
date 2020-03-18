@@ -2,7 +2,7 @@
   {
     "id": "mon_broken_cyborg",
     "type": "MONSTER",
-    "name": "broken cyborg",
+    "name": { "str": "broken cyborg" },
     "description": "A robot body with the head of a human.  All kinds of electronic wires and devices are implanted in its head.  Patches of skin look diseased or rotting.  This cyborg moves erratically and has a confused and deranged look in its eyes.",
     "default_faction": "science",
     "bodytype": "human",

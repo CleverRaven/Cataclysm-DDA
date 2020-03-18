@@ -1991,6 +1991,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
+    assign( jo, "ups_charges_modifier", slot.ups_charges_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
     if( jo.has_int( "install_time" ) ) {
         slot.install_time = jo.get_int( "install_time" );
@@ -2123,7 +2124,7 @@ static void set_allergy_flags( itype &item_template )
             std::make_pair( material_id( "bean" ), "ALLERGEN_VEGGY" ),
             std::make_pair( material_id( "tomato" ), "ALLERGEN_VEGGY" ),
             std::make_pair( material_id( "garlic" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "nut" ), "ALLERGEN_VEGGY" ),
+            std::make_pair( material_id( "nut" ), "ALLERGEN_NUT" ),
             std::make_pair( material_id( "mushroom" ), "ALLERGEN_VEGGY" ),
             std::make_pair( material_id( "milk" ), "ALLERGEN_MILK" ),
             std::make_pair( material_id( "egg" ), "ALLERGEN_EGG" ),
@@ -2308,7 +2309,19 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {
+        def.qualities.clear();
         set_qualities_from_json( jo, "qualities", def );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            extend_qualities_from_json( tmp, "qualities", def );
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            delete_qualities_from_json( tmp, "qualities", def );
+        }
     }
 
     if( jo.has_member( "properties" ) ) {
@@ -2469,6 +2482,25 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
         }
     } else {
         jo.throw_error( "Qualities list is not an array", member );
+    }
+}
+
+void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::string &member,
+        itype &def )
+{
+    for( JsonArray curr : jo.get_array( member ) ) {
+        def.qualities[quality_id( curr.get_string( 0 ) )] = curr.get_int( 1 );
+    }
+}
+
+void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string &member,
+        itype &def )
+{
+    for( JsonArray curr : jo.get_array( member ) ) {
+        const auto iter = def.qualities.find( quality_id( curr.get_string( 0 ) ) );
+        if( iter != def.qualities.end() && iter->second == curr.get_int( 1 ) ) {
+            def.qualities.erase( iter );
+        }
     }
 }
 

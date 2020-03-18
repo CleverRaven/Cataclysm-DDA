@@ -472,7 +472,7 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         }
 
         // Default system back button behavior.
-        super.onBackPressed();
+        //super.onBackPressed();
     }
 
     // Called by JNI from SDL.

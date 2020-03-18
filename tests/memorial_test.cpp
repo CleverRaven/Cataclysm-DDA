@@ -7,7 +7,6 @@
 #include "mutation.h"
 #include "output.h"
 #include "player_helpers.h"
-#include "cata_string_consts.h"
 
 template<event_type Type, typename... Args>
 void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )
@@ -51,12 +50,12 @@ TEST_CASE( "memorials" )
     std::string u_name = g->u.name;
     character_id ch2 = character_id( ch.get_value() + 1 );
     mutagen_technique mutagen = mutagen_technique::injected_purifier;
-    mtype_id mon = mon_zombie_kevlar_2;
-    efftype_id eff = effect_onfire;
+    mtype_id mon( "mon_zombie_kevlar_2" );
+    efftype_id eff( "onfire" );
     itype_id it( "marloss_seed" );
-    trait_id mut = trait_CARNIVORE;
-    trait_id mut2 = trait_SAPROPHAGE;
-    bionic_id cbm = bio_alarm;
+    trait_id mut( "CARNIVORE" );
+    trait_id mut2( "SAPROPHAGE" );
+    bionic_id cbm( "bio_alarm" );
 
     check_memorial<event_type::activates_artifact>(
         m, b, "Activated the art_name.", ch, "art_name" );
@@ -171,7 +170,7 @@ TEST_CASE( "memorials" )
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
 
     check_memorial<event_type::gains_skill_level>(
-        m, b, "Reached skill level 8 in driving.", ch, skill_driving, 8 );
+        m, b, "Reached skill level 8 in driving.", ch, skill_id( "driving" ), 8 );
 
     check_memorial<event_type::game_over>(
         m, b, u_name + " was killed.\nLast words: last_words", false, "last_words" );
@@ -186,7 +185,7 @@ TEST_CASE( "memorials" )
         m, b, "Installed bad bionic: Alarm System.", ch, cbm );
 
     check_memorial<event_type::learns_martial_art>(
-        m, b, "Learned Aikido.", ch, style_aikido );
+        m, b, "Learned Aikido.", ch, matype_id( "style_aikido" ) );
 
     check_memorial<event_type::loses_addiction>(
         m, b, "Overcame addiction to alcohol.", ch, ADD_ALCOHOL );

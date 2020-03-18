@@ -589,6 +589,13 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_PRY_NAILS",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "prying nails",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_CHOP_TREE",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
@@ -622,6 +629,13 @@
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
     "verb": "churning earth",
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_PLANT_SEED",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "planting seeds",
     "based_on": "time"
   },
   {

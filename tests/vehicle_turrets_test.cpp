@@ -19,14 +19,13 @@
 #include "units.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 static std::vector<const vpart_info *> turret_types()
 {
     std::vector<const vpart_info *> res;
 
     for( const auto &e : vpart_info::all() ) {
-        if( e.second.has_flag( flag_TURRET ) ) {
+        if( e.second.has_flag( "TURRET" ) ) {
             res.push_back( &e.second );
         }
     }
