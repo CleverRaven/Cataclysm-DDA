@@ -2591,7 +2591,7 @@
   {
     "type": "vehicle_part",
     "id": "horn_big",
-    "name": "truck horn",
+    "name": { "str": "truck horn" },
     "symbol": "*",
     "color": "light_gray",
     "broken_symbol": "*",
@@ -2634,7 +2634,7 @@
   {
     "type": "vehicle_part",
     "id": "door_trunk",
-    "name": "trunk door",
+    "name": { "str": "trunk door" },
     "symbol": "+",
     "looks_like": "hatch",
     "color": "light_gray",
