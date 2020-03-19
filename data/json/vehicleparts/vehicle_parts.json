@@ -3565,7 +3565,7 @@
   {
     "type": "vehicle_part",
     "id": "turret_mount",
-    "name": "turret mount",
+    "name": { "str": "turret mount" },
     "symbol": "X",
     "color": "light_gray",
     "broken_symbol": "X",
