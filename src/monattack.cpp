@@ -74,6 +74,8 @@
 #include "units.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_melee( "melee" );

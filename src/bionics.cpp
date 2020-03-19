@@ -67,6 +67,8 @@
 #include "teleport.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_sun_light( "sunlight" );
 static const itype_id fuel_type_wind( "wind" );

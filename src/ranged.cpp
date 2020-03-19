@@ -65,6 +65,8 @@
 #include "skill.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_AIM( "ACT_AIM" );
+
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );

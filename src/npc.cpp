@@ -65,6 +65,8 @@
 #include "stomach.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_READ( "ACT_READ" );
+
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );

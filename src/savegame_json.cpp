@@ -99,6 +99,8 @@
 struct oter_type_t;
 struct mutation_branch;
 
+static const activity_id ACT_AIM( "ACT_AIM" );
+
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
         "OBJECT_TERRAIN", "OBJECT_FURNITURE"

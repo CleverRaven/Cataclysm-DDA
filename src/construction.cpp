@@ -54,6 +54,9 @@
 #include "units.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );

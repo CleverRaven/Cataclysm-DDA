@@ -48,6 +48,11 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
+static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const skill_id skill_computer( "computer" );
