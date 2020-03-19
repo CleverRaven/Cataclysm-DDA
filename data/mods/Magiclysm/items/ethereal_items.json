@@ -41,7 +41,7 @@
     "id": "armor_stonefist",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of magical armored stone gauntlets", "str_pl": "pairs of armored gauntlets" },
+    "name": { "str": "pair of magical armored stone gauntlets", "str_pl": "pairs of magical armored stone gauntlets" },
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "1 g",
     "volume": "250 ml",
