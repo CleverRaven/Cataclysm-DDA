@@ -50,7 +50,11 @@
 #include "rng.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_AIM( "ACT_AIM" );
+
 static const skill_id skill_swimming( "swimming" );
+
+static const bionic_id bio_ups( "bio_ups" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

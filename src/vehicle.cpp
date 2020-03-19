@@ -57,7 +57,7 @@
 #include "options.h"
 #include "enums.h"
 #include "monster.h"
-#include "cata_string_consts.h"
+
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
@@ -76,6 +76,15 @@ static const fault_id fault_belt( "fault_engine_belt_drive" );
 static const fault_id fault_filter_air( "fault_engine_filter_air" );
 static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
+
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+
+static const bionic_id bio_jointservo( "bio_jointservo" );
+
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_winded( "winded" );
+
+static const std::string flag_PERPETUAL( "PERPETUAL" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );

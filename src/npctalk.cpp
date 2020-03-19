@@ -74,12 +74,22 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
+
 static const itype_id fuel_type_animal( "animal" );
 
 static const zone_type_id zone_type_npc_investigate_only( "NPC_INVESTIGATE_ONLY" );
 static const zone_type_id zone_type_npc_no_investigate( "NPC_NO_INVESTIGATE" );
 
 static const skill_id skill_speech( "speech" );
+
+static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
+static const bionic_id bio_deformity( "bio_deformity" );
+static const bionic_id bio_face_mask( "bio_face_mask" );
+static const bionic_id bio_voice( "bio_voice" );
 
 class basecamp;
 

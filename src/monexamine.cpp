@@ -39,7 +39,12 @@
 #include "cata_string_consts.h"
 
 static const quality_id qual_shear( "SHEAR" );
+
 static const efftype_id effect_sheared( "sheared" );
+
+static const activity_id ACT_MILK( "ACT_MILK" );
+static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
+
 static const skill_id skill_survival( "survival" );
 static const species_id ZOMBIE( "ZOMBIE" );
 

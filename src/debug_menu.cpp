@@ -88,6 +88,8 @@
 #include "cata_string_consts.h"
 #include "mapgendata.h"
 
+static const mtype_id mon_generator( "mon_generator" );
+
 class vehicle;
 
 extern std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>>>

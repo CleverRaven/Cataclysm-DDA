@@ -28,6 +28,8 @@
 #include "bionics.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+
 namespace io
 {
 

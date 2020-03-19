@@ -39,7 +39,15 @@
 #include <functional>
 #include <algorithm>
 
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+
 const vitamin_id vitamin_iron( "iron" );
+
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+
+static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
+
+static const bionic_id bio_watch( "bio_watch" );
 
 static void eff_fun_onfire( player &u, effect &it )
 {

@@ -65,6 +65,8 @@
 #include "stomach.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_READ( "ACT_READ" );
+
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
@@ -75,6 +77,9 @@ static const skill_id skill_shotgun( "shotgun" );
 static const skill_id skill_smg( "smg" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
+
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_memory( "bio_memory" );
 
 class basecamp;
 class monfaction;

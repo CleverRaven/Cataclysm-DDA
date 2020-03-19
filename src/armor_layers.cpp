@@ -21,6 +21,8 @@
 #include "enums.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
+
 namespace
 {
 std::string clothing_layer( const item &worn_item );

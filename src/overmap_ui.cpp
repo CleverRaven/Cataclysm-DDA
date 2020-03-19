@@ -61,6 +61,11 @@
 #include "player_activity.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
+
+static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
+
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif

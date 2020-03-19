@@ -34,7 +34,6 @@
 #include "enums.h"
 #include "int_id.h"
 #include "monster.h"
-#include "cata_string_consts.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -43,7 +42,12 @@ static const itype_id fuel_type_animal( "animal" );
 
 static const skill_id skill_driving( "driving" );
 
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_stunned( "stunned" );
+
 static const std::string part_location_structure( "structure" );
+
 // tile height in meters
 static const float tile_height = 4;
 // miles per hour to vehicle 100ths of miles per hour
