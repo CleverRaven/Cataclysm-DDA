@@ -2179,7 +2179,7 @@ Implement printing aim accuracy as numbers.
 Textual vehicle facing indicator.
 Translatable moon phase.
 Fix of untranslated (sub)category in crafting gui.
-Dont' dynamically initialize using gettext.
+Don't dynamically initialize using gettext.
 Make vitamin and fault and mod targets translatable.
 Fixed terrain name translation.
 UI improvements (for easier translation).
