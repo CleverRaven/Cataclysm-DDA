@@ -12,27 +12,27 @@ Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While
 [![Commit Activity](https://img.shields.io/github/commit-activity/m/CleverRaven/Cataclysm-DDA)](https://github.com/CleverRaven/Cataclysm-DDA/graphs/contributors)
 [![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)
 
-# Downloads
+## Downloads
 
 **Releases** - [Stable](https://cataclysmdda.org/releases/) | [Experimental](https://cataclysmdda.org/experimental/)
 
 **Source** - The source can be downloaded as a [.zip archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or cloned from our [GitHub repo](https://github.com/CleverRaven/Cataclysm-DDA/).
 
-## Packaging status
+### Packaging status
 
-### Arch Linux
+#### Arch Linux
 
 Ncurses and tiles version available in [community repo](https://www.archlinux.org/packages/?q=cataclysm-dda).
 
 `sudo pacman -S cataclysm-dda`
 
-### Fedora
+#### Fedora
 
 Ncurses and tiles version available in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda).
 
 `sudo dnf install cataclysm-dda`
 
-### Debian / Ubuntu
+#### Debian / Ubuntu
 
 Ncurses and tiles version available in [official repos](https://tracker.debian.org/pkg/cataclysm-dda).
 
