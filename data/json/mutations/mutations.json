@@ -316,7 +316,7 @@
   {
     "type": "mutation",
     "id": "STRONGBACK",
-    "name": "Strong Back",
+    "name": { "str": "Strong Back" },
     "points": 2,
     "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 35%.",
     "starting_trait": true,
@@ -346,7 +346,7 @@
   {
     "type": "mutation",
     "id": "STRONGSTOMACH",
-    "name": "Strong Stomach",
+    "name": { "str": "Strong Stomach" },
     "points": 1,
     "description": "You are less likely to throw up from food poisoning, alcohol, etc.  If you throw up nevertheless, you won't suffer a residual nausea.",
     "starting_trait": true,
@@ -388,7 +388,7 @@
   {
     "type": "mutation",
     "id": "SPIRITUAL",
-    "name": "Spiritual",
+    "name": { "str": "Spiritual" },
     "points": 1,
     "description": "You've always felt that there is more to the world than we can see.  Whether driven by religious beliefs or philosophical interest, you find great inspiration in studying holy texts and experiencing mystical things.",
     "starting_trait": true,
@@ -522,7 +522,7 @@
   {
     "type": "mutation",
     "id": "STIMBOOST",
-    "name": "Stimulant Psychosis",
+    "name": { "str": "Stimulant Psychosis" },
     "cancels": [ "NONADDICTIVE" ],
     "points": 2,
     "mixed_effect": true,
@@ -533,7 +533,7 @@
   {
     "type": "mutation",
     "id": "STYLISH",
-    "name": "Stylish",
+    "name": { "str": "Stylish" },
     "points": 2,
     "description": "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
     "starting_trait": true,
@@ -1092,7 +1092,7 @@
   {
     "type": "mutation",
     "id": "SMELLY",
-    "name": "Strong Scent",
+    "name": { "str": "Strong Scent" },
     "points": -1,
     "description": "Your scent is particularly strong.  It's not offensive to humans, but animals that track your scent will do so more easily.",
     "starting_trait": true,
@@ -2171,7 +2171,7 @@
   {
     "type": "mutation",
     "id": "SPINES",
-    "name": "Spines",
+    "name": { "str": "Spines" },
     "points": 1,
     "visibility": 1,
     "ugliness": 2,
@@ -2488,7 +2488,7 @@
   {
     "type": "mutation",
     "id": "CLAWS_ST",
-    "name": "Stainless Claws",
+    "name": { "str": "Stainless Claws" },
     "points": 6,
     "visibility": 3,
     "ugliness": 5,
@@ -2696,7 +2696,7 @@
   {
     "type": "mutation",
     "id": "POISONOUS2",
-    "name": "Strongly Venomous",
+    "name": { "str": "Strongly Venomous" },
     "points": 2,
     "description": "Your venom has become particularly strong.  You're confident that your bites or other cutting/stabbing natural attacks will take your target down quickly.",
     "prereqs": [ "POISONOUS" ],
@@ -2719,7 +2719,7 @@
   {
     "type": "mutation",
     "id": "BENDY1",
-    "name": "Stretchy Limbs",
+    "name": { "str": "Stretchy Limbs" },
     "points": 1,
     "visibility": 1,
     "description": "Your limbs seem to have a little more 'give' to them.  +1 Dexterity.",
@@ -3124,7 +3124,7 @@
   {
     "type": "mutation",
     "id": "TAIL_STUB",
-    "name": "Stubby Tail",
+    "name": { "str": "Stubby Tail" },
     "points": 0,
     "visibility": 1,
     "ugliness": 2,
@@ -3317,7 +3317,7 @@
   {
     "type": "mutation",
     "id": "MUT_TOUGH2",
-    "name": "Solidly Built",
+    "name": { "str": "Solidly Built" },
     "points": 3,
     "description": "Not much scares you.  You get a 30% bonus to all hit points.  Stacks with Tough, etc.",
     "social_modifiers": { "intimidate": 3 },
@@ -3916,7 +3916,7 @@
   {
     "type": "mutation",
     "id": "STR_UP",
-    "name": "Strong",
+    "name": { "str": "Strong" },
     "points": 1,
     "description": "Your muscles are a little stronger.  Strength + 1",
     "changes_to": [ "STR_UP_2" ],
@@ -4378,7 +4378,7 @@
   {
     "type": "mutation",
     "id": "SPOTS",
-    "name": "Spots",
+    "name": { "str": "Spots" },
     "points": 0,
     "visibility": 6,
     "ugliness": 2,
@@ -4796,7 +4796,7 @@
   {
     "type": "mutation",
     "id": "SUNBURN",
-    "name": "Solar Sensitivity",
+    "name": { "str": "Solar Sensitivity" },
     "points": -3,
     "description": "Your skin simply cannot handle ultraviolet radiation, such as sunlight.  It will seriously burn you.",
     "prereqs": [ "ALBINO" ],
@@ -4807,7 +4807,7 @@
   {
     "type": "mutation",
     "id": "SORES",
-    "name": "Sores",
+    "name": { "str": "Sores" },
     "points": -2,
     "visibility": 5,
     "ugliness": 6,
@@ -6315,7 +6315,7 @@
   {
     "type": "mutation",
     "id": "NPC_STARTING_NPC",
-    "name": "Starting NPC",
+    "name": { "str": "Starting NPC" },
     "points": 0,
     "description": "Marker for starting NPCs",
     "player_display": false,
@@ -6325,7 +6325,7 @@
   {
     "type": "mutation",
     "id": "NPC_STATIC_NPC",
-    "name": "Static NPC",
+    "name": { "str": "Static NPC" },
     "points": 0,
     "description": "Marker for static NPCs",
     "player_display": false,
@@ -6464,7 +6464,7 @@
   {
     "type": "mutation",
     "id": "SQUEAMISH",
-    "name": "Squeamish",
+    "name": { "str": "Squeamish" },
     "points": -1,
     "starting_trait": true,
     "description": "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
