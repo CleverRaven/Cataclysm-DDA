@@ -212,7 +212,7 @@
   {
     "type": "GENERIC",
     "id": "afs_titanium_bat",
-    "name": "titanium bat",
+    "name": { "str": "titanium bat" },
     "description": "A luxury baseball bat made out of titanium that was banned from competitive sport due to the increased performance that put defenders at risk.",
     "weight": "680 g",
     "to_hit": 3,

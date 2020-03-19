@@ -44,7 +44,7 @@
     "id": "afs_fridge",
     "category": "veh_parts",
     "type": "GENERIC",
-    "name": "vehicle refrigerator",
+    "name": { "str": "vehicle refrigerator" },
     "description": "A household refrigerator with impressive capacity.  Its power connection has been refurbished, and it can be mounted onto a vehicle to draw from its power.",
     "symbol": "{",
     "color": "white",
@@ -62,7 +62,7 @@
     "id": "afs_freezer",
     "category": "veh_parts",
     "type": "GENERIC",
-    "name": "vehicle freezer",
+    "name": { "str": "vehicle freezer" },
     "copy-from": "afs_fridge",
     "description": "This refurbished refrigerator has been stripped of much of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer for more power.  Like its predecessor, it runs on vehicle power.",
     "color": "light_blue"
@@ -86,7 +86,7 @@
   {
     "type": "GENERIC",
     "id": "afs_titanium_frame",
-    "name": "ultralight frame",
+    "name": { "str": "ultralight frame" },
     "description": "A sturdy, lightweight frame made from titanium.  Useful for crafting.",
     "weight": "1 kg",
     "to_hit": -3,
@@ -124,7 +124,7 @@
   {
     "id": "nuclear_waste",
     "type": "GENERIC",
-    "name": "nuclear waste",
+    "name": { "str": "nuclear waste", "str_pl": "nuclear waste" },
     "description": "A small pellet of silvery metal, still warm to the touch.",
     "looks_like": "medium_atomic_battery_cell",
     "weight": "30 g",
@@ -210,7 +210,7 @@
   {
     "id": "afs_titanium_implant",
     "type": "GENERIC",
-    "name": "titanium implant",
+    "name": { "str": "titanium implant" },
     "description": "An internal implant to correct a musculoskeletal problem such as a bad hip or back.  It is made of titanium due to its biocompatibility.",
     "price": 9500,
     "price_postapoc": 1500,
@@ -224,7 +224,7 @@
   {
     "id": "afs_titanium_tooth",
     "type": "GENERIC",
-    "name": "titanium tooth",
+    "name": { "str": "titanium tooth" },
     "description": "A dental implant made of pure titanium, used to replace teeth due to its bio-compatibility and durability.",
     "price": 5000,
     "price_postapoc": 50,

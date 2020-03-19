@@ -167,7 +167,7 @@
     "id": "broken_chickenbot",
     "symbol": ",",
     "color": "green",
-    "name": "broken chickenbot",
+    "name": { "str": "broken chickenbot" },
     "category": "other",
     "description": "A broken chicken walker.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
     "price": 1000,
