@@ -9,6 +9,7 @@
 #include <tuple>
 #include <cmath>
 #include <type_traits>
+#include <cfloat>
 
 #include "activity_handlers.h"
 #include "avatar.h"
@@ -215,7 +216,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         return rating;
     };
 
-    float best_rating = include_pos ? rate_pt( pos(), 0.0f ) :  INT_MAX;
+    float best_rating = include_pos ? rate_pt( pos(), 0.0f ) : FLT_MAX;
     candidates.emplace_back( pos() );
 
     std::map<direction, float> adj_map;

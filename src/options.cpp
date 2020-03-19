@@ -2,6 +2,7 @@
 
 #include <climits>
 #include <type_traits>
+#include <cfloat>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -218,8 +219,8 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = INT_MIN;
-            thisOpt.fMax = INT_MAX;
+            thisOpt.fMin = FLT_MIN;
+            thisOpt.fMax = FLT_MAX;
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
             thisOpt.fStep = 1;
