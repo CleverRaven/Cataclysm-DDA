@@ -2184,7 +2184,7 @@
   {
     "type": "vehicle_part",
     "id": "towel_hanger",
-    "name": "towel hanger",
+    "name": { "str": "towel hanger" },
     "symbol": "h",
     "color": "brown",
     "broken_symbol": "-",
