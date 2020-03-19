@@ -9,7 +9,7 @@
 #include <tuple>
 #include <cmath>
 #include <type_traits>
-#include <float.h>
+#include <cfloat>
 
 #include "activity_handlers.h"
 #include "avatar.h"

@@ -2,7 +2,7 @@
 
 #include <climits>
 #include <type_traits>
-#include <float.h>
+#include <cfloat>
 
 #include "cata_utility.h"
 #include "catacharset.h"

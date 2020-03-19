@@ -8,7 +8,7 @@
 #include <memory>
 #include <ostream>
 #include <list>
-#include <float.h>
+#include <cfloat>
 
 #include "avatar.h"
 #include "bionics.h"
