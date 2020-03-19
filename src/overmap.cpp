@@ -2482,7 +2482,7 @@ void overmap::place_lakes()
 bool overmap::is_river_node( const point &p ) const
 {
     overmap_river_node *n = &get_river_node_at( p );
-    return ( n->p1 == p && n->p2 == p ) ? false : true;
+    return !( n->p1 == p && n->p2 == p );
 }
 
 overmap_river_node overmap::get_river_node_at( const point &p ) const
@@ -2521,8 +2521,6 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
 
             if( north->is_river_node( p_neighbour.xy() ) ) {
                 river_start.push_back( p_mine.xy() );
-            } else {
-
             }
         }
     }
@@ -2538,8 +2536,6 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
 
             if( west->is_river_node( p_neighbour.xy() ) ) {
                 river_start.push_back( p_mine.xy() );
-            } else {
-
             }
         }
     }
