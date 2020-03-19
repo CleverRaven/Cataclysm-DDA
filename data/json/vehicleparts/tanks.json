@@ -111,7 +111,7 @@
   {
     "id": "external_tank_small",
     "type": "vehicle_part",
-    "name": "external tank (100L)",
+    "name": { "str": "external tank (100L)" },
     "item": "30gal_drum",
     "location": "structure",
     "symbol": "O",
@@ -132,7 +132,7 @@
     "id": "external_tank",
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
-    "name": "external tank (200L)",
+    "name": { "str": "external tank (200L)" },
     "item": "55gal_drum",
     "size": 200000,
     "damage_reduction": { "all": 30, "stab": 12 }
@@ -166,7 +166,7 @@
   {
     "id": "tank_30gal_drum",
     "type": "vehicle_part",
-    "name": "steel drum (100L)",
+    "name": { "str": "steel drum (100L)" },
     "item": "30gal_drum",
     "location": "center",
     "symbol": "0",
@@ -192,7 +192,7 @@
     "id": "tank_55gal_drum",
     "copy-from": "tank_30gal_drum",
     "type": "vehicle_part",
-    "name": "steel drum (200L)",
+    "name": { "str": "steel drum (200L)" },
     "item": "55gal_drum",
     "size": 200000,
     "breaks_into": [
@@ -206,7 +206,7 @@
   {
     "id": "fuel_bunker",
     "type": "vehicle_part",
-    "name": "fuel bunker",
+    "name": { "str": "fuel bunker" },
     "item": "fuel_bunker",
     "location": "fuel_source",
     "symbol": "O",

@@ -52,6 +52,14 @@
 #include "type_id.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_computer( "computer" );
+
+static const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_secubot( "mon_secubot" );
+
 static catacurses::window init_window()
 {
     const int width = std::min( FULL_SCREEN_WIDTH, TERMX );
@@ -204,8 +212,7 @@ static void remove_submap_turrets()
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
         if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( g->u.pos() ) ) &&
-            ( critter.type->id == mon_turret_rifle || critter.type->id == mon_turret_bmg ||
-              critter.type->id == mon_crows_m240 ) &&
+            critter.has_flag( MF_CONSOLE_DESPAWN ) &&
             critter.attitude_to( g->u ) == Creature::Attitude::A_HOSTILE ) {
             g->remove_zombie( critter );
         }
@@ -718,8 +725,8 @@ void computer_session::action_blood_anal()
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                     print_line( _( "Result: Human blood, no pathogens found." ) );
-                } else if( mt->in_species( species_ZOMBIE ) ) {
-                    if( mt->in_species( species_HUMAN ) ) {
+                } else if( mt->in_species( ZOMBIE ) ) {
+                    if( mt->in_species( HUMAN ) ) {
                         print_line( _( "Result: Human blood.  Unknown pathogen found." ) );
                     } else {
                         print_line( _( "Result: Unknown blood type.  Unknown pathogen found." ) );

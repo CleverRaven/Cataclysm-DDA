@@ -183,9 +183,9 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     }
 };
 
-static void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers )
+static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
 {
-    for( const std::string line : ja ) {
+    for( const std::string &line : ja ) {
         centers.emplace_back( line );
     }
 }
@@ -1303,7 +1303,7 @@ void furn_t::check() const
     if( !close.is_valid() ) {
         debugmsg( "invalid furniture %s for closing %s", close.c_str(), id.c_str() );
     }
-    if( has_flag( flag_EMITTER ) ) {
+    if( has_flag( "EMITTER" ) ) {
         if( emissions.empty() ) {
             debugmsg( "furn %s has the EMITTER flag, but no emissions were set", id.c_str() );
         } else {

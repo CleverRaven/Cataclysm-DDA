@@ -34,6 +34,9 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_CUT_FINE( "CUT_FINE" );
+
 class inventory;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
@@ -579,8 +582,8 @@ int hotkey_for_action( action_id action, const bool restrict_to_printable )
 bool can_butcher_at( const tripoint &p )
 {
     // TODO: unify this with game::butcher
-    const int factor = g->u.max_quality( quality_BUTCHER );
-    const int factorD = g->u.max_quality( quality_CUT_FINE );
+    const int factor = g->u.max_quality( qual_BUTCHER );
+    const int factorD = g->u.max_quality( qual_CUT_FINE );
     auto items = g->m.i_at( p );
     bool has_item = false;
     bool has_corpse = false;
@@ -650,7 +653,7 @@ static bool can_pickup_at( const tripoint &p )
     bool veh_has_items = false;
     const optional_vpart_position vp = g->m.veh_at( p );
     if( vp ) {
-        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), flag_CARGO, false );
+        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
     return g->m.has_items( p ) || veh_has_items;

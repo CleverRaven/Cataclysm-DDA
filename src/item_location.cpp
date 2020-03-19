@@ -423,7 +423,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             if( auto label = part_pos.get_label() ) {
                 res = colorize( *label, c_light_blue ) + " ";
             }
-            if( auto cargo_part = part_pos.part_with_feature( flag_CARGO, true ) ) {
+            if( auto cargo_part = part_pos.part_with_feature( "CARGO", true ) ) {
                 res += cargo_part->part().name();
             } else {
                 debugmsg( "item in vehicle part without cargo storage" );

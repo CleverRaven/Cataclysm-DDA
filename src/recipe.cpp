@@ -26,7 +26,6 @@
 #include "string_id.h"
 #include "flat_set.h"
 #include "units.h"
-#include "cata_string_consts.h"
 
 extern bool test_mode;
 
@@ -445,7 +444,7 @@ std::vector<item> recipe::create_byproducts( int batch ) const
     std::vector<item> bps;
     for( const auto &e : byproducts ) {
         item obj( e.first, calendar::turn, item::default_charges_tag{} );
-        if( obj.has_flag( flag_VARSIZE ) ) {
+        if( obj.has_flag( "VARSIZE" ) ) {
             obj.item_tags.insert( "FIT" );
         }
 
@@ -560,9 +559,9 @@ std::function<bool( const item & )> recipe::get_component_filter(
     // Disallow crafting of non-perishables with rotten components
     // Make an exception for items with the ALLOW_ROTTEN flag such as seeds
     const bool recipe_forbids_rotten =
-        result.is_food() && !result.goes_bad() && !has_flag( flag_ALLOW_ROTTEN );
+        result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" );
     const bool flags_forbid_rotten =
-        static_cast<bool>( flags & recipe_filter_flags::no_rotten ) && result.goes_bad();
+        static_cast<bool>( flags & recipe_filter_flags::no_rotten ) && result.goes_bad_after_opening();
     std::function<bool( const item & )> rotten_filter = return_true<item>;
     if( recipe_forbids_rotten || flags_forbid_rotten ) {
         rotten_filter = []( const item & component ) {
@@ -576,14 +575,14 @@ std::function<bool( const item & )> recipe::get_component_filter(
     std::function<bool( const item & )> frozen_filter = return_true<item>;
     if( result.is_food() && !hot_result() ) {
         frozen_filter = []( const item & component ) {
-            return !component.has_flag( flag_FROZEN ) || component.has_flag( flag_EDIBLE_FROZEN );
+            return !component.has_flag( "FROZEN" ) || component.has_flag( "EDIBLE_FROZEN" );
         };
     }
 
     // Disallow usage of non-full magazines as components
     // This is primarily used to require a fully charged battery, but works for any magazine.
     std::function<bool( const item & )> magazine_filter = return_true<item>;
-    if( has_flag( flag_FULL_MAGAZINE ) ) {
+    if( has_flag( "FULL_MAGAZINE" ) ) {
         magazine_filter = []( const item & component ) {
             return !component.is_magazine() || ( component.ammo_remaining() >= component.ammo_capacity() );
         };

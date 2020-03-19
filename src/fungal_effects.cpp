@@ -30,6 +30,13 @@
 #include "string_formatter.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_melee( "melee" );
+
+static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_spore( "mon_spore" );
+
+static const species_id FUNGUS( "FUNGUS" );
+
 fungal_effects::fungal_effects( game &g, map &mp )
     : gm( g ), m( mp )
 {
@@ -40,7 +47,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
     if( monster *const mon_ptr = g->critter_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
         if( gm.u.sees( p ) &&
-            !critter.type->in_species( species_FUNGUS ) ) {
+            !critter.type->in_species( FUNGUS ) ) {
             add_msg( _( "The %s is covered in tiny spores!" ), critter.name() );
         }
         if( !critter.make_fungus() ) {

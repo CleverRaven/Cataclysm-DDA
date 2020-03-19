@@ -69,6 +69,29 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
+static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
+static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
+static const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
+static const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
+static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
+static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
+static const mongroup_id GROUP_LAB( "GROUP_LAB" );
+static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
+static const mongroup_id GROUP_LAB_FEMA( "GROUP_LAB_FEMA" );
+static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+static const mongroup_id GROUP_PLAIN( "GROUP_PLAIN" );
+static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
+static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
+static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
+static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
+static const mongroup_id GROUP_TRIFFID_HEART( "GROUP_TRIFFID_HEART" );
+static const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
+static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+static const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
+
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define MON_RADIUS 3
@@ -1353,10 +1376,10 @@ class jmapgen_terrain : public jmapgen_piece
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             dat.m.ter_set( point( x.get(), y.get() ), id );
             // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
-            if( dat.m.has_flag_ter( flag_WALL, point( x.get(), y.get() ) ) ) {
+            if( dat.m.has_flag_ter( "WALL", point( x.get(), y.get() ) ) ) {
                 dat.m.furn_set( point( x.get(), y.get() ), f_null );
                 // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
-                if( !dat.m.has_flag_ter( flag_PLACE_ITEM, point( x.get(), y.get() ) ) ) {
+                if( !dat.m.has_flag_ter( "PLACE_ITEM", point( x.get(), y.get() ) ) ) {
                     dat.m.i_clear( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
                 }
             }
@@ -1504,7 +1527,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                 return;
             }
 
-            if( furn.has_flag( flag_PLANT ) ) {
+            if( furn.has_flag( "PLANT" ) ) {
                 // plant furniture requires exactly one seed item within it
                 if( item_spawner && item_group_spawner ) {
                     debugmsg( "%s (with flag PLANT) specifies both an item and an item group.  "
@@ -2350,7 +2373,7 @@ void mapgen_function_json_base::check_common( const std::string &oter_name ) con
 {
     auto check_furn = [&]( const furn_id & id ) {
         const furn_t &furn = id.obj();
-        if( furn.has_flag( flag_PLANT ) ) {
+        if( furn.has_flag( "PLANT" ) ) {
             debugmsg( "json mapgen for overmap terrain %s specifies furniture %s, which has flag "
                       "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
                       oter_name, furn.id.str() );
@@ -3532,8 +3555,8 @@ void map::draw_lab( mapgendata &dat )
                         // We determine if a border isn't handled by checking the east-facing
                         // border space where the door normally is -- it should be a wall or door.
                         tripoint east_border( 23, 11, abs_sub.z );
-                        if( !has_flag_ter( flag_WALL, east_border ) &&
-                            !has_flag_ter( flag_DOOR, east_border ) ) {
+                        if( !has_flag_ter( "WALL", east_border ) &&
+                            !has_flag_ter( "DOOR", east_border ) ) {
                             // TODO: create a ter_reset function that does ter_set,
                             // furn_set, and i_clear?
                             ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
@@ -3790,7 +3813,7 @@ void map::draw_lab( mapgendata &dat )
                     if( i + j > 10 && i + j < 36 && abs( i - j ) < 13 ) {
                         // Doors and walls get sometimes destroyed:
                         // 100% at the edge, usually in a central cross, occasionally elsewhere.
-                        if( ( has_flag_ter( flag_DOOR, point( i, j ) ) || has_flag_ter( flag_WALL, point( i, j ) ) ) ) {
+                        if( ( has_flag_ter( "DOOR", point( i, j ) ) || has_flag_ter( "WALL", point( i, j ) ) ) ) {
                             if( ( i == 0 || j == 0 || i == 23 || j == 23 ) ||
                                 ( !one_in( 3 ) && ( i == 11 || i == 12 || j == 11 || j == 12 ) ) ||
                                 one_in( 4 ) ) {
@@ -3803,8 +3826,8 @@ void map::draw_lab( mapgendata &dat )
                             }
                             // and then randomly destroy 5% of the remaining nonstairs.
                         } else if( one_in( 20 ) &&
-                                   !has_flag_ter( flag_GOES_DOWN, point( x, y ) ) &&
-                                   !has_flag_ter( flag_GOES_UP, point( x, y ) ) ) {
+                                   !has_flag_ter( "GOES_DOWN", point( x, y ) ) &&
+                                   !has_flag_ter( "GOES_UP", point( x, y ) ) ) {
                             destroy( { i, j, abs_sub.z } );
                             // bashed squares can create dirt & floors, but we want rock floors.
                             if( t_dirt == ter( point( i, j ) ) || t_floor == ter( point( i, j ) ) ) {
@@ -3882,7 +3905,7 @@ void map::draw_lab( mapgendata &dat )
                                                    t_strconc_floor == ter( point( i, j ) ) ||
                                                    t_thconc_floor_olight == ter( point( i, j ) ) ) ) {
                                 ter_set( point( i, j ), fluid_type );
-                            } else if( has_flag_ter( flag_DOOR, point( i, j ) ) && !one_in( 3 ) ) {
+                            } else if( has_flag_ter( "DOOR", point( i, j ) ) && !one_in( 3 ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
                                 make_rubble( { i, j, abs_sub.z } );
                                 ter_set( point( i, j ), fluid_type );
@@ -3907,7 +3930,7 @@ void map::draw_lab( mapgendata &dat )
                             if( t_thconc_floor == ter( p ) || t_strconc_floor == ter( p ) ||
                                 t_thconc_floor_olight == ter( p ) ) {
                                 ter_set( p, fluid_type );
-                            } else if( has_flag_ter( flag_DOOR, p ) ) {
+                            } else if( has_flag_ter( "DOOR", p ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
                                 make_rubble( { p, abs_sub.z } );
                                 ter_set( p, fluid_type );
@@ -3947,9 +3970,9 @@ void map::draw_lab( mapgendata &dat )
                         ARTPROP_GLOWING
                     };
                     draw_rough_circle( [this]( const point & p ) {
-                        if( has_flag_ter( flag_GOES_DOWN, p ) ||
-                            has_flag_ter( flag_GOES_UP, p ) ||
-                            has_flag_ter( flag_CONSOLE, p ) ) {
+                        if( has_flag_ter( "GOES_DOWN", p ) ||
+                            has_flag_ter( "GOES_UP", p ) ||
+                            has_flag_ter( "CONSOLE", p ) ) {
                             return; // spare stairs and consoles.
                         }
                         make_rubble( {p, abs_sub.z } );
@@ -3963,7 +3986,7 @@ void map::draw_lab( mapgendata &dat )
                 // radioactive accident.
                 case 6: {
                     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
-                    if( has_flag_ter( flag_WALL, center.xy() ) ) {
+                    if( has_flag_ter( "WALL", center.xy() ) ) {
                         // just skip it, we don't want to risk embedding radiation out of sight.
                         break;
                     }
@@ -3980,9 +4003,9 @@ void map::draw_lab( mapgendata &dat )
                         set_radiation( p, 50 );
                     }, center.xy(), 1 );
                     draw_circle( [this]( const point & p ) {
-                        if( has_flag_ter( flag_GOES_DOWN, p ) ||
-                            has_flag_ter( flag_GOES_UP, p ) ||
-                            has_flag_ter( flag_CONSOLE, p ) ) {
+                        if( has_flag_ter( "GOES_DOWN", p ) ||
+                            has_flag_ter( "GOES_UP", p ) ||
+                            has_flag_ter( "CONSOLE", p ) ) {
                             return; // spare stairs and consoles.
                         }
                         make_rubble( {p, abs_sub.z } );
@@ -4013,14 +4036,14 @@ void map::draw_lab( mapgendata &dat )
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // Create a mostly spread fungal area throughout entire lab.
-                            if( !one_in( 5 ) && ( has_flag( flag_FLAT, point( i, j ) ) ) ) {
+                            if( !one_in( 5 ) && ( has_flag( "FLAT", point( i, j ) ) ) ) {
                                 ter_set( point( i, j ), t_fungus_floor_in );
-                                if( has_flag_furn( flag_ORGANIC, point( i, j ) ) ) {
+                                if( has_flag_furn( "ORGANIC", point( i, j ) ) ) {
                                     furn_set( point( i, j ), f_fungal_clump );
                                 }
-                            } else if( has_flag_ter( flag_DOOR, point( i, j ) ) && !one_in( 5 ) ) {
+                            } else if( has_flag_ter( "DOOR", point( i, j ) ) && !one_in( 5 ) ) {
                                 ter_set( point( i, j ), t_fungus_floor_in );
-                            } else if( has_flag_ter( flag_WALL, point( i, j ) ) && one_in( 3 ) ) {
+                            } else if( has_flag_ter( "WALL", point( i, j ) ) && one_in( 3 ) ) {
                                 ter_set( point( i, j ), t_fungus_wall );
                             }
                         }
@@ -4029,12 +4052,12 @@ void map::draw_lab( mapgendata &dat )
 
                     // Make a portal surrounded by more dense fungal stuff and a fungaloid.
                     draw_rough_circle( [this]( const point & p ) {
-                        if( has_flag_ter( flag_GOES_DOWN, p ) ||
-                            has_flag_ter( flag_GOES_UP, p ) ||
-                            has_flag_ter( flag_CONSOLE, p ) ) {
+                        if( has_flag_ter( "GOES_DOWN", p ) ||
+                            has_flag_ter( "GOES_UP", p ) ||
+                            has_flag_ter( "CONSOLE", p ) ) {
                             return; // spare stairs and consoles.
                         }
-                        if( has_flag_ter( flag_WALL, p ) ) {
+                        if( has_flag_ter( "WALL", p ) ) {
                             ter_set( p, t_fungus_wall );
                         } else {
                             ter_set( p, t_fungus_floor_in );
@@ -4095,7 +4118,7 @@ void map::draw_lab( mapgendata &dat )
                 // We determine if a border isn't handled by checking the east-facing
                 // border space where the door normally is -- it should be a wall or door.
                 tripoint east_border( 23, 11, abs_sub.z );
-                if( !has_flag_ter( flag_WALL, east_border ) && !has_flag_ter( flag_DOOR, east_border ) ) {
+                if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
                     // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
                     ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
                     ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
@@ -5887,9 +5910,9 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
         auto is_valid_terrain = [this, ongrass]( int x, int y ) {
             auto &terrain = ter( point( x, y ) ).obj();
             return terrain.movecost == 0           &&
-                   !terrain.has_flag( flag_PLACE_ITEM ) &&
+                   !terrain.has_flag( "PLACE_ITEM" ) &&
                    !ongrass                                   &&
-                   !terrain.has_flag( flag_FLAT );
+                   !terrain.has_flag( "FLAT" );
         };
 
         int px = 0;
@@ -6023,7 +6046,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     std::vector<int> frame_indices = veh->all_parts_at_location( "structure" );
 
     //Check for boat type vehicles that should be placeable in deep water
-    const bool can_float = size( veh->get_avail_parts( flag_FLOATS ) ) > 2;
+    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;

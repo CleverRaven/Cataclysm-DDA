@@ -64,6 +64,13 @@
 #include "translations.h"
 #include "units.h"
 #include "cata_string_consts.h"
+#include "ranged.h"
+
+static const activity_id ACT_READ( "ACT_READ" );
+
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_memory( "bio_memory" );
+static const bionic_id bio_watch( "bio_watch" );
 
 class JsonIn;
 class JsonOut;
@@ -1354,7 +1361,7 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
 
 faction *avatar::get_faction() const
 {
-    return g->faction_manager_ptr->get( faction_your_followers );
+    return g->faction_manager_ptr->get( faction_id( "your_followers" ) );
 }
 
 void avatar::set_movement_mode( character_movemode new_mode )
@@ -1569,6 +1576,20 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
 bool avatar::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
+}
+
+targeting_data &avatar::get_targeting_data()
+{
+    if( tdata == nullptr ) {
+        debugmsg( "Tried to get targeting data before setting it" );
+        tdata.reset( new targeting_data() );
+    }
+    return *tdata;
+}
+
+void avatar::set_targeting_data( const targeting_data &td )
+{
+    tdata.reset( new targeting_data( td ) );
 }
 
 points_left::points_left()

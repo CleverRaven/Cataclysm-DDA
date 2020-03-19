@@ -82,6 +82,7 @@
       [ "manual_smg", 20 ],
       [ "manual_stabbing", 40 ],
       [ "manual_swimming", 30 ],
+      [ "manual_traps_mil", 30 ],
       [ "pocket_firearms", 10 ],
       [ "textbook_firstaid", 30 ]
     ]

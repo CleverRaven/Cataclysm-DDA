@@ -10,7 +10,6 @@
 #include "enums.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 TEST_CASE( "detaching_vehicle_unboards_passengers" )
 {
@@ -56,7 +55,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part" )
     REQUIRE( veh_ptr != nullptr );
 
     const tripoint pos = vehicle_origin + tripoint_west;
-    auto cargo_parts = veh_ptr->get_parts_at( pos, flag_CARGO, part_status_flag::any );
+    auto cargo_parts = veh_ptr->get_parts_at( pos, "CARGO", part_status_flag::any );
     REQUIRE( !cargo_parts.empty( ) );
     vehicle_part *cargo_part = cargo_parts.front();
     REQUIRE( cargo_part != nullptr );

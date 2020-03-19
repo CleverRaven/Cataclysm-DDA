@@ -31,6 +31,12 @@
 #include "optional.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_unarmed( "unarmed" );
+
+static const bionic_id bio_armor_arms( "bio_armor_arms" );
+static const bionic_id bio_armor_legs( "bio_armor_legs" );
+static const bionic_id bio_cqb( "bio_cqb" );
+
 namespace
 {
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
@@ -399,7 +405,7 @@ void finialize_martial_arts()
     }
 }
 
-std::string martialart_difficulty( matype_id mstyle )
+std::string martialart_difficulty( const matype_id &mstyle )
 {
     std::string diff;
     if( mstyle->learn_difficulty <= 2 ) {
@@ -834,7 +840,7 @@ bool martialart::weapon_valid( const item &it ) const
         return true;
     }
 
-    if( !strictly_unarmed && !strictly_melee && !it.is_null() && it.has_flag( flag_UNARMED_WEAPON ) ) {
+    if( !strictly_unarmed && !strictly_melee && !it.is_null() && it.has_flag( "UNARMED_WEAPON" ) ) {
         return true;
     }
 

@@ -1294,9 +1294,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                              formatted_text( text, catacurses::red, NORTH ) );
                 }
             }
-            if( !p.invisible[0] ) {
-                g->m.check_and_set_seen_cache( p.pos );
-            }
         }
     }
     // tile overrides are already drawn in the previous code
@@ -2600,7 +2597,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             g->u.memorize_tile( g->m.getabs( p ), vpname, subtile, rotation );
         }
         if( !overridden ) {
-            const cata::optional<vpart_reference> cargopart = vp.part_with_feature( flag_CARGO, true );
+            const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
             const bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
             const bool ret = draw_from_id_string( vpname, C_VEHICLE_PART, empty_string, p, subtile, rotation,
                                                   ll, nv_goggles_activated, height_3d );

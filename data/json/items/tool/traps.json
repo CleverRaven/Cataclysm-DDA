@@ -2,7 +2,7 @@
   {
     "id": "beartrap",
     "type": "TOOL",
-    "name": "bear trap",
+    "name": { "str": "bear trap" },
     "description": "This is a spring-loaded pair of steel jaws connected to a sensitive pressure plate.  Use it to set it on the ground, creating a trap that will ensnare and damage anything that steps on it.  If you are carrying a shovel, you will have the option of burying it.",
     "weight": "14000 g",
     "volume": "1500 ml",
@@ -27,7 +27,7 @@
   {
     "id": "blade_trap",
     "type": "TOOL",
-    "name": "blade trap",
+    "name": { "str": "blade trap" },
     "description": "This is a machete attached laterally to a motor, with a tripwire controlling its throttle.  When the tripwire is pulled, the blade is swung around with great force.  The trap forms a 3x3 area of effect.",
     "weight": "2381 g",
     "volume": "4500 ml",
@@ -50,7 +50,7 @@
   {
     "id": "board_trap",
     "type": "TOOL",
-    "name": "nailboard trap",
+    "name": { "str": "nailboard trap" },
     "description": "These are several pieces of wood nailed together, with some nails sticking straight up.  If an unsuspecting victim steps on it, they'll get nails through the foot.",
     "weight": "2041 g",
     "volume": "1500 ml",
@@ -73,7 +73,7 @@
   {
     "id": "boobytrap",
     "type": "TOOL",
-    "name": "booby trap",
+    "name": { "str": "booby trap" },
     "description": "This is a crude explosive device triggered by a piece of string.  Use it to set up and watch some poor bastard trigger it.",
     "weight": "586 g",
     "volume": "750 ml",
@@ -93,7 +93,7 @@
   {
     "id": "bubblewrap",
     "type": "TOOL",
-    "name": "bubble wrap",
+    "name": { "str": "bubble wrap" },
     "description": "This is a sheet of plastic covered with air-filled bubbles.  Use it to set it on the ground, creating a trap that will warn you with noise when something steps on it.",
     "weight": "6 g",
     "volume": "250 ml",
@@ -156,7 +156,7 @@
   {
     "id": "crossbow_trap",
     "type": "TOOL",
-    "name": "crossbow trap",
+    "name": { "str": "crossbow trap" },
     "description": "This is a simple tripwire, which is attached to the trigger of a loaded crossbow.  When pulled, the crossbow fires.  Only a single round can be used, after which the trap is disabled.",
     "weight": "1772 g",
     "volume": "1750 ml",
@@ -177,7 +177,7 @@
   {
     "id": "landmine",
     "type": "TOOL",
-    "name": "land mine",
+    "name": { "str": "land mine" },
     "description": "This is a military anti-personnel mine that is triggered when stepped upon.",
     "weight": "2360 g",
     "volume": "500 ml",
@@ -200,7 +200,7 @@
   {
     "id": "shotgun_trap",
     "type": "TOOL",
-    "name": "shotgun trap",
+    "name": { "str": "shotgun trap" },
     "description": "This is a simple tripwire is attached to the trigger of a loaded double-barreled shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
     "weight": "2922 g",
     "volume": "1750 ml",
@@ -221,7 +221,7 @@
   {
     "id": "tripwire",
     "type": "TOOL",
-    "name": "tripwire trap",
+    "name": { "str": "tripwire trap" },
     "description": "This is some thin strong cable with some affixing tools on either end.  A tripwire trap must be placed across a doorway or other thin passage.  Its purpose is to trip up bypassers, causing them to stumble and possibly hurt themselves slightly.",
     "weight": "40 g",
     "volume": "250 ml",

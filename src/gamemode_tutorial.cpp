@@ -33,6 +33,11 @@
 #include "weather.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_melee( "melee" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
+
 static std::vector<translation> tut_text;
 
 bool tutorial_game::init()

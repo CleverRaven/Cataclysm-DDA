@@ -3,7 +3,7 @@
     "type": "AMMO",
     "id": "barb_paralysis",
     "price": 400,
-    "name": "paralyzing barb",
+    "name": { "str": "paralyzing barb" },
     "symbol": "=",
     "color": "green",
     "description": "Tiny droplets of venom trickle out of the sponge-like tissue of this sharp barb.",

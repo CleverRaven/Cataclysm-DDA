@@ -122,9 +122,11 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     // We don't expect any destroyed parts.
     REQUIRE( before_hp.size() == after_hp.size() );
     for( size_t i = 0; i < before_hp.size(); ++i ) {
+        CAPTURE( i );
         INFO( target_vehicle->parts[ i ].name() );
-        if( target_vehicle->parts[ i ].info().get_id() == "windshield" ||
-            target_vehicle->parts[ i ].info().get_id() == "headlight" ) {
+        if( target_vehicle->parts[ i ].info().get_id() == "battery_car" ||
+            target_vehicle->parts[ i ].info().get_id() == "headlight" ||
+            target_vehicle->parts[ i ].info().get_id() == "windshield" ) {
             CHECK( before_hp[ i ] >= after_hp[ i ] );
         } else if( !( target_vehicle->parts[ i ].info().get_id() == "vehicle_clock" ) ) {
             CHECK( before_hp[ i ] == after_hp[ i ] );
