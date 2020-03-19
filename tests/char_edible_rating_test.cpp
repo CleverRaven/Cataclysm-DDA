@@ -388,6 +388,41 @@ TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][prob
     }
 }
 
+TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
+{
+    avatar dummy;
+    item toastem( "toastem" );
+    const efftype_id effect_nausea( "nausea" );
+
+    GIVEN( "character has nausea" ) {
+        dummy.add_effect( effect_nausea, 10_minutes );
+        REQUIRE( dummy.has_effect( effect_nausea ) );
+
+        THEN( "they can eat food, but it nauseates them" ) {
+            expect_can_eat( dummy, toastem );
+            expect_will_eat( dummy, toastem, "You still feel nauseous and will probably puke it all up again.",
+                             NAUSEA );
+        }
+    }
+}
+
+TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
+{
+    avatar dummy;
+    item fruit( "apple" );
+    REQUIRE( fruit.has_flag( "ALLERGEN_FRUIT" ) );
+
+    GIVEN( "character hates fruit" ) {
+        dummy.toggle_trait( trait_id( "ANTIFRUIT" ) );
+        REQUIRE( dummy.has_trait( trait_id( "ANTIFRUIT" ) ) );
+
+        THEN( "they can eat fruit, but won't like it" ) {
+            expect_can_eat( dummy, fruit );
+            expect_will_eat( dummy, fruit, "Your stomach won't be happy (allergy).", ALLERGY );
+        }
+    }
+}
+
 TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
 {
     avatar dummy;
@@ -464,41 +499,6 @@ TEST_CASE( "who will eat human flesh", "[will_eat][edible_rating][cannibal]" )
                 expect_can_eat( dummy, flesh );
                 expect_will_eat( dummy, flesh, "", EDIBLE );
             }
-        }
-    }
-}
-
-TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
-{
-    avatar dummy;
-    item toastem( "toastem" );
-    const efftype_id effect_nausea( "nausea" );
-
-    GIVEN( "character has nausea" ) {
-        dummy.add_effect( effect_nausea, 10_minutes );
-        REQUIRE( dummy.has_effect( effect_nausea ) );
-
-        THEN( "they can eat food, but it nauseates them" ) {
-            expect_can_eat( dummy, toastem );
-            expect_will_eat( dummy, toastem, "You still feel nauseous and will probably puke it all up again.",
-                             NAUSEA );
-        }
-    }
-}
-
-TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
-{
-    avatar dummy;
-    item fruit( "apple" );
-    REQUIRE( fruit.has_flag( "ALLERGEN_FRUIT" ) );
-
-    GIVEN( "character hates fruit" ) {
-        dummy.toggle_trait( trait_id( "ANTIFRUIT" ) );
-        REQUIRE( dummy.has_trait( trait_id( "ANTIFRUIT" ) ) );
-
-        THEN( "they can eat fruit, but won't like it" ) {
-            expect_can_eat( dummy, fruit );
-            expect_will_eat( dummy, fruit, "Your stomach won't be happy (allergy).", ALLERGY );
         }
     }
 }
