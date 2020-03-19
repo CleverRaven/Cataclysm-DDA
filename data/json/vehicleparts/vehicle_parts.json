@@ -3587,7 +3587,7 @@
   {
     "type": "vehicle_part",
     "id": "controls_turret",
-    "name": "turret control unit",
+    "name": { "str": "turret control unit" },
     "symbol": "$",
     "color": "yellow",
     "broken_symbol": "$",
