@@ -86,7 +86,7 @@
   {
     "type": "GENERIC",
     "id": "afs_titanium_frame",
-    "name": { "str": "ultralight frame" },
+    "name": "ultralight frame",
     "description": "A sturdy, lightweight frame made from titanium.  Useful for crafting.",
     "weight": "1 kg",
     "to_hit": -3,
