@@ -2806,9 +2806,24 @@ void overmap::place_river( point pa, point pb, int river_scale )
             center_points.push_back( p );
             // create branches
             // TODO: Retain river_scale for the river node and allow branches to extend overmaps.
-            if( inbounds( p, 25 ) && i + 4 < ( sub_ends.size() - 1 ) && one_in( 125 ) ) {
-                place_river( p, sub_ends.at( rng( i, sub_ends.size() - 1 ) ), river_scale - 1.0 );
+            if( inbounds( p, river_scale + 1 ) && one_in( 100 ) ) {
+                point ep;
+
+                if( one_in( 4 ) && i + 4 < ( sub_ends.size() - 1 ) ) {
+                    ep = sub_ends.at( rng( i, sub_ends.size() - 1 ) );
+                } else {
+                    const int rad = 64;
+                    int x1 = rng( p.x - rad, p.x + rad );
+                    int y1 = rng( p.y - rad, p.y + rad );
+
+                    ep = { x1, y1 };
+                }
+
+                if( inbounds( ep ) ) {
+                    place_river( p, ep, river_scale - 1.0 );
+                }
             }
+
 
             if( pb.x > x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < pb.x - x ||
                               ( rng( 0, int( OMAPX * .2 ) - 1 ) > pb.x - x &&
@@ -2870,6 +2885,27 @@ void overmap::place_river( point pa, point pb, int river_scale )
                         ter_set( pt, river_center );
                     }
                 }
+            }
+
+        }
+    }
+
+    // Pack out the end of river to create small lakes
+    const int end_scale = river_scale * 2;
+    if( inbounds( last, end_scale + 1 ) ) {
+        for( int i = -1 * end_scale; i <= 1 * end_scale; i++ ) {
+            for( int j = -1 * end_scale; j <= 1 * end_scale; j++ ) {
+
+                for( int k = 0; k < 10; k++ ) {
+                    int x1, y1;
+                    x1 = rng( -1, 1 );
+                    y1 = rng( -1, 1 );
+                    tripoint pt2 = { last.x + j + x1, last.y + i + y1, 0 };
+                    ter_set( pt2, river_center );
+                }
+
+                tripoint pt1 = { last.x + j, last.y + i, 0 };
+                ter_set( pt1, river_center );
             }
         }
     }
