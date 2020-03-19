@@ -121,7 +121,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     int fallen_count = 0;
     int into_vehicle_count = 0;
 
-    // cant use constant reference here because of the spill_contents()
+    // can't use constant reference here because of the spill_contents()
     for( auto it : items ) {
         if( Pickup::handle_spillable_contents( c, it, g->m ) ) {
             continue;
@@ -928,7 +928,7 @@ static void vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
     }
     int time_to_take = 0;
     if( vpindex >= static_cast<int>( veh->parts.size() ) ) {
-        // if parts got removed during our work, we cant just carry on removing, we want to repair parts!
+        // if parts got removed during our work, we can't just carry on removing, we want to repair parts!
         // so just bail out, as we don't know if the next shifted part is suitable for repair.
         if( type == 'r' ) {
             return;
@@ -1098,7 +1098,7 @@ static activity_reason_info find_base_construction(
         return activity_reason_info::build( BLOCKING_TILE, false, idx );
     }
 
-    // cant build it
+    // can't build it
     // maybe we can build the pre-requisite instead
     // see if the reason is because of pre-terrain requirement
     if( !build.pre_terrain.empty() &&
@@ -1565,7 +1565,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 }
 
             } else {
-                // cant plant, till or harvest
+                // can't plant, till or harvest
                 return activity_reason_info::fail( ALREADY_DONE );
             }
 
@@ -2441,11 +2441,11 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
         bool found_route = true;
         for( const tripoint &elem : g->m.points_in_radius( localpos,
                 ACTIVITY_SEARCH_DISTANCE ) ) {
-            // Theres no point getting the entire list of all items to tidy up now.
+            // There's no point getting the entire list of all items to tidy up now.
             // the activity will run again after pathing to the first tile anyway.
             // tidy up activity has no requirements that will discount a square and
             // have the requirement to skip and scan the next one, ( other than checking path )
-            // shortcircuiting the need to scan the entire map contionously can improve performance
+            // shortcircuiting the need to scan the entire map continuously can improve performance
             // especially if NPCs have a backlog of moves or there is a lot of them
             if( !found_route ) {
                 found_route = true;

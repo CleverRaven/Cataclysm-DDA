@@ -185,7 +185,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
             AND_WHEN( "he gets rid of the book" ) {
                 dummy.i_rem( &craftbook );
 
-                THEN( "he cant brew the recipe anymore" ) {
+                THEN( "he can't brew the recipe anymore" ) {
                     CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( r ) );
                 }
             }
@@ -212,7 +212,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
             AND_WHEN( "he gets rid of the tablet" ) {
                 dummy.i_rem( &eink );
 
-                THEN( "he cant make the recipe anymore" ) {
+                THEN( "he can't make the recipe anymore" ) {
                     CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( r2 ) );
                 }
             }

@@ -1901,7 +1901,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
     // We look at each of the structure parts (mount points, i.e. frames) for the
     // carry vehicle and then find a rack part adjacent to it. If we don't find a rack part,
-    // then we cant merge.
+    // then we can't merge.
     bool found_all_parts = true;
     for( auto carry_part : carry_veh_structs ) {
 
@@ -2935,9 +2935,9 @@ int vehicle::get_next_shifted_index( int original_index, player &p )
         }
     }
     if( !found_shifted_index ) {
-        // we are probably down to a few parts left, and things get messy here, so an alternative index maybe cant be found
-        // if loads of npcs are all removign parts at the same time.
-        // if thats the case, just bail out and give up, somebody else is probably doing the job right now anyway.
+        // we are probably down to a few parts left, and things get messy here, so an alternative index maybe can't be found
+        // if loads of npcs are all removing parts at the same time.
+        // if that's the case, just bail out and give up, somebody else is probably doing the job right now anyway.
         return -1;
     } else {
         return ret_index;

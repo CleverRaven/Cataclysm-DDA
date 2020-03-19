@@ -203,10 +203,10 @@ void talk_function::find_mount( npc &p )
     // first find one nearby
     for( monster &critter : g->all_monsters() ) {
         if( p.can_mount( critter ) ) {
-            // keep the horse still for some time, so that NPC can catch up to it nad mount it.
+            // keep the horse still for some time, so that NPC can catch up to it and mount it.
             p.assign_activity( ACT_FIND_MOUNT );
             p.chosen_mount = g->shared_from( critter );
-            // we found one, thats all we need.
+            // we found one, that's all we need.
             return;
         }
     }

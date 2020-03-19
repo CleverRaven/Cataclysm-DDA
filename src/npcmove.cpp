@@ -969,7 +969,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_drop_items:
-            /* NPCs cant choose this action anymore, but at least it works */
+            /* NPCs can't choose this action anymore, but at least it works */
             drop_invalid_inventory();
             /* drop_items is still broken
              * drop_items( weight_carried() - weight_capacity(),
@@ -4004,7 +4004,7 @@ void npc::go_to_omt_destination()
         return;
     }
     if( !path.empty() ) {
-        // we already have a path, just use that until we cant.
+        // we already have a path, just use that until we can't.
         move_to_next();
         return;
     }

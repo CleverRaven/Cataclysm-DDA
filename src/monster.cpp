@@ -1598,7 +1598,7 @@ bool monster::move_effects( bool )
             return false;
         }
         // non-friendly monster will struggle to get free occasionally.
-        // some monsters cant be tangled up with a net/bolas/lassoo etc.
+        // some monsters can't be tangled up with a net/bolas/lasso etc.
         bool immediate_break = type->in_species( FISH ) || type->in_species( MOLLUSK ) ||
                                type->in_species( ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
         if( !immediate_break && rng( 0, 900 ) > type->melee_dice * type->melee_sides * 1.5 ) {

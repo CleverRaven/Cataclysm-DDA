@@ -4919,7 +4919,7 @@ bool mattack::tindalos_teleport( monster *z )
                 }
             }
         }
-        // couldnt teleport without losing sight of target
+        // couldn't teleport without losing sight of target
         z->setpos( oldpos );
         return true;
     }

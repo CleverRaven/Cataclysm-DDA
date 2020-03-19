@@ -4965,7 +4965,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     }
     const tripoint kbp( kbx, kby, p.z );
     if( kbp == p ) {
-        // cant pushback any creatures anywhere, that means the door cant close.
+        // can't pushback any creatures anywhere, that means the door can't close.
         return false;
     }
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
@@ -10106,7 +10106,7 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() ) {
         const tripoint to = u.pos();
         for( monster &critter : all_monsters() ) {
-            // if its a ladder instead of stairs - most zombies cant climb that.
+            // if its a ladder instead of stairs - most zombies can't climb that.
             // unless that have a special flag to allow them to do so.
             if( ( m.has_flag( "DIFFICULT_Z", u.pos() ) && !critter.climbs() ) ||
                 critter.has_effect( effect_ridden ) ||
