@@ -909,7 +909,7 @@
   {
     "type": "vehicle_part",
     "id": "storage_battery_mount",
-    "name": "swappable storage battery case",
+    "name": { "str": "swappable storage battery case" },
     "symbol": "O",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -2425,7 +2425,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_superalloy",
-    "name": "superalloy plating",
+    "name": { "str": "superalloy plating" },
     "symbol": ")",
     "color": "dark_gray",
     "broken_symbol": ")",
