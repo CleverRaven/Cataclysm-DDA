@@ -115,8 +115,7 @@
   {
     "id": "ice_gliders",
     "type": "ARMOR",
-    "name": "pair of slick icy coatings on your feet",
-    "name_plural": "slick icy coatings",
+    "name": { "str": "pair of slick icy coatings on your feet", "str_pl": "slick icy coatings" },
     "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
     "weight": "1 g",
     "volume": "250 ml",
