@@ -74,6 +74,11 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
+
 static const itype_id fuel_type_animal( "animal" );
 
 static const zone_type_id zone_type_npc_investigate_only( "NPC_INVESTIGATE_ONLY" );

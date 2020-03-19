@@ -39,6 +39,8 @@
 #include <functional>
 #include <algorithm>
 
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+
 const vitamin_id vitamin_iron( "iron" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );

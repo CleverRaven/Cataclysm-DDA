@@ -75,6 +75,8 @@
 #include "weather.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+
 static const zone_type_id zone_type_camp_food( "CAMP_FOOD" );
 static const zone_type_id zone_type_camp_storage( "CAMP_STORAGE" );
 

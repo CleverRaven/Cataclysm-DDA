@@ -66,6 +66,8 @@
 #include "cata_string_consts.h"
 #include "ranged.h"
 
+static const activity_id ACT_READ( "ACT_READ" );
+
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_watch( "bio_watch" );

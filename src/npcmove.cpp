@@ -63,6 +63,8 @@
 #include "stomach.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_PULP( "ACT_PULP" );
+
 static const ammotype ammo_reactor_slurry( "reactor_slurry" );
 static const ammotype ammo_plutonium( "plutonium" );
 
