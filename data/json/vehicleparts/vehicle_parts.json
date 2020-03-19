@@ -236,7 +236,7 @@
   {
     "type": "vehicle_part",
     "id": "tracker",
-    "name": "tracking device",
+    "name": { "str": "tracking device" },
     "symbol": "*",
     "color": "red",
     "broken_symbol": "#",

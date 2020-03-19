@@ -412,7 +412,7 @@
   {
     "id": "wheel_tricycle",
     "type": "vehicle_part",
-    "name": "tricycle wheels",
+    "name": { "str": "tricycle wheels" },
     "item": "wheel_tricycle",
     "location": "under",
     "symbol": "|",

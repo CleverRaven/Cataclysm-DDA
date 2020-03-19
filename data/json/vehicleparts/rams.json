@@ -18,7 +18,7 @@
     "id": "ram_alloy",
     "copy-from": "ram_blaze",
     "type": "vehicle_part",
-    "name": "superalloy ram",
+    "name": { "str": "superalloy ram" },
     "item": "alloy_plate",
     "color": "dark_gray",
     "broken_color": "dark_gray",
