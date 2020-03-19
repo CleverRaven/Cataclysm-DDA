@@ -13,7 +13,7 @@ static void expect_can_eat( avatar &dummy, item &food )
 {
     auto rate_can = dummy.can_eat( food );
     CHECK( rate_can.success() );
-    CHECK( rate_can.str() == "" );
+    CHECK( rate_can.str().empty() );
     CHECK( rate_can.value() == EDIBLE );
 }
 
@@ -454,7 +454,7 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
 
                 auto conseq = dummy.will_eat( toastem_rotten, false );
                 CHECK( conseq.value() == EDIBLE );
-                CHECK( conseq.str() == "" );
+                CHECK( conseq.str().empty() );
             }
         }
 
