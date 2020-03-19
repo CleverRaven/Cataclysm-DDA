@@ -240,54 +240,63 @@
   },
   {
     "id": "mon_cat_longhair",
+    "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "longhair cat",
     "description": "This cat's long fur appears difficult to groom, but the cat seems to manage it despite the environmental conditions."
   },
   {
     "id": "mon_cat_maine_coon",
+    "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Maine coon cat",
     "description": "Impressively large for a domestic cat, this thick-haired breed was once native to the state of Maine."
   },
   {
     "id": "mon_cat_siamese",
+    "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Siamese cat",
     "description": "This cat has the distinctive dark extremeties of a Siamese, first native to Asia but a common domestic breed in North America."
   },
   {
     "id": "mon_cat_persian",
+    "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Persian cat",
     "description": "The short nose and rounded face of this cat suggest it comes from the popular Persian breed."
   },
   {
     "id": "mon_cat_bengal",
+    "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Bengal cat",
     "description": "Looking like a spotted wild cat, the Bengal breed derives from the Asian leopard cat and Egyptian Mau."
   },
   {
     "id": "mon_cat_devon_rex",
+    "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Devon Rex cat",
     "description": "An unusual-looking cat with strikingly large eyes and ears, sporting a soft curly coat of fur."
   },
   {
     "id": "mon_cat_sphynx",
+    "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Sphynx cat",
     "description": "The Sphynx cat has practically no fur on its body, exposing its curiously wrinkled skin."
   },
   {
     "id": "mon_cat_tabby",
+    "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "tabby cat",
     "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings must provide excellent camouflage."
   },
   {
     "id": "mon_cat_calico",
+    "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "calico cat",
     "description": "Partly white with patches of orange and black, the calico coloring tells you this cat is probably female.  The Calico was the Maryland State cat (back when there were still states)."
