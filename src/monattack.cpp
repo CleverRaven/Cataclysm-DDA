@@ -1373,8 +1373,8 @@ bool mattack::grow_vine( monster *z )
         }
     }
     z->moves -= 100;
-    // Attempt to fill all 8 surrounding tiles.
-    for( int i = 0; i < 8; ++i ) {
+    // Attempt to fill up to 8 surrounding tiles.
+    for( int i = 0; i < rng( 1, 8 ); ++i ) {
         if( monster *const vine = g->place_critter_around( mon_creeper_vine, z->pos(), 1 ) ) {
             vine->make_ally( *z );
             // Store position of parent hub in vine goal point.

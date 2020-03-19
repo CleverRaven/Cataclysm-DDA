@@ -105,6 +105,10 @@ std::string vehicle_part::name( bool with_prefix ) const
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
     }
 
+    if( is_leaking() ) {
+        res += _( " (draining)" );
+    }
+
     if( with_prefix ) {
         res.insert( 0, colorize( base.damage_symbol(), base.damage_color() ) + " " );
     }
@@ -479,6 +483,11 @@ bool vehicle_part::is_battery() const
 bool vehicle_part::is_reactor() const
 {
     return info().has_flag( VPFLAG_REACTOR );
+}
+
+bool vehicle_part::is_leaking() const
+{
+    return  health_percent() <= 0.5 && ( is_tank() || is_battery() || is_reactor() );
 }
 
 bool vehicle_part::is_turret() const

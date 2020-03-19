@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_survivor",
     "type": "MONSTER",
-    "name": "survivor zombie",
+    "name": { "str": "survivor zombie" },
     "description": "Still wearing the tattered remnants of improvised armor and weaponry, it is plain to see that this zombie was once a survivor like you.",
     "default_faction": "zombie",
     "bodytype": "human",

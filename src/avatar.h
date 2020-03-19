@@ -27,6 +27,7 @@ class mission_debug;
 }  // namespace debug_menu
 struct points_left;
 struct mtype;
+struct targeting_data;
 
 // Monster visible in different directions (safe mode & compass)
 struct monster_visible_info {
@@ -246,6 +247,16 @@ class avatar : public player
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
+
+        /** Targeting data used for aiming the player's weapon across turns. */
+        shared_ptr_fast<targeting_data> tdata;
+
+    public:
+        /** Accessor method for weapon targeting data. */
+        targeting_data &get_targeting_data();
+
+        /** Mutator method for weapon targeting data. */
+        void set_targeting_data( const targeting_data &td );
 };
 
 struct points_left {

@@ -184,7 +184,7 @@
     "id": "mon_cat_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "kitten",
+    "name": { "str": "kitten" },
     "description": "A cuddly kitten meowing and scampering amidst the death.  Currently feral.",
     "default_faction": "cat",
     "bodytype": "dog",
@@ -209,7 +209,7 @@
   {
     "id": "mon_cat",
     "type": "MONSTER",
-    "name": "cat",
+    "name": { "str": "cat" },
     "description": "A small domesticated predator gone feral in the absence of human stewardship.  Harried by the elements and the rigors of survival, it is scruffy and skittish.",
     "default_faction": "cat",
     "bodytype": "dog",
@@ -295,7 +295,7 @@
   {
     "id": "mon_chipmunk",
     "type": "MONSTER",
-    "name": "chipmunk",
+    "name": { "str": "chipmunk" },
     "description": "The eastern chipmunk, a tiny omnivorous rodent with a characteristic striped coat.  It spends much of the day patrolling its elaborate burrow and the precious stores of foraged food within.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -323,7 +323,7 @@
   {
     "id": "mon_cougar",
     "type": "MONSTER",
-    "name": "cougar",
+    "name": { "str": "cougar" },
     "description": "The Eastern cougar, a large feline predator.  Once thought extinct in this region, conservation efforts were successful in restoring a thriving population.  Fast and silent, this predator can cover long distances with powerful leaps and pounces, catching its prey with its deadly claws before delivering the finishing blow with its enormous fangs.",
     "default_faction": "big_cat",
     "bodytype": "dog",
@@ -399,12 +399,12 @@
     "upgrades": { "age_grow": 180, "into": "mon_cow" },
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW" ]
   },
   {
     "id": "mon_cow",
     "type": "MONSTER",
-    "name": "cow",
+    "name": { "str": "cow" },
     "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.",
     "default_faction": "herbivore",
     "bodytype": "dog",
@@ -453,7 +453,7 @@
   {
     "id": "mon_coyote",
     "type": "MONSTER",
-    "name": "coyote",
+    "name": { "str": "coyote" },
     "description": "The Eastern coyote, also called the tweed wolf, is a territorial canine descended from the offspring of gray wolves and true coyotes.  It is intimidated by humans and other predators, but it will still fight if threatened, and the Cataclysm has made it more fearless than usual.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -485,7 +485,7 @@
   {
     "id": "mon_coyote_wolf",
     "type": "MONSTER",
-    "name": "coyote",
+    "name": { "str": "coyote" },
     "description": "The Northeastern coyote, a widespread canine pack hunter.  More timid than a wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker prey, but is typically timid around humans.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -517,7 +517,7 @@
   {
     "id": "mon_deer_fawn",
     "type": "MONSTER",
-    "name": "fawn",
+    "name": { "str": "fawn" },
     "description": "A juvenile northern woodland white-tailed deer, a quick and strong grazing animal.  Favored prey of coyotes, wolves, and giant spider mutants.",
     "default_faction": "herbivore",
     "bodytype": "horse",
@@ -549,7 +549,7 @@
   {
     "id": "mon_deer",
     "type": "MONSTER",
-    "name": "deer",
+    "name": { "str": "deer" },
     "description": "The northern woodland white-tailed deer, a quick and strong grazing animal.  Favored prey of coyotes, wolves, and giant spider mutants.",
     "default_faction": "herbivore",
     "bodytype": "horse",
@@ -1040,7 +1040,7 @@
     "id": "mon_dog_dachshund",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": "dachshund",
+    "name": { "str": "dachshund" },
     "description": "A wiener dog!  This awkward looking dog can be a useful watchdog, plus it looks adorable as it bumbles around.  Its tiny size also makes it hard to shoot (you monster).",
     "hp": 10,
     "weight": "10 kg",
@@ -1224,7 +1224,7 @@
     "id": "mon_dog_rottweiler",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": "rottweiler",
+    "name": { "str": "rottweiler" },
     "//": "Rare, location specific only",
     "description": "A terrifying breed to face feral, Rottweilers are descended from Roman legion mastiffs.  It's robust, vicious, and quite capable of mauling a human to death.",
     "volume": "50000 ml",
@@ -1291,7 +1291,7 @@
     "id": "mon_dog_auscattle",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": "cattle dog",
+    "name": { "str": "cattle dog" },
     "description": "An agile and sturdy breed that is welcome on any farm, the Australian cattle dog is adept at leaping fences and herding livestock.",
     "hp": 20,
     "weight": "18 kg",
@@ -1417,7 +1417,7 @@
   {
     "id": "mon_groundhog",
     "type": "MONSTER",
-    "name": "groundhog",
+    "name": { "str": "groundhog" },
     "description": "Also known as the woodchuck, this ground squirrel has no actual talent for chucking wood.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1444,7 +1444,7 @@
   {
     "id": "mon_hare",
     "type": "MONSTER",
-    "name": "jackrabbit",
+    "name": { "str": "jackrabbit" },
     "description": "The snowshoe hare, a small grass-eater with a brown fur coat that changes to white in the wintertime.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1469,7 +1469,7 @@
   {
     "id": "mon_horse",
     "type": "MONSTER",
-    "name": "horse",
+    "name": { "str": "horse" },
     "description": "A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-looking muscles.",
     "default_faction": "herbivore",
     "bodytype": "horse",
@@ -1511,7 +1511,7 @@
   {
     "id": "mon_lemming",
     "type": "MONSTER",
-    "name": "lemming",
+    "name": { "str": "lemming" },
     "description": "The Northern bog lemming, a small, predominantly vegetarian rodent that spends its life in the murk of swamps and other wetlands.  Contrary to popular belief, these creatures are not particularly hapless or suicidal, but they can eat themselves into scarcity within a few generations.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1537,7 +1537,7 @@
   {
     "id": "mon_mink",
     "type": "MONSTER",
-    "name": "mink",
+    "name": { "str": "mink" },
     "description": "The American mink, a partially aquatic weasel, once factory-farmed for its fur.  It is a capable fisher, but the presence of otters in these parts makes it rely more on food from the land.",
     "default_faction": "small_animal",
     "bodytype": "dog",
@@ -1603,7 +1603,7 @@
   {
     "id": "mon_muskrat",
     "type": "MONSTER",
-    "name": "muskrat",
+    "name": { "str": "muskrat" },
     "description": "A large omnivorous rodent with a thick furry pelt, found in wetlands across the northern hemisphere.  It marks its territory with a musky odor for which it is named.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1631,7 +1631,7 @@
   {
     "id": "mon_nakedmolerat_giant",
     "type": "MONSTER",
-    "name": "gigantic naked mole-rat",
+    "name": { "str": "gigantic naked mole-rat" },
     "description": "A huge, rumbling mutated mass of wrinkly, nearly translucent skin that has been toughened by constant tunneling.  Its hide is riddled with giant scabs, as a pair of incisors the size of an industrial excavator's buckets gnash constantly and several car-length whiskers twitch in the air.  It regularly makes high-pitched chirps as it roams around.",
     "default_faction": "molerat",
     "bodytype": "pig",
@@ -1669,7 +1669,7 @@
   {
     "id": "mon_opossum",
     "type": "MONSTER",
-    "name": "opossum",
+    "name": { "str": "opossum" },
     "description": "The Virginia opossum, a small omnivorous marsupial native to North America.  About the size of a cat, it is hardy and adaptive, and a fairly common sight in urban areas.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1698,7 +1698,7 @@
   {
     "id": "mon_otter",
     "type": "MONSTER",
-    "name": "otter",
+    "name": { "str": "otter" },
     "description": "The North American river otter is a shy water dwelling relative of the weasel, living in large families along the banks of streams.  It is an excellent fisher and a resourceful survivor, using the abandoned dens of beavers and other animals to raise its own young.",
     "default_faction": "otter",
     "bodytype": "pig",
@@ -1725,7 +1725,7 @@
   {
     "id": "mon_pig_piglet",
     "type": "MONSTER",
-    "name": "piglet",
+    "name": { "str": "piglet" },
     "description": "A domesticated omnivore descended from the wild boar, intelligent and inquisitive.  Left to its own devices, it has gone feral.  Unlike the fully grown version it can be tamed.",
     "default_faction": "pig",
     "bodytype": "pig",
@@ -1770,7 +1770,7 @@
   {
     "id": "mon_pig",
     "type": "MONSTER",
-    "name": "pig",
+    "name": { "str": "pig" },
     "description": "A domesticated omnivore descended from the wild boar, intelligent and inquisitive.  Left to its own devices, it has gone feral.",
     "default_faction": "pig",
     "bodytype": "pig",
@@ -1806,7 +1806,7 @@
   {
     "id": "mon_rabbit",
     "type": "MONSTER",
-    "name": "rabbit",
+    "name": { "str": "rabbit" },
     "description": "A small mammal with a cute wiggling nose, cotton tail, and made of delicious flesh.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1832,7 +1832,7 @@
   {
     "id": "mon_raccoon",
     "type": "MONSTER",
-    "name": "raccoon",
+    "name": { "str": "raccoon" },
     "description": "A small mammal native to North America, distinctive for its dexterous paws and facial markings.  It is resourceful and agile enough to open sealed containers with its paws.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -1861,7 +1861,7 @@
   {
     "id": "mon_rat_king",
     "type": "MONSTER",
-    "name": "rat king",
+    "name": { "str": "rat king" },
     "description": "A towering swarm of mutated rats, their tails knotted together in a filthy mass.  A fetid stench flows from its filthy presence.",
     "default_faction": "rat",
     "species": [ "MAMMAL" ],
@@ -1886,7 +1886,7 @@
   {
     "id": "mon_sewer_rat",
     "type": "MONSTER",
-    "name": "sewer rat",
+    "name": { "str": "sewer rat" },
     "description": "A worm-tailed rodent with long whiskers and beady eyes.  The way it squeaks makes it sound… hungry.",
     "default_faction": "rat",
     "bodytype": "pig",
@@ -1983,7 +1983,7 @@
   {
     "id": "mon_squirrel",
     "type": "MONSTER",
-    "name": "squirrel",
+    "name": { "str": "squirrel" },
     "description": "A small granivorous rodent with a long bushy tail, often seen darting amid the branches of trees.  A skittish varmint with an expression of unwavering austerity, it is the mortal enemy of cat and dog alike.",
     "default_faction": "small_animal",
     "bodytype": "pig",
@@ -2010,7 +2010,7 @@
   {
     "id": "mon_squirrel_red",
     "type": "MONSTER",
-    "name": "squirrel",
+    "name": { "str": "squirrel" },
     "description": "A tiny opportunistic rodent with a long bushy tail.  The pine squirrel is clever and cute, and hunted by nearly everything in the woods with a taste for meat.",
     "default_faction": "small_animal",
     "bodytype": "pig",

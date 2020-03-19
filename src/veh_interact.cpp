@@ -1407,7 +1407,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     int offset = 1;
                     std::string fmtstring = "%s %s  %5.1fL";
-                    if( pt.damage_percent() >= 0.5 ) {
+                    if( pt.is_leaking() ) {
                         fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
                         offset = 0;
                     }
@@ -1415,7 +1415,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                                  string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
                                                 round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
                 } else {
-                    if( pt.damage_percent() >= 0.5 ) {
+                    if( pt.is_leaking() ) {
                         std::string outputstr = leak_marker + "      " + leak_marker;
                         right_print( w, y, 0, c_light_gray, outputstr );
                     }
@@ -1430,7 +1430,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     int offset = 1;
                     std::string fmtstring = "%s  %5.1fL";
-                    if( pt.damage_percent() >= 0.5 ) {
+                    if( pt.is_leaking() ) {
                         fmtstring = "%s  " + leak_marker + "%5.1fL" + leak_marker;
                         offset = 0;
                     }
@@ -1451,7 +1451,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
                 int offset = 1;
                 std::string fmtstring = "%i    %3i%%";
-                if( pt.damage_percent() >= 0.5 ) {
+                if( pt.is_leaking() ) {
                     fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
                     offset = 0;
                 }
@@ -1465,8 +1465,14 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
 
     auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
         if( pt.ammo_remaining() ) {
-            right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                         string_format( "%s   %5i", item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
+            int offset = 1;
+            std::string fmtstring = "%s   %5i";
+            if( pt.is_leaking() ) {
+                fmtstring = "%s  " + leak_marker + "%5i" + leak_marker;
+                offset = 0;
+            }
+            right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                         string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
         }
     };
 

@@ -48,7 +48,7 @@
   {
     "id": "mon_zombie_fiend",
     "type": "MONSTER",
-    "name": "fiend",
+    "name": { "str": "fiend" },
     "description": "Charred zombie with bony plates, spikes and protrusions.  Moves stiffly, but swiftly.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -82,7 +82,7 @@
   {
     "id": "mon_zombie_scorched",
     "type": "MONSTER",
-    "name": "scorched zombie",
+    "name": { "str": "scorched zombie" },
     "description": "Heavily burned zombie that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
     "default_faction": "zombie",
     "bodytype": "human",

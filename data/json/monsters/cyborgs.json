@@ -45,7 +45,7 @@
   {
     "id": "mon_prototype_cyborg",
     "type": "MONSTER",
-    "name": "prototype cyborg",
+    "name": { "str": "prototype cyborg" },
     "description": "A human fused with a mess of metal parts and wires.  While its eyes are empty, flashes of pain pass across its face reminiscent of the person trapped in this grotesque body.  With enough surgical skills one might be able to give them back some humanity.  If only they cared…",
     "default_faction": "science",
     "bodytype": "human",

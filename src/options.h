@@ -28,6 +28,7 @@ class options_manager
                     : std::pair<std::string, translation>( first, second ) {
                 }
         };
+        static std::vector<id_and_option> lang_options;
     private:
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();

@@ -2,7 +2,7 @@
   {
     "id": "debug_mon",
     "type": "MONSTER",
-    "name": "debug monster",
+    "name": { "str": "debug monster" },
     "description": "This monster exists only for testing purposes.",
     "default_faction": "",
     "species": [ "ZOMBIE" ],
@@ -51,7 +51,7 @@
   {
     "id": "mon_generator",
     "type": "MONSTER",
-    "name": "generator",
+    "name": { "str": "generator" },
     "description": "Your precious generator, noisily humming away.  Defend it at all costs!",
     "default_faction": "player",
     "species": [ "UNKNOWN" ],
@@ -97,7 +97,7 @@
   {
     "id": "mon_hallu_multicooker",
     "type": "MONSTER",
-    "name": "evil multi-cooker",
+    "name": { "str": "evil multi-cooker" },
     "description": "The multi-cooker's got a mind of its own!  Look out!",
     "default_faction": "factionless",
     "species": [ "HALLUCINATION" ],
@@ -120,7 +120,7 @@
   {
     "id": "mon_hologram",
     "type": "MONSTER",
-    "name": "hologram",
+    "name": { "str": "hologram" },
     "description": "An image made from light, nearly identical to the real deal.",
     "default_faction": "factionless",
     "species": [ "UNKNOWN" ],
