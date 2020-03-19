@@ -1238,7 +1238,7 @@ float fastexp( float x )
         int i;
     } u, v;
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wno-pragmas"
+#pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
     u.i = static_cast<long long>( 6051102 * x + 1056478197 );
     v.i = static_cast<long long>( 1056478197 - 6051102 * x );
