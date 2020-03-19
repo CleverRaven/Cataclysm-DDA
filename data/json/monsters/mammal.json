@@ -209,7 +209,7 @@
   {
     "id": "mon_cat",
     "type": "MONSTER",
-    "name": { "str": "cat" },
+    "name": { "str": "shorthair cat" },
     "description": "A small domesticated predator gone feral in the absence of human stewardship.  Harried by the elements and the rigors of survival, it is scruffy and skittish.",
     "default_faction": "cat",
     "bodytype": "dog",
@@ -239,42 +239,40 @@
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
   },
   {
-    "id": "mon_cat_shorthair",
-    "copy-from": "mon_cat",
-    "name": "shorthair cat",
-    "description": "A formerly domestic shorthair cat, much like many other cats you have seen."
-  },
-  {
     "id": "mon_cat_longhair",
     "copy-from": "mon_cat",
-    "name": "shorthair cat",
-    "description"
+    "name": "longhair cat",
+    "description": "This cat's long fur appears difficult to groom, but the cat seems to manage it despite the environmental conditions."
   },
   {
     "id": "mon_cat_maine_coon",
     "copy-from": "mon_cat",
-    "name": "Maine coon cat"
+    "name": "Maine coon cat",
+    "description": "Impressively large for a domestic cat, this thick-haired breed was once native to the state of Maine."
   },
   {
     "id": "mon_cat_siamese",
     "copy-from": "mon_cat",
-    "name": "Siamese cat"
+    "name": "Siamese cat",
+    "description": "This cat has the distinctive dark extremeties of a Siamese, first native to Asia but a common domestic breed in North America."
   },
   {
     "id": "mon_cat_persian",
     "copy-from": "mon_cat",
-    "name": "Persian cat"
+    "name": "Persian cat",
+    "description": "The short nose and rounded face of this cat suggest it comes from the popular Persian breed."
   },
   {
     "id": "mon_cat_bengal",
     "copy-from": "mon_cat",
-    "name": "Bengal cat"
+    "name": "Bengal cat",
+    "description": "Looking like a spotted wild cat, the Bengal breed derives from the Asian leopard cat and Egyptian Mau."
   },
   {
     "id": "mon_cat_devon_rex",
     "copy-from": "mon_cat",
     "name": "Devon Rex cat",
-    "description": "This unusual-looking cat has large eyes and ears, and a soft curly coat of fur."
+    "description": "An unusual-looking cat with strikingly large eyes and ears, sporting a soft curly coat of fur."
   },
   {
     "id": "mon_cat_sphynx",
@@ -285,12 +283,14 @@
   {
     "id": "mon_cat_tabby",
     "copy-from": "mon_cat",
-    "name": "tabby cat"
+    "name": "tabby cat",
+    "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings must provide excellent camouflage."
   },
   {
-    "id": "mon_cat_tortoiseshell",
+    "id": "mon_cat_calico",
     "copy-from": "mon_cat",
-    "name": "tortoiseshell cat"
+    "name": "calico cat",
+    "description": "Partly white with patches of orange and black, the calico coloring tells you this cat is probably female.  The Calico was the Maryland State cat (back when there were still states)."
   },
   {
     "id": "mon_chipmunk",
