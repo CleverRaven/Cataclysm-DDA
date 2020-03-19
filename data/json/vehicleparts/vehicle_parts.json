@@ -1343,7 +1343,7 @@
   {
     "type": "vehicle_part",
     "id": "veh_table",
-    "name": "table",
+    "name": { "str": "table" },
     "symbol": "#",
     "looks_like": "f_table",
     "color": "red",
