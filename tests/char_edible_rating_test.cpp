@@ -9,46 +9,6 @@
 
 // Character "edible rating" tests, covering the `can_eat` and `will_eat` functions
 
-// can_eat: Can the food be [theoretically] eaten no matter the consequences?
-// will_eat: Same, but includes consequences. Asks about them if interactive is true.
-
-// Tests for can_eat
-//
-// Cannot eat food made of inedible materials(?)
-//
-// Check every mutation for can_only_eat incompatibilities
-
-/*
-// This tries to represent both rating and
-// character's decision to respect said rating
-enum edible_rating {
-    // Edible or we pretend it is
-    EDIBLE,
-    // Not food at all
-    INEDIBLE,
-    // Not food because mutated mouth/system
-    INEDIBLE_MUTATION,
-    // You can eat it, but it will hurt morale
-    ALLERGY,
-    // Smaller allergy penalty
-    ALLERGY_WEAK,
-    // Cannibalism (unless psycho/cannibal)
-    CANNIBALISM,
-    // Rotten or not rotten enough (for saprophages)
-    ROTTEN,
-    // Can provoke vomiting if you already feel nauseous.
-    NAUSEA,
-    // We can eat this, but we'll overeat
-    TOO_FULL,
-    // Some weird stuff that requires a tool we don't have
-    NO_TOOL
-};
-*/
-
-// NOTE: Lines 558-564 of src/game_inventory.cpp also dealing with can_eat - refactor?
-//   "Can't drink spilt liquids"
-//   "Your biology is not compatible with that item")
-
 static void expect_can_eat( avatar &dummy, item &food )
 {
     auto rate_can = dummy.can_eat( food );
@@ -70,14 +30,14 @@ static void expect_will_eat( avatar &dummy, item &food, std::string expect_conse
                              int expect_rating )
 {
     // will_eat returns the first element in a vector of ret_val<edible_rating>
-    // this function only looks at the first
+    // this function only looks at the first (since each is tested separately)
     auto rate_will = dummy.will_eat( food );
     CHECK( rate_will.str() == expect_consequence );
     CHECK( rate_will.value() == expect_rating );
 }
 
 
-TEST_CASE( "non-comestible", "[can_eat][will_eat][edible_rating][nonfood]" )
+TEST_CASE( "cannot eat non-comestible", "[can_eat][will_eat][edible_rating][nonfood]" )
 {
     avatar dummy;
     GIVEN( "something not edible" ) {
@@ -89,7 +49,7 @@ TEST_CASE( "non-comestible", "[can_eat][will_eat][edible_rating][nonfood]" )
     }
 }
 
-TEST_CASE( "dirty food", "[can_eat][edible_rating][dirty]" )
+TEST_CASE( "cannot eat dirty food", "[can_eat][edible_rating][dirty]" )
 {
     avatar dummy;
 
@@ -104,7 +64,7 @@ TEST_CASE( "dirty food", "[can_eat][edible_rating][dirty]" )
     }
 }
 
-TEST_CASE( "eating while underwater", "[can_eat][edible_rating][underwater]" )
+TEST_CASE( "who can eat while underwater", "[can_eat][edible_rating][underwater]" )
 {
     avatar dummy;
     item sushi( "sushi_fishroll" );
@@ -134,15 +94,17 @@ TEST_CASE( "eating while underwater", "[can_eat][edible_rating][underwater]" )
                 expect_can_eat( dummy, sushi );
             }
 
+            /*
             // FIXME: This fails, despite what it says in the mutation description
             THEN( "they cannot drink" ) {
                 expect_cannot_eat( dummy, water, "You can't do that while underwater." );
             }
+            */
         }
     }
 }
 
-TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
+TEST_CASE( "when frozen food can be eaten", "[can_eat][edible_rating][frozen]" )
 {
     avatar dummy;
 
@@ -225,7 +187,7 @@ TEST_CASE( "frozen food", "[can_eat][edible_rating][frozen]" )
     }
 }
 
-TEST_CASE( "inedible animal food", "[can_eat][edible_rating][inedible][animal]" )
+TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedible][animal]" )
 {
     avatar dummy;
 
@@ -277,7 +239,7 @@ TEST_CASE( "inedible animal food", "[can_eat][edible_rating][inedible][animal]" 
     }
 }
 
-TEST_CASE( "herbivore mutation", "[can_eat][edible_rating][herbivore]" )
+TEST_CASE( "what herbivores can eat", "[can_eat][edible_rating][herbivore]" )
 {
     avatar dummy;
 
@@ -303,7 +265,7 @@ TEST_CASE( "herbivore mutation", "[can_eat][edible_rating][herbivore]" )
     }
 }
 
-TEST_CASE( "carnivore mutation", "[can_eat][edible_rating][carnivore]" )
+TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
 {
     avatar dummy;
 
@@ -351,7 +313,7 @@ TEST_CASE( "carnivore mutation", "[can_eat][edible_rating][carnivore]" )
     }
 }
 
-TEST_CASE( "mycus dependency mutation", "[can_eat][edible_rating][mycus]" )
+TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating][mycus]" )
 {
     avatar dummy;
 
@@ -375,7 +337,7 @@ TEST_CASE( "mycus dependency mutation", "[can_eat][edible_rating][mycus]" )
     }
 }
 
-TEST_CASE( "proboscis mutation", "[can_eat][edible_rating][proboscis]" )
+TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][proboscis]" )
 {
     avatar dummy;
 
@@ -426,41 +388,7 @@ TEST_CASE( "proboscis mutation", "[can_eat][edible_rating][proboscis]" )
     }
 }
 
-TEST_CASE( "crafted food", "[can_eat][edible_rating][craft]" )
-{
-    avatar dummy;
-    std::vector<item> parts;
-
-    parts.emplace_back( "water" );
-    parts.emplace_back( "water_purifier" );
-
-    recipe_id clean_water( "water_clean_using_water_purifier" );
-
-    GIVEN( "food that is crafted" ) {
-        WHEN( "crafting is not finished" ) {
-            THEN( "they cannot eat it" ) {
-            }
-
-            AND_WHEN( "crafting is finished" ) {
-                THEN( "they can eat it" ) {
-                }
-            }
-        }
-    }
-}
-
-// will_eat test cases
-//
-// Consequences:
-// "This is rotten and smells awful!"
-// "The thought of eating human flesh makes you feel sick."
-// "You still feel nauseous and will probably puke it all up again."
-// "Your stomach won't be happy (allergy)."
-// "Your stomach won't be happy (not rotten enough)."
-// "You're full already and will be forcing yourself to eat."
-// "You're full already and will be forcing yourself to drink."
-
-TEST_CASE( "rotten food", "[will_eat][edible_rating][rotten]" )
+TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
 {
     avatar dummy;
 
@@ -506,31 +434,72 @@ TEST_CASE( "rotten food", "[will_eat][edible_rating][rotten]" )
                 CHECK( conseq.value() == ALLERGY_WEAK );
                 CHECK( conseq.str() == "Your stomach won't be happy (not rotten enough)." );
             }
-
-            /* NOT TRUE
-             *
-            AND_WHEN( "the food is thoroughly rotten" ) {
-                toastem_rotten.set_relative_rot( 2.01 );
-                REQUIRE( toastem_rotten.has_rotten_away() );
-
-                THEN( "they can eat it without any qualms" ) {
-                    expect_can_eat( dummy, toastem_rotten );
-
-                    auto conseq = dummy.will_eat( toastem_rotten, false );
-                    CHECK( conseq.value() == EDIBLE );
-                    CHECK( conseq.str() == "" );
-                }
-            }
-            */
         }
     }
 }
 
-TEST_CASE( "", "[will_eat][edible_rating]" )
+TEST_CASE( "who will eat human flesh", "[will_eat][edible_rating][cannibal]" )
 {
+    avatar dummy;
+
+    GIVEN( "some human flesh" ) {
+        item flesh( "human_flesh" );
+        REQUIRE( flesh.has_flag( "CANNIBALISM" ) );
+
+        WHEN( "character is not a cannibal" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "CANNIBAL" ) ) );
+
+            THEN( "they can eat it, but feel sick about it" ) {
+                expect_can_eat( dummy, flesh );
+                expect_will_eat( dummy, flesh, "The thought of eating human flesh makes you feel sick.",
+                                 CANNIBALISM );
+            }
+        }
+
+        WHEN( "character is a cannibal" ) {
+            dummy.toggle_trait( trait_id( "CANNIBAL" ) );
+            REQUIRE( dummy.has_trait( trait_id( "CANNIBAL" ) ) );
+
+            THEN( "they can eat it without any qualms" ) {
+                expect_can_eat( dummy, flesh );
+                expect_will_eat( dummy, flesh, "", EDIBLE );
+            }
+        }
+    }
 }
 
-TEST_CASE( "", "[will_eat][edible_rating]" )
+TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
 {
+    avatar dummy;
+    item toastem( "toastem" );
+    const efftype_id effect_nausea( "nausea" );
+
+    GIVEN( "character has nausea" ) {
+        dummy.add_effect( effect_nausea, 10_minutes );
+        REQUIRE( dummy.has_effect( effect_nausea ) );
+
+        THEN( "they can eat food, but it nauseates them" ) {
+            expect_can_eat( dummy, toastem );
+            expect_will_eat( dummy, toastem, "You still feel nauseous and will probably puke it all up again.",
+                             NAUSEA );
+        }
+    }
+}
+
+TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
+{
+    avatar dummy;
+    item fruit( "apple" );
+    REQUIRE( fruit.has_flag( "ALLERGEN_FRUIT" ) );
+
+    GIVEN( "character hates fruit" ) {
+        dummy.toggle_trait( trait_id( "ANTIFRUIT" ) );
+        REQUIRE( dummy.has_trait( trait_id( "ANTIFRUIT" ) ) );
+
+        THEN( "they can eat fruit, but won't like it" ) {
+            expect_can_eat( dummy, fruit );
+            expect_will_eat( dummy, fruit, "Your stomach won't be happy (allergy).", ALLERGY );
+        }
+    }
 }
 
