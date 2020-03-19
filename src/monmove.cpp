@@ -8,6 +8,7 @@
 #include <memory>
 #include <ostream>
 #include <list>
+#include <cfloat>
 
 #include "avatar.h"
 #include "bionics.h"
@@ -41,6 +42,11 @@
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "cata_string_consts.h"
+
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -241,16 +247,16 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
 {
     const auto d = rl_dist_fast( pos(), c.pos() );
     if( d <= 0 ) {
-        return INT_MAX;
+        return FLT_MAX;
     }
 
     // Check a very common and cheap case first
     if( !smart && d >= best ) {
-        return INT_MAX;
+        return FLT_MAX;
     }
 
     if( !sees( c ) ) {
-        return INT_MAX;
+        return FLT_MAX;
     }
 
     if( !smart ) {
@@ -268,7 +274,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
         return int( d ) / power;
     }
 
-    return INT_MAX;
+    return FLT_MAX;
 }
 
 void monster::plan()
@@ -352,6 +358,7 @@ void monster::plan()
         return;
     }
 
+    int valid_targets = ( target == nullptr ) ? 1 : 0;
     for( npc &who : g->all_npcs() ) {
         auto faction_att = faction.obj().attitude( who.get_monster_faction() );
         if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
@@ -360,12 +367,19 @@ void monster::plan()
 
         float rating = rate_target( who, dist, smart_planning );
         bool fleeing_from = is_fleeing( who );
+        if( rating == dist && ( fleeing || attitude( &who ) == MATT_ATTACK ) ) {
+            ++valid_targets;
+            if( one_in( valid_targets ) ) {
+                target = &who;
+            }
+        }
         // Switch targets if closer and hostile or scarier than current target
         if( ( rating < dist && fleeing ) ||
             ( rating < dist && attitude( &who ) == MATT_ATTACK ) ||
             ( !fleeing && fleeing_from ) ) {
             target = &who;
             dist = rating;
+            valid_targets = 1;
         }
         fleeing = fleeing || fleeing_from;
         if( rating <= 5 ) {
@@ -405,9 +419,16 @@ void monster::plan()
                 }
                 monster &mon = *shared;
                 float rating = rate_target( mon, dist, smart_planning );
+                if( rating == dist ) {
+                    ++valid_targets;
+                    if( one_in( valid_targets ) ) {
+                        target = &mon;
+                    }
+                }
                 if( rating < dist ) {
                     target = &mon;
                     dist = rating;
+                    valid_targets = 1;
                 }
                 if( rating <= 5 ) {
                     anger += angers_hostile_near;
@@ -447,7 +468,7 @@ void monster::plan()
                     wandf = 2;
                     target = nullptr;
                     // Swarm to the furthest ally you can see
-                } else if( rating < INT_MAX && rating > dist && wandf <= 0 ) {
+                } else if( rating < FLT_MAX && rating > dist && wandf <= 0 ) {
                     target = &mon;
                     dist = rating;
                 }
@@ -912,7 +933,7 @@ void monster::move()
             ( !pacified && can_open_doors && g->m.open_door( local_next_step, !g->m.is_outside( pos() ) ) ) ||
             ( !pacified && bash_at( local_next_step ) ) ||
             ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
-            move_to( local_next_step, false, get_stagger_adjust( pos(), destination, local_next_step ) );
+            move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination, local_next_step ) );
 
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
@@ -1392,7 +1413,8 @@ static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflag
     return near_this;
 }
 
-bool monster::move_to( const tripoint &p, bool force, const float stagger_adjustment )
+bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
+                       const float stagger_adjustment )
 {
     const bool on_ground = !digging() && !flies();
 
@@ -1437,7 +1459,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         }
     }
 
-    if( critter != nullptr && !force ) {
+    if( critter != nullptr && !step_on_critter ) {
         return false;
     }
 
@@ -1751,11 +1773,6 @@ void monster::stumble()
         if( g->m.valid_move( pos(), below, false, true ) ) {
             valid_stumbles.push_back( below );
         }
-        // More restrictions for moving up
-        if( flies() && one_in( 5 ) &&
-            g->m.valid_move( pos(), above, false, true ) ) {
-            valid_stumbles.push_back( above );
-        }
     }
     while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint dest = random_entry_removed( valid_stumbles );
@@ -1767,7 +1784,9 @@ void monster::stumble()
                g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
                !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
             ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
-            move_to( dest, true );
+            if( move_to( dest, true, false ) ) {
+                break;
+            }
         }
     }
 }

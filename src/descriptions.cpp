@@ -17,6 +17,8 @@
 #include "string_id.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_survival( "survival" );
+
 enum class description_target : int {
     creature,
     furniture,

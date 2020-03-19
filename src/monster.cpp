@@ -55,6 +55,68 @@
 #include "weather.h"
 #include "cata_string_consts.h"
 
+static const species_id FISH( "FISH" );
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id MAMMAL( "MAMMAL" );
+static const species_id MOLLUSK( "MOLLUSK" );
+static const species_id ROBOT( "ROBOT" );
+static const species_id SPIDER( "SPIDER" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const mtype_id mon_ant( "mon_ant" );
+static const mtype_id mon_ant_fungus( "mon_ant_fungus" );
+static const mtype_id mon_ant_queen( "mon_ant_queen" );
+static const mtype_id mon_ant_soldier( "mon_ant_soldier" );
+static const mtype_id mon_beekeeper( "mon_beekeeper" );
+static const mtype_id mon_boomer( "mon_boomer" );
+static const mtype_id mon_boomer_fungus( "mon_boomer_fungus" );
+static const mtype_id mon_boomer_huge( "mon_boomer_huge" );
+static const mtype_id mon_fungaloid( "mon_fungaloid" );
+static const mtype_id mon_skeleton_brute( "mon_skeleton_brute" );
+static const mtype_id mon_skeleton_hulk( "mon_skeleton_hulk" );
+static const mtype_id mon_skeleton_hulk_fungus( "mon_skeleton_hulk_fungus" );
+static const mtype_id mon_spider_fungus( "mon_spider_fungus" );
+static const mtype_id mon_triffid( "mon_triffid" );
+static const mtype_id mon_triffid_queen( "mon_triffid_queen" );
+static const mtype_id mon_triffid_young( "mon_triffid_young" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_anklebiter( "mon_zombie_anklebiter" );
+static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
+static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
+static const mtype_id mon_zombie_brute_shocker( "mon_zombie_brute_shocker" );
+static const mtype_id mon_zombie_child( "mon_zombie_child" );
+static const mtype_id mon_zombie_child_fungus( "mon_zombie_child_fungus" );
+static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
+static const mtype_id mon_zombie_creepy( "mon_zombie_creepy" );
+static const mtype_id mon_zombie_electric( "mon_zombie_electric" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
+static const mtype_id mon_zombie_fungus( "mon_zombie_fungus" );
+static const mtype_id mon_zombie_gasbag( "mon_zombie_gasbag" );
+static const mtype_id mon_zombie_gasbag_fungus( "mon_zombie_gasbag_fungus" );
+static const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
+static const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
+static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+static const mtype_id mon_zombie_hunter( "mon_zombie_hunter" );
+static const mtype_id mon_zombie_master( "mon_zombie_master" );
+static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
+static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
+static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
+static const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
+static const mtype_id mon_zombie_shriekling( "mon_zombie_shriekling" );
+static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
+static const mtype_id mon_zombie_smoker_fungus( "mon_zombie_smoker_fungus" );
+static const mtype_id mon_zombie_snotgobbler( "mon_zombie_snotgobbler" );
+static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
+static const mtype_id mon_zombie_sproglodyte( "mon_zombie_sproglodyte" );
+static const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
+static const mtype_id mon_zombie_swimmer( "mon_zombie_swimmer" );
+static const mtype_id mon_zombie_technician( "mon_zombie_technician" );
+static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
+static const mtype_id mon_zombie_waif( "mon_zombie_waif" );
+
 struct pathfinding_settings;
 
 // Limit the number of iterations for next upgrade_time calculations.

@@ -61,7 +61,6 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "profession.h"
-#include "ranged.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
@@ -99,7 +98,30 @@
 #include "flat_set.h"
 #include "stomach.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
+
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_swimming( "swimming" );
+
+static const mtype_id mon_player_blob( "mon_player_blob" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
+static const bionic_id bio_cloak( "bio_cloak" );
+static const bionic_id bio_cqb( "bio_cqb" );
+static const bionic_id bio_earplugs( "bio_earplugs" );
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
+static const bionic_id bio_jointservo( "bio_jointservo" );
+static const bionic_id bio_membrane( "bio_membrane" );
+static const bionic_id bio_memory( "bio_memory" );
+static const bionic_id bio_soporific( "bio_soporific" );
+static const bionic_id bio_speed( "bio_speed" );
+static const bionic_id bio_syringe( "bio_syringe" );
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
+static const bionic_id bio_watch( "bio_watch" );
 
 const double MAX_RECOIL = 3000;
 
@@ -3344,14 +3366,16 @@ void player::mend_item( item_location &&obj, bool interactive )
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
             if( obj->damage() > 0 ) {
                 const std::set<std::string> &rep = obj->repaired_with();
-                const std::string repair_options =
-                enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
-                    return item::nname( e );
-                }, enumeration_conjunction::or_ );
+                if( !rep.empty() ) {
+                    const std::string repair_options =
+                    enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
+                        return item::nname( e );
+                    }, enumeration_conjunction::or_ );
 
-                add_msg( m_info, _( "It is damaged, and could be repaired with %s.  "
-                                    "%s to use one of those items." ),
-                         repair_options, press_x( ACTION_USE ) );
+                    add_msg( m_info, _( "It is damaged, and could be repaired with %s.  "
+                                        "%s to use one of those items." ),
+                             repair_options, press_x( ACTION_USE ) );
+                }
             }
         }
         return;
@@ -5635,23 +5659,6 @@ void player::on_effect_int_change( const efftype_id &eid, int intensity, body_pa
     }
 
     morale->on_effect_int_change( eid, intensity, bp );
-}
-
-const targeting_data &player::get_targeting_data()
-{
-    if( tdata == nullptr ) {
-        debugmsg( "Tried to get targeting data before setting it" );
-        tdata.reset( new targeting_data() );
-        tdata->relevant = nullptr;
-        cancel_activity();
-    }
-
-    return *tdata;
-}
-
-void player::set_targeting_data( const targeting_data &td )
-{
-    tdata.reset( new targeting_data( td ) );
 }
 
 bool player::query_yn( const std::string &mes ) const

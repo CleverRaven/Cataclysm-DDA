@@ -31,6 +31,12 @@
 #include "optional.h"
 #include "cata_string_consts.h"
 
+static const skill_id skill_unarmed( "unarmed" );
+
+static const bionic_id bio_armor_arms( "bio_armor_arms" );
+static const bionic_id bio_armor_legs( "bio_armor_legs" );
+static const bionic_id bio_cqb( "bio_cqb" );
+
 namespace
 {
 generic_factory<ma_technique> ma_techniques( "martial art technique" );

@@ -48,6 +48,21 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
+static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+
+static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+
+static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+
+static const bionic_id bio_painkiller( "bio_painkiller" );
+
 class Character;
 
 using item_filter = std::function<bool ( const item & )>;
@@ -687,6 +702,9 @@ static std::string get_consume_needs_hint( player &p )
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = p.get_pain_description();
     hint.append( string_format( "%s %s", _( "Pain :" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
+    desc = p.get_fatigue_description();
+    hint.append( string_format( "%s %s", _( "Rest :" ), colorize( desc.first, desc.second ) ) );
     return hint;
 }
 

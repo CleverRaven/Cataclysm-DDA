@@ -68,6 +68,54 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 
+static const activity_id ACT_DROP( "ACT_DROP" );
+static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_STASH( "ACT_STASH" );
+static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
+static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
+
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_throw( "throw" );
+
+static const species_id HUMAN( "HUMAN" );
+static const species_id ROBOT( "ROBOT" );
+
+static const bionic_id bio_ads( "bio_ads" );
+
+static const bionic_id bio_blaster( "bio_blaster" );
+static const bionic_id bio_blindfold( "bio_blindfold" );
+static const bionic_id bio_climate( "bio_climate" );
+static const bionic_id bio_earplugs( "bio_earplugs" );
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_faraday( "bio_faraday" );
+static const bionic_id bio_flashlight( "bio_flashlight" );
+static const bionic_id bio_gills( "bio_gills" );
+static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
+static const bionic_id bio_heatsink( "bio_heatsink" );
+static const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_infrared( "bio_infrared" );
+static const bionic_id bio_laser( "bio_laser" );
+static const bionic_id bio_leukocyte( "bio_leukocyte" );
+static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_membrane( "bio_membrane" );
+static const bionic_id bio_memory( "bio_memory" );
+static const bionic_id bio_night_vision( "bio_night_vision" );
+static const bionic_id bio_railgun( "bio_railgun" );
+static const bionic_id bio_recycler( "bio_recycler" );
+static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
+static const bionic_id bio_storage( "bio_storage" );
+static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
+static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
+static const bionic_id bio_tools( "bio_tools" );
+static const bionic_id bio_ups( "bio_ups" );
+static const bionic_id str_bio_cloak( "bio_cloak" );
+static const bionic_id str_bio_night( "bio_night" );
+// Aftershock stuff!
+static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
+
 // *INDENT-OFF*
 Character::Character() :
 
@@ -2364,6 +2412,18 @@ bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
     return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item & it ) {
         return it.has_flag( flag ) && ( bp == num_bp || it.covers( bp ) );
     } );
+}
+
+item Character::item_worn_with_flag( const std::string &flag, body_part bp ) const
+{
+    item it_with_flag;
+    for( const item &it : worn ) {
+        if( it.has_flag( flag ) && ( bp == num_bp || it.covers( bp ) ) ) {
+            it_with_flag = it;
+            break;
+        }
+    }
+    return it_with_flag;
 }
 
 std::vector<std::string> Character::get_overlay_ids() const
@@ -5456,7 +5516,7 @@ nc_color Character::symbol_color() const
 bool Character::is_immune_field( const field_type_id &fid ) const
 {
     // Obviously this makes us invincible
-    if( has_trait( debug_nodmg ) ) {
+    if( has_trait( trait_DEBUG_NODMG ) ) {
         return true;
     }
     // Check to see if we are immune

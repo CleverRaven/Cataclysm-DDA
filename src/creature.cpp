@@ -189,8 +189,9 @@ bool Creature::sees( const Creature &critter ) const
 
     const Character *ch = critter.as_character();
     const int wanted_range = rl_dist( pos(), critter.pos() );
-    if( wanted_range <= 1 &&
-        ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
+    // Can always see adjacent monsters on the same level.
+    // We also bypass lighting for vertically adjacent monsters, but still check for floors.
+    if( wanted_range <= 1 && ( posz() == critter.posz() || g->m.sees( pos(), critter.pos(), 1 ) ) ) {
         return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||

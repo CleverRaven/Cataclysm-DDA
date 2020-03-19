@@ -52,7 +52,15 @@
 #include "string_formatter.h"
 #include "cata_string_consts.h"
 
+static const species_id ZOMBIE( "ZOMBIE" );
 
+static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
+static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
+static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
+static const mongroup_id GROUP_SPIRAL( "GROUP_SPIRAL" );
+static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
+static const mongroup_id GROUP_WORM( "GROUP_WORM" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 class map_extra;
 

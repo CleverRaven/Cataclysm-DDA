@@ -49,6 +49,23 @@
 #include "mattack_actors.h"
 #include "cata_string_consts.h"
 
+static const species_id species_BLOB( "BLOB" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
+static const mtype_id mon_breather( "mon_breather" );
+static const mtype_id mon_breather_hub( "mon_breather_hub" );
+static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
+static const mtype_id mon_halfworm( "mon_halfworm" );
+static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+static const mtype_id mon_thing( "mon_thing" );
+static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+
 void mdeath::normal( monster &z )
 {
     if( z.no_corpse_quiet ) {

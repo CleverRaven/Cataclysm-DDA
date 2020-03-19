@@ -76,7 +76,7 @@
   {
     "id": "scalpel",
     "type": "TOOL",
-    "name": "scalpel",
+    "name": { "str": "scalpel" },
     "description": "This is a very sharp knife designed for surgical cutting.  Its small, sharp blade allows for precision strikes in the hands of the skilled.",
     "weight": "23 g",
     "volume": "15 ml",
@@ -111,7 +111,7 @@
   {
     "id": "syringe",
     "type": "TOOL",
-    "name": "syringe",
+    "name": { "str": "syringe" },
     "description": "A medical syringe.  Used for administering intravenous drugs.",
     "weight": "10 g",
     "volume": "10ml",
@@ -139,7 +139,7 @@
   {
     "id": "oxygen_tank",
     "type": "TOOL",
-    "name": "oxygen tank",
+    "name": { "str": "oxygen tank" },
     "description": "This is tank of compressed medical oxygen with a regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "2268 g",
     "volume": "1500 ml",
@@ -177,10 +177,10 @@
   {
     "id": "wrapped_rad_badge",
     "type": "TOOL",
-    "name": "wrapped radiation badge",
+    "name": { "str": "wrapped radiation badge" },
     "description": "This is a badge that detects radiation dosage sealed in a radiation-blocking bag.  Use it to remove it from the bag.",
     "weight": "20 g",
-    "volume": 0,
+    "volume": "15 ml",
     "price": 1000,
     "material": [ "plastic" ],
     "symbol": ",",

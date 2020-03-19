@@ -39,6 +39,16 @@
 #include <functional>
 #include <algorithm>
 
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+
+const vitamin_id vitamin_iron( "iron" );
+
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+
+static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
+
+static const bionic_id bio_watch( "bio_watch" );
+
 static void eff_fun_onfire( player &u, effect &it )
 {
     const int intense = it.get_intensity();
@@ -517,7 +527,7 @@ void player::hardcoded_effects( effect &it )
                                                        GROUP_NETHER );
                 g->place_critter_at( spawn_details.name, dest );
                 if( g->u.sees( dest ) ) {
-                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                 }
@@ -617,7 +627,7 @@ void player::hardcoded_effects( effect &it )
                                                            GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
                     if( g->u.sees( dest ) ) {
-                        g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
+                        g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                             _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                     }

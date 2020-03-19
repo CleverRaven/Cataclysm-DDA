@@ -87,6 +87,29 @@
 #include "clothing_mod.h"
 #include "cata_string_consts.h"
 
+static const std::string GUN_MODE_VAR_NAME( "item::mode" );
+static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
+
+static const ammotype ammo_battery( "battery" );
+static const ammotype ammo_plutonium( "plutonium" );
+
+static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_weapon( "weapon" );
+
+static const quality_id qual_JACK( "JACK" );
+static const quality_id qual_LIFT( "LIFT" );
+static const species_id ROBOT( "ROBOT" );
+
+static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
+
+static const bionic_id bio_digestion( "bio_digestion" );
+static const bionic_id bio_scent_vision( "bio_scent_vision" );
+
 class npc_class;
 
 using npc_class_id = string_id<npc_class>;
@@ -8932,8 +8955,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     }
     std::string state = get_var( "state" );
     if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !carrier->has_item( *this ) || !( carrier->is_wearing( "solarpack_on" ) ||
-                                              carrier->is_wearing( "q_solarpack_on" ) ) ) {
+        if( !carrier->has_item( *this ) || !carrier->worn_with_flag( "SOLARPACK_ON" ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
             reset_cable( carrier );
             return false;
@@ -9443,7 +9465,7 @@ bool item::has_infinite_charges() const
 skill_id item::contextualize_skill( const skill_id &id ) const
 {
     if( id->is_contextual_skill() ) {
-        if( id == weapon_skill ) {
+        if( id == skill_weapon ) {
             if( is_gun() ) {
                 return gun_skill();
             } else if( is_melee() ) {

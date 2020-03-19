@@ -33,7 +33,29 @@
 #include "int_id.h"
 #include "point.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
+
+static const skill_id skill_throw( "throw" );
+
+static const species_id ROBOT( "ROBOT" );
+
+static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
+
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_tetanus( "tetanus" );
+
+static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
+static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
+static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )

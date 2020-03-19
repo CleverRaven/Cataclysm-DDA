@@ -94,9 +94,12 @@
 #include "stats_tracker.h"
 #include "vpart_position.h"
 #include "cata_string_consts.h"
+#include "ranged.h"
 
 struct oter_type_t;
 struct mutation_branch;
+
+static const activity_id ACT_AIM( "ACT_AIM" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -652,6 +655,8 @@ void Character::load( const JsonObject &data )
         overmap_time_array.read_next( tdr );
         overmap_time[pt] = tdr;
     }
+    data.read( "stomach", stomach );
+    data.read( "guts", guts );
 }
 
 /**
@@ -773,6 +778,8 @@ void Character::store( JsonOut &json ) const
         }
         json.end_array();
     }
+    json.member( "stomach", stomach );
+    json.member( "guts", guts );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1003,14 +1010,16 @@ void avatar::store( JsonOut &json ) const
     json.member( "int_upgrade", abs( int_upgrade ) );
     json.member( "per_upgrade", abs( per_upgrade ) );
 
+    // targeting
+    if( activity.id() == ACT_AIM ) {
+        json.member( "targeting_data", *tdata );
+    }
+
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
 
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
-
-    json.member( "stomach", stomach );
-    json.member( "guts", guts );
 
     json.member( "translocators", translocators );
 
@@ -1075,6 +1084,13 @@ void avatar::load( const JsonObject &data )
     data.read( "int_upgrade", int_upgrade );
     data.read( "per_upgrade", per_upgrade );
 
+    // targeting
+    targeting_data tdata = targeting_data();
+    data.read( "targeting_data", tdata );
+    if( tdata.is_valid() ) {
+        set_targeting_data( tdata );
+    }
+
     // this is so we don't need to call get_option in a draw function
     if( !get_option<bool>( "STATS_THROUGH_KILLS" ) )         {
         str_upgrade = -str_upgrade;
@@ -1109,9 +1125,6 @@ void avatar::load( const JsonObject &data )
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
-
-    data.read( "stomach", stomach );
-    data.read( "guts", guts );
 
     data.read( "translocators", translocators );
 
@@ -1185,6 +1198,32 @@ void avatar::load( const JsonObject &data )
         JsonIn *jip = data.get_raw( "invcache" );
         inv.json_load_invcache( *jip );
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+///// ranged.h
+
+void targeting_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "weapon_source", io::enum_to_string( weapon_source ) );
+    if( cached_fake_weapon ) {
+        json.member( "cached_fake_weapon", *cached_fake_weapon );
+    }
+    json.member( "bp_cost", bp_cost_per_shot );
+    json.end_object();
+}
+
+void targeting_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "weapon_source", weapon_source );
+    if( weapon_source == WEAPON_SOURCE_BIONIC || weapon_source == WEAPON_SOURCE_MUTATION ) {
+        cached_fake_weapon = shared_ptr_fast<item>( new item() );
+        data.read( "cached_fake_weapon", *cached_fake_weapon );
+    }
+
+    data.read( "bp_cost", bp_cost_per_shot );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

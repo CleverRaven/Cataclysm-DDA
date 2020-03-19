@@ -102,6 +102,69 @@
 #include "teleport.h"
 #include "cata_string_consts.h"
 
+static const activity_id ACT_BURROW( "ACT_BURROW" );
+static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
+static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
+static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
+static const activity_id ACT_CHURN( "ACT_CHURN" );
+static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
+static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_DIG( "ACT_DIG" );
+static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
+static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
+static const activity_id ACT_FISH( "ACT_FISH" );
+static const activity_id ACT_GAME( "ACT_GAME" );
+static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
+static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
+static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
+static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_HEATING( "ACT_HEATING" );
+static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
+static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
+static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
+static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
+static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
+static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
+static const activity_id ACT_SHAVE( "ACT_SHAVE" );
+static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_WASH( "ACT_WASH" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_survival( "survival" );
+
+static const quality_id qual_AXE( "AXE" );
+static const quality_id qual_DIG( "DIG" );
+
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id HALLUCINATION( "HALLUCINATION" );
+static const species_id INSECT( "INSECT" );
+static const species_id ROBOT( "ROBOT" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const mongroup_id GROUP_FISH( "GROUP_FISH" );
+
+static const mtype_id mon_bee( "mon_bee" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_dog_thing( "mon_dog_thing" );
+static const mtype_id mon_fly( "mon_fly" );
+static const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
+static const mtype_id mon_hologram( "mon_hologram" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_spore( "mon_spore" );
+static const mtype_id mon_vortex( "mon_vortex" );
+static const mtype_id mon_wasp( "mon_wasp" );
+
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_shock( "bio_shock" );
+static const bionic_id bio_tools( "bio_tools" );
+
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
 #include "iuse_software.h"
@@ -2105,56 +2168,6 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
     return 1;
 }
 
-static bool pry_nails( player &p, const ter_id &type, const tripoint &pnt )
-{
-    int nails = 0;
-    int boards = 0;
-    ter_id newter;
-    if( type == t_fence ) {
-        nails = 6;
-        boards = 3;
-        newter = t_fence_post;
-        p.add_msg_if_player( _( "You pry out the fence post." ) );
-    } else if( type == t_window_boarded ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_frame;
-        p.add_msg_if_player( _( "You pry the boards from the window." ) );
-    } else if( type == t_window_boarded_noglass ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_empty;
-        p.add_msg_if_player( _( "You pry the boards from the window frame." ) );
-    } else if( type == t_door_boarded || type == t_door_boarded_damaged ||
-               type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
-               type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
-        nails = 8;
-        boards = 4;
-        if( type == t_door_boarded ) {
-            newter = t_door_c;
-        } else if( type == t_door_boarded_damaged ) {
-            newter = t_door_b;
-        } else if( type == t_door_boarded_peep ) {
-            newter = t_door_c_peep;
-        } else if( type == t_door_boarded_damaged_peep ) {
-            newter = t_door_b_peep;
-        } else if( type == t_rdoor_boarded ) {
-            newter = t_rdoor_c;
-        } else { // if (type == t_rdoor_boarded_damaged)
-            newter = t_rdoor_b;
-        }
-        p.add_msg_if_player( _( "You pry the boards from the door." ) );
-    } else {
-        return false;
-    }
-    p.practice( skill_fabrication, 1, 1 );
-    p.moves -= to_moves<int>( 30_seconds );
-    g->m.spawn_item( p.pos(), "nail", 0, nails );
-    g->m.spawn_item( p.pos(), "2x4", boards );
-    g->m.ter_set( pnt, newter );
-    return true;
-}
-
 int iuse::hammer( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
@@ -2200,7 +2213,14 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    if( pry_nails( *p, type, pnt ) ) {
+    if( type == t_fence || type == t_window_boarded || type == t_window_boarded_noglass ||
+        type == t_door_boarded || type == t_door_boarded_damaged ||
+        type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
+        type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
+        // pry action
+        player_activity act( ACT_PRY_NAILS, to_moves<int>( 30_seconds ), -1 );
+        act.placement = pnt;
+        p->assign_activity( act );
         return it->type->charges_to_use();
     } else {
         return 0;
@@ -4150,7 +4170,7 @@ int iuse::solarpack( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     // no doubled sources of power
-    if( p->is_wearing( "solarpack_on" ) || p->is_wearing( "q_solarpack_on" ) ) {
+    if( p->worn_with_flag( "SOLARPACK_ON" ) ) {
         p->add_msg_if_player( m_neutral, _( "You cannot use the %1$s with another of it's kind." ),
                               it->tname() );
         return 0;
@@ -4158,11 +4178,7 @@ int iuse::solarpack( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player(
         _( "You unfold solar array from the pack.  You still need to connect it with a cable." ) );
 
-    if( it->typeId() == "solarpack" ) {
-        it->convert( "solarpack_on" );
-    } else {
-        it->convert( "q_solarpack_on" );
-    }
+    it->convert( it->typeId() + "_on" );
     return 0;
 }
 
@@ -4174,11 +4190,7 @@ int iuse::solarpack_off( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "You unplug and fold your portable solar array into the pack." ) );
     }
 
-    if( it->typeId() == "solarpack_on" ) {
-        it->convert( "solarpack" );
-    } else {
-        it->convert( "q_solarpack" );
-    }
+    it->convert( it->typeId().substr( 0, it->typeId().size() - 3 ) ).active = false; // 3 = "_on"
     return 0;
 }
 
@@ -8703,8 +8715,8 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 {
     std::string initial_state = it->get_var( "state", "attach_first" );
     const bool has_bio_cable = !p->get_remote_fueled_bionic().is_empty();
-    const bool has_solar_pack = p->is_wearing( "solarpack" ) || p->is_wearing( "q_solarpack" );
-    const bool has_solar_pack_on = p->is_wearing( "solarpack_on" ) || p->is_wearing( "q_solarpack_on" );
+    const bool has_solar_pack = p->worn_with_flag( "SOLARPACK" );
+    const bool has_solar_pack_on = p->worn_with_flag( "SOLARPACK_ON" );
     const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
     const bool has_ups = p->has_charges( "UPS_off", 1 ) || p->has_charges( "adv_UPS_off", 1 );
 
@@ -9473,7 +9485,7 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( !p->is_wielding( *it ) ) {
-        if( !p->is_armed() || query_yn( "Wield the %s and start working?", it->tname() ) ) {
+        if( !p->is_armed() || query_yn( _( "Wield the %s and start working?" ), it->tname() ) )  {
             if( !p->wield( *it ) ) {
                 // Will likely happen if the in progress craft is too heavy, or the player is
                 // wielding something that can't be unwielded
@@ -9528,49 +9540,6 @@ int iuse::disassemble( player *p, item *it, bool, const tripoint & )
     p->disassemble( item_location( *p, it ), false );
 
     return 0;
-}
-
-static int gobag( player *p, item *it, const bool is_personal )
-{
-    std::vector<item> items = item_group::items_from( "gobag_contents", calendar::turn );
-    item last_armor;
-
-    p->add_msg_if_player( _( "You empty the contents of the go bag onto the floor." ) );
-
-    for( item &content : items ) {
-        if( content.is_armor() ) {
-            if( is_personal && !content.has_flag( "FIT" ) ) {
-                content.set_flag( "FIT" );
-            } else if( content.typeId() == last_armor.typeId() ) {
-                if( last_armor.has_flag( "FIT" ) && !content.has_flag( "FIT" ) ) {
-                    content.set_flag( "FIT" );
-                } else if( !last_armor.has_flag( "FIT" ) && content.has_flag( "FIT" ) ) {
-                    content.unset_flag( "FIT" );
-                }
-            }
-            last_armor = content;
-        }
-
-        if( units::to_liter( content.get_storage() ) >= 10.0 && it->has_flag( "FILTHY" ) ) {
-            content.set_flag( "FILTHY" );
-        }
-
-        g->m.add_item_or_charges( p->pos(), content );
-    }
-
-    p->i_rem( it );
-
-    return 0;
-}
-
-int iuse::gobag_normal( player *p, item *it, bool, const tripoint & )
-{
-    return gobag( p, it, false );
-}
-
-int iuse::gobag_personal( player *p, item *it, bool, const tripoint & )
-{
-    return gobag( p, it, true );
 }
 
 int iuse::melatonin_tablet( player *p, item *it, bool, const tripoint & )
