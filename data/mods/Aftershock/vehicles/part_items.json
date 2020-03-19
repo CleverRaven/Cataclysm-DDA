@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "afs_hauling_space",
-    "name": "hauling space",
+    "name": { "str": "hauling space" },
     "description": "A huge metal space used in conjunction with extension of a vehicle's roof to create a very large amount of space for transporting goods.",
     "weight": "120 kg",
     "to_hit": -6,
@@ -56,7 +56,7 @@
   {
     "type": "GENERIC",
     "id": "afs_control_station",
-    "name": "control station",
+    "name": { "str": "control station" },
     "looks_like": "vehicle_dashboard",
     "description": "A large and complex piloting station from a military vehicle, including a camera station, steering tools, and electronics controls.",
     "weight": "9 kg",

@@ -139,7 +139,7 @@
     "id": "nuclear_fuel",
     "copy-from": "nuclear_waste",
     "type": "GENERIC",
-    "name": "nuclear fuel pellet",
+    "name": { "str": "nuclear fuel pellet" },
     "description": "A small pellet of fissile material.  Handle carefully."
   },
   {
@@ -156,7 +156,7 @@
     "id": "atomic_butterchurn",
     "type": "GENERIC",
     "category": "tools",
-    "name": "folded atomic butter churn",
+    "name": { "str": "folded atomic butter churn" },
     "description": "The Rivtech Churninator 4000, the only churn to be banned by 13 religious sects.  The legs are currently folded up for travel.  Unlike a standard churn that requires cream separated from raw milk this churn requires only raw milk, salt and a healthy respect for glowing objects.",
     "weight": "6464 g",
     "volume": "11356 ml",

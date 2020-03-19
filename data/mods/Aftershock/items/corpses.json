@@ -4,7 +4,7 @@
     "id": "broken_afs_mon_sentinel_lx",
     "symbol": ",",
     "color": "green",
-    "name": "broken sentinel-lx",
+    "name": { "str": "broken sentinel-lx", "str_pl": "broken sentinels-lx" },
     "category": "other",
     "description": "The irreparably broken remains of a Sentinel-lx.  Could be gutted for valuable parts.",
     "price": 30000,
