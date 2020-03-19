@@ -67,7 +67,7 @@
   {
     "type": "item_action",
     "id": "GEIGER",
-    "name": "Use geiger counter"
+    "name": { "str": "Use geiger counter" }
   },
   {
     "type": "item_action",
@@ -147,7 +147,7 @@
   {
     "type": "item_action",
     "id": "inscribe",
-    "name": "Write on an item"
+    "name": { "str": "Write on an item" }
   },
   {
     "type": "item_action",
@@ -222,7 +222,7 @@
   {
     "type": "item_action",
     "id": "holster",
-    "name": "Use holster"
+    "name": { "str": "Use holster" }
   },
   {
     "type": "item_action",
@@ -277,7 +277,7 @@
   {
     "type": "item_action",
     "id": "ARTIFACT",
-    "name": "Use"
+    "name": { "str": "Use" }
   },
   {
     "type": "item_action",
@@ -467,7 +467,7 @@
   {
     "type": "item_action",
     "id": "EINKTABLETPC",
-    "name": "Use"
+    "name": { "str": "Use" }
   },
   {
     "type": "item_action",
@@ -482,7 +482,7 @@
   {
     "type": "item_action",
     "id": "EYEDROPS",
-    "name": "Use"
+    "name": { "str": "Use" }
   },
   {
     "type": "item_action",
@@ -572,7 +572,7 @@
   {
     "type": "item_action",
     "id": "HEATPACK",
-    "name": "Use"
+    "name": { "str": "Use" }
   },
   {
     "type": "item_action",
@@ -677,7 +677,7 @@
   {
     "type": "item_action",
     "id": "DIVE_TANK",
-    "name": "Use regulator"
+    "name": { "str": "Use regulator" }
   },
   {
     "type": "item_action",
@@ -792,7 +792,7 @@
   {
     "type": "item_action",
     "id": "RADIOCAR",
-    "name": "…"
+    "name": { "str": "…" }
   },
   {
     "type": "item_action",
@@ -882,7 +882,7 @@
   {
     "type": "item_action",
     "id": "SPRAY_CAN",
-    "name": "Write something"
+    "name": { "str": "Write something" }
   },
   {
     "type": "item_action",
@@ -942,27 +942,27 @@
   {
     "type": "item_action",
     "id": "VIBE",
-    "name": "Well, you know"
+    "name": { "str": "Well, you know" }
   },
   {
     "type": "item_action",
     "id": "VORTEX",
-    "name": "Use"
+    "name": { "str": "Use" }
   },
   {
     "type": "item_action",
     "id": "WASH_SOFT_ITEMS",
-    "name": "Wash soft items"
+    "name": { "str": "Wash soft items" }
   },
   {
     "type": "item_action",
     "id": "WASH_HARD_ITEMS",
-    "name": "Wash hard items"
+    "name": { "str": "Wash hard items" }
   },
   {
     "type": "item_action",
     "id": "WASH_ALL_ITEMS",
-    "name": "Wash items"
+    "name": { "str": "Wash items" }
   },
   {
     "type": "item_action",
@@ -1002,7 +1002,7 @@
   {
     "type": "item_action",
     "id": "delayed_transform",
-    "name": "Use"
+    "name": { "str": "Use" }
   },
   {
     "type": "item_action",
@@ -1117,6 +1117,6 @@
   {
     "type": "item_action",
     "id": "CRAFT",
-    "name": "Work on craft"
+    "name": { "str": "Work on craft" }
   }
 ]
