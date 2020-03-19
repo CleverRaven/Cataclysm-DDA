@@ -138,7 +138,7 @@
     "id": "engine_electric_super",
     "copy-from": "engine_motor",
     "type": "vehicle_part",
-    "name": "super electric motor",
+    "name": { "str": "super electric motor" },
     "item": "motor_super",
     "durability": 400,
     "power": 475000,
