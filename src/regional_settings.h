@@ -228,14 +228,14 @@ struct region_terrain_and_furniture_settings {
 };
 
 /*
- * Spationally relevant overmap and mapgen variables grouped into a set of suggested defaults;
- * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
+ * Spatially relevant overmap and mapgen variables grouped into a set of suggested defaults;
+ * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smooth fashion
  */
 struct regional_settings {
     std::string id;           //
     oter_str_id default_oter; // 'field'
     double river_scale = 1;
-    weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
+    weighted_int_list<ter_id> default_groundcover; // i.e., 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
     city_settings     city_spec;      // put what where in a city of what kind

@@ -1649,7 +1649,7 @@ std::string &capitalize_letter( std::string &str, size_t n )
     return str;
 }
 
-//remove prefix of a strng, between c1 and c2, ie, "<prefix>remove it"
+//remove prefix of a string, between c1 and c2, i.e., "<prefix>remove it"
 std::string rm_prefix( std::string str, char c1, char c2 )
 {
     if( !str.empty() && str[0] == c1 ) {

@@ -3153,9 +3153,9 @@ bool npc::do_player_activity()
         }
     }
     // the multi-activity types can sometimes cancel the activity, and return without using up any moves.
-    // ( when they are setting a destination etc )
-    // normally this isnt a problem, but in the main game loop, if the NPC has a huge backlog of moves;
-    // then each of these occurences will nudge the infinite loop counter up by one.
+    // ( when they are setting a destination etc. )
+    // normally this isn't a problem, but in the main game loop, if the NPC has a huge backlog of moves;
+    // then each of these occurrences will nudge the infinite loop counter up by one.
     // ( even if other move-using things occur inbetween )
     // so here - if no moves are used in a multi-type activity do_turn(), then subtract a nominal amount
     // to satisfy the infinite loop counter.

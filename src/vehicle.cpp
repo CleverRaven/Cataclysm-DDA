@@ -655,12 +655,12 @@ void vehicle::autopilot_patrol()
     /** choose one single zone ( multiple zones too complex for now )
      * choose a point at the far edge of the zone
      * the edge chosen is the edge that is smaller, therefore the longer side
-     * of the rectangle is the one the vehicle drives mostly parrallel too.
+     * of the rectangle is the one the vehicle drives mostly parallel too.
      * if its  perfect square then choose a point that is on any edge that the
      * vehicle is not currently at
      * drive to that point.
      * then once arrived, choose a random opposite point of the zone.
-     * this should ( in a simple fashion ) cause a patrolling behaviour
+     * this should ( in a simple fashion ) cause a patrolling behavior
      * in a criss-cross fashion.
      * in an auto-tractor, this would eventually cover the entire rectangle.
      */
@@ -951,7 +951,7 @@ void vehicle::do_autodrive()
 /**
  * Smashes up a vehicle that has already been placed; used for generating
  * very damaged vehicles. Additionally, any spot where two vehicles overlapped
- * (ie, any spot with multiple frames) will be completely destroyed, as that
+ * (i.e., any spot with multiple frames) will be completely destroyed, as that
  * was the collision point.
  */
 void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_max,
@@ -1305,7 +1305,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     if( parts_in_square.empty() && part.location != part_location_structure ) {
         return false;
     }
-    // If its a part that harnesses animals that dont allow placing on it.
+    // If its a part that harnesses animals that don't allow placing on it.
     if( !parts_in_square.empty() && part_info( parts_in_square[0] ).has_flag( "ANIMAL_CTRL" ) ) {
         return false;
     }
@@ -1644,7 +1644,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
             }
 
             /* If size = 0, it's the last part of the whole vehicle, so we're OK
-             * If size = 1, it's one protruding part (ie, bicycle wheel), so OK
+             * If size = 1, it's one protruding part (i.e., bicycle wheel), so OK
              * Otherwise, it gets complicated... */
             if( connected_parts.size() > 1 ) {
 
@@ -1900,7 +1900,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     }
 
     // We look at each of the structure parts (mount points, i.e. frames) for the
-    // carry vehicle and then find a rack part adjacent to it. If we dont find a rack part,
+    // carry vehicle and then find a rack part adjacent to it. If we don't find a rack part,
     // then we cant merge.
     bool found_all_parts = true;
     for( auto carry_part : carry_veh_structs ) {
@@ -4278,7 +4278,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
             witnesses.push_back( &elem );
         }
     }
-    // the vehicle is yours, thats fine.
+    // the vehicle is yours, that's fine.
     if( is_owned_by_player ) {
         return true;
         // if There is no owner
@@ -4293,7 +4293,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         set_owner( p.get_faction()->id );
         remove_old_owner();
         return true;
-        // No witnesses? then dont need to prompt, we assume the player is in process of stealing it.
+        // No witnesses? then don't need to prompt, we assume the player is in process of stealing it.
         // Ownership transfer checking is handled above, and warnings handled below.
         // This is just to perform interaction with the vehicle without a prompt.
         // It will prompt first-time, even with no witnesses, to inform player it is owned by someone else
@@ -4305,7 +4305,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
     if( check_only ) {
         return false;
     }
-    // if we got here, theres some theft occuring
+    // if we got here, there's some theft occurring
     if( prompt ) {
         if( !query_yn(
                 _( "This vehicle belongs to: %s, there may be consequences if you are observed interacting with it, continue?" ),
@@ -4313,7 +4313,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
             return false;
         }
     }
-    // set old owner so that we can restore ownerhip if there are witnesses.
+    // set old owner so that we can restore ownership if there are witnesses.
     set_old_owner( get_owner() );
     for( npc *elem : witnesses ) {
         elem->say( "<witnessed_thievery>", 7 );
@@ -4324,7 +4324,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
                 elem->make_angry();
             }
         }
-        // remove the temporary marker for a succesful theft, as it was witnessed.
+        // remove the temporary marker for a successful theft, as it was witnessed.
         remove_old_owner();
     }
     // if we got here, then the action will proceed after the previous warning
