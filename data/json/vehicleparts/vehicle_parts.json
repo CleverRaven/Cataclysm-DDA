@@ -2161,7 +2161,7 @@
   {
     "type": "vehicle_part",
     "id": "water_faucet",
-    "name": "water faucet",
+    "name": { "str": "water faucet" },
     "symbol": "u",
     "looks_like": "f_sink",
     "color": "light_gray",
@@ -2235,7 +2235,7 @@
   {
     "type": "vehicle_part",
     "id": "welding_rig",
-    "name": "welding rig",
+    "name": { "str": "welding rig" },
     "symbol": "&",
     "color": "light_red",
     "broken_symbol": "x",
@@ -3389,7 +3389,7 @@
   {
     "type": "vehicle_part",
     "id": "water_purifier",
-    "name": "water purifier",
+    "name": { "str": "water purifier" },
     "symbol": "&",
     "color": "blue",
     "broken_symbol": "*",
