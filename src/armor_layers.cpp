@@ -319,6 +319,8 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
                                     string_format( "%3d", static_cast<int>( worn_item.bash_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Cut:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.cut_resist() ) ), width ) );
+    prot.push_back( name_and_value( space + _( "Ballistic:" ),
+                                    string_format( "%3d", static_cast<int>( worn_item.bullet_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Acid:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.acid_resist() ) ), width ) );
     prot.push_back( name_and_value( space + _( "Fire:" ),
