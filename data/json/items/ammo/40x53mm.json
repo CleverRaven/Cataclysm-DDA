@@ -13,7 +13,7 @@
     "stack_size": 1,
     "ammo_type": "40x53mm",
     "range": 60,
-    "damage": { "damage_type": "stab", "amount": 80 },
+    "damage": { "damage_type": "bullet", "amount": 80 },
     "dispersion": 30,
     "recoil": 225,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
@@ -26,7 +26,7 @@
     "description": "40x53mm canister shot loaded with 17 grain flechettes.",
     "weight": "340 g",
     "volume": "137 ml",
-    "damage": { "damage_type": "stab", "amount": 150, "armor_penetration": 10 },
+    "damage": { "damage_type": "bullet", "amount": 150, "armor_penetration": 10 },
     "recoil": 1000,
     "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -39,7 +39,7 @@
     "description": "A high velocity 40x53mm HEDP grenade.  It can penetrate 3 inches of steel armor and fragmentation of the projectile body also makes it suitable for use against infantry.",
     "weight": "340 g",
     "volume": "132 ml",
-    "damage": { "damage_type": "stab", "amount": 250, "armor_penetration": 45 },
+    "damage": { "damage_type": "bullet", "amount": 250, "armor_penetration": 45 },
     "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "EXPLOSIVE_m430a1" ] }
   },
@@ -51,7 +51,7 @@
     "description": "An improvised 40x53mm buckshot load somewhat resembling M576.",
     "weight": "340 g",
     "range": 10,
-    "damage": { "damage_type": "stab", "amount": 100, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 100, "armor_penetration": 4 },
     "recoil": 1200,
     "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -64,7 +64,7 @@
     "description": "An improvised 40x53mm load resembling an oversized shotgun slug.",
     "weight": "340 g",
     "range": 10,
-    "damage": { "damage_type": "stab", "amount": 130, "armor_penetration": 6 },
+    "damage": { "damage_type": "bullet", "amount": 130, "armor_penetration": 6 },
     "recoil": 1200,
     "casing": "40x53mm_m169_casing"
   },
@@ -76,7 +76,7 @@
     "description": "An improvised 40x53mm flechette load containing 100 steel darts.",
     "weight": "340 g",
     "range": 10,
-    "damage": { "damage_type": "stab", "amount": 85, "armor_penetration": 6 },
+    "damage": { "damage_type": "bullet", "amount": 85, "armor_penetration": 6 },
     "recoil": 1200,
     "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "SHOT" ] }
