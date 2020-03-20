@@ -40,6 +40,7 @@ class material_type
         int _acid_resist = 0;
         int _elec_resist = 0;
         int _fire_resist = 0;
+        int _bullet_resist = 0;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         int _density = 1;                             // relative to "powder", which is 1
         float _specific_heat_liquid = 4.186;
