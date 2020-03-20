@@ -82,7 +82,7 @@
   {
     "id": "tank",
     "type": "vehicle_part",
-    "name": "vehicle tank (60L)",
+    "name": { "str": "vehicle tank (60L)" },
     "item": "metal_tank",
     "location": "fuel_source",
     "symbol": "O",
