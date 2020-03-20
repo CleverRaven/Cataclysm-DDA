@@ -412,7 +412,7 @@
   {
     "id": "wheel_tricycle",
     "type": "vehicle_part",
-    "name": "tricycle wheels",
+    "name": { "str": "tricycle wheels" },
     "item": "wheel_tricycle",
     "location": "under",
     "symbol": "|",
@@ -436,7 +436,7 @@
   {
     "id": "wheel_unicycle",
     "type": "vehicle_part",
-    "name": "unicycle wheel",
+    "name": { "str": "unicycle wheel" },
     "item": "wheel_bicycle",
     "location": "under",
     "looks_like": "wheel_bicycle",
@@ -446,7 +446,7 @@
     "durability": 40,
     "description": "A small wheel.",
     "damage_modifier": 50,
-    "folded_volume": 14,
+    "folded_volume": "3500 ml",
     "breaks_into": [
       { "item": "steel_lump", "prob": 50 },
       { "item": "steel_chunk", "count": [ 1, 2 ] },

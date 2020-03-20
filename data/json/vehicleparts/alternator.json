@@ -86,7 +86,7 @@
     "id": "alternator_truck",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
-    "name": "truck alternator",
+    "name": { "str": "truck alternator" },
     "//": "110A @12VDC ~ 3HP drain @ 60% efficiency",
     "item": "alternator_truck",
     "durability": 325,
