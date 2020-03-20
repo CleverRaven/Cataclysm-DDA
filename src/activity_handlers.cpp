@@ -1629,6 +1629,20 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 
 void activity_handlers::forage_finish( player_activity *act, player *p )
 {
+    // Don't forage if we aren't next to the bush - otherwise we get weird bugs
+    bool next_to_bush = false;
+    for( const tripoint &pnt : g->m.points_in_radius( p->pos(), 1 ) ) {
+        if( g->m.getabs( pnt ) == act->placement ) {
+            next_to_bush = true;
+            break;
+        }
+    }
+
+    if( !next_to_bush ) {
+        act->set_to_null();
+        return;
+    }
+
     const int veggy_chance = rng( 1, 100 );
     bool found_something = false;
 
@@ -1656,7 +1670,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             debugmsg( "Invalid season" );
     }
 
-    g->m.ter_set( act->placement, next_ter );
+    g->m.ter_set( g->m.getlocal( act->placement ), next_ter );
 
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
