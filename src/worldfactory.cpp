@@ -108,9 +108,9 @@ worldfactory::worldfactory()
     , mman_ui( *mman )
 {
     // prepare tab display order
-    tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_modselection, this, _1, _2 ) );
-    tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_options, this, _1, _2 ) );
-    tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_confirm, this, _1, _2 ) );
+    tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_modselection, this, _1, _2, _3 ) );
+    tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_options, this, _1, _2, _3 ) );
+    tabs.push_back( std::bind( &worldfactory::show_worldgen_tab_confirm, this, _1, _2, _3 ) );
 }
 
 worldfactory::~worldfactory() = default;
@@ -160,19 +160,12 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
             wrefresh( wf_win );
         } );
 
-        int lasttab = 0; // give placement memory to menus, sorta.
         const size_t numtabs = tabs.size();
         while( static_cast<size_t>( curtab ) < numtabs ) {
             ui_manager::redraw();
-            lasttab = curtab;
-            curtab += tabs[curtab]( wf_win, retworld.get() );
-
-            // If it is -1, or for unsigned size_t, it would be max.
-            if( curtab < 0 ) {
-                if( !query_yn( _( "Do you want to abort World Generation?" ) ) ) {
-                    curtab = lasttab;
-                }
-            }
+            curtab += tabs[curtab]( wf_win, retworld.get(), []() -> bool {
+                return query_yn( _( "Do you want to abort World Generation?" ) );
+            } );
         }
         if( curtab < 0 ) {
             return nullptr;
@@ -605,10 +598,11 @@ std::string worldfactory::pick_random_name()
     return get_next_valid_worldname();
 }
 
-int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLDPTR world )
+int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLDPTR world,
+        const std::function<bool()> &on_quit )
 {
     get_options().set_world_options( &world->WORLD_OPTIONS );
-    const std::string action = get_options().show( false, true );
+    const std::string action = get_options().show( false, true, on_quit );
     get_options().set_world_options( nullptr );
     if( action == "PREV_TAB" ) {
         return -1;
@@ -804,7 +798,8 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
     }
 }
 
-int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world )
+int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
+        const std::function<bool()> &on_quit )
 {
     // Use active_mod_order of the world,
     // saves us from writing 'world->active_mod_order' all the time.
@@ -1069,7 +1064,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             if( const MOD_INFORMATION *selmod = get_selected_mod() ) {
                 popup( "%s", mman_ui->get_information( selmod ) );
             }
-        } else if( action == "QUIT" ) {
+        } else if( action == "QUIT" && ( !on_quit || on_quit() ) ) {
             tab_output = -999;
         }
         // RESOLVE INPUTS
@@ -1103,7 +1098,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     return tab_output;
 }
 
-int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world )
+int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world,
+        const std::function<bool()> &on_quit )
 {
     catacurses::window w_confirmation;
 
@@ -1202,8 +1198,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
             return -1;
         } else if( action == "PICK_RANDOM_WORLDNAME" ) {
             world->world_name = worldname = pick_random_name();
-        } else if( action == "QUIT" ) {
-            // Cache the current name just in case they say No to the exit query.
+        } else if( action == "QUIT" && ( !on_quit || on_quit() ) ) {
             world->world_name = worldname;
             return -999;
         } else if( action == "ANY_INPUT" ) {
