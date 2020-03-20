@@ -1725,7 +1725,7 @@
   {
     "id": "mountable_cooler",
     "type": "vehicle_part",
-    "name": "vehicle-mounted cooler",
+    "name": { "str": "vehicle-mounted cooler" },
     "item": "mountable_cooler",
     "location": "on_roof",
     "symbol": "C",
