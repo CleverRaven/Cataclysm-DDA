@@ -482,6 +482,7 @@ This section describes each json file and their contents. Each json has their ow
 | env_protec                  | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
 | bash_protec                 | (_optional_) How much bash protection does this bionic provide on the specified body parts.
 | cut_protec                  | (_optional_) How much cut protection does this bionic provide on the specified body parts.
+| bullet_protect              | (_optional_) How much bullet protect does this bionic provide on the specified body parts.
 | occupied_bodyparts          | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
 | capacity                    | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | fuel_options                | (_optional_) A list of fuel that this bionic can use to produce bionic power.
@@ -522,6 +523,7 @@ This section describes each json file and their contents. Each json has their ow
     "env_protec": [ [ "mouth", 7 ] ],
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
 }
 ```
@@ -632,6 +634,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `name`           | In-game name displayed.
 | `bash_resist`    | How well a material resists bashing damage.
 | `cut_resist`     | How well a material resists cutting damage.
+| `bullet_resist`  | How well a material resists bullet damage.
 | `acid_resist`    | Ability of a material to resist acid.
 | `elec_resist`    | Ability of a material to resist electricity.
 | `fire_resist`    | Ability of a material to resist fire.
@@ -666,6 +669,7 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
     "rotting": true,
     "bash_resist": 1,
     "cut_resist": 1,
+    "bullet_resist": 1,
     "acid_resist": 1,
     "fire_resist": 1,
     "elec_resist": 1,
@@ -2919,7 +2923,7 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 "restricted": true,       // (optional) If true, clothing must list this mod's flag in "valid_mods" list to use it. Defaults to false.
 "mod_value": [            // List of mod effect.
     {
-        "type": "bash",   // "bash", "cut", "fire", "acid", "warmth", "storage", and "encumbrance" is available.
+        "type": "bash",   // "bash", "cut", "bullet", "fire", "acid", "warmth", "storage", and "encumbrance" is available.
         "value": 1,       // value of effect.
         "round_up": false // (optional) round up value of effect. defaults to false.
         "proportion": [   // (optional) value of effect propotions to clothing's parameter.

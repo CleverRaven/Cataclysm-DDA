@@ -714,6 +714,11 @@
     "type": "json_flag"
   },
   {
+    "id": "EFFECT_BULLET_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
     "id": "EFFECT_ACID_IMMUNE",
     "context": [  ],
     "type": "json_flag"
