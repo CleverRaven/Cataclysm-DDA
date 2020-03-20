@@ -2616,7 +2616,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         }
     }
 
-    for( int i = 0; i < river_start.size(); i++ ) {
+    for( size_t i = 0; i < river_start.size(); i++ ) {
         point pa = river_start.at( i );
         point pb = river_end.at( i );
         place_river( pa, pb, river_scale );
@@ -2752,7 +2752,7 @@ void overmap::place_river( point pa, point pb, int river_scale )
     const auto cubic_bezier = [&]( point & pa, point & pb, point & pc, point & pd, const int n_segs ) {
         std::vector<point> pts;
         for( int i = 0; i <= n_segs; ++i ) {
-            double t = ( double )i / ( double )n_segs;
+            double t = static_cast<double>( i ) / static_cast<double>( n_segs );
             int x = static_cast<int>( pow( ( 1.0 - t ), 3.0 ) * pa.x + ( 3.0 * t * pow( ( 1.0 - t ),
                                       2.0 ) ) * pb.x + ( 3.0 * pow( t, 2.0 ) * ( 1.0 - t ) ) * pc.x + pow( t, 3.0 ) * pd.x );
 
@@ -2783,7 +2783,7 @@ void overmap::place_river( point pa, point pb, int river_scale )
     std::vector<point> center_points; //Contains center line of river
     point last;
     int orig_scale = river_scale;
-    for( int i = 0; i < sub_ends.size(); i++ ) {
+    for( size_t i = 0; i < sub_ends.size(); i++ ) {
         tmp.clear();
         int x = 0, y = 0; //offsets
         int j = i + 1;
