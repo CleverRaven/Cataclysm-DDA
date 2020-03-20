@@ -68,7 +68,7 @@
     "id": "broken_afs_mon_migoturret",
     "symbol": ",",
     "color": "green",
-    "name": "broken mi-go turret",
+    "name": { "str": "broken mi-go turret" },
     "category": "other",
     "description": "A broken mi-go turret.  It's leaking fluids and smells you can't identify.  Could be butchered for parts.",
     "price": 1000,
