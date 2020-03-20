@@ -76,6 +76,7 @@
     "melee_cut": 0,
     "armor_bash": 4,
     "armor_cut": 6,
+    "armor_bullet": 4,
     "armor_stab": 4,
     "vision_day": 30,
     "vision_night": 3,
