@@ -1050,7 +1050,7 @@
   {
     "type": "vehicle_part",
     "id": "washing_machine",
-    "name": "washing machine",
+    "name": { "str": "washing machine" },
     "symbol": "H",
     "looks_like": "f_washer",
     "color": "light_blue",
@@ -1702,7 +1702,7 @@
   {
     "id": "mountable_heater",
     "type": "vehicle_part",
-    "name": "vehicle-mounted heater",
+    "name": { "str": "vehicle-mounted heater" },
     "item": "mountable_heater",
     "location": "center",
     "symbol": ";",
