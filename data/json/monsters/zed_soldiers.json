@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_soldier",
     "type": "MONSTER",
-    "name": "zombie soldier",
+    "name": { "str": "zombie soldier" },
     "description": "Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -288,7 +288,7 @@
   {
     "id": "mon_zombie_military_pilot",
     "type": "MONSTER",
-    "name": "zombie military pilot",
+    "name": { "str": "zombie military pilot" },
     "description": "Once a pilot, it is dressed in basic military fatigues, aviator sunglasses, and a sturdy looking helmet.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -336,7 +336,7 @@
   {
     "id": "mon_zombie_flamer",
     "type": "MONSTER",
-    "name": "zombie burner",
+    "name": { "str": "zombie burner" },
     "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead.  Their failure is made manifest in this gas-masked husk, its black suit torn and ripped.  Its flamethrower, dangling limply at its side, is attached to a tank of napalm strapped onto its back, which trickles its contents onto the ground.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -419,7 +419,7 @@
   {
     "id": "mon_zombie_bio_op",
     "type": "MONSTER",
-    "name": "zombie bio-operator",
+    "name": { "str": "zombie bio-operator" },
     "description": "This armored and augmented soldier's bionics crackle with energy.  Worse, it appears to remember its training.",
     "default_faction": "zombie",
     "bodytype": "human",

@@ -201,7 +201,7 @@
   {
     "id": "mon_vinebeast",
     "type": "MONSTER",
-    "name": "vine beast",
+    "name": { "str": "vine beast" },
     "description": "An animated mass of roots and vines, creeping along the ground with alarming speed.  The tangle is thick enough that the center from which they grow is concealed.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],
