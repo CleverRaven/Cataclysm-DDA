@@ -35,6 +35,7 @@ constexpr point MENU_AUTOASSIGN_POS( MENU_AUTOASSIGN, MENU_AUTOASSIGN );
 struct input_event;
 class input_context;
 class string_input_popup;
+class ui_adaptor;
 
 catacurses::window new_centered_win( int nlines, int ncols );
 
@@ -234,6 +235,8 @@ class uilist: public ui_container
 
         void init();
         void setup();
+        // initialize the window or reposition it after screen size change.
+        void reposition( ui_adaptor &ui );
         void show();
         bool scrollby( int scrollby );
         int scroll_amount_from_key( int key );

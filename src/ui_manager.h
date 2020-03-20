@@ -17,7 +17,13 @@ class ui_adaptor
         using redraw_callback_t = std::function<void( const ui_adaptor & )>;
         using screen_resize_callback_t = std::function<void( ui_adaptor & )>;
 
+        struct disable_uis_below {
+        };
+
         ui_adaptor();
+        // ui_adaptor constructed this way will block any uis below from being
+        // redrawn or resized until it is deconstructed.
+        ui_adaptor( disable_uis_below );
         ui_adaptor( const ui_adaptor &rhs ) = delete;
         ui_adaptor( ui_adaptor &&rhs ) = delete;
         ~ui_adaptor();
@@ -26,6 +32,9 @@ class ui_adaptor
         ui_adaptor &operator=( ui_adaptor &&rhs ) = delete;
 
         void position_from_window( const catacurses::window &win );
+        // Set redraw and resizing callbacks. These callbacks should NOT call
+        // `debugmsg`, construct new `ui_adaptor` instances, deconstruct old
+        // `ui_adaptor` instances, call `redraw`, or call `screen_resized`.
         void on_redraw( const redraw_callback_t &fun );
         void on_screen_resize( const screen_resize_callback_t &fun );
 
@@ -38,7 +47,10 @@ class ui_adaptor
         redraw_callback_t redraw_cb;
         screen_resize_callback_t screen_resized_cb;
 
+        bool disabling_uis_below;
+
         mutable bool invalidated;
+        mutable bool deferred_resize;
 };
 
 // export static funcs of ui_adaptor with a more coherent scope name

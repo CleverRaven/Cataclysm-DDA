@@ -6,12 +6,17 @@
 #include <vector>
 #include <string>
 
+class ui_adaptor;
 class uilist;
 
 class loading_ui
 {
     private:
         std::unique_ptr<uilist> menu;
+        std::unique_ptr<ui_adaptor> ui;
+        std::unique_ptr<ui_adaptor> ui_background;
+
+        void init();
     public:
         loading_ui( bool display );
         ~loading_ui();
@@ -25,11 +30,12 @@ class loading_ui
          */
         void add_entry( const std::string &description );
         /**
-         * Marks current entry as processed and scrolls down.
+         * Place the UI onto UI stack, mark current entry as processed, scroll down,
+         * and redraw. (if display is enabled)
          */
         void proceed();
         /**
-         * Shows the UI on the screen (if display is enabled).
+         * Place the UI onto UI stack and redraw it on the screen (if display is enabled).
          */
         void show();
 };

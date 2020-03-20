@@ -8,7 +8,14 @@
 
 static std::vector<std::reference_wrapper<ui_adaptor>> ui_stack;
 
-ui_adaptor::ui_adaptor() : invalidated( false )
+ui_adaptor::ui_adaptor() : disabling_uis_below( false ), invalidated( false ),
+    deferred_resize( false )
+{
+    ui_stack.emplace_back( *this );
+}
+
+ui_adaptor::ui_adaptor( ui_adaptor::disable_uis_below ) : disabling_uis_below( true ),
+    invalidated( false ), deferred_resize( false )
 {
     ui_stack.emplace_back( *this );
 }
@@ -81,10 +88,37 @@ void ui_adaptor::invalidate( const rectangle &rect )
 
 void ui_adaptor::redraw()
 {
+    // apply deferred resizing
+    auto first = ui_stack.rbegin();
+    for( ; first != ui_stack.rend(); ++first ) {
+        if( first->get().disabling_uis_below ) {
+            break;
+        }
+    }
+    for( auto it = first == ui_stack.rend() ? ui_stack.begin() : std::prev( first.base() );
+         it != ui_stack.end(); ++it ) {
+        ui_adaptor &ui = *it;
+        if( ui.deferred_resize ) {
+            if( ui.screen_resized_cb ) {
+                ui.screen_resized_cb( ui );
+            }
+            ui.deferred_resize = false;
+        }
+    }
+
+    // redraw invalidated uis
     // TODO refresh only when all stacked UIs are drawn
     if( !ui_stack.empty() ) {
         ui_stack.back().get().invalidated = true;
-        for( const ui_adaptor &ui : ui_stack ) {
+        auto first = ui_stack.crbegin();
+        for( ; first != ui_stack.crend(); ++first ) {
+            if( first->get().disabling_uis_below ) {
+                break;
+            }
+        }
+        for( auto it = first == ui_stack.crend() ? ui_stack.cbegin() : std::prev( first.base() );
+             it != ui_stack.cend(); ++it ) {
+            const ui_adaptor &ui = *it;
             if( ui.invalidated ) {
                 if( ui.redraw_cb ) {
                     ui.redraw_cb( ui );
@@ -98,9 +132,7 @@ void ui_adaptor::redraw()
 void ui_adaptor::screen_resized()
 {
     for( ui_adaptor &ui : ui_stack ) {
-        if( ui.screen_resized_cb ) {
-            ui.screen_resized_cb( ui );
-        }
+        ui.deferred_resize = true;
     }
     redraw();
 }

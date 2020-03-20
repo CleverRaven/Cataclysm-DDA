@@ -2774,9 +2774,6 @@ void game::load( const save_t &name )
 
 void game::load_world_modfiles( loading_ui &ui )
 {
-    catacurses::erase();
-    catacurses::refresh();
-
     auto &mods = world_generator->active_world->active_mod_order;
 
     // remove any duplicates whilst preserving order (fixes #19385)
@@ -2807,9 +2804,6 @@ void game::load_world_modfiles( loading_ui &ui )
 
     // Load additional mods from that world-specific folder
     load_data_from_dir( get_world_base_save_path() + "/mods", "custom", ui );
-
-    catacurses::erase();
-    catacurses::refresh();
 
     DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
