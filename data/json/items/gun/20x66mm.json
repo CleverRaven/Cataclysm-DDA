@@ -19,7 +19,7 @@
     "ammo": "20x66mm",
     "skill": "shotgun",
     "range": 6,
-    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 285,
     "durability": 9,
     "clip_size": 5,

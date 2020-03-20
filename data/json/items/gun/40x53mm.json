@@ -15,7 +15,7 @@
     "material": "steel",
     "ammo": "40x53mm",
     "range": 30,
-    "ranged_damage": { "damage_type": "stab", "amount": 1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 180,
     "durability": 8,
     "reload": 400,

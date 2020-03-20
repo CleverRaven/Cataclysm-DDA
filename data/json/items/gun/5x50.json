@@ -18,7 +18,7 @@
     "ammo": "5x50",
     "skill": "smg",
     "range": 10,
-    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 220,
     "durability": 9,
     "barrel_length": "250 ml",

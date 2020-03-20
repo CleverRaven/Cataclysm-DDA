@@ -15,7 +15,7 @@
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
     "ammo": "500",
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 180,
     "durability": 8,
     "blackpowder_tolerance": 32,

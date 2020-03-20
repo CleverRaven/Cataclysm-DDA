@@ -18,7 +18,7 @@
     ],
     "volume": "2250 ml",
     "weight": "3600 g",
-    "relative": { "range": -2, "ranged_damage": { "damage_type": "stab", "amount": -4 } },
+    "relative": { "range": -2, "ranged_damage": { "damage_type": "bullet", "amount": -4 } },
     "proportional": { "bashing": 0.6, "dispersion": 1.35, "reload": 0.6 }
   },
   {
@@ -30,7 +30,7 @@
     "clip_size": 2,
     "price_postapoc": 2750,
     "proportional": { "dispersion": 1.3, "weight": 1.25, "volume": 1.25 },
-    "relative": { "weight": 400, "range": -1, "ranged_damage": { "damage_type": "stab", "amount": -2 } },
+    "relative": { "weight": 400, "range": -1, "ranged_damage": { "damage_type": "bullet", "amount": -2 } },
     "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
@@ -52,7 +52,7 @@
     "ammo": "flintlock",
     "skill": "pistol",
     "range": 2,
-    "ranged_damage": { "damage_type": "stab", "amount": 2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 620,
     "durability": 6,
     "blackpowder_tolerance": 96,
@@ -87,7 +87,7 @@
     "ammo": "flintlock",
     "skill": "rifle",
     "range": 6,
-    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 180,
     "durability": 6,
     "blackpowder_tolerance": 96,
