@@ -35,6 +35,7 @@
 #include "worldfactory.h"
 #include "mod_manager.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 #if !defined(_MSC_VER)
 #include <sys/time.h>
@@ -144,31 +145,45 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         );
 #endif
 
-    fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
-                    "\n\n" // Looks nicer with some space
-                    " %s\n" // translated user string: error notification
-                    " -----------------------------------------------------------\n"
-                    "%s"
-                    " -----------------------------------------------------------\n"
+    // temporarily disable redrawing and resizing of previous uis since they
+    // could be in an unknown state.
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    const auto init_window = []( ui_adaptor & ui ) {
+        ui.position_from_window( catacurses::stdscr );
+    };
+    init_window( ui );
+    ui.on_screen_resize( init_window );
+    const std::string message = string_format(
+                                    "\n\n" // Looks nicer with some space
+                                    " %s\n" // translated user string: error notification
+                                    " -----------------------------------------------------------\n"
+                                    "%s"
+                                    " -----------------------------------------------------------\n"
 #if defined(BACKTRACE)
-                    " %s\n" // translated user string: where to find backtrace
+                                    " %s\n" // translated user string: where to find backtrace
 #endif
-                    " %s\n" // translated user string: space to continue
-                    " %s\n" // translated user string: ignore key
+                                    " %s\n" // translated user string: space to continue
+                                    " %s\n" // translated user string: ignore key
 #if defined(TILES)
-                    " %s\n" // translated user string: copy
+                                    " %s\n" // translated user string: copy
 #endif // TILES
-                    , _( "An error has occurred!  Written below is the error report:" ),
-                    formatted_report,
+                                    , _( "An error has occurred!  Written below is the error report:" ),
+                                    formatted_report,
 #if defined(BACKTRACE)
-                    backtrace_instructions,
+                                    backtrace_instructions,
 #endif
-                    _( "Press <color_white>space bar</color> to continue the game." ),
-                    _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
+                                    _( "Press <color_white>space bar</color> to continue the game." ),
+                                    _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
 #if defined(TILES)
-                    , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
+                                    , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
 #endif // TILES
-                  );
+                                );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        catacurses::erase();
+        fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
+                        "%s", message );
+        catacurses::refresh();
+    } );
 
 #if defined(__ANDROID__)
     input_context ctxt( "DEBUG_MSG" );
@@ -177,6 +192,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     ctxt.register_manual_key( ' ' );
 #endif
     for( bool stop = false; !stop; ) {
+        ui_manager::redraw();
         switch( inp_mngr.get_input_event().get_first_input() ) {
 #if defined(TILES)
             case 'c':
@@ -193,9 +209,6 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
                 break;
         }
     }
-
-    werase( catacurses::stdscr );
-    catacurses::refresh();
 }
 
 // Normal functions                                                 {{{1

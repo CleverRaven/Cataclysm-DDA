@@ -2463,7 +2463,8 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
     wrefresh( w );
 }
 
-std::string options_manager::show( bool ingame, const bool world_options_only )
+std::string options_manager::show( bool ingame, const bool world_options_only,
+                                   const std::function<bool()> &on_quit )
 {
     const int iWorldOptPage = std::find_if( pages_.begin(), pages_.end(), [&]( const Page & p ) {
         return &p == &world_default_page_;
@@ -2716,7 +2717,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         const std::string action = ctxt.handle_input();
 
-        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
+        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" ||
+                                    ( action == "QUIT" && ( !on_quit || on_quit() ) ) ) ) {
             return action;
         }
 
