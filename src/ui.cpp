@@ -517,6 +517,35 @@ void uilist::setup()
     started = true;
 }
 
+void uilist::reposition( ui_adaptor &ui )
+{
+    if( !started ) {
+        setup();
+    } else if( w_x_autoassigned || w_y_autoassigned ) {
+        // because the way `setup()` works we cannot call it again here,
+        // so just move the window to the center of the screen instead.
+        if( w_x_autoassigned ) {
+            if( w_width >= TERMX ) {
+                w_x = 0;
+            } else {
+                w_x = ( TERMX - w_width ) / 2;
+            }
+        }
+        if( w_y_autoassigned ) {
+            if( w_height > TERMY ) {
+                w_y = 0;
+            } else {
+                w_y = ( TERMY - w_height ) / 2;
+            }
+        }
+        window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
+        if( filter_popup ) {
+            filter_popup->window( window, 4, w_height - 1, w_width - 4 );
+        }
+    }
+    ui.position_from_window( window );
+}
+
 void uilist::apply_scrollbar()
 {
     if( !scrollbar_auto ) {
@@ -831,34 +860,9 @@ void uilist::query( bool loop, int timeout )
         show();
     } );
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
-        if( w_x_autoassigned || w_y_autoassigned ) {
-            // because the way `setup()` works we cannot call it again here,
-            // so just move the window to the center of the screen instead.
-            if( w_x_autoassigned ) {
-                if( w_width >= TERMX ) {
-                    w_x = 0;
-                } else {
-                    w_x = ( TERMX - w_width ) / 2;
-                }
-            }
-            if( w_y_autoassigned ) {
-                if( w_height > TERMY ) {
-                    w_y = 0;
-                } else {
-                    w_y = ( TERMY - w_height ) / 2;
-                }
-            }
-            window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
-            if( filter_popup ) {
-                filter_popup->window( window, 4, w_height - 1, w_width - 4 );
-            }
-            ui.position_from_window( window );
-        }
+        reposition( ui );
     } );
-    if( !started ) {
-        setup();
-    }
-    ui.position_from_window( window );
+    reposition( ui );
 
     ui_manager::redraw();
 
