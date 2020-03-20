@@ -3421,7 +3421,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
     p.assign_activity( ACT_FORAGE, move_cost, 0 );
-    p.activity.placement = examp;
+    p.activity.placement = g->m.getabs( examp );
     p.activity.auto_resume = true;
     return;
 }
