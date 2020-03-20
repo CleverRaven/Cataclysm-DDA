@@ -168,6 +168,11 @@ int material_type::cut_resist() const
     return _cut_resist;
 }
 
+int material_type::bullet_resist() const
+{
+    return _bullet_resist;
+}
+
 std::string material_type::bash_dmg_verb() const
 {
     return _( _bash_dmg_verb );

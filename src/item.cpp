@@ -5675,6 +5675,35 @@ int item::stab_resist( bool to_self ) const
     return static_cast<int>( 0.8f * cut_resist( to_self ) );
 }
 
+int item::bullet_resist( bool to_self ) const
+{
+    if( is_null() ) {
+        return 0;
+    }
+
+    const int base_thickness = get_thickness();
+    float resist = 0;
+    float mod = get_clothing_mod_val( clothing_mod_type_bullet );
+    int eff_thickness = 1;
+
+    // base resistance
+    // Don't give reinforced items +armor, just more resistance to ripping
+    const int dmg = damage_level( 4 );
+    const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+    eff_thickness = std::max( 1, base_thickness - eff_damage );
+
+    const std::vector<const material_type *> mat_types = made_of_types();
+    if( !mat_types.empty() ) {
+        for( const material_type *mat : mat_types ) {
+            resist += mat->bullet_resist();
+        }
+        // Average based on number of materials.
+        resist /= mat_types.size();
+    }
+
+    return std::lround( ( resist * eff_thickness ) + mod );
+}
+
 int item::acid_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
@@ -5943,6 +5972,8 @@ int item::damage_resist( damage_type dt, bool to_self ) const
             return stab_resist( to_self );
         case DT_HEAT:
             return fire_resist( to_self );
+        case DT_BULLET:
+            return bullet_resist( to_self );
         default:
             debugmsg( "Invalid damage type: %d", dt );
     }

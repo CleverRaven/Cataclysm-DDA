@@ -972,6 +972,7 @@ class item : public visitable<item>
         int bash_resist( bool to_self = false ) const;
         int cut_resist( bool to_self = false )  const;
         int stab_resist( bool to_self = false ) const;
+        int bullet_resist( bool to_self = false ) const;
         /*@}*/
 
         /**

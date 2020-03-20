@@ -990,6 +990,8 @@ nc_color spell::damage_type_color() const
             return c_light_gray;
         case DT_ELECTRIC:
             return c_light_blue;
+        case DT_BULLET:
+        /* fallthrough */
         case DT_STAB:
             return c_light_red;
         case DT_TRUE:

@@ -85,6 +85,7 @@ class material_type
         itype_id repaired_with() const;
         int bash_resist() const;
         int cut_resist() const;
+        int bullet_resist() const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
         std::string dmg_adj( int damage ) const;
