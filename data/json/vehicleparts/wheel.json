@@ -162,7 +162,7 @@
   {
     "id": "wheel",
     "type": "vehicle_part",
-    "name": "wheel",
+    "name": { "str": "wheel" },
     "item": "wheel",
     "location": "under",
     "symbol": "0",
@@ -229,7 +229,7 @@
   {
     "id": "wheel_barrow",
     "type": "vehicle_part",
-    "name": "wheelbarrow wheel",
+    "name": { "str": "wheelbarrow wheel" },
     "item": "wheel_barrow",
     "location": "under",
     "looks_like": "wheel_bicycle",
@@ -321,7 +321,7 @@
   {
     "id": "wheel_10",
     "type": "vehicle_part",
-    "name": "wheels",
+    "name": { "str": "wheels" },
     "item": "wheel_10",
     "location": "under",
     "symbol": "o",
@@ -466,7 +466,7 @@
   {
     "id": "wheel_wheelchair",
     "type": "vehicle_part",
-    "name": "wheelchair wheel",
+    "name": { "str": "wheelchair wheel" },
     "item": "wheel_wheelchair",
     "location": "under",
     "looks_like": "wheel_bicycle",

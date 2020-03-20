@@ -1924,7 +1924,7 @@
   {
     "type": "vehicle_part",
     "id": "water_wheel",
-    "name": "water wheel",
+    "name": { "str": "water wheel" },
     "symbol": "*",
     "color": "yellow",
     "broken_symbol": "x",
