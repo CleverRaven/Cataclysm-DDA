@@ -209,7 +209,7 @@ food_summary stomach_contents::digest( const Character &owner, const needs_rates
     // Digest kCal -- use min_kcal by default, but no more than what's in stomach,
     // and no less than percentage_kcal of what's in stomach.
     int kcal_fraction = lround( nutr.kcal * rates.percent_kcal );
-    digested.nutr.kcal = half_hours * clamp( kcal_fraction, rates.min_kcal, nutr.kcal );
+    digested.nutr.kcal = half_hours * clamp( nutr.kcal, kcal_fraction, rates.min_kcal );
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
     for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins ) {
