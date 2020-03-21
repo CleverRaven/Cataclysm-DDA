@@ -78,6 +78,7 @@ enum quit_status {
     QUIT_NOSAVED,   // Quit without saving
     QUIT_DIED,      // Actual death
     QUIT_WATCH,     // Died, and watching aftermath
+    QUIT_NPC_TAKEOVER, // Died, and take over an NPC follower (external option)
 };
 
 enum safe_mode_type {
@@ -854,7 +855,7 @@ class game
         bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
 
         void item_action_menu(); // Displays item action menu
-
+        void quit_takeover_npc( npc &guy ); // takeover an npc follower after death.
         bool is_game_over();     // Returns true if the player quit or died
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
         void draw_minimap();     // Draw the 5x5 minimap

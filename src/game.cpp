@@ -2508,8 +2508,49 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
     return true;
 }
 
+void game::quit_takeover_npc( npc &guy )
+{
+    uquit = QUIT_NO;
+    u.place_corpse();
+    u.copy_from_npc_values( guy );
+    u.setpos( guy.pos() );
+    remove_npc_follower( guy.getID() );
+    for( auto it = active_npc.begin(); it != active_npc.end(); ) {
+        if( (*it)->getID() == guy.getID() ){
+            active_npc.erase( it );
+            break;
+        }
+    }
+    overmap_buffer.remove_npc( guy.getID() );
+}
+
 bool game::is_game_over()
 {
+    validate_npc_followers();
+    if( uquit == QUIT_NPC_TAKEOVER ){
+        std::vector<npc *> followers;
+        for( auto &elem : g->get_follower_list() ) {
+            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get ) {
+                continue;
+            }
+            npc *npc_to_add = npc_to_get.get();
+            followers.push_back( npc_to_add );
+        }
+        if( !followers.empty() ){
+            uilist smenu;
+            smenu.text = _( "Continue playing as which follower?" );
+            for( npc *entry : followers ) {
+                smenu.addentry( entry->disp_name() );
+            }
+            smenu.query();
+
+            if( smenu.ret >= 0 && static_cast<size_t>( smenu.ret ) < followers.size() ) {
+                quit_takeover_npc( *followers[smenu.ret]);
+                return false;
+            }
+        }
+    }
     if( uquit == QUIT_WATCH ) {
         // deny player movement and dodging
         u.moves = 0;
@@ -2537,6 +2578,12 @@ bool game::is_game_over()
     }
     // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
     if( u.is_dead_state() ) {
+        if( get_option<bool>( "NPC_AFTERLIFE" ) && !get_follower_list().empty() ){
+            if( query_yn( _( "Choose to continue playing as one of your followers?" ) ) ){
+                uquit = QUIT_NPC_TAKEOVER;
+                return is_game_over();
+            }
+        }
         Messages::deactivate();
         if( get_option<std::string>( "DEATHCAM" ) == "always" ) {
             uquit = QUIT_WATCH;

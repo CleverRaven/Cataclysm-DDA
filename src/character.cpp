@@ -6006,6 +6006,79 @@ std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
     return only_main ? main_bps : all_bps;
 }
 
+void Character::copy_from_npc_values( npc &guy )
+{
+    // make a blank slate, delete all stuff the player has.
+    return;
+    inv.clear();
+    if( is_armed() && !can_unwield( weapon ).success() ) {
+        i_rem( &weapon );
+    }
+    //for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+        //remove_mutation( mut.first );
+    //}
+    addictions.clear();
+    morale->clear();
+
+    //for( int part = 0; part < num_hp_parts; part++ ) {
+        //hp_cur[part] = guy.hp_cur[part];
+    //}
+    set_hunger( guy.hunger );
+    set_thirst( guy.thirst );
+    set_fatigue( guy.fatigue );
+    set_healthy( guy.healthy );
+    set_healthy_mod( guy.healthy_mod );
+    set_stim( guy.stim );
+    set_pain( guy.get_pain() );
+    set_painkiller( guy.pkill );
+    set_rad( guy.radiation );
+    str_bonus = guy.str_bonus;
+    dex_bonus = guy.dex_bonus;
+    per_bonus = guy.per_bonus;
+    int_bonus = guy.int_bonus;
+    healthy = guy.healthy;
+    healthy_mod = guy.healthy_mod;
+    hunger = guy.hunger;
+    thirst = guy.thirst;
+    fatigue = guy.fatigue;
+    sleep_deprivation = guy.sleep_deprivation;
+    tank_plut = guy.tank_plut;
+    reactor_plut = guy.reactor_plut;
+    slow_rad = guy.slow_rad;
+    set_stamina( get_option<int>( "PLAYER_MAX_STAMINA" ) );
+    update_type_of_scent( true );
+    // 45 days to starve to death
+    healthy_calories = guy.healthy_calories;
+    stored_calories = healthy_calories;
+    initialize_stomach_contents();
+    healed_total = { { 0, 0, 0, 0, 0, 0 } };
+
+    name = guy.name;
+
+    move_mode = CMM_WALK;
+
+    temp_cur.fill( BODYTEMP_NORM );
+    frostbite_timer.fill( 0 );
+    temp_conv.fill( BODYTEMP_NORM );
+
+    body_wetness.fill( 0 );
+
+    drench_capacity[bp_eyes] = 1;
+    drench_capacity[bp_mouth] = 1;
+    drench_capacity[bp_head] = 7;
+    drench_capacity[bp_leg_l] = 11;
+    drench_capacity[bp_leg_r] = 11;
+    drench_capacity[bp_foot_l] = 3;
+    drench_capacity[bp_foot_r] = 3;
+    drench_capacity[bp_arm_l] = 10;
+    drench_capacity[bp_arm_r] = 10;
+    drench_capacity[bp_hand_l] = 3;
+    drench_capacity[bp_hand_r] = 3;
+    drench_capacity[bp_torso] = 40;
+    clear_effects();
+
+}
+
 std::string Character::extended_description() const
 {
     std::string ss;

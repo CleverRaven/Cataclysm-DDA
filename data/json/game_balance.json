@@ -127,6 +127,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "NPC_AFTERLIFE",
+    "info": "Allows you to take over your NPC follower after dying.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "CBM_SLOTS_ENABLED",
     "info": "Enables CBM slots mechanics. If true CBM slots are enabled.",
     "stype": "bool",

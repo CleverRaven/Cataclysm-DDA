@@ -484,7 +484,7 @@ class Character : public Creature, public visitable<Character>
         body_part get_random_body_part( bool main ) const override;
         /** Returns all body parts this character has, in order they should be displayed. */
         std::vector<body_part> get_all_body_parts( bool only_main = false ) const override;
-
+        void copy_from_npc_values( npc &guy );
         /** Recalculates encumbrance cache. */
         void reset_encumbrance();
         /** Returns ENC provided by armor, etc. */
