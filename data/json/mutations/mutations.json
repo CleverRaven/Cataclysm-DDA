@@ -1600,7 +1600,7 @@
   {
     "type": "mutation",
     "id": "FANGS",
-    "name": "Fangs",
+    "name": { "str": "Fangs" },
     "points": 2,
     "visibility": 2,
     "ugliness": 2,
@@ -3616,7 +3616,7 @@
   {
     "type": "mutation",
     "id": "MANDIBLES",
-    "name": "Mandibles",
+    "name": { "str": "Mandibles" },
     "points": 1,
     "visibility": 8,
     "ugliness": 6,
