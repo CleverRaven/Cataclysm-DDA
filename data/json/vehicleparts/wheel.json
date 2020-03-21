@@ -32,7 +32,7 @@
   {
     "type": "vehicle_part",
     "id": "wheel_mount_medium",
-    "name": "wheel hub assembly",
+    "name": { "str": "wheel hub assembly" },
     "symbol": "-",
     "color": "light_gray",
     "location": "axle",
@@ -55,7 +55,7 @@
     "id": "wheel_mount_medium_steerable",
     "copy-from": "wheel_mount_medium",
     "type": "vehicle_part",
-    "name": "wheel hub assembly (steerable)",
+    "name": { "str": "wheel hub assembly (steerable)" },
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
@@ -162,7 +162,7 @@
   {
     "id": "wheel",
     "type": "vehicle_part",
-    "name": "wheel",
+    "name": { "str": "wheel" },
     "item": "wheel",
     "location": "under",
     "symbol": "0",
@@ -176,7 +176,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "rolling_resistance": 1,
+    "rolling_resistance": 1.0,
     "wheel_type": "standard",
     "contact_area": 153,
     "requirements": {
@@ -229,7 +229,7 @@
   {
     "id": "wheel_barrow",
     "type": "vehicle_part",
-    "name": "wheelbarrow wheel",
+    "name": { "str": "wheelbarrow wheel" },
     "item": "wheel_barrow",
     "location": "under",
     "looks_like": "wheel_bicycle",
@@ -308,7 +308,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "rolling_resistance": 29,
+    "rolling_resistance": 29.0,
     "wheel_type": "rigid",
     "contact_area": 4,
     "requirements": {
@@ -321,7 +321,7 @@
   {
     "id": "wheel_10",
     "type": "vehicle_part",
-    "name": "wheels",
+    "name": { "str": "wheels" },
     "item": "wheel_10",
     "location": "under",
     "symbol": "o",
@@ -336,7 +336,7 @@
       { "item": "scrap", "count": [ 1, 5 ] },
       { "item": "plastic_chunk", "count": [ 1, 5 ] }
     ],
-    "rolling_resistance": 29,
+    "rolling_resistance": 29.0,
     "wheel_type": "off-road",
     "contact_area": 4,
     "requirements": {
@@ -427,7 +427,7 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "2 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ] ] }
     },
-    "rolling_resistance": 10,
+    "rolling_resistance": 10.0,
     "wheel_type": "standard",
     "contact_area": 10,
     "flags": [ "STABLE", "STEERABLE", "WHEEL", "NEEDS_JACKING" ],
@@ -466,7 +466,7 @@
   {
     "id": "wheel_wheelchair",
     "type": "vehicle_part",
-    "name": "wheelchair wheel",
+    "name": { "str": "wheelchair wheel" },
     "item": "wheel_wheelchair",
     "location": "under",
     "looks_like": "wheel_bicycle",

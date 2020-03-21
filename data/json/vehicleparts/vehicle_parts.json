@@ -1050,7 +1050,7 @@
   {
     "type": "vehicle_part",
     "id": "washing_machine",
-    "name": "washing machine",
+    "name": { "str": "washing machine" },
     "symbol": "H",
     "looks_like": "f_washer",
     "color": "light_blue",
@@ -1702,7 +1702,7 @@
   {
     "id": "mountable_heater",
     "type": "vehicle_part",
-    "name": "vehicle-mounted heater",
+    "name": { "str": "vehicle-mounted heater" },
     "item": "mountable_heater",
     "location": "center",
     "symbol": ";",
@@ -1725,7 +1725,7 @@
   {
     "id": "mountable_cooler",
     "type": "vehicle_part",
-    "name": "vehicle-mounted cooler",
+    "name": { "str": "vehicle-mounted cooler" },
     "item": "mountable_cooler",
     "location": "on_roof",
     "symbol": "C",
@@ -1924,7 +1924,7 @@
   {
     "type": "vehicle_part",
     "id": "water_wheel",
-    "name": "water wheel",
+    "name": { "str": "water wheel" },
     "symbol": "*",
     "color": "yellow",
     "broken_symbol": "x",
@@ -2161,7 +2161,7 @@
   {
     "type": "vehicle_part",
     "id": "water_faucet",
-    "name": "water faucet",
+    "name": { "str": "water faucet" },
     "symbol": "u",
     "looks_like": "f_sink",
     "color": "light_gray",
@@ -2235,7 +2235,7 @@
   {
     "type": "vehicle_part",
     "id": "welding_rig",
-    "name": "welding rig",
+    "name": { "str": "welding rig" },
     "symbol": "&",
     "color": "light_red",
     "broken_symbol": "x",
@@ -3389,7 +3389,7 @@
   {
     "type": "vehicle_part",
     "id": "water_purifier",
-    "name": "water purifier",
+    "name": { "str": "water purifier" },
     "symbol": "&",
     "color": "blue",
     "broken_symbol": "*",
