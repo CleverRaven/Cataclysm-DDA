@@ -2600,16 +2600,17 @@ void npc::add_msg_player_or_npc( const std::string &/*player_msg*/,
     }
 }
 
-void npc::add_msg_if_npc( const game_message_type type, const std::string &msg ) const
+void npc::add_msg_if_npc( const game_message_params &params, const std::string &msg ) const
 {
-    add_msg( type, replace_with_npc_name( msg ) );
+    add_msg( params, replace_with_npc_name( msg ) );
 }
 
-void npc::add_msg_player_or_npc( const game_message_type type, const std::string &/*player_msg*/,
+void npc::add_msg_player_or_npc( const game_message_params &params,
+                                 const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( type, replace_with_npc_name( npc_msg ) );
+        add_msg( params, replace_with_npc_name( npc_msg ) );
     }
 }
 
@@ -2619,7 +2620,7 @@ void npc::add_msg_player_or_say( const std::string &/*player_msg*/,
     say( npc_speech );
 }
 
-void npc::add_msg_player_or_say( const game_message_type /*type*/,
+void npc::add_msg_player_or_say( const game_message_params &/*params*/,
                                  const std::string &/*player_msg*/, const std::string &npc_speech ) const
 {
     say( npc_speech );
