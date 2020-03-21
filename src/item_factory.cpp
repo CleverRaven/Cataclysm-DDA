@@ -1862,18 +1862,21 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         slot.latent_heat = latent_heat / jo.get_tags( "material" ).size();
     }
 
-    bool is_junkfood = false;
+    bool is_not_boring = false;
     if (jo.has_member("primary_material")) {
         std::string mat = jo.get_string("primary_material");
-        is_junkfood = is_junkfood || mat == "junk";
+        is_not_boring = is_not_boring || mat == "junk";
     }
     if (jo.has_member("material")) {
         for (auto& m : jo.get_tags("material")) {
-            is_junkfood = is_junkfood || m == "junk";
+            is_not_boring = is_not_boring || m == "junk";
         }
     }
+    if (jo.has_member("stim")) {
+        is_not_boring = is_not_boring || jo.get_int("stim") != 0;
+    }
 
-    if( is_junkfood ) { // Junk food never gets old by default, but this can still be overriden.
+    if( is_not_boring ) { // Junk food, stimulants and depressants never get old by default, but this can still be overriden.
         slot.monotony_penalty = 0;
     }
     assign( jo, "monotony_penalty", slot.monotony_penalty, strict );
