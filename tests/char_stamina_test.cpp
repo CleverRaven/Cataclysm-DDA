@@ -35,6 +35,41 @@ float move_cost_mod( player &dummy, character_movemode move_mode, float stamina_
     return dummy.stamina_move_cost_modifier();
 }
 
+// Return amount of stamina burned per turn by `burn_move_stamina` in the given movement mode.
+int actual_burn_rate( player &dummy, character_movemode move_mode )
+{
+    // Set starting stamina to max to ensure enough left for 10 turns
+    dummy.set_stamina( dummy.get_stamina_max() );
+
+    dummy.set_movement_mode( move_mode );
+    REQUIRE( dummy.movement_mode_is( move_mode ) );
+
+    int before_stam = dummy.get_stamina();
+    dummy.burn_move_stamina( to_moves<int>( 1_turns ) );
+    int after_stam = dummy.get_stamina();
+    REQUIRE( before_stam > after_stam );
+
+    return before_stam - after_stam;
+}
+
+// Return amount of stamina burned per turn by `burn_move_stamina` in the given movement mode,
+// while carrying the given proportion [0.0, inf) of maximum weight capacity.
+int burdened_burn_rate( player &dummy, character_movemode move_mode, float burden_proportion = 0.0 )
+{
+    clear_character( dummy, false );
+    units::mass capacity = dummy.weight_capacity();
+
+    // Add gold (5g/unit) to reach the desired weight capacity
+    if( burden_proportion > 0.0 ) {
+        int gold_units = static_cast<int>( capacity * burden_proportion / 5_gram );
+        dummy.i_add( item( "gold_small", calendar::turn, gold_units ) );
+        REQUIRE( dummy.weight_carried() == capacity * burden_proportion );
+    }
+
+    return actual_burn_rate( dummy, move_mode );
+}
+
+
 TEST_CASE( "stamina movement cost modifier", "[stamina][cost]" )
 {
     player &dummy = g->u;
@@ -151,65 +186,64 @@ TEST_CASE( "modify character stamina", "[stamina][modify]" )
 }
 
 // burn_move_stamina (MODIFIES stamina)
-// - Scaled by overburden percentage
 // - Modified by bionic muscles
-// - Running scales by 7x
-// - Modifies stamina based on stamina_move_cost_modifier
 // - Applies pain if overburdened with no stamina or BADBACK trait
-//
-TEST_CASE( "burn stamina for movement", "[stamina][burn][move]" )
+
+TEST_CASE( "stamina burn for movement", "[stamina][burn][move]" )
 {
     player &dummy = g->u;
 
     // Game-balance configured rate of stamina burned per move
     int burn_rate = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
-    int before_stam = 0;
-    int after_stam = 0;
 
-    GIVEN( "player is not overburdened" ) {
-        clear_character( dummy );
-        REQUIRE( dummy.weight_carried() < dummy.weight_capacity() );
-
-        WHEN( "walking" ) {
-            dummy.set_movement_mode( CMM_WALK );
-            REQUIRE( dummy.movement_mode_is( CMM_WALK ) );
-
-            before_stam = dummy.get_stamina();
-            REQUIRE( before_stam == dummy.get_stamina_max() );
-
-            THEN( "stamina cost is the normal rate per turn" ) {
-                dummy.burn_move_stamina( to_moves<int>( 10_turns ) );
-                after_stam = dummy.get_stamina();
-                CHECK( after_stam == before_stam - 10 * burn_rate );
-            }
+    GIVEN( "player is naked and unburdened" ) {
+        THEN( "walking burns the normal amount of stamina per turn" ) {
+            CHECK( burdened_burn_rate( dummy, CMM_WALK, 0.0 ) == burn_rate );
         }
 
-        WHEN( "crouching" ) {
-            dummy.set_movement_mode( CMM_CROUCH );
-            REQUIRE( dummy.movement_mode_is( CMM_CROUCH ) );
-
-            before_stam = dummy.get_stamina();
-            REQUIRE( before_stam == dummy.get_stamina_max() );
-
-            THEN( "stamina cost is 1/2 the normal rate per turn" ) {
-                dummy.burn_move_stamina( to_moves<int>( 10_turns ) );
-                after_stam = dummy.get_stamina();
-                CHECK( after_stam == before_stam - 5 * burn_rate );
-            }
+        THEN( "running burns 14x the normal amount of stamina per turn" ) {
+            CHECK( burdened_burn_rate( dummy, CMM_RUN, 0.0 ) == burn_rate * 14 );
         }
 
-        WHEN( "running" ) {
-            dummy.set_movement_mode( CMM_RUN );
-            REQUIRE( dummy.movement_mode_is( CMM_RUN ) );
+        THEN( "crouching burns 1/2 the normal amount of stamina per turn" ) {
+            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 0.0 ) == burn_rate / 2 );
+        }
+    }
 
-            before_stam = dummy.get_stamina();
-            REQUIRE( before_stam == dummy.get_stamina_max() );
+    GIVEN( "player is at their maximum weight capacity" ) {
+        THEN( "walking burns the normal amount of stamina per turn" ) {
+            CHECK( burdened_burn_rate( dummy, CMM_WALK, 1.0 ) == burn_rate );
+        }
 
-            THEN( "stamina cost is 14 times the normal rate per turn" ) {
-                dummy.burn_move_stamina( to_moves<int>( 10_turns ) );
-                after_stam = dummy.get_stamina();
-                CHECK( after_stam == before_stam - 140 * burn_rate );
-            }
+        THEN( "running burns 14x the normal amount of stamina per turn" ) {
+            CHECK( burdened_burn_rate( dummy, CMM_RUN, 1.0 ) == burn_rate * 14 );
+        }
+
+        THEN( "crouching burns 1/2 the normal amount of stamina per turn" ) {
+            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 1.0 ) == burn_rate / 2 );
+        }
+    }
+
+    GIVEN( "player is overburdened" ) {
+        THEN( "walking burn rate increases by 1 for each percent overburdened" ) {
+            CHECK( burdened_burn_rate( dummy, CMM_WALK, 1.01 ) == burn_rate + 1 );
+            CHECK( burdened_burn_rate( dummy, CMM_WALK, 1.02 ) == burn_rate + 2 );
+            CHECK( burdened_burn_rate( dummy, CMM_WALK, 1.50 ) == burn_rate + 50 );
+            CHECK( burdened_burn_rate( dummy, CMM_WALK, 2.00 ) == burn_rate + 100 );
+        }
+
+        THEN( "running burn rate increases by 14 for each percent overburdened" ) {
+            CHECK( burdened_burn_rate( dummy, CMM_RUN, 1.01 ) == ( burn_rate + 1 ) * 14 );
+            CHECK( burdened_burn_rate( dummy, CMM_RUN, 1.02 ) == ( burn_rate + 2 ) * 14 );
+            CHECK( burdened_burn_rate( dummy, CMM_RUN, 1.50 ) == ( burn_rate + 50 ) * 14 );
+            CHECK( burdened_burn_rate( dummy, CMM_RUN, 2.00 ) == ( burn_rate + 100 ) * 14 );
+        }
+
+        THEN( "crouching burn rate increases by 1/2 for each percent overburdened" ) {
+            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 1.01 ) == ( burn_rate + 1 ) / 2 );
+            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 1.02 ) == ( burn_rate + 2 ) / 2 );
+            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 1.50 ) == ( burn_rate + 50 ) / 2 );
+            CHECK( burdened_burn_rate( dummy, CMM_CROUCH, 2.00 ) == ( burn_rate + 100 ) / 2 );
         }
     }
 }
