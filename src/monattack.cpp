@@ -76,6 +76,28 @@
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 
+static const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_countdown( "countdown" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_dazed( "dazed" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_fearparalyze( "fearparalyze" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_got_checked( "got_checked" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_melee( "melee" );

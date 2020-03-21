@@ -67,6 +67,11 @@ static const species_id SPIDER( "SPIDER" );
 
 static const bionic_id bio_heatsink( "bio_heatsink" );
 
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_fungus( "fungus" );
+
 void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
     std::vector<material_id> all_mats = fuel.made_of();

@@ -67,6 +67,11 @@
 
 static const activity_id ACT_READ( "ACT_READ" );
 
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_drunk( "drunk" );
+
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );

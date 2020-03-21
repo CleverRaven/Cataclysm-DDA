@@ -99,6 +99,25 @@
 #include "stomach.h"
 #include "teleport.h"
 
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 
 static const skill_id skill_dodge( "dodge" );

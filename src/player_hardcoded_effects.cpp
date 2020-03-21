@@ -41,6 +41,30 @@
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_antibiotic( "antibiotic" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_attention( "attention" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_disabled( "disabled" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_evil( "evil" );
+static const efftype_id effect_formication( "formication" );
+static const efftype_id effect_frostbite( "frostbite" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+
 const vitamin_id vitamin_iron( "iron" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );

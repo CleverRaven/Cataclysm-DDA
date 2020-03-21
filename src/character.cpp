@@ -75,6 +75,37 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_blisters( "blisters" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_cough_suppress( "cough_suppress" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_frostbite( "frostbite" );
+static const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_glowy_led( "glowy_led" );
+static const efftype_id effect_got_checked( "got_checked" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 
 static const skill_id skill_dodge( "dodge" );

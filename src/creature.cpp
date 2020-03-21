@@ -42,6 +42,10 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bounced( "bounced" );
+static const efftype_id effect_downed( "downed" );
+
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
     {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE}

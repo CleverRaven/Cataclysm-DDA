@@ -73,6 +73,8 @@
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 
+static const efftype_id effect_contacts( "contacts" );
+
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 

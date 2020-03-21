@@ -88,6 +88,9 @@
 #include "cata_string_consts.h"
 #include "mapgendata.h"
 
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_flu( "flu" );
+
 static const mtype_id mon_generator( "mon_generator" );
 
 class vehicle;

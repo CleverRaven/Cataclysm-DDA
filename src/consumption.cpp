@@ -52,6 +52,13 @@ static const bionic_id bio_furnace( "bio_furnace" );
 static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_fungus( "fungus" );
+
 const std::vector<std::string> carnivore_blacklist {{
         flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
     }

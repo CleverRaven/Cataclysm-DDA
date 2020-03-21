@@ -43,6 +43,13 @@
 #include "string_formatter.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_countdown( "countdown" );
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_grabbed( "grabbed" );
+
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
 static const species_id SPIDER( "SPIDER" );

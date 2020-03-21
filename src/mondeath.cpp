@@ -49,6 +49,12 @@
 #include "mattack_actors.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_glowing( "glowing" );
+
 static const species_id species_BLOB( "BLOB" );
 static const species_id ZOMBIE( "ZOMBIE" );
 

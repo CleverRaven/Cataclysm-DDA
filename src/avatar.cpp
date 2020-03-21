@@ -72,6 +72,9 @@ static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_watch( "bio_watch" );
 
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_depressants( "depressants" );
+
 class JsonIn;
 class JsonOut;
 

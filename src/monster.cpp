@@ -55,6 +55,19 @@
 #include "weather.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_emp( "emp" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+
 static const species_id FISH( "FISH" );
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );

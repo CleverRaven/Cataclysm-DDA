@@ -67,6 +67,8 @@
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 
+static const efftype_id effect_downed( "downed" );
+
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );

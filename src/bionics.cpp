@@ -70,6 +70,19 @@
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+static const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_fungus( "fungus" );
+
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_sun_light( "sunlight" );
 static const itype_id fuel_type_wind( "wind" );

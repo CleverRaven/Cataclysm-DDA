@@ -130,6 +130,38 @@ static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_antibiotic( "antibiotic" );
+static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_attention( "attention" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_cureall( "cureall" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dazed( "dazed" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_flushot( "flushot" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_formication( "formication" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_glowy_led( "glowy_led" );
+
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
@@ -6875,7 +6907,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
             figure_effects += pronoun_sex + string_format( _( " is riding %s. " ),
                               colorize( mon->name(), c_light_blue ) );
         }
-        if( creature->has_effect( effect_glowing_led ) ) {
+        if( creature->has_effect( effect_glowy_led ) ) {
             figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly. " );
         }
     }

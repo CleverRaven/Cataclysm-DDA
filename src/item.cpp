@@ -93,6 +93,8 @@ static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_plutonium( "plutonium" );
 
+static const efftype_id effect_cig( "cig" );
+
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
 static const skill_id skill_cooking( "cooking" );

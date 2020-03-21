@@ -17,6 +17,11 @@
 #include "units.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_grabbed( "grabbed" );
+
 namespace
 {
 std::map<efftype_id, effect_type> effect_types;
