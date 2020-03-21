@@ -80,7 +80,7 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "min_strength": 7,
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 855,
     "durability": 6,
     "blackpowder_tolerance": 66,

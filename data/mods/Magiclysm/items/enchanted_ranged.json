@@ -74,7 +74,7 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 20 ] ],
     "skill": "shotgun",
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 600,
     "durability": 6,
     "blackpowder_tolerance": 66,

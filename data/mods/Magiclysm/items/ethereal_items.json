@@ -302,7 +302,7 @@
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": 29,
+    "ranged_damage": { "damage_type": "stab", "amount": 29 },
     "range": 12,
     "dispersion": 950,
     "durability": 6,
