@@ -1105,10 +1105,8 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 15, "items": [ "survivormap" ] },
-      { "x": 0, "y": 1, "chance": 10, "items_groups": [ "gear_survival" ] },
       { "x": 0, "y": 2, "chance": 25, "items": [ "cigar" ] },
       { "x": 0, "y": 2, "chance": 10, "items": [ "cig" ] },
-      { "x": 0, "y": 2, "chance": 10, "items_groups": [ "book_mag_surv" ] },
       { "x": -2, "y": 0, "chance": 5, "item_groups": [ "fast_food" ] },
       { "x": -3, "y": 0, "chance": 8, "item_groups": [ "snacks" ] },
       { "x": -3, "y": 0, "chance": 12, "item_groups": [ "fridgesnacks" ] },
@@ -1118,7 +1116,6 @@
       { "x": -4, "y": 0, "chance": 20, "item_groups": [ "barbecue" ] },
       { "x": -4, "y": 1, "chance": 12, "items": [ "extinguisher" ] },
       { "x": -5, "y": 1, "chance": 15, "items": [ "jack", "wheel_wide_or" ] },
-      { "x": -5, "y": 2, "chance": 15, "items_groups": [ "camping" ] },
       { "x": -7, "y": 0, "chance": 20, "item_groups": [ "mixed_alcoholic_drinks" ] },
       { "x": -7, "y": 0, "chance": 20, "item_groups": [ "bed" ] },
       { "x": -7, "y": 2, "chance": 20, "item_groups": [ "bed" ] },
