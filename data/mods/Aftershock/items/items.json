@@ -85,23 +85,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "afs_titanium_frame",
-    "name": "ultralight frame",
-    "description": "A sturdy, lightweight frame made from titanium.  Useful for crafting.",
-    "weight": "1 kg",
-    "to_hit": -3,
-    "color": "light_gray",
-    "symbol": "]",
-    "material": [ "titanium" ],
-    "looks_like": "xlframe",
-    "techniques": [ "DEF_DISARM" ],
-    "volume": "7500 ml",
-    "bashing": 15,
-    "category": "veh_parts",
-    "price": 4000
-  },
-  {
-    "type": "GENERIC",
     "id": "afs_metal_rig",
     "copy-from": "vehicle_rig",
     "name": { "str": "MetalMaster forge buddy", "str_pl": "MetalMaster forge buddies" },
