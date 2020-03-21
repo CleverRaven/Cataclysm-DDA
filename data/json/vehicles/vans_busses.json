@@ -1104,7 +1104,6 @@
       { "x": -9, "y": 3, "part": "board_se" }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 5, "items_groups": [ "guns_survival" ] },
       { "x": 0, "y": 0, "chance": 15, "items": [ "survivormap" ] },
       { "x": 0, "y": 1, "chance": 10, "items_groups": [ "gear_survival" ] },
       { "x": 0, "y": 2, "chance": 25, "items": [ "cigar" ] },
@@ -1118,7 +1117,6 @@
       { "x": -3, "y": 1, "chance": 5, "items": [ "brazier" ] },
       { "x": -4, "y": 0, "chance": 20, "item_groups": [ "barbecue" ] },
       { "x": -4, "y": 1, "chance": 12, "items": [ "extinguisher" ] },
-      { "x": -5, "y": 0, "chance": 5, "items_groups": [ "guns_survival" ] },
       { "x": -5, "y": 1, "chance": 15, "items": [ "jack", "wheel_wide_or" ] },
       { "x": -5, "y": 2, "chance": 15, "items_groups": [ "camping" ] },
       { "x": -7, "y": 0, "chance": 20, "item_groups": [ "mixed_alcoholic_drinks" ] },
