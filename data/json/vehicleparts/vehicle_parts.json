@@ -1206,7 +1206,7 @@
   {
     "type": "vehicle_part",
     "id": "wood box",
-    "name": "wood box",
+    "name": { "str": "wood box" },
     "symbol": "o",
     "looks_like": "f_crate_o",
     "color": "brown",
@@ -1275,7 +1275,7 @@
   {
     "type": "vehicle_part",
     "id": "basketsm",
-    "name": "wire bike basket",
+    "name": { "str": "wire bike basket" },
     "symbol": "o",
     "looks_like": "basketlg",
     "color": "brown",
@@ -1371,7 +1371,7 @@
   {
     "type": "vehicle_part",
     "id": "veh_table_wood",
-    "name": "wood table",
+    "name": { "str": "wood table" },
     "symbol": "#",
     "looks_like": "f_table",
     "color": "red",
@@ -2002,7 +2002,7 @@
   {
     "type": "vehicle_part",
     "id": "wind_turbine",
-    "name": "wind turbine",
+    "name": { "str": "wind turbine" },
     "symbol": "T",
     "color": "yellow",
     "broken_symbol": "X",
