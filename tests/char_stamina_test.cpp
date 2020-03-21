@@ -5,7 +5,6 @@
 #include "catch/catch.hpp"
 #include "player_helpers.h"
 
-
 // options:
 // PLAYER_MAX_STAMINA (10000)
 // PLAYER_BASE_STAMINA_REGEN_RATE (20)
@@ -20,11 +19,6 @@
 // mod_stamina
 // - Modifies stamina by positive or negative amount
 // - Adds effect_winded for 10 turns if stamina < 0
-//
-// stamina_move_cost_modifier
-// - Both walk and run speed drop to half their maximums as stamina approaches 0
-// - Modifier is 2x for running
-// - Modifier is 1/2x for crouching
 //
 // burn_move_stamina (MODIFIES stamina)
 // - Scaled by overburden percentage
@@ -46,86 +40,58 @@
 // - at 50% stamina it is -10 (50%), cuts by 25% at 25% stamina (???)
 // - If "bio_gills" and enough power, "the effective recovery is up to 5x default" (???)
 // !!! calls mod_stamina with roll_remainder (RNG) for final result, then caps it at max
-//
-//
-// effect_winded
-//
+
+
+// Return `stamina_move_cost_modifier` in the given move_mode with [0,1] stamina remaining
+float speed_w_stamina( player &dummy, character_movemode move_mode, float stamina_proportion = 1.0 )
+{
+    clear_character( dummy );
+    dummy.set_movement_mode( move_mode );
+    REQUIRE( dummy.movement_mode_is( move_mode ) );
+
+    int new_stamina = static_cast<int>( stamina_proportion * dummy.get_stamina_max() );
+
+    dummy.set_stamina( new_stamina );
+    REQUIRE( dummy.get_stamina() == new_stamina );
+
+    return dummy.stamina_move_cost_modifier();
+}
+
 TEST_CASE( "stamina movement cost", "[stamina][move_cost]" )
 {
     player &dummy = g->u;
-    clear_character( dummy );
 
-    GIVEN( "character is walking" ) {
-        dummy.set_movement_mode( CMM_WALK );
-        REQUIRE( dummy.movement_mode_is( CMM_WALK ) );
-
-        THEN( "100%% movement speed at full stamina" ) {
-            dummy.set_stamina( dummy.get_stamina_max() );
-            REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() );
-
-            CHECK( dummy.stamina_move_cost_modifier() == 1.0 );
-        }
-
-        WHEN( "75%% movement speed at half stamina" ) {
-            dummy.set_stamina( dummy.get_stamina_max() / 2 );
-            REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() / 2 );
-
-            CHECK( dummy.stamina_move_cost_modifier() == 0.75 );
-        }
-
-        WHEN( "50%% movement speed at zero stamina" ) {
-            dummy.set_stamina( 0 );
-            REQUIRE( dummy.get_stamina() == 0 );
-
-            CHECK( dummy.stamina_move_cost_modifier() == 0.5 );
-        }
+    SECTION( "running is twice as fast as walking" ) {
+        CHECK( speed_w_stamina( dummy, CMM_RUN ) == 2 * speed_w_stamina( dummy, CMM_WALK ) );
     }
 
-    WHEN( "character is running" ) {
-        // Set max stamina to ensure they can run
-        dummy.set_stamina( dummy.get_stamina_max() );
-        dummy.set_movement_mode( CMM_RUN );
-        REQUIRE( dummy.movement_mode_is( CMM_RUN ) );
-
-        THEN( "200%% movement speed at full stamina" ) {
-            dummy.set_stamina( dummy.get_stamina_max() );
-            REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() );
-
-            CHECK( dummy.stamina_move_cost_modifier() == 2.0 );
-        }
-
-        THEN( "150%% movement speed at half stamina" ) {
-            dummy.set_stamina( dummy.get_stamina_max() / 2 );
-            REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() / 2 );
-
-            CHECK( dummy.stamina_move_cost_modifier() == 1.5 );
-        }
-
-        THEN( "50%% movement speed at zero stamina" ) {
-            dummy.set_stamina( 0 );
-            REQUIRE( dummy.get_stamina() == 0 );
-
-            CHECK( dummy.stamina_move_cost_modifier() == 0.50 );
-        }
+    SECTION( "walking is twice as fast as crouching" ) {
+        CHECK( speed_w_stamina( dummy, CMM_WALK ) == 2 * speed_w_stamina( dummy, CMM_CROUCH ) );
     }
 
-    WHEN( "character is crouching" ) {
-        dummy.set_movement_mode( CMM_CROUCH );
-        REQUIRE( dummy.movement_mode_is( CMM_CROUCH ) );
+    SECTION( "running speed diminishes with stamina" ) {
+        CHECK( speed_w_stamina( dummy, CMM_RUN, 1.00 ) == 2.00 );
+        CHECK( speed_w_stamina( dummy, CMM_RUN, 0.75 ) == 1.75 );
+        CHECK( speed_w_stamina( dummy, CMM_RUN, 0.50 ) == 1.50 );
+        CHECK( speed_w_stamina( dummy, CMM_RUN, 0.25 ) == 1.25 );
+        //CHECK( speed_w_stamina( dummy, CMM_RUN, 0.00 ) == 1.00 ); // Expected
+        CHECK( speed_w_stamina( dummy, CMM_RUN, 0.00 ) == 0.50 ); // Actual
+    }
 
-        THEN( "50%% movement speed at full stamina" ) {
-            dummy.set_stamina( dummy.get_stamina_max() );
-            REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() );
+    SECTION( "walking speed diminishes with stamina" ) {
+        CHECK( speed_w_stamina( dummy, CMM_WALK, 1.00 ) == 1.000 );
+        CHECK( speed_w_stamina( dummy, CMM_WALK, 0.75 ) == 0.875 );
+        CHECK( speed_w_stamina( dummy, CMM_WALK, 0.50 ) == 0.750 );
+        CHECK( speed_w_stamina( dummy, CMM_WALK, 0.25 ) == 0.625 );
+        CHECK( speed_w_stamina( dummy, CMM_WALK, 0.00 ) == 0.500 );
+    }
 
-            CHECK( dummy.stamina_move_cost_modifier() == 0.5 );
-        }
-
-        THEN( "25%% movement speed at zero stamina" ) {
-            dummy.set_stamina( 0 );
-            REQUIRE( dummy.get_stamina() == 0 );
-
-            CHECK( dummy.stamina_move_cost_modifier() == 0.25 );
-        }
+    SECTION( "crouching speed diminishes with stamina" ) {
+        CHECK( speed_w_stamina( dummy, CMM_CROUCH, 1.00 ) == 0.5000 );
+        CHECK( speed_w_stamina( dummy, CMM_CROUCH, 0.75 ) == 0.4375 );
+        CHECK( speed_w_stamina( dummy, CMM_CROUCH, 0.50 ) == 0.3750 );
+        CHECK( speed_w_stamina( dummy, CMM_CROUCH, 0.25 ) == 0.3125 );
+        CHECK( speed_w_stamina( dummy, CMM_CROUCH, 0.00 ) == 0.2500 );
     }
 }
 
