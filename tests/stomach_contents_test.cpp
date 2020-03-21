@@ -95,7 +95,13 @@ TEST_CASE( "starve_test", "[starve]" )
     if( print_tests ) {
         printf( "\n\n" );
     }
-    constexpr int expected_day = 30;
+
+    // FIXME: Before fixing the two calls to `clamp` in `stomach_contents::digest`,
+    // from clamp(min, val, max) to the correct argument order clamp(val, min, max),
+    // starving to death took 30 days. After fixing the `clamp` calls, starving to
+    // death now takes 60 days.
+    constexpr int expected_day = 60;
+
     int day = 0;
     do {
         if( print_tests ) {
