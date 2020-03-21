@@ -1851,7 +1851,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         float specific_heat_liquid = 0;
         float latent_heat = 0;
 
-        for( std::string m : jo.get_tags( "material" ) ) {
+        for( const std::string &m : jo.get_tags( "material" ) ) {
             specific_heat_solid += material_id( m )->specific_heat_solid();
             specific_heat_liquid += material_id( m )->specific_heat_liquid();
             latent_heat += material_id( m )->latent_heat();
@@ -1868,7 +1868,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         is_not_boring = is_not_boring || mat == "junk";
     }
     if( jo.has_member( "material" ) ) {
-        for( std::string m : jo.get_tags( "material" ) ) {
+        for( const std::string &m : jo.get_tags( "material" ) ) {
             is_not_boring = is_not_boring || m == "junk";
         }
     }
