@@ -6,6 +6,7 @@
 
 #include "avatar.h"
 #include "bionics.h"
+#include "character.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -66,7 +67,9 @@ void clear_character( player &dummy )
 
     dummy.activity.set_to_null();
 
+    // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
+    dummy.set_movement_mode( CMM_WALK );
 
     // Make stats nominal.
     dummy.str_cur = 8;
