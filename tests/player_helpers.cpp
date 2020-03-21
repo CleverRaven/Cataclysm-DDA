@@ -66,6 +66,8 @@ void clear_character( player &dummy )
 
     dummy.activity.set_to_null();
 
+    dummy.set_stamina( dummy.get_stamina_max() );
+
     // Make stats nominal.
     dummy.str_cur = 8;
     dummy.dex_cur = 8;
