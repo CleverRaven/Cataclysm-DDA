@@ -53,6 +53,8 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 
+static const efftype_id effect_assisted( "assisted" );
+
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const skill_id skill_computer( "computer" );

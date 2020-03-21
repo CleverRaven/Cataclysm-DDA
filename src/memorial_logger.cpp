@@ -21,6 +21,10 @@
 #include "stats_tracker.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_drunk( "drunk" );
+
 static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
 static const trap_str_id tr_glass( "tr_glass" );
 static const trap_str_id tr_beartrap( "tr_beartrap" );

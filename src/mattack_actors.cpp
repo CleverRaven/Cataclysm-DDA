@@ -26,6 +26,9 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_bite( "bite" );
+
 // Simplified version of the function in monattack.cpp
 static bool is_adjacent( const monster &z, const Creature &target )
 {

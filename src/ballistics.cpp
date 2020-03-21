@@ -35,6 +35,8 @@
 #include "point.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_bounced( "bounced" );
+
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
     const auto &proj = attack.proj;

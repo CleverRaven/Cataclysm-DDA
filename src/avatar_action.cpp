@@ -52,6 +52,8 @@
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 
+static const efftype_id effect_amigara( "amigara" );
+
 static const skill_id skill_swimming( "swimming" );
 
 static const bionic_id bio_ups( "bio_ups" );

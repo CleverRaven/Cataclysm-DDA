@@ -83,6 +83,8 @@ static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+
 static const skill_id skill_melee( "melee" );
 
 static const quality_id qual_CUT( "CUT" );

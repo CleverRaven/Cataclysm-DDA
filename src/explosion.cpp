@@ -61,6 +61,9 @@
 #include "type_id.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_deaf( "deaf" );
+
 static const itype_id fuel_type_none( "null" );
 
 static const species_id ROBOT( "ROBOT" );

@@ -200,6 +200,9 @@ static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_controlled( "controlled" );
+
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
 static const skill_id skill_computer( "computer" );

@@ -52,6 +52,8 @@
 #include "type_id.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_amigara( "amigara" );
+
 static const skill_id skill_computer( "computer" );
 
 static const species_id HUMAN( "HUMAN" );
