@@ -1,6 +1,7 @@
 #include "avatar.h"
 #include "character.h"
 #include "game.h"
+#include "options.h"
 
 #include "catch/catch.hpp"
 #include "player_helpers.h"
@@ -88,6 +89,59 @@ TEST_CASE( "stamina movement cost modifier", "[stamina][cost]" )
 //
 TEST_CASE( "burning stamina", "[stamina][burn]" )
 {
+    player &dummy = g->u;
+    clear_character( dummy );
+
+    // Game-balance configured rate of stamina burned per move
+    int burn_rate = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
+    int before_stam = 0;
+    int after_stam = 0;
+
+    GIVEN( "player is not overburdened" ) {
+        REQUIRE( dummy.weight_carried() < dummy.weight_capacity() );
+
+        WHEN( "walking" ) {
+            dummy.set_movement_mode( CMM_WALK );
+            REQUIRE( dummy.movement_mode_is( CMM_WALK ) );
+
+            before_stam = dummy.get_stamina();
+            REQUIRE( before_stam == dummy.get_stamina_max() );
+
+            THEN( "stamina cost is the normal rate per turn" ) {
+                dummy.burn_move_stamina( to_moves<int>( 10_turns ) );
+                after_stam = dummy.get_stamina();
+                CHECK( after_stam == before_stam - 10 * burn_rate );
+            }
+        }
+
+        WHEN( "crouching" ) {
+            dummy.set_movement_mode( CMM_CROUCH );
+            REQUIRE( dummy.movement_mode_is( CMM_CROUCH ) );
+
+            before_stam = dummy.get_stamina();
+            REQUIRE( before_stam == dummy.get_stamina_max() );
+
+            THEN( "stamina cost is 1/2 the normal rate per turn" ) {
+                dummy.burn_move_stamina( to_moves<int>( 10_turns ) );
+                after_stam = dummy.get_stamina();
+                CHECK( after_stam == before_stam - 5 * burn_rate );
+            }
+        }
+
+        WHEN( "running" ) {
+            dummy.set_movement_mode( CMM_RUN );
+            REQUIRE( dummy.movement_mode_is( CMM_RUN ) );
+
+            before_stam = dummy.get_stamina();
+            REQUIRE( before_stam == dummy.get_stamina_max() );
+
+            THEN( "stamina cost is 14 times the normal rate per turn" ) {
+                dummy.burn_move_stamina( to_moves<int>( 10_turns ) );
+                after_stam = dummy.get_stamina();
+                CHECK( after_stam == before_stam - 140 * burn_rate );
+            }
+        }
+    }
 }
 
 
