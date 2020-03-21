@@ -61,13 +61,14 @@
   {
     "type": "item_group",
     "id": "NC_BONE_SEER_misc",
-    "items": [
-      [ "needle_bone", 40 ],
-      [ "bone_glue", 20 ],
-      [ "bone_flute", 10 ],
-      [ "bone_human", 10 ],
-      [ "broth_bone", 60 ],
-      [ "water_clean", 90 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "needle_bone", "prob": 40 },
+      { "item": "bone_glue", "prob": 20 },
+      { "item": "bone_flute", "prob": 10 },
+      { "item": "bone_human", "prob": 10 },
+      { "item": "broth_bone", "prob": 60 },
+      { "item": "water_clean", "prob": 90 }
     ]
   },
   {
