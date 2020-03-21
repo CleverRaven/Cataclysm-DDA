@@ -187,7 +187,7 @@
   {
     "id": "mon_zombear",
     "type": "MONSTER",
-    "name": "zombear",
+    "name": { "str": "zombear" },
     "description": "This black bear's eyes ooze with dark, oily fluid, and its flesh is torn and scarred.  It shuffles as it walks.",
     "default_faction": "zombie",
     "bodytype": "bear",
