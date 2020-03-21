@@ -288,7 +288,7 @@
   {
     "type": "mutation",
     "id": "THICKSKIN",
-    "name": "Thick-Skinned",
+    "name": { "str": "Thick-Skinned" },
     "points": 1,
     "description": "Your skin is tough.  Cutting damage is slightly reduced for you.  Slightly decreases wet penalties.",
     "starting_trait": true,
@@ -398,7 +398,7 @@
   {
     "type": "mutation",
     "id": "TOLERANCE",
-    "name": "Substance Tolerance",
+    "name": { "str": "Substance Tolerance" },
     "points": 1,
     "description": "You can handle intoxicants well.  Their effects clear up more quickly for you.",
     "starting_trait": true,
@@ -460,7 +460,7 @@
   {
     "type": "mutation",
     "id": "TERRIFYING",
-    "name": "Terrifying",
+    "name": { "str": "Terrifying" },
     "points": 1,
     "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
     "starting_trait": true,
@@ -944,7 +944,7 @@
   {
     "type": "mutation",
     "id": "THINSKIN",
-    "name": "Thin-Skinned",
+    "name": { "str": "Thin-Skinned" },
     "points": -1,
     "description": "Your skin is fragile.  Cutting damage is slightly increased for you.",
     "starting_trait": true,
@@ -1015,7 +1015,7 @@
   {
     "type": "mutation",
     "id": "PROJUNK",
-    "name": "Sweet Tooth",
+    "name": { "str": "Sweet Tooth" },
     "points": 1,
     "description": "You have a soft spot for processed foods, and gain a morale bonus from eating them.",
     "starting_trait": true,
@@ -1026,7 +1026,7 @@
   {
     "type": "mutation",
     "id": "PROJUNK2",
-    "name": "Sugar-Loving",
+    "name": { "str": "Sugar-Loving" },
     "points": 2,
     "description": "You *adore* the taste of junk food, and find it preferable to everything else!",
     "purifiable": false,
@@ -1585,7 +1585,7 @@
   {
     "type": "mutation",
     "id": "WAKEFUL3",
-    "name": "Tireless",
+    "name": { "str": "Tireless" },
     "points": 5,
     "description": "You defend the realm all night and all day.",
     "valid": false,
@@ -1816,7 +1816,7 @@
   {
     "type": "mutation",
     "id": "THICK_SCALES",
-    "name": "Thick Scales",
+    "name": { "str": "Thick Scales" },
     "points": 3,
     "visibility": 10,
     "ugliness": 4,
@@ -2257,7 +2257,7 @@
   {
     "type": "mutation",
     "id": "THORNS",
-    "name": "Thorns",
+    "name": { "str": "Thorns" },
     "points": 2,
     "visibility": 8,
     "ugliness": 4,
@@ -2523,7 +2523,7 @@
   {
     "type": "mutation",
     "id": "CLAWS_TENTACLE",
-    "name": "Tentacle Rakes",
+    "name": { "str": "Tentacle Rakes" },
     "points": 0,
     "visibility": 4,
     "ugliness": 4,
@@ -2842,7 +2842,7 @@
   {
     "type": "mutation",
     "id": "PAINRESIST_TROGLO",
-    "name": "Subterranean Fortitude",
+    "name": { "str": "Subterranean Fortitude" },
     "points": 2,
     "description": "The aches and pains of living underground don't bother you as much.",
     "prereqs": [ "PAINRESIST" ],
@@ -2853,7 +2853,7 @@
   {
     "type": "mutation",
     "id": "STOCKY_TROGLO",
-    "name": "Subterranean Build",
+    "name": { "str": "Subterranean Build" },
     "points": 0,
     "visibility": 3,
     "ugliness": 2,
@@ -3136,7 +3136,7 @@
   {
     "type": "mutation",
     "id": "TAIL_FIN",
-    "name": "Tail Fin",
+    "name": { "str": "Tail Fin" },
     "points": -1,
     "visibility": 4,
     "ugliness": 2,
@@ -3332,7 +3332,7 @@
   {
     "type": "mutation",
     "id": "MUT_TOUGH3",
-    "name": "TAAANK",
+    "name": { "str": "TAAANK" },
     "points": 4,
     "description": "You can simply take the punishment from lesser beings and keep going.  You get a 40% bonus to all hit points.  Stacks with Tough, etc.",
     "social_modifiers": { "intimidate": 4 },
@@ -4210,7 +4210,7 @@
   {
     "type": "mutation",
     "id": "SMALL2",
-    "name": "Tiny",
+    "name": { "str": "Tiny" },
     "points": -4,
     "visibility": 8,
     "mixed_effect": true,
@@ -5169,7 +5169,7 @@
   {
     "type": "mutation",
     "id": "SUNLIGHT_DEPENDENT",
-    "name": "Sunlight Dependent",
+    "name": { "str": "Sunlight Dependent" },
     "points": -5,
     "description": "You feel very sluggish when not in direct sunlight.  You suffer a 5% drop in speed when in shade, and a 10% drop in speed when in the dark.",
     "cancels": [ "TROGLO", "TROGLO2", "TROGLO3" ],
@@ -5713,7 +5713,7 @@
   {
     "type": "mutation",
     "id": "LEG_TENT_BRACE",
-    "name": "Tentacle Bracing",
+    "name": { "str": "Tentacle Bracing" },
     "points": -1,
     "visibility": 4,
     "ugliness": 2,
@@ -5837,7 +5837,7 @@
   {
     "type": "mutation",
     "id": "THRESH_TROGLOBITE",
-    "name": "Subterranean",
+    "name": { "str": "Subterranean" },
     "points": 1,
     "description": "Not much point to rebuilding up in that horribly bright roofless wasteland.  Now that you've become accustomed to your new digs, there's the beginnings of a great empire right here, underground.",
     "valid": false,
@@ -5867,7 +5867,7 @@
   {
     "type": "mutation",
     "id": "THRESH_RAT",
-    "name": "Survivor",
+    "name": { "str": "Survivor" },
     "points": 1,
     "description": "Hey.  Civilization fell.  You're still around.  'Rat' just isn't respectful.",
     "valid": false,
