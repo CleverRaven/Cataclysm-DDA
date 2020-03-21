@@ -1841,13 +1841,11 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
 
-    bool is_junkfood = false;
     if( jo.has_member( "primary_material" ) ) {
         std::string mat = jo.get_string( "primary_material" );
         slot.specific_heat_solid = material_id( mat )->specific_heat_solid();
         slot.specific_heat_liquid = material_id( mat )->specific_heat_liquid();
         slot.latent_heat = material_id( mat )->latent_heat();
-        is_junkfood = is_junkfood || mat == "junk";
     } else if( jo.has_member( "material" ) ) {
         float specific_heat_solid = 0;
         float specific_heat_liquid = 0;
@@ -1857,12 +1855,22 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
             specific_heat_solid += material_id( m )->specific_heat_solid();
             specific_heat_liquid += material_id( m )->specific_heat_liquid();
             latent_heat += material_id( m )->latent_heat();
-            is_junkfood = is_junkfood || m == "junk";
         }
         // Average based on number of materials.
         slot.specific_heat_liquid = specific_heat_liquid / jo.get_tags( "material" ).size();
         slot.specific_heat_solid = specific_heat_solid / jo.get_tags( "material" ).size();
         slot.latent_heat = latent_heat / jo.get_tags( "material" ).size();
+    }
+
+    bool is_junkfood = false;
+    if (jo.has_member("primary_material")) {
+        std::string mat = jo.get_string("primary_material");
+        is_junkfood = is_junkfood || mat == "junk";
+    }
+    if (jo.has_member("material")) {
+        for (auto& m : jo.get_tags("material")) {
+            is_junkfood = is_junkfood || m == "junk";
+        }
     }
 
     if( is_junkfood ) { // Junk food never gets old by default, but this can still be overriden.
