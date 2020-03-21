@@ -145,7 +145,9 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         );
 #endif
 
-    ui_adaptor ui;
+    // temporarily disable redrawing and resizing of previous uis since they
+    // could be in an unknown state.
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
     const auto init_window = []( ui_adaptor & ui ) {
         ui.position_from_window( catacurses::stdscr );
     };
@@ -177,9 +179,10 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 #endif // TILES
                                 );
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        catacurses::erase();
         fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
                         "%s", message );
-        wrefresh( catacurses::stdscr );
+        catacurses::refresh();
     } );
 
 #if defined(__ANDROID__)
