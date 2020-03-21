@@ -1108,6 +1108,8 @@
       { "x": 0, "y": 2, "chance": 25, "items": [ "cigar" ] },
       { "x": 0, "y": 2, "chance": 10, "items": [ "cig" ] },
       { "x": -2, "y": 0, "chance": 5, "item_groups": [ "fast_food" ] },
+      { "x": -2, "y": 1, "chance": 20, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 2, "chance": 20, "item_groups": [ "car_misc" ] },
       { "x": -3, "y": 0, "chance": 8, "item_groups": [ "snacks" ] },
       { "x": -3, "y": 0, "chance": 12, "item_groups": [ "fridgesnacks" ] },
       { "x": -3, "y": 0, "chance": 8, "item_groups": [ "fridgesnacks" ] },
