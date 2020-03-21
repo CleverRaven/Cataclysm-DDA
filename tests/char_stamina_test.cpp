@@ -16,10 +16,6 @@
 // get_stamina_max
 // - Start with PLAYER_MAX_STAMINA
 // - Multiply by Character::mutation_value( "max_stamina_modifier" )
-//
-// mod_stamina
-// - Modifies stamina by positive or negative amount
-// - Adds effect_winded for 10 turns if stamina < 0
 
 
 
@@ -80,6 +76,80 @@ TEST_CASE( "stamina movement cost modifier", "[stamina][cost]" )
     }
 }
 
+TEST_CASE( "modify character stamina", "[stamina][modify]" )
+{
+    player &dummy = g->u;
+    clear_character( dummy );
+    REQUIRE_FALSE( dummy.is_npc() );
+    REQUIRE_FALSE( dummy.has_effect( efftype_id( "winded" ) ) );
+
+    GIVEN( "character has less than full stamina" ) {
+        int lost_stamina = dummy.get_stamina_max() / 2;
+        dummy.set_stamina( dummy.get_stamina_max() - lost_stamina );
+        REQUIRE( dummy.get_stamina() + lost_stamina == dummy.get_stamina_max() );
+
+        WHEN( "they regain only part of their lost stamina" ) {
+            dummy.mod_stamina( lost_stamina / 2 );
+
+            THEN( "stamina is less than maximum" ) {
+                CHECK( dummy.get_stamina() < dummy.get_stamina_max() );
+            }
+        }
+
+        WHEN( "they regain all of their lost stamina" ) {
+            dummy.mod_stamina( lost_stamina );
+
+            THEN( "stamina is at maximum" ) {
+                CHECK( dummy.get_stamina() == dummy.get_stamina_max() );
+            }
+        }
+
+        WHEN( "they regain more stamina than they lost" ) {
+            dummy.mod_stamina( lost_stamina + 1 );
+
+            THEN( "stamina is at maximum" ) {
+                CHECK( dummy.get_stamina() == dummy.get_stamina_max() );
+            }
+        }
+
+        WHEN( "they lose only part of their remaining stamina" ) {
+            dummy.mod_stamina( -( dummy.get_stamina() / 2 ) );
+
+            THEN( "stamina is above zero" ) {
+                CHECK( dummy.get_stamina() > 0 );
+
+                AND_THEN( "they do not become winded" ) {
+                    REQUIRE_FALSE( dummy.has_effect( efftype_id( "winded" ) ) );
+                }
+            }
+        }
+
+        WHEN( "they lose all of their remaining stamina" ) {
+            dummy.mod_stamina( -( dummy.get_stamina() ) );
+
+            THEN( "stamina is at zero" ) {
+                CHECK( dummy.get_stamina() == 0 );
+
+                AND_THEN( "they do not become winded" ) {
+                    REQUIRE_FALSE( dummy.has_effect( efftype_id( "winded" ) ) );
+                }
+            }
+        }
+
+        WHEN( "they lose more stamina than they have remaining" ) {
+            dummy.mod_stamina( -( dummy.get_stamina() + 1 ) );
+
+            THEN( "stamina is at zero" ) {
+                CHECK( dummy.get_stamina() == 0 );
+
+                AND_THEN( "they become winded" ) {
+                    REQUIRE( dummy.has_effect( efftype_id( "winded" ) ) );
+                }
+            }
+        }
+    }
+}
+
 // burn_move_stamina (MODIFIES stamina)
 // - Scaled by overburden percentage
 // - Modified by bionic muscles
@@ -87,10 +157,9 @@ TEST_CASE( "stamina movement cost modifier", "[stamina][cost]" )
 // - Modifies stamina based on stamina_move_cost_modifier
 // - Applies pain if overburdened with no stamina or BADBACK trait
 //
-TEST_CASE( "burning stamina", "[stamina][burn]" )
+TEST_CASE( "burn stamina for movement", "[stamina][burn][move]" )
 {
     player &dummy = g->u;
-    clear_character( dummy );
 
     // Game-balance configured rate of stamina burned per move
     int burn_rate = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
@@ -98,6 +167,7 @@ TEST_CASE( "burning stamina", "[stamina][burn]" )
     int after_stam = 0;
 
     GIVEN( "player is not overburdened" ) {
+        clear_character( dummy );
         REQUIRE( dummy.weight_carried() < dummy.weight_capacity() );
 
         WHEN( "walking" ) {
