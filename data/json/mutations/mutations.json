@@ -241,7 +241,7 @@
   {
     "type": "mutation",
     "id": "TOUGH_FEET",
-    "name": "Tough Feet",
+    "name": { "str": "Tough Feet" },
     "points": 1,
     "description": "The bottoms of your feet are tough and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
     "starting_trait": true,
@@ -250,7 +250,7 @@
   {
     "type": "mutation",
     "id": "TOUGH",
-    "name": "Tough",
+    "name": { "str": "Tough" },
     "points": 2,
     "description": "It takes a lot to bring you down!  You get a 20% bonus to all hit points.",
     "starting_trait": true,
@@ -577,7 +577,7 @@
   {
     "type": "mutation",
     "id": "UNOBSERVANT",
-    "name": "Topographagnosia",
+    "name": { "str": "Topographagnosia" },
     "points": -1,
     "description": "Focal brain damage has rendered you incapable of recognizing landmarks and orienting yourself in your surroundings, severely crippling your sight radius on the overmap.",
     "valid": false,
@@ -1084,7 +1084,7 @@
   {
     "type": "mutation",
     "id": "TRIGGERHAPPY",
-    "name": "Trigger Happy",
+    "name": { "str": "Trigger Happy" },
     "points": -1,
     "description": "On rare occasion, you will go full-auto when you intended to fire a single shot.  This has no effect when firing semi-automatic firearms.",
     "starting_trait": true,
@@ -1254,7 +1254,7 @@
   {
     "type": "mutation",
     "id": "TRUTHTELLER",
-    "name": "Truth Teller",
+    "name": { "str": "Truth Teller" },
     "points": -1,
     "description": "When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  Telling lies and otherwise bluffing will be much more difficult for you.",
     "starting_trait": true,
@@ -1601,7 +1601,7 @@
   {
     "type": "mutation",
     "id": "FANGS",
-    "name": "Fangs",
+    "name": { "str": "Fangs" },
     "points": 2,
     "visibility": 2,
     "ugliness": 2,
@@ -1647,7 +1647,7 @@
   {
     "type": "mutation",
     "id": "INCISORS",
-    "name": "Incisors",
+    "name": { "str": "Incisors" },
     "points": 2,
     "visibility": 3,
     "ugliness": 3,
@@ -2313,7 +2313,7 @@
   {
     "type": "mutation",
     "id": "TRANSPIRATION",
-    "name": "Transpiration",
+    "name": { "str": "Transpiration" },
     "points": -5,
     "visibility": 0,
     "ugliness": 0,
@@ -2789,7 +2789,7 @@
   {
     "type": "mutation",
     "id": "RAP_TALONS",
-    "name": "Toe Talons",
+    "name": { "str": "Toe Talons" },
     "points": -1,
     "visibility": 4,
     "ugliness": 2,
@@ -2810,7 +2810,7 @@
   {
     "type": "mutation",
     "id": "HOOVES",
-    "name": "Hooves",
+    "name": { "str": "Hooves" },
     "points": -4,
     "visibility": 2,
     "ugliness": 2,
@@ -2981,7 +2981,7 @@
   {
     "type": "mutation",
     "id": "SABER_TEETH",
-    "name": "Saber Teeth",
+    "name": { "str": "Saber Teeth" },
     "points": -2,
     "visibility": 10,
     "ugliness": 8,
@@ -3019,7 +3019,7 @@
   {
     "type": "mutation",
     "id": "HORNS",
-    "name": "Horns",
+    "name": { "str": "Horns" },
     "points": 1,
     "visibility": 3,
     "ugliness": 1,
@@ -3058,7 +3058,7 @@
   {
     "type": "mutation",
     "id": "HORNS_POINTED",
-    "name": "Pointed Horns",
+    "name": { "str": "Pointed Horns" },
     "points": 1,
     "visibility": 8,
     "ugliness": 2,
@@ -3199,7 +3199,7 @@
   {
     "type": "mutation",
     "id": "TAIL_THICK",
-    "name": "Thick Tail",
+    "name": { "str": "Thick Tail" },
     "points": 1,
     "visibility": 8,
     "ugliness": 2,
@@ -3251,7 +3251,7 @@
   {
     "type": "mutation",
     "id": "TAIL_STING",
-    "name": "Spiked Tail",
+    "name": { "str": "Spiked Tail" },
     "points": 0,
     "visibility": 6,
     "ugliness": 3,
@@ -3270,7 +3270,7 @@
   {
     "type": "mutation",
     "id": "TAIL_CLUB",
-    "name": "Club Tail",
+    "name": { "str": "Club Tail" },
     "points": 0,
     "visibility": 7,
     "ugliness": 2,
@@ -3617,7 +3617,7 @@
   {
     "type": "mutation",
     "id": "MANDIBLES",
-    "name": "Mandibles",
+    "name": { "str": "Mandibles" },
     "points": 1,
     "visibility": 8,
     "ugliness": 6,
@@ -3643,7 +3643,7 @@
   {
     "type": "mutation",
     "id": "FANGS_SPIDER",
-    "name": "Folding Fangs",
+    "name": { "str": "Folding Fangs" },
     "points": 2,
     "visibility": 6,
     "ugliness": 6,
@@ -4502,7 +4502,7 @@
   {
     "type": "mutation",
     "id": "MUZZLE",
-    "name": "Lupine Muzzle",
+    "name": { "str": "Lupine Muzzle" },
     "points": -2,
     "visibility": 5,
     "ugliness": 4,
@@ -4560,7 +4560,7 @@
   {
     "type": "mutation",
     "id": "MUZZLE_LONG",
-    "name": "Reptilian Muzzle",
+    "name": { "str": "Reptilian Muzzle" },
     "points": -3,
     "visibility": 8,
     "ugliness": 8,
@@ -4840,7 +4840,7 @@
   {
     "type": "mutation",
     "id": "TROGLO3",
-    "name": "Troglobite",
+    "name": { "str": "Troglobite" },
     "points": -5,
     "description": "Sunlight makes you extremely uncomfortable, resulting in large penalties to all stats.",
     "cancels": [ "SUNLIGHT_DEPENDENT" ],
@@ -5254,7 +5254,7 @@
   {
     "type": "mutation",
     "id": "ROOTS1",
-    "name": "Toe Roots",
+    "name": { "str": "Toe Roots" },
     "points": -2,
     "visibility": 1,
     "ugliness": 5,
@@ -5538,7 +5538,7 @@
   {
     "type": "mutation",
     "id": "ARM_TENTACLES",
-    "name": "Tentacle Arms",
+    "name": { "str": "Tentacle Arms" },
     "points": -4,
     "visibility": 7,
     "ugliness": 4,
@@ -5577,7 +5577,7 @@
   {
     "type": "mutation",
     "id": "ARM_TENTACLES_4",
-    "name": "4 Tentacles",
+    "name": { "str": "4 Tentacles" },
     "points": -2,
     "visibility": 8,
     "ugliness": 5,
@@ -5615,7 +5615,7 @@
   {
     "type": "mutation",
     "id": "ARM_TENTACLES_8",
-    "name": "8 Tentacles",
+    "name": { "str": "8 Tentacles" },
     "points": -1,
     "visibility": 9,
     "ugliness": 6,
@@ -6022,7 +6022,7 @@
   {
     "type": "mutation",
     "id": "TOXICFLESH",
-    "name": "Toxic Flesh",
+    "name": { "str": "Toxic Flesh" },
     "points": 1,
     "description": "Your flesh is highly poisonous, and creatures that bite you will receive a nasty surprise.",
     "category": [ "FISH" ],
@@ -6051,7 +6051,7 @@
   {
     "type": "mutation",
     "id": "SHARKTEETH",
-    "name": "Shark Teeth",
+    "name": { "str": "Shark Teeth" },
     "points": 3,
     "visibility": 10,
     "ugliness": 8,
@@ -6134,7 +6134,7 @@
   {
     "type": "mutation",
     "id": "PROF_FOODP",
-    "name": "True Foodperson",
+    "name": { "str": "True Foodperson" },
     "points": 0,
     "description": "You are the true Foodperson, some might think Foodperson is just a mascot, but you know better.  You are Foodperson, the mask has become your face, you are real and the only thing standing between this world and oblivion is you.",
     "valid": false,
