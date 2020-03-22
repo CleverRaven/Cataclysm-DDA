@@ -240,7 +240,6 @@
     "volume": "300 L",
     "weight": "500 kg",
     "species": [ "ZOMBIE", "ABERRATION" ],
-    "diff": 0,
     "hp": 150,
     "speed": 25,
     "material": [ "flesh" ],
