@@ -41,7 +41,6 @@
 #include "string_id.h"
 #include "pimpl.h"
 #include "string_formatter.h"
-#include "cata_string_consts.h"
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_countdown( "countdown" );
@@ -60,6 +59,9 @@ static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
 static const species_id SPIDER( "SPIDER" );
 static const species_id ZOMBIE( "ZOMBIE" );
+
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+static const std::string flag_LIQUID( "LIQUID" );
 
 #define MONSTER_FOLLOW_DIST 8
 

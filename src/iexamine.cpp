@@ -86,7 +86,6 @@
 #include "flat_set.h"
 #include "magic_teleporter_list.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
@@ -116,6 +115,21 @@ static const skill_id skill_survival( "survival" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
+static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
+static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_M_FERTILE( "M_FERTILE" );
+static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
+static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
@@ -133,6 +147,34 @@ static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
+
+static const std::string flag_ANESTHESIA( "ANESTHESIA" );
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
+static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
+static const std::string flag_COOKED( "COOKED" );
+static const std::string flag_DIAMOND( "DIAMOND" );
+static const std::string flag_FERTILIZER( "FERTILIZER" );
+static const std::string flag_FILTHY( "FILTHY" );
+static const std::string flag_FIRE( "FIRE" );
+static const std::string flag_FIRESTARTER( "FIRESTARTER" );
+static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
+static const std::string flag_IN_CBM( "IN_CBM" );
+static const std::string flag_MILLABLE( "MILLABLE" );
+static const std::string flag_NO_CVD( "NO_CVD" );
+static const std::string flag_NO_PACKED( "NO_PACKED" );
+static const std::string flag_NO_STERILE( "NO_STERILE" );
+static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
+static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
+static const std::string flag_PROCESSING( "PROCESSING" );
+static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
+static const std::string flag_SAFECRACK( "SAFECRACK" );
+static const std::string flag_SMOKABLE( "SMOKABLE" );
+static const std::string flag_SMOKED( "SMOKED" );
+static const std::string flag_SPLINT( "SPLINT" );
+static const std::string flag_VARSIZE( "VARSIZE" );
+static const std::string flag_WALL( "WALL" );
+static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,

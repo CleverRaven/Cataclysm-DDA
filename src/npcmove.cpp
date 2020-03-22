@@ -62,7 +62,6 @@
 #include "enums.h"
 #include "overmap.h"
 #include "stomach.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_PULP( "ACT_PULP" );
 
@@ -108,7 +107,6 @@ static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
-static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
 

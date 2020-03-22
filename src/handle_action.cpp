@@ -66,7 +66,6 @@
 #include "units.h"
 #include "string_id.h"
 #include "item.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -92,6 +91,20 @@ static const skill_id skill_melee( "melee" );
 static const quality_id qual_CUT( "CUT" );
 
 static const bionic_id bio_remote( "bio_remote" );
+
+static const trait_id trait_HIBERNATE( "HIBERNATE" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
+static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_WAYFARER( "WAYFARER" );
+
+static const std::string flag_LITCIG( "LITCIG" );
+static const std::string flag_LOCKED( "LOCKED" );
+static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
+static const std::string flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
+static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
+static const std::string flag_REACH3( "REACH3" );
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

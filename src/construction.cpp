@@ -52,7 +52,6 @@
 #include "mtype.h"
 #include "point.h"
 #include "units.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
@@ -65,6 +64,15 @@ static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 
 static const quality_id qual_CUT( "CUT" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+
+static const std::string flag_FLAT( "FLAT" );
+static const std::string flag_INITIAL_PART( "INITIAL_PART" );
+static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 
 class inventory;
 

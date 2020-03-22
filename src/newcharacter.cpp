@@ -51,7 +51,16 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_CHALLENGE( "CHALLENGE" );
+static const std::string flag_CITY_START( "CITY_START" );
+static const std::string flag_SECRET( "SECRET" );
+static const std::string flag_WET( "WET" );
+
+static const trait_id trait_SMELLY( "SMELLY" );
+static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
+static const trait_id trait_XS( "XS" );
+static const trait_id trait_XXXL( "XXXL" );
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat

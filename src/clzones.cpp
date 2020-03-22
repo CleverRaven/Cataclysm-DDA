@@ -34,7 +34,8 @@
 #include "player.h"
 #include "vpart_position.h"
 #include "faction.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_FIREWOOD( "FIREWOOD" );
 
 zone_manager::zone_manager()
 {

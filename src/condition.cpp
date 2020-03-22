@@ -28,7 +28,6 @@
 #include "type_id.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "cata_string_consts.h"
 
 static const efftype_id effect_currently_busy( "currently_busy" );
 

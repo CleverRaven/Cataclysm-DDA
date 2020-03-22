@@ -93,7 +93,6 @@
 #include "requirements.h"
 #include "stats_tracker.h"
 #include "vpart_position.h"
-#include "cata_string_consts.h"
 #include "ranged.h"
 
 struct oter_type_t;

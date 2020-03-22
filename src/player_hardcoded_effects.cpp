@@ -26,7 +26,6 @@
 #include "mtype.h"
 #include "stomach.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -56,7 +55,6 @@ static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_disabled( "disabled" );
-static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_evil( "evil" );
 static const efftype_id effect_formication( "formication" );
@@ -98,6 +96,19 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
 static const bionic_id bio_watch( "bio_watch" );
+
+static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
+static const trait_id trait_HIBERNATE( "HIBERNATE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
+static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SEESLEEP( "SEESLEEP" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static void eff_fun_onfire( player &u, effect &it )
 {

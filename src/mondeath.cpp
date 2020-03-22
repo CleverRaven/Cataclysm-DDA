@@ -47,7 +47,6 @@
 #include "colony.h"
 #include "point.h"
 #include "mattack_actors.h"
-#include "cata_string_consts.h"
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_boomered( "boomered" );
@@ -74,6 +73,10 @@ static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 static const mtype_id mon_thing( "mon_thing" );
 static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+
+static const trait_id trait_KILLER( "KILLER" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
 void mdeath::normal( monster &z )
 {

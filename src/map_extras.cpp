@@ -50,7 +50,17 @@
 #include "string_formatter.h"
 #include "weighted_list.h"
 #include "rng.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_FLAT( "FLAT" );
+static const std::string flag_FLOWER( "FLOWER" );
+static const std::string flag_FUNGUS( "FUNGUS" );
+static const std::string flag_LIQUID( "LIQUID" );
+static const std::string flag_ORGANIC( "ORGANIC" );
+static const std::string flag_PLANT( "PLANT" );
+static const std::string flag_SHRUB( "SHRUB" );
+static const std::string flag_TREE( "TREE" );
+static const std::string flag_YOUNG( "YOUNG" );
 
 static const ter_str_id ter_dirt( "t_dirt" );
 static const ter_str_id ter_grass_dead( "t_grass_dead" );
