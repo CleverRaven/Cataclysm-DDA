@@ -94,6 +94,9 @@ static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_plutonium( "plutonium" );
 
 static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_weed_high( "weed_high" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 

@@ -13,6 +13,9 @@
 #include "enums.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_shakes( "shakes" );
+
 namespace io
 {
 

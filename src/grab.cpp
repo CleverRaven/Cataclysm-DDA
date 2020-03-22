@@ -16,6 +16,8 @@
 #include "units.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_harnessed( "harnessed" );
+
 bool game::grabbed_veh_move( const tripoint &dp )
 {
     const optional_vpart_position grabbed_vehicle_vp = m.veh_at( u.pos() + u.grab_point );

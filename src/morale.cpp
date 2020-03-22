@@ -23,6 +23,9 @@
 #include "cata_string_consts.h"
 
 static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 
 namespace
 {

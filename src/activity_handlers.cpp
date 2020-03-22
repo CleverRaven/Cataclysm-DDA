@@ -202,6 +202,11 @@ static const activity_id ACT_WEAR( "ACT_WEAR" );
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_under_op( "under_operation" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 

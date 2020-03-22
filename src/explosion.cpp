@@ -64,6 +64,8 @@
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_emp( "emp" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_teleglow( "teleglow" );
 
 static const itype_id fuel_type_none( "null" );
 

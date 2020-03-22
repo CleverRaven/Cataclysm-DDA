@@ -98,6 +98,10 @@ static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
 static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_teleglow( "teleglow" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 

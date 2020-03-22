@@ -30,6 +30,9 @@
 #include "string_formatter.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_spores( "spores" );
+static const efftype_id effect_stunned( "stunned" );
+
 static const skill_id skill_melee( "melee" );
 
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );

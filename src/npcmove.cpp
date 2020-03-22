@@ -99,6 +99,18 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_catch_up( "catch_up" );
 static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
+static const efftype_id effect_npc_flee_player( "npc_flee_player" );
+static const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
+static const efftype_id effect_npc_run_away( "npc_run_away" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_stunned( "stunned" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
