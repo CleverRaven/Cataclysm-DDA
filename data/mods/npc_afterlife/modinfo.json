@@ -1,0 +1,18 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "npc_afterlife",
+    "name": "Play as your follower after death",
+    "authors": [ "dpwb" ],
+    "description": "Allows you to take over your NPC follower after dying, WARNING: This will trivialize the risk of death.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ],
+    "obsolete": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NPC_AFTERLIFE",
+    "stype": "bool",
+    "value": true
+  }
+]
