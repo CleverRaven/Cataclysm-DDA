@@ -187,7 +187,6 @@ static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
 static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
-static const trait_id trait_DRUNKEN( "DRUNKEN" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
