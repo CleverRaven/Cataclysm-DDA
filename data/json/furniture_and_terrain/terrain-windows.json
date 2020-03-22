@@ -641,11 +641,11 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
+      "str_min": 3,
+      "str_max": 6,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
     }
   },
@@ -660,11 +660,11 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
+      "str_min": 3,
+      "str_max": 6,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
     }
   },
@@ -679,11 +679,11 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
+      "str_min": 3,
+      "str_max": 6,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
-      "ter_set": "t_rock_floor",
+      "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
     }
   }
