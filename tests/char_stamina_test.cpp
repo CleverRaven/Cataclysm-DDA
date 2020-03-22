@@ -61,11 +61,11 @@ static void burden_player( player &dummy, float burden_proportion )
 {
     units::mass capacity = dummy.weight_capacity();
 
-    // Add tin (2g/unit) to reach the desired weight capacity
+    // Add a pile of test platinum bits (1g/unit) to reach the desired weight capacity
     if( burden_proportion > 0.0 ) {
-        int tin_units = static_cast<int>( capacity * burden_proportion / 2_gram );
-        item pile_of_tin( "tin", calendar::turn, tin_units );
-        dummy.i_add( pile_of_tin );
+        int units = static_cast<int>( capacity * burden_proportion / 1_gram );
+        item pile( "test_platinum_bit", calendar::turn, units );
+        dummy.i_add( pile );
     }
 
     // Ensure we are carrying the expected amount of weight
