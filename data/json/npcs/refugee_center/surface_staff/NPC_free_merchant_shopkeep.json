@@ -36,12 +36,14 @@
   {
     "type": "item_group",
     "id": "NC_EVAC_SHOPKEEP_storage",
-    "items": [ [ "duffelbag", 100 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "duffelbag", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "NC_EVAC_SHOPKEEP_coat",
-    "items": [ [ "trenchcoat", 80 ], [ "vest", 60 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 } ]
   },
   {
     "type": "item_group",
