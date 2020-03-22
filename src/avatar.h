@@ -100,6 +100,7 @@ class avatar : public player
         void reset_stats() override;
         /** Resets all missions before saving character to template */
         void reset_all_misions();
+        void reset_avatar_values_for_resurrection();
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;

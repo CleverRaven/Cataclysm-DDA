@@ -123,6 +123,39 @@ void Creature::reset_bonuses()
     throw_resist = 0;
 }
 
+void Creature::copy_from_npc_values_cr( npc &guy )
+{
+    num_blocks = guy.num_blocks;
+    num_dodges = guy.num_dodges;
+    num_blocks_bonus = guy.num_blocks_bonus;
+    num_dodges_bonus = guy.num_dodges_bonus;
+
+    armor_bash_bonus = guy.armor_bash_bonus;
+    armor_cut_bonus = guy.armor_cut_bonus;
+
+    speed_bonus = guy.speed_bonus;
+    dodge_bonus = guy.dodge_bonus;
+    block_bonus = guy.block_bonus;
+    hit_bonus = guy.hit_bonus;
+    bash_bonus = guy.bash_bonus;
+    cut_bonus = guy.cut_bonus;
+    size_bonus = guy.size_bonus;
+
+    bash_mult = guy.bash_mult;
+    cut_mult = guy.cut_mult;
+
+    melee_quiet = guy.melee_quiet;
+    grab_resist = guy.grab_resist;
+    throw_resist = guy.throw_resist;
+    moves = guy.moves;
+    underwater = guy.underwater;
+    killer = nullptr;
+    values = guy.values;
+    speed_base = guy.speed_base;
+    facing = guy.facing;
+    effects = guy.effects;
+}
+
 void Creature::process_turn()
 {
     if( is_dead_state() ) {

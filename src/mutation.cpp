@@ -1076,6 +1076,9 @@ bool Character::mutate_towards( const trait_id &mut )
 
 void Character::remove_mutation( const trait_id &mut, bool silent )
 {
+    if( mut.is_null() ) {
+        return;
+    }
     const auto &mdata = mut.obj();
     // Check if there's a prerequisite we should shrink back into
     trait_id replacing = trait_id::NULL_ID();

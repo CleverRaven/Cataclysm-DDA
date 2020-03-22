@@ -135,7 +135,37 @@ class stomach_contents
         void mod_quench( int quench );
         // adds volume to your stomach
         void mod_contents( units::volume vol );
-
+        // set contents manually
+        void set_nutr( nutrients new_nutr ) {
+            nutr = new_nutr;
+        }
+        void set_water( units::volume new_water ) {
+            water = new_water;
+        }
+        void set_max_volume( units::volume new_max_volume ) {
+            max_volume = new_max_volume;
+        }
+        void set_contents( units::volume new_contents ) {
+            contents = new_contents;
+        }
+        void set_last_ate( time_point new_last_ate ) {
+            last_ate = new_last_ate;
+        }
+        time_point get_last_ate_point() {
+            return last_ate;
+        }
+        nutrients get_nutrients() {
+            return nutr;
+        }
+        units::volume get_water() {
+            return water;
+        }
+        units::volume get_contents() {
+            return contents;
+        }
+        units::volume get_max_volume() {
+            return max_volume;
+        }
         // how long has it been since i ate?
         // only really relevant for player::stomach
         time_duration time_since_ate() const;

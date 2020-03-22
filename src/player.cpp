@@ -781,6 +781,30 @@ time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
     return estimate;
 }
 
+void player::copy_from_npc_values_pl( npc &guy )
+{
+    controlling_vehicle = false;
+    view_offset = tripoint_zero;
+    grab_point = tripoint_zero;
+    destination_point = cata::nullopt;
+    last_target.reset();
+    last_target_pos = cata::nullopt;
+    ammo_location = item_location();
+    scent = guy.scent;
+    dodges_left = guy.dodges_left;
+    blocks_left = guy.blocks_left;
+    cash = guy.cash;
+    movecounter = guy.movecounter;
+    reach_attacking = guy.reach_attacking;
+    manual_examine = guy.manual_examine;
+    copy_from_npc_values_cr( guy );
+    avatar *av = this->as_avatar();
+    if( !av ) {
+        return;
+    }
+    av->reset_avatar_values_for_resurrection();
+}
+
 bool player::has_conflicting_trait( const trait_id &flag ) const
 {
     return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||

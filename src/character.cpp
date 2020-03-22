@@ -6009,20 +6009,21 @@ std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
 void Character::copy_from_npc_values( npc &guy )
 {
     // make a blank slate, delete all stuff the player has.
-    return;
     inv.clear();
     if( is_armed() && !can_unwield( weapon ).success() ) {
         i_rem( &weapon );
     }
-    //for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        //remove_mutation( mut.first );
-    //}
+    worn.clear();
+    my_mutations.clear();
+    my_traits.clear();
+    my_traits = guy.my_traits;
+    my_mutations = guy.my_mutations;
     addictions.clear();
     morale->clear();
 
-    //for( int part = 0; part < num_hp_parts; part++ ) {
-        //hp_cur[part] = guy.hp_cur[part];
-    //}
+    for( int part = 0; part < num_hp_parts; part++ ) {
+        hp_cur[part] = guy.hp_cur[part];
+    }
     set_hunger( guy.hunger );
     set_thirst( guy.thirst );
     set_fatigue( guy.fatigue );
@@ -6032,10 +6033,15 @@ void Character::copy_from_npc_values( npc &guy )
     set_pain( guy.get_pain() );
     set_painkiller( guy.pkill );
     set_rad( guy.radiation );
+    str_max = guy.str_max;
+    dex_max = guy.dex_max;
+    int_max = guy.int_max;
+    per_max = guy.per_max;
     str_bonus = guy.str_bonus;
     dex_bonus = guy.dex_bonus;
     per_bonus = guy.per_bonus;
     int_bonus = guy.int_bonus;
+    reset_stats();
     healthy = guy.healthy;
     healthy_mod = guy.healthy_mod;
     hunger = guy.hunger;
@@ -6047,35 +6053,65 @@ void Character::copy_from_npc_values( npc &guy )
     slow_rad = guy.slow_rad;
     set_stamina( get_option<int>( "PLAYER_MAX_STAMINA" ) );
     update_type_of_scent( true );
-    // 45 days to starve to death
     healthy_calories = guy.healthy_calories;
     stored_calories = healthy_calories;
-    initialize_stomach_contents();
-    healed_total = { { 0, 0, 0, 0, 0, 0 } };
-
+    healed_total = guy.healed_total;
     name = guy.name;
-
     move_mode = CMM_WALK;
-
-    temp_cur.fill( BODYTEMP_NORM );
-    frostbite_timer.fill( 0 );
-    temp_conv.fill( BODYTEMP_NORM );
-
-    body_wetness.fill( 0 );
-
-    drench_capacity[bp_eyes] = 1;
-    drench_capacity[bp_mouth] = 1;
-    drench_capacity[bp_head] = 7;
-    drench_capacity[bp_leg_l] = 11;
-    drench_capacity[bp_leg_r] = 11;
-    drench_capacity[bp_foot_l] = 3;
-    drench_capacity[bp_foot_r] = 3;
-    drench_capacity[bp_arm_l] = 10;
-    drench_capacity[bp_arm_r] = 10;
-    drench_capacity[bp_hand_l] = 3;
-    drench_capacity[bp_hand_r] = 3;
-    drench_capacity[bp_torso] = 40;
+    temp_cur = guy.temp_cur;
+    body_wetness = guy.body_wetness;
+    drench_capacity = guy.drench_capacity;
+    next_climate_control_check = guy.next_climate_control_check;
+    last_climate_control_ret = guy.last_climate_control_ret;
+    overmap_time = guy.overmap_time;
+    enchantment_cache = guy.enchantment_cache;
+    power_level = guy.power_level;
+    max_power_level = guy.max_power_level;
+    sight_max = guy.sight_max;
+    size_class = guy.size_class;
+    frostbite_timer = guy.frostbite_timer;
+    temp_conv = guy.temp_conv;
+    if( guy.mounted_creature ) {
+        guy.mounted_creature->mounted_player = this;
+        guy.mounted_creature->mounted_player_id = getID();
+        mounted_creature = std::move( guy.mounted_creature );
+    }
+    activity = player_activity();
+    cancel_activity();
+    clear_destination_activity();
+    stomach.set_nutr( guy.stomach.get_nutrients() );
+    stomach.set_water( guy.stomach.get_water() );
+    stomach.set_max_volume( guy.stomach.get_max_volume() );
+    stomach.set_contents( guy.stomach.get_contents() );
+    stomach.set_last_ate( guy.stomach.get_last_ate_point() );
+    guts.set_nutr( guy.guts.get_nutrients() );
+    guts.set_water( guy.guts.get_water() );
+    guts.set_max_volume( guy.guts.get_max_volume() );
+    guts.set_contents( guy.guts.get_contents() );
+    guts.set_last_ate( guy.guts.get_last_ate_point() );
+    oxygen = guy.oxygen;
+    consumption_history = guy.consumption_history;
+    focus_pool = guy.focus_pool;
     clear_effects();
+    for( const bionic_id &bid : get_bionics() ) {
+        remove_bionic( bid );
+    }
+    for( const bionic_id &bid : guy.get_bionics() ) {
+        add_bionic( bid );
+    }
+    worn = guy.worn;
+    weapon = guy.weapon;
+    inv = guy.inv;
+    male = guy.male;
+    vitamin_levels = guy.vitamin_levels;
+    _skills = guy._skills;
+    player *pl = this->as_player();
+    if( pl ) {
+        pl->copy_from_npc_values_pl( guy );
+    }
+    reset_encumbrance();
+    recalc_sight_limits();
+    g->m.invalidate_map_cache( g->get_levz() );
 
 }
 

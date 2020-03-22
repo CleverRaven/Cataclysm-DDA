@@ -21,6 +21,7 @@
 
 enum game_message_type : int;
 class nc_color;
+class npc;
 class effect;
 class effects_map;
 
@@ -134,7 +135,7 @@ class Creature
         virtual float hit_roll() const = 0;
         virtual float dodge_roll() = 0;
         virtual float stability_roll() const = 0;
-
+        void copy_from_npc_values_cr( npc &guy );
         /**
          * Simplified attitude towards any creature:
          * hostile - hate, want to kill, etc.

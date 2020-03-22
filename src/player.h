@@ -956,7 +956,7 @@ class player : public Character
         void set_underwater( bool );
         bool is_hallucination() const override;
         void environmental_revert_effect();
-
+        void copy_from_npc_values_pl( npc &guy );
         // Checks whether a player can hear a sound at a given volume and location.
         bool can_hear( const tripoint &source, int volume ) const;
         // Returns a multiplier indicating the keenness of a player's hearing.

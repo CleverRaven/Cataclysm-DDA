@@ -2512,11 +2512,22 @@ void game::quit_takeover_npc( npc &guy )
 {
     uquit = QUIT_NO;
     u.place_corpse();
+    if( u.is_mounted() ) {
+        u.mounted_creature->mounted_player = nullptr;
+        u.mounted_creature->mounted_player_id = character_id();
+        u.mounted_creature.reset();
+    }
+    Messages::clear_messages();
     u.copy_from_npc_values( guy );
-    u.setpos( guy.pos() );
+    tripoint dest_loc = guy.pos();
+    if( m.has_zlevels() && dest_loc.z != get_levz() ) {
+        vertical_shift( dest_loc.z );
+    }
+    u.setpos( dest_loc );
+    update_map( u );
     remove_npc_follower( guy.getID() );
     for( auto it = active_npc.begin(); it != active_npc.end(); ) {
-        if( (*it)->getID() == guy.getID() ){
+        if( ( *it )->getID() == guy.getID() ) {
             active_npc.erase( it );
             break;
         }
@@ -2527,7 +2538,7 @@ void game::quit_takeover_npc( npc &guy )
 bool game::is_game_over()
 {
     validate_npc_followers();
-    if( uquit == QUIT_NPC_TAKEOVER ){
+    if( uquit == QUIT_NPC_TAKEOVER ) {
         std::vector<npc *> followers;
         for( auto &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
@@ -2537,7 +2548,7 @@ bool game::is_game_over()
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
-        if( !followers.empty() ){
+        if( !followers.empty() ) {
             uilist smenu;
             smenu.text = _( "Continue playing as which follower?" );
             for( npc *entry : followers ) {
@@ -2546,7 +2557,7 @@ bool game::is_game_over()
             smenu.query();
 
             if( smenu.ret >= 0 && static_cast<size_t>( smenu.ret ) < followers.size() ) {
-                quit_takeover_npc( *followers[smenu.ret]);
+                quit_takeover_npc( *followers[smenu.ret] );
                 return false;
             }
         }
@@ -2578,8 +2589,8 @@ bool game::is_game_over()
     }
     // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
     if( u.is_dead_state() ) {
-        if( get_option<bool>( "NPC_AFTERLIFE" ) && !get_follower_list().empty() ){
-            if( query_yn( _( "Choose to continue playing as one of your followers?" ) ) ){
+        if( get_option<bool>( "NPC_AFTERLIFE" ) && !get_follower_list().empty() ) {
+            if( query_yn( _( "Choose to continue playing as one of your followers?" ) ) ) {
                 uquit = QUIT_NPC_TAKEOVER;
                 return is_game_over();
             }

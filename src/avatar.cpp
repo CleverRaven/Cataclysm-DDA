@@ -138,6 +138,18 @@ size_t avatar::max_memorized_tiles() const
     return current_map_memory_capacity;
 }
 
+void avatar::reset_avatar_values_for_resurrection()
+{
+    reset_all_misions();
+    str_upgrade = 0;
+    dex_upgrade = 0;
+    int_upgrade = 0;
+    per_upgrade = 0;
+    translocators.clear_known_teleporters();
+    grab_type = OBJECT_NONE;
+
+}
+
 void avatar::clear_memorized_tile( const tripoint &pos )
 {
     player_map_memory.clear_memorized_tile( pos );
