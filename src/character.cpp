@@ -268,7 +268,7 @@ static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
 static const std::string flag_EFFECT_INVISIBLE( "EFFECT_INVISIBLE" );
 static const std::string flag_EFFECT_NIGHT_VISION( "EFFECT_NIGHT_VISION" );
 static const std::string flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
-static const std::string flag_FUNGUS( "FUNGUS" );;
+static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_GNV_EFFECT( "GNV_EFFECT" );
 static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
 static const std::string flag_IR_EFFECT( "IR_EFFECT" );
