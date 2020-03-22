@@ -66,7 +66,6 @@
 #include "monster.h"
 #include "point.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
@@ -161,6 +160,29 @@ static const bionic_id bio_water_extractor( "bio_water_extractor" );
 static const bionic_id bionic_TOOLS_EXTEND( "bio_tools_extend" );
 // Aftershock stuff!
 static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
+
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
+static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
+
+static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
+static const std::string flag_ANESTHESIA( "ANESTHESIA" );
+static const std::string flag_AURA( "AURA" );
+static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
+static const std::string flag_FILTHY( "FILTHY" );
+static const std::string flag_NO_PACKED( "NO_PACKED" );
+static const std::string flag_NO_STERILE( "NO_STERILE" );
+static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
+static const std::string flag_PERPETUAL( "PERPETUAL" );
+static const std::string flag_PERSONAL( "PERSONAL" );
+static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
+static const std::string flag_SEALED( "SEALED" );
+static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
 
 namespace
 {

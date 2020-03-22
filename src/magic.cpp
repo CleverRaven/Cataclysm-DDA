@@ -40,7 +40,8 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "line.h"
-#include "cata_string_consts.h"
+
+static const trait_id trait_NONE( "NONE" );
 
 namespace io
 {

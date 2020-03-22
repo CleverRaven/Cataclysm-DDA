@@ -48,7 +48,6 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 
@@ -64,6 +63,22 @@ static const efftype_id effect_stunned( "stunned" );
 static const skill_id skill_swimming( "swimming" );
 
 static const bionic_id bio_ups( "bio_ups" );
+
+static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_GRAZER( "GRAZER" );
+static const trait_id trait_RUMINANT( "RUMINANT" );
+static const trait_id trait_SHELL2( "SHELL2" );
+
+static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
+static const std::string flag_DIG_TOOL( "DIG_TOOL" );
+static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
+static const std::string flag_MOUNTABLE( "MOUNTABLE" );
+static const std::string flag_MOUNTED_GUN( "MOUNTED_GUN" );
+static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
+static const std::string flag_RAMP_END( "RAMP_END" );
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
+static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

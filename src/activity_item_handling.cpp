@@ -49,10 +49,8 @@
 #include "item_location.h"
 #include "point.h"
 #include "string_id.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
-static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
@@ -60,7 +58,6 @@ static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FISH( "ACT_FISH" );
-static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -68,13 +65,10 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
-static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
-static const activity_id ACT_WEAR( "ACT_WEAR" );
-
 static const efftype_id effect_pet( "pet" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
@@ -101,6 +95,17 @@ static const quality_id qual_FISHING( "FISHING" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
+
+static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
+static const std::string flag_FISHABLE( "FISHABLE" );
+static const std::string flag_FISH_GOOD( "FISH_GOOD" );
+static const std::string flag_FISH_POOR( "FISH_POOR" );
+static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
+static const std::string flag_PLANT( "PLANT" );
+static const std::string flag_PLANTABLE( "PLANTABLE" );
+static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_POWERED( "POWERED" );
+static const std::string flag_TREE( "TREE" );
 
 struct construction_category;
 

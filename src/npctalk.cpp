@@ -72,7 +72,6 @@
 #include "player_activity.h"
 #include "player.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
@@ -99,6 +98,9 @@ static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
 static const bionic_id bio_deformity( "bio_deformity" );
 static const bionic_id bio_face_mask( "bio_face_mask" );
 static const bionic_id bio_voice( "bio_voice" );
+
+static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 class basecamp;
 

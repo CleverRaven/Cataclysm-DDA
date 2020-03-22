@@ -46,7 +46,6 @@
 #include "units.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -64,6 +63,21 @@ static const skill_id skill_firstaid( "firstaid" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
+
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
+
+static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
+static const std::string flag_ANESTHESIA( "ANESTHESIA" );
+static const std::string flag_FILTHY( "FILTHY" );
+static const std::string flag_IN_CBM( "IN_CBM" );
+static const std::string flag_MUSHY( "MUSHY" );
+static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
+static const std::string flag_NO_PACKED( "NO_PACKED" );
+static const std::string flag_NO_STERILE( "NO_STERILE" );
+static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 class Character;
 

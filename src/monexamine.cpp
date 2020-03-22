@@ -36,7 +36,6 @@
 #include "type_id.h"
 #include "pimpl.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );

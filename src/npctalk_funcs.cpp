@@ -48,7 +48,6 @@
 #include "material.h"
 #include "monster.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );

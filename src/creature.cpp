@@ -40,7 +40,6 @@
 #include "player.h"
 #include "string_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );

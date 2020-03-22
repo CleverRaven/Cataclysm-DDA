@@ -63,7 +63,6 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "stomach.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_READ( "ACT_READ" );
 
@@ -96,6 +95,21 @@ static const skill_id skill_throw( "throw" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
+
+static const trait_id trait_BEE( "BEE" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_MUTE( "MUTE" );
+static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_TERRIFYING( "TERRIFYING" );
+
+static const std::string flag_NPC_SAFE( "NPC_SAFE" );
 
 class basecamp;
 class monfaction;

@@ -19,7 +19,6 @@
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
-#include "cata_string_consts.h"
 #include "clzones.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -159,7 +158,6 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
-static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
@@ -237,6 +235,39 @@ static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+
+static const std::string flag_AUTODOC( "AUTODOC" );
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
+static const std::string flag_EATEN_COLD( "EATEN_COLD" );
+static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
+static const std::string flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
+static const std::string flag_FISH_GOOD( "FISH_GOOD" );
+static const std::string flag_FISH_POOR( "FISH_POOR" );
+static const std::string flag_FORAGE_HALLU( "FORAGE_HALLU" );
+static const std::string flag_FORAGE_POISON( "FORAGE_POISON" );
+static const std::string flag_GIBBED( "GIBBED" );
+static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
+static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
+static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
+static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
+static const std::string flag_MESSY( "MESSY" );
+static const std::string flag_PLANTABLE( "PLANTABLE" );
+static const std::string flag_PULPED( "PULPED" );
+static const std::string flag_QUARTERED( "QUARTERED" );
+static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
+static const std::string flag_REQUIRES_TINDER( "REQUIRES_TINDER" );
+static const std::string flag_SAFECRACK( "SAFECRACK" );
+static const std::string flag_SKINNED( "SKINNED" );
+static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
+static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
+static const std::string flag_TREE( "TREE" );
 
 using namespace activity_handlers;
 

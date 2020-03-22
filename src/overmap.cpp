@@ -49,7 +49,6 @@
 #include "math_defines.h"
 #include "monster.h"
 #include "string_formatter.h"
-#include "cata_string_consts.h"
 
 static const efftype_id effect_pet( "pet" );
 

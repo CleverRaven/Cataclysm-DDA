@@ -63,7 +63,6 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
-#include "cata_string_consts.h"
 #include "ranged.h"
 
 static const activity_id ACT_READ( "ACT_READ" );
@@ -86,6 +85,24 @@ static const efftype_id effect_stim_overdose( "stim_overdose" );
 
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_CHITIN2( "CHITIN2" );
+static const trait_id trait_CHITIN3( "CHITIN3" );
+static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_STIMBOOST( "STIMBOOST" );
+static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
+static const trait_id trait_WEBBED( "WEBBED" );
+static const trait_id trait_WHISKERS( "WHISKERS" );
+static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
+
+static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
 class JsonIn;
 class JsonOut;

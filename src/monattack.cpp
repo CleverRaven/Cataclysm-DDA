@@ -72,7 +72,6 @@
 #include "material.h"
 #include "point.h"
 #include "units.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 
@@ -124,7 +123,21 @@ static const species_id species_BLOB( "BLOB" );
 static const species_id LEECH_PLANT( "LEECH_PLANT" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_MARLOSS( "MARLOSS" );
+static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
+static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
+static const trait_id trait_PROF_CYBERCO( "PROF_CYBERCO" );
+static const trait_id trait_PROF_FED( "PROF_FED" );
+static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
+static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
+static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
+static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );

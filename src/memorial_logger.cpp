@@ -19,7 +19,6 @@
 #include "profession.h"
 #include "skill.h"
 #include "stats_tracker.h"
-#include "cata_string_consts.h"
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
@@ -55,6 +54,10 @@ static const trap_str_id tr_shadow( "tr_shadow" );
 static const trap_str_id tr_drain( "tr_drain" );
 static const trap_str_id tr_snake( "tr_snake" );
 static const trap_str_id tr_glass_pit( "tr_glass_pit" );
+
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 
 void memorial_logger::clear()
 {

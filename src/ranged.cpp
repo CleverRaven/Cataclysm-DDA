@@ -63,7 +63,6 @@
 #include "type_id.h"
 #include "point.h"
 #include "skill.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 
@@ -86,6 +85,16 @@ static const skill_id skill_throw( "throw" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_targeting( "bio_targeting" );
+
+static const std::string flag_CONSUMABLE( "CONSUMABLE" );
+static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
+static const std::string flag_NON_FOULING( "NON-FOULING" );
+static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+static const std::string flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
+static const std::string flag_VEHICLE( "VEHICLE" );
+
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_attack( const Character &p, const itype &firing );

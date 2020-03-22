@@ -14,7 +14,8 @@
 #include "item.h"
 #include "optional.h"
 #include "ret_val.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 
 namespace behavior
 {
