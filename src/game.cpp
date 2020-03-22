@@ -2512,6 +2512,9 @@ void game::quit_takeover_npc( npc &guy )
 {
     uquit = QUIT_NO;
     u.place_corpse();
+    if( !guy.is_active() ) {
+        place_player_overmap( guy.global_omt_location() );
+    }
     if( u.is_mounted() ) {
         u.mounted_creature->mounted_player = nullptr;
         u.mounted_creature->mounted_player_id = character_id();
@@ -2526,7 +2529,7 @@ void game::quit_takeover_npc( npc &guy )
     u.setpos( dest_loc );
     update_map( u );
     remove_npc_follower( guy.getID() );
-    for( auto it = active_npc.begin(); it != active_npc.end(); ) {
+    for( auto it = active_npc.begin(); it != active_npc.end(); ++it ) {
         if( ( *it )->getID() == guy.getID() ) {
             active_npc.erase( it );
             break;
@@ -4660,9 +4663,13 @@ static bool can_place_monster( game &g, const monster &mon, const tripoint &p )
         }
     }
     // Although monsters can sometimes exist on the same place as a Character (e.g. ridden horse),
-    // it is usually wrong. So don't allow it.
-    if( g.critter_at<Character>( p ) ) {
-        return false;
+    // it is usually wrong ( unless in the case of teleporting )
+    if( Character *ch = g.critter_at<Character>( p ) ) {
+        if( mon.has_effect( effect_ridden ) && mon.mounted_player_id == ch->getID() ) {
+            return mon.will_move_to( p );
+        } else {
+            return false;
+        }
     }
     return mon.will_move_to( p );
 }
@@ -9488,6 +9495,7 @@ void game::place_player_overmap( const tripoint &om_dest )
     // update weather now as it could be different on the new location
     weather.nextweather = calendar::turn;
     place_player( player_pos );
+    validate_mounted_npcs();
 }
 
 bool game::phasing_move( const tripoint &dest_loc )
@@ -10964,7 +10972,6 @@ void game::despawn_monster( monster &critter )
         // hallucinations aren't stored, they come and go as they like,
         overmap_buffer.despawn_monster( critter );
     }
-
     critter.on_unload();
     remove_zombie( critter );
     // simulate it being dead so further processing of it (e.g. in monmove) will yield
