@@ -12,72 +12,72 @@
 // PLAYER_BASE_STAMINA_BURN_RATE (15)
 
 
-// Return `stamina_move_cost_modifier` in the given move_mode with [0,1] stamina remaining
+// Return `stamina_move_cost_modifier` in the given move_mode with [0.0 .. 1.0] stamina remaining
 static float move_cost_mod( player &dummy, character_movemode move_mode,
                             float stamina_proportion = 1.0 )
 {
+    // Reset and be able to run
     clear_character( dummy );
     dummy.remove_effect( efftype_id( "winded" ) );
+    REQUIRE( dummy.can_run() );
 
-    if( move_mode == CMM_RUN ) {
-        REQUIRE( dummy.can_run() );
-    }
-
+    // Walk, run, or crouch
     dummy.set_movement_mode( move_mode );
     REQUIRE( dummy.movement_mode_is( move_mode ) );
 
+    // Adjust stamina to desired proportion and ensure it was set correctly
     int new_stamina = static_cast<int>( stamina_proportion * dummy.get_stamina_max() );
-
     dummy.set_stamina( new_stamina );
     REQUIRE( dummy.get_stamina() == new_stamina );
 
+    // The point of it all: move cost modifier
     return dummy.stamina_move_cost_modifier();
 }
 
 // Return amount of stamina burned per turn by `burn_move_stamina` in the given movement mode.
 static int actual_burn_rate( player &dummy, character_movemode move_mode )
 {
-    // Set starting stamina to max to ensure enough left for 10 turns
+    // Ensure we can run if necessary (aaaa zombies!)
     dummy.set_stamina( dummy.get_stamina_max() );
     dummy.remove_effect( efftype_id( "winded" ) );
+    REQUIRE( dummy.can_run() );
 
-    if( move_mode == CMM_RUN ) {
-        REQUIRE( dummy.can_run() );
-    }
-
+    // Walk, run, or crouch
     dummy.set_movement_mode( move_mode );
     REQUIRE( dummy.movement_mode_is( move_mode ) );
 
+    // Measure stamina burned, and ensure it is nonzero
     int before_stam = dummy.get_stamina();
     dummy.burn_move_stamina( to_moves<int>( 1_turns ) );
     int after_stam = dummy.get_stamina();
     REQUIRE( before_stam > after_stam );
 
+    // How much stamina was actually burned?
     return before_stam - after_stam;
 }
 
-// Burden the player with a given proportion [0.0 .. inf) of weight
+// Burden the player with a given proportion [0.0 .. inf) of their maximum weight capacity
 static void burden_player( player &dummy, float burden_proportion )
 {
-    clear_character( dummy, false );
     units::mass capacity = dummy.weight_capacity();
 
-    // Add gold (5g/unit) to reach the desired weight capacity
+    // Add tin (2g/unit) to reach the desired weight capacity
     if( burden_proportion > 0.0 ) {
-        int gold_units = static_cast<int>( capacity * burden_proportion / 5_gram );
-        dummy.i_add( item( "gold_small", calendar::turn, gold_units ) );
+        int tin_units = static_cast<int>( capacity * burden_proportion / 2_gram );
+        item pile_of_tin( "tin", calendar::turn, tin_units );
+        dummy.i_add( pile_of_tin );
     }
 
-    // Might be off by a few grams
-    REQUIRE( dummy.weight_carried() >= 0.999 * capacity * burden_proportion );
-    REQUIRE( dummy.weight_carried() <= 1.001 * capacity * burden_proportion );
+    // Ensure we are carrying the expected amount of weight
+    REQUIRE( dummy.weight_carried() == capacity * burden_proportion );
 }
 
 // Return amount of stamina burned per turn by `burn_move_stamina` in the given movement mode,
-// while carrying the given proportion [0.0, inf) of maximum weight capacity.
+// while carrying the given proportion [0.0, inf) of their maximum weight capacity.
 static int burdened_burn_rate( player &dummy, character_movemode move_mode,
                                float burden_proportion = 0.0 )
 {
+    clear_character( dummy, false );
     burden_player( dummy, burden_proportion );
     return actual_burn_rate( dummy, move_mode );
 }
@@ -100,27 +100,27 @@ TEST_CASE( "stamina movement cost modifier", "[stamina][cost]" )
     }
 
     SECTION( "running cost goes from 2.0 to 1.0 as stamina goes to zero" ) {
-        CHECK( move_cost_mod( dummy, CMM_RUN, 1.00 ) == 2.00 );
-        CHECK( move_cost_mod( dummy, CMM_RUN, 0.75 ) == 1.75 );
-        CHECK( move_cost_mod( dummy, CMM_RUN, 0.50 ) == 1.50 );
-        CHECK( move_cost_mod( dummy, CMM_RUN, 0.25 ) == 1.25 );
-        CHECK( move_cost_mod( dummy, CMM_RUN, 0.00 ) == 1.00 );
+        CHECK( move_cost_mod( dummy, CMM_RUN, 1.00 ) == Approx( 2.00 ) );
+        CHECK( move_cost_mod( dummy, CMM_RUN, 0.75 ) == Approx( 1.75 ) );
+        CHECK( move_cost_mod( dummy, CMM_RUN, 0.50 ) == Approx( 1.50 ) );
+        CHECK( move_cost_mod( dummy, CMM_RUN, 0.25 ) == Approx( 1.25 ) );
+        CHECK( move_cost_mod( dummy, CMM_RUN, 0.00 ) == Approx( 1.00 ) );
     }
 
     SECTION( "walking cost goes from 1.0 to 0.5 as stamina goes to zero" ) {
-        CHECK( move_cost_mod( dummy, CMM_WALK, 1.00 ) == 1.000 );
-        CHECK( move_cost_mod( dummy, CMM_WALK, 0.75 ) == 0.875 );
-        CHECK( move_cost_mod( dummy, CMM_WALK, 0.50 ) == 0.750 );
-        CHECK( move_cost_mod( dummy, CMM_WALK, 0.25 ) == 0.625 );
-        CHECK( move_cost_mod( dummy, CMM_WALK, 0.00 ) == 0.500 );
+        CHECK( move_cost_mod( dummy, CMM_WALK, 1.00 ) == Approx( 1.000 ) );
+        CHECK( move_cost_mod( dummy, CMM_WALK, 0.75 ) == Approx( 0.875 ) );
+        CHECK( move_cost_mod( dummy, CMM_WALK, 0.50 ) == Approx( 0.750 ) );
+        CHECK( move_cost_mod( dummy, CMM_WALK, 0.25 ) == Approx( 0.625 ) );
+        CHECK( move_cost_mod( dummy, CMM_WALK, 0.00 ) == Approx( 0.500 ) );
     }
 
     SECTION( "crouching cost goes from 0.5 to 0.25 as stamina goes to zero" ) {
-        CHECK( move_cost_mod( dummy, CMM_CROUCH, 1.00 ) == 0.5000 );
-        CHECK( move_cost_mod( dummy, CMM_CROUCH, 0.75 ) == 0.4375 );
-        CHECK( move_cost_mod( dummy, CMM_CROUCH, 0.50 ) == 0.3750 );
-        CHECK( move_cost_mod( dummy, CMM_CROUCH, 0.25 ) == 0.3125 );
-        CHECK( move_cost_mod( dummy, CMM_CROUCH, 0.00 ) == 0.2500 );
+        CHECK( move_cost_mod( dummy, CMM_CROUCH, 1.00 ) == Approx( 0.5000 ) );
+        CHECK( move_cost_mod( dummy, CMM_CROUCH, 0.75 ) == Approx( 0.4375 ) );
+        CHECK( move_cost_mod( dummy, CMM_CROUCH, 0.50 ) == Approx( 0.3750 ) );
+        CHECK( move_cost_mod( dummy, CMM_CROUCH, 0.25 ) == Approx( 0.3125 ) );
+        CHECK( move_cost_mod( dummy, CMM_CROUCH, 0.00 ) == Approx( 0.2500 ) );
     }
 }
 
@@ -267,12 +267,15 @@ TEST_CASE( "burning stamina when overburdened may cause pain", "[stamina][burn][
     int pain_before;
     int pain_after;
 
-    GIVEN( "character is overburdened" ) {
+    GIVEN( "character is severely overburdened" ) {
+
         // As overburden percentage goes from (100% .. 350%),
         //           chance of pain goes from (1/25 .. 1/1)
         //
         // To guarantee pain when moving and ensure consistent test results,
         // set to 350% burden.
+
+        clear_character( dummy, false );
         burden_player( dummy, 3.5 );
 
         WHEN( "they have zero stamina left" ) {
