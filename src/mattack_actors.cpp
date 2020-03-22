@@ -24,11 +24,17 @@
 #include "rng.h"
 #include "material.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_targeted( "targeted" );
+static const efftype_id effect_was_laserlocked( "was_laserlocked" );
+
+static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
 
 // Simplified version of the function in monattack.cpp
 static bool is_adjacent( const monster &z, const Creature &target )

@@ -49,6 +49,12 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
 static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_operating( "operating" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pushed( "pushed" );
+static const efftype_id effect_stunned( "stunned" );
 
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );

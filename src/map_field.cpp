@@ -71,6 +71,14 @@ static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_stung( "stung" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_teargas( "teargas" );
+static const efftype_id effect_webbed( "webbed" );
+
+static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 
 void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {

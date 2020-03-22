@@ -74,6 +74,18 @@ static const bionic_id bio_watch( "bio_watch" );
 
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_depressants( "depressants" );
+static const efftype_id effect_happy( "happy" );
+static const efftype_id effect_irradiated( "irradiated" );
+static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_sad( "sad" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_sleep_deprived( "sleep_deprived" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_stim( "stim" );
+static const efftype_id effect_stim_overdose( "stim_overdose" );
+
+static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
+static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 
 class JsonIn;
 class JsonOut;

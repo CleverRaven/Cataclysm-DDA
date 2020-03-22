@@ -97,6 +97,22 @@ static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
+static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_operating( "operating" );
+static const efftype_id effect_paid( "paid" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_raising( "raising" );
+static const efftype_id effect_rat( "rat" );
+static const efftype_id effect_shrieking( "shrieking" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_targeted( "targeted" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_under_op( "under_operation" );
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
@@ -107,6 +123,8 @@ static const skill_id skill_unarmed( "unarmed" );
 static const species_id species_BLOB( "BLOB" );
 static const species_id LEECH_PLANT( "LEECH_PLANT" );
 static const species_id ZOMBIE( "ZOMBIE" );
+
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );

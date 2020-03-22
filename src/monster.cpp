@@ -67,6 +67,22 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_run( "run" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_supercharged( "supercharged" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_webbed( "webbed" );
 
 static const species_id FISH( "FISH" );
 static const species_id FUNGUS( "FUNGUS" );
@@ -76,6 +92,11 @@ static const species_id MOLLUSK( "MOLLUSK" );
 static const species_id ROBOT( "ROBOT" );
 static const species_id SPIDER( "SPIDER" );
 static const species_id ZOMBIE( "ZOMBIE" );
+
+static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
+static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
+static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
+static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 
 static const mtype_id mon_ant( "mon_ant" );
 static const mtype_id mon_ant_fungus( "mon_ant_fungus" );

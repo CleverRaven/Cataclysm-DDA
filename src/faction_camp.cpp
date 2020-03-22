@@ -73,9 +73,11 @@
 #include "point.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "cata_string_consts.h"
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+
+static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_TREE( "TREE" );
 
 static const zone_type_id zone_type_camp_food( "CAMP_FOOD" );
 static const zone_type_id zone_type_camp_storage( "CAMP_STORAGE" );
@@ -123,6 +125,8 @@ static const mtype_id mon_squirrel( "mon_squirrel" );
 static const mtype_id mon_turkey( "mon_turkey" );
 static const mtype_id mon_weasel( "mon_weasel" );
 static const mtype_id mon_wolf( "mon_wolf" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 struct mass_volume {
     units::mass wgt;

@@ -37,9 +37,11 @@
 #include "colony.h"
 #include "item_stack.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 static const bionic_id bio_night( "bio_night" );
+
+static const efftype_id effect_haslight( "haslight" );
+static const efftype_id effect_onfire( "onfire" );
 
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y

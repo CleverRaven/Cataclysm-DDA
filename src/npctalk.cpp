@@ -79,6 +79,15 @@ static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_under_op( "under_operation" );
+
 static const itype_id fuel_type_animal( "animal" );
 
 static const zone_type_id zone_type_npc_investigate_only( "NPC_INVESTIGATE_ONLY" );

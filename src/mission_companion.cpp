@@ -59,6 +59,8 @@
 #include "weather.h"
 #include "cata_string_consts.h"
 
+static const efftype_id effect_riding( "riding" );
+
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );

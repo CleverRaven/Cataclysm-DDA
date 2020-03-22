@@ -117,7 +117,23 @@ static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_masked_scent( "masked_scent" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_weed_high( "weed_high" );
 
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 
 static const skill_id skill_dodge( "dodge" );

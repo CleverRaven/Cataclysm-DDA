@@ -14,7 +14,8 @@
 #include "tileray.h"
 #include "translations.h"
 #include "units.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_harnessed( "harnessed" );
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {

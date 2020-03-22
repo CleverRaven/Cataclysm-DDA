@@ -45,6 +45,18 @@
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sap( "sap" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_zapped( "zapped" );
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},

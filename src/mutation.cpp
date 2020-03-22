@@ -30,6 +30,8 @@
 
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
+static const efftype_id effect_stunned( "stunned" );
+
 namespace io
 {
 

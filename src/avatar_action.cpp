@@ -54,6 +54,12 @@ static const activity_id ACT_AIM( "ACT_AIM" );
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_relax_gas( "relax_gas" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_stunned( "stunned" );
 
 static const skill_id skill_swimming( "swimming" );
 
