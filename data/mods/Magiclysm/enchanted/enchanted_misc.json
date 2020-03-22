@@ -50,8 +50,7 @@
   {
     "id": "mkey_opening",
     "type": "TOOL",
-    "name": "skeleton key of opening",
-    "name_plural": "skeleton key of opening",
+    "name": { "str": "skeleton key of opening", "str_pl": "skeleton keys of opening" },
     "description": "A small gold skeleton key.  You can activate it to unlock locked things.",
     "weight": "20 g",
     "volume": 0,
