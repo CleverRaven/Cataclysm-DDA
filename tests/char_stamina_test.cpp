@@ -426,7 +426,7 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
         dummy.wear_item( item( "scarf_fur" ) );
         REQUIRE( dummy.encumb( bp_mouth ) == 10 );
 
-        THEN( "stamina regeneration is diminished" ) {
+        THEN( "stamina regen is reduced" ) {
             CHECK( actual_regen_rate( dummy, turn_moves ) == ( normal_regen_rate - 2 ) * turn_moves );
 
             WHEN( "they have even more mouth encumbrance" ) {
@@ -434,7 +434,7 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
                 dummy.wear_item( item( "scarf_fur" ) );
                 REQUIRE( dummy.encumb( bp_mouth ) == 30 );
 
-                THEN( "stamina regeneration is diminshed further" ) {
+                THEN( "stamina regen is reduced further" ) {
                     CHECK( actual_regen_rate( dummy, turn_moves ) == ( normal_regen_rate - 6 ) * turn_moves );
                 }
             }
