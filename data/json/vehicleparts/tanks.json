@@ -140,7 +140,7 @@
   {
     "id": "tank_barrel",
     "type": "vehicle_part",
-    "name": "wooden barrel (100L)",
+    "name": { "str": "wooden barrel (100L)" },
     "item": "wooden_barrel",
     "location": "center",
     "symbol": "O",

@@ -178,7 +178,7 @@
   {
     "type": "vehicle_part",
     "id": "yoke_harness",
-    "name": "yoke and harness",
+    "name": { "str": "yoke and harness" },
     "symbol": "H",
     "looks_like": "frame_wood_cross",
     "color": "brown",
@@ -359,7 +359,7 @@
   {
     "type": "vehicle_part",
     "id": "frame_wood_handle",
-    "name": "wooden handle",
+    "name": { "str": "wooden handle" },
     "symbol": "^",
     "looks_like": "frame_wood_cover",
     "color": "light_red",
@@ -443,7 +443,7 @@
   {
     "type": "vehicle_part",
     "id": "wooden_aisle_horizontal",
-    "name": "wooden aisle",
+    "name": { "str": "wooden aisle" },
     "symbol": "=",
     "looks_like": "t_floor",
     "color": "brown",
@@ -465,7 +465,7 @@
   {
     "type": "vehicle_part",
     "id": "wooden_aisle_vertical",
-    "name": "wooden aisle",
+    "name": { "str": "wooden aisle" },
     "symbol": "H",
     "looks_like": "wooden_aisle_horizontal",
     "color": "brown",
@@ -787,7 +787,7 @@
   {
     "type": "vehicle_part",
     "id": "windshield",
-    "name": "windshield",
+    "name": { "str": "windshield" },
     "symbol": "\"",
     "looks_like": "t_wall_glass",
     "color": "light_cyan",
@@ -1206,7 +1206,7 @@
   {
     "type": "vehicle_part",
     "id": "wood box",
-    "name": "wood box",
+    "name": { "str": "wood box" },
     "symbol": "o",
     "looks_like": "f_crate_o",
     "color": "brown",
@@ -1275,7 +1275,7 @@
   {
     "type": "vehicle_part",
     "id": "basketsm",
-    "name": "wire bike basket",
+    "name": { "str": "wire bike basket" },
     "symbol": "o",
     "looks_like": "basketlg",
     "color": "brown",
@@ -1371,7 +1371,7 @@
   {
     "type": "vehicle_part",
     "id": "veh_table_wood",
-    "name": "wood table",
+    "name": { "str": "wood table" },
     "symbol": "#",
     "looks_like": "f_table",
     "color": "red",
@@ -1399,7 +1399,7 @@
   {
     "type": "vehicle_part",
     "id": "workbench",
-    "name": "workbench",
+    "name": { "str": "workbench" },
     "symbol": "#",
     "looks_like": "veh_table_wood",
     "color": "red",
@@ -1429,7 +1429,7 @@
   {
     "type": "vehicle_part",
     "id": "boat_board",
-    "name": "wooden boat hull",
+    "name": { "str": "wooden boat hull" },
     "description": "A wooden board that keeps the water out of your boat.",
     "symbol": "o",
     "looks_like": "t_wall_log",
@@ -2002,7 +2002,7 @@
   {
     "type": "vehicle_part",
     "id": "wind_turbine",
-    "name": "wind turbine",
+    "name": { "str": "wind turbine" },
     "symbol": "T",
     "color": "yellow",
     "broken_symbol": "X",
@@ -2385,7 +2385,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_wood",
-    "name": "wooden armor",
+    "name": { "str": "wooden armor" },
     "symbol": ")",
     "color": "brown",
     "broken_symbol": ")",
@@ -2822,7 +2822,7 @@
   {
     "type": "vehicle_part",
     "id": "wing_mirror",
-    "name": "wing mirror",
+    "name": { "str": "wing mirror" },
     "symbol": "o",
     "color": "light_cyan",
     "broken_symbol": "*",
@@ -2969,7 +2969,7 @@
   {
     "type": "vehicle_part",
     "id": "seat_wood",
-    "name": "wooden seat",
+    "name": { "str": "wooden seat" },
     "looks_like": "seat",
     "symbol": "#",
     "color": "brown",
@@ -2992,7 +2992,7 @@
   {
     "type": "vehicle_part",
     "id": "spike_wood",
-    "name": "wooden spike",
+    "name": { "str": "wooden spike" },
     "symbol": ".",
     "color": "brown",
     "broken_symbol": "x",
@@ -3014,7 +3014,7 @@
   {
     "type": "vehicle_part",
     "id": "door_wood",
-    "name": "wooden door",
+    "name": { "str": "wooden door" },
     "symbol": "+",
     "looks_like": "t_door_c",
     "color": "brown",
@@ -3060,7 +3060,7 @@
   {
     "type": "vehicle_part",
     "id": "roof_wood",
-    "name": "wooden roof",
+    "name": { "str": "wooden roof" },
     "symbol": "#",
     "color": "light_gray",
     "broken_symbol": "#",

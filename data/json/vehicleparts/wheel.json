@@ -496,7 +496,7 @@
   {
     "id": "wheel_wide",
     "type": "vehicle_part",
-    "name": "wide wheel",
+    "name": { "str": "wide wheel" },
     "item": "wheel_wide",
     "location": "under",
     "looks_like": "wheel",
@@ -535,7 +535,7 @@
   {
     "id": "wheel_wood",
     "type": "vehicle_part",
-    "name": "wooden cart wheel",
+    "name": { "str": "wooden cart wheel" },
     "item": "wheel_wood",
     "location": "under",
     "symbol": "|",
