@@ -26,8 +26,7 @@
   {
     "type": "AMMO",
     "id": "tainted_blood",
-    "name": "tainted blood",
-    "name_plural": "tainted blood",
+    "name": { "str": "tainted blood", "str_pl": "tainted blood" },
     "weight": "2 g",
     "color": "black",
     "container": "flask_glass",
