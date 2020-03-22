@@ -13,7 +13,8 @@
 
 
 // Return `stamina_move_cost_modifier` in the given move_mode with [0,1] stamina remaining
-float move_cost_mod( player &dummy, character_movemode move_mode, float stamina_proportion = 1.0 )
+static float move_cost_mod( player &dummy, character_movemode move_mode,
+                            float stamina_proportion = 1.0 )
 {
     clear_character( dummy );
     dummy.remove_effect( efftype_id( "winded" ) );
@@ -34,7 +35,7 @@ float move_cost_mod( player &dummy, character_movemode move_mode, float stamina_
 }
 
 // Return amount of stamina burned per turn by `burn_move_stamina` in the given movement mode.
-int actual_burn_rate( player &dummy, character_movemode move_mode )
+static int actual_burn_rate( player &dummy, character_movemode move_mode )
 {
     // Set starting stamina to max to ensure enough left for 10 turns
     dummy.set_stamina( dummy.get_stamina_max() );
@@ -56,7 +57,7 @@ int actual_burn_rate( player &dummy, character_movemode move_mode )
 }
 
 // Burden the player with a given proportion [0.0 .. inf) of weight
-void burden_player( player &dummy, float burden_proportion )
+static void burden_player( player &dummy, float burden_proportion )
 {
     clear_character( dummy, false );
     units::mass capacity = dummy.weight_capacity();
@@ -74,7 +75,8 @@ void burden_player( player &dummy, float burden_proportion )
 
 // Return amount of stamina burned per turn by `burn_move_stamina` in the given movement mode,
 // while carrying the given proportion [0.0, inf) of maximum weight capacity.
-int burdened_burn_rate( player &dummy, character_movemode move_mode, float burden_proportion = 0.0 )
+static int burdened_burn_rate( player &dummy, character_movemode move_mode,
+                               float burden_proportion = 0.0 )
 {
     burden_player( dummy, burden_proportion );
     return actual_burn_rate( dummy, move_mode );
