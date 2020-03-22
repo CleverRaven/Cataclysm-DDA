@@ -93,6 +93,11 @@ static const species_id ROBOT( "ROBOT" );
 static const species_id SPIDER( "SPIDER" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
+static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
+static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
+static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
+static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
+
 static const mtype_id mon_ant( "mon_ant" );
 static const mtype_id mon_ant_fungus( "mon_ant_fungus" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );

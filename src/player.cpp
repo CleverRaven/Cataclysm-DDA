@@ -132,6 +132,8 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 
 static const skill_id skill_dodge( "dodge" );

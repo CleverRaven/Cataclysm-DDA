@@ -15,7 +15,6 @@
 #include "color.h"
 #include "enums.h"
 #include "units.h"
-#include "cata_string_consts.h"
 
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_crushed( "crushed" );
@@ -27,6 +26,9 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
+
+static const trait_id trait_LACTOSE( "LACTOSE" );
+static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
 namespace
 {

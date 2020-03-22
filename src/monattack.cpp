@@ -124,6 +124,8 @@ static const species_id species_BLOB( "BLOB" );
 static const species_id LEECH_PLANT( "LEECH_PLANT" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
 static const mtype_id mon_ant_larva( "mon_ant_larva" );

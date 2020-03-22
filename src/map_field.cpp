@@ -78,6 +78,8 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 static const efftype_id effect_webbed( "webbed" );
 
+static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
+
 void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
     std::vector<material_id> all_mats = fuel.made_of();

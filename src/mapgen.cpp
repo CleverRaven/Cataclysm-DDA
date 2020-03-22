@@ -67,7 +67,6 @@
 #include "colony.h"
 #include "pimpl.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 static const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
@@ -91,6 +90,8 @@ static const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
 static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 static const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
+
+static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

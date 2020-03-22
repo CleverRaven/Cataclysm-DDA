@@ -137,6 +137,12 @@ static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_winded( "winded" );
 
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
+static const trait_id trait_ADRENALINE( "ADRENALINE" );
+static const trait_id trait_ANTENNAE( "ANTENNAE" );
+static const trait_id trait_ANTLERS( "ANTLERS" );
+static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 
 static const skill_id skill_dodge( "dodge" );

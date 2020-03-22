@@ -4,31 +4,6 @@
 
 #include "type_id.h"
 
-static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
-static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
-static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
-static const trait_id trait_ADRENALINE( "ADRENALINE" );
-static const trait_id trait_ALBINO( "ALBINO" );
-static const trait_id trait_ALCMET( "ALCMET" );
-static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
-static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
-static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
-static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
-static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
-static const trait_id trait_ANTENNAE( "ANTENNAE" );
-static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
-static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
-static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
-static const trait_id trait_ANTLERS( "ANTLERS" );
-static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
-static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
-static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
-static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
-static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
-static const trait_id trait_ASTHMA( "ASTHMA" );
-static const trait_id trait_BADBACK( "BADBACK" );
-static const trait_id trait_BADKNEES( "BADKNEES" );
-static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
