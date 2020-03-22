@@ -790,6 +790,7 @@ void player::copy_from_npc_values_pl( npc &guy )
     last_target.reset();
     last_target_pos = cata::nullopt;
     ammo_location = item_location();
+    clear_destination();
     scent = guy.scent;
     dodges_left = guy.dodges_left;
     blocks_left = guy.blocks_left;
