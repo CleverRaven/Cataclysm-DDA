@@ -1346,7 +1346,8 @@ static void cast_spell()
     std::vector<spell_id> spells = u.magic.spells();
 
     if( spells.empty() ) {
-        add_msg( m_bad, _( "You don't know any spells to cast." ) );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You don't know any spells to cast." ) );
         return;
     }
 
@@ -1359,7 +1360,8 @@ static void cast_spell()
     }
 
     if( !can_cast_spells ) {
-        add_msg( m_bad, _( "You can't cast any of the spells you know!" ) );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You can't cast any of the spells you know!" ) );
     }
 
     const int spell_index = u.magic.select_spell( u );
@@ -1371,17 +1373,21 @@ static void cast_spell()
 
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
         !u.weapon.has_flag( flag_MAGIC_FOCUS ) ) {
-        add_msg( m_bad, _( "You need your hands free to cast this spell!" ) );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You need your hands free to cast this spell!" ) );
         return;
     }
 
     if( !u.magic.has_enough_energy( u, sp ) ) {
-        add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You don't have enough %s to cast the spell." ),
+                 sp.energy_string() );
         return;
     }
 
     if( sp.energy_source() == hp_energy && !u.has_quality( qual_CUT ) ) {
-        add_msg( m_bad, _( "You cannot cast Blood Magic without a cutting implement." ) );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You cannot cast Blood Magic without a cutting implement." ) );
         return;
     }
 

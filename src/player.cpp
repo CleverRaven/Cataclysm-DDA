@@ -5285,15 +5285,16 @@ void player::add_msg_player_or_npc( const std::string &player_msg,
     Messages::add_msg( player_msg );
 }
 
-void player::add_msg_if_player( const game_message_type type, const std::string &msg ) const
+void player::add_msg_if_player( const game_message_params &params, const std::string &msg ) const
 {
-    Messages::add_msg( type, msg );
+    Messages::add_msg( params, msg );
 }
 
-void player::add_msg_player_or_npc( const game_message_type type, const std::string &player_msg,
+void player::add_msg_player_or_npc( const game_message_params &params,
+                                    const std::string &player_msg,
                                     const std::string &/*npc_msg*/ ) const
 {
-    Messages::add_msg( type, player_msg );
+    Messages::add_msg( params, player_msg );
 }
 
 void player::add_msg_player_or_say( const std::string &player_msg,
@@ -5302,10 +5303,11 @@ void player::add_msg_player_or_say( const std::string &player_msg,
     Messages::add_msg( player_msg );
 }
 
-void player::add_msg_player_or_say( const game_message_type type, const std::string &player_msg,
+void player::add_msg_player_or_say( const game_message_params &params,
+                                    const std::string &player_msg,
                                     const std::string &/*npc_speech*/ ) const
 {
-    Messages::add_msg( type, player_msg );
+    Messages::add_msg( params, player_msg );
 }
 
 bool player::knows_trap( const tripoint &pos ) const
