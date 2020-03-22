@@ -200,7 +200,7 @@
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "bashing" }
     ],
-    "traits": [ "PROF_SWAT", "THRESH_MASTODON" ],
+    "traits": [ "PROF_SWAT", "THRESH_MASTODON", "UPLIFTED", "MUT_TANK" ],
     "//": "Placeholder profession until mutant NPCs merged and post thresh MASTODON distribution table can be added. Need to add XL gear for MASTODON's in more items.",
     "items": {
       "both": {

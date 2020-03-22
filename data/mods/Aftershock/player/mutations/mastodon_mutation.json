@@ -513,6 +513,7 @@
     "description": "Your weight must be delicately placed lest the ground give way.  You move 10% slower.",
     "types": [ "RUNNING" ],
     "changes_to": [ "DELIBERATE2" ],
+    "cancels": [ "FLEET" ],
     "category": [ "MASTODON" ],
     "movecost_modifier": 1.1
   },
@@ -525,6 +526,7 @@
     "types": [ "RUNNING" ],
     "prereqs": [ "DELIBERATE1" ],
     "changes_to": [ "PONDEROUS3" ],
+    "cancels": [ "QUICK" ],
     "category": [ "MASTODON" ],
     "movecost_modifier": 1.25
   },
