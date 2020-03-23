@@ -322,8 +322,8 @@
   {
     "type": "MONSTER",
     "id": "mon_velociraptor",
-    "name": "Velociraptor",
-    "species": "DINOSAUR",
+    "name": { "str": "Velociraptor" },
+    "species": [ "DINOSAUR" ],
     "default_faction": "velociraptor",
     "symbol": "D",
     "color": "light_red_green",
