@@ -1363,7 +1363,7 @@
     ]
   },
   {
-    "id": "csurv_ar",
+    "id": "surv_car",
     "type": "vehicle",
     "name": "Survivor Car",
     "parts": [
