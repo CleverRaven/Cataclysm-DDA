@@ -276,9 +276,11 @@
   },
   {
     "id": "druid_recurve",
-    "copy-from": "reflexbow",
+    "//": "Not using copy-from 'reflexbow', since wearability causes druid bow not to be wielded, and ammo / clip type causes it to require real arrows",
     "type": "GUN",
+    "symbol": "(",
     "color": "yellow",
+    "looks_like": "recurbow",
     "name": "Woodbow",
     "description": "A magically conjured ornate recurve bow of solid flexible wood.  A matching conjured wooden arrow appears when you draw the string back for firing.",
     "flags": [
@@ -293,7 +295,17 @@
       "NO_UNLOAD",
       "NO_AMMO"
     ],
+    "skill": "archery",
+    "min_strength": 9,
     "weight": "540 g",
+    "bashing": 12,
+    "to_hit": 1,
+    "reload_noise_volume": 3,
+    "loudness": 6,
+    "ranged_damage": 29,
+    "range": 12,
+    "dispersion": 950,
+    "durability": 6,
     "volume": "2500 ml"
   },
   {
