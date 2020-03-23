@@ -97,9 +97,8 @@ static void burden_player( player &dummy, float burden_proportion )
         dummy.i_add( pile );
     }
 
-    // Ensure we are carrying the expected amount of weight
-    units::mass expect_weight = capacity * burden_proportion;
-    REQUIRE( dummy.weight_carried() == expect_weight );
+    // Ensure we are carrying the expected weight (accurate to 1 g)
+    REQUIRE( dummy.weight_carried() / 1000 == capacity * burden_proportion / 1000 );
 }
 
 // Return amount of stamina burned per turn by `burn_move_stamina` in the given movement mode,
