@@ -40,12 +40,13 @@
   {
     "type": "item_group",
     "id": "NC_ISHERWOOD_EDDIE_misc",
-    "items": [
-      [ "cheese_hard", 55 ],
-      [ "cheese", 55 ],
-      [ "butter", 55 ],
-      [ "meat_smoked", 45 ],
-      [ "fish_smoked", 25 ],
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cheese_hard", "prob": 55 },
+      { "item": "cheese", "prob": 55 },
+      { "item": "butter", "prob": 55 },
+      { "item": "meat_smoked", "prob": 45 },
+      { "item": "fish_smoked", "prob": 25 },
       { "item": "milk", "prob": 70, "charges": 12, "container-item": "jar_3l_glass_sealed" }
     ]
   },
