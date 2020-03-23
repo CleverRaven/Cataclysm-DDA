@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <array>
-#include <sstream>
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -24,6 +23,7 @@
 #include "optional.h"
 #include "units.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min,
@@ -617,8 +617,8 @@ static const std::array<artifact_dream_datum, NUM_ACRS> artifact_dream_data = { 
 // Constructors for artifact itypes.
 it_artifact_tool::it_artifact_tool()
 {
-    tool.emplace();
-    artifact.emplace();
+    tool = cata::make_value<islot_tool>();
+    artifact = cata::make_value<islot_artifact>();
     id = item_controller->create_artifact_id();
     price = 0_cent;
     tool->charges_per_use = 1;
@@ -631,26 +631,26 @@ it_artifact_tool::it_artifact_tool()
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
 }
 
-it_artifact_tool::it_artifact_tool( JsonObject &jo )
+it_artifact_tool::it_artifact_tool( const JsonObject &jo )
 {
-    tool.emplace();
-    artifact.emplace();
+    tool = cata::make_value<islot_tool>();
+    artifact = cata::make_value<islot_artifact>();
     use_methods.emplace( "ARTIFACT", use_function( "ARTIFACT", &iuse::artifact ) );
     deserialize( jo );
 }
 
 it_artifact_armor::it_artifact_armor()
 {
-    armor.emplace();
-    artifact.emplace();
+    armor = cata::make_value<islot_armor>();
+    artifact = cata::make_value<islot_artifact>();
     id = item_controller->create_artifact_id();
     price = 0_cent;
 }
 
-it_artifact_armor::it_artifact_armor( JsonObject &jo )
+it_artifact_armor::it_artifact_armor( const JsonObject &jo )
 {
-    armor.emplace();
-    artifact.emplace();
+    armor = cata::make_value<islot_armor>();
+    artifact = cata::make_value<islot_artifact>();
     deserialize( jo );
 }
 
@@ -708,9 +708,7 @@ std::string new_artifact()
                 if( !weapon.tag.empty() ) {
                     def.item_tags.insert( weapon.tag );
                 }
-                std::ostringstream newname;
-                newname << _( weapon.adjective ) << " " << _( info.name );
-                def.create_name( newname.str() );
+                def.create_name( std::string( _( weapon.adjective ) ) + " " + _( info.name ) );
             }
         }
         def.description = no_translation(
@@ -842,11 +840,9 @@ std::string new_artifact()
         def.armor->env_resist = info.env_resist;
         def.armor->warmth = info.warmth;
         def.armor->storage = info.storage;
-        std::ostringstream description;
-        description << string_format( info.plural ?
-                                      _( "This is the %s.\nThey are the only ones of their kind." ) :
-                                      _( "This is the %s.\nIt is the only one of its kind." ),
-                                      def.nname( 1 ) );
+        std::string description = string_format( info.plural ?
+                                  _( "This is the %s.\nThey are the only ones of their kind." ) :
+                                  _( "This is the %s.\nIt is the only one of its kind." ), def.nname( 1 ) );
 
         // Modify the armor further
         if( !one_in( 4 ) ) {
@@ -892,14 +888,14 @@ std::string new_artifact()
                     def.armor->storage = 0_ml;
                 }
 
-                description << string_format( info.plural ?
+                description += string_format( info.plural ?
                                               _( "\nThey are %s" ) :
                                               _( "\nIt is %s" ),
                                               _( modinfo.name ) );
             }
         }
 
-        def.description = no_translation( description.str() );
+        def.description = no_translation( description );
 
         // Finally, pick some effects
         int num_good = 0;
@@ -1144,7 +1140,7 @@ void load_artifacts( const std::string &path )
     } );
 }
 
-void it_artifact_tool::deserialize( JsonObject &jo )
+void it_artifact_tool::deserialize( const JsonObject &jo )
 {
     id = jo.get_string( "id" );
     name = no_translation( jo.get_string( "name" ) );
@@ -1169,9 +1165,8 @@ void it_artifact_tool::deserialize( JsonObject &jo )
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
     if( jo.has_array( "materials" ) ) {
-        JsonArray jarr = jo.get_array( "materials" );
-        for( size_t i = 0; i < jarr.size(); ++i ) {
-            materials.push_back( material_id( jarr.get_string( i ) ) );
+        for( const std::string id : jo.get_array( "materials" ) ) {
+            materials.push_back( material_id( id ) );
         }
     }
     volume = jo.get_int( "volume" ) * units::legacy_volume_factor;
@@ -1189,9 +1184,8 @@ void it_artifact_tool::deserialize( JsonObject &jo )
 
     // Artifacts in older saves store ammo as string.
     if( jo.has_array( "ammo" ) ) {
-        JsonArray atypes = jo.get_array( "ammo" );
-        for( size_t i = 0; i < atypes.size(); ++i ) {
-            tool->ammo_id.insert( ammotype( atypes.get_string( i ) ) );
+        for( const std::string id : jo.get_array( "ammo" ) ) {
+            tool->ammo_id.insert( ammotype( id ) );
         }
     } else if( jo.has_string( "ammo" ) ) {
         tool->ammo_id.insert( ammotype( jo.get_string( "ammo" ) ) );
@@ -1213,36 +1207,31 @@ void it_artifact_tool::deserialize( JsonObject &jo )
         artifact->charge_req = ACR_NULL;
     }
 
-    JsonArray ja = jo.get_array( "effects_wielded" );
-    while( ja.has_more() ) {
-        artifact->effects_wielded.push_back( static_cast<art_effect_passive>( ja.next_int() ) );
+    for( const int entry : jo.get_array( "effects_wielded" ) ) {
+        artifact->effects_wielded.push_back( static_cast<art_effect_passive>( entry ) );
     }
 
-    ja = jo.get_array( "effects_activated" );
-    while( ja.has_more() ) {
-        artifact->effects_activated.push_back( static_cast<art_effect_active>( ja.next_int() ) );
+    for( const int entry : jo.get_array( "effects_activated" ) ) {
+        artifact->effects_activated.push_back( static_cast<art_effect_active>( entry ) );
     }
 
-    ja = jo.get_array( "effects_carried" );
-    while( ja.has_more() ) {
-        artifact->effects_carried.push_back( static_cast<art_effect_passive>( ja.next_int() ) );
+    for( const int entry : jo.get_array( "effects_carried" ) ) {
+        artifact->effects_carried.push_back( static_cast<art_effect_passive>( entry ) );
     }
 
     //Generate any missing dream data (due to e.g. old save)
     if( !jo.has_array( "dream_unmet" ) ) {
         artifact->dream_msg_unmet = artifact_dream_data[static_cast<int>( artifact->charge_req )].msg_unmet;
     } else {
-        ja = jo.get_array( "dream_unmet" );
-        while( ja.has_more() ) {
-            artifact->dream_msg_unmet.push_back( ja.next_string() );
+        for( const std::string line : jo.get_array( "dream_unmet" ) ) {
+            artifact->dream_msg_unmet.push_back( line );
         }
     }
     if( !jo.has_array( "dream_met" ) ) {
         artifact->dream_msg_met   = artifact_dream_data[static_cast<int>( artifact->charge_req )].msg_met;
     } else {
-        ja = jo.get_array( "dream_met" );
-        while( ja.has_more() ) {
-            artifact->dream_msg_met.push_back( ja.next_string() );
+        for( const std::string line : jo.get_array( "dream_met" ) ) {
+            artifact->dream_msg_met.push_back( line );
         }
     }
     if( jo.has_int( "dream_freq_unmet" ) ) {
@@ -1259,7 +1248,7 @@ void it_artifact_tool::deserialize( JsonObject &jo )
 
 }
 
-void it_artifact_armor::deserialize( JsonObject &jo )
+void it_artifact_armor::deserialize( const JsonObject &jo )
 {
     id = jo.get_string( "id" );
     name = no_translation( jo.get_string( "name" ) );
@@ -1284,9 +1273,8 @@ void it_artifact_armor::deserialize( JsonObject &jo )
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
     if( jo.has_array( "materials" ) ) {
-        JsonArray jarr = jo.get_array( "materials" );
-        for( size_t i = 0; i < jarr.size(); ++i ) {
-            materials.push_back( material_id( jarr.get_string( i ) ) );
+        for( const std::string id : jo.get_array( "materials" ) ) {
+            materials.push_back( material_id( id ) );
         }
     }
     volume = jo.get_int( "volume" ) * units::legacy_volume_factor;
@@ -1307,9 +1295,8 @@ void it_artifact_armor::deserialize( JsonObject &jo )
     armor->storage = jo.get_int( "storage" ) * units::legacy_volume_factor;
     armor->power_armor = jo.get_bool( "power_armor" );
 
-    JsonArray ja = jo.get_array( "effects_worn" );
-    while( ja.has_more() ) {
-        artifact->effects_worn.push_back( static_cast<art_effect_passive>( ja.next_int() ) );
+    for( const int entry : jo.get_array( "effects_worn" ) ) {
+        artifact->effects_worn.push_back( static_cast<art_effect_passive>( entry ) );
     }
 }
 

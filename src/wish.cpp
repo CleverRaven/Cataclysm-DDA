@@ -319,11 +319,8 @@ class wish_monster_callback: public uilist_callback
             wrefresh( w_info );
         }
 
-        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
-            // Unused
-            ( void )entnum;
-            // Unused
-            ( void )menu;
+        bool key( const input_context &, const input_event &event, int /*entnum*/,
+                  uilist * /*menu*/ ) override {
             if( event.get_first_input() == 'f' ) {
                 friendly = !friendly;
                 // Force tmp monster regen
@@ -372,9 +369,7 @@ class wish_monster_callback: public uilist_callback
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }
 
-        void refresh( uilist *menu ) override {
-            // Unused
-            ( void )menu;
+        void refresh( uilist * /*menu*/ ) override {
             wrefresh( w_info );
         }
 
@@ -413,7 +408,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
             if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
                 int num_spawned = 0;
-                for( const tripoint &p : closest_tripoints_first( cb.group, *spawn ) ) {
+                for( const tripoint &p : closest_tripoints_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, p );
                     if( !mon ) {
                         continue;
@@ -535,6 +530,11 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
             if( cb.has_flag ) {
                 granted.item_tags.insert( cb.flag );
             }
+            // If the item has an ammunition, this loads it to capacity, including magazines.
+            if( granted.ammo_default() != "NULL" ) {
+                granted.ammo_set( granted.ammo_default(), -1 );
+            }
+
             granted.set_birthday( calendar::turn );
             prev_amount = amount;
             bool canceled = false;
@@ -589,13 +589,17 @@ void debug_menu::wishskill( player *p )
     skmenu.allow_anykey = true;
     skmenu.addentry( 0, true, '1', _( "Modify all skills…" ) );
 
-    std::vector<int> origskills;
-    origskills.reserve( Skill::skills.size() );
+    auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
+        return a.name() < b.name();
+    } );
 
-    for( const auto &s : Skill::skills ) {
-        const int level = p->get_skill_level( s.ident() );
+    std::vector<int> origskills;
+    origskills.reserve( sorted_skills.size() );
+
+    for( const auto &s : sorted_skills ) {
+        const int level = p->get_skill_level( s->ident() );
         skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level,
-                         s.name() );
+                         s->name() );
         origskills.push_back( level );
     }
 
@@ -606,15 +610,15 @@ void debug_menu::wishskill( player *p )
         const int sksel = skmenu.selected - skoffset;
         if( skmenu.ret == UILIST_UNBOUND && ( skmenu.keypress == KEY_LEFT ||
                                               skmenu.keypress == KEY_RIGHT ) ) {
-            if( sksel >= 0 && sksel < static_cast<int>( Skill::skills.size() ) ) {
+            if( sksel >= 0 && sksel < static_cast<int>( sorted_skills.size() ) ) {
                 skill_id = sksel;
-                skset = p->get_skill_level( Skill::skills[skill_id].ident() ) +
+                skset = p->get_skill_level( sorted_skills[skill_id]->ident() ) +
                         ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
             }
         } else if( skmenu.ret >= 0 && sksel >= 0 &&
-                   sksel < static_cast<int>( Skill::skills.size() ) ) {
+                   sksel < static_cast<int>( sorted_skills.size() ) ) {
             skill_id = sksel;
-            const Skill &skill = Skill::skills[skill_id];
+            const Skill &skill = *sorted_skills[skill_id];
             const int NUM_SKILL_LVL = 21;
             uilist sksetmenu;
             sksetmenu.w_height = NUM_SKILL_LVL + 4;
@@ -634,7 +638,7 @@ void debug_menu::wishskill( player *p )
         }
 
         if( skill_id >= 0 && skset >= 0 ) {
-            const Skill &skill = Skill::skills[skill_id];
+            const Skill &skill = *sorted_skills[skill_id];
             p->set_skill_level( skill.ident(), skset );
             skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
                                       skill.name(),
@@ -659,14 +663,15 @@ void debug_menu::wishskill( player *p )
                 } else if( ret < 7 ) {
                     skset = ( ret - 4 ) * 5;
                 }
-                for( size_t skill_id = 0; skill_id < Skill::skills.size(); skill_id++ ) {
-                    const Skill &skill = Skill::skills[skill_id];
+                for( size_t skill_id = 0; skill_id < sorted_skills.size(); skill_id++ ) {
+                    const Skill &skill = *sorted_skills[skill_id];
                     int changeto = skmod != 0 ? p->get_skill_level( skill.ident() ) + skmod :
                                    skset != -1 ? skset : origskills[skill_id];
                     p->set_skill_level( skill.ident(), std::max( 0, changeto ) );
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                             p->get_skill_level( skill.ident() ),
                             skill.name() );
+                    p->get_skill_level_object( skill.ident() ).practice();
                     skmenu.entries[skill_id + skoffset].text_color =
                         p->get_skill_level( skill.ident() ) == origskills[skill_id] ? skmenu.text_color : c_yellow;
                 }

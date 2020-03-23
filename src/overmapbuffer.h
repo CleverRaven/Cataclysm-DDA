@@ -33,6 +33,13 @@ class vehicle;
 class basecamp;
 class map_extra;
 
+struct path_type {
+    bool only_road = false;
+    bool only_water = false;
+    bool amphibious = false;
+    bool avoid_danger = false;
+};
+
 struct radio_tower_reference {
     /** The radio tower itself, points into @ref overmap::radios */
     radio_tower *tower;
@@ -140,9 +147,11 @@ class overmapbuffer
          * Uses global overmap terrain coordinates.
          */
         bool has_note( const tripoint &p );
+        bool is_marked_dangerous( const tripoint &p );
         const std::string &note( const tripoint &p );
         void add_note( const tripoint &, const std::string &message );
         void delete_note( const tripoint &p );
+        void mark_note_dangerous( const tripoint &p, int radius, bool is_dangerous );
         bool has_extra( const tripoint &p );
         const string_id<map_extra> &extra( const tripoint &p );
         void add_extra( const tripoint &p, const string_id<map_extra> &id );
@@ -212,10 +221,10 @@ class overmapbuffer
 
         cata::optional<basecamp *> find_camp( const point &p );
         /**
-         * Get all npcs in a area with given radius around (x, y).
+         * Get all npcs in a area with given radius around given central point.
          * Only npcs on the given z-level are considered.
          * Uses square_dist for distance calculation.
-         * @param x,y,z are submap coordinates.
+         * @param p Central point in submap coordinates.
          * @param radius Maximal distance of npc from (x,y). If the npc
          * is at most this far away from (x,y) it will be returned.
          * A radius of 0 returns only those npcs that are on the
@@ -227,7 +236,7 @@ class overmapbuffer
          * Get all (currently loaded!) npcs that have a companion
          * mission set.
          */
-        std::vector<shared_ptr_fast<npc>> get_companion_mission_npcs();
+        std::vector<shared_ptr_fast<npc>> get_companion_mission_npcs( int range = 100 );
         /**
          * Uses overmap terrain coordinates, this also means radius is
          * in overmap terrain.
@@ -301,8 +310,8 @@ class overmapbuffer
         bool reveal( const tripoint &center, int radius );
         bool reveal( const tripoint &center, int radius,
                      const std::function<bool( const oter_id & )> &filter );
-        std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest,
-                                            bool road_only = false );
+        std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest );
+        std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest, path_type &ptype );
         bool reveal_route( const tripoint &source, const tripoint &dest, int radius = 0,
                            bool road_only = false );
         /**
@@ -433,7 +442,7 @@ class overmapbuffer
          * Intended to be used when you have a special in hand, the desired location and rotation are known
          * and the special should be directly placed rather than using the overmap's placement algorithm.
          * @param special The overmap special to place.
-         * @param location The location to place the overmap special. Absolute overmap terrain coordinates.
+         * @param p The location to place the overmap special. Absolute overmap terrain coordinates.
          * @param dir The direction to rotate the overmap special before placement.
          * @param must_be_unexplored If true, will require that all of the terrains where the special would be
          * placed are unexplored.

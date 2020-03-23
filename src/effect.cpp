@@ -1,7 +1,6 @@
 #include "effect.h"
 
 #include <map>
-#include <sstream>
 #include <algorithm>
 #include <memory>
 #include <unordered_set>
@@ -16,6 +15,20 @@
 #include "color.h"
 #include "enums.h"
 #include "units.h"
+
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_weed_high( "weed_high" );
+
+static const trait_id trait_LACTOSE( "LACTOSE" );
+static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
 namespace
 {
@@ -41,8 +54,6 @@ bool string_id<effect_type>::is_valid() const
 {
     return effect_types.count( *this ) > 0;
 }
-
-const efftype_id effect_weed_high( "weed_high" );
 
 void weed_msg( player &p )
 {
@@ -168,9 +179,9 @@ void weed_msg( player &p )
                 // Real Life
                 p.add_msg_if_player( _( "Man, a cheeseburger sounds SO awesome right now." ) );
                 p.mod_hunger( 4 );
-                if( p.has_trait( trait_id( "VEGETARIAN" ) ) ) {
+                if( p.has_trait( trait_VEGETARIAN ) ) {
                     p.add_msg_if_player( _( "Eh… maybe not." ) );
-                } else if( p.has_trait( trait_id( "LACTOSE" ) ) ) {
+                } else if( p.has_trait( trait_LACTOSE ) ) {
                     p.add_msg_if_player( _( "I guess, maybe, without the cheese… yeah." ) );
                 }
                 return;
@@ -193,7 +204,7 @@ void weed_msg( player &p )
 }
 
 static void extract_effect(
-    JsonObject &j,
+    const JsonObject &j,
     std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double,
     cata::tuple_hash> &data,
     const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
@@ -219,7 +230,7 @@ static void extract_effect(
     }
 }
 
-bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
+bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_object( member ) ) {
         JsonObject j = jo.get_object( member );
@@ -372,8 +383,6 @@ bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
     }
 }
 
-effect_type::effect_type() : max_duration( 0_turns ), int_dur_factor( 0_turns ) {}
-
 effect_rating effect_type::get_rating() const
 {
     return rating;
@@ -449,24 +458,20 @@ bool effect_type::is_show_in_info() const
 {
     return show_in_info;
 }
-bool effect_type::load_miss_msgs( JsonObject &jo, const std::string &member )
+bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
-        JsonArray outer = jo.get_array( member );
-        while( outer.has_more() ) {
-            JsonArray inner = outer.next_array();
+        for( JsonArray inner : jo.get_array( member ) ) {
             miss_msgs.push_back( std::make_pair( inner.get_string( 0 ), inner.get_int( 1 ) ) );
         }
         return true;
     }
     return false;
 }
-bool effect_type::load_decay_msgs( JsonObject &jo, const std::string &member )
+bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
-        JsonArray outer = jo.get_array( member );
-        while( outer.has_more() ) {
-            JsonArray inner = outer.next_array();
+        for( JsonArray inner : jo.get_array( member ) ) {
             std::string msg = inner.get_string( 0 );
             std::string r = inner.get_string( 1 );
             game_message_type rate = m_neutral;
@@ -503,32 +508,32 @@ std::string effect::disp_name() const
     }
 
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
-    std::ostringstream ret;
+    std::string ret;
     if( eff_type->use_name_ints() ) {
         const translation &d_name = eff_type->name[ std::min<size_t>( intensity,
                                                       eff_type->name.size() ) - 1 ];
         if( d_name.empty() ) {
             return std::string();
         }
-        ret << d_name;
+        ret += d_name.translated();
     } else {
         if( eff_type->name[0].empty() ) {
             return std::string();
         }
-        ret << eff_type->name[0];
+        ret += eff_type->name[0].translated();
         if( intensity > 1 ) {
             if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
-                ret << " [" << texitify_healing_power( intensity ) << "]";
+                ret += string_format( " [%s]", texitify_healing_power( intensity ) );
             } else {
-                ret << " [" << intensity << "]";
+                ret += string_format( " [%d]", intensity );
             }
         }
     }
     if( bp != num_bp ) {
-        ret << " (" << body_part_name( bp ) << ")";
+        ret += string_format( " (%s)", body_part_name( bp ) );
     }
 
-    return ret.str();
+    return ret;
 }
 
 // Used in disp_desc()
@@ -544,41 +549,41 @@ struct desc_freq {
 
 std::string effect::disp_desc( bool reduced ) const
 {
-    std::ostringstream ret;
+    std::string ret;
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Strength +%d;  " ), tmp );
+        ret += string_format( _( "Strength <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Strength %d;  " ), tmp );
+        ret += string_format( _( "Strength <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "DEX", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Dexterity +%d;  " ), tmp );
+        ret += string_format( _( "Dexterity <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Dexterity %d;  " ), tmp );
+        ret += string_format( _( "Dexterity <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "PER", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Perception +%d;  " ), tmp );
+        ret += string_format( _( "Perception <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Perception %d;  " ), tmp );
+        ret += string_format( _( "Perception <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "INT", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Intelligence +%d;  " ), tmp );
+        ret += string_format( _( "Intelligence <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Intelligence %d;  " ), tmp );
+        ret += string_format( _( "Intelligence <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "SPEED", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Speed +%d;  " ), tmp );
+        ret += string_format( _( "Speed <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Speed %d;  " ), tmp );
+        ret += string_format( _( "Speed <color_white>%d</color>;  " ), tmp );
     }
     // Newline if necessary
-    if( !ret.str().empty() && ret.str().back() != '\n' ) {
-        ret << "\n";
+    if( !ret.empty() && ret.back() != '\n' ) {
+        ret += "\n";
     }
 
     // Then print pain/damage/coughing/vomiting, we don't display pkill, health, or radiation
@@ -650,21 +655,21 @@ std::string effect::disp_desc( bool reduced ) const
         }
     }
     if( !constant.empty() ) {
-        ret << _( "Const: " ) << enumerate_as_string( constant ) << " ";
+        ret += _( "Const: " ) + enumerate_as_string( constant ) + " ";
     }
     if( !frequent.empty() ) {
-        ret << _( "Freq: " ) << enumerate_as_string( frequent ) << " ";
+        ret += _( "Freq: " ) + enumerate_as_string( frequent ) + " ";
     }
     if( !uncommon.empty() ) {
-        ret << _( "Unfreq: " ) << enumerate_as_string( uncommon ) << " ";
+        ret += _( "Unfreq: " ) + enumerate_as_string( uncommon ) + " ";
     }
     if( !rare.empty() ) {
-        ret << _( "Rare: " ) << enumerate_as_string( rare ); // No space needed at the end
+        ret += _( "Rare: " ) + enumerate_as_string( rare ); // No space needed at the end
     }
 
     // Newline if necessary
-    if( !ret.str().empty() && ret.str().back() != '\n' ) {
-        ret << "\n";
+    if( !ret.empty() && ret.back() != '\n' ) {
+        ret += "\n";
     }
 
     std::string tmp_str;
@@ -683,14 +688,14 @@ std::string effect::disp_desc( bool reduced ) const
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret << string_format( _( tmp_str ), body_part_name( bp ) );
+        ret += string_format( _( tmp_str ), body_part_name( bp ) );
     } else {
         if( !tmp_str.empty() ) {
-            ret << _( tmp_str );
+            ret += _( tmp_str );
         }
     }
 
-    return ret.str();
+    return ret;
 }
 
 std::string effect::disp_short_desc( bool reduced ) const
@@ -1195,29 +1200,28 @@ const effect_type *effect::get_effect_type() const
 // This contains all the effects checked in move_effects
 // It's here and not in json because it is hardcoded anyway
 static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
-        efftype_id( "beartrap" ),
-        efftype_id( "crushed" ),
-        efftype_id( "downed" ),
-        efftype_id( "grabbed" ),
-        efftype_id( "heavysnare" ),
-        efftype_id( "in_pit" ),
-        efftype_id( "lightsnare" ),
-        efftype_id( "tied" ),
-        efftype_id( "webbed" ),
+        effect_beartrap,
+        effect_crushed,
+        effect_downed,
+        effect_grabbed,
+        effect_heavysnare,
+        effect_in_pit,
+        effect_lightsnare,
+        effect_tied,
+        effect_webbed,
     }
 };
 
-void load_effect_type( JsonObject &jo )
+void load_effect_type( const JsonObject &jo )
 {
     effect_type new_etype;
     new_etype.id = efftype_id( jo.get_string( "id" ) );
 
     if( jo.has_member( "name" ) ) {
-        JsonArray jsarr = jo.get_array( "name" );
-        while( jsarr.has_more() ) {
+        for( const JsonValue entry : jo.get_array( "name" ) ) {
             translation name;
-            if( !jsarr.read_next( name ) ) {
-                jsarr.throw_error( "Error reading effect names" );
+            if( !entry.read( name ) ) {
+                entry.throw_error( "Error reading effect names" );
             }
             new_etype.name.emplace_back( name );
         }
@@ -1227,17 +1231,15 @@ void load_effect_type( JsonObject &jo )
     new_etype.speed_mod_name = jo.get_string( "speed_name", "" );
 
     if( jo.has_member( "desc" ) ) {
-        JsonArray jsarr = jo.get_array( "desc" );
-        while( jsarr.has_more() ) {
-            new_etype.desc.push_back( jsarr.next_string() );
+        for( const std::string line : jo.get_array( "desc" ) ) {
+            new_etype.desc.push_back( line );
         }
     } else {
         new_etype.desc.push_back( "" );
     }
     if( jo.has_member( "reduced_desc" ) ) {
-        JsonArray jsarr = jo.get_array( "reduced_desc" );
-        while( jsarr.has_more() ) {
-            new_etype.reduced_desc.push_back( jsarr.next_string() );
+        for( const std::string line : jo.get_array( "reduced_desc" ) ) {
+            new_etype.reduced_desc.push_back( line );
         }
     } else {
         new_etype.reduced_desc = new_etype.desc;

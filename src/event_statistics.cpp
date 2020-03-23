@@ -25,7 +25,7 @@ bool string_id<event_transformation>::is_valid() const
     return event_transformation_factory.is_valid( *this );
 }
 
-void event_transformation::load_transformation( JsonObject &jo, const std::string &src )
+void event_transformation::load_transformation( const JsonObject &jo, const std::string &src )
 {
     event_transformation_factory.load( jo, src );
 }
@@ -52,7 +52,7 @@ bool string_id<event_statistic>::is_valid() const
     return event_statistic_factory.is_valid( *this );
 }
 
-void event_statistic::load_statistic( JsonObject &jo, const std::string &src )
+void event_statistic::load_statistic( const JsonObject &jo, const std::string &src )
 {
     event_statistic_factory.load( jo, src );
 }
@@ -79,7 +79,7 @@ bool string_id<score>::is_valid() const
     return score_factory.is_valid( *this );
 }
 
-void score::load_score( JsonObject &jo, const std::string &src )
+void score::load_score( const JsonObject &jo, const std::string &src )
 {
     score_factory.load( jo, src );
 }
@@ -191,7 +191,7 @@ struct event_transformation_match : public event_transformation::impl {
         const event_multiset::counts_type &input = stats.get_events( type_ ).counts();
         event_multiset result( type_ );
 
-        for( const std::pair<cata::event::data_type, int> &p : input ) {
+        for( const std::pair<const cata::event::data_type, int> &p : input ) {
             if( matches( p.first, stats ) ) {
                 result.add( p );
             }
@@ -215,7 +215,7 @@ event_multiset event_transformation::initialize( stats_tracker &stats ) const
     return impl_->initialize( stats );
 }
 
-void event_transformation::load( JsonObject &jo, const std::string & )
+void event_transformation::load( const JsonObject &jo, const std::string & )
 {
     event_type type = event_type::num_event_types;
     mandatory( jo, was_loaded, "event_type", type );
@@ -322,7 +322,7 @@ cata_variant event_statistic::value( stats_tracker &stats ) const
     return impl_->value( stats );
 }
 
-void event_statistic::load( JsonObject &jo, const std::string & )
+void event_statistic::load( const JsonObject &jo, const std::string & )
 {
     std::string type;
     mandatory( jo, was_loaded, "stat_type", type );
@@ -378,7 +378,7 @@ cata_variant score::value( stats_tracker &stats ) const
     return stats.value_of( stat_ );
 }
 
-void score::load( JsonObject &jo, const std::string & )
+void score::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "description", description_ );
     mandatory( jo, was_loaded, "statistic", stat_ );

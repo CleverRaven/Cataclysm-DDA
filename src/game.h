@@ -258,7 +258,7 @@ class game
          * Currently only the player character and npcs have ids.
          */
         template<typename T = Creature>
-        T * critter_by_id( character_id id );
+        T * critter_by_id( const character_id &id );
         /**
          * Returns the Creature at the given location. Optionally casted to the given
          * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
@@ -303,12 +303,12 @@ class game
          */
         /** @{ */
         monster *place_critter_at( const mtype_id &id, const tripoint &p );
-        monster *place_critter_at( shared_ptr_fast<monster> mon, const tripoint &p );
+        monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p );
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
-        monster *place_critter_around( shared_ptr_fast<monster> mon, const tripoint &center,
+        monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
                                        int radius );
         monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
-        monster *place_critter_within( shared_ptr_fast<monster> mon,
+        monster *place_critter_within( const shared_ptr_fast<monster> &mon,
                                        const tripoint_range &range );
         /** @} */
         /**
@@ -437,8 +437,8 @@ class game
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
          * new monster there (see @ref critter_at).
-         * @param location The place where to put the revived monster.
-         * @param corpse The corpse item, it must be a valid corpse (see @ref item::is_corpse).
+         * @param p The place where to put the revived monster.
+         * @param it The corpse item, it must be a valid corpse (see @ref item::is_corpse).
          * @return Whether the corpse has actually been redivided. Reviving may fail for many
          * reasons, including no space to put the monster, corpse being to much damaged etc.
          * If the monster was revived, the caller should remove the corpse item.
@@ -562,20 +562,13 @@ class game
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
-        // TODO: Move these functions to game_menus::inv and isolate them.
-        int inv_for_filter( const std::string &title, item_filter filter,
-                            const std::string &none_message = "" );
-        int inv_for_all( const std::string &title, const std::string &none_message = "" );
-        int inv_for_flag( const std::string &flag, const std::string &title );
-        int inv_for_id( const itype_id &id, const std::string &title );
-
         enum inventory_item_menu_positon {
             RIGHT_TERMINAL_EDGE,
             LEFT_OF_INFO,
             RIGHT_OF_INFO,
             LEFT_TERMINAL_EDGE,
         };
-        int inventory_item_menu( int pos, int startx = 0, int width = 50,
+        int inventory_item_menu( item_location locThisItem, int startx = 0, int width = 50,
                                  inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
@@ -776,23 +769,16 @@ class game
 
         void butcher(); // Butcher a corpse  'B'
 
-        void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
         void reload( item_location &loc, bool prompt = false, bool empty = true );
-        void mend( int pos = INT_MIN );
     public:
-        /** Eat food or fuel  'E' (or 'a') */
-        void eat();
-        void eat( item_location( *menu )( player &p ) );
-        void eat( int pos );
-        void eat( item_location( *menu )( player &p ), int pos );
         void reload_item(); // Reload an item
+        void reload_wielded();
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
         bool unload( item &it ); // Unload a gun/tool  'U'
-        void unload( int pos = INT_MIN );
 
         unsigned int get_seed() const;
 
@@ -802,6 +788,7 @@ class game
         void set_critter_died();
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
+        void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
@@ -899,7 +886,7 @@ class game
         bool handle_mouseview( input_context &ctxt, std::string &action );
 
         // On-request draw functions
-        void disp_faction_ends();   // Display the faction endings
+        void display_faction_epilogues();
         void disp_NPC_epilogues();  // Display NPC endings
 
         /* Debug functions */
@@ -957,11 +944,11 @@ class game
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit;
         /** True if the game has just started or loaded, else false. */
-        bool new_game;
+        bool new_game = false;
 
         const scenario *scen;
         std::vector<monster> coming_to_stairs;
-        int monstairz;
+        int monstairz = 0;
 
         tripoint ter_view_p;
         catacurses::window w_terrain;
@@ -993,20 +980,20 @@ class game
         /** Type of lighting condition overlay to display */
         int displaying_lighting_condition = 0;
 
-        bool show_panel_adm;
-        bool right_sidebar;
-        bool fullscreen;
-        bool was_fullscreen;
+        bool show_panel_adm = false;
+        bool right_sidebar = false;
+        bool fullscreen = false;
+        bool was_fullscreen = false;
         bool auto_travel_mode = false;
         safe_mode_type safe_mode;
 
         //pixel minimap management
-        int pixel_minimap_option;
-        int turnssincelastmon; // needed for auto run mode
+        int pixel_minimap_option = 0;
+        int turnssincelastmon = 0; // needed for auto run mode
 
         weather_manager weather;
 
-        int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
+        int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
         shared_ptr_fast<player> u_shared_ptr;
 
@@ -1017,37 +1004,36 @@ class game
         std::string list_item_upvote;
         std::string list_item_downvote;
 
-        std::vector<shared_ptr_fast<monster>> new_seen_mon;
-        bool safe_mode_warning_logged;
-        bool bVMonsterLookFire;
+        bool safe_mode_warning_logged = false;
+        bool bVMonsterLookFire = false;
         character_id next_npc_id;
         std::list<shared_ptr_fast<npc>> active_npc;
-        int next_mission_id;
+        int next_mission_id = 0;
         std::set<character_id> follower_ids; // Keep track of follower NPC IDs
-        int moves_since_last_save;
+        int moves_since_last_save = 0;
         time_t last_save_timestamp;
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;
         // remoteveh() cache
         time_point remoteveh_cache_time;
         vehicle *remoteveh_cache;
         /** Has a NPC been spawned since last load? */
-        bool npcs_dirty;
+        bool npcs_dirty = false;
         /** Has anything died in this turn and needs to be cleaned up? */
-        bool critter_died;
+        bool critter_died = false;
         /** Was the player sleeping during this turn. */
-        bool player_was_sleeping;
+        bool player_was_sleeping = false;
         /** Is Zone manager open or not - changes graphics of some zone tiles */
         bool zones_manager_open = false;
 
         std::unique_ptr<special_game> gamemode;
 
-        int user_action_counter; // Times the user has input an action
+        int user_action_counter = 0; // Times the user has input an action
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
-        int tileset_zoom;
+        int tileset_zoom = 0;
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
-        unsigned int seed;
+        unsigned int seed = 0;
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
@@ -1069,6 +1055,9 @@ class game
         tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
         /** This variant is suitable for the overmap. */
         tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
+
+        // called on map shifting
+        void shift_destination_preview( const point &delta );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

@@ -20,7 +20,7 @@ Activities are long term actions, that can be interrupted and (optionally) conti
 	* speed: `player_activity::moves_left` may be decremented faster or slower, depending on the character's speed.
 	* neither: `moves_left` will not be decremented. Thus you must define a do_turn function; otherwise the activity will never end!
 * no_resume (false): Rather than resuming, you must always restart the activity from scratch.
-* multi_activity(false): This activity will repeat until it cannot do any more work, used for NPC and player zone 		  activities.
+* multi_activity(false): This activity will repeat until it cannot do any more work, used for NPC and player zone activities.
 
 ## Termination
 
@@ -49,6 +49,9 @@ If the activity needs any information during its execution or when it's finished
 - `player_activity::placement` - where to do something
 
 Those values are automatically saved and restored when loading a game. Other than that they are not changed/examined by any common code. Different types of activities can use them however they need to.
+
+If you are adding an activity that may be possible for NPCs to perform, then please make the activity placement in absolute coords.
+As the local coordinate system is based on the avatar position.
 
 ### `activity_handlers::<activity>_do_turn` function
 

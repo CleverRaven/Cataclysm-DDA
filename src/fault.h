@@ -23,6 +23,7 @@ struct mending_method {
     std::map<skill_id, int> skills;
     requirement_id requirements;
     cata::optional<fault_id> turns_into;
+    cata::optional<fault_id> also_mends;
 };
 
 class fault
@@ -63,7 +64,7 @@ class fault
         }
 
         /** Load fault from JSON definition */
-        static void load_fault( JsonObject &jo );
+        static void load_fault( const JsonObject &jo );
 
         /** Get all currently loaded faults */
         static const std::map<fault_id, fault> &all();

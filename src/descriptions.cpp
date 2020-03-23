@@ -16,7 +16,7 @@
 #include "translations.h"
 #include "string_id.h"
 
-const skill_id skill_survival( "survival" );
+static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 

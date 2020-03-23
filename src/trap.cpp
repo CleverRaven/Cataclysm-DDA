@@ -22,6 +22,13 @@
 #include "creature.h"
 #include "point.h"
 
+static const skill_id skill_traps( "traps" );
+
+static const efftype_id effect_lack_sleep( "lack_sleep" );
+
+static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
+static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
+
 namespace
 {
 
@@ -79,10 +86,6 @@ bool string_id<trap>::is_valid() const
 
 static std::vector<const trap *> funnel_traps;
 
-const skill_id skill_traps( "traps" );
-
-const efftype_id effect_lack_sleep( "lack_sleep" );
-
 const std::vector<const trap *> &trap::get_funnels()
 {
     return funnel_traps;
@@ -93,12 +96,12 @@ size_t trap::count()
     return trap_factory.size();
 }
 
-void trap::load_trap( JsonObject &jo, const std::string &src )
+void trap::load_trap( const JsonObject &jo, const std::string &src )
 {
     trap_factory.load( jo, src );
 }
 
-void trap::load( JsonObject &jo, const std::string & )
+void trap::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
@@ -120,18 +123,17 @@ void trap::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     assign( jo, "trigger_weight", trigger_weight );
-    JsonArray ja = jo.get_array( "drops" );
-    while( ja.has_more() ) {
+    for( const JsonValue entry : jo.get_array( "drops" ) ) {
         std::string item_type;
         int quantity = 0;
         int charges = 0;
-        if( ja.test_object() ) {
-            JsonObject jc = ja.next_object();
+        if( entry.test_object() ) {
+            JsonObject jc = entry.get_object();
             item_type = jc.get_string( "item" );
             quantity = jc.get_int( "quantity", 1 );
             charges = jc.get_int( "charges", 1 );
         } else {
-            item_type = ja.next_string();
+            item_type = entry.get_string();
             quantity = 1;
             charges = 1;
         }
@@ -153,13 +155,12 @@ void trap::load( JsonObject &jo, const std::string & )
         vehicle_data.sound_variant = jv.get_string( "sound_variant", "" );
         vehicle_data.spawn_items.clear();
         if( jv.has_array( "spawn_items" ) ) {
-            JsonArray ja = jv.get_array( "spawn_items" );
-            while( ja.has_more() ) {
-                if( ja.test_object() ) {
-                    JsonObject joitm = ja.next_object();
+            for( const JsonValue entry : jv.get_array( "spawn_items" ) ) {
+                if( entry.test_object() ) {
+                    JsonObject joitm = entry.get_object();
                     vehicle_data.spawn_items.emplace_back( joitm.get_string( "id" ), joitm.get_float( "chance" ) );
                 } else {
-                    vehicle_data.spawn_items.emplace_back( ja.next_string(), 1.0 );
+                    vehicle_data.spawn_items.emplace_back( entry.get_string(), 1.0 );
                 }
             }
         }
@@ -209,8 +210,8 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
            // ...malus farther we are from trap...
            rl_dist( p.pos(), pos ) +
            // Police are trained to notice Something Wrong.
-           ( p.has_trait( trait_id( "PROF_POLICE" ) ) ? 1 : 0 ) +
-           ( p.has_trait( trait_id( "PROF_PD_DET" ) ) ? 2 : 0 ) >
+           ( p.has_trait( trait_PROF_POLICE ) ? 1 : 0 ) +
+           ( p.has_trait( trait_PROF_PD_DET ) ? 2 : 0 ) >
            // ...must all be greater than the trap visibility.
            visibility;
 }

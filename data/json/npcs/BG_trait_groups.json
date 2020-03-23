@@ -46,7 +46,7 @@
     ]
   },
   {
-    "//": "This group is for NPCs that would have been out of town when the cataclysm hit.",
+    "//": "This group is for NPCs that would have been out of town when the Cataclysm hit.",
     "type": "trait_group",
     "id": "BG_survival_story_RURAL",
     "subtype": "distribution",
@@ -95,14 +95,14 @@
     ]
   },
   {
-    "//": "This group is for NPCs that might have been working the front lines during the cataclysm.",
+    "//": "This group is for NPCs that might have been working the front lines during the Cataclysm.",
     "type": "trait_group",
     "id": "BG_survival_story_SOLDIER",
     "subtype": "distribution",
     "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Soldier_1" }, { "trait": "BGSS_Soldier_2" } ]
   },
   {
-    "//": "This group is for NPCs that would have been attempting to maintain order during the cataclysm.",
+    "//": "This group is for NPCs that would have been attempting to maintain order during the Cataclysm.",
     "type": "trait_group",
     "id": "BG_survival_story_POLICE",
     "subtype": "distribution",
@@ -132,7 +132,7 @@
     ]
   },
   {
-    "//": "This group is for NPCs that worked in science, maybe in a lab, or maybe in a Lab. They don't necessarily know any more about the cataclysm than the rest of us.",
+    "//": "This group is for NPCs that worked in science, maybe in a lab, or maybe in a Lab. They don't necessarily know any more about the Cataclysm than the rest of us.",
     "type": "trait_group",
     "id": "BG_survival_story_LAB",
     "subtype": "distribution",

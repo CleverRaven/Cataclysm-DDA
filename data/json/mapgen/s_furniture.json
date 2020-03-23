@@ -70,11 +70,11 @@
       },
       "toilets": { "T": {  } },
       "place_items": [
-        { "item": "tools_carpentry", "x": 21, "y": [ 5, 8 ], "chance": 50, "repeat": 2 },
-        { "item": "hardware", "x": 21, "y": [ 10, 13 ], "chance": 50, "repeat": 2 },
-        { "item": "hardware", "x": [ 8, 21 ], "y": 15, "chance": 75, "repeat": 4 },
-        { "item": "tools_carpentry", "x": [ 2, 5 ], "y": 18, "chance": 75, "repeat": 2 },
-        { "item": "magazines", "x": 2, "y": [ 3, 4 ], "chance": 75, "repeat": 1 }
+        { "item": "tools_carpentry", "x": 21, "y": [ 5, 8 ], "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "hardware", "x": 21, "y": [ 10, 13 ], "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "hardware", "x": [ 8, 21 ], "y": 15, "chance": 75, "repeat": [ 1, 4 ] },
+        { "item": "tools_carpentry", "x": [ 2, 5 ], "y": 18, "chance": 75, "repeat": [ 1, 8 ] },
+        { "item": "magazines", "x": 2, "y": [ 3, 4 ], "chance": 75, "repeat": [ 1, 4 ] }
       ]
     }
   },

@@ -1,7 +1,7 @@
 #include "handle_liquid.h"
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 #include <iterator>
@@ -178,7 +178,12 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     std::vector<std::function<void()>> actions;
 
     if( g->u.can_consume( liquid ) && !source_mon ) {
-        menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        if( g->u.can_consume_for_bionic( liquid ) ) {
+            menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
+        } else {
+            menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        }
+
         actions.emplace_back( [&]() {
             target.dest_opt = LD_CONSUME;
         } );
@@ -193,7 +198,9 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
             add_msg( _( "Never mind." ) );
             return;
         }
-        if( source != nullptr && cont == source ) {
+        // Sometimes the cont parameter is omitted, but the liquid is still within a container that counts
+        // as valid target for the liquid. So check for that.
+        if( cont == source || ( !cont->contents.empty() && &cont->contents.front() == &liquid ) ) {
             add_msg( m_info, _( "That's the same container!" ) );
             return; // The user has intended to do something, but mistyped.
         }

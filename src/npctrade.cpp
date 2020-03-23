@@ -1,6 +1,6 @@
 #include "npctrade.h"
 
-#include <limits.h>
+#include <climits>
 #include <cstdlib>
 #include <algorithm>
 #include <string>
@@ -31,8 +31,9 @@
 #include "type_id.h"
 #include "faction.h"
 #include "pimpl.h"
+#include "item_category.h"
 
-const skill_id skill_barter( "barter" );
+static const skill_id skill_barter( "barter" );
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
                                   player &receiver, std::list<item_location *> &from_map,
@@ -63,9 +64,6 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         }
 
         if( ip.loc.where() == item_location::type::character ) {
-            if( gift.typeId() == giver.weapon.typeId() ) {
-                giver.remove_weapon();
-            }
             if( ip.charges > 0 ) {
                 giver.use_charges( gift.typeId(), charges );
             } else if( ip.count > 0 ) {
@@ -74,6 +72,11 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
                 }
             }
         } else {
+            if( ip.charges > 0 ) {
+                ip.loc.get_item()->set_var( "trade_charges", charges );
+            } else {
+                ip.loc.get_item()->set_var( "trade_amount", 1 );
+            }
             from_map.push_back( &ip.loc );
         }
     }
@@ -89,7 +92,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
         const int price = it.price( true );
         int val = np.value( it );
         if( np.wants_to_sell( it, val, price ) ) {
-            result.emplace_back( np, i->front(), val, i->size() );
+            result.emplace_back( np, i->front(), val, static_cast<int>( i->size() ) );
         }
     }
 
@@ -181,12 +184,25 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         buy_helper( cursor, check_item );
     }
 
+    const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
+
+        // Sort items by category first, if we can.
+        if( a.loc->get_category() != b.loc->get_category() ) {
+            return a.loc->get_category() < b.loc->get_category();
+        }
+
+        // If categories are equal, sort by name.
+        return a.loc->display_name() < b.loc->display_name();
+    };
+
+    std::sort( result.begin(), result.end(), cmp );
+
     return result;
 }
 
 void item_pricing::set_values( int ip_count )
 {
-    item *i_p = loc.get_item();
+    const item *i_p = loc.get_item();
     is_container = i_p->is_container() || i_p->is_ammo_container();
     vol = i_p->volume();
     weight = i_p->weight();
@@ -202,7 +218,7 @@ void item_pricing::set_values( int ip_count )
 
 // Adjusts the pricing of an item, *unless* it is the currency of the
 // faction we're trading with, as that should always be worth face value.
-void item_pricing::adjust_values( const double adjust, faction *fac )
+void item_pricing::adjust_values( const double adjust, const faction *fac )
 {
     if( !fac || fac->currency != loc.get_item()->typeId() ) {
         price *= adjust;
@@ -611,7 +627,23 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         npc_trading::transfer_items( trade_win.theirs, np, g->u, from_map, true );
 
         for( item_location *loc_ptr : from_map ) {
-            loc_ptr->remove_item();
+            if( !loc_ptr ) {
+                continue;
+            }
+            item *it = loc_ptr->get_item();
+            if( !it ) {
+                continue;
+            }
+            if( it->has_var( "trade_charges" ) && it->count_by_charges() ) {
+                it->charges -= static_cast<int>( it->get_var( "trade_charges", 0 ) );
+                if( it->charges <= 0 ) {
+                    loc_ptr->remove_item();
+                } else {
+                    it->erase_var( "trade_charges" );
+                }
+            } else if( it->has_var( "trade_amount" ) ) {
+                loc_ptr->remove_item();
+            }
         }
 
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts

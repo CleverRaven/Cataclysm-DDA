@@ -2,8 +2,7 @@
   {
     "id": "mag_tv",
     "type": "BOOK",
-    "name": "US Weekly",
-    "name_plural": "US Weeklies",
+    "name": { "str": "US Weekly", "str_pl": "US Weeklies" },
     "description": "Weekly news about a bunch of famous people who're all (un)dead now.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -21,8 +20,7 @@
   {
     "id": "manual_speech",
     "type": "BOOK",
-    "name": "Self-Esteem for Dummies",
-    "name_plural": "Self-Esteem for Dummies",
+    "name": { "str": "Self-Esteem for Dummies", "str_pl": "copies of Self-Esteem for Dummies" },
     "description": "Full of useful tips for showing confidence in your speech.",
     "weight": "454 g",
     "volume": "750 ml",
@@ -39,8 +37,7 @@
   {
     "id": "textbook_speech",
     "type": "BOOK",
-    "name": "Principles of Effective Communication",
-    "name_plural": "Principles of Effective Communication",
+    "name": { "str": "Principles of Effective Communication", "str_pl": "copies of Principles of Effective Communication" },
     "description": "A hardbound book devoted to being an effective and persuasive speaker.",
     "weight": "1120 g",
     "volume": "2 L",
@@ -59,8 +56,7 @@
   {
     "id": "dnd_handbook",
     "type": "BOOK",
-    "name": "Dungeon Master's Guide: 6th Edition",
-    "name_plural": "Dungeon Master's Guide: 6th Editions",
+    "name": { "str": "Dungeon Master's Guide: 6th Edition", "str_pl": "copies of Dungeon Master's Guide: 6th Edition" },
     "description": "A thick, hardcover volume with everything needed to weave legendary stories.  It's full of information, but finding the things you're looking for can be a chore.",
     "weight": "2267 g",
     "volume": "2500 ml",

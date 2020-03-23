@@ -52,7 +52,7 @@ struct affected_type {
         }
 
     private:
-        affected_stat stat;
+        affected_stat stat = affected_stat::AFFECTED_NULL;
         damage_type type;
 };
 
@@ -70,7 +70,7 @@ class bonus_container
 {
     public:
         bonus_container();
-        void load( JsonObject &jo );
+        void load( const JsonObject &jo );
         void load( JsonArray &jarr, bool mult );
 
         float get_flat( const Character &u, affected_stat stat, damage_type dt ) const;

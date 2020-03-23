@@ -1,8 +1,8 @@
 #include "debug_menu.h"
 
 // IWYU pragma: no_include <cxxabi.h>
-#include <limits.h>
-#include <stdint.h>
+#include <climits>
+#include <cstdint>
 #include <algorithm>
 #include <chrono>
 #include <vector>
@@ -27,6 +27,7 @@
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "map_extras.h"
 #include "messages.h"
 #include "mission.h"
@@ -66,7 +67,7 @@
 #include "artifact.h"
 #include "vpart_position.h"
 #include "rng.h"
-#include "signal.h"
+#include <csignal>
 #include "magic.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -83,16 +84,26 @@
 #include "string_id.h"
 #include "units.h"
 #include "weather_gen.h"
+#include "monstergenerator.h"
+#include "mapgendata.h"
+
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_flu( "flu" );
+
+static const mtype_id mon_generator( "mon_generator" );
+
+static const trait_id trait_ASTHMA( "ASTHMA" );
 
 class vehicle;
+
+extern std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>>>
+nested_mapgen;
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-const efftype_id effect_riding( "riding" );
-const efftype_id effect_flu( "flu" );
 namespace debug_menu
 {
 
@@ -149,7 +160,9 @@ enum debug_menu_index {
     DEBUG_DISPLAY_LIGHTING,
     DEBUG_DISPLAY_RADIATION,
     DEBUG_LEARN_SPELLS,
-    DEBUG_LEVEL_SPELLS
+    DEBUG_LEVEL_SPELLS,
+    DEBUG_TEST_MAP_EXTRA_DISTRIBUTION,
+    DEBUG_NESTED_MAPGEN
 };
 
 class mission_debug
@@ -218,6 +231,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( DEBUG_PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
+            { uilist_entry( DEBUG_TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -264,6 +278,7 @@ static int map_uilist()
         { uilist_entry( DEBUG_CHANGE_TIME, true, 't', _( "Change time" ) ) },
         { uilist_entry( DEBUG_OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( DEBUG_MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
+        { uilist_entry( DEBUG_NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
     };
 
     return uilist( _( "Map…" ), uilist_initializer );
@@ -372,6 +387,39 @@ void teleport_overmap()
     add_msg( _( "You teleport to overmap (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
+void spawn_nested_mapgen()
+{
+    uilist nest_menu;
+    std::vector<std::string> nest_str;
+    for( auto &nested : nested_mapgen ) {
+        nest_menu.addentry( -1, true, -1, nested.first );
+        nest_str.push_back( nested.first );
+    }
+    nest_menu.query();
+    const int nest_choice = nest_menu.ret;
+    if( nest_choice >= 0 && nest_choice < static_cast<int>( nest_str.size() ) ) {
+        const cata::optional<tripoint> where = g->look_around();
+        if( !where ) {
+            return;
+        }
+
+        const tripoint abs_ms = g->m.getabs( *where );
+        const tripoint abs_omt = ms_to_omt_copy( abs_ms );
+        const tripoint abs_sub = ms_to_sm_copy( abs_ms );
+
+        map target_map;
+        target_map.load( abs_sub, true );
+        const tripoint local_ms = target_map.getlocal( abs_ms );
+        mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
+        const auto &ptr = random_entry_ref( nested_mapgen[nest_str[nest_choice]] );
+        ptr->nest( md, local_ms.xy() );
+        target_map.save();
+        g->load_npcs();
+        g->m.invalidate_map_cache( g->get_levz() );
+        g->refresh_all();
+    }
+}
+
 void character_edit_menu()
 {
     std::vector< tripoint > locations;
@@ -438,7 +486,7 @@ void character_edit_menu()
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU, D_ASTHMA
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -457,6 +505,7 @@ void character_edit_menu()
     nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
     nmenu.addentry( D_FLU, true, 'f', "%s", _( "Give the [f]lu" ) );
+    nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
@@ -518,8 +567,11 @@ void character_edit_menu()
             p.weapon = item();
             break;
         case D_ITEM_WORN: {
-            int item_pos = g->inv_for_all( _( "Make target equip" ) );
-            item &to_wear = g->u.i_at( item_pos );
+            item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
+            if( !loc ) {
+                break;
+            }
+            item &to_wear = *loc;
             if( to_wear.is_armor() ) {
                 p.on_item_wear( to_wear );
                 p.worn.push_back( to_wear );
@@ -727,7 +779,7 @@ void character_edit_menu()
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
             smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
-            smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.radiation );
+            smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.get_rad() );
             smenu.query();
             int value;
             switch( smenu.ret ) {
@@ -742,8 +794,8 @@ void character_edit_menu()
                     }
                     break;
                 case 2:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.radiation ) ) {
-                        p.radiation = value;
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.get_rad() ) ) {
+                        p.set_rad( value );
                     }
                     break;
                 default:
@@ -825,6 +877,12 @@ void character_edit_menu()
         break;
         case D_FLU: {
             p.add_effect( effect_flu, 1000_minutes );
+            break;
+        }
+        break;
+        case D_ASTHMA: {
+            p.set_mutation( trait_ASTHMA );
+            p.add_effect( effect_asthma, 10_minutes );
             break;
         }
     }
@@ -1096,6 +1154,21 @@ void debug()
             break;
 
         case DEBUG_GAME_STATE: {
+            std::string mfus;
+            std::vector<std::pair<m_flag, int>> sorted(
+                                                 MonsterGenerator::generator().m_flag_usage_stats.begin(),
+                                                 MonsterGenerator::generator().m_flag_usage_stats.end() );
+            std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
+                return a.second != b.second ? a.second > b.second : a.first < b.first;
+            } );
+            for( auto &m_flag_stat : sorted ) {
+                mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
+                                       m_flag_stat.second );
+            }
+            DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
+            MonsterGenerator::generator().m_flag_usage_stats.clear();
+            popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
+
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d.\n%s\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
@@ -1293,7 +1366,9 @@ void debug()
             for( monster &critter : g->all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
-                critter.die( nullptr );
+                if( critter.type->id != mon_generator ) {
+                    critter.die( nullptr );
+                }
             }
             g->cleanup_dead();
         }
@@ -1397,7 +1472,7 @@ void debug()
             g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );
             break;
         case DEBUG_CHANGE_TIME: {
-            auto set_turn = [&]( const int initial, const time_duration factor, const char *const msg ) {
+            auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {
                 const auto text = string_input_popup()
                                   .title( msg )
                                   .width( 20 )
@@ -1530,12 +1605,15 @@ void debug()
             }
             break;
         }
+        case DEBUG_NESTED_MAPGEN:
+            debug_menu::spawn_nested_mapgen();
+            break;
         case DEBUG_DISPLAY_NPC_PATH:
             g->debug_pathfinding = !g->debug_pathfinding;
             break;
         case DEBUG_PRINT_FACTION_INFO: {
             int count = 0;
-            for( const auto elem : g->faction_manager_ptr->all() ) {
+            for( const auto &elem : g->faction_manager_ptr->all() ) {
                 std::cout << std::to_string( count ) << " Faction_id key in factions map = " << elem.first.str() <<
                           std::endl;
                 std::cout << std::to_string( count ) << " Faction name associated with this id is " <<
@@ -1556,7 +1634,7 @@ void debug()
                 }
                 std::cout << guy.disp_name() << "knows : ";
                 int counter = 1;
-                for( const spell_id sp : spells ) {
+                for( const spell_id &sp : spells ) {
                     std::cout << sp->name.translated() << " ";
                     if( counter < static_cast<int>( spells.size() ) ) {
                         std::cout << "and ";
@@ -1678,6 +1756,9 @@ void debug()
             add_msg( m_good, _( "%s is now level %d!" ), spells[action]->name(), spells[action]->get_level() );
             break;
         }
+        case DEBUG_TEST_MAP_EXTRA_DISTRIBUTION:
+            MapExtras::debug_spawn_test();
+            break;
     }
     catacurses::erase();
     m.invalidate_map_cache( g->get_levz() );

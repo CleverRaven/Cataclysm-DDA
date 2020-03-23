@@ -34,7 +34,7 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 12 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 12 ] ] ]
   },
   {
     "result": "armguard_acidchitin",
@@ -47,7 +47,7 @@
     "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "acidchitin_piece", 12 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 12 ] ] ]
   },
   {
     "result": "armguard_hard",
@@ -109,7 +109,7 @@
     "skill_used": "survival",
     "time": "5 m",
     "autolearn": true,
-    "components": [ [ [ "paper", 60 ] ], [ [ "duct_tape", 10 ] ] ],
+    "components": [ [ [ "paper", 60 ] ], [ [ "duct_tape", 10 ], [ "medical_tape", 10 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {

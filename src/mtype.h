@@ -99,6 +99,7 @@ enum m_flag : int {
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
+    MF_COLDPROOF,           // Immune to cold damage
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
@@ -108,7 +109,9 @@ enum m_flag : int {
     MF_FEATHER,             // May produce feather when butchered
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
+    MF_CONSOLE_DESPAWN,     // Despawns when a nearby console is properly hacked
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
+    MF_ID_CARD_DESPAWN,      // Despawns when a science ID card is used on a nearby console
     MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
     MF_MILITARY_MECH,        // A rideable mech that was designed for military work.
     MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
@@ -118,10 +121,6 @@ enum m_flag : int {
     MF_PAY_BOT,             // You can pay this bot to be your friend for a time
     MF_HUMAN,               // It's a live human, as long as it's alive
     MF_NO_BREATHE,          // Creature can't drown and is unharmed by gas, smoke, or poison
-    MF_REGENERATES_50,      // Monster regenerates very quickly over time
-    MF_REGENERATES_10,      // Monster regenerates quickly over time
-    MF_REGENERATES_1,       // Monster regenerates slowly over time
-    MF_REGENERATES_IN_DARK, // Monster regenerates very quickly in poorly lit tiles
     MF_FLAMMABLE,           // Monster catches fire, burns, and spreads fire to nearby objects
     MF_REVIVES,             // Monster corpse will revive after a short period of time
     MF_CHITIN,              // May produce chitin when butchered
@@ -133,7 +132,6 @@ enum m_flag : int {
     MF_BILE_BLOOD,          // Makes monster bleed bile.
     MF_ABSORBS,             // Consumes objects it moves over which gives bonus hp.
     MF_ABSORBS_SPLITS,      // Consumes objects it moves over which gives bonus hp. If it gets enough bonus HP, it spawns a copy of itself.
-    MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
     MF_CBM_CIV,             // May produce a common CBM a power CBM when butchered.
     MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.
     MF_CBM_SCI,             // May produce a bionic from bionics_sci when butchered.
@@ -213,12 +211,13 @@ struct mtype {
         enum_bitset<mon_trigger> fear;
         enum_bitset<mon_trigger> placate;
 
-        void add_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
-        void remove_special_attacks( JsonObject &jo, const std::string &member_name,
+        void add_special_attacks( const JsonObject &jo, const std::string &member_name,
+                                  const std::string &src );
+        void remove_special_attacks( const JsonObject &jo, const std::string &member_name,
                                      const std::string &src );
 
         void add_special_attack( JsonArray inner, const std::string &src );
-        void add_special_attack( JsonObject obj, const std::string &src );
+        void add_special_attack( const JsonObject &obj, const std::string &src );
 
     public:
         mtype_id id;
@@ -253,6 +252,13 @@ struct mtype {
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
 
+        // Number of hitpoints regenerated per turn.
+        int regenerates = 0;
+        // Monster regenerates very quickly in poorly lit tiles.
+        bool regenerates_in_dark = false;
+        // Will stop fleeing if at max hp, and regen anger and morale.
+        bool regen_morale = false;
+
         // mountable ratio for rider weight vs. mount weight, default 0.2
         float mountable_weight_ratio = 0.2;
 
@@ -264,6 +270,7 @@ struct mtype {
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
 
         std::set<scenttype_id> scents_tracked; /**Types of scent tracked by this mtype*/
+        std::set<scenttype_id> scents_ignored; /**Types of scent ignored by this mtype*/
 
         int sk_dodge = 0;       /** dodge skill */
 
@@ -349,7 +356,7 @@ struct mtype {
         int mech_str_bonus = 0;
 
         /** Emission sources that cycle each turn the monster remains alive */
-        std::set<emit_id> emit_fields;
+        std::map<emit_id, time_duration> emit_fields;
 
         pathfinding_settings path_settings;
 
@@ -366,6 +373,7 @@ struct mtype {
         bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;
+        std::vector<std::string> species_descriptions() const;
         //Used for corpses.
         field_type_id bloodType() const;
         field_type_id gibType() const;
@@ -377,9 +385,9 @@ struct mtype {
         std::string get_footsteps() const;
 
         // Historically located in monstergenerator.cpp
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 };
 
-mon_effect_data load_mon_effect_data( JsonObject &e );
+mon_effect_data load_mon_effect_data( const JsonObject &e );
 
 #endif

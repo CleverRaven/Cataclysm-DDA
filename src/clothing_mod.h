@@ -33,15 +33,15 @@ struct enum_traits<clothing_mod_type> {
 };
 
 struct mod_value {
-    clothing_mod_type type;
-    float value;
+    clothing_mod_type type = clothing_mod_type::num_clothing_mod_types;
+    float value = 0.0f;
     bool round_up = false;
     bool thickness_propotion = false;
     bool coverage_propotion = false;
 };
 
 struct clothing_mod {
-    void load( JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, const std::string &src );
     float get_mod_val( const clothing_mod_type &type, const item &it ) const;
     bool has_mod_type( const clothing_mod_type &type ) const;
 
@@ -53,7 +53,7 @@ struct clothing_mod {
     std::string implement_prompt;
     std::string destroy_prompt;
     std::vector< mod_value > mod_values;
-    bool restricted;
+    bool restricted = false;
 
     static size_t count();
 };
@@ -73,7 +73,7 @@ constexpr std::array<clothing_mod_type, 8> all_clothing_mod_types = {{
     }
 };
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void reset();
 
 const std::vector<clothing_mod> &get_all();

@@ -405,7 +405,7 @@
     "//": "followup: MISSION_REFUGEE_Jenny_GET_RIFLES",
     "dialogue": {
       "describe": "Now that I've got that motor, I can get my compressor mostly built.  I will need a tank though.",
-      "offer": "I can get started building the compressor, but I need a large metal tank to store compressed air centrally.  About 60 liters should do...",
+      "offer": "I can get started building the compressor, but I need a large metal tank to store compressed air centrally.  About 60 liters should do…",
       "accepted": "Great!  Bring it to me when you find one.",
       "rejected": "Oh well.  Thanks for offering anyway.",
       "advice": "It needs to be a good strong tank, like a big propane tank or something… you could look at fuel storage tanks and things, as long as they're durable enough.  Heck, if you get some sheet metal you could probably even weld a good one together.",

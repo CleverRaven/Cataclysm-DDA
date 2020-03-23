@@ -2,8 +2,7 @@
   {
     "id": "mag_dodge",
     "type": "BOOK",
-    "name": "Dance Dance Dance!",
-    "name_plural": "Dance Dance Dance!",
+    "name": { "str": "Dance Dance Dance!", "str_pl": "issues of Dance Dance Dance!" },
     "description": "Learn the moves of the trendiest dances right now.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -21,8 +20,7 @@
   {
     "id": "manual_dodge",
     "type": "BOOK",
-    "name": "The Book of Dances",
-    "name_plural": "Books of Dances",
+    "name": { "str": "The Book of Dances", "str_pl": "copies of The Book of Dances" },
     "description": "This massive antique book documents dances from all around the world in great detail.  A perceptive reader could learn a lot about defensive footwork from some of the war dances.",
     "weight": "2330 g",
     "volume": "1250 ml",
@@ -39,8 +37,7 @@
   {
     "id": "manual_dodge_kid",
     "type": "BOOK",
-    "name": "Break a Leg!",
-    "name_plural": "Break a Leg!",
+    "name": { "str": "Break a Leg!", "str_pl": "copies of Break a Leg!" },
     "description": "The Kids' Guide to Acting and Stagecraft.",
     "weight": "72 g",
     "volume": "250 ml",

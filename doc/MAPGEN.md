@@ -195,7 +195,9 @@ Example: "fill_ter": "t_grass"
 
 # 2.1 "rows":
 *required if "fill_ter" is unset*
-> Value: ([array]): blocks of 24 rows of blocks of 24 character lines. Each character is defined by "terrain" and optionally "furniture" below
+> Value: ([array]): blocks of 24 rows of blocks of 24 character lines. Each character is defined by "terrain" and optionally "furniture" or other entries below
+
+Any character used here must have some definition elsewhere to indicate its purpose.  Failing to do so is an error which will be caught by running the tests.  The tests will run automatically when you make a pull request for adding new maps to the game.  If you have defined `fill_ter` or you are writing nested mapgen, then there are a couple of exceptions.  The space and period characters (` ` and `.`) are permitted to have no definition and be used for 'background' in the `rows`.
 
 Other parts can be linked with this map, for example one can place things like a gaspump (with gasoline) or a toilet (with water) or items from an item group or fields at the square given by a character.
 
@@ -586,7 +588,7 @@ Places a gas pump with gasoline (or sometimes diesel) in it. Values:
 
 ### 2.5.6 "items"
 Places items from an item group. Values:
-- "item": (required, string) the item group to use.
+- "item": (required, string or itemgroup object) the item group to use.
 - "chance": (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
 - "repeat": (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
 

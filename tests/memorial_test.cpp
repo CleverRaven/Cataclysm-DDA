@@ -42,7 +42,7 @@ TEST_CASE( "memorials" )
 {
     memorial_logger &m = g->memorial();
     m.clear();
-    clear_player();
+    clear_avatar();
 
     event_bus &b = g->events();
 
@@ -183,9 +183,6 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::installs_faulty_cbm>(
         m, b, "Installed bad bionic: Alarm System.", ch, cbm );
-
-    check_memorial<event_type::launches_nuke>(
-        m, b, "Launched a nuke at a garage.", oter_id( "s_garage_north" ) );
 
     check_memorial<event_type::learns_martial_art>(
         m, b, "Learned Aikido.", ch, matype_id( "style_aikido" ) );

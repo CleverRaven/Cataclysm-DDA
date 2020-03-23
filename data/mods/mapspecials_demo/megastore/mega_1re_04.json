@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "mega_1re",
-    "comment": "ground floor. right edge",
+    "//": "ground floor. right edge",
     "weight": 100,
     "method": "json",
     "object": {

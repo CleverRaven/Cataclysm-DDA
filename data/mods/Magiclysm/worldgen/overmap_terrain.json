@@ -299,5 +299,58 @@
     "sym": ".",
     "color": "blue",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_ground",
+    "copy-from": "generic_city_building",
+    "sym": "W",
+    "color": "light_blue",
+    "name": "wizard tower"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_living",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_golems",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_study",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower1_roof",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_ground",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_stairs1",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_stairs2",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_study",
+    "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wizardtower2_roof",
+    "copy-from": "wizardtower1_ground"
   }
 ]

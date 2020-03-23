@@ -95,6 +95,7 @@
   {
     "type": "item_group",
     "id": "mischw",
+    "subtype": "collection",
     "items": [ [ "garden_gnome", 5 ] ]
   },
   {

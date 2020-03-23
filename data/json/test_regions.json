@@ -112,7 +112,7 @@
       "park_sigma": 80,
       "house_basement_chance": 1,
       "houses": { "house": 1, "house_base": 1 },
-      "basements": { "basement": 1, "basement_bionic": 1 },
+      "basements": { "basement": 1 },
       "parks": { "park": 2, "pool": 1 },
       "shops": {
         "s_gas": 5,

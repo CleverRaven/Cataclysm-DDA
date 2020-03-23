@@ -63,7 +63,7 @@
     "using": [ [ "blacksmithing_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "copper", 60 ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -88,7 +88,7 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "wooden_bead", 10 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "wooden_bead", 10 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
     "result": "bead_necklace",
@@ -99,7 +99,7 @@
     "reversible": true,
     "autolearn": true,
     "type": "recipe",
-    "components": [ [ [ "wooden_bead", 30 ] ], [ [ "string_36", 1 ] ] ]
+    "components": [ [ [ "wooden_bead", 30 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "down_blanket",
@@ -141,7 +141,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "fur", 4 ] ],
-      [ [ "string_36", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
     ]
   },
@@ -158,7 +158,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "faux_fur", 4 ] ],
-      [ [ "string_36", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
     ]
   },
@@ -214,7 +214,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "leather", 4 ] ],
-      [ [ "string_36", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
     ]
   },
@@ -252,6 +252,7 @@
     ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "flags": [ "UNCRAFT_BY_QUANTITY" ],
     "components": [
       [ [ "oxy_powder", 50 ] ],
       [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
@@ -271,6 +272,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
+    "flags": [ "UNCRAFT_BY_QUANTITY" ],
     "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
   },
   {
@@ -285,6 +287,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
+    "flags": [ "UNCRAFT_BY_QUANTITY" ],
     "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
   },
   {
@@ -298,6 +301,7 @@
     "time": "60 m",
     "reversible": true,
     "decomp_learn": 4,
+    "flags": [ "UNCRAFT_BY_QUANTITY" ],
     "book_learn": [
       [ "textbook_fireman", 4 ],
       [ "atomic_survival", 4 ],

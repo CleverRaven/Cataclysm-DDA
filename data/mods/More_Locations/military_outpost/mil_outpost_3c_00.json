@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "mil_outpost_3c" ],
-    "comment": "third floor top corner",
+    "//": "third floor top corner",
     "method": "json",
     "weight": 0,
     "object": {

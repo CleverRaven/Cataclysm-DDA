@@ -656,6 +656,11 @@ static const std::vector<std::pair<std::string, money>> money_units = { {
         { "kUSD", 1_kUSD },
     }
 };
+static const std::vector<std::pair<std::string, volume>> volume_units = { {
+        { "ml", 1_ml },
+        { "L", 1_liter }
+    }
+};
 } // namespace units
 
 template<typename T>
@@ -714,6 +719,53 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
         result += sign_value * value * get_unit();
     } while( !skip_spaces() );
     return result;
+}
+
+template<typename T>
+void dump_to_json_string( T t, JsonOut &jsout,
+                          const std::vector<std::pair<std::string, T>> &units )
+{
+    // deduplicate unit strings and choose the shortest representations
+    std::map<T, std::string> sorted_units;
+    for( const auto &p : units ) {
+        const auto it = sorted_units.find( p.second );
+        if( it != sorted_units.end() ) {
+            if( p.first.length() < it->second.length() ) {
+                it->second = p.first;
+            }
+        } else {
+            sorted_units.emplace( p.second, p.first );
+        }
+    }
+    std::string str;
+    bool written = false;
+    for( auto it = sorted_units.rbegin(); it != sorted_units.rend(); ++it ) {
+        const int val = static_cast<int>( t / it->first );
+        if( val != 0 ) {
+            if( written ) {
+                str += ' ';
+            }
+            int tmp = val;
+            if( tmp < 0 ) {
+                str += '-';
+                tmp = -tmp;
+            }
+            const size_t val_beg = str.size();
+            while( tmp != 0 ) {
+                str += static_cast<char>( '0' + tmp % 10 );
+                tmp /= 10;
+            }
+            std::reverse( str.begin() + val_beg, str.end() );
+            str += ' ';
+            str += it->second;
+            written = true;
+            t -= it->first * val;
+        }
+    }
+    if( str.empty() ) {
+        str = "0 " + sorted_units.begin()->second;
+    }
+    jsout.write( str );
 }
 
 #endif

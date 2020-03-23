@@ -30,8 +30,8 @@ struct mission_entry {
     std::string name_display;
     cata::optional<point> dir;
     std::string text;
-    bool priority;
-    bool possible;
+    bool priority = false;
+    bool possible = false;
 };
 
 class mission_data
@@ -49,15 +49,15 @@ class mission_data
         * @param priority turns the mission key yellow and pushes to front of main tab
         * @param possible grays the mission key when false and makes it impossible to select
         */
+        void add( const std::string &id, const std::string &name_display,
+                  const cata::optional<point> &dir, const std::string &text,
+                  bool priority = false, bool possible = true );
+        void add_return( const std::string &id, const std::string &name_display,
+                         const cata::optional<point> &dir, const std::string &text, bool possible = true );
+        void add_start( const std::string &id, const std::string &name_display,
+                        const cata::optional<point> &dir, const std::string &text, bool possible = true );
         void add( const std::string &id, const std::string &name_display = "",
                   const std::string &text = "" );
-        void add_start( const std::string &id, const std::string &name_display,
-                        cata::optional<point> dir, const std::string &text, bool possible = true );
-        void add_return( const std::string &id, const std::string &name_display,
-                         cata::optional<point> dir, const std::string &text, bool possible = true );
-        void add( const std::string &id, const std::string &name_display,
-                  cata::optional<point> dir, const std::string &text,
-                  bool priority = false, bool possible = true );
 };
 
 namespace talk_function
@@ -71,7 +71,6 @@ namespace talk_function
 
 //Identifies which mission set the NPC draws from
 void companion_mission( npc &p );
-void basecamp_mission( npc &p );
 
 // Display the available missions and let the player choose one
 bool display_and_choose_opts( mission_data &mission_key, const tripoint &omt_pos,

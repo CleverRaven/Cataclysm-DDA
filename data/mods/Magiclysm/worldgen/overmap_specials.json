@@ -45,10 +45,10 @@
       { "point": [ 0, 1, -4 ], "overmap": "black_dragon_lair_z-4_SW_north" },
       { "point": [ 1, 1, -4 ], "overmap": "black_dragon_lair_z-4_SE_north" }
     ],
-    "locations": [ "wilderness" ],
+    "locations": [ "forest_with_swamp" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 0 ]
+    "occurrences": [ 0, 1 ]
   },
   {
     "type": "overmap_special",

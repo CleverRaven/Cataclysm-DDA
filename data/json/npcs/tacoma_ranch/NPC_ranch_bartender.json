@@ -80,7 +80,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_BARTENDER_2",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "The wine and beer we can brew are sufficient to attract most patrons but we need something a bit stronger to get them to forget their misery.  Could you build me a pair of stills?",
       "accepted": "This should let us start producing whiskey, rum, and brandy when we get access to the ingredients.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -88,12 +88,11 @@
       "inquire": "Do you have the stills?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     },
     "end": {
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "om_special": "ranch_camp",
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_1" ], "x": 0, "y": 0 } ]
       }
     }
@@ -110,7 +109,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_BARTENDER_3",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "The last batch that I brewed was terrible, I'm fairly sure something contaminated the yeast we have been using.  Could you locate a source of fresh yeast for us to use?  I'd need about 20 teaspoons of dry yeast to get started.",
       "accepted": "Thank you for your assistance.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -118,13 +117,12 @@
       "inquire": "Do you have the yeast?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     },
     "end": {
       "effect": { "npc_add_trait": "NPC_BRANDY" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "om_special": "ranch_camp",
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_2" ], "x": 0, "y": 0 } ]
       }
     }
@@ -141,21 +139,20 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_BARTENDER_4",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "Sugar and molasses remains in short supply.  I've put in a request for more but it is unlikely that I'm going to see a reliable source for some time.  If you are interested, we are going to need sugar beet seeds to meet future demand regardless of what the scavengers can find.  Could you bring me at least enough seeds to plant a small 10 meter long patch?",
       "accepted": "Thank you for your assistance.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
-      "advice": "Farms or supply stores might have a few seeds...",
+      "advice": "Farms or supply stores might have a few seeds…",
       "inquire": "Do you have the sugar beet seeds?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     },
     "end": {
       "effect": { "npc_add_trait": "NPC_RUM" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "om_special": "ranch_camp",
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_3" ], "x": 0, "y": 0 } ]
       }
     }
@@ -172,7 +169,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_BARTENDER_5",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "The drinks we brew here have become a major draw for visitors and the occasional trader.  Our batches have become larger but we are still running out of storage space between trading runs.  I've been able to get a few volunteers to help me build a set of standing tanks but I still need 12 metal tanks to build them.  I've talked with the scrappers but we are a low priority at the moment.",
       "accepted": "Thank you for your assistance.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -180,13 +177,12 @@
       "inquire": "Do you have the metal tanks?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     },
     "end": {
       "effect": { "npc_add_trait": "NPC_WHISKEY" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "om_special": "ranch_camp",
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_4" ], "x": 0, "y": 0 } ]
       }
     }
@@ -203,7 +199,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_NULL",
     "dialogue": {
-      "describe": "We need help...",
+      "describe": "We need help…",
       "offer": "The other survivor outposts that we have contact with have been more than eager to trade for beer or other drinks.  Transporting the drinks to them has presented a number of challenges though.  If you could locate a pair of 200-liter drums we should be able to keep them supplied while turning a significant profit.",
       "accepted": "Thank you for your assistance.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
@@ -211,7 +207,7 @@
       "inquire": "Do you have the 200-liter drums?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
+      "failure": "It was a lost cause anyways…"
     }
   }
 ]

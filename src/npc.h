@@ -34,6 +34,7 @@
 #include "item.h"
 #include "point.h"
 #include "memory_fast.h"
+#include "sounds.h"
 
 namespace auto_pickup
 {
@@ -60,6 +61,8 @@ using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
 
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = "null" );
@@ -491,7 +494,7 @@ struct npc_follower_rules {
 
 struct dangerous_sound {
     tripoint abs_pos;
-    int type;
+    sounds::sound_t type;
     int volume;
 };
 
@@ -500,10 +503,11 @@ const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
                                     };
 
 struct healing_options {
-    bool bandage;
-    bool bleed;
-    bool bite;
-    bool infect;
+    bool bandage = false;
+    bool disinfect = false;
+    bool bleed = false;
+    bool bite = false;
+    bool infect = false;
     void clear_all();
     void set_all();
     bool any_true();
@@ -751,9 +755,6 @@ struct npc_chatbin {
 };
 
 class npc_template;
-struct epilogue;
-
-using epilogue_map = std::map<std::string, epilogue>;
 
 class npc : public player
 {
@@ -906,7 +907,7 @@ class npc : public player
         void update_worst_item_value();
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
-        bool wear_if_wanted( const item &it );
+        bool wear_if_wanted( const item &it, std::string &reason );
         void start_read( item &chosen, player *pl );
         void finish_read( item &book );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
@@ -914,7 +915,7 @@ class npc : public player
         void do_npc_read();
         void stow_item( item &it );
         bool wield( item &it ) override;
-        void drop( const std::list<std::pair<int, int>> &what, const tripoint &target,
+        void drop( const drop_locations &what, const tripoint &target,
                    bool stash ) override;
         bool adjust_worn();
         bool has_healing_item( healing_options try_to_fix );
@@ -964,7 +965,7 @@ class npc : public player
         void say( const char *const line, Args &&... args ) const {
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
-        void say( const std::string &line, int priority = 0 ) const;
+        void say( const std::string &line, sounds::sound_t spriority = sounds::sound_t::speech ) const;
         void decide_needs();
         void reboot();
         void die( Creature *killer ) override;
@@ -1007,7 +1008,7 @@ class npc : public player
         // @param speech words of this complaint
         bool complain_about( const std::string &issue, const time_duration &dur,
                              const std::string &speech, bool force = false,
-                             int priority = 0 );
+                             sounds::sound_t priority = sounds::sound_t::speech );
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
@@ -1017,8 +1018,8 @@ class npc : public player
 
         int calc_spell_training_cost( bool knows, int difficulty, int level );
 
-        void handle_sound( int priority, const std::string &description, int heard_volume,
-                           const tripoint &spos );
+        void handle_sound( sounds::sound_t priority, const std::string &description,
+                           int heard_volume, const tripoint &spos );
 
         void witness_thievery( item *it );
 
@@ -1171,19 +1172,20 @@ class npc : public player
         // Message related stuff
         using player::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
-        void add_msg_if_npc( game_message_type type, const std::string &msg ) const override;
+        void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
         using player::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
-        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         using player::add_msg_if_player;
         void add_msg_if_player( const std::string &/*msg*/ ) const override {}
-        void add_msg_if_player( game_message_type /*type*/, const std::string &/*msg*/ ) const override {}
+        void add_msg_if_player( const game_message_params &/*type*/,
+                                const std::string &/*msg*/ ) const override {}
         using player::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
-        void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
 
         // The preceding are in npcmove.cpp
@@ -1191,6 +1193,7 @@ class npc : public player
         bool query_yn( const std::string &mes ) const override;
 
         std::string extended_description() const override;
+        std::string get_epilogue() const;
 
         std::pair<std::string, nc_color> hp_description() const;
 
@@ -1340,7 +1343,7 @@ class npc : public player
 
     protected:
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
 
     private:
         // the weapon we're actually holding when using bionic fake guns
@@ -1362,7 +1365,9 @@ class npc : public player
 class standard_npc : public npc
 {
     public:
-        standard_npc( const std::string &name = "", const std::vector<itype_id> &clothing = {},
+        standard_npc( const std::string &name = "",
+                      const tripoint &pos = tripoint( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
+                      const std::vector<itype_id> &clothing = {},
                       int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
 };
 
@@ -1382,23 +1387,9 @@ class npc_template
         };
         gender gender_override;
 
-        static void load( JsonObject &jsobj );
+        static void load( const JsonObject &jsobj );
         static void reset();
         static void check_consistency();
-};
-
-struct epilogue {
-    epilogue();
-
-    std::string id; //Unique name for declaring an ending for a given individual
-    std::string group; //Male/female (dog/cyborg/mutant... whatever you want)
-    std::string text;
-
-    static epilogue_map _all_epilogue;
-
-    static void load_epilogue( JsonObject &jsobj );
-    epilogue *find_epilogue( const std::string &ident );
-    void random_by_group( std::string group );
 };
 
 std::ostream &operator<< ( std::ostream &os, const npc_need &need );

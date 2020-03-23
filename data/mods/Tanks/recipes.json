@@ -2,7 +2,6 @@
   {
     "type": "uncraft",
     "result": "broken_tankbot",
-    "override": true,
     "skill_used": "electronics",
     "difficulty": 8,
     "time": 600000,

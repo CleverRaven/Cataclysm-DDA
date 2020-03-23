@@ -1,6 +1,6 @@
 #include "output.h"
 
-#include <errno.h>
+#include <cerrno>
 #include <cctype>
 #include <cstdio>
 #include <algorithm>
@@ -56,6 +56,8 @@ int FULL_SCREEN_HEIGHT;
 
 int OVERMAP_WINDOW_HEIGHT;
 int OVERMAP_WINDOW_WIDTH;
+
+int OVERMAP_LEGEND_WIDTH;
 
 static std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
 
@@ -208,6 +210,12 @@ void print_colored_text( const catacurses::window &w, const point &p, nc_color &
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text )
 {
+    std::string sText = trim_by_length( text, width );
+    print_colored_text( w, begin, base_color, base_color, sText );
+}
+
+std::string trim_by_length( const std::string  &text, int width )
+{
     std::string sText;
     if( utf8_width( remove_color_tags( text ) ) > width ) {
 
@@ -249,8 +257,7 @@ void trim_and_print( const catacurses::window &w, const point &begin, int width,
     } else {
         sText = text;
     }
-
-    print_colored_text( w, begin, base_color, base_color, sText );
+    return sText;
 }
 
 int print_scrollable( const catacurses::window &w, int begin_line, const std::string &text,
@@ -330,44 +337,68 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
     return textformatted.size();
 }
 
-void multipage( const catacurses::window &w, const std::vector<std::string> &text,
-                const std::string &caption, int begin_y )
+void scrollable_text( const catacurses::window &w, const std::string &title,
+                      const std::string &text )
 {
-    int height = getmaxy( w );
-    int width = getmaxx( w );
+    const int width = getmaxx( w );
+    const int height = getmaxy( w );
+    constexpr int text_x = 1;
+    constexpr int text_y = 1;
+    const int text_w = width - 2;
+    const int text_h = height - 2;
+    if( text_w <= 0 || text_h <= 0 ) {
+        debugmsg( "Oops, the window is too small to display anything!" );
+        return;
+    }
 
-    //Do not erase the current screen if it's not first line of the text
-    if( begin_y == 0 ) {
+    input_context ctxt( "SCROLLABLE_TEXT" );
+    ctxt.register_action( "UP" );
+    ctxt.register_action( "DOWN" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    const std::vector<std::string> lines = foldstring( text, text_w );
+    int beg_line = 0;
+    const int max_beg_line = std::max( 0, static_cast<int>( lines.size() ) - text_h );
+
+    std::string action;
+    do {
         werase( w );
-    }
+        draw_border( w, BORDER_COLOR, title, c_black_white );
+        for( int line = beg_line, pos_y = text_y; line < std::min<int>( beg_line + text_h, lines.size() );
+             ++line, ++pos_y ) {
+            nc_color dummy = c_white;
+            print_colored_text( w, point( text_x, pos_y ), dummy, dummy, lines[line] );
+        }
+        scrollbar().offset_x( width - 1 ).offset_y( text_y ).content_size( lines.size() )
+        .viewport_pos( std::min( beg_line, max_beg_line ) ).viewport_size( text_h ).apply( w );
+        wrefresh( w );
 
-    /* TODO:
-        issue:     # of lines in the paragraph > height -> inf. loop;
-        solution:  split this paragraph in two pieces;
-    */
-    for( int i = 0; i < static_cast<int>( text.size() ); i++ ) {
-        if( begin_y == 0 && !caption.empty() ) {
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            begin_y = fold_and_print( w, point( 1, 0 ), width - 2, c_white, caption ) + 1;
+        action = ctxt.handle_input();
+        if( action == "UP" ) {
+            if( beg_line > 0 ) {
+                --beg_line;
+            }
+        } else if( action == "DOWN" ) {
+            if( beg_line < max_beg_line ) {
+                ++beg_line;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( beg_line > text_h ) {
+                beg_line -= text_h;
+            } else {
+                beg_line = 0;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            // always scroll an entire page's length
+            if( beg_line < max_beg_line ) {
+                beg_line += text_h;
+            }
         }
-        std::vector<std::string> next_paragraph = foldstring( text[i], width - 2 );
-        if( begin_y + static_cast<int>( next_paragraph.size() ) > height - ( ( i + 1 ) < static_cast<int>
-                ( text.size() ) ? 1 : 0 ) ) {
-            // Next page
-            i--;
-            center_print( w, height - 1, c_light_gray, _( "Press any key for more…" ) );
-            wrefresh( w );
-            catacurses::refresh();
-            inp_mngr.wait_for_any_key();
-            werase( w );
-            begin_y = 0;
-        } else {
-            begin_y += fold_and_print( w, point( 1, begin_y ), width - 2, c_white, text[i] ) + 1;
-        }
-    }
-    wrefresh( w );
-    catacurses::refresh();
-    inp_mngr.wait_for_any_key();
+    } while( action != "CONFIRM" && action != "QUIT" );
 }
 
 // returns single string with left aligned name and right aligned value
@@ -542,12 +573,8 @@ void draw_border_below_tabs( const catacurses::window &w, nc_color border_color 
 bool query_yn( const std::string &text )
 {
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-
-    const auto allow_key = [force_uc]( const input_event & evt ) {
-        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
-               // std::lower is undefined outside unsigned char range
-               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
-    };
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+                            : input_context::allow_all_keys;
 
     return query_popup()
            .context( "YESNO" )
@@ -820,7 +847,9 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
     if( !data.get_item_name().empty() ) {
         buffer += data.get_item_name() + "\n";
     }
-    if( data.get_item_name() != data.get_type_name() && !data.get_type_name().empty() ) {
+    // If type name is set, and not already contained in item name, output it too
+    if( !data.get_type_name().empty() &&
+        data.get_item_name().find( data.get_type_name() ) == std::string::npos ) {
         buffer += data.get_type_name() + "\n";
     }
     for( unsigned int i = 0; i < data.padding; i++ ) {
@@ -840,17 +869,18 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
             const auto vFolded = foldstring( buffer, width - 1 );
             iLines = vFolded.size();
 
-            if( data.selected < 0 ) {
-                data.selected = 0;
+            if( *data.ptr_selected < 0 ) {
+                *data.ptr_selected = 0;
             } else if( iLines < height ) {
-                data.selected = 0;
-            } else if( data.selected >= iLines - height ) {
-                data.selected = iLines - height;
+                *data.ptr_selected = 0;
+            } else if( *data.ptr_selected >= iLines - height ) {
+                *data.ptr_selected = iLines - height;
             }
 
-            fold_and_print_from( win, point( b, line_num ), width - 1, data.selected, c_light_gray, buffer );
+            fold_and_print_from( win, point( b, line_num ), width - 1, *data.ptr_selected, c_light_gray,
+                                 buffer );
 
-            draw_scrollbar( win, data.selected, height, iLines,
+            draw_scrollbar( win, *data.ptr_selected, height, iLines,
                             point( data.scrollbar_left ? 0 : getmaxx( win ) - 1,
                                    ( data.without_border && data.use_full_win ? 0 : 1 ) ), BORDER_COLOR, true );
         }
@@ -868,15 +898,15 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
         result = inp_mngr.get_input_event();
         const int ch = static_cast<int>( result.get_first_input() );
         if( data.handle_scrolling && ch == KEY_PPAGE ) {
-            data.selected--;
+            ( *data.ptr_selected )--;
             werase( win );
         } else if( data.handle_scrolling && ch == KEY_NPAGE ) {
-            data.selected++;
+            ( *data.ptr_selected )++;
             werase( win );
-        } else if( data.selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
+        } else if( *data.ptr_selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
             result = input_event( static_cast<int>( '\n' ), CATA_INPUT_KEYBOARD );
             break;
-        } else if( data.selected == KEY_LEFT ) {
+        } else if( *data.ptr_selected == KEY_LEFT ) {
             result = input_event( static_cast<int>( ' ' ), CATA_INPUT_KEYBOARD );
             break;
         } else {
@@ -1165,8 +1195,7 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
  * @param iCurrentLine The starting line or currently selected line out of the iNumLines lines
  * @param iContentHeight Height of the scrollbar
  * @param iNumLines Total number of lines
- * @param iOffsetY Y drawing offset
- * @param iOffsetX X drawing offset
+ * @param offset Point indicating drawing offset
  * @param bar_color Default line color
  * @param bDoNotScrollToEnd True if the last (iContentHeight-1) lines cannot be a start position or be selected
  *   If false, iCurrentLine can be from 0 to iNumLines - 1.
@@ -1581,6 +1610,10 @@ void replace_name_tags( std::string &input )
     }
     while( input.find( "<given_name>" ) != std::string::npos ) {
         replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
+                           false );
+    }
+    while( input.find( "<town_name>" ) != std::string::npos ) {
+        replace_substring( input, "<town_name>", Name::get( nameIsTownName ),
                            false );
     }
 }

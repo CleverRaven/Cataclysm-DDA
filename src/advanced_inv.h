@@ -6,14 +6,9 @@
 #include <cstddef>
 #include <array>
 #include <functional>
-#include <list>
-#include <map>
 #include <string>
-#include <vector>
 
 #include "cursesdef.h"
-#include "point.h"
-#include "units.h"
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
@@ -63,10 +58,10 @@ class advanced_inventory
             right = 1,
             NUM_PANES = 2
         };
-        const int head_height;
-        const int min_w_height;
-        const int min_w_width;
-        const int max_w_width;
+        const int head_height = 0;
+        const int min_w_height = 0;
+        const int min_w_width = 0;
+        const int max_w_width = 0;
 
         // swap the panes and windows via std::swap()
         void swap_panes();
@@ -80,17 +75,17 @@ class advanced_inventory
         void refresh_minimap();
         char get_minimap_sym( side p ) const;
 
-        bool inCategoryMode;
+        bool inCategoryMode = false;
 
-        int itemsPerPage;
-        int w_height;
-        int w_width;
+        int itemsPerPage = 0;
+        int w_height = 0;
+        int w_width = 0;
 
-        int headstart;
-        int colstart;
+        int headstart = 0;
+        int colstart = 0;
 
-        bool recalc;
-        bool redraw;
+        bool recalc = false;
+        bool redraw = false;
         /**
          * Which panels is active (item moved from there).
          */
@@ -103,7 +98,7 @@ class advanced_inventory
          * True if (and only if) the filter of the active panel is currently
          * being edited.
          */
-        bool filter_edit;
+        bool filter_edit = false;
         /**
          * Two panels (left and right) showing the items, use a value of @ref side
          * as index.
@@ -116,7 +111,7 @@ class advanced_inventory
         catacurses::window left_window;
         catacurses::window right_window;
 
-        bool exit;
+        bool exit = false;
 
         // store/load settings (such as index, filter, etc)
         void save_settings( bool only_panes );
@@ -129,7 +124,7 @@ class advanced_inventory
 
         static std::string get_sortname( advanced_inv_sortby sortby );
         bool move_all_items( bool nested_call = false );
-        void print_items( advanced_inventory_pane &pane, bool active );
+        void print_items( const advanced_inventory_pane &pane, bool active );
         void recalc_pane( side p );
         void redraw_pane( side p );
         // Returns the x coordinate where the header started. The header is
@@ -178,8 +173,6 @@ class advanced_inventory
          */
         bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
                             const std::string &action, int &amount );
-
-        static char get_direction_key( aim_location area );
 };
 
 #endif

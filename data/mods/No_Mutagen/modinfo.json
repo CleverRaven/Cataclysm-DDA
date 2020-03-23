@@ -6,7 +6,8 @@
     "authors": [ "Kevin Granade" ],
     "description": "Removes mutagen items from the game.",
     "category": "item_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "ITEM_BLACKLIST",

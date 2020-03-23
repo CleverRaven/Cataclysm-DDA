@@ -45,7 +45,7 @@ static const std::map<std::string, float> activity_levels = {
     { "EXTRA_EXERCISE", EXTRA_EXERCISE }
 };
 
-void activity_type::load( JsonObject &jo )
+void activity_type::load( const JsonObject &jo )
 {
     activity_type result;
 

@@ -33,7 +33,7 @@ void display_messages();
 void display_messages( const catacurses::window &ipk_target, int left, int top, int right,
                        int bottom );
 void serialize( JsonOut &json );
-void deserialize( JsonObject &json );
+void deserialize( const JsonObject &json );
 } // namespace Messages
 
 void add_msg( std::string msg );

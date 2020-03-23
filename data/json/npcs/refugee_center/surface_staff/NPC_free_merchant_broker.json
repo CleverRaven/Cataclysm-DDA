@@ -6,7 +6,7 @@
     "name_suffix": "Broker",
     "class": "NC_SCAVENGER",
     "attitude": 0,
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_FREE_MERCHANT_STOCKS",
     "faction": "free_merchants",
     "mission_offered": "MISSION_BROKER_1"
@@ -217,7 +217,7 @@
       "inquire": "How is the search going?",
       "success": "Wow, that's a lot more jars than it sounded on paper.  Thanks.  Here's your payment.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the jars went..."
+      "failure": "I wonder where all the jars went…"
     }
   }
 ]

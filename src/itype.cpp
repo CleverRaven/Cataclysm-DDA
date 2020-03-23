@@ -16,6 +16,24 @@ std::string gunmod_location::name() const
     return _( _id );
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<condition_type>( condition_type data )
+{
+    switch( data ) {
+        case condition_type::FLAG:
+            return "FLAG";
+        case condition_type::COMPONENT_ID:
+            return "COMPONENT_ID";
+        case condition_type::num_condition_types:
+            break;
+    }
+    debugmsg( "Invalid condition_type" );
+    abort();
+}
+} // namespace io
+
 std::string itype::nname( unsigned int quantity ) const
 {
     // Always use singular form for liquids.
@@ -29,7 +47,8 @@ std::string itype::nname( unsigned int quantity ) const
 int itype::charges_per_volume( const units::volume &vol ) const
 {
     if( volume == 0_ml ) {
-        return item::INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
+        // TODO: items should not have 0 volume at all!
+        return item::INFINITE_CHARGES;
     }
     return ( count_by_charges() ? stack_size : 1 ) * vol / volume;
 }

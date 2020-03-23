@@ -8,7 +8,7 @@
     "move_cost_mod": 2,
     "description": "A variety of plant, used for decoration.",
     "required_str": 5,
-    "max_volume": 40,
+    "max_volume": "10 L",
     "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
@@ -44,7 +44,7 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": 5,
-    "max_volume": 40,
+    "max_volume": "10 L",
     "flags": [ "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "TINY", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [

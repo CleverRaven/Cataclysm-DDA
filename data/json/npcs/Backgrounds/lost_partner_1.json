@@ -23,7 +23,7 @@
     "responses": [
       { "text": "No, that's messed up.", "topic": "BGSS_LOST_PARTNER_1_NOWAY" },
       {
-        "text": "Yeah, I get that.  Sometimes I feel like my existence began shortly after the cataclysm.",
+        "text": "Yeah, I get that.  Sometimes I feel like my existence began shortly after the Cataclysm.",
         "topic": "BGSS_LOST_PARTNER_1_YEAH"
       },
       { "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },

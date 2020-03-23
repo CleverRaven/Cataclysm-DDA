@@ -184,14 +184,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "house_base",
-    "copy-from": "house_base",
-    "name": "house",
-    "sym": "^",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "house_prepper",
     "copy-from": "house_prepper",
     "name": "house",
@@ -887,8 +879,7 @@
     "id": "megastore_1_2_0",
     "copy-from": "megastore_1_2_0",
     "name": "megastore entrance",
-    "color": "i_magenta",
-    "symbol": "M"
+    "color": "i_magenta"
   },
   {
     "type": "overmap_terrain",
@@ -1890,38 +1881,6 @@
     "name": "toxic waste dump",
     "sym": "t",
     "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar_entrance",
-    "copy-from": "haz_sar_entrance",
-    "name": "hazardous waste sarcophagus",
-    "sym": "H",
-    "color": "i_pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar",
-    "copy-from": "haz_sar",
-    "name": "hazardous waste sarcophagus",
-    "sym": "h",
-    "color": "i_pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar_entrance_b1",
-    "copy-from": "haz_sar_entrance_b1",
-    "name": "hazardous waste sarcophagus",
-    "sym": "H",
-    "color": "i_pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar_b1",
-    "copy-from": "haz_sar_b1",
-    "name": "hazardous waste sarcophagus",
-    "sym": "h",
-    "color": "i_pink"
   },
   {
     "type": "overmap_terrain",

@@ -43,11 +43,11 @@ class anatomy
         void add_body_part( const bodypart_ids &new_bp );
         // TODO: remove_body_part
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
 
-        static void load_anatomy( JsonObject &jo, const std::string &src );
+        static void load_anatomy( const JsonObject &jo, const std::string &src );
 
         static void reset();
         static void finalize_all();

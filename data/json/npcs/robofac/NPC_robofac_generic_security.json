@@ -51,12 +51,12 @@
     "id": "NC_robofac_generic_security_misc",
     "subtype": "collection",
     "entries": [
-      { "item": "EMPbomb", "prob": 33 },
+      { "item": "grenade_emp", "prob": 33 },
       { "item": "grenade", "prob": 2 },
       { "item": "PR24-extended" },
       { "item": "flashlight" },
-      { "item": "l_mp_9mm", "charges": 21, "ammo-item": "9mmP" },
-      { "item": "lw21mag", "charges": 21, "ammo-item": "9mmP" },
+      { "item": "glock_17", "charges": 21, "ammo-item": "9mmP" },
+      { "item": "glock17_22", "charges": 21, "ammo-item": "9mmP" },
       { "item": "9mmP", "count": 6 }
     ]
   },

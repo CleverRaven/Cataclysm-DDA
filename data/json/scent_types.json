@@ -30,5 +30,32 @@
     "type": "scent_type",
     "id": "sc_flower",
     "receptive_species": [ "MAMMAL", "INSECT", "MOLLUSK", "BIRD" ]
+  },
+  {
+    "type": "scent_type",
+    "id": "sc_fetid",
+    "receptive_species": [
+      "MAMMAL",
+      "BIRD",
+      "AMPHIBIAN",
+      "REPTILE",
+      "FISH",
+      "MUTANT",
+      "NETHER",
+      "BLOB",
+      "FUNGUS",
+      "INSECT",
+      "SPIDER",
+      "PLANT",
+      "MOLLUSK",
+      "WORM",
+      "ZOMBIE",
+      "ROBOT",
+      "HORROR",
+      "ABERRATION",
+      "HALLUCINATION",
+      "HUMAN",
+      "UNKNOWN"
+    ]
   }
 ]

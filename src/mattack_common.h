@@ -25,12 +25,12 @@ class mattack_actor
 
         int cooldown = 0;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
         virtual ~mattack_actor() = default;
         virtual bool call( monster & ) const = 0;
         virtual std::unique_ptr<mattack_actor> clone() const = 0;
-        virtual void load_internal( JsonObject &jo, const std::string &src ) = 0;
+        virtual void load_internal( const JsonObject &jo, const std::string &src ) = 0;
 };
 
 struct mtype_special_attack {

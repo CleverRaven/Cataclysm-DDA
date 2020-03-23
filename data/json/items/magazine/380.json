@@ -1,8 +1,9 @@
 [
   {
     "id": "kp3atmag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Kel-Tec P3AT magazine",
+    "name": { "str": "Kel-Tec P3AT magazine" },
     "description": "A standard 6-round steel box magazine for the Kel-Tec P3AT.",
     "weight": "60 g",
     "volume": "50ml",
@@ -17,8 +18,9 @@
   },
   {
     "id": "fn1910mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "FN 1910 magazine",
+    "name": { "str": "FN 1910 magazine" },
     "description": "A standard 6-round steel box magazine for the FN 1910.  It looks a bit old.",
     "weight": "80 g",
     "volume": "60ml",
@@ -33,8 +35,9 @@
   },
   {
     "id": "rugerlcpmag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Ruger LCP magazine",
+    "name": { "str": "Ruger LCP magazine" },
     "description": "A standard 6-round capacity magazine for the Ruger LCP pistol.",
     "weight": "65 g",
     "volume": "60ml",
@@ -49,8 +52,9 @@
   },
   {
     "id": "mac11mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": "MAC-11 magazine",
+    "name": { "str": "MAC-11 magazine" },
     "description": "A cheap 32-round steel box magazine for use with the MAC-11 SMG.",
     "weight": "200 g",
     "volume": "737ml",
@@ -65,8 +69,9 @@
   },
   {
     "id": "hptcf380mag_8rd",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "CF-380 8-round magazine",
+    "name": { "str": "CF-380 8-round magazine" },
     "description": "An 8-round steel box magazine for use with the Hi-Point CF-380.",
     "weight": "110 g",
     "volume": "236 ml",
@@ -81,8 +86,9 @@
   },
   {
     "id": "hptcf380mag_10rd",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "CF-380 10-round magazine",
+    "name": { "str": "CF-380 10-round magazine" },
     "description": "A 10-round steel box magazine for use with the Hi-Point CF-380.",
     "weight": "110 g",
     "volume": "236 ml",
@@ -97,8 +103,9 @@
   },
   {
     "id": "taurus_spectrum_mag",
+    "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Taurus Spectrum magazine",
+    "name": { "str": "Taurus Spectrum magazine" },
     "description": "A compact, 6-round steel box magazine for use with the Taurus Spectrum.",
     "weight": "65 g",
     "volume": "74 ml",

@@ -4,8 +4,8 @@
     "type": "ARMOR",
     "name": "hooded hat",
     "description": "A proper wide-brimmed hat, modified by the addition of a hood sewn to it, to better protect the neck from wind and rain.",
-    "weight": 126,
-    "volume": 2,
+    "weight": "126 g",
+    "volume": "500 ml",
     "price": 1200,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -28,7 +28,7 @@
       "holster_prompt": "Stash javelins",
       "holster_msg": "You stash your %s.",
       "multi": 10,
-      "max_volume": 2,
+      "max_volume": "500 ml",
       "draw_cost": 30,
       "flags": [ "JAVELIN" ]
     }

@@ -39,9 +39,39 @@
   },
   {
     "type": "start_location",
-    "ident": "house",
+    "ident": "house_w_1",
     "name": "House",
-    "target": "house"
+    "target": "house_w_1"
+  },
+  {
+    "type": "start_location",
+    "ident": "house_w_2",
+    "name": "House",
+    "target": "house_w_2"
+  },
+  {
+    "type": "start_location",
+    "ident": "house_w_3",
+    "name": "House",
+    "target": "house_w_3"
+  },
+  {
+    "type": "start_location",
+    "ident": "house_w_4",
+    "name": "House",
+    "target": "house_w_4"
+  },
+  {
+    "type": "start_location",
+    "ident": "house_w_5",
+    "name": "House",
+    "target": "house_w_5"
+  },
+  {
+    "type": "start_location",
+    "ident": "house_w_6",
+    "name": "House",
+    "target": "house_w_6"
   },
   {
     "type": "start_location",
@@ -391,5 +421,11 @@
     "ident": "lighthouse_ground",
     "name": "Lighthouse Island",
     "target": "lighthouse_ground"
+  },
+  {
+    "type": "start_location",
+    "ident": "mil_base_2g",
+    "name": "Military Base Warehouse",
+    "target": "mil_base_2g"
   }
 ]

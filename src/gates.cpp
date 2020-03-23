@@ -32,6 +32,8 @@
 #include "colony.h"
 #include "point.h"
 
+static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
+
 // Gates namespace
 
 namespace
@@ -63,7 +65,7 @@ struct gate_data {
     int bash_dmg;
     bool was_loaded;
 
-    void load( JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, const std::string &src );
     void check() const;
 
     bool is_suitable_wall( const tripoint &pos ) const;
@@ -78,7 +80,7 @@ generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );
 
 } // namespace
 
-void gate_data::load( JsonObject &jo, const std::string & )
+void gate_data::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "door", door );
     mandatory( jo, was_loaded, "floor", floor );
@@ -135,7 +137,7 @@ bool gate_data::is_suitable_wall( const tripoint &pos ) const
     return iter != walls.end();
 }
 
-void gates::load( JsonObject &jo, const std::string &src )
+void gates::load( const JsonObject &jo, const std::string &src )
 {
     gates_data.load( jo, src );
 }
@@ -241,7 +243,7 @@ void gates::open_gate( const tripoint &pos, player &p )
     const gate_data &gate = gates_data.obj( gid );
 
     p.add_msg_if_player( gate.pull_message );
-    p.assign_activity( activity_id( "ACT_OPEN_GATE" ), gate.moves );
+    p.assign_activity( ACT_OPEN_GATE, gate.moves );
     p.activity.placement = pos;
 }
 
@@ -335,6 +337,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
     }
 
     if( didit ) {
-        who.mod_moves( -90 ); // TODO: Vary this? Based on strength, broken legs, and so on.
+        // TODO: Vary this? Based on strength, broken legs, and so on.
+        who.mod_moves( -90 );
     }
 }

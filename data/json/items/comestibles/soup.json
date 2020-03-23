@@ -25,6 +25,7 @@
     "type": "COMESTIBLE",
     "id": "broth_bone",
     "name": "bone broth",
+    "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "human %s", "str_pl": "human %s" } } ],
     "weight": "267 g",
     "color": "yellow",
     "spoils_in": "6 days 16 hours",
@@ -43,15 +44,6 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_SALVAGE" ],
     "fun": 10,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "broth_human",
-    "copy-from": "broth_bone",
-    "name": "human broth",
-    "description": "A nutritious broth made from human bones.",
-    "primary_material": "water",
-    "material": [ "bone", "hflesh" ]
   },
   {
     "type": "COMESTIBLE",
@@ -80,6 +72,10 @@
     "type": "COMESTIBLE",
     "id": "soup_meat",
     "name": "meat soup",
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "sap soup" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } }
+    ],
     "weight": "253 g",
     "color": "red",
     "spoils_in": "5 days",
@@ -111,7 +107,7 @@
     "symbol": "~",
     "quench": 8,
     "healthy": 1,
-    "calories": 220,
+    "calories": 359,
     "description": "A nutritious and delicious hearty fish soup.",
     "price": 400,
     "material": "flesh",
@@ -151,6 +147,7 @@
     "id": "curry_meat",
     "name": "curry with meat",
     "name_plural": "curries with meat",
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "creature curry", "str_pl": "creature curries" } } ],
     "weight": "289 g",
     "color": "red",
     "spoils_in": "5 days",
@@ -174,6 +171,7 @@
     "type": "COMESTIBLE",
     "id": "soup_woods",
     "name": "woods soup",
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "Mirkwood soup" } ],
     "weight": "250 g",
     "color": "red",
     "spoils_in": "5 days",
@@ -192,14 +190,6 @@
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitA", 20 ], [ "vitC", 9 ], [ "iron", 3 ], [ "vitB", 5 ] ],
     "fun": 1
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "soup_human",
-    "copy-from": "soup_meat",
-    "name": "sap soup",
-    "description": "A soup made from someone who is a far better meal than person.",
-    "material": "hflesh"
   },
   {
     "type": "COMESTIBLE",
@@ -307,7 +297,7 @@
     "symbol": "~",
     "quench": 8,
     "healthy": 1,
-    "calories": 293,
+    "calories": 387,
     "description": "A rich and tasty fish chowder from Scotland, made with preserved fish and creamy milk.",
     "price": 500,
     "material": [ "flesh", "milk" ],

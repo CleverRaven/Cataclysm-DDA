@@ -207,7 +207,7 @@ void set_language()
     // Step 2. Bind to gettext domain.
     std::string locale_dir;
 #if defined(__ANDROID__)
-    // Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
+    // HACK: Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
     // This is because of our hacky libintl-lite bindtextdomain() implementation.
     auto env = getenv( "LANGUAGE" );
     locale_dir = std::string( PATH_INFO::base_path() + "lang/mo/" + ( env ? env : "none" ) +
@@ -353,12 +353,12 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 }
 
 translation::translation()
-    : ctxt( cata::nullopt ), raw_pl( cata::nullopt ), needs_translation( false )
+    : ctxt( cata::nullopt ), raw_pl( cata::nullopt )
 {
 }
 
 translation::translation( const plural_tag )
-    : ctxt( cata::nullopt ), raw_pl( std::string() ), needs_translation( false )
+    : ctxt( cata::nullopt ), raw_pl( std::string() )
 {
 }
 
@@ -385,7 +385,7 @@ translation::translation( const std::string &ctxt, const std::string &raw,
 }
 
 translation::translation( const std::string &str, const no_translation_tag )
-    : ctxt( cata::nullopt ), raw( str ), raw_pl( cata::nullopt ), needs_translation( false )
+    : ctxt( cata::nullopt ), raw( str ), raw_pl( cata::nullopt )
 {
 }
 
@@ -475,7 +475,8 @@ void translation::deserialize( JsonIn &jsin )
 #ifndef CATA_IN_TOOL
         if( test_mode ) {
             check_style = !jsobj.has_member( "//NOLINT(cata-text-style)" );
-            throw_error = [&jsobj]( const std::string & msg, const int offset ) {
+            // Copying jsobj to avoid use-after-free
+            throw_error = [jsobj]( const std::string & msg, const int offset ) {
                 jsobj.get_raw( "str" )->error( msg, offset );
             };
         }
@@ -495,31 +496,31 @@ void translation::deserialize( JsonIn &jsin )
               const std::u32string::const_iterator & from, const std::u32string::const_iterator & to,
               const std::string & fix
         ) {
-            std::ostringstream err;
+            std::string err;
             switch( type ) {
                 case text_style_fix::removal:
-                    err << msg << "\n"
-                        << "    Suggested fix: remove \"" << utf32_to_utf8( std::u32string( from, to ) ) << "\"\n"
-                        << "    At the following position (marked with caret)";
+                    err = msg + "\n"
+                          + "    Suggested fix: remove \"" + utf32_to_utf8( std::u32string( from, to ) ) + "\"\n"
+                          + "    At the following position (marked with caret)";
                     break;
                 case text_style_fix::insertion:
-                    err << msg << "\n"
-                        << "    Suggested fix: insert \"" << fix << "\"\n"
-                        << "    At the following position (marked with caret)";
+                    err = msg + "\n"
+                          + "    Suggested fix: insert \"" + fix + "\"\n"
+                          + "    At the following position (marked with caret)";
                     break;
                 case text_style_fix::replacement:
-                    err << msg << "\n"
-                        << "    Suggested fix: replace \"" << utf32_to_utf8( std::u32string( from, to ) )
-                        << "\" with \"" << fix << "\"\n"
-                        << "    At the following position (marked with caret)";
+                    err = msg + "\n"
+                          + "    Suggested fix: replace \"" + utf32_to_utf8( std::u32string( from, to ) )
+                          + "\" with \"" + fix + "\"\n"
+                          + "    At the following position (marked with caret)";
                     break;
             }
             try {
                 const std::string str_before = utf32_to_utf8( std::u32string( beg, to ) );
                 // +1 for the starting quotation mark
-                //@todo: properly handle escape sequences inside strings, instead
-                //of using `length()` here.
-                throw_error( err.str(), 1 + str_before.length() );
+                // TODO: properly handle escape sequences inside strings, instead
+                // of using `length()` here.
+                throw_error( err, 1 + str_before.length() );
             } catch( const JsonError &e ) {
                 debugmsg( "\n%s", e.what() );
             }

@@ -11,6 +11,8 @@ Monster types are specified as JSON object with "type" member set to "MONSTER":
 
 The id member should be the unique id of the type. It can be any string, by convention it has the prefix "mon_". This id can be referred to in various places, like monster groups or in mapgen to spawn specific monsters.
 
+For quantity strings (ie. volume, weight) use the largest unit you can keep full precision with.
+
 Monster types support the following properties (mandatory, except if noted otherwise):
 
 ## "name"
@@ -24,13 +26,21 @@ Monster types support the following properties (mandatory, except if noted other
 "name": { "ctxt": "fish", "str": "pike", "str_pl": "pikes" }
 ```
 
-Name displayed in-game, and optionally the plural name and a translation context.
+Name displayed in-game, and optionally the plural name and a translation context (ctxt).
+
 If the plural name is not specified, it defaults to singular name + "s".
+
+Ctxt is used to help translators in case of homonyms (two different things with the same name). For example, pike the fish and pike the weapon.
 
 ## "description"
 (string)
 
 In-game description for the monster.
+
+## "categories"
+(array of strings, optional)
+
+Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode.  One can add or remove entries in mods via "add:flags" and "remove:flags".
 
 ## "species"
 (array of strings, optional)
@@ -39,15 +49,31 @@ A list of species ids. One can add or remove entries in mods via "add:species" a
 
 In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WORM, MOLLUSK, AMPHIBIAN, INSECT, SPIDER, FUNGUS, PLANT, NETHER, MUTANT, BLOB, HORROR, ABERRATION, HALLUCINATION and UNKNOWN.
 
-## "categories"
-(array of strings, optional)
+## "volume"
+(string)
 
-Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode.  One can add or remove entries in mods via "add:flags" and "remove:flags".
+```JSON
+"volume": "40 L"
+```
+The numeric part of the string must be an integer. Accepts L, and ml as units. Note that l and mL are not currently accepted.
+
+## "weight"
+(string)
+
+```JSON
+"weight": "3 kg"
+```
+The numeric part of the string must be an integer. Use the largest unit you can keep full precision with. For example: 3 kg, not 3000 g. Accepts g and kg as units.
 
 ## "scent_tracked"
 (array of strings, optional)
 
 List of scenttype_id tracked by this monster. scent_types are defined in scent_types.json
+
+## "scent_ignored"
+(array of strings, optional)
+
+List of scenttype_id ignored by this monster. scent_types are defined in scent_types.json
 
 ## "symbol", "color"
 (string)
@@ -151,9 +177,17 @@ Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See GAME_B
 Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics.
 
 ## "melee_damage"
-(integer, optional)
+(array of objects, optional)
 
-Amount of bash damage added to die roll on monster melee attack.
+List of damage instances added to die roll on monster melee attack.
+    - `damage_type` valid entries are : "true", "biological", "bash", "cut", "acid", "stab", "heat", "cold" and "electric".
+    - `amount` amount of damage.
+    - `armor_penetration` how much of the armor the damage instance ignores.
+    - `armor_multiplier` is a multiplier on `armor_penetration`.
+    - `damage_multiplier` is a multiplier on `amount`.
+```JSON
+    "melee_damage": [ { "damage_type": "electric", "amount": 4.0, "armor_penetration": 1, "armor_multiplier": 1.2, "damage_multiplier": 1.4 } ],
+```
 
 ## "melee_dice", "melee_dice_sides"
 (integer, optional)
@@ -200,35 +234,56 @@ An item group that is used to spawn items when the monster dies. This can be an 
 
 How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. One can add or remove entries in mods via "add:death_function" and "remove:death_function".
 
-## "special_attack"
+## "emit_field"
+(array of objects of emit_id and time_duration, optional)
+"emit_fields": [ { "emit_id": "emit_gum_web", "delay": "30 m" } ],
+
+What field the monster emits and how often it does so. Time duration can use strings: "1 h", "60 m", "3600 s" etc...
+
+## "regenerates"
+(integer, optional)
+
+Number of hitpoints regenerated per turn.
+
+## "regenerates_in_dark"
+(boolean, optional)
+
+Monster regenerates very quickly in poorly lit tiles.
+
+## "regen_morale"
+(boolean, optional)
+
+Will stop fleeing if at max hp, and regen anger and morale.
+
+## "special_attacks"
 (array of special attack definitions, optional)
 
 Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
 
 The old style array should contain 2 elements: the id of the attack (see JSON_FLAGS.md for a list) and the cooldown for that attack. Example (grab attack every 10 turns):
 ```JSON
-"special_attack": [ [ "GRAB", 10 ] ]
+"special_attacks": [ [ "GRAB", 10 ] ]
 ```
 
 The new style object should contain at least a "type" member (string) and "cooldown" member (integer). It may contain additional members as required by the specific type. Possible types are listed below. Example:
 ```JSON
-"special_attack": [
+"special_attacks": [
     { "type": "leap", "cooldown": 10, "max_range": 4 }
 ]
 ```
 
-"special_attack" may contain any mixture of old and new style entries:
+"special_attacks" may contain any mixture of old and new style entries:
 ```JSON
-"special_attack": [
+"special_attacks": [
     [ "GRAB", 10 ],
     { "type": "leap", "cooldown": 10, "max_range": 4 }
 ]
 ```
 
-One can add entries with "add:death_function", which takes the same content as the "special_attack" member and remove entries with "remove:death_function", which requires an array of attack types. Example:
+One can add entries with "add:death_function", which takes the same content as the "special_attacks" member and remove entries with "remove:death_function", which requires an array of attack types. Example:
 ```JSON
-"remove:special_attack": [ "GRAB" ],
-"add:special_attack": [ [ "SHRIEK", 20 ] ]
+"remove:special_attacks": [ "GRAB" ],
+"add:special_attacks": [ [ "SHRIEK", 20 ] ]
 ```
 
 ## "flags"
@@ -280,6 +335,10 @@ The upgraded monster's type is taken from the specified group. The cost in these
 ### "into"
 (string, optional)
 The upgraded monster's type.
+
+### "age_grow"
+(int, optional)
+Number of days needed for monster to change into another monster.
 
 ## "reproduction"
 (dictionary, optional)
@@ -387,7 +446,7 @@ Modifying a type overrides the properties with the new values, this example sets
     "type": "MONSTER",
     "edit-mode": "modify",
     "id": "mon_zombie",
-    "special_attack": [ [ "SHRIEK", 20 ] ]
+    "special_attacks": [ [ "SHRIEK", 20 ] ]
 }
 ```
 Some properties allow adding and removing entries, as documented above, usually via members with the "add:"/"remove:" prefix.
@@ -395,7 +454,7 @@ Some properties allow adding and removing entries, as documented above, usually 
 
 
 # Monster special attack types
-The listed attack types can be as monster special attacks (see "special_attack").
+The listed attack types can be as monster special attacks (see "special_attacks").
 
 ## "leap"
 Makes the monster leap a few tiles. It supports the following additional properties:

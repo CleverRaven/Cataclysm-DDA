@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "mega_3mid",
-    "comment": "roof. middle area",
+    "//": "roof. middle area",
     "weight": 10,
     "method": "json",
     "object": {

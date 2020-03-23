@@ -47,17 +47,17 @@
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": "Here Lies  <full_name>. What a Jerk."
+    "text": "Here Lies  <full_name>.  What a Jerk."
   },
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <full_name>. Eaten by wolves."
+    "text": " <full_name>.  Eaten by wolves."
   },
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <full_name>. Infected."
+    "text": " <full_name>.  Infected."
   },
   {
     "type": "snippet",
@@ -72,67 +72,67 @@
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <full_name>. Roasting in Hell."
+    "text": " <full_name>.  Roasting in Hell."
   },
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <full_name>. Fallen Soldier."
+    "text": " <full_name>.  Fallen Soldier."
   },
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <full_name>. Ripped apart by a gross tentacle thing in the woods."
+    "text": " <full_name>.  Ripped apart by a gross tentacle thing in the woods."
   },
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <given_name>. Died as he lived, drunk and on fire."
+    "text": " <given_name>.  Died as he lived, drunk and on fire."
   },
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <full_name> & <full_name>. Crashed their motorcycles at 120mph. Buried the pieces together."
+    "text": " <full_name> & <full_name>.  Crashed their motorcycles at 120mph.  Buried the pieces together."
   },
   {
     "type": "snippet",
     "category": "raider",
-    "text": " <full_name>. Friend, Lover, Cannibal."
+    "text": " <full_name>.  Friend, Lover, Cannibal."
   },
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <full_name>. Vaporized by Tank Bot."
+    "text": " <full_name>.  Vaporized by Tank Bot."
   },
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <given_name>. Died in his sleep. Lucky Bastard."
+    "text": " <given_name>.  Died in his sleep.  Lucky Bastard."
   },
   {
     "type": "snippet",
     "category": "raider_grave.",
-    "text": " Here lies <full_name>. No Smoking near Molotov storage!"
+    "text": " Here lies <full_name>.  No Smoking near Molotov storage!"
   },
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <full_name>. Gunned down in his prime."
+    "text": " <full_name>.  Gunned down in his prime."
   },
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <full_name>. Drank a mystery serum and mutated to death."
+    "text": " <full_name>.  Drank a mystery serum and mutated to death."
   },
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <given_name>. We'll never see another like him."
+    "text": " <given_name>.  We'll never see another like him."
   },
   {
     "type": "snippet",
     "category": "raider_grave",
-    "text": " <full_name>. Done in by mutant wasps."
+    "text": " <full_name>.  Done in by mutant wasps."
   },
   {
     "type": "snippet",
@@ -147,7 +147,7 @@
   {
     "type": "snippet",
     "category": "refugee_help",
-    "text": "Rooms Available. Rent Negotiable."
+    "text": "Rooms Available.  Rent Negotiable."
   },
   {
     "type": "snippet",
@@ -177,12 +177,12 @@
   {
     "type": "snippet",
     "category": "refugee_help",
-    "text": "No Power. No Food. Send Airdrops Please!"
+    "text": "No Power.  No Food.  Send Airdrops Please!"
   },
   {
     "type": "snippet",
     "category": "refugee_help",
-    "text": "No more FEMA camp refugees. You're already dying."
+    "text": "No more FEMA camp refugees.  You're already dying."
   },
   {
     "type": "snippet",

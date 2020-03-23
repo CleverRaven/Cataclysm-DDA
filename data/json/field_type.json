@@ -10,6 +10,7 @@
     "type": "field_type",
     "legacy_enum_id": 1,
     "intensity_levels": [ { "name": "blood splatter", "color": "red" }, { "name": "blood stain" }, { "name": "puddle of blood" } ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
@@ -23,13 +24,15 @@
     "type": "field_type",
     "legacy_enum_id": 2,
     "intensity_levels": [ { "name": "bile splatter", "color": "pink" }, { "name": "bile stain" }, { "name": "puddle of bile" } ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "1 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_acid"
   },
   {
     "id": "fd_gibs_flesh",
@@ -40,13 +43,15 @@
       { "name": "bloody meat chunks", "color": "light_red" },
       { "name": "heap of gore", "color": "red" }
     ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood"
   },
   {
     "id": "fd_gibs_veggy",
@@ -57,19 +62,22 @@
       { "name": "shattered branches and leaves" },
       { "name": "broken vegetation tangle", "color": "green" }
     ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood_veggy"
   },
   {
     "id": "fd_web",
     "type": "field_type",
     "legacy_enum_id": 5,
-    "intensity_levels": [ { "name": "cowebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
+    "intensity_levels": [ { "name": "cobwebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
+    "description_affix": "covered_in",
     "immunity_data": { "traits": [ "WEB_WALKER" ] },
     "priority": 2,
     "phase": "solid",
@@ -85,13 +93,15 @@
       { "name": "slime stain" },
       { "name": "puddle of slime", "color": "green" }
     ],
+    "description_affix": "covered_in",
     "decay_amount_factor": 2,
     "apply_slime_factor": 10,
     "is_splattering": true,
     "half_life": "1 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood_veggy"
   },
   {
     "id": "fd_acid",
@@ -102,13 +112,15 @@
       { "name": "acid streak" },
       { "name": "pool of acid", "color": "green" }
     ],
+    "description_affix": "covered_in",
     "immunity_data": { "traits": [ "ACIDPROOF" ] },
     "underwater_age_speedup": "2 minutes",
     "has_acid": true,
     "priority": 2,
     "half_life": "2 minutes",
     "phase": "liquid",
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_bile"
   },
   {
     "id": "fd_sap",
@@ -168,11 +180,13 @@
         ]
       }
     ],
+    "description_affix": "covered_in",
     "is_splattering": true,
     "priority": 2,
     "half_life": "2 minutes",
     "phase": "liquid",
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood_veggy"
   },
   {
     "id": "fd_sludge",
@@ -183,11 +197,13 @@
       { "name": "sludge trail", "color": "dark_gray" },
       { "name": "thick sludge trail" }
     ],
+    "description_affix": "covered_in",
     "is_splattering": true,
     "priority": 2,
     "half_life": "6 hours",
     "phase": "liquid",
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_sap"
   },
   {
     "id": "fd_fire",
@@ -203,9 +219,10 @@
         "translucency": 0.7,
         "convection_temperature_mod": 300
       },
-      { "name": "fire", "color": "light_red", "light_emitted": 60, "translucency": 0.4 },
+      { "name": { "ctxt": "noun", "str": "fire" }, "color": "light_red", "light_emitted": 60, "translucency": 0.4 },
       { "name": "raging fire", "color": "red", "light_emitted": 160, "translucency": 0.1 }
     ],
+    "description_affix": "on",
     "decay_amount_factor": 3,
     "has_fire": true,
     "priority": 4,
@@ -219,10 +236,12 @@
     "type": "field_type",
     "legacy_enum_id": 11,
     "intensity_levels": [ { "name": "legacy rubble", "sym": "#", "color": "dark_gray" } ],
+    "description_affix": "covered_in",
     "half_life": "1 turns",
     "phase": "solid",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "f_rubble"
   },
   {
     "id": "fd_smoke",
@@ -290,7 +309,8 @@
     "phase": "gas",
     "accelerated_decay": true,
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_fog"
   },
   {
     "id": "fd_toxic_gas",
@@ -374,7 +394,8 @@
     "half_life": "10 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
   },
   {
     "id": "fd_tear_gas",
@@ -402,7 +423,8 @@
     "half_life": "5 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_nuke_gas",
@@ -430,20 +452,23 @@
     "half_life": "100 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_gas_vent",
     "type": "field_type",
     "legacy_enum_id": 16,
     "intensity_levels": [ { "name": "gas vent" }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "description_affix": "under",
     "wandering_field": "fd_toxic_gas",
     "gas_absorption_factor": 15,
     "dirty_transparency_cache": true,
     "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_toxic_gas"
   },
   {
     "id": "fd_tindalos_rift",
@@ -470,28 +495,33 @@
     "dirty_transparency_cache": true,
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_fire_vent",
     "type": "field_type",
     "legacy_enum_id": 17,
     "intensity_levels": [ { "name": "fire vent", "light_emitted": 20 }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "description_affix": "under",
     "has_fire": true,
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_fire"
   },
   {
     "id": "fd_flame_burst",
     "type": "field_type",
     "legacy_enum_id": 18,
-    "intensity_levels": [ { "name": "fire", "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 } ],
+    "intensity_levels": [ { "name": { "ctxt": "noun", "str": "fire" }, "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 } ],
+    "description_affix": "on",
     "has_fire": true,
     "priority": 4,
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_fire"
   },
   {
     "id": "fd_electricity",
@@ -502,6 +532,7 @@
       { "name": "electric crackle", "color": "cyan", "light_emitted": 4 },
       { "name": "electric cloud", "color": "blue", "light_emitted": 20 }
     ],
+    "description_affix": "illuminated_by",
     "has_elec": true,
     "priority": 4,
     "half_life": "2 turns",
@@ -533,9 +564,11 @@
         "monster_spawn_group": "GROUP_NETHER_FATIGUE_FIELD"
       }
     ],
+    "description_affix": "under",
     "priority": 8,
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_push_items",
@@ -551,22 +584,26 @@
     "type": "field_type",
     "legacy_enum_id": 22,
     "intensity_levels": [ { "name": "shock vent", "sym": "&" }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "description_affix": "under",
     "has_elec": true,
     "priority": -1,
     "phase": "plasma",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_electricity"
   },
   {
     "id": "fd_acid_vent",
     "type": "field_type",
     "legacy_enum_id": 23,
     "intensity_levels": [ { "name": "acid vent", "sym": "&" }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "description_affix": "under",
     "has_acid": true,
     "priority": -1,
     "phase": "liquid",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_acid"
   },
   {
     "id": "fd_plasma",
@@ -582,7 +619,8 @@
     "dirty_transparency_cache": true,
     "phase": "plasma",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_fire"
   },
   {
     "id": "fd_laser",
@@ -593,32 +631,38 @@
       { "name": "beam of light", "color": "light_blue" },
       { "name": "intense beam of light", "color": "white" }
     ],
+    "description_affix": "illuminated_by",
     "priority": 4,
     "half_life": "1 turns",
     "dirty_transparency_cache": true,
     "phase": "plasma",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_plasma"
   },
   {
     "id": "fd_spotlight",
     "type": "field_type",
     "legacy_enum_id": 26,
     "intensity_levels": [ { "name": "spotlight", "sym": "&", "light_emitted": 80 } ],
+    "description_affix": "illuminated_by",
     "priority": 1,
     "half_life": "1 turns",
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_laser"
   },
   {
     "id": "fd_dazzling",
     "type": "field_type",
     "legacy_enum_id": 27,
     "intensity_levels": [ { "name": "dazzling", "color": "light_red_yellow", "sym": "#", "light_emitted": 5 } ],
+    "description_affix": "illuminated_by",
     "priority": 4,
     "half_life": "1 turns",
     "phase": "plasma",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_laser"
   },
   {
     "id": "fd_blood_veggy",
@@ -629,26 +673,30 @@
       { "name": "plant sap stain" },
       { "name": "puddle of resin" }
     ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood"
   },
   {
     "id": "fd_blood_insect",
     "type": "field_type",
     "legacy_enum_id": 29,
     "intensity_levels": [ { "name": "bug blood splatter", "color": "green" }, { "name": "bug blood stain" }, { "name": "puddle of bug blood" } ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood"
   },
   {
     "id": "fd_blood_invertebrate",
@@ -659,13 +707,15 @@
       { "name": "hemolymph stain" },
       { "name": "puddle of hemolymph" }
     ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
     "phase": "liquid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood"
   },
   {
     "id": "fd_gibs_insect",
@@ -676,13 +726,15 @@
       { "name": "shattered bug leg", "color": "green" },
       { "name": "torn insect organs", "color": "yellow" }
     ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood_insect"
   },
   {
     "id": "fd_gibs_invertebrate",
@@ -693,13 +745,15 @@
       { "name": "icky mess" },
       { "name": "heap of squishy gore", "color": "dark_gray" }
     ],
+    "description_affix": "covered_in",
     "underwater_age_speedup": "25 minutes",
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
     "phase": "solid",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_blood_invertebrate"
   },
   {
     "id": "fd_cigsmoke",
@@ -718,7 +772,8 @@
     "half_life": "35 minutes",
     "phase": "gas",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_weedsmoke",
@@ -729,7 +784,7 @@
       { "name": "pot smoke", "color": "light_gray" },
       { "name": "thick pot smoke", "color": "dark_gray" }
     ],
-    "npc_complain": { "chance": 20, "issue": "weed_smell", "duration": "10 minutes", "speech": "<weed_smell>" },
+    "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" },
     "decay_amount_factor": 5,
     "percent_spread": 200,
     "outdoor_age_speedup": "6 minutes",
@@ -738,7 +793,8 @@
     "half_life": "325 turns",
     "phase": "gas",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
   },
   {
     "id": "fd_cracksmoke",
@@ -749,7 +805,7 @@
       { "name": "crack smoke", "color": "light_gray" },
       { "name": "thick crack smoke", "color": "dark_gray" }
     ],
-    "npc_complain": { "chance": 20, "issue": "crack_smell", "duration": "30 minutes", "speech": "<crack_smell>" },
+    "npc_complain": { "chance": 20, "issue": "crack_smoke", "duration": "30 minutes", "speech": "<crack_smoke>" },
     "decay_amount_factor": 5,
     "percent_spread": 175,
     "outdoor_age_speedup": "8 minutes",
@@ -758,7 +814,8 @@
     "half_life": "225 turns",
     "phase": "gas",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_cigsmoke"
   },
   {
     "id": "fd_methsmoke",
@@ -769,7 +826,7 @@
       { "name": "meth smoke", "color": "light_gray" },
       { "name": "thick meth  smoke", "color": "dark_gray" }
     ],
-    "npc_complain": { "chance": 20, "issue": "meth_smell", "duration": "30 minutes", "speech": "<meth_smell>" },
+    "npc_complain": { "chance": 20, "issue": "meth_smoke", "duration": "30 minutes", "speech": "<meth_smoke>" },
     "decay_amount_factor": 5,
     "percent_spread": 175,
     "outdoor_age_speedup": "7 minutes",
@@ -778,7 +835,8 @@
     "half_life": "275 turns",
     "phase": "gas",
     "accelerated_decay": true,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_tindalos_gas",
@@ -795,7 +853,8 @@
     "priority": 8,
     "half_life": "35 minutes",
     "phase": "gas",
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_bees",
@@ -837,7 +896,8 @@
     "half_life": "50 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_laser"
   },
   {
     "id": "fd_relax_gas",
@@ -901,7 +961,8 @@
     "half_life": "50 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
   },
   {
     "id": "fd_swamp_gas",
@@ -922,7 +983,8 @@
     "half_life": "15 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
   },
   {
     "id": "fd_fog",
@@ -942,7 +1004,8 @@
     "half_life": "50 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_fungal_haze",
@@ -964,7 +1027,8 @@
     "half_life": "4 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   },
   {
     "id": "fd_cold_air1",
@@ -1194,7 +1258,8 @@
     "half_life": "30 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
   },
   {
     "id": "fd_insecticidal_gas",
@@ -1215,19 +1280,22 @@
     "half_life": "30 minutes",
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
   },
   {
     "id": "fd_smoke_vent",
     "type": "field_type",
     "legacy_enum_id": 50,
     "intensity_levels": [ { "name": "smoke vent", "dangerous": true }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "description_affix": "under",
     "wandering_field": "fd_smoke",
     "gas_absorption_factor": 15,
     "dirty_transparency_cache": true,
     "has_fume": true,
     "phase": "gas",
     "display_items": false,
-    "display_field": true
+    "display_field": true,
+    "looks_like": "fd_smoke"
   }
 ]
