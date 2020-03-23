@@ -276,7 +276,7 @@
   {
     "type": "mutation",
     "id": "TOUGH3",
-    "name": "Unbreakable",
+    "name": { "str": "Unbreakable" },
     "points": 4,
     "description": "Nothing can break you!  You get a 40% bonus to all hit points.",
     "valid": false,
@@ -1264,7 +1264,7 @@
   {
     "type": "mutation",
     "id": "UGLY",
-    "name": "Ugly",
+    "name": { "str": "Ugly" },
     "points": -1,
     "visibility": 1,
     "ugliness": 2,
@@ -1464,7 +1464,7 @@
   {
     "type": "mutation",
     "id": "URSINE_EYE",
-    "name": "Ursine Vision",
+    "name": { "str": "Ursine Vision" },
     "points": 1,
     "description": "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.",
     "cancels": [
@@ -1531,7 +1531,7 @@
   {
     "type": "mutation",
     "id": "FASTHEALER2",
-    "name": "Very Fast Healer",
+    "name": { "str": "Very Fast Healer" },
     "points": 4,
     "description": "Your flesh regenerates slowly, and you will regain HP even when not sleeping.",
     "types": [ "HEALING" ],
@@ -1572,7 +1572,7 @@
   {
     "type": "mutation",
     "id": "WAKEFUL2",
-    "name": "Very Little Sleep",
+    "name": { "str": "Very Little Sleep" },
     "points": 3,
     "description": "You don't sleep often.  But when you do, you need very little of it.",
     "valid": false,
@@ -2160,7 +2160,7 @@
   {
     "type": "mutation",
     "id": "CF_HAIR",
-    "name": "Urticating Hairs",
+    "name": { "str": "Urticating Hairs" },
     "points": 3,
     "visibility": 1,
     "ugliness": 1,
@@ -2298,7 +2298,7 @@
   {
     "type": "mutation",
     "id": "LEAVES3",
-    "name": "Verdant Leaves",
+    "name": { "str": "Verdant Leaves" },
     "points": 9,
     "visibility": 12,
     "ugliness": 6,
@@ -2686,7 +2686,7 @@
   {
     "type": "mutation",
     "id": "POISONOUS",
-    "name": "Venomous",
+    "name": { "str": "Venomous" },
     "points": 1,
     "description": "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
     "prereqs": [ "POISRESIST" ],
@@ -3364,7 +3364,7 @@
   {
     "type": "mutation",
     "id": "PAINREC3",
-    "name": "Very Quick Pain Recovery",
+    "name": { "str": "Very Quick Pain Recovery" },
     "points": 8,
     "description": "You recover from pain much faster than normal.",
     "prereqs": [ "PAINREC2" ],
@@ -3927,7 +3927,7 @@
   {
     "type": "mutation",
     "id": "STR_UP_2",
-    "name": "Very Strong",
+    "name": { "str": "Very Strong" },
     "points": 2,
     "description": "Your muscles are stronger.  Strength + 2",
     "prereqs": [ "STR_UP" ],
@@ -3987,7 +3987,7 @@
   {
     "type": "mutation",
     "id": "DEX_UP_2",
-    "name": "Very Dextrous",
+    "name": { "str": "Very Dextrous" },
     "points": 2,
     "description": "You are nimbler.  Dexterity + 2",
     "prereqs": [ "DEX_UP" ],
@@ -4042,7 +4042,7 @@
   {
     "type": "mutation",
     "id": "INT_UP_2",
-    "name": "Very Smart",
+    "name": { "str": "Very Smart" },
     "points": 2,
     "description": "You are smarter.  Intelligence + 2",
     "prereqs": [ "INT_UP" ],
@@ -4117,7 +4117,7 @@
   {
     "type": "mutation",
     "id": "PER_UP_2",
-    "name": "Very Perceptive",
+    "name": { "str": "Very Perceptive" },
     "points": 2,
     "description": "Your senses are keener.  Perception + 2",
     "prereqs": [ "PER_UP" ],
@@ -4228,7 +4228,7 @@
   {
     "type": "mutation",
     "id": "SMALL_OK",
-    "name": "Unassuming",
+    "name": { "str": "Unassuming" },
     "points": 3,
     "mixed_effect": true,
     "description": "You've mastered your tiny form!  Item encumbrance and carry weight penalties are reduced, and you've learned to use your increased nimbleness to offset your reduced capacity to absorb damage.",
@@ -4452,7 +4452,7 @@
   {
     "type": "mutation",
     "id": "BEAUTIFUL2",
-    "name": "Very Beautiful",
+    "name": { "str": "Very Beautiful" },
     "points": 3,
     "visibility": 7,
     "ugliness": -7,
@@ -4525,7 +4525,7 @@
   {
     "type": "mutation",
     "id": "MUZZLE_BEAR",
-    "name": "Ursine Muzzle",
+    "name": { "str": "Ursine Muzzle" },
     "points": -2,
     "visibility": 5,
     "ugliness": 4,
@@ -4667,7 +4667,7 @@
   {
     "type": "mutation",
     "id": "HUNGER2",
-    "name": "Very Fast Metabolism",
+    "name": { "str": "Very Fast Metabolism" },
     "points": -2,
     "description": "You need about twice as much food as the average human to maintain your expanded cardiovascular and respiratory systems.  On a plus side, it doesn't take you much time to recover from any strenuous activity.",
     "prereqs": [ "HUNGER" ],
@@ -4705,7 +4705,7 @@
   {
     "type": "mutation",
     "id": "THIRST2",
-    "name": "Very Thirsty",
+    "name": { "str": "Very Thirsty" },
     "points": -3,
     "description": "Ugh, out of water already?  You need about twice the fluids of an average human.",
     "prereqs": [ "THIRST" ],
@@ -4738,7 +4738,7 @@
   {
     "type": "mutation",
     "id": "HEAVYSLEEPER2",
-    "name": "Very Heavy Sleeper",
+    "name": { "str": "Very Heavy Sleeper" },
     "points": -2,
     "description": "You could probably sleep through a firefight.",
     "valid": false,
@@ -4748,7 +4748,7 @@
   {
     "type": "mutation",
     "id": "SLEEPY2",
-    "name": "Very Sleepy",
+    "name": { "str": "Very Sleepy" },
     "points": -3,
     "description": "You find yourself needing to sleep quite often.  You'll spend about half of your time in or around bed.",
     "prereqs": [ "SLEEPY" ],
@@ -4829,7 +4829,7 @@
   {
     "type": "mutation",
     "id": "TROGLO2",
-    "name": "Very Light Sensitive",
+    "name": { "str": "Very Light Sensitive" },
     "points": -3,
     "description": "Sunlight makes you very uncomfortable.  If you are outdoors during the day, you suffer -1 to all stats; -2 if the weather is Sunny.",
     "cancels": [ "SUNLIGHT_DEPENDENT" ],
@@ -5147,7 +5147,7 @@
   {
     "type": "mutation",
     "id": "PONDEROUS2",
-    "name": "Very Ponderous",
+    "name": { "str": "Very Ponderous" },
     "points": -5,
     "description": "Your muscles are quite slow to move.  You move 20% slower.",
     "types": [ "RUNNING" ],
@@ -5346,7 +5346,7 @@
   {
     "type": "mutation",
     "id": "COLDBLOOD2",
-    "name": "Very Heat Dependent",
+    "name": { "str": "Very Heat Dependent" },
     "points": -2,
     "mixed_effect": true,
     "description": "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C), but your slow metabolism requires much less food.",
@@ -6124,7 +6124,7 @@
   {
     "type": "mutation",
     "id": "PROF_FED",
-    "name": "US Marshal",
+    "name": { "str": "US Marshal" },
     "points": 0,
     "description": "You are a duly sworn Federal marshal, with nationwide jurisdiction and the authority of the United States of America.",
     "valid": false,

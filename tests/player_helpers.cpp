@@ -6,6 +6,7 @@
 
 #include "avatar.h"
 #include "bionics.h"
+#include "character.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -43,7 +44,7 @@ bool player_has_item_of_type( const std::string &type )
     return !matching_items.empty();
 }
 
-void clear_character( player &dummy )
+void clear_character( player &dummy, bool debug_storage )
 {
     // Remove first worn item until there are none left.
     std::list<item> temp;
@@ -53,18 +54,20 @@ void clear_character( player &dummy )
     for( const trait_id &tr : dummy.get_mutations() ) {
         dummy.unset_mutation( tr );
     }
+
     // Prevent spilling, but don't cause encumbrance
-    if( !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
+    if( debug_storage && !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
 
     dummy.empty_skills();
-
     dummy.clear_morale();
-
     dummy.clear_bionics();
-
     dummy.activity.set_to_null();
+
+    // Restore all stamina and go to walk mode
+    dummy.set_stamina( dummy.get_stamina_max() );
+    dummy.set_movement_mode( CMM_WALK );
 
     // Make stats nominal.
     dummy.str_cur = 8;
