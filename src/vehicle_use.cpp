@@ -552,7 +552,7 @@ void vehicle::toggle_autopilot()
             stop_engines();
             break;
         case FOLLOW:
-            autopilot_on = false;
+            autopilot_on = true;
             is_following = true;
             is_patrolling = false;
             is_autodriving = true;
