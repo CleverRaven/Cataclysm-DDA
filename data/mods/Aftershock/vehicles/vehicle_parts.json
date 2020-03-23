@@ -158,7 +158,7 @@
   {
     "type": "vehicle_part",
     "id": "afs_kitchen_rig",
-    "name": "KitchenMaster cooking buddy",
+    "name": { "str": "KitchenMaster cooking buddy" },
     "symbol": "&",
     "color": "yellow",
     "broken_symbol": "x",
@@ -253,7 +253,7 @@
   {
     "abstract": "afs_lightweight_frame",
     "type": "vehicle_part",
-    "name": "ultralight frame",
+    "name": { "str": "ultralight frame" },
     "item": "afs_titanium_frame",
     "location": "structure",
     "color": "light_gray",
