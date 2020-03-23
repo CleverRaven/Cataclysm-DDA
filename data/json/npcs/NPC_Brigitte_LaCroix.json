@@ -74,7 +74,7 @@
   {
     "type": "mutation",
     "id": "seer_mark",
-    "name": "Mark of the Seer",
+    "name": { "str": "Mark of the Seer" },
     "points": 1,
     "description": "A strange occult symbol carved into your hand by Brigitte LaCroix.",
     "starting_trait": false,
