@@ -8,7 +8,11 @@
       "terrain": {
         "t_region_groundcover": { "t_searth_test": 4, "t_sand": 1 },
         "t_region_shrub": { "t_shrub": 1 },
-        "t_region_tree": { "t_tree_willow": 1, "t_tree_dead": 1 }
+        "t_region_groundcover_urban": { "t_searth_test": 20, "t_grass_dead": 2 },
+        "t_region_groundcover_forest": { "t_shrub": 5, "t_tree_dead": 5, "t_grass_dead": 3, "t_dirt": 1 },
+        "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_dirt": 1 },
+        "t_region_tree": { "t_tree_willow": 1, "t_tree_dead": 1 },
+        "t_region_groundcover_barren": { "t_searth_test": 30, "t_sand": 5, "t_grass_dead": 2, "t_railroad_rubble": 1 }
       },
       "furniture": { "f_region_flower": { "f_mutcactus_test": 1 } }
     },

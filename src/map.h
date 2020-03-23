@@ -32,7 +32,6 @@
 #include "point.h"
 #include "mapdata.h"
 #include "vehicle_group.h"
-#include "player.h"
 
 struct furn_t;
 struct ter_t;
@@ -171,6 +170,7 @@ struct level_cache {
     bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
     bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
     float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+    float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
     float seen_cache[MAPSIZE_X][MAPSIZE_Y];
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
@@ -336,9 +336,7 @@ class map
                      bool low_light = false, bool bright_light = false,
                      bool inorder = false ) const;
         void drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                     bool invert = false, bool show_items = true ) const {
-            drawsq( w, u, p, invert, show_items, u.pos() + u.view_offset, false, false, false );
-        }
+                     bool invert = false, bool show_items = true ) const;
 
         /**
          * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -1560,6 +1558,7 @@ class map
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
+        bool build_vision_transparency_cache( int zlev );
         void build_sunlight_cache( int zlev );
     public:
         void build_outside_cache( int zlev );

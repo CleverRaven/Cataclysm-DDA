@@ -50,7 +50,55 @@
 #include "string_formatter.h"
 #include "weighted_list.h"
 #include "rng.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_FLAT( "FLAT" );
+static const std::string flag_FLOWER( "FLOWER" );
+static const std::string flag_FUNGUS( "FUNGUS" );
+static const std::string flag_LIQUID( "LIQUID" );
+static const std::string flag_ORGANIC( "ORGANIC" );
+static const std::string flag_PLANT( "PLANT" );
+static const std::string flag_SHRUB( "SHRUB" );
+static const std::string flag_TREE( "TREE" );
+static const std::string flag_YOUNG( "YOUNG" );
+
+static const ter_str_id ter_dirt( "t_dirt" );
+static const ter_str_id ter_grass_dead( "t_grass_dead" );
+static const ter_str_id ter_stump( "t_stump" );
+static const ter_str_id ter_tree_dead( "t_tree_dead" );
+static const ter_str_id ter_tree_deadpine( "t_tree_deadpine" );
+static const ter_str_id ter_tree_birch_harvested( "t_tree_birch_harvested" );
+static const ter_str_id ter_tree_hickory_dead( "t_tree_hickory_dead" );
+static const ter_str_id ter_trunk( "t_trunk" );
+
+static const mongroup_id GROUP_FISH( "GROUP_FISH" );
+static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
+static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
+static const mongroup_id GROUP_MI_GO_CAMP_OM( "GROUP_MI-GO_CAMP_OM" );
+static const mongroup_id GROUP_NETHER_CAPTURED( "GROUP_NETHER_CAPTURED" );
+static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
+static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
+
+static const mtype_id mon_dispatch( "mon_dispatch" );
+static const mtype_id mon_jabberwock( "mon_jabberwock" );
+static const mtype_id mon_marloss_zealot_f( "mon_marloss_zealot_f" );
+static const mtype_id mon_marloss_zealot_m( "mon_marloss_zealot_m" );
+static const mtype_id mon_shia( "mon_shia" );
+static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
+static const mtype_id mon_spider_web( "mon_spider_web" );
+static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
+static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+static const mtype_id mon_turret_riot( "mon_turret_riot" );
+static const mtype_id mon_wasp( "mon_wasp" );
+static const mtype_id mon_wolf( "mon_wolf" );
+static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
+static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
+static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
+static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
+static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
+static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 class npc_template;
 

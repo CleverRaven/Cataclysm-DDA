@@ -46,7 +46,38 @@
 #include "units.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
+static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+
+static const efftype_id effect_assisted( "assisted" );
+
+static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+
+static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+
+static const bionic_id bio_painkiller( "bio_painkiller" );
+
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
+
+static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
+static const std::string flag_ANESTHESIA( "ANESTHESIA" );
+static const std::string flag_FILTHY( "FILTHY" );
+static const std::string flag_IN_CBM( "IN_CBM" );
+static const std::string flag_MUSHY( "MUSHY" );
+static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
+static const std::string flag_NO_PACKED( "NO_PACKED" );
+static const std::string flag_NO_STERILE( "NO_STERILE" );
+static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 class Character;
 
@@ -139,6 +170,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             if( has_init_filter ) {
                 inv_s.set_filter( init_filter );
                 has_init_filter = false;
+                inv_s.update( need_refresh );
             }
             // Set position after filter to keep cursor at the right position
             if( init_selection ) {
@@ -686,6 +718,9 @@ static std::string get_consume_needs_hint( player &p )
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = p.get_pain_description();
     hint.append( string_format( "%s %s", _( "Pain :" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
+    desc = p.get_fatigue_description();
+    hint.append( string_format( "%s %s", _( "Rest :" ), colorize( desc.first, desc.second ) ) );
     return hint;
 }
 

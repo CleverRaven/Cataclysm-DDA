@@ -2,8 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_cheese_grilled",
-    "name": "grilled cheese sandwich",
-    "name_plural": "grilled cheese sandwiches",
+    "name": { "str": "grilled cheese sandwich", "str_pl": "grilled cheese sandwiches" },
     "weight": "106 g",
     "color": "brown",
     "spoils_in": "1 day 10 hours",
@@ -24,8 +23,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_deluxe",
-    "name": "deluxe sandwich",
-    "name_plural": "deluxe sandwiches",
+    "name": { "str": "deluxe sandwich", "str_pl": "deluxe sandwiches" },
     "conditional_names": [
       {
         "type": "COMPONENT_ID",
@@ -54,8 +52,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_cucumber",
-    "name": "cucumber sandwich",
-    "name_plural": "cucumber sandwiches",
+    "name": { "str": "cucumber sandwich", "str_pl": "cucumber sandwiches" },
     "weight": "500 g",
     "color": "light_green",
     "spoils_in": "1 day 12 hours",
@@ -168,8 +165,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_veggy",
-    "name": "vegetable sandwich",
-    "name_plural": "vegetable sandwiches",
+    "name": { "str": "vegetable sandwich", "str_pl": "vegetable sandwiches" },
     "weight": "289 g",
     "color": "light_gray",
     "spoils_in": "2 days",
@@ -190,8 +186,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_t",
-    "name": "meat sandwich",
-    "name_plural": "meat sandwiches",
+    "name": { "str": "meat sandwich", "str_pl": "meat sandwiches" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "mutant %s", "str_pl": "mutant %s" } }
@@ -246,7 +241,7 @@
     "price": 175,
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
-    "volume": "500 ml",
+    "volume": "250 ml",
     "fun": 6,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
   },
@@ -266,7 +261,7 @@
     "price": 175,
     "material": [ "wheat", "honey" ],
     "primary_material": "wheat",
-    "volume": "500 ml",
+    "volume": "250 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
   },
@@ -285,7 +280,7 @@
     "description": "Who knew you could mix maple syrup and peanut butter to create yet another different sandwich?",
     "price": 175,
     "material": "wheat",
-    "volume": "500 ml",
+    "volume": "250 ml",
     "fun": 6,
     "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]
   },
@@ -328,7 +323,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blt",
-    "name": "BLT",
+    "name": { "str": "BLT" },
     "weight": "220 g",
     "color": "brown",
     "spoils_in": "2 days 12 hours",

@@ -25,6 +25,7 @@
 #include "json.h"
 #include "material.h"
 #include "options.h"
+#include "output.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "string_formatter.h"
@@ -63,6 +64,8 @@ static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
 
 extern const double MAX_RECOIL;
+
+static const int ascii_art_width = 42;
 
 bool item_is_blacklisted( const std::string &id )
 {
@@ -244,11 +247,107 @@ void Item_factory::finalize_pre( itype &obj )
             obj.ammo->special_cookoff = false;
         }
     }
-    // for magazines ensure default_ammo is set
-    if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
-        obj.magazine->default_ammo = ammotype( *obj.magazine->type.begin() )->default_ammotype();
+
+    // Helper for ammo migration in following sections
+    auto migrate_ammo_set = [&]( std::set<ammotype> &ammoset ) {
+        for( auto ammo_type_it = ammoset.begin(); ammo_type_it != ammoset.end(); ) {
+            auto maybe_migrated = migrated_ammo.find( ammo_type_it->obj().default_ammotype() );
+            if( maybe_migrated != migrated_ammo.end() ) {
+                ammo_type_it = ammoset.erase( ammo_type_it );
+                ammoset.insert( ammoset.begin(), maybe_migrated->second );
+            } else {
+                ++ammo_type_it;
+            }
+        }
+    };
+
+    if( obj.magazine ) {
+        // ensure default_ammo is set
+        if( obj.magazine->default_ammo == "NULL" ) {
+            obj.magazine->default_ammo = ammotype( *obj.magazine->type.begin() )->default_ammotype();
+        }
+
+        // If the magazine has ammo types for which the default ammo has been migrated, we need to
+        // replace those ammo types with that of the migrated ammo
+        migrate_ammo_set( obj.magazine->type );
+
+        // ensure default_ammo is migrated if need be
+        auto maybe_migrated = migrated_ammo.find( obj.magazine->default_ammo );
+        if( maybe_migrated != migrated_ammo.end() ) {
+            obj.magazine->default_ammo = maybe_migrated->second.obj().default_ammotype();
+        }
     }
+
+    // Migrate compataible magazines
+    for( auto kv : obj.magazines ) {
+        for( auto mag_it = kv.second.begin(); mag_it != kv.second.end(); ) {
+            auto maybe_migrated = migrated_magazines.find( *mag_it );
+            if( maybe_migrated != migrated_magazines.end() ) {
+                mag_it = kv.second.erase( mag_it );
+                kv.second.insert( kv.second.begin(), maybe_migrated->second );
+            } else {
+                ++mag_it;
+            }
+        }
+    }
+
+    // Migrate default magazines
+    for( auto kv : obj.magazine_default ) {
+        auto maybe_migrated = migrated_magazines.find( kv.second );
+        if( maybe_migrated != migrated_magazines.end() ) {
+            kv.second = maybe_migrated->second;
+        }
+    }
+
+    if( obj.mod ) {
+        // Migrate acceptable ammo and ammo modifiers
+        migrate_ammo_set( obj.mod->acceptable_ammo );
+        migrate_ammo_set( obj.mod->ammo_modifier );
+
+        for( auto kv = obj.mod->magazine_adaptor.begin(); kv != obj.mod->magazine_adaptor.end(); ) {
+            auto maybe_migrated = migrated_ammo.find( kv->first.obj().default_ammotype() );
+            if( maybe_migrated != migrated_ammo.end() ) {
+                for( const itype_id &compatible_mag : kv->second ) {
+                    obj.mod->magazine_adaptor[maybe_migrated->second].insert( compatible_mag );
+                }
+                kv = obj.mod->magazine_adaptor.erase( kv );
+            } else {
+                ++kv;
+            }
+        }
+    }
+
     if( obj.gun ) {
+        // If the gun has ammo types for which the default ammo has been migrated, we need to
+        // replace those ammo types with that of the migrated ammo
+        for( auto ammo_type_it = obj.gun->ammo.begin(); ammo_type_it != obj.gun->ammo.end(); ) {
+            auto maybe_migrated = migrated_ammo.find( ammo_type_it->obj().default_ammotype() );
+            if( maybe_migrated != migrated_ammo.end() ) {
+                const ammotype old_ammo = *ammo_type_it;
+                // Remove the old ammotype add the migrated version
+                ammo_type_it = obj.gun->ammo.erase( ammo_type_it );
+                const ammotype &new_ammo = maybe_migrated->second;
+                obj.gun->ammo.insert( obj.gun->ammo.begin(), new_ammo );
+                // Migrate the compatible magazines
+                auto old_mag_it = obj.magazines.find( old_ammo );
+                if( old_mag_it != obj.magazines.end() ) {
+                    for( const itype_id &old_mag : old_mag_it->second ) {
+                        obj.magazines[new_ammo].insert( old_mag );
+                    }
+                    obj.magazines.erase( old_ammo );
+                }
+                // And the default magazines for each magazine type
+                auto old_default_mag_it = obj.magazine_default.find( old_ammo );
+                if( old_default_mag_it != obj.magazine_default.end() ) {
+                    const itype_id &old_default_mag = old_default_mag_it->second;
+                    obj.magazine_default[new_ammo] = old_default_mag;
+                    obj.magazine_default.erase( old_ammo );
+                }
+            } else {
+                ++ammo_type_it;
+            }
+        }
+
         handle_legacy_ranged( *obj.gun );
         // TODO: add explicit action field to gun definitions
         const auto defmode_name = [&]() {
@@ -414,6 +513,14 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
     }
+
+    for( std::string &line : obj.ascii_picture ) {
+        if( utf8_width( remove_color_tags( line ) ) > ascii_art_width ) {
+            line = trim_by_length( line, ascii_art_width );
+            debugmsg( "ascii_picture in %s contains a line too long to be displayed (>%i char).", obj.id,
+                      ascii_art_width );
+        }
+    }
 }
 
 void Item_factory::finalize()
@@ -508,6 +615,33 @@ void Item_factory::finalize_item_blacklist()
         recipe_dictionary::delete_if( [&migrate]( const recipe & r ) {
             return r.result() == migrate.first;
         } );
+
+        // If the default ammo of an ammo_type gets migrated, we migrate all guns using that ammo
+        // type to the ammo type of whatever that default ammo was migrated to.
+        // To do that we need to store a map of ammo to the migration replacement thereof.
+        auto maybe_ammo = m_templates.find( migrate.first );
+        // If the itype_id is valid and the itype has ammo data
+        if( maybe_ammo != m_templates.end() && maybe_ammo->second.ammo ) {
+            auto replacement = m_templates.find( migrate.second.replace );
+            if( replacement->second.ammo ) {
+                migrated_ammo.emplace( std::make_pair( migrate.first, replacement->second.ammo->type ) );
+            } else {
+                debugmsg( "Replacement item %s for migrated ammo %s is not ammo.", migrate.second.replace,
+                          migrate.first );
+            }
+        }
+
+        // migrate magazines as well
+        auto maybe_mag = m_templates.find( migrate.first );
+        if( maybe_mag != m_templates.end() && maybe_mag->second.magazine ) {
+            auto replacement = m_templates.find( migrate.second.replace );
+            if( replacement->second.magazine ) {
+                migrated_magazines.emplace( std::make_pair( migrate.first, migrate.second.replace ) );
+            } else {
+                debugmsg( "Replacement item %s for migrated magazine %s is not a magazine.", migrate.second.replace,
+                          migrate.first );
+            }
+        }
     }
     for( vproto_id &vid : vehicle_prototype::get_all() ) {
         vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
@@ -697,8 +831,6 @@ void Item_factory::init()
                                 "present</info>."
                               ) );
     add_iuse( "GEIGER", &iuse::geiger );
-    add_iuse( "GOBAG_NORMAL", &iuse::gobag_normal );
-    add_iuse( "GOBAG_PERSONAL", &iuse::gobag_personal );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
@@ -818,6 +950,7 @@ void Item_factory::init()
     add_actor( std::make_unique<holster_actor>() );
     add_actor( std::make_unique<inscribe_actor>() );
     add_actor( std::make_unique<iuse_transform>() );
+    add_actor( std::make_unique<unpack_actor>() );
     add_actor( std::make_unique<countdown_actor>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
@@ -1857,6 +1990,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
+    assign( jo, "ups_charges_modifier", slot.ups_charges_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
     if( jo.has_int( "install_time" ) ) {
         slot.install_time = jo.get_int( "install_time" );
@@ -1989,7 +2123,7 @@ static void set_allergy_flags( itype &item_template )
             std::make_pair( material_id( "bean" ), "ALLERGEN_VEGGY" ),
             std::make_pair( material_id( "tomato" ), "ALLERGEN_VEGGY" ),
             std::make_pair( material_id( "garlic" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "nut" ), "ALLERGEN_VEGGY" ),
+            std::make_pair( material_id( "nut" ), "ALLERGEN_NUT" ),
             std::make_pair( material_id( "mushroom" ), "ALLERGEN_VEGGY" ),
             std::make_pair( material_id( "milk" ), "ALLERGEN_MILK" ),
             std::make_pair( material_id( "egg" ), "ALLERGEN_EGG" ),
@@ -2082,6 +2216,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "insulation", def.insulation_factor );
+    assign( jo, "solar_efficiency", def.solar_efficiency );
+    assign( jo, "ascii_picture", def.ascii_picture );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
@@ -2173,7 +2309,19 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {
+        def.qualities.clear();
         set_qualities_from_json( jo, "qualities", def );
+    } else {
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            extend_qualities_from_json( tmp, "qualities", def );
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            delete_qualities_from_json( tmp, "qualities", def );
+        }
     }
 
     if( jo.has_member( "properties" ) ) {
@@ -2334,6 +2482,25 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
         }
     } else {
         jo.throw_error( "Qualities list is not an array", member );
+    }
+}
+
+void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::string &member,
+        itype &def )
+{
+    for( JsonArray curr : jo.get_array( member ) ) {
+        def.qualities[quality_id( curr.get_string( 0 ) )] = curr.get_int( 1 );
+    }
+}
+
+void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string &member,
+        itype &def )
+{
+    for( JsonArray curr : jo.get_array( member ) ) {
+        const auto iter = def.qualities.find( quality_id( curr.get_string( 0 ) ) );
+        if( iter != def.qualities.end() && iter->second == curr.get_int( 1 ) ) {
+            def.qualities.erase( iter );
+        }
     }
 }
 

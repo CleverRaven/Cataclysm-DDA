@@ -36,7 +36,18 @@
 #include "string_id.h"
 #include "int_id.h"
 #include "enums.h"
-#include "cata_string_consts.h"
+
+static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_ant_queen( "mon_ant_queen" );
+static const mtype_id mon_bat( "mon_bat" );
+static const mtype_id mon_bee( "mon_bee" );
+static const mtype_id mon_beekeeper( "mon_beekeeper" );
+static const mtype_id mon_rat_king( "mon_rat_king" );
+static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+
+static const mongroup_id GROUP_CAVE( "GROUP_CAVE" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 class npc_template;
 
@@ -172,9 +183,6 @@ void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
     const auto dir = terrain_type->get_dir();
     m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
 }
-
-#define autorotate(x) mapgen_rotate(m, terrain_type, x)
-#define autorotate_down() mapgen_rotate(m, terrain_type, true)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ///// builtin terrain-specific mapgen functions. big multi-overmap-tile terrains are located in

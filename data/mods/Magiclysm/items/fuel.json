@@ -2,8 +2,7 @@
   {
     "type": "AMMO",
     "id": "dragon_blood",
-    "name": "dragon blood",
-    "name_plural": "dragon blood",
+    "name": { "str": "dragon blood", "str_pl": "dragon blood" },
     "weight": "2 g",
     "color": "red",
     "container": "flask_glass",
@@ -27,8 +26,7 @@
   {
     "type": "AMMO",
     "id": "tainted_blood",
-    "name": "tainted blood",
-    "name_plural": "tainted blood",
+    "name": { "str": "tainted blood", "str_pl": "tainted blood" },
     "weight": "2 g",
     "color": "black",
     "container": "flask_glass",
@@ -45,8 +43,7 @@
   {
     "type": "AMMO",
     "id": "blood",
-    "name": "blood",
-    "name_plural": "blood",
+    "name": { "str": "blood", "str_pl": "blood" },
     "weight": "265 g",
     "color": "red",
     "container": "flask_glass",

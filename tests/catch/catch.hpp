@@ -226,7 +226,7 @@ namespace Catch {
 #  endif
 
 // Universal Windows platform does not support SEH
-// Or console colours (or console at all...)
+// Or console colors (or console at all...)
 #  if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
 #    define CATCH_CONFIG_COLOUR_NONE
 #  else

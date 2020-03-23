@@ -2,6 +2,7 @@
 
 #include <climits>
 #include <type_traits>
+#include <cfloat>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -41,8 +42,6 @@
 #include <string>
 #include <exception>
 
-#define dbg(x) DebugLog((x), D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
-
 bool trigdist;
 bool use_tiles;
 bool log_from_top;
@@ -54,6 +53,26 @@ bool tile_iso;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
+
+std::vector<options_manager::id_and_option> options_manager::lang_options = {
+    { "", translate_marker( "System language" ) },
+    // Note: language names are in their own language and are *not* translated at all.
+    // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
+    // http://en.wikipedia.org/wiki/List_of_language_names
+    { "en", no_translation( R"(English)" ) },
+    { "de", no_translation( R"(Deutsch)" ) },
+    { "es_AR", no_translation( R"(Español (Argentina))" ) },
+    { "es_ES", no_translation( R"(Español (España))" ) },
+    { "fr", no_translation( R"(Français)" ) },
+    { "hu", no_translation( R"(Magyar)" ) },
+    { "ja", no_translation( R"(日本語)" ) },
+    { "ko", no_translation( R"(한국어)" ) },
+    { "pl", no_translation( R"(Polski)" ) },
+    { "pt_BR", no_translation( R"(Português (Brasil))" )},
+    { "ru", no_translation( R"(Русский)" ) },
+    { "zh_CN", no_translation( R"(中文 (天朝))" ) },
+    { "zh_TW", no_translation( R"(中文 (台灣))" ) },
+};
 
 options_manager &get_options()
 {
@@ -200,8 +219,8 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = INT_MIN;
-            thisOpt.fMax = INT_MAX;
+            thisOpt.fMin = FLT_MIN;
+            thisOpt.fMax = FLT_MAX;
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
             thisOpt.fStep = 1;
@@ -1309,24 +1328,7 @@ void options_manager::add_options_interface()
 
     // TODO: scan for languages like we do for tilesets.
     add( "USE_LANG", "interface", translate_marker( "Language" ),
-    translate_marker( "Switch Language." ), {
-        { "", translate_marker( "System language" ) },
-        // Note: language names are in their own language and are *not* translated at all.
-        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
-        // http://en.wikipedia.org/wiki/List_of_language_names
-        { "en", no_translation( R"(English)" ) },
-        { "de", no_translation( R"(Deutsch)" ) },
-        { "es_AR", no_translation( R"(Español (Argentina))" ) },
-        { "es_ES", no_translation( R"(Español (España))" ) },
-        { "fr", no_translation( R"(Français)" ) },
-        { "hu", no_translation( R"(Magyar)" ) },
-        { "ja", no_translation( R"(日本語)" ) },
-        { "ko", no_translation( R"(한국어)" ) },
-        { "pl", no_translation( R"(Polski)" ) },
-        { "ru", no_translation( R"(Русский)" ) },
-        { "zh_CN", no_translation( R"(中文 (天朝))" ) },
-        { "zh_TW", no_translation( R"(中文 (台灣))" ) },
-    }, "" );
+         translate_marker( "Switch Language." ), options_manager::lang_options, "" );
 
     add_empty_line();
 
@@ -1726,6 +1728,12 @@ void options_manager::add_options_graphics()
     add( "USE_DRAW_ASCII_LINES_ROUTINE", "graphics", translate_marker( "SDL ASCII lines" ),
          translate_marker( "Use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
          true, COPT_CURSES_HIDE
+       );
+
+    add( "ENABLE_ASCII_ART_ITEM", "graphics",
+         translate_marker( "Enable ASCII art in item descriptions" ),
+         translate_marker( "When available item description will show a picture of the item in ascii art." ),
+         true, COPT_NO_HIDE
        );
 
     add_empty_line();
@@ -2150,6 +2158,12 @@ void options_manager::add_options_android()
        );
 
     add_empty_line();
+
+    add( "ANDROID_TRAP_BACK_BUTTON", "android", translate_marker( "Trap Back button" ),
+         translate_marker( "If true, the back button will NOT back out of the app and will be passed to the application as SDL_SCANCODE_AC_BACK.  Requires restart." ),
+         // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
+         android_get_default_setting( "Trap Back button", true )
+       );
 
     add( "ANDROID_AUTO_KEYBOARD", "android", translate_marker( "Auto-manage virtual keyboard" ),
          translate_marker( "If true, automatically show/hide the virtual keyboard when necessary based on context. If false, virtual keyboard must be toggled manually." ),

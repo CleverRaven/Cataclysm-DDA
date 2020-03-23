@@ -2,7 +2,7 @@
   {
     "id": "mon_sludge_crawler",
     "type": "MONSTER",
-    "name": "sludge crawler",
+    "name": { "str": "sludge crawler" },
     "description": "A sluglike creature, eight feet long and the width of a refrigerator.  Its black body glistens as it oozes its way along the ground.  Eye stalks occasionally push their way out of the oily mass and look around.",
     "default_faction": "mutant",
     "species": [ "MUTANT" ],
@@ -32,7 +32,7 @@
   {
     "id": "mon_slug_giant",
     "type": "MONSTER",
-    "name": "giant slug",
+    "name": { "str": "giant slug" },
     "description": "A mutated leopard slug, as wide as a golf cart.  Venom dripping from its fanged maw, it slithers ahead slowly, leaving a trail of glistening slime.",
     "default_faction": "slug",
     "species": [ "MOLLUSK" ],

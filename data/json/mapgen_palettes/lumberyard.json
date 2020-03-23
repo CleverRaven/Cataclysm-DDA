@@ -16,6 +16,7 @@
       ".": "t_thconc_floor",
       "6": "t_gates_mech_control",
       "@": "t_machinery_heavy",
+      "G": "t_generator_broken",
       "=": "t_conveyor",
       "+": "t_door_c",
       "!": "t_door_locked_interior",

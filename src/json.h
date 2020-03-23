@@ -15,7 +15,6 @@
 
 #include "colony.h"
 #include "enum_conversions.h"
-#include "optional.h"
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -36,6 +35,12 @@ class JsonArray;
 class JsonSerializer;
 class JsonDeserializer;
 class JsonValue;
+
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 
 template<typename T>
 class string_id;
@@ -224,7 +229,6 @@ class JsonIn
             } catch( const io::InvalidEnumString & ) {
                 seek( old_offset ); // so the error message points to the correct place.
                 error( "invalid enumeration value" );
-                throw; // ^^ error already throws, but the compiler doesn't know that )-:
             }
         }
 
@@ -1013,8 +1017,8 @@ class JsonArray
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
-        void throw_error( std::string err );
-        void throw_error( std::string err, int idx );
+        [[noreturn]] void throw_error( std::string err );
+        [[noreturn]] void throw_error( std::string err, int idx );
 
         // iterative access
         bool next_bool();
@@ -1138,7 +1142,7 @@ class JsonValue
             return seek().test_array();
         }
 
-        void throw_error( const std::string &err ) const {
+        [[noreturn]] void throw_error( const std::string &err ) const {
             seek().error( err );
         }
 

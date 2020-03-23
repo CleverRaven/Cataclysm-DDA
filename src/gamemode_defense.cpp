@@ -33,7 +33,15 @@
 #include "string_id.h"
 #include "point.h"
 #include "weather.h"
-#include "cata_string_consts.h"
+
+static const skill_id skill_barter( "barter" );
+
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+static const mongroup_id GROUP_ROBOT( "GROUP_ROBOT" );
+static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
+static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
+static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
@@ -177,9 +185,8 @@ void defense_game::pre_action( action_id &act )
     }
 }
 
-void defense_game::post_action( action_id act )
+void defense_game::post_action( action_id /*act*/ )
 {
-    ( void )act;
 }
 
 void defense_game::game_over()
@@ -448,11 +455,11 @@ void defense_game::setup()
     refresh_setup( w, selection );
 
     input_context ctxt( "DEFENSE_SETUP" );
-    ctxt.register_action( "UP", translate_marker( "Previous option" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Next option" ) );
-    ctxt.register_action( "LEFT", translate_marker( "Cycle option value" ) );
-    ctxt.register_action( "RIGHT", translate_marker( "Cycle option value" ) );
-    ctxt.register_action( "CONFIRM", translate_marker( "Toggle option" ) );
+    ctxt.register_action( "UP", to_translation( "Previous option" ) );
+    ctxt.register_action( "DOWN", to_translation( "Next option" ) );
+    ctxt.register_action( "LEFT", to_translation( "Cycle option value" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Cycle option value" ) );
+    ctxt.register_action( "CONFIRM", to_translation( "Toggle option" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "START" );

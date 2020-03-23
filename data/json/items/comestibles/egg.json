@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_bird",
-    "name": "bird egg",
+    "name": { "str": "bird egg" },
     "weight": "57 g",
     "color": "brown",
     "spoils_in": "7 days",
@@ -227,8 +227,7 @@
   {
     "type": "COMESTIBLE",
     "id": "powder_eggs",
-    "name": "powdered egg",
-    "name_plural": "powdered eggs",
+    "name": { "str": "powdered egg" },
     "weight": "7 g",
     "color": "yellow",
     "container": "bottle_plastic_small",
@@ -249,8 +248,7 @@
   {
     "type": "COMESTIBLE",
     "id": "scrambled_eggs",
-    "name": "scrambled eggs",
-    "name_plural": "scrambled eggs",
+    "name": { "str": "scrambled eggs", "str_pl": "scrambled eggs" },
     "copy-from": "egg_chicken",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -271,7 +269,7 @@
     "color": "white",
     "symbol": "o",
     "quench": -1,
-    "description": "A hard boiled egg, still in its shell.  Portable and nutritious!",
+    "description": "A hard-boiled egg, still in its shell.  Portable and nutritious!",
     "price": 95,
     "material": "egg",
     "fun": 2,
