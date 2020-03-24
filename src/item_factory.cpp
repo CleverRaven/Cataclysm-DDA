@@ -514,12 +514,14 @@ void Item_factory::finalize_post( itype &obj )
         }
     }
 
-    for( const std::pair<diseasetype_id, int> elem : obj.comestible->foodborne_diseases ) {
-        if( !elem.first.is_valid() ) {
-            debugmsg( "foodborne_diseases in %s contains invalid diseasetype_id.", obj.id );
+    if( obj.comestible ) {
+        for( const std::pair<diseasetype_id, int> elem : obj.comestible->contamination ) {
+            const diseasetype_id dtype = elem.first;
+            if( !dtype.is_valid() ) {
+                debugmsg( "contamination in %s contains invalid diseasetype_id %s.", obj.id, dtype.c_str() );
+            }
         }
     }
-
     for( std::string &line : obj.ascii_picture ) {
         if( utf8_width( remove_color_tags( line ) ) > ascii_art_width ) {
             line = trim_by_length( line, ascii_art_width );
@@ -1846,8 +1848,8 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
 
-    for( JsonArray ja : jo.get_array( "foodborne diseases" ) ) {
-        slot.foodborne_diseases.emplace( diseasetype_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
+    for( JsonArray ja : jo.get_array( "contamination" ) ) {
+        slot.contamination.emplace( diseasetype_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
     }
 
     bool is_junkfood = false;

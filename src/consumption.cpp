@@ -1001,7 +1001,7 @@ bool player::eat( item &food, bool force )
         }
     }
 
-    for( const auto &elem : food.get_comestible()->foodborne_diseases ) {
+    for( const std::pair<diseasetype_id, int> &elem : food.get_comestible()->contamination ) {
         if( rng( 1, 100 ) <= elem.second ) {
             expose_to_disease( elem.first );
         }

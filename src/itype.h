@@ -156,7 +156,7 @@ struct islot_comestible {
         int freeze_point = temperatures::freezing;
 
         /**List of diseases carried by this comestible and their associated probability*/
-        std::map<diseasetype_id, int> foodborne_diseases;
+        std::map<diseasetype_id, int> contamination;
 
         //** specific heats in J/(g K) and latent heat in J/g */
         float specific_heat_liquid = 4.186;
