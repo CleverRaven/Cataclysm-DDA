@@ -148,7 +148,7 @@ void SkillDisplayType::load( const JsonObject &jsobj )
     skillTypes.push_back( sk );
 }
 
-const SkillDisplayType &SkillDisplayType::get_skill_type( skill_displayType_id id )
+const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayType_id &id )
 {
     for( auto &i : skillTypes ) {
         if( i._ident == id ) {

@@ -6,11 +6,13 @@
 
 #include "optional.h"
 #include "point.h"
+#include "units.h"
 
 class avatar;
 class item;
 class item_location;
 class map;
+class turret_data;
 struct targeting_data;
 
 namespace avatar_action
@@ -46,26 +48,27 @@ void autoattack( avatar &you, map &m );
 void mend( avatar &you, item_location loc );
 
 /**
- * Returns true if the player is allowed to fire a given item, or false if otherwise.
- * reload_time is stored as a side effect of condition testing.
- * @param args Contains item data and targeting mode for the gun we want to fire.
- * @return True if all conditions are true, otherwise false.
+ * Validates avatar's targeting_data, then handles interactive parts of gun firing
+ * (target selection, aiming, etc.)
  */
-bool fire_check( avatar &you, const map &m, const targeting_data &args );
+void aim_do_turn( avatar &you, map &m );
+
+/** Checks if the wielded weapon is a gun and can be fired then starts interactive aiming */
+void fire_wielded_weapon( avatar &you, map &m );
+
+/** Stores fake gun specified by the mutation and starts interactive aiming */
+void fire_ranged_mutation( avatar &you, map &m, const item &fake_gun );
+
+/** Stores fake gun specified by the bionic and starts interactive aiming */
+void fire_ranged_bionic( avatar &you, map &m, const item &fake_gun, units::energy cost_per_shot );
 
 /**
- * Handles interactive parts of gun firing (target selection, etc.).
- * @return Whether an attack was actually performed.
+ * Checks if the player can manually (with their 2 hands, not via vehicle controls)
+ * fire a turret and then starts interactive aiming.
+ * Assumes that the turret is on player position.
  */
-bool fire( avatar &you, map &m );
-/**
- * Handles interactive parts of gun firing (target selection, etc.).
- * This version stores targeting parameters for weapon, used for calls to the nullary form.
- * @param weapon Reference to a weapon we want to start aiming.
- * @param bp_cost The amount by which the player's power reserve is decreased after firing.
- * @return Whether an attack was actually performed.
- */
-bool fire( avatar &you, map &m, item &weapon, int bp_cost = 0 );
+void fire_turret_manual( avatar &you, map &m, turret_data &turret );
+
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,
               const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );

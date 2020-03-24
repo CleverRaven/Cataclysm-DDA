@@ -21,7 +21,13 @@
 #include "rng.h"
 #include "creature.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const skill_id skill_traps( "traps" );
+
+static const efftype_id effect_lack_sleep( "lack_sleep" );
+
+static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
+static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
 
 namespace
 {

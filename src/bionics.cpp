@@ -33,6 +33,7 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale_types.h"
+#include "mutation.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -65,7 +66,123 @@
 #include "monster.h"
 #include "point.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+static const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_heating_bionic( "heating_bionic" );
+static const efftype_id effect_high( "high" );
+static const efftype_id effect_iodine( "iodine" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_operating( "operating" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_pblue( "pblue" );
+static const efftype_id effect_pkill_l( "pkill_l" );
+static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stung( "stung" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_took_flumed( "took_flumed" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_under_op( "under_operation" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_weed_high( "weed_high" );
+
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_sun_light( "sunlight" );
+static const itype_id fuel_type_wind( "wind" );
+
+static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+
+static const bionic_id bio_adrenaline( "bio_adrenaline" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_blade_weapon( "bio_blade_weapon" );
+static const bionic_id bio_blaster( "bio_blaster" );
+static const bionic_id bio_blood_anal( "bio_blood_anal" );
+static const bionic_id bio_blood_filter( "bio_blood_filter" );
+static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
+static const bionic_id bio_cqb( "bio_cqb" );
+static const bionic_id bio_earplugs( "bio_earplugs" );
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_emp( "bio_emp" );
+static const bionic_id bio_evap( "bio_evap" );
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_flashbang( "bio_flashbang" );
+static const bionic_id bio_geiger( "bio_geiger" );
+static const bionic_id bio_gills( "bio_gills" );
+static const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_jointservo( "bio_jointservo" );
+static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_lockpick( "bio_lockpick" );
+static const bionic_id bio_magnet( "bio_magnet" );
+static const bionic_id bio_meteorologist( "bio_meteorologist" );
+static const bionic_id bio_nanobots( "bio_nanobots" );
+static const bionic_id bio_night( "bio_night" );
+static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_plutdump( "bio_plutdump" );
+static const bionic_id bio_power_storage( "bio_power_storage" );
+static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
+static const bionic_id bio_radscrubber( "bio_radscrubber" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_remote( "bio_remote" );
+static const bionic_id bio_resonator( "bio_resonator" );
+static const bionic_id bio_shockwave( "bio_shockwave" );
+static const bionic_id bio_teleport( "bio_teleport" );
+static const bionic_id bio_time_freeze( "bio_time_freeze" );
+static const bionic_id bio_tools( "bio_tools" );
+static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
+static const bionic_id bio_water_extractor( "bio_water_extractor" );
+static const bionic_id bionic_TOOLS_EXTEND( "bio_tools_extend" );
+// Aftershock stuff!
+static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
+
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
+static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
+
+static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
+static const std::string flag_ANESTHESIA( "ANESTHESIA" );
+static const std::string flag_AURA( "AURA" );
+static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
+static const std::string flag_FILTHY( "FILTHY" );
+static const std::string flag_NO_PACKED( "NO_PACKED" );
+static const std::string flag_NO_STERILE( "NO_STERILE" );
+static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
+static const std::string flag_PERPETUAL( "PERPETUAL" );
+static const std::string flag_PERSONAL( "PERSONAL" );
+static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
+static const std::string flag_SEALED( "SEALED" );
+static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
 
 namespace
 {
@@ -214,9 +331,6 @@ bool Character::activate_bionic( int b, bool eff_only )
         return false;
     }
 
-    // Preserve the fake weapon used to initiate bionic gun firing
-    static item bio_gun( weapon );
-
     // Special compatibility code for people who updated saves with their claws out
     if( ( weapon.typeId() == static_cast<std::string>( bio_claws_weapon ) &&
           bio.id == bio_claws_weapon ) ||
@@ -273,9 +387,9 @@ bool Character::activate_bionic( int b, bool eff_only )
     if( bio.info().gun_bionic ) {
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
-        bio_gun = item( bio.info().fake_item );
         g->refresh_all();
-        avatar_action::fire( g->u, g->m, bio_gun, units::to_kilojoule( bio.info().power_activate ) );
+        avatar_action::fire_ranged_bionic( g->u, g->m, item( bio.info().fake_item ),
+                                           bio.info().power_activate );
     } else if( bio.info().weapon_bionic ) {
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
             add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
@@ -298,7 +412,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         weapon.invlet = '#';
         if( bio.ammo_count > 0 ) {
             weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
-            avatar_action::fire( g->u, g->m, weapon );
+            avatar_action::fire_wielded_weapon( g->u, g->m );
             g->refresh_all();
         }
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
@@ -890,14 +1004,7 @@ bool Character::burn_fuel( int b, bool start )
         if( !remote_fuel.empty() ) {
             fuel_available.emplace_back( remote_fuel );
             if( remote_fuel == fuel_type_sun_light ) {
-                // basic solar panel produces 50W = 1 charge/20_seconds = 180 charges/hour(3600)
-                if( is_wearing( "solarpack_on" ) ) {
-                    effective_efficiency = 0.05;
-                }
-                // quantum solar backpack = solar panel x6
-                if( is_wearing( "q_solarpack_on" ) ) {
-                    effective_efficiency = 0.3;
-                }
+                effective_efficiency = item_worn_with_flag( "SOLARPACK_ON" ).type->solar_efficiency;
             }
             // TODO: check for available fuel in remote source
         } else if( !start ) {
@@ -1494,8 +1601,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
 }
 
 void Character::bionics_uninstall_failure( monster &installer, player &patient, int difficulty,
-        int success,
-        float adjusted_skill )
+        int success, float adjusted_skill )
 {
 
     // "success" should be passed in as a negative integer representing how far off we
@@ -1829,8 +1935,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
 }
 
 void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
-                                   units::energy power_lvl,
-                                   int pl_skill )
+                                   const units::energy &power_lvl, int pl_skill )
 {
     if( success > 0 ) {
         g->events().send<event_type::removes_cbm>( getID(), bid );
@@ -1971,6 +2076,20 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficult );
 
+    std::vector<std::string> conflicting_muts;
+    for( const trait_id &mid : bioid->canceled_mutations ) {
+        if( has_trait( mid ) ) {
+            conflicting_muts.push_back( mid->name() );
+        }
+    }
+
+    if( !conflicting_muts.empty() &&
+        !query_yn(
+            _( "Installing this bionic will remove the conflicting traits: %s.  Continue anyway?" ),
+            enumerate_as_string( conflicting_muts ) ) ) {
+        return false;
+    }
+
     const std::map<body_part, int> &issues = bionic_installation_issues( bioid );
     // show all requirements which are not satisfied
     if( !issues.empty() ) {
@@ -2089,8 +2208,8 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
 }
 
 void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
-                                 int pl_skill, std::string installer_name,
-                                 std::vector<trait_id> trait_to_rem, tripoint patient_pos )
+                                 int pl_skill, const std::string &installer_name,
+                                 const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos )
 {
     if( success > 0 ) {
         g->events().send<event_type::installs_cbm>( getID(), bid );
@@ -2125,8 +2244,8 @@ void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty,
     g->refresh_all();
 }
 
-void Character::bionics_install_failure( bionic_id bid, std::string installer, int difficulty,
-        int success, float adjusted_skill, tripoint patient_pos )
+void Character::bionics_install_failure( const bionic_id &bid, const std::string &installer,
+        int difficulty, int success, float adjusted_skill, const tripoint &patient_pos )
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.

@@ -2,7 +2,7 @@
   {
     "id": "arm_splint",
     "type": "ARMOR",
-    "name": "arm splint",
+    "name": { "str": "arm splint" },
     "description": "A tool to help set bones and hold them in place.",
     "weight": "300 g",
     "volume": "1 L",
@@ -21,7 +21,7 @@
   {
     "id": "arm_xlsplint",
     "type": "ARMOR",
-    "name": "arm splint XL",
+    "name": { "str": "arm splint XL", "str_pl": "arm splints XL" },
     "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Huge survivors.",
     "copy-from": "arm_splint",
     "looks_like": "arm_splint",
@@ -34,7 +34,7 @@
   {
     "id": "blindfold",
     "type": "ARMOR",
-    "name": "blindfold",
+    "name": { "str": "blindfold" },
     "//": "A folded bandana still takes up some space on the head.",
     "description": "A simple fabric covering tied over the eyes to block sight.  Useful for sleeping in bright areas.",
     "weight": "72 g",
@@ -70,7 +70,7 @@
   {
     "id": "gobag",
     "type": "ARMOR",
-    "name": "go bag",
+    "name": { "str": "go bag" },
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Activate to unpack and enjoy.",
     "weight": "18043 g",
     "volume": "35750 ml",
@@ -86,22 +86,22 @@
     "warmth": 10,
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "use_action": "GOBAG_NORMAL"
+    "use_action": { "type": "unpack", "group": "gobag_contents", "filthy_volume_threshold": "10 L" }
   },
   {
     "id": "personal_gobag",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
-    "name": "personal go bag",
+    "name": { "str": "personal go bag" },
     "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
     "looks_like": "gobag",
-    "use_action": "GOBAG_PERSONAL",
+    "use_action": { "type": "unpack", "group": "gobag_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
     "copy-from": "gobag"
   },
   {
     "id": "leg_splint",
     "type": "ARMOR",
-    "name": "leg splint",
+    "name": { "str": "leg splint" },
     "description": "A tool to help set bones and hold them in place.",
     "weight": "500 g",
     "volume": "1 L",
@@ -120,7 +120,7 @@
   {
     "id": "leg_xlsplint",
     "type": "ARMOR",
-    "name": "leg splint XL",
+    "name": { "str": "leg splint XL", "str_pl": "leg splints XL" },
     "description": "A tool to help set bones and hold them in place.  It is specifically designed to fit Huge people.",
     "copy-from": "leg_splint",
     "weight": "1000 g",
@@ -194,7 +194,7 @@
     "id": "welding_mask",
     "repairs_like": "goggles_swim",
     "type": "ARMOR",
-    "name": "welding mask",
+    "name": { "str": "welding mask" },
     "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to push it up your head.",
     "weight": "1 kg",
     "volume": "4 L",
@@ -215,7 +215,7 @@
   {
     "id": "welding_mask_crude",
     "type": "ARMOR",
-    "name": "crude welding mask",
+    "name": { "str": "crude welding mask" },
     "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding.  Activate it to push it up your head.",
     "weight": "4 kg",
     "volume": "4 L",
@@ -1731,7 +1731,7 @@
   {
     "type": "ARMOR",
     "id": "survivor_belt",
-    "name": "survivor utility belt",
+    "name": { "str": "survivor utility belt" },
     "weight": "3390 g",
     "color": "brown",
     "covers": [ "TORSO" ],
@@ -2356,7 +2356,7 @@
     "type": "TOOL_ARMOR",
     "id": "whistle",
     "name": { "str": "whistle" },
-    "volume": "250 ml",
+    "volume": "10 ml",
     "description": "A simple metal whistle, with a cord to wear it around your neck.",
     "weight": "25 g",
     "to_hit": -1,
@@ -2721,7 +2721,7 @@
     "encumbrance": 12,
     "material_thickness": 3,
     "use_action": "SOLARPACK",
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
   },
   {
     "id": "solarpack_on",
@@ -2742,7 +2742,8 @@
     "encumbrance": 20,
     "material_thickness": 1,
     "use_action": "SOLARPACK_OFF",
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE" ]
+    "solar_efficiency": 0.05,
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
   },
   {
     "id": "q_solarpack",
@@ -2762,7 +2763,7 @@
     "encumbrance": 12,
     "material_thickness": 3,
     "use_action": "SOLARPACK",
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
   },
   {
     "id": "q_solarpack_on",
@@ -2783,7 +2784,8 @@
     "encumbrance": 20,
     "material_thickness": 1,
     "use_action": "SOLARPACK_OFF",
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE" ]
+    "solar_efficiency": 0.3,
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
   },
   {
     "id": "helmet_riot",

@@ -85,7 +85,7 @@
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
-    "special_attacks": [ { "type": "spell", "spell_id": "rocket_punch", "spell_level": 5, "cooldown": 10 } ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "rocket_punch", "min_level": 5 }, "cooldown": 10 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
@@ -117,7 +117,7 @@
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
-    "special_attacks": [ { "type": "spell", "spell_id": "gas_attack", "spell_level": 5, "cooldown": 60 } ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "gas_attack", "min_level": 5 }, "cooldown": 60 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]

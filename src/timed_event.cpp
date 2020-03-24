@@ -23,7 +23,16 @@
 #include "int_id.h"
 #include "type_id.h"
 #include "enums.h"
-#include "cata_string_consts.h"
+
+static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
+static const mtype_id mon_copbot( "mon_copbot" );
+static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
+static const mtype_id mon_dermatik( "mon_dermatik" );
+static const mtype_id mon_eyebot( "mon_eyebot" );
+static const mtype_id mon_riotbot( "mon_riotbot" );
+static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
+static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
+static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint p )
     : type( e_t )

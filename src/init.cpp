@@ -537,6 +537,7 @@ void DynamicDataLoader::unload_data()
     event_transformation::reset();
     event_statistic::reset();
     score::reset();
+    scent_type::reset();
 
     // TODO:
     //    Name::clear();
