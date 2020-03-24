@@ -145,7 +145,7 @@
   {
     "id": "retool_22",
     "type": "GUNMOD",
-    "name": ".22 caliber conversion kit",
+    "name": { "str": ".22 caliber conversion kit" },
     "description": "Replacing several key parts of a 9x19mm, .38, .40, 5.7mm, 4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The conversion results in a slight reduction to accuracy.",
     "weight": "114 g",
     "volume": "250 ml",
@@ -165,7 +165,7 @@
   {
     "id": "retool_223",
     "type": "GUNMOD",
-    "name": ".223 caliber conversion kit",
+    "name": { "str": ".223 caliber conversion kit" },
     "description": "This kit is used to convert a shotgun, 5.45x39mm, 7.62x39mm, .30-06, or .308 rifle to the popular, accurate, and lighter .223 caliber.  The conversion results in slight reductions to both accuracy and ammo capacity.",
     "weight": "114 g",
     "volume": "500 ml",
@@ -185,7 +185,7 @@
   {
     "id": "retool_308",
     "type": "GUNMOD",
-    "name": ".308 caliber conversion kit",
+    "name": { "str": ".308 caliber conversion kit" },
     "description": "This kit is used to convert a shotgun or 7.62x39mm, .223 or .30-06 rifle to the popular and powerful .308 caliber.  The conversion results in reduced ammo capacity and a slight reduction to accuracy.",
     "weight": "114 g",
     "volume": "500 ml",
@@ -205,7 +205,7 @@
   {
     "id": "retool_45",
     "type": "GUNMOD",
-    "name": ".45 caliber conversion kit",
+    "name": { "str": ".45 caliber conversion kit" },
     "description": "Replacing several key parts of a 9x19mm, .38, .40 or .44 firearm converts it to a .45 firearm.  The conversion results in a slight reduction to accuracy.",
     "weight": "226 g",
     "volume": "250 ml",
@@ -225,7 +225,7 @@
   {
     "id": "retool_46",
     "type": "GUNMOD",
-    "name": "4.6mm caliber conversion kit",
+    "name": { "str": "4.6mm caliber conversion kit" },
     "description": "A conversion kit produced by Heckler and Koch, used to convert .22, 9x19mm, or .38 firearms to their proprietary 4.6x30mm, a round designed for accuracy and armor penetration.",
     "weight": "114 g",
     "volume": "250 ml",
@@ -245,7 +245,7 @@
   {
     "id": "retool_57",
     "type": "GUNMOD",
-    "name": "5.7mm caliber conversion kit",
+    "name": { "str": "5.7mm caliber conversion kit" },
     "description": "A conversion kit produced by FN Herstal, used to convert .22, 9x19mm, or .38 firearms to their proprietary 5.7x28mm, a round designed for accuracy and armor penetration.",
     "weight": "114 g",
     "volume": "250 ml",
@@ -265,7 +265,7 @@
   {
     "id": "retool_9mm",
     "type": "GUNMOD",
-    "name": "9x19mm caliber conversion kit",
+    "name": { "str": "9x19mm caliber conversion kit" },
     "description": "Replacing several key parts of a 9x18mm, .38, .40, .44 or .45 firearm converts it to a 9x19mm firearm.  The conversion results in a slight reduction to accuracy.",
     "weight": "114 g",
     "volume": "250 ml",
@@ -361,7 +361,7 @@
     "id": "bio_furnace",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": "Internal Furnace CBM",
+    "name": { "str": "Internal Furnace CBM" },
     "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
     "price": 450000,
     "difficulty": 4
@@ -370,7 +370,7 @@
     "id": "bio_storage",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": "Internal Storage CBM",
+    "name": { "str": "Internal Storage CBM" },
     "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 2 liters of volume.",
     "price": 400000,
     "difficulty": 7
@@ -397,7 +397,7 @@
     "id": "bio_advreactor",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": "Advanced Microreactor CBM",
+    "name": { "str": "Advanced Microreactor CBM" },
     "description": "This module upgrades a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.",
     "price": 900000,
     "difficulty": 13
@@ -416,7 +416,7 @@
     "id": "bio_reactor",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": "Internal Microreactor CBM",
+    "name": { "str": "Internal Microreactor CBM" },
     "description": "This stripped down mini-reactor will generate impressive amounts of bionic power, but may not be the safest thing to install.  Once active, it cannot be shut down and will slowly contaminate the user's body with radiation.",
     "price": 900000,
     "difficulty": 11
@@ -942,7 +942,7 @@
     "id": "40mm_flare",
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
-    "name": "40mm flare",
+    "name": { "str": "40mm flare" },
     "description": "A 40mm signal flare.  It will burn brightly for up to a minute, and will also leave a streak of smoke cover in its wake.",
     "drop": "handflare_lit",
     "extend": { "effects": [ "TRAIL", "NO_EMBED" ] }
@@ -951,7 +951,7 @@
     "id": "40mm_flashbang",
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
-    "name": "40x46mm ",
+    "name": { "str": "40x46mm " },
     "description": "A 40mm grenade with a flashbang load.  It will detonate with a blast of light and sound, designed to blind, deafen, and disorient anyone nearby.",
     "extend": { "effects": [ "FLASHBANG" ] }
   },
@@ -967,7 +967,7 @@
     "id": "40mm_smoke",
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
-    "name": "40mm smoke cover",
+    "name": { "str": "40mm smoke cover" },
     "description": "A 40mm grenade designed to provide smoke cover.",
     "drop": "smokebomb_act",
     "extend": { "effects": [ "TRAIL", "NO_EMBED" ] }
@@ -976,7 +976,7 @@
     "id": "40mm_slug",
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
-    "name": "40mm slug",
+    "name": { "str": "40mm slug" },
     "description": "A 40mm shell loaded with a massive bullet.  Say goodbye to your shoulder, I guess.",
     "damage": 130,
     "recoil": 875,
