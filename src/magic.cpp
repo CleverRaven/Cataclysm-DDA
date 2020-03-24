@@ -1945,7 +1945,7 @@ void fake_spell::load( const JsonObject &jo )
     id = spell_id( temp_id );
     optional( jo, false, "hit_self", self, false );
 
-    optional( jo, false, "once_in", trigger_once_in);
+    optional( jo, false, "once_in", trigger_once_in );
     optional( jo, false, "message", trigger_message );
     optional( jo, false, "npc_message", npc_trigger_message );
     
