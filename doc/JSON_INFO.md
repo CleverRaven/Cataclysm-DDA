@@ -617,7 +617,8 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
     "base_faction" : "zombie",
     "by_mood"      : ["blob"],
     "neutral"      : ["nether"],
-    "friendly"     : ["blob"]
+    "friendly"     : ["blob"],
+    "hate"         : ["fungus"]
 }
 ```
 
