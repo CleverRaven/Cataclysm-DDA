@@ -36,7 +36,7 @@
   {
     "type": "npc_class",
     "id": "NC_HACKER",
-    "name": "Hacker",
+    "name": { "str": "Hacker" },
     "job_description": "I'm looking for some choice systems to hack.",
     "traits": [
       { "group": "BG_survival_story_TEENAGER" },
@@ -56,7 +56,7 @@
   {
     "type": "npc_class",
     "id": "NC_DOCTOR",
-    "name": "Doctor",
+    "name": { "str": "Doctor" },
     "job_description": "I'm looking for wounded to help.",
     "traits": [ { "group": "BG_survival_story_MEDICAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "bonus_str": { "rng": [ -2, 0 ] },
@@ -362,7 +362,7 @@
   {
     "type": "npc_class",
     "id": "NC_TRUE_FOODPERSON",
-    "name": "Foodperson",
+    "name": { "str": "Foodperson" },
     "job_description": "I AM FOODPERSON.  AND I BRING SUSTENANCE!",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, [ "PROF_FOODP", 100 ] ],
     "common": false,
