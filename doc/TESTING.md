@@ -101,7 +101,7 @@ represented with the `PROJUNK` trait, so we can set that using `toggle_trait`:
 
 ```cpp
     GIVEN( "character has a sweet tooth" ) {
-        dummy.toggle_trait( traid_PROJUNK );
+        dummy.toggle_trait( trait_PROJUNK );
 ```
 
 Now, notice we are nested inside the `GIVEN` - for the rest of the scope of
