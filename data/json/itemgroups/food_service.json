@@ -2,7 +2,15 @@
   {
     "id": "baked_goods",
     "type": "item_group",
-    "items": [ [ "cookies", 17 ], [ "cake2", 15 ], [ "cake3", 10 ], [ "biscuit", 10 ], [ "jihelucake", 10 ], [ "brownie", 20 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cookies", "prob": 17 },
+      { "item": "cake2", "prob": 15 },
+      { "item": "cake3", "prob": 10 },
+      { "item": "biscuit", "prob": 10 },
+      { "item": "jihelucake", "prob": 10 },
+      { "item": "brownie", "prob": 20 }
+    ]
   },
   {
     "id": "tea_dishes",
@@ -12,49 +20,61 @@
   {
     "id": "chair_hat",
     "type": "item_group",
-    "items": [ [ "hat_newsboy", 10 ], [ "bowhat", 40 ], [ "porkpie", 20 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "hat_newsboy", "prob": 10 }, { "item": "bowhat", "prob": 40 }, { "item": "porkpie", "prob": 20 } ]
   },
   {
     "id": "chair_torso",
     "type": "item_group",
-    "items": [ [ "suit", 70 ], [ "waistcoat", 70 ], [ "dress_shirt", 70 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "suit", "prob": 70 }, { "item": "waistcoat", "prob": 70 }, { "item": "dress_shirt", "prob": 70 } ]
   },
   {
     "id": "chair_pants",
     "type": "item_group",
-    "items": [ [ "pants", 70 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "pants", "prob": 70 } ]
   },
   {
     "id": "chair_feet",
     "type": "item_group",
-    "items": [ [ "dress_shoes", 70 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "dress_shoes", "prob": 70 } ]
   },
   {
     "id": "chair_extra",
     "type": "item_group",
-    "items": [ [ "cane", 70 ], [ "pocketwatch", 70 ], [ "umbrella", 70 ], [ "manual_fencing", 10 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cane", "prob": 70 },
+      { "item": "pocketwatch", "prob": 70 },
+      { "item": "umbrella", "prob": 70 },
+      { "item": "manual_fencing", "prob": 10 }
+    ]
   },
   {
     "id": "corner_reader",
     "type": "item_group",
-    "items": [
-      [ "mag_cutting", 70 ],
-      [ "mag_stabbing", 70 ],
-      [ "mag_unarmed", 70 ],
-      [ "manual_dodge", 70 ],
-      [ "novel_spy", 70 ],
-      [ "novel_thriller", 70 ],
-      [ "novel_crime", 70 ],
-      [ "novel_adventure", 70 ],
-      [ "novel_war", 70 ],
-      [ "poetry_book", 30 ],
-      [ "cookbook_human", 10 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mag_cutting", "prob": 70 },
+      { "item": "mag_stabbing", "prob": 70 },
+      { "item": "mag_unarmed", "prob": 70 },
+      { "item": "manual_dodge", "prob": 70 },
+      { "item": "novel_spy", "prob": 70 },
+      { "item": "novel_thriller", "prob": 70 },
+      { "item": "novel_crime", "prob": 70 },
+      { "item": "novel_adventure", "prob": 70 },
+      { "item": "novel_war", "prob": 70 },
+      { "item": "poetry_book", "prob": 30 },
+      { "item": "cookbook_human", "prob": 10 }
     ]
   },
   {
     "id": "corner_weapon",
     "type": "item_group",
-    "items": [ [ "tazer", 70 ], [ "knuckle_brass", 70 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "tazer", "prob": 70 }, { "item": "knuckle_brass", "prob": 70 } ]
   },
   {
     "id": "displays",
@@ -74,15 +94,16 @@
   {
     "id": "bar_alcohol",
     "type": "item_group",
-    "items": [
+    "subtype": "distribution",
+    "entries": [
       { "group": "beer", "prob": 453 },
       { "group": "wines_worthy", "prob": 100 },
       { "group": "liquor_and_spirits", "prob": 116 },
       { "group": "mixed_alcoholic_drinks", "prob": 202 },
-      [ "fruit_wine", 5 ],
-      [ "sherry", 10 ],
-      [ "bristol_sherry", 5 ],
-      [ "madeira", 5 ]
+      { "item": "fruit_wine", "prob": 5 },
+      { "item": "sherry", "prob": 10 },
+      { "item": "bristol_sherry", "prob": 5 },
+      { "item": "madeira", "prob": 5 }
     ]
   },
   {
@@ -105,68 +126,72 @@
   {
     "id": "bar_fridge",
     "type": "item_group",
-    "items": [
-      [ "water_clean", 50 ],
-      [ "water_mineral", 20 ],
-      [ "oj", 40 ],
-      [ "juice", 35 ],
-      [ "cranberry_juice", 35 ],
+    "subtype": "distribution",
+    "entries": [
+      { "item": "water_clean", "prob": 50 },
+      { "item": "water_mineral", "prob": 20 },
+      { "item": "oj", "prob": 40 },
+      { "item": "juice", "prob": 35 },
+      { "item": "cranberry_juice", "prob": 35 },
       { "group": "softdrinks_canned", "prob": 95 },
-      [ "V8", 15 ],
-      [ "fries", 7 ],
-      [ "cheese_fries", 5 ],
-      [ "onion_rings", 7 ],
-      [ "pizza_veggy", 7 ],
-      [ "pizza_meat", 7 ]
+      { "item": "V8", "prob": 15 },
+      { "item": "fries", "prob": 7 },
+      { "item": "cheese_fries", "prob": 5 },
+      { "item": "onion_rings", "prob": 7 },
+      { "item": "pizza_veggy", "prob": 7 },
+      { "item": "pizza_meat", "prob": 7 }
     ]
   },
   {
     "id": "bar_table",
     "type": "item_group",
-    "items": [
-      [ "cig", 50 ],
-      [ "matches", 45 ],
-      [ "rolling_paper", 10 ],
-      [ "bottle_glass", 70 ],
-      [ "bucket", 5 ],
-      [ "can_drink_unsealed", 65 ],
-      [ "wrapper", 50 ],
-      [ "ceramic_plate", 40 ],
-      [ "news_regional", 20 ],
-      [ "mag_news", 20 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cig", "prob": 50 },
+      { "item": "matches", "prob": 45 },
+      { "item": "rolling_paper", "prob": 10 },
+      { "item": "bottle_glass", "prob": 70 },
+      { "item": "bucket", "prob": 5 },
+      { "item": "can_drink_unsealed", "prob": 65 },
+      { "item": "wrapper", "prob": 50 },
+      { "item": "ceramic_plate", "prob": 40 },
+      { "item": "news_regional", "prob": 20 },
+      { "item": "mag_news", "prob": 20 }
     ]
   },
   {
     "id": "bar_bathroom",
     "type": "item_group",
-    "items": [
-      [ "weed", 40 ],
-      [ "coke", 40 ],
-      [ "aspirin", 40 ],
-      [ "cig", 20 ],
-      [ "syringe", 30 ],
-      [ "meth", 20 ],
-      [ "heroin", 7 ],
-      [ "mag_porn", 35 ],
-      [ "hairpin", 5 ],
-      [ "purse", 15 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "weed", "prob": 40 },
+      { "item": "coke", "prob": 40 },
+      { "item": "aspirin", "prob": 40 },
+      { "item": "cig", "prob": 20 },
+      { "item": "syringe", "prob": 30 },
+      { "item": "meth", "prob": 20 },
+      { "item": "heroin", "prob": 7 },
+      { "item": "mag_porn", "prob": 35 },
+      { "item": "hairpin", "prob": 5 },
+      { "item": "purse", "prob": 15 }
     ]
   },
   {
     "id": "bar_trash",
     "type": "item_group",
-    "items": [
-      [ "wrapper", 50 ],
-      [ "bottle_glass", 70 ],
-      [ "can_drink_unsealed", 60 ],
-      [ "flyer", 30 ],
-      [ "box_small", 30 ],
-      [ "rag", 20 ],
-      [ "bag_plastic", 20 ],
-      [ "news_regional", 15 ],
-      [ "mag_news", 15 ],
-      [ "hairpin", 15 ],
-      [ "jar_glass", 10 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "wrapper", "prob": 50 },
+      { "item": "bottle_glass", "prob": 70 },
+      { "item": "can_drink_unsealed", "prob": 60 },
+      { "item": "flyer", "prob": 30 },
+      { "item": "box_small", "prob": 30 },
+      { "item": "rag", "prob": 20 },
+      { "item": "bag_plastic", "prob": 20 },
+      { "item": "news_regional", "prob": 15 },
+      { "item": "mag_news", "prob": 15 },
+      { "item": "hairpin", "prob": 15 },
+      { "item": "jar_glass", "prob": 10 }
     ]
   },
   {
@@ -287,123 +312,148 @@
   {
     "id": "coffee_display_2",
     "type": "item_group",
-    "items": [
-      [ "bottle_glass", 5 ],
-      [ "ceramic_cup", 15 ],
-      [ "ceramic_plate", 15 ],
-      [ "chips", 25 ],
-      [ "chips2", 25 ],
-      [ "chips3", 25 ],
-      [ "choco_coffee_beans", 50 ],
-      [ "coffee_raw", 50 ],
-      [ "coffee_syrup", 15 ],
-      [ "cookies", 35 ],
-      [ "tea_raw", 50 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bottle_glass", "prob": 5 },
+      { "item": "ceramic_cup", "prob": 15 },
+      { "item": "ceramic_plate", "prob": 15 },
+      { "item": "chips", "prob": 25 },
+      { "item": "chips2", "prob": 25 },
+      { "item": "chips3", "prob": 25 },
+      { "item": "choco_coffee_beans", "prob": 50 },
+      { "item": "coffee_raw", "prob": 50 },
+      { "item": "coffee_syrup", "prob": 15 },
+      { "item": "cookies", "prob": 35 },
+      { "item": "tea_raw", "prob": 50 }
     ]
   },
   {
     "id": "coffee_condiments",
     "type": "item_group",
-    "items": [
-      [ "bag_plastic", 25 ],
-      [ "box_small", 30 ],
-      [ "honey_bottled", 10 ],
-      [ "honey_glassed", 10 ],
-      [ "milk", 10 ],
-      [ "milk_powder", 65 ],
-      [ "salt", 15 ],
-      [ "sugar", 70 ],
-      [ "tea_raw", 15 ],
-      [ "wrapper", 75 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bag_plastic", "prob": 25 },
+      { "item": "box_small", "prob": 30 },
+      { "item": "honey_bottled", "prob": 10 },
+      { "item": "honey_glassed", "prob": 10 },
+      { "item": "milk", "prob": 10 },
+      { "item": "milk_powder", "prob": 65 },
+      { "item": "salt", "prob": 15 },
+      { "item": "sugar", "prob": 70 },
+      { "item": "tea_raw", "prob": 15 },
+      { "item": "wrapper", "prob": 75 }
     ]
   },
   {
     "id": "coffee_counter",
     "type": "item_group",
-    "items": [
-      [ "atomic_coffee", 3 ],
-      [ "bottle_glass", 5 ],
-      [ "ceramic_cup", 30 ],
-      [ "choco_coffee_beans", 40 ],
-      [ "coffee", 55 ],
-      [ "cookies", 5 ],
-      [ "cup_plastic", 70 ],
-      [ "tea", 15 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "atomic_coffee", "prob": 3 },
+      { "item": "bottle_glass", "prob": 5 },
+      { "item": "ceramic_cup", "prob": 30 },
+      { "item": "choco_coffee_beans", "prob": 40 },
+      { "item": "coffee", "prob": 55 },
+      { "item": "cookies", "prob": 5 },
+      { "item": "cup_plastic", "prob": 70 },
+      { "item": "tea", "prob": 15 }
     ]
   },
   {
     "id": "coffee_newsstand",
     "type": "item_group",
-    "items": [ [ "mag_news", 35 ], [ "news_regional", 35 ], [ "newest_newspaper", 55 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mag_news", "prob": 35 },
+      { "item": "news_regional", "prob": 35 },
+      { "item": "newest_newspaper", "prob": 55 }
+    ]
   },
   {
     "id": "coffee_prep",
     "type": "item_group",
-    "items": [
-      [ "atomic_coffeepot", 1 ],
-      [ "bottle_glass", 15 ],
-      [ "coffee_raw", 25 ],
-      [ "coffee_syrup", 25 ],
-      [ "cup_plastic", 35 ],
-      [ "jug_plastic", 15 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "atomic_coffeepot", "prob": 1 },
+      { "item": "bottle_glass", "prob": 15 },
+      { "item": "coffee_raw", "prob": 25 },
+      { "item": "coffee_syrup", "prob": 25 },
+      { "item": "cup_plastic", "prob": 35 },
+      { "item": "jug_plastic", "prob": 15 }
     ]
   },
   {
     "id": "coffee_freezer",
     "type": "item_group",
-    "items": [
-      [ "blt", 40 ],
-      [ "insta_salad", 60 ],
-      [ "pudding", 40 ],
-      [ "sandwich_pb", 35 ],
-      [ "sandwich_pbh", 35 ],
-      [ "sandwich_pbj", 40 ],
-      [ "sandwich_pbm", 10 ],
-      [ "sandwich_t", 45 ],
-      [ "yoghurt", 40 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "blt", "prob": 40 },
+      { "item": "insta_salad", "prob": 60 },
+      { "item": "pudding", "prob": 40 },
+      { "item": "sandwich_pb", "prob": 35 },
+      { "item": "sandwich_pbh", "prob": 35 },
+      { "item": "sandwich_pbj", "prob": 40 },
+      { "item": "sandwich_pbm", "prob": 10 },
+      { "item": "sandwich_t", "prob": 45 },
+      { "item": "yoghurt", "prob": 40 }
     ]
   },
   {
     "id": "coffee_locker",
     "type": "item_group",
-    "items": [
-      [ "apron_leather", 25 ],
-      [ "sm_extinguisher", 10 ],
-      [ "hat_ball", 25 ],
-      [ "towel", 10 ],
-      [ "soap", 8 ],
-      [ "detergent", 8 ],
-      [ "rag", 15 ],
-      [ "broom", 8 ],
+    "subtype": "distribution",
+    "entries": [
+      { "item": "apron_leather", "prob": 25 },
+      { "item": "sm_extinguisher", "prob": 10 },
+      { "item": "hat_ball", "prob": 25 },
+      { "item": "towel", "prob": 10 },
+      { "item": "soap", "prob": 8 },
+      { "item": "detergent", "prob": 8 },
+      { "item": "rag", "prob": 15 },
+      { "item": "broom", "prob": 8 },
       { "item": "bleach", "prob": 8, "charges-min": 1 },
-      [ "hotplate", 1 ],
-      [ "vinegar", 3 ]
+      { "item": "hotplate", "prob": 1 },
+      { "item": "vinegar", "prob": 3 }
     ]
   },
   {
     "id": "coffee_dishes",
     "type": "item_group",
-    "items": [ [ "ceramic_cup", 70 ], [ "ceramic_plate", 50 ], [ "cup_plastic", 20 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ceramic_cup", "prob": 70 },
+      { "item": "ceramic_plate", "prob": 50 },
+      { "item": "cup_plastic", "prob": 20 }
+    ]
   },
   {
     "id": "coffee_trash",
     "type": "item_group",
-    "items": [
-      [ "wrapper", 17 ],
-      [ "bag_plastic", 15 ],
-      [ "bottle_glass", 10 ],
-      [ "can_drink_unsealed", 10 ],
-      [ "rag", 10 ],
-      [ "news_regional", 20 ],
-      [ "mag_news", 20 ],
-      [ "hairpin", 10 ],
-      [ "flyer", 7 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "wrapper", "prob": 17 },
+      { "item": "bag_plastic", "prob": 15 },
+      { "item": "bottle_glass", "prob": 10 },
+      { "item": "can_drink_unsealed", "prob": 10 },
+      { "item": "rag", "prob": 10 },
+      { "item": "news_regional", "prob": 20 },
+      { "item": "mag_news", "prob": 20 },
+      { "item": "hairpin", "prob": 10 },
+      { "item": "flyer", "prob": 7 }
     ]
   },
   {
     "id": "coffee_bathroom",
     "type": "item_group",
-    "items": [ [ "weed", 10 ], [ "coke", 10 ], [ "aspirin", 45 ], [ "mag_news", 30 ], [ "purse", 10 ], [ "hairpin", 25 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "weed", "prob": 10 },
+      { "item": "coke", "prob": 10 },
+      { "item": "aspirin", "prob": 45 },
+      { "item": "mag_news", "prob": 30 },
+      { "item": "purse", "prob": 10 },
+      { "item": "hairpin", "prob": 25 }
+    ]
   },
   {
     "id": "fast_table",
@@ -949,12 +999,13 @@
   {
     "type": "item_group",
     "id": "butcher_raw_meat",
-    "items": [
-      [ "stomach_large", 2 ],
-      [ "stomach_boiled", 2 ],
-      [ "meat", 8 ],
-      [ "lunchmeat", 6 ],
-      [ "hotdogs_frozen", 6 ],
+    "subtype": "distribution",
+    "entries": [
+      { "item": "stomach_large", "prob": 2 },
+      { "item": "stomach_boiled", "prob": 2 },
+      { "item": "meat", "prob": 8 },
+      { "item": "lunchmeat", "prob": 6 },
+      { "item": "hotdogs_frozen", "prob": 6 },
       { "item": "lung", "prob": 2, "charges": 5 },
       { "item": "kidney", "prob": 2, "charges": 5 },
       { "item": "liver", "prob": 4, "charges": 5 },
@@ -965,16 +1016,17 @@
   {
     "type": "item_group",
     "id": "butcher_meat",
-    "items": [
-      [ "lunchmeat", 15 ],
-      [ "bologna", 10 ],
-      [ "sausage", 4 ],
-      [ "sweet_sausage", 2 ],
-      [ "bratwurst_sausage", 4 ],
-      [ "meat_salted", 2 ],
-      [ "meat_canned", 2 ],
-      [ "offal_canned", 2 ],
-      [ "meat_smoked", 2 ],
+    "subtype": "distribution",
+    "entries": [
+      { "item": "lunchmeat", "prob": 15 },
+      { "item": "bologna", "prob": 10 },
+      { "item": "sausage", "prob": 4 },
+      { "item": "sweet_sausage", "prob": 2 },
+      { "item": "bratwurst_sausage", "prob": 4 },
+      { "item": "meat_salted", "prob": 2 },
+      { "item": "meat_canned", "prob": 2 },
+      { "item": "offal_canned", "prob": 2 },
+      { "item": "meat_smoked", "prob": 2 },
       { "item": "meat_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "offal_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" }
     ]
@@ -982,14 +1034,15 @@
   {
     "type": "item_group",
     "id": "butcher_tools",
-    "items": [
-      [ "knife_steak", 20 ],
-      [ "knife_butcher", 30 ],
-      [ "tongs", 10 ],
-      [ "carver_off", 5 ],
-      [ "meat", 1 ],
-      [ "hacksaw", 10 ],
-      [ "gloves_cut_resistant", 10 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "knife_steak", "prob": 20 },
+      { "item": "knife_butcher", "prob": 30 },
+      { "item": "tongs", "prob": 10 },
+      { "item": "carver_off", "prob": 5 },
+      { "item": "meat", "prob": 1 },
+      { "item": "hacksaw", "prob": 10 },
+      { "item": "gloves_cut_resistant", "prob": 10 }
     ]
   }
 ]
