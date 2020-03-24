@@ -361,7 +361,7 @@
     "id": "bio_furnace",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": "Internal Furnace CBM",
+    "name": { "str": "Internal Furnace CBM" },
     "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
     "price": 450000,
     "difficulty": 4
@@ -370,7 +370,7 @@
     "id": "bio_storage",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": "Internal Storage CBM",
+    "name": { "str": "Internal Storage CBM" },
     "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 2 liters of volume.",
     "price": 400000,
     "difficulty": 7
@@ -416,7 +416,7 @@
     "id": "bio_reactor",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": "Internal Microreactor CBM",
+    "name": { "str": "Internal Microreactor CBM" },
     "description": "This stripped down mini-reactor will generate impressive amounts of bionic power, but may not be the safest thing to install.  Once active, it cannot be shut down and will slowly contaminate the user's body with radiation.",
     "price": 900000,
     "difficulty": 11
