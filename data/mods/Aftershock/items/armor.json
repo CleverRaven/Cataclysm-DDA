@@ -112,5 +112,5 @@
       "use_action": "SOLARPACK_OFF",
       "solar_efficiency": 0.3,
       "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
-    },
+    }
 ]
