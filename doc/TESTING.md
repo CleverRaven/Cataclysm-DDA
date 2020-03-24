@@ -146,7 +146,7 @@ the expression is true.
 While the `CHECK` and `CHECK_FALSE` macros make assertions about the truth or
 falsity of expressions, they still allow the test to continue, even when they
 fail. This lets you do several `CHECK`s, and be informed if one *or more* of
-do not meet your expectations.
+them do not meet your expectations.
 
 Another kind of assertion is the `REQUIRE` (and its counterpart
 `REQUIRE_FALSE`). Unlike the `CHECK` assertions, `REQUIRE` will not continue if
