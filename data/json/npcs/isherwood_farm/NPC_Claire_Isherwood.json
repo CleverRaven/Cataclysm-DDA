@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_CLAIRE",
-    "name": "Claire Isherwood",
+    "name": { "str": "Claire Isherwood" },
     "job_description": "I'm the matriarch of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,

@@ -12,7 +12,7 @@
   {
     "type": "npc_class",
     "id": "NC_TEST_CLASS",
-    "name": "Debug Dude",
+    "name": { "str": "Debug Dude" },
     "job_description": "I'm helping you test the game.",
     "common": false,
     "bonus_str": 100,
@@ -96,7 +96,7 @@
   {
     "type": "npc_class",
     "id": "NC_COWBOY",
-    "name": "Cowboy",
+    "name": { "str": "Cowboy" },
     "job_description": "Just looking for some wrongs to right.",
     "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "bonus_str": { "rng": [ 0, 1 ] },
@@ -156,7 +156,7 @@
   {
     "type": "npc_class",
     "id": "NC_BOUNTY_HUNTER",
-    "name": "Bounty Hunter",
+    "name": { "str": "Bounty Hunter" },
     "job_description": "I'm a killer for hire.",
     "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "skills": [
@@ -345,7 +345,7 @@
   {
     "type": "npc_class",
     "id": "NC_SURVIVOR_CHEF",
-    "name": "Chef",
+    "name": { "str": "Chef" },
     "job_description": "I'm a chef.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -379,7 +379,7 @@
   {
     "type": "npc_class",
     "id": "NC_CYBORG",
-    "name": "Cyborg",
+    "name": { "str": "Cyborg" },
     "job_description": "Zzzzzt…  I… I'm a Cy… BEEEEEP… borg.",
     "traits": [ { "group": "BG_survival_story_CYBORG" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "skills": [
