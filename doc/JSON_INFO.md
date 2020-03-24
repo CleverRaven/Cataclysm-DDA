@@ -468,15 +468,23 @@ When adding a new bionic, if it's not included with another one, you must also a
 | max_duration       | The maximum duration the disease can last.
 | min_intensity      | The minimum intensity of the effect applied by the disease
 | max_intensity      | The maximum intensity of the effect.
-| health_threshold   | The amount of health above which one is immune to the disease.
-| symptopms          | The effect applied by the disease.
-| affected_bodyparts | The list of bodyparts on which the effect is applied.
+| health_threshold   | The amount of health above which one is immune to the disease. Must be between -200 and 200. (optional )
+| symptoms           | The effect applied by the disease.
+| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to num_bp)
 
 
 ```json
-{
-
-}
+  {
+    "type": "disease_type",
+    "id": "bad_food",
+    "min_duration": "6 m",
+    "max_duration": "1 h",
+    "min_intensity": 1,
+    "max_intensity": 1,
+    "affected_bodyparts": [ "TORSO" ],
+    "health_threshold": 100,
+    "symptoms": "foodpoison"
+  }
 ```
 
 ### Item Groups
@@ -1614,7 +1622,7 @@ CBMs can be defined like this:
 "freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
-"contamination": 5,         // (Optional) Probability to get food poisoning from this comestible. Values must be in the [0, 100] range.
+"contamination": [ [ "bad_food", 5 ] ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 ```
 
 ### Containers
