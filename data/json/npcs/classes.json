@@ -228,7 +228,7 @@
   {
     "type": "npc_class",
     "id": "NC_HUNTER",
-    "name": "Hunter",
+    "name": { "str": "Hunter" },
     "job_description": "I'm tracking game.",
     "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "bonus_str": { "rng": [ -2, 0 ] },
@@ -301,7 +301,7 @@
   {
     "type": "npc_class",
     "id": "NC_APIS",
-    "name": "Apis",
+    "name": { "str": "Apis" },
     "job_description": "I'm bugged - I shouldn't talk to you.",
     "common": false,
     "bonus_dex": { "rng": [ 5, 10 ] },
