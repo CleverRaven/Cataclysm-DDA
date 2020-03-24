@@ -231,7 +231,7 @@ void monfactions::load_monster_faction( const JsonObject &jo )
     std::set< std::string > hate = jo.get_tags( "hate" );
     // Need to make sure adding new factions won't invalidate our current faction's reference
     // That +1 is for base faction
-    faction_list.reserve( faction_list.size() + by_mood.size() + neutral.size() + friendly.size() + 1 );
+    faction_list.reserve( faction_list.size() + by_mood.size() + neutral.size() + friendly.size() + hate.size() + 1 );
     prealloc( by_mood );
     prealloc( neutral );
     prealloc( friendly );
