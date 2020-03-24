@@ -287,7 +287,7 @@
     "symbol": "U",
     "description": "A durable plastic drinking vessel.  This one is made of clear acrylic and looks almost like glass.",
     "copy-from": "base_plastic_dish",
-    "container_data": { "contains": "500 ml", "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
