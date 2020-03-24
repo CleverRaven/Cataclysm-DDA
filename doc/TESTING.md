@@ -72,7 +72,7 @@ Filling in the above with actual test code might look like this:
         dummy.clear_morale();
 
         GIVEN( "character has a sweet tooth" ) {
-            dummy.toggle_trait( traid_PROJUNK );
+            dummy.toggle_trait( trait_PROJUNK );
 
             WHEN( "they eat some junk food" ) {
                 item necco( "neccowafers" );
@@ -183,4 +183,3 @@ morale bonus is meaningless.
 
 You can think of `REQUIRE` as being a prerequisite for the test, while `CHECK`
 is looking at the results of the test.
-
