@@ -27,14 +27,7 @@
   {
     "type": "item_group",
     "id": "smokelounge_items",
-    "items": [
-      [ "cigar", 65 ],
-      [ "ecig", 25 ],
-      [ "cig", 35 ],
-      [ "tobacco", 45 ],
-      [ "rolling_paper", 15 ],
-      [ "pipe_tobacco", 10 ]
-    ]
+    "items": [ [ "cigar", 65 ], [ "ecig", 25 ], [ "cig", 35 ], [ "tobacco", 45 ], [ "rolling_paper", 15 ], [ "pipe_tobacco", 10 ] ]
   },
   {
     "id": "cop_armory",
@@ -279,11 +272,7 @@
     "id": "prison_textile",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "blanket", "prob": 25 },
-      { "item": "striped_shirt", "prob": 35 },
-      { "item": "striped_shirt", "prob": 35 }
-    ]
+    "entries": [ { "item": "blanket", "prob": 25 }, { "item": "striped_shirt", "prob": 35 }, { "item": "striped_shirt", "prob": 35 } ]
   },
   {
     "id": "boxing_misc",
