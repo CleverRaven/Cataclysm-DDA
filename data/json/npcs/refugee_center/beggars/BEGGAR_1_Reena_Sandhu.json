@@ -21,7 +21,7 @@
   {
     "type": "npc_class",
     "id": "NC_BEGGAR_1",
-    "name": "Beggar",
+    "name": { "str": "Beggar" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
@@ -93,10 +93,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUITED"
       },
       { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_1_INTRO" },
-      {
-        "text": "Hey, here, I might have some food for you.  Let me check.",
-        "topic": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD"
-      },
+      { "text": "Hey, here, I might have some food for you.  Let me check.", "topic": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD" },
       { "text": "Get away from me.", "topic": "TALK_DONE", "opinion": { "trust": -1, "value": -1, "anger": 1 } },
       { "text": "…", "topic": "TALK_DONE" }
     ]

@@ -2,7 +2,7 @@
   {
     "type": "npc_class",
     "id": "NC_BONE_SEER",
-    "name": "Bone Seer",
+    "name": { "str": "Bone Seer" },
     "job_description": "I wish to sing the song of the Bones",
     "traits": [
       { "trait": "OUTDOORSMAN" },

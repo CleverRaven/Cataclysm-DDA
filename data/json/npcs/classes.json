@@ -205,7 +205,7 @@
   {
     "type": "npc_class",
     "id": "NC_ARSONIST",
-    "name": "Arsonist",
+    "name": { "str": "Arsonist" },
     "job_description": "I'm just watching the world burn.",
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
@@ -264,7 +264,7 @@
   {
     "type": "npc_class",
     "id": "NC_BARTENDER",
-    "name": "Bartender",
+    "name": { "str": "Bartender" },
     "job_description": "I'm looking for new drink recipes.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
