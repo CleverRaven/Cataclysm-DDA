@@ -293,7 +293,7 @@
   {
     "id": "mon_tankbot",
     "type": "MONSTER",
-    "name": "Beagle Mini-Tank UGV",
+    "name": { "str": "Beagle Mini-Tank UGV" },
     "description": "The Northrop Beagle is a refrigerator-sized urban warfare UGV.  Sporting an anti-tank missile launcher, 40mm grenade launcher, and numerous anti-infantry weapons, it's designed for high-risk urban fighting.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
