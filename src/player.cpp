@@ -5602,7 +5602,6 @@ void player::on_mutation_loss( const trait_id &mid )
     morale->on_mutation_loss( mid );
     magic.on_mutation_loss( mid );
     update_type_of_scent( mid, false );
-    
     recalculate_enchantment_cache(); // mutations can have enchantments
 }
 
