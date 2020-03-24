@@ -546,18 +546,20 @@
     "type": "item_group",
     "id": "alcohol",
     "//": "all comestible alcohol -- packaged, mixed  and homemade",
-    "items": [
+    "subtype": "distribution",
+    "entries": [
       { "group": "alcohol_bottled_canned", "prob": 376 },
       { "group": "mixed_alcoholic_drinks", "prob": 141 },
-      [ "dandelion_wine", 8 ],
-      [ "hb_beer", 8 ],
-      [ "moonshine", 8 ]
+      { "item": "dandelion_wine", "prob": 8 },
+      { "item": "hb_beer", "prob": 8 },
+      { "item": "moonshine", "prob": 8 }
     ]
   },
   {
     "type": "item_group",
     "id": "alcohol_bottled_canned",
-    "items": [
+    "subtype": "distribution",
+    "entries": [
       { "group": "liquor_and_spirits", "prob": 108 },
       { "group": "wines_worthy", "prob": 39 },
       { "group": "beer", "prob": 141 },
