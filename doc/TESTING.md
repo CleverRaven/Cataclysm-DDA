@@ -29,17 +29,21 @@ You can choose several ways to organize and express your tests, but the basic
 unit is a `TEST_CASE`. Each test `.cpp` file should define at least one test
 case, with a name, and optional (but strongly encouraged) list of tags:
 
+```cpp
     TEST_CASE( "sweet junk food", "[food][junk][sweet]" )
     {
-        ...
+        // ...
     }
+```
 
 Within the `TEST_CASE`, the Catch2 framework allows a number of different
 macros for logically grouping related parts of the test together. One approach
-that encourages a high level of readability is the behavior-driven-development
-(BDD) style using `GIVEN`, `WHEN`, and `THEN` sections. Here's an outline of
-what a test might look like using those:
+that encourages a high level of readability is the
+[BDD](https://en.wikipedia.org/wiki/Behavior-driven_development)
+(behavior-driven-development) style using `GIVEN`, `WHEN`, and `THEN` sections.
+Here's an outline of what a test might look like using those:
 
+```cpp
     TEST_CASE( "sweet junk food", "[food][junk][sweet]" )
     {
         GIVEN( "character has a sweet tooth" ) {
@@ -51,6 +55,7 @@ what a test might look like using those:
             }
         }
     }
+```
 
 Thinking in these terms may help you understand the logical progression from
 setting up the test and initializing the test data (usually expressed by the
@@ -60,6 +65,7 @@ expectations (the `THEN` part, naturally).
 
 Filling in the above with actual test code might look like this:
 
+```cpp
     TEST_CASE( "sweet junk food", "[food][junk][sweet]" )
     {
         avatar dummy;
@@ -78,21 +84,25 @@ Filling in the above with actual test code might look like this:
             }
         }
     }
+```
 
 Let's look at each part in turn to see what's going on. First, we declare an
 `avatar`, representing the character or player. This test is going to check the
 player's morale, so we clear it to ensure a clean slate:
 
+```cpp
     avatar dummy;
     dummy.clear_morale();
+```
 
 Inside the `GIVEN`, we want some code that implements what the `GIVEN` is
 saying - that the character has a sweet tooth. In the game's code, this is
 represented with the `PROJUNK` trait, so we can set that using `toggle_trait`:
 
+```cpp
     GIVEN( "character has a sweet tooth" ) {
         dummy.toggle_trait( traid_PROJUNK );
-        ...
+```
 
 Now, notice we are nested inside the `GIVEN` - for the rest of the scope of
 that `GIVEN`, the `dummy` will have this trait. For this simple test it will
@@ -103,9 +113,10 @@ how you can use them to avoid cross-pollution between your tests.
 Anyway, now that our `dummy` has a sweet tooth, we want them to eat something
 sweet, so we can spawn the `neccowafers` item and tell them to eat some:
 
-      WHEN( "they eat some junk food" ) {
-          dummy.eat( item( "neccowafers" ) );
-          ...
+```cpp
+    WHEN( "they eat some junk food" ) {
+        dummy.eat( item( "neccowafers" ) );
+```
 
 The function(s) you invoke at this point are often the focus of your testing;
 the goal is to exercise some pathway through those function(s) in such a way
@@ -119,9 +130,11 @@ Our `dummy` has eaten the `neccowafers`, but did it do anything? Because they
 have a sweet tooth, they should get a specific morale bonus known as
 `MORALE_SWEETTOOTH`, and it should be at least `5` in magnitude:
 
-      THEN( "they get a morale bonus from its sweetness" ) {
-          CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) >= 5 );
-      }
+```cpp
+    THEN( "they get a morale bonus from its sweetness" ) {
+        CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) >= 5 );
+    }
+```
 
 This `CHECK` macro takes a boolean expression, failing the test if the
 expression is false. Likewise, you can use `CHECK_FALSE`, which will fail if
@@ -144,6 +157,7 @@ making some change to the system state. For example, here are a couple of
 `REQUIRE`s added to the sweet-tooth test, to ensure our `dummy` really has the
 desired trait, and that the `neccowafers` really are junk food:
 
+```cpp
     GIVEN( "character has a sweet tooth" ) {
         dummy.toggle_trait( traid_PROJUNK );
         REQUIRE( dummy.has_trait( trait_PROJUNK ) );
@@ -159,6 +173,7 @@ desired trait, and that the `neccowafers` really are junk food:
             }
         }
     }
+```
 
 We use `REQUIRE` here, because there is no reason to continue the test if these
 fail. If our assumptions are wrong, nothing that follows is valid. Clearly, if
