@@ -89,16 +89,16 @@ static int actual_burn_rate( player &dummy, character_movemode move_mode )
 static void burden_player( player &dummy, float burden_proportion )
 {
     units::mass capacity = dummy.weight_capacity();
+    int units = static_cast<int>( capacity * burden_proportion / 1_gram );
 
     // Add a pile of test platinum bits (1g/unit) to reach the desired weight capacity
     if( burden_proportion > 0.0 ) {
-        int units = static_cast<int>( capacity * burden_proportion / 1_gram );
         item pile( "test_platinum_bit", calendar::turn, units );
         dummy.i_add( pile );
     }
 
-    // Ensure we are carrying the expected amount of weight
-    REQUIRE( dummy.weight_carried() == capacity * burden_proportion );
+    // Ensure we are carrying the expected number of grams
+    REQUIRE( to_gram( dummy.weight_carried() ) == units );
 }
 
 // Return amount of stamina burned per turn by `burn_move_stamina` in the given movement mode,
