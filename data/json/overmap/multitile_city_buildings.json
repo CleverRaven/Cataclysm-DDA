@@ -1,12 +1,6 @@
 [
   {
     "type": "city_building",
-    "id": "house_base",
-    "locations": [ "land", "swamp" ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_north" }, { "point": [ 0, 0, -1 ], "overmap": "basement" } ]
-  },
-  {
-    "type": "city_building",
     "id": "house_wooded",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_wooded_north" }, { "point": [ 0, 0, 1 ], "overmap": "house_roof_north" } ]
