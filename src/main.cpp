@@ -576,10 +576,6 @@ int main( int argc, char *argv[] )
     }
 #endif
 
-    get_options().init();
-    get_options().load();
-    set_language();
-
 #if defined(TILES)
     SDL_version compiled;
     SDL_VERSION( &compiled );
@@ -610,6 +606,8 @@ int main( int argc, char *argv[] )
             return 1;
         }
     }
+
+    set_language();
 
     rng_set_engine_seed( seed );
 
