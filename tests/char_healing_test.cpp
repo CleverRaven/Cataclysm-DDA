@@ -139,7 +139,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
         REQUIRE( dummy.mutation_value( "healing_awake" ) == -0.08f );
         REQUIRE( dummy.mutation_value( "healing_resting" ) == 0.0f );
 
-        CHECK( dummy.healing_rate( 0.0f ) == Approx( -0.00001f ).margin( t ) );
+        CHECK( dummy.healing_rate( 0.0f ) == Approx( normal * -0.1f ).margin( t ) );
         CHECK( dummy.healing_rate( 1.0f ) == Approx( normal ).margin( t ) );
     }
 }
