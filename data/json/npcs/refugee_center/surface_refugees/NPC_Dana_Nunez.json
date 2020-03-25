@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Dana",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Dana is a young woman who survived with her husband, but she was pregnant and lost the baby.",

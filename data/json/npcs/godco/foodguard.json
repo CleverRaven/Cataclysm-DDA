@@ -13,7 +13,7 @@
   {
     "type": "npc_class",
     "id": "NC_godco_food_guard",
-    "name": "food guard",
+    "name": { "str": "food guard" },
     "job_description": "I'm guarding the food.",
     "common": false,
     "bonus_str": { "rng": [ -1, 2 ] },

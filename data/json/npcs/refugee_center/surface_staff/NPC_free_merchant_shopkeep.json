@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_EVAC_SHOPKEEP",
-    "name": "Merchant",
+    "name": { "str": "Merchant" },
     "job_description": "I'm a local shopkeeper.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
