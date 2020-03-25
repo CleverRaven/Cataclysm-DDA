@@ -270,7 +270,7 @@
     "id": "wheel_armor_steerable",
     "copy-from": "wheel_armor",
     "type": "vehicle_part",
-    "name": "armored wheel (steerable)",
+    "name": { "str": "armored wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {

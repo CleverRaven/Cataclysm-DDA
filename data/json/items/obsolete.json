@@ -104,7 +104,7 @@
   {
     "id": "autofire",
     "type": "GUNMOD",
-    "name": "auto-fire mechanism",
+    "name": { "str": "auto-fire mechanism" },
     "description": "A simple mechanism that converts a pistol to a selective fire weapon with a burst size of three rounds.  However it reduces accuracy and increases noise.",
     "weight": "113 g",
     "volume": "250 ml",
@@ -1710,7 +1710,7 @@
     "copy-from": "pistol_base",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": "L2037 Backup",
+    "name": { "str": "L2037 Backup" },
     "description": "The logical extension of Leadworks' autorevolver series, this massive 'sidearm' fires 5.56 NATO to share ammo with a soldier's rifle.  The muzzle flash and report of this 5-shot revolver are incredible, producing ballistics similar to .357 Magnum.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": "2370 g",
     "volume": "750 ml",
