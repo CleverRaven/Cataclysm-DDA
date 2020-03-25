@@ -189,7 +189,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | default_blacklist.json      | a standard blacklist of joke monsters
 | doll_speech.json            | talk doll speech messages
 | dreams.json                 | dream text and linked mutation categories
-| disease.json                | desease definitions
+| disease.json                | disease definitions
 | effects.json                | common effects and their effects
 | emit.json                   | smoke and gas emissions
 | flags.json                  | common flags and their descriptions
