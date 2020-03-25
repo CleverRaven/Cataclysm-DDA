@@ -57,6 +57,11 @@ void ui_adaptor::on_screen_resize( const screen_resize_callback_t &fun )
     screen_resized_cb = fun;
 }
 
+void ui_adaptor::mark_resize() const
+{
+    deferred_resize = true;
+}
+
 static bool contains( const rectangle &lhs, const rectangle &rhs )
 {
     return rhs.p_min.x >= lhs.p_min.x && rhs.p_max.x <= lhs.p_max.x &&
@@ -75,12 +80,29 @@ void ui_adaptor::invalidate( const rectangle &rect )
         return;
     }
     // TODO avoid invalidating portions that do not need to be redrawn
-    for( auto it = ui_stack.crbegin(); it < ui_stack.crend(); ++it ) {
-        const ui_adaptor &ui = it->get();
-        if( overlap( ui.dimensions, rect ) ) {
-            ui.invalidated = true;
-            if( contains( ui.dimensions, rect ) ) {
-                break;
+    for( auto it_upper = ui_stack.cbegin(); it_upper < ui_stack.cend(); ++it_upper ) {
+        const ui_adaptor &ui_upper = it_upper->get();
+        if( !ui_upper.invalidated && overlap( ui_upper.dimensions, rect ) ) {
+            // invalidated by `rect`
+            ui_upper.invalidated = true;
+        }
+        for( auto it_lower = ui_stack.cbegin(); it_lower < it_upper; ++it_lower ) {
+            const ui_adaptor &ui_lower = it_lower->get();
+            if( !ui_upper.invalidated && ui_lower.invalidated &&
+                overlap( ui_upper.dimensions, ui_lower.dimensions ) ) {
+                // invalidated by lower invalidated UIs
+                ui_upper.invalidated = true;
+            }
+            if( ui_upper.invalidated && ui_lower.invalidated &&
+                contains( ui_upper.dimensions, ui_lower.dimensions ) ) {
+                // fully obscured lower UIs do not need to be redrawn.
+                ui_lower.invalidated = false;
+                // Note: we don't need to re-test ui_lower from earlier iterations
+                // during which ui_upper.invalidated hadn't yet been determined to
+                // be true, because if the ui_lower would be obscured by ui_upper,
+                // it implies that ui_lower would overlap with ui_upper, by which
+                // we would have already determined ui_upper.invalidated to be true
+                // then.
             }
         }
     }
@@ -135,6 +157,18 @@ void ui_adaptor::screen_resized()
         ui.deferred_resize = true;
     }
     redraw();
+}
+
+background_pane::background_pane()
+{
+    ui.on_screen_resize( []( ui_adaptor & ui ) {
+        ui.position_from_window( catacurses::stdscr );
+    } );
+    ui.position_from_window( catacurses::stdscr );
+    ui.on_redraw( []( const ui_adaptor & ) {
+        catacurses::erase();
+        catacurses::refresh();
+    } );
 }
 
 namespace ui_manager

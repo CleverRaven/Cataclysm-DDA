@@ -134,14 +134,16 @@ void query_popup::invalidate_ui() const
         folded_msg.clear();
         buttons.clear();
     }
+    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
+    if( ui ) {
+        ui->mark_resize();
+    }
 }
 
 constexpr int border_width = 1;
 
 void query_popup::init() const
 {
-    invalidate_ui();
-
     constexpr int horz_padding = 2;
     constexpr int vert_padding = 1;
     const int max_line_width = FULL_SCREEN_WIDTH - border_width * 2;
@@ -250,6 +252,8 @@ std::shared_ptr<ui_adaptor> query_popup::create_or_get_adaptor()
         } );
         if( win ) {
             ui->position_from_window( win );
+        } else {
+            ui->mark_resize();
         }
     }
     return ui;
@@ -391,4 +395,9 @@ query_popup::query_option::query_option(
 query_popup::button::button( const std::string &text, const point &p )
     : text( text ), pos( p )
 {
+}
+
+static_popup::static_popup()
+{
+    ui = create_or_get_adaptor();
 }

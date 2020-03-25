@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 
+class background_pane;
 class ui_adaptor;
 class uilist;
 
@@ -14,7 +15,7 @@ class loading_ui
     private:
         std::unique_ptr<uilist> menu;
         std::unique_ptr<ui_adaptor> ui;
-        std::unique_ptr<ui_adaptor> ui_background;
+        std::unique_ptr<background_pane> ui_background;
 
         void init();
     public:
