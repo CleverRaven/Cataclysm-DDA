@@ -450,27 +450,26 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
                 defaults are half of the items max value.
        -- Ideally, the default value of a magazine would be defined in the profession JSON file. --
     */
-    for( auto item = result.begin(); item != result.end(); ++item ) {
+    for( auto &item : result ) {
         /* Set top level items that have a charge to their default states */
         /* includes refillable liters */
-        item->charges = item->find_type( item->typeId() )->charges_default();
+        item.charges = item.find_type( item.typeId() )->charges_default();
 
         /* Top level item has a magazine */
-        if( item->is_magazine() ) {
+        if( item.is_magazine() ) {
             //Check the TODO for more information as to why we are dividing by two here.
-            item->ammo_set( item->ammo_default(), item->ammo_capacity() / 2 );
+            item.ammo_set( item.ammo_default(), item.ammo_capacity() / 2 );
         } else {
             /* For Items with a magazine or battery in its contents */
-            for( auto item_contents = item->contents.begin();
-                 item_contents != item->contents.end(); ++item_contents ) {
+            for( auto &item_contents : item.contents ) {
                 /* for guns and other items defined to have a magazine but don't use "ammo" */
-                if( item_contents->is_magazine() ) {
-                    item_contents->ammo_set(
-                        item_contents->ammo_default(), item_contents->ammo_capacity() / 2
+                if( item_contents.is_magazine() ) {
+                    item_contents.ammo_set(
+                        item_contents.ammo_default(), item_contents.ammo_capacity() / 2
                     );
                 } else { //Contents are batteries or food
-                    item_contents->charges =
-                        item_contents->find_type( item_contents->typeId() )->charges_default();
+                    item_contents.charges =
+                        item_contents.find_type( item_contents.typeId() )->charges_default();
                 }
             }
         }
