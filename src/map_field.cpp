@@ -1748,7 +1748,7 @@ void map::monster_in_field( monster &z )
         return;
     }
     if( veh_at( z.pos() ) ) {
-        // Immune when in a vehicle for now.
+        // FIXME: Immune when in a vehicle for now.
         return;
     }
     field &curfield = get_field( z.pos() );
