@@ -35,8 +35,16 @@ class ui_adaptor
         // Set redraw and resizing callbacks. These callbacks should NOT call
         // `debugmsg`, construct new `ui_adaptor` instances, deconstruct old
         // `ui_adaptor` instances, call `redraw`, or call `screen_resized`.
+        //
+        // The redraw callback should also not call `position_from_window`,
+        // otherwise it may cause UI glitch if the window position changes.
         void on_redraw( const redraw_callback_t &fun );
         void on_screen_resize( const screen_resize_callback_t &fun );
+
+        // Mark this ui_adaptor for resizing the next time `redraw()` is called.
+        // This is useful for deferring initialization of the UI when explicit
+        // initialization is not possible or wanted.
+        void mark_resize() const;
 
         static void invalidate( const rectangle &rect );
         static void redraw();
@@ -51,6 +59,16 @@ class ui_adaptor
 
         mutable bool invalidated;
         mutable bool deferred_resize;
+};
+
+// Helper class that fills the background and obscures all UIs below. It stays
+// on the UI stack until its lifetime ends.
+class background_pane
+{
+    public:
+        background_pane();
+    private:
+        ui_adaptor ui;
 };
 
 // export static funcs of ui_adaptor with a more coherent scope name

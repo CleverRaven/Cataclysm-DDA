@@ -17,6 +17,7 @@
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
+#include "popup.h"
 #include "sdlsound.h"
 #include "sdltiles.h"
 #include "sounds.h"
@@ -2848,7 +2849,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     if( options_changed ) {
         if( query_yn( _( "Save changes?" ) ) ) {
-            popup_status( _( "Please wait…" ), _( "Applying option changes…" ) );
+            static_popup popup;
+            popup.message( "%s", _( "Please wait…\nApplying option changes…" ) );
+            ui_manager::redraw();
+            refresh_display();
+
             save();
             if( ingame && world_options_changed ) {
                 world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;

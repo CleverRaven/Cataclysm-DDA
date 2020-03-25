@@ -663,31 +663,13 @@ int popup( const std::string &text, PopupFlags flags )
         pop.on_top( true );
     }
 
-    if( flags & PF_NO_WAIT ) {
-        pop.show();
-        catacurses::refresh();
-        refresh_display();
-        return UNKNOWN_UNICODE;
+    pop.context( "POPUP_WAIT" );
+    const auto &res = pop.query();
+    if( res.evt.type == CATA_INPUT_KEYBOARD ) {
+        return res.evt.get_first_input();
     } else {
-        pop.context( "POPUP_WAIT" );
-        const auto &res = pop.query();
-        if( res.evt.type == CATA_INPUT_KEYBOARD ) {
-            return res.evt.get_first_input();
-        } else {
-            return UNKNOWN_UNICODE;
-        }
+        return UNKNOWN_UNICODE;
     }
-}
-
-void popup_status( const char *const title, const std::string &mes )
-{
-    std::string text;
-    if( !test_mode && title != nullptr ) {
-        text += title;
-        text += "\n";
-    }
-
-    popup( text + mes, PF_NO_WAIT );
 }
 
 //note that passing in iteminfo instances with sType == "DESCRIPTION" does special things

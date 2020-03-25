@@ -615,9 +615,16 @@ void game::reenter_fullscreen()
  */
 void game::setup()
 {
-    popup_status( _( "Please wait while the world data loads…" ), _( "Loading core data" ) );
     loading_ui ui( true );
-    load_core_data( ui );
+    {
+        background_pane background;
+        static_popup popup;
+        popup.message( "%s", _( "Please wait while the world data loads…\nLoading core data" ) );
+        ui_manager::redraw();
+        refresh_display();
+
+        load_core_data( ui );
+    }
 
     load_world_modfiles( ui );
 
@@ -696,9 +703,12 @@ bool game::start_game()
 
     init_autosave();
 
-    catacurses::clear();
-    catacurses::refresh();
-    popup_nowait( _( "Please wait as we build your world" ) );
+    background_pane background;
+    static_popup popup;
+    popup.message( "%s", _( "Please wait as we build your world" ) );
+    ui_manager::redraw();
+    refresh_display();
+
     load_master();
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
@@ -2691,7 +2701,11 @@ bool game::load( const std::string &world )
 
 void game::load( const save_t &name )
 {
-    popup_status( _( "Please wait…" ), _( "Loading the save…" ) );
+    background_pane background;
+    static_popup popup;
+    popup.message( "%s", _( "Please wait…\nLoading the save…" ) );
+    ui_manager::redraw();
+    refresh_display();
 
     using namespace std::placeholders;
 
@@ -2830,9 +2844,13 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
 
         // if mod specifies legacy migrations load any that are required
         if( !mod.legacy.empty() ) {
+            static_popup popup;
             for( int i = get_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
-                popup_status( msg.c_str(), _( "Applying legacy migration (%s %i/%i)" ),
-                              e.c_str(), i, core_version - 1 );
+                popup.message( _( "%s Applying legacy migration (%s %i/%i)" ),
+                               msg, e.c_str(), i, core_version - 1 );
+                ui_manager::redraw();
+                refresh_display();
+
                 load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident.str(), ui );
             }
         }
@@ -11166,7 +11184,11 @@ void game::quicksave()
         return;
     }
     add_msg( m_info, _( "Saving game, this may take a while" ) );
-    popup_nowait( _( "Saving game, this may take a while" ) );
+
+    static_popup popup;
+    popup.message( "%s", _( "Saving game, this may take a while" ) );
+    ui_manager::redraw();
+    refresh_display();
 
     time_t now = time( nullptr ); //timestamp for start of saving procedure
 
