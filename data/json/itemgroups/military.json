@@ -13,10 +13,7 @@
     "type": "item_group",
     "id": "military_standard_shotguns",
     "subtype": "distribution",
-    "entries": [
-      { "item": "m1014", "prob": 60, "charges": [ 0, 8 ] },
-      { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] }
-    ]
+    "entries": [ { "item": "m1014", "prob": 60, "charges": [ 0, 8 ] }, { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] } ]
   },
   {
     "type": "item_group",
@@ -94,11 +91,7 @@
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [
-          { "item": "holo_sight", "prob": 50 },
-          { "item": "acog_scope", "prob": 30 },
-          { "item": "red_dot_sight", "prob": 20 }
-        ]
+        "distribution": [ { "item": "holo_sight", "prob": 50 }, { "item": "acog_scope", "prob": 30 }, { "item": "red_dot_sight", "prob": 20 } ]
       },
       { "distribution": [ { "item": "grip", "prob": 70 }, { "item": "m203", "prob": 30 } ] },
       { "item": "offset_sights", "prob": 30 },
