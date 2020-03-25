@@ -2,7 +2,7 @@
   {
     "id": "afs_atomic_smartphone",
     "type": "TOOL",
-    "name": "atomic smartphone",
+    "name": { "str": "atomic smartphone" },
     "description": "Never charge your phone again with the Rivtech atomic smartphone.  Rated for 10 million years of use, this cutting-edge gadget had been on public markets for less than a week when the Cataclysm hit, and their eye-watering price made them a rarity.  It includes an alarm clock, a high-resolution camera, and a bright flashlight.",
     "weight": "300 g",
     "volume": "50 ml",
@@ -51,7 +51,7 @@
   {
     "id": "afs_wraitheon_smartphone",
     "type": "TOOL",
-    "name": "Wraitheon executive's smartphone",
+    "name": { "str": "Wraitheon executive's smartphone" },
     "copy-from": "afs_atomic_smartphone",
     "description": "Your custom crafted atomic smartphone.  Most notably a confidential executive-level override program allows you to remotely control most robots.",
     "price": 20000000,
@@ -95,7 +95,7 @@
   {
     "id": "afs_atompot",
     "type": "TOOL",
-    "name": "atompot",
+    "name": { "str": "atompot" },
     "copy-from": "pressure_cooker",
     "description": "Rivtech's premiere self-heating kitchen appliance, complete with lid, hand-crafted with the power of the atom to reach any temperature in thirty seconds.  As bulky as it is, its plutonium power source means that it can be used to cook an absurd amount of meals without ever worrying about running low on power.  Unsurprisingly, sales weren't particularly good because of the prospect of irradiating your food, but internal shielding ensures that only trace amounts find its way into the center.",
     "price": 30000,
