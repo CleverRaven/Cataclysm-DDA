@@ -1848,8 +1848,9 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
 
-    for( JsonArray ja : jo.get_array( "contamination" ) ) {
-        slot.contamination.emplace( diseasetype_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
+    for( const JsonObject &jsobj : jo.get_array( "contamination" ) ) {
+        slot.contamination.emplace( diseasetype_id( jsobj.get_string( "disease" ) ),
+                                    jsobj.get_int( "probability" ) );
     }
 
     bool is_junkfood = false;

@@ -1622,7 +1622,7 @@ CBMs can be defined like this:
 "freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
-"contamination": [ [ "bad_food", 5 ] ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
+"contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 ```
 
 ### Containers
