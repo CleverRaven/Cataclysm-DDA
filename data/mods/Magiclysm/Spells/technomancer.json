@@ -61,7 +61,7 @@
     "base_casting_time": 350,
     "base_energy_cost": 375,
     "min_duration": 3000,
-    "max_duration": 60000,
+    "max_duration": 360000,
     "duration_increment": 3000,
     "difficulty": 5,
     "max_level": 20,
@@ -88,7 +88,7 @@
     "base_casting_time": 350,
     "base_energy_cost": 375,
     "min_duration": 3000,
-    "max_duration": 60000,
+    "max_duration": 360000,
     "duration_increment": 3000
   },
   {
