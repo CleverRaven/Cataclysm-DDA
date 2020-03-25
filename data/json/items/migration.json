@@ -790,6 +790,11 @@
     "replace": "10mm_fmj"
   },
   {
+    "id": "reloaded_10mm",
+    "type": "MIGRATION",
+    "replace": "reloaded_10mm_fmj"
+  },
+  {
     "id": "locket",
     "type": "MIGRATION",
     "replace": "silver_locket"
@@ -1143,5 +1148,10 @@
     "id": "lw12mag",
     "type": "MIGRATION",
     "replace": "m1911mag"
+  },
+  {
+    "id": "bio_solar",
+    "type": "MIGRATION",
+    "replace": "potato"
   }
 ]
