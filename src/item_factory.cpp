@@ -613,7 +613,7 @@ void Item_factory::finalize_item_blacklist()
         // remove any recipes used to craft the migrated item
         // if there's a valid recipe, it will be for the replacement
         recipe_dictionary::delete_if( [&migrate]( const recipe & r ) {
-            return r.result() == migrate.first;
+            return !r.obsolete && r.result() == migrate.first;
         } );
 
         // If the default ammo of an ammo_type gets migrated, we migrate all guns using that ammo
