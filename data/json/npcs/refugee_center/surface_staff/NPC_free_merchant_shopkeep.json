@@ -406,7 +406,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_1",
     "type": "mission_definition",
-    "name": "Clear Back Bay",
+    "name": { "str": "Clear Back Bay" },
     "description": "Clear out the barricaded back area in the refugee center and lay the former leader of the Free Merchants to rest, in exchange for the local currency: Free Merchant certified notes.",
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 2,

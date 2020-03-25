@@ -33,11 +33,7 @@
         "topic": "TALK_OLD_GUARD_NEC_CPT_VAULT",
         "condition": { "u_is_wearing": "badge_marshal" }
       },
-      {
-        "text": "What do you need done?",
-        "topic": "TALK_MISSION_LIST",
-        "condition": { "u_is_wearing": "badge_marshal" }
-      },
+      { "text": "What do you need done?", "topic": "TALK_MISSION_LIST", "condition": { "u_is_wearing": "badge_marshal" } },
       {
         "text": "About the mission…",
         "topic": "TALK_MISSION_INQUIRE",
@@ -88,7 +84,7 @@
   {
     "id": "MISSION_OLD_GUARD_NEC_2",
     "type": "mission_definition",
-    "name": "Cull Nightmares",
+    "name": { "str": "Cull Nightmares" },
     "goal": "MGOAL_KILL_MONSTER_TYPE",
     "difficulty": 5,
     "value": 250000,
