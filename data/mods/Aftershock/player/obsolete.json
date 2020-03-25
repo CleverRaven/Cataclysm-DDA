@@ -13,7 +13,7 @@
   {
     "type": "mutation",
     "id": "AFS_PROF_STRONGMAN",
-    "name": "Brutal Strength",
+    "name": { "str": "Brutal Strength" },
     "description": "Genetic defects have made your body incredibly strong.  Strength + 7.",
     "points": 0,
     "valid": false,
