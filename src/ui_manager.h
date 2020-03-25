@@ -35,8 +35,16 @@ class ui_adaptor
         // Set redraw and resizing callbacks. These callbacks should NOT call
         // `debugmsg`, construct new `ui_adaptor` instances, deconstruct old
         // `ui_adaptor` instances, call `redraw`, or call `screen_resized`.
+        //
+        // The redraw callback should also not call `position_from_window`,
+        // otherwise it may cause UI glitch if the window position changes.
         void on_redraw( const redraw_callback_t &fun );
         void on_screen_resize( const screen_resize_callback_t &fun );
+
+        // Mark this ui_adaptor for resizing the next time `redraw()` is called.
+        // This is useful for deferring initialization of the UI when explicit
+        // initialization is not possible or wanted.
+        void mark_resize() const;
 
         static void invalidate( const rectangle &rect );
         static void redraw();
