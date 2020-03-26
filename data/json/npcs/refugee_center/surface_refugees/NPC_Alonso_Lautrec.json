@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Alonso",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Alonso wants to be the town bicycle, but isn't getting as much interest as he'd hoped.  He'll trade a morale bonus for condoms.",

@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_EVAC_SHOPKEEP",
-    "name": "Merchant",
+    "name": { "str": "Merchant" },
     "job_description": "I'm a local shopkeeper.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -36,12 +36,14 @@
   {
     "type": "item_group",
     "id": "NC_EVAC_SHOPKEEP_storage",
-    "items": [ [ "duffelbag", 100 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "duffelbag", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "NC_EVAC_SHOPKEEP_coat",
-    "items": [ [ "trenchcoat", 80 ], [ "vest", 60 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 } ]
   },
   {
     "type": "item_group",
@@ -193,7 +195,7 @@
       [ "pipebomb", 10 ],
       [ "molotov", 10 ],
       [ "longbow", 5 ],
-      [ "compositebow", 15 ],
+      [ "recurbow", 15 ],
       [ "shortbow", 10 ],
       [ "arrow_metal", 25 ],
       [ "bolt_steel", 10 ],
@@ -404,7 +406,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_1",
     "type": "mission_definition",
-    "name": "Clear Back Bay",
+    "name": { "str": "Clear Back Bay" },
     "description": "Clear out the barricaded back area in the refugee center and lay the former leader of the Free Merchants to rest, in exchange for the local currency: Free Merchant certified notes.",
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 2,

@@ -36,6 +36,8 @@ enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
+using itype_id = std::string;
+
 class gun_modifier_data
 {
     private:
@@ -441,11 +443,11 @@ struct islot_wheel {
 };
 
 struct fuel_explosion {
-    int explosion_chance_hot;
-    int explosion_chance_cold;
-    float explosion_factor;
-    bool fiery_explosion;
-    float fuel_size_factor;
+    int explosion_chance_hot = 0;
+    int explosion_chance_cold = 0;
+    float explosion_factor = 0.0f;
+    bool fiery_explosion = false;
+    float fuel_size_factor = 0.0f;
 };
 
 struct islot_fuel {
@@ -453,7 +455,7 @@ struct islot_fuel {
         /** Energy of the fuel (kilojoules per charge) */
         float energy = 0.0f;
         struct fuel_explosion explosion_data;
-        bool has_explode_data;
+        bool has_explode_data = false;
         std::string pump_terrain = "t_null";
 };
 
@@ -588,6 +590,10 @@ struct islot_gunmod : common_ranged_data {
 
     /** Increases base gun UPS consumption by this many times per shot */
     float ups_charges_multiplier = 1.0f;
+
+    /** Increases base gun UPS consumption by this value per shot */
+    int ups_charges_modifier = 0;
+
     /** Increases gun weight by this many times */
     float weight_multiplier = 1.0f;
 
@@ -984,7 +990,7 @@ struct itype {
         /** Volume above which the magazine starts to protrude from the item and add extra volume */
         units::volume magazine_well = 0_ml;
 
-        layer_level layer;
+        layer_level layer = layer_level::MAX_CLOTHING_LAYER;
 
         /**
          * How much insulation this item provides, either as a container, or as
@@ -992,6 +998,11 @@ struct itype {
          * greater than zero, transfers faster, cannot be less than zero.
          */
         float insulation_factor = 1;
+
+        /**
+         * Efficiency of solar energy conversion for solarpacks.
+         */
+        float solar_efficiency = 0;
 
         std::string get_item_type_string() const {
             if( tool ) {

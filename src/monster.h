@@ -240,13 +240,16 @@ class monster : public Creature
          *
          * @param p Destination of movement
          * @param force If this is set to true, the movement will happen even if
-         *              there's currently something blocking the destination.
+         *              there's currently something, else than a creature, blocking the destination.
+         * @param step_on_critter If this is set to true, the movement will happen even if
+         *              there's currently a creature blocking the destination.
          *
          * @param stagger_adjustment is a multiplier for move cost to compensate for staggering.
          *
          * @return true if movement successful, false otherwise
          */
-        bool move_to( const tripoint &p, bool force = false, float stagger_adjustment = 1.0 );
+        bool move_to( const tripoint &p, bool force = false, bool step_on_critter = false,
+                      float stagger_adjustment = 1.0 );
 
         /**
          * Attack any enemies at the given location.
@@ -435,11 +438,11 @@ class monster : public Creature
 
         using Creature::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
-        void add_msg_if_npc( game_message_type type, const std::string &msg ) const override;
+        void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
         using Creature::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
-        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction

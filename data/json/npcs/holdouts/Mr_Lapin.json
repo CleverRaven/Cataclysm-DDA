@@ -16,7 +16,7 @@
   {
     "type": "npc_class",
     "id": "NC_Rabbit_Raiser",
-    "name": "Mr Lapin",
+    "name": { "str": "Mr Lapin" },
     "job_description": "I raise rabbits.",
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,

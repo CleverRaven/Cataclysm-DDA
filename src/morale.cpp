@@ -20,7 +20,24 @@
 #include "translations.h"
 #include "color.h"
 #include "enums.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+
+static const trait_id trait_BADTEMPER( "BADTEMPER" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_LEAVES2( "LEAVES2" );
+static const trait_id trait_LEAVES3( "LEAVES3" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
+static const trait_id trait_ROOTS1( "ROOTS1" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
+static const trait_id trait_STYLISH( "STYLISH" );
 
 namespace
 {
@@ -748,9 +765,9 @@ void player_morale::on_effect_int_change( const efftype_id &eid, int intensity, 
 
 void player_morale::set_worn( const item &it, bool worn )
 {
-    const bool fancy = it.has_flag( flag_FANCY );
-    const bool super_fancy = it.has_flag( flag_SUPER_FANCY );
-    const bool filthy_gear = it.has_flag( flag_FILTHY );
+    const bool fancy = it.has_flag( "FANCY" );
+    const bool super_fancy = it.has_flag( "SUPER_FANCY" );
+    const bool filthy_gear = it.has_flag( "FILTHY" );
     const int sign = ( worn ) ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {

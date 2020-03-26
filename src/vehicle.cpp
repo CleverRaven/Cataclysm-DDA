@@ -57,18 +57,40 @@
 #include "options.h"
 #include "enums.h"
 #include "monster.h"
-#include "cata_string_consts.h"
+
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
  */
+static const std::string part_location_structure( "structure" );
+static const std::string part_location_center( "center" );
+static const std::string part_location_onroof( "on_roof" );
+
+static const itype_id fuel_type_animal( "animal" );
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_plutonium_cell( "plut_cell" );
+static const itype_id fuel_type_wind( "wind" );
+
+static const fault_id fault_belt( "fault_engine_belt_drive" );
+static const fault_id fault_filter_air( "fault_engine_filter_air" );
+static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
+static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
+
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+
+static const bionic_id bio_jointservo( "bio_jointservo" );
+
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_winded( "winded" );
+
+static const std::string flag_PERPETUAL( "PERPETUAL" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
-//
 
 // For reference what each function is supposed to do, see their implementation in
 // @ref DefaultRemovePartHandler. Add compatible code for it into @ref MapgenRemovePartHandler,
@@ -183,7 +205,7 @@ void vehicle_stack::insert( const item &newitem )
 
 units::volume vehicle_stack::max_volume() const
 {
-    if( myorigin->part_flag( part_num, "CARGO" ) && myorigin->parts[part_num].is_available() ) {
+    if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->parts[part_num].is_broken() ) {
         // Set max volume for vehicle cargo to prevent integer overflow
         return std::min( myorigin->parts[part_num].info().size, 10000_liter );
     }
@@ -403,8 +425,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
+        //chance decays from 1 in 4 vehicles on day 0 to 1 in (day + 4) in the future.
+        int current_day = std::max( to_days<int>( calendar::turn - calendar::turn_zero ), 0 );
         if( veh_fuel_mult > 0 && !empty( get_avail_parts( "ENGINE" ) ) &&
-            one_in( 8 ) && !destroyEngine && !has_no_key && has_engine_type_not( fuel_type_muscle, true ) ) {
+            one_in( current_day + 4 ) && !destroyEngine && !has_no_key &&
+            has_engine_type_not( fuel_type_muscle, true ) ) {
             engine_on = true;
         }
 
@@ -1075,7 +1100,7 @@ bool vehicle::is_engine_type( const int e, const itype_id  &ft ) const
 bool vehicle::is_perpetual_type( const int e ) const
 {
     const itype_id  &ft = part_info( engines[e] ).fuel_type;
-    return item( ft ).has_flag( flag_PERPETUAL );
+    return item( ft ).has_flag( "PERPETUAL" );
 }
 
 bool vehicle::is_engine_on( const int e ) const
@@ -1233,7 +1258,7 @@ bool vehicle::has_structural_part( const point &dp ) const
 {
     for( const int elem : parts_at_relative( dp, false ) ) {
         if( part_info( elem ).location == part_location_structure &&
-            !part_info( elem ).has_flag( flag_PROTRUSION ) ) {
+            !part_info( elem ).has_flag( "PROTRUSION" ) ) {
             return true;
         }
     }
@@ -1270,7 +1295,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     //It also has to be a real part, not the null part
     const vpart_info &part = id.obj();
-    if( part.has_flag( flag_NOINSTALL ) ) {
+    if( part.has_flag( "NOINSTALL" ) ) {
         return false;
     }
 
@@ -1281,11 +1306,11 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         return false;
     }
     // If its a part that harnesses animals that dont allow placing on it.
-    if( !parts_in_square.empty() && part_info( parts_in_square[0] ).has_flag( flag_ANIMAL_CTRL ) ) {
+    if( !parts_in_square.empty() && part_info( parts_in_square[0] ).has_flag( "ANIMAL_CTRL" ) ) {
         return false;
     }
     //No other part can be placed on a protrusion
-    if( !parts_in_square.empty() && part_info( parts_in_square[0] ).has_flag( flag_PROTRUSION ) ) {
+    if( !parts_in_square.empty() && part_info( parts_in_square[0] ).has_flag( "PROTRUSION" ) ) {
         return false;
     }
 
@@ -1300,7 +1325,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         }
         // Until we have an interface for handling multiple components with CARGO space,
         // exclude them from being mounted in the same tile.
-        if( part.has_flag( flag_CARGO ) && other_part.has_flag( flag_CARGO ) ) {
+        if( part.has_flag( "CARGO" ) && other_part.has_flag( "CARGO" ) ) {
             return false;
         }
 
@@ -1329,7 +1354,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     if( part.has_flag( VPFLAG_ALTERNATOR ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_E_ALTERNATOR ) ) {
+            if( part_info( elem ).has_flag( "E_ALTERNATOR" ) ) {
                 anchor_found = true;
             }
         }
@@ -1339,10 +1364,10 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     }
 
     //Seatbelts must be installed on a seat
-    if( part.has_flag( flag_SEATBELT ) ) {
+    if( part.has_flag( "SEATBELT" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_BELTABLE ) ) {
+            if( part_info( elem ).has_flag( "BELTABLE" ) ) {
                 anchor_found = true;
             }
         }
@@ -1352,10 +1377,10 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     }
 
     //Internal must be installed into a cargo area.
-    if( part.has_flag( flag_INTERNAL ) ) {
+    if( part.has_flag( "INTERNAL" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_CARGO ) ) {
+            if( part_info( elem ).has_flag( "CARGO" ) ) {
                 anchor_found = true;
             }
         }
@@ -1366,10 +1391,10 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     // curtains must be installed on (reinforced)windshields
     // TODO: do this automatically using "location":"on_mountpoint"
-    if( part.has_flag( flag_WINDOW_CURTAIN ) ) {
+    if( part.has_flag( "WINDOW_CURTAIN" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_WINDOW ) ) {
+            if( part_info( elem ).has_flag( "WINDOW" ) ) {
                 anchor_found = true;
             }
         }
@@ -1379,10 +1404,10 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     }
 
     // Security system must be installed on controls
-    if( part.has_flag( flag_ON_CONTROLS ) ) {
+    if( part.has_flag( "ON_CONTROLS" ) ) {
         bool anchor_found = false;
         for( auto it : parts_in_square ) {
-            if( part_info( it ).has_flag( flag_CONTROLS ) ) {
+            if( part_info( it ).has_flag( "CONTROLS" ) ) {
                 anchor_found = true;
             }
         }
@@ -1393,10 +1418,10 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
 
     // Cargo locks must go on lockable cargo containers
     // TODO: do this automatically using "location":"on_mountpoint"
-    if( part.has_flag( flag_CARGO_LOCKING ) ) {
+    if( part.has_flag( "CARGO_LOCKING" ) ) {
         bool anchor_found = false;
         for( auto it : parts_in_square ) {
-            if( part_info( it ).has_flag( flag_LOCKABLE_CARGO ) ) {
+            if( part_info( it ).has_flag( "LOCKABLE_CARGO" ) ) {
                 anchor_found = true;
             }
         }
@@ -1406,10 +1431,10 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     }
 
     //Swappable storage battery must be installed on a BATTERY_MOUNT
-    if( part.has_flag( flag_NEEDS_BATTERY_MOUNT ) ) {
+    if( part.has_flag( "NEEDS_BATTERY_MOUNT" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_BATTERY_MOUNT ) ) {
+            if( part_info( elem ).has_flag( "BATTERY_MOUNT" ) ) {
                 anchor_found = true;
             }
         }
@@ -1419,10 +1444,10 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     }
 
     //Door motors need OPENABLE
-    if( part.has_flag( flag_DOOR_MOTOR ) ) {
+    if( part.has_flag( "DOOR_MOTOR" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_OPENABLE ) ) {
+            if( part_info( elem ).has_flag( "OPENABLE" ) ) {
                 anchor_found = true;
             }
         }
@@ -1432,28 +1457,28 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     }
 
     //Mirrors cannot be mounted on OPAQUE parts
-    if( part.has_flag( flag_VISION ) && !part.has_flag( flag_CAMERA ) ) {
+    if( part.has_flag( "VISION" ) && !part.has_flag( "CAMERA" ) ) {
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_OPAQUE ) ) {
+            if( part_info( elem ).has_flag( "OPAQUE" ) ) {
                 return false;
             }
         }
     }
     //and vice versa
-    if( part.has_flag( flag_OPAQUE ) ) {
+    if( part.has_flag( "OPAQUE" ) ) {
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_VISION ) &&
-                !part_info( elem ).has_flag( flag_CAMERA ) ) {
+            if( part_info( elem ).has_flag( "VISION" ) &&
+                !part_info( elem ).has_flag( "CAMERA" ) ) {
                 return false;
             }
         }
     }
 
     //Turrets must be installed on a turret mount
-    if( part.has_flag( flag_TURRET ) ) {
+    if( part.has_flag( "TURRET" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_TURRET_MOUNT ) ) {
+            if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
                 anchor_found = true;
                 break;
             }
@@ -1464,19 +1489,19 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     }
 
     //Turret mounts must NOT be installed on other (modded) turret mounts
-    if( part.has_flag( flag_TURRET_MOUNT ) ) {
+    if( part.has_flag( "TURRET_MOUNT" ) ) {
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_TURRET_MOUNT ) ) {
+            if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
                 return false;
             }
         }
     }
 
     //Roof-mounted parts must be installed on a roofs
-    if( part.has_flag( flag_ON_ROOF ) ) {
+    if( part.has_flag( "ON_ROOF" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_ROOF ) ) {
+            if( part_info( elem ).has_flag( "ROOF" ) ) {
                 anchor_found = true;
                 break;
             }
@@ -1487,10 +1512,10 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     }
 
     // Wheels that need axles must be installed on a wheel mount
-    if( part.has_flag( flag_NEEDS_WHEEL_MOUNT_LIGHT ) ) {
+    if( part.has_flag( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_WHEEL_MOUNT_LIGHT ) ) {
+            if( part_info( elem ).has_flag( "WHEEL_MOUNT_LIGHT" ) ) {
                 anchor_found = true;
                 break;
             }
@@ -1499,10 +1524,10 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
             return false;
         }
     }
-    if( part.has_flag( flag_NEEDS_WHEEL_MOUNT_MEDIUM ) ) {
+    if( part.has_flag( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_WHEEL_MOUNT_MEDIUM ) ) {
+            if( part_info( elem ).has_flag( "WHEEL_MOUNT_MEDIUM" ) ) {
                 anchor_found = true;
                 break;
             }
@@ -1511,10 +1536,10 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
             return false;
         }
     }
-    if( part.has_flag( flag_NEEDS_WHEEL_MOUNT_HEAVY ) ) {
+    if( part.has_flag( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_WHEEL_MOUNT_HEAVY ) ) {
+            if( part_info( elem ).has_flag( "WHEEL_MOUNT_HEAVY" ) ) {
                 anchor_found = true;
                 break;
             }
@@ -1525,10 +1550,10 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     }
 
     //Turret controls must be installed on a turret
-    if( part.has_flag( flag_TURRET_CONTROLS ) ) {
+    if( part.has_flag( "TURRET_CONTROLS" ) ) {
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( flag_TURRET ) ) {
+            if( part_info( elem ).has_flag( "TURRET" ) ) {
                 anchor_found = true;
                 break;
             }
@@ -1686,7 +1711,7 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
 
             if( !parts_there.empty() && !parts[ parts_there[ 0 ] ].removed &&
                 part_info( parts_there[ 0 ] ).location == "structure" &&
-                !part_info( parts_there[ 0 ] ).has_flag( flag_PROTRUSION ) ) {
+                !part_info( parts_there[ 0 ] ).has_flag( "PROTRUSION" ) ) {
                 //Only add the part if we haven't been here before
                 bool found = false;
                 for( auto &elem : discovered ) {
@@ -2167,17 +2192,20 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     bool tracked_parts =
         false; // we will set this to true if any of the vehicle parts carry a tracked_flag
     for( int carried_part : carried_parts ) {
-        std::string id_string = parts[ carried_part ].carry_names.top().substr( 0, 1 );
         //check if selected part carries tracking flag
         if( parts[carried_part].has_flag(
                 vehicle_part::tracked_flag ) ) { //this should only need to run once
             tracked_parts = true;
         }
-        if( id_string == "X" || id_string == "Y" ) {
-            veh_record = parts[ carried_part ].carry_names.top();
-            new_pos3 = global_part_pos3( carried_part );
-            x_aligned = id_string == "X";
-            break;
+        const auto &carry_names = parts[carried_part].carry_names;
+        if( !carry_names.empty() ) {
+            std::string id_string = carry_names.top().substr( 0, 1 );
+            if( id_string == "X" || id_string == "Y" ) {
+                veh_record = carry_names.top();
+                new_pos3 = global_part_pos3( carried_part );
+                x_aligned = id_string == "X";
+                break;
+            }
         }
     }
     if( veh_record.empty() ) {
@@ -2399,7 +2427,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 for( size_t sp = 0; sp < split_parts.size(); sp++ ) {
                     int p = split_parts[ sp ];
                     if( part_info( p ).location == part_location_structure &&
-                        !part_info( p ).has_flag( flag_PROTRUSION ) ) {
+                        !part_info( p ).has_flag( "PROTRUSION" ) ) {
                         split_part0 = sp;
                         break;
                     }
@@ -3344,15 +3372,15 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
             const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE, true );
             if( p >= 0 && is_part_on( p ) && part_info( p ).fuel_type == fuel_type_muscle ) {
                 //Broken limbs prevent muscle engines from working
-                if( ( part_info( p ).has_flag( flag_MUSCLE_LEGS ) && ( g->u.get_working_leg_count() >= 2 ) ) ||
-                    ( part_info( p ).has_flag( flag_MUSCLE_ARMS ) &&
+                if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() >= 2 ) ) ||
+                    ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
                       ( g->u.get_working_arm_count() >= 2 ) ) ) {
                     fl += 10;
                 }
             }
         }
         // As do any other engine flagged as perpetual
-    } else if( item( ftype ).has_flag( flag_PERPETUAL ) ) {
+    } else if( item( ftype ).has_flag( "PERPETUAL" ) ) {
         fl += 10;
     }
 
@@ -3470,7 +3498,7 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
 int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) const
 {
     item fuel = item( ftype );
-    if( fuel_rate_w == 0 || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
+    if( fuel_rate_w == 0 || fuel.has_flag( "PERPETUAL" ) || !engine_on ) {
         return 0;
     }
     // consume this fuel type's share of alternator load for 3600 seconds
@@ -3793,7 +3821,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             cur_stress = std::max( cur_stress, 1.0 );
             double part_noise = cur_stress * part_info( p ).engine_noise_factor();
 
-            if( part_info( p ).has_flag( flag_E_COMBUSTION ) ) {
+            if( part_info( p ).has_flag( "E_COMBUSTION" ) ) {
                 combustion = true;
                 double health = parts[p].health_percent();
                 if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
@@ -3917,16 +3945,16 @@ double vehicle::coeff_air_drag() const
         if( p.info().location != part_location_center ) {
             return false;
         }
-        return !( p.inside || p.info().has_flag( flag_NO_ROOF_NEEDED ) ||
-                  p.info().has_flag( flag_WINDSHIELD ) ||
-                  p.info().has_flag( flag_OPENABLE ) );
+        return !( p.inside || p.info().has_flag( "NO_ROOF_NEEDED" ) ||
+                  p.info().has_flag( "WINDSHIELD" ) ||
+                  p.info().has_flag( "OPENABLE" ) );
     };
 
     const auto d_protrusion = [&]( std::vector<int> parts_at ) {
         if( parts_at.size() > 1 ) {
             return false;
         } else {
-            return parts[ parts_at.front() ].info().has_flag( flag_PROTRUSION );
+            return parts[ parts_at.front() ].info().has_flag( "PROTRUSION" );
         }
     };
     const auto d_check_min = [&]( int &value, const vehicle_part & p, bool test ) {
@@ -3949,22 +3977,22 @@ double vehicle::coeff_air_drag() const
         d_check_min( drag[ col ].pro, parts[ p ], d_protrusion( parts_at ) );
         for( int pa_index : parts_at ) {
             const vehicle_part &pa = parts[ pa_index ];
-            d_check_max( drag[ col ].hboard, pa, pa.info().has_flag( flag_HALF_BOARD ) );
-            d_check_max( drag[ col ].fboard, pa, pa.info().has_flag( flag_FULL_BOARD ) );
-            d_check_max( drag[ col ].aisle, pa, pa.info().has_flag( flag_AISLE ) );
-            d_check_max( drag[ col ].shield, pa, pa.info().has_flag( flag_WINDSHIELD ) &&
+            d_check_max( drag[ col ].hboard, pa, pa.info().has_flag( "HALF_BOARD" ) );
+            d_check_max( drag[ col ].fboard, pa, pa.info().has_flag( "FULL_BOARD" ) );
+            d_check_max( drag[ col ].aisle, pa, pa.info().has_flag( "AISLE" ) );
+            d_check_max( drag[ col ].shield, pa, pa.info().has_flag( "WINDSHIELD" ) &&
                          pa.is_available() );
-            d_check_max( drag[ col ].seat, pa, pa.info().has_flag( flag_SEAT ) ||
-                         pa.info().has_flag( flag_BED ) );
+            d_check_max( drag[ col ].seat, pa, pa.info().has_flag( "SEAT" ) ||
+                         pa.info().has_flag( "BED" ) );
             d_check_max( drag[ col ].turret, pa, pa.info().location == part_location_onroof &&
-                         !pa.info().has_flag( flag_SOLAR_PANEL ) );
-            d_check_max( drag[ col ].roof, pa, pa.info().has_flag( flag_ROOF ) );
-            d_check_max( drag[ col ].panel, pa, pa.info().has_flag( flag_SOLAR_PANEL ) );
-            d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( flag_WIND_TURBINE ) );
-            d_check_max( drag[ col ].sail, pa, pa.info().has_flag( flag_WIND_POWERED ) );
+                         !pa.info().has_flag( "SOLAR_PANEL" ) );
+            d_check_max( drag[ col ].roof, pa, pa.info().has_flag( "ROOF" ) );
+            d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
+            d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
+            d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
-            d_check_min( drag[ col ].last, pa, pa.info().has_flag( flag_LOW_FINAL_AIR_DRAG ) ||
-                         pa.info().has_flag( flag_HALF_BOARD ) );
+            d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
+                         pa.info().has_flag( "HALF_BOARD" ) );
         }
     }
     double height = 0;
@@ -4056,6 +4084,14 @@ double vehicle::coeff_rolling_drag() const
     coefficient_rolling_resistance = newton_ratio * wheel_factor * to_kilogram( total_mass() );
     coeff_rolling_dirty = false;
     return coefficient_rolling_resistance;
+}
+
+double vehicle::water_hull_height() const
+{
+    if( coeff_water_dirty ) {
+        coeff_water_drag();
+    }
+    return hull_height;
 }
 
 double vehicle::water_draft() const
@@ -4182,7 +4218,7 @@ bool vehicle::sufficient_wheel_config() const
         return false;
     } else if( wheelcache.size() == 1 ) {
         //Has to be a stable wheel, and one wheel can only support a 1-3 tile vehicle
-        if( !part_info( wheelcache.front() ).has_flag( flag_STABLE ) ||
+        if( !part_info( wheelcache.front() ).has_flag( "STABLE" ) ||
             all_parts_at_location( part_location_structure ).size() > 3 ) {
             return false;
         }
@@ -4218,9 +4254,9 @@ std::string vehicle::get_owner_name() const
 {
     if( !g->faction_manager_ptr->get( owner ) ) {
         debugmsg( "vehicle::get_owner_name() vehicle %s has no valid nor null faction id ", disp_name() );
-        return "no owner";
+        return _( "no owner" );
     }
-    return g->faction_manager_ptr->get( owner )->name;
+    return _( g->faction_manager_ptr->get( owner )->name );
 }
 
 void vehicle::set_owner( const Character &c )
@@ -4624,7 +4660,7 @@ void vehicle::update_alternator_load()
     if( engine_on ) {
         int engine_vpower = 0;
         for( size_t e = 0; e < engines.size(); ++e ) {
-            if( is_engine_on( e ) && parts[engines[e]].info().has_flag( flag_E_ALTERNATOR ) ) {
+            if( is_engine_on( e ) && parts[engines[e]].info().has_flag( "E_ALTERNATOR" ) ) {
                 engine_vpower += part_vpower_w( engines[e] );
             }
         }
@@ -4805,7 +4841,7 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
         g->u.add_msg_if_player( m_debug, "Traversing graph with %d power", amount );
 
         for( auto &p : current_veh->loose_parts ) {
-            if( !current_veh->part_info( p ).has_flag( flag_POWER_TRANSFER ) ) {
+            if( !current_veh->part_info( p ).has_flag( "POWER_TRANSFER" ) ) {
                 continue; // ignore loose parts that aren't power transfer cables
             }
 
@@ -5008,7 +5044,7 @@ void vehicle::slow_leak()
     // for each badly damaged tanks (lower than 50% health), leak a small amount
     for( auto &p : parts ) {
         auto health = p.health_percent();
-        if( health > 0.5 || p.ammo_remaining() <= 0 ) {
+        if( !p.is_leaking() || p.ammo_remaining() <= 0 ) {
             continue;
         }
 
@@ -5425,22 +5461,22 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
             solar_panels.push_back( p );
         }
-        if( vpi.has_flag( flag_WIND_TURBINE ) ) {
+        if( vpi.has_flag( "WIND_TURBINE" ) ) {
             wind_turbines.push_back( p );
         }
-        if( vpi.has_flag( flag_WIND_POWERED ) ) {
+        if( vpi.has_flag( "WIND_POWERED" ) ) {
             sails.push_back( p );
         }
-        if( vpi.has_flag( flag_WATER_WHEEL ) ) {
+        if( vpi.has_flag( "WATER_WHEEL" ) ) {
             water_wheels.push_back( p );
         }
-        if( vpi.has_flag( flag_FUNNEL ) ) {
+        if( vpi.has_flag( "FUNNEL" ) ) {
             funnels.push_back( p );
         }
-        if( vpi.has_flag( flag_UNMOUNT_ON_MOVE ) ) {
+        if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) ) {
             loose_parts.push_back( p );
         }
-        if( vpi.has_flag( flag_EMITTER ) ) {
+        if( vpi.has_flag( "EMITTER" ) ) {
             emitters.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
@@ -5461,29 +5497,29 @@ void vehicle::refresh()
             railwheel_xmax = std::max( railwheel_xmax, pt.x );
             railwheel_ymax = std::max( railwheel_ymax, pt.y );
         }
-        if( ( vpi.has_flag( flag_STEERABLE ) && part_with_feature( pt, flag_STEERABLE, true ) != -1 ) ||
-            vpi.has_flag( flag_TRACKED ) ) {
+        if( ( vpi.has_flag( "STEERABLE" ) && part_with_feature( pt, "STEERABLE", true ) != -1 ) ||
+            vpi.has_flag( "TRACKED" ) ) {
             // TRACKED contributes to steering effectiveness but
             //  (a) doesn't count as a steering axle for install difficulty
             //  (b) still contributes to drag for the center of steering calculation
             steering.push_back( p );
         }
-        if( vpi.has_flag( flag_SECURITY ) ) {
+        if( vpi.has_flag( "SECURITY" ) ) {
             speciality.push_back( p );
         }
-        if( vp.part().enabled && vpi.has_flag( flag_EXTRA_DRAG ) ) {
+        if( vp.part().enabled && vpi.has_flag( "EXTRA_DRAG" ) ) {
             extra_drag += vpi.power;
         }
-        if( vpi.has_flag( flag_EXTRA_DRAG ) && ( vpi.has_flag( flag_WIND_TURBINE ) ||
-                vpi.has_flag( flag_WATER_WHEEL ) ) ) {
+        if( vpi.has_flag( "EXTRA_DRAG" ) && ( vpi.has_flag( "WIND_TURBINE" ) ||
+                                              vpi.has_flag( "WATER_WHEEL" ) ) ) {
             extra_drag += vpi.power;
         }
-        if( camera_on && vpi.has_flag( flag_CAMERA ) ) {
+        if( camera_on && vpi.has_flag( "CAMERA" ) ) {
             vp.part().enabled = true;
-        } else if( !camera_on && vpi.has_flag( flag_CAMERA ) ) {
+        } else if( !camera_on && vpi.has_flag( "CAMERA" ) ) {
             vp.part().enabled = false;
         }
-        if( vpi.has_flag( flag_TURRET ) && !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
+        if( vpi.has_flag( "TURRET" ) && !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
             vp.part().enabled = false;
         }
     }
@@ -5826,7 +5862,7 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
         const size_t p = vp.part_index();
         int distance = 1 + square_dist( vp.mount(), impact );
         if( distance > 1 && part_info( p ).location == part_location_structure &&
-            !part_info( p ).has_flag( flag_PROTRUSION ) ) {
+            !part_info( p ).has_flag( "PROTRUSION" ) ) {
             damage_direct( p, rng( dmg1, dmg2 ) / ( distance * distance ), type );
         }
     }
@@ -6033,6 +6069,9 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
         invalidate_mass();
         coeff_air_changed = true;
+
+        // refresh cache in case the broken part has changed the status
+        refresh();
     }
 
     if( parts[p].is_fuel_store() ) {

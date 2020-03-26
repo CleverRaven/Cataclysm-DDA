@@ -47,6 +47,10 @@
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 #  make localization LANGUAGES=all
 #  (for every .po file in lang/po)
+#  Special note for MinGW: due to a libintl bug (https://savannah.gnu.org/bugs/index.php?58006),
+#  using English without a `.mo` file would cause significant slow down on MinGW
+#  targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`.
+#  `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
 # Enable sanitizer (address, undefined, etc.)
 #  make SANITIZE=address
 # Change mapsize (reality bubble size)
@@ -89,12 +93,17 @@
 RELEASE_FLAGS =
 WARNINGS = \
   -Werror -Wall -Wextra \
+  -Wformat-signedness \
+  -Wlogical-op \
   -Wmissing-declarations \
   -Wmissing-noreturn \
+  -Wnon-virtual-dtor \
   -Wold-style-cast \
   -Woverloaded-virtual \
   -Wpedantic \
   -Wsuggest-override \
+  -Wunused-macros \
+  -Wzero-as-null-pointer-constant \
   -Wno-unknown-warning-option
 # Uncomment below to disable warnings
 #WARNINGS = -w
@@ -163,6 +172,13 @@ endif
 # Auto-detect MSYS2
 ifdef MSYSTEM
   MSYS2 = 1
+endif
+
+# Determine JSON formatter binary name
+ifeq ($(MSYS2), 1)
+  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
+else
+  JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
 endif
 
 # Enable backtrace by default
@@ -362,7 +378,7 @@ endif
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
-BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt VERSION.txt
+BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt VERSION.txt $(JSON_FORMATTER_BIN)
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = $(BUILD_PREFIX)cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
@@ -473,6 +489,10 @@ endif
 ifneq (,$(findstring mingw32,$(CROSS)))
   DEFINES += -DCROSS_LINUX
   TARGETSYSTEM=WINDOWS
+endif
+
+ifneq ($(TARGETSYSTEM),WINDOWS)
+  WARNINGS += -Wredundant-decls
 endif
 
 # Global settings for Windows targets
@@ -887,6 +907,7 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/help $(DATA_PREFIX)
 ifdef TILES
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif
@@ -894,7 +915,7 @@ ifdef SOUND
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
-                   LICENSE.txt -t $(DATA_PREFIX)
+                   LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
 ifdef LANGUAGES
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh $(LANGUAGES)
@@ -918,6 +939,7 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/help $(DATA_PREFIX)
 ifdef TILES
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif
@@ -925,7 +947,7 @@ ifdef SOUND
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
-                   LICENSE.txt -t $(DATA_PREFIX)
+                   LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
 ifdef LANGUAGES
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh $(LANGUAGES)
@@ -974,6 +996,7 @@ endif
 	cp -R data/motd $(APPDATADIR)
 	cp -R data/credits $(APPDATADIR)
 	cp -R data/title $(APPDATADIR)
+	cp -R data/help $(APPDATADIR)
 ifdef LANGUAGES
 	lang/compile_mo.sh $(LANGUAGES)
 	mkdir -p $(APPRESOURCESDIR)/lang/mo/
@@ -1067,11 +1090,6 @@ endif
 
 JSON_FILES = $(shell find data -name "*.json" | sed "s|^\./||")
 JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
-ifeq ($(MSYS2), 1)
-  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
-else
-  JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
-endif
 
 style-json: $(JSON_WHITELIST)
 

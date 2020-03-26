@@ -59,7 +59,28 @@
 #include "mtype.h"
 #include "point.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_emp( "emp" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_teleglow( "teleglow" );
+
+static const std::string flag_BLIND( "BLIND" );
+static const std::string flag_FLASH_PROTECTION( "FLASH_PROTECTION" );
+
+static const itype_id fuel_type_none( "null" );
+
+static const species_id ROBOT( "ROBOT" );
+
+static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
+static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
+
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
@@ -620,7 +641,7 @@ void emp_blast( const tripoint &p )
     int x = p.x;
     int y = p.y;
     const bool sight = g->u.sees( p );
-    if( g->m.has_flag( flag_CONSOLE, point( x, y ) ) ) {
+    if( g->m.has_flag( "CONSOLE", point( x, y ) ) ) {
         if( sight ) {
             add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( point( x, y ) ) );
         }

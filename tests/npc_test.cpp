@@ -31,7 +31,6 @@
 #include "memory_fast.h"
 
 #include "player_helpers.h"
-#include "cata_string_consts.h"
 
 class Creature;
 
@@ -384,9 +383,9 @@ TEST_CASE( "npc-movement" )
                 REQUIRE( g->m.passable( p ) );
             }
             if( type == 'R' ) {
-                REQUIRE( g->m.has_flag( flag_UNSTABLE, p ) );
+                REQUIRE( g->m.has_flag( "UNSTABLE", p ) );
             } else {
-                REQUIRE( !g->m.has_flag( flag_UNSTABLE, p ) );
+                REQUIRE( !g->m.has_flag( "UNSTABLE", p ) );
             }
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 REQUIRE( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );

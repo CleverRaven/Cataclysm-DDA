@@ -67,7 +67,31 @@
 #include "colony.h"
 #include "pimpl.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
+static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
+static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
+static const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
+static const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
+static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
+static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
+static const mongroup_id GROUP_LAB( "GROUP_LAB" );
+static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
+static const mongroup_id GROUP_LAB_FEMA( "GROUP_LAB_FEMA" );
+static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+static const mongroup_id GROUP_PLAIN( "GROUP_PLAIN" );
+static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
+static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
+static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
+static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
+static const mongroup_id GROUP_TRIFFID_HEART( "GROUP_TRIFFID_HEART" );
+static const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
+static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+static const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
+
+static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1504,7 +1528,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                 return;
             }
 
-            if( furn.has_flag( flag_PLANT ) ) {
+            if( furn.has_flag( "PLANT" ) ) {
                 // plant furniture requires exactly one seed item within it
                 if( item_spawner && item_group_spawner ) {
                     debugmsg( "%s (with flag PLANT) specifies both an item and an item group.  "
@@ -2350,7 +2374,7 @@ void mapgen_function_json_base::check_common( const std::string &oter_name ) con
 {
     auto check_furn = [&]( const furn_id & id ) {
         const furn_t &furn = id.obj();
-        if( furn.has_flag( flag_PLANT ) ) {
+        if( furn.has_flag( "PLANT" ) ) {
             debugmsg( "json mapgen for overmap terrain %s specifies furniture %s, which has flag "
                       "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
                       oter_name, furn.id.str() );
@@ -4013,7 +4037,7 @@ void map::draw_lab( mapgendata &dat )
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // Create a mostly spread fungal area throughout entire lab.
-                            if( !one_in( 5 ) && ( has_flag( flag_FLAT, point( i, j ) ) ) ) {
+                            if( !one_in( 5 ) && ( has_flag( "FLAT", point( i, j ) ) ) ) {
                                 ter_set( point( i, j ), t_fungus_floor_in );
                                 if( has_flag_furn( "ORGANIC", point( i, j ) ) ) {
                                     furn_set( point( i, j ), f_fungal_clump );
@@ -5887,9 +5911,9 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
         auto is_valid_terrain = [this, ongrass]( int x, int y ) {
             auto &terrain = ter( point( x, y ) ).obj();
             return terrain.movecost == 0           &&
-                   !terrain.has_flag( flag_PLACE_ITEM ) &&
+                   !terrain.has_flag( "PLACE_ITEM" ) &&
                    !ongrass                                   &&
-                   !terrain.has_flag( flag_FLAT );
+                   !terrain.has_flag( "FLAT" );
         };
 
         int px = 0;

@@ -20,7 +20,7 @@
     "id": "m1911mag_10rd_38super",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "M1911 .38 Super magazine",
+    "name": { "str": "M1911 .38 Super magazine" },
     "description": "A compact single stack box magazine for the M1911.",
     "weight": "80 g",
     "volume": "250 ml",

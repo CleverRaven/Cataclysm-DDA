@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Uyen",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "A paramedic who suffers a bit of racism for being asian",

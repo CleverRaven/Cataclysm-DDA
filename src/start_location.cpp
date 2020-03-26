@@ -25,7 +25,6 @@
 #include "rng.h"
 #include "translations.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 class item;
 
@@ -186,7 +185,7 @@ static void board_up( map &m, const tripoint_range &range )
 void start_location::prepare_map( tinymap &m ) const
 {
     const int z = m.get_abs_sub().z;
-    if( flags().count( flag_BOARDED ) > 0 ) {
+    if( flags().count( "BOARDED" ) > 0 ) {
         m.build_outside_cache( z );
         board_up( m, m.points_on_zlevel( z ) );
     } else {
@@ -269,7 +268,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
         checked[cur.x][cur.y] = attempt;
         if( cur.x == 0 || cur.x == MAPSIZE_X - 1 ||
             cur.y == 0 || cur.y == MAPSIZE_Y - 1 ||
-            m.has_flag( flag_GOES_UP, cur ) ) {
+            m.has_flag( "GOES_UP", cur ) ) {
             return INT_MAX;
         }
 
@@ -296,7 +295,7 @@ void start_location::place_player( player &u ) const
     u.setz( g->get_levz() );
     m.invalidate_map_cache( m.get_abs_sub().z );
     m.build_map_cache( m.get_abs_sub().z );
-    const bool must_be_inside = flags().count( flag_ALLOW_OUTSIDE ) == 0;
+    const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     // TODO: Allow using items here
     const int bash = u.get_str();
@@ -365,7 +364,7 @@ void start_location::burn( const tripoint &omtstart,
                m.has_flag_ter( "OPENCLOSE_INSIDE", p ) ||
                m.is_outside( p ) ||
                ( p.x >= ux - rad && p.x <= ux + rad && p.y >= uy - rad && p.y <= uy + rad ) ) ) {
-            if( m.has_flag( flag_FLAMMABLE, p ) || m.has_flag( flag_FLAMMABLE_ASH, p ) ) {
+            if( m.has_flag( "FLAMMABLE", p ) || m.has_flag( "FLAMMABLE_ASH", p ) ) {
                 valid.push_back( p );
             }
         }

@@ -2,7 +2,7 @@
   {
     "id": "mon_frog_giant",
     "type": "MONSTER",
-    "name": "giant frog",
+    "name": { "str": "giant frog" },
     "description": "A mutated bullfrog taller than you are.  It stares with amber eyes as it considers the easiest way to swallow you whole.",
     "default_faction": "frog",
     "bodytype": "frog",
@@ -32,8 +32,8 @@
   {
     "id": "mon_gator",
     "type": "MONSTER",
-    "name": "sewer gator",
-    "description": "In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like it sees humans as anything other than a meal.",
+    "name": { "str": "sewer gator" },
+    "description": "In the late 20th century, there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like it sees humans as anything other than a meal.",
     "default_faction": "gator",
     "bodytype": "gator",
     "categories": [ "WILDLIFE" ],
@@ -80,7 +80,7 @@
   {
     "id": "mon_rattlesnake",
     "type": "MONSTER",
-    "name": "rattlesnake",
+    "name": { "str": "rattlesnake" },
     "description": "The timber rattlesnake is the most venomous viper native to New England.  Climatic changes have extended its range far into the north.",
     "default_faction": "small_animal",
     "bodytype": "snake",
@@ -114,7 +114,7 @@
   {
     "id": "mon_rattlesnake_giant",
     "type": "MONSTER",
-    "name": "giant rattlesnake",
+    "name": { "str": "giant rattlesnake" },
     "description": "A mutated timber rattlesnake, about three times as large as the norm.  While it isn't big enough to regard humans as potential prey, it is more aggressive and dangerous compared to a normal rattler.",
     "default_faction": "animal",
     "bodytype": "snake",
@@ -158,7 +158,7 @@
   {
     "id": "mon_sewer_snake",
     "type": "MONSTER",
-    "name": "sewer snake",
+    "name": { "str": "sewer snake" },
     "description": "An aggressive mutant variety of the worm snake, turned pale yellow from its underground life.  It swarms beneath the ground and is named for its habit of infesting sewer lines.",
     "default_faction": "mutant",
     "bodytype": "snake",

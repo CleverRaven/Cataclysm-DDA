@@ -191,13 +191,14 @@
   {
     "type": "item_group",
     "id": "antique_guns",
-    "items": [
-      [ "pistol_flintlock", 60 ],
-      [ "carbine_flintlock", 40 ],
-      [ "lemat_revolver", 30 ],
-      [ "rifle_flintlock", 75 ],
-      [ "colt_army", 30 ],
-      [ "colt_navy", 30 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pistol_flintlock", "prob": 60 },
+      { "item": "carbine_flintlock", "prob": 40 },
+      { "item": "lemat_revolver", "prob": 30 },
+      { "item": "rifle_flintlock", "prob": 75 },
+      { "item": "colt_army", "prob": 30 },
+      { "item": "colt_navy", "prob": 30 }
     ]
   },
   {
@@ -205,19 +206,26 @@
     "id": "antique_guns_with_ammo",
     "ammo": 100,
     "magazine": 100,
-    "items": [
-      [ "pistol_flintlock", 60 ],
-      [ "carbine_flintlock", 40 ],
-      [ "lemat_revolver", 30 ],
-      [ "rifle_flintlock", 75 ],
-      [ "colt_army", 30 ],
-      [ "colt_navy", 30 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pistol_flintlock", "prob": 60 },
+      { "item": "carbine_flintlock", "prob": 40 },
+      { "item": "lemat_revolver", "prob": 30 },
+      { "item": "rifle_flintlock", "prob": 75 },
+      { "item": "colt_army", "prob": 30 },
+      { "item": "colt_navy", "prob": 30 }
     ]
   },
   {
     "type": "item_group",
     "id": "antique_ammo",
-    "items": [ [ "flintlock_ammo", 60 ], [ "flintlock_shot", 40 ], [ "36navy", 50 ], [ "44army", 50 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "flintlock_ammo", "prob": 60 },
+      { "item": "flintlock_shot", "prob": 40 },
+      { "item": "36navy", "prob": 50 },
+      { "item": "44army", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",
@@ -226,14 +234,11 @@
       [ "crossbow", 80 ],
       [ "bullet_crossbow", 10 ],
       [ "hand_crossbow", 10 ],
-      [ "huge_crossbow", 5 ],
       [ "longbow", 40 ],
       [ "compbow", 40 ],
-      [ "compositebow", 40 ],
       [ "shortbow", 20 ],
       [ "recurbow", 40 ],
       [ "reflexbow", 20 ],
-      [ "hybridbow", 25 ],
       [ "slingshot", 50 ],
       [ "wristrocket", 50 ]
     ]

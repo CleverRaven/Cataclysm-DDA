@@ -23,7 +23,6 @@
 #include "line.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 enum astar_state {
     ASL_NONE,
@@ -335,7 +334,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         // Climbing fences
                         newg += climb_cost;
                     } else if( doors && ( terrain.open || furniture.open ) &&
-                               ( !terrain.has_flag( flag_OPENCLOSE_INSIDE ) || !furniture.has_flag( flag_OPENCLOSE_INSIDE ) ||
+                               ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !furniture.has_flag( "OPENCLOSE_INSIDE" ) ||
                                  !is_outside( cur ) ) ) {
                         // Only try to open INSIDE doors from the inside
                         // To open and then move onto the tile

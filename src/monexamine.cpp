@@ -36,7 +36,23 @@
 #include "type_id.h"
 #include "pimpl.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_MILK( "ACT_MILK" );
+static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
+
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_paid( "paid" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_saddled( "monster_saddled" );
+static const efftype_id effect_tied( "tied" );
+
+static const skill_id skill_survival( "survival" );
+
+static const species_id ZOMBIE( "ZOMBIE" );
 
 bool monexamine::pet_menu( monster &z )
 {
@@ -101,7 +117,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( rope, true, 't', _( "Untie" ) );
     } else if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         std::vector<item *> rope_inv = g->u.items_with( []( const item & itm ) {
-            return itm.has_flag( flag_TIE_UP );
+            return itm.has_flag( "TIE_UP" );
         } );
         if( !rope_inv.empty() ) {
             amenu.addentry( rope, true, 't', _( "Tie" ) );
@@ -254,7 +270,7 @@ static item_location pet_armor_loc( monster &z )
 static item_location tack_loc()
 {
     auto filter = []( const item & it ) {
-        return it.has_flag( flag_TACK );
+        return it.has_flag( "TACK" );
     };
 
     return game_menus::inv::titled_filter_menu( filter, g->u, _( "Tack" ) );
@@ -273,7 +289,7 @@ void monexamine::insert_battery( monster &z )
         return;
     }
     std::vector<item *> bat_inv = g->u.items_with( []( const item & itm ) {
-        return itm.has_flag( flag_MECH_BAT );
+        return itm.has_flag( "MECH_BAT" );
     } );
     if( bat_inv.empty() ) {
         return;
@@ -637,7 +653,7 @@ void monexamine::tie_or_untie( monster &z )
         }
     } else {
         std::vector<item *> rope_inv = g->u.items_with( []( const item & itm ) {
-            return itm.has_flag( flag_TIE_UP );
+            return itm.has_flag( "TIE_UP" );
         } );
         if( rope_inv.empty() ) {
             return;
@@ -668,14 +684,14 @@ void monexamine::tie_or_untie( monster &z )
 
 void monexamine::milk_source( monster &source_mon )
 {
-    const auto milked_item = source_mon.ammo.find( "milk_raw" );
-    if( milked_item == source_mon.ammo.end() ) {
-        debugmsg( "%s is milkable but has no milk in its starting ammo!",
-                  source_mon.get_name() );
+    std::string milked_item = source_mon.type->starting_ammo.begin()->first;
+    auto milkable_ammo = source_mon.ammo.find( milked_item );
+    if( milkable_ammo == source_mon.ammo.end() ) {
+        debugmsg( "The %s has no milkable %s.", source_mon.get_name(), milked_item );
         return;
     }
-    if( milked_item->second > 0 ) {
-        const int moves = to_moves<int>( time_duration::from_minutes( milked_item->second / 2 ) );
+    if( milkable_ammo->second > 0 ) {
+        const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
         g->u.assign_activity( ACT_MILK, moves, -1 );
         g->u.activity.coords.push_back( g->m.getabs( source_mon.pos() ) );
         // pin the cow in place if it isn't already

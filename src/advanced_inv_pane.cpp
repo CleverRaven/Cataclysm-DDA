@@ -7,6 +7,7 @@
 #include "item_category.h"
 #include "item_search.h"
 #include "item_stack.h"
+#include "game.h"
 #include "output.h"
 #include "player.h"
 #include "string_formatter.h"
@@ -38,11 +39,12 @@
 #include <iterator>
 #include <utility>
 #include <numeric>
-#include "cata_string_consts.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
+
+static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
 
 bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const
 {

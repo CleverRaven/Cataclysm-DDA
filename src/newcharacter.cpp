@@ -51,7 +51,16 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_CHALLENGE( "CHALLENGE" );
+static const std::string flag_CITY_START( "CITY_START" );
+static const std::string flag_SECRET( "SECRET" );
+static const std::string flag_WET( "WET" );
+
+static const trait_id trait_SMELLY( "SMELLY" );
+static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
+static const trait_id trait_XS( "XS" );
+static const trait_id trait_XXXL( "XXXL" );
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
@@ -78,8 +87,7 @@
 #define COL_NOTE_MAJOR      c_green   // Important note
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
-#define HIGH_STAT 14 // The point after which stats cost double
-#define MAX_STAT 20 // The point after which stats can not be increased further
+#define HIGH_STAT 12 // The point after which stats cost double
 
 #define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
 
@@ -137,7 +145,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
     menu.input_category = "MELEE_STYLE_PICKER";
-    menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
+    menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
     menu.desc_enabled = true;
 
     for( auto &s : styles ) {
@@ -155,7 +163,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
 void avatar::randomize( const bool random_scenario, points_left &points, bool play_now )
 {
-
+    const int max_stat_points = points.is_freeform() ? 20 : MAX_STAT;
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
     *this = avatar();
@@ -292,7 +300,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( str_max < HIGH_STAT ) {
                                 str_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && str_max < MAX_STAT ) {
+                            } else if( points.stat_points_left() >= 2 && str_max < max_stat_points ) {
                                 str_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -301,7 +309,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( dex_max < HIGH_STAT ) {
                                 dex_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && dex_max < MAX_STAT ) {
+                            } else if( points.stat_points_left() >= 2 && dex_max < max_stat_points ) {
                                 dex_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -310,7 +318,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( int_max < HIGH_STAT ) {
                                 int_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && int_max < MAX_STAT ) {
+                            } else if( points.stat_points_left() >= 2 && int_max < max_stat_points ) {
                                 int_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -319,7 +327,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( per_max < HIGH_STAT ) {
                                 per_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && per_max < MAX_STAT ) {
+                            } else if( points.stat_points_left() >= 2 && per_max < max_stat_points ) {
                                 per_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -528,11 +536,11 @@ bool avatar::create( character_type type, const std::string &tempname )
             it.item_counter = 450; // Give it some time to dry off
         }
         // TODO: debugmsg if food that isn't a seed is inedible
-        if( it.has_flag( flag_no_auto_equip ) ) {
-            it.unset_flag( flag_no_auto_equip );
+        if( it.has_flag( "no_auto_equip" ) ) {
+            it.unset_flag( "no_auto_equip" );
             inv.push_back( it );
-        } else if( it.has_flag( flag_auto_wield ) ) {
-            it.unset_flag( flag_auto_wield );
+        } else if( it.has_flag( "auto_wield" ) ) {
+            it.unset_flag( "auto_wield" );
             if( !is_armed() ) {
                 wield( it );
             } else {
@@ -735,6 +743,8 @@ tab_direction set_points( const catacurses::window &w, avatar &, points_left &po
 
 tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points )
 {
+    const int max_stat_points = points.is_freeform() ? 20 : MAX_STAT;
+
     unsigned char sel = 1;
     const int iSecondColumn = std::max( 27, utf8_width( points.to_string(), true ) + 9 );
     input_context ctxt( "NEW_CHAR_STATS" );
@@ -912,25 +922,25 @@ tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &po
                 points.stat_points++;
             }
         } else if( action == "RIGHT" ) {
-            if( sel == 1 && u.str_max < MAX_STAT ) {
+            if( sel == 1 && u.str_max < max_stat_points ) {
                 points.stat_points--;
                 if( u.str_max >= HIGH_STAT ) {
                     points.stat_points--;
                 }
                 u.str_max++;
-            } else if( sel == 2 && u.dex_max < MAX_STAT ) {
+            } else if( sel == 2 && u.dex_max < max_stat_points ) {
                 points.stat_points--;
                 if( u.dex_max >= HIGH_STAT ) {
                     points.stat_points--;
                 }
                 u.dex_max++;
-            } else if( sel == 3 && u.int_max < MAX_STAT ) {
+            } else if( sel == 3 && u.int_max < max_stat_points ) {
                 points.stat_points--;
                 if( u.int_max >= HIGH_STAT ) {
                     points.stat_points--;
                 }
                 u.int_max++;
-            } else if( sel == 4 && u.per_max < MAX_STAT ) {
+            } else if( sel == 4 && u.per_max < max_stat_points ) {
                 points.stat_points--;
                 if( u.per_max >= HIGH_STAT ) {
                     points.stat_points--;
@@ -1225,7 +1235,7 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
 
 struct {
     bool sort_by_points = true;
-    bool male;
+    bool male = false;
     /** @related player */
     bool operator()( const string_id<profession> &a, const string_id<profession> &b ) {
         // The generic ("Unemployed") profession should be listed first.
@@ -1436,9 +1446,9 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
             std::string buffer_worn;
             std::string buffer_inventory;
             for( const auto &it : prof_items ) {
-                if( it.has_flag( flag_no_auto_equip ) ) {
+                if( it.has_flag( "no_auto_equip" ) ) {
                     buffer_inventory += it.display_name() + "\n";
-                } else if( it.has_flag( flag_auto_wield ) ) {
+                } else if( it.has_flag( "auto_wield" ) ) {
                     buffer_wielded += it.display_name() + "\n";
                 } else if( it.is_armor() ) {
                     buffer_worn += it.display_name() + "\n";
@@ -1661,7 +1671,7 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
         std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
         for( const auto &e : recipe_dict ) {
             const auto &r = e.second;
-            if( r.has_flag( flag_SECRET ) ) {
+            if( r.has_flag( "SECRET" ) ) {
                 continue;
             }
             //Find out if the current skill and its level is in the requirement list
@@ -1800,8 +1810,8 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
 
 struct {
     bool sort_by_points = true;
-    bool male;
-    bool cities_enabled;
+    bool male = false;
+    bool cities_enabled = false;
     /** @related player */
     bool operator()( const scenario *a, const scenario *b ) {
         if( cities_enabled ) {
@@ -1814,8 +1824,8 @@ struct {
             }
         }
 
-        if( !cities_enabled && a->has_flag( flag_CITY_START ) != b->has_flag( flag_CITY_START ) ) {
-            return a->has_flag( flag_CITY_START ) < b->has_flag( flag_CITY_START );
+        if( !cities_enabled && a->has_flag( "CITY_START" ) != b->has_flag( "CITY_START" ) ) {
+            return a->has_flag( "CITY_START" ) < b->has_flag( "CITY_START" );
         } else if( sort_by_points ) {
             return a->point_cost() < b->point_cost();
         } else {
@@ -1898,7 +1908,7 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
             std::stable_sort( sorted_scens.begin(), sorted_scens.end(), scenario_sorter );
 
             // If city size is 0 but the current scenario requires cities reset the scenario
-            if( !scenario_sorter.cities_enabled && g->scen->has_flag( flag_CITY_START ) ) {
+            if( !scenario_sorter.cities_enabled && g->scen->has_flag( "CITY_START" ) ) {
                 reset_scenario( u, sorted_scens[0] );
                 points.init_from_options();
                 points.skill_points -= sorted_scens[cur_id]->point_cost();
@@ -1963,7 +1973,7 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
 
         const std::string scenDesc = sorted_scens[cur_id]->description( u.male );
 
-        if( sorted_scens[cur_id]->has_flag( flag_CITY_START ) && !scenario_sorter.cities_enabled ) {
+        if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
             const std::string scenUnavailable =
                 _( "This scenario is not available in this world due to city size settings." );
             fold_and_print( w_description, point_zero, TERMX - 2, c_red, scenUnavailable );
@@ -1983,12 +1993,11 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
                        "                                             " );
             nc_color col;
             if( g->scen != sorted_scens[i] ) {
-                if( sorted_scens[i] == sorted_scens[cur_id] && ( sorted_scens[i]->has_flag( flag_CITY_START ) &&
+                if( sorted_scens[i] == sorted_scens[cur_id] && ( sorted_scens[i]->has_flag( "CITY_START" ) &&
                         !scenario_sorter.cities_enabled ) ) {
                     col = h_dark_gray;
-                } else if( sorted_scens[i] != sorted_scens[cur_id] &&
-                           ( sorted_scens[i]->has_flag( flag_CITY_START ) &&
-                             !scenario_sorter.cities_enabled ) ) {
+                } else if( sorted_scens[i] != sorted_scens[cur_id] && ( sorted_scens[i]->has_flag( "CITY_START" ) &&
+                           !scenario_sorter.cities_enabled ) ) {
                     col = c_dark_gray;
                 } else {
                     col = ( sorted_scens[i] == sorted_scens[cur_id] ? h_light_gray : c_light_gray );
@@ -2038,45 +2047,45 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
         mvwprintz( w_flags, point_zero, COL_HEADER, _( "Scenario Flags:" ) );
         wprintz( w_flags, c_light_gray, ( "\n" ) );
 
-        if( sorted_scens[cur_id]->has_flag( flag_SPR_START ) ) {
+        if( sorted_scens[cur_id]->has_flag( "SPR_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Spring start" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
-        } else if( sorted_scens[cur_id]->has_flag( flag_SUM_START ) ) {
+        } else if( sorted_scens[cur_id]->has_flag( "SUM_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Summer start" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
-        } else if( sorted_scens[cur_id]->has_flag( flag_AUT_START ) ) {
+        } else if( sorted_scens[cur_id]->has_flag( "AUT_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Autumn start" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
-        } else if( sorted_scens[cur_id]->has_flag( flag_WIN_START ) ) {
+        } else if( sorted_scens[cur_id]->has_flag( "WIN_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Winter start" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
-        } else if( sorted_scens[cur_id]->has_flag( flag_SUM_ADV_START ) ) {
+        } else if( sorted_scens[cur_id]->has_flag( "SUM_ADV_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Next summer start" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
 
-        if( sorted_scens[cur_id]->has_flag( flag_INFECTED ) ) {
+        if( sorted_scens[cur_id]->has_flag( "INFECTED" ) ) {
             wprintz( w_flags, c_light_gray, _( "Infected player" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
-        if( sorted_scens[cur_id]->has_flag( flag_BAD_DAY ) ) {
+        if( sorted_scens[cur_id]->has_flag( "BAD_DAY" ) ) {
             wprintz( w_flags, c_light_gray, _( "Drunk and sick player" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
-        if( sorted_scens[cur_id]->has_flag( flag_FIRE_START ) ) {
+        if( sorted_scens[cur_id]->has_flag( "FIRE_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Fire nearby" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
-        if( sorted_scens[cur_id]->has_flag( flag_SUR_START ) ) {
+        if( sorted_scens[cur_id]->has_flag( "SUR_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "Zombies nearby" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
-        if( sorted_scens[cur_id]->has_flag( flag_HELI_CRASH ) ) {
+        if( sorted_scens[cur_id]->has_flag( "HELI_CRASH" ) ) {
             wprintz( w_flags, c_light_gray, _( "Various limb wounds" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
         if( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
-            sorted_scens[cur_id]->has_flag( flag_LONE_START ) ) {
+            sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
             wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
         }
@@ -2101,7 +2110,7 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
                 cur_id = scens_length - 1;
             }
         } else if( action == "CONFIRM" ) {
-            if( sorted_scens[cur_id]->has_flag( flag_CITY_START ) && !scenario_sorter.cities_enabled ) {
+            if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
                 continue;
             }
             reset_scenario( u, sorted_scens[cur_id] );

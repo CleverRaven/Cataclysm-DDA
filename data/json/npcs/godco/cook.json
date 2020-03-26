@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_godco_cook",
-    "name": "cook",
+    "name": { "str": "cook" },
     "job_description": "I cook for my community.",
     "common": false,
     "bonus_str": { "rng": [ -1, 2 ] },
