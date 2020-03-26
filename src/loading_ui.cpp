@@ -49,15 +49,7 @@ void loading_ui::new_context( const std::string &desc )
 void loading_ui::init()
 {
     if( menu != nullptr && ui == nullptr ) {
-        ui_background = std::make_unique<ui_adaptor>();
-        ui_background->on_screen_resize( []( ui_adaptor & ui_background ) {
-            ui_background.position_from_window( catacurses::stdscr );
-        } );
-        ui_background->position_from_window( catacurses::stdscr );
-        ui_background->on_redraw( []( const ui_adaptor & ) {
-            catacurses::erase();
-            catacurses::refresh();
-        } );
+        ui_background = std::make_unique<background_pane>();
 
         ui = std::make_unique<ui_adaptor>();
         ui->on_screen_resize( [this]( ui_adaptor & ui ) {

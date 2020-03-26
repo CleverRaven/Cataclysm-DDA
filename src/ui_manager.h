@@ -61,6 +61,16 @@ class ui_adaptor
         mutable bool deferred_resize;
 };
 
+// Helper class that fills the background and obscures all UIs below. It stays
+// on the UI stack until its lifetime ends.
+class background_pane
+{
+    public:
+        background_pane();
+    private:
+        ui_adaptor ui;
+};
+
 // export static funcs of ui_adaptor with a more coherent scope name
 namespace ui_manager
 {

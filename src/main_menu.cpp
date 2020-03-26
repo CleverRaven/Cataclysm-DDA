@@ -453,15 +453,7 @@ bool main_menu::opening_screen()
         sel1 = 2;
     }
 
-    ui_adaptor background;
-    background.on_redraw( []( const ui_adaptor & ) {
-        catacurses::erase();
-        catacurses::refresh();
-    } );
-    background.on_screen_resize( []( ui_adaptor & background ) {
-        background.position_from_window( catacurses::stdscr );
-    } );
-    background.position_from_window( catacurses::stdscr );
+    background_pane background;
 
     ui_adaptor ui;
     ui.on_redraw( [&]( const ui_adaptor & ) {
