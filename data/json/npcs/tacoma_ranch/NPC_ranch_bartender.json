@@ -160,7 +160,7 @@
   {
     "id": "MISSION_RANCH_BARTENDER_4",
     "type": "mission_definition",
-    "name": "Find 12 Metal Tanks",
+    "name": { "str": "Find 12 Metal Tanks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -190,7 +190,7 @@
   {
     "id": "MISSION_RANCH_BARTENDER_5",
     "type": "mission_definition",
-    "name": "Find 2 200-Liter Drums",
+    "name": { "str": "Find 2 200-Liter Drums" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,

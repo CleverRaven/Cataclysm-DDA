@@ -263,7 +263,7 @@
   {
     "id": "MISSION_RANCH_NURSE_8",
     "type": "mission_definition",
-    "name": "Find 2 Scalpels",
+    "name": { "str": "Find 2 Scalpels" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,

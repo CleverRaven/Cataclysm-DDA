@@ -136,7 +136,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_2",
     "type": "mission_definition",
-    "name": "Find 25 Blankets",
+    "name": { "str": "Find 25 Blankets" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -594,7 +594,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_11",
     "type": "mission_definition",
-    "name": "Find 2 Arc Welders",
+    "name": { "str": "Find 2 Arc Welders" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -644,7 +644,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_12",
     "type": "mission_definition",
-    "name": "Find 12 Car Batteries",
+    "name": { "str": "Find 12 Car Batteries" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -681,7 +681,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_13",
     "type": "mission_definition",
-    "name": "Find 2 Two-Way Radios",
+    "name": { "str": "Find 2 Two-Way Radios" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
