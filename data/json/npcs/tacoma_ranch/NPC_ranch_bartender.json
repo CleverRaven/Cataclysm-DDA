@@ -100,7 +100,7 @@
   {
     "id": "MISSION_RANCH_BARTENDER_2",
     "type": "mission_definition",
-    "name": "Find 20 Yeast",
+    "name": { "str": "Find 20 Yeast" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,

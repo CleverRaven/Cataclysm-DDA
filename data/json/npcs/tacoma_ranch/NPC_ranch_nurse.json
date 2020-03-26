@@ -239,7 +239,7 @@
   {
     "id": "MISSION_RANCH_NURSE_7",
     "type": "mission_definition",
-    "name": "Find 4 Pairs of Rubber Gloves",
+    "name": { "str": "Find 4 Pairs of Rubber Gloves" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -287,7 +287,7 @@
   {
     "id": "MISSION_RANCH_NURSE_9",
     "type": "mission_definition",
-    "name": "Find Advanced Emergency Care",
+    "name": { "str": "Find Advanced Emergency Care" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,

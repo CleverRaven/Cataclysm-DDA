@@ -671,7 +671,7 @@
   {
     "id": "MISSION_INFECTED_START_FIND_ANTIBIOTICS",
     "type": "mission_definition",
-    "name": "Find Antibiotics Before You Die!",
+    "name": { "str": "Find Antibiotics Before You Die!" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 1,
     "value": 0,

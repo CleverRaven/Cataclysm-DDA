@@ -201,7 +201,7 @@
   {
     "id": "MISSION_ISHERWOOD_CARLOS_2",
     "type": "mission_definition",
-    "name": "Find Chris Isherwood",
+    "name": { "str": "Find Chris Isherwood" },
     "goal": "MGOAL_TALK_TO_NPC",
     "difficulty": 3,
     "value": 20000,
