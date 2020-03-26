@@ -443,5 +443,10 @@
     "result": "double_plutonium_core",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "ring",
+    "type": "recipe",
+    "obsolete": true
   }
 ]
