@@ -61,7 +61,7 @@
   {
     "id": "MISSION_GET_ANTIBIOTICS",
     "type": "mission_definition",
-    "name": "Find Antibiotics",
+    "name": { "str": "Find Antibiotics" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 150000,
