@@ -453,7 +453,8 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     for( auto &item : result ) {
         /* Set top level items that have a charge to their default states */
         /* includes refillable liters */
-        item.charges = item.find_type( item.typeId() )->charges_default();
+
+        item.charges = item::find_type( item.typeId() )->charges_default();
 
         /* Top level item has a magazine */
         if( item.is_magazine() ) {
@@ -469,7 +470,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
                     );
                 } else { //Contents are batteries or food
                     item_contents.charges =
-                        item_contents.find_type( item_contents.typeId() )->charges_default();
+                        item::find_type( item_contents.typeId() )->charges_default();
                 }
             }
         }
