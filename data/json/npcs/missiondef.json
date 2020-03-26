@@ -185,7 +185,7 @@
   {
     "id": "MISSION_GET_RECORD_ACCOUNTING",
     "type": "mission_definition",
-    "name": "Find Corporate Accounts",
+    "name": { "str": "Find Corporate Accounts" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 140000,
