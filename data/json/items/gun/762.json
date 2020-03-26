@@ -122,7 +122,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "WASR-10" },
-    "description": "A semi-automatic-only civilian-legal Kalashnikov-pattern rifle, imported from Romania.  A valuable survivor's commodity.",
+    "description": "A semi-automatic-only civilian-legal Kalashnikov-pattern rifle, imported from Romania.  A valuable survivors' commodity.",
     "weight": "3300 g",
     "volume": "1750 ml",
     "price": 79500,
