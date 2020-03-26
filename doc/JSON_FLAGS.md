@@ -1428,7 +1428,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```WIND_POWERED``` This engine is powered by wind ( sails etc ).
 - ```WIND_TURBINE``` Recharges vehicle batteries when exposed to wind.
 - ```WORKBENCH``` Can craft at this part, must be paired with a workbench json entry.
-- ```WINDOW_CURTAIN``` Can only be installed on a part with ```WINDOW``` flag.
+- ```NEEDS_WINDOW``` Can only be installed on a part with ```WINDOW``` flag.
 - ```NEEDS_WHEEL_MOUNT_LIGHT``` Can only be installed on a part with ```WHEEL_MOUNT_LIGHT``` flag.
 - ```NEEDS_WHEEL_MOUNT_MEDIUM``` Can only be installed on a part with ```WHEEL_MOUNT_MEDIUM``` flag.
 - ```NEEDS_WHEEL_MOUNT_HEAVY``` Can only be installed on a part with ```WHEEL_MOUNT_HEAVY``` flag.
