@@ -2,7 +2,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Jenny",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Jenny Forcette is an experienced mechanical engineer.  Like the other refugees in the center, she's terrified of the outside world.  Unlike many, she has some ideas what to do about it.",

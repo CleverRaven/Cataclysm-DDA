@@ -2,7 +2,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Draco",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Draco is a middle-aged musician, and generally a pretty nice guy.  He's always been a wanderer and this isn't his first time living basically homeless.",

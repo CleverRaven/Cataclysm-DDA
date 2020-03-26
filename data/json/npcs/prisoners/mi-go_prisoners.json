@@ -13,7 +13,7 @@
   {
     "type": "npc_class",
     "id": "NC_PRISONER",
-    "name": "Prisoner",
+    "name": { "str": "Prisoner" },
     "common": false,
     "job_description": "I'm just trying to survive.",
     "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
