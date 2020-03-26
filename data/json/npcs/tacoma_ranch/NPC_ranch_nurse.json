@@ -215,7 +215,7 @@
   {
     "id": "MISSION_RANCH_NURSE_6",
     "type": "mission_definition",
-    "name": "Find 10 Filter Masks",
+    "name": { "str": "Find 10 Filter Masks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -333,7 +333,7 @@
   {
     "id": "MISSION_RANCH_NURSE_11",
     "type": "mission_definition",
-    "name": "Find 10 Syringes",
+    "name": { "str": "Find 10 Syringes" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,

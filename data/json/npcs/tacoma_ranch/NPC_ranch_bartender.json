@@ -130,7 +130,7 @@
   {
     "id": "MISSION_RANCH_BARTENDER_3",
     "type": "mission_definition",
-    "name": "Find 10 Sugar Beet Seeds",
+    "name": { "str": "Find 10 Sugar Beet Seeds" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
