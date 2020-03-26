@@ -117,7 +117,7 @@
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   },
   {
-    "id": "ak47",
+    "id": "wasr10",
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
@@ -155,7 +155,7 @@
     "flags": [ "NEVER_JAMS" ]
   },
   {
-    "id": "ak47",
+    "id": "draco",
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
