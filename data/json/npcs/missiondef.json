@@ -142,7 +142,7 @@
   {
     "id": "MISSION_GET_DEPUTY_BADGE",
     "type": "mission_definition",
-    "name": "Find Deputy Badge",
+    "name": { "str": "Find Deputy Badge" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 150000,
@@ -392,7 +392,7 @@
   {
     "id": "MISSION_JOIN_TRACKER",
     "type": "mission_definition",
-    "name": "Find Deputy Badge",
+    "name": { "str": "Find Deputy Badge" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 0,
