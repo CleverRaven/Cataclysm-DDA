@@ -189,6 +189,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ],
+    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ]
   },
 ]
