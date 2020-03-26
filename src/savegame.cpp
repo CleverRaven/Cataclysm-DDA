@@ -28,6 +28,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "popup.h"
 #include "scent_map.h"
 #include "translations.h"
 #include "hash_utils.h"
@@ -38,6 +39,7 @@
 #include "regional_settings.h"
 #include "stats_tracker.h"
 #include "string_id.h"
+#include "ui_manager.h"
 
 #if defined(__ANDROID__)
 #include "input.h"
@@ -1609,10 +1611,14 @@ void game::unserialize_master( std::istream &fin )
 {
     savegame_loading_version = 0;
     chkversion( fin );
+    std::unique_ptr<static_popup> popup;
     if( savegame_loading_version < 11 ) {
-        popup_nowait(
+        popup = std::make_unique<static_popup>();
+        popup->message(
             _( "Cannot find loader for save data in old version %d, attempting to load as current version %d." ),
             savegame_loading_version, savegame_version );
+        ui_manager::redraw();
+        refresh_display();
     }
     try {
         // single-pass parsing example
