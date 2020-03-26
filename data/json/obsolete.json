@@ -12,7 +12,7 @@
   {
     "id": "bio_plut_filter",
     "type": "bionic",
-    "name": "Plutonium Filter",
+    "name": { "str": "Plutonium Filter" },
     "description": "This set of tanks and filters allows you to extract plutonium from radioactive slurry.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
@@ -23,7 +23,7 @@
   {
     "id": "bio_plutdump",
     "type": "bionic",
-    "name": "Plutonium Purger",
+    "name": { "str": "Plutonium Purger" },
     "included": true,
     "description": "Triggers an emergency reactor fuel purge that ejects all fuel from your reactor.",
     "act_cost": 1
@@ -31,7 +31,7 @@
   {
     "id": "bio_reactor",
     "type": "bionic",
-    "name": "Microreactor System",
+    "name": { "str": "Microreactor System" },
     "description": "This stripped down mini-reactor generates impressive amounts of bionic power.  There is no way to shut it down, but you can toggle additional fuel intake.  Irradiates your body when active.",
     "occupied_bodyparts": [ [ "TORSO", 55 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
@@ -270,7 +270,7 @@
     "id": "wheel_armor_steerable",
     "copy-from": "wheel_armor",
     "type": "vehicle_part",
-    "name": "armored wheel (steerable)",
+    "name": { "str": "armored wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
@@ -334,7 +334,7 @@
   {
     "type": "mutation",
     "id": "SAVINGS",
-    "name": "Savings",
+    "name": { "str": "Savings" },
     "points": 1,
     "description": "You had some money stashed at the bank for a rainy day.  Now that the storm is raging, it's a last call to use it maybe?",
     "valid": false
@@ -350,7 +350,7 @@
   {
     "type": "mutation",
     "id": "MILLIONAIRE",
-    "name": "Millionaire",
+    "name": { "str": "Millionaire" },
     "points": 3,
     "description": "At the time of Cataclysm you were an owner of a fortune stashed in a bank.  Does that have any meaning now?",
     "valid": false
