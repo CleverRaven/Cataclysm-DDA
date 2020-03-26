@@ -396,3 +396,8 @@ query_popup::button::button( const std::string &text, const point &p )
     : text( text ), pos( p )
 {
 }
+
+static_popup::static_popup()
+{
+    ui = create_or_get_adaptor();
+}
