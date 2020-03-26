@@ -14,7 +14,7 @@
     "id": "rifle_huge_amr_mag",
     "type": "MAGAZINE",
     "copy-from": "m107a1mag",
-    "name": "anti-materiel rifle magazine",
+    "name": { "str": "anti-materiel rifle magazine" },
     "description": "A huge 10 round magazine for anti-materiel rifles.",
     "delete": { "ammo_type": "50" },
     "ammo_type": "ammo_rifle_huge"

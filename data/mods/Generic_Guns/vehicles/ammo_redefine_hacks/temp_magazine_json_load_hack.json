@@ -151,49 +151,49 @@
     "copy-from": "ruger5",
     "type": "MAGAZINE",
     "ammo_type": [ "ammo_rifle", "223", "300blk" ],
-    "name": "Ruger .223 5-round magazine"
+    "name": { "str": "Ruger .223 5-round magazine" }
   },
   {
     "id": "stanag10",
     "copy-from": "stanag10",
     "type": "MAGAZINE",
     "ammo_type": [ "ammo_rifle", "223", "300blk" ],
-    "name": "Ruger .223 10-round magazine"
+    "name": { "str": "Ruger .223 10-round magazine" }
   },
   {
     "id": "ruger30",
     "copy-from": "ruger30",
     "type": "MAGAZINE",
     "ammo_type": [ "ammo_rifle", "223", "300blk" ],
-    "name": "Ruger .223 high-capacity magazine"
+    "name": { "str": "Ruger .223 high-capacity magazine" }
   },
   {
     "id": "stanag30",
     "copy-from": "stanag30",
     "type": "MAGAZINE",
     "ammo_type": [ "ammo_rifle", "223", "300blk" ],
-    "name": "STANAG magazine"
+    "name": { "str": "STANAG magazine" }
   },
   {
     "id": "stanag50",
     "copy-from": "stanag50",
     "type": "MAGAZINE",
     "ammo_type": [ "ammo_rifle", "223", "300blk" ],
-    "name": "STANAG drum magazine"
+    "name": { "str": "STANAG drum magazine" }
   },
   {
     "id": "survivor223mag",
     "copy-from": "survivor223mag",
     "type": "MAGAZINE",
     "ammo_type": [ "ammo_rifle", "223", "300blk" ],
-    "name": "STANAG makeshift magazine"
+    "name": { "str": "STANAG makeshift magazine" }
   },
   {
     "id": "ruger_makeshiftmag",
     "copy-from": "ruger_makeshiftmag",
     "type": "MAGAZINE",
     "ammo_type": [ "ammo_rifle", "223", "300blk" ],
-    "name": "Ruger makeshift magazine"
+    "name": { "str": "Ruger makeshift magazine" }
   },
   {
     "id": "belt40mm",

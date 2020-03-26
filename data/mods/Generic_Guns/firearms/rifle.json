@@ -3,7 +3,7 @@
     "id": "rifle_assault",
     "copy-from": "hk417_13",
     "type": "GUN",
-    "name": "assault rifle",
+    "name": { "str": "assault rifle" },
     "ammo": "ammo_rifle",
     "description": "The products of decades of improvement, rifle such as this are handy, reliable, and adaptable.  An 'assault rifle', it is capable of providing both accurate semi-automatic fire and bursts of automatic fire.  Short of large creatures and light vehicles, this should take care of most of your problems out to several hundred meters.",
     "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_sniper_mag" ] ] ]

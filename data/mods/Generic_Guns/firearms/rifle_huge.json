@@ -3,7 +3,7 @@
     "id": "rifle_huge_amr",
     "copy-from": "m107a1",
     "type": "GUN",
-    "name": "anti-materiel rifle",
+    "name": { "str": "anti-materiel rifle" },
     "ammo": "ammo_rifle_huge",
     "description": "Large, intimidating, and overbuilt, this hefty rifle fires huge projectiles with relative precision.  Though it resembles a sniper rifle, this anti-material weapon is best suited for blinding tanks, shooting at aircraft, or destroying explosives.  It feeds from comically oversized magazines.",
     "magazines": [ [ "ammo_rifle_huge", [ "rifle_huge_amr_mag" ] ] ]
