@@ -275,11 +275,7 @@
     "id": "prison_textile",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "blanket", "prob": 25 },
-      { "item": "striped_shirt", "prob": 35 },
-      { "item": "striped_shirt", "prob": 35 }
-    ]
+    "entries": [ { "item": "blanket", "prob": 25 }, { "item": "striped_shirt", "prob": 35 }, { "item": "striped_shirt", "prob": 35 } ]
   },
   {
     "id": "boxing_misc",
