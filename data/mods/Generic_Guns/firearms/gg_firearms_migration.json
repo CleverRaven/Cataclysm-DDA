@@ -56,7 +56,7 @@
     "replace": "pistol_machine"
   },
   {
-    "id": [ "deagle_44", "m1911-460" ],
+    "id": [ "deagle_44", "m1911-460", "draco" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
   },
@@ -255,7 +255,8 @@
       "fn_fal",
       "m1a",
       "sks",
-      "mosin44"
+      "mosin44",
+      "wasr10"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
