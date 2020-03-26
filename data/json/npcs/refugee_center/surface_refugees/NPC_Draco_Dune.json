@@ -432,7 +432,7 @@
   {
     "id": "MISSION_REFUGEE_Draco_GET_GUITAR",
     "type": "mission_definition",
-    "name": "Bring an acoustic guitar",
+    "name": { "str": "Bring an acoustic guitar" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",

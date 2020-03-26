@@ -81,7 +81,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_1",
     "type": "mission_definition",
-    "name": "Cut 200 2x4's",
+    "name": { "str": "Cut 200 2x4's" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -322,7 +322,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_5",
     "type": "mission_definition",
-    "name": "30 Liquid Fertilizer",
+    "name": { "str": "30 Liquid Fertilizer" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -813,7 +813,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_17",
     "type": "mission_definition",
-    "name": "Collect 30 Glass Sheets",
+    "name": { "str": "Collect 30 Glass Sheets" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
