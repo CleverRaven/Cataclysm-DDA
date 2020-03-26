@@ -2,7 +2,7 @@
   {
     "id": "mon_centipede",
     "type": "MONSTER",
-    "name": "centipede",
+    "name": { "str": "centipede" },
     "description": "A predatory segmented arthropod with dozens of legs and a venomous bite.",
     "default_faction": "vermin",
     "species": [ "INSECT" ],
@@ -23,7 +23,7 @@
   {
     "id": "mon_deer_mouse",
     "type": "MONSTER",
-    "name": "deer mouse",
+    "name": { "str": "deer mouse" },
     "description": "The white-footed mouse, a prolific rodent with a white underbelly and a long fuzzy tail.  A common sight in fields, forests, and research centers.",
     "default_faction": "vermin",
     "categories": [ "WILDLIFE" ],
@@ -72,7 +72,7 @@
   {
     "id": "mon_frog",
     "type": "MONSTER",
-    "name": "bull frog",
+    "name": { "str": "bull frog" },
     "description": "The American bullfrog, in its natural habitat.  It feeds on insects, mice, lizards and any other living thing it can stuff down its gullet.",
     "default_faction": "vermin",
     "species": [ "AMPHIBIAN" ],
@@ -200,7 +200,7 @@
   {
     "id": "mon_spider_widow",
     "type": "MONSTER",
-    "name": "black widow spider",
+    "name": { "str": "black widow spider" },
     "description": "An infamous spider with a characteristic red hourglass marking on its black carapace, known for its highly toxic bite.",
     "default_faction": "vermin",
     "species": [ "SPIDER" ],
@@ -335,7 +335,7 @@
   {
     "id": "mon_chickenbot",
     "type": "MONSTER",
-    "name": "chicken walker",
+    "name": { "str": "chicken walker" },
     "description": "The Northrop ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40mm anti-vehicle grenade launcher, 5.56 anti-personnel gun, and the ability to electrify itself against attackers, it is an effective automated sentry, though production was limited due to a legal dispute.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
