@@ -67,7 +67,7 @@
     "info": "Closed, it prevents people from seeing through the curtain.  A door motor allows you to remotely open or close it from the vehicle controls."
   },
   {
-    "id": "WINDOW_CURTAIN",
+    "id": "NEEDS_WINDOW",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
     "requires_flag": "WINDOW"
