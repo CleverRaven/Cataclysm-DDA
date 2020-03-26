@@ -55,7 +55,7 @@
     "id": "afs_holo_field_caster",
     "type": "TOOL_ARMOR",
     "copy-from": "afs_caster",
-    "name": "decoy field caster",
+    "name": { "str": "decoy field caster" },
     "description": "A small metallic sphere with a recessed bottom up top.  When activated it will create several holographic decoys around you.",
     "max_charges": 1,
     "initial_charges": 1,
