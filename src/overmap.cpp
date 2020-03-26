@@ -4231,7 +4231,6 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             if( iter->special_details->flags.count( flag ) > 0 &&
                 iter->special_details->flags.count( "UNIQUE" ) <= 0 ) {
                 const int count = ele.second;
-                const int max = iter->special_details->occurrences.max;
 
                 if( count <= 0 ) {
                     iter = enabled_specials.erase( iter );
