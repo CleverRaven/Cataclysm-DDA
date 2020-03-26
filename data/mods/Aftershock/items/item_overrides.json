@@ -11,6 +11,6 @@
     "id": "plut_cell",
     "copy-from": "plut_cell",
     "category": "tools",
-    "name": "plutonium cell"
+    "name": { "str": "plutonium cell" }
   }
 ]

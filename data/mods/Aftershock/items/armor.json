@@ -44,7 +44,7 @@
     "id": "afs_holo_cloak_mk2",
     "type": "TOOL_ARMOR",
     "copy-from": "afs_sentinel_cloak",
-    "name": "hologram cloak mk.2",
+    "name": { "str": "hologram cloak mk.2" },
     "description": " A, when activated, will create an holographic decoy of its wearer.  Powered by an experimental n-space energy generator, it slowly recharges itself for free, probably by syphoning excess energy from some unknown hyperdimensional space.",
     "max_charges": 15,
     "initial_charges": 15,
