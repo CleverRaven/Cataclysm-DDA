@@ -160,7 +160,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "Mini Draco" },
-    "description": "Essentially a semi-auto AK with a short barrel and no stock, this unwieldy ""pistol"" has seen some popularity with civilian shooters and gangbangers alike.",
+    "description": "Essentially a semi-auto AK with a short barrel and no stock, this unwieldy \"pistol\" has seen some popularity with civilian shooters and gangbangers alike.",
     "weight": "3300 g",
     "volume": "1750 ml",
     "price": 54000,
