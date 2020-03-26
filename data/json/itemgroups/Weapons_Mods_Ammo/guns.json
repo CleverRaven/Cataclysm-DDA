@@ -93,7 +93,8 @@
       { "item": "sw_500", "prob": 25, "charges-min": 0, "charges-max": 5 },
       { "item": "sw629", "prob": 40, "charges-min": 0, "charges-max": 6 },
       { "item": "usp_45", "prob": 70, "charges-min": 0, "charges-max": 12 },
-      { "item": "usp_9mm", "prob": 120, "charges-min": 0, "charges-max": 15 }
+      { "item": "usp_9mm", "prob": 120, "charges-min": 0, "charges-max": 15 },
+      { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -112,7 +113,8 @@
       { "item": "sw_500", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "sw629", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "usp_45", "prob": 70, "charges-min": 0, "charges-max": 0 },
-      { "item": "usp_9mm", "prob": 120, "charges-min": 0, "charges-max": 0 }
+      { "item": "usp_9mm", "prob": 120, "charges-min": 0, "charges-max": 0 },
+      { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -268,7 +270,8 @@
       { "item": "ruger_mini", "prob": 60, "charges-min": 0, "charges-max": 5 },
       { "item": "sks", "prob": 40, "charges-min": 0, "charges-max": 10 },
       { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 3 },
-      { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 7 }
+      { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 7 },
+      { "item": "wasr10", "prob": 35, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -291,7 +294,8 @@
       { "item": "ruger_mini", "prob": 60, "charges-min": 0, "charges-max": 0 },
       { "item": "sks", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 0 },
-      { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 0 }
+      { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "wasr10", "prob": 35, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -744,7 +748,8 @@
       { "item": "shotgun_s", "prob": 10 },
       { "item": "shotgun_d", "prob": 10, "charges-min": 0, "charges-max": 2 },
       { "item": "sten", "prob": 20, "charges-min": 0, "charges-max": 32 },
-      { "item": "sks", "prob": 10, "charges-min": 0, "charges-max": 10 }
+      { "item": "sks", "prob": 10, "charges-min": 0, "charges-max": 10 },
+      { "item": "wasr10", "prob": 5, "charges-min": 0, "charges-max": 30 }
     ]
   }
 ]
