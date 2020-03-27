@@ -172,7 +172,7 @@
   {
     "id": "MISSION_ISHERWOOD_CARLOS_1",
     "type": "mission_definition",
-    "name": "Find an anvil",
+    "name": { "str": "Find an anvil" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,

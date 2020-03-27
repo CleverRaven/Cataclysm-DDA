@@ -273,7 +273,7 @@
   {
     "id": "MISSION_ISHERWOOD_CLAIRE_1",
     "type": "mission_definition",
-    "name": "Gather 50 dandelions",
+    "name": { "str": "Gather 50 dandelions" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
@@ -336,7 +336,7 @@
   {
     "id": "MISSION_ISHERWOOD_CLAIRE_3",
     "type": "mission_definition",
-    "name": "Find and capture a cat",
+    "name": { "str": "Find and capture a cat" },
     "goal": "MGOAL_FIND_MONSTER",
     "difficulty": 4,
     "value": 100000,
