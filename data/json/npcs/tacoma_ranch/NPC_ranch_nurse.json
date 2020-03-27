@@ -168,7 +168,7 @@
   {
     "id": "MISSION_RANCH_NURSE_4",
     "type": "mission_definition",
-    "name": "Make 4 Charcoal Purifiers",
+    "name": { "str": "Make 4 Charcoal Purifiers" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,

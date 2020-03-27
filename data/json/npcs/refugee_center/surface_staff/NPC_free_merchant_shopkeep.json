@@ -445,7 +445,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_2",
     "type": "mission_definition",
-    "name": "Missing Caravan",
+    "name": { "str": "Missing Caravan" },
     "description": "Investigate the last known location of a disappeared scavenger trading party, and eliminate any bandits or raiders in the vicinity in exchange for <reward_count:FMCNote> certified notes.",
     "goal": "MGOAL_ASSASSINATE",
     "difficulty": 5,
@@ -607,7 +607,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_5",
     "type": "mission_definition",
-    "name": "In a Pickle",
+    "name": { "str": "In a Pickle" },
     "description": "Deliver 100 half-liter glass canning jars to the Free Merchants to kickstart their food storage plans.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
