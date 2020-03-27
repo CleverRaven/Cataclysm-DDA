@@ -216,12 +216,12 @@ class Creature
         double ranged_target_size() const;
 
         // handles blocking of damage instance. mutates &dam
-        virtual bool block_hit( Creature *source, body_part &bp_hit,
+        virtual bool block_hit( Creature *source, bodypart_id &bp_hit,
                                 damage_instance &dam ) = 0;
 
         // handles armor absorption (including clothing damage etc)
         // of damage instance. mutates &dam
-        virtual void absorb_hit( body_part bp, damage_instance &dam ) = 0;
+        virtual void absorb_hit( bodypart_id bp, damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
@@ -253,15 +253,15 @@ class Creature
          * @param bp The attacked body part
          * @param dam The damage dealt
          */
-        virtual dealt_damage_instance deal_damage( Creature *source, body_part bp,
+        virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                 const damage_instance &dam );
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const damage_unit &du,
-                                              body_part bp, int &damage, int &pain );
+                                              bodypart_id bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
-        virtual void apply_damage( Creature *source, body_part bp, int amount,
+        virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
                                    bool bypass_med = false ) = 0;
 
         /**
@@ -273,7 +273,7 @@ class Creature
          * This creature just got hit by an attack - possibly special/ranged attack - from source.
          * Players should train dodge, possibly counter-attack somehow.
          */
-        virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
+        virtual void on_hit( Creature *source, bodypart_id bp_hit = bodypart_id( "num_bp" ),
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
 
         virtual bool digging() const;
@@ -334,31 +334,35 @@ class Creature
         void add_effect( const effect &eff, bool force = false, bool deferred = false );
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
-        virtual void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
+        virtual void add_effect( const efftype_id &eff_id, const time_duration &dur,
+                                 bodypart_id bp = bodypart_id( "num_bp" ),
                                  bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
-        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
+        bool add_env_effect( const efftype_id &eff_id, bodypart_id vector, int strength,
                              const time_duration &dur,
-                             body_part bp = num_bp, bool permanent = false, int intensity = 1,
+                             bodypart_id bp = bodypart_id( "num_bp" ), bool permanent = false, int intensity = 1,
                              bool force = false );
         /** Removes a listed effect. bp = num_bp means to remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
-        virtual bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
+        virtual bool remove_effect( const efftype_id &eff_id, bodypart_id bp = bodypart_id( "num_bp" ) );
         /** Remove all effects. */
         void clear_effects();
         /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
          *  of the matching type, targeted or untargeted. */
-        bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        bool has_effect( const efftype_id &eff_id,  bodypart_id bp = bodypart_id( "num_bp" ) ) const;
         /** Check if creature has any effect with the given flag. */
-        bool has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        bool has_effect_with_flag( const std::string &flag,
+                                   bodypart_id bp = bodypart_id( "num_bp" ) ) const;
         /** Return the effect that matches the given arguments exactly. */
-        const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
-        effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
+        const effect &get_effect( const efftype_id &eff_id,
+                                  bodypart_id bp = bodypart_id( "num_bp" ) ) const;
+        effect &get_effect( const efftype_id &eff_id,  bodypart_id bp = bodypart_id( "num_bp" ) );
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
-        time_duration get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        time_duration get_effect_dur( const efftype_id &eff_id,
+                                      bodypart_id bp = bodypart_id( "num_bp" ) ) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
-        int get_effect_int( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        int get_effect_int( const efftype_id &eff_id,  bodypart_id bp = bodypart_id( "num_bp" ) ) const;
         /** Returns true if the creature resists an effect */
         bool resists_effect( const effect &e );
 
@@ -788,11 +792,11 @@ class Creature
 
     protected:
         virtual void on_stat_change( const std::string &, int ) {}
-        virtual void on_effect_int_change( const efftype_id &, int, body_part ) {}
-        virtual void on_damage_of_type( int, damage_type, body_part ) {}
+        virtual void on_effect_int_change( const efftype_id &, int, bodypart_id ) {}
+        virtual void on_damage_of_type( int, damage_type, bodypart_id ) {}
 
     public:
-        body_part select_body_part( Creature *source, int hit_roll ) const;
+        bodypart_id select_body_part( Creature *source, int hit_roll ) const;
 
         static void load_hit_range( const JsonObject & );
         // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
