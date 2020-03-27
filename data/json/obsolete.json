@@ -230,7 +230,7 @@
     "type": "AMMO",
     "id": "reloaded_laser_pack",
     "price": 80,
-    "name": "bootleg fusion pack",
+    "name": { "str": "bootleg fusion pack" },
     "symbol": "=",
     "color": "light_green",
     "description": "In the middle of the 21st Century, military powers began to look towards energy based weapons.  The result was the standard fusion pack, capable of delivering bolts of superheated gas at near light speed with no recoil.  This one has been hand-crafted from spare parts.",
@@ -277,7 +277,7 @@
     "id": "wheel_bicycle_steerable",
     "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
-    "name": "bicycle wheel (steerable)",
+    "name": { "str": "bicycle wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
@@ -381,7 +381,7 @@
   {
     "type": "vehicle_part",
     "id": "plating_bone",
-    "name": "bone plating",
+    "name": { "str": "bone plating" },
     "symbol": ")",
     "color": "white",
     "broken_symbol": ")",
