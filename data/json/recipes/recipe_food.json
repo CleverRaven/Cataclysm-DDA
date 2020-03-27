@@ -5870,12 +5870,12 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
-    "charges": 2,
-    "time": "1 h 10 m",
+    "charges": 1,
+    "time": "35 m",
     "autolearn": true,
-    "batch_time_factors": [ 83, 3 ],
+    "batch_time_factors": [ 83, 6 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 1 ] ] ],
+    "tools": [ [ [ "char_smoker", 5 ] ] ],
     "components": [ [ [ "sausage_wasteland_raw", 1 ] ] ]
   },
   {
