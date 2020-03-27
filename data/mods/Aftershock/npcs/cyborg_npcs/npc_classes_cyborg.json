@@ -2,7 +2,7 @@
   {
     "type": "npc_class",
     "id": "NC_HIVE_GANGER",
-    "name": "Hive Ganger",
+    "name": { "str": "Hive Ganger" },
     "job_description": "I've survived all my life with the whole world against me, how is this any different.",
     "traits": [ { "group": "BG_survival_story_GANGER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "skills": [
