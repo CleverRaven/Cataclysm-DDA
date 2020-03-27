@@ -536,7 +536,8 @@ class Character : public Creature, public visitable<Character>
         virtual void set_movement_mode( character_movemode mode ) = 0;
 
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
+        void add_effect( const efftype_id &eff_id, const time_duration &dur,
+                         bodypart_id bp = bodypart_id( "num_bp" ),
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
         /**
@@ -573,7 +574,7 @@ class Character : public Creature, public visitable<Character>
         void check_item_encumbrance_flag();
 
         // any side effects that might happen when the Character is hit
-        void on_hit( Creature *source, body_part /*bp_hit*/,
+        void on_hit( Creature *source, bodypart_id /*bp_hit*/,
                      float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
         // any side effects that might happen when the Character hits a Creature
         void did_hit( Creature &target );
@@ -587,7 +588,7 @@ class Character : public Creature, public visitable<Character>
          */
         void passive_absorb_hit( body_part bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
-        void absorb_hit( body_part bp, damage_instance &dam ) override;
+        void absorb_hit( bodypart_id bp, damage_instance &dam ) override;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * @return true if the armor was completely destroyed (and the item must be deleted).
@@ -630,9 +631,9 @@ class Character : public Creature, public visitable<Character>
         void deactivate_mutation( const trait_id &mut );
 
         /** Converts a body_part to an hp_part */
-        static hp_part bp_to_hp( body_part bp );
+        static hp_part bp_to_hp( bodypart_id bp );
         /** Converts an hp_part to a body_part */
-        static body_part hp_to_bp( hp_part hpart );
+        static bodypart_id hp_to_bp( hp_part hpart );
 
         bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
@@ -663,6 +664,7 @@ class Character : public Creature, public visitable<Character>
         void on_hurt( Creature *source, bool disturb = true );
         /** Heals a body_part for dam */
         void heal( body_part healed, int dam );
+        void heal( bodypart_id healed, int dam );
         /** Heals an hp_part for dam */
         void heal( hp_part healed, int dam );
         /** Heals all body parts for dam */
@@ -688,7 +690,7 @@ class Character : public Creature, public visitable<Character>
                              float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
-        nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
+        nc_color limb_color( bodypart_id bp, bool bleed, bool bite, bool infect ) const;
 
         static const std::vector<material_id> fleshy;
         bool made_of( const material_id &m ) const override;
@@ -1326,7 +1328,7 @@ class Character : public Creature, public visitable<Character>
         // magic mod
         known_magic magic;
 
-        void make_bleed( body_part bp, time_duration duration, int intensity = 1,
+        void make_bleed( bodypart_id bp, time_duration duration, int intensity = 1,
                          bool permanent = false,
                          bool force = false, bool defferred = false );
 
@@ -1377,7 +1379,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Average hit points healed per turn from healing effects.
          */
-        float healing_rate_medicine( float at_rest_quality, body_part bp ) const;
+        float healing_rate_medicine( float at_rest_quality, bodypart_id bp ) const;
 
         /**
          * Goes over all mutations, gets min and max of a value with given name
@@ -1584,7 +1586,7 @@ class Character : public Creature, public visitable<Character>
 
     protected:
         void on_stat_change( const std::string &, int ) override {}
-        void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
+        void on_damage_of_type( int adjusted_damage, damage_type type, bodypart_id bp ) override;
         virtual void on_mutation_gain( const trait_id & ) {}
         virtual void on_mutation_loss( const trait_id & ) {}
     public:
@@ -1642,9 +1644,9 @@ class Character : public Creature, public visitable<Character>
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
         /** Returns warmth provided by armor, etc. */
-        int warmth( body_part bp ) const;
+        int warmth( bodypart_id bp ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        int bonus_item_warmth( body_part bp ) const;
+        int bonus_item_warmth( bodypart_id bp ) const;
         /** Can the player lie down and cover self with blankets etc. **/
         bool can_use_floor_warmth() const;
         /**
@@ -1993,9 +1995,9 @@ class Character : public Creature, public visitable<Character>
 
     public:
         // TODO: make these private
-        std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
-        std::array<int, num_bp> body_wetness;
-        std::array<int, num_bp> drench_capacity;
+        std::array <int, num_bp> temp_cur, frostbite_timer, temp_conv;
+        std::array <int, num_bp> body_wetness;
+        std::array <int, num_bp> drench_capacity;
 
         time_point next_climate_control_check;
         bool last_climate_control_ret;
