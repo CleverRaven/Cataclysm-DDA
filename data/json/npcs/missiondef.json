@@ -61,7 +61,7 @@
   {
     "id": "MISSION_GET_ANTIBIOTICS",
     "type": "mission_definition",
-    "name": "Find Antibiotics",
+    "name": { "str": "Find Antibiotics" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 150000,
@@ -142,7 +142,7 @@
   {
     "id": "MISSION_GET_DEPUTY_BADGE",
     "type": "mission_definition",
-    "name": "Find Deputy Badge",
+    "name": { "str": "Find Deputy Badge" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 150000,
@@ -185,7 +185,7 @@
   {
     "id": "MISSION_GET_RECORD_ACCOUNTING",
     "type": "mission_definition",
-    "name": "Find Corporate Accounts",
+    "name": { "str": "Find Corporate Accounts" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 140000,
@@ -392,7 +392,7 @@
   {
     "id": "MISSION_JOIN_TRACKER",
     "type": "mission_definition",
-    "name": "Find Deputy Badge",
+    "name": { "str": "Find Deputy Badge" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 0,
@@ -671,7 +671,7 @@
   {
     "id": "MISSION_INFECTED_START_FIND_ANTIBIOTICS",
     "type": "mission_definition",
-    "name": "Find Antibiotics Before You Die!",
+    "name": { "str": "Find Antibiotics Before You Die!" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 1,
     "value": 0,

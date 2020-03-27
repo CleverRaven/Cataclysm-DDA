@@ -215,7 +215,7 @@
   {
     "id": "MISSION_RANCH_NURSE_6",
     "type": "mission_definition",
-    "name": "Find 10 Filter Masks",
+    "name": { "str": "Find 10 Filter Masks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -239,7 +239,7 @@
   {
     "id": "MISSION_RANCH_NURSE_7",
     "type": "mission_definition",
-    "name": "Find 4 Pairs of Rubber Gloves",
+    "name": { "str": "Find 4 Pairs of Rubber Gloves" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -263,7 +263,7 @@
   {
     "id": "MISSION_RANCH_NURSE_8",
     "type": "mission_definition",
-    "name": "Find 2 Scalpels",
+    "name": { "str": "Find 2 Scalpels" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -287,7 +287,7 @@
   {
     "id": "MISSION_RANCH_NURSE_9",
     "type": "mission_definition",
-    "name": "Find Advanced Emergency Care",
+    "name": { "str": "Find Advanced Emergency Care" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -333,7 +333,7 @@
   {
     "id": "MISSION_RANCH_NURSE_11",
     "type": "mission_definition",
-    "name": "Find 10 Syringes",
+    "name": { "str": "Find 10 Syringes" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,

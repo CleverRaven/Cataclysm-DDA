@@ -304,7 +304,7 @@
   {
     "id": "MISSION_ISHERWOOD_CLAIRE_2",
     "type": "mission_definition",
-    "name": "Find 20 bee balm seeds",
+    "name": { "str": "Find 20 bee balm seeds" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
