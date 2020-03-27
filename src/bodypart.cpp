@@ -283,10 +283,15 @@ std::string body_part_name_accusative( body_part bp, int number )
 
 std::string body_part_name_as_heading( body_part bp, int number )
 {
-    const auto &bdy = get_bp( bp );
+    const body_part_struct &bdy = get_bp( bp );
     // See comments in `body_part_struct::load` about why these two strings are
     // not a single translation object with plural enabled.
     return number > 1 ? bdy.name_as_heading_multiple.translated() : bdy.name_as_heading.translated();
+}
+
+std::string body_part_name_as_heading( bodypart_id bp, int number )
+{
+    return number > 1 ? bp->name_as_heading_multiple.translated() : bp->name_as_heading.translated();
 }
 
 std::string body_part_hp_bar_ui_text( body_part bp )
@@ -302,7 +307,7 @@ std::string encumb_text( body_part bp )
 
 body_part random_body_part( bool main_parts_only )
 {
-    const auto &part = human_anatomy->random_body_part();
+    const bodypart_id &part = human_anatomy->random_body_part();
     return main_parts_only ? part->main_part->token : part->token;
 }
 

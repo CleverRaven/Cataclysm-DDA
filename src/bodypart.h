@@ -209,6 +209,7 @@ std::string body_part_name_accusative( body_part bp, int number = 1 );
 /** Returns the name of the body parts in a context where the name is used as
  * a heading or title e.g. "Left Arm". */
 std::string body_part_name_as_heading( body_part bp, int number );
+std::string body_part_name_as_heading( bodypart_id bp, int number );
 
 /** Returns the body part text to be displayed in the HP bar */
 std::string body_part_hp_bar_ui_text( body_part bp );

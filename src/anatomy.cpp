@@ -42,6 +42,11 @@ void anatomy::load_anatomy( const JsonObject &jo, const std::string &src )
     anatomy_factory.load( jo, src );
 }
 
+std::vector<bodypart_id> anatomy::get_body_parts() const
+{
+    return cached_bps;
+}
+
 void anatomy::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
@@ -67,7 +72,7 @@ void anatomy::finalize()
     size_sum = 0.0f;
 
     cached_bps.clear();
-    for( const auto &id : unloaded_bps ) {
+    for( const bodypart_ids &id : unloaded_bps ) {
         if( id.is_valid() ) {
             add_body_part( id );
         } else {
@@ -107,7 +112,7 @@ void anatomy::check() const
 void anatomy::add_body_part( const bodypart_ids &new_bp )
 {
     cached_bps.emplace_back( new_bp.id() );
-    const auto &bp_struct = new_bp.obj();
+    const body_part_struct &bp_struct = new_bp.obj();
     size_sum += bp_struct.hit_size;
 }
 

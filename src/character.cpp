@@ -330,6 +330,7 @@ Character::Character() :
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     update_type_of_scent( true );
     pkill = 0;
+    set_anatomy( anatomy_id( "human_anatomy" ) );
     // 45 days to starve to death
     healthy_calories = 55000;
     stored_calories = healthy_calories;
@@ -6149,34 +6150,17 @@ body_part Character::get_random_body_part( bool main ) const
     return random_body_part( main );
 }
 
-std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
+std::vector<bodypart_id> Character::get_all_body_parts( bool only_main ) const
 {
-    // TODO: Remove broken parts, parts removed by mutations etc.
-    static const std::vector<body_part> all_bps = {{
-            bp_head,
-            bp_eyes,
-            bp_mouth,
-            bp_torso,
-            bp_arm_l,
-            bp_arm_r,
-            bp_hand_l,
-            bp_hand_r,
-            bp_leg_l,
-            bp_leg_r,
-            bp_foot_l,
-            bp_foot_r,
-        }
-    };
+    const std::vector<bodypart_id> all_bps = get_anatomy()->get_body_parts();
 
-    static const std::vector<body_part> main_bps = {{
-            bp_head,
-            bp_torso,
-            bp_arm_l,
-            bp_arm_r,
-            bp_leg_l,
-            bp_leg_r,
+    std::vector<bodypart_id> main_bps;
+    for( const bodypart_id bp : all_bps ) {
+        if( bp->main_part.id() == bp ) {
+            main_bps.emplace_back( bp );
         }
-    };
+    }
+    // TODO: Remove broken parts, parts removed by mutations etc.
 
     return only_main ? main_bps : all_bps;
 }
@@ -6193,23 +6177,23 @@ std::string Character::extended_description() const
 
     ss += "\n--\n";
 
-    const auto &bps = get_all_body_parts( true );
+    const std::vector<bodypart_id> &bps = get_all_body_parts( true );
     // Find length of bp names, to align
     // accumulate looks weird here, any better function?
     int longest = std::accumulate( bps.begin(), bps.end(), 0,
-    []( int m, body_part bp ) {
+    []( int m, bodypart_id bp ) {
         return std::max( m, utf8_width( body_part_name_as_heading( bp, 1 ) ) );
     } );
 
     // This is a stripped-down version of the body_window function
     // This should be extracted into a separate function later on
-    for( body_part bp : bps ) {
+    for( bodypart_id bp : bps ) {
         const std::string &bp_heading = body_part_name_as_heading( bp, 1 );
-        hp_part hp = bp_to_hp( bp );
+        hp_part hp = bp_to_hp( bp->token );
 
         const int maximal_hp = hp_max[hp];
         const int current_hp = hp_cur[hp];
-        const nc_color state_col = limb_color( bp, true, true, true );
+        const nc_color state_col = limb_color( bp->token, true, true, true );
         nc_color name_color = state_col;
         auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
 

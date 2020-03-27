@@ -2823,9 +2823,9 @@ body_part monster::get_random_body_part( bool ) const
     return bp_torso;
 }
 
-std::vector<body_part> monster::get_all_body_parts( bool ) const
+std::vector<bodypart_id> monster::get_all_body_parts( bool ) const
 {
-    return std::vector<body_part>( 1, bp_torso );
+    return get_anatomy()->get_body_parts();
 }
 
 int monster::get_hp_max( hp_part ) const
