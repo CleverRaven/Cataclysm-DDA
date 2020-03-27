@@ -20,7 +20,24 @@
 #include "translations.h"
 #include "color.h"
 #include "enums.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+
+static const trait_id trait_BADTEMPER( "BADTEMPER" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_LEAVES2( "LEAVES2" );
+static const trait_id trait_LEAVES3( "LEAVES3" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
+static const trait_id trait_ROOTS1( "ROOTS1" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
+static const trait_id trait_STYLISH( "STYLISH" );
 
 namespace
 {

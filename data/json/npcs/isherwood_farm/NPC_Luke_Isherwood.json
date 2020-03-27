@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_LUKE",
-    "name": "Luke Isherwood",
+    "name": { "str": "Luke Isherwood" },
     "job_description": "I'm Eddie's son, part of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,

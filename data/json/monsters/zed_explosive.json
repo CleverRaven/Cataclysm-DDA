@@ -2,7 +2,7 @@
   {
     "id": "mon_boomer",
     "type": "MONSTER",
-    "name": "boomer",
+    "name": { "str": "boomer" },
     "description": "A rotund human body, bloated beyond belief and layered in rolls of fat.  It emits a horrible odor, and a putrid pink sludge dribbles from its mouth.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -47,7 +47,7 @@
   {
     "id": "mon_boomer_huge",
     "type": "MONSTER",
-    "name": "huge boomer",
+    "name": { "str": "huge boomer" },
     "description": "This boomer, normally swollen and ready to burst, has strengthened and solidified.  The bile dribbling from its mouth also appears to have changed…",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -93,7 +93,7 @@
   {
     "id": "mon_gas_zombie",
     "type": "MONSTER",
-    "name": "gasoline zombie",
+    "name": { "str": "gasoline zombie" },
     "description": "A huge bloated zombie that appears to have fed upon gasoline; fumes and flames escape from its mouth and fuel leaks from its waddling form.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -136,7 +136,7 @@
   {
     "id": "mon_zombie_gasbag",
     "type": "MONSTER",
-    "name": "bloated zombie",
+    "name": { "str": "bloated zombie" },
     "description": "With its gray skin swollen to near rupture with putrid gas, this cyst covered zombie looks like it could violently burst under the slightest of disturbances.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -157,7 +157,7 @@
     "melee_cut": 0,
     "vision_night": 3,
     "harvest": "exempt",
-    "emit_fields": [ "emit_toxic_leak" ],
+    "emit_fields": [ { "emit_id": "emit_toxic_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "GAS" ],
@@ -167,7 +167,7 @@
     "//": "Heads up: these zombies are pending removal sometime before 0.E.",
     "id": "mon_zombie_grenadier",
     "type": "MONSTER",
-    "name": "zombie grenadier",
+    "name": { "str": "zombie grenadier" },
     "description": "Once a soldier, it is dressed head to toe in combat gear.  Its hands constantly fumble at its many pouches.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -214,7 +214,7 @@
   {
     "id": "mon_zombie_grenadier_elite",
     "type": "MONSTER",
-    "name": "zombie elite grenadier",
+    "name": { "str": "zombie elite grenadier" },
     "description": "Once a soldier, it is dressed head to toe in combat gear and wearing a MOLLE pack.  Its hands quickly open and close its many pouches.",
     "default_faction": "zombie",
     "bodytype": "human",

@@ -28,13 +28,12 @@
     "type": "TOOL",
     "symbol": "=",
     "color": "magenta",
-    "name": "Magus rune",
-    "name_plural": "Magi runes",
+    "name": { "str": "Magus rune", "str_pl": "Magi runes" },
     "description": "This magical pebble has an insignia of crystal and mana orbs on it.  It is necessary for Magi to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": "TRADER_AVOID"
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "rune_earthshaper",

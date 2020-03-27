@@ -73,7 +73,60 @@
 #include "point.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+
+static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_TREE( "TREE" );
+
+static const zone_type_id zone_type_camp_food( "CAMP_FOOD" );
+static const zone_type_id zone_type_camp_storage( "CAMP_STORAGE" );
+
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_speech( "speech" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_traps( "traps" );
+static const skill_id skill_unarmed( "unarmed" );
+
+static const mtype_id mon_bear( "mon_bear" );
+static const mtype_id mon_beaver( "mon_beaver" );
+static const mtype_id mon_black_rat( "mon_black_rat" );
+static const mtype_id mon_chicken( "mon_chicken" );
+static const mtype_id mon_chipmunk( "mon_chipmunk" );
+static const mtype_id mon_cockatrice( "mon_cockatrice" );
+static const mtype_id mon_cougar( "mon_cougar" );
+static const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_coyote( "mon_coyote" );
+static const mtype_id mon_deer( "mon_deer" );
+static const mtype_id mon_duck( "mon_duck" );
+static const mtype_id mon_fox_gray( "mon_fox_gray" );
+static const mtype_id mon_fox_red( "mon_fox_red" );
+static const mtype_id mon_groundhog( "mon_groundhog" );
+static const mtype_id mon_grouse( "mon_grouse" );
+static const mtype_id mon_hare( "mon_hare" );
+static const mtype_id mon_lemming( "mon_lemming" );
+static const mtype_id mon_mink( "mon_mink" );
+static const mtype_id mon_moose( "mon_moose" );
+static const mtype_id mon_muskrat( "mon_muskrat" );
+static const mtype_id mon_opossum( "mon_opossum" );
+static const mtype_id mon_otter( "mon_otter" );
+static const mtype_id mon_pheasant( "mon_pheasant" );
+static const mtype_id mon_pig( "mon_pig" );
+static const mtype_id mon_rabbit( "mon_rabbit" );
+static const mtype_id mon_squirrel( "mon_squirrel" );
+static const mtype_id mon_turkey( "mon_turkey" );
+static const mtype_id mon_weasel( "mon_weasel" );
+static const mtype_id mon_wolf( "mon_wolf" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 struct mass_volume {
     units::mass wgt;
@@ -586,8 +639,8 @@ void talk_function::basecamp_mission( npc &p )
         }
         tripoint src_loc;
         const auto abspos = p.global_square_location();
-        if( mgr.has_near( z_camp_storage, abspos, 60 ) ) {
-            const auto &src_set = mgr.get_near( z_camp_storage, abspos );
+        if( mgr.has_near( zone_type_camp_storage, abspos, 60 ) ) {
+            const auto &src_set = mgr.get_near( zone_type_camp_storage, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
             for( auto &src : src_sorted ) {
@@ -1240,7 +1293,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                camp_food_supply(), camp_food_supply( 0, true ) );
         mission_key.add( "Distribute Food", _( "Distribute Food" ), entry );
         validate_assignees();
-        std::vector<npc_ptr> npc_list = get_npcs_assigned();
         entry = string_format( _( "Notes:\n"
                                   "Assign repeating job duties to NPCs stationed here.\n"
                                   "Difficulty: N/A\n"
@@ -1276,7 +1328,8 @@ void basecamp::get_available_missions( mission_data &mission_key )
     }
 }
 
-bool basecamp::handle_mission( const std::string &miss_id, cata::optional<point> opt_miss_dir )
+bool basecamp::handle_mission( const std::string &miss_id,
+                               const cata::optional<point> &opt_miss_dir )
 {
     const point &miss_dir = opt_miss_dir ? *opt_miss_dir : base_camps::base_dir;
 
@@ -3373,14 +3426,15 @@ bool basecamp::validate_sort_points()
     }
     tripoint src_loc = bb_pos + point_north;
     const tripoint abspos = g->m.getabs( g->u.pos() );
-    if( !mgr.has_near( z_camp_storage, abspos, 60 ) || !mgr.has_near( z_camp_food, abspos, 60 ) ) {
+    if( !mgr.has_near( zone_type_camp_storage, abspos, 60 ) ||
+        !mgr.has_near( zone_type_camp_food, abspos, 60 ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
             return set_sort_points();
         } else {
             return false;
         }
     } else {
-        const std::unordered_set<tripoint> &src_set = mgr.get_near( z_camp_storage, abspos );
+        const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_camp_storage, abspos );
         const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
         // Find the nearest unsorted zone to dump objects at
         for( auto &src : src_sorted ) {
@@ -3674,7 +3728,7 @@ bool basecamp::distribute_food()
         mgr.cache_vzones();
     }
     const tripoint &abspos = get_dumping_spot();
-    const std::unordered_set<tripoint> &z_food = mgr.get_near( z_camp_food, abspos, 60 );
+    const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_camp_food, abspos, 60 );
 
     tripoint p_litter = omt_to_sm_copy( omt_pos ) + point( -7, 0 );
 
@@ -3768,8 +3822,8 @@ void basecamp::place_results( item result )
             mgr.cache_vzones();
         }
         const auto abspos = g->m.getabs( g->u.pos() );
-        if( mgr.has_near( z_camp_storage, abspos ) ) {
-            const auto &src_set = mgr.get_near( z_camp_storage, abspos );
+        if( mgr.has_near( zone_type_camp_storage, abspos ) ) {
+            const auto &src_set = mgr.get_near( zone_type_camp_storage, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
             for( auto &src : src_sorted ) {

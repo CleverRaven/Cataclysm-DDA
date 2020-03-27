@@ -2,7 +2,7 @@
   {
     "type": "martial_art",
     "id": "style_biojutsu",
-    "name": "Bionic Combatives",
+    "name": { "str": "Bionic Combatives" },
     "description": "A modern combat style for the post-modern human.  Nicknamed \"Biojutsu\", Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
     "initiate": [
       "BEGINNING BIONIC COMBATIVES PROGRAM. INITIATING COMBAT PROTOCOLS.",
@@ -48,7 +48,7 @@
   {
     "type": "martial_art",
     "id": "style_centipede",
-    "name": "Centipede Kung Fu",
+    "name": { "str": "Centipede Kung Fu" },
     "description": "One of the Five Deadly Venoms, used by Zhang Yiaotian.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increases your attack speed.  Critical hits increase your damage further.",
     "initiate": [ "You ready yourself to attack as fast as possible.", "%s assumes a centipede-like stance." ],
     "learn_difficulty": 10,
@@ -82,7 +82,7 @@
   {
     "type": "martial_art",
     "id": "style_lizard",
-    "name": "Lizard Kung Fu",
+    "name": { "str": "Lizard Kung Fu" },
     "description": "One of the Five Deadly Venoms, used by Meng Tianxia.  Lizard Style focuses on using walls to your advantage.  Standing near a wall provides a large bonus to Dodge skill and moving near a wall gives a large bonus to accuracy.  Stronger techniques are enabled when near a wall.",
     "initiate": [ "You ready yourself to attack from any angle.", "%s assumes a lizard-like stance." ],
     "learn_difficulty": 10,
@@ -124,7 +124,7 @@
   {
     "type": "martial_art",
     "id": "style_scorpion",
-    "name": "Scorpion Kung Fu",
+    "name": { "str": "Scorpion Kung Fu" },
     "description": "One of the Five Deadly Venoms, used by Gao Ji.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Moving enables a stunning pincer attack.  Critical hits do massive damage and knock your opponent back along with anyone your opponent comes in contact with.",
     "initiate": [ "You prepare to capture and sting your foes.", "%s assumes a scorpion-like stance." ],
     "learn_difficulty": 10,
@@ -166,7 +166,7 @@
   {
     "type": "martial_art",
     "id": "style_toad",
-    "name": "Toad Kung Fu",
+    "name": { "str": "Toad Kung Fu" },
     "description": "One of the Five Deadly Venoms, used by Liang Shen.  Masters of Toad Style can focus themselves to protect against all attacks.  You have powerful armor against physical attacks, though you will lose focus when you move.  You can meditate by pausing, giving yourself more armor for a short time.",
     "initiate": [ "You pause for a moment and focus on your invincible body.", "%s assumes a toad-like stance." ],
     "learn_difficulty": 10,
@@ -219,7 +219,7 @@
   {
     "type": "martial_art",
     "id": "style_venom_snake",
-    "name": "Viper Kung Fu",
+    "name": { "str": "Viper Kung Fu" },
     "description": "A legacy of the Five Deadly Venoms, use by Qi Dong.  Viper Style (originally called Snake Style) has a unique three-part combo, which initiates on a dodge, then follows up with a stunning Viper Bite and then finishes with the legendary Viper Strike.",
     "initiate": [ "You prepare to strike your foes' weaknesses.", "%s assumes a viper-like stance." ],
     "learn_difficulty": 10,
@@ -263,7 +263,7 @@
   {
     "type": "mutation",
     "id": "MARTIAL_ARTS4",
-    "name": "Venom Mob Protege",
+    "name": { "str": "Venom Mob Protege" },
     "points": 2,
     "description": "You are a pupil of the Venom Clan.  You start with one of the five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad.",
     "starting_trait": false,

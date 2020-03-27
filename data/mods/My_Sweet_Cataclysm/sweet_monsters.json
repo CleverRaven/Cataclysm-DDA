@@ -369,7 +369,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "gum_spider",
-    "emit_fields": [ "emit_gum_web" ],
+    "emit_fields": [ { "emit_id": "emit_gum_web", "delay": "30 m" } ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "reproduction": { "baby_egg": "gum", "baby_count": 10, "baby_timer": 5 }

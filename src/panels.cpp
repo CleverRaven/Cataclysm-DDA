@@ -1529,7 +1529,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void render_wind( avatar &u, const catacurses::window &w, std::string formatstr )
+static void render_wind( avatar &u, const catacurses::window &w, const std::string &formatstr )
 {
     werase( w );
     mvwprintz( w, point_zero, c_light_gray,
@@ -1931,7 +1931,7 @@ static void draw_hint( const avatar &, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void print_mana( const player &u, const catacurses::window &w, std::string fmt_string,
+static void print_mana( const player &u, const catacurses::window &w, const std::string &fmt_string,
                         const int j1, const int j2, const int j3, const int j4 )
 {
     werase( w );

@@ -124,7 +124,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo]" )
         iteminfo_test(
             item( "compbow" ), q,
             "--\n"
-            "Damage: <color_c_yellow>18</color>*<color_c_yellow>1.25</color> = <color_c_yellow>22</color>\n" );
+            "Damage: <color_c_yellow>50</color>*<color_c_yellow>1.50</color> = <color_c_yellow>75</color>\n" );
     }
 
     SECTION( "time to reload" ) {
@@ -132,7 +132,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo]" )
         iteminfo_test(
             item( "compbow" ), q,
             "--\n"
-            "Reload time: <color_c_yellow>110</color> moves \n" ); // NOLINT(cata-text-style)
+            "Reload time: <color_c_yellow>100</color> moves \n" ); // NOLINT(cata-text-style)
     }
 
     SECTION( "firing modes" ) {
@@ -213,7 +213,6 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo]" )
     }
 
 }
-
 
 TEST_CASE( "item conductivity", "[item][iteminfo]" )
 {

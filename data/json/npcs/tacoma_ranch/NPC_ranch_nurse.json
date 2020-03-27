@@ -97,7 +97,7 @@
   {
     "id": "MISSION_RANCH_NURSE_1",
     "type": "mission_definition",
-    "name": "Collect 100 Aspirin",
+    "name": { "str": "Collect 100 Aspirin" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -120,7 +120,7 @@
   {
     "id": "MISSION_RANCH_NURSE_2",
     "type": "mission_definition",
-    "name": "Collect 3 Hotplates",
+    "name": { "str": "Collect 3 Hotplates" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -144,7 +144,7 @@
   {
     "id": "MISSION_RANCH_NURSE_3",
     "type": "mission_definition",
-    "name": "Collect 200 Multivitamin Pills",
+    "name": { "str": "Collect 200 Multivitamin Pills" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,

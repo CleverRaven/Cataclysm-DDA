@@ -39,8 +39,7 @@
     "id": "heat_cube_torch_on",
     "copy-from": "heat_cube",
     "type": "TOOL",
-    "name": "heat cube (torch on)",
-    "name_plural": "heat cubes (torch on)",
+    "name": { "str": "heat cube (torch on)", "str_pl": "heat cubes (torch on)" },
     "description": "The heat cube in the torch configuration, where it emits warmth and a bright flame that does not burn.",
     "turns_per_charge": 360,
     "revert_to": "heat_cube",
@@ -51,8 +50,7 @@
   {
     "id": "mkey_opening",
     "type": "TOOL",
-    "name": "skeleton key of opening",
-    "name_plural": "skeleton key of opening",
+    "name": { "str": "skeleton key of opening", "str_pl": "skeleton keys of opening" },
     "description": "A small gold skeleton key.  You can activate it to unlock locked things.",
     "weight": "20 g",
     "volume": 0,
@@ -69,8 +67,7 @@
   {
     "id": "mtorch_everburning",
     "type": "TOOL",
-    "name": "everburning torch",
-    "name_plural": "everburning torches",
+    "name": { "str": "everburning torch", "str_pl": "everburning torches" },
     "description": "This is a high quality engraved wooden torch.  On command, the tip bursts into flame and produces a fair amount of light.  It will burn forever.",
     "weight": "831 g",
     "volume": "750 ml",
@@ -93,8 +90,7 @@
   {
     "id": "mtorch_everburning_lit",
     "type": "TOOL",
-    "name": "everburning torch",
-    "name_plural": "everburning torches",
+    "name": { "str": "everburning torch", "str_pl": "everburning torches" },
     "copy-from": "mtorch_everburning",
     "revert_to": "mtorch_everburning",
     "use_action": [
@@ -111,9 +107,8 @@
     "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "STURDY" ]
   },
   {
-    "name": "endless flask",
+    "name": { "str": "endless flask" },
     "id": "mflask_hip_whiskey",
-    "name_plural": "endless flasks",
     "type": "CONTAINER",
     "copy-from": "flask_hip",
     "category": "clothing",
@@ -164,8 +159,7 @@
   {
     "id": "mspider_box",
     "type": "TOOL",
-    "name": "spider box",
-    "name_plural": "spider boxes",
+    "name": { "str": "spider box", "str_pl": "spider boxes" },
     "description": "This is a small glass box that contains a spider that diligently works day and night to produce silk thread that it stores in a reservoir you can open and retrieve it from.",
     "weight": "100 g",
     "volume": "100 ml",

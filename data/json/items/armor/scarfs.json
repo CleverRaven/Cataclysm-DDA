@@ -2,7 +2,7 @@
   {
     "id": "cowl_wool",
     "type": "ARMOR",
-    "name": "knit cowl",
+    "name": { "str": "knit cowl" },
     "description": "A snuggly woolen cowl.  It's one of those stylish and bulky cowls you see in fashion magazines.",
     "weight": "272 g",
     "volume": "2 L",
@@ -23,7 +23,7 @@
     "id": "headscarf",
     "repairs_like": "balclava",
     "type": "ARMOR",
-    "name": "headscarf",
+    "name": { "str": "headscarf" },
     "description": "A loose cloth worn over the head and around the neck.",
     "weight": "70 g",
     "volume": "250 ml",
@@ -43,7 +43,7 @@
   {
     "id": "keffiyeh",
     "type": "ARMOR",
-    "name": "keffiyeh",
+    "name": { "str": "keffiyeh" },
     "description": "A type of headdress traditionally used in the Middle East.  It can be used in different ways to protect the head and mouth from the elements.",
     "weight": "152 g",
     "volume": "1250 ml",
@@ -66,7 +66,7 @@
     "type": "ARMOR",
     "copy-from": "keffiyeh",
     "looks_like": "scarf",
-    "name": "cyan scarf",
+    "name": { "str": "cyan scarf" },
     "description": "A simple cloth scarf worn by Marloss Voices.  Wherever the Voices go, long sought peace soon follows, for better or for worse.",
     "color": "cyan",
     "covers": [ "MOUTH" ]

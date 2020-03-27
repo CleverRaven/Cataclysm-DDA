@@ -31,7 +31,7 @@
   {
     "id": "puller",
     "type": "TOOL",
-    "name": "kinetic bullet puller",
+    "name": { "str": "kinetic bullet puller" },
     "description": "This is a tool used for properly disassembling firearm ammunition.",
     "weight": "489 g",
     "volume": "250 ml",
