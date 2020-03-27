@@ -242,7 +242,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
 
     if( obj.has_array( "body_parts" ) ) {
         for( JsonArray sub : obj.get_array( "body_parts" ) ) {
-            const body_part bp = get_body_part_token( sub.get_string( 0 ) );
+            const bodypart_id bp = bodypart_id( sub.get_string( 0 ) );
             const float prob = sub.get_float( 1 );
             body_parts.add_or_replace( bp, prob );
         }
@@ -297,9 +297,9 @@ bool melee_actor::call( monster &z ) const
     double multiplier = rng_float( min_mul, max_mul );
     damage.mult_damage( multiplier );
 
-    body_part bp_hit = body_parts.empty() ?
-                       target->select_body_part( &z, hitspread ) :
-                       *body_parts.pick();
+    bodypart_id bp_hit = body_parts.empty() ?
+                         target->select_body_part( &z, hitspread ) :
+                         *body_parts.pick();
 
     target->on_hit( &z, bp_hit );
     dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_hit, damage );
@@ -313,7 +313,7 @@ bool melee_actor::call( monster &z ) const
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, z.name(),
-                                       body_part_name_accusative( bp_hit ) );
+                                       body_part_name_accusative( bp_hit->token ) );
     }
 
     return true;
@@ -327,13 +327,13 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
         sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
     }
     auto msg_type = target.attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_neutral;
-    const body_part bp = dealt.bp_hit;
+    const bodypart_id bp = dealt.bp_hit;
     target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, z.name(),
-                                  body_part_name_accusative( bp ) );
+                                  body_part_name_accusative( bp->token ) );
 
     for( const auto &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const body_part affected_bp = eff.affect_hit_bp ? bp : eff.bp;
+            const bodypart_id affected_bp = eff.affect_hit_bp ? bp : eff.bp;
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
@@ -356,7 +356,7 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
 {
     melee_actor::on_damage( z, target, dealt );
     if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
-        const body_part hit = dealt.bp_hit;
+        const bodypart_id hit = dealt.bp_hit;
         if( target.has_effect( effect_bite, hit ) ) {
             target.add_effect( effect_bite, 40_minutes, hit, true );
         } else if( target.has_effect( effect_infected, hit ) ) {

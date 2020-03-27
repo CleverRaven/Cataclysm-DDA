@@ -307,16 +307,16 @@ class monster : public Creature
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
-        void absorb_hit( body_part bp, damage_instance &dam ) override;
-        bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
+        void absorb_hit( bodypart_id bp, damage_instance &dam ) override;
+        bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         void melee_attack( Creature &target );
         void melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
                                      bool print_messages = true ) override;
-        void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
+        void deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                       int &pain ) override;
-        void apply_damage( Creature *source, body_part bp, int dam,
+        void apply_damage( Creature *source, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
@@ -342,7 +342,8 @@ class monster : public Creature
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
+        void add_effect( const efftype_id &eff_id, const time_duration &dur,
+                         bodypart_id bp = bodypart_id( "num_bp" ),
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
         /** Returns a std::string containing effects for descriptions */
@@ -381,7 +382,7 @@ class monster : public Creature
         // We just dodged an attack from something
         void on_dodge( Creature *source, float difficulty ) override;
         // Something hit us (possibly null source)
-        void on_hit( Creature *source, body_part bp_hit = num_bp,
+        void on_hit( Creature *source, bodypart_id bp_hit = bodypart_id( "num_bp" ),
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         // Get torso - monsters don't have body parts (yet?)
         bodypart_id get_random_body_part( bool main ) const override;

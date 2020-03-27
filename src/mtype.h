@@ -187,11 +187,11 @@ struct mon_effect_data {
     efftype_id id;
     int duration;
     bool affect_hit_bp;
-    body_part bp;
+    bodypart_id bp;
     bool permanent;
     int chance;
 
-    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm,
+    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, bodypart_id nbp, bool perm,
                      int nchance ) :
         id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
         chance( nchance ) {}

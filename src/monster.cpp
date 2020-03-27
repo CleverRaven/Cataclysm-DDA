@@ -159,6 +159,8 @@ static const mtype_id mon_zombie_technician( "mon_zombie_technician" );
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 static const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 
+static const bodypart_id torso_bp( "torso" );
+
 struct pathfinding_settings;
 
 // Limit the number of iterations for next upgrade_time calculations.
@@ -1315,12 +1317,12 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
-bool monster::block_hit( Creature *, body_part &, damage_instance & )
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 {
     return false;
 }
 
-void monster::absorb_hit( body_part, damage_instance &dam )
+void monster::absorb_hit( bodypart_id, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -1371,7 +1373,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( hitspread >= 0 ) {
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
-    body_part bp_hit = dealt_dam.bp_hit;
+    bodypart_id bp_hit = dealt_dam.bp_hit;
 
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
@@ -1398,7 +1400,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                 sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
-                         body_part_name_accusative( bp_hit ) );
+                         body_part_name_accusative( bp_hit->token ) );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
                     //~ %1$s: name of your mount, %2$s: target NPC name, %3$d: damage value
@@ -1408,7 +1410,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                     //~ %1$s: attacker name, %2$s: target NPC name, %3$s: bodypart name in accusative
                     add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
                              target.disp_name( true ),
-                             body_part_name_accusative( bp_hit ) );
+                             body_part_name_accusative( bp_hit->token ) );
                 }
             } else {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
@@ -1423,7 +1425,7 @@ void monster::melee_attack( Creature &target, float accuracy )
         } else if( target.is_player() ) {
             //~ %s is bodypart name in accusative.
             add_msg( m_bad, _( "Something hits your %s." ),
-                     body_part_name_accusative( bp_hit ) );
+                     body_part_name_accusative( bp_hit->token ) );
         }
     } else {
         // No damage dealt
@@ -1431,14 +1433,14 @@ void monster::melee_attack( Creature &target, float accuracy )
             if( target.is_player() ) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
                 add_msg( _( "The %1$s hits your %2$s, but your %3$s protects you." ), name(),
-                         body_part_name_accusative( bp_hit ), target.skin_name() );
+                         body_part_name_accusative( bp_hit->token ), target.skin_name() );
             } else if( target.is_npc() ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target bodypart name in accusative, $4s is the monster target name,
                 //~ 5$s is target armor name.
                 add_msg( _( "The %1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), name(),
                          target.disp_name( true ),
-                         body_part_name_accusative( bp_hit ),
+                         body_part_name_accusative( bp_hit->token ),
                          target.disp_name( true ),
                          target.skin_name() );
             } else {
@@ -1452,7 +1454,7 @@ void monster::melee_attack( Creature &target, float accuracy )
         } else if( target.is_player() ) {
             //~ 1$s is bodypart name in accusative, 2$s is armor name.
             add_msg( _( "Something hits your %1$s, but your %2$s protects you." ),
-                     body_part_name_accusative( bp_hit ), target.skin_name() );
+                     body_part_name_accusative( bp_hit->token ), target.skin_name() );
         }
     }
 
@@ -1472,7 +1474,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     // Add any on damage effects
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
+            const bodypart_id affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
@@ -1532,11 +1534,11 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bp_torso, INT_MIN, &attack );
+        on_hit( source, torso_bp, INT_MIN, &attack );
     }
 }
 
-void monster::deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
+void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                        int &pain )
 {
     switch( du.type ) {
@@ -1599,7 +1601,7 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
-void monster::apply_damage( Creature *source, body_part /*bp*/, int dam,
+void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
                             const bool /*bypass_med*/ )
 {
     if( is_dead_state() ) {
@@ -1770,11 +1772,11 @@ bool monster::move_effects( bool )
     return true;
 }
 
-void monster::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part/*bp*/,
+void monster::add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
                           bool permanent, int intensity, bool force, bool deferred )
 {
     // Effects are not applied to specific monster body part
-    Creature::add_effect( eff_id, dur, num_bp, permanent, intensity, force, deferred );
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
 std::string monster::get_effect_status() const
@@ -1964,12 +1966,12 @@ int monster::impact( const int force, const tripoint &p )
     int total_dealt = 0;
     if( g->m.has_flag( TFLAG_SHARP, p ) ) {
         const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bp_torso ) );
-        apply_damage( nullptr, bp_torso, cut_damage );
+        apply_damage( nullptr, torso_bp, cut_damage );
         total_dealt += 10 * mod;
     }
 
     const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bp_torso ) );
-    apply_damage( nullptr, bp_torso, bash_damage );
+    apply_damage( nullptr, torso_bp, bash_damage );
     total_dealt += force * mod;
 
     add_effect( effect_downed, time_duration::from_turns( rng( 0, mod * 3 + 1 ) ) );
@@ -2387,7 +2389,7 @@ void monster::process_one_effect( effect &it, bool is_new )
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, 1 ) ) {
-            apply_damage( nullptr, bp_torso, val );
+            apply_damage( nullptr, torso_bp, val );
         }
     }
 
@@ -2405,7 +2407,7 @@ void monster::process_one_effect( effect &it, bool is_new )
 
         dam -= get_armor_type( DT_HEAT, bp_torso );
         if( dam > 0 ) {
-            apply_damage( nullptr, bp_torso, dam );
+            apply_damage( nullptr, torso_bp, dam );
         } else {
             it.set_duration( 0_turns );
         }
@@ -2480,7 +2482,7 @@ void monster::process_effects()
         if( g->u.sees( *this ) ) {
             add_msg( m_good, _( "The %s burns horribly in the sunlight!" ), name() );
         }
-        apply_damage( nullptr, bp_torso, 100 );
+        apply_damage( nullptr, torso_bp, 100 );
         if( hp < 0 ) {
             hp = 0;
         }
@@ -2776,7 +2778,7 @@ void monster::on_dodge( Creature *, float )
     // Currently does nothing, later should handle faction relations
 }
 
-void monster::on_hit( Creature *source, body_part,
+void monster::on_hit( Creature *source, bodypart_id,
                       float, dealt_projectile_attack const *const proj )
 {
     if( is_hallucination() ) {
