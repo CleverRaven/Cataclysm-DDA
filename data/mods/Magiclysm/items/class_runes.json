@@ -4,12 +4,12 @@
     "type": "TOOL",
     "symbol": "=",
     "color": "pink",
-    "name": "Biomancer rune",
+    "name": { "str": "Biomancer rune" },
     "description": "This magical pebble has an insignia of rended flesh and bones on it.  It is necessary for Biomancers to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": "TRADER_AVOID"
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "rune_technomancer",
@@ -88,12 +88,12 @@
     "type": "TOOL",
     "symbol": "=",
     "color": "light_red",
-    "name": "Animist rune",
+    "name": { "str": "Animist rune" },
     "description": "This magical pebble has an insignia of summoners on it.  It is necessary for Animists to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": "TRADER_AVOID"
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "rune_alchemist",

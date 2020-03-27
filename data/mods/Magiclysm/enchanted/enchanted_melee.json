@@ -758,7 +758,7 @@
   {
     "id": "rune_biomancer_weapon",
     "type": "GENERIC",
-    "name": "Biomancer spear",
+    "name": { "str": "Biomancer spear" },
     "//": "Effectively a durable stone spear +1 with IMPALE tech.  based off Wicked Bonespear.  Lorewise, it would make sense for novice Biomancers to be developing their skills in spears so they can adequately use the Bonespear(No whips/REACH3 for you!) once they're proficient enough to summon one.  Should be weaker than other school weapons DPSwise due to reach.",
     "description": "A grotesque bone spearhead on a stout wooden pole.  There is a Biomancer rune embedded at the base of the head.",
     "weight": "988 g",
@@ -853,7 +853,7 @@
   {
     "id": "rune_animist_weapon",
     "type": "GENERIC",
-    "name": "Animist athame",
+    "name": { "str": "Animist athame" },
     "//": "Tool qualities equivalent to steak knife, combat equiv.  to copper knife + 1 w/ RAPID and BLOCK1, size/weight off combat knife +1",
     "description": "A steel ritual knife used by Animists to draw blood for summoning.  Their school rune is embedded in the crossguard.",
     "weight": "504 g",

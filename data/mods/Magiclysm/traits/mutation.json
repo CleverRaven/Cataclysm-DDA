@@ -161,7 +161,7 @@
   {
     "type": "mutation",
     "id": "BAD_MANA_REGEN3",
-    "name": "Abysmal Mana Regeneration",
+    "name": { "str": "Abysmal Mana Regeneration" },
     "points": -6,
     "description": "Your natural mana regeneration is much slower than normal.",
     "prereqs": [ "BAD_MANA_REGEN2" ],
@@ -243,7 +243,7 @@
   {
     "type": "mutation",
     "id": "BAD_MANA_MULT3",
-    "name": "Abysmal Mana Sensitivity",
+    "name": { "str": "Abysmal Mana Sensitivity" },
     "points": -6,
     "description": "You have a hard time sensing the mana in your body, making less of your reserves available for use.",
     "cancels": [ "MANA_MULT1", "MANA_MULT2", "MANA_MULT3" ],
