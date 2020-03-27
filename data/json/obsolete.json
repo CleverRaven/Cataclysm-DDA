@@ -98,7 +98,7 @@
     "id": "fusion_gun",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted fusion gun",
+    "name": { "str": "mounted fusion gun" },
     "item": "ftk93",
     "color": "magenta",
     "broken_color": "magenta",
@@ -291,7 +291,7 @@
     "id": "wheel_motorbike_steerable",
     "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
-    "name": "motorbike wheel (steerable)",
+    "name": { "str": "motorbike wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
@@ -358,7 +358,7 @@
   {
     "id": "metal_wheel",
     "type": "vehicle_part",
-    "name": "metal wheel",
+    "name": { "str": "metal wheel" },
     "item": "wheel_metal",
     "location": "under",
     "symbol": "|",
