@@ -758,7 +758,7 @@
   {
     "id": "rune_biomancer_weapon",
     "type": "GENERIC",
-    "name": "Biomancer spear",
+    "name": { "str": "Biomancer spear" },
     "//": "Effectively a durable stone spear +1 with IMPALE tech.  based off Wicked Bonespear.  Lorewise, it would make sense for novice Biomancers to be developing their skills in spears so they can adequately use the Bonespear(No whips/REACH3 for you!) once they're proficient enough to summon one.  Should be weaker than other school weapons DPSwise due to reach.",
     "description": "A grotesque bone spearhead on a stout wooden pole.  There is a Biomancer rune embedded at the base of the head.",
     "weight": "988 g",

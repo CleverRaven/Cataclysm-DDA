@@ -74,7 +74,7 @@
   {
     "type": "mutation",
     "id": "BIOMANCER",
-    "name": "Biomancer",
+    "name": { "str": "Biomancer" },
     "points": 0,
     "description": "The Biomancer focuses on manipulating and even absorbing flesh; their own, and that of other living or dead things.  Most other wizards find their powers gross and disturbing, but no one can question the potency of their abilities, and certainly not their adaptability to any situation.",
     "starting_trait": false,
