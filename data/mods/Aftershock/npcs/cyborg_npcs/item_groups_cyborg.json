@@ -3,7 +3,15 @@
     "type": "item_group",
     "id": "NC_GANGER_worn",
     "subtype": "collection",
-    "entries": [ { "item": "briefs" }, { "item": "socks" }, { "item": "sneakers" }, { "item": "tank_top" }, { "item": "pants_army" }, { "item": "vest_leather_mod" }, { "item": "dump_pouch" }  ]
+    "entries": [
+      { "item": "briefs" },
+      { "item": "socks" },
+      { "item": "sneakers" },
+      { "item": "tank_top" },
+      { "item": "pants_army" },
+      { "item": "vest_leather_mod" },
+      { "item": "dump_pouch" }
+    ]
   },
   {
     "type": "item_group",
