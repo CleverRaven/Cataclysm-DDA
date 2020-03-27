@@ -94,7 +94,7 @@
   {
     "id": "mon_mosquito",
     "type": "MONSTER",
-    "name": "mosquito",
+    "name": { "str": "mosquito" },
     "description": "A blood-sucking fly with a needle-like proboscis.  Its bite leaves behind itchy welts and can easily spread disease.",
     "default_faction": "vermin",
     "species": [ "INSECT" ],
@@ -159,7 +159,7 @@
   {
     "id": "mon_spider_jumping",
     "type": "MONSTER",
-    "name": "jumping spider",
+    "name": { "str": "jumping spider" },
     "description": "A little spider with elongated forelegs.  It does not build extensive webs, but leaps very quickly, appearing to move instantaneously from one spot to another.",
     "default_faction": "vermin",
     "species": [ "SPIDER" ],
