@@ -6144,10 +6144,11 @@ body_part Character::hp_to_bp( const hp_part hpart )
     }
 }
 
-body_part Character::get_random_body_part( bool main ) const
+bodypart_id Character::get_random_body_part( bool main ) const
 {
     // TODO: Refuse broken limbs, adjust for mutations
-    return random_body_part( main );
+    const bodypart_id &part = get_anatomy()->random_body_part();
+    return main ? part->main_part.id() : part;
 }
 
 std::vector<bodypart_id> Character::get_all_body_parts( bool only_main ) const

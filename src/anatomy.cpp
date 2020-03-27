@@ -119,7 +119,7 @@ void anatomy::add_body_part( const bodypart_ids &new_bp )
 // TODO: get_function_with_better_name
 bodypart_ids anatomy::get_part_with_cumulative_hit_size( float size ) const
 {
-    for( auto &part : cached_bps ) {
+    for( const bodypart_id &part : cached_bps ) {
         size -= part->hit_size;
         if( size <= 0.0f ) {
             return part.id();

@@ -450,7 +450,7 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 6_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "schizo_formication" ).value_or(
                                      translation() );
-        body_part bp = random_body_part( true );
+        body_part bp = get_random_body_part( true )->token;
         add_effect( effect_formication, 45_minutes, bp );
         add_msg_if_player( m_bad, "%s", snip );
         return;
@@ -1236,7 +1236,7 @@ void Character::suffer_from_bad_bionics()
     if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
-        body_part bp = random_body_part( true );
+        body_part bp = get_random_body_part( true )->token;
         add_effect( effect_formication, 10_minutes, bp );
     }
     if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&

@@ -305,12 +305,6 @@ std::string encumb_text( body_part bp )
     return !txt.empty() ? _( txt ) : txt;
 }
 
-body_part random_body_part( bool main_parts_only )
-{
-    const bodypart_id &part = human_anatomy->random_body_part();
-    return main_parts_only ? part->main_part->token : part->token;
-}
-
 body_part mutate_to_main_part( body_part bp )
 {
     return get_bp( bp ).main_part->token;

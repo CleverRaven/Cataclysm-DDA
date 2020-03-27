@@ -384,7 +384,7 @@ class monster : public Creature
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         // Get torso - monsters don't have body parts (yet?)
-        body_part get_random_body_part( bool main ) const override;
+        bodypart_id get_random_body_part( bool main ) const override;
         /** Returns vector containing all body parts this monster has. That is, { bp_torso } */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const override;
 

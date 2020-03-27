@@ -782,7 +782,7 @@ bool game::start_game()
         start_loc.burn( omtstart, 3, 3 );
     }
     if( scen->has_flag( "INFECTED" ) ) {
-        u.add_effect( effect_infected, 1_turns, random_body_part(), true );
+        u.add_effect( effect_infected, 1_turns, u.get_random_body_part( false )->token, true );
     }
     if( scen->has_flag( "BAD_DAY" ) ) {
         u.add_effect( effect_flu, 1000_minutes );
@@ -9111,7 +9111,7 @@ point game::place_player( const tripoint &dest_loc )
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
             u.mounted_creature->apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
         } else {
-            body_part bp = random_body_part();
+            body_part bp = u.get_random_body_part( false )->token;
             if( u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0 ) {
                 //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                 add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),

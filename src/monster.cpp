@@ -2818,9 +2818,10 @@ void monster::on_hit( Creature *source, body_part,
     // TODO: Faction relations
 }
 
-body_part monster::get_random_body_part( bool ) const
+bodypart_id monster::get_random_body_part( bool main ) const
 {
-    return bp_torso;
+    const bodypart_id &part = get_anatomy()->random_body_part();
+    return main ? part->main_part.id() : part;
 }
 
 std::vector<bodypart_id> monster::get_all_body_parts( bool ) const

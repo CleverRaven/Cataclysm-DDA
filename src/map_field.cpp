@@ -1126,14 +1126,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 add_item_or_charges( newp, tmp );
                                 if( g->u.pos() == newp ) {
                                     add_msg( m_bad, _( "A %s hits you!" ), tmp.tname() );
-                                    body_part hit = random_body_part();
+                                    body_part hit = g->u.get_random_body_part( false )->token;
                                     g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                     g->u.check_dead_state();
                                 }
 
                                 if( npc *const p = g->critter_at<npc>( newp ) ) {
                                     // TODO: combine with player character code above
-                                    body_part hit = random_body_part();
+                                    body_part hit = g->u.get_random_body_part( false )->token;
                                     p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                     if( g->u.sees( newp ) ) {
                                         add_msg( _( "A %1$s hits %2$s!" ), tmp.tname(), p->name );
@@ -1615,7 +1615,7 @@ void map::player_in_field( player &u )
                 const int intensity = cur.get_field_intensity();
                 // Bees will try to sting you in random body parts, up to 8 times.
                 for( int i = 0; i < rng( 1, 7 ); i++ ) {
-                    body_part bp = random_body_part();
+                    body_part bp = u.get_random_body_part( false )->token;
                     int sum_cover = 0;
                     for( const item &i : u.worn ) {
                         if( i.covers( bp ) ) {

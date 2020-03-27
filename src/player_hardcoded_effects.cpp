@@ -608,7 +608,7 @@ void player::hardcoded_effects( effect &it )
                 mod_pain( 1 );
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad, _( "You notice a large abscess.  You pick at it." ) );
-                body_part itch = random_body_part( true );
+                body_part itch = get_random_body_part( true )->token;
                 add_effect( effect_formication, 60_minutes, itch );
                 mod_pain( 1 );
             } else if( one_in( 3000 ) ) {

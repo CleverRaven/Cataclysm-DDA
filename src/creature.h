@@ -448,7 +448,7 @@ class Creature
         anatomy_id get_anatomy() const;
         void set_anatomy( anatomy_id anat );
 
-        virtual body_part get_random_body_part( bool main = false ) const = 0;
+        virtual bodypart_id get_random_body_part( bool main = false ) const = 0;
         /**
          * Returns body parts in order in which they should be displayed.
          * @param only_main If true, only displays parts that can have hit points

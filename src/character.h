@@ -481,7 +481,7 @@ class Character : public Creature, public visitable<Character>
         void reset() override;
 
         /** Picks a random body part, adjusting for mutations, broken body parts etc. */
-        body_part get_random_body_part( bool main ) const override;
+        bodypart_id get_random_body_part( bool main ) const override;
         /** Returns all body parts this character has, in order they should be displayed. */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const override;
 
