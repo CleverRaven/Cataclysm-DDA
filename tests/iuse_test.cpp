@@ -1,6 +1,5 @@
 #include "avatar.h"
 #include "bodypart.h"
-#include "cata_string_consts.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
@@ -9,6 +8,8 @@
 #include "point.h"
 #include "string_id.h"
 #include "type_id.h"
+
+static const std::string flag_WET( "WET" );
 
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {

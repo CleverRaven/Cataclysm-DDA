@@ -124,7 +124,7 @@
   {
     "id": "MISSION_OLD_GUARD_REP_2",
     "type": "mission_definition",
-    "name": "Deal with Informant",
+    "name": { "str": "Deal with Informant" },
     "description": "The Hell's Raiders bandit group may have an informant working inside the Refugee Center.  Investigate and bring them to justice without arousing any suspicions.",
     "goal": "MGOAL_ASSASSINATE",
     "difficulty": 5,
@@ -186,7 +186,7 @@
   {
     "id": "MISSION_OLD_GUARD_REP_4",
     "type": "mission_definition",
-    "name": "Assassinate Raider Leader",
+    "name": { "str": "Assassinate Raider Leader" },
     "description": "The Old Guard have located a Hell's Raiders encampment that is coordinating attacks on the Free Merchants.  Pay them a visit and execute the area leadership.",
     "goal": "MGOAL_ASSASSINATE",
     "difficulty": 10,

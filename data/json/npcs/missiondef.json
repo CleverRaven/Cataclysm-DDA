@@ -322,7 +322,7 @@
   {
     "id": "MISSION_GET_ZOMBIE_BLOOD_ANAL",
     "type": "mission_definition",
-    "name": "Analyze Zombie Blood",
+    "name": { "str": "Analyze Zombie Blood" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 8,
     "value": 250000,
@@ -650,7 +650,7 @@
   {
     "id": "MISSION_GET_CITY_COP_MOMENTO",
     "type": "mission_definition",
-    "name": "Break into armory to retrieve family photo",
+    "name": { "str": "Break into armory to retrieve family photo" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 800,

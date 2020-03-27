@@ -37,7 +37,11 @@
 #include "colony.h"
 #include "item_stack.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const bionic_id bio_night( "bio_night" );
+
+static const efftype_id effect_haslight( "haslight" );
+static const efftype_id effect_onfire( "onfire" );
 
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y
@@ -1237,8 +1241,12 @@ float fastexp( float x )
         float f;
         int i;
     } u, v;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
     u.i = static_cast<long long>( 6051102 * x + 1056478197 );
     v.i = static_cast<long long>( 1056478197 - 6051102 * x );
+#pragma GCC diagnostic pop
     return u.f / v.f;
 }
 

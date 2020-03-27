@@ -59,7 +59,111 @@
 #include "vpart_range.h"
 #include "weather.h"
 #include "weather_gen.h"
-#include "cata_string_consts.h"
+
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_dis_acid( "bio_dis_acid" );
+static const bionic_id bio_dis_shock( "bio_dis_shock" );
+static const bionic_id bio_drain( "bio_drain" );
+static const bionic_id bio_geiger( "bio_geiger" );
+static const bionic_id bio_gills( "bio_gills" );
+static const bionic_id bio_glowy( "bio_glowy" );
+static const bionic_id bio_itchy( "bio_itchy" );
+static const bionic_id bio_leaky( "bio_leaky" );
+static const bionic_id bio_noise( "bio_noise" );
+static const bionic_id bio_plut_filter( "bio_plut_filter" );
+static const bionic_id bio_power_weakness( "bio_power_weakness" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_shakes( "bio_shakes" );
+static const bionic_id bio_sleepy( "bio_sleepy" );
+static const bionic_id bio_spasm( "bio_spasm" );
+static const bionic_id bio_sunglasses( "bio_sunglasses" );
+static const bionic_id bio_trip( "bio_trip" );
+
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_attention( "attention" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_disabled( "disabled" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_formication( "formication" );
+static const efftype_id effect_glowy_led( "glowy_led" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_iodine( "iodine" );
+static const efftype_id effect_masked_scent( "masked_scent" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_valium( "valium" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_winded( "winded" );
+
+static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
+static const trait_id trait_ALBINO( "ALBINO" );
+static const trait_id trait_ASTHMA( "ASTHMA" );
+static const trait_id trait_CHAOTIC( "CHAOTIC" );
+static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
+static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
+static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
+static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
+static const trait_id trait_GILLS( "GILLS" );
+static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
+static const trait_id trait_JITTERY( "JITTERY" );
+static const trait_id trait_KILLER( "KILLER" );
+static const trait_id trait_LEAVES( "LEAVES" );
+static const trait_id trait_LEAVES2( "LEAVES2" );
+static const trait_id trait_LEAVES3( "LEAVES3" );
+static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
+static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
+static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
+static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
+static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
+static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
+static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
+static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
+static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
+static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHOUT1( "SHOUT1" );
+static const trait_id trait_SHOUT2( "SHOUT2" );
+static const trait_id trait_SHOUT3( "SHOUT3" );
+static const trait_id trait_SORES( "SORES" );
+static const trait_id trait_SUNBURN( "SUNBURN" );
+static const trait_id trait_TROGLO( "TROGLO" );
+static const trait_id trait_TROGLO2( "TROGLO2" );
+static const trait_id trait_TROGLO3( "TROGLO3" );
+static const trait_id trait_UNSTABLE( "UNSTABLE" );
+static const trait_id trait_VOMITOUS( "VOMITOUS" );
+static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
+static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
+static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+
+static const std::string flag_BLIND( "BLIND" );
+static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_RAD_RESIST( "RAD_RESIST" );
+static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {

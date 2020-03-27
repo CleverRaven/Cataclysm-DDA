@@ -47,7 +47,36 @@
 #include "colony.h"
 #include "point.h"
 #include "mattack_actors.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_no_ammo( "no_ammo" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_rat( "rat" );
+
+static const species_id species_BLOB( "BLOB" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
+static const mtype_id mon_breather( "mon_breather" );
+static const mtype_id mon_breather_hub( "mon_breather_hub" );
+static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
+static const mtype_id mon_halfworm( "mon_halfworm" );
+static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+static const mtype_id mon_thing( "mon_thing" );
+static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+
+static const trait_id trait_KILLER( "KILLER" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
 void mdeath::normal( monster &z )
 {

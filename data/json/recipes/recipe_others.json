@@ -1504,7 +1504,7 @@
     "skill_used": "traps",
     "skills_required": [ "mechanics", 3 ],
     "difficulty": 2,
-    "time": "3 m",
+    "time": "3 h",
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,

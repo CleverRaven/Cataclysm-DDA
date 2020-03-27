@@ -32,7 +32,7 @@
   {
     "id": "mon_gator",
     "type": "MONSTER",
-    "name": "sewer gator",
+    "name": { "str": "sewer gator" },
     "description": "In the late 20th century, there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like it sees humans as anything other than a meal.",
     "default_faction": "gator",
     "bodytype": "gator",
@@ -158,7 +158,7 @@
   {
     "id": "mon_sewer_snake",
     "type": "MONSTER",
-    "name": "sewer snake",
+    "name": { "str": "sewer snake" },
     "description": "An aggressive mutant variety of the worm snake, turned pale yellow from its underground life.  It swarms beneath the ground and is named for its habit of infesting sewer lines.",
     "default_faction": "mutant",
     "bodytype": "snake",

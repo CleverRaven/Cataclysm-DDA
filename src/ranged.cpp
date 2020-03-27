@@ -63,7 +63,38 @@
 #include "type_id.h"
 #include "point.h"
 #include "skill.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_AIM( "ACT_AIM" );
+
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_on_roof( "on_roof" );
+
+static const trap_str_id tr_practice_target( "tr_practice_target" );
+
+static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
+static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
+
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_driving( "driving" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_throw( "throw" );
+
+static const bionic_id bio_railgun( "bio_railgun" );
+static const bionic_id bio_targeting( "bio_targeting" );
+
+static const std::string flag_CONSUMABLE( "CONSUMABLE" );
+static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
+static const std::string flag_NON_FOULING( "NON-FOULING" );
+static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+static const std::string flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
+static const std::string flag_VEHICLE( "VEHICLE" );
+
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_attack( const Character &p, const itype &firing );
@@ -1097,7 +1128,7 @@ static double calculate_aim_cap( const player &p, const tripoint &target )
 {
     double min_recoil = 0.0;
     const Creature *victim = g->critter_at( target, true );
-    if( victim == nullptr || !p.sees( *victim ) ) {
+    if( victim == nullptr || ( !p.sees( *victim ) && !p.sees_with_infrared( *victim ) ) ) {
         const int range = rl_dist( p.pos(), target );
         // Get angle of triangle that spans the target square.
         const double angle = atan2( 1, range );

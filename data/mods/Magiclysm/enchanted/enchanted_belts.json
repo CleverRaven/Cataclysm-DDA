@@ -110,8 +110,7 @@
   {
     "type": "ARMOR",
     "id": "mbelt_technomancer_toolbelt",
-    "name": "technomancer's toolbelt",
-    "name_plural": "technomancer's toolbelts",
+    "name": { "str": "technomancer's toolbelt" },
     "weight": "2000 g",
     "color": "brown",
     "covers": [ "TORSO" ],
