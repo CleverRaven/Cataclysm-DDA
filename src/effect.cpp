@@ -529,7 +529,7 @@ std::string effect::disp_name() const
             }
         }
     }
-    if( bp != num_bp ) {
+    if( bp.is_valid() ) {
         ret += string_format( " (%s)", body_part_name( bp ) );
     }
 
@@ -715,7 +715,7 @@ std::string effect::disp_short_desc( bool reduced ) const
     }
 }
 
-void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
+void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
                     const time_point &time, const bool player )
 {
     // Decay intensity if supposed to do so
@@ -779,11 +779,11 @@ time_point effect::get_start_time() const
     return start_time;
 }
 
-body_part effect::get_bp() const
+bodypart_id effect::get_bp() const
 {
     return bp;
 }
-void effect::set_bp( body_part part )
+void effect::set_bp( bodypart_id part )
 {
     bp = part;
 }
@@ -1361,7 +1361,7 @@ void effect::deserialize( JsonIn &jsin )
     const efftype_id id( jo.get_string( "eff_type" ) );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-    bp = static_cast<body_part>( jo.get_int( "bp" ) );
+    bp = static_cast<bodypart_id>( jo.get_int( "bp" ) );
     permanent = jo.get_bool( "permanent" );
     intensity = jo.get_int( "intensity" );
     start_time = calendar::turn_zero;

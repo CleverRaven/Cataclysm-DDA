@@ -144,7 +144,7 @@ class effect
         effect() : eff_type( nullptr ), duration( 0_turns ), bp( num_bp ),
             permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
         }
-        effect( const effect_type *peff_type, const time_duration &dur, body_part part,
+        effect( const effect_type *peff_type, const time_duration &dur, bodypart_id part,
                 bool perm, int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
             permanent( perm ), intensity( nintensity ), start_time( nstart_time ) {
@@ -164,7 +164,7 @@ class effect
         std::string disp_desc( bool reduced = false ) const;
         /** Returns the short description as set in json. */
         std::string disp_short_desc( bool reduced = false ) const;
-        /** Returns true if a description will be formatted as "Your" + body_part + description. */
+        /** Returns true if a description will be formatted as "Your" + bodypart_id + description. */
         bool use_part_descs() const;
 
         /** Returns the effect's matching effect_type. */
@@ -173,7 +173,7 @@ class effect
         /** Decays effect durations, pushing their id and bp's back to rem_ids and rem_bps for removal later
          *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
          *  why we aren't allowed to remove the effects here. */
-        void decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
+        void decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
                     const time_point &time, bool player );
 
         /** Returns the remaining duration of an effect. */
@@ -190,10 +190,10 @@ class effect
         /** Returns the turn the effect was applied. */
         time_point get_start_time() const;
 
-        /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
-        body_part get_bp() const;
-        /** Sets the targeted body_part of an effect. */
-        void set_bp( body_part part );
+        /** Returns the targeted bodypart_id of the effect. This is num_bp for untargeted effects. */
+        bodypart_id get_bp() const;
+        /** Sets the targeted bodypart_id of an effect. */
+        void set_bp( bodypart_id part );
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
         bool is_permanent() const;
@@ -285,7 +285,7 @@ class effect
     protected:
         const effect_type *eff_type;
         time_duration duration;
-        body_part bp;
+        bodypart_id bp;
         bool permanent;
         int intensity;
         time_point start_time;
@@ -299,9 +299,9 @@ std::string texitify_base_healing_power( int power );
 std::string texitify_healing_power( int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
-// Storing body_part as an int to make things easier for hash and JSON
+// Storing bodypart_id as an int to make things easier for hash and JSON
 class effects_map : public
-    std::unordered_map<efftype_id, std::unordered_map<body_part, effect, std::hash<int>>>
+    std::unordered_map<efftype_id, std::unordered_map<bodypart_id, effect, std::hash<int>>>
 {
 };
 
