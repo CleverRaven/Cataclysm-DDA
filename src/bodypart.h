@@ -102,6 +102,10 @@ struct body_part_struct {
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
 
+        // how much hot and cold temperature on this bodypart affect morale
+        int hot_morale_mod;
+        int cold_morale_mod;
+
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
@@ -201,6 +205,7 @@ const std::array<size_t, 12> bp_aiOther = {{0, 1, 2, 3, 5, 4, 7, 6, 9, 8, 11, 10
 
 /** Returns the matching name of the body_part token. */
 std::string body_part_name( body_part bp, int number = 1 );
+std::string body_part_name( bodypart_id bp, int number = 1 );
 
 /** Returns the matching accusative name of the body_part token, i.e. "Shrapnel hits your X".
  *  These are identical to body_part_name above in English, but not in some other languages. */
@@ -218,9 +223,9 @@ std::string body_part_hp_bar_ui_text( body_part bp );
 std::string encumb_text( body_part bp );
 
 /** Returns the matching main body_part that corresponds to the input; i.e. returns bp_arm_l from bp_hand_l. */
-body_part mutate_to_main_part( body_part bp );
+bodypart_id mutate_to_main_part( bodypart_id bp );
 /** Returns the opposite body part (limb on the other side) */
-body_part opposite_body_part( body_part bp );
+bodypart_id opposite_body_part( bodypart_id bp );
 
 /** Returns the matching body_part key from the corresponding body_part token. */
 std::string get_body_part_id( body_part bp );

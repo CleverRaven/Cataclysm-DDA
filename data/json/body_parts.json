@@ -15,6 +15,8 @@
     "hit_difficulty": 1,
     "side": "both",
     "legacy_id": "TORSO",
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
     "bionic_slots": 80
   },
   {
@@ -33,6 +35,8 @@
     "hit_difficulty": 1.35,
     "side": "both",
     "legacy_id": "HEAD",
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
     "bionic_slots": 18
   },
   {
@@ -50,6 +54,8 @@
     "hit_difficulty": 1.15,
     "side": "both",
     "legacy_id": "EYES",
+    "hot_morale_mod": 0,
+    "cold_morale_mod": 0,
     "bionic_slots": 4
   },
   {
@@ -67,6 +73,8 @@
     "hit_difficulty": 1.15,
     "side": "both",
     "legacy_id": "MOUTH",
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
     "bionic_slots": 4
   },
   {
@@ -88,6 +96,8 @@
     "hit_difficulty": 0.95,
     "side": "left",
     "legacy_id": "ARM_L",
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
     "bionic_slots": 20
   },
   {
@@ -108,6 +118,8 @@
     "hit_difficulty": 0.95,
     "side": "right",
     "legacy_id": "ARM_R",
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
     "bionic_slots": 20
   },
   {
@@ -127,6 +139,8 @@
     "hit_difficulty": 1.1,
     "side": "left",
     "legacy_id": "HAND_L",
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
     "bionic_slots": 5
   },
   {
@@ -146,6 +160,8 @@
     "hit_difficulty": 1.1,
     "side": "right",
     "legacy_id": "HAND_R",
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
     "bionic_slots": 5
   },
   {
@@ -166,6 +182,8 @@
     "hit_difficulty": 0.975,
     "side": "left",
     "legacy_id": "LEG_L",
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
     "bionic_slots": 30
   },
   {
@@ -186,6 +204,8 @@
     "hit_difficulty": 0.975,
     "side": "right",
     "legacy_id": "LEG_R",
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
     "bionic_slots": 30
   },
   {
@@ -205,6 +225,8 @@
     "hit_difficulty": 0.8,
     "side": "left",
     "legacy_id": "FOOT_L",
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
     "bionic_slots": 7
   },
   {
@@ -224,6 +246,8 @@
     "hit_difficulty": 0.8,
     "side": "right",
     "legacy_id": "FOOT_R",
+    "hot_morale_mod": 0.5,
+    "cold_morale_mod": 0.5,
     "bionic_slots": 7
   },
   {
@@ -240,6 +264,8 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 0,
     "side": "both",
+    "hot_morale_mod": 0,
+    "cold_morale_mod": 0,
     "legacy_id": "NUM_BP"
   }
 ]

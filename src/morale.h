@@ -67,7 +67,8 @@ class player_morale
         void on_item_takeoff( const item &it );
         void on_worn_item_transform( const item &old_it, const item &new_it );
         void on_worn_item_washed( const item &it );
-        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
+        void on_effect_int_change( const efftype_id &eid, int intensity,
+                                   bodypart_id bp = bodypart_id( "num_bp" ) );
 
         void store( JsonOut &jsout ) const;
         void load( const JsonObject &jsin );
@@ -173,7 +174,7 @@ class player_morale
                 hot( 0 ),
                 cold( 0 ) {}
         };
-        std::array<body_part_data, num_bp> body_parts;
+        std::map<bodypart_id, body_part_data> body_parts;
         body_part_data no_body_part;
 
         using mutation_handler = std::function<void ( player_morale * )>;

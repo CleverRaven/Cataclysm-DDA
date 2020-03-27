@@ -203,6 +203,9 @@ void body_part_struct::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
     mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
 
+    mandatory( jo, was_loaded, "hot_morale_mod", hot_morale_mod );
+    mandatory( jo, was_loaded, "cold_morale_mod", cold_morale_mod );
+
     mandatory( jo, was_loaded, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
 
@@ -273,6 +276,11 @@ std::string body_part_name( body_part bp, int number )
     return number > 1 ? bdy.name_multiple.translated() : bdy.name.translated();
 }
 
+std::string body_part_name( bodypart_id bp, int number )
+{
+    return number > 1 ? bp->name_multiple.translated() : bp->name.translated();
+}
+
 std::string body_part_name_accusative( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
@@ -305,14 +313,14 @@ std::string encumb_text( body_part bp )
     return !txt.empty() ? _( txt ) : txt;
 }
 
-body_part mutate_to_main_part( body_part bp )
+bodypart_id mutate_to_main_part( bodypart_id bp )
 {
-    return get_bp( bp ).main_part->token;
+    return  bp->main_part;
 }
 
-body_part opposite_body_part( body_part bp )
+bodypart_id opposite_body_part( bodypart_id bp )
 {
-    return get_bp( bp ).opposite_part->token;
+    return  bp->opposite_part;
 }
 
 std::string get_body_part_id( body_part bp )
