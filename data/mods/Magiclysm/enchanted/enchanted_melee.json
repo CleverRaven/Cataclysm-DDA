@@ -853,7 +853,7 @@
   {
     "id": "rune_animist_weapon",
     "type": "GENERIC",
-    "name": "Animist athame",
+    "name": { "str": "Animist athame" },
     "//": "Tool qualities equivalent to steak knife, combat equiv.  to copper knife + 1 w/ RAPID and BLOCK1, size/weight off combat knife +1",
     "description": "A steel ritual knife used by Animists to draw blood for summoning.  Their school rune is embedded in the crossguard.",
     "weight": "504 g",

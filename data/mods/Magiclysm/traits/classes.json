@@ -14,7 +14,7 @@
   {
     "type": "mutation",
     "id": "ANIMIST",
-    "name": "Animist",
+    "name": { "str": "Animist" },
     "points": 0,
     "description": "The animist tradition is a relatively new school of magical thought, formed through combination of many older ways that focus on harmony and connection to the natural world.  This does not mean that animists are passive: the natural world is a savage place.",
     "starting_trait": false,
