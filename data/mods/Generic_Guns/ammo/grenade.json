@@ -19,7 +19,7 @@
     "id": "grenade_ammo_beanbag",
     "copy-from": "grenade_ammo",
     "type": "AMMO",
-    "name": "beanbag grenade cartridge",
+    "name": { "str": "beanbag grenade cartridge" },
     "description": "A less-lethal beanbag grenade cartridge that delivers strong impact on target, causing major pain and disorientation.  May still injure or kill.",
     "damage": 20,
     "extend": { "effects": [ "LARGE_BEANBAG" ] }
@@ -37,7 +37,7 @@
     "id": "grenade_ammo_shot",
     "copy-from": "grenade_ammo",
     "type": "AMMO",
-    "name": "buckshot grenade cartridge",
+    "name": { "str": "buckshot grenade cartridge" },
     "description": "A grenade cartridge with a powerful buckshot load, designed to provide some defensive options when carrying a grenade launcher.",
     "range": 12,
     "damage": 85,

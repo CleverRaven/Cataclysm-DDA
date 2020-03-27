@@ -3,7 +3,7 @@
     "id": "pistol_levergun",
     "copy-from": "henry_big_boy",
     "type": "GUN",
-    "name": "cowboy carbine",
+    "name": { "str": "cowboy carbine" },
     "ammo": "ammo_pistol",
     "description": "Since the early days of western expansion, when ammunition supply was infrequent, shooters sought to share ammo between their sidearms and long arms.  This tube magazine lever action carbine allows the shooter to reduce the number of calibers carried and squeeze more power from their pistol ammunition.",
     "clip_size": 10
