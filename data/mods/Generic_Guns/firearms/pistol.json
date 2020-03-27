@@ -21,7 +21,7 @@
     "id": "pistol_medium",
     "copy-from": "glock_19",
     "type": "GUN",
-    "name": "defensive pistol",
+    "name": { "str": "defensive pistol" },
     "ammo": "ammo_pistol",
     "description": "A modern pistol fit for duty, military service, or personal defense, with a detachable box magazine and a reliable action.  Though its chambering is capable of meeting FBI penetration minimums, the lack of a shoulder stock limits its utility.",
     "magazines": [ [ "ammo_pistol", [ "pistol_mag", "pistol_smg_mag" ] ] ]

@@ -3,7 +3,7 @@
     "id": "rifle_huge_belt",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
-    "name": "heavy machine gun belt",
+    "name": { "str": "heavy machine gun belt" },
     "description": "An ammo belt consisting of metal linkages which separate from the belt upon firing.  Holds huge rifle ammunition.",
     "ammo_type": "ammo_rifle_huge",
     "linkage": "ammolinkrifle_huge",

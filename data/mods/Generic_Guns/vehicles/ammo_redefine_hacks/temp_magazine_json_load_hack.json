@@ -199,7 +199,7 @@
     "id": "belt40mm",
     "copy-from": "belt40mm",
     "type": "MAGAZINE",
-    "name": "grenade belt",
+    "name": { "str": "grenade belt" },
     "ammo_type": [ "ammo_grenade", "40x53mm" ]
   }
 ]

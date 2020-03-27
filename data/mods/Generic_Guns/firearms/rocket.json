@@ -3,7 +3,7 @@
     "id": "rocket_disposable",
     "copy-from": "AT4",
     "type": "GUN",
-    "name": "disposable rocket launcher",
+    "name": { "str": "disposable rocket launcher" },
     "ammo": "ammo_rocket",
     "description": "Constructed of fiberglass, with crude plastic sights and a titanium barrel, this is a launcher for a single rocket.  Though not as effective as other anti-armor weapons, the true value in this disposable rocket launcher is its portability and lack of dead weight once expended.  Has a backblast, so make sure nothing you mind destroying is behind you.",
     "clip_size": 1
