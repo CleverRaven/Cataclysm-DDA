@@ -445,7 +445,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_2",
     "type": "mission_definition",
-    "name": "{\"str\":{\"str\":\"Missing Caravan\"}}",
+    "name": { "str": "Missing Caravan" },
     "description": "Investigate the last known location of a disappeared scavenger trading party, and eliminate any bandits or raiders in the vicinity in exchange for <reward_count:FMCNote> certified notes.",
     "goal": "MGOAL_ASSASSINATE",
     "difficulty": 5,
