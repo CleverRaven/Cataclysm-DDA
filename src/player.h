@@ -462,7 +462,7 @@ class player : public Character
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
-        int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
+        int reduce_healing_effect( const efftype_id &eff_id, int remove_med, bodypart_id hurt );
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
