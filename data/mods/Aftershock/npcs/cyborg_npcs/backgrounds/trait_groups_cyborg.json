@@ -4,10 +4,6 @@
     "type": "trait_group",
     "id": "BG_survival_story_GANGER",
     "subtype": "distribution",
-    "traits": [
-      { "trait": "BGSS_GANGER_1" },
-      { "trait": "BGSS_GANGER_2" },
-      { "trait": "BGSS_GANGER_3" }
-    ]
+    "traits": [ { "trait": "BGSS_GANGER_1" }, { "trait": "BGSS_GANGER_2" }, { "trait": "BGSS_GANGER_3" } ]
   }
 ]
