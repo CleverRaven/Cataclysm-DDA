@@ -365,6 +365,60 @@ TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
     }
 }
 
+TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" )
+{
+    avatar dummy;
+
+    item &caff_gum = dummy.i_add( item( "caff_gum" ) );
+    REQUIRE( caff_gum.has_flag( "ALLERGEN_JUNK" ) );
+    REQUIRE( caff_gum.has_flag( "NO_INGEST" ) );
+
+    GIVEN( "character has a sweet tooth" ) {
+        dummy.toggle_trait( trait_PROJUNK );
+        REQUIRE( dummy.has_trait( trait_PROJUNK ) );
+
+        THEN( "they do not get an extra morale bonus for chewing gum" ) {
+            dummy.clear_morale();
+            dummy.modify_morale( caff_gum );
+            CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) == 0 );
+
+            AND_THEN( "they still enjoy it" ) {
+                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
+            }
+        }
+    }
+
+    GIVEN( "character is sugar-loving" ) {
+        dummy.toggle_trait( trait_PROJUNK2 );
+        REQUIRE( dummy.has_trait( trait_PROJUNK2 ) );
+
+        THEN( "they do not get an extra morale bonus for chewing gum" ) {
+            dummy.clear_morale();
+            dummy.modify_morale( caff_gum );
+            CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) == 0 );
+
+            AND_THEN( "they still enjoy it" ) {
+                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
+            }
+        }
+    }
+
+    GIVEN( "character has junk food intolerance" ) {
+        dummy.toggle_trait( trait_ANTIJUNK );
+        REQUIRE( dummy.has_trait( trait_ANTIJUNK ) );
+
+        THEN( "they do not get a morale penalty for chewing gum" ) {
+            dummy.clear_morale();
+            dummy.modify_morale( caff_gum );
+            CHECK( dummy.has_morale( MORALE_ANTIJUNK ) == 0 );
+
+            AND_THEN( "they still enjoy it" ) {
+                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
+            }
+        }
+    }
+}
+
 TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 {
     avatar dummy;
