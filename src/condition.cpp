@@ -143,7 +143,7 @@ template<class T>
 void conditional_t<T>::set_is_riding( bool is_npc )
 {
     condition = [is_npc]( const T & d ) {
-        return ( is_npc ? d.alpha : d.beta )->is_mounted();
+        return ( is_npc ? d.beta : d.alpha )->is_mounted();
     };
 }
 
