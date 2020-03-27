@@ -199,7 +199,7 @@
   {
     "id": "afs_rope_lighter",
     "type": "TOOL",
-    "name": "rope lighter",
+    "name": { "str": "rope lighter" },
     "description": "A rope lighter made from simple materials.  Windproof and flameless, it consists of a length of rope run through a copper tube; a flint strike sparks embers in the rope that smolder and are used to ignite fires.  Specialized for outdoor use, it lasts for a very long time, but it's much slower to use than a normal lighter.",
     "weight": "200 g",
     "volume": "100 ml",
