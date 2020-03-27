@@ -76,7 +76,7 @@
     }
   },
   {
-    "id": "broken_chickenbot",
+    "id": "bot_chickenbot",
     "looks_like": "broken_tripod",
     "type": "TOOL",
     "name": "inactive chicken walker",
