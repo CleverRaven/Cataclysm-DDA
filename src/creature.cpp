@@ -485,7 +485,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     if( source == nullptr || source->is_hallucination() ) {
-        dealt_dam.bp_hit = get_random_body_part()->token;
+        dealt_dam.bp_hit = get_random_body_part();
         return;
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
@@ -534,7 +534,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
 
     on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d );
-    dealt_dam.bp_hit = bp_hit->token;
+    dealt_dam.bp_hit = bp_hit;
 }
 
 /**
@@ -604,27 +604,21 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         add_effect( effect_bounced, 1_turns );
     }
 
-    body_part bp_hit;
     bodypart_id bid_hit;
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
     // Headshots considered elsewhere
     if( hit_value <= 0.4 || magic ) {
-        bp_hit = bp_torso;
         bid_hit = bodypart_id( "torso" );
     } else if( one_in( 4 ) ) {
         if( one_in( 2 ) ) {
-            bp_hit = bp_leg_l;
             bid_hit = bodypart_id( "leg_l" );
         } else {
-            bp_hit = bp_leg_r;
             bid_hit = bodypart_id( "leg_r" );
         }
     } else {
         if( one_in( 2 ) ) {
-            bp_hit = bp_arm_l;
             bid_hit = bodypart_id( "arm_l" );
         } else {
-            bp_hit = bp_arm_r;
             bid_hit = bodypart_id( "arm_r" );
         }
     }
@@ -640,7 +634,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         message = _( "Headshot!" );
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float( 1.95, 2.05 );
-        bp_hit = bp_head; // headshot hits the head, of course
         bid_hit = bodypart_id( "head" );
 
     } else if( goodhit < accuracy_critical && max_damage > 0.4 * get_hp_max( hp_torso ) ) {
@@ -685,7 +678,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     dealt_dam = deal_damage( source, bid_hit, impact );
-    dealt_dam.bp_hit = bp_hit;
+    dealt_dam.bp_hit = bid_hit;
 
     // Apply ammo effects to target.
     if( proj.proj_effects.count( "TANGLE" ) ) {
@@ -723,7 +716,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    if( bp_hit == bp_head && proj_effects.count( "BLINDS_EYES" ) ) {
+    if( bid_hit == bodypart_id( "head" ) && proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
         add_env_effect( effect_blind, bodypart_id( "bp_eyes" ), 5, rng( 3_turns, 10_turns ) );
     }
@@ -774,12 +767,12 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
                      is_monster() ?
                      skin_name() :
-                     body_part_name_accusative( bp_hit ) );
+                     body_part_name_accusative( bid_hit->token ) );
         } else if( is_player() ) {
             //monster hits player ranged
             //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
             add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                               body_part_name_accusative( bp_hit ),
+                               body_part_name_accusative( bid_hit->token ),
                                dealt_dam.total_damage() );
         } else if( source != nullptr ) {
             if( source->is_player() ) {

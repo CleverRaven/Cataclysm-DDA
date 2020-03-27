@@ -365,11 +365,11 @@ class player : public Character
         void reach_attack( const tripoint &p );
 
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
-        bool block_hit( Creature *source, body_part &bp_hit, damage_instance &dam ) override;
+        bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
-        void on_hit( Creature *source, body_part bp_hit = num_bp,
+        void on_hit( Creature *source, bodypart_id bp_hit = bodypart_id( "num_bp" ),
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
 
         /** Returns the bonus bashing damage the player deals based on their stats */
@@ -459,12 +459,12 @@ class player : public Character
          */
         bool immune_to( body_part bp, damage_unit dam ) const;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
-        dealt_damage_instance deal_damage( Creature *source, body_part bp,
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
-        void apply_damage( Creature *source, body_part hurt, int dam,
+        void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
@@ -1015,7 +1015,8 @@ class player : public Character
         /**
          * Called when effect intensity has been changed
          */
-        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
+        void on_effect_int_change( const efftype_id &eid, int intensity,
+                                   bodypart_id bp = bodypart_id( "num_bp" ) ) override;
 
         // formats and prints encumbrance info to specified window
         void print_encumbrance( const catacurses::window &win, int line = -1,

@@ -223,6 +223,7 @@ std::string body_part_hp_bar_ui_text( body_part bp );
 std::string encumb_text( body_part bp );
 
 /** Returns the matching main body_part that corresponds to the input; i.e. returns bp_arm_l from bp_hand_l. */
+body_part mutate_to_main_part( body_part bp );
 bodypart_id mutate_to_main_part( bodypart_id bp );
 /** Returns the opposite body part (limb on the other side) */
 bodypart_id opposite_body_part( bodypart_id bp );

@@ -247,6 +247,20 @@ static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_watch( "bio_watch" );
 
+static const bodypart_id default_bp( "num_bp" );
+static const bodypart_id torso_bp( "torso" );
+static const bodypart_id head_bp( "head" );
+static const bodypart_id eyes_bp( "eyes" );
+static const bodypart_id mouth_bp( "mouth" );
+static const bodypart_id leg_l_bp( "leg_l" );
+static const bodypart_id leg_r_bp( "leg_r" );
+static const bodypart_id arm_l_bp( "arm_l" );
+static const bodypart_id arm_r_bp( "arm_r" );
+static const bodypart_id foot_l_bp( "foot_l" );
+static const bodypart_id foot_r_bp( "foot_r" );
+static const bodypart_id hand_l_bp( "hand_l" );
+static const bodypart_id hand_r_bp( "hand_r" );
+
 const double MAX_RECOIL = 3000;
 
 stat_mod player::get_pain_penalty() const
@@ -1226,7 +1240,7 @@ void player::pause()
         time_duration total_removed = 0_turns;
         time_duration total_left = 0_turns;
         bool on_ground = has_effect( effect_downed );
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id bp : get_anatomy()->get_body_parts() ) {
             effect &eff = get_effect( effect_onfire, bp );
             if( eff.is_null() ) {
                 continue;
@@ -1242,7 +1256,7 @@ void player::pause()
 
         // Don't drop on the ground when the ground is on fire
         if( total_left > 1_minutes && !is_dangerous_fields( g->m.field_at( pos() ) ) ) {
-            add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 2_turns, default_bp, false, 0, true );
             add_msg_player_or_npc( m_warning,
                                    _( "You roll on the ground, trying to smother the fire!" ),
                                    _( "<npcname> rolls on the ground!" ) );
@@ -1398,7 +1412,7 @@ void player::on_dodge( Creature *source, float difficulty )
     }
 }
 
-void player::on_hit( Creature *source, body_part bp_hit,
+void player::on_hit( Creature *source, bodypart_id bp_hit,
                      float /*difficulty*/, dealt_projectile_attack const *const proj )
 {
     check_dead_state();
@@ -1421,9 +1435,9 @@ void player::on_hit( Creature *source, body_part bp_hit,
         damage_instance ods_shock_damage;
         ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
         // Should hit body part used for attack
-        source->deal_damage( this, bp_torso, ods_shock_damage );
+        source->deal_damage( this, torso_bp, ods_shock_damage );
     }
-    if( !wearing_something_on( bp_hit ) &&
+    if( !wearing_something_on( bp_hit->token ) &&
         ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
         int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
         if( !is_player() ) {
@@ -1439,9 +1453,9 @@ void player::on_hit( Creature *source, body_part bp_hit,
         }
         damage_instance spine_damage;
         spine_damage.add_damage( DT_STAB, spine );
-        source->deal_damage( this, bp_torso, spine_damage );
+        source->deal_damage( this, torso_bp, spine_damage );
     }
-    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
+    if( ( !( wearing_something_on( bp_hit->token ) ) ) && ( has_trait( trait_THORNS ) ) &&
         ( !( source->has_weapon() ) ) ) {
         if( !is_player() ) {
             if( u_see ) {
@@ -1456,9 +1470,9 @@ void player::on_hit( Creature *source, body_part bp_hit,
         thorn_damage.add_damage( DT_CUT, thorn );
         // In general, critters don't have separate limbs
         // so safer to target the torso
-        source->deal_damage( this, bp_torso, thorn_damage );
+        source->deal_damage( this, torso_bp, thorn_damage );
     }
-    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
+    if( ( !( wearing_something_on( bp_hit->token ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
         if( !is_player() ) {
             if( u_see ) {
                 add_msg( _( "%1$s gets a load of %2$s's %3$s stuck in!" ), source->disp_name(),
@@ -1534,7 +1548,7 @@ bool player::immune_to( body_part bp, damage_unit dam ) const
     return dam.amount <= 0;
 }
 
-dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
+dealt_damage_instance player::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &d )
 {
     if( has_trait( trait_DEBUG_NODMG ) ) {
@@ -1599,16 +1613,16 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
         damage_instance acidblood_damage;
         acidblood_damage.add_damage( DT_ACID, rng( 4, 16 ) );
         if( !one_in( 4 ) ) {
-            source->deal_damage( this, bp_arm_l, acidblood_damage );
-            source->deal_damage( this, bp_arm_r, acidblood_damage );
+            source->deal_damage( this, arm_l_bp, acidblood_damage );
+            source->deal_damage( this, arm_r_bp, acidblood_damage );
         } else {
-            source->deal_damage( this, bp_torso, acidblood_damage );
-            source->deal_damage( this, bp_head, acidblood_damage );
+            source->deal_damage( this, torso_bp, acidblood_damage );
+            source->deal_damage( this, head_bp, acidblood_damage );
         }
     }
 
     int recoil_mul = 100;
-    switch( bp ) {
+    switch( bp->token ) {
         case bp_eyes:
             if( dam > 5 || cut_dam > 0 ) {
                 const time_duration minblind = std::max( 1_turns, 1_turns * ( dam + cut_dam ) / 10 );
@@ -1668,7 +1682,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
                 }
             } else {
                 int prev_effect = get_effect_int( effect_grabbed );
-                add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 2 );
+                add_effect( effect_grabbed, 2_turns, torso_bp, false, prev_effect + 2 );
                 source->add_effect( effect_grabbing, 2_turns );
                 add_msg_player_or_npc( m_bad, _( "You are grabbed by %s!" ), _( "<npcname> is grabbed by %s!" ),
                                        source->disp_name() );
@@ -1679,7 +1693,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
     if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
         int sum_cover = 0;
         for( const item &i : worn ) {
-            if( i.covers( bp ) && i.is_filthy() ) {
+            if( i.covers( bp->token ) && i.is_filthy() ) {
                 sum_cover += i.get_coverage();
             }
         }
@@ -1780,7 +1794,7 @@ void Character::react_to_felt_pain( int intensity )
     }
 }
 
-int player::reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt )
+int player::reduce_healing_effect( const efftype_id &eff_id, int remove_med, bodypart_id hurt )
 {
     effect &e = get_effect( eff_id, hurt );
     int intensity = e.get_intensity();
@@ -1806,7 +1820,7 @@ int player::reduce_healing_effect( const efftype_id &eff_id, int remove_med, bod
     Where damage to player is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
  */
-void player::apply_damage( Creature *source, body_part hurt, int dam, const bool bypass_med )
+void player::apply_damage( Creature *source, bodypart_id hurt, int dam, const bool bypass_med )
 {
     if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) ) {
         // don't do any more damage if we're already dead
@@ -1984,7 +1998,7 @@ int player::impact( const int force, const tripoint &p )
     int total_dealt = 0;
     if( mod * effective_force >= 5 ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
-            const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+            const bodypart_id bp = hp_to_bp( static_cast<hp_part>( i ) );
             const int bash = effective_force * rng( 60, 100 ) / 100;
             damage_instance di;
             di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
@@ -2030,15 +2044,15 @@ void player::knock_back_to( const tripoint &to )
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
-        deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
+        deal_damage( critter, torso_bp, damage_instance( DT_BASH, critter->type->size ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
             critter->knock_back_from( pos() ); // Chain reaction!
-            critter->apply_damage( this, bp_torso, ( str_max - 6 ) / 4 );
+            critter->apply_damage( this, torso_bp, ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         } else if( ( str_max - 6 ) / 4 == critter->type->size ) {
-            critter->apply_damage( this, bp_torso, ( str_max - 6 ) / 4 );
+            critter->apply_damage( this, torso_bp, ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         }
         critter->check_dead_state();
@@ -2049,9 +2063,9 @@ void player::knock_back_to( const tripoint &to )
     }
 
     if( npc *const np = g->critter_at<npc>( to ) ) {
-        deal_damage( np, bp_torso, damage_instance( DT_BASH, np->get_size() ) );
+        deal_damage( np, torso_bp, damage_instance( DT_BASH, np->get_size() ) );
         add_effect( effect_stunned, 1_turns );
-        np->deal_damage( this, bp_torso, damage_instance( DT_BASH, 3 ) );
+        np->deal_damage( this, torso_bp, damage_instance( DT_BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
                                np->name );
         np->check_dead_state();
@@ -2068,7 +2082,7 @@ void player::knock_back_to( const tripoint &to )
 
         // It's some kind of wall.
         // TODO: who knocked us back? Maybe that creature should be the source of the damage?
-        apply_damage( nullptr, bp_torso, 3 );
+        apply_damage( nullptr, torso_bp, 3 );
         add_effect( effect_stunned, 2_turns );
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
                                g->m.obstacle_name( to ) );
@@ -2152,7 +2166,7 @@ void player::process_one_effect( effect &it, bool is_new )
 {
     bool reduced = resists_effect( it );
     double mod = 1;
-    body_part bp = it.get_bp();
+    bodypart_id bp = it.get_bp();
     int val = 0;
 
     // Still hardcoded stuff, do this first since some modify their other traits
@@ -2270,7 +2284,7 @@ void player::process_one_effect( effect &it, bool is_new )
             int pain_inc = bound_mod_to_vals( get_pain(), val, it.get_max_val( "PAIN", reduced ), 0 );
             mod_pain( pain_inc );
             if( pain_inc > 0 ) {
-                add_pain_msg( val, bp );
+                add_pain_msg( val, bp->token );
             }
         }
     }
@@ -2291,18 +2305,18 @@ void player::process_one_effect( effect &it, bool is_new )
             }
         }
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
-            if( bp == num_bp ) {
+            if( bp == default_bp ) {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp_torso ) );
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_torso ) );
                 }
-                apply_damage( nullptr, bp_torso, val, true );
+                apply_damage( nullptr, torso_bp, val, true );
             } else {
                 if( val > 5 ) {
-                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
+                    add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp->token ) );
                 } else {
-                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
+                    add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp->token ) );
                 }
                 apply_damage( nullptr, bp, val, true );
             }
@@ -5775,7 +5789,7 @@ void player::on_worn_item_washed( const item &it )
     }
 }
 
-void player::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
+void player::on_effect_int_change( const efftype_id &eid, int intensity, bodypart_id bp )
 {
     // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
     // See @ref get_perceived_pain()

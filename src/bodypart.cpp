@@ -313,6 +313,11 @@ std::string encumb_text( body_part bp )
     return !txt.empty() ? _( txt ) : txt;
 }
 
+body_part mutate_to_main_part( body_part bp )
+{
+    return get_bp( bp ).main_part->token;
+}
+
 bodypart_id mutate_to_main_part( bodypart_id bp )
 {
     return  bp->main_part;
