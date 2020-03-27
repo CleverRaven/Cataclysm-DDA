@@ -347,7 +347,7 @@
   {
     "id": "MISSION_INVESTIGATE_CULT",
     "type": "mission_definition",
-    "name": "Investigate Cult",
+    "name": { "str": "Investigate Cult" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 150000,
@@ -415,7 +415,7 @@
   {
     "id": "MISSION_KILL_100_Z",
     "type": "mission_definition",
-    "name": "Kill 100 Zombies",
+    "name": { "str": "Kill 100 Zombies" },
     "goal": "MGOAL_KILL_MONSTER_SPEC",
     "monster_species": "ZOMBIE",
     "monster_kill_goal": 100,
@@ -440,7 +440,7 @@
   {
     "id": "MISSION_KILL_HORDE_MASTER",
     "type": "mission_definition",
-    "name": "Kill Horde Master",
+    "name": { "str": "Kill Horde Master" },
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,
     "value": 250000,
@@ -464,7 +464,7 @@
   {
     "id": "MISSION_KILL_JABBERWOCK",
     "type": "mission_definition",
-    "name": "Kill Jabberwock",
+    "name": { "str": "Kill Jabberwock" },
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,
     "value": 200000,
@@ -491,7 +491,7 @@
   {
     "id": "MISSION_KILL_ZOMBIE_MOM",
     "type": "mission_definition",
-    "name": "Kill Zombie Mom",
+    "name": { "str": "Kill Zombie Mom" },
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,
     "value": 120000,

@@ -90,7 +90,7 @@
   {
     "id": "MISSION_OLD_GUARD_REP_1",
     "type": "mission_definition",
-    "name": "Kill Bandits",
+    "name": { "str": "Kill Bandits" },
     "description": "A pair of bandits have been preying on locals, based out of a nearby cabin.  Ensure they meet a bitter end along with any associates, but watch out for traps around their hideout.",
     "goal": "MGOAL_ASSASSINATE",
     "difficulty": 5,

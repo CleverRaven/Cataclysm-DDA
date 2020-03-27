@@ -71,7 +71,7 @@
   {
     "id": "MISSION_RANCH_BARTENDER_1",
     "type": "mission_definition",
-    "name": "Make 2 Stills",
+    "name": { "str": "Make 2 Stills" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
