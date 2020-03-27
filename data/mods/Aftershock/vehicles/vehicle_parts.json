@@ -236,6 +236,7 @@
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
     "name": { "str": "roof-mounted external tank (100L)" },
+    "looks_like": "afs_roof_external_tank",
     "item": "30gal_drum",
     "location": "on_roof",
     "extend": { "flags": [ "ON_ROOF" ] },
