@@ -20,7 +20,7 @@
   {
     "id": "40x53mm_m430a1",
     "type": "AMMO",
-    "name": "HEDP grenade cartridge",
+    "name": { "str": "HEDP grenade cartridge" },
     "copy-from": "grenade_ammo_hedp"
   }
 ]

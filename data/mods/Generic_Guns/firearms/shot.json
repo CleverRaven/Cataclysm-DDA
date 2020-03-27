@@ -37,7 +37,7 @@
     "id": "bio_shotgun_gun",
     "copy-from": "bio_shotgun_gun",
     "type": "GUN",
-    "name": "bionic shotgun",
+    "name": { "str": "bionic shotgun" },
     "ammo": "ammo_shot"
   }
 ]

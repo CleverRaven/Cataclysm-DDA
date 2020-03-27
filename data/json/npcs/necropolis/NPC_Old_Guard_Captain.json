@@ -88,7 +88,7 @@
   {
     "id": "MISSION_OLD_GUARD_NEC_2",
     "type": "mission_definition",
-    "name": "Cull Nightmares",
+    "name": { "str": "Cull Nightmares" },
     "goal": "MGOAL_KILL_MONSTER_TYPE",
     "difficulty": 5,
     "value": 250000,

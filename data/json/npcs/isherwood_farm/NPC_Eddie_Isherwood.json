@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_EDDIE",
-    "name": "Eddie Isherwood",
+    "name": { "str": "Eddie Isherwood" },
     "job_description": "I'm a dairy farmer, part of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,

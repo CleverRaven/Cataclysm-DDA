@@ -1508,7 +1508,12 @@
   {
     "type": "item_group",
     "id": "ambulance_equipment",
-    "items": [ { "group": "tools_medical", "prob": 100 }, { "group": "drugs_emergency", "prob": 50 }, [ "badge_doctor", 2 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "group": "tools_medical", "prob": 100 },
+      { "group": "drugs_emergency", "prob": 50 },
+      { "item": "badge_doctor", "prob": 2 }
+    ]
   },
   {
     "type": "item_group",

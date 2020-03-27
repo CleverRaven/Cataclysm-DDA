@@ -3,7 +3,7 @@
     "id": "rifle_belt",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
-    "name": "ammo belt",
+    "name": { "str": "ammo belt" },
     "description": "An ammo belt consisting of metal linkages which separate from the belt upon firing.  Holds rifle ammunition.",
     "delete": { "ammo_type": "308" },
     "ammo_type": "ammo_rifle",
@@ -26,7 +26,7 @@
     "id": "rifle_sniper_mag",
     "copy-from": "m2010mag",
     "type": "MAGAZINE",
-    "name": "compact rifle magazine",
+    "name": { "str": "compact rifle magazine" },
     "description": "A short 5 round steel magazine compatible with nearly every common rifle.  Although it has a low capacity it is easy to store and quick to reload.",
     "delete": { "ammo_type": "308" },
     "ammo_type": "ammo_rifle"

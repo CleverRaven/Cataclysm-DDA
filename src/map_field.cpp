@@ -1747,6 +1747,10 @@ void map::monster_in_field( monster &z )
         // Digging monsters are immune to fields
         return;
     }
+    if( veh_at( z.pos() ) ) {
+        // FIXME: Immune when in a vehicle for now.
+        return;
+    }
     field &curfield = get_field( z.pos() );
 
     int dam = 0;
