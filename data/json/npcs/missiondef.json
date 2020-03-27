@@ -2,7 +2,7 @@
   {
     "id": "MISSION_EXPLORE_SARCOPHAGUS",
     "type": "mission_definition",
-    "name": "Follow Sarcophagus Team",
+    "name": { "str": "Follow Sarcophagus Team" },
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 50000,
@@ -27,7 +27,7 @@
   {
     "id": "MISSION_GET_INHALER",
     "type": "mission_definition",
-    "name": "Find Inhaler",
+    "name": { "str": "Find Inhaler" },
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "u_has_item": "inhaler" },
     "difficulty": 2,
@@ -163,7 +163,7 @@
   {
     "id": "MISSION_GET_FLAG",
     "type": "mission_definition",
-    "name": "Find Flag",
+    "name": { "str": "Find Flag" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 100000,
@@ -208,7 +208,7 @@
   {
     "id": "MISSION_GET_RECORD_PATIENT",
     "type": "mission_definition",
-    "name": "Find Patient Records",
+    "name": { "str": "Find Patient Records" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 60000,
@@ -231,7 +231,7 @@
   {
     "id": "MISSION_GET_RECORD_WEATHER",
     "type": "mission_definition",
-    "name": "Find Weather Log",
+    "name": { "str": "Find Weather Log" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 50000,
@@ -253,7 +253,7 @@
   {
     "id": "MISSION_GET_RELIC",
     "type": "mission_definition",
-    "name": "Find Relic",
+    "name": { "str": "Find Relic" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 100000,
@@ -628,7 +628,7 @@
   {
     "id": "MISSION_RESCUE_DOG",
     "type": "mission_definition",
-    "name": "Find Lost Dog",
+    "name": { "str": "Find Lost Dog" },
     "goal": "MGOAL_FIND_MONSTER",
     "difficulty": 3,
     "value": 100000,
@@ -732,7 +732,7 @@
   {
     "id": "MISSION_LEARN_ABOUT_CATTAIL_JELLY",
     "type": "mission_definition",
-    "name": "Gather cattail stalks to create cattail jelly",
+    "name": { "str": "Gather cattail stalks to create cattail jelly" },
     "description": "Gather <color_light_blue>80 cattail stalks</color> from the swamp and bring them back to <color_light_red>learn how to craft cattail jelly</color>.  Raise your <color_light_blue>survival skill to at least 1</color> by harvesting cattail stalks.  <color_light_blue>Bring back the provided bag</color> as well.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": {

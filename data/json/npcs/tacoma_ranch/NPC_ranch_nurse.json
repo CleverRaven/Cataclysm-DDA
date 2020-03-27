@@ -192,7 +192,7 @@
   {
     "id": "MISSION_RANCH_NURSE_5",
     "type": "mission_definition",
-    "name": "Find a Chemistry Set",
+    "name": { "str": "Find a Chemistry Set" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -310,7 +310,7 @@
   {
     "id": "MISSION_RANCH_NURSE_10",
     "type": "mission_definition",
-    "name": "Find a Flu Shot",
+    "name": { "str": "Find a Flu Shot" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
