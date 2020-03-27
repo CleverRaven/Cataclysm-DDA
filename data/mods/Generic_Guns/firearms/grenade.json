@@ -3,7 +3,7 @@
     "id": "grenade_blooper",
     "copy-from": "m79",
     "type": "GUN",
-    "name": "grenade launcher",
+    "name": { "str": "grenade launcher" },
     "ammo": "ammo_grenade",
     "description": "An older single shot grenade launcher, looking something like a sawn off shotgun.  Though it's mostly been replaced by underbarrel launchers, dedicated models like this have seen use by law enforcement and riot personnel.  Still deadly against hard or soft targets, depending on what cartridges are available.",
     "clip_size": 1
@@ -21,7 +21,7 @@
     "id": "grenade_pistol",
     "copy-from": "m320",
     "type": "GUN",
-    "name": "grenade pistol",
+    "name": { "str": "grenade pistol" },
     "//": "more like granadepistole",
     "ammo": "ammo_grenade",
     "description": "A stubby single shot pistol with a large bore barrel, suitable for launching grenades or flares.  This is a slightly more convenient way to transport a grenade launcher than mounted to one's rifle, a practice more common among special forces.  In more recent years, variants were sold commercially to ostensibly launch flares.  With the right cartridges, this would be devastating against hard or soft targets.  This could be attached to a suitable rifle, if so desired.",

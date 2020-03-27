@@ -3,7 +3,7 @@
     "id": "mon_turret",
     "copy-from": "mon_turret",
     "type": "MONSTER",
-    "name": "improvised SMG turret",
+    "name": { "str": "improvised SMG turret" },
     "default_faction": "defense_bot",
     "starting_ammo": { "pistol_ball": 30 },
     "special_attacks": [

@@ -12,7 +12,7 @@
     "id": "rifle_lmg",
     "copy-from": "m240",
     "type": "GUN",
-    "name": "light machine gun",
+    "name": { "str": "light machine gun" },
     "ammo": "ammo_rifle",
     "description": "The light machine gun is a formidable implement for suppressive fire, an important part of squad tactics.  Its belt feed allows for hundreds of rounds to be loaded, and its heavy components can withstand long bursts of fire.  While perhaps not as precise as a service rifle, a light machinegun does allow for a considerable amount of energy to be sent down range.  Slow to reload.",
     "magazines": [ [ "ammo_rifle", [ "rifle_belt" ] ] ]
