@@ -14,7 +14,7 @@
     ]
   },
   {
-    "type": "collection",
+    "type": "item_group",
     "id": "NC_GANGER_carried",
     "items": [ [ "ear_plugs", 100 ], { "group": "NC_GANGER_misc", "count-min": 3, "count-max": 6 } ]
   },
