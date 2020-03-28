@@ -548,7 +548,6 @@
       "houses": {
         "house_w_1": 50,
         "house_two_story_basement": 50,
-        "house": 50,
         "house_crack1": 5,
         "house_crack2": 5,
         "house_crack3": 5,
@@ -556,7 +555,6 @@
         "house_prepper": 20,
         "house_prepper2": 10,
         "house_fortified": 20,
-        "house_base": 0,
         "duplex": 50,
         "house_duplex2": 50,
         "house_duplex3": 50,

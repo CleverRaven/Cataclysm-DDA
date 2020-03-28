@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "solar_panel",
-    "name": "solar panel",
+    "name": { "str": "solar panel" },
     "description": "Electronic device that can convert solar radiation into electric power.  Useful for a vehicle.",
     "weight": "14000 g",
     "to_hit": -4,
@@ -30,7 +30,7 @@
   {
     "type": "GENERIC",
     "id": "solar_panel_v2",
-    "name": "upgraded solar panel",
+    "name": { "str": "upgraded solar panel" },
     "description": "Electronic device that can convert solar radiation into electric power.  This panel has been upgraded to convert more sunlight into power.  Useful for a vehicle.",
     "weight": "18494 g",
     "volume": "4500 ml",
@@ -40,7 +40,7 @@
   {
     "type": "GENERIC",
     "id": "reinforced_solar_panel_v2",
-    "name": "upgraded reinforced solar panel",
+    "name": { "str": "upgraded reinforced solar panel" },
     "description": "An upgraded solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal upgraded panel.  Useful for a vehicle.",
     "weight": "29062 g",
     "to_hit": -5,
@@ -62,7 +62,7 @@
   {
     "type": "GENERIC",
     "id": "solar_cell",
-    "name": "solar cell",
+    "name": { "str": "solar cell" },
     "description": "A small electronic device that can convert solar radiation into electric power.  Useful for crafting.",
     "weight": "500 g",
     "symbol": ";",

@@ -515,7 +515,7 @@
     "weight": "250 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",
-    "container": "jar_3l_glass",
+    "container": "jar_3l_glass_sealed",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 50,

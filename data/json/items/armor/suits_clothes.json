@@ -122,7 +122,7 @@
     "id": "subsuit_xl",
     "repairs_like": "jumpsuit",
     "type": "ARMOR",
-    "name": "subject suit",
+    "name": { "str": "subject suit" },
     "description": "A thin, short-sleeved and short-legged one-piece suit.  Judging by the odd tailoring and adjustment points… maybe you don't want to know who wore it.  Provides nominal storage and is not very encumbering.",
     "weight": "810 g",
     "volume": "5 L",
@@ -143,7 +143,7 @@
   {
     "id": "union_suit",
     "type": "ARMOR",
-    "name": "union suit",
+    "name": { "str": "union suit" },
     "description": "A one-piece suit of full-body long underwear that helps to maintain body temperature.  It laces closed in the front.",
     "weight": "168 g",
     "volume": "1 L",
@@ -162,7 +162,7 @@
   {
     "id": "wolfsuit",
     "type": "ARMOR",
-    "name": "wolf suit",
+    "name": { "str": "wolf suit" },
     "description": "A full body fursuit in the form of an anthropomorphic wolf.  It is quite encumbering and has little storage but is very warm.",
     "weight": "7033 g",
     "volume": "12 L",
@@ -184,7 +184,7 @@
   {
     "id": "wool_suit",
     "type": "ARMOR",
-    "name": "wool suit",
+    "name": { "str": "wool suit" },
     "description": "An encumbering wool suit covered in nice patterns.  It looks like full body armor but it only protects against cold, sadly.",
     "weight": "883 g",
     "volume": "3 L",
@@ -204,7 +204,7 @@
   {
     "id": "zentai",
     "type": "ARMOR",
-    "name": "zentai",
+    "name": { "str": "zentai" },
     "description": "Short for 'zenshin taitsu', a zentai is a form fitting full body nylon and spandex garment.  Though it covers your face, you can see through the integrated hood.  With a couple of these and some friends and you could put on some kabuki.",
     "weight": "300 g",
     "volume": "500 ml",

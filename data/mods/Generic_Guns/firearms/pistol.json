@@ -3,7 +3,7 @@
     "id": "pistol_levergun",
     "copy-from": "henry_big_boy",
     "type": "GUN",
-    "name": "cowboy carbine",
+    "name": { "str": "cowboy carbine" },
     "ammo": "ammo_pistol",
     "description": "Since the early days of western expansion, when ammunition supply was infrequent, shooters sought to share ammo between their sidearms and long arms.  This tube magazine lever action carbine allows the shooter to reduce the number of calibers carried and squeeze more power from their pistol ammunition.",
     "clip_size": 10
@@ -21,7 +21,7 @@
     "id": "pistol_medium",
     "copy-from": "glock_19",
     "type": "GUN",
-    "name": "defensive pistol",
+    "name": { "str": "defensive pistol" },
     "ammo": "ammo_pistol",
     "description": "A modern pistol fit for duty, military service, or personal defense, with a detachable box magazine and a reliable action.  Though its chambering is capable of meeting FBI penetration minimums, the lack of a shoulder stock limits its utility.",
     "magazines": [ [ "ammo_pistol", [ "pistol_mag", "pistol_smg_mag" ] ] ]

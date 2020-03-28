@@ -749,7 +749,7 @@
     "id": "gasbomb",
     "copy-from": "grenade_canister",
     "type": "GENERIC",
-    "name": "tear gas grenade",
+    "name": { "str": "tear gas grenade" },
     "price": 3600,
     "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five turns it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "gasbomb_act" }
@@ -1124,7 +1124,7 @@
     "id": "smokebomb",
     "copy-from": "grenade_canister",
     "type": "GENERIC",
-    "name": "smoke bomb",
+    "name": { "str": "smoke bomb" },
     "description": "This is a canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and light the fuse, turning it into an active smoke bomb.  Five turns after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
     "price": 1800,
     "weight": "569 g",

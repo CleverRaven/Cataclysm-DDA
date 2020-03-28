@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_acidic",
     "type": "MONSTER",
-    "name": "acidic zombie",
+    "name": { "str": "acidic zombie" },
     "description": "A sickly-looking dead one.  Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visible veins.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -49,7 +49,7 @@
   {
     "id": "mon_zombie_corrosive",
     "type": "MONSTER",
-    "name": "corrosive zombie",
+    "name": { "str": "corrosive zombie" },
     "description": "This body has swollen to immense proportions, but still manages to hold itself together with semi-congealed acid all over its bloated body.  It clumsily moves around, but attacks with a large reserve of acid.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -113,7 +113,7 @@
   {
     "id": "mon_zombie_spitter",
     "type": "MONSTER",
-    "name": "spitter zombie",
+    "name": { "str": "spitter zombie" },
     "description": "A hunched human body with its eyes pushed up into its forehead and drooping cheeks, most of its face is occupied by a puckered mouth.  Its stomach is swollen and nearly translucent, with a sickly yellow tint.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -160,7 +160,7 @@
   {
     "id": "mon_zombie_wretched",
     "type": "MONSTER",
-    "name": "wretched puker",
+    "name": { "str": "wretched puker" },
     "description": "A degenerate corpse, shambling as it walks.  Several junks and waste materials have unified into its skin and wounds around it reeks in black goo.",
     "default_faction": "zombie",
     "bodytype": "human",

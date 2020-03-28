@@ -12,7 +12,7 @@
     "id": "pistol_smg_mag",
     "copy-from": "glockbigmag",
     "type": "MAGAZINE",
-    "name": "SMG magazine",
+    "name": { "str": "SMG magazine" },
     "description": "A long stick magazine for use with pistols and submachine guns.  Holds 30 rounds of standard pistol ammo.",
     "ammo_type": "ammo_pistol",
     "delete": { "ammo_type": "9mm" }

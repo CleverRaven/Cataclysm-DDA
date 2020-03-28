@@ -79,7 +79,7 @@
     "id": "judo_belt_orange",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "orange belt",
+    "name": { "str": "orange belt" },
     "description": "A belt worn by martial arts practitioners, advertising a fresh intermediate.",
     "color": "light_red"
   },
@@ -87,7 +87,7 @@
     "id": "judo_belt_white",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "white belt",
+    "name": { "str": "white belt" },
     "description": "A belt worn by martial arts practitioners, advertising a novice.",
     "color": "white"
   },
@@ -95,14 +95,14 @@
     "id": "judo_belt_yellow",
     "copy-from": "judo_belt_abstract",
     "type": "ARMOR",
-    "name": "yellow belt",
+    "name": { "str": "yellow belt" },
     "description": "A belt worn by martial arts practitioners, advertising a moderate novice.",
     "color": "yellow"
   },
   {
     "id": "leather_belt",
     "type": "ARMOR",
-    "name": "leather belt",
+    "name": { "str": "leather belt" },
     "description": "A leather belt.  Useful for making your pair of pants fit.",
     "weight": "102 g",
     "volume": "250 ml",
@@ -128,7 +128,7 @@
   {
     "id": "obi_gi",
     "type": "ARMOR",
-    "name": "obi",
+    "name": { "str": "obi" },
     "description": "A broad, black obi gi.",
     "weight": "200 g",
     "volume": "250 ml",
@@ -141,7 +141,7 @@
   {
     "id": "police_belt",
     "type": "ARMOR",
-    "name": "police duty belt",
+    "name": { "str": "police duty belt" },
     "description": "Black leather belt used by police officers.  It has several pouches and a holder for a baton.",
     "weight": "250 g",
     "volume": "2 L",
@@ -168,7 +168,7 @@
   {
     "id": "survivor_belt_notools",
     "type": "ARMOR",
-    "name": "survivor belt",
+    "name": { "str": "survivor belt" },
     "description": "A custom-built leather utility belt covered with straps and pouches with a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "weight": "1249 g",
     "volume": "2250 ml",
@@ -196,7 +196,7 @@
   {
     "id": "tool_belt",
     "type": "ARMOR",
-    "name": "tool belt",
+    "name": { "str": "tool belt" },
     "description": "A common belt with pockets and four small belt loops.  Widely used by handymen and electricians.",
     "weight": "960 g",
     "volume": "1750 ml",
@@ -226,7 +226,7 @@
   {
     "id": "webbing_belt",
     "type": "ARMOR",
-    "name": "webbing belt",
+    "name": { "str": "webbing belt" },
     "description": "A 2-inch nylon webbing belt commonly used by military forces.",
     "weight": "210 g",
     "volume": "500 ml",

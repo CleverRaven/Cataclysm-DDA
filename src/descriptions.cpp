@@ -15,7 +15,10 @@
 #include "color.h"
 #include "translations.h"
 #include "string_id.h"
-#include "cata_string_consts.h"
+
+static const skill_id skill_survival( "survival" );
+
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
 enum class description_target : int {
     creature,

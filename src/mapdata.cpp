@@ -19,7 +19,9 @@
 #include "trap.h"
 #include "assign.h"
 #include "json.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_TRANSPARENT( "TRANSPARENT" );
 
 namespace
 {

@@ -3,7 +3,7 @@
     "id": "stapler",
     "type": "GENERIC",
     "category": "tools",
-    "name": "stapler",
+    "name": { "str": "stapler" },
     "description": "A stapler for fastening sheets of paper together.",
     "weight": "300 g",
     "volume": "250 ml",

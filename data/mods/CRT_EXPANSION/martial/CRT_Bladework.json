@@ -3,8 +3,7 @@
     "id": "manual_crt_blade",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "C.R.I.T Blade-work manual",
-    "name_plural": "C.R.I.T Blade-work manuals",
+    "name": { "str": "C.R.I.T Blade-work manual" },
     "description": "An advanced military manual on C.R.I.T Blade-work.",
     "book_data": { "martial_art": "style_crt_blade" }
   },
@@ -29,7 +28,7 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
-        "flat_bonuses": [ [ "damage", "stab", 1 ], [ "damage", "cut", 1 ], [ "arpen", "stab", 1 ], [ "arpen", "cut", 1 ] ]
+        "flat_bonuses": [ [ "damage", "stab", 1.0 ], [ "damage", "cut", 1.0 ], [ "arpen", "stab", 1.0 ], [ "arpen", "cut", 1.0 ] ]
       }
     ],
     "onhit_buffs": [
@@ -42,7 +41,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "buff_duration": 1,
         "max_stacks": 4,
-        "flat_bonuses": [ [ "damage", "stab", 0.25 ], [ "damage", "cut", 0.5 ], [ "arpen", "cut", 1 ] ]
+        "flat_bonuses": [ [ "damage", "stab", 0.25 ], [ "damage", "cut", 0.5 ], [ "arpen", "cut", 1.0 ] ]
       }
     ],
     "techniques": [ "tec_crt_blade_normal", "tec_crt_blade_rapid", "tec_crt_blade_precise", "tec_crt_blade_arpen", "tec_feint" ],
