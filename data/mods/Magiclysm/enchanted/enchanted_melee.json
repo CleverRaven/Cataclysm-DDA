@@ -813,7 +813,7 @@
   {
     "id": "rune_kelvinist_weapon",
     "type": "GENERIC",
-    "name": "Kelvinist flamberge",
+    "name": { "str": "Kelvinist flamberge" },
     "//": "Flame-bladed sword covers half of Kelvinist's heat-cold theme.  Combat stats equivalent to cutlass +1 with BRUTAL technique.",
     "description": "A sword with an undulating blade, reminiscent of a flame.  There is a Kelvinist rune embedded in the pommel.",
     "weight": "1530 g",
