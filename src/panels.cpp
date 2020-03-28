@@ -873,8 +873,8 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
 
-        const auto bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) );
-        if( u.worn_with_flag( "SPLINT", bp ) ) {
+        const bodypart_id bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) );
+        if( u.worn_with_flag( "SPLINT", bp->token ) ) {
             static const efftype_id effect_mending( "mending" );
             const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
@@ -917,27 +917,24 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
 
 static void draw_limb2( avatar &u, const catacurses::window &w )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
-        }
-    };
-
     werase( w );
     // print limb health
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i] );
+    int i = 0;
+    for( const bodypart_id bid : u.get_all_body_parts( true ) ) {
+        const std::string str = body_part_hp_bar_ui_text( bid->token );
         if( i % 2 == 0 ) {
             wmove( w, point( 0, i / 2 ) );
         } else {
             wmove( w, point( 11, i / 2 ) );
         }
-        wprintz( w, u.limb_color( part[i], true, true, true ), str );
+        wprintz( w, u.limb_color( bid, true, true, true ), str );
         if( i % 2 == 0 ) {
             wmove( w, point( 5, i / 2 ) );
         } else {
             wmove( w, point( 16, i / 2 ) );
         }
         draw_limb_health( u, w, i );
+        i++;
     }
 
     // print mood
@@ -1145,12 +1142,9 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
     }
 
     // display limbs status
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
-        }
-    };
     ny2 = 0;
-    for( size_t i = 0; i < part.size(); i++ ) {
+    size_t i = 0;
+    for( const bodypart_id bid : u.get_all_body_parts( true ) ) {
         int ny;
         int nx;
         if( i < 3 ) {
@@ -1161,34 +1155,29 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
             nx = 19;
         }
 
-        std::string str = body_part_hp_bar_ui_text( part[i] );
+        std::string str = body_part_hp_bar_ui_text( bid->token );
         wmove( w, point( nx, ny ) );
         str = left_justify( str, 5 );
-        wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
+        wprintz( w, u.limb_color( bid, true, true, true ), str + ":" );
+        i++;
     }
     wrefresh( w );
 }
 
 static void draw_limb_wide( avatar &u, const catacurses::window &w )
 {
-    const std::vector<std::pair<body_part, int>> parts = {
-        {bp_arm_l, 2},
-        {bp_head, 0},
-        {bp_arm_r, 3},
-        {bp_leg_l, 4},
-        {bp_torso, 1},
-        {bp_leg_r, 5}
-    };
     werase( w );
-    for( int i = 0; i < num_hp_parts; i++ ) {
+    size_t i = 0;
+    for( const bodypart_id bid : u.get_all_body_parts( true ) ) {
         int offset = i * 15;
         int ny = offset / 45;
         int nx = offset % 45;
         std::string str = string_format( " %s: ",
-                                         left_justify( body_part_hp_bar_ui_text( parts[i].first ), 5 ) );
-        nc_color part_color = u.limb_color( parts[i].first, true, true, true );
+                                         left_justify( body_part_hp_bar_ui_text( bid->token ), 5 ) );
+        nc_color part_color = u.limb_color( bid, true, true, true );
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
-        draw_limb_health( u, w, parts[i].second );
+        draw_limb_health( u, w, i );
+        i++;
     }
     wrefresh( w );
 }
@@ -1555,11 +1544,6 @@ static void draw_wind_padding( avatar &u, const catacurses::window &w )
 
 static void draw_health_classic( avatar &u, const catacurses::window &w )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
-        }
-    };
-
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
         veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
@@ -1571,12 +1555,14 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     draw_rectangle( w, c_light_gray, point_zero, point( 6, 6 ) );
 
     // print limb health
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i] );
+    size_t i = 0;
+    for( const bodypart_id bid : u.get_all_body_parts( true ) ) {
+        const std::string str = body_part_hp_bar_ui_text( bid->token );
         wmove( w, point( 8, i ) );
-        wprintz( w, u.limb_color( part[i], true, true, true ), str );
+        wprintz( w, u.limb_color( bid, true, true, true ), str );
         wmove( w, point( 14, i ) );
         draw_limb_health( u, w, i );
+        i++;
     }
 
     // needs
