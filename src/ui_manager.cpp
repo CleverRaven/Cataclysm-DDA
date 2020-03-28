@@ -47,6 +47,11 @@ void ui_adaptor::position_from_window( const catacurses::window &win )
     ui_manager::invalidate( old_dimensions );
 }
 
+void ui_adaptor::position( const point &topleft, const point &size )
+{
+    position_from_window( catacurses::newwin( size.y, size.x, topleft ) );
+}
+
 void ui_adaptor::on_redraw( const redraw_callback_t &fun )
 {
     redraw_cb = fun;
