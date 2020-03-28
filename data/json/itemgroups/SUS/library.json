@@ -360,9 +360,9 @@
     "//2": "Returns a single nonfiction book that is hard bound. Note that this may or may not be a skill training book.",
     "subtype": "distribution",
     "entries": [
-      { "group": "SUS_book_nonf_hard_dodge", "prob": 1 }, 
-      { "group": "SUS_book_nonf_hard_spirit", "prob": 1 }, 
-      { "group": "SUS_book_nonf_hard_homemk", "prob": 1 }, 
+      { "group": "SUS_book_nonf_hard_dodge", "prob": 1 },
+      { "group": "SUS_book_nonf_hard_spirit", "prob": 1 },
+      { "group": "SUS_book_nonf_hard_homemk", "prob": 1 },
       { "group": "SUS_book_nonf_hard_arch", "prob": 1 } 
     ]
   },
@@ -484,9 +484,7 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "returns an archery skill training book that is hard bound.",
     "subtype": "distribution",
-    "entries": [
-      { "item": "manual_archery", "prob": 1 }, { "item": "book_archery", "prob": 1 }
-    ]
+    "entries": [ { "item": "manual_archery", "prob": 1 }, { "item": "book_archery", "prob": 1 } ]
   },
   {
     "id": "SUS_book_nonf_hard_dodge",
