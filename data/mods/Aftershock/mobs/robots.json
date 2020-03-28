@@ -133,10 +133,29 @@
     "armor_cut": 8,
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_tripod",
-    "special_attacks": [ [ "FLAMETHROWER", 10 ] ],
+    "starting_ammo": { "napalm": 10000 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "gun_type": "rm451_flamethrower",
+        "ammo_type": "napalm",
+        "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
+        "fake_dex": 10,
+        "no_ammo_sound": "hiss!",
+        "ranges": [ [ 0, 10, "DEFAULT" ] ],
+        "require_targeting_player": true,
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_volume": 10
+      }
+    ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS", "FIREPROOF" ]
   },
   {
     "id": "afs_mon_sentinel_lx",
