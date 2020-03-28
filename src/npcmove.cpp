@@ -114,6 +114,8 @@ static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
+static const bodypart_id default_bp( "num_bp" );
+
 enum npc_action : int {
     npc_undecided = 0,
     npc_pause,
@@ -987,7 +989,7 @@ void npc::execute_action( npc_action action )
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
                     activate_bionic_by_id( bio_soporific );
-                    add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
+                    add_effect( effect_lying_down, 30_minutes, default_bp, false, 1 );
                     if( g->u.sees( *this ) && !g->u.in_sleep_state() ) {
                         add_msg( _( "%s lies down to sleep." ), name );
                     }
@@ -1708,7 +1710,7 @@ healing_options npc::patient_assessment( const Character &c )
 
     for( int i = 0; i < num_hp_parts; i++ ) {
         const hp_part part = static_cast<hp_part>( i );
-        const body_part bp_wounded = hp_to_bp( part );
+        const bodypart_id bp_wounded = hp_to_bp( part );
 
         if( c.has_effect( effect_bleed, bp_wounded ) ) {
             try_to_fix.bleed = true;
@@ -2371,13 +2373,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             }
         }
         if( g->m.has_flag( "UNSTABLE", pos() ) ) {
-            add_effect( effect_bouldering, 1_turns, num_bp, true );
+            add_effect( effect_bouldering, 1_turns, default_bp, true );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );
         }
 
         if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, pos() ) ) {
-            add_effect( effect_no_sight, 1_turns, num_bp, true );
+            add_effect( effect_no_sight, 1_turns, default_bp, true );
         } else if( has_effect( effect_no_sight ) ) {
             remove_effect( effect_no_sight );
         }
@@ -4187,11 +4189,11 @@ Creature *npc::current_ally()
 }
 
 // Maybe TODO: Move to Character method and use map methods
-static body_part bp_affected( npc &who, const efftype_id &effect_type )
+static bodypart_id bp_affected( npc &who, const efftype_id &effect_type )
 {
-    body_part ret = num_bp;
+    bodypart_id ret = default_bp;
     int highest_intensity = INT_MIN;
-    for( const body_part bp : all_body_parts ) {
+    for( const bodypart_id bp : who.get_anatomy()->get_body_parts() ) {
         const auto &eff = who.get_effect( effect_type, bp );
         if( !eff.is_null() && eff.get_intensity() > highest_intensity ) {
             ret = bp;
@@ -4295,7 +4297,7 @@ bool npc::complain()
     // When infected, complain every (4-intensity) hours
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
-        body_part bp = bp_affected( *this, effect_infected );
+        bodypart_id bp = bp_affected( *this, effect_infected );
         const auto &eff = get_effect( effect_infected, bp );
         int intensity = eff.get_intensity();
         const std::string speech = string_format( _( "My %s wound is infected…" ),
@@ -4309,7 +4311,7 @@ bool npc::complain()
 
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
-        body_part bp = bp_affected( *this, effect_bite );
+        bodypart_id bp = bp_affected( *this, effect_bite );
         const std::string speech = string_format( _( "The bite wound on my %s looks bad." ),
                                    body_part_name( bp ) );
         if( complain_about( bite_string, 1_hours, speech ) ) {
@@ -4351,7 +4353,7 @@ bool npc::complain()
 
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
-        body_part bp = bp_affected( *this, effect_bleed );
+        bodypart_id bp = bp_affected( *this, effect_bleed );
         std::string speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
         if( complain_about( bleed_string, 5_minutes, speech ) ) {
             return true;
@@ -4415,7 +4417,7 @@ bool npc::adjust_worn()
     const auto covers_broken = [this]( const item & it, side s ) {
         const auto covered = it.get_covered_body_parts( s );
         for( size_t i = 0; i < num_hp_parts; i++ ) {
-            if( hp_cur[ i ] <= 0 && covered.test( hp_to_bp( static_cast<hp_part>( i ) ) ) ) {
+            if( hp_cur[ i ] <= 0 && covered.test( hp_to_bp( static_cast<hp_part>( i ) )->token ) ) {
                 return true;
             }
         }

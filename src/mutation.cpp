@@ -427,11 +427,11 @@ bool Character::can_use_heal_item( const item &med ) const
     return can_use;
 }
 
-bool Character::can_install_cbm_on_bp( const std::vector<body_part> &bps ) const
+bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) const
 {
     bool can_install = true;
     for( const trait_id &mut : get_mutations() ) {
-        for( const body_part bp : bps ) {
+        for( const bodypart_id bp : bps ) {
             if( mut.obj().no_cbm_on_bp.count( bp ) ) {
                 can_install = false;
                 break;
