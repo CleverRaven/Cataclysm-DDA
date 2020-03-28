@@ -111,6 +111,8 @@ static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 static const std::string flag_NPC_SAFE( "NPC_SAFE" );
 
+static const bodypart_id default_bp( "num_bp" );
+
 class basecamp;
 class monfaction;
 
@@ -1039,8 +1041,8 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
     if( it.has_flag( "SPLINT" ) ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
-            body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( hpp ) && !has_effect( effect_mending, bp ) && it.covers( bp ) ) {
+            bodypart_id bp = player::hp_to_bp( hpp );
+            if( is_limb_broken( hpp ) && !has_effect( effect_mending, bp ) && it.covers( bp->token ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return !!wear_item( it, false );
             }
@@ -1064,13 +1066,13 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
-        for( const body_part bp : all_body_parts ) {
-            if( !it.covers( bp ) ) {
+        for( const bodypart_id bp : get_all_body_parts() ) {
+            if( !it.covers( bp->token ) ) {
                 continue;
             }
             // Find an item that covers the same body part as the new item
             auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item & armor ) {
-                return armor.covers( bp );
+                return armor.covers( bp->token );
             } );
             if( iter != worn.end() && !( is_limb_broken( bp_to_hp( bp ) ) && iter->has_flag( "SPLINT" ) ) ) {
                 took_off = takeoff( *iter );
@@ -2394,7 +2396,7 @@ void npc::reboot()
     ai_cache.searched_tiles.clear();
     activity = player_activity();
     clear_destination();
-    add_effect( effect_npc_suspend, 24_hours, num_bp, true, 1 );
+    add_effect( effect_npc_suspend, 24_hours, default_bp, true, 1 );
 }
 
 void npc::die( Creature *nkiller )
@@ -2726,7 +2728,7 @@ void npc::on_load()
 
     // for spawned npcs
     if( g->m.has_flag( "UNSTABLE", pos() ) ) {
-        add_effect( effect_bouldering, 1_turns, num_bp, true );
+        add_effect( effect_bouldering, 1_turns, default_bp, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
@@ -3194,7 +3196,7 @@ void npc::set_attitude( npc_attitude new_attitude )
         new_attitude = NPCATT_FLEE_TEMP;
     }
     if( new_attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
-        add_effect( effect_npc_flee_player, 24_hours, num_bp );
+        add_effect( effect_npc_flee_player, 24_hours, default_bp );
     }
 
     add_msg( m_debug, "%s changes attitude from %s to %s",

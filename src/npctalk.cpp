@@ -102,6 +102,8 @@ static const bionic_id bio_voice( "bio_voice" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
+static const bodypart_id default_bp( "num_bp" );
+
 class basecamp;
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
@@ -1860,7 +1862,7 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        actor->add_effect( efftype_id( new_effect ), duration, num_bp, permanent );
+        actor->add_effect( efftype_id( new_effect ), duration, default_bp, permanent );
     };
 }
 
@@ -1873,7 +1875,7 @@ void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, const std::stri
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        actor->remove_effect( efftype_id( old_effect ), num_bp );
+        actor->remove_effect( efftype_id( old_effect ), default_bp );
     };
 }
 
@@ -2306,10 +2308,10 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
             monster &tmp = *mon_ptr;
             // Our monster is always a pet.
             tmp.friendly = -1;
-            tmp.add_effect( effect_pet, 1_turns, num_bp, true );
+            tmp.add_effect( effect_pet, 1_turns, default_bp, true );
 
             if( pacified ) {
-                tmp.add_effect( effect_pacified, 1_turns, num_bp, true );
+                tmp.add_effect( effect_pacified, 1_turns, default_bp, true );
             }
 
             if( !name.empty() ) {

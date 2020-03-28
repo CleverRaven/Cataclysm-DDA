@@ -104,6 +104,8 @@ static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 
 static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
+static const bodypart_id default_bp( "num_bp" );
+
 class JsonIn;
 class JsonOut;
 
@@ -1153,11 +1155,11 @@ void avatar::reset_stats()
         }
 
         if( eff.is_null() && dur > 0_turns ) {
-            add_effect( type, dur, num_bp, true );
+            add_effect( type, dur, default_bp, true );
         } else if( dur > 0_turns ) {
             eff.set_duration( dur );
         } else {
-            remove_effect( type, num_bp );
+            remove_effect( type, default_bp );
         }
     };
     // Painkiller

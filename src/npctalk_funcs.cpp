@@ -197,7 +197,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
 {
     if( monster *const mon_ptr = g->place_critter_around( mon, p.pos(), 1 ) ) {
         mon_ptr->friendly = -1;
-        mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
+        mon_ptr->add_effect( effect_pet, 1_turns, bodypart_id( "num_bp" ), true );
     } else {
         // TODO: handle this gracefully (return the money, proper in-character message from npc)
         add_msg( m_debug, "No space to spawn purchased pet" );
@@ -552,7 +552,7 @@ void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
+        const bodypart_id bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
         g->u.heal( static_cast<hp_part>( i ), 5 * rng( 2, 5 ) );
         if( g->u.has_effect( effect_bite, bp_healed ) ) {
             g->u.remove_effect( effect_bite, bp_healed );
@@ -576,7 +576,7 @@ void talk_function::give_all_aid( npc &p )
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_walking_with() && rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE ) {
             for( int i = 0; i < num_hp_parts; i++ ) {
-                const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
+                const bodypart_id bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
                 guy.heal( static_cast<hp_part>( i ), 5 * rng( 2, 5 ) );
                 if( guy.has_effect( effect_bite, bp_healed ) ) {
                     guy.remove_effect( effect_bite, bp_healed );
