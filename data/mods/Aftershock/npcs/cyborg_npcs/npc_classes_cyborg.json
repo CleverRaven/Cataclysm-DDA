@@ -9,7 +9,7 @@
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },
       { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 1, 4 ] } },
       { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
     ],
@@ -46,6 +46,40 @@
       { "id": "bio_razors", "chance": 15 },
       { "id": "bio_power_storage", "chance": 100 },
       { "id": "bio_torsionratchet", "chance": 20 }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_CYBERNINJA",
+    "name": { "str": "Corporate Wetworks Operative" },
+    "job_description": "I made a good living working in the shadows of the old world.  I can survive it's twilight.",
+    "traits": [ { "group": "BG_survival_story_CYBERNINJA" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 6 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 1, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 1, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 1, 6 ] } },
+      { "skill": "smg", "bonus": { "rng": [ 1, 4 ] } }
+    ],
+    "common": true,
+    "worn_override": "NC_CYBERNINJA_worn",
+    "carry_override": "NC_CYBERNINJA_carried",
+    "weapon_override": "NC_CYBERNINJA_wield",
+    "bionics": [
+      { "id": "bio_carbon", "chance": 80 },
+      { "id": "bio_claws", "chance": 30 },
+      { "id": "bio_dex_enhancer", "chance": 30 },
+      { "id": "bio_eye_enhancer", "chance": 20 },
+      { "id": "bio_hydraulics", "chance": 10 },
+      { "id": "bio_painkiller", "chance": 45 },
+      { "id": "bio_shock", "chance": 10 },
+      { "id": "bio_speed", "chance": 10 },
+      { "id": "bio_str_enhancer", "chance": 15 },
+      { "id": "bio_razors", "chance": 35 },
+      { "id": "bio_power_storage", "chance": 100 },
+      { "id": "bio_metabolics", "chance": 100 }
     ]
   }
 ]
