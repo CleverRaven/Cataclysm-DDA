@@ -114,7 +114,7 @@
   {
     "id": "mon_shrew",
     "type": "MONSTER",
-    "name": "shrew",
+    "name": { "str": "shrew" },
     "description": "The masked shrew, a mouse-like creature with a pointed, whiskery snout.  It digs tunnels into the ground in search of bugs to eat.",
     "default_faction": "vermin",
     "categories": [ "WILDLIFE" ],
@@ -138,7 +138,7 @@
   {
     "id": "mon_slug",
     "type": "MONSTER",
-    "name": "slug",
+    "name": { "str": "slug" },
     "description": "The leopard slug, an omnivorous gastropod.  It consumes decaying matter as well as planted crops, and will attack and eat other slugs that cross its path.",
     "default_faction": "vermin",
     "species": [ "MOLLUSK" ],
@@ -180,7 +180,7 @@
   {
     "id": "mon_spider_trapdoor",
     "type": "MONSTER",
-    "name": "trapdoor spider",
+    "name": { "str": "trapdoor spider" },
     "description": "A midsized spider with a bulbous thorax.  It creates a subterranean nest and lies in wait for prey to draw close enough for capture.",
     "default_faction": "vermin",
     "species": [ "SPIDER" ],
@@ -220,7 +220,7 @@
   {
     "id": "mon_spider_wolf",
     "type": "MONSTER",
-    "name": "wolf spider",
+    "name": { "str": "wolf spider" },
     "description": "A fairly large spider which tracks and catches prey through agility and stealth.  Its bite can be irritating even to large animals.",
     "default_faction": "vermin",
     "species": [ "SPIDER" ],
@@ -240,7 +240,7 @@
   {
     "id": "mon_wasp_small",
     "type": "MONSTER",
-    "name": "wasp",
+    "name": { "str": "wasp" },
     "description": "A slender-bodied flying insect, with a painful sting.  They can be somewhat aggressive if disturbed.",
     "default_faction": "vermin",
     "species": [ "INSECT" ],
@@ -263,7 +263,7 @@
   {
     "id": "mon_tripod",
     "type": "MONSTER",
-    "name": "tripod",
+    "name": { "str": "tripod" },
     "description": "The Honda Regnal, a tall robot walking on three spidery legs.  For weapons, it has a trio of spiked retractable cables and a flamethrower mounted on its head.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
