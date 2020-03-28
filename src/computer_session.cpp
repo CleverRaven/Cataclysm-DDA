@@ -51,18 +51,17 @@
 #include "trap.h"
 #include "type_id.h"
 
-static const mtype_id mon_manhack( "mon_manhack" );
-static const mtype_id mon_secubot( "mon_secubot" );
-static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
-static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
-static const mtype_id mon_crows_m240( "mon_crows_m240" );
+static const efftype_id effect_amigara( "amigara" );
 
 static const skill_id skill_computer( "computer" );
 
-static const species_id ZOMBIE( "ZOMBIE" );
 static const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
 
-static const efftype_id effect_amigara( "amigara" );
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_secubot( "mon_secubot" );
+
+static const std::string flag_CONSOLE( "CONSOLE" );
 
 static catacurses::window init_window()
 {
@@ -216,8 +215,7 @@ static void remove_submap_turrets()
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
         if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( g->u.pos() ) ) &&
-            ( critter.type->id == mon_turret_rifle || critter.type->id == mon_turret_bmg ||
-              critter.type->id == mon_crows_m240 ) &&
+            critter.has_flag( MF_CONSOLE_DESPAWN ) &&
             critter.attitude_to( g->u ) == Creature::Attitude::A_HOSTILE ) {
             g->remove_zombie( critter );
         }
@@ -1198,7 +1196,7 @@ void computer_session::failure_shutdown()
 {
     bool found_tile = false;
     for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( g->m.has_flag( "CONSOLE", p ) ) {
+        if( g->m.has_flag( flag_CONSOLE, p ) ) {
             g->m.ter_set( p, t_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
             found_tile = true;
@@ -1208,7 +1206,7 @@ void computer_session::failure_shutdown()
         return;
     }
     for( const tripoint &p : g->m.points_on_zlevel() ) {
-        if( g->m.has_flag( "CONSOLE", p ) ) {
+        if( g->m.has_flag( flag_CONSOLE, p ) ) {
             g->m.ter_set( p, t_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
         }

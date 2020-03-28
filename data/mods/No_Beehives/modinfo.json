@@ -6,7 +6,8 @@
     "authors": [ "Inglonias" ],
     "description": "Removes bees and beehives from the game",
     "category": "monster_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "MONSTER_BLACKLIST",

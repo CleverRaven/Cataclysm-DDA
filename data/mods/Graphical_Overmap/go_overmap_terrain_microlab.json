@@ -1,0 +1,53 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic",
+    "copy-from": "microlab_generic",
+    "sym": "\u00C1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_rock_border",
+    "copy-from": "microlab_rock_border",
+    "sym": "\u00AE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_edge",
+    "copy-from": "microlab_generic"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface_connector",
+    "copy-from": "microlab_generic"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_sub_station",
+    "copy-from": "microlab_sub_station",
+    "sym": "\u00D3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_sub_connector",
+    "copy-from": "microlab_sub_station"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_sub_entry",
+    "copy-from": "microlab_generic_sub_entry",
+    "sym": "\u00C1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface",
+    "copy-from": "microlab_generic_surface",
+    "sym": "\u00C1",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface_roof",
+    "copy-from": "microlab_generic_surface"
+  }
+]

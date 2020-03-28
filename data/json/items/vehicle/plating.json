@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "sheet_metal",
-    "name": "sheet metal",
+    "name": { "str": "sheet metal", "str_pl": "sheet metal" },
     "description": "A thin sheet of metal.",
     "//": "Roughly in the 70cm×70cm×1.5mm to 1m×1m×0.75mm range. Has to be folded / rolled up when in inventory, so 75% density compared to solid block.",
     "weight": "6000 g",
@@ -19,7 +19,7 @@
   {
     "type": "GENERIC",
     "id": "sheet_metal_lit",
-    "name": "wired sheet metal",
+    "name": { "str": "wired sheet metal", "str_pl": "wired sheet metal" },
     "description": "Sheet metal that has had light housing wired into it.",
     "weight": "6200 g",
     "to_hit": -2,
@@ -34,7 +34,7 @@
   {
     "type": "GENERIC",
     "id": "wood_plate",
-    "name": "wooden armor kit",
+    "name": { "str": "wooden armor kit" },
     "description": "A bundle of two by fours prepared to be used as vehicle armor.",
     "weight": "5600 g",
     "to_hit": -8,
@@ -49,7 +49,7 @@
   {
     "type": "GENERIC",
     "id": "steel_plate",
-    "name": "steel plating",
+    "name": { "str": "steel plating", "str_pl": "steel plating" },
     "description": "A piece of armor plating made of steel.",
     "weight": "12880 g",
     "to_hit": -1,
@@ -65,7 +65,7 @@
   {
     "type": "GENERIC",
     "id": "alloy_plate",
-    "name": "superalloy plating",
+    "name": { "str": "superalloy plating", "str_pl": "superalloy plating" },
     "description": "A piece of armor plating made of sturdy superalloy.",
     "weight": "10800 g",
     "to_hit": -1,
@@ -81,7 +81,7 @@
   {
     "type": "GENERIC",
     "id": "alloy_sheet",
-    "name": "superalloy sheet",
+    "name": { "str": "superalloy sheet" },
     "description": "A sheet of sturdy superalloy, incredibly hard, yet incredibly malleable.",
     "weight": "900 g",
     "to_hit": -2,
@@ -96,7 +96,7 @@
   {
     "type": "GENERIC",
     "id": "spiked_plate",
-    "name": "spiked plating",
+    "name": { "str": "spiked plating", "str_pl": "spiked plating" },
     "description": "A piece of armor plating made of steel.  It is covered with menacing spikes.",
     "weight": "12240 g",
     "to_hit": -1,
@@ -114,7 +114,7 @@
   {
     "type": "GENERIC",
     "id": "hard_plate",
-    "name": "hard plating",
+    "name": { "str": "hard plating" },
     "description": "A piece of very thick armor plating made of steel.",
     "weight": "32640 g",
     "to_hit": -1,
@@ -130,7 +130,7 @@
   {
     "type": "GENERIC",
     "id": "mil_plate",
-    "name": "military composite plating",
+    "name": { "str": "military composite plating" },
     "description": "A thick sheet of military grade armor, best bullet stopper you can stick on a vehicle.",
     "weight": "16500 g",
     "to_hit": -1,
@@ -148,7 +148,7 @@
     "id": "chitin_plate",
     "symbol": "]",
     "color": "yellow",
-    "name": "chitin armor kit",
+    "name": { "str": "chitin armor kit" },
     "description": "Light chitin plating made for a vehicle.",
     "price": 1200,
     "material": [ "chitin" ],
@@ -162,7 +162,7 @@
     "type": "GENERIC",
     "id": "acidchitin_plate",
     "copy-from": "chitin_plate",
-    "name": "biosilicified chitin armor kit",
+    "name": { "str": "biosilicified chitin armor kit" },
     "description": "Durable silica-coated chitin plating made for a vehicle.",
     "material": [ "acidchitin" ],
     "proportional": { "price": 1.333, "weight": 1.2, "volume": 1.18, "bashing": 1.25 }
@@ -172,7 +172,7 @@
     "id": "bone_plate",
     "symbol": "]",
     "color": "white",
-    "name": "bone armor kit",
+    "name": { "str": "bone armor kit" },
     "description": "Bone plating made for a vehicle.",
     "price": 1200,
     "material": [ "bone" ],

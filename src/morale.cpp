@@ -26,6 +26,19 @@ static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 
+static const trait_id trait_BADTEMPER( "BADTEMPER" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_LEAVES2( "LEAVES2" );
+static const trait_id trait_LEAVES3( "LEAVES3" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
+static const trait_id trait_ROOTS1( "ROOTS1" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
+static const trait_id trait_STYLISH( "STYLISH" );
+
 namespace
 {
 
@@ -246,24 +259,24 @@ player_morale::player_morale() :
     const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
 
-    mutations[trait_id( "OPTIMISTIC" )]    = mutation_data(
-                std::bind( set_optimist, _1, 9 ),
-                std::bind( set_optimist, _1, 0 ) );
-    mutations[trait_id( "BADTEMPER" )]     = mutation_data(
-                std::bind( set_badtemper, _1, -9 ),
-                std::bind( set_badtemper, _1, 0 ) );
-    mutations[trait_id( "STYLISH" )]       = mutation_data(
-                std::bind( set_stylish, _1, true ),
-                std::bind( set_stylish, _1, false ) );
-    mutations[trait_id( "FLOWERS" )]       = mutation_data( update_constrained );
-    mutations[trait_id( "ROOTS1" )]         = mutation_data( update_constrained );
-    mutations[trait_id( "ROOTS2" )]        = mutation_data( update_constrained );
-    mutations[trait_id( "ROOTS3" )]        = mutation_data( update_constrained );
-    mutations[trait_id( "LEAVES2" )]       = mutation_data( update_constrained );
-    mutations[trait_id( "LEAVES3" )]       = mutation_data( update_constrained );
-    mutations[trait_id( "MASOCHIST" )]     = mutation_data( update_masochist );
-    mutations[trait_id( "MASOCHIST_MED" )] = mutation_data( update_masochist );
-    mutations[trait_id( "CENOBITE" )]      = mutation_data( update_masochist );
+    mutations[trait_OPTIMISTIC]    = mutation_data(
+                                         std::bind( set_optimist, _1, 9 ),
+                                         std::bind( set_optimist, _1, 0 ) );
+    mutations[trait_BADTEMPER]     = mutation_data(
+                                         std::bind( set_badtemper, _1, -9 ),
+                                         std::bind( set_badtemper, _1, 0 ) );
+    mutations[trait_STYLISH]       = mutation_data(
+                                         std::bind( set_stylish, _1, true ),
+                                         std::bind( set_stylish, _1, false ) );
+    mutations[trait_FLOWERS]       = mutation_data( update_constrained );
+    mutations[trait_ROOTS1]         = mutation_data( update_constrained );
+    mutations[trait_ROOTS2]        = mutation_data( update_constrained );
+    mutations[trait_ROOTS3]        = mutation_data( update_constrained );
+    mutations[trait_LEAVES2]       = mutation_data( update_constrained );
+    mutations[trait_LEAVES3]       = mutation_data( update_constrained );
+    mutations[trait_MASOCHIST]     = mutation_data( update_masochist );
+    mutations[trait_MASOCHIST_MED] = mutation_data( update_masochist );
+    mutations[trait_CENOBITE]      = mutation_data( update_masochist );
 }
 
 void player_morale::add( morale_type type, int bonus, int max_bonus,
@@ -853,9 +866,9 @@ void player_morale::update_stylish_bonus()
 
 void player_morale::update_masochist_bonus()
 {
-    const bool amateur_masochist = has_mutation( trait_id( "MASOCHIST" ) );
-    const bool advanced_masochist = has_mutation( trait_id( "MASOCHIST_MED" ) ) ||
-                                    has_mutation( trait_id( "CENOBITE" ) );
+    const bool amateur_masochist = has_mutation( trait_MASOCHIST );
+    const bool advanced_masochist = has_mutation( trait_MASOCHIST_MED ) ||
+                                    has_mutation( trait_CENOBITE );
     const bool any_masochist = amateur_masochist || advanced_masochist;
 
     int bonus = 0;
@@ -910,15 +923,15 @@ void player_morale::update_constrained_penalty()
     };
     int pen = 0;
 
-    if( has_mutation( trait_id( "FLOWERS" ) ) ) {
+    if( has_mutation( trait_FLOWERS ) ) {
         pen += bp_pen( bp_head, 10 );
     }
-    if( has_mutation( trait_id( "ROOTS1" ) ) || has_mutation( trait_id( "ROOTS2" ) ) ||
-        has_mutation( trait_id( "ROOTS3" ) ) ) {
+    if( has_mutation( trait_ROOTS1 ) || has_mutation( trait_ROOTS2 ) ||
+        has_mutation( trait_ROOTS3 ) ) {
         pen += bp_pen( bp_foot_l, 5 );
         pen += bp_pen( bp_foot_r, 5 );
     }
-    if( has_mutation( trait_id( "LEAVES2" ) ) || has_mutation( trait_id( "LEAVES3" ) ) ) {
+    if( has_mutation( trait_LEAVES2 ) || has_mutation( trait_LEAVES3 ) ) {
         pen += bp_pen( bp_arm_l, 5 );
         pen += bp_pen( bp_arm_r, 5 );
     }

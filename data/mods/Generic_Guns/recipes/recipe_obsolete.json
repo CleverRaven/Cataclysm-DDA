@@ -256,6 +256,11 @@
   },
   {
     "type": "recipe",
+    "result": "pipe_combination_gun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "rifle_9mm",
     "obsolete": true
   },

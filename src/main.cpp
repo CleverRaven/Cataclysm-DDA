@@ -576,10 +576,6 @@ int main( int argc, char *argv[] )
     }
 #endif
 
-    get_options().init();
-    get_options().load();
-    set_language();
-
 #if defined(TILES)
     SDL_version compiled;
     SDL_VERSION( &compiled );
@@ -596,6 +592,11 @@ int main( int argc, char *argv[] )
                                << static_cast<int>( linked.patch );
 #endif
 
+#if !defined(TILES)
+    get_options().init();
+    get_options().load();
+#endif
+
     // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
     if( !test_mode ) {
         try {
@@ -610,6 +611,8 @@ int main( int argc, char *argv[] )
             return 1;
         }
     }
+
+    set_language();
 
     rng_set_engine_seed( seed );
 

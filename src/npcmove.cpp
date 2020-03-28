@@ -9,7 +9,9 @@
 #include <tuple>
 #include <cmath>
 #include <type_traits>
+#include <cfloat>
 
+#include "activity_handlers.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_algo.h"
@@ -61,11 +63,33 @@
 #include "overmap.h"
 #include "stomach.h"
 
-static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
-static constexpr float NPC_DANGER_MAX = 150.0f;
-static constexpr float MAX_FLOAT = 5000000000.0f;
+static const activity_id ACT_PULP( "ACT_PULP" );
+
+static const ammotype ammo_reactor_slurry( "reactor_slurry" );
+static const ammotype ammo_plutonium( "plutonium" );
 
 static const skill_id skill_firstaid( "firstaid" );
+
+static const bionic_id bio_ads( "bio_ads" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_blade( "bio_blade" );
+static const bionic_id bio_claws( "bio_claws" );
+static const bionic_id bio_faraday( "bio_faraday" );
+static const bionic_id bio_furnace( "bio_furnace" );
+static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
+static const bionic_id bio_heatsink( "bio_heatsink" );
+static const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_laser( "bio_laser" );
+static const bionic_id bio_leukocyte( "bio_leukocyte" );
+static const bionic_id bio_lightning( "bio_chain_lightning" );
+static const bionic_id bio_nanobots( "bio_nanobots" );
+static const bionic_id bio_ods( "bio_ods" );
+static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_plutfilter( "bio_plutfilter" );
+static const bionic_id bio_radscrubber( "bio_radscrubber" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_shock( "bio_shock" );
+static const bionic_id bio_soporific( "bio_soporific" );
 
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
@@ -79,47 +103,16 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
+static const efftype_id effect_npc_run_away( "npc_run_away" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_stunned( "stunned" );
 
-// power source CBMs
-static const bionic_id bio_advreactor( "bio_advreactor" );
-static const bionic_id bio_furnace( "bio_furnace" );
-static const bionic_id bio_reactor( "bio_reactor" );
-
-// active defense CBMs - activate when in danger
-static const bionic_id bio_ads( "bio_ads" );
-static const bionic_id bio_faraday( "bio_faraday" );
-static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
-static const bionic_id bio_heat_sink( "bio_heatsink" );
-static const bionic_id bio_ods( "bio_ods" );
-static const bionic_id bio_shock( "bio_shock" );
-
-// special health CBMs - activate as needed
-static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_nanobots( "bio_nanobots" );
-static const bionic_id bio_radscrubber( "bio_radscrubber" );
-static const bionic_id bio_soporific( "bio_soporific" );
-
-// health CBMs - always activate
-static const bionic_id bio_leukocyte( "bio_leukocyte" );
-static const bionic_id bio_plutfilter( "bio_plutfilter" );
-
-// melee CBMs - activate for melee combat
-static const bionic_id bio_hydraulics( "bio_hydraulics" );
-
-// weapon CBMs - activate in combat if they're better than what we have
-static const bionic_id bio_lightning( "bio_chain_lightning" );
-static const bionic_id bio_laser( "bio_laser" );
-static const bionic_id bio_blade( "bio_blade" );
-static const bionic_id bio_claws( "bio_claws" );
-
-static const ammotype reactor_slurry( "reactor_slurry" );
-static const ammotype plutonium( "plutonium" );
+static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
+static constexpr float NPC_DANGER_MAX = 150.0f;
+static constexpr float MAX_FLOAT = 5000000000.0f;
 
 enum npc_action : int {
     npc_undecided = 0,
@@ -154,7 +147,7 @@ const std::vector<bionic_id> defense_cbms = { {
         bio_ads,
         bio_faraday,
         bio_heat_absorb,
-        bio_heat_sink,
+        bio_heatsink,
         bio_ods,
         bio_shock
     }
@@ -243,7 +236,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         return rating;
     };
 
-    float best_rating = include_pos ? rate_pt( pos(), 0.0f ) :  INT_MAX;
+    float best_rating = include_pos ? rate_pt( pos(), 0.0f ) : FLT_MAX;
     candidates.emplace_back( pos() );
 
     std::map<direction, float> adj_map;
@@ -1655,7 +1648,7 @@ bool npc::recharge_cbm()
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
                 for( const itype_id &fid : bid->fuel_opts ) {
-                    return it.typeId() == fid;
+                    return it.typeId() == fid || ( !it.is_container_empty() && it.contents.front().typeId() == fid );
                 }
                 return false;
             };
@@ -1695,8 +1688,8 @@ bool npc::recharge_cbm()
 
     if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
         const std::function<bool( const item & )> reactor_filter = []( const item & it ) {
-            return it.is_ammo() && ( it.ammo_type() == plutonium ||
-                                     it.ammo_type() == reactor_slurry );
+            return it.is_ammo() && ( it.ammo_type() == ammo_plutonium ||
+                                     it.ammo_type() == ammo_reactor_slurry );
         };
         if( consume_cbm_items( reactor_filter ) ) {
             return true;
@@ -2660,7 +2653,7 @@ void npc::find_item()
     //int range = sight_range( g->light_level( posz() ) );
     //range = std::max( 1, std::min( 12, range ) );
 
-    static const zone_type_id no_pickup( "NO_NPC_PICKUP" );
+    static const zone_type_id zone_type_no_npc_pickup( "NO_NPC_PICKUP" );
 
     const item *wanted = nullptr;
 
@@ -2730,7 +2723,7 @@ void npc::find_item()
     for( const tripoint &p : closest_tripoints_first( pos(), range ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
-        if( is_player_ally() && g->check_zone( no_pickup, p ) ) {
+        if( is_player_ally() && g->check_zone( zone_type_no_npc_pickup, p ) ) {
             continue;
         }
 
@@ -3181,7 +3174,7 @@ bool npc::do_pulp()
     }
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
-    assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
+    assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
     activity.placement = g->m.getabs( *pulp_location );
     activity.do_turn( *this );
     return moves != old_moves;
@@ -3190,11 +3183,34 @@ bool npc::do_pulp()
 bool npc::do_player_activity()
 {
     int old_moves = moves;
+    if( moves > 200 && activity && ( activity.is_multi_type() ||
+                                     activity.id() == activity_id( "ACT_TIDY_UP" ) ) ) {
+        // a huge backlog of a multi-activity type can forever loop
+        // instead; just scan the map ONCE for a task to do, and if it returns false
+        // then stop scanning, abandon the activity, and kill the backlog of moves.
+        if( !generic_multi_activity_handler( activity, *this->as_player(), true ) ) {
+            revert_after_activity();
+            set_moves( 0 );
+            return true;
+        }
+    }
+    // the multi-activity types can sometimes cancel the activity, and return without using up any moves.
+    // ( when they are setting a destination etc )
+    // normally this isnt a problem, but in the main game loop, if the NPC has a huge backlog of moves;
+    // then each of these occurences will nudge the infinite loop counter up by one.
+    // ( even if other move-using things occur inbetween )
+    // so here - if no moves are used in a multi-type activity do_turn(), then subtract a nominal amount
+    // to satisfy the infinite loop counter.
+    const bool multi_type = activity ? activity.is_multi_type() : false;
+    const int moves_before = moves;
     while( moves > 0 && activity ) {
         activity.do_turn( *this );
         if( !is_active() ) {
             return true;
         }
+    }
+    if( multi_type && moves == moves_before ) {
+        moves -= 1;
     }
     /* if the activity is finished, grab any backlog or change the mission */
     if( !has_destination() && !activity ) {
@@ -3203,7 +3219,9 @@ bool npc::do_player_activity()
             backlog.pop_front();
             current_activity_id = activity.id();
         } else {
-            add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+            if( is_player_ally() ) {
+                add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+            }
             current_activity_id = activity_id::NULL_ID();
             revert_after_activity();
             // if we loaded after being out of the bubble for a while, we might have more
@@ -4033,7 +4051,7 @@ void npc::go_to_omt_destination()
         return;
     }
     // get the next path point
-    if( !omt_path.empty() && omt_path.back() == omt_pos ) {
+    if( omt_path.back() == omt_pos ) {
         // this should be the square we are at.
         omt_path.pop_back();
     }

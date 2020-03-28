@@ -94,7 +94,7 @@ class safemode
         rule_state check_monster( const std::string &creature_name_in, Creature::Attitude attitude_in,
                                   int proximity_in ) const;
 
-        bool is_sound_safe( const std::string &sound_name_in, const int proximity_in ) const;
+        bool is_sound_safe( const std::string &sound_name_in, int proximity_in ) const;
 
         std::string npc_type_name();
 

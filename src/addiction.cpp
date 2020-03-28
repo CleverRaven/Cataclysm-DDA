@@ -11,7 +11,11 @@
 #include "translations.h"
 #include "calendar.h"
 #include "enums.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_shakes( "shakes" );
+
+static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 
 namespace io
 {
@@ -203,7 +207,7 @@ void addict_effect( Character &u, addiction &add )
         }
 
         case ADD_MUTAGEN:
-            if( u.has_trait( trait_id( "MUT_JUNKIE" ) ) ) {
+            if( u.has_trait( trait_MUT_JUNKIE ) ) {
                 if( one_in( 600 - 50 * in ) ) {
                     u.add_msg_if_player( m_warning, rng( 0,
                                                          6 ) < in ? _( "You so miss the exquisite rainbow of post-humanity." ) :
