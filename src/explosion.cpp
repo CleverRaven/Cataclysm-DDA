@@ -82,6 +82,14 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
+static const bodypart_id torso_bp( "torso" );
+static const bodypart_id head_bp( "head" );
+static const bodypart_id eyes_bp( "eyes" );
+static const bodypart_id leg_l_bp( "leg_l" );
+static const bodypart_id leg_r_bp( "leg_r" );
+static const bodypart_id arm_l_bp( "arm_l" );
+static const bodypart_id arm_r_bp( "arm_r" );
+
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
 float fragment_mass = 0.0001;
@@ -311,7 +319,7 @@ static void do_blast( const tripoint &p, const float power,
             // TODO: player's fault?
             const double dmg = force - critter->get_armor_bash( bp_torso ) / 2.0;
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
-            critter->apply_damage( nullptr, bp_torso, actual_dmg );
+            critter->apply_damage( nullptr, torso_bp, actual_dmg );
             critter->check_dead_state();
             add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
             continue;
@@ -322,26 +330,26 @@ static void do_blast( const tripoint &p, const float power,
                                    _( "<npcname> is caught in the explosion!" ) );
 
         struct blastable_part {
-            body_part bp;
+            bodypart_id bp;
             float low_mul;
             float high_mul;
             float armor_mul;
         };
 
         static const std::array<blastable_part, 6> blast_parts = { {
-                { bp_torso, 2.0f, 3.0f, 0.5f },
-                { bp_head,  2.0f, 3.0f, 0.5f },
+                { torso_bp, 2.0f, 3.0f, 0.5f },
+                { head_bp,  2.0f, 3.0f, 0.5f },
                 // Hit limbs harder so that it hurts more without being much more deadly
-                { bp_leg_l, 2.0f, 3.5f, 0.4f },
-                { bp_leg_r, 2.0f, 3.5f, 0.4f },
-                { bp_arm_l, 2.0f, 3.5f, 0.4f },
-                { bp_arm_r, 2.0f, 3.5f, 0.4f },
+                { leg_l_bp, 2.0f, 3.5f, 0.4f },
+                { leg_r_bp, 2.0f, 3.5f, 0.4f },
+                { arm_l_bp, 2.0f, 3.5f, 0.4f },
+                { arm_r_bp, 2.0f, 3.5f, 0.4f },
             }
         };
 
         for( const auto &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
-            const std::string hit_part_name = body_part_name_accusative( blp.bp );
+            const std::string hit_part_name = body_part_name_accusative( blp.bp->token );
             const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blp.armor_mul );
             const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
@@ -562,7 +570,7 @@ void flashbang( const tripoint &p, bool player_immune )
             } else if( g->u.worn_with_flag( flag_BLIND ) || g->u.worn_with_flag( flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
-            g->u.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
+            g->u.add_env_effect( effect_blind, eyes_bp, ( 12 - flash_mod - dist ) / 2,
                                  time_duration::from_turns( 10 - dist ) );
         }
     }
@@ -709,7 +717,7 @@ void emp_blast( const tripoint &p )
                     add_msg( _( "The EMP blast fries the %s!" ), critter.name() );
                 }
                 int dam = dice( 10, 10 );
-                critter.apply_damage( nullptr, bp_torso, dam );
+                critter.apply_damage( nullptr, torso_bp, dam );
                 critter.check_dead_state();
                 if( !critter.is_dead() && one_in( 6 ) ) {
                     critter.make_friendly();
@@ -725,7 +733,7 @@ void emp_blast( const tripoint &p )
                          critter.name() );
                 add_msg( m_good, _( "It takes %d damage." ), dam );
                 critter.add_effect( effect_emp, 1_minutes );
-                critter.apply_damage( nullptr, bp_torso, dam );
+                critter.apply_damage( nullptr, torso_bp, dam );
                 critter.check_dead_state();
             }
         } else if( sight ) {
