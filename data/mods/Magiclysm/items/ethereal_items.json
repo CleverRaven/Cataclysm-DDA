@@ -281,7 +281,7 @@
     "symbol": "(",
     "color": "yellow",
     "looks_like": "recurbow",
-    "name": "Woodbow",
+    "name": { "str": "Woodbow" },
     "description": "A magically conjured ornate recurve bow of solid flexible wood.  A matching conjured wooden arrow appears when you draw the string back for firing.",
     "flags": [
       "FIRE_TWOHAND",

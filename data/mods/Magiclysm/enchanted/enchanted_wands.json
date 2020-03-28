@@ -19,7 +19,7 @@
   },
   {
     "abstract": "disp_wand",
-    "name": "Disposable Wand",
+    "name": { "str": "Disposable Wand" },
     "type": "TOOL",
     "weight": "230 g",
     "volume": "500 ml",
