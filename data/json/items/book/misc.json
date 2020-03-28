@@ -538,7 +538,7 @@
   {
     "id": "novel_crime",
     "type": "BOOK",
-    "name": "crime novel",
+    "name": { "str": "crime novel" },
     "copy-from": "book_fict_soft_tpl",
     "description": "After their diamond heist goes wrong, the surviving criminals begin to suspect that one of them is a police informant.",
     "intelligence": 6,
@@ -769,7 +769,7 @@
   {
     "id": "novel_satire",
     "type": "BOOK",
-    "name": "satire novel",
+    "name": { "str": "satire novel" },
     "copy-from": "book_fict_soft_satire_tpl",
     "description": "A political satire of the pre-apocalypse world.  Looking back on it from this side of Armageddon makes it seem all the more ridiculous.",
     "weight": "520 g",
