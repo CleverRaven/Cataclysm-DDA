@@ -370,6 +370,16 @@ TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" 
     avatar dummy;
 
     item &caff_gum = dummy.i_add( item( "caff_gum" ) );
+
+    // This is a regression test for gum having "junk" material, and being
+    // treated as junk food (despite not being ingested). At the time of
+    // writing this test, gum and caffeinated gum are made of "junk", and thus
+    // are treated as junk food, but might not always be so. Here we set the
+    // relevant flags to cover the scenario we're interested in, namely any
+    // comestible having both "junk" and "no ingest" flags.
+    caff_gum.set_flag( "ALLERGEN_JUNK" );
+    caff_gum.set_flag( "NO_INGEST" );
+
     REQUIRE( caff_gum.has_flag( "ALLERGEN_JUNK" ) );
     REQUIRE( caff_gum.has_flag( "NO_INGEST" ) );
 
