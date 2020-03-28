@@ -78,6 +78,9 @@ static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
+static const bodypart_id default_bp( "num_bp" );
+static const bodypart_id eyes_bp( "eyes" );
+
 void mdeath::normal( monster &z )
 {
     if( z.no_corpse_quiet ) {
@@ -252,7 +255,7 @@ void mdeath::boomer( monster &z )
     }
 
     if( rl_dist( z.pos(), g->u.pos() ) == 1 ) {
-        g->u.add_env_effect( effect_boomered, bp_eyes, 2, 24_turns );
+        g->u.add_env_effect( effect_boomered, eyes_bp, 2, 24_turns );
     }
 
     g->m.propagate_field( z.pos(), fd_bile, 15, 1 );
@@ -270,9 +273,9 @@ void mdeath::boomer_glow( monster &z )
             z->moves -= 250;
         }
         if( Creature *const critter = g->critter_at( dest ) ) {
-            critter->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
+            critter->add_env_effect( effect_boomered, eyes_bp, 5, 25_turns );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
-                body_part bp = critter->get_random_body_part( false )->token;
+                bodypart_id bp = critter->get_random_body_part( false );
                 critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if( critter->has_effect( effect_glowing ) ) {
                     break;
@@ -820,7 +823,7 @@ void mdeath::detonate( monster &z )
         }
     }
     // HACK, used to stop them from having ammo on respawn
-    z.add_effect( effect_no_ammo, 1_turns, num_bp, true );
+    z.add_effect( effect_no_ammo, 1_turns, default_bp, true );
 
     // First die normally
     mdeath::normal( z );
