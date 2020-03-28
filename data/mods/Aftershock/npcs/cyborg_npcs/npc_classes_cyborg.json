@@ -53,7 +53,11 @@
     "id": "NC_CYBERNINJA",
     "name": { "str": "Corporate Wetworks Operative" },
     "job_description": "I made a good living working in the shadows of the old world.  I can survive it's twilight.",
-    "traits": [ { "group": "BG_survival_story_CYBERNINJA" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_CYBERNINJA" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },
       { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },

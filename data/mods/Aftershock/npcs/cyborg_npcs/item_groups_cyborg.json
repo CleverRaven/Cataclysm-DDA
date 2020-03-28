@@ -14,9 +14,9 @@
     ]
   },
   {
-    "type": "item_group",
+    "type": "collection",
     "id": "NC_GANGER_carried",
-    "items": [ [ "ear_plugs", 100 ], [ "group": "NC_GANGER_misc", "count-min": 3, "count-max": 6 ] ]
+    "items": [ [ "ear_plugs", 100 ], { "group": "NC_GANGER_misc", "count-min": 3, "count-max": 6 } ]
   },
   {
     "id": "NC_GANGER_melee",
@@ -176,7 +176,7 @@
   {
     "type": "item_group",
     "id": "NC_CYBERNINJA_carried",
-    "items": [ [ "ear_plugs", 100 ], [ "group": "NC_CYBERNINJA_misc", "count-min": 3, "count-max": 6 ] ]
+    "items": [ [ "ear_plugs", 100 ], { "group": "NC_CYBERNINJA_misc", "count-min": 3, "count-max": 6 } ]
   },
   {
     "id": "NC_CYBERNINJA_melee",
@@ -186,7 +186,12 @@
   {
     "id": "NC_CYBERNINJA_wield",
     "type": "item_group",
-    "items": [ { "group": "NC_CYBERNINJA_melee", "prob": 100 }, { "group": "guns_smg_milspec", "prob": 40 }, { "group": "guns_pistol_obscure", "prob": 30 }, { "group": "guns_rifle_milspec", "prob": 30 } ]
+    "items": [
+      { "group": "NC_CYBERNINJA_melee", "prob": 100 },
+      { "group": "guns_smg_milspec", "prob": 40 },
+      { "group": "guns_pistol_obscure", "prob": 30 },
+      { "group": "guns_rifle_milspec", "prob": 30 }
+    ]
   },
   {
     "id": "NC_CYBERNINJA_misc",
