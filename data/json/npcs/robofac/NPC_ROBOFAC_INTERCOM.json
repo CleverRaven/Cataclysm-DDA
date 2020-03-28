@@ -40,7 +40,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_1",
     "type": "mission_definition",
-    "name": "Return Field Data",
+    "name": { "str": "Return Field Data" },
     "description": "Investigate a nearby field and return with Dr. Prado and the robot prototype she was testing.  Failing that, retrieve the I/O recorder stored within the robot.  If the robot remains operational, avoid direct confrontation and use EMP grenades to disable it.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
@@ -106,7 +106,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_2",
     "type": "mission_definition",
-    "name": "Steal a dead man's mind",
+    "name": { "str": "Steal a dead man's mind" },
     "description": "Find the corpse of a Hub 01's AI researcher and use the mind splicer kit to recover the memories stored inside their memory implant.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
