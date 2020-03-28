@@ -392,7 +392,7 @@ class map
         void create_hot_air( const tripoint &p, int intensity );
         bool gas_can_spread_to( field_entry &cur, const maptile &dst );
         void gas_spread_to( field_entry &cur, maptile &dst );
-        int burn_body_part( player &u, field_entry &cur, body_part bp, int scale );
+        int burn_body_part( player &u, field_entry &cur, bodypart_id bp, int scale );
     public:
 
         // Movement and LOS

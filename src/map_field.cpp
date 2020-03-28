@@ -89,6 +89,20 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 
+static const bodypart_id default_bp( "num_bp" );
+static const bodypart_id torso_bp( "torso" );
+static const bodypart_id head_bp( "head" );
+static const bodypart_id eyes_bp( "eyes" );
+static const bodypart_id mouth_bp( "mouth" );
+static const bodypart_id leg_l_bp( "leg_l" );
+static const bodypart_id leg_r_bp( "leg_r" );
+static const bodypart_id arm_l_bp( "arm_l" );
+static const bodypart_id arm_r_bp( "arm_r" );
+static const bodypart_id foot_l_bp( "foot_l" );
+static const bodypart_id foot_r_bp( "foot_r" );
+static const bodypart_id hand_l_bp( "hand_l" );
+static const bodypart_id hand_r_bp( "hand_r" );
+
 void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
     std::vector<material_id> all_mats = fuel.made_of();
@@ -117,13 +131,13 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
 }
 
 // Use a helper for a bit less boilerplate
-int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int scale )
+int map::burn_body_part( player &u, field_entry &cur, bodypart_id bp, const int scale )
 {
     int total_damage = 0;
     const int intensity = cur.get_field_intensity();
     const int damage = rng( 1, scale + intensity );
     // A bit ugly, but better than being annoyed by acid when in hazmat
-    if( u.get_armor_type( DT_ACID, bp ) < damage ) {
+    if( u.get_armor_type( DT_ACID, bp->token ) < damage ) {
         const dealt_damage_instance ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
         total_damage += ddi.total_damage();
     }
@@ -1126,21 +1140,21 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 add_item_or_charges( newp, tmp );
                                 if( g->u.pos() == newp ) {
                                     add_msg( m_bad, _( "A %s hits you!" ), tmp.tname() );
-                                    body_part hit = g->u.get_random_body_part( false )->token;
+                                    bodypart_id hit = g->u.get_random_body_part( false );
                                     g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                     g->u.check_dead_state();
                                 }
 
                                 if( npc *const p = g->critter_at<npc>( newp ) ) {
                                     // TODO: combine with player character code above
-                                    body_part hit = g->u.get_random_body_part( false )->token;
+                                    bodypart_id hit = g->u.get_random_body_part( false );
                                     p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                     if( g->u.sees( newp ) ) {
                                         add_msg( _( "A %1$s hits %2$s!" ), tmp.tname(), p->name );
                                     }
                                     p->check_dead_state();
                                 } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
-                                    mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
+                                    mon->apply_damage( nullptr, torso_bp, 6 - mon->get_armor_bash( bp_torso ) );
                                     if( g->u.sees( newp ) ) {
                                         add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                                     }
@@ -1370,7 +1384,7 @@ void map::player_in_field( player &u )
             // Moving through multiple webs stacks the effect.
             if( !u.has_trait( trait_WEB_WALKER ) && !u.in_vehicle ) {
                 // Between 5 and 15 minus your current web level.
-                u.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
+                u.add_effect( effect_webbed, 1_turns, default_bp, true, cur.get_field_intensity() );
                 // It is spent.
                 cur.set_field_intensity( 0 );
                 continue;
@@ -1388,22 +1402,22 @@ void map::player_in_field( player &u )
                 int total_damage = 0;
                 const int intensity = cur.get_field_intensity();
                 // 1-3 at intensity, 1-4 at 2, 1-5 at 3
-                total_damage += burn_body_part( u, cur, bp_foot_l, 2 );
-                total_damage += burn_body_part( u, cur, bp_foot_r, 2 );
+                total_damage += burn_body_part( u, cur, foot_l_bp, 2 );
+                total_damage += burn_body_part( u, cur, foot_r_bp, 2 );
                 // 1 dmg at 1 intensity, 1-3 at 2, 1-5 at 3
-                total_damage += burn_body_part( u, cur, bp_leg_l, intensity - 1 );
-                total_damage += burn_body_part( u, cur, bp_leg_r, intensity - 1 );
+                total_damage += burn_body_part( u, cur, leg_l_bp, intensity - 1 );
+                total_damage += burn_body_part( u, cur, leg_r_bp, intensity - 1 );
                 const bool on_ground = u.is_on_ground();
                 if( on_ground ) {
                     // Before, it would just break the legs and leave the survivor alone
-                    total_damage += burn_body_part( u, cur, bp_hand_l, 2 );
-                    total_damage += burn_body_part( u, cur, bp_hand_r, 2 );
-                    total_damage += burn_body_part( u, cur, bp_torso, 2 );
+                    total_damage += burn_body_part( u, cur, hand_l_bp, 2 );
+                    total_damage += burn_body_part( u, cur, hand_r_bp, 2 );
+                    total_damage += burn_body_part( u, cur, torso_bp, 2 );
                     // Less arms = less ability to keep upright
                     if( ( !u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
-                        total_damage += burn_body_part( u, cur, bp_arm_l, 1 );
-                        total_damage += burn_body_part( u, cur, bp_arm_r, 1 );
-                        total_damage += burn_body_part( u, cur, bp_head, 1 );
+                        total_damage += burn_body_part( u, cur, arm_l_bp, 1 );
+                        total_damage += burn_body_part( u, cur, arm_r_bp, 1 );
+                        total_damage += burn_body_part( u, cur, head_bp, 1 );
                     }
                 }
 
@@ -1478,24 +1492,24 @@ void map::player_in_field( player &u )
 
                     const int burn_min = adjusted_intensity;
                     const int burn_max = 3 * adjusted_intensity + 3;
-                    std::list<body_part> parts_burned;
+                    std::list<bodypart_id> parts_burned;
                     int msg_num = adjusted_intensity - 1;
                     if( !u.is_on_ground() ) {
                         switch( adjusted_intensity ) {
                             case 3:
-                                parts_burned.push_back( bp_hand_l );
-                                parts_burned.push_back( bp_hand_r );
-                                parts_burned.push_back( bp_arm_l );
-                                parts_burned.push_back( bp_arm_r );
+                                parts_burned.push_back( hand_l_bp );
+                                parts_burned.push_back( hand_r_bp );
+                                parts_burned.push_back( arm_l_bp );
+                                parts_burned.push_back( arm_r_bp );
                             /* fallthrough */
                             case 2:
-                                parts_burned.push_back( bp_torso );
+                                parts_burned.push_back( torso_bp );
                             /* fallthrough */
                             case 1:
-                                parts_burned.push_back( bp_foot_l );
-                                parts_burned.push_back( bp_foot_r );
-                                parts_burned.push_back( bp_leg_l );
-                                parts_burned.push_back( bp_leg_r );
+                                parts_burned.push_back( foot_r_bp );
+                                parts_burned.push_back( foot_l_bp );
+                                parts_burned.push_back( leg_l_bp );
+                                parts_burned.push_back( leg_r_bp );
                         }
                     } else {
                         // Lying in the fire is BAAAD news, hits every body part.
@@ -1504,7 +1518,7 @@ void map::player_in_field( player &u )
                     }
 
                     int total_damage = 0;
-                    for( body_part part_burned : parts_burned ) {
+                    for( const bodypart_id part_burned : parts_burned ) {
                         const dealt_damage_instance dealt = u.deal_damage( nullptr, part_burned,
                                                             damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
                         total_damage += dealt.type_damage( DT_HEAT );
@@ -1522,23 +1536,23 @@ void map::player_in_field( player &u )
         if( ft == fd_tear_gas ) {
             // Tear gas will both give you teargas disease and/or blind you.
             if( ( cur.get_field_intensity() > 1 || !one_in( 3 ) ) && ( !inside || one_in( 3 ) ) ) {
-                u.add_env_effect( effect_teargas, bp_mouth, 5, 20_seconds );
+                u.add_env_effect( effect_teargas, mouth_bp, 5, 20_seconds );
             }
             if( cur.get_field_intensity() > 1 && ( !inside || one_in( 3 ) ) ) {
-                u.add_env_effect( effect_blind, bp_eyes, cur.get_field_intensity() * 2, 10_seconds );
+                u.add_env_effect( effect_blind, eyes_bp, cur.get_field_intensity() * 2, 10_seconds );
             }
         }
         if( ft == fd_fungal_haze ) {
             if( !u.has_trait( trait_M_IMMUNE ) && ( !inside || one_in( 4 ) ) ) {
-                u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp, true );
-                u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp, true );
+                u.add_env_effect( effect_fungus, mouth_bp, 4, 10_minutes, default_bp, true );
+                u.add_env_effect( effect_fungus, eyes_bp, 4, 10_minutes, default_bp, true );
             }
         }
         if( ft == fd_dazzling ) {
             if( cur.get_field_intensity() > 1 || one_in( 5 ) ) {
-                u.add_env_effect( effect_blind, bp_eyes, 10, 10_turns );
+                u.add_env_effect( effect_blind, eyes_bp, 10, 10_turns );
             } else {
-                u.add_env_effect( effect_blind, bp_eyes, 2, 2_turns );
+                u.add_env_effect( effect_blind, eyes_bp, 2, 2_turns );
             }
         }
 
@@ -1562,9 +1576,9 @@ void map::player_in_field( player &u )
                     !u.is_wearing( "rm13_armor_on" ) ) {
                     u.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
                                              _( "<npcname> is torched by flames!" ) );
-                    u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                    u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
-                    u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
+                    u.deal_damage( nullptr, leg_l_bp, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
+                    u.deal_damage( nullptr, leg_r_bp, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
+                    u.deal_damage( nullptr, torso_bp, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
                     u.check_dead_state();
                 } else {
                     u.add_msg_player_or_npc( _( "These flames do not burn you." ),
@@ -1577,7 +1591,7 @@ void map::player_in_field( player &u )
             if( !u.is_elec_immune() ) {
                 int total_damage = 0;
                 for( size_t i = 0; i < num_hp_parts; i++ ) {
-                    const body_part bp = player::hp_to_bp( static_cast<hp_part>( i ) );
+                    const bodypart_id bp = player::hp_to_bp( static_cast<hp_part>( i ) );
                     const int dmg = rng( 1, cur.get_field_intensity() );
                     total_damage += u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, dmg ) ).total_damage();
                 }
@@ -1615,18 +1629,20 @@ void map::player_in_field( player &u )
                 const int intensity = cur.get_field_intensity();
                 // Bees will try to sting you in random body parts, up to 8 times.
                 for( int i = 0; i < rng( 1, 7 ); i++ ) {
-                    body_part bp = u.get_random_body_part( false )->token;
+                    bodypart_id bp = u.get_random_body_part( false );
                     int sum_cover = 0;
                     for( const item &i : u.worn ) {
-                        if( i.covers( bp ) ) {
+                        if( i.covers( bp->token ) ) {
                             sum_cover += i.get_coverage();
                         }
                     }
                     // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]
                     // AND clothing on affected body part has low environmental protection value
-                    if( ( u.get_armor_cut( bp ) <= 1 || ( sum_cover < 100 && x_in_y( 100 - sum_cover, 100 ) ) ) &&
+                    if( ( u.get_armor_cut( bp->token ) <= 1 || ( sum_cover < 100 &&
+                            x_in_y( 100 - sum_cover, 100 ) ) ) &&
                         u.add_env_effect( effect_stung, bp, intensity, 9_minutes ) ) {
-                        u.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ), body_part_name_accusative( bp ) );
+                        u.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ),
+                                             body_part_name_accusative( bp->token ) );
                     }
                 }
             }
@@ -1642,7 +1658,7 @@ void map::player_in_field( player &u )
             } else {
                 u.add_msg_player_or_npc( m_bad, _( "The incendiary melts into your skin!" ),
                                          _( "The incendiary melts into <npcname>s skin!" ) );
-                u.add_effect( effect_onfire, 8_turns, bp_torso );
+                u.add_effect( effect_onfire, 8_turns, torso_bp );
                 u.hurtall( rng( 2, 6 ), nullptr );
             }
         }
@@ -1654,11 +1670,11 @@ void map::player_in_field( player &u )
                 if( !( u.worn_with_flag( flag_GAS_PROOF ) && u.get_env_resist( bp_mouth ) >= 15 &&
                        u.get_env_resist( bp_eyes ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();
-                    bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
+                    bool inhaled = u.add_env_effect( effect_poison, mouth_bp, 5, intensity * 1_minutes );
                     if( u.has_trait( trait_THRESH_MYCUS ) || u.has_trait( trait_THRESH_MARLOSS ) ||
                         ( ft == fd_insecticidal_gas && ( u.get_highest_category() == "INSECT" ||
                                                          u.get_highest_category() == "SPIDER" ) ) ) {
-                        inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
+                        inhaled |= u.add_env_effect( effect_badpoison, mouth_bp, 5, intensity * 1_minutes );
                         u.hurtall( rng( intensity, intensity * 2 ), nullptr );
                         u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
                     }
@@ -1765,14 +1781,14 @@ void map::monster_in_field( monster &z )
         const field_type_id cur_field_type = cur.get_field_type();
         if( cur_field_type == fd_web ) {
             if( !z.has_flag( MF_WEBWALK ) ) {
-                z.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
+                z.add_effect( effect_webbed, 1_turns, default_bp, true, cur.get_field_intensity() );
                 cur.set_field_intensity( 0 );
             }
         }
         if( cur_field_type == fd_acid ) {
             if( !z.flies() ) {
                 const int d = rng( cur.get_field_intensity(), cur.get_field_intensity() * 3 );
-                z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
+                z.deal_damage( nullptr, torso_bp, damage_instance( DT_ACID, d ) );
                 z.check_dead_state();
             }
 
@@ -1925,7 +1941,7 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_electricity ) {
             // We don't want to increase dam, but deal a separate hit so that it can apply effects
-            z.deal_damage( nullptr, bp_torso,
+            z.deal_damage( nullptr, torso_bp,
                            damage_instance( DT_ELECTRIC, rng( 1, cur.get_field_intensity() * 3 ) ) );
         }
         if( cur_field_type == fd_fatigue ) {
@@ -1995,7 +2011,7 @@ void map::monster_in_field( monster &z )
     }
 
     if( dam > 0 ) {
-        z.apply_damage( nullptr, bp_torso, dam, true );
+        z.apply_damage( nullptr, torso_bp, dam, true );
         z.check_dead_state();
     }
 }
