@@ -105,6 +105,14 @@ static const efftype_id effect_amigara( "amigara" );
 
 static const species_id HUMAN( "HUMAN" );
 
+static const bodypart_id default_bp( "num_bp" );
+static const bodypart_id leg_l_bp( "leg_l" );
+static const bodypart_id leg_r_bp( "leg_r" );
+static const bodypart_id arm_l_bp( "arm_l" );
+static const bodypart_id arm_r_bp( "arm_r" );
+static const bodypart_id hand_l_bp( "hand_l" );
+static const bodypart_id hand_r_bp( "hand_r" );
+
 void player_hit_message( player *attacker, const std::string &message,
                          Creature &t, int dam, bool crit = false );
 int  stumble( player &u, const item &weap );
@@ -587,7 +595,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
     did_hit( t );
     if( t.as_character() ) {
         dealt_projectile_attack dp = dealt_projectile_attack();
-        t.as_character()->on_hit( this, body_part::num_bp, 0.0f, &dp );
+        t.as_character()->on_hit( this, default_bp, 0.0f, &dp );
     }
     return;
 }
@@ -1509,7 +1517,7 @@ item &player::best_shield()
     return *best;
 }
 
-bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &dam )
+bool player::block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
 {
 
     // Shouldn't block if player is asleep or winded ; this only seems to be used by player.
@@ -1623,21 +1631,21 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     } else {
         //Choose which body part to block with, assume left side first
         if( martial_arts_data.can_leg_block( *this ) && martial_arts_data.can_arm_block( *this ) ) {
-            bp_hit = one_in( 2 ) ? bp_leg_l : bp_arm_l;
+            bp_hit = one_in( 2 ) ? leg_l_bp : arm_l_bp;
         } else if( martial_arts_data.can_leg_block( *this ) ) {
-            bp_hit = bp_leg_l;
+            bp_hit = leg_l_bp;
         } else {
-            bp_hit = bp_arm_l;
+            bp_hit = arm_l_bp;
         }
 
         // Check if we should actually use the right side to block
-        if( bp_hit == bp_leg_l ) {
+        if( bp_hit == leg_l_bp ) {
             if( hp_cur[hp_leg_r] > hp_cur[hp_leg_l] ) {
-                bp_hit = bp_leg_r;
+                bp_hit = leg_r_bp;
             }
         } else {
             if( hp_cur[hp_arm_r] > hp_cur[hp_arm_l] ) {
-                bp_hit = bp_arm_r;
+                bp_hit = arm_r_bp;
             }
         }
 
@@ -1761,9 +1769,9 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
     //Hurting the wielder from poorly-chosen weapons
     if( weap.has_flag( "HURT_WHEN_WIELDED" ) && x_in_y( 2, 3 ) ) {
         add_msg_if_player( m_bad, _( "The %s cuts your hand!" ), weap.tname() );
-        deal_damage( nullptr, bp_hand_r, damage_instance::physical( 0, weap.damage_melee( DT_CUT ), 0 ) );
+        deal_damage( nullptr, hand_r_bp, damage_instance::physical( 0, weap.damage_melee( DT_CUT ), 0 ) );
         if( weap.is_two_handed( *this ) ) { // Hurt left hand too, if it was big
-            deal_damage( nullptr, bp_hand_l, damage_instance::physical( 0, weap.damage_melee( DT_CUT ), 0 ) );
+            deal_damage( nullptr, hand_l_bp, damage_instance::physical( 0, weap.damage_melee( DT_CUT ), 0 ) );
         }
     }
 
@@ -1787,10 +1795,10 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
             g->m.add_item_or_charges( pos(), elem );
         }
         // Take damage
-        deal_damage( nullptr, bp_arm_r, damage_instance::physical( 0, rng( 0, vol * 2 ), 0 ) );
+        deal_damage( nullptr, arm_r_bp, damage_instance::physical( 0, rng( 0, vol * 2 ), 0 ) );
         if( weap.is_two_handed( *this ) ) { // Hurt left arm too, if it was big
             //redeclare shatter_dam because deal_damage mutates it
-            deal_damage( nullptr, bp_arm_l, damage_instance::physical( 0, rng( 0, vol * 2 ), 0 ) );
+            deal_damage( nullptr, arm_l_bp, damage_instance::physical( 0, rng( 0, vol * 2 ), 0 ) );
         }
         d.add_damage( DT_CUT, rng( 0, 5 + static_cast<int>( vol * 1.5 ) ) ); // Hurt the monster extra
         remove_weapon();
