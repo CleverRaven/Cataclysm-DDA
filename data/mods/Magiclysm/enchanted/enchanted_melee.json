@@ -833,7 +833,7 @@
   {
     "id": "rune_stormshaper_weapon",
     "type": "GENERIC",
-    "name": "Stormshaper axe",
+    "name": { "str": "Stormshaper axe" },
     "//": "Equivalent to copper ax +1, with volume reduction so it can be sheathed like the other school weapons.  Metals chosen for being two most conductive metals + balancing reasons",
     "description": "A forged copper axe with silver trimmings and a wooden handle.  There is a Stormshaper rune embedded in the eye.",
     "weight": "3330 g",
