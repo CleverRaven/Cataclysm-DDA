@@ -1156,32 +1156,33 @@ void Character::modify_morale( item &food, const int nutr )
         }
     }
 
-    // Allergy check
-    const auto allergy = allergy_type( food );
-    if( allergy != MORALE_NULL ) {
-        add_msg_if_player( m_bad, _( "Yuck!  How can anybody eat this stuff?" ) );
-        add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
-    }
-    if( food.has_flag( flag_ALLERGEN_JUNK ) ) {
-        if( has_trait( trait_PROJUNK ) ) {
-            add_msg_if_player( m_good, _( "Mmm, junk food." ) );
-            add_morale( MORALE_SWEETTOOTH, 5, 30, 30_minutes, 24_minutes );
+    // Allergy check for food that is ingested (not gum)
+    if( !food.has_flag( "NO_INGEST" ) ) {
+        const auto allergy = allergy_type( food );
+        if( allergy != MORALE_NULL ) {
+            add_msg_if_player( m_bad, _( "Yuck!  How can anybody eat this stuff?" ) );
+            add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
         }
-        if( has_trait( trait_PROJUNK2 ) ) {
-            if( !one_in( 100 ) ) {
-                add_msg_if_player( m_good, _( "When life's got you down, there's always sugar." ) );
-            } else {
-                add_msg_if_player( m_good, _( "They may do what they must… you've already won." ) );
+        if( food.has_flag( flag_ALLERGEN_JUNK ) ) {
+            if( has_trait( trait_PROJUNK ) ) {
+                add_msg_if_player( m_good, _( "Mmm, junk food." ) );
+                add_morale( MORALE_SWEETTOOTH, 5, 30, 30_minutes, 24_minutes );
             }
-            add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
+            if( has_trait( trait_PROJUNK2 ) ) {
+                if( !one_in( 100 ) ) {
+                    add_msg_if_player( m_good, _( "When life's got you down, there's always sugar." ) );
+                } else {
+                    add_msg_if_player( m_good, _( "They may do what they must… you've already won." ) );
+                }
+                add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
+            }
+            // Carnivores CAN eat junk food, but they won't like it much.
+            // Pizza-scraping happens in consume_effects.
+            if( has_trait( trait_CARNIVORE ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
+                add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
+                add_morale( MORALE_NO_DIGEST, -25, -125, 30_minutes, 24_minutes );
+            }
         }
-    }
-    // Carnivores CAN eat junk food, but they won't like it much.
-    // Pizza-scraping happens in consume_effects.
-    if( has_trait( trait_CARNIVORE ) && food.has_flag( flag_ALLERGEN_JUNK ) &&
-        !food.has_flag( flag_CARNIVORE_OK ) ) {
-        add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
-        add_morale( MORALE_NO_DIGEST, -25, -125, 30_minutes, 24_minutes );
     }
     const bool chew = food.get_comestible()->comesttype == comesttype_FOOD ||
                       food.has_flag( flag_USE_EAT_VERB );
