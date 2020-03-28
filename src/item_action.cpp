@@ -29,10 +29,15 @@
 #include "iuse.h"
 #include "type_id.h"
 
+static const std::string errstring( "ERROR" );
+
+static const bionic_id bio_tools( "bio_tools" );
+static const bionic_id bio_claws( "bio_claws" );
+static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
+
 struct tripoint;
 
 static item_action nullaction;
-static const std::string errstring( "ERROR" );
 
 static char key_bound_to( const input_context &ctxt, const item_action_id &act )
 {
@@ -217,12 +222,12 @@ void game::item_action_menu()
     // HACK: A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
     std::vector<item *> pseudos;
     item toolset( "toolset", calendar::turn );
-    if( u.has_active_bionic( bionic_id( "bio_tools" ) ) ) {
+    if( u.has_active_bionic( bio_tools ) ) {
         pseudos.push_back( &toolset );
     }
-    item bio_claws( "bio_claws_weapon", calendar::turn );
-    if( u.has_active_bionic( bionic_id( "bio_claws" ) ) ) {
-        pseudos.push_back( &bio_claws );
+    item bio_claws_item( static_cast<std::string>( bio_claws_weapon ), calendar::turn );
+    if( u.has_active_bionic( bio_claws ) ) {
+        pseudos.push_back( &bio_claws_item );
     }
 
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
@@ -235,8 +240,8 @@ void game::item_action_menu()
     kmenu.input_category = "ITEM_ACTIONS";
     input_context ctxt( "ITEM_ACTIONS" );
     for( const auto &id : item_actions ) {
-        ctxt.register_action( id.first, id.second.name.translated() );
-        kmenu.additional_actions.emplace_back( id.first, id.second.name.translated() );
+        ctxt.register_action( id.first, id.second.name );
+        kmenu.additional_actions.emplace_back( id.first, id.second.name );
     }
     actmenu_cb callback( item_actions );
     kmenu.callback = &callback;

@@ -12,7 +12,24 @@
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbmsw_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmsw_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 d 14 h 40 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 463 ] ],
+          [ [ "nail", 158 ] ],
+          [ [ "wood_panel", 6 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "glass_sheet", 3 ] ],
+          [ [ "log", 118 ] ],
+          [ [ "material_soil", 760 ] ],
+          [ [ "birchbark", 228 ], [ "pine_bough", 228 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,12 +44,36 @@
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbmsw_southeast" } ],
     "blueprint_excludes": [ { "id": "fbmsw_southeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 4 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 274 ] ],
+          [ [ "nail", 164 ] ],
+          [ [ "wood_panel", 2 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "pipe", 60 ] ],
+          [ [ "sheet_metal", 10 ] ],
+          [ [ "glass_sheet", 4 ] ],
+          [ [ "log", 60 ] ],
+          [ [ "material_soil", 320 ] ],
+          [ [ "birchbark", 96 ], [ "pine_bough", 96 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
     "result": "faction_base_modular_brewery0_log_southwest",
-    "description": "We could take advantage of the the designation of this area to build a log brewery.",
+    "description": "We could take advantage of the designation of this area to build a log brewery.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -42,6 +83,33 @@
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
     "blueprint_provides": [ { "id": "fbmsw_southwest" }, { "id": "brewery" } ],
     "blueprint_excludes": [ { "id": "fbmsw_southwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "4 d 5 h 30 m",
+      "skills": [ [ "cooking", 3 ], [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_M", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 520 ] ],
+          [ [ "nail", 122 ] ],
+          [ [ "wood_panel", 1 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "pipe", 36 ] ],
+          [ [ "sheet_metal", 7 ] ],
+          [ [ "sheet_metal_small", 12 ] ],
+          [ [ "water_faucet", 2 ] ],
+          [ [ "glass_sheet", 2 ] ],
+          [ [ "log", 132 ] ],
+          [ [ "material_soil", 960 ] ],
+          [ [ "birchbark", 288 ], [ "pine_bough", 288 ] ]
+        ]
+      }
+    }
   }
 ]

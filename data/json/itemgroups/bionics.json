@@ -149,6 +149,7 @@
       [ "bio_face_mask", 10 ],
       [ "bio_scent_mask", 10 ],
       [ "bio_cloak", 10 ],
+      [ "bio_synaptic_regen", 12 ],
       [ "bio_fingerhack", 10 ],
       [ "bio_lockpick", 10 ],
       [ "bio_night", 10 ],

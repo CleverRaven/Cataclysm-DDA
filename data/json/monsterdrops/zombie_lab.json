@@ -53,6 +53,7 @@
       [ "bio_night_vision", 1 ],
       [ "bio_infrared", 2 ],
       [ "bio_scent_vision", 5 ],
+      [ "bio_synaptic_regen", 12 ],
       [ "bio_gills", 5 ],
       [ "bio_climate", 2 ],
       [ "bio_heatsink", 2 ],

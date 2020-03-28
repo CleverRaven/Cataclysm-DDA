@@ -101,7 +101,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_edge_edge" ] ],
+    "om_terrain": [ [ "microlab_generic_edge" ] ],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -493,7 +493,7 @@
         "  c|?  t ? Y^| cc       ",
         "  c|?  t ?  ^| cc  c    ",
         "  c|^       ^|     c    ",
-        "|2||v       ^|     |((2|",
+        "|2||V       ^|     |((2|",
         "  U|       Y^|22(((|6   ",
         "  U|  ^^   Y^|  666|c   ",
         "  U|2|||2||2||   h |c   ",

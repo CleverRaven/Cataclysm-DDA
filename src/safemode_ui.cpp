@@ -688,16 +688,16 @@ bool safemode::is_sound_safe( const std::string &sound_name_in,
                               const int proximity_in ) const
 {
     bool sound_safe = false;
-    for( unsigned int i = 0; i < safemode_rules_sound.size(); i++ ) {
-        if( wildcard_match( sound_name_in, safemode_rules_sound[i].rule ) &&
-            proximity_in >= safemode_rules_sound[i].proximity ) {
-            if( safemode_rules_sound[i].whitelist ) {
+    for( const rules_class &rule : safemode_rules_sound ) {
+        if( wildcard_match( sound_name_in, rule.rule ) &&
+            proximity_in >= rule.proximity ) {
+            if( rule.whitelist ) {
                 sound_safe = true;
             } else {
                 return false;
             }
         }
-    };
+    }
     return sound_safe;
 }
 

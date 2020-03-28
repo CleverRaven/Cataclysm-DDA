@@ -116,5 +116,24 @@
       [ [ "plut_cell", 4 ] ],
       [ [ "afs_sentinel_laser", 1 ] ]
     ]
+  },
+  {
+    "result": "broken_bloodhound_drone",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "2 m",
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "spike", 2 ] ],
+      [ [ "identification_module", 1 ] ]
+    ]
   }
 ]

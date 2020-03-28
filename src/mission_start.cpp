@@ -27,6 +27,7 @@
 #include "rng.h"
 
 static const mtype_id mon_dog( "mon_dog" );
+
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
 static const mtype_id mon_zombie_dog( "mon_zombie_dog" );

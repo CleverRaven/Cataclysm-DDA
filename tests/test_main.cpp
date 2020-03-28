@@ -78,6 +78,9 @@ static std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg
             ret.emplace_back( mod_name );
         }
     }
+    // Always load test data mod
+    ret.emplace_back( "test_data" );
+
     return ret;
 }
 
@@ -146,6 +149,8 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     overmap_buffer.create_custom_overmap( point_zero, empty_specials );
 
     g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
+
+    g->weather.update_weather();
 }
 
 // Checks if any of the flags are in container, removes them all

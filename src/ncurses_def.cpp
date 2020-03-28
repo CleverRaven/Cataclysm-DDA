@@ -218,7 +218,7 @@ void catacurses::init_interface()
     }
 #if !defined(__CYGWIN__)
     // ncurses mouse registration
-    mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL );
+    mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, nullptr );
 #endif
     // our curses wrapper does not support changing this behavior, ncurses must
     // behave exactly like the wrapper, therefor:

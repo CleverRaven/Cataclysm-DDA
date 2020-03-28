@@ -6,6 +6,7 @@
     "authors": [ "Sunshine" ],
     "description": "Gives turrets swappable firearm modules, which can be reclaimed from broken robots.",
     "category": "creatures",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

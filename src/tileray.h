@@ -25,13 +25,13 @@
 class tileray
 {
     private:
-        point delta;    // ray delta
-        int leftover;   // counter to shift coordinates
-        point abs_d;    // absolute value of delta
-        int direction;  // ray direction
-        point last_d;   // delta of last advance
-        int steps;      // how many steps we advanced so far
-        bool infinite;  // ray is infinite (end will always return true)
+        point delta;            // ray delta
+        int leftover = 0;       // counter to shift coordinates
+        point abs_d;            // absolute value of delta
+        int direction = 0;      // ray direction
+        point last_d;           // delta of last advance
+        int steps = 0;          // how many steps we advanced so far
+        bool infinite = false;  // ray is infinite (end will always return true)
     public:
         tileray();
         tileray( const point &ad );

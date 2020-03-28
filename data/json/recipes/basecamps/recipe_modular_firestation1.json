@@ -20,7 +20,8 @@
       { "id": "logging" }
     ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "blueprint_name": "basic survey"
+    "blueprint_name": "basic survey",
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -36,7 +37,7 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_0" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_kitchen" }, { "id": "tool_storage" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_kitchen" } ],
-    "blueprint_autocalc": false
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
@@ -51,7 +52,15 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_0" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_well" }, { "id": "relaying" }, { "id": "scouting" }, { "id": "patrolling" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_well" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "11 h",
+      "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ], [ "survival", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ], [ [ "well_pump", 1 ] ], [ [ "pipe", 6 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -66,7 +75,38 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_well" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_radio" }, { "id": "recruiting" }, { "id": "radio" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_radio" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SCREW" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [
+            [ "wind_turbine", 4 ],
+            [ "xl_wind_turbine", 1 ],
+            [ "solar_panel", 4 ],
+            [ "reinforced_solar_panel", 4 ],
+            [ "solar_panel_v2", 2 ],
+            [ "reinforced_solar_panel_v2", 2 ],
+            [ "solar_panel_v3", 1 ]
+          ],
+          [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
+          [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
+          [ [ "pipe", 24 ] ],
+          [ [ "processor", 2 ] ],
+          [ [ "RAM", 2 ] ],
+          [ [ "large_lcd_screen", 1 ] ],
+          [ [ "e_scrap", 8 ] ],
+          [ [ "frame", 1 ] ],
+          [ [ "circuit", 4 ] ],
+          [ [ "power_supply", 2 ] ],
+          [ [ "amplifier", 2 ] ],
+          [ [ "cable", 80 ] ],
+          [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -82,7 +122,7 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_kitchen" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_kitchen" }, { "id": "pantry" }, { "id": "sorting" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_kitchen", "amount": 2 } ],
-    "blueprint_autocalc": false,
+    "check_blueprint_needs": false,
     "components": [ [ [ "rock", 40 ], [ "brick", 40 ] ], [ [ "2x4", 6 ], [ "stick", 6 ] ], [ [ "withered", 12 ], [ "straw_pile", 12 ] ] ]
   },
   {
@@ -100,7 +140,7 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_farm" }, { "id": "farming" }, { "id": "reseeding" }, { "id": "farm_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_farm" } ],
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "blueprint_autocalc": false,
+    "check_blueprint_needs": false,
     "blueprint_resources": [ "pickaxe" ],
     "components": [ [ [ "pickaxe", 1 ] ] ]
   },
@@ -117,7 +157,15 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_farm" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_fence" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_fence" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "8 h",
+      "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "pointy_stick", 32 ], [ "spear_wood", 32 ] ], [ [ "2x4", 128 ] ], [ [ "nail", 320 ] ], [ [ "hinge", 4 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -139,7 +187,15 @@
     ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_fire" } ],
     "blueprint_resources": [ "fake_fireplace", "pot" ],
-    "blueprint_autocalc": true,
+    "blueprint_needs": {
+      "time": "2 h",
+      "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "rock", 40 ] ] ]
+      }
+    },
     "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
   },
   {
@@ -187,7 +243,11 @@
     ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_fire" } ],
     "blueprint_resources": [ "fake_fireplace", "pot" ],
-    "blueprint_autocalc": true,
+    "blueprint_needs": {
+      "time": "1 h",
+      "skills": [ [ "fabrication", 5 ], [ "mechanics", 3 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SAW_M" } ] ], "components": [ [ [ "metal_tank", 1 ] ], [ [ "pipe", 1 ] ] ] }
+    },
     "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
   },
   {
@@ -205,7 +265,15 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_smoking" }, { "id": "kitchen_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_smoking" } ],
     "blueprint_resources": [ "fake_char_smoker", "fake_char_kiln" ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "5 h",
+      "skills": [ [ "cooking", 2 ], [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "components": [ [ [ "rock", 56 ] ], [ [ "stick", 32 ], [ "2x4", 32 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -221,7 +289,35 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_smoking" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_butchery" }, { "id": "kitchen_recipes_3" }, { "id": "trapping" }, { "id": "hunting" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_butchery" } ],
-    "blueprint_autocalc": true,
+    "blueprint_needs": {
+      "time": "1 h 15 m",
+      "skills": [ [ "fabrication", 1 ], [ "survival", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "components": [
+          [ [ "2x4", 4 ] ],
+          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [ [ "nail", 8 ] ],
+          [ [ "stick_long", 6 ] ],
+          [
+            [ "rope_6", 1 ],
+            [ "vine_6", 1 ],
+            [ "rope_makeshift_6", 1 ],
+            [ "string_36", 2 ],
+            [ "cordage_36", 2 ],
+            [ "string_6", 12 ],
+            [ "cordage_6", 12 ],
+            [ "thread", 600 ],
+            [ "sinew", 600 ],
+            [ "plant_fibre", 600 ],
+            [ "yarn", 600 ],
+            [ "wire", 8 ]
+          ],
+          [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
+        ]
+      }
+    },
     "components": [ [ [ "knife_butcher", 1 ], [ "knife_steak", 1 ], [ "knife_chef", 1 ], [ "knife_carving", 1 ] ] ]
   },
   {
@@ -238,7 +334,15 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_butchery" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_vat" }, { "id": "fermenting" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_vat" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "3 h",
+      "skills": [ [ "cooking", 3 ], [ "fabrication", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "components": [ [ [ "2x4", 28 ] ], [ [ "nail", 24 ] ], [ [ "sheet_metal_small", 24 ] ], [ [ "water_faucet", 2 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -254,7 +358,7 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_garage" }, { "id": "dismantling" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_garage" } ],
     "blueprint_resources": [ "wrench", "hacksaw", "pliers", "hammer", "screwdriver" ],
-    "blueprint_autocalc": true,
+    "blueprint_needs": {  },
     "components": [
       [ [ "wrench", 1 ] ],
       [ [ "hacksaw", 1 ] ],
@@ -277,7 +381,15 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_0" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_quarters" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "15 h 54 m",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": {
+        "tools": [ [ [ "paint_brush", -1 ] ], [ [ "chipper", -1 ] ] ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 70 ] ], [ [ "nail", 180 ] ], [ [ "wood_panel", 5 ] ], [ [ "hinge", 10 ] ], [ [ "w_paint", 900 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -292,7 +404,23 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_sw" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_sw" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "5 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 52 ] ],
+          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [ [ "nail", 48 ] ],
+          [ [ "mattress", 4 ], [ "down_mattress", 4 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -307,7 +435,23 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_nw" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_nw" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "6 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "pipe", 16 ] ],
+          [ [ "lock", 2 ] ],
+          [ [ "2x4", 52 ] ],
+          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [ [ "nail", 48 ] ],
+          [ [ "mattress", 4 ], [ "down_mattress", 4 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -322,7 +466,23 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_se" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_se" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "5 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 52 ] ],
+          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [ [ "nail", 48 ] ],
+          [ [ "mattress", 4 ], [ "down_mattress", 4 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -337,7 +497,23 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_ne" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_ne" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "6 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "pipe", 16 ] ],
+          [ [ "lock", 2 ] ],
+          [ [ "2x4", 52 ] ],
+          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [ [ "nail", 48 ] ],
+          [ [ "mattress", 4 ], [ "down_mattress", 4 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -352,7 +528,20 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_quarters_common" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_quarters_common" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "12 h",
+      "skills": [ [ "fabrication", 4 ], [ "tailor", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "components": [
+          [ [ "2x4", 110 ] ],
+          [ [ "wood_sheet", 6 ], [ "wood_panel", 9 ] ],
+          [ [ "nail", 166 ] ],
+          [ [ "blanket", 5 ], [ "down_blanket", 5 ], [ "fur_blanket", 5 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -369,7 +558,15 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_forge" }, { "id": "blacksmith_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_forge" } ],
     "blueprint_resources": [ "fake_forge", "hammer" ],
-    "blueprint_autocalc": true,
+    "blueprint_needs": {
+      "time": "2 h",
+      "skills": [ [ "fabrication", 5 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "rock", 40 ] ] ]
+      }
+    },
     "components": [ [ [ "hammer", 1 ] ] ]
   },
   {
@@ -387,7 +584,7 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_anvil" }, { "id": "blacksmith_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_anvil" } ],
     "blueprint_resources": [ "anvil", "crucible" ],
-    "blueprint_autocalc": false,
+    "check_blueprint_needs": false,
     "components": [ [ [ "anvil", 1 ] ], [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ]
   },
   {
@@ -405,7 +602,19 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_pottery" }, { "id": "blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_pottery" } ],
     "blueprint_resources": [ "anvil", "crucible" ],
-    "blueprint_autocalc": true,
+    "blueprint_needs": {
+      "time": "2 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [
+          [ [ "rock", 40 ] ],
+          [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
+          [ [ "water", 2 ], [ "water_clean", 2 ] ]
+        ]
+      }
+    },
     "components": [ [ [ "glassblowing_book", 1 ] ], [ [ "glasses_safety", 1 ] ], [ [ "chemistry_set", 1 ] ], [ [ "pipe", 1 ] ] ]
   },
   {
@@ -424,7 +633,7 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_tools" }, { "id": "blacksmith_recipes_4" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_tools" } ],
     "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
-    "blueprint_autocalc": true,
+    "blueprint_needs": {  },
     "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "swage", 1 ] ] ]
   },
   {
@@ -441,7 +650,15 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_tools" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_workbench" }, { "id": "blacksmith_recipes_5" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_workbench" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 h",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ] ],
+        "components": [ [ [ "pipe", 16 ] ], [ [ "sheet_metal", 4 ] ], [ [ "sheet_metal_small", 8 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -457,7 +674,15 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_workbench" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_bellows" }, { "id": "blacksmith_recipes_6" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bellows" } ],
-    "blueprint_autocalc": true,
+    "blueprint_needs": {
+      "time": "1 h",
+      "skills": [ [ "fabrication", 1 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER" } ] ],
+        "components": [ [ [ "2x4", 4 ] ], [ [ "tanned_hide", 2 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ]
+      }
+    },
     "components": [ [ [ "hammer_sledge", 1 ] ], [ [ "30gal_drum", 1 ] ], [ [ "knife_combat", 1 ], [ "copper_knife", 1 ] ] ]
   },
   {
@@ -475,7 +700,15 @@
     "blueprint_provides": [ { "id": "fbmc_firestation1_drophammer" }, { "id": "blacksmith_recipes_7" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_drophammer" } ],
     "blueprint_resources": [ "wrench", "pliers", "fake_drop_hammer" ],
-    "blueprint_autocalc": true,
+    "blueprint_needs": {
+      "time": "2 h",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER" } ] ],
+        "components": [ [ [ "metal_tank", 2 ] ], [ [ "water_faucet", 2 ] ], [ [ "anvil", 1 ] ], [ [ "chain", 4 ] ], [ [ "pipe", 3 ] ] ]
+      }
+    },
     "components": [ [ [ "wrench", 1 ] ], [ [ "pliers", 1 ] ] ]
   }
 ]

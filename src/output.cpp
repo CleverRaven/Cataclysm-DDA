@@ -210,6 +210,12 @@ void print_colored_text( const catacurses::window &w, const point &p, nc_color &
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text )
 {
+    std::string sText = trim_by_length( text, width );
+    print_colored_text( w, begin, base_color, base_color, sText );
+}
+
+std::string trim_by_length( const std::string  &text, int width )
+{
     std::string sText;
     if( utf8_width( remove_color_tags( text ) ) > width ) {
 
@@ -251,8 +257,7 @@ void trim_and_print( const catacurses::window &w, const point &begin, int width,
     } else {
         sText = text;
     }
-
-    print_colored_text( w, begin, base_color, base_color, sText );
+    return sText;
 }
 
 int print_scrollable( const catacurses::window &w, int begin_line, const std::string &text,
@@ -842,7 +847,9 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
     if( !data.get_item_name().empty() ) {
         buffer += data.get_item_name() + "\n";
     }
-    if( data.get_item_name() != data.get_type_name() && !data.get_type_name().empty() ) {
+    // If type name is set, and not already contained in item name, output it too
+    if( !data.get_type_name().empty() &&
+        data.get_item_name().find( data.get_type_name() ) == std::string::npos ) {
         buffer += data.get_type_name() + "\n";
     }
     for( unsigned int i = 0; i < data.padding; i++ ) {
@@ -1603,6 +1610,10 @@ void replace_name_tags( std::string &input )
     }
     while( input.find( "<given_name>" ) != std::string::npos ) {
         replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
+                           false );
+    }
+    while( input.find( "<town_name>" ) != std::string::npos ) {
+        replace_substring( input, "<town_name>", Name::get( nameIsTownName ),
                            false );
     }
 }

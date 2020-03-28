@@ -68,7 +68,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "10 s",
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 60 ] ] ]
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ]
   },
   {
     "result": "scrap_cotton",

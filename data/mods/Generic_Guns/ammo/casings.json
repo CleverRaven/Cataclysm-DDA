@@ -31,7 +31,7 @@
     "id": "rifle_huge_casing",
     "copy-from": "50_casing",
     "type": "GENERIC",
-    "name": "huge rifle casing",
+    "name": { "str": "huge rifle casing" },
     "description": "An empty casing from a huge rifle round."
   },
   {
@@ -45,7 +45,7 @@
     "id": "grenade_casing",
     "copy-from": "40x46mm_m199_casing",
     "type": "GENERIC",
-    "name": "grenade casing",
+    "name": { "str": "grenade casing" },
     "description": "A large casing from a grenade round."
   },
   {
@@ -59,14 +59,14 @@
     "id": "ammolinkgrenade",
     "copy-from": "ammolink",
     "type": "GENERIC",
-    "name": "grenade belt linkage",
+    "name": { "str": "grenade belt linkage" },
     "use_action": { "type": "ammobelt", "belt": "grenade_belt" }
   },
   {
     "id": "ammolinkrifle_huge",
     "copy-from": "ammolink",
     "type": "GENERIC",
-    "name": "heavy machinegun belt linkage",
+    "name": { "str": "heavy machinegun belt linkage" },
     "use_action": { "type": "ammobelt", "belt": "rifle_huge_belt" }
   }
 ]

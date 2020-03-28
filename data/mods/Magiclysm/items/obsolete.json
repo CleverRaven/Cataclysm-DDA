@@ -1,8 +1,7 @@
 [
   {
     "id": "wand_fireball",
-    "name": "wand of fireballs",
-    "name_plural": "wands of fireball",
+    "name": { "str": "wand of fireballs", "str_pl": "wands of fireballs" },
     "description": "A classic, this wand shoots fireballs without fail.  A more skilled Kelvinist could cast them more efficiently, though.",
     "type": "TOOL",
     "weight": "230 g",
@@ -21,8 +20,7 @@
   },
   {
     "id": "wand_magic_missile",
-    "name": "wand of magic missiles",
-    "name_plural": "wands of magic missile",
+    "name": { "str": "wand of magic missiles", "str_pl": "wands of magic missiles" },
     "description": "A classic, this wand shoots magic missiles without fail.  A more skilled Magus could cast them more efficiently, though.",
     "type": "TOOL",
     "weight": "230 g",

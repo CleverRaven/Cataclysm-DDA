@@ -63,7 +63,46 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
-#include "cata_string_consts.h"
+#include "ranged.h"
+
+static const activity_id ACT_READ( "ACT_READ" );
+
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_memory( "bio_memory" );
+static const bionic_id bio_watch( "bio_watch" );
+
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_depressants( "depressants" );
+static const efftype_id effect_happy( "happy" );
+static const efftype_id effect_irradiated( "irradiated" );
+static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_sad( "sad" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_sleep_deprived( "sleep_deprived" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_stim( "stim" );
+static const efftype_id effect_stim_overdose( "stim_overdose" );
+
+static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
+static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_CHITIN2( "CHITIN2" );
+static const trait_id trait_CHITIN3( "CHITIN3" );
+static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_STIMBOOST( "STIMBOOST" );
+static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
+static const trait_id trait_WEBBED( "WEBBED" );
+static const trait_id trait_WHISKERS( "WHISKERS" );
+static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
+
+static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
 class JsonIn;
 class JsonOut;
@@ -502,8 +541,8 @@ bool avatar::read( item &it, const bool continuous )
         }
         if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
-            if( g->u.martial_arts_data.has_martialart( martial_art_learned_from( *it.type ) ) ) {
-                g->u.add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
+            if( martial_arts_data.has_martialart( martial_art_learned_from( *it.type ) ) ) {
+                add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
                 activity.set_to_null();
                 return false;
             }
@@ -588,7 +627,7 @@ bool avatar::read( item &it, const bool continuous )
     // push an indentifier of martial art book to the action handling
     if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
-        if( g->u.get_stamina() < g->u.get_stamina_max() / 10 ) {
+        if( get_stamina() < get_stamina_max() / 10 ) {
             add_msg( m_info, _( "You are too exhausted to train martial arts." ) );
             return false;
         }
@@ -743,10 +782,10 @@ void avatar::do_read( item &book )
             if( has_active_bionic( bio_memory ) ) {
                 min_ex += 2;
             }
-            if( get_option<bool>( "INT_BASED_LEARNING" ) ) {
-                min_ex = adjust_for_focus( min_ex );
-                max_ex = adjust_for_focus( max_ex );
-            }
+
+            min_ex = adjust_for_focus( min_ex );
+            max_ex = adjust_for_focus( max_ex );
+
             if( max_ex < 2 ) {
                 max_ex = 2;
             }
@@ -788,7 +827,7 @@ void avatar::do_read( item &book )
             }
 
             if( ( skill_level == reading->level || !skill_level.can_train() ) ||
-                ( ( learner->has_trait( trait_id( "SCHIZOPHRENIC" ) ) ||
+                ( ( learner->has_trait( trait_SCHIZOPHRENIC ) ||
                     learner->has_artifact_with( AEP_SCHIZO ) ) && one_in( 25 ) ) ) {
                 if( learner->is_player() ) {
                     add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name() );
@@ -833,14 +872,14 @@ void avatar::do_read( item &book )
         const matype_id style_to_learn = martial_art_learned_from( *book.type );
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
-        difficulty = std::max( 1, 20 + difficulty * 2 - g->u.get_skill_level( skill_used ) * 2 );
+        difficulty = std::max( 1, 20 + difficulty * 2 - get_skill_level( skill_used ) * 2 );
         add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {
             m->second.call( *this, book, false, pos() );
             continuous = false;
         } else {
-            if( activity.index == g->u.getID().get_value() ) {
+            if( activity.index == getID().get_value() ) {
                 continuous = true;
                 switch( rng( 1, 5 ) ) {
                     case 1:
@@ -958,7 +997,7 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
 {
     int focus_equilibrium = 100;
 
-    if( activity.id() == activity_id( "ACT_READ" ) ) {
+    if( activity.id() == ACT_READ ) {
         const item &book = *activity.targets[0].get_item();
         if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
             auto &bt = *book.type->book;
@@ -1059,7 +1098,7 @@ void avatar::update_mental_focus()
     focus_pool += calc_focus_change();
 
     // Moved from calc_focus_equilibrium, because it is now const
-    if( activity.id() == activity_id( "ACT_READ" ) ) {
+    if( activity.id() == ACT_READ ) {
         const item *book = activity.targets[0].get_item();
         if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
             add_msg_if_player( m_bad, _( "You lost your book!  You stop reading." ) );
@@ -1551,6 +1590,8 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
 
     const std::string &method = std::next( use_methods.begin(), choice )->first;
 
+    g->refresh_all();
+
     return invoke_item( used, method, pt );
 }
 
@@ -1567,6 +1608,20 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
 bool avatar::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
+}
+
+targeting_data &avatar::get_targeting_data()
+{
+    if( tdata == nullptr ) {
+        debugmsg( "Tried to get targeting data before setting it" );
+        tdata.reset( new targeting_data() );
+    }
+    return *tdata;
+}
+
+void avatar::set_targeting_data( const targeting_data &td )
+{
+    tdata.reset( new targeting_data( td ) );
 }
 
 points_left::points_left()

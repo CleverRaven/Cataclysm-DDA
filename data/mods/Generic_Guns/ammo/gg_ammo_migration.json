@@ -396,5 +396,20 @@
     "id": [ "bp_shot_flechette" ],
     "type": "MIGRATION",
     "replace": "bp_shot_dart"
+  },
+  {
+    "id": [ "84x246mm_he", "RPG-7_ammo" ],
+    "type": "MIGRATION",
+    "replace": "rocket_he"
+  },
+  {
+    "id": [ "84x246mm_hedp", "m235_tpa", "RPG-7_pg7vr", "RPG-7_tbg7v", "RPG-7_og7v" ],
+    "type": "MIGRATION",
+    "replace": "rocket_hedp"
+  },
+  {
+    "id": [ "84x246mm_smoke" ],
+    "type": "MIGRATION",
+    "replace": "rocket_smoke"
   }
 ]
