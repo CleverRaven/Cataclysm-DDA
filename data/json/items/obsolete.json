@@ -85,7 +85,7 @@
   {
     "id": "blowback",
     "type": "GUNMOD",
-    "name": "rapid blowback",
+    "name": { "str": "rapid blowback" },
     "description": "An improved blowback mechanism makes your firearm's automatic fire faster, at the cost of reduced accuracy and increased noise.",
     "weight": "114 g",
     "volume": "250 ml",
