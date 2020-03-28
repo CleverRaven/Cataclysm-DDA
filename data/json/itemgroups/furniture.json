@@ -41,7 +41,6 @@
   {
     "type": "item_group",
     "id": "pool_table",
-    "name": {  },
     "subtype": "distribution",
     "entries": [ { "item": "pool_cue", "prob": 4 }, { "item": "pool_ball", "prob": 40 } ]
   },
