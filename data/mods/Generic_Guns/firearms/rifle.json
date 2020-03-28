@@ -21,7 +21,7 @@
     "id": "rifle_pipe_rifle",
     "copy-from": "rifle_308",
     "type": "GUN",
-    "name": "pipe rifle",
+    "name": { "str": "pipe rifle" },
     "ammo": "ammo_rifle",
     "description": "A crude longarm chambered in standard rifle ammunition, reinforced near the chamber.  It holds a single a round and has a crude assembly to fire it.  There's no extractor, so it might be slow to reload, and its construction makes for poor reliability and longevity.",
     "clip_size": 1,
