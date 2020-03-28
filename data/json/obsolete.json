@@ -255,7 +255,7 @@
     "id": "wheel_steerable",
     "copy-from": "wheel",
     "type": "vehicle_part",
-    "name": "wheel (steerable)",
+    "name": { "str": "wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
@@ -298,21 +298,21 @@
     "id": "wheel_motorbike_or_steerable",
     "copy-from": "wheel_motorbike_or",
     "type": "vehicle_part",
-    "name": "off-road motorbike wheel (steerable)",
+    "name": { "str": "off-road motorbike wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_small_steerable",
     "copy-from": "wheel_small",
     "type": "vehicle_part",
-    "name": "small wheel (steerable)",
+    "name": { "str": "small wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
     "id": "wheel_wide_steerable",
     "copy-from": "wheel_wide",
     "type": "vehicle_part",
-    "name": "wide wheel (steerable)",
+    "name": { "str": "wide wheel (steerable)" },
     "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
   },
   {
@@ -397,7 +397,7 @@
   {
     "id": "washcloth",
     "type": "TOOL",
-    "name": "washcloth",
+    "name": { "str": "washcloth" },
     "description": "A piece of cloth that can be used for cleaning impervious surfaces.",
     "weight": "80 g",
     "volume": "250 ml",
