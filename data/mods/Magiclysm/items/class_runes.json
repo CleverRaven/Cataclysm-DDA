@@ -16,12 +16,12 @@
     "type": "TOOL",
     "symbol": "=",
     "color": "blue",
-    "name": "Technomancer rune",
+    "name": { "str": "Technomancer rune" },
     "description": "This magical pebble has an insignia of clockwork and gears on it.  It is necessary for Technomancers to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": "TRADER_AVOID"
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "rune_magus",
