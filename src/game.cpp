@@ -3250,28 +3250,6 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_critter( critter, center );
     }
 
-    if( u.has_active_bionic( bionic_id( "bio_scent_vision" ) ) && u.view_offset.z == 0 ) {
-        tripoint tmp = center;
-        int &realx = tmp.x;
-        int &realy = tmp.y;
-        for( realx = posx - POSX; realx <= posx + POSX; realx++ ) {
-            for( realy = posy - POSY; realy <= posy + POSY; realy++ ) {
-                if( scent.get( tmp ) != 0 ) {
-                    int tempx = posx - realx;
-                    int tempy = posy - realy;
-                    if( !( isBetween( tempx, -2, 2 ) &&
-                           isBetween( tempy, -2, 2 ) ) ) {
-                        if( critter_at( tmp ) ) {
-                            mvwputch( w_terrain, point( realx + POSX - posx, realy + POSY - posy ), c_white, '?' );
-                        } else {
-                            mvwputch( w_terrain, point( realx + POSX - posx, realy + POSY - posy ), c_magenta, '#' );
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     if( !destination_preview.empty() && u.view_offset.z == 0 ) {
         // Draw auto-move preview trail
         const tripoint &final_destination = destination_preview.back();
