@@ -212,9 +212,9 @@ const bionic_data &string_id<bionic_data>::obj() const
     return null_value;
 }
 
-std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid )
+std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
 {
-    std::vector<body_part> parts;
+    std::vector<bodypart_id> parts;
     for( const auto &element : bid->occupied_bodyparts ) {
         if( element.second > 0 ) {
             parts.push_back( element.first );
@@ -487,11 +487,11 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_good, _( "Your speed suddenly increases!" ) );
         if( one_in( 3 ) ) {
             add_msg_if_player( m_bad, _( "Your muscles tear with the strain." ) );
-            apply_damage( nullptr, bp_arm_l, rng( 5, 10 ) );
-            apply_damage( nullptr, bp_arm_r, rng( 5, 10 ) );
-            apply_damage( nullptr, bp_leg_l, rng( 7, 12 ) );
-            apply_damage( nullptr, bp_leg_r, rng( 7, 12 ) );
-            apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
+            apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
+            apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
+            apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
+            apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
+            apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
         }
         if( one_in( 5 ) ) {
             add_effect( effect_teleglow, rng( 5_minutes, 40_minutes ) );
@@ -1290,7 +1290,7 @@ void Character::heat_emission( int b, int fuel_energy )
         const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
         g->m.emit_field( pos(), hotness, heat_spread );
     }
-    for( const std::pair<body_part, size_t> &bp : bio.info().occupied_bodyparts ) {
+    for( const std::pair<bodypart_id, size_t> &bp : bio.info().occupied_bodyparts ) {
         add_effect( effect_heating_bionic, 2_seconds, bp.first, false, heat_prod );
     }
 }
@@ -1302,10 +1302,10 @@ float Character::get_effective_efficiency( int b, float fuel_efficiency )
     float effective_efficiency = fuel_efficiency;
     if( coverage_penalty ) {
         int coverage = 0;
-        const std::map< body_part, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
-        for( const std::pair< const body_part, size_t > &elem : occupied_bodyparts ) {
+        const std::map< bodypart_id, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
+        for( const std::pair< const bodypart_id, size_t > &elem : occupied_bodyparts ) {
             for( const item &i : worn ) {
-                if( i.covers( elem.first ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                if( i.covers( elem.first->token ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                     !i.has_flag( flag_SEMITANGIBLE ) &&
                     !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
                     coverage += i.get_coverage();
@@ -1440,10 +1440,10 @@ void Character::process_bionic( int b )
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
         if( get_power_level() >= 40_J ) {
-            std::forward_list<int> bleeding_bp_parts;
-            for( const body_part bp : all_body_parts ) {
+            std::forward_list<bodypart_id> bleeding_bp_parts;
+            for( const bodypart_id bp : get_anatomy()->get_body_parts() ) {
                 if( has_effect( effect_bleed, bp ) ) {
-                    bleeding_bp_parts.push_front( static_cast<int>( bp ) );
+                    bleeding_bp_parts.push_front( bp );
                 }
             }
             std::vector<int> damaged_hp_parts;
@@ -1451,7 +1451,7 @@ void Character::process_bionic( int b )
                 if( hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
                     damaged_hp_parts.push_back( i );
                     // only healed and non-hp parts will have a chance of bleeding removal
-                    bleeding_bp_parts.remove( static_cast<int>( hp_to_bp( static_cast<hp_part>( i ) ) ) );
+                    bleeding_bp_parts.remove( hp_to_bp( static_cast<hp_part>( i ) ) );
                 }
             }
             if( calendar::once_every( 60_turns ) ) {
@@ -1461,7 +1461,7 @@ void Character::process_bionic( int b )
                                                       damaged_hp_parts.size() - 1 ) ] );
                     heal( part_to_heal, 1 );
                     mod_stored_kcal( -5 );
-                    const body_part bp_healed = hp_to_bp( part_to_heal );
+                    const bodypart_id bp_healed = hp_to_bp( part_to_heal );
                     int hp_percent = float( hp_cur[part_to_heal] ) / hp_max[part_to_heal] * 100;
                     if( has_effect( effect_bleed, bp_healed ) && rng( 0, 100 ) < hp_percent ) {
                         remove_effect( effect_bleed, bp_healed );
@@ -1471,7 +1471,7 @@ void Character::process_bionic( int b )
 
                 // if no bleed was removed, try to remove it on some other part
                 if( try_to_heal_bleeding && !bleeding_bp_parts.empty() && rng( 0, 1 ) == 1 ) {
-                    remove_effect( effect_bleed, static_cast<body_part>( bleeding_bp_parts.front() ) );
+                    remove_effect( effect_bleed, bleeding_bp_parts.front() );
                 }
 
             }
@@ -1557,7 +1557,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
     }
 
     add_msg( m_neutral, _( "The removal is a failure." ) );
-    std::set<body_part> bp_hurt;
+    std::set<bodypart_id> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_NOPAIN ) ) {
@@ -1568,7 +1568,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
 
         case 2:
         case 3:
-            for( const body_part &bp : all_body_parts ) {
+            for( const bodypart_id &bp : get_anatomy()->get_body_parts() ) {
                 if( has_effect( effect_under_op, bp ) ) {
                     if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
                         continue;
@@ -1576,14 +1576,14 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
                     bp_hurt.emplace( mutate_to_main_part( bp ) );
                     apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                           body_part_name_accusative( bp ) );
+                                           body_part_name_accusative( bp->token ) );
                 }
             }
             break;
 
         case 4:
         case 5:
-            for( const body_part &bp : all_body_parts ) {
+            for( const bodypart_id &bp : get_anatomy()->get_body_parts() ) {
                 if( has_effect( effect_under_op, bp ) ) {
                     if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
                         continue;
@@ -1592,7 +1592,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
                     apply_damage( this, bp, rng( 30, 80 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                            _( "<npcname>'s %s is severely damaged." ),
-                                           body_part_name_accusative( bp ) );
+                                           body_part_name_accusative( bp->token ) );
                 }
             }
             break;
@@ -1640,7 +1640,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
                 break;
         }
     }
-    std::set<body_part> bp_hurt;
+    std::set<bodypart_id> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_NOPAIN ) ) {
@@ -1651,7 +1651,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
 
         case 2:
         case 3:
-            for( const body_part &bp : all_body_parts ) {
+            for( const bodypart_id &bp : get_anatomy()->get_body_parts() ) {
                 if( has_effect( effect_under_op, bp ) ) {
                     if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
                         continue;
@@ -1660,7 +1660,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
                     patient.apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                                       body_part_name_accusative( bp ) );
+                                                       body_part_name_accusative( bp->token ) );
                     }
                 }
             }
@@ -1668,7 +1668,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
 
         case 4:
         case 5:
-            for( const body_part &bp : all_body_parts ) {
+            for( const bodypart_id &bp : get_anatomy()->get_body_parts() ) {
                 if( has_effect( effect_under_op, bp ) ) {
                     if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
                         continue;
@@ -1678,7 +1678,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                                        _( "<npcname>'s %s is severely damaged." ),
-                                                       body_part_name_accusative( bp ) );
+                                                       body_part_name_accusative( bp->token ) );
                     }
                 }
             }
@@ -1927,8 +1927,8 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     } else {
         activity.str_values.push_back( "false" );
     }
-    for( const std::pair<const body_part, size_t> &elem : b_id->occupied_bodyparts ) {
-        activity.values.push_back( elem.first );
+    for( const std::pair<const bodypart_id, size_t> &elem : b_id->occupied_bodyparts ) {
+        activity.values.push_back( elem.first->token );
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
     }
     return true;
@@ -2195,8 +2195,8 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     } else {
         activity.str_values.push_back( "false" );
     }
-    for( const std::pair<const body_part, size_t> &elem : bioid->occupied_bodyparts ) {
-        activity.values.push_back( elem.first );
+    for( const std::pair<const bodypart_id, size_t> &elem : bioid->occupied_bodyparts ) {
+        activity.values.push_back( elem.first->token );
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
     }
     for( const trait_id &mid : bioid->canceled_mutations ) {
@@ -2274,7 +2274,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         add_msg( m_neutral, _( "The installation fails without incident." ) );
         drop_cbm = true;
     } else {
-        std::set<body_part> bp_hurt;
+        std::set<bodypart_id> bp_hurt;
         switch( fail_type ) {
 
             case 1:
@@ -2287,7 +2287,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
 
             case 2:
             case 3:
-                for( const body_part &bp : all_body_parts ) {
+                for( const bodypart_id &bp : get_anatomy()->get_body_parts() ) {
                     if( has_effect( effect_under_op, bp ) ) {
                         if( bp_hurt.count( mutate_to_main_part( bp ) ) > 0 ) {
                             continue;
@@ -2295,7 +2295,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                         bp_hurt.emplace( mutate_to_main_part( bp ) );
                         apply_damage( this, bp, rng( 30, 80 ), true );
                         add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                               body_part_name_accusative( bp ) );
+                                               body_part_name_accusative( bp->token ) );
                     }
                 }
                 drop_cbm = true;
@@ -2360,7 +2360,7 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
     return desc;
 }
 
-int Character::get_used_bionics_slots( const body_part bp ) const
+int Character::get_used_bionics_slots( const bodypart_id bp ) const
 {
     int used_slots = 0;
     for( const bionic_id &bid : get_bionics() ) {
@@ -2388,12 +2388,12 @@ std::map<body_part, int> Character::bionic_installation_issues( const bionic_id 
     return issues;
 }
 
-int Character::get_total_bionics_slots( const body_part bp ) const
+int Character::get_total_bionics_slots( const bodypart_id bp ) const
 {
-    return convert_bp( bp )->bionic_slots();
+    return  bp->bionic_slots();
 }
 
-int Character::get_free_bionics_slots( const body_part bp ) const
+int Character::get_free_bionics_slots( const bodypart_id bp ) const
 {
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }

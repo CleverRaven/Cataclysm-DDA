@@ -892,9 +892,9 @@ class Character : public Creature, public visitable<Character>
          *  deactivated */
         virtual bool deactivate_bionic( int b, bool eff_only = false );
 
-        int get_used_bionics_slots( body_part bp ) const;
-        int get_total_bionics_slots( body_part bp ) const;
-        int get_free_bionics_slots( body_part bp ) const;
+        int get_used_bionics_slots( bodypart_id bp ) const;
+        int get_total_bionics_slots( bodypart_id bp ) const;
+        int get_free_bionics_slots( bodypart_id bp ) const;
 
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype *cbm, player &patient );
