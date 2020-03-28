@@ -673,7 +673,7 @@ static effect_data load_effect_data( const JsonObject &e )
         time = time_duration::from_turns( e.get_int( "duration", 0 ) );
     }
     return effect_data( efftype_id( e.get_string( "id" ) ), time,
-                        get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
+                        bodypart_id( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
 }
 
 void consume_drug_iuse::load( const JsonObject &obj )
@@ -1861,7 +1861,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         } else {
             p.add_msg_if_player( m_neutral, _( "It itches a little." ) );
         }
-        const body_part bp = player::hp_to_bp( hpart );
+        const bodypart_id bp = player::hp_to_bp( hpart );
         if( p.has_effect( effect_bite, bp ) ) {
             p.add_effect( effect_bite, 260_minutes, bp, true );
         }
@@ -2333,7 +2333,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
 
     if( p.get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
         // Only re-apply the effect if it wouldn't lower the intensity
-        p.add_effect( effect_playing_instrument, 2_turns, num_bp, false, speed_penalty );
+        p.add_effect( effect_playing_instrument, 2_turns, bodypart_id( "num_bp" ), false, speed_penalty );
     }
 
     std::string desc = "music";
@@ -3687,11 +3687,11 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     if( ( patient.hp_cur[healed] >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
         patient.heal( healed, dam );
     } else if( ( patient.hp_cur[healed] >= 1 ) && ( dam < 0 ) ) {
-        const body_part bp = player::hp_to_bp( healed );
+        const bodypart_id bp = player::hp_to_bp( healed );
         patient.apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 
-    const body_part bp_healed = player::hp_to_bp( healed );
+    const bodypart_id bp_healed = player::hp_to_bp( healed );
 
     const bool u_see = healer.is_player() || patient.is_player() ||
                        g->u.sees( healer ) || g->u.sees( patient );
@@ -3817,7 +3817,7 @@ static hp_part pick_part_to_heal(
             return num_hp_parts;
         }
 
-        body_part bp = player::hp_to_bp( healed_part );
+        bodypart_id bp = player::hp_to_bp( healed_part );
         if( ( infect && patient.has_effect( effect_infected, bp ) ) ||
             ( bite && patient.has_effect( effect_bite, bp ) ) ||
             ( bleed && patient.has_effect( effect_bleed, bp ) ) ) {
@@ -3862,7 +3862,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         int highest_damage = 0;
         for( int i = 0; i < num_hp_parts; i++ ) {
             int damage = 0;
-            const body_part i_bp = player::hp_to_bp( static_cast<hp_part>( i ) );
+            const bodypart_id i_bp = player::hp_to_bp( static_cast<hp_part>( i ) );
             if( ( !patient.has_effect( effect_bandaged, i_bp ) && bandages_power > 0 ) ||
                 ( !patient.has_effect( effect_disinfected, i_bp ) && disinfectant_power > 0 ) ) {
                 damage += patient.hp_max[i] - patient.hp_cur[i];
@@ -4390,7 +4390,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_player_or_npc( m_bad,
                                  _( "You suddenly feel dizzy, and collapse to the ground." ),
                                  _( "<npcname> suddenly collapses to the ground!" ) );
-        p.add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+        p.add_effect( effect_downed, 1_turns, bodypart_id( "num_bp" ), false, 0, true );
     }
 
     int mut_count = 1 + ( is_strong ? one_in( 3 ) : 0 );
@@ -4872,7 +4872,7 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
     if( waterproof ) {
         p.set_value( "waterproof_scent", "true" );
     }
-    p.add_effect( efftype_id( "masked_scent" ), duration, num_bp, false, scent_mod );
+    p.add_effect( efftype_id( "masked_scent" ), duration, bodypart_id( "num_bp" ), false, scent_mod );
     p.set_type_of_scent( scenttypeid );
     p.mod_moves( -moves );
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );

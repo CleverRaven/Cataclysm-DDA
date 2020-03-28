@@ -95,7 +95,7 @@ void weather_effect::glare( sun_intensity intensity )
         if( g->u.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        g->u.add_env_effect( *effect, bp_eyes, 2, dur );
+        g->u.add_env_effect( *effect, bodypart_id( "eyes" ), 2, dur );
     }
 }
 
@@ -374,7 +374,8 @@ static void wet_player( int amount )
     if( !calendar::once_every( 6_seconds ) ) {
         return;
     }
-    const int warmth_delay = g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5;
+    const int warmth_delay = g->u.warmth( bodypart_id( "torso" ) ) * 4 / 5 + g->u.warmth(
+                                 bodypart_id( "head" ) ) / 5;
     if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
