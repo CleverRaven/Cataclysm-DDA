@@ -150,6 +150,8 @@ static const std::string flag_RAW( "RAW" );
 static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
+static const bodypart_id default_bp( "default_bp" );
+
 const std::vector<std::string> carnivore_blacklist {{
         flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
     }
@@ -960,7 +962,7 @@ bool player::eat( item &food, bool force )
     }
 
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !has_trait( trait_M_IMMUNE ) ) {
-        add_effect( effect_fungus, 1_turns, num_bp, true );
+        add_effect( effect_fungus, 1_turns, default_bp, true );
     }
 
     // The fun changes for these effects are applied in fun_for().
@@ -984,19 +986,19 @@ bool player::eat( item &food, bool force )
             switch( rng( 0, 3 ) ) {
                 case 0:
                     if( !has_trait( trait_EATHEALTH ) ) {
-                        add_effect( effect_tapeworm, 1_turns, num_bp, true );
+                        add_effect( effect_tapeworm, 1_turns, default_bp, true );
                     }
                     break;
                 case 1:
                     if( !has_trait( trait_ACIDBLOOD ) ) {
-                        add_effect( effect_bloodworms, 1_turns, num_bp, true );
+                        add_effect( effect_bloodworms, 1_turns, default_bp, true );
                     }
                     break;
                 case 2:
-                    add_effect( effect_brainworms, 1_turns, num_bp, true );
+                    add_effect( effect_brainworms, 1_turns, default_bp, true );
                     break;
                 case 3:
-                    add_effect( effect_paincysts, 1_turns, num_bp, true );
+                    add_effect( effect_paincysts, 1_turns, default_bp, true );
             }
         }
     }

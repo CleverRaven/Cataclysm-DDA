@@ -1705,8 +1705,8 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         add_msg( m_bad, _( "You fall asleep…" ) );
         p.fall_asleep( 2_hours );
         add_msg( m_bad, _( "Your legs are covered in the poppy's roots!" ) );
-        p.apply_damage( nullptr, bp_leg_l, 4 );
-        p.apply_damage( nullptr, bp_leg_r, 4 );
+        p.apply_damage( nullptr, bodypart_id( "leg_l" ), 4 );
+        p.apply_damage( nullptr, bodypart_id( "leg_r" ), 4 );
         p.moves -= 50;
     }
 
@@ -1732,8 +1732,8 @@ void iexamine::flower_cactus( player &p, const tripoint &examp )
 
     if( one_in( 6 ) ) {
         add_msg( m_bad, _( "The cactus' nettles sting you!" ) );
-        p.apply_damage( nullptr, bp_arm_l, 4 );
-        p.apply_damage( nullptr, bp_arm_r, 4 );
+        p.apply_damage( nullptr, bodypart_id( "arm_l" ), 4 );
+        p.apply_damage( nullptr, bodypart_id( "arm_r" ), 4 );
     }
 
     g->m.furn_set( examp, f_null );
@@ -4664,7 +4664,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             int broken_limbs_count = 0;
             for( int i = 0; i < num_hp_parts; i++ ) {
                 const bool broken = patient.is_limb_broken( static_cast<hp_part>( i ) );
-                body_part part = player::hp_to_bp( static_cast<hp_part>( i ) );
+                bodypart_id part = player::hp_to_bp( static_cast<hp_part>( i ) );
                 effect &existing_effect = patient.get_effect( effect_mending, part );
                 // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
@@ -4678,7 +4678,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                                                _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
                                                body_part_name( part ) );
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
-                if( !patient.worn_with_flag( flag_SPLINT, part ) ) {
+                if( !patient.worn_with_flag( flag_SPLINT, part->token ) ) {
                     item splint;
                     if( i == hp_arm_l || i == hp_arm_r ) {
                         splint = item( "arm_splint", 0 );

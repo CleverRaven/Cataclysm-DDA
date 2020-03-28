@@ -91,6 +91,15 @@ static const skill_id skill_traps( "traps" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 
+static const bodypart_id default_bp( "num_bp" );
+static const bodypart_id torso_bp( "torso" );
+static const bodypart_id head_bp( "head" );
+static const bodypart_id leg_l_bp( "leg_l" );
+static const bodypart_id leg_r_bp( "leg_r" );
+static const bodypart_id arm_l_bp( "arm_l" );
+static const bodypart_id arm_r_bp( "arm_r" );
+
+
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
@@ -2006,15 +2015,15 @@ void map::drop_furniture( const tripoint &p )
         player *pl = dynamic_cast<player *>( critter );
         monster *mon = dynamic_cast<monster *>( critter );
         if( pl != nullptr ) {
-            pl->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0, 0.5f ) );
-            pl->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0, 0.5f ) );
-            pl->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
-            pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
-            pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
-            pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
+            pl->deal_damage( nullptr, torso_bp, damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0, 0.5f ) );
+            pl->deal_damage( nullptr, head_bp,  damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0, 0.5f ) );
+            pl->deal_damage( nullptr, leg_l_bp, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
+            pl->deal_damage( nullptr, leg_r_bp, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
+            pl->deal_damage( nullptr, arm_l_bp, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
+            pl->deal_damage( nullptr, arm_r_bp, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
         } else if( mon != nullptr ) {
             // TODO: Monster's armor and size - don't crush hulks with chairs
-            mon->apply_damage( nullptr, bp_torso, rng( dmg, dmg * 2 ) );
+            mon->apply_damage( nullptr, torso_bp, rng( dmg, dmg * 2 ) );
         }
     }
 
@@ -3354,33 +3363,33 @@ void map::crush( const tripoint &p )
             // TODO: Make this depend on the ceiling material
             const int dam = rng( 0, 40 );
             // Torso and head take the brunt of the blow
-            body_part hit = bp_head;
+            bodypart_id hit = head_bp;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .25 ) );
-            hit = bp_torso;
+            hit = torso_bp;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .45 ) );
             // Legs take the next most through transferred force
-            hit = bp_leg_l;
+            hit = leg_l_bp;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
-            hit = bp_leg_r;
+            hit = leg_r_bp;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
             // Arms take the least
-            hit = bp_arm_l;
+            hit = arm_l_bp;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
-            hit = bp_arm_r;
+            hit = arm_r_bp;
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
 
             // Pin whoever got hit
-            crushed_player->add_effect( effect_crushed, 1_turns, num_bp, true );
+            crushed_player->add_effect( effect_crushed, 1_turns, default_bp, true );
             crushed_player->check_dead_state();
         }
     }
 
     if( monster *const monhit = g->critter_at<monster>( p ) ) {
         // 25 ~= 60 * .45 (torso)
-        monhit->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( 0, 25 ) ) );
+        monhit->deal_damage( nullptr, torso_bp, damage_instance( DT_BASH, rng( 0, 25 ) ) );
 
         // Pin whoever got hit
-        monhit->add_effect( effect_crushed, 1_turns, num_bp, true );
+        monhit->add_effect( effect_crushed, 1_turns, default_bp, true );
         monhit->check_dead_state();
     }
 

@@ -224,6 +224,20 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 
 static const faction_id your_followers( "your_followers" );
 
+static const bodypart_id default_bp( "num_bp" );
+static const bodypart_id torso_bp( "torso" );
+static const bodypart_id head_bp( "head" );
+static const bodypart_id eyes_bp( "eyes" );
+static const bodypart_id mouth_bp( "mouth" );
+static const bodypart_id leg_l_bp( "leg_l" );
+static const bodypart_id leg_r_bp( "leg_r" );
+static const bodypart_id arm_l_bp( "arm_l" );
+static const bodypart_id arm_r_bp( "arm_r" );
+static const bodypart_id foot_l_bp( "foot_l" );
+static const bodypart_id foot_r_bp( "foot_r" );
+static const bodypart_id hand_l_bp( "hand_l" );
+static const bodypart_id hand_r_bp( "hand_r" );
+
 void intro();
 
 #if defined(__ANDROID__)
@@ -782,7 +796,7 @@ bool game::start_game()
         start_loc.burn( omtstart, 3, 3 );
     }
     if( scen->has_flag( "INFECTED" ) ) {
-        u.add_effect( effect_infected, 1_turns, u.get_random_body_part( false )->token, true );
+        u.add_effect( effect_infected, 1_turns, u.get_random_body_part( false ), true );
     }
     if( scen->has_flag( "BAD_DAY" ) ) {
         u.add_effect( effect_flu, 1000_minutes );
@@ -833,7 +847,7 @@ bool game::start_game()
     for( const mtype_id &elem : u.starting_pets ) {
         if( monster *const mon = place_critter_around( elem, u.pos(), 5 ) ) {
             mon->friendly = -1;
-            mon->add_effect( effect_pet, 1_turns, num_bp, true );
+            mon->add_effect( effect_pet, 1_turns, default_bp, true );
         } else {
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
@@ -1862,7 +1876,7 @@ void game::validate_mounted_npcs()
             }
             mounted_pl->mounted_creature = shared_from( m );
             mounted_pl->setpos( m.pos() );
-            mounted_pl->add_effect( effect_riding, 1_turns, num_bp, true );
+            mounted_pl->add_effect( effect_riding, 1_turns, default_bp, true );
             m.mounted_player = mounted_pl;
         }
     }
@@ -4278,7 +4292,7 @@ void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int 
                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
                     add_msg( _( "%s was stunned!" ), targ->name() );
                     add_msg( _( "%s slammed into an obstacle!" ), targ->name() );
-                    targ->apply_damage( nullptr, bp_torso, dam_mult * force_remaining );
+                    targ->apply_damage( nullptr, torso_bp, dam_mult * force_remaining );
                     targ->check_dead_state();
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
@@ -4338,12 +4352,12 @@ void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int 
                         add_msg( _( "%s was stunned!" ), targ->name );
                     }
 
-                    std::array<body_part, 8> bps = {{
-                            bp_head,
-                            bp_arm_l, bp_arm_r,
-                            bp_hand_l, bp_hand_r,
-                            bp_torso,
-                            bp_leg_l, bp_leg_r
+                    std::array<bodypart_id, 8> bps = {{
+                            head_bp,
+                            arm_l_bp, arm_r_bp,
+                            hand_l_bp, hand_r_bp,
+                            torso_bp,
+                            leg_l_bp, leg_r_bp
                         }
                     };
                     for( auto &bp : bps ) {
@@ -4413,12 +4427,12 @@ void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int 
                                  force_remaining );
                     }
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
-                    std::array<body_part, 8> bps = {{
-                            bp_head,
-                            bp_arm_l, bp_arm_r,
-                            bp_hand_l, bp_hand_r,
-                            bp_torso,
-                            bp_leg_l, bp_leg_r
+                    std::array<bodypart_id, 8> bps = { {
+                            head_bp,
+                            arm_l_bp, arm_r_bp,
+                            hand_l_bp, hand_r_bp,
+                            torso_bp,
+                            leg_l_bp, leg_r_bp
                         }
                     };
                     for( auto &bp : bps ) {
@@ -4845,11 +4859,11 @@ bool game::revive_corpse( const tripoint &p, item &it )
     }
 
     critter.no_extra_death_drops = true;
-    critter.add_effect( effect_downed, 5_turns, num_bp, true );
+    critter.add_effect( effect_downed, 5_turns, default_bp, true );
 
     if( it.get_var( "zlave" ) == "zlave" ) {
-        critter.add_effect( effect_pacified, 1_turns, num_bp, true );
-        critter.add_effect( effect_pet, 1_turns, num_bp, true );
+        critter.add_effect( effect_pacified, 1_turns, default_bp, true );
+        critter.add_effect( effect_pet, 1_turns, default_bp, true );
     }
 
     if( it.get_var( "no_ammo" ) == "no_ammo" ) {
@@ -4905,7 +4919,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
         overmap_buffer.insert_npc( tmp );
         tmp->hurtall( dmg_lvl * 10, nullptr );
-        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
+        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), default_bp, false, 0, true );
         load_npcs();
 
     } else {
@@ -4999,7 +5013,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         if( critter.type->size <= MS_SMALL ) {
             critter.die_in_explosion( nullptr );
         } else {
-            critter.apply_damage( nullptr, bp_torso, bash_dmg );
+            critter.apply_damage( nullptr, torso_bp, bash_dmg );
             critter.check_dead_state();
         }
         if( !critter.is_dead() && critter.type->size >= MS_HUGE ) {
@@ -8658,7 +8672,7 @@ bool game::disable_robot( const tripoint &p )
                                  critter.name() );
                     }
                 } else {
-                    critter.add_effect( effect_docile, 1_turns, num_bp, true );
+                    critter.add_effect( effect_docile, 1_turns, default_bp, true );
                     if( one_in( 3 ) ) {
                         add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
                                  critter.name() );
@@ -9094,13 +9108,13 @@ point game::place_player( const tripoint &dest_loc )
             add_msg( m_bad, _( "You hurt your left foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
+            u.deal_damage( nullptr, foot_l_bp, damage_instance( DT_CUT, 1 ) );
         }
         if( one_in( 5 ) && u.get_armor_bash( bp_foot_r ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your right foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
+            u.deal_damage( nullptr, foot_l_bp, damage_instance( DT_CUT, 1 ) );
         }
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
@@ -9109,31 +9123,31 @@ point game::place_player( const tripoint &dest_loc )
                 one_in( 4 ) ) ) {
         if( u.is_mounted() ) {
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
-            u.mounted_creature->apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
+            u.mounted_creature->apply_damage( nullptr, torso_bp, rng( 1, 10 ) );
         } else {
-            body_part bp = u.get_random_body_part( false )->token;
+            bodypart_id bp = u.get_random_body_part( false );
             if( u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0 ) {
                 //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                 add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
-                         body_part_name_accusative( bp ),
+                         body_part_name_accusative( bp->token ),
                          m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
                 if( ( u.has_trait( trait_INFRESIST ) ) && ( one_in( 1024 ) ) ) {
-                    u.add_effect( effect_tetanus, 1_turns, num_bp, true );
+                    u.add_effect( effect_tetanus, 1_turns, default_bp, true );
                 } else if( ( !u.has_trait( trait_INFIMMUNE ) || !u.has_trait( trait_INFRESIST ) ) &&
                            ( one_in( 256 ) ) ) {
-                    u.add_effect( effect_tetanus, 1_turns, num_bp, true );
+                    u.add_effect( effect_tetanus, 1_turns, default_bp, true );
                 }
             }
         }
     }
     if( m.has_flag( "UNSTABLE", dest_loc ) && !u.is_mounted() ) {
-        u.add_effect( effect_bouldering, 1_turns, num_bp, true );
+        u.add_effect( effect_bouldering, 1_turns, default_bp, true );
     } else if( u.has_effect( effect_bouldering ) ) {
         u.remove_effect( effect_bouldering );
     }
     if( m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, dest_loc ) ) {
-        u.add_effect( effect_no_sight, 1_turns, num_bp, true );
+        u.add_effect( effect_no_sight, 1_turns, default_bp, true );
     } else if( u.has_effect( effect_no_sight ) ) {
         u.remove_effect( effect_no_sight );
     }
@@ -9787,9 +9801,9 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
             const int damage = rng( force, force * 2.0f ) / 6;
             c->impact( damage, pt );
             // Multiply zed damage by 6 because no body parts
-            const int zed_damage = std::max( 0, ( damage - critter.get_armor_bash( bp_torso ) ) * 6 );
+            const int zed_damage = std::max( 0, ( damage - critter.get_armor_bash( torso_bp ) ) * 6 );
             // TODO: Pass the "flinger" here - it's not the flung critter that deals damage
-            critter.apply_damage( c, bp_torso, zed_damage );
+            critter.apply_damage( c, torso_bp, zed_damage );
             critter.check_dead_state();
             if( !critter.is_dead() ) {
                 thru = false;
@@ -10422,7 +10436,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                     rope_ladder = true;
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
-                    u.apply_damage( nullptr, bp_torso, 5 );
+                    u.apply_damage( nullptr, torso_bp, 5 );
                     u.mod_stored_nutr( 10 );
                     u.mod_thirst( 10 );
                 } else {
