@@ -1885,5 +1885,16 @@
       "explosion": { "power": 1340, "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
+    "id": "bio_scent_vision",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Scent Vision CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "This system lets the user visually sense their own scent, making it possible for them to recognize their surroundings even in complete darkness.",
+    "price": 450000,
+    "weight": "100 g",
+    "difficulty": 8
   }
 ]
