@@ -988,6 +988,8 @@ bool main_menu::load_character_tab( bool transfer )
             }
             wrefresh( w_open );
         } else if( layer == 3 && sel1 == 2 ) {
+            savegames = world_generator->get_world( all_worldnames[sel2] )->world_saves;
+
             const std::string &wn = all_worldnames[sel2];
 
             mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 - sel2 + offset_y ), h_white,
