@@ -13,33 +13,35 @@
   {
     "id": "building_rubble",
     "type": "item_group",
-    "items": [
-      [ "rock", 25 ],
-      [ "scrap", 10 ],
-      [ "splinter", 10 ],
-      [ "rebar", 25 ],
-      [ "nail", 5 ],
+    "subtype": "distribution",
+    "entries": [
+      { "item": "rock", "prob": 25 },
+      { "item": "scrap", "prob": 10 },
+      { "item": "splinter", "prob": 10 },
+      { "item": "rebar", "prob": 25 },
+      { "item": "nail", "prob": 5 },
       { "item": "glass_shard", "prob": 15, "count": [ 1, 8 ] },
-      [ "wire", 5 ],
-      [ "splinter", 20 ]
+      { "item": "wire", "prob": 5 },
+      { "item": "splinter", "prob": 20 }
     ]
   },
   {
     "id": "vehicle_scrapped",
     "type": "item_group",
-    "items": [
-      [ "chain", 10 ],
-      [ "steel_chunk", 30 ],
-      [ "spring", 5 ],
-      [ "steel_lump", 30 ],
-      [ "steel_plate", 30 ],
-      [ "hard_plate", 30 ],
-      [ "frame", 20 ],
-      [ "bearing", 5 ],
-      [ "cu_pipe", 5 ],
-      [ "scrap", 20 ],
+    "subtype": "distribution",
+    "entries": [
+      { "item": "chain", "prob": 10 },
+      { "item": "steel_chunk", "prob": 30 },
+      { "item": "spring", "prob": 5 },
+      { "item": "steel_lump", "prob": 30 },
+      { "item": "steel_plate", "prob": 30 },
+      { "item": "hard_plate", "prob": 30 },
+      { "item": "frame", "prob": 20 },
+      { "item": "bearing", "prob": 5 },
+      { "item": "cu_pipe", "prob": 5 },
+      { "item": "scrap", "prob": 20 },
       { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
-      [ "wire", 5 ]
+      { "item": "wire", "prob": 5 }
     ]
   },
   {
