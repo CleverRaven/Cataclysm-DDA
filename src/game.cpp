@@ -3231,8 +3231,6 @@ void game::draw_ter( const bool draw_sounds )
 void game::draw_ter( const tripoint &center, const bool looking, const bool draw_sounds )
 {
     ter_view_p = center;
-    const int posx = center.x;
-    const int posy = center.y;
 
     // TODO: Make it not rebuild the cache all the time (cache point+moves?)
     if( !looking ) {
