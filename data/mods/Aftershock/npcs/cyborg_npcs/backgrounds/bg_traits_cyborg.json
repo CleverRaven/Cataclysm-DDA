@@ -46,5 +46,5 @@
     "purifiable": false,
     "types": [ "BACKGROUND_SURVIVAL_STORY" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
-  },
+  }
 ]
