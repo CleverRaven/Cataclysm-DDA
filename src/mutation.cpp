@@ -432,7 +432,7 @@ bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) con
     bool can_install = true;
     for( const trait_id &mut : get_mutations() ) {
         for( const bodypart_id bp : bps ) {
-            if( mut.obj().no_cbm_on_bp.count( bp ) ) {
+            if( mut.obj().no_cbm_on_bp.count( bp->token ) ) {
                 can_install = false;
                 break;
             }

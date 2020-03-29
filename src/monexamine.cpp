@@ -54,6 +54,9 @@ static const skill_id skill_survival( "survival" );
 
 static const species_id ZOMBIE( "ZOMBIE" );
 
+static const bodypart_id default_bp( "num_bp" );
+static const bodypart_id torso_bp( "torso" );
+
 bool monexamine::pet_menu( monster &z )
 {
     enum choices {
@@ -323,7 +326,7 @@ bool monexamine::mech_hack( monster &z )
     if( g->u.has_amount( card_type, 1 ) ) {
         if( query_yn( _( "Swipe your ID card into the mech's security port?" ) ) ) {
             g->u.mod_moves( -100 );
-            z.add_effect( effect_pet, 1_turns, num_bp, true );
+            z.add_effect( effect_pet, 1_turns, default_bp, true );
             z.friendly = -1;
             add_msg( m_good, _( "The %s whirs into life and opens its restraints to accept a pilot." ),
                      z.get_name() );
@@ -375,7 +378,7 @@ bool monexamine::pay_bot( monster &z )
                 time_duration time_bought = time_duration::from_minutes( amount );
                 g->u.use_charges( "cash_card", amount * 10 );
                 z.add_effect( effect_pet, time_bought );
-                z.add_effect( effect_paid, time_bought, num_bp, true );
+                z.add_effect( effect_paid, time_bought, default_bp, true );
                 z.friendly = -1;
                 popup( _( "Your friendship grows stronger!\n This %s will follow you for %s." ), z.get_name(),
                        to_string( z.get_effect_dur( effect_pet ) ) );
@@ -402,7 +405,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
             add_msg( _( "Never mind." ) );
             return;
         }
-        z.add_effect( effect_saddled, 1_turns, num_bp, true );
+        z.add_effect( effect_saddled, 1_turns, default_bp, true );
         z.tack_item = cata::make_value<item>( *loc.get_item() );
         loc.remove_item();
     }
@@ -444,7 +447,7 @@ void monexamine::swap( monster &z )
         g->swap_critters( g->u, z );
 
         if( t ) {
-            z.add_effect( effect_tied, 1_turns, num_bp, true );
+            z.add_effect( effect_tied, 1_turns, default_bp, true );
         }
         add_msg( _( "You swap positions with your %s." ), pet_name );
     } else {
@@ -499,7 +502,7 @@ void monexamine::attach_bag_to( monster &z )
     z.storage_item = cata::make_value<item>( it );
     add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
     g->u.i_rem( &it );
-    z.add_effect( effect_has_bag, 1_turns, num_bp, true );
+    z.add_effect( effect_has_bag, 1_turns, default_bp, true );
     // Update encumbrance in case we were wearing it
     g->u.flag_encumbrance();
     g->u.moves -= 200;
@@ -592,7 +595,7 @@ bool monexamine::add_armor( monster &z )
     add_msg( pgettext( "pet armor", "You put the %1$s on your %2$s." ), armor.display_name(),
              pet_name );
     loc.remove_item();
-    z.add_effect( effect_monster_armor, 1_turns, num_bp, true );
+    z.add_effect( effect_monster_armor, 1_turns, default_bp, true );
     // TODO: armoring a horse takes a lot longer than 2 seconds. This should be a long action.
     g->u.moves -= 200;
     return true;
@@ -630,7 +633,7 @@ void monexamine::play_with( monster &z )
 
 void monexamine::kill_zslave( monster &z )
 {
-    z.apply_damage( &g->u, bp_torso, 100 ); // damage the monster (and its corpse)
+    z.apply_damage( &g->u, torso_bp, 100 ); // damage the monster (and its corpse)
     z.die( &g->u ); // and make sure it's really dead
 
     g->u.moves -= 150;
@@ -677,7 +680,7 @@ void monexamine::tie_or_untie( monster &z )
         if( item_pos != INT_MIN ) {
             z.tied_item = cata::make_value<item>( *rope_item );
             g->u.i_rem( item_pos );
-            z.add_effect( effect_tied, 1_turns, num_bp, true );
+            z.add_effect( effect_tied, 1_turns, default_bp, true );
         }
     }
 }
@@ -697,7 +700,7 @@ void monexamine::milk_source( monster &source_mon )
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
-            source_mon.add_effect( effect_tied, 1_turns, num_bp, true );
+            source_mon.add_effect( effect_tied, 1_turns, default_bp, true );
             g->u.activity.str_values.push_back( "temp_tie" );
         }
         add_msg( _( "You milk the %s." ), source_mon.get_name() );

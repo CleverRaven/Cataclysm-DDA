@@ -9,6 +9,7 @@
 #include <string>
 #include <utility>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "color.h"
 #include "enums.h"

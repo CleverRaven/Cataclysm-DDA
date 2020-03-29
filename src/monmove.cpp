@@ -63,6 +63,9 @@ static const species_id ZOMBIE( "ZOMBIE" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_LIQUID( "LIQUID" );
 
+static const bodypart_id default_bp( "num_bp" );
+static const bodypart_id torso_bp( "torso" );
+
 #define MONSTER_FOLLOW_DIST 8
 
 bool monster::wander()
@@ -1536,21 +1539,21 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
         if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) && get_armor_cut( bp_torso ) < sharp_damage ) {
-            apply_damage( nullptr, bp_torso, sharp_damage );
+            apply_damage( nullptr, torso_bp, sharp_damage );
         }
         if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) && get_armor_cut( bp_torso ) < rough_damage ) {
-            apply_damage( nullptr, bp_torso, rough_damage );
+            apply_damage( nullptr, torso_bp, rough_damage );
         }
     }
 
     if( g->m.has_flag( "UNSTABLE", destination ) && on_ground ) {
-        add_effect( effect_bouldering, 1_turns, num_bp, true );
+        add_effect( effect_bouldering, 1_turns, default_bp, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
 
     if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, destination ) && on_ground ) {
-        add_effect( effect_no_sight, 1_turns, num_bp, true );
+        add_effect( effect_no_sight, 1_turns, default_bp, true );
     } else if( has_effect( effect_no_sight ) ) {
         remove_effect( effect_no_sight );
     }
@@ -1821,14 +1824,14 @@ void monster::knock_back_to( const tripoint &to )
 
     // First, see if we hit another monster
     if( monster *const z = g->critter_at<monster>( to ) ) {
-        apply_damage( z, bp_torso, z->type->size );
+        apply_damage( z, torso_bp, z->type->size );
         add_effect( effect_stunned, 1_turns );
         if( type->size > 1 + z->type->size ) {
             z->knock_back_from( pos() ); // Chain reaction!
-            z->apply_damage( this, bp_torso, type->size );
+            z->apply_damage( this, torso_bp, type->size );
             z->add_effect( effect_stunned, 1_turns );
         } else if( type->size > z->type->size ) {
-            z->apply_damage( this, bp_torso, type->size );
+            z->apply_damage( this, torso_bp, type->size );
             z->add_effect( effect_stunned, 1_turns );
         }
         z->check_dead_state();
@@ -1841,9 +1844,9 @@ void monster::knock_back_to( const tripoint &to )
     }
 
     if( npc *const p = g->critter_at<npc>( to ) ) {
-        apply_damage( p, bp_torso, 3 );
+        apply_damage( p, torso_bp, 3 );
         add_effect( effect_stunned, 1_turns );
-        p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
+        p->deal_damage( this, torso_bp, damage_instance( DT_BASH, type->size ) );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->name );
         }
@@ -1865,7 +1868,7 @@ void monster::knock_back_to( const tripoint &to )
     if( g->m.impassable( to ) ) {
 
         // It's some kind of wall.
-        apply_damage( nullptr, bp_torso, type->size );
+        apply_damage( nullptr, torso_bp, type->size );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off a %2$s." ), name(),

@@ -48,6 +48,8 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const std::string part_location_structure( "structure" );
 
+static const bodypart_id torso_bp( "torso" );
+
 // tile height in meters
 static const float tile_height = 4;
 // miles per hour to vehicle 100ths of miles per hour
@@ -685,7 +687,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                                   critter->get_armor_cut( bp_torso ) :
                                   critter->get_armor_bash( bp_torso );
                 dam = std::max( 0, dam - armor );
-                critter->apply_damage( driver, bp_torso, dam );
+                critter->apply_damage( driver, torso_bp, dam );
                 add_msg( m_debug, "Critter collision damage: %d", dam );
             }
 
@@ -1581,7 +1583,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                                             _( "<npcname> takes %d damage by the power of the "
                                                "impact!" ),  dmg );
             } else {
-                pet->apply_damage( nullptr, bp_torso, dmg );
+                pet->apply_damage( nullptr, torso_bp, dmg );
             }
         }
 

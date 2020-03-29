@@ -15,6 +15,7 @@
 #include "activity_handlers.h"
 #include "addiction.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -165,6 +166,9 @@ static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_RAD_RESIST( "RAD_RESIST" );
 static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 
+static const bodypart_id default_bp( "num_bp" );
+static const bodypart_id torso_bp( "torso" );
+
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {
     // Not addicted
@@ -177,9 +181,9 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
 
 void Character::suffer_water_damage( const mutation_branch &mdata )
 {
-    for( const body_part bp : all_body_parts ) {
-        const float wetness_percentage = static_cast<float>( body_wetness[bp] ) /
-                                         drench_capacity[bp];
+    for( const bodypart_id bp : get_all_body_parts() ) {
+        const float wetness_percentage = static_cast<float>( body_wetness[bp->token] ) /
+                                         drench_capacity[bp->token];
         const int dmg = mdata.weakness_to_water * wetness_percentage;
         if( dmg > 0 ) {
             apply_damage( nullptr, bp, dmg );
@@ -257,7 +261,7 @@ void Character::suffer_while_underwater()
             mod_power_level( -25_kJ );
         } else {
             add_msg_if_player( m_bad, _( "You're drowning!" ) );
-            apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
+            apply_damage( nullptr, torso_bp, rng( 1, 4 ) );
         }
     }
     if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
@@ -298,9 +302,9 @@ void Character::suffer_while_awake( const int current_stim )
     if( !has_trait( trait_DEBUG_STORAGE ) &&
         ( weight_carried() > 4 * weight_capacity() ) ) {
         if( has_effect( effect_downed ) ) {
-            add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 1_turns, default_bp, false, 0, true );
         } else {
-            add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 2_turns, default_bp, false, 0, true );
         }
     }
     if( has_trait( trait_CHEMIMBALANCE ) ) {
@@ -450,7 +454,7 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 6_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "schizo_formication" ).value_or(
                                      translation() );
-        body_part bp = get_random_body_part( true )->token;
+        bodypart_id bp = get_random_body_part( true );
         add_effect( effect_formication, 45_minutes, bp );
         add_msg_if_player( m_bad, "%s", snip );
         return;
@@ -1136,7 +1140,7 @@ void Character::suffer_from_radiation()
             }
             reactor_plut -= power_gen;
             while( power_gen >= 250 ) {
-                apply_damage( nullptr, bp_torso, 1 );
+                apply_damage( nullptr, torso_bp, 1 );
                 mod_pain( 1 );
                 add_msg_if_player( m_bad,
                                    _( "Your chest burns as your power systems overload!" ) );
@@ -1218,7 +1222,7 @@ void Character::suffer_from_bad_bionics()
                            _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
         mod_pain( 1 );
         add_effect( effect_stunned, 1_turns );
-        add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+        add_effect( effect_downed, 1_turns, default_bp, false, 0, true );
         sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
     if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {
@@ -1236,7 +1240,7 @@ void Character::suffer_from_bad_bionics()
     if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
-        body_part bp = get_random_body_part( true )->token;
+        bodypart_id bp = get_random_body_part( true );
         add_effect( effect_formication, 10_minutes, bp );
     }
     if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
@@ -1426,7 +1430,7 @@ void Character::suffer()
     const int current_stim = get_stim();
     // TODO: Remove this section and encapsulate hp_cur
     for( int i = 0; i < num_hp_parts; i++ ) {
-        body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        bodypart_id bp = hp_to_bp( static_cast<hp_part>( i ) );
         if( hp_cur[i] <= 0 ) {
             add_effect( effect_disabled, 1_turns, bp, true );
         }
@@ -1630,8 +1634,8 @@ void Character::mend( int rate_multiplier )
             continue;
         }
 
-        body_part part = hp_to_bp( static_cast<hp_part>( i ) );
-        if( needs_splint && !worn_with_flag( "SPLINT", part ) ) {
+        bodypart_id part = hp_to_bp( static_cast<hp_part>( i ) );
+        if( needs_splint && !worn_with_flag( "SPLINT", part->token ) ) {
             continue;
         }
 

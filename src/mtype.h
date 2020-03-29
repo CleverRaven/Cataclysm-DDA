@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 
+#include "bodypart.h"
 #include "color.h"
 #include "optional.h"
 #include "damage.h"

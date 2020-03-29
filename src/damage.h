@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 
+#include "bodypart.h"
 #include "type_id.h"
 
 class item;
