@@ -750,8 +750,7 @@ bool Character::check_mount_will_move( const tripoint &dest_loc )
             Attitude att = critter.attitude_to( *this );
             if( att == A_HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 5 &&
                 rl_dist( dest_loc, critter.pos() ) < rl_dist( pos(), critter.pos() ) ) {
-                add_msg_if_player( _( "Your %s refuses to move closer to the %s!" ), mounted_creature->get_name(),
-                                   critter.get_name() );
+                add_msg_if_player( _( "You fail to budge your %s!" ), mounted_creature->get_name() );
                 return false;
             }
         }
@@ -788,8 +787,6 @@ bool Character::check_mount_is_spooked()
                 }
                 chance = std::max( 1.0, chance );
                 if( x_in_y( chance, 100.0 ) ) {
-                    add_msg_player_or_npc( m_bad, _( "Your %s spooks and rears!" ),
-                                           _( "<npcname>'s %s spooks and rears!" ), mounted_creature->get_name() );
                     forced_dismount();
                     return true;
                 }
