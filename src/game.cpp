@@ -10029,11 +10029,7 @@ void game::vertical_move( int movez, bool force )
             return;
         }
 
-        if( dexroll >= 14 ) {
-            add_msg( _( "You manage to slip past!" ) );
-        } else if( strroll >= 12 ) {
-            add_msg( _( "You manage to push past!" ) );
-        }
+        add_msg( _( "You manage to slip past!" ) );
         slippedpast = true;
         u.moves -= 100;
     }
