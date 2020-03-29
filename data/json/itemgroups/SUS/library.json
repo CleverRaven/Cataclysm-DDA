@@ -352,7 +352,11 @@
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a single nonfiction printed material.",
     "subtype": "distribution",
-    "entries": [ { "group": "SUS_book_nonf_hard", "prob": 3 }, { "group": "SUS_book_nonf_zine", "prob": 1 } ]
+    "entries": [
+      { "group": "SUS_book_nonf_hard", "prob": 3 },
+      { "group": "SUS_book_nonf_soft", "prob": 3 },
+      { "group": "SUS_book_nonf_zine", "prob": 1 }
+    ]
   },
   {
     "id": "SUS_book_nonf_hard",
@@ -365,6 +369,17 @@
       { "group": "SUS_book_nonf_hard_spirit", "prob": 1 },
       { "group": "SUS_book_nonf_hard_homemk", "prob": 1 },
       { "group": "SUS_book_nonf_hard_arch", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_soft",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "Returns a single nonfiction paperback.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_book_nonf_soft_occult", "prob": 1 },
+      { "group": "SUS_book_nonf_soft_psych", "prob": 5 }
     ]
   },
   {
@@ -441,14 +456,29 @@
     "//2": "Returns a book about homemaking.",
     "subtype": "distribution",
     "entries": [
-      { "item": "book_nonf_hard_homemk_anythingcan", "prob": 1 },
-      { "item": "book_nonf_hard_homemk_grtrms", "prob": 1 },
-      { "item": "book_nonf_hard_homemk_handshome", "prob": 1 },
-      { "item": "book_nonf_hard_homemk_loverms", "prob": 1 },
-      { "item": "book_nonf_hard_homemk_nyparti", "prob": 1 },
-      { "item": "book_nonf_hard_homemk_outkitchn", "prob": 1 },
-      { "item": "book_nonf_hard_homemk_plantshome", "prob": 1 },
-      { "item": "book_nonf_hard_homemk_wmencolor", "prob": 1 }
+      { "item": "book_nonf_hard_homemk_anythingcan", "prob": 10 },
+      { "item": "book_nonf_hard_homemk_grtrms", "prob": 10 },
+      { "item": "book_nonf_hard_homemk_handshome", "prob": 10 },
+      { "item": "book_nonf_hard_homemk_loverms", "prob": 10 },
+      { "item": "book_nonf_hard_homemk_nyparti", "prob": 10 },
+      { "item": "book_nonf_hard_homemk_outkitchn", "prob": 10 },
+      { "item": "book_nonf_hard_homemk_plantshome", "prob": 10 },
+      { "item": "book_nonf_hard_homemk_wmencolor", "prob": 10 },
+      { "item": "book_nonf_hard_psych_thergar", "prob": 3 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_hard_psych",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "Returns a book about psychology.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_nonf_hard_psych_forpsych", "prob": 1 },
+      { "item": "book_nonf_hard_psych_grconres", "prob": 1 },
+      { "item": "book_nonf_hard_psych_moodalm", "prob": 1 },
+      { "item": "book_nonf_hard_psych_phonodis", "prob": 1 },
+      { "item": "book_nonf_hard_psych_thergar", "prob": 1 }
     ]
   },
   {
@@ -477,6 +507,33 @@
       { "item": "holybook_upanishads", "prob": 2 },
       { "item": "holybook_vedas", "prob": 2 },
       { "item": "mycenacean_hymns", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_soft_occult",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "returns a single paperback book of occult studies",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "occult_economicon", "prob": 1 },
+      { "item": "occult_bobliographon", "prob": 1 },
+      { "item": "occult_glimpses", "prob": 1 }
+    ]
+  },
+  {
+    "id": "SUS_book_nonf_soft_psych",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "returns a single psychology paperback",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "book_nonf_soft_psych_paranoia", "prob": 1 },
+      { "item": "book_nonf_soft_psych_psycolo", "prob": 1 },
+      { "item": "book_nonf_soft_psych_psycstlk", "prob": 1 },
+      { "item": "book_nonf_soft_psych_adrugds", "prob": 1 },
+      { "item": "book_nonf_soft_psych_arteatds", "prob": 1 },
+      { "item": "book_nonf_soft_psych_cggamers", "prob": 1 }
     ]
   },
   {
