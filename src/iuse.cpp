@@ -3524,14 +3524,10 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
             tries++;
         } while( g->m.impassable( goop ) &&
                  g->m.tr_at( goop ).is_null() && tries < 10 );
-        if( tries < 10 ) {
-            if( g->u.sees( goop ) ) {
-                add_msg( m_warning, _( "A nearby splatter of goo forms into a goo pit." ) );
-            }
-            g->m.trap_set( goop, tr_goo );
-        } else {
-            return 0;
+        if( g->u.sees( goop ) ) {
+            add_msg( m_warning, _( "A nearby splatter of goo forms into a goo pit." ) );
         }
+        g->m.trap_set( goop, tr_goo );
     }
     return it->type->charges_to_use();
 }
