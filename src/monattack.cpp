@@ -3868,7 +3868,7 @@ bool mattack::multi_robot( monster *z )
                cap > 4 ) {
         // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
         // Or if you've hacked it so the turret's on your side.  ;-)
-        if( dist >= 30 && dist < 50 ) {
+        if( dist < 50 ) {
             // Enforced max-range of 50.
             mode = 5;
             cap = 5;

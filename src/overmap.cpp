@@ -3812,9 +3812,6 @@ inline om_direction::type rotate_internal( om_direction::type dir, int step )
         return dir;
     }
     step = step % om_direction::size;
-    if( step < 0 ) {
-        step += om_direction::size;
-    }
     return static_cast<om_direction::type>( ( static_cast<int>( dir ) + step ) % om_direction::size );
 }
 

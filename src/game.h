@@ -635,7 +635,7 @@ class game
         // stun determines base number of turns target is stunned regardless of impact
         // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
         void knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult );
-        void knockback( std::vector<tripoint> &traj, int force, int stun, int dam_mult );
+        void knockback( std::vector<tripoint> &traj, int stun, int dam_mult );
 
         // Animation related functions
         void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,
@@ -1043,7 +1043,7 @@ class game
         std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
         tripoint last_mouse_edge_scroll_vector_terrain;
         tripoint last_mouse_edge_scroll_vector_overmap;
-        std::pair<tripoint, tripoint> mouse_edge_scrolling( input_context ctxt, int speed,
+        std::pair<tripoint, tripoint> mouse_edge_scrolling( input_context &ctxt, int speed,
                 const tripoint &last, bool iso );
     public:
         /** Used to implement mouse "edge scrolling". Returns a

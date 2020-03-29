@@ -3501,16 +3501,16 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
             goo->friendly = -1;
         }
     }
-    tries = 0;
-    while( !one_in( 4 ) && tries < 10 ) {
+    if( x_in_y( 3.0, 4.0 ) ) {
         tries = 0;
+        bool found = false;
         do {
             goop.x = p->posx() + rng( -2, 2 );
             goop.y = p->posy() + rng( -2, 2 );
             tries++;
-        } while( g->m.impassable( goop ) &&
-                 g->m.tr_at( goop ).is_null() && tries < 10 );
-        if( tries < 10 ) {
+            found = g->m.passable( goop ) && g->m.tr_at( goop ).is_null();
+        } while( !found && tries < 10 );
+        if( found ) {
             if( g->u.sees( goop ) ) {
                 add_msg( m_warning, _( "A nearby splatter of goo forms into a goo pit." ) );
             }

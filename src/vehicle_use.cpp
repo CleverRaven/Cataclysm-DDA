@@ -368,7 +368,7 @@ void vehicle::control_engines()
         }
         dirty = true;
         adjust_engine( e_toggle );
-    } while( e_toggle >= 0 && e_toggle < fuel_count );
+    } while( e_toggle < fuel_count );
 
     if( !dirty ) {
         return;
