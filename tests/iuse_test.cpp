@@ -304,11 +304,8 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
     SECTION( "atomic caffeine greatly reduces fatigue, but may also irradiate you" ) {
         item &atomic_coffee = dummy.i_add( item( "atomic_coffee", 0, item::default_charges_tag{} ) );
         dummy.invoke_item( &atomic_coffee );
-        CHECK( dummy.get_fatigue() == fatigue_before - 12 * atomic_coffee.get_comestible()->stim );
+        CHECK( dummy.get_fatigue() == fatigue_before - 3 * atomic_coffee.get_comestible()->stim );
         CHECK( dummy.get_stim() == 0 );
-        // irradiation is random, between 0 and 8
-        CHECK( dummy.get_rad() >= 0 );
-        CHECK( dummy.get_rad() <= 8 );
     }
 }
 
