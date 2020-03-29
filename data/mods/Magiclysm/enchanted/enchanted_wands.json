@@ -1,7 +1,7 @@
 [
   {
     "abstract": "spell_wand",
-    "name": "Magic Wand",
+    "name": { "str": "Magic Wand" },
     "type": "TOOL",
     "weight": "230 g",
     "volume": "500 ml",
@@ -19,7 +19,7 @@
   },
   {
     "abstract": "disp_wand",
-    "name": "Disposable Wand",
+    "name": { "str": "Disposable Wand" },
     "type": "TOOL",
     "weight": "230 g",
     "volume": "500 ml",

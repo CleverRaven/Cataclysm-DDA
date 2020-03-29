@@ -777,7 +777,7 @@
   {
     "id": "rune_technomancer_weapon",
     "type": "GENERIC",
-    "name": "Technomancer toolbar",
+    "name": { "str": "Technomancer toolbar" },
     "//": "Combat stats based off crowbar +1, techniques off Halligan bar(closest non-magical substitute), weight based on 75% of hammer & wrench(since their handles aren't included) + 100% crowbar with benefit from +1 enchantment",
     "description": "This staff incorporates a sturdy cresent wrench on top of a prybar and a hammer on the other in a convienent package.  There is a Technomancer rune embedded in the hammerhead.",
     "weight": "1536 g",
@@ -813,7 +813,7 @@
   {
     "id": "rune_kelvinist_weapon",
     "type": "GENERIC",
-    "name": "Kelvinist flamberge",
+    "name": { "str": "Kelvinist flamberge" },
     "//": "Flame-bladed sword covers half of Kelvinist's heat-cold theme.  Combat stats equivalent to cutlass +1 with BRUTAL technique.",
     "description": "A sword with an undulating blade, reminiscent of a flame.  There is a Kelvinist rune embedded in the pommel.",
     "weight": "1530 g",
@@ -833,7 +833,7 @@
   {
     "id": "rune_stormshaper_weapon",
     "type": "GENERIC",
-    "name": "Stormshaper axe",
+    "name": { "str": "Stormshaper axe" },
     "//": "Equivalent to copper ax +1, with volume reduction so it can be sheathed like the other school weapons.  Metals chosen for being two most conductive metals + balancing reasons",
     "description": "A forged copper axe with silver trimmings and a wooden handle.  There is a Stormshaper rune embedded in the eye.",
     "weight": "3330 g",

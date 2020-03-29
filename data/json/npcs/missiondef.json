@@ -370,7 +370,7 @@
   {
     "id": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "type": "mission_definition",
-    "name": "Prison Visionary",
+    "name": { "str": "Prison Visionary" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 150000,
@@ -524,7 +524,7 @@
   {
     "id": "MISSION_REACH_FARM_HOUSE",
     "type": "mission_definition",
-    "name": "Reach Farm House",
+    "name": { "str": "Reach Farm House" },
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
@@ -547,7 +547,7 @@
   {
     "id": "MISSION_REACH_FEMA_CAMP",
     "type": "mission_definition",
-    "name": "Reach FEMA Camp",
+    "name": { "str": "Reach FEMA Camp" },
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
@@ -570,7 +570,7 @@
   {
     "id": "MISSION_REACH_SAFETY",
     "type": "mission_definition",
-    "name": "Reach Safety",
+    "name": { "str": "Reach Safety" },
     "goal": "MGOAL_GO_TO",
     "difficulty": 1,
     "value": 0,
@@ -681,7 +681,7 @@
   {
     "id": "MISSION_PROVE_YOUR_WORTH",
     "type": "mission_definition",
-    "name": "Prove your worth to Foodperson",
+    "name": { "str": "Prove your worth to Foodperson" },
     "goal": "MGOAL_FIND_ITEM",
     "item": "fp_loyalty_card",
     "count": 10,
@@ -709,7 +709,7 @@
   {
     "id": "MISSION_PROVE_YOU_ARE_A_SURVIVOR",
     "type": "mission_definition",
-    "name": "Prove You're A Survivor",
+    "name": { "str": "Prove You're A Survivor" },
     "description": "Prove you're a survivor by surviving for 10 days after the Cataclysm, and then returning to the person who gave you this mission.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "days_since_cataclysm": 10 },

@@ -13,7 +13,7 @@
     "id": "pistol_magnum_levergun",
     "copy-from": "henry_big_boy",
     "type": "GUN",
-    "name": "magnum levergun",
+    "name": { "str": "magnum levergun" },
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
     "description": "A modern re-imagining of the classic western lever-action, this larger rifle accepts powerful magnum pistol ammunition as well as weaker pistol ammo.  Carrying this along side a magnum pistol would allow one to reduce the number of calibers carried, and allow you to squeeze more power from ammuntion.",
     "clip_size": 10
@@ -52,7 +52,7 @@
     "id": "pistol_magnum_pipe",
     "copy-from": "ashot",
     "type": "GUN",
-    "name": "pipe magnum",
+    "name": { "str": "pipe magnum" },
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
     "ranged_damage": -2,
     "description": "A firearm made from a stout pipe, reinforced at the chamber.  It holds a single a round of standard or magnum pistol ammunition, and has a crude assembly to fire it.  There's no extractor, so it might be slow to reload, and its construction makes for poor reliability and longevity.",

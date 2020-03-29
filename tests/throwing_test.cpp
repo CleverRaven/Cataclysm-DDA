@@ -14,6 +14,7 @@
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
+#include "player_helpers.h"
 #include "projectile.h"
 #include "test_statistics.h"
 #include "damage.h"
@@ -307,5 +308,26 @@ TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" 
 
     SECTION( "test_player_kills_zombie_with_rock_basestats" ) {
         test_player_kills_monster( p, "mon_zombie", "rock", 15, 1, lo_skill_base_stats, 500 );
+    }
+}
+
+int throw_cost( const player &c, const item &to_throw );
+TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[balance]" )
+{
+    player &p = g->u;
+    clear_avatar();
+
+    item thrown( "throwing_stick", calendar::turn, 10 );
+    REQUIRE( thrown.charges > 1 );
+    p.wield( thrown );
+    int initial_moves = -1;
+    while( thrown.charges > 0 ) {
+        const int cost = throw_cost( p, thrown );
+        if( initial_moves < 0 ) {
+            initial_moves = cost;
+        } else {
+            CHECK( initial_moves == cost );
+        }
+        thrown.charges--;
     }
 }

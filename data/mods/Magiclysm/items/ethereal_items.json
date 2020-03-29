@@ -137,7 +137,7 @@
   {
     "type": "GENERIC",
     "id": "stormhammer",
-    "name": "The Stormhammer",
+    "name": { "str": "The Stormhammer" },
     "description": "A crackling magical warhammer full of lightning to smite your foes with, and of course, smash things to bits!",
     "weight": "1337 g",
     "to_hit": 2,
@@ -252,7 +252,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
-    "name": "Wicked Bonespear",
+    "name": { "str": "Wicked Bonespear" },
     "description": "This is a wicked spear/halberd hybrid entirely created of bone.",
     "material": [ "bone" ],
     "flags": [
@@ -281,7 +281,7 @@
     "symbol": "(",
     "color": "yellow",
     "looks_like": "recurbow",
-    "name": "Woodbow",
+    "name": { "str": "Woodbow" },
     "description": "A magically conjured ornate recurve bow of solid flexible wood.  A matching conjured wooden arrow appears when you draw the string back for firing.",
     "flags": [
       "FIRE_TWOHAND",
