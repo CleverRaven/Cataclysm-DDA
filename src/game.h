@@ -1041,7 +1041,7 @@ class game
         std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
         tripoint last_mouse_edge_scroll_vector_terrain;
         tripoint last_mouse_edge_scroll_vector_overmap;
-        std::pair<tripoint, tripoint> mouse_edge_scrolling( input_context ctxt, int speed,
+        std::pair<tripoint, tripoint> mouse_edge_scrolling( input_context &ctxt, int speed,
                 const tripoint &last, bool iso );
     public:
         /** Used to implement mouse "edge scrolling". Returns a

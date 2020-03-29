@@ -2177,7 +2177,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     return true;
 }
 
-std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context ctxt, const int speed,
+std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, const int speed,
         const tripoint &last, bool iso )
 {
     const int rate = get_option<int>( "EDGE_SCROLL" );
