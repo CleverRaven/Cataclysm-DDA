@@ -6350,7 +6350,6 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "mustard_powder", 1 ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
