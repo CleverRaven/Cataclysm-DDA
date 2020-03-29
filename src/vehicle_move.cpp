@@ -635,8 +635,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Damage for object
         const float obj_dmg = dmg * ( 100 - k ) / 100;
 
-        if( ret.type == veh_coll_other ) {
-        } else if( ret.type == veh_coll_bashable ) {
+        if( ret.type == veh_coll_bashable ) {
             // Something bashable -- use map::bash to determine outcome
             // NOTE: Floor bashing disabled for balance reasons
             //       Floor values are still used to set damage dealt to vehicle

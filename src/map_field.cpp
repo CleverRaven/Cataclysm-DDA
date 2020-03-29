@@ -2078,7 +2078,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
 
         int increment = std::max<int>( 1, amount / gas_front.size() );
 
-        while( amount > 0 && !gas_front.empty() ) {
+        while( !gas_front.empty() ) {
             gas_blast gp = random_entry_removed( gas_front );
             closed.insert( gp.second );
             const int cur_intensity = get_field_intensity( gp.second, type );
