@@ -143,7 +143,8 @@
           "f_lily": 1,
           "f_flower_tulip": 1,
           "f_mutpoppy": 1,
-          "f_sunflower": 1
+          "f_sunflower": 1,
+          "f_mustard": 1
         },
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
@@ -210,7 +211,8 @@
         "f_dahlia": 3.5,
         "f_datura": 0.2,
         "f_dandelion": 5.0,
-        "f_sunflower": 3.5
+        "f_sunflower": 3.5,
+        "f_mustard": 0.2
       },
       "boosted_other_percent": 50.0
     },
