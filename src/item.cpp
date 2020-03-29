@@ -112,7 +112,6 @@ static const species_id ROBOT( "ROBOT" );
 static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_scent_vision( "bio_scent_vision" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_HUGE( "HUGE" );
@@ -1563,8 +1562,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                   abs( static_cast<int>( food_item->charges ) * batch ) ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
-        ( debug || ( g != nullptr && ( g->u.has_bionic( bio_scent_vision ) ||
-                                       g->u.has_trait( trait_CARNIVORE ) ||
+        ( debug || ( g != nullptr && ( g->u.has_trait( trait_CARNIVORE ) ||
                                        g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
     }
