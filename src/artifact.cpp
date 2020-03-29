@@ -750,8 +750,7 @@ std::string new_artifact()
         bad_effects = fill_bad_passive();
         while( one_in( 2 ) && !good_effects.empty() && !bad_effects.empty() &&
                num_good < 3 && num_bad < 3 &&
-               ( ( num_good > 2 && one_in( num_good + 1 ) ) || num_bad < 1 ||
-                 one_in( num_bad + 1 ) || value > 1 ) ) {
+               ( num_bad < 1 || one_in( num_bad + 1 ) || value > 1 ) ) {
             if( value < 1 && one_in( 3 ) ) {
                 // Good
                 passive_tmp = random_entry_removed( good_effects );
