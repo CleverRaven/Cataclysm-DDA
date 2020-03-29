@@ -265,13 +265,13 @@ class string_formatter
             // long long int and use the "ll" modifier all the time. This will print the
             // expected value all the time, even when the original modifier did not match.
             if( consume_next_input_if( 'l' ) ) {
-                if( consume_next_input_if( 'l' ) ) {
-                }
+                consume_next_input_if( 'l' );
             } else if( consume_next_input_if( 'h' ) ) {
-                if( consume_next_input_if( 'h' ) ) {
-                }
+                consume_next_input_if( 'h' );
             } else if( consume_next_input_if( 'z' ) ) {
+                // done with it
             } else if( consume_next_input_if( 't' ) ) {
+                // done with it
             }
             const char c = consume_next_input();
             current_format.push_back( c );
