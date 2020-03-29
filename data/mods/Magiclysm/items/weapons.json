@@ -31,7 +31,7 @@
   {
     "id": "lizardfolk_javelin",
     "type": "GENERIC",
-    "name": "barbed javelin",
+    "name": { "str": "barbed javelin" },
     "category": "weapons",
     "copy-from": "javelin",
     "//": "A barbed version of the standard javelin (from spears_and_polearms.json) with a different description to match the lizardfolk lore.  Not craftable, but wieldable if discovered.",
