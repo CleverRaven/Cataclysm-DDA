@@ -1134,12 +1134,12 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
         mvwprintz( w_confirmation, point( 2, namebar_y ), c_white, _( "World Name:" ) );
         mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, line_of_32_underscores );
         fold_and_print( w_confirmation, point( 2, 3 ), getmaxx( w_confirmation ) - 2, c_light_gray,
-                        _( "Press <color_yellow>%s</color> to pick a random name for your world." ),
+                        _( "Press [<color_yellow>%s</color>] to pick a random name for your world." ),
                         ctxt.get_desc( "PICK_RANDOM_WORLDNAME" ) );
         fold_and_print( w_confirmation, point( 2, TERMY / 2 - 2 ), getmaxx( w_confirmation ) - 2,
                         c_light_gray,
-                        _( "Press <color_yellow>%s</color> when you are satisfied with the world as it is and are ready "
-                           "to continue, or <color_yellow>%s</color> to go back and review your world." ),
+                        _( "Press [<color_yellow>%s</color>] when you are satisfied with the world as it is and are ready "
+                           "to continue, or [<color_yellow>%s</color>] to go back and review your world." ),
                         ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
         if( !noname ) {
             mvwprintz( w_confirmation, point( namebar_x, namebar_y ), c_light_gray, worldname );
@@ -1278,14 +1278,21 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
               LINE_XXOX ); // _|_
 
     // Add tips & hints
-    fold_and_print( win, point( 2, TERMY - 7 ), getmaxx( win ) - 4, c_green,
-                    _( "%s = Save Load Order as default.  %s = Controls %s/%s = Prev/Next Option.  %s/%s = Prev/Next Tab." ),
+    fold_and_print( win, point( 2, TERMY - 7 ), getmaxx( win ) - 4, c_light_gray,
+                    _( "[<color_yellow>%s</color>] = save <color_cyan>Mod Load Order</color> as default  "
+                       "[<color_yellow>%s</color>] = keybindings  "
+                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch Main-Tab  "
+                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch  "
+                       "<color_cyan>Mod List</color> and <color_cyan>Mod Load Order</color>  "
+                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab" ),
                     ctxtp.get_desc( "SAVE_DEFAULT_MODS" ),
                     ctxtp.get_desc( "HELP_KEYBINDINGS" ),
-                    ctxtp.get_desc( "PREV_CATEGORY_TAB" ),
-                    ctxtp.get_desc( "NEXT_CATEGORY_TAB" ),
                     ctxtp.get_desc( "PREV_TAB" ),
-                    ctxtp.get_desc( "NEXT_TAB" )
+                    ctxtp.get_desc( "NEXT_TAB" ),
+                    ctxtp.get_desc( "LEFT" ),
+                    ctxtp.get_desc( "RIGHT" ),
+                    ctxtp.get_desc( "PREV_CATEGORY_TAB" ),
+                    ctxtp.get_desc( "NEXT_CATEGORY_TAB" )
                   );
     wrefresh( win );
     catacurses::refresh();
