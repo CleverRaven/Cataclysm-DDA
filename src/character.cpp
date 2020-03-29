@@ -762,7 +762,7 @@ bool Character::check_mount_will_move( const tripoint &dest_loc )
 bool Character::check_mount_is_spooked()
 {
     if( !is_mounted() ) {
-        return true;
+        return false;
     }
     // chance to spook per monster nearby:
     // base 1% per turn.
@@ -791,12 +791,12 @@ bool Character::check_mount_is_spooked()
                     add_msg_player_or_npc( m_bad, _( "Your %s spooks and rears!" ),
                                            _( "<npcname>'s %s spooks and rears!" ), mounted_creature->get_name() );
                     forced_dismount();
-                    return false;
+                    return true;
                 }
             }
         }
     }
-    return true;
+    return false;
 }
 
 bool Character::is_mounted() const
