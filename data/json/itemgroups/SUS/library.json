@@ -362,12 +362,13 @@
     "id": "SUS_book_nonf_hard",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "Returns a single nonfiction book that is hard bound. Note that this may or may not be a skill training book.",
+    "//2": "Returns a single nonfiction book that is hard bound.  Note that this may or may not be a skill training book.",
     "subtype": "distribution",
     "entries": [
       { "group": "SUS_book_nonf_hard_dodge", "prob": 1 },
       { "group": "SUS_book_nonf_hard_spirit", "prob": 1 },
       { "group": "SUS_book_nonf_hard_homemk", "prob": 1 },
+      { "group": "SUS_book_nonf_hard_psych", "prob": 1 },
       { "group": "SUS_book_nonf_hard_arch", "prob": 1 }
     ]
   },
@@ -378,8 +379,11 @@
     "//2": "Returns a single nonfiction paperback.",
     "subtype": "distribution",
     "entries": [
-      { "group": "SUS_book_nonf_soft_occult", "prob": 1 },
-      { "group": "SUS_book_nonf_soft_psych", "prob": 5 }
+      { "group": "SUS_book_nonf_soft_occult", "prob": 2 },
+      { "group": "SUS_book_nonf_soft_psych", "prob": 6 },
+      { "item": "book_nonf_soft_wedding_coolring", "prob": 2 },
+      { "item": "book_nonf_soft_parent_howtogen", "prob": 2 },
+      { "item": "book_nonf_soft_safety_radiaea", "prob": 1 }
     ]
   },
   {
