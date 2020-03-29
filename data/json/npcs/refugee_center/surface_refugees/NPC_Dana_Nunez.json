@@ -321,7 +321,7 @@
   {
     "id": "MISSION_REFUGEE_Dana_Sourdough",
     "type": "mission_definition",
-    "name": "Find Dana's family sourdough culture",
+    "name": { "str": "Find Dana's family sourdough culture" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 1000,

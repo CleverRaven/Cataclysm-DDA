@@ -3,7 +3,7 @@
     "abstract": "grenade_ammo",
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
-    "name": "grenade cartridge",
+    "name": { "str": "grenade cartridge" },
     "ammo_type": "ammo_grenade",
     "casing": "grenade_casing"
   },
@@ -28,7 +28,7 @@
     "id": "grenade_ammo_flare",
     "copy-from": "grenade_ammo",
     "type": "AMMO",
-    "name": "flare grenade cartridge",
+    "name": { "str": "flare grenade cartridge" },
     "description": "A signal flare grenade cartridge.  It will burn brightly for up to a minute, and will also leave a streak of smoke cover in its wake.",
     "drop": "handflare_lit",
     "extend": { "effects": [ "TRAIL", "NO_EMBED" ] }

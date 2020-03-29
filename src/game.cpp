@@ -3231,8 +3231,6 @@ void game::draw_ter( const bool draw_sounds )
 void game::draw_ter( const tripoint &center, const bool looking, const bool draw_sounds )
 {
     ter_view_p = center;
-    const int posx = center.x;
-    const int posy = center.y;
 
     // TODO: Make it not rebuild the cache all the time (cache point+moves?)
     if( !looking ) {
@@ -3248,28 +3246,6 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
     for( Creature &critter : all_creatures() ) {
         draw_critter( critter, center );
-    }
-
-    if( u.has_active_bionic( bionic_id( "bio_scent_vision" ) ) && u.view_offset.z == 0 ) {
-        tripoint tmp = center;
-        int &realx = tmp.x;
-        int &realy = tmp.y;
-        for( realx = posx - POSX; realx <= posx + POSX; realx++ ) {
-            for( realy = posy - POSY; realy <= posy + POSY; realy++ ) {
-                if( scent.get( tmp ) != 0 ) {
-                    int tempx = posx - realx;
-                    int tempy = posy - realy;
-                    if( !( isBetween( tempx, -2, 2 ) &&
-                           isBetween( tempy, -2, 2 ) ) ) {
-                        if( critter_at( tmp ) ) {
-                            mvwputch( w_terrain, point( realx + POSX - posx, realy + POSY - posy ), c_white, '?' );
-                        } else {
-                            mvwputch( w_terrain, point( realx + POSX - posx, realy + POSY - posy ), c_magenta, '#' );
-                        }
-                    }
-                }
-            }
-        }
     }
 
     if( !destination_preview.empty() && u.view_offset.z == 0 ) {
@@ -3868,7 +3844,7 @@ void game::mon_info_update( )
     for( auto &m : unique_mons ) {
         m.clear();
     }
-    std::fill( dangerous, dangerous + sizeof( dangerous ), false );
+    std::fill( dangerous, dangerous + 8, false );
 
     const tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
@@ -4593,9 +4569,9 @@ template player *game::critter_by_id<player>( const character_id & );
 template npc *game::critter_by_id<npc>( const character_id & );
 template Creature *game::critter_by_id<Creature>( const character_id & );
 
-static bool can_place_monster( game &g, const monster &mon, const tripoint &p )
+static bool can_place_monster( const monster &mon, const tripoint &p )
 {
-    if( const monster *const critter = g.critter_at<monster>( p ) ) {
+    if( const monster *const critter = g->critter_at<monster>( p ) ) {
         // Creature_tracker handles this. The hallucination monster will simply vanish
         if( !critter->is_hallucination() ) {
             return false;
@@ -4603,17 +4579,17 @@ static bool can_place_monster( game &g, const monster &mon, const tripoint &p )
     }
     // Although monsters can sometimes exist on the same place as a Character (e.g. ridden horse),
     // it is usually wrong. So don't allow it.
-    if( g.critter_at<Character>( p ) ) {
+    if( g->critter_at<Character>( p ) ) {
         return false;
     }
     return mon.will_move_to( p );
 }
 
-static cata::optional<tripoint> choose_where_to_place_monster( game &g, const monster &mon,
+static cata::optional<tripoint> choose_where_to_place_monster( const monster &mon,
         const tripoint_range &range )
 {
     return random_point( range, [&]( const tripoint & p ) {
-        return can_place_monster( g, mon, p );
+        return can_place_monster( mon, p );
     } );
 }
 
@@ -4641,14 +4617,14 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
                                      const int radius )
 {
     cata::optional<tripoint> where;
-    if( can_place_monster( *this, *mon, center ) ) {
+    if( can_place_monster( *mon, center ) ) {
         where = center;
     }
 
     // This loop ensures the monster is placed as close to the center as possible,
     // but all places that equally far from the center have the same probability.
     for( int r = 1; r <= radius && !where; ++r ) {
-        where = choose_where_to_place_monster( *this, *mon, m.points_in_radius( center, r ) );
+        where = choose_where_to_place_monster( *mon, m.points_in_radius( center, r ) );
     }
 
     if( !where ) {
@@ -4670,7 +4646,7 @@ monster *game::place_critter_within( const mtype_id &id, const tripoint_range &r
 monster *game::place_critter_within( const shared_ptr_fast<monster> &mon,
                                      const tripoint_range &range )
 {
-    const cata::optional<tripoint> where = choose_where_to_place_monster( *this, *mon, range );
+    const cata::optional<tripoint> where = choose_where_to_place_monster( *mon, range );
     if( !where ) {
         return nullptr;
     }

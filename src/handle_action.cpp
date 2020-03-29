@@ -1334,23 +1334,20 @@ static void open_movement_mode_menu()
 
     as_m.text = _( "Change to which movement mode?" );
 
-    as_m.entries.emplace_back( 0, true, 'w', _( "Walk" ) );
-    as_m.entries.emplace_back( 1, true, 'r', _( "Run" ) );
-    as_m.entries.emplace_back( 2, true, 'c', _( "Crouch" ) );
+    as_m.entries.emplace_back( CMM_RUN, true, 'r', _( "Run" ) );
+    as_m.entries.emplace_back( CMM_WALK, true, 'w', _( "Walk" ) );
+    as_m.entries.emplace_back( CMM_CROUCH, true, 'c', _( "Crouch" ) );
+    as_m.entries.emplace_back( CMM_COUNT, true, '"', _( "Cycle move mode (run/walk/crouch)" ) );
+    as_m.selected = 1;
     as_m.query();
 
-    switch( as_m.ret ) {
-        case 0:
-            u.set_movement_mode( CMM_WALK );
-            break;
-        case 1:
-            u.set_movement_mode( CMM_RUN );
-            break;
-        case 2:
-            u.set_movement_mode( CMM_CROUCH );
-            break;
-        default:
-            break;
+
+    if( as_m.ret != UILIST_CANCEL ) {
+        if( as_m.ret == CMM_COUNT ) {
+            u.cycle_move_mode();
+        } else {
+            u.set_movement_mode( static_cast<character_movemode>( as_m.ret ) );
+        }
     }
 }
 
