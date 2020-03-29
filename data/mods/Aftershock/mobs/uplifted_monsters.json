@@ -104,16 +104,6 @@
     "harvest": "demihuman_large_fur",
     "special_attacks": [ [ "scratch", 20 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "PATH_AVOID_DANGER_1"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "PATH_AVOID_DANGER_1", "PATH_AVOID_DANGER_1" ]
   }
 ]
