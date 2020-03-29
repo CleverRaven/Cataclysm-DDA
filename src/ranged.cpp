@@ -547,7 +547,9 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 }
 
 // TODO: Method
-static int throw_cost( const player &c, const item &to_throw )
+// Silence warning about missing prototype.
+int throw_cost( const player &c, const item &to_throw );
+int throw_cost( const player &c, const item &to_throw )
 {
     // Very similar to player::attack_speed
     // TODO: Extract into a function?
