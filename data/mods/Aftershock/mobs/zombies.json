@@ -85,5 +85,56 @@
       "NOHEAD",
       "LOUDMOVES"
     ]
+  },
+  {
+    "id": "mon_zombie_upliftedbear",
+    "type": "MONSTER",
+    "name": { "str": "Haunting Forest Walker" },
+    "description": "This towering zombie is covered in wounds and shedding fur.  Once it may have prevented forest fires in national parks, now it kills anything it catches.",
+    "default_faction": "zombie",
+    "categories": [ "CLASSIC" ],
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "volume": "90 L",
+    "weight": "100 kg",
+    "hp": 150,
+    "speed": 240,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "brown_magenta",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 6,
+    "melee_dice_sides": 6,
+    "melee_cut": 0,
+    "vision_day": 25,
+    "vision_night": 5,
+    "harvest": "zombie",
+    "special_attacks": [
+      [ "GRAB", 3 ],
+      {
+        "type": "bite",
+        "cooldown": 10,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 18, "armor_multiplier": 0.7 } ]
+      }
+    ],
+    "death_drops": "default_zombie_death_drops",
+    "death_function": [ "NORMAL" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY",
+      "LOUDMOVES"
+    ]
   }
 ]
