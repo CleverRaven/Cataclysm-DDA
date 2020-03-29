@@ -515,8 +515,8 @@
   {
     "id": "MISSION_NULL",
     "type": "mission_definition",
-    "goal": "MGOAL_NULL",
     "name": { "str": "Null mission" },
+    "goal": "MGOAL_NULL",
     "difficulty": 0,
     "value": 0,
     "place": "never"
