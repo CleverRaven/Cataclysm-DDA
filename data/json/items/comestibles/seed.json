@@ -744,7 +744,6 @@
     "weight": "2 g",
     "color": "yellow",
     "use_action": "SEED",
-    "calories": 4,
     "fun": -3,
     "description": "Some mustard seeds.  Could be grinded into mustard powder.",
     "price": 100,
