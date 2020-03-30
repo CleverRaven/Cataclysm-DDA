@@ -122,9 +122,9 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "WASR-10" },
-    "description": "A semi-automatic-only civilian-legal Kalashnikov-pattern rifle, imported from Romania.  A valuable survivors' commodity.",
-    "weight": "3300 g",
-    "volume": "1750 ml",
+    "description": "A semi-automatic, civilian-legal, Kalashnikov-pattern rifle, imported from Romania.  A valuable survivors' commodity.",
+    "weight": "3402 g",
+    "volume": "4414 ml",
     "price": 79500,
     "to_hit": -1,
     "bashing": 12,
@@ -145,11 +145,11 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
@@ -161,8 +161,8 @@
     "reload_noise_volume": 10,
     "name": { "str": "Mini Draco" },
     "description": "Essentially a semi-auto AK with a short barrel and no stock, this unwieldy \"pistol\" has seen some popularity with civilian shooters and gangbangers alike.",
-    "weight": "2560 g",
-    "volume": "1250 ml",
+    "weight": "2563 g",
+    "volume": "2167 ml",
     "price": 72500,
     "to_hit": -5,
     "bashing": 8,
@@ -183,11 +183,11 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ]
   }
