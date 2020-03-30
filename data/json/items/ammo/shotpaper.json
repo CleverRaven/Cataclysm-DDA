@@ -13,7 +13,7 @@
     "id": "shot_paper_dragon",
     "copy-from": "shot_paper_00",
     "type": "AMMO",
-    "name": "pyrotechnic paper cartridge",
+    "name": { "str": "pyrotechnic paper cartridge" },
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of flammable metals.  When fired, burning chunks of metal and sparks will shoot out of the barrel, igniting everything in their path.",
     "proportional": { "damage": 0.2, "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2, "range": 0.5 },
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }

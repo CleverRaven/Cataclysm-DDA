@@ -64,12 +64,12 @@ In this example snippet of an overmap, each character corresponds one entry in t
 references a given overmap terrain:
 
 ```
-..........FFF│FF
-.v>│<...FFFFF│FF
-──>│<...FFFFF│FF
+.v>│......FFF│FF
+──>│<....FFFF│FF
 <.>│<...FFFFF│FF
 O.v│vv.vvv┌──┘FF
 ───┼──────┘.FFFF
+F^^|^^^.^..F.FFF
 ```
 
 So for example, the `F` is a forest which has a definition like this:
@@ -79,19 +79,19 @@ So for example, the `F` is a forest which has a definition like this:
     "type": "overmap_terrain",
     "id": "forest",
     "name": "forest",
-    "sym": 70,
+    "sym": "F",
     "color": "green"
 }
 ```
 
-and the `v` is a house which has a definition like this:
+and the `^` is a house which has a definition like this:
 
 ```json
 {
     "type": "overmap_terrain",
     "id": "house",
     "name": "house",
-    "sym": 94,
+    "sym": "^",
     "color": "light_green"
 }
 ```
@@ -218,7 +218,7 @@ an exhaustive example...
     "type": "overmap_terrain",
     "id": "field",
     "name": "field",
-    "sym": 46,
+    "sym": ".",
     "color": "brown",
     "see_cost": 2,
     "extras": "field",

@@ -34,7 +34,9 @@
 #include "item.h"
 #include "recipe.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_BLIND_EASY( "BLIND_EASY" );
+static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 
 class inventory;
 class npc;

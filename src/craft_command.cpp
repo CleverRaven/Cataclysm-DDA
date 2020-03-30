@@ -20,7 +20,8 @@
 #include "translations.h"
 #include "uistate.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const

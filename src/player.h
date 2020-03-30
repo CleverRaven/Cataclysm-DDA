@@ -78,7 +78,6 @@ struct item_comp;
 struct tool_comp;
 class vehicle;
 struct w_point;
-struct targeting_data;
 
 /** @relates ret_val */
 template<>
@@ -109,10 +108,10 @@ struct stat_mod {
 };
 
 struct needs_rates {
-    float thirst;
-    float hunger;
-    float fatigue;
-    float recovery;
+    float thirst = 0.0f;
+    float hunger = 0.0f;
+    float fatigue = 0.0f;
+    float recovery = 0.0f;
     float kcal = 0.0f;
 };
 
@@ -963,7 +962,6 @@ class player : public Character
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
 
-        m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
         int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;
@@ -972,16 +970,16 @@ class player : public Character
         //message related stuff
         using Character::add_msg_if_player;
         void add_msg_if_player( const std::string &msg ) const override;
-        void add_msg_if_player( game_message_type type, const std::string &msg ) const override;
+        void add_msg_if_player( const game_message_params &params, const std::string &msg ) const override;
         using Character::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_str ) const override;
-        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         using Character::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
-        void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
 
         using trap_map = std::map<tripoint, std::string>;
@@ -1036,18 +1034,6 @@ class player : public Character
          */
         void disarm( npc &target );
 
-        /**
-         * Accessor method for weapon targeting data, used for interactive weapon aiming.
-         * @return a reference to the data pointed by player's tdata member.
-         */
-        const targeting_data &get_targeting_data();
-
-        /**
-         * Mutator method for weapon targeting data.
-         * @param td targeting data to be set.
-         */
-        void set_targeting_data( const targeting_data &td );
-
         std::set<tripoint> camps;
 
     protected:
@@ -1088,10 +1074,6 @@ class player : public Character
         cata::optional<tripoint> next_expected_position;
         /** warnings from a faction about bad behaviour */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
-
-    private:
-        /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
-        shared_ptr_fast<targeting_data> tdata;
 
     protected:
 

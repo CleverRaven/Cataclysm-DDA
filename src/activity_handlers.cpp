@@ -19,7 +19,6 @@
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
-#include "cata_string_consts.h"
 #include "clzones.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -60,6 +59,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "uistate.h"
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -98,6 +98,176 @@
 #include "weather.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+
+static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
+static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
+static const activity_id ACT_ATM( "ACT_ATM" );
+static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_BURROW( "ACT_BURROW" );
+static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
+static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
+static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
+static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
+static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
+static const activity_id ACT_CHURN( "ACT_CHURN" );
+static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
+static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
+static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+static const activity_id ACT_CRACKING( "ACT_CRACKING" );
+static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_DIG( "ACT_DIG" );
+static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
+static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
+static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
+static const activity_id ACT_DISSECT( "ACT_DISSECT" );
+static const activity_id ACT_DROP( "ACT_DROP" );
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
+static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
+static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
+static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
+static const activity_id ACT_MILK( "ACT_MILK" );
+static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
+static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_FISH( "ACT_FISH" );
+static const activity_id ACT_FORAGE( "ACT_FORAGE" );
+static const activity_id ACT_GAME( "ACT_GAME" );
+static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
+static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
+static const activity_id ACT_HACKING( "ACT_HACKING" );
+static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
+static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
+static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_HEATING( "ACT_HEATING" );
+static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
+static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
+static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
+static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
+static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
+static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
+static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
+static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
+static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
+static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
+static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
+static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
+static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
+static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
+static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
+static const activity_id ACT_PULP( "ACT_PULP" );
+static const activity_id ACT_QUARTER( "ACT_QUARTER" );
+static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
+static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
+static const activity_id ACT_SHAVE( "ACT_SHAVE" );
+static const activity_id ACT_SKIN( "ACT_SKIN" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
+static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
+static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+static const activity_id ACT_STASH( "ACT_STASH" );
+static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
+static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
+static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
+static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
+static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
+static const activity_id ACT_UNLOAD_MAG( "ACT_UNLOAD_MAG" );
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
+static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_WAIT( "ACT_WAIT" );
+static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
+static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
+static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
+static const activity_id ACT_WASH( "ACT_WASH" );
+static const activity_id ACT_WEAR( "ACT_WEAR" );
+
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_under_op( "under_operation" );
+
+static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_survival( "survival" );
+
+static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_CUT_FINE( "CUT_FINE" );
+static const quality_id qual_SAW_M( "SAW_M" );
+static const quality_id qual_SAW_W( "SAW_W" );
+
+static const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
+static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
+static const mtype_id mon_skeleton( "mon_skeleton" );
+static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_fingerhack( "bio_fingerhack" );
+static const bionic_id bio_painkiller( "bio_painkiller" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+
+static const std::string flag_AUTODOC( "AUTODOC" );
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
+static const std::string flag_EATEN_COLD( "EATEN_COLD" );
+static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
+static const std::string flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
+static const std::string flag_FISH_GOOD( "FISH_GOOD" );
+static const std::string flag_FISH_POOR( "FISH_POOR" );
+static const std::string flag_FORAGE_HALLU( "FORAGE_HALLU" );
+static const std::string flag_FORAGE_POISON( "FORAGE_POISON" );
+static const std::string flag_GIBBED( "GIBBED" );
+static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
+static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
+static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
+static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
+static const std::string flag_MESSY( "MESSY" );
+static const std::string flag_PLANTABLE( "PLANTABLE" );
+static const std::string flag_PULPED( "PULPED" );
+static const std::string flag_QUARTERED( "QUARTERED" );
+static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
+static const std::string flag_REQUIRES_TINDER( "REQUIRES_TINDER" );
+static const std::string flag_SAFECRACK( "SAFECRACK" );
+static const std::string flag_SKINNED( "SKINNED" );
+static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
+static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
+static const std::string flag_TREE( "TREE" );
 
 using namespace activity_handlers;
 
@@ -150,6 +320,7 @@ activity_handlers::do_turn_functions = {
     { ACT_DISMEMBER, butcher_do_turn },
     { ACT_DISSECT, butcher_do_turn },
     { ACT_HACKSAW, hacksaw_do_turn },
+    { ACT_PRY_NAILS, pry_nails_do_turn },
     { ACT_CHOP_TREE, chop_tree_do_turn },
     { ACT_CHOP_LOGS, chop_tree_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
@@ -192,6 +363,7 @@ activity_handlers::finish_functions = {
     { ACT_START_FIRE, start_fire_finish },
     { ACT_TRAIN, train_finish },
     { ACT_CHURN, churn_finish },
+    { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
     { ACT_START_ENGINES, start_engines_finish },
     { ACT_OXYTORCH, oxytorch_finish },
@@ -223,6 +395,7 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_WASH, washing_finish },
     { ACT_HACKSAW, hacksaw_finish },
+    { ACT_PRY_NAILS, pry_nails_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
     { ACT_MILK, milk_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
@@ -849,7 +1022,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
 
-        if( action != DISSECT && entry.type != "bionic_group" ) {
+        if( entry.type != "bionic_group" ) {
             // divide total dropped weight by drop's weight to get amount
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined
@@ -1279,9 +1452,9 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
         debugmsg( "could not find source creature for liquid transfer" );
         return;
     }
-    auto milked_item = source_mon->ammo.find( "milk_raw" );
+    auto milked_item = source_mon->ammo.find( source_mon->type->starting_ammo.begin()->first );
     if( milked_item == source_mon->ammo.end() ) {
-        debugmsg( "animal has no milk ammo type" );
+        debugmsg( "animal has no milkable ammo type" );
         return;
     }
     if( milked_item->second <= 0 ) {
@@ -1495,6 +1668,20 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 
 void activity_handlers::forage_finish( player_activity *act, player *p )
 {
+    // Don't forage if we aren't next to the bush - otherwise we get weird bugs
+    bool next_to_bush = false;
+    for( const tripoint &pnt : g->m.points_in_radius( p->pos(), 1 ) ) {
+        if( g->m.getabs( pnt ) == act->placement ) {
+            next_to_bush = true;
+            break;
+        }
+    }
+
+    if( !next_to_bush ) {
+        act->set_to_null();
+        return;
+    }
+
     const int veggy_chance = rng( 1, 100 );
     bool found_something = false;
 
@@ -1522,7 +1709,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             debugmsg( "Invalid season" );
     }
 
-    g->m.ter_set( act->placement, next_ter );
+    g->m.ter_set( g->m.getlocal( act->placement ), next_ter );
 
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
@@ -1561,9 +1748,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
+void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
 {
-    ( void )act;
     if( calendar::once_every( 1_minutes ) ) {
         p->add_morale( MORALE_GAME, 4, 60 );
     }
@@ -1876,9 +2062,9 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     item &reloadable = *act->targets[ 0 ];
     item &ammo = *act->targets[1];
+    std::string ammo_name = ammo.tname();
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
-    const bool is_bolt = ammo.ammo_type() == ammo_bolt;
     const bool ammo_is_filthy = ammo.is_filthy();
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
@@ -1903,11 +2089,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
         if( reloadable.has_flag( flag_RELOAD_ONE ) && !is_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
-                if( is_bolt ) {
-                    msg = _( "You insert a bolt into the %s." );
-                } else {
-                    msg = _( "You insert a cartridge into the %s." );
-                }
+                msg = _( "You insert one %2$s into the %1$s." );
             }
         }
         if( reloadable.type->gun->reload_noise_volume > 0 ) {
@@ -1918,7 +2100,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     } else if( reloadable.is_watertight_container() ) {
         msg = _( "You refill the %s." );
     }
-    add_msg( m_neutral, msg, reloadable.tname() );
+    add_msg( m_neutral, msg, reloadable.tname(), ammo_name );
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
@@ -2061,6 +2243,10 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
     // was completely dismantled, otherwise the vehicle still exist and
     // is to be examined again.
     if( act->is_null() ) {
+        if( npc *guy = dynamic_cast<npc *>( p ) ) {
+            guy->revert_after_activity();
+            guy->set_moves( 0 );
+        }
         return;
     }
     act->set_to_null();
@@ -2076,10 +2262,9 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                 g->refresh_all();
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
-                if( resume_for_multi_activities( *p ) ) {
-                    return;
+                if( !resume_for_multi_activities( *p ) ) {
+                    g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
                 }
-                g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
                 return;
             } else {
                 dbg( D_ERROR ) << "game:process_activity: ACT_VEHICLE: vehicle not found";
@@ -2554,11 +2739,16 @@ void activity_handlers::heat_item_finish( player_activity *act, player *p )
         return;
     }
     item_location &loc = act->targets[ 0 ];
-    item *heat = loc.get_item();
+    item *const heat = loc.get_item();
     if( heat == nullptr ) {
         return;
     }
-    item &target = *heat->get_food();
+    item *const food = heat->get_food();
+    if( food == nullptr ) {
+        debugmsg( "item %s is not food", heat->typeId() );
+        return;
+    }
+    item &target = *food;
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
         if( target.has_flag( flag_EATEN_COLD ) ) {
@@ -2723,7 +2913,7 @@ void activity_handlers::aim_do_turn( player_activity *act, player * )
     if( act->index == 0 ) {
         g->m.invalidate_map_cache( g->get_levz() );
         g->m.build_map_cache( g->get_levz() );
-        avatar_action::fire( g->u, g->m );
+        avatar_action::aim_do_turn( g->u, g->m );
     }
 }
 
@@ -2921,7 +3111,6 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
 
 void activity_handlers::fish_finish( player_activity *act, player *p )
 {
-    ( void )p;
     act->set_to_null();
     p->add_msg_if_player( m_info, _( "You finish fishing" ) );
     if( !p->backlog.empty() && p->backlog.front().id() == ACT_MULTIPLE_FISH ) {
@@ -2978,7 +3167,7 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
-    if( !act->targets.front() ) {
+    if( !act || !act->targets.front() ) {
         debugmsg( "Lost target of ACT_READ" );
         return;
     }
@@ -3358,6 +3547,37 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
     resume_for_multi_activities( *p );
 }
 
+void activity_handlers::plant_seed_finish( player_activity *act, player *p )
+{
+    tripoint examp = g->m.getlocal( act->placement );
+    const std::string seed_id = act->str_values[0];
+    std::list<item> used_seed;
+    if( item::count_by_charges( seed_id ) ) {
+        used_seed = p->use_charges( seed_id, 1 );
+    } else {
+        used_seed = p->use_amount( seed_id, 1 );
+    }
+    if( !used_seed.empty() ) {
+        used_seed.front().set_age( 0_turns );
+        if( used_seed.front().has_var( "activity_var" ) ) {
+            used_seed.front().erase_var( "activity_var" );
+        }
+        used_seed.front().set_flag( flag_HIDDEN_ITEM );
+        g->m.add_item_or_charges( examp, used_seed.front() );
+        if( g->m.has_flag_furn( flag_PLANTABLE, examp ) ) {
+            g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
+        } else {
+            g->m.set( examp, t_dirt, f_plant_seed );
+        }
+        p->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
+                                  item::nname( seed_id ) );
+    }
+    // Go back to what we were doing before
+    // could be player zone activity, or could be NPC multi-farming
+    act->set_to_null();
+    resume_for_multi_activities( *p );
+}
+
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
     partial_con *pc = g->m.partial_con_at( g->m.getlocal( act->placement ) );
@@ -3660,6 +3880,61 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
     p->mod_fatigue( 10 );
     p->add_msg_if_player( m_good, _( "You finish cutting the metal." ) );
 
+    act->set_to_null();
+}
+
+void activity_handlers::pry_nails_do_turn( player_activity *act, player * )
+{
+    sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( act->placement ) );
+}
+
+void activity_handlers::pry_nails_finish( player_activity *act, player *p )
+{
+    const tripoint &pnt = act->placement;
+    const ter_id type = g->m.ter( pnt );
+
+    int nails = 0;
+    int boards = 0;
+    ter_id newter;
+    if( type == t_fence ) {
+        nails = 6;
+        boards = 3;
+        newter = t_fence_post;
+        p->add_msg_if_player( _( "You pry out the fence post." ) );
+    } else if( type == t_window_boarded ) {
+        nails = 8;
+        boards = 4;
+        newter = t_window_frame;
+        p->add_msg_if_player( _( "You pry the boards from the window." ) );
+    } else if( type == t_window_boarded_noglass ) {
+        nails = 8;
+        boards = 4;
+        newter = t_window_empty;
+        p->add_msg_if_player( _( "You pry the boards from the window frame." ) );
+    } else if( type == t_door_boarded || type == t_door_boarded_damaged ||
+               type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
+               type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
+        nails = 8;
+        boards = 4;
+        if( type == t_door_boarded ) {
+            newter = t_door_c;
+        } else if( type == t_door_boarded_damaged ) {
+            newter = t_door_b;
+        } else if( type == t_door_boarded_peep ) {
+            newter = t_door_c_peep;
+        } else if( type == t_door_boarded_damaged_peep ) {
+            newter = t_door_b_peep;
+        } else if( type == t_rdoor_boarded ) {
+            newter = t_rdoor_c;
+        } else { // if (type == t_rdoor_boarded_damaged)
+            newter = t_rdoor_b;
+        }
+        p->add_msg_if_player( _( "You pry the boards from the door." ) );
+    }
+    p->practice( skill_fabrication, 1, 1 );
+    g->m.spawn_item( p->pos(), "nail", 0, nails );
+    g->m.spawn_item( p->pos(), "2x4", boards );
+    g->m.ter_set( pnt, newter );
     act->set_to_null();
 }
 
@@ -4379,11 +4654,11 @@ void activity_handlers::hacking_finish( player_activity *act, player *p )
                 g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
             } else if( type == HACK_DOOR ) {
                 p->add_msg_if_player( _( "You activate the panel!" ) );
-                p->add_msg_if_player( m_good, _( "The nearby doors slide into the floor." ) );
+                p->add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
                 g->m.ter_set( examp, t_card_reader_broken );
                 for( const tripoint &tmp : g->m.points_in_radius( ( examp ), 3 ) ) {
                     if( g->m.ter( tmp ) == t_door_metal_locked ) {
-                        g->m.ter_set( tmp, t_floor );
+                        g->m.ter_set( tmp, t_door_metal_c );
                     }
                 }
             }
@@ -4466,7 +4741,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     } else if( casting.has_flag( RANDOM_TARGET ) ) {
         const cata::optional<tripoint> target_ = casting.random_valid_target( *p, p->pos() );
         if( !target_ ) {
-            p->add_msg_if_player( m_bad, _( "Your spell can't find a suitable target." ) );
+            p->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
+                                  _( "Your spell can't find a suitable target." ) );
             return;
         }
         target = *target_;
@@ -4476,7 +4752,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     bool success = no_fail || rng_float( 0.0f, 1.0f ) >= casting.spell_fail( *p );
     int exp_gained = casting.casting_exp( *p );
     if( !success ) {
-        p->add_msg_if_player( m_bad, _( "You lose your concentration!" ) );
+        p->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
+                              _( "You lose your concentration!" ) );
         if( !casting.is_max_level() && level_override == -1 ) {
             // still get some experience for trying
             casting.gain_exp( exp_gained / 5 );

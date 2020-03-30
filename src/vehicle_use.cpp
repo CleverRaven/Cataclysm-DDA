@@ -52,7 +52,27 @@
 #include "monster.h"
 #include "mtype.h"
 #include "weather.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
+static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
+
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_none( "null" );
+static const itype_id fuel_type_wind( "wind" );
+
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_tied( "tied" );
+
+static const fault_id fault_diesel( "fault_engine_pump_diesel" );
+static const fault_id fault_glowplug( "fault_engine_glow_plug" );
+static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
+static const fault_id fault_pump( "fault_engine_pump_fuel" );
+static const fault_id fault_starter( "fault_engine_starter" );
+
+static const skill_id skill_mechanics( "mechanics" );
 
 enum change_types : int {
     OPENCURTAINS = 0,
@@ -713,14 +733,14 @@ void vehicle::use_controls( const tripoint &pos )
 
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
         options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
-        actions.push_back( [&] { turrets_aim_and_fire( true, false ); refresh(); } );
+        actions.push_back( [&] { turrets_aim_and_fire_all_manual( true ); refresh(); } );
 
         // This lets us manually override and set the target for the automatic turrets instead.
         options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
-        actions.push_back( [&] { turrets_aim( false, true ); refresh(); } );
+        actions.push_back( [&] { turrets_override_automatic_aim(); refresh(); } );
 
         options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
-        actions.push_back( [&] { turrets_aim_single(); refresh(); } );
+        actions.push_back( [&] { turrets_aim_and_fire_single(); refresh(); } );
     }
 
     uilist menu;
@@ -1260,9 +1280,11 @@ void vehicle::operate_reaper()
             continue;
         }
         g->m.furn_set( reaper_pos, f_null );
+        // Secure the seed type before i_clear destroys the item.
+        const itype &seed_type = *seed->type;
         g->m.i_clear( reaper_pos );
         for( auto &i : iexamine::get_harvest_items(
-                 *seed->type, plant_produced, seed_produced, false ) ) {
+                 seed_type, plant_produced, seed_produced, false ) ) {
             g->m.add_item_or_charges( reaper_pos, i );
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",

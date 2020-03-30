@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Rhyzaea",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "A counselor from far away, Rhy can offer a lot of supports to player and survivors if she can get herself sorted a little",

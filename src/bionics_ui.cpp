@@ -12,7 +12,9 @@
 #include "translations.h"
 #include "options.h"
 #include "string_id.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_PERPETUAL( "PERPETUAL" );
+static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -133,23 +135,27 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     center_print( window, 0, c_light_red, _( " BIONICS " ) );
 
     std::string desc_append = string_format(
-                                  _( "[%s] Reassign, [%s] Switch tabs, [%s] Toggle fuel saving mode, [%s] Toggle auto start mode" ),
+                                  _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "
+                                     "[<color_yellow>%s</color>] Toggle fuel saving mode, "
+                                     "[<color_yellow>%s</color>] Toggle auto start mode." ),
                                   ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
                                   ctxt.get_desc( "TOGGLE_AUTO_START" ) );
     std::string desc;
     if( mode == REASSIGNING ) {
-        desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
+        desc = _( "Reassigning.  Select a bionic to reassign or press [<color_yellow>SPACE</color>] to cancel." );
         fuel_string.clear();
     } else if( mode == ACTIVATING ) {
-        desc = string_format( _( "<color_green>Activating</color> [%s] Examine, %s" ),
+        desc = string_format( _( "<color_green>Activating</color>  "
+                                 "[<color_yellow>%s</color>] Examine, %s" ),
                               ctxt.get_desc( "TOGGLE_EXAMINE" ), desc_append );
     } else if( mode == EXAMINING ) {
-        desc = string_format( _( "<color_light_blue>Examining</color> [%s] Activate, %s" ),
+        desc = string_format( _( "<color_light_blue>Examining</color>  "
+                                 "[<color_yellow>%s</color>] Activate, %s" ),
                               ctxt.get_desc( "TOGGLE_EXAMINE" ), desc_append );
     }
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_light_gray, desc );
+    int lines_count = fold_and_print( window, point( 1, 1 ), pwr_str_pos - 2, c_white, desc );
     fold_and_print( window, point( 1, ++lines_count ), pwr_str_pos - 2, c_white, fuel_string );
     wrefresh( window );
 }

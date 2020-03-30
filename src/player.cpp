@@ -19,7 +19,6 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
-#include "cata_string_consts.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "coordinate_conversions.h"
@@ -61,7 +60,6 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "profession.h"
-#include "ranged.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
@@ -99,7 +97,155 @@
 #include "flat_set.h"
 #include "stomach.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_masked_scent( "masked_scent" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_weed_high( "weed_high" );
+
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_ANTENNAE( "ANTENNAE" );
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
+static const trait_id trait_CF_HAIR( "CF_HAIR" );
+static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
+static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
+static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_CLUMSY( "CLUMSY" );
+static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
+static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
+static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_DEFT( "DEFT" );
+static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
+static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
+static const trait_id trait_EATHEALTH( "EATHEALTH" );
+static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
+static const trait_id trait_FAT( "FAT" );
+static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
+static const trait_id trait_FUR( "FUR" );
+static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
+static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
+static const trait_id trait_HOOVES( "HOOVES" );
+static const trait_id trait_HUGE( "HUGE" );
+static const trait_id trait_HUGE_OK( "HUGE_OK" );
+static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
+static const trait_id trait_INSOMNIA( "INSOMNIA" );
+static const trait_id trait_INT_SLIME( "INT_SLIME" );
+static const trait_id trait_LARGE( "LARGE" );
+static const trait_id trait_LARGE_OK( "LARGE_OK" );
+static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
+static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
+static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
+static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
+static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
+static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_MEMBRANE( "MEMBRANE" );
+static const trait_id trait_MOREPAIN( "MORE_PAIN" );
+static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
+static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
+static const trait_id trait_MYOPIC( "MYOPIC" );
+static const trait_id trait_NAUSEA( "NAUSEA" );
+static const trait_id trait_NOMAD( "NOMAD" );
+static const trait_id trait_NOMAD2( "NOMAD2" );
+static const trait_id trait_NOMAD3( "NOMAD3" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
+static const trait_id trait_PAINRESIST( "PAINRESIST" );
+static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
+static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
+static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_PAWS( "PAWS" );
+static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
+static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
+static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_QUILLS( "QUILLS" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SAVANT( "SAVANT" );
+static const trait_id trait_SEESLEEP( "SEESLEEP" );
+static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+static const trait_id trait_SLIMY( "SLIMY" );
+static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
+static const trait_id trait_SPINES( "SPINES" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
+static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
+static const trait_id trait_THORNS( "THORNS" );
+static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
+static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
+static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
+static const trait_id trait_VOMITOUS( "VOMITOUS" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
+static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
+static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
+static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_WEBBED( "WEBBED" );
+
+static const std::string flag_SPLINT( "SPLINT" );
+
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_swimming( "swimming" );
+
+static const mtype_id mon_player_blob( "mon_player_blob" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
+static const bionic_id bio_cloak( "bio_cloak" );
+static const bionic_id bio_cqb( "bio_cqb" );
+static const bionic_id bio_earplugs( "bio_earplugs" );
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
+static const bionic_id bio_jointservo( "bio_jointservo" );
+static const bionic_id bio_membrane( "bio_membrane" );
+static const bionic_id bio_memory( "bio_memory" );
+static const bionic_id bio_soporific( "bio_soporific" );
+static const bionic_id bio_speed( "bio_speed" );
+static const bionic_id bio_syringe( "bio_syringe" );
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
+static const bionic_id bio_watch( "bio_watch" );
 
 const double MAX_RECOIL = 3000;
 
@@ -3137,6 +3283,11 @@ ret_val<bool> player::can_wield( const item &it ) const
                    _( "You need at least one arm to even consider wielding something." ) );
     }
 
+    if( is_armed() && weapon.has_flag( "NO_UNWIELD" ) ) {
+        return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
+                                            weapname(), it.tname() );
+    }
+
     if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
         if( worn_with_flag( "RESTRICT_HANDS" ) ) {
             return ret_val<bool>::make_failure(
@@ -3221,7 +3372,7 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
     kmenu.input_category = "MELEE_STYLE_PICKER";
-    kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
+    kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
     kmenu.desc_enabled = true;
     kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h',
                          keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
@@ -3339,14 +3490,16 @@ void player::mend_item( item_location &&obj, bool interactive )
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
             if( obj->damage() > 0 ) {
                 const std::set<std::string> &rep = obj->repaired_with();
-                const std::string repair_options =
-                enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
-                    return item::nname( e );
-                }, enumeration_conjunction::or_ );
+                if( !rep.empty() ) {
+                    const std::string repair_options =
+                    enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
+                        return item::nname( e );
+                    }, enumeration_conjunction::or_ );
 
-                add_msg( m_info, _( "It is damaged, and could be repaired with %s.  "
-                                    "%s to use one of those items." ),
-                         repair_options, press_x( ACTION_USE ) );
+                    add_msg( m_info, _( "It is damaged, and could be repaired with %s.  "
+                                        "%s to use one of those items." ),
+                             repair_options, press_x( ACTION_USE ) );
+                }
             }
         }
         return;
@@ -5090,19 +5243,6 @@ bool player::has_weapon() const
     return !unarmed_attack();
 }
 
-m_size player::get_size() const
-{
-    if( has_trait( trait_id( "SMALL2" ) ) || has_trait( trait_id( "SMALL_OK" ) ) ||
-        has_trait( trait_id( "SMALL" ) ) ) {
-        return MS_SMALL;
-    } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
-        return MS_LARGE;
-    } else if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
-        return MS_HUGE;
-    }
-    return MS_MEDIUM;
-}
-
 int player::get_hp() const
 {
     return get_hp( num_hp_parts );
@@ -5250,15 +5390,16 @@ void player::add_msg_player_or_npc( const std::string &player_msg,
     Messages::add_msg( player_msg );
 }
 
-void player::add_msg_if_player( const game_message_type type, const std::string &msg ) const
+void player::add_msg_if_player( const game_message_params &params, const std::string &msg ) const
 {
-    Messages::add_msg( type, msg );
+    Messages::add_msg( params, msg );
 }
 
-void player::add_msg_player_or_npc( const game_message_type type, const std::string &player_msg,
+void player::add_msg_player_or_npc( const game_message_params &params,
+                                    const std::string &player_msg,
                                     const std::string &/*npc_msg*/ ) const
 {
-    Messages::add_msg( type, player_msg );
+    Messages::add_msg( params, player_msg );
 }
 
 void player::add_msg_player_or_say( const std::string &player_msg,
@@ -5267,10 +5408,11 @@ void player::add_msg_player_or_say( const std::string &player_msg,
     Messages::add_msg( player_msg );
 }
 
-void player::add_msg_player_or_say( const game_message_type type, const std::string &player_msg,
+void player::add_msg_player_or_say( const game_message_params &params,
+                                    const std::string &player_msg,
                                     const std::string &/*npc_speech*/ ) const
 {
-    Messages::add_msg( type, player_msg );
+    Messages::add_msg( params, player_msg );
 }
 
 bool player::knows_trap( const tripoint &pos ) const
@@ -5643,23 +5785,6 @@ void player::on_effect_int_change( const efftype_id &eid, int intensity, body_pa
     }
 
     morale->on_effect_int_change( eid, intensity, bp );
-}
-
-const targeting_data &player::get_targeting_data()
-{
-    if( tdata == nullptr ) {
-        debugmsg( "Tried to get targeting data before setting it" );
-        tdata.reset( new targeting_data() );
-        tdata->relevant = nullptr;
-        cancel_activity();
-    }
-
-    return *tdata;
-}
-
-void player::set_targeting_data( const targeting_data &td )
-{
-    tdata.reset( new targeting_data( td ) );
 }
 
 bool player::query_yn( const std::string &mes ) const

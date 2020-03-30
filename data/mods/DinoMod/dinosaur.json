@@ -292,8 +292,8 @@
   {
     "type": "MONSTER",
     "id": "mon_eoraptor",
-    "name": "Eoraptor",
-    "species": "DINOSAUR",
+    "name": { "str": "Eoraptor" },
+    "species": [ "DINOSAUR" ],
     "default_faction": "eoraptor",
     "symbol": "D",
     "color": "dark_gray_yellow",
@@ -322,8 +322,8 @@
   {
     "type": "MONSTER",
     "id": "mon_velociraptor",
-    "name": "Velociraptor",
-    "species": "DINOSAUR",
+    "name": { "str": "Velociraptor" },
+    "species": [ "DINOSAUR" ],
     "default_faction": "velociraptor",
     "symbol": "D",
     "color": "light_red_green",
@@ -388,8 +388,8 @@
   {
     "type": "MONSTER",
     "id": "mon_utahraptor",
-    "name": "Utahraptor",
-    "species": "DINOSAUR",
+    "name": { "str": "Utahraptor" },
+    "species": [ "DINOSAUR" ],
     "default_faction": "utahraptor",
     "symbol": "D",
     "color": "dark_gray_white",
@@ -452,8 +452,8 @@
   {
     "type": "MONSTER",
     "id": "mon_dimorphodon",
-    "name": "Dimorphodon",
-    "species": "DINOSAUR",
+    "name": { "str": "Dimorphodon" },
+    "species": [ "DINOSAUR" ],
     "default_faction": "dimorphodon",
     "symbol": "D",
     "color": "light_gray_yellow",

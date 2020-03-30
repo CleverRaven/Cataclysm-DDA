@@ -27,7 +27,6 @@
     "id": "bionics",
     "type": "item_group",
     "items": [
-      [ "bio_furnace", 10 ],
       [ "bn_bio_solar", 10 ],
       [ "afs_bio_wind_turbine", 5 ],
       [ "afs_bio_precision_solderers", 10 ],
@@ -41,7 +40,6 @@
     "id": "bionics_common",
     "type": "item_group",
     "items": [
-      [ "bio_furnace", 10 ],
       [ "bn_bio_solar", 10 ],
       [ "afs_bio_wind_turbine", 5 ],
       [ "afs_bio_precision_solderers", 5 ],
@@ -51,13 +49,12 @@
   {
     "id": "bionics_mil",
     "type": "item_group",
-    "items": [ [ "bio_furnace", 10 ], [ "bio_blaster", 5 ] ]
+    "items": [ [ "bio_blaster", 5 ] ]
   },
   {
     "id": "bionics_sci",
     "type": "item_group",
     "items": [
-      [ "bio_furnace", 5 ],
       [ "bn_bio_solar", 5 ],
       [ "afs_bio_wind_turbine", 2 ],
       [ "afs_bio_precision_solderers", 7 ],
@@ -68,7 +65,6 @@
     "id": "bionics_op",
     "type": "item_group",
     "items": [
-      [ "bio_furnace", 15 ],
       [ "bn_bio_solar", 15 ],
       [ "afs_bio_wind_turbine", 10 ],
       [ "afs_bio_missiles", 10 ],

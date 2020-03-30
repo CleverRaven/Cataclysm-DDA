@@ -1016,7 +1016,7 @@
     "type": "recipe",
     "result": "acorns_cooked",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
+    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 3,
     "skills_required": [ "survival", 2 ],
@@ -1637,7 +1637,7 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "7 m",
+    "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "orangesoda", 1 ] ], [ [ "cola", 1 ] ] ]
@@ -1650,7 +1650,7 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "7 m",
+    "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "lemonlime", 1 ] ], [ [ "cranberry_juice", 1 ] ] ]
@@ -1699,7 +1699,7 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "7 m",
+    "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "oj", 1 ] ], [ [ "vodka", 1 ] ] ]
@@ -1711,7 +1711,7 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "7 m",
+    "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "apple_cider", 1 ] ], [ [ "vodka", 1 ] ] ]
@@ -1723,7 +1723,7 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "7 m",
+    "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "rum", 1 ] ], [ [ "cola", 1 ] ] ]
@@ -1810,18 +1810,7 @@
     "batch_time_factors": [ 83, 5 ],
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [
-      [
-        [ "salt_water", 1 ],
-        [ "saline", 1 ],
-        [ "salt", 1 ],
-        [ "soysauce", 1 ],
-        [ "seasoning_salt", 1 ],
-        [ "pepper", 2 ],
-        [ "chem_saltpetre", 1 ]
-      ],
-      [ [ "fish", 1 ] ]
-    ]
+    "components": [ [ [ "salt_preservation", 1, "LIST" ] ], [ [ "fish", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2691,7 +2680,7 @@
     "type": "recipe",
     "result": "pine_nuts",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
+    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "skills_required": [ "survival", 2 ],
     "difficulty": 1,
@@ -3773,17 +3762,13 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": "20 m",
-    "batch_time_factors": [ 83, 5 ],
+    "charges": 2,
+    "time": "5 m",
+    "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "meat_red_raw", 1, "LIST" ] ],
-      [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
-    ]
+    "components": [ [ [ "bag_plastic", 1 ] ], [ [ "meat_red_raw", 2, "LIST" ] ], [ [ "salt_preservation", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -3794,17 +3779,13 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": "20 m",
-    "batch_time_factors": [ 83, 5 ],
+    "charges": 5,
+    "time": "5 m",
+    "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "fish", 1 ] ],
-      [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "chem_saltpetre", 1 ] ]
-    ]
+    "components": [ [ [ "bag_plastic", 1 ] ], [ [ "fish", 5 ] ], [ [ "salt_preservation", 5, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -3815,17 +3796,13 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": "20 m",
-    "batch_time_factors": [ 83, 5 ],
+    "charges": 2,
+    "time": "5 m",
+    "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "bag_plastic", 1 ] ],
-      [ [ "veggy_any_uncooked", 1, "LIST" ] ],
-      [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 2 ], [ "chem_saltpetre", 1 ] ]
-    ]
+    "components": [ [ [ "bag_plastic", 1 ] ], [ [ "veggy_any_uncooked", 2, "LIST" ] ], [ [ "salt_preservation", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -3836,16 +3813,17 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": "20 m",
-    "batch_time_factors": [ 83, 5 ],
+    "charges": 8,
+    "time": "5 m",
+    "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 5 ], [ "makeshift_sealer", 10 ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "bag_plastic", 1 ] ],
-      [ [ "sweet_fruit", 2, "LIST" ] ],
-      [ [ "sugar", 8 ] ]
+      [ [ "sweet_fruit", 4, "LIST" ] ],
+      [ [ "sugar_standard", 1, "LIST" ] ]
     ]
   },
   {
@@ -5892,12 +5870,12 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
-    "charges": 2,
-    "time": "1 h 10 m",
+    "charges": 1,
+    "time": "35 m",
     "autolearn": true,
-    "batch_time_factors": [ 83, 3 ],
+    "batch_time_factors": [ 83, 6 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 1 ] ] ],
+    "tools": [ [ [ "char_smoker", 5 ] ] ],
     "components": [ [ [ "sausage_wasteland_raw", 1 ] ] ]
   },
   {
@@ -6023,7 +6001,7 @@
     "result": "acorns_cooked",
     "id_suffix": "mortar",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
+    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 3,
     "skills_required": [ "survival", 2 ],
@@ -6206,7 +6184,7 @@
     "//": "Making the very first starter is a lot more finnicky than splitting it once it's mature.",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 1 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -6219,7 +6197,7 @@
     "result_mult": 2,
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 1 ] ], [ [ "sourdough_starter", 1 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 4 ] ], [ [ "sourdough_starter", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6234,7 +6212,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "flour", 4 ] ], [ [ "sourdough_starter", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
+    "components": [ [ [ "flour", 10 ] ], [ [ "sourdough_starter", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
   },
   {
     "type": "recipe",

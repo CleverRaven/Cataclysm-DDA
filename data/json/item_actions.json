@@ -2,452 +2,457 @@
   {
     "type": "item_action",
     "id": "repair_fabric",
-    "name": "Repair cotton/leather/wool/Nomex/fur"
+    "name": { "str": "Repair cotton/leather/wool/Nomex/fur" }
   },
   {
     "type": "item_action",
     "id": "repair_metal",
-    "name": "Repair metal/plastic/kevlar"
+    "name": { "str": "Repair metal/plastic/kevlar" }
   },
   {
     "type": "item_action",
     "id": "sew_advanced",
-    "name": "Modify Clothing"
+    "name": { "str": "Modify Clothing" }
   },
   {
     "type": "item_action",
     "id": "firestarter",
-    "name": "Start a fire quickly"
+    "name": { "str": "Start a fire quickly" }
   },
   {
     "type": "item_action",
     "id": "HAMMER",
-    "name": "Pull out nails"
+    "name": { "str": "Pull out nails" }
   },
   {
     "type": "item_action",
     "id": "picklock",
-    "name": "Pick a lock"
+    "name": { "str": "Pick a lock" }
   },
   {
     "type": "item_action",
     "id": "deploy_furn",
-    "name": "Deploy item"
+    "name": { "str": "Deploy item" }
   },
   {
     "type": "item_action",
     "id": "CROWBAR",
-    "name": "Pry crate, window or door"
+    "name": { "str": "Pry crate, window or door" }
   },
   {
     "type": "item_action",
     "id": "MAKEMOUND",
-    "name": "Upturn earth"
+    "name": { "str": "Upturn earth" }
   },
   {
     "type": "item_action",
     "id": "DIG_CHANNEL",
-    "name": "Dig water channel here"
+    "name": { "str": "Dig water channel here" }
   },
   {
     "type": "item_action",
     "id": "PICKAXE",
-    "name": "Dig through rock"
+    "name": { "str": "Dig through rock" }
   },
   {
     "type": "item_action",
     "id": "PACK_CBM",
-    "name": "Pack CBM in pouch"
+    "name": { "str": "Pack CBM in pouch" }
   },
   {
     "type": "item_action",
     "id": "BURROW",
-    "name": "Burrow through rock"
+    "name": { "str": "Burrow through rock" }
   },
   {
     "type": "item_action",
     "id": "GEIGER",
-    "name": "Use geiger counter"
+    "name": { "str": "Use geiger counter" }
   },
   {
     "type": "item_action",
     "id": "HACKSAW",
-    "name": "Cut metal"
+    "name": { "str": "Cut metal" }
   },
   {
     "type": "item_action",
     "id": "BOLTCUTTERS",
-    "name": "Cut bolts or wires"
+    "name": { "str": "Cut bolts or wires" }
   },
   {
     "type": "item_action",
     "id": "HOTPLATE",
-    "name": "Heat up food (with it)"
+    "name": { "str": "Heat up food (with it)" }
   },
   {
     "type": "item_action",
     "id": "TOOLMOD_ATTACH",
-    "name": "Attach as toolmod"
+    "name": { "str": "Attach as toolmod" }
   },
   {
     "type": "item_action",
     "id": "GUNMOD_ATTACH",
-    "name": "Attach as gunmod"
+    "name": { "str": "Attach as gunmod" }
   },
   {
     "type": "item_action",
     "id": "GUN_REPAIR",
-    "name": "Repair a gun"
+    "name": { "str": "Repair a gun" }
   },
   {
     "type": "item_action",
     "id": "DIRECTIONAL_HOLOGRAM",
-    "name": "Create a moving hologram"
+    "name": { "str": "Create a moving hologram" }
   },
   {
     "type": "item_action",
     "id": "MIND_SPLICER",
-    "name": "Extract data from memory banks"
+    "name": { "str": "Extract data from memory banks" }
   },
   {
     "type": "item_action",
     "id": "ROBOTCONTROL",
-    "name": "Hack a robot"
+    "name": { "str": "Hack a robot" }
   },
   {
     "type": "item_action",
     "id": "METH",
-    "name": "Smoke/snort meth"
+    "name": { "str": "Smoke/snort meth" }
   },
   {
     "type": "item_action",
     "id": "TAZER",
-    "name": "Taze something"
+    "name": { "str": "Taze something" }
   },
   {
     "type": "item_action",
     "id": "ANTICONVULSANT",
-    "name": "Take anticonvulsant"
+    "name": { "str": "Take anticonvulsant" }
   },
   {
     "type": "item_action",
     "id": "LUMBER",
-    "name": "Cut a log into planks"
+    "name": { "str": "Cut a log into planks" }
   },
   {
     "type": "item_action",
     "id": "REMOVE_ALL_MODS",
-    "name": "Remove tool mods"
+    "name": { "str": "Remove tool mods" }
   },
   {
     "type": "item_action",
     "id": "salvage",
-    "name": "Cut up an item"
+    "name": { "str": "Cut up an item" }
   },
   {
     "type": "item_action",
     "id": "inscribe",
-    "name": "Write on an item"
+    "name": { "str": "Write on an item" }
   },
   {
     "type": "item_action",
     "id": "cauterize",
-    "name": "Cauterize a wound"
+    "name": { "str": "Cauterize a wound" }
   },
   {
     "type": "item_action",
     "id": "enzlave",
-    "name": "Create a zombie slave"
+    "name": { "str": "Create a zombie slave" }
   },
   {
     "type": "item_action",
     "id": "fireweapon_off",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "fireweapon_on",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "CARVER_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "TRIMMER_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "CIRCSAW_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "CHAINSAW_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "ELEC_CHAINSAW_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "transform",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "countdown",
-    "name": "Start countdown"
+    "name": { "str": "Start countdown" }
+  },
+  {
+    "type": "item_action",
+    "id": "unpack",
+    "name": { "str": "Unpack" }
   },
   {
     "type": "item_action",
     "id": "learn_spell",
-    "name": "Learn spell"
+    "name": { "str": "Learn spell" }
   },
   {
     "type": "item_action",
     "id": "cast_spell",
-    "name": "Cast spell"
+    "name": { "str": "Cast spell" }
   },
   {
     "type": "item_action",
     "id": "holster",
-    "name": "Use holster"
+    "name": { "str": "Use holster" }
   },
   {
     "type": "item_action",
     "id": "saw_barrel",
-    "name": "Saw down barrel"
+    "name": { "str": "Saw down barrel" }
   },
   {
     "type": "item_action",
     "id": "ACIDBOMB_ACT",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "ADRENALINE_INJECTOR",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
     "id": "ALCOHOL",
-    "name": "Drink"
+    "name": { "str": "Drink" }
   },
   {
     "type": "item_action",
     "id": "ALCOHOL_STRONG",
-    "name": "Drink"
+    "name": { "str": "Drink" }
   },
   {
     "type": "item_action",
     "id": "ALCOHOL_WEAK",
-    "name": "Drink"
+    "name": { "str": "Drink" }
   },
   {
     "type": "item_action",
     "id": "ANTIBIOTIC",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "ANTIFUNGAL",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "ANTIPARASITIC",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "ARROW_FLAMABLE",
-    "name": "Light up"
+    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
     "id": "ARTIFACT",
-    "name": "Use"
+    "name": { "str": "Use" }
   },
   {
     "type": "item_action",
     "id": "ATOMIC_CAFF",
-    "name": "Drink"
+    "name": { "str": "Drink" }
   },
   {
     "type": "item_action",
     "id": "AUTOCLAVE",
-    "name": "Sterilize"
+    "name": { "str": "Sterilize" }
   },
   {
     "type": "item_action",
     "id": "BELL",
-    "name": "Ring"
+    "name": { "str": "Ring" }
   },
   {
     "type": "item_action",
     "id": "BLECH",
-    "name": "Drink"
+    "name": { "str": "Drink" }
   },
   {
     "type": "item_action",
     "id": "BLECH_BECAUSE_UNCLEAN",
-    "name": "Drink"
+    "name": { "str": "Drink" }
   },
   {
     "type": "item_action",
     "id": "C4",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "CABLE_ATTACH",
-    "name": "Attach"
+    "name": { "str": "Attach" }
   },
   {
     "type": "item_action",
     "id": "CAFF",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "CAMERA",
-    "name": "Use camera"
+    "name": { "str": "Use camera" }
   },
   {
     "type": "item_action",
     "id": "CAN_GOO",
-    "name": "Pour out"
+    "name": { "str": "Pour out" }
   },
   {
     "type": "item_action",
     "id": "CAPTURE_MONSTER_ACT",
-    "name": "Capture/place"
+    "name": { "str": "Capture/place" }
   },
   {
     "type": "item_action",
     "id": "CAPTURE_MONSTER_VEH",
-    "name": "Capture/place"
+    "name": { "str": "Capture/place" }
   },
   {
     "type": "item_action",
     "id": "CARVER_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "CATFOOD",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
     "id": "CHAINSAW_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "CHEW",
-    "name": "Chew"
+    "name": { "str": "Chew" }
   },
   {
     "type": "item_action",
     "id": "CLEAR_RUBBLE",
-    "name": "Clear rubble"
+    "name": { "str": "Clear rubble" }
   },
   {
     "type": "item_action",
     "id": "COIN_FLIP",
-    "name": "Flip"
+    "name": { "str": "Flip" }
   },
   {
     "type": "item_action",
     "id": "COKE",
-    "name": "Snort coke"
+    "name": { "str": "Snort coke" }
   },
   {
     "type": "item_action",
     "id": "COMBATSAW_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "COMBATSAW_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "E_COMBATSAW_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "E_COMBATSAW_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "CONTACTS",
-    "name": "Apply"
+    "name": { "str": "Apply" }
   },
   {
     "type": "item_action",
     "id": "CS_LAJATANG_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "CS_LAJATANG_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "ECS_LAJATANG_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "ECS_LAJATANG_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "DATURA",
-    "name": "Eat"
+    "name": { "str": "Eat" }
   },
   {
     "type": "item_action",
     "id": "DIG",
-    "name": "Dig pit here"
+    "name": { "str": "Dig pit here" }
   },
   {
     "type": "item_action",
     "id": "DIRECTIONAL_ANTENNA",
-    "name": "Find direction"
+    "name": { "str": "Find direction" }
   },
   {
     "type": "item_action",
     "id": "DOGFOOD",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
     "id": "DOG_WHISTLE",
-    "name": "Blow"
+    "name": { "str": "Blow" }
   },
   {
     "type": "item_action",
     "id": "CALL_OF_TINDALOS",
-    "name": "Blow"
+    "name": { "str": "Blow" }
   },
   {
     "type": "item_action",
     "id": "DOLLCHAT",
-    "name": "Make it talk"
+    "name": { "str": "Make it talk" }
   },
   {
     "type": "item_action",
@@ -457,292 +462,292 @@
   {
     "type": "item_action",
     "id": "EHANDCUFFS",
-    "name": "Take off"
+    "name": { "str": "Take off" }
   },
   {
     "type": "item_action",
     "id": "EINKTABLETPC",
-    "name": "Use"
+    "name": { "str": "Use" }
   },
   {
     "type": "item_action",
     "id": "ELEC_CHAINSAW_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "EXTINGUISHER",
-    "name": "Spray"
+    "name": { "str": "Spray" }
   },
   {
     "type": "item_action",
     "id": "EYEDROPS",
-    "name": "Use"
+    "name": { "str": "Use" }
   },
   {
     "type": "item_action",
     "id": "FILL_PIT",
-    "name": "Fill pit / tamp ground"
+    "name": { "str": "Fill pit / tamp ground" }
   },
   {
     "type": "item_action",
     "id": "FIRECRACKER",
-    "name": "Light up"
+    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
     "id": "FIRECRACKER_ACT",
-    "name": "Light up"
+    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
     "id": "FIRECRACKER_PACK",
-    "name": "Light up"
+    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
     "id": "FIRECRACKER_PACK_ACT",
-    "name": "Light up"
+    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
     "id": "FISH_ROD",
-    "name": "Fish"
+    "name": { "str": "Fish" }
   },
   {
     "type": "item_action",
     "id": "FISH_TRAP",
-    "name": "Set"
+    "name": { "str": "Set" }
   },
   {
     "type": "item_action",
     "id": "FLUMED",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "FLUSLEEP",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "FLU_VACCINE",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
     "id": "FOODPERSON",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "FUNGICIDE",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "GRANADE",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "GRANADE_ACT",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "GRENADE_INC_ACT",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "detach_gunmods",
-    "name": "Detach gunmods"
+    "name": { "str": "Detach gunmods" }
   },
   {
     "type": "item_action",
     "id": "HAIRKIT",
-    "name": "Trim the hair"
+    "name": { "str": "Trim the hair" }
   },
   {
     "type": "item_action",
     "id": "HEATPACK",
-    "name": "Use"
+    "name": { "str": "Use" }
   },
   {
     "type": "item_action",
     "id": "HEAT_FOOD",
-    "name": "Heat up food (in it)"
+    "name": { "str": "Heat up food (in it)" }
   },
   {
     "type": "item_action",
     "id": "HONEYCOMB",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "INHALER",
-    "name": "Inhale"
+    "name": { "str": "Inhale" }
   },
   {
     "type": "item_action",
     "id": "JACKHAMMER",
-    "name": "Drill"
+    "name": { "str": "Drill" }
   },
   {
     "type": "item_action",
     "id": "JET_INJECTOR",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
     "id": "LADDER",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
     "id": "MAGIC_8_BALL",
-    "name": "Ask"
+    "name": { "str": "Ask" }
   },
   {
     "type": "item_action",
     "id": "PLAY_GAME",
-    "name": "Play"
+    "name": { "str": "Play" }
   },
   {
     "type": "item_action",
     "id": "MARLOSS",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "MARLOSS_GEL",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "MARLOSS_SEED",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "MA_MANUAL",
-    "name": "Read"
+    "name": { "str": "Read" }
   },
   {
     "type": "item_action",
     "id": "MEDITATE",
-    "name": "Meditate"
+    "name": { "str": "Meditate" }
   },
   {
     "type": "item_action",
     "id": "MININUKE",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "MOLOTOV_LIT",
-    "name": "Light up"
+    "name": { "str": "Light up" }
   },
   {
     "type": "item_action",
     "id": "MOP",
-    "name": "Mop"
+    "name": { "str": "Mop" }
   },
   {
     "type": "item_action",
     "id": "MP3",
-    "name": "Play music"
+    "name": { "str": "Play music" }
   },
   {
     "type": "item_action",
     "id": "MP3_ON",
-    "name": "Turn off music"
+    "name": { "str": "Turn off music" }
   },
   {
     "type": "item_action",
     "id": "RPGDIE",
-    "name": "Roll die"
+    "name": { "str": "Roll die" }
   },
   {
     "type": "item_action",
     "id": "GASMASK",
-    "name": "Prepare to use"
+    "name": { "str": "Prepare to use" }
   },
   {
     "type": "item_action",
     "id": "DIVE_TANK",
-    "name": "Use regulator"
+    "name": { "str": "Use regulator" }
   },
   {
     "type": "item_action",
     "id": "SOLARPACK",
-    "name": "Unfold"
+    "name": { "str": "Unfold" }
   },
   {
     "type": "item_action",
     "id": "SOLARPACK_OFF",
-    "name": "Fold"
+    "name": { "str": "Fold" }
   },
   {
     "type": "item_action",
     "id": "MULTICOOKER",
-    "name": "Cook"
+    "name": { "str": "Cook" }
   },
   {
     "type": "item_action",
     "id": "mutagen",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "mutagen_iv",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
     "id": "MYCUS",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "NOISE_EMITTER_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "NOISE_EMITTER_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "OXYGEN_BOTTLE",
-    "name": "Inhale"
+    "name": { "str": "Inhale" }
   },
   {
     "type": "item_action",
     "id": "OXYTORCH",
-    "name": "Cut up metal"
+    "name": { "str": "Cut up metal" }
   },
   {
     "type": "item_action",
     "id": "PACK_ITEM",
-    "name": "Pack an item"
+    "name": { "str": "Pack an item" }
   },
   {
     "type": "item_action",
     "id": "PHEROMONE",
-    "name": "Squeeze"
+    "name": { "str": "Squeeze" }
   },
   {
     "type": "item_action",
     "id": "PLANTBLECH",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "POISON",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
@@ -752,122 +757,122 @@
   {
     "type": "item_action",
     "id": "deploy_tent",
-    "name": "Put up"
+    "name": { "str": "Put up" }
   },
   {
     "type": "item_action",
     "id": "PORTAL",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
     "id": "PROZAC",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "PURIFIER",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "PURIFY_IV",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
     "id": "PURIFY_SMART",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
     "id": "RADGLOVE",
-    "name": "Measure radiation"
+    "name": { "str": "Measure radiation" }
   },
   {
     "type": "item_action",
     "id": "RADIOCAR",
-    "name": "…"
+    "name": { "str": "…" }
   },
   {
     "type": "item_action",
     "id": "RADIOCARON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "RADIOCONTROL",
-    "name": "Control an RC car"
+    "name": { "str": "Control an RC car" }
   },
   {
     "type": "item_action",
     "id": "RADIO_MOD",
-    "name": "Modify an item"
+    "name": { "str": "Modify an item" }
   },
   {
     "type": "item_action",
     "id": "RADIO_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "RADIO_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "REMOTEVEH",
-    "name": "Control a vehicle"
+    "name": { "str": "Control a vehicle" }
   },
   {
     "type": "item_action",
     "id": "RM13ARMOR_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "RM13ARMOR_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "ROYAL_JELLY",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "SEED",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "SEWAGE",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "SHAVEKIT",
-    "name": "Shave"
+    "name": { "str": "Shave" }
   },
   {
     "type": "item_action",
     "id": "SHOCKTONFA_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "SHOCKTONFA_ON",
-    "name": "Turn off"
+    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
     "id": "SIPHON",
-    "name": "Siphon"
+    "name": { "str": "Siphon" }
   },
   {
     "type": "item_action",
     "id": "SLEEP",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -877,142 +882,142 @@
   {
     "type": "item_action",
     "id": "SPRAY_CAN",
-    "name": "Write something"
+    "name": { "str": "Write something" }
   },
   {
     "type": "item_action",
     "id": "STIMPACK",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
     "id": "TELEPORT",
-    "name": "Teleport yourself"
+    "name": { "str": "Teleport yourself" }
   },
   {
     "type": "item_action",
     "id": "THORAZINE",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "THROWABLE_EXTINGUISHER_ACT",
-    "name": "Extinguish a fire"
+    "name": { "str": "Extinguish a fire" }
   },
   {
     "type": "item_action",
     "id": "TOWEL",
-    "name": "Dry/clean yourself"
+    "name": { "str": "Dry/clean yourself" }
   },
   {
     "type": "item_action",
     "id": "TRIMMER_OFF",
-    "name": "Turn on"
+    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "UNFOLD_GENERIC",
-    "name": "Unfold"
+    "name": { "str": "Unfold" }
   },
   {
     "type": "item_action",
     "id": "UNPACK_ITEM",
-    "name": "Unpack"
+    "name": { "str": "Unpack" }
   },
   {
     "type": "item_action",
     "id": "VACCINE",
-    "name": "Inject"
+    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
     "id": "BLOOD_DRAW",
-    "name": "Draw some blood"
+    "name": { "str": "Draw some blood" }
   },
   {
     "type": "item_action",
     "id": "HAND_CRANK",
-    "name": "Recharge a battery"
+    "name": { "str": "Recharge a battery" }
   },
   {
     "type": "item_action",
     "id": "VIBE",
-    "name": "Well, you know"
+    "name": { "str": "Well, you know" }
   },
   {
     "type": "item_action",
     "id": "VORTEX",
-    "name": "Use"
+    "name": { "str": "Use" }
   },
   {
     "type": "item_action",
     "id": "WASH_SOFT_ITEMS",
-    "name": "Wash soft items"
+    "name": { "str": "Wash soft items" }
   },
   {
     "type": "item_action",
     "id": "WASH_HARD_ITEMS",
-    "name": "Wash hard items"
+    "name": { "str": "Wash hard items" }
   },
   {
     "type": "item_action",
     "id": "WASH_ALL_ITEMS",
-    "name": "Wash items"
+    "name": { "str": "Wash items" }
   },
   {
     "type": "item_action",
     "id": "WATER_PURIFIER",
-    "name": "Purify some water"
+    "name": { "str": "Purify some water" }
   },
   {
     "type": "item_action",
     "id": "WEATHER_TOOL",
-    "name": "Check weather information"
+    "name": { "str": "Check weather information" }
   },
   {
     "type": "item_action",
     "id": "WEED_CAKE",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "XANAX",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "ammobelt",
-    "name": "Reload"
+    "name": { "str": "Reload" }
   },
   {
     "type": "item_action",
     "id": "bandolier",
-    "name": "Store/unload ammo"
+    "name": { "str": "Store/unload ammo" }
   },
   {
     "type": "item_action",
     "id": "consume_drug",
-    "name": "Consume"
+    "name": { "str": "Consume" }
   },
   {
     "type": "item_action",
     "id": "delayed_transform",
-    "name": "Use"
+    "name": { "str": "Use" }
   },
   {
     "type": "item_action",
     "id": "explosion",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "heal",
-    "name": "Apply"
+    "name": { "str": "Apply" }
   },
   {
     "type": "item_action",
     "id": "manualnoise",
-    "name": "Make some noise"
+    "name": { "str": "Make some noise" }
   },
   {
     "type": "item_action",
@@ -1022,106 +1027,96 @@
   {
     "type": "item_action",
     "id": "place_monster",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "place_npc",
-    "name": "Activate"
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
     "id": "place_trap",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
     "id": "reveal_map",
-    "name": "Read"
+    "name": { "str": "Read" }
   },
   {
     "type": "item_action",
     "id": "change_scent",
-    "name": "Mask scent"
+    "name": { "str": "Mask scent" }
   },
   {
     "type": "item_action",
     "id": "unfold_vehicle",
-    "name": "Unfold"
+    "name": { "str": "Unfold" }
   },
   {
     "type": "item_action",
     "id": "ups_based_armor",
-    "name": "Activate/deactivate"
+    "name": { "str": "Activate/deactivate" }
   },
   {
     "type": "item_action",
     "id": "CATTLEFODDER",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
     "id": "BIRDFOOD",
-    "name": "Place"
+    "name": { "str": "Place" }
   },
   {
     "type": "item_action",
     "id": "install_bionic",
-    "name": "Install bionic"
+    "name": { "str": "Install bionic" }
   },
   {
     "type": "item_action",
     "id": "CHOP_TREE",
-    "name": "Chop down a tree"
+    "name": { "str": "Chop down a tree" }
   },
   {
     "type": "item_action",
     "id": "CHOP_LOGS",
-    "name": "Chop a Tree Trunk into logs"
+    "name": { "str": "Chop a Tree Trunk into logs" }
   },
   {
     "type": "item_action",
     "id": "BREAK_STICK",
-    "name": "Break stick"
+    "name": { "str": "Break stick" }
   },
   {
     "type": "item_action",
     "id": "WEAK_ANTIBIOTIC",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "DISASSEMBLE",
-    "name": "Get content"
+    "name": { "str": "Get content" }
   },
   {
     "type": "item_action",
     "id": "STRONG_ANTIBIOTIC",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "PANACEA",
-    "name": "Take"
+    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
     "id": "weigh_self",
-    "name": "Use Scale"
+    "name": { "str": "Use Scale" }
   },
   {
     "type": "item_action",
     "id": "CRAFT",
-    "name": "Work on craft"
-  },
-  {
-    "type": "item_action",
-    "id": "GOBAG_NORMAL",
-    "name": "Get contents"
-  },
-  {
-    "type": "item_action",
-    "id": "GOBAG_PERSONAL",
-    "name": "Get contents"
+    "name": { "str": "Work on craft" }
   }
 ]

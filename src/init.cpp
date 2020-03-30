@@ -16,6 +16,7 @@
 #include "anatomy.h"
 #include "behavior.h"
 #include "bionics.h"
+#include "clzones.h"
 #include "construction.h"
 #include "crafting_gui.h"
 #include "creature.h"
@@ -181,6 +182,8 @@ void DynamicDataLoader::add( const std::string &type, std::function<void( const 
     }
 }
 
+void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
+
 void DynamicDataLoader::initialize()
 {
     // all of the applicable types that can be loaded, along with their loading functions
@@ -306,6 +309,8 @@ void DynamicDataLoader::initialize()
     add( "MIGRATION", []( const JsonObject & jo ) {
         item_controller->load_migration( jo );
     } );
+
+    add( "charge_removal_blacklist", load_charge_removal_blacklist );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
@@ -536,6 +541,7 @@ void DynamicDataLoader::unload_data()
     event_transformation::reset();
     event_statistic::reset();
     score::reset();
+    scent_type::reset();
 
     // TODO:
     //    Name::clear();

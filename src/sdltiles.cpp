@@ -3501,6 +3501,11 @@ void catacurses::init_interface()
     last_input = input_event();
     inputdelay = -1;
 
+    InitSDL();
+
+    get_options().init();
+    get_options().load();
+
     font_loader fl;
     fl.load();
     fl.fontwidth = get_option<int>( "FONT_WIDTH" );
@@ -3515,8 +3520,6 @@ void catacurses::init_interface()
     fl.overmap_fontheight = get_option<int>( "OVERMAP_FONT_HEIGHT" );
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
-
-    InitSDL();
 
     init_term_size_and_scaling_factor();
 

@@ -20,7 +20,7 @@
   {
     "id": "wetsuit",
     "type": "ARMOR",
-    "name": "wetsuit",
+    "name": { "str": "wetsuit" },
     "description": "A full-body neoprene wetsuit.",
     "weight": "5110 g",
     "volume": "5 L",
@@ -42,7 +42,7 @@
   {
     "id": "wetsuit_hood",
     "type": "ARMOR",
-    "name": "wetsuit hood",
+    "name": { "str": "wetsuit hood" },
     "description": "A neoprene hood, commonly worn by divers.",
     "weight": "270 g",
     "volume": "1 L",
@@ -63,7 +63,7 @@
     "id": "hood_h20survivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "survivor wetsuit hood",
+    "name": { "str": "survivor wetsuit hood" },
     "description": "A customized armored neoprene and Kevlar hood, very strong and durable.",
     "weight": "860 g",
     "volume": "1500 ml",
@@ -86,7 +86,7 @@
     "id": "h20survivor_suit",
     "type": "ARMOR",
     "category": "armor",
-    "name": "survivor wetsuit",
+    "name": { "str": "survivor wetsuit" },
     "description": "A lightweight, hand-built combination armor made from a cut-down bulletproof vest and a reinforced neoprene wetsuit.  Protects from the elements as well as from harm.",
     "weight": "6400 g",
     "volume": "7 L",
@@ -131,7 +131,7 @@
   {
     "id": "wetsuit_spring",
     "type": "ARMOR",
-    "name": "spring suit",
+    "name": { "str": "spring suit" },
     "description": "A long-sleeved spring wetsuit with pink color details and cleavage-enhancing, hip-accentuating construction.  Not as protective as a full-body suit, but also less restrictive.",
     "weight": "1320 g",
     "volume": "4 L",
@@ -153,7 +153,7 @@
   {
     "id": "shark_suit_faraday",
     "type": "ARMOR",
-    "name": "faraday shark suit",
+    "name": { "str": "faraday shark suit" },
     "description": "A one piece chainmail suit used by scuba divers for protection against shark bites.  It has been conductively interconnected, protecting against electricity.",
     "weight": "3250 g",
     "volume": "3500 ml",
@@ -173,7 +173,7 @@
   {
     "id": "shark_suit",
     "type": "ARMOR",
-    "name": "shark suit",
+    "name": { "str": "shark suit" },
     "description": "A one piece chainmail suit used by scuba divers for protection against shark bites.  It comes with attached plastic helmet and booties.",
     "weight": "3150 g",
     "volume": "3500 ml",

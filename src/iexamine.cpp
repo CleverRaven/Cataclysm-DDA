@@ -86,7 +86,95 @@
 #include "flat_set.h"
 #include "magic_teleporter_list.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_ATM( "ACT_ATM" );
+static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
+static const activity_id ACT_CRACKING( "ACT_CRACKING" );
+static const activity_id ACT_FORAGE( "ACT_FORAGE" );
+static const activity_id ACT_HACKING( "ACT_HACKING" );
+static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
+
+static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_teleglow( "teleglow" );
+
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_survival( "survival" );
+
+static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
+static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
+static const trait_id trait_BADKNEES( "BADKNEES" );
+static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
+static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_M_FERTILE( "M_FERTILE" );
+static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
+static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
+static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+static const quality_id qual_DIG( "DIG" );
+
+static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
+static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
+static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
+static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
+
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_fingerhack( "bio_fingerhack" );
+static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_lockpick( "bio_lockpick" );
+static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_power_storage( "bio_power_storage" );
+static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
+
+static const std::string flag_ANESTHESIA( "ANESTHESIA" );
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
+static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
+static const std::string flag_COOKED( "COOKED" );
+static const std::string flag_DIAMOND( "DIAMOND" );
+static const std::string flag_FERTILIZER( "FERTILIZER" );
+static const std::string flag_FILTHY( "FILTHY" );
+static const std::string flag_FIRE( "FIRE" );
+static const std::string flag_FIRESTARTER( "FIRESTARTER" );
+static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
+static const std::string flag_IN_CBM( "IN_CBM" );
+static const std::string flag_MILLABLE( "MILLABLE" );
+static const std::string flag_NO_CVD( "NO_CVD" );
+static const std::string flag_NO_PACKED( "NO_PACKED" );
+static const std::string flag_NO_STERILE( "NO_STERILE" );
+static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
+static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
+static const std::string flag_PROCESSING( "PROCESSING" );
+static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
+static const std::string flag_SAFECRACK( "SAFECRACK" );
+static const std::string flag_SMOKABLE( "SMOKABLE" );
+static const std::string flag_SMOKED( "SMOKED" );
+static const std::string flag_SPLINT( "SPLINT" );
+static const std::string flag_VARSIZE( "VARSIZE" );
+static const std::string flag_WALL( "WALL" );
+static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,
@@ -95,9 +183,8 @@ static void pick_plant( player &p, const tripoint &examp, const std::string &ite
 /**
  * Nothing player can interact with here.
  */
-void iexamine::none( player &p, const tripoint &examp )
+void iexamine::none( player &/*p*/, const tripoint &examp )
 {
-    ( void )p; //unused
     add_msg( _( "That is a %s." ), g->m.name( examp ) );
 }
 
@@ -700,7 +787,6 @@ void iexamine::toilet( player &p, const tripoint &examp )
  */
 void iexamine::elevator( player &p, const tripoint &examp )
 {
-    ( void )p; //unused
     if( !query_yn( _( "Use the %s?" ), g->m.tername( examp ) ) ) {
         return;
     }
@@ -776,21 +862,21 @@ void iexamine::cardreader( player &p, const tripoint &examp )
         p.mod_moves( -to_turns<int>( 1_seconds ) );
         for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
             if( g->m.ter( tmp ) == t_door_metal_locked ) {
-                g->m.ter_set( tmp, t_floor );
+                g->m.ter_set( tmp, t_door_metal_c );
                 open = true;
             }
         }
         for( monster &critter : g->all_monsters() ) {
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( examp ) ) &&
-                ( critter.type->id == mon_turret_rifle ) &&
+                critter.has_flag( MF_ID_CARD_DESPAWN ) &&
                 critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
         }
         if( open ) {
             add_msg( _( "You insert your ID card." ) );
-            add_msg( m_good, _( "The nearby doors slide into the floor." ) );
+            add_msg( m_good, _( "The nearby doors unlock." ) );
             p.use_amount( card_type, 1 );
         } else {
             add_msg( _( "The nearby doors are already opened." ) );
@@ -1262,7 +1348,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 {
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
-        return temporary_item.has_quality( qual_PRY, 1 );
+        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
     } );
 
     if( prying_items.empty() ) {
@@ -1273,7 +1359,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     // Sort by their quality level.
     std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
-        return a->get_quality( qual_PRY ) > b->get_quality( qual_PRY );
+        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
     //~ %1$s: terrain/furniture name, %2$s: prying tool name
@@ -1944,28 +2030,10 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
  */
 void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &seed_id )
 {
-    std::list<item> used_seed;
-    if( item::count_by_charges( seed_id ) ) {
-        used_seed = p.use_charges( seed_id, 1 );
-    } else {
-        used_seed = p.use_amount( seed_id, 1 );
-    }
-    if( !used_seed.empty() ) {
-        used_seed.front().set_age( 0_turns );
-        if( used_seed.front().has_var( "activity_var" ) ) {
-            used_seed.front().erase_var( "activity_var" );
-        }
-        used_seed.front().set_flag( flag_HIDDEN_ITEM );
-        g->m.add_item_or_charges( examp, used_seed.front() );
-        if( g->m.has_flag_furn( flag_PLANTABLE, examp ) ) {
-            g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
-        } else {
-            g->m.set( examp, t_dirt, f_plant_seed );
-        }
-        p.moves -= to_moves<int>( 30_seconds );
-        p.add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
-                                 item::nname( seed_id ) );
-    }
+    player_activity act( ACT_PLANT_SEED, to_moves<int>( 30_seconds ) );
+    act.placement = g->m.getabs( examp );
+    act.str_values.emplace_back( seed_id );
+    p.assign_activity( act );
 }
 
 /**
@@ -3224,12 +3292,12 @@ static item_location maple_tree_sap_container()
 
 void iexamine::tree_maple( player &p, const tripoint &examp )
 {
-    if( !p.has_quality( qual_DRILL ) ) {
+    if( !p.has_quality( quality_id( "DRILL" ) ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
     }
 
-    if( !p.has_quality( qual_HAMMER ) ) {
+    if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
         add_msg( m_info,
                  _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
         return;
@@ -3302,7 +3370,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
     switch( selectmenu.ret ) {
         case REMOVE_TAP: {
-            if( !p.has_quality( qual_HAMMER ) ) {
+            if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
                 return;
             }
@@ -3405,7 +3473,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
     p.assign_activity( ACT_FORAGE, move_cost, 0 );
-    p.activity.placement = examp;
+    p.activity.placement = g->m.getabs( examp );
     p.activity.auto_resume = true;
     return;
 }
@@ -3628,10 +3696,15 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     if( amount_in_furn > 0 ) {
         if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                         ammo->nname( amount_in_furn ) ) ) {
-            p.assign_activity( ACT_PICKUP );
-            p.activity.targets.emplace_back( map_cursor( examp ), &g->m.i_at( examp ).only_item() );
-            p.activity.values.push_back( 0 );
-            return;
+            auto items = g->m.i_at( examp );
+            for( auto &itm : items ) {
+                if( itm.type == ammo ) {
+                    p.assign_activity( ACT_PICKUP );
+                    p.activity.targets.emplace_back( map_cursor( examp ), &itm );
+                    p.activity.values.push_back( 0 );
+                    return;
+                }
+            }
         }
     }
 

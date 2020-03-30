@@ -929,7 +929,6 @@
     "time": "40 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "material_soil", 200 ] ] ],
-    "pre_special": "check_empty",
     "pre_terrain": "t_pit",
     "post_terrain": "t_dirt"
   },
@@ -954,6 +953,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "40 m",
     "components": [ [ [ "pebble", 100 ] ] ],
+    "pre_special": "check_empty",
     "post_terrain": "t_railroad_rubble"
   },
   {
