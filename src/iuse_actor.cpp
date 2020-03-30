@@ -1372,7 +1372,7 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
 }
 
 ret_val<bool> firestarter_actor::can_use( const Character &p, const item &it, bool,
-        const tripoint & ) const
+        const tripoint &pos ) const
 {
     if( p.is_underwater() ) {
         return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
@@ -1382,7 +1382,7 @@ ret_val<bool> firestarter_actor::can_use( const Character &p, const item &it, bo
         return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
-    if( need_sunlight && light_mod( p.pos() ) <= 0.0f ) {
+    if( need_sunlight && light_mod( pos ) <= 0.0f ) {
         return ret_val<bool>::make_failure( _( "You need direct sunlight to light a fire with this." ) );
     }
 
