@@ -957,5 +957,69 @@
     "name": { "str": "leech bark", "str_pl": "scraps of leech bark" },
     "description": "Dry and tough bark matter harvested from an alien plant.  It is slightly translucent, and if placed against the light you can distinguish glistening blue veins running through it.",
     "vitamins": [ [ "vitA", 6 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 8 ], [ "vitB", 6 ], [ "mutant_toxin", 12 ] ]
+  },
+  {
+    "id": "demihuman_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": "demihuman stomach",
+    "description": "The stomach of an intelligent demihuman.  It is surprisingly durable.",
+    "material": "hflesh"
+  },
+  {
+    "id": "demihuman_stomach_large",
+    "copy-from": "hstomach",
+    "type": "COMESTIBLE",
+    "name": "large demihuman stomach",
+    "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
+  },
+  {
+    "id": "demihuman_fat",
+    "copy-from": "fat",
+    "type": "COMESTIBLE",
+    "name": "chunk of demihuman fat",
+    "name_plural": "chunks of human fat",
+    "description": "Freshly harvested from a human body.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "demihuman_tallow",
+    "name": "demihuman tallow",
+    "copy-from": "tallow",
+    "description": "A smooth white block of cleaned and rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
+    "price": 500,
+    "//": "*May* have been commercially traded.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "demihuman_lard",
+    "name": "demihuman lard",
+    "copy-from": "human_tallow",
+    "description": "A smooth white block of dry-rendered human fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
+    "id": "demihuman_flesh",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "cooks_like": "demihuman_cooked",
+    "name": "demihuman flesh",
+    "name_plural": "demihuman fleshes",
+    "description": "Freshly butchered from a demihuman body.",
+    "material": "hflesh"
+  },
+  {
+    "id": "demihuman_cooked",
+    "copy-from": "demihuman_flesh",
+    "type": "COMESTIBLE",
+    "name": "cooked creep",
+    "description": "A freshly cooked slice of some unpleasant person.  Tastes great.",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "healthy": 0,
+    "fun": 0,
+    "flags": [ "EATEN_HOT" ]
   }
 ]

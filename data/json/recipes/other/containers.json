@@ -91,7 +91,7 @@
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
-      [ [ "stomach", 1 ], [ "hstomach", 1 ] ],
+      [ [ "stomach", 1 ], [ "hstomach", 1 ], [ "demihuman_stomach", 1 ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 50, "LIST" ] ]
     ]
   },
@@ -109,7 +109,7 @@
     "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
     "components": [
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
-      [ [ "stomach_large", 1 ], [ "hstomach_large", 1 ] ],
+      [ [ "stomach_large", 1 ], [ "hstomach_large", 1 ], [ "demihuman_stomach_large", 1 ] ],
       [ [ "cordage_short", 3, "LIST" ], [ "filament", 150, "LIST" ] ]
     ]
   },
