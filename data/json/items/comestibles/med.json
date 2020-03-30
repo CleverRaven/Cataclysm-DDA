@@ -391,7 +391,7 @@
     "weight": "61 g",
     "color": "brown",
     "addiction_type": "amphetamine",
-    "use_action": "CAFF",
+    "fatigue_mod": 60,
     "stim": 20,
     "container": "bottle_glass",
     "comestible_type": "DRINK",

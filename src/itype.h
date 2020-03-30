@@ -140,6 +140,9 @@ struct islot_comestible {
         /** stimulant effect */
         int stim = 0;
 
+        /**fatigue altering effect*/
+        int fatigue_mod = 0;
+
         /** Reference to other item that replaces this one as a component in recipe results */
         itype_id cooks_like;
 

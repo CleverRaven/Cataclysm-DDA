@@ -2765,6 +2765,7 @@ bool player::consume_med( item &target )
         // Assume that parenteral meds don't spoil, so don't apply rot
         modify_health( comest );
         modify_stimulation( comest );
+        modify_fatigue( comest );
         modify_addiction( comest );
         modify_morale( target );
     } else {
