@@ -344,116 +344,96 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 ### "point"
 
-| Field | Description
+| Identifier | Description
 |---    |---
 | "point" | (required) Set things by point. Value: `"terrain", "furniture", "trap", "radiation"`. Requires "x", "y", "id" (or "amount" for "radiation")
 | "id" | (required except by "radiation") Value: `"ter_id", "furn_id", or "trap_id"`. Example: `"id": "tr_beartrap"`
-| "x", "y" | (both required) X, Y coordinates, either as a constant from `0-23`, or as a range `[ 0-23, 0-23 ]` for a random point in that range. Example: `"x": 12, "y": [ 5, 15 ]`
-| "amount" | (required for "radiation") Value: 0-100. Radiation amount
+| "x", "y" | (both required) X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random point in that range. Example: `"x": 12, "y": [ 5, 15 ]`
+| "amount" | (required for "radiation") Radiation amount. Value from `0-100`.
 | "chance" | (optional) One-in-N chance to apply
 | "repeat" | (optional) Value: `[ from_num, to_num ]`. Repeat this randomly between `from_num` and `to_num` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - apply 1-3 times.
 
 ### "line"
 
-| Field | Description
+| Identifier | Description
 |---    |---
 | "line" | (required) Set things in a line. Value: `"terrain", "furniture", "trap", "radiation"`. Requires "x", "y", "x2", "y2", "id" (or "amount" for "radiation"). Example: `{ "line": "terrain", "id": "t_lava", "x:" 5, "y": 5, "x2": 20, "y2": 20 }`
 | "id" | (required except by "radiation") Value: `"ter_id", "furn_id", or "trap_id"`. Example: `"id": "f_counter"`
-| "x", "y" | (both required) Start X, Y coordinates, either as a constant from `0-23`, or as a range `[ 0-23, 0-23 ]` for a random point in that range. Example: `"x": 12, "y": [ 5, 15 ]`
-| "x2", "y2" | (both required) End X, Y coordinates, either as a constant from `0-23`, or as a range `[ 0-23, 0-23 ]` for a random point in that range. Example: `"x": 22, "y": [ 15, 20 ]`
-| "amount" | (required for "radiation") Value: 0-100. Radiation amount
+| "x", "y" | (both required) Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random point in that range. Example: `"x": 12, "y": [ 5, 15 ]`
+| "x2", "y2" | (both required) End X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random point in that range. Example: `"x": 22, "y": [ 15, 20 ]`
+| "amount" | (required for "radiation") Radiation amount. Value from `0-100`.
 | "chance" | (optional) One-in-N chance to apply
 | "repeat" | (optional) Value: `[ from_num, to_num ]`. Repeat this randomly between `from_num` and `to_num` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - apply 1-3 times.
 
+### "square"
 
+| Identifier | Description
+|---    |---
+| "square" | (required) Define a square of things. Value: `"terrain", "furniture", "trap", "radiation"`. Requires "x", "y", "x2", "y2", "id" (or "amount" for "radiation")
 
-### 2.2.2 "square"
-**required** Define a square of things. Requires "x", "y", "x2", "y2", "id" (or "amount" for "radiation")
-Value: `"terrain", "furniture", "trap", "radiation"`
+The "square" arguments are exactly the same as for "line", but "x", "y" and "x2", "y2" define opposite corners
 
 Example:
 ```json
 { "square": "radiation", "amount": 10, "x:" [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
 ```
 
-The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define opposite corners
-
 
 ## 2.3 "place_groups"
 **optional** Spawn items or monsters from item_groups.json and monster_groups.json
 Value: `[ array of {objects} ]: [ { "monster": ... }, { "item": ... }, ... ]`
 
-### 2.3.0 "monster"
-**required** The monster group id, which picks random critters from a list
-Value: `"MONSTER_GROUP"`
+
+### "monster"
+
+| Identifier | Description
+|---    |---
+| "monster" | (required) Value: `"MONSTER_GROUP"`. The monster group id, which picks random critters from a list
+| "x", "y" | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random point in that range.
+| "density" | (optional) Floating-point multiplier to "chance" (see below).
+| "chance" | (optional) One-in-N chance to spawn
 
 Example:
+
 ```json
 { "monster": "GROUP_ZOMBIE", "x": [ 13, 15 ], "y": 15, "chance": 10 }
 ```
 
-#### 2.3.0.0 "x" / "y"
-**required** Spawn coordinates ( specific or area rectangle )
-Value: `0-23`
+When using a range for `"x"` or `"y"`, the minimum and maximum values will be used in creating rectangle coordinates to
+be used by `map::place_spawns`. Each monster generated from the monster group will be placed in a different random
+location within the rectangle. The values in the above example will produce a rectangle for `map::place_spawns` from (
+13, 15 ) to ( 15, 15 ) inclusive.
 
--or-
-
-Value: `[ 0-23, 0-23 ] - random point between [ a, b ]`
-
-When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns.
-Each monster generated from the monster group will be placed in a different random location within the rectangle.
-
-Example: `"x": 12, "y": [ 5, 15 ]`
-
-These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
+The optional "density" is a floating-point multipier to the "chance" value. If the result is bigger than 100% it
+gurantees one spawn point for every 100% and the rest is evaluated by chance (one added or not). Then the monsters are
+spawned according to their spawn-point cost "cost_multiplier" defined in the monster groups. Additionally all overmap
+densities within a square of raduis 3 (7x7 around player - exact value in mapgen.cpp/MON_RADIUS macro) are added to
+this. The "pack_size" modifier in monstergroups is a random multiplier to the rolled spawn point amount.
 
 
-#### 2.3.0.1 "density"
-**optional**
 
-This is a multipier to the following "chance". If the result is bigger than 100% it gurantees one spawn point for every
-100% and the rest is evaluated by chance (one added or not). Then the monsters are spawned according to their
-spawn-point cost "cost_multiplier" defined in the monster groups. Additionally all overmap densities within a square of
-raduis 3 (7x7 around player - exact value in mapgen.cpp/MON_RADIUS macro) are added to this. The "pack_size" modifier in
-monstergroups is a random multiplier to the rolled spawn point amount.
+### "item"
 
-Value: *floating point number*
-
-
-#### 2.3.0.2 "chance"
-**optional** ???-in-100 chance to apply
-Value: *number*
-
-
-### 2.3.1 "item"
-**required** The item group id, which picks random stuff from a list
-Value: "ITEM_GROUP"
+| Identifier | Description
+|---    |---
+| "item" | (required) Value: "ITEM_GROUP". The item group id, which picks random stuff from a list.
+| "x", "y" | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random point in that range.
+| "chance" | (required) Unlike everything else, this is a percentage. Maybe?
 
 Example:
+
 ```json
-{ "item": "livingroom", "x": [ 13, 15 ], "y": 15, "chance": 50 }
+{ "item": "livingroom", "x": 12, "y": [ 5, 15 ], "chance": 50 }
 ```
 
-#### 2.3.1.0 "x" / "y"
-**required** Spawn coordinates ( specific or area rectangle )
-Value: `0-23`
-
--or-
-
-Value: `[ 0-23, 0-23 ]` - a range between `[ a, b ]` inclusive
-When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_items.
-Each item from the item group will be placed in a different random location within the rectangle.
-
-Example: `"x": 12, "y": [ 5, 15 ]`
-
-These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 ) inclusive.
-
-#### 2.3.1.1 "chance"
-**required** unlike everything else, this is a percentage. Maybe
-Value: *number*
+When using a range for `"x"` or `"y"`, the minimum and maximum values will be used in creating rectangle coordinates to
+be used by `map::place_items`. Each item from the item group will be placed in a different random location within the
+rectangle. These values in the above example will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 )
+inclusive.
 
 
 ## 2.4 "place_monster"
+
 **optional** Spawn single monster. Either specific monster or a random monster from a monster group. Is affected by spawn density game setting.
 
 Value: `[ array of {objects} ]: [ { "monster": ... } ]`
@@ -462,7 +442,7 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 |---         |---
 | monster | ID of the monster to spawn.
 | group | ID of the monster group from which the spawned monster is selected. `monster` and `group` should not be used together. `group` will act over `monster`.
-| x, y  | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random point between `[ a, b ]`. When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns. Each monster generated from the monster group will be placed in a different random location within the rectangle. Example: `"x": 12, "y": [ 5, 15 ]` - these values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
+| x, y  | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random point between `[ a, b ]`.
 | chance | Percentage chance to do spawning. If repeat is used each repeat has separate chance.
 | repeat | The spawning is repeated this many times. Can be a number or a range.
 | pack_size | How many monsters are spawned. Can be single number or range like `[1-4]`. Is affected by the chance and spawn density. Ignored when spawning from a group.
@@ -471,7 +451,13 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | name | Extra name to display on the monster.
 |target | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 
-Note that high spawn density game setting can cause extra monsters to spawn when `monster` is used. When `group` is used only one monster will spawn.
+Note that high spawn density game setting can cause extra monsters to spawn when `monster` is used. When `group` is used
+only one monster will spawn.
+
+When using a range for `"x"` or `"y"`, the minimum and maximum values will be used in creating rectangle coordinates to
+be used by `map::place_spawns`. Each monster generated from the monster group will be placed in a different random
+location within the rectangle. Example: `"x": 12, "y": [ 5, 15 ]` - these values will produce a rectangle for
+`map::place_spawns` from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
 Example:
 ```json
@@ -492,6 +478,7 @@ Example:
 
 This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probablity. The placement is
 repeated by random number of times `[1-3]`.
+
 
 ## 2.5 "place_item"
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
@@ -574,7 +561,9 @@ Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
     ".": [ "t_grass", "t_grass", "t_dirt" ]
 }
 ```
-It is also possible to specify the number of instances (and consequently their chance) directly, which is particularly useful for rare occurrences (rather than repeating the common value many times):
+
+It is also possible to specify the number of instances (and consequently their chance) directly, which is particularly
+useful for rare occurrences (rather than repeating the common value many times):
 
 ```json
 "terrain" : {
