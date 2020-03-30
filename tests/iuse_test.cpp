@@ -297,14 +297,14 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
     SECTION( "caffeine reduces fatigue, but does not give stimulant effect" ) {
         item &coffee = dummy.i_add( item( "coffee", 0, item::default_charges_tag{} ) );
         dummy.invoke_item( &coffee );
-        CHECK( dummy.get_fatigue() == fatigue_before - 3 * coffee.get_comestible()->stim );
+        CHECK( dummy.get_fatigue() == fatigue_before - coffee.get_comestible()->fatigue_mod );
         CHECK( dummy.get_stim() == 0 );
     }
 
     SECTION( "atomic caffeine greatly reduces fatigue, but may also irradiate you" ) {
         item &atomic_coffee = dummy.i_add( item( "atomic_coffee", 0, item::default_charges_tag{} ) );
         dummy.invoke_item( &atomic_coffee );
-        CHECK( dummy.get_fatigue() == fatigue_before - 3 * atomic_coffee.get_comestible()->stim );
+        CHECK( dummy.get_fatigue() == fatigue_before - atomic_coffee.get_comestible()->fatigue_mod );
         CHECK( dummy.get_stim() == 0 );
     }
 }

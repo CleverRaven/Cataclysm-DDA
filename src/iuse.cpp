@@ -416,12 +416,6 @@ int iuse::xanax( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::caff( player *p, item *it, bool, const tripoint & )
-{
-    p->mod_fatigue( -( it->get_comestible() ? it->get_comestible()->stim : 0 ) * 3 );
-    return it->type->charges_to_use();
-}
-
 int iuse::atomic_caff( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good, _( "Wow!  This %s has a kick." ), it->tname() );

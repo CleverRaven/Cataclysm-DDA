@@ -316,11 +316,6 @@
   },
   {
     "type": "item_action",
-    "id": "CAFF",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
     "id": "CAMERA",
     "name": { "str": "Use camera" }
   },
