@@ -2584,8 +2584,7 @@ void load_bionic( const JsonObject &jsobj )
     }
 
     for( JsonArray ja : jsobj.get_array( "occupied_bodyparts" ) ) {
-        new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                               ja.get_int( 1 ) );
+        new_bionic.occupied_bodyparts.emplace( bodypart_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
     }
 
     for( JsonArray ja : jsobj.get_array( "env_protec" ) ) {

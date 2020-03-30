@@ -673,7 +673,7 @@ static effect_data load_effect_data( const JsonObject &e )
         time = time_duration::from_turns( e.get_int( "duration", 0 ) );
     }
     return effect_data( efftype_id( e.get_string( "id" ) ), time,
-                        bodypart_id( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
+                        bodypart_id( e.get_string( "bp", "num_bp" ) ), e.get_bool( "permanent", false ) );
 }
 
 void consume_drug_iuse::load( const JsonObject &obj )

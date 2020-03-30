@@ -194,6 +194,7 @@ class body_part_set
         }
 };
 
+
 /** Returns the new id for old token */
 const bodypart_ids &convert_bp( body_part bp );
 

@@ -3050,7 +3050,7 @@ void Creature::store( JsonOut &jsout ) const
     for( auto maps : *effects ) {
         for( const auto i : maps.second ) {
             std::ostringstream convert;
-            convert << i.first;
+            convert << i.first->id.str();
             tmp_map[maps.first.str()][convert.str()] = i.second;
         }
     }
@@ -3085,6 +3085,22 @@ void Creature::store( JsonOut &jsout ) const
     // fake is not stored, it's temporary anyway, only used to fire with a gun.
 }
 
+static const std::map<body_part, bodypart_id> bp_to_id{
+    {num_bp, bodypart_id( "num_bp" ) },
+    {bp_torso, bodypart_id( "torso" ) },
+    {bp_head, bodypart_id( "head" ) },
+    {bp_eyes, bodypart_id( "eyes" ) },
+    {bp_mouth, bodypart_id( "mouth" ) },
+    {bp_arm_l, bodypart_id( "arm_l" ) },
+    {bp_arm_r, bodypart_id( "arm_r" ) },
+    {bp_hand_l, bodypart_id( "hand_l" ) },
+    {bp_hand_r, bodypart_id( "hand_r" ) },
+    {bp_leg_l, bodypart_id( "leg_l" ) },
+    {bp_leg_r, bodypart_id( "leg_r" ) },
+    {bp_foot_l, bodypart_id( "foot_l" ) },
+    {bp_foot_r, bodypart_id( "foot_r" ) }
+};
+
 void Creature::load( const JsonObject &jsin )
 {
     jsin.read( "moves", moves );
@@ -3100,6 +3116,8 @@ void Creature::load( const JsonObject &jsin )
             std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
             jsin.read( "effects", tmp_map );
             int key_num = 0;
+            std::string part_id;
+            bodypart_id bp;
             for( auto maps : tmp_map ) {
                 const efftype_id id( maps.first );
                 if( !id.is_valid() ) {
@@ -3108,9 +3126,15 @@ void Creature::load( const JsonObject &jsin )
                 }
                 for( auto i : maps.second ) {
                     if( !( std::istringstream( i.first ) >> key_num ) ) {
-                        key_num = 0;
+                        if( std::istringstream( i.first ) >> part_id ) {
+                            bp = bodypart_id( part_id );
+                        } else {
+                            bp = bodypart_id( "torso" );
+                        }
+                    } else {
+                        bp = bp_to_id.at( ( static_cast<body_part>( key_num ) ) );
                     }
-                    const body_part bp = static_cast<body_part>( key_num );
+
                     effect &e = i.second;
 
                     ( *effects )[id][bp] = e;

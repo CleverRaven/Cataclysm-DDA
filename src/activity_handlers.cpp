@@ -269,7 +269,26 @@ static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 static const std::string flag_TREE( "TREE" );
 
+static const bodypart_id default_bp( "num_bp" );
+static const bodypart_id torso_bp( "torso" );
+
 using namespace activity_handlers;
+
+static const std::map<body_part, bodypart_id> bp_to_id{
+    {num_bp, bodypart_id( "num_bp" ) },
+    {bp_torso, bodypart_id( "torso" ) },
+    {bp_head, bodypart_id( "head" ) },
+    {bp_eyes, bodypart_id( "eyes" ) },
+    {bp_mouth, bodypart_id( "mouth" ) },
+    {bp_arm_l, bodypart_id( "arm_l" ) },
+    {bp_arm_r, bodypart_id( "arm_r" ) },
+    {bp_hand_l, bodypart_id( "hand_l" ) },
+    {bp_hand_r, bodypart_id( "hand_r" ) },
+    {bp_leg_l, bodypart_id( "leg_l" ) },
+    {bp_leg_r, bodypart_id( "leg_r" ) },
+    {bp_foot_l, bodypart_id( "foot_l" ) },
+    {bp_foot_r, bodypart_id( "foot_r" ) }
+};
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
 activity_handlers::do_turn_functions = {
@@ -3383,8 +3402,8 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
             if( act->values.size() > 4 ) {
                 for( size_t i = 4; i < act->values.size(); i++ ) {
-                    p->make_bleed( body_part( act->values[i] ), 1_turns, difficulty, true );
-                    p->apply_damage( nullptr, body_part( act->values[i] ), 20 * difficulty );
+                    p->make_bleed( bp_to_id.at( body_part( act->values[i] ) ), 1_turns, difficulty, true );
+                    p->apply_damage( nullptr, bp_to_id.at( body_part( act->values[i] ) ), 20 * difficulty );
 
                     if( u_see ) {
                         p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
@@ -3393,12 +3412,12 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     }
 
                     if( body_part( act->values[i] ) == bp_eyes ) {
-                        p->add_effect( effect_blind, 1_hours, num_bp );
+                        p->add_effect( effect_blind, 1_hours, default_bp );
                     }
                 }
             } else {
-                p->make_bleed( num_bp, 1_turns, difficulty, true );
-                p->apply_damage( nullptr, num_bp, 20 * difficulty );
+                p->make_bleed( default_bp, 1_turns, difficulty, true );
+                p->apply_damage( nullptr, default_bp, 20 * difficulty );
             }
         }
     }
@@ -4448,13 +4467,13 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
                               z->name() );
         z->friendly = -1;
         if( z->has_flag( MF_RIDEABLE_MECH ) ) {
-            z->add_effect( effect_pet, 1_turns, num_bp, true );
+            z->add_effect( effect_pet, 1_turns, default_bp, true );
         }
     } else if( success >= -2 ) {
         //A near success
         p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ), z->name() );
         //damage it a little
-        z->apply_damage( p, bp_torso, rng( 1, 10 ) );
+        z->apply_damage( p, torso_bp, rng( 1, 10 ) );
         if( z->is_dead() ) {
             p->practice( skill_id( "computer" ), 10 );
             // Do not do the other effects if the robot died
