@@ -158,6 +158,9 @@ struct islot_comestible {
         /** probability [0, 100] to get food poisoning from this comestible */
         int contamination = 0;
 
+        /**Amount of radiation you get from this comestible*/
+        int radiation = 0;
+
         /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
         int freeze_point = temperatures::freezing;
 

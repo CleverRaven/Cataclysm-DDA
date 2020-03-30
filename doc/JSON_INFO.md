@@ -1578,6 +1578,7 @@ CBMs can be defined like this:
 "use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
 "fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
+"radiation": 8,             // How much radiation you get from this comestible.
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting
 "quench" : 0,               // Thirst quenched
 "heal" : -2,                // Health effects (used for sickness chances)

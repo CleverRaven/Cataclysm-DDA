@@ -2766,6 +2766,7 @@ bool player::consume_med( item &target )
         modify_health( comest );
         modify_stimulation( comest );
         modify_fatigue( comest );
+        modify_radiation( comest );
         modify_addiction( comest );
         modify_morale( target );
     } else {
