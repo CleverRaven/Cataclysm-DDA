@@ -10206,7 +10206,11 @@ void game::vertical_move( int movez, bool force )
                 }
             }
             monster *mon = g->critter_at<monster>( u.pos(), true );
-            if( mon ) {
+            // if the monster is ridden by the player or an NPC:
+            // Dont displace them. If they are mounted by a friendly NPC,
+            // then the NPC will already have been displaced just above.
+            // if they are ridden by the player, we want them to coexist on same tile
+            if( mon && !mon->mounted_player ) {
                 crit_name = mon->get_name();
                 if( mon->friendly == -1 ) {
                     mon->setpos( displace );
