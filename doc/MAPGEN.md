@@ -1,8 +1,9 @@
 
-## How buildings and terrain are generated
+# How buildings and terrain are generated
 
 Cataclysm creates buildings and terrain on discovery via 'mapgen'; functions specific to an overmap terrain (the tiles
-you see in `[m]`ap are also determined by overmap terrain). Overmap terrains ("oter") are defined in overmap_terrain.json.
+you see in `[m]`ap are also determined by overmap terrain). Overmap terrains ("oter") are defined in
+`overmap_terrain.json`.
 
 By default, an oter has a single built-in mapgen function which matches the '"id"' in it's json entry (examples:
 "house", "bank", etc). Multiple functions also possible. When a player moves into range of an area marked on the map as
@@ -16,15 +17,21 @@ are used to assemble giant 3x3 hotels, etc..
 In order to make a world that's random and (somewhat) sensical, there are numerous rules and exceptions to them, which
 are clarified below.
 
+There are three methods:
+
+- Adding mapgen entries
+- JSON object definition
+- Using update_mapgen
+
 
 # Adding mapgen entries
 
-One doesn't need to create a new overmap_terrain for a new variation of a building. For a custom gas station, defining a
+One doesn't need to create a new `overmap_terrain` for a new variation of a building. For a custom gas station, defining a
 mapgen entry and adding it to the "s_gas" mapgen list will add it to the random variations of gas station in the world.
 
-If you use an existing overmap_terrain and it has a roof or other z-level linked to its file, the other levels will be
-generated with the ground floor. To avoid this, or add your own multiple z-levels, create an overmap_terrain with a
-similar name (s_gas_1).
+If you use an existing `overmap_terrain` and it has a roof or other z-level linked to its file, the other levels will be
+generated with the ground floor. To avoid this, or add your own multiple z-levels, create an `overmap_terrain` with a
+similar name (`s_gas_1`).
 
 
 ## Methods
@@ -124,7 +131,7 @@ The third option is a nested list:
 This form allows for multiple overmap terrains to be defined using a single json object, with the "rows" property
 expanding in blocks of 24x24 characters to accommodate as many overmap terrains as are listed here. The terrain ids are
 specified using a nested array of strings which represent the rows and columns of overmap terrain ids (found in
-overmap_terrain.json) that are associated with the "rows" property described in section 2.1 of this document.
+`overmap_terrain.json`) that are associated with the "rows" property described in section 2.1 of this document.
 
 Characters mapped using the "terrain", "furniture", or any of the special mappings ("items", "monsters", etc) will be
 applied universally to all of the listed overmap terrains.
@@ -174,10 +181,12 @@ Default: 1000
 * TODO: Add to this list.
 
 
-# 2 Method: json
+# 2 JSON object definition
 
-The json method is defined by a json object ( go figure ) with the following structure entries. Note, either "fill_ter"
-or "rows" + "terrain" are required.
+The JSON object for a mapgen entry must include either `"fill_ter"`, or `"rows"` and `"terrain"`.
+
+It may optionally include `"furniture"`.
+
 
 ## 2.0 "fill_ter": "terrain_id"
 *required if "rows" is unset*
@@ -185,6 +194,7 @@ or "rows" + "terrain" are required.
 Value: `"string"`: Valid terrain id from data/json/terrain.json
 
 Example: `"fill_ter": "t_grass"`
+
 
 ## 2.1 "rows":
 *required if "fill_ter" is unset*
@@ -239,8 +249,7 @@ Example:
 
 ```
 
-# 2.1.0 "terrain"
-
+### 2.1.0 "terrain"
 **required by "rows"**
 
 Defines terrain ids for "rows", each key is a single character with a terrain id string
@@ -282,7 +291,7 @@ Example:
 },
 ```
 
-# 2.1.1 "furniture"
+### 2.1.1 "furniture"
 **optional**
 
 Defines furniture ids for "rows" ( each character in rows is a terrain -or- terrain/furniture combo ). "f_null" means no
@@ -316,95 +325,47 @@ Value:
 [array of {objects}]: [ { "point": .. }, { "line": .. }, { "square": .. }, ... ]
 ```
 
-### 2.2.0 "point"
-**required** Set things by point. Requires "x", "y", "id" (or "amount" for "radiation")
-Value: `"terrain", "furniture", "trap", "radiation"`
-
 Examples:
-- `{ "point": "furniture", "id": "f_chair", "x:" 5, "y": 10 }`
-- `{ "point": "trap", "id": "tr_beartrap", "x:" [ 0, 23 ], "y": [ 5, 18 ], "chance": 10, "repeat": [ 2, 5 ] }`
-- `{ "point": "radiation", "id": "f_chair", "x:" 12, "y": 12, "amount": 20 }`
 
-#### 2.2.0.0 "x" / "y"
-**both required** x/y coordinates. If it's an array, the result is a random number in that range
-Value: `0-23`
+```
+[
+  { "point": "furniture", "id": "f_chair", "x": 5, "y": 10 },
+  { "point": "radiation", "id": "f_chair", "x": 12, "y": 12, "amount": 20 },
+  { "point": "trap", "id": "tr_beartrap", "x": [ 0, 23 ], "y": [ 5, 18 ], "chance": 10, "repeat": [ 2, 5 ] }
+]
+```
 
--or-
+All X and Y values may be either a single integer between `0` and `23`, or an array of two integers `[ n1, n2 ]`
+(each between 0-23). If X or Y are set to an array, the result is a random number in that range. In the above
+examples, the furniture `"f_chair"` is always at coordinates `"x": 5, "y": 10`, but the trap `"tr_beartrap"` is
+randomly repeated in the area `"x": [ 0, 23 ], "y": [ 5, 18 ]"`.
 
-Value: `[ 0-23, 0-23 ] - random point between [ a, b ]`
+See terrain.json, furniture.json, and trap.json for "id" strings.
 
-Example: `"x": 12, "y": [ 5, 15 ]`
+### "point"
 
+| Field | Description
+|---    |---
+| "point" | (required) Set things by point. Value: `"terrain", "furniture", "trap", "radiation"`. Requires "x", "y", "id" (or "amount" for "radiation")
+| "id" | (required except by "radiation") Value: `"ter_id", "furn_id", or "trap_id"`. Example: `"id": "tr_beartrap"`
+| "x", "y" | (both required) X, Y coordinates, either as a constant from `0-23`, or as a range `[ 0-23, 0-23 ]` for a random point in that range. Example: `"x": 12, "y": [ 5, 15 ]`
+| "amount" | (required for "radiation") Value: 0-100. Radiation amount
+| "chance" | (optional) One-in-N chance to apply
+| "repeat" | (optional) Value: `[ from_num, to_num ]`. Repeat this randomly between `from_num` and `to_num` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - apply 1-3 times.
 
-#### 2.2.0.1 "id"
-**required except by "radiation"** See terrain.json, furniture.json, and trap.json for "id" strings
+### "line"
 
-Value: `"ter_id", "furn_id", or "trap_id"`
-
-Example: `"id": "tr_beartrap"`
-
-
-#### 2.2.0.2 "amount"
-**required for "radiation"** Radiation amount
-Value: `0-100`
-
-#### 2.2.0.3 "chance"
-**optional** one-in-??? chance to apply
-Value: *number*
-
-#### 2.2.0.4 "repeat"
-**optional** repeat this randomly between ??? and ??? times. Only makes sense if the coordinates are random
-
-Value: `[ *number*, *number* ]`
-
-Example: `[ 1, 3 ] - apply 1-3 times`
-
-### 2.2.1 "line"
-**required** Set things in a line. Requires "x", "y", "x2", "y2", "id" (or "amount" for "radiation")
-Value: `"terrain", "furniture", "trap", "radiation"`
-
-Example: `{ "point": "terrain", "id": "t_lava", "x:" 5, "y": 5, "x2": 20, "y2": 20 }`
-
-#### 2.2.1.0 "x" / "y"
-**both required** start x/y coordinates. If it's an array, the result is a random number in that range
-Value: `0-23`
-
--or-
-
-Value: `[ 0-23, 0-23 ] - random point between [ a, b ]`
-
-Example: `"x": 12, "y": [ 5, 15 ]`
-
-#### 2.2.1.1 "x2" / "y2"
-**both required** end x/y coordinates. If it's an array, the result is a random number in that range
-Value: `0-23`
-
--or-
-
-Value: `[ 0-23, 0-23 ] - random point between [ a, b ]`
-
-Example: `"x2": 22, "y2": [ 15, 20 ]`
-
-#### 2.2.1.2 "id"
-**required except by "radiation"** See terrain.json, furniture.json, and trap.json for "id" strings
-Value: `"ter_id", "furn_id", or "trap_id"`
-
-Example: `"id": "f_counter"`
-
-#### 2.2.1.3 "amount"
-**required for "radiation"** Radiation amount
-Value: `0-100`
-
-#### 2.2.1.4 "chance"
-**optional** one-in-??? chance to apply
-Value: *number*
+| Field | Description
+|---    |---
+| "line" | (required) Set things in a line. Value: `"terrain", "furniture", "trap", "radiation"`. Requires "x", "y", "x2", "y2", "id" (or "amount" for "radiation"). Example: `{ "line": "terrain", "id": "t_lava", "x:" 5, "y": 5, "x2": 20, "y2": 20 }`
+| "id" | (required except by "radiation") Value: `"ter_id", "furn_id", or "trap_id"`. Example: `"id": "f_counter"`
+| "x", "y" | (both required) Start X, Y coordinates, either as a constant from `0-23`, or as a range `[ 0-23, 0-23 ]` for a random point in that range. Example: `"x": 12, "y": [ 5, 15 ]`
+| "x2", "y2" | (both required) End X, Y coordinates, either as a constant from `0-23`, or as a range `[ 0-23, 0-23 ]` for a random point in that range. Example: `"x": 22, "y": [ 15, 20 ]`
+| "amount" | (required for "radiation") Value: 0-100. Radiation amount
+| "chance" | (optional) One-in-N chance to apply
+| "repeat" | (optional) Value: `[ from_num, to_num ]`. Repeat this randomly between `from_num` and `to_num` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - apply 1-3 times.
 
 
-#### 2.2.1.5 "repeat"
-**optional** repeat this randomly between ??? and ??? times. Only makes sense if the coordinates are random
-Value: `[ from_number, to_number ]`
-
-Example: `[ 1, 3 ]` - apply 1-3 times
 
 ### 2.2.2 "square"
 **required** Define a square of things. Requires "x", "y", "x2", "y2", "id" (or "amount" for "radiation")
@@ -468,7 +429,6 @@ Value: *number*
 **required** The item group id, which picks random stuff from a list
 Value: "ITEM_GROUP"
 
-
 Example:
 ```json
 { "item": "livingroom", "x": [ 13, 15 ], "y": 15, "chance": 50 }
@@ -488,10 +448,10 @@ Example: `"x": 12, "y": [ 5, 15 ]`
 
 These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
-
 #### 2.3.1.1 "chance"
 **required** unlike everything else, this is a percentage. Maybe
 Value: *number*
+
 
 ## 2.4 "place_monster"
 **optional** Spawn single monster. Either specific monster or a random monster from a monster group. Is affected by spawn density game setting.
@@ -582,7 +542,7 @@ Value: `[ *number*, *number* ]`
 Example: `[ 1, 3 ]` - apply 1-3 times
 
 
-# 2.5 specials
+## 2.5 specials
 **optional** Special map features that do more than just placing furniture / terrain.
 
 Specials can be defined either via a mapping like the terrain / furniture mapping using the "rows" entry above or
@@ -590,7 +550,7 @@ through their exact location by its coordinates.
 
 The mapping is defined with a json object like this:
 
-```json
+```
 "<type-of-special>" : {
     "A" : { <data-of-special> },
     "B" : { <data-of-special> },
@@ -644,7 +604,7 @@ Or define the mappings for one character at once:
 This might be more useful if you want to put many different type of things on one place.
 
 Defining specials through their specific location:
-```json
+```
 "place_<type-of-special>" : {
     { "x": <x>, "y": <y>, <data-of-special> },
     ...
@@ -707,13 +667,15 @@ Places a new NPC.
 | Value | Description
 |---    |---
 | "class" | (required, string) the npc class id, see data/json/npcs/npc.json or define your own npc class.
-| "target" | (optional, bool) this NPC is a mission target.  Only valid for update_mapgen.
+| "target" | (optional, bool) this NPC is a mission target.  Only valid for `update_mapgen`.
 | "add_trait" | (optional, string or string array) this NPC gets these traits, in addition to any from the class definition.
 
 
 ### 2.5.2 "signs"
 
-Places a sign (furniture f_sign) with a message written on it. Either "signage" or "snippet" must be defined.  The message may include tags like \<full_name\>, \<given_name\>, and \<family_name\> that will insert a randomly generated name, or \<city\> that will insert the nearest city name.
+Places a sign (furniture `f_sign`) with a message written on it. Either "signage" or "snippet" must be defined.  The
+message may include tags like `<full_name>`, `<given_name>`, and `<family_name>` that will insert a randomly generated
+name, or `<city>` that will insert the nearest city name.
 
 | Value | Description
 |---    |---
@@ -801,7 +763,7 @@ Places a trap.
 
 | Value | Description
 |---    |---
-| "trap" | (required, string) type id of the trap (e.g. tr_beartrap).
+| "trap" | (required, string) type id of the trap (e.g. `tr_beartrap`).
 
 ### 2.5.11 "furniture"
 
@@ -809,15 +771,15 @@ Places furniture.
 
 | Value | Description
 |---    |---
-| "furn" | (required, string) type id of the furniture (e.g. f_chair).
+| "furn" | (required, string) type id of the furniture (e.g. `f_chair`).
 
 ### 2.5.12 "terrain"
 
-Places terrain. If the terrain has the value "roof" set and is in an enclosed space it's indoors. 
+Places terrain. If the terrain has the value "roof" set and is in an enclosed space it's indoors.
 
 | Value | Description
 |---    |---
-| "ter" | (required, string) type id of the terrain (e.g. t_floor).
+| "ter" | (required, string) type id of the terrain (e.g. `t_floor`).
 
 ### 2.5.13 "monster"
 
@@ -825,10 +787,10 @@ Places a specific monster. Values:
 
 | Value | Description
 |---    |---
-| "monster" | (required, string) type id of the monster (e.g. mon_zombie).
+| "monster" | (required, string) type id of the monster (e.g. `mon_zombie`).
 | "friendly" | (optional, bool) whether the monster is friendly, default is false.
 | "name" | (optional, string) a name for that monster, optional, default is to create an unnamed monster.
-| "target" | (optional, bool) this monster is a mission target.  Only valid for update_mapgen.
+| "target" | (optional, bool) this monster is a mission target.  Only valid for `update_mapgen`.
 
 
 ### 2.5.14 "rubble"
@@ -838,9 +800,9 @@ been set). Creating rubble invokes the bashing function that can destroy terrain
 
 | Value | Description
 |---    |---
-| "rubble_type" | (optional, furniture id, default: f_rubble) the type of the created rubble.
+| "rubble_type" | (optional, furniture id, default: `f_rubble`) the type of the created rubble.
 | "items" | (optional, bool, default: false) place items that result from bashing the structure.
-| "floor_type" | (optional, terrain id, default: t_dirt) only used if there is a non-bashable wall at the location or with overwrite = true.
+| "floor_type" | (optional, terrain id, default: `t_dirt`) only used if there is a non-bashable wall at the location or with overwrite = true.
 | "overwrite" | (optional, bool, default: false) if true it just writes on top of what currently exists.
 
 To use this type with explicit coordinates use the name "place_rubble" (no plural) like this:
@@ -933,7 +895,7 @@ insert the nearest city name.
 ### 2.5.19 "translate_ter"
 
 Translates one type of terrain into another type of terrain.  There is no reason to do this with normal mapgen, but it
-is useful for setting a baseline with update_mapgen.
+is useful for setting a baseline with `update_mapgen`.
 
 | Value | Description
 |---    |---
@@ -954,22 +916,18 @@ Places a zone for an NPC faction.  NPCs in the faction will use the zone to infl
 ### 2.5.21 "ter_furn_transforms"
 
 Run a `ter_furn_transform` at the specified location.  This is mostly useful for applying transformations as part of
-an update_mapgen, as normal mapgen can just specify the terrain directly.
+an `update_mapgen`, as normal mapgen can just specify the terrain directly.
 
 - "transform": (required, string) the id of the `ter_furn_transform` to run.
 
-# 2.6 "rotation"
+## 2.6 "rotation"
 
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range
-(out of which a value will be randomly chosen). Example:
-
-```json
-"rotation": [ 0, 3 ],
-```
+(out of which a value will be randomly chosen). Example: `"rotation": [ 0, 3 ]`
 
 Values are 90° steps.
 
-# 2.7 "predecessor_mapgen"
+## 2.7 "predecessor_mapgen"
 
 Specifying an overmap terrain id here will run the entire mapgen for that overmap terrain type first, before applying
 the rest of the mapgen defined here. The primary use case for this is when our mapgen for a location takes place in a
@@ -978,14 +936,11 @@ they're being placed on (e.g. a cabin in the forest has placed the trees, grass 
 the cabin fit in) which leads to them being out of sync when the generation of that type changes. By specifying the
 `predecessor_mapgen`, you can instead focus on the things that are added to the existing location type.
 
-Example:
-```json
-"predecessor_mapgen": "forest"
-```
+Example: `"predecessor_mapgen": "forest"`
 
-# 3 update_mapgen
+# 3 Using update_mapgen
 
-update_mapgen is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it
+**update_mapgen** is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it
 updates an existing overmap tile with a specific set of changes.  Currently, it only works within
 the NPC mission interface, but it will be expanded to be a general purpose tool for modifying
 existing maps.
@@ -993,7 +948,7 @@ existing maps.
 update_mapgen generally uses the same fields as JSON mapgen, with a few exceptions.  update_mapgen has a few new fields
 to support missions, as well as ways to specify which overmap tile will be updated.
 
-# 3.1 overmap tile specification
+## 3.1 overmap tile specification
 update_mapgen updates an existing overmap tile.  These fields provide a way to specify which tile to update.
 
 
