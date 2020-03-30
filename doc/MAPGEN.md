@@ -141,7 +141,8 @@ coordinates beyond 24x24. An important limitation is that ranged random coordina
 cross the 24x24 terrain boundaries. Ranges such as `[ 0, 23 ]` and `[ 50, 70 ]` are valid, but `[ 0, 47 ]` and
 `[ 15, 35 ]` are not because they extend beyond a single 24x24 block.
 
-#### Example:
+Example:
+
 ```json
 "om_terrain": [
   [ "apartments_mod_tower_NW", "apartments_mod_tower_NE" ],
@@ -162,6 +163,7 @@ is the default, so adding something with weight '500' will make it appear 1/3 ti
 Values: number - *0 disables*
 
 Default: 1000
+
 
 ## How "overmap_terrain" variables affect mapgen
 
@@ -320,69 +322,95 @@ Example:
 ## 2.2 "set"
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.
 
-Value:
-```
-[array of {objects}]: [ { "point": .. }, { "line": .. }, { "square": .. }, ... ]
-```
+Value: `[ array of {objects} ]: [ { "point": .. }, { "line": .. }, { "square": .. }, ... ]`
 
-Examples:
+Example:
 
-```
-[
+```json
+"set": [
   { "point": "furniture", "id": "f_chair", "x": 5, "y": 10 },
   { "point": "radiation", "id": "f_chair", "x": 12, "y": 12, "amount": 20 },
   { "point": "trap", "id": "tr_beartrap", "x": [ 0, 23 ], "y": [ 5, 18 ], "chance": 10, "repeat": [ 2, 5 ] }
 ]
 ```
 
-All X and Y values may be either a single integer between `0` and `23`, or an array of two integers `[ n1, n2 ]`
-(each between 0-23). If X or Y are set to an array, the result is a random number in that range. In the above
+All X and Y values may be either a single integer between `0` and `23`, or an array of two integers `[ n1, n2 ]` (each
+between `0` and `23`). If X or Y are set to an array, the result is a random number in that range (inclusive). In the above
 examples, the furniture `"f_chair"` is always at coordinates `"x": 5, "y": 10`, but the trap `"tr_beartrap"` is
 randomly repeated in the area `"x": [ 0, 23 ], "y": [ 5, 18 ]"`.
 
 See terrain.json, furniture.json, and trap.json for "id" strings.
 
+
 ### "point"
+
+Set things by point.
+
+- Requires "point" type, and coordinates "x" and "y"
+- For "point" type "radiation", requires "amount"
+- For other types, requires "id" of terrain, furniture, or trap
 
 | Field | Description
 |---    |---
-| point | (required) Set things by point. Value: `"terrain", "furniture", "trap", "radiation"`. Requires "x", "y", "id" (or "amount" for "radiation")
-| id | (required except by "radiation") Value: `"ter_id", "furn_id", or "trap_id"`. Example: `"id": "tr_beartrap"`
-| x, y | (both required) X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
-| amount | (required for "radiation") Radiation amount. Value from `0-100`.
+| point | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
+| id | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| x, y | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
+| amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
-| repeat | (optional) Value: `[ from_num, to_num ]`. Repeat this randomly between `from_num` and `to_num` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - apply 1-3 times.
+| repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
+
 
 ### "line"
 
+Set things in a line.
+
+- Requires "line" type, and endpoints "x", "y" and "x2", "y2"
+- For "line" type "radiation", requires "amount"
+- For other types, requires "id" of terrain, furniture, or trap
+
+Example:
+```json
+{ "line": "terrain", "id": "t_lava", "x": 5, "y": 5, "x2": 20, "y2": 20 }
+```
+
 | Field | Description
 |---    |---
-| line | (required) Set things in a line. Value: `"terrain", "furniture", "trap", "radiation"`. Requires "x", "y", "x2", "y2", "id" (or "amount" for "radiation"). Example: `{ "line": "terrain", "id": "t_lava", "x:" 5, "y": 5, "x2": 20, "y2": 20 }`
-| id | (required except by "radiation") Value: `"ter_id", "furn_id", or "trap_id"`. Example: `"id": "f_counter"`
-| x, y | (both required) Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
-| x2", "y2 | (both required) End X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 22, "y": [ 15, 20 ]`
-| amount | (required for "radiation") Radiation amount. Value from `0-100`.
+| line | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
+| id | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| x, y | Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
+| x2, y2 | End X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 22, "y": [ 15, 20 ]`
+| amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
-| repeat | (optional) Value: `[ from_num, to_num ]`. Repeat this randomly between `from_num` and `to_num` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - apply 1-3 times.
+| repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
+
 
 ### "square"
 
-| Field | Description
-|---    |---
-| square | (required) Define a square of things. Value: `"terrain", "furniture", "trap", "radiation"`. Requires "x", "y", "x2", "y2", "id" (or "amount" for "radiation")
+Define a square of things.
+
+- Requires "square" type, and opposite corners at "x", "y" and "x2", "y2"
+- For "square" type "radiation", requires "amount"
+- For other types, requires "id" of terrain, furniture, or trap
 
 The "square" arguments are exactly the same as for "line", but "x", "y" and "x2", "y2" define opposite corners
 
 Example:
 ```json
-{ "square": "radiation", "amount": 10, "x:" [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
+{ "square": "radiation", "amount": 10, "x": [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
 ```
+
+| Field | Description
+|---    |---
+| square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
+| id | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| x, y | Top-left corner of square.
+| x2, y2 | Bottom-right corner of square.
 
 
 ## 2.3 "place_groups"
 **optional** Spawn items or monsters from item_groups.json and monster_groups.json
-Value: `[ array of {objects} ]: [ { "monster": ... }, { "item": ... }, ... ]`
 
+Value: `[ array of {objects} ]: [ { "monster": ... }, { "item": ... }, ... ]`
 
 ### "monster"
 
@@ -486,7 +514,7 @@ repeated by random number of times `[1-3]`.
 Value: `[ array of {objects} ]: [ { "item", ... }, ... ]`
 
 ### 2.5.0 "item"
-**required** A valid itype ID. see everything in data/json/items
+**required** A valid itype ID. See everything in data/json/items
 Value: `"string"`
 
 Example:
@@ -499,8 +527,8 @@ Example:
 | item | (required) ID of the item to spawn
 | x, y | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
 | amount | (required) Number of items to spawn. Single integer, or range `[ a, b ]` for a random value in that range.
-| chance | (optional) One-in-N chance to apply
-| repeat | (optional) Value: `[ from_num, to_num ]`. Spawn item randomly between `from_num` and `to_num` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
+| chance | (optional) One-in-N chance to spawn item.
+| repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
 
 
 ## 2.5 specials
@@ -547,6 +575,7 @@ useful for rare occurrences (rather than repeating the common value many times):
 
 
 Example (places a blood and a bile field on each '.' square):
+
 ```json
 "fields" : {
     ".": [ { "field": "fd_blood" }, { "field": "fd_bile" } ]
@@ -577,7 +606,7 @@ Defining specials through their specific location:
 `<x>` and `<y>` define where the special is placed (x is horizontal, y vertical). Valid value are in the range 0..23,
 min-max values are also supported: `"x": [ 0, 23 ], "y": [ 0, 23 ]` places the special anyway on the map.
 
-Example with mapping (the characters 'O' and ';' should appear in the rows array where the specials should appear):
+Example with mapping (the characters `"O"` and `";"` should appear in the rows array where the specials should appear):
 
 ```json
 "gaspumps": {
@@ -617,6 +646,7 @@ Same as
 ### 2.5.0 "fields"
 
 Places a field (see fields.h).
+
 | Field | Description
 |---    |---
 | field | (required, string) the field type (e.g. "fd_blood")
@@ -627,6 +657,7 @@ Places a field (see fields.h).
 ### 2.5.1 "npcs"
 
 Places a new NPC.
+
 | Field | Description
 |---    |---
 | class | (required, string) the npc class id, see data/json/npcs/npc.json or define your own npc class.
@@ -657,6 +688,7 @@ Places a vending machine (furniture) and fills it with items. The machine can so
 ### 2.5.4 "toilets"
 
 Places a toilet (furniture) and adds water to it.
+
 | Field | Description
 |---    |---
 | amount | (optional, integer or min/max array) the amount of water to be placed in the toilet.
@@ -683,7 +715,9 @@ Places items from an item group.
 | repeat | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
 
 ### 2.5.7 "monsters"
-Places a monster spawn point, the actual monsters are spawned when the map is loaded. Values:
+
+Places a monster spawn point, the actual monsters are spawned when the map is loaded. Fields:
+
 | Field | Description
 |---    |---
 | monster | (required, string) a monster group id, when the map is loaded, a random monsters from that group are spawned.
@@ -691,7 +725,9 @@ Places a monster spawn point, the actual monsters are spawned when the map is lo
 | chance | (optional, integer or min/max array) one in x chance of spawn point being created (see `map::place_spawns`).
 
 ### 2.5.8 "vehicles"
-Places a vehicle. Values:
+
+Places a vehicle. Fields:
+
 | Field | Description
 |---    |---
 | vehicle | (required, string) type of the vehicle or id of a vehicle group.
@@ -701,7 +737,8 @@ Places a vehicle. Values:
 | status | (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
 
 ### 2.5.9 "item"
-Places a specific item. Values:
+
+Places a specific item. Fields:
 
 | Field | Description
 |---    |---
@@ -728,6 +765,7 @@ Places a trap.
 |---    |---
 | trap | (required, string) type id of the trap (e.g. `tr_beartrap`).
 
+
 ### 2.5.11 "furniture"
 
 Places furniture.
@@ -735,6 +773,7 @@ Places furniture.
 | Field | Description
 |---    |---
 | furn | (required, string) type id of the furniture (e.g. `f_chair`).
+
 
 ### 2.5.12 "terrain"
 
@@ -744,9 +783,10 @@ Places terrain. If the terrain has the value "roof" set and is in an enclosed sp
 |---    |---
 | ter | (required, string) type id of the terrain (e.g. `t_floor`).
 
+
 ### 2.5.13 "monster"
 
-Places a specific monster. Values:
+Places a specific monster. Fields:
 
 | Field | Description
 |---    |---
@@ -835,6 +875,7 @@ On such furniture, there is supposed to be a single (hidden) seed item which dic
 | items | spawn an item group as the "items" special.
 
 Example:
+
 ```json
 "sealed_item": {
   "p": {
@@ -843,6 +884,7 @@ Example:
   }
 },
 ```
+
 
 ### 2.5.18 "graffiti"
 
@@ -855,6 +897,7 @@ insert the nearest city name.
 | text | (optional, string) the message that will be placed.
 | snippet | (optional, string) a category of snippets that the message will be pulled from.
 
+
 ### 2.5.19 "translate_ter"
 
 Translates one type of terrain into another type of terrain.  There is no reason to do this with normal mapgen, but it
@@ -865,15 +908,22 @@ is useful for setting a baseline with `update_mapgen`.
 | from | (required, string) the terrain id of the terrain to be transformed
 | to | (required, string) the terrain id that the from terrain will transformed into
 
+
 ### 2.5.20 "zones"
 
 Places a zone for an NPC faction.  NPCs in the faction will use the zone to influence the AI.
 
 | Field | Description
 |---    |---
-| type | (required, string) must be one of NPC_RETREAT, NPC_NO_INVESTIGATE, or NPC_INVESTIGATE_ONLY.  NPCs will prefer to retreat towards NPC_RETREAT zones.  They will not move to the see the source of unseen sounds coming from NPC_NO_INVESTIGATE zones.  They will not move to the see the source of unseen sounds coming from outside NPC_INVESTIGATE_ONLY zones.
+| type | (required, string) Values: `"NPC_RETREAT"`, `"NPC_NO_INVESTIGATE"`, or `"NPC_INVESTIGATE_ONLY"`.
 | faction | (required, string) the faction id of the NPC faction that will use the zone.
 | name | (optional, string) the name of the zone.
+
+The `type` field values affect NPC behavior. NPCs will:
+
+- Prefer to retreat towards `NPC_RETREAT` zones.
+- Not move to the see the source of unseen sounds coming from `NPC_NO_INVESTIGATE` zones.
+- Not move to the see the source of unseen sounds coming from outside `NPC_INVESTIGATE_ONLY` zones.
 
 
 ### 2.5.21 "ter_furn_transforms"
@@ -883,12 +933,14 @@ an `update_mapgen`, as normal mapgen can just specify the terrain directly.
 
 - "transform": (required, string) the id of the `ter_furn_transform` to run.
 
+
 ## 2.6 "rotation"
 
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range
 (out of which a value will be randomly chosen). Example: `"rotation": [ 0, 3 ]`
 
 Values are 90° steps.
+
 
 ## 2.7 "predecessor_mapgen"
 
@@ -900,6 +952,7 @@ the cabin fit in) which leads to them being out of sync when the generation of t
 `predecessor_mapgen`, you can instead focus on the things that are added to the existing location type.
 
 Example: `"predecessor_mapgen": "forest"`
+
 
 # 3 Using update_mapgen
 
