@@ -637,6 +637,8 @@ class Character : public Creature, public visitable<Character>
         bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
         bool is_mounted() const;
+        bool check_mount_will_move( const tripoint &dest_loc );
+        bool check_mount_is_spooked();
         void dismount();
         void forced_dismount();
 
