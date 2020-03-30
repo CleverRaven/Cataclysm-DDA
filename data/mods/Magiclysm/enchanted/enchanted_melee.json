@@ -112,7 +112,7 @@
     "id": "bat_plus_one",
     "copy-from": "bat",
     "looks_like": "bat",
-    "name": "bat +1",
+    "name": { "str": "bat +1", "str_pl": "bats +1" },
     "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
@@ -121,7 +121,7 @@
     "id": "bat_plus_two",
     "copy-from": "bat",
     "looks_like": "bat",
-    "name": "bat +2",
+    "name": { "str": "bat +2", "str_pl": "bats +2" },
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
@@ -130,7 +130,7 @@
     "id": "bat_metal_plus_one",
     "copy-from": "bat_metal",
     "looks_like": "bat_metal",
-    "name": "aluminum bat +1",
+    "name": { "str": "aluminum bat +1", "str_pl": "aluminum bats +1" },
     "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
@@ -139,7 +139,7 @@
     "id": "bat_metal_plus_two",
     "copy-from": "bat_metal",
     "looks_like": "bat_metal",
-    "name": "aluminum bat +2",
+    "name": { "str": "aluminum bat +2", "str_pl": "aluminum bats +2" },
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
@@ -328,7 +328,7 @@
     "id": "arming_sword_plus_one",
     "copy-from": "arming_sword",
     "looks_like": "arming_sword",
-    "name": "arming sword +1",
+    "name": { "str": "arming sword +1", "str_pl": "arming swords +1" },
     "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
@@ -337,7 +337,7 @@
     "id": "arming_sword_plus_two",
     "copy-from": "arming_sword",
     "looks_like": "arming_sword",
-    "name": "arming sword +2",
+    "name": { "str": "arming sword +2", "str_pl": "arming swords +2" },
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
@@ -364,7 +364,7 @@
     "id": "battleaxe_plus_one",
     "copy-from": "battleaxe",
     "looks_like": "battleaxe",
-    "name": "battle axe +1",
+    "name": { "str": "battle axe +1", "str_pl": "battle axes +1" },
     "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
@@ -373,7 +373,7 @@
     "id": "battleaxe_plus_two",
     "copy-from": "battleaxe",
     "looks_like": "battleaxe",
-    "name": "battle axe +2",
+    "name": { "str": "battle axe +2", "str_pl": "battle axes +2" },
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
