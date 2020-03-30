@@ -2090,7 +2090,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
         return false;
     }
 
-    const std::map<body_part, int> &issues = bionic_installation_issues( bioid );
+    const std::map<bodypart_id, int> &issues = bionic_installation_issues( bioid );
     // show all requirements which are not satisfied
     if( !issues.empty() ) {
         std::string detailed_info;
@@ -2373,9 +2373,9 @@ int Character::get_used_bionics_slots( const bodypart_id bp ) const
     return used_slots;
 }
 
-std::map<body_part, int> Character::bionic_installation_issues( const bionic_id &bioid )
+std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_id &bioid )
 {
-    std::map<body_part, int> issues;
+    std::map<bodypart_id, int> issues;
     if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return issues;
     }
