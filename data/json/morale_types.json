@@ -125,6 +125,11 @@
     "text": "Ate Human Flesh"
   },
   {
+    "id": "morale_demicannibal",
+    "type": "morale_type",
+    "text": "Ate Demihuman Flesh"
+  },
+  {
     "id": "morale_vegetarian",
     "type": "morale_type",
     "text": "Ate Meat"

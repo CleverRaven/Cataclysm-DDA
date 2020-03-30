@@ -138,6 +138,8 @@ enum edible_rating {
     ALLERGY_WEAK,
     // Cannibalism (unless psycho/cannibal)
     CANNIBALISM,
+    // Cannibalism of near human (unless strict humanitarian)
+    STRICT_HUMANITARIANISM,
     // Rotten or not rotten enough (for saprophages)
     ROTTEN,
     // Can provoke vomiting if you already feel nauseous.

@@ -598,6 +598,17 @@
   },
   {
     "type": "mutation",
+    "id": "STRICT_HUMANITARIAN",
+    "name": { "str": "Strict Humanitarian" },
+    "points": 1,
+    "description": "You'd never eat people, but these things that look vaguely human from elsewhere are definitely not people.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "VEGETARIAN" ],
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "type": "mutation",
     "id": "PSYCHOPATH",
     "name": { "str": "Psychopath" },
     "points": 2,
