@@ -1514,7 +1514,7 @@ void map::player_in_field( player &u )
                     } else {
                         // Lying in the fire is BAAAD news, hits every body part.
                         msg_num = 3;
-                        parts_burned.assign( all_body_parts.begin(), all_body_parts.end() );
+                        parts_burned.assign( u.get_all_body_parts().begin(), u.get_all_body_parts().end() );
                     }
 
                     int total_damage = 0;

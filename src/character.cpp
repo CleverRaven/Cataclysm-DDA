@@ -4977,7 +4977,7 @@ void Character::update_bodytemp()
             if( comfortable_warmth > 0 &&
                 // TODO: make this simpler and use time_duration/time_point
                 to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
-                ( 1_minutes * bp ) / to_turns<int>( 1_minutes * num_bp ) &&
+                ( 1_minutes * bp->token ) / to_turns<int>( 1_minutes * num_bp ) &&
                 get_effect_int( effect_cold, default_bp ) == 0 &&
                 get_effect_int( effect_hot, default_bp ) == 0 &&
                 temp_cur[token] > BODYTEMP_COLD && temp_cur[token] <= BODYTEMP_NORM ) {
@@ -6106,6 +6106,7 @@ hp_part Character::bp_to_hp( const bodypart_id bp )
     } else if( bp == leg_r_bp || bp == foot_r_bp ) {
         return hp_leg_r;
     }
+    return num_hp_parts;
 }
 
 bodypart_id Character::hp_to_bp( const hp_part hpart )

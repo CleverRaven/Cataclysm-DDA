@@ -59,7 +59,6 @@ constexpr std::array<body_part, 12> all_body_parts = {{
         bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
     }
 };
-
 struct body_part_struct;
 
 using bodypart_ids = string_id<body_part_struct>;

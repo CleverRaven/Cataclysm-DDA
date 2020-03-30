@@ -1651,7 +1651,7 @@ void Character::mend( int rate_multiplier )
         if( eff.get_duration() >= eff.get_max_duration() ) {
             hp_cur[i] = 1;
             remove_effect( effect_mending, part );
-            g->events().send<event_type::broken_bone_mends>( getID(), part );
+            g->events().send<event_type::broken_bone_mends>( getID(), part->token );
             //~ %s is bodypart
             add_msg_if_player( m_good, _( "Your %s has started to mend!" ),
                                body_part_name( part ) );

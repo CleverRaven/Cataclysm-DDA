@@ -171,7 +171,6 @@ void field_type::load( const JsonObject &jo, const std::string & )
                 optional( joe, was_loaded, "min_duration", fe.min_duration );
                 optional( joe, was_loaded, "max_duration", fe.max_duration );
                 optional( joe, was_loaded, "intensity", fe.intensity );
-                optional( joe, was_loaded, "body_part", fe.bp );
                 optional( joe, was_loaded, "is_environmental", fe.is_environmental );
                 optional( joe, was_loaded, "immune_in_vehicle", fe.immune_in_vehicle );
                 optional( joe, was_loaded, "immune_inside_vehicle", fe.immune_inside_vehicle );
@@ -181,6 +180,16 @@ void field_type::load( const JsonObject &jo, const std::string & )
                 optional( joe, was_loaded, "chance_outside_vehicle", fe.chance_outside_vehicle );
                 optional( joe, was_loaded, "message", fe.message );
                 optional( joe, was_loaded, "message_npc", fe.message_npc );
+
+                if( joe.has_string( "body_part" ) ) {
+                    const bodypart_ids bp_string = bodypart_ids( joe.get_string( "body_part" ) );
+                    if( bp_string.is_valid() ) {
+                        fe.bp = bp_string.id();
+                    } else {
+                        debugmsg( "Invalid body_part in effect %s", fe.id.str() );
+                    }
+                }
+
                 const auto game_message_type_reader = enum_flags_reader<game_message_type> { "game message types" };
                 optional( joe, was_loaded, "message_type", fe.env_message_type, game_message_type_reader );
                 intensity_level.field_effects.emplace_back( fe );
