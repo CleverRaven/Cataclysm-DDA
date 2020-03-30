@@ -128,6 +128,7 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_recently_coughed( "recently_coughed" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_saddled( "monster_saddled" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 static const efftype_id effect_tied( "tied" );
@@ -739,6 +740,62 @@ void Character::mount_creature( monster &z )
     mod_moves( -100 );
 }
 
+bool Character::check_mount_will_move( const tripoint &dest_loc )
+{
+    if( !is_mounted() ) {
+        return true;
+    }
+    if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
+        for( const monster &critter : g->all_monsters() ) {
+            Attitude att = critter.attitude_to( *this );
+            if( att == A_HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 5 &&
+                rl_dist( dest_loc, critter.pos() ) < rl_dist( pos(), critter.pos() ) ) {
+                add_msg_if_player( _( "You fail to budge your %s!" ), mounted_creature->get_name() );
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool Character::check_mount_is_spooked()
+{
+    if( !is_mounted() ) {
+        return false;
+    }
+    // chance to spook per monster nearby:
+    // base 1% per turn.
+    // + 1% per square closer than 5 distnace.
+    // * 2 if hostile monster is bigger than or same size as mounted creature.
+    // -0.25% per point of dexterity
+    // -0.1% per point of strength
+    // / 2 if horse has full tack and saddle.
+    double chance = 1.0;
+    if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
+        for( const monster &critter : g->all_monsters() ) {
+            Attitude att = critter.attitude_to( *this );
+            // actually too close now - horse might spook.
+            if( att == A_HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) < 5 ) {
+                chance += 5 - rl_dist( pos(), critter.pos() );
+                if( critter.get_size() >= mounted_creature->get_size() ) {
+                    chance *= 2;
+                }
+                chance -= 0.25 * get_dex();
+                chance -= 0.1 * get_str();
+                if( mounted_creature->has_effect( effect_saddled ) ) {
+                    chance /= 2;
+                }
+                chance = std::max( 1.0, chance );
+                if( x_in_y( chance, 100.0 ) ) {
+                    forced_dismount();
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 bool Character::is_mounted() const
 {
     return has_effect( effect_riding ) && mounted_creature;
@@ -832,7 +889,13 @@ void Character::forced_dismount()
             g->u.grab( OBJECT_NONE );
         }
         set_movement_mode( CMM_WALK );
+        if( g->u.is_auto_moving() || g->u.has_destination() || g->u.has_destination_activity() ) {
+            g->u.clear_destination();
+        }
         g->update_map( g->u );
+    }
+    if( activity ) {
+        cancel_activity();
     }
     moves -= 150;
 }
@@ -1110,7 +1173,7 @@ bool Character::move_effects( bool attacking )
                 if( one_in( 4 ) ) {
                     add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
                     remove_effect( effect_grabbed );
-                    dynamic_cast<player &>( *this ).forced_dismount();
+                    forced_dismount();
                 }
             }
         } else {
