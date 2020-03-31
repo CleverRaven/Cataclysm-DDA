@@ -249,21 +249,22 @@ Default: 1000
 
 # JSON object definition
 
-The JSON object for a mapgen entry must include either `"fill_ter"`, or `"rows"` and `"terrain"`.
+The JSON object for a mapgen entry must include either `"fill_ter"`, or `"rows"` and `"terrain"`. All other fields are
+optional. Top-level fields for a mapgen entry include:
 
-It may optionally include `"furniture"`.
-
-- fill_ter
-- rows
-- terrain
-- furniture
-- set
-- place_groups
-- place_monster
-- place_item
-- specials
-- rotation
-- predecessor_mapgen
+| Field | Description
+|---    |---
+| [fill_ter](#fill-terrain-using-fill_ter) | Fill with terrain (required if "rows" is not given)
+| [rows](#ascii-map-using-rows-array) | ASCII 24x24 or 48x48 array of terrain/furniture strings
+| [terrain](#row-terrains-in-terrain) | Terrain symbols used in rows (required if "rows" is given)
+| [furniture](#furniture-symbols-in-furniture-array) | Furniture symbols used in rows
+| [set](#set-terrain-furniture-or-traps-with-a-set-array) | Point, line, or square of terrain, furniture, or traps
+| [place_groups](#spawn-item-or-monster-groups-with-place_groups) | Spawn items or monsters from a group
+| [place_monster](#spawn-a-single-monster-with-place_monster) | Spawn a single monster
+| [place_item](#spawn-specific-items-with-a-place_item-array) | Spawn specific items in an array
+| [specials](#extra-map-features-with-specials) | Fields, NPCs, signs, vending machines, toilets and more
+| [rotation](#rotate-the-map-with-rotation) | Rotating the map
+| [predecessor_mapgen](#pre-load-a-base-mapgen-with-predecessor_mapgen) | Pre-generating terrain under the map
 
 
 ## Fill terrain using "fill_ter"
