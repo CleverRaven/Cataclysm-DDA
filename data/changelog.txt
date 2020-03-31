@@ -8,7 +8,7 @@ More flexible Basecamp construction options.
 Default starting date changed to mid-spring for better survivability.
 Time advancement is rationalized, a turn is now one second.
 Extensive river and lake systems, and boat support for navigating them.
-Expanded NPC usefullness and interactivity.
+Expanded NPC usefulness and interactivity.
 Massive increases in location variety and consistency, especially rooftops.
 Expansion of mi-go faction with new enemies and locations.
 Batteries now store charge instead of being pseudo-items.
