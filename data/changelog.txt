@@ -5,7 +5,7 @@ Long distance automove feature for walking, driving and boating.
 Extensive bugfixes to inter-level interactivity, on by default.
 Riding animals and animal-pulled vehicles.
 More flexible Basecamp construction options.
-Default starting season changed to spring for better survivability.
+Default starting date changed to mid-spring for better survivability.
 Time advancement is rationalized, a turn is now one second.
 Extensive river and lake systems, and boat support for navigating them.
 Expanded NPC usefullness and interactivity.
