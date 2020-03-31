@@ -1,5 +1,6 @@
 [
   {
+    "type": "recipe",
     "result": "briefcase_smg",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
