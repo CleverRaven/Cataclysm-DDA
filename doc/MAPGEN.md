@@ -718,7 +718,7 @@ Same as
 |---    |---
 | field | (required, string) the field type (e.g. `"fd_blood"`, `"fd_smoke"`)
 | density | (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
-| intensity | (optiona, integer)
+| intensity | (optional, integer) 1, 2 or 3, with 1 being like thin smoke, and 3 being a thick opaque cloud.
 | age | (optional, integer) field age. Defaults to 0.
 
 
