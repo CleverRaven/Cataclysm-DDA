@@ -254,7 +254,7 @@
     "weight": "32 g",
     "color": "brown",
     "addiction_type": "caffeine",
-    "use_action": "CAFF",
+    "fatigue_mod": 24,
     "stim": 8,
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
