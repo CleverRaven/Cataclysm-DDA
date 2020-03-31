@@ -626,9 +626,6 @@ Fix savegame migration of obsolete house overmap terrains.
 Fix throwing movement cost for stacking items like bola/net/throwing stick.
 Stamina recovery no longer modified by move mode.
 Fix infinite aim loop when aiming with IR vision.
-Fix NPC backlog of activity moves freeze.
-Fix savegame migration of obsolete house overmap terrains.
-Fix throwing movement cost for stacking items like bola/net/throwing stick.
 
 ## Performance:
 Limit start location search radius.
