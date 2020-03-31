@@ -243,14 +243,19 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "longhair cat",
-    "description": "This cat's long fur appears difficult to groom, but the cat seems to manage it despite the environmental conditions."
+    "description": "This cat's long fur appears difficult to groom, but the cat seems to manage it despite the environmental conditions.",
+    "volume": "6000 ml",
+    "weight": "6 kg"
   },
   {
     "id": "mon_cat_maine_coon",
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Maine coon cat",
-    "description": "Impressively large for a domestic cat, this thick-haired breed was once native to the state of Maine."
+    "description": "Impressively large for a domestic cat, this thick-haired breed was once native to the state of Maine.",
+    "volume": "8000 ml",
+    "weight": "9 kg",
+    "hp": 16
   },
   {
     "id": "mon_cat_siamese",
@@ -271,14 +276,17 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Bengal cat",
-    "description": "Looking like a spotted wild cat, the Bengal breed derives from the Asian leopard cat and Egyptian Mau."
+    "description": "Looking like a spotted wild cat, the Bengal breed derives from the Asian leopard cat and Egyptian Mau.",
+    "weight": "6 kg"
   },
   {
     "id": "mon_cat_devon_rex",
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Devon Rex cat",
-    "description": "An unusual-looking cat with strikingly large eyes and ears, sporting a soft curly coat of fur."
+    "description": "An unusual-looking cat with strikingly large eyes and ears, sporting a soft curly coat of fur.",
+    "volume": "3000 ml",
+    "weight": "4 kg"
   },
   {
     "id": "mon_cat_sphynx",
@@ -300,6 +308,16 @@
     "copy-from": "mon_cat",
     "name": "calico cat",
     "description": "Partly white with patches of orange and black, the calico coloring tells you this cat is probably female.  The Calico was the Maryland State cat (back when there were still states)."
+  },
+  {
+    "id": "mon_cat_chonker",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": "golden chonker",
+    "description": "Lawd, he comin!  This impressive feline would once have been celebrated on internet cat forums for its chonkiness and majestic golden mane.  Appears surprisingly well-groomed for a feral cat.",
+    "volume": "8000 ml",
+    "weight": "10 kg",
+    "hp": 20
   },
   {
     "id": "mon_chipmunk",
