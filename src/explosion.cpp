@@ -59,7 +59,28 @@
 #include "mtype.h"
 #include "point.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_emp( "emp" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_teleglow( "teleglow" );
+
+static const std::string flag_BLIND( "BLIND" );
+static const std::string flag_FLASH_PROTECTION( "FLASH_PROTECTION" );
+
+static const itype_id fuel_type_none( "null" );
+
+static const species_id ROBOT( "ROBOT" );
+
+static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
+static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
+
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
@@ -97,7 +118,7 @@ shrapnel_data load_shrapnel_data( const JsonObject &jo )
     // Casing mass is mandatory
     jo.read( "casing_mass", ret.casing_mass );
     // Rest isn't
-    ret.fragment_mass = jo.get_float( "fragment_mass", 0.005 );
+    ret.fragment_mass = jo.get_float( "fragment_mass", 0.15 );
     ret.recovery = jo.get_int( "recovery", 0 );
     ret.drop = itype_id( jo.get_string( "drop", "null" ) );
     return ret;
@@ -448,9 +469,9 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
         }
         if( g->m.impassable( target ) ) {
             if( optional_vpart_position vp = g->m.veh_at( target ) ) {
-                vp->vehicle().damage( vp->part_index(), damage );
+                vp->vehicle().damage( vp->part_index(), damage / 100 );
             } else {
-                g->m.bash( target, damage / 10, true );
+                g->m.bash( target, damage / 100, true );
             }
         }
     }

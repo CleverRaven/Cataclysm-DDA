@@ -64,11 +64,16 @@ struct component {
     // needs explicit specification due to the mutable member. update this when you add new
     // members!
     bool operator==( const component &rhs ) const {
-        return type == rhs.type && count == rhs.count && recoverable == rhs.recoverable
-               && requirement == rhs.requirement;
+        return std::forward_as_tuple( type, requirement, count, recoverable )
+               == std::forward_as_tuple( rhs.type, rhs.requirement, rhs.count, rhs.recoverable );
     }
     bool operator!=( const component &rhs ) const {
         return !operator==( rhs );
+    }
+    // lexicographic comparison
+    bool operator<( const component &rhs ) const {
+        return std::forward_as_tuple( type, requirement, count, recoverable )
+               < std::forward_as_tuple( rhs.type, rhs.requirement, rhs.count, rhs.recoverable );
     }
 
     component() = default;
@@ -123,11 +128,16 @@ struct quality_requirement {
     // needs explicit specification due to the mutable member. update this when you add new
     // members!
     bool operator==( const quality_requirement &rhs ) const {
-        return type == rhs.type && count == rhs.count && level == rhs.level
-               && requirement == rhs.requirement;
+        return std::forward_as_tuple( type, requirement, count, level )
+               == std::forward_as_tuple( rhs.type, rhs.requirement, rhs.count, rhs.level );
     }
     bool operator!=( const quality_requirement &rhs ) const {
         return !operator==( rhs );
+    }
+    // lexicographic comparison
+    bool operator<( const quality_requirement &rhs ) const {
+        return std::forward_as_tuple( type, requirement, count, level )
+               < std::forward_as_tuple( rhs.type, rhs.requirement, rhs.count, rhs.level );
     }
 
     quality_requirement() = default;
@@ -328,15 +338,14 @@ struct requirement_data {
                 const std::list<item> &remaining_comps );
 
         /**
-         * Removes duplicated qualities and tools, and merge similar component lists.
-         * This actually changes the exact meaning of the requirement.
+         * Merge similar quality/tool/component lists.
+         * This simplifies the requirement but may make the requirement stricter.
          */
         void consolidate();
 
         /**
          * Compares if two requiremen_data are the same, but does not compare the requirement ids.
-         *
-         * TODO: sort and compare
+         * The order inside requirement vectors does not matter.
          */
         bool has_same_requirements_as( const requirement_data &that ) const;
 

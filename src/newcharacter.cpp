@@ -51,7 +51,16 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_CHALLENGE( "CHALLENGE" );
+static const std::string flag_CITY_START( "CITY_START" );
+static const std::string flag_SECRET( "SECRET" );
+static const std::string flag_WET( "WET" );
+
+static const trait_id trait_SMELLY( "SMELLY" );
+static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
+static const trait_id trait_XS( "XS" );
+static const trait_id trait_XXXL( "XXXL" );
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
@@ -78,8 +87,7 @@
 #define COL_NOTE_MAJOR      c_green   // Important note
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
-#define HIGH_STAT 14 // The point after which stats cost double
-#define MAX_STAT 20 // The point after which stats can not be increased further
+#define HIGH_STAT 12 // The point after which stats cost double
 
 #define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
 
@@ -137,7 +145,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
     menu.input_category = "MELEE_STYLE_PICKER";
-    menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
+    menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
     menu.desc_enabled = true;
 
     for( auto &s : styles ) {
@@ -155,7 +163,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
 void avatar::randomize( const bool random_scenario, points_left &points, bool play_now )
 {
-
+    const int max_stat_points = points.is_freeform() ? 20 : MAX_STAT;
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
     *this = avatar();
@@ -292,7 +300,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( str_max < HIGH_STAT ) {
                                 str_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && str_max < MAX_STAT ) {
+                            } else if( points.stat_points_left() >= 2 && str_max < max_stat_points ) {
                                 str_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -301,7 +309,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( dex_max < HIGH_STAT ) {
                                 dex_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && dex_max < MAX_STAT ) {
+                            } else if( points.stat_points_left() >= 2 && dex_max < max_stat_points ) {
                                 dex_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -310,7 +318,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( int_max < HIGH_STAT ) {
                                 int_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && int_max < MAX_STAT ) {
+                            } else if( points.stat_points_left() >= 2 && int_max < max_stat_points ) {
                                 int_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -319,7 +327,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( per_max < HIGH_STAT ) {
                                 per_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && per_max < MAX_STAT ) {
+                            } else if( points.stat_points_left() >= 2 && per_max < max_stat_points ) {
                                 per_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -467,6 +475,8 @@ bool avatar::create( character_type type, const std::string &tempname )
     } while( true );
 
     if( tab < 0 ) {
+        catacurses::clear();
+        catacurses::refresh();
         return false;
     }
 
@@ -733,8 +743,10 @@ tab_direction set_points( const catacurses::window &w, avatar &, points_left &po
 
 tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points )
 {
+    const int max_stat_points = points.is_freeform() ? 20 : MAX_STAT;
+
     unsigned char sel = 1;
-    const int iSecondColumn = 27;
+    const int iSecondColumn = std::max( 27, utf8_width( points.to_string(), true ) + 9 );
     input_context ctxt( "NEW_CHAR_STATS" );
     ctxt.register_cardinal();
     ctxt.register_action( "PREV_TAB" );
@@ -910,25 +922,25 @@ tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &po
                 points.stat_points++;
             }
         } else if( action == "RIGHT" ) {
-            if( sel == 1 && u.str_max < MAX_STAT ) {
+            if( sel == 1 && u.str_max < max_stat_points ) {
                 points.stat_points--;
                 if( u.str_max >= HIGH_STAT ) {
                     points.stat_points--;
                 }
                 u.str_max++;
-            } else if( sel == 2 && u.dex_max < MAX_STAT ) {
+            } else if( sel == 2 && u.dex_max < max_stat_points ) {
                 points.stat_points--;
                 if( u.dex_max >= HIGH_STAT ) {
                     points.stat_points--;
                 }
                 u.dex_max++;
-            } else if( sel == 3 && u.int_max < MAX_STAT ) {
+            } else if( sel == 3 && u.int_max < max_stat_points ) {
                 points.stat_points--;
                 if( u.int_max >= HIGH_STAT ) {
                     points.stat_points--;
                 }
                 u.int_max++;
-            } else if( sel == 4 && u.per_max < MAX_STAT ) {
+            } else if( sel == 4 && u.per_max < max_stat_points ) {
                 points.stat_points--;
                 if( u.per_max >= HIGH_STAT ) {
                     points.stat_points--;
@@ -1020,11 +1032,18 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
 
+    int full_string_length = 0;
+
     do {
         draw_points( w, points );
         if( !points.is_freeform() ) {
-            mvwprintz( w, point( 26, 3 ), c_light_green, "%2d/%-2d", num_good, max_trait_points );
-            mvwprintz( w, point( 32, 3 ), c_light_red, "%3d/-%-2d ", num_bad, max_trait_points );
+            const int remaining_points_length = utf8_width( points.to_string(), true );
+            std::string full_string =
+                string_format( "<color_light_green>%2d/%-2d</color> <color_light_red>%3d/-%-2d</color>",
+                               num_good, max_trait_points, num_bad, max_trait_points );
+            fold_and_print( w, point( remaining_points_length + 3, 3 ), getmaxx( w ) - 2, c_white,
+                            full_string );
+            full_string_length = utf8_width( full_string, true ) + remaining_points_length + 3;
         }
 
         // Clear the bottom of the screen.
@@ -1074,14 +1093,16 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
                 auto &cur_trait = vStartingTraits[iCurrentPage][i];
                 auto &mdata = cur_trait.obj();
                 if( cur_line_y == i && iCurrentPage == iCurWorkingPage ) {
-                    // Clear line from 41 to end of line (minus border)
-                    mvwprintz( w, point( 41, 3 ), c_light_gray, std::string( getmaxx( w ) - 41 - 1, ' ' ) );
+                    // Clear line beginning from end of (remaining points + positive/negative traits) text to end of line (minus border)
+                    mvwprintz( w, point( full_string_length, 3 ), c_light_gray,
+                               std::string( getmaxx( w ) - full_string_length - 1, ' ' ) );
                     int points = mdata.points;
                     bool negativeTrait = points < 0;
                     if( negativeTrait ) {
                         points *= -1;
                     }
-                    mvwprintz( w,  point( 41, 3 ), col_tr, ngettext( "%s %s %d point", "%s %s %d points", points ),
+                    mvwprintz( w,  point( full_string_length + 3, 3 ), col_tr,
+                               ngettext( "%s %s %d point", "%s %s %d points", points ),
                                mdata.name(),
                                negativeTrait ? _( "earns" ) : _( "costs" ),
                                points );
@@ -1214,7 +1235,7 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
 
 struct {
     bool sort_by_points = true;
-    bool male;
+    bool male = false;
     /** @related player */
     bool operator()( const string_id<profession> &a, const string_id<profession> &b ) {
         // The generic ("Unemployed") profession should be listed first.
@@ -1615,11 +1636,14 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
     std::copy( pskills.begin(), pskills.end(),
                std::inserter( prof_skills, prof_skills.begin() ) );
 
+    const int remaining_points_length = utf8_width( points.to_string(), true );
+
     do {
         draw_points( w, points );
         // Clear the bottom of the screen.
         werase( w_description );
-        mvwprintz( w, point( 31, 3 ), c_light_gray, std::string( getmaxx( w ) - 32, ' ' ) );
+        mvwprintz( w, point( remaining_points_length + 9, 3 ), c_light_gray,
+                   std::string( getmaxx( w ) - remaining_points_length - 10, ' ' ) );
 
         // Write the hint as to upgrade costs
         const int cost = skill_increment_cost( u, currentSkill->ident() );
@@ -1631,7 +1655,7 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
                 //~ levels here are skill levels at character creation time
                 ngettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
         const nc_color color = points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red;
-        mvwprintz( w, point( 31, 3 ), color,
+        mvwprintz( w, point( remaining_points_length + 9, 3 ), color,
                    //~ Second string is e.g. "1 level" or "2 levels"
                    ngettext( "Upgrading %s by %s costs %d point",
                              "Upgrading %s by %s costs %d points", cost ),
@@ -1786,8 +1810,8 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
 
 struct {
     bool sort_by_points = true;
-    bool male;
-    bool cities_enabled;
+    bool male = false;
+    bool cities_enabled = false;
     /** @related player */
     bool operator()( const scenario *a, const scenario *b ) {
         if( cities_enabled ) {
@@ -1862,6 +1886,9 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
             sorted_scens.clear();
             auto &wopts = world_generator->active_world->WORLD_OPTIONS;
             for( const auto &scen : scenario::get_all() ) {
+                if( scen.scen_is_blacklisted() ) {
+                    continue;
+                }
                 if( !lcmatch( scen.gender_appropriate_name( u.male ), filterstring ) ) {
                     continue;
                 }

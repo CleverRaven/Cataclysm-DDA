@@ -3,8 +3,7 @@
     "id": "pistol_magnum_ball",
     "type": "AMMO",
     "copy-from": "44fmj",
-    "name": "magnum ammo, ball",
-    "name_plural": "magnum ammo, ball",
+    "name": { "str": "magnum ammo, ball", "str_pl": "magnum ammo, ball" },
     "ammo_type": "ammo_pistol_magnum",
     "casing": "pistol_magnum_casing",
     "description": "Magnum ammuniton, developed from early handgun hunting efforts and popularized by law enforcement usage.  It is more powerful than common pistol ammo.  'Ball' is an old term for full metal jacketed bullets which offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead."

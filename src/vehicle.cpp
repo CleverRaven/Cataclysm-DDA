@@ -62,29 +62,35 @@
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
  */
-static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_wind( "wind" );
-static const itype_id fuel_type_plutonium_cell( "plut_cell" );
-static const itype_id fuel_type_animal( "animal" );
 static const std::string part_location_structure( "structure" );
 static const std::string part_location_center( "center" );
 static const std::string part_location_onroof( "on_roof" );
 
+static const itype_id fuel_type_animal( "animal" );
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_plutonium_cell( "plut_cell" );
+static const itype_id fuel_type_wind( "wind" );
+
 static const fault_id fault_belt( "fault_engine_belt_drive" );
-static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_filter_air( "fault_engine_filter_air" );
 static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
+static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 
-static bool is_sm_tile_outside( const tripoint &real_global_pos );
-static bool is_sm_tile_over_water( const tripoint &real_global_pos );
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+
+static const bionic_id bio_jointservo( "bio_jointservo" );
 
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
+static const std::string flag_PERPETUAL( "PERPETUAL" );
+
+static bool is_sm_tile_outside( const tripoint &real_global_pos );
+static bool is_sm_tile_over_water( const tripoint &real_global_pos );
+
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
-//
 
 // For reference what each function is supposed to do, see their implementation in
 // @ref DefaultRemovePartHandler. Add compatible code for it into @ref MapgenRemovePartHandler,
@@ -118,7 +124,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void removed( vehicle &veh, const int part ) override {
             // If the player is currently working on the removed part, stop them as it's futile now.
             const player_activity &act = g->u.activity;
-            if( act.id() == activity_id( "ACT_VEHICLE" ) && act.moves_left > 0 && act.values.size() > 6 ) {
+            if( act.id() == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
                 if( veh_pointer_or_null( g->m.veh_at( tripoint( act.values[0], act.values[1],
                                                       g->u.posz() ) ) ) == &veh ) {
                     if( act.values[6] >= part ) {
@@ -199,7 +205,7 @@ void vehicle_stack::insert( const item &newitem )
 
 units::volume vehicle_stack::max_volume() const
 {
-    if( myorigin->part_flag( part_num, "CARGO" ) && myorigin->parts[part_num].is_available() ) {
+    if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->parts[part_num].is_broken() ) {
         // Set max volume for vehicle cargo to prevent integer overflow
         return std::min( myorigin->parts[part_num].info().size, 10000_liter );
     }
@@ -419,8 +425,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
         //Leave engine running in some vehicles, if the engine has not been destroyed
+        //chance decays from 1 in 4 vehicles on day 0 to 1 in (day + 4) in the future.
+        int current_day = std::max( to_days<int>( calendar::turn - calendar::turn_zero ), 0 );
         if( veh_fuel_mult > 0 && !empty( get_avail_parts( "ENGINE" ) ) &&
-            one_in( 8 ) && !destroyEngine && !has_no_key && has_engine_type_not( fuel_type_muscle, true ) ) {
+            one_in( current_day + 4 ) && !destroyEngine && !has_no_key &&
+            has_engine_type_not( fuel_type_muscle, true ) ) {
             engine_on = true;
         }
 
@@ -974,11 +983,8 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         int roll = dice( 1, 1000 );
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
-            float dist = 1.0f - trig_dist( damage_origin, part.precalc[0] ) / damage_size;
-            dist = clamp( dist, 0.0f, 1.0f );
-            if( damage_size == 0 ) {
-                dist = 1.0f;
-            }
+            float dist =  damage_size == 0.0f ? 1.0f :
+                          clamp( 1.0f - trig_dist( damage_origin, part.precalc[0] ) / damage_size, 0.0f, 1.0f );
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
             if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
                                                hp_percent_loss_max * dist ) * part.info().durability ), DT_BASH ) ) {
@@ -1579,7 +1585,7 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
             std::make_tuple( "ENGINE", "ALTERNATOR", translate_marker( "Remove attached alternator first." ) ),
             std::make_tuple( "BELTABLE", "SEATBELT", translate_marker( "Remove attached seatbelt first." ) ),
             std::make_tuple( "WINDOW", "CURTAIN", translate_marker( "Remove attached curtains first." ) ),
-            std::make_tuple( "CONTROLS", "ON_CONTROLS", translate_marker( "Remove attached part first." ) ),
+            std::make_tuple( "CONTROLS", "ON_CONTROLS", translate_marker( "Remove the attached %s first." ) ),
             std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", translate_marker( "Remove battery from mount first." ) ),
             std::make_tuple( "TURRET_MOUNT", "TURRET", translate_marker( "Remove attached mounted weapon first." ) ),
             std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", translate_marker( "Remove attached wheel first." ) ),
@@ -1588,9 +1594,9 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         }
     };
     for( auto &flag_check : blocking_flags ) {
-        if( part_flag( p, std::get<0>( flag_check ) ) &&
-            part_with_feature( p, std::get<1>( flag_check ), false ) >= 0 ) {
-            reason = _( std::get<2>( flag_check ) );
+        const int part_idx_requires = part_with_feature( p, std::get<1>( flag_check ), false );
+        if( part_flag( p, std::get<0>( flag_check ) ) && part_idx_requires >= 0 ) {
+            reason = string_format( _( std::get<2>( flag_check ) ), parts[part_idx_requires].info().name() );
             return false;
         }
     }
@@ -2186,17 +2192,20 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     bool tracked_parts =
         false; // we will set this to true if any of the vehicle parts carry a tracked_flag
     for( int carried_part : carried_parts ) {
-        std::string id_string = parts[ carried_part ].carry_names.top().substr( 0, 1 );
         //check if selected part carries tracking flag
         if( parts[carried_part].has_flag(
                 vehicle_part::tracked_flag ) ) { //this should only need to run once
             tracked_parts = true;
         }
-        if( id_string == "X" || id_string == "Y" ) {
-            veh_record = parts[ carried_part ].carry_names.top();
-            new_pos3 = global_part_pos3( carried_part );
-            x_aligned = id_string == "X";
-            break;
+        const auto &carry_names = parts[carried_part].carry_names;
+        if( !carry_names.empty() ) {
+            std::string id_string = carry_names.top().substr( 0, 1 );
+            if( id_string == "X" || id_string == "Y" ) {
+                veh_record = carry_names.top();
+                new_pos3 = global_part_pos3( carried_part );
+                x_aligned = id_string == "X";
+                break;
+            }
         }
     }
     if( veh_record.empty() ) {
@@ -4077,6 +4086,14 @@ double vehicle::coeff_rolling_drag() const
     return coefficient_rolling_resistance;
 }
 
+double vehicle::water_hull_height() const
+{
+    if( coeff_water_dirty ) {
+        coeff_water_drag();
+    }
+    return hull_height;
+}
+
 double vehicle::water_draft() const
 {
     if( coeff_water_dirty ) {
@@ -4168,7 +4185,6 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return 1.0f;
     }
     const float mass_penalty = fraction_without_traction * to_kilogram( total_mass() );
-
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg( m_debug, "%s has traction %.2f", name, traction );
 
@@ -4238,9 +4254,9 @@ std::string vehicle::get_owner_name() const
 {
     if( !g->faction_manager_ptr->get( owner ) ) {
         debugmsg( "vehicle::get_owner_name() vehicle %s has no valid nor null faction id ", disp_name() );
-        return "no owner";
+        return _( "no owner" );
     }
-    return g->faction_manager_ptr->get( owner )->name;
+    return _( g->faction_manager_ptr->get( owner )->name );
 }
 
 void vehicle::set_owner( const Character &c )
@@ -4450,7 +4466,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
 
         double amnt_precise_j = static_cast<double>( fuel_pr.second ) * t_seconds;
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
-        auto inserted = fuel_used_last_turn.insert( { ft, 0 } );
+        auto inserted = fuel_used_last_turn.insert( { ft, 0.0f } );
         inserted.first->second += amnt_precise_j;
         double remainder = fuel_remainder[ ft ];
         amnt_precise_j -= remainder;
@@ -4492,7 +4508,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             }
         }
         // decreased stamina burn scalable with load
-        if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
+        if( g->u.has_active_bionic( bio_jointservo ) ) {
             g->u.mod_power_level( units::from_kilojoule( -std::max( eff_load / 20, 1 ) ) );
             mod -= std::max( eff_load / 5, 5 );
         }
@@ -4691,7 +4707,7 @@ void vehicle::power_parts()
             const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
             if( parts[ elem ].is_unavailable() ) {
                 continue;
-            } else if( parts[ elem ].info().has_flag( "PERPETUAL" ) ) {
+            } else if( parts[ elem ].info().has_flag( flag_PERPETUAL ) ) {
                 reactor_working = true;
                 delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
             } else if( parts[elem].ammo_remaining() > 0 ) {
@@ -5028,7 +5044,7 @@ void vehicle::slow_leak()
     // for each badly damaged tanks (lower than 50% health), leak a small amount
     for( auto &p : parts ) {
         auto health = p.health_percent();
-        if( health > 0.5 || p.ammo_remaining() <= 0 ) {
+        if( !p.is_leaking() || p.ammo_remaining() <= 0 ) {
             continue;
         }
 
@@ -6053,6 +6069,9 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
         invalidate_mass();
         coeff_air_changed = true;
+
+        // refresh cache in case the broken part has changed the status
+        refresh();
     }
 
     if( parts[p].is_fuel_store() ) {
@@ -6203,7 +6222,7 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos )
         return false;
     }
 
-    return ( sm->ter[px][py].obj().has_flag( TFLAG_CURRENT ) ||
+    return ( sm->get_ter( { px, py } ).obj().has_flag( TFLAG_CURRENT ) ||
              sm->get_furn( { px, py } ).obj().has_flag( TFLAG_CURRENT ) );
 }
 
@@ -6224,7 +6243,7 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
         return false;
     }
 
-    return !( sm->ter[px][py].obj().has_flag( TFLAG_INDOORS ) ||
+    return !( sm->get_ter( { px, py } ).obj().has_flag( TFLAG_INDOORS ) ||
               sm->get_furn( { px, py } ).obj().has_flag( TFLAG_INDOORS ) );
 }
 

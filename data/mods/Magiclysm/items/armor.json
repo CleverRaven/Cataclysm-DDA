@@ -15,7 +15,7 @@
   },
   {
     "id": "quiver_birchbark",
-    "name": "birchbark quiver",
+    "name": { "str": "birchbark quiver" },
     "copy-from": "quiver_birchbark",
     "type": "ARMOR",
     "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt", "arrow_orichalcum" ], "draw_cost": 20 }

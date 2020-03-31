@@ -292,6 +292,7 @@
       "haz_sar_west",
       "haz_sar_entrance_b1_west",
       "haz_sar_b1_west",
+      "house_base",
       "house_base_north",
       "house_base_south",
       "house_base_east",
@@ -300,6 +301,11 @@
       "mass_grave_south",
       "mass_grave_east",
       "mass_grave_west"
+      "house",
+      "house_north",
+      "house_south",
+      "house_east",
+      "house_west"
     ]
   }
 ]

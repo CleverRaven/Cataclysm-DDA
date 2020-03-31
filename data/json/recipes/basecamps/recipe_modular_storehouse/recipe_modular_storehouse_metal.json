@@ -154,17 +154,16 @@
       "time": "2 d 10 h 30 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 320 ], [ "welder", 1600 ], [ "welder_crude", 2400 ], [ "toolset", 2400 ] ] ],
+        "tools": [ [ [ "oxy_torch", 320 ], [ "toolset", 2400 ], [ "welder", 1600 ], [ "welder_crude", 2400 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
           [ [ "2x4", 30 ], [ "log", 4 ] ],
-          [ [ "nail", 60 ] ],
           [ [ "glass_sheet", 2 ] ],
-          [ [ "steel_plate", 64 ] ]
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 60 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 68 ] ],
+          [ [ "spike", 16 ] ]
         ]
       }
     }
@@ -186,17 +185,16 @@
       "time": "2 d 10 h 30 m",
       "skills": [ [ "fabrication", 7 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 320 ], [ "welder", 1600 ], [ "welder_crude", 2400 ], [ "toolset", 2400 ] ] ],
+        "tools": [ [ [ "oxy_torch", 320 ], [ "toolset", 2400 ], [ "welder", 1600 ], [ "welder_crude", 2400 ] ] ],
         "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
           [ [ "2x4", 30 ], [ "log", 4 ] ],
-          [ [ "nail", 60 ] ],
           [ [ "glass_sheet", 2 ] ],
-          [ [ "steel_plate", 64 ] ]
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 60 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "steel_plate", 68 ] ],
+          [ [ "spike", 16 ] ]
         ]
       }
     }

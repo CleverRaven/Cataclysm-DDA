@@ -1,0 +1,20 @@
+[
+  {
+    "id": "yoke_harness",
+    "type": "WHEEL",
+    "name": { "str": "yoke and harness", "str_pl": "yokes and harnesses" },
+    "category": "veh_parts",
+    "description": "A bar and harness to attach a creature to a wheeled vehicle, they then should be able to pull it.",
+    "weight": "1000 g",
+    "volume": "3750 ml",
+    "price": 48000,
+    "bashing": 3,
+    "to_hit": -1,
+    "material": [ "leather", "wood" ],
+    "symbol": "H",
+    "color": "yellow",
+    "diameter": 8,
+    "width": 4,
+    "looks_like": "foldframe"
+  }
+]

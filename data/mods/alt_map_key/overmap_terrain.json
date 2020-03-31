@@ -176,14 +176,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "house",
-    "copy-from": "house",
-    "name": "house",
-    "sym": "^",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "house_prepper",
     "copy-from": "house_prepper",
     "name": "house",

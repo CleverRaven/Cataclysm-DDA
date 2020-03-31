@@ -53,14 +53,13 @@
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 246 ] ],
+          [ [ "cattail_stalk", 104 ], [ "dogbane", 104 ], [ "pine_bough", 104 ], [ "straw_pile", 104 ] ],
+          [ [ "clay_lump", 104 ], [ "material_limestone", 104 ], [ "material_quicklime", 104 ] ],
+          [ [ "material_sand", 260 ], [ "pebble", 260 ] ],
           [ [ "nail", 392 ] ],
-          [ [ "wood_sheet", 11 ], [ "wood_panel", 21 ] ],
-          [ [ "material_quicklime", 104 ], [ "material_limestone", 104 ], [ "clay_lump", 104 ] ],
-          [ [ "pebble", 260 ], [ "material_sand", 260 ] ],
-          [ [ "straw_pile", 104 ], [ "cattail_stalk", 104 ], [ "dogbane", 104 ], [ "pine_bough", 104 ] ],
+          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
           [ [ "water", 130 ], [ "water_clean", 130 ] ],
-          [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ],
-          [ [ "wood_panel", 8 ] ]
+          [ [ "wood_panel", 29 ] ]
         ]
       }
     }

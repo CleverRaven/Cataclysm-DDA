@@ -9,6 +9,7 @@
 #include "messages.h"
 #include "point.h"
 
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );
 
 bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
@@ -98,6 +99,6 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     if( c_is_u ) {
         g->update_map( *p );
     }
-    critter.remove_effect( efftype_id( "grabbed" ) );
+    critter.remove_effect( effect_grabbed );
     return true;
 }

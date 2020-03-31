@@ -34,26 +34,26 @@ cd vcpkg
 #### install 64 bit dependencies:
 
 ```cmd
-.\vcpkg --triplet x64-windows install sdl2 sdl2-image sdl2-mixer[libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
+.\vcpkg --triplet x64-windows install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
 ```
 
 or (if you want to build statically linked executable)
 
 ```cmd
-vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer[libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
+vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
 ```
 
 
 #### install 32 bit dependencies:
 
 ```cmd
-.\vcpkg --triplet x86-windows install sdl2 sdl2-image sdl2-mixer[libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
+.\vcpkg --triplet x86-windows install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
 ```
 
 or (if you want to build statically linked executable)
 
 ```cmd
-.\vcpkg --triplet x86-windows-static install sdl2 sdl2-image sdl2-mixer[libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
+.\vcpkg --triplet x86-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
 ```
 
 #### upgrade all dependencies:
@@ -80,6 +80,8 @@ cd Cataclysm-DDA
 3. Building Cataclysm with Visual Studio is very simple. Just build it like a normal Visual C++ project. The process may takes a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :)
 
 4. If you need localization support, execute the bash script `lang/compile_mo.sh` inside Git Bash GUI just like on a UNIX-like system. This will compile the language files that were not automatically compiled in step 2 above.
+
+Even if you do not need languages other than English, you may still want to execute `lang/compile_mo.sh en` or `lang/compile_mo.sh all` to compile the language file for English, in order to work-around a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006) that is causing significant slow-down on Windows targets if a language file is not found.
 
 ### Debugging
 
