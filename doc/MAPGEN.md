@@ -253,7 +253,7 @@ The JSON object for a mapgen entry must include either `"fill_ter"`, or `"rows"`
 optional. Top-level fields for a mapgen entry include:
 
 | Field | Description
-|---    |---
+| ---   | ---
 | [fill_ter](#fill-terrain-using-fill_ter) | Fill with terrain (required if "rows" is not given)
 | [rows](#ascii-map-using-rows-array) | ASCII 24x24 or 48x48 array of terrain/furniture strings
 | [terrain](#row-terrains-in-terrain) | Terrain symbols used in rows (required if "rows" is given)
@@ -425,11 +425,11 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 - For "point" type "radiation", requires "amount"
 - For other types, requires "id" of terrain, furniture, or trap
 
-| Field | Description
-|---    |---
-| point | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
-| x, y | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
+| Field  | Description
+| ---    | ---
+| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
 | repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
@@ -446,11 +446,11 @@ Example:
 { "line": "terrain", "id": "t_lava", "x": 5, "y": 5, "x2": 20, "y2": 20 }
 ```
 
-| Field | Description
-|---    |---
-| line | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
-| x, y | Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
+| Field  | Description
+| ---    | ---
+| line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| x, y   | Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | x2, y2 | End X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 22, "y": [ 15, 20 ]`
 | amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
@@ -470,11 +470,11 @@ Example:
 { "square": "radiation", "amount": 10, "x": [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
 ```
 
-| Field | Description
-|---    |---
+| Field  | Description
+| ---    | ---
 | square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
-| x, y | Top-left corner of square.
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation".
+| x, y   | Top-left corner of square.
 | x2, y2 | Bottom-right corner of square.
 
 
@@ -485,12 +485,12 @@ Value: `[ array of {objects} ]: [ { "monster": ... }, { "item": ... }, ... ]`
 
 ### Spawn monsters from a group with "monster"
 
-| Field | Description
-|---    |---
+| Field   | Description
+| ---     | ---
 | monster | (required) Value: `"MONSTER_GROUP"`. The monster group id, which picks random critters from a list
-| x, y | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
+| x, y    | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
 | density | (optional) Floating-point multiplier to "chance" (see below).
-| chance | (optional) One-in-N chance to spawn
+| chance  | (optional) One-in-N chance to spawn
 
 Example:
 
@@ -513,10 +513,10 @@ this. The "pack_size" modifier in monstergroups is a random multiplier to the ro
 
 ### Spawn items from a group with "item"
 
-| Field | Description
-|---    |---
-| item | (required) Value: "ITEM_GROUP". The item group id, which picks random stuff from a list.
-| x, y | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
+| Field  | Description
+| ---    | ---
+| item   | (required) Value: "ITEM_GROUP". The item group id, which picks random stuff from a list.
+| x, y   | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
 | chance | (required) Percentage chance to spawn.
 
 Example:
@@ -537,18 +537,18 @@ inclusive.
 
 Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 
-| Field | Description
-|---         |---
-| monster | ID of the monster to spawn.
-| group | ID of the monster group from which the spawned monster is selected. `monster` and `group` should not be used together. `group` will act over `monster`.
-| x, y  | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
-| chance | Percentage chance to do spawning. If repeat is used each repeat has separate chance.
-| repeat | The spawning is repeated this many times. Can be a number or a range.
-| pack_size | How many monsters are spawned. Can be single number or range like `[1-4]`. Is affected by the chance and spawn density. Ignored when spawning from a group.
+| Field       | Description
+| ---         | ---
+| monster     | ID of the monster to spawn.
+| group       | ID of the monster group from which the spawned monster is selected. `monster` and `group` should not be used together. `group` will act over `monster`.
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| chance      | Percentage chance to do spawning. If repeat is used each repeat has separate chance.
+| repeat      | The spawning is repeated this many times. Can be a number or a range.
+| pack_size   | How many monsters are spawned. Can be single number or range like `[1-4]`. Is affected by the chance and spawn density. Ignored when spawning from a group.
 | one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this defaults to true true, otherwise this defaults to false. Ignored when spawning from a group.
-| friendly | Set true to make the monster friendly. Default false.
-| name | Extra name to display on the monster.
-| target | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
+| friendly    | Set true to make the monster friendly. Default false.
+| name        | Extra name to display on the monster.
+| target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 
 Note that high spawn density game setting can cause extra monsters to spawn when `monster` is used. When `group` is used
 only one monster will spawn.
@@ -591,10 +591,10 @@ Example:
 ]
 ```
 
-| Field | Description
-|---         |---
-| item | (required) ID of the item to spawn
-| x, y | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
+| Field  | Description
+| ---    | ---
+| item   | (required) ID of the item to spawn
+| x, y   | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
 | amount | (required) Number of items to spawn. Single integer, or range `[ a, b ]` for a random value in that range.
 | chance | (optional) One-in-N chance to spawn item.
 | repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
@@ -714,12 +714,12 @@ Same as
 
 ### Place smoke, gas, or blood with "fields"
 
-| Field | Description
-|---    |---
-| field | (required, string) the field type (e.g. `"fd_blood"`, `"fd_smoke"`)
-| density | (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
-| intensity | (optional, integer) 1, 2 or 3, with 1 being like thin smoke, and 3 being a thick opaque cloud.
-| age | (optional, integer) field age. Defaults to 0.
+| Field     | Description
+| ---       | ---
+| field     | (required, string) the field type (e.g. `"fd_blood"`, `"fd_smoke"`)
+| density   | (optional, integer) field density. Defaults to 1. Possible values are 1, 2, or 3.
+| intensity | (optional, integer) how concentrated the field is, from 1 to 3 or more. See `data/json/field_type.json`
+| age       | (optional, integer) field age. Defaults to 0.
 
 
 ### Place NPCs with "npcs"
@@ -730,10 +730,10 @@ Example:
 "npcs": { "A": { "class": "NC_REFUGEE", "target": true, "add_trait": "ASTHMA" } }
 ```
 
-| Field | Description
-|---    |---
-| class | (required, string) the npc class id, see `data/json/npcs/npc.json` or define your own npc class.
-| target | (optional, bool) this NPC is a mission target.  Only valid for `update_mapgen`.
+| Field     | Description
+| ---       | ---
+| class     | (required, string) the npc class id, see `data/json/npcs/npc.json` or define your own npc class.
+| target    | (optional, bool) this NPC is a mission target.  Only valid for `update_mapgen`.
 | add_trait | (optional, string or string array) this NPC gets these traits, in addition to any from the class definition.
 
 
@@ -749,8 +749,8 @@ Example:
 "signs": { "P": { "signage": "Subway map: <city> stop" } }
 ```
 
-| Field | Description
-|---    |---
+| Field   | Description
+| ---     | ---
 | signage | (optional, string) the message that should appear on the sign.
 | snippet | (optional, string) a category of snippets that can appear on the sign.
 
@@ -759,8 +759,8 @@ Example:
 
 Places a vending machine (furniture) and fills it with items from an item group. The machine can sometimes spawn as broken one.
 
-| Field | Description
-|---    |---
+| Field      | Description
+| ---        | ---
 | item_group | (optional, string) the item group that is used to create items inside the machine. It defaults to either "vending_food" or "vending_drink" (randomly chosen).
 
 
@@ -768,8 +768,8 @@ Places a vending machine (furniture) and fills it with items from an item group.
 
 Places a toilet (furniture) and adds water to it.
 
-| Field | Description
-|---    |---
+| Field  | Description
+| ---    | ---
 | amount | (optional, integer or min/max array) the amount of water to be placed in the toilet.
 
 
@@ -777,17 +777,17 @@ Places a toilet (furniture) and adds water to it.
 
 Places a gas pump with gasoline (or sometimes diesel) in it.
 
-| Field | Description
-|---    |---
+| Field  | Description
+| ---    | ---
 | amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump.
-| fuel | (optional, string: "gasoline" or "diesel") the type of fuel to be placed in the pump.
+| fuel   | (optional, string: "gasoline" or "diesel") the type of fuel to be placed in the pump.
 
 
 ### Place items from an item group with "items"
 
-| Field | Description
-|---    |---
-| item | (required, string or itemgroup object) the item group to use.
+| Field  | Description
+| ---    | ---
+| item   | (required, string or itemgroup object) the item group to use.
 | chance | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
 | repeat | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
 
@@ -796,29 +796,29 @@ Places a gas pump with gasoline (or sometimes diesel) in it.
 
 The actual monsters are spawned when the map is loaded. Fields:
 
-| Field | Description
-|---    |---
+| Field   | Description
+| ---     | ---
 | monster | (required, string) a monster group id, when the map is loaded, a random monsters from that group are spawned.
 | density | (optional, float) if defined, it overrides the default monster density at the location (monster density is bigger towards the city centers) (see `map::place_spawns`).
-| chance | (optional, integer or min/max array) one in x chance of spawn point being created (see `map::place_spawns`).
+| chance  | (optional, integer or min/max array) one in x chance of spawn point being created (see `map::place_spawns`).
 
 
 ### Place a vehicle by type or group with "vehicles"
 
-| Field | Description
-|---    |---
-| vehicle | (required, string) type of the vehicle or id of a vehicle group.
-| chance | (optional, integer or min/max array) x in 100 chance of the vehicle spawning at all. The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
+| Field    | Description
+| ---      | ---
+| vehicle  | (required, string) type of the vehicle or id of a vehicle group.
+| chance   | (optional, integer or min/max array) x in 100 chance of the vehicle spawning at all. The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
 | rotation | (optional, integer) the direction the vehicle faces.
-| fuel | (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full).
-| status | (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
+| fuel     | (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full).
+| status   | (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
 
 
 ### Place a specific item with "item"
 
-| Field | Description
-|---    |---
-| item | (required, string) the item type id of the new item.
+| Field  | Description
+| ---    | ---
+| item   | (required, string) the item type id of the new item.
 | chance | (optional, integer or min/max array) one in x chance that the item will spawn. Default is 1, meaning it will always spawn.
 | amount | (optional, integer or min/max array) the number of items to spawn, default is 1.
 | repeat | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
@@ -836,26 +836,26 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 
 ### Place a specific monster with "monster"
 
-| Field | Description
-|---    |---
-| monster | (required, string) type id of the monster (e.g. `mon_zombie`).
+| Field    | Description
+| ---      | ---
+| monster  | (required, string) type id of the monster (e.g. `mon_zombie`).
 | friendly | (optional, bool) whether the monster is friendly, default is false.
-| name | (optional, string) a name for that monster, optional, default is to create an unnamed monster.
-| target | (optional, bool) this monster is a mission target.  Only valid for `update_mapgen`.
+| name     | (optional, string) a name for that monster, optional, default is to create an unnamed monster.
+| target   | (optional, bool) this monster is a mission target.  Only valid for `update_mapgen`.
 
 
 ### Place a trap with "traps"
 
 | Field | Description
-|---    |---
-| trap | (required, string) type id of the trap (e.g. `tr_beartrap`).
+| ---   | ---
+| trap  | (required, string) type id of the trap (e.g. `tr_beartrap`).
 
 
 ### Place furniture with "furniture"
 
 | Field | Description
-|---    |---
-| furn | (required, string) type id of the furniture (e.g. `f_chair`).
+| ---   | ---
+| furn  | (required, string) type id of the furniture (e.g. `f_chair`).
 
 
 ### Place terrain with "terrain"
@@ -863,8 +863,8 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 If the terrain has the value "roof" set and is in an enclosed space, it's indoors.
 
 | Field | Description
-|---    |---
-| ter | (required, string) type id of the terrain (e.g. `t_floor`).
+| ---   | ---
+| ter   | (required, string) type id of the terrain (e.g. `t_floor`).
 
 
 ### Place rubble and smash existing terrain with "rubble"
@@ -872,12 +872,12 @@ If the terrain has the value "roof" set and is in an enclosed space, it's indoor
 Creates rubble and bashes existing terrain (this step is applied last, after other things like furniture/terrain have
 been set). Creating rubble invokes the bashing function that can destroy terrain and cause structures to collapse.
 
-| Field | Description
-|---    |---
+| Field       | Description
+| ---         | ---
 | rubble_type | (optional, furniture id, default: `f_rubble`) the type of the created rubble.
-| items | (optional, bool, default: false) place items that result from bashing the structure.
-| floor_type | (optional, terrain id, default: `t_dirt`) only used if there is a non-bashable wall at the location or with overwrite = true.
-| overwrite | (optional, bool, default: false) if true it just writes on top of what currently exists.
+| items       | (optional, bool, default: false) place items that result from bashing the structure.
+| floor_type  | (optional, terrain id, default: `t_dirt`) only used if there is a non-bashable wall at the location or with overwrite = true.
+| overwrite   | (optional, bool, default: false) if true it just writes on top of what currently exists.
 
 To use this type with explicit coordinates use the name "place_rubble" (no plural) like this:
 
@@ -892,8 +892,8 @@ To use this type with explicit coordinates use the name "place_rubble" (no plura
 Creates a liquid item at the specified location. Liquids can't currently be picked up (except for gasoline in tanks or
 pumps), but can be used to add flavor to mapgen.
 
-| Field | Description
-|---    |---
+| Field  | Description
+| ---    | ---
 | liquid | (required, item id) the item (a liquid)
 | amount | (optional, integer/min-max array) amount of liquid to place (a value of 0 defaults to the item's default charges)
 | chance | (optional, integer/min-max array) one in x chance of spawning a liquid, default value is 1 (100%)
@@ -918,12 +918,12 @@ matching magazine and ammo for guns.
 
 **Note**: Either `group` or `item` must be specified, but not both.
 
-| Field | Description
-|---    |---
-| group | (string) the item group to use (see `ITEM_SPAWN.md` for notes on collection vs distribution groups)
-| item | (string) the type id of the item to spawn
-| chance | (optional, integer) x in 100 chance of item(s) spawning. Defaults to 100.
-| ammo | (optional, integer) x in 100 chance of item(s) spawning with the default amount of ammo. Defaults to 0.
+| Field    | Description
+| ---      | ---
+| group    | (string) the item group to use (see `ITEM_SPAWN.md` for notes on collection vs distribution groups)
+| item     | (string) the type id of the item to spawn
+| chance   | (optional, integer) x in 100 chance of item(s) spawning. Defaults to 100.
+| ammo     | (optional, integer) x in 100 chance of item(s) spawning with the default amount of ammo. Defaults to 0.
 | magazine | (optional, integer) x in 100 chance of item(s) spawning with the default magazine. Defaults to 0.
 
 
@@ -939,11 +939,11 @@ On such furniture, there is supposed to be a single (hidden) seed item which dic
 
 **Note**: Exactly one of "item" or "items" must be given (but not both).
 
-| Field | Description
-|---    |---
+| Field     | Description
+| ---       | ---
 | furniture | (string) the id of the chosen furniture.
-| item | spawn an item as the "item" special
-| items | spawn an item group as the "items" special.
+| item      | spawn an item as the "item" special
+| items     | spawn an item group as the "items" special.
 
 Example:
 
@@ -963,9 +963,9 @@ Places a graffiti message at the location. Either "text" or "snippet" must be de
 `<full_name>`, `<given_name>`, and `<family_name>` that will insert a randomly generated name, or `<city>` that will
 insert the nearest city name.
 
-| Field | Description
-|---    |---
-| text | (optional, string) the message that will be placed.
+| Field   | Description
+| ---     | ---
+| text    | (optional, string) the message that will be placed.
 | snippet | (optional, string) a category of snippets that the message will be pulled from.
 
 
@@ -973,11 +973,11 @@ insert the nearest city name.
 
 NPCs in the faction will use the zone to influence the AI.
 
-| Field | Description
-|---    |---
-| type | (required, string) Values: `"NPC_RETREAT"`, `"NPC_NO_INVESTIGATE"`, or `"NPC_INVESTIGATE_ONLY"`.
+| Field   | Description
+| ---     | ---
+| type    | (required, string) Values: `"NPC_RETREAT"`, `"NPC_NO_INVESTIGATE"`, or `"NPC_INVESTIGATE_ONLY"`.
 | faction | (required, string) the faction id of the NPC faction that will use the zone.
-| name | (optional, string) the name of the zone.
+| name    | (optional, string) the name of the zone.
 
 The `type` field values affect NPC behavior. NPCs will:
 
@@ -992,9 +992,9 @@ Translates one type of terrain into another type of terrain.  There is no reason
 is useful for setting a baseline with `update_mapgen`.
 
 | Field | Description
-|---    |---
-| from | (required, string) the terrain id of the terrain to be transformed
-| to | (required, string) the terrain id that the from terrain will transformed into
+| ---   | ---
+| from  | (required, string) the terrain id of the terrain to be transformed
+| to    | (required, string) the terrain id that the from terrain will transformed into
 
 
 ### Apply mapgen transformation with "ter_furn_transforms"
@@ -1046,8 +1046,8 @@ update that overmap tile.  The closet overmap terrain with the required terrain 
 matching terrain, an overmap special of om_special type will be created and then the om_terrain within that special will
 be used.
 
-| Field | Description
-|---    |---
+| Field      | Description
+| ---        | ---
 | om_terrain | (required, string) the overmap terrain ID of the mission target
 | om_special | (required, string) the overmap special ID of the mission target
 
@@ -1057,8 +1057,8 @@ be used.
 The closest overmap tile of type om_terrain in the closest overmap special of type om_special will be used.  The overmap
 tile will be updated but will not be set as the mission target.
 
-| Field | Description
-|---    |---
+| Field      | Description
+| ---        | ---
 | om_terrain | (required, string) the overmap terrain ID of the mission target
 | om_special | (required, string) the overmap special ID of the mission target
 
