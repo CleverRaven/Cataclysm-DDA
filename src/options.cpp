@@ -2,6 +2,7 @@
 
 #include <climits>
 #include <type_traits>
+#include <cfloat>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -218,8 +219,8 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = INT_MIN;
-            thisOpt.fMax = INT_MAX;
+            thisOpt.fMin = FLT_MIN;
+            thisOpt.fMax = FLT_MAX;
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
             thisOpt.fStep = 1;
@@ -3063,6 +3064,8 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "ko_KR.UTF-8" ) );
         } else if( lang == "pl" ) {
             std::locale::global( std::locale( "pl_PL.UTF-8" ) );
+        } else if( lang == "pt_BR" ) {
+            std::locale::global( std::locale( "pt_BR.UTF-8" ) );
         } else if( lang == "ru" ) {
             std::locale::global( std::locale( "ru_RU.UTF-8" ) );
         } else if( lang == "zh_CN" ) {

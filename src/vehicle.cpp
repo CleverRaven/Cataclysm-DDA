@@ -57,18 +57,40 @@
 #include "options.h"
 #include "enums.h"
 #include "monster.h"
-#include "cata_string_consts.h"
+
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
  */
+static const std::string part_location_structure( "structure" );
+static const std::string part_location_center( "center" );
+static const std::string part_location_onroof( "on_roof" );
+
+static const itype_id fuel_type_animal( "animal" );
+static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_plutonium_cell( "plut_cell" );
+static const itype_id fuel_type_wind( "wind" );
+
+static const fault_id fault_belt( "fault_engine_belt_drive" );
+static const fault_id fault_filter_air( "fault_engine_filter_air" );
+static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
+static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
+
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+
+static const bionic_id bio_jointservo( "bio_jointservo" );
+
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_winded( "winded" );
+
+static const std::string flag_PERPETUAL( "PERPETUAL" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
-//
 
 // For reference what each function is supposed to do, see their implementation in
 // @ref DefaultRemovePartHandler. Add compatible code for it into @ref MapgenRemovePartHandler,

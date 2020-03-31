@@ -93,11 +93,14 @@
 #include "requirements.h"
 #include "stats_tracker.h"
 #include "vpart_position.h"
-#include "cata_string_consts.h"
 #include "ranged.h"
 
 struct oter_type_t;
 struct mutation_branch;
+
+static const activity_id ACT_AIM( "ACT_AIM" );
+
+static const efftype_id effect_riding( "riding" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -551,6 +554,7 @@ void Character::load( const JsonObject &data )
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const auto &mid = it->first;
         if( mid.is_valid() ) {
+            on_mutation_gain( mid );
             cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
@@ -2159,6 +2163,14 @@ static void load_legacy_craft_data( io::JsonObjectOutputArchive &, T & )
 {
 }
 
+static std::set<itype_id> charge_removal_blacklist;
+
+void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
+void load_charge_removal_blacklist( const JsonObject &jo, const std::string &/*src*/ )
+{
+    charge_removal_blacklist = jo.get_tags( "list" );
+}
+
 template<typename Archive>
 void item::io( Archive &archive )
 {
@@ -2347,27 +2359,7 @@ void item::io( Archive &archive )
     if( charges != 0 && !type->can_have_charges() ) {
         // Types that are known to have charges, but should not have them.
         // We fix it here, but it's expected from bugged saves and does not require a message.
-        static const std::set<itype_id> known_bad_types = { {
-                itype_id( "chitin_piece" ), // from butchering (code supplied count as 3. parameter to item constructor).
-                itype_id( "laptop" ), // a monster-death-drop item group had this listed with random charges
-                itype_id( "usb_drive" ), // same as laptop
-                itype_id( "pipe" ), // similar as above, but in terrain bash result
-
-                itype_id( "light_disposable_cell" ), // those were created with charges via item groups, which is desired,
-                itype_id( "small_storage_battery" ), // but item_groups.cpp should create battery charges instead of
-                itype_id( "heavy_disposable_cell" ), // charges of the container item.
-                itype_id( "medium_battery_cell" ),
-                itype_id( "medium_plus_battery_cell" ),
-                itype_id( "medium_minus_battery_cell" ),
-                itype_id( "heavy_plus_battery_cell" ),
-                itype_id( "heavy_minus_battery_cell" ),
-                itype_id( "heavy_battery_cell" ),
-                itype_id( "light_battery_cell" ),
-                itype_id( "light_plus_battery_cell" ),
-                itype_id( "light_minus_battery_cell" ),
-            }
-        };
-        if( known_bad_types.count( type->get_id() ) == 0 ) {
+        if( charge_removal_blacklist.count( type->get_id() ) == 0 ) {
             debugmsg( "Item %s was loaded with charges, but can not have any!", type->get_id() );
         }
         charges = 0;

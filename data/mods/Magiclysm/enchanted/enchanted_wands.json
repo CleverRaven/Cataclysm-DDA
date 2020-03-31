@@ -1,7 +1,7 @@
 [
   {
     "abstract": "spell_wand",
-    "name": "Magic Wand",
+    "name": { "str": "Magic Wand" },
     "type": "TOOL",
     "weight": "230 g",
     "volume": "500 ml",
@@ -19,7 +19,7 @@
   },
   {
     "abstract": "disp_wand",
-    "name": "Disposable Wand",
+    "name": { "str": "Disposable Wand" },
     "type": "TOOL",
     "weight": "230 g",
     "volume": "500 ml",
@@ -37,8 +37,7 @@
   {
     "type": "TOOL",
     "id": "wand_magic_missile_minor",
-    "name": "minor wand of magic missile",
-    "name_plural": "minor wands of magic missile",
+    "name": { "str": "minor wand of magic missile", "str_pl": "minor wands of magic missile" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts magic missile.",
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 5, "need_wielding": true }
@@ -64,8 +63,7 @@
   {
     "type": "TOOL",
     "id": "wand_fireball_minor",
-    "name": "minor wand of fireball",
-    "name_plural": "minor wands of fireball",
+    "name": { "str": "minor wand of fireball", "str_pl": "minor wands of fireball" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts fireball.",
     "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 5, "need_wielding": true }
@@ -91,8 +89,7 @@
   {
     "type": "TOOL",
     "id": "wand_mana_beam_minor",
-    "name": "minor wand of mana beam",
-    "name_plural": "minor wands of mana beam",
+    "name": { "str": "minor wand of mana beam", "str_pl": "minor wands of mana beam" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts mana beam.",
     "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam", "no_fail": true, "level": 5, "need_wielding": true }
@@ -118,8 +115,7 @@
   {
     "type": "TOOL",
     "id": "wand_point_flare_minor",
-    "name": "minor wand of point flare",
-    "name_plural": "minor wands of point flare",
+    "name": { "str": "minor wand of point flare", "str_pl": "minor wands of point flare" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts point flare.",
     "use_action": { "type": "cast_spell", "spell_id": "point_flare", "no_fail": true, "level": 5, "need_wielding": true }
@@ -145,8 +141,7 @@
   {
     "type": "TOOL",
     "id": "wand_hoaryblast_minor",
-    "name": "minor wand of hoary blast",
-    "name_plural": "minor wands of hoary blast",
+    "name": { "str": "minor wand of hoary blast", "str_pl": "minor wands of hoary blast" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts hoary blast.",
     "use_action": { "type": "cast_spell", "spell_id": "hoary_blast", "no_fail": true, "level": 5, "need_wielding": true }
@@ -172,8 +167,7 @@
   {
     "type": "TOOL",
     "id": "wand_cone_cold_minor",
-    "name": "minor wand of cone of cold",
-    "name_plural": "minor wands of cone of cold",
+    "name": { "str": "minor wand of cone of cold", "str_pl": "minor wands of cone of cold" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts cone of cold.",
     "use_action": { "type": "cast_spell", "spell_id": "cone_cold", "no_fail": true, "level": 5, "need_wielding": true }

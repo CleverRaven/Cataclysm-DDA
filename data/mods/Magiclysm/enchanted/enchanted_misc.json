@@ -50,8 +50,7 @@
   {
     "id": "mkey_opening",
     "type": "TOOL",
-    "name": "skeleton key of opening",
-    "name_plural": "skeleton key of opening",
+    "name": { "str": "skeleton key of opening", "str_pl": "skeleton keys of opening" },
     "description": "A small gold skeleton key.  You can activate it to unlock locked things.",
     "weight": "20 g",
     "volume": 0,
@@ -160,8 +159,7 @@
   {
     "id": "mspider_box",
     "type": "TOOL",
-    "name": "spider box",
-    "name_plural": "spider boxes",
+    "name": { "str": "spider box", "str_pl": "spider boxes" },
     "description": "This is a small glass box that contains a spider that diligently works day and night to produce silk thread that it stores in a reservoir you can open and retrieve it from.",
     "weight": "100 g",
     "volume": "100 ml",

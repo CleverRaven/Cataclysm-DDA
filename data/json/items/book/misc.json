@@ -2,7 +2,7 @@
   {
     "abstract": "paperback_novel",
     "type": "BOOK",
-    "name": "paperback abstract",
+    "name": { "str": "paperback abstract" },
     "description": "An ordinary paperback book.  Or is it?  It is.",
     "weight": "371 g",
     "volume": "700 ml",
@@ -38,7 +38,7 @@
   {
     "id": "black_box_transcript",
     "type": "BOOK",
-    "name": "black box transcript",
+    "name": { "str": "black box transcript" },
     "//": "ooh, military records, probably Classified!",
     "description": "A full flight log for a military aircraft.  Nothing of interest stands out.",
     "weight": "566 g",
@@ -56,7 +56,7 @@
   {
     "id": "child_book",
     "type": "BOOK",
-    "name": "children's book",
+    "name": { "str": "children's book" },
     "description": "A little book for little readers.  The colorful cartoon characters and sweet stories contained herein belong to a different time, before the dead walked and the world moved on.",
     "weight": "52 g",
     "volume": "250 ml",
@@ -88,7 +88,7 @@
   {
     "id": "decoy_elfa",
     "type": "BOOK",
-    "name": "standpipe maintenance log",
+    "name": { "str": "standpipe maintenance log" },
     "description": "This binder details the scheduled maintenance for several plumbing systems throughout the facility.",
     "weight": "400 g",
     "volume": "750 ml",
@@ -561,7 +561,7 @@
   {
     "id": "mag_comic",
     "type": "BOOK",
-    "name": "comic book",
+    "name": { "str": "comic book" },
     "description": "A super-hero comic.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -592,7 +592,7 @@
   {
     "id": "mag_news",
     "type": "BOOK",
-    "name": "TIME magazine",
+    "name": { "str": "TIME magazine" },
     "description": "Current events concerning a bunch of people who're all (un)dead now.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -624,7 +624,7 @@
   {
     "id": "necropolis_freq",
     "type": "BOOK",
-    "name": "frequency list",
+    "name": { "str": "frequency list" },
     "description": "A notepad with a number of frequencies scribbled on it.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -656,7 +656,7 @@
   {
     "id": "novel_adventure",
     "type": "BOOK",
-    "name": "adventure novel",
+    "name": { "str": "adventure novel" },
     "description": "The stirring tale of a race against time, in search of a lost city located in the dark heart of the African continent.",
     "copy-from": "paperback_novel",
     "price": 850,
@@ -666,7 +666,7 @@
   {
     "id": "novel_buddy",
     "type": "BOOK",
-    "name": "buddy novel",
+    "name": { "str": "buddy novel" },
     "description": "A gripping tale of two friends struggling to survive on the streets of New York City.",
     "copy-from": "paperback_novel",
     "weight": "244 g",
@@ -677,7 +677,7 @@
   {
     "id": "novel_coa",
     "type": "BOOK",
-    "name": "coming of age novel",
+    "name": { "str": "coming of age novel" },
     "description": "A classic tale about growing up, portraying one young man's funny and poignant experiences with life, love, and sex.",
     "weight": "187 g",
     "volume": "500 ml",
@@ -694,7 +694,7 @@
   {
     "id": "novel_coa2",
     "type": "BOOK",
-    "name": "coming of age novel",
+    "name": { "str": "coming of age novel" },
     "copy-from": "novel_coa",
     "description": "A graphic novel about a young girl living in Iran during the 1980's, seeing the world change around her as Iraq invaded her country.",
     "relative": { "time": -4, "chapters": -2, "fun": 1 }
@@ -702,7 +702,7 @@
   {
     "id": "novel_crime",
     "type": "BOOK",
-    "name": "crime novel",
+    "name": { "str": "crime novel" },
     "description": "After their diamond heist goes wrong, the surviving criminals begin to suspect that one of them is a police informant.",
     "weight": "227 g",
     "volume": "750 ml",
@@ -719,7 +719,7 @@
   {
     "id": "novel_crime2",
     "type": "BOOK",
-    "name": "crime novel",
+    "name": { "str": "crime novel" },
     "copy-from": "novel_crime",
     "description": "A story about three people in the fictional city of Los Santos, a gangster, an upper-class man, and a psychopath, eventually banding together to pull-off the biggest heist in the city's history",
     "relative": { "time": -3, "chapters": -3 }
@@ -734,7 +734,7 @@
   {
     "id": "novel_drama",
     "type": "BOOK",
-    "name": "drama novel",
+    "name": { "str": "drama novel" },
     "description": "A real book for real adults.",
     "copy-from": "paperback_novel",
     "intelligence": 7,
@@ -745,7 +745,7 @@
   {
     "id": "novel_erotic",
     "type": "BOOK",
-    "name": "erotic novel",
+    "name": { "str": "erotic novel" },
     "description": "A hackneyed fictional narrative concealing low-grade literary smut.",
     "copy-from": "paperback_novel",
     "weight": "200 g",
@@ -756,7 +756,7 @@
   {
     "id": "novel_experimental",
     "type": "BOOK",
-    "name": "experimental novel",
+    "name": { "str": "experimental novel" },
     "description": "A bizarre play about the philosophy of existential absurdity.  Or maybe it's about two guys waiting for their friend to show up.  It's confusing.",
     "copy-from": "paperback_novel",
     "weight": "142 g",
@@ -768,7 +768,7 @@
   {
     "id": "novel_fantasy",
     "type": "BOOK",
-    "name": "fantasy novel",
+    "name": { "str": "fantasy novel" },
     "description": "Basic sword & sorcery.",
     "copy-from": "paperback_novel",
     "weight": "227 g",
@@ -781,7 +781,7 @@
   {
     "id": "novel_horror",
     "type": "BOOK",
-    "name": "horror novel",
+    "name": { "str": "horror novel" },
     "description": "Maybe not the best reading material considering the situation.",
     "copy-from": "paperback_novel",
     "weight": "227 g",
@@ -792,7 +792,7 @@
   {
     "id": "novel_mystery",
     "type": "BOOK",
-    "name": "mystery novel",
+    "name": { "str": "mystery novel" },
     "description": "A detective investigates an unusual murder in a secluded location.",
     "copy-from": "paperback_novel",
     "intelligence": 7,
@@ -803,7 +803,7 @@
   {
     "id": "novel_pulp",
     "type": "BOOK",
-    "name": "pulp novel",
+    "name": { "str": "pulp novel" },
     "description": "A hardboiled detective tale filled with hard hitting action and intrigue.",
     "copy-from": "paperback_novel",
     "intelligence": 6,
@@ -814,7 +814,7 @@
   {
     "id": "novel_road",
     "type": "BOOK",
-    "name": "road novel",
+    "name": { "str": "road novel" },
     "description": "A tale about a group of friends who wander the USA in the 1960s against a backdrop of jazz, poetry and drug use.",
     "copy-from": "paperback_novel",
     "weight": "244 g",
@@ -825,14 +825,14 @@
   {
     "id": "novel_romance",
     "type": "BOOK",
-    "name": "romance novel",
+    "name": { "str": "romance novel" },
     "description": "Drama and mild smut.",
     "copy-from": "paperback_novel"
   },
   {
     "id": "novel_samurai",
     "type": "BOOK",
-    "name": "samurai novel",
+    "name": { "str": "samurai novel" },
     "description": "The classic tale of a wandering swordsman who comes to a small settlement and is hired to help the townsfolk defend themselves from a band of marauding outlaws.",
     "weight": "322 g",
     "volume": "750 ml",
@@ -849,7 +849,7 @@
   {
     "id": "novel_satire",
     "type": "BOOK",
-    "name": "satire novel",
+    "name": { "str": "satire novel" },
     "description": "A political satire of the pre-apocalypse world.  Looking back on it from this side of Armageddon makes it seem all the more ridiculous.",
     "weight": "520 g",
     "volume": "750 ml",
@@ -866,7 +866,7 @@
   {
     "id": "novel_scifi",
     "type": "BOOK",
-    "name": "scifi novel",
+    "name": { "str": "scifi novel" },
     "description": "Aliens, ray guns, and space ships.",
     "weight": "227 g",
     "volume": "750 ml",
@@ -1027,7 +1027,7 @@
   {
     "id": "novel_sports",
     "type": "BOOK",
-    "name": "sports novel",
+    "name": { "str": "sports novel" },
     "description": "The dramatic tale of a small-time boxer who gets a rare chance to fight the heavy-weight champion, and seize his one chance to make a better life for himself while impressing the cute girl who works in the pet store.",
     "copy-from": "paperback_novel",
     "intelligence": 7,
@@ -1038,7 +1038,7 @@
   {
     "id": "novel_spy",
     "type": "BOOK",
-    "name": "spy novel",
+    "name": { "str": "spy novel" },
     "description": "A tale of intrigue and espionage amongst Nazis, no, Commies, no, Iraqis!",
     "copy-from": "paperback_novel",
     "intelligence": 5,
@@ -1063,7 +1063,7 @@
   {
     "id": "novel_swash",
     "type": "BOOK",
-    "name": "swashbuckling novel",
+    "name": { "str": "swashbuckling novel" },
     "description": "An exciting seventeenth century tale of how an enslaved Irish doctor and his comrades-in-chains escape and become heroic pirates of the Robin Hood variety.",
     "weight": "582 g",
     "volume": "750 ml",
@@ -1076,7 +1076,7 @@
   {
     "id": "novel_thriller",
     "type": "BOOK",
-    "name": "thriller novel",
+    "name": { "str": "thriller novel" },
     "description": "A suspenseful tale of betrayal and revenge.",
     "copy-from": "paperback_novel",
     "intelligence": 5,
@@ -1087,7 +1087,7 @@
   {
     "id": "novel_tragedy",
     "type": "BOOK",
-    "name": "tragedy novel",
+    "name": { "str": "tragedy novel" },
     "description": "The story of two young lovers whose feuding families threaten to keep them apart.",
     "copy-from": "paperback_novel",
     "weight": "263 g",
@@ -1099,7 +1099,7 @@
   {
     "id": "novel_war",
     "type": "BOOK",
-    "name": "war novel",
+    "name": { "str": "war novel" },
     "description": "A thrilling narrative of survival in a prisoner of war camp during the Second World War, filled with riveting subplots about rat farming and dysentery.",
     "copy-from": "paperback_novel",
     "weight": "686 g",
@@ -1111,7 +1111,7 @@
   {
     "id": "novel_war2",
     "type": "BOOK",
-    "name": "war novel",
+    "name": { "str": "war novel" },
     "copy-from": "novel_war",
     "description": "A story about a Bosnian citizen who goes through many hardships and near death during the breakup of Yugoslavia.",
     "relative": { "time": -4, "chapters": -4 }
@@ -1119,7 +1119,7 @@
   {
     "id": "novel_western",
     "type": "BOOK",
-    "name": "western novel",
+    "name": { "str": "western novel" },
     "description": "The classic tale of a gunfighting stranger who comes to a small settlement and is hired to help the townsfolk defend themselves from a band of marauding outlaws.",
     "copy-from": "paperback_novel",
     "intelligence": 5,
@@ -1296,7 +1296,7 @@
   {
     "id": "phonebook",
     "type": "BOOK",
-    "name": "phone book",
+    "name": { "str": "phone book" },
     "description": "This hefty volume contains the telephone numbers of individuals, businesses, and utilities in the nearby area, pretty useless during the apocalypse and all.",
     "weight": "854 g",
     "volume": "2500 ml",
@@ -1314,7 +1314,7 @@
   {
     "id": "photo_album",
     "type": "BOOK",
-    "name": "photo album",
+    "name": { "str": "photo album" },
     "description": "A leather album full of photos of somebody's family.  You don't know any of the people in them, but seeing these pictures still makes you think of happier times.",
     "weight": "180 g",
     "volume": "250 ml",
@@ -1383,7 +1383,7 @@
   {
     "id": "record_accounting",
     "type": "BOOK",
-    "name": "corporate accounting ledger",
+    "name": { "str": "corporate accounting ledger" },
     "description": "If you knew what to look for something might stand out…",
     "weight": "566 g",
     "volume": "1250 ml",

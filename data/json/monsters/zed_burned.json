@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_child_scorched",
     "type": "MONSTER",
-    "name": "zombie kinderling",
+    "name": { "str": "zombie kinderling" },
     "description": "A tiny charred body, jumping and kicked and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
     "default_faction": "zombie",
     "bodytype": "human",

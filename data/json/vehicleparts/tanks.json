@@ -2,7 +2,7 @@
   {
     "id": "tank_little",
     "type": "vehicle_part",
-    "name": "vehicle tank (2L)",
+    "name": { "str": "vehicle tank (2L)" },
     "item": "metal_tank_little",
     "location": "fuel_source",
     "symbol": "O",
@@ -11,7 +11,7 @@
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 2000,
     "damage_modifier": 80,
-    "folded_volume": 8,
+    "folded_volume": "2 L",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
     "requirements": {
       "install": {
@@ -28,7 +28,7 @@
   {
     "id": "tank_small",
     "type": "vehicle_part",
-    "name": "vehicle tank (10L)",
+    "name": { "str": "vehicle tank (10L)" },
     "item": "jerrycan",
     "location": "fuel_source",
     "symbol": "O",
@@ -53,7 +53,7 @@
   {
     "id": "tank_medium",
     "type": "vehicle_part",
-    "name": "vehicle tank (20L)",
+    "name": { "str": "vehicle tank (20L)" },
     "item": "jerrycan_big",
     "location": "fuel_source",
     "symbol": "O",
@@ -82,7 +82,7 @@
   {
     "id": "tank",
     "type": "vehicle_part",
-    "name": "vehicle tank (60L)",
+    "name": { "str": "vehicle tank (60L)" },
     "item": "metal_tank",
     "location": "fuel_source",
     "symbol": "O",
@@ -140,7 +140,7 @@
   {
     "id": "tank_barrel",
     "type": "vehicle_part",
-    "name": "wooden barrel (100L)",
+    "name": { "str": "wooden barrel (100L)" },
     "item": "wooden_barrel",
     "location": "center",
     "symbol": "O",
