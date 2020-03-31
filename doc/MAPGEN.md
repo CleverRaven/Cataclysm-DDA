@@ -1,3 +1,62 @@
+# MAPGEN
+
+* [How buildings and terrain are generated](#how-buildings-and-terrain-are-generated)
+* [Adding mapgen entries](#adding-mapgen-entries)
+  * [Methods](#methods)
+  * [Mapgen definition Placement](#mapgen-definition-placement)
+    * [Embedded mapgen](#embedded-mapgen)
+    * [Standalone mapgen](#standalone-mapgen)
+  * [Format and variables](#format-and-variables)
+    * [Define mapgen "method"](#define-mapgen-method)
+    * [Define overmap terrain with "om_terrain" value, array, or nested array](#define-overmap-terrain-with-om_terrain-value-array-or-nested-array)
+    * [Define mapgen "weight"](#define-mapgen-weight)
+  * [How "overmap_terrain" variables affect mapgen](#how-overmap_terrain-variables-affect-mapgen)
+  * [Limitations / TODO](#limitations--todo)
+* [JSON object definition](#json-object-definition)
+  * [Fill terrain using "fill_ter"](#fill-terrain-using-fill_ter)
+  * [ASCII map using "rows" array](#ascii-map-using-rows-array)
+    * [Row terrains in "terrain"](#row-terrains-in-terrain)
+    * [Furniture symbols in "furniture" array](#furniture-symbols-in-furniture-array)
+  * [Set terrain, furniture, or traps with a "set" array](#set-terrain-furniture-or-traps-with-a-set-array)
+    * [Set things at a "point"](#set-things-at-a-point)
+    * [Set things in a "line"](#set-things-in-a-line)
+    * [Set things in a "square"](#set-things-in-a-square)
+  * [Spawn item or monster groups with "place_groups"](#spawn-item-or-monster-groups-with-place_groups)
+    * [Spawn monsters from a group with "monster"](#spawn-monsters-from-a-group-with-monster)
+    * [Spawn items from a group with "item"](#spawn-items-from-a-group-with-item)
+  * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
+  * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
+  * [Extra map features with specials](#extra-map-features-with-specials)
+    * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
+    * [Place NPCs with "npcs"](#place-npcs-with-npcs)
+    * [Place signs with "signs"](#place-signs-with-signs)
+    * [Place a vending machine and items with "vendingmachines"](#place-a-vending-machine-and-items-with-vendingmachines)
+    * [Place a toilet with some amount of water with "toilets"](#place-a-toilet-with-some-amount-of-water-with-toilets)
+    * [Place a gas or diesel pump with some fuel with "gaspumps"](#place-a-gas-or-diesel-pump-with-some-fuel-with-gaspumps)
+    * [Place items from an item group with "items"](#place-items-from-an-item-group-with-items)
+    * [Place monsters from a monster group with "monsters"](#place-monsters-from-a-monster-group-with-monsters)
+    * [Place a vehicle by type or group with "vehicles"](#place-a-vehicle-by-type-or-group-with-vehicles)
+    * [Place a specific item with "item"](#place-a-specific-item-with-item)
+    * [Place a specific monster with "monster"](#place-a-specific-monster-with-monster)
+    * [Place a trap with "traps"](#place-a-trap-with-traps)
+    * [Place furniture with "furniture"](#place-furniture-with-furniture)
+    * [Place terrain with "terrain"](#place-terrain-with-terrain)
+    * [Place rubble and smash existing terrain with "rubble"](#place-rubble-and-smash-existing-terrain-with-rubble)
+    * [Place spilled liquids with "place_liquids"](#place-spilled-liquids-with-place_liquids)
+    * [Place a specific item or an item from a group with "loot"](#place-a-specific-item-or-an-item-from-a-group-with-loot)
+    * [Plant seeds in a planter with "sealed_item"](#plant-seeds-in-a-planter-with-sealed_item)
+    * [Place messages with "graffiti"](#place-messages-with-graffiti)
+    * [Place a zone for an NPC faction with "zones"](#place-a-zone-for-an-npc-faction-with-zones)
+    * [Translate terrain type with "translate_ter"](#translate-terrain-type-with-translate_ter)
+    * [Apply mapgen transformation with "ter_furn_transforms"](#apply-mapgen-transformation-with-ter_furn_transforms)
+  * [Rotate the map with "rotation"](#rotate-the-map-with-rotation)
+  * [Pre-load a base mapgen with "predecessor_mapgen"](#pre-load-a-base-mapgen-with-predecessor_mapgen)
+* [Using update_mapgen](#using-update_mapgen)
+  * [Overmap tile specification](#overmap-tile-specification)
+    * ["assign_mission_target"](#assign_mission_target)
+    * ["om_terrain"](#om_terrain)
+* [Mission specials](#mission-specials)
+    * ["target"](#target)
 
 # How buildings and terrain are generated
 
@@ -695,7 +754,7 @@ Example:
 | snippet | (optional, string) a category of snippets that can appear on the sign.
 
 
-### Place a vending machine with items from a group with "vendingmachines"
+### Place a vending machine and items with "vendingmachines"
 
 Places a vending machine (furniture) and fills it with items from an item group. The machine can sometimes spawn as broken one.
 
