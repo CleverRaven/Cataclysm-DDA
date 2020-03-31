@@ -422,7 +422,7 @@
     "type": "furniture",
     "id": "f_clothing_rail",
     "name": "clothing rail",
-    "id": "f_rack",
+    "looks_like": "f_rack",
     "description": "A rail for hanging clothes on.",
     "symbol": "{",
     "color": "light_gray",
