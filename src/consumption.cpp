@@ -1065,6 +1065,16 @@ void Character::modify_stimulation( const islot_comestible &comest )
     }
 }
 
+void Character::modify_fatigue( const islot_comestible &comest )
+{
+    mod_fatigue( -comest.fatigue_mod );
+}
+
+void Character::modify_radiation( const islot_comestible &comest )
+{
+    irradiate( comest.radiation );
+}
+
 void Character::modify_addiction( const islot_comestible &comest )
 {
     add_addiction( comest.add, comest.addict );
@@ -1246,6 +1256,8 @@ bool Character::consume_effects( item &food )
         modify_health( comest );
     }
     modify_stimulation( comest );
+    modify_fatigue( comest );
+    modify_radiation( comest );
     modify_addiction( comest );
     modify_morale( food, nutr );
 
