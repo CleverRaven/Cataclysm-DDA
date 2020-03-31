@@ -243,6 +243,10 @@ android {
     flavorDimensions "version"
 
     productFlavors {
+        stable {
+            dimension "version"
+            resValue "string", "app_name", "Cataclysm DDA"
+        }
         experimental {
             dimension "version"
             applicationIdSuffix ".experimental"
@@ -339,6 +343,8 @@ sourceSets {
         resources {
             srcDirs = ['src/main/res']
         }
+    }
+    stable {
     }
     experimental {
         resources {
