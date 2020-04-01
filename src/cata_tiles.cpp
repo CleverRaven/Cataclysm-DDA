@@ -62,9 +62,10 @@
 #include "translations.h"
 #include "type_id.h"
 #include "game_constants.h"
-#include "cata_string_consts.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+
+static const efftype_id effect_ridden( "ridden" );
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
@@ -1353,8 +1354,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                    would_apply_vision_effects( g->m.get_visibility( ch.visibility_cache[np.x][np.y], cache ) );
             }
             //calling draw to memorize everything.
+            //bypass cache check in case we learn something new about the terrain's connections
+            draw_terrain( p, lighting, height_3d, invisible );
             if( g->m.check_seen_cache( p ) ) {
-                draw_terrain( p, lighting, height_3d, invisible );
                 draw_furniture( p, lighting, height_3d, invisible );
                 draw_trap( p, lighting, height_3d, invisible );
                 draw_vpart( p, lighting, height_3d, invisible );
@@ -1508,6 +1510,13 @@ const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGOR
             }
             const ter_t &ter = tid.obj();
             looks_like = ter.looks_like;
+        } else if( category == C_FIELD ) {
+            const field_type_id fid( looks_like );
+            if( !fid.is_valid() ) {
+                return nullptr;
+            }
+            const field_type &ft = fid.obj();
+            looks_like = ft.looks_like;
         } else if( category == C_MONSTER ) {
             const mtype_id mid( looks_like );
             if( !mid.is_valid() ) {
@@ -2174,6 +2183,8 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         int connect_group = 0;
         if( t.obj().connects( connect_group ) ) {
             get_connect_values( p, subtile, rotation, connect_group, {} );
+            // re-memorize previously seen terrain in case new connections have been seen
+            g->m.set_memory_seen_cache_dirty( p );
         } else {
             get_terrain_orientation( p, rotation, subtile, {}, invisible );
             // do something to get other terrain orientation values
@@ -2192,7 +2203,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         // and then draw the override terrain
         const ter_id &t2 = overridden ? override->second : t;
         if( t2 ) {
-            // both the current and neighbouring overrides may change the appearance
+            // both the current and neighboring overrides may change the appearance
             // of the tile, so always re-calculate it.
             int subtile = 0;
             int rotation = 0;
@@ -2356,7 +2367,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         // and then draw the override furniture
         const furn_id &f2 = overridden ? override->second : f;
         if( f2 ) {
-            // both the current and neighbouring overrides may change the appearance
+            // both the current and neighboring overrides may change the appearance
             // of the tile, so always re-calculate it.
             const auto furn = [&]( const tripoint & q, const bool invis ) -> furn_id {
                 const auto it = furniture_override.find( q );
@@ -2430,7 +2441,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         // and then draw the override trap
         const trap_id &tr2 = overridden ? override->second : tr;
         if( tr2 ) {
-            // both the current and neighbouring overrides may change the appearance
+            // both the current and neighboring overrides may change the appearance
             // of the tile, so always re-calculate it.
             const auto tr_at = [&]( const tripoint & q, const bool invis ) -> trap_id {
                 const auto it = trap_override.find( q );
@@ -3603,6 +3614,21 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
     }
 
     return renderer_names.empty() ? default_renderer_names : renderer_names;
+}
+
+std::vector<options_manager::id_and_option> cata_tiles::build_display_list()
+{
+    std::vector<options_manager::id_and_option> display_names;
+    std::vector<options_manager::id_and_option> default_display_names = {
+        { "0", translate_marker( "Display 0" ) }
+    };
+
+    int numdisplays = SDL_GetNumVideoDisplays();
+    for( int i = 0 ; i < numdisplays ; i++ ) {
+        display_names.emplace_back( std::to_string( i ), std::string( SDL_GetDisplayName( i ) ) );
+    }
+
+    return display_names.empty() ? default_display_names : display_names;
 }
 
 #endif // SDL_TILES

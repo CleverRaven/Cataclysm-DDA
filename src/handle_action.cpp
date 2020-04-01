@@ -66,7 +66,45 @@
 #include "units.h"
 #include "string_id.h"
 #include "item.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
+static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
+static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
+static const activity_id ACT_PULP( "ACT_PULP" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
+static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
+static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+static const activity_id ACT_WAIT( "ACT_WAIT" );
+static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
+static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
+
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_relax_gas( "relax_gas" );
+
+static const skill_id skill_melee( "melee" );
+
+static const quality_id qual_CUT( "CUT" );
+
+static const bionic_id bio_remote( "bio_remote" );
+
+static const trait_id trait_HIBERNATE( "HIBERNATE" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
+static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_WAYFARER( "WAYFARER" );
+
+static const std::string flag_LITCIG( "LITCIG" );
+static const std::string flag_LOCKED( "LOCKED" );
+static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
+static const std::string flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
+static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
+static const std::string flag_REACH3( "REACH3" );
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -134,7 +172,7 @@ input_context game::get_player_input( std::string &action )
             ctxt.register_action( action_ident( id ) );
         }
         // *INDENT-ON*
-        ctxt.register_action( "QUIT", _( "Accept your fate" ) );
+        ctxt.register_action( "QUIT", to_translation( "Accept your fate" ) );
     } else {
         ctxt = get_default_mode_input_context();
     }
@@ -901,23 +939,23 @@ static void sleep()
         return;
     }
     uilist as_m;
-    as_m.text = _( "Are you sure you want to sleep?" );
+    as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
     // (Y)es/(S)ave before sleeping/(N)o
-    as_m.entries.emplace_back( 0, true,
-                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
-                               _( "Yes." ) );
-    as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
-                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
-                               _( "Yes, and save game before sleeping." ) );
     as_m.entries.emplace_back( 2, true,
                                get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
                                _( "No." ) );
+    as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
+                               _( "Yes, and save game before sleeping." ) );
+    as_m.entries.emplace_back( 0, true,
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
+                               _( "Yes." ) );
 
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
-        if( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) &&
-            it->is_transformable() ) {
+        if( it->has_flag( flag_LITCIG ) ||
+            ( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() ) ) {
             active.push_back( it->tname() );
         }
     }
@@ -959,10 +997,10 @@ static void sleep()
     std::stringstream data;
     if( !active.empty() ) {
         data << as_m.text << std::endl;
-        data << _( "You may want to deactivate these before you sleep." ) << std::endl;
+        data << _( "You may want to turn off:" ) << std::endl;
         data << " " << std::endl;
         for( auto &a : active ) {
-            data << a << std::endl;
+            data << "<color_red>" << a << "</color>" << std::endl;
         }
         as_m.text = data.str();
     }
@@ -1218,68 +1256,13 @@ static void fire()
         const optional_vpart_position vp = g->m.veh_at( u.pos() );
 
         turret_data turret;
-        // TODO: move direct turret firing from ACTION_FIRE to separate function.
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
-            switch( turret.query() ) {
-                case turret_data::status::no_ammo:
-                    add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
-                    break;
-
-                case turret_data::status::no_power:
-                    add_msg( m_bad,  _( "The %s is not powered." ), turret.name() );
-                    break;
-
-                case turret_data::status::ready: {
-                    // if more than one firing mode provide callback to cycle through them
-                    target_callback switch_mode;
-                    if( turret.base()->gun_all_modes().size() > 1 ) {
-                        switch_mode = [&turret]( item * obj ) {
-                            obj->gun_cycle_mode();
-                            // currently gun modes do not change ammo but they may in the future
-                            return turret.ammo_current() == "null" ? nullptr :
-                                   item::find_type( turret.ammo_current() );
-                        };
-                    }
-
-                    // if multiple ammo types available provide callback to cycle alternatives
-                    target_callback switch_ammo;
-                    if( turret.ammo_options().size() > 1 ) {
-                        switch_ammo = [&turret]( item * ) {
-                            const auto opts = turret.ammo_options();
-                            auto iter = opts.find( turret.ammo_current() );
-                            turret.ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
-                            return item::find_type( turret.ammo_current() );
-                        };
-                    }
-
-                    // callbacks for handling setup and cleanup of turret firing
-                    firing_callback prepare_fire = [&u, &turret]( const int ) {
-                        turret.prepare_fire( u );
-                    };
-                    firing_callback post_fire = [&u, &turret]( const int shots ) {
-                        turret.post_fire( u, shots );
-                    };
-
-                    targeting_data args = {
-                        TARGET_MODE_TURRET_MANUAL, & *turret.base(),
-                        turret.range(), 0, false, turret.ammo_data(),
-                        switch_mode, switch_ammo, prepare_fire, post_fire
-                    };
-                    u.set_targeting_data( args );
-                    avatar_action::fire( g->u, g->m );
-
-                    break;
-                }
-
-                default:
-                    debugmsg( "unknown turret status" );
-                    break;
-            }
+            avatar_action::fire_turret_manual( g->u, g->m, turret );
             return;
         }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
-            if( vp->vehicle().turrets_aim_and_fire() ) {
+            if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
                 return;
             }
         }
@@ -1314,7 +1297,7 @@ static void fire()
     }
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
-        avatar_action::fire( g->u, g->m, u.weapon );
+        avatar_action::fire_wielded_weapon( g->u, g->m );
     } else if( u.weapon.has_flag( flag_REACH_ATTACK ) ) {
         int range = u.weapon.has_flag( flag_REACH3 ) ? 3 : 2;
         if( u.has_effect( effect_relax_gas ) ) {
@@ -1351,23 +1334,20 @@ static void open_movement_mode_menu()
 
     as_m.text = _( "Change to which movement mode?" );
 
-    as_m.entries.emplace_back( 0, true, 'w', _( "Walk" ) );
-    as_m.entries.emplace_back( 1, true, 'r', _( "Run" ) );
-    as_m.entries.emplace_back( 2, true, 'c', _( "Crouch" ) );
+    as_m.entries.emplace_back( CMM_RUN, true, 'r', _( "Run" ) );
+    as_m.entries.emplace_back( CMM_WALK, true, 'w', _( "Walk" ) );
+    as_m.entries.emplace_back( CMM_CROUCH, true, 'c', _( "Crouch" ) );
+    as_m.entries.emplace_back( CMM_COUNT, true, '"', _( "Cycle move mode (run/walk/crouch)" ) );
+    as_m.selected = 1;
     as_m.query();
 
-    switch( as_m.ret ) {
-        case 0:
-            u.set_movement_mode( CMM_WALK );
-            break;
-        case 1:
-            u.set_movement_mode( CMM_RUN );
-            break;
-        case 2:
-            u.set_movement_mode( CMM_CROUCH );
-            break;
-        default:
-            break;
+
+    if( as_m.ret != UILIST_CANCEL ) {
+        if( as_m.ret == CMM_COUNT ) {
+            u.cycle_move_mode();
+        } else {
+            u.set_movement_mode( static_cast<character_movemode>( as_m.ret ) );
+        }
     }
 }
 
@@ -1378,7 +1358,8 @@ static void cast_spell()
     std::vector<spell_id> spells = u.magic.spells();
 
     if( spells.empty() ) {
-        add_msg( m_bad, _( "You don't know any spells to cast." ) );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You don't know any spells to cast." ) );
         return;
     }
 
@@ -1391,7 +1372,8 @@ static void cast_spell()
     }
 
     if( !can_cast_spells ) {
-        add_msg( m_bad, _( "You can't cast any of the spells you know!" ) );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You can't cast any of the spells you know!" ) );
     }
 
     const int spell_index = u.magic.select_spell( u );
@@ -1403,17 +1385,21 @@ static void cast_spell()
 
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
         !u.weapon.has_flag( flag_MAGIC_FOCUS ) ) {
-        add_msg( m_bad, _( "You need your hands free to cast this spell!" ) );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You need your hands free to cast this spell!" ) );
         return;
     }
 
     if( !u.magic.has_enough_energy( u, sp ) ) {
-        add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You don't have enough %s to cast the spell." ),
+                 sp.energy_string() );
         return;
     }
 
     if( sp.energy_source() == hp_energy && !u.has_quality( qual_CUT ) ) {
-        add_msg( m_bad, _( "You cannot cast Blood Magic without a cutting implement." ) );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You cannot cast Blood Magic without a cutting implement." ) );
         return;
     }
 
@@ -1430,7 +1416,8 @@ static void cast_spell()
             distraction_type::noise,
             distraction_type::pain,
             distraction_type::attacked,
-            distraction_type::hostile_spotted,
+            distraction_type::hostile_spotted_near,
+            distraction_type::hostile_spotted_far,
             distraction_type::talked_to,
             distraction_type::asthma,
             distraction_type::motion_alarm,
@@ -2013,7 +2000,7 @@ bool game::handle_action()
             case ACTION_FIRE_BURST: {
                 gun_mode_id original_mode = u.weapon.gun_get_mode_id();
                 if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
-                    avatar_action::fire( u, m, u.weapon );
+                    avatar_action::fire_wielded_weapon( u, m );
                     u.weapon.gun_set_mode( original_mode );
                 }
                 break;

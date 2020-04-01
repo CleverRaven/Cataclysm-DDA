@@ -52,7 +52,27 @@
 #include "mtype.h"
 #include "point.h"
 #include "units.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
+
+static const quality_id qual_CUT( "CUT" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+
+static const std::string flag_FLAT( "FLAT" );
+static const std::string flag_INITIAL_PART( "INITIAL_PART" );
+static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 
 class inventory;
 
@@ -305,10 +325,10 @@ construction_id construction_menu( const bool blueprint )
     const inventory &total_inv = g->u.crafting_inventory();
 
     input_context ctxt( "CONSTRUCTION" );
-    ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Move cursor down" ) );
-    ctxt.register_action( "RIGHT", translate_marker( "Move tab right" ) );
-    ctxt.register_action( "LEFT", translate_marker( "Move tab left" ) );
+    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Move tab right" ) );
+    ctxt.register_action( "LEFT", to_translation( "Move tab left" ) );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
@@ -690,7 +710,7 @@ construction_id construction_menu( const bool blueprint )
             }
             if( !blueprint ) {
                 if( player_can_build( g->u, total_inv, constructs[select] ) ) {
-                    if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+                    if( !player_can_see_to_build( g->u, constructs[select] ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
                         place_construction( constructs[select] );
@@ -745,7 +765,22 @@ bool player_can_build( player &p, const inventory &inv, const construction &con 
     if( !p.meets_skill_requirements( con ) ) {
         return false;
     }
+
     return con.requirements->can_make_with_inventory( inv, is_crafting_component );
+}
+
+bool player_can_see_to_build( player &p, const std::string &desc )
+{
+    if( p.fine_detail_vision_mod() < 4 || p.has_trait( trait_DEBUG_HS ) ) {
+        return true;
+    }
+    std::vector<construction *> cons = constructions_by_desc( desc );
+    for( construction *&con : cons ) {
+        if( con->dark_craftable ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool can_construct( const std::string &desc )
@@ -1022,9 +1057,8 @@ bool construct::check_no_trap( const tripoint &p )
     return g->m.tr_at( p ).is_null();
 }
 
-void construct::done_trunk_plank( const tripoint &p )
+void construct::done_trunk_plank( const tripoint &/*p*/ )
 {
-    ( void )p; //unused
     int num_logs = rng( 2, 3 );
     for( int i = 0; i < num_logs; ++i ) {
         iuse::cut_log_into_planks( g->u );
@@ -1457,6 +1491,7 @@ void load_construction( const JsonObject &jo )
     con.vehicle_start = jo.get_bool( "vehicle_start", false );
 
     con.on_display = jo.get_bool( "on_display", true );
+    con.dark_craftable = jo.get_bool( "dark_craftable", false );
 
     constructions.push_back( con );
     construction_id_map.emplace( con.str_id, con.id );

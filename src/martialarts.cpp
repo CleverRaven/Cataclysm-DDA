@@ -29,7 +29,14 @@
 #include "pldata.h"
 #include "enums.h"
 #include "optional.h"
-#include "cata_string_consts.h"
+
+static const skill_id skill_unarmed( "unarmed" );
+
+static const bionic_id bio_armor_arms( "bio_armor_arms" );
+static const bionic_id bio_armor_legs( "bio_armor_legs" );
+static const bionic_id bio_cqb( "bio_cqb" );
+
+static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
 namespace
 {
@@ -399,7 +406,7 @@ void finialize_martial_arts()
     }
 }
 
-std::string martialart_difficulty( matype_id mstyle )
+std::string martialart_difficulty( const matype_id &mstyle )
 {
     std::string diff;
     if( mstyle->learn_difficulty <= 2 ) {

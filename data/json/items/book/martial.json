@@ -3,8 +3,7 @@
     "id": "manual_aikido",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Spirit of Aikido",
-    "name_plural": "The Spirit of Aikido",
+    "name": { "str": "The Spirit of Aikido", "str_pl": "The Spirit of Aikido" },
     "description": "A complete guide to Aikido.",
     "book_data": { "martial_art": "style_aikido" }
   },
@@ -36,8 +35,7 @@
     "id": "manual_crane",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Red Crane",
-    "name_plural": "The Red Crane",
+    "name": { "str": "The Red Crane", "str_pl": "The Red Crane" },
     "description": "A complete guide to Crane Kung Fu.",
     "book_data": { "martial_art": "style_crane" }
   },
@@ -77,8 +75,7 @@
     "id": "manual_karate",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Shotokan Karate Handbook",
-    "name_plural": "The Shotokan Karate Handbook",
+    "name": { "str": "The Shotokan Karate Handbook", "str_pl": "The Shotokan Karate Handbook" },
     "description": "A complete guide to Shotokan Karate.",
     "book_data": { "martial_art": "style_karate" }
   },
@@ -110,8 +107,7 @@
     "id": "manual_muay_thai",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Ultimate Muay Thai",
-    "name_plural": "Ultimate Muay Thai",
+    "name": { "str": "Ultimate Muay Thai", "str_pl": "Ultimate Muay Thai" },
     "description": "A complete guide to Muay Thai.",
     "book_data": { "martial_art": "style_muay_thai" }
   },
@@ -143,8 +139,7 @@
     "id": "manual_scorpion",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Scorpion Sun Chien",
-    "name_plural": "The Scorpion Sun Chien",
+    "name": { "str": "The Scorpion Sun Chien", "str_pl": "The Scorpion Sun Chien" },
     "description": "A complete guide to Scorpion Kung Fu.",
     "book_data": { "martial_art": "style_scorpion" }
   },
@@ -184,8 +179,7 @@
     "id": "manual_tiger",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The White Tiger",
-    "name_plural": "The White Tiger",
+    "name": { "str": "The White Tiger", "str_pl": "The White Tiger" },
     "description": "A complete guide to Tiger Kung Fu.",
     "book_data": { "martial_art": "style_tiger" }
   },
@@ -193,8 +187,7 @@
     "id": "manual_toad",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Toad Lo Mang",
-    "name_plural": "The Toad Lo Mang",
+    "name": { "str": "The Toad Lo Mang", "str_pl": "The Toad Lo Mang" },
     "description": "A complete guide to Toad Kung Fu.",
     "book_data": { "martial_art": "style_toad" }
   },
@@ -202,8 +195,7 @@
     "id": "manual_venom_snake",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Viper Wei Pai",
-    "name_plural": "The Viper Wei Pai",
+    "name": { "str": "The Viper Wei Pai", "str_pl": "The Viper Wei Pai" },
     "description": "A complete guide to Viper Kung Fu.",
     "book_data": { "martial_art": "style_venom_snake" }
   },
@@ -211,8 +203,7 @@
     "id": "manual_zui_quan",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "Zui Quan and You",
-    "name_plural": "Zui Quan and You",
+    "name": { "str": "Zui Quan and You", "str_pl": "Zui Quan and You" },
     "description": "A complete guide to Zui Quan.",
     "book_data": { "martial_art": "style_zui_quan" }
   },
@@ -220,8 +211,7 @@
     "id": "manual_sojutsu",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "The Way of the Spear",
-    "name_plural": "The Way of the Spear",
+    "name": { "str": "The Way of the Spear", "str_pl": "The Way of the Spear" },
     "description": "A complete guide to Sōjutsu.",
     "book_data": { "martial_art": "style_sojutsu" }
   },

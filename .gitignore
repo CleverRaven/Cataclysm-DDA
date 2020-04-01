@@ -14,11 +14,11 @@
 /cmake-build-debug/
 /config/
 /data/*.template
-/data/font/
 /data/mods/user-default-mods.json
 /dep/
 /doxygen_doc/html/*
 /doxygen_doc/latex/*
+/font/
 /graveyard/
 /memorial/
 /mods/
@@ -86,6 +86,9 @@ gmon.out
 Thumbs.db
 cscope.*
 tags
+
+# Generated translation source
+/lang/po/en.po
 
 # Compiled binary translations
 /lang/mo/

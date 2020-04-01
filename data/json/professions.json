@@ -1617,7 +1617,7 @@
     "items": {
       "both": { "items": [ "socks", "knit_scarf", "dance_shoes" ], "entries": [ { "group": "charged_cell_phone" } ] },
       "male": [ "briefs", "tux" ],
-      "female": [ "bra", "panties", "dress" ]
+      "female": [ "bra", "panties", "dress", "purse" ]
     }
   },
   {
@@ -1990,7 +1990,6 @@
           "tent_kit",
           "rollmat",
           "e_tool",
-          "binoculars",
           "knife_hunting"
         ],
         "entries": [
@@ -2269,7 +2268,7 @@
     "items": {
       "both": { "items": [  ], "entries": [ { "group": "charged_cell_phone" } ] },
       "male": [ "tux", "socks", "dress_shoes", "briefs" ],
-      "female": [ "veil_wedding", "dress_wedding", "stockings", "dress_shoes", "bra", "panties" ]
+      "female": [ "veil_wedding", "dress_wedding", "stockings", "dress_shoes", "bra", "panties", "purse" ]
     }
   },
   {
@@ -2568,7 +2567,7 @@
       "bio_stiff",
       "bio_metabolics",
       "bio_power_storage_mkII",
-      "bio_scent_vision",
+      "bio_adrenaline",
       "bio_claws",
       "bio_digestion",
       "bio_water_extractor",

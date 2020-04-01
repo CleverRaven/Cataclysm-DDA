@@ -2,7 +2,6 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "cata_string_consts.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -63,6 +62,14 @@
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
+
+static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
+static const activity_id ACT_DROP( "ACT_DROP" );
+static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+static const activity_id ACT_WEAR( "ACT_WEAR" );
+
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 
 void create_advanced_inv()
 {
@@ -672,6 +679,8 @@ void advanced_inventory::recalc_pane( side p )
 
 void advanced_inventory::redraw_pane( side p )
 {
+    input_context ctxt( "ADVANCED_INVENTORY" );
+
     // don't update ui if processing demands
     if( is_processing() ) {
         return;
@@ -721,7 +730,8 @@ void advanced_inventory::redraw_pane( side p )
     }
     // draw a darker border around the inactive pane
     draw_border( w, active ? BORDER_COLOR : c_dark_gray );
-    mvwprintw( w, point( 3, 0 ), _( "< [s]ort: %s >" ), get_sortname( pane.sortby ) );
+    mvwprintw( w, point( 3, 0 ), _( "< [%s] Sort: %s >" ), ctxt.get_desc( "SORT" ),
+               get_sortname( pane.sortby ) );
     int max = square.max_size;
     if( max > 0 ) {
         int itemcount = square.get_item_count();
@@ -730,8 +740,8 @@ void advanced_inventory::redraw_pane( side p )
         mvwprintw( w, point( w_width / 2 - fmtw, 0 ), "< %d/%d >", itemcount, max );
     }
 
-    const char *fprefix = _( "[F]ilter" );
-    const char *fsuffix = _( "[R]eset" );
+    std::string fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
+    std::string fsuffix = string_format( _( "[%s] Reset" ), ctxt.get_desc( "RESET_FILTER" ) );
     if( !filter_edit ) {
         if( !pane.filter.empty() ) {
             mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
@@ -1099,7 +1109,8 @@ void advanced_inventory::display()
             draw_border( head );
             Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
             draw_minimap();
-            const std::string msg = _( "< [?] show help >" );
+            const std::string msg = string_format( _( "< [%s] Show help >" ),
+                                                   ctxt.get_desc( "HELP_KEYBINDINGS" ) );
             mvwprintz( head, point( w_width - ( minimap_width + 2 ) - utf8_width( msg ) - 1, 0 ),
                        c_white, msg );
             if( g->u.has_watch() ) {

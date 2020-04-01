@@ -304,7 +304,7 @@
     "healthy": -2,
     "addiction_potential": 5,
     "calories": 79,
-    "description": "An distilled alcoholic beverage made from fermenting molasses.  Drinking it might make you feel like a pirate.  Or not.",
+    "description": "A distilled alcoholic beverage made from fermenting molasses.  Drinking it might make you feel like a pirate.  Or not.",
     "price": 2300,
     "material": "alcohol",
     "volume": "250 ml",
@@ -1037,8 +1037,7 @@
     "type": "COMESTIBLE",
     "id": "single_pot_whiskey",
     "copy-from": "whiskey",
-    "name": "single pot still Irish whiskey",
-    "name_plural": "single pot still Irish whiskey",
+    "name": { "str": "single pot still Irish whiskey", "str_pl": "single pot still Irish whiskey" },
     "description": "A whiskey made from a mixed mash of malted and unmalted barley.",
     "price": 2600,
     "fun": 20
@@ -1047,8 +1046,7 @@
     "type": "COMESTIBLE",
     "id": "cheap_whiskey",
     "copy-from": "whiskey",
-    "name": "cheap whiskey",
-    "name_plural": "cheap whiskey",
+    "name": { "str": "cheap whiskey", "str_pl": "cheap whiskey" },
     "description": "Really cheap blended whiskey.",
     "price": 1800,
     "fun": 12
@@ -1093,7 +1091,7 @@
     "id": "bristol_sherry",
     "copy-from": "sherry",
     "name": { "str": "Bristol Cream", "str_pl": "Bristol Cream" },
-    "description": "A fine sherry that was been aged in American oak casks and bottled in Bristol, England.",
+    "description": "A fine sherry that has been aged in American oak casks and bottled in Bristol, England.",
     "price": 2800,
     "fun": 18
   },
@@ -1163,7 +1161,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_beeknees",
-    "name": "bee's knees",
+    "name": { "str": "bee's knees" },
     "weight": "248 g",
     "color": "yellow",
     "addiction_type": "alcohol",

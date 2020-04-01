@@ -18,6 +18,7 @@ struct behavior_return;
 class strategy_t
 {
     public:
+        virtual ~strategy_t() = default;
         virtual behavior_return evaluate( const oracle_t *subject,
                                           std::vector<const node_t *> children ) const = 0;
 };

@@ -28,8 +28,6 @@ class iuse
         int sewage( player *, item *, bool, const tripoint & );
         int honeycomb( player *, item *, bool, const tripoint & );
         int royal_jelly( player *, item *, bool, const tripoint & );
-        int caff( player *, item *, bool, const tripoint & );
-        int atomic_caff( player *, item *, bool, const tripoint & );
         int alcohol_weak( player *, item *, bool, const tripoint & );
         int alcohol_medium( player *, item *, bool, const tripoint & );
         int alcohol_strong( player *, item *, bool, const tripoint & );
@@ -207,8 +205,6 @@ class iuse
         int coin_flip( player *, item *, bool, const tripoint & );
         int play_game( player *, item *, bool, const tripoint & );
         int magic_8_ball( player *, item *, bool, const tripoint & );
-        int gobag_normal( player *, item *, bool, const tripoint & );
-        int gobag_personal( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 
