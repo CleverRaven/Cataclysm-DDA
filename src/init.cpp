@@ -16,6 +16,7 @@
 #include "anatomy.h"
 #include "behavior.h"
 #include "bionics.h"
+#include "clzones.h"
 #include "construction.h"
 #include "crafting_gui.h"
 #include "creature.h"
@@ -82,6 +83,7 @@
 #include "construction_category.h"
 #include "overmap.h"
 #include "clothing_mod.h"
+#include "ammo_effect.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -180,6 +182,8 @@ void DynamicDataLoader::add( const std::string &type, std::function<void( const 
     }
 }
 
+void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
+
 void DynamicDataLoader::initialize()
 {
     // all of the applicable types that can be loaded, along with their loading functions
@@ -190,6 +194,7 @@ void DynamicDataLoader::initialize()
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "field_type", &field_types::load );
+    add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
     add( "activity_type", &activity_type::load );
     add( "vitamin", &vitamin::load_vitamin );
@@ -211,6 +216,7 @@ void DynamicDataLoader::initialize()
     add( "speech", &load_speech );
     add( "ammunition_type", &ammunition_type::load_ammunition_type );
     add( "scenario", &scenario::load_scenario );
+    add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
     add( "start_location", &start_location::load_location );
     add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
@@ -303,6 +309,8 @@ void DynamicDataLoader::initialize()
     add( "MIGRATION", []( const JsonObject & jo ) {
         item_controller->load_migration( jo );
     } );
+
+    add( "charge_removal_blacklist", load_charge_removal_blacklist );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
@@ -470,6 +478,7 @@ void DynamicDataLoader::unload_data()
     requirement_data::reset();
     vitamin::reset();
     field_types::reset();
+    ammo_effects::reset();
     emit::reset();
     activity_type::reset();
     fault::reset();
@@ -508,6 +517,7 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
+    reset_scenarios_blacklist();
     overmap_land_use_codes::reset();
     overmap_connections::reset();
     overmap_locations::reset();
@@ -531,6 +541,7 @@ void DynamicDataLoader::unload_data()
     event_transformation::reset();
     event_statistic::reset();
     score::reset();
+    scent_type::reset();
 
     // TODO:
     //    Name::clear();
@@ -553,6 +564,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_struct::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
+            { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
             {
                 _( "Items" ), []()
@@ -587,10 +599,10 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
             { _( "Monster factions" ), &monfactions::finalize },
             { _( "Factions" ), &npc_factions::finalize },
+            { _( "Constructions" ), &finalize_constructions },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finialize_martial_arts },
-            { _( "Constructions" ), &finalize_constructions },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },
             { _( "Behaviors" ), &behavior::finalize },
@@ -632,6 +644,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
+            { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             {
@@ -699,4 +712,6 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
         e.second();
         ui.proceed();
     }
+    catacurses::erase();
+    catacurses::refresh();
 }

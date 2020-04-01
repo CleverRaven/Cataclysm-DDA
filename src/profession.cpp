@@ -14,6 +14,7 @@
 #include "itype.h"
 #include "json.h"
 #include "mtype.h"
+#include "options.h"
 #include "player.h"
 #include "pldata.h"
 #include "text_snippets.h"
@@ -337,9 +338,25 @@ std::string profession::description( bool male ) const
     }
 }
 
+static time_point advanced_spawn_time()
+{
+    const int initial_days = get_option<int>( "INITIAL_DAY" );
+    return calendar::before_time_starts + 1_days * initial_days;
+}
+
 signed int profession::point_cost() const
 {
     return _point_cost;
+}
+
+static void clear_faults( item &it )
+{
+    if( it.get_var( "dirt", 0 ) > 0 ) {
+        it.set_var( "dirt", 0 );
+    }
+    if( it.is_faulty() ) {
+        it.faults.clear();
+    }
 }
 
 std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const
@@ -347,7 +364,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     std::list<item> result;
     auto add_legacy_items = [&result]( const itypedecvec & vec ) {
         for( const itypedec &elem : vec ) {
-            item it( elem.type_id, 0, item::default_charges_tag {} );
+            item it( elem.type_id, advanced_spawn_time(), item::default_charges_tag {} );
             if( !elem.snip_id.is_null() ) {
                 it.set_snippet( elem.snip_id );
             }
@@ -359,16 +376,17 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     add_legacy_items( legacy_starting_items );
     add_legacy_items( male ? legacy_starting_items_male : legacy_starting_items_female );
 
-    const std::vector<item> group_both = item_group::items_from( _starting_items );
+    const std::vector<item> group_both = item_group::items_from( _starting_items,
+                                         advanced_spawn_time() );
     const std::vector<item> group_gender = item_group::items_from( male ? _starting_items_male :
-                                           _starting_items_female );
+                                           _starting_items_female, advanced_spawn_time() );
     result.insert( result.begin(), group_both.begin(), group_both.end() );
     result.insert( result.begin(), group_gender.begin(), group_gender.end() );
 
     std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
     for( const itype_id &elem : bonus ) {
         if( elem != no_bonus ) {
-            result.push_back( item( elem, 0, item::default_charges_tag {} ) );
+            result.push_back( item( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
@@ -381,6 +399,10 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( item &it : result ) {
+        clear_faults( it );
+        if( it.is_holster() && it.contents.size() == 1 ) {
+            clear_faults( it.contents.front() );
+        }
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
@@ -402,6 +424,54 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
                 inner = result.erase( inner );
             } else {
                 ++inner;
+            }
+        }
+    }
+
+    /*  Purpose:    Post processing on profession selection and generation on start.
+                    Professions are newly generated each time on selection, even
+                    if the profession has already been selected previously. The profession
+                    is even generated again after selection, and the game is started.
+                    The purpose of this loop is to provide default numbers for item charges
+                    and ammo. This extends to food as well, however due to the nature of
+                    the way these professions are generated, food items one see's on the profession
+                    screen will be different in-game, but still these charge numbers will be
+                    dictated by the default of said items.
+
+        Graphical Issue:    Currently, worn items can fluctuate between 0 and their default value
+                            upon entering the game this issue will resolve itself and the correct
+                            default value will be given to the player. This issue occurs
+                            on holding the enter key to make rapid selection of a profession.
+
+        TODO:   Currently the way magazines are implemented they do not contain a default value.
+                Professions contain a max charge value found in the JSON file however, this
+                does not help in choosing a default. Below is a compromise that takes the
+                half of the magazines capacity as a default. This was chosen because most
+                defaults are half of the items max value.
+       -- Ideally, the default value of a magazine would be defined in the profession JSON file. --
+    */
+    for( auto &item : result ) {
+        /* Set top level items that have a charge to their default states */
+        /* includes refillable liters */
+
+        item.charges = item::find_type( item.typeId() )->charges_default();
+
+        /* Top level item has a magazine */
+        if( item.is_magazine() ) {
+            //Check the TODO for more information as to why we are dividing by two here.
+            item.ammo_set( item.ammo_default(), item.ammo_capacity() / 2 );
+        } else {
+            /* For Items with a magazine or battery in its contents */
+            for( auto &item_contents : item.contents ) {
+                /* for guns and other items defined to have a magazine but don't use "ammo" */
+                if( item_contents.is_magazine() ) {
+                    item_contents.ammo_set(
+                        item_contents.ammo_default(), item_contents.ammo_capacity() / 2
+                    );
+                } else { //Contents are batteries or food
+                    item_contents.charges =
+                        item::find_type( item_contents.typeId() )->charges_default();
+                }
             }
         }
     }
@@ -621,7 +691,7 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
 
     const int old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
-        item result( inf.new_item );
+        item result( inf.new_item, advanced_spawn_time() );
         const int new_amt = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
 
         if( !result.count_by_charges() ) {

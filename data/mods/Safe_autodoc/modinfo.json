@@ -7,6 +7,7 @@
     "maintainers": [ "John Candlebury" ],
     "description": "Makes Autodoc operations completely safe, independent of the player's skill.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

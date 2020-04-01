@@ -18,6 +18,7 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "path_info.h"
 #include "translations.h"
@@ -31,6 +32,16 @@
 #include "ret_val.h"
 #include "type_id.h"
 #include "point.h"
+
+static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_CUT_FINE( "CUT_FINE" );
+
+static const std::string flag_CONSOLE( "CONSOLE" );
+static const std::string flag_FLOTATION( "FLOTATION" );
+static const std::string flag_GOES_DOWN( "GOES_DOWN" );
+static const std::string flag_GOES_UP( "GOES_UP" );
+static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
+static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 class inventory;
 
@@ -577,8 +588,8 @@ int hotkey_for_action( action_id action, const bool restrict_to_printable )
 bool can_butcher_at( const tripoint &p )
 {
     // TODO: unify this with game::butcher
-    const int factor = g->u.max_quality( quality_id( "BUTCHER" ) );
-    const int factorD = g->u.max_quality( quality_id( "CUT_FINE" ) );
+    const int factor = g->u.max_quality( qual_BUTCHER );
+    const int factorD = g->u.max_quality( qual_CUT_FINE );
     auto items = g->m.i_at( p );
     bool has_item = false;
     bool has_corpse = false;
@@ -599,18 +610,18 @@ bool can_butcher_at( const tripoint &p )
 bool can_move_vertical_at( const tripoint &p, int movez )
 {
     // TODO: unify this with game::move_vertical
-    if( g->m.has_flag( "SWIMMABLE", p ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( g->m.has_flag( flag_SWIMMABLE, p ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
-            return !g->u.is_underwater() && !g->u.worn_with_flag( "FLOTATION" );
+            return !g->u.is_underwater() && !g->u.worn_with_flag( flag_FLOTATION );
         } else {
             return g->u.swim_speed() < 500 || g->u.is_wearing( "swim_fins" );
         }
     }
 
     if( movez == -1 ) {
-        return g->m.has_flag( "GOES_DOWN", p );
+        return g->m.has_flag( flag_GOES_DOWN, p );
     } else {
-        return g->m.has_flag( "GOES_UP", p );
+        return g->m.has_flag( flag_GOES_UP, p );
     }
 }
 
@@ -619,7 +630,7 @@ bool can_examine_at( const tripoint &p )
     if( g->m.veh_at( p ) ) {
         return true;
     }
-    if( g->m.has_flag( "CONSOLE", p ) ) {
+    if( g->m.has_flag( flag_CONSOLE, p ) ) {
         return true;
     }
     if( g->m.has_items( p ) ) {
@@ -631,6 +642,11 @@ bool can_examine_at( const tripoint &p )
     if( g->m.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
         return true;
     } else if( xter_t.examine != &iexamine::none ) {
+        return true;
+    }
+
+    Creature *c = g->critter_at( p );
+    if( c != nullptr && p != g->u.pos() ) {
         return true;
     }
 
@@ -701,7 +717,7 @@ action_id handle_action_menu()
             action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+        if( g->u.weapon.is_gun() || g->u.weapon.has_flag( flag_REACH_ATTACK ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }
@@ -1053,17 +1069,17 @@ cata::optional<tripoint> choose_adjacent( const std::string &message, const bool
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const action_id action, const bool allow_vertical )
+        const std::string &failure_message, const action_id action, bool allow_vertical )
 {
     const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
         return can_interact_at( action, p );
     };
-    return choose_adjacent_highlight( message, f, allow_vertical );
+    return choose_adjacent_highlight( message, failure_message, f, allow_vertical );
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::function<bool ( const tripoint & )> &allowed,
-        const bool allow_vertical, const bool auto_select_if_single )
+        const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
+        const bool allow_vertical )
 {
     // Highlight nearby terrain according to the highlight function
     if( allowed != nullptr ) {
@@ -1083,8 +1099,11 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         }
         if( highlighted ) {
             wrefresh( g->w_terrain );
+        } else if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) ) {
+            add_msg( failure_message );
+            return cata::nullopt;
         }
-        if( auto_select_if_single && single ) {
+        if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) && single ) {
             return single;
         }
     }

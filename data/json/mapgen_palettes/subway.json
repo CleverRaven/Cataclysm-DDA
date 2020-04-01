@@ -3,12 +3,12 @@
     "type": "palette",
     "id": "subway",
     "terrain": {
-      ".": [ "t_dirt", "t_dirt", "t_grass" ],
+      ".": "t_region_groundcover_barren",
       "|": "t_brick_wall",
       "-": "t_wall_glass",
       ";": "t_door_glass_c",
       "S": "t_sidewalk",
-      "*": "t_shrub",
+      "*": "t_region_shrub_decorative",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
       "4": "t_gutter_downspout"

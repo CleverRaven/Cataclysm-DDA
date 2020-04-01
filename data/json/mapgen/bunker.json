@@ -268,7 +268,7 @@
         "3": "f_speaker_cabinet"
       },
       "items": {
-        "b": { "item": "bunkbed", "chance": 60 },
+        "b": { "item": "bed", "chance": 60 },
         "{": { "item": "bunker_basement_books", "chance": 80 },
         "T": { "item": "trash_cart", "chance": 50 },
         "l": { "item": "bunker_basement_clothing", "chance": 50 },

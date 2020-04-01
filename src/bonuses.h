@@ -52,7 +52,7 @@ struct affected_type {
         }
 
     private:
-        affected_stat stat;
+        affected_stat stat = affected_stat::AFFECTED_NULL;
         damage_type type;
 };
 

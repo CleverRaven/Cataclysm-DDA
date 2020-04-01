@@ -60,6 +60,13 @@
 #include "map.h"
 #include "player_activity.h"
 
+static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
+
+static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
+
+static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
@@ -118,7 +125,7 @@ static std::tuple<char, nc_color, size_t> get_note_display_info( const std::stri
 static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_overmap_neighbors(
     const tripoint &current )
 {
-    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = g->u.has_trait( trait_DEBUG_NIGHTVISION );
 
     std::array<std::pair<nc_color, std::string>, npm_width *npm_height> map_around;
     int index = 0;
@@ -396,9 +403,9 @@ static point draw_notes( const tripoint &origin )
         g->refresh_all();
         nmenu.desc_enabled = true;
         nmenu.input_category = "OVERMAP_NOTES";
-        nmenu.additional_actions.emplace_back( "DELETE_NOTE", "" );
-        nmenu.additional_actions.emplace_back( "EDIT_NOTE", "" );
-        nmenu.additional_actions.emplace_back( "MARK_DANGER", "" );
+        nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
+        nmenu.additional_actions.emplace_back( "EDIT_NOTE", translation() );
+        nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
         const input_context ctxt( nmenu.input_category );
         nmenu.text = string_format(
                          _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
@@ -469,7 +476,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     bool csee = false;
     oter_id ccur_ter = oter_str_id::NULL_ID();
     // Debug vision allows seeing everything
-    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = g->u.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
                              g->u.overmap_sight_range( g->light_level( g->u.posz() ) ) :
@@ -566,6 +573,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     std::vector<tripoint> player_path_route;
     std::unordered_map<tripoint, npc_coloring> npc_color;
     if( blink ) {
+        // get seen NPCs
         const auto &npcs = overmap_buffer.get_npcs_near_player( sight_points );
         for( const auto &np : npcs ) {
             if( np->posz() != center.z ) {
@@ -588,6 +596,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             }
         }
         std::vector<npc *> followers;
+        // get friendly followers
         for( auto &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
@@ -596,13 +605,16 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
-        for( auto &elem : overmap_buffer.get_npcs_near_player( 75 ) ) {
+        // get all travelling NPCs for the debug menu to show pathfinding routes.
+        for( auto &elem : overmap_buffer.get_npcs_near_player( 200 ) ) {
             if( !elem ) {
                 continue;
             }
             npc *npc_to_add = elem.get();
-            if( npc_to_add->mission == NPC_MISSION_TRAVELLING ) {
-                followers.push_back( npc_to_add );
+            if( npc_to_add->mission == NPC_MISSION_TRAVELLING && !npc_to_add->omt_path.empty() ) {
+                for( auto &elem : npc_to_add->omt_path ) {
+                    path_route.push_back( tripoint( elem.xy(), npc_to_add->posz() ) );
+                }
             }
         }
         for( auto &elem : g->u.omt_path ) {
@@ -612,12 +624,6 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         for( const auto &np : followers ) {
             if( np->posz() != center.z ) {
                 continue;
-            }
-            if( !np->omt_path.empty() ) {
-                for( auto &elem : np->omt_path ) {
-                    tripoint tri_to_add = tripoint( elem.xy(), np->posz() );
-                    path_route.push_back( tri_to_add );
-                }
             }
             const tripoint pos = np->global_omt_location();
             auto iter = npc_color.find( pos );
@@ -730,7 +736,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omp );
                     for( auto &mgp : groups ) {
-                        if( mgp->type == mongroup_id( "GROUP_FOREST" ) ) {
+                        if( mgp->type == GROUP_FOREST ) {
                             // Don't flood the map with forest creatures.
                             continue;
                         }
@@ -860,7 +866,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     if( !corner_text.empty() ) {
         int maxlen = 0;
         for( const auto &line : corner_text ) {
-            maxlen = std::max( maxlen, utf8_width( line.second ) );
+            maxlen = std::max( maxlen, utf8_width( line.second, true ) );
         }
 
         mvwputch( w, point_south_east, c_white, LINE_OXXO );
@@ -1168,8 +1174,8 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 
     input_context ctxt( "OVERMAP_SEARCH" );
     ctxt.register_leftright();
-    ctxt.register_action( "NEXT_TAB", translate_marker( "Next target" ) );
-    ctxt.register_action( "PREV_TAB", translate_marker( "Previous target" ) );
+    ctxt.register_action( "NEXT_TAB", to_translation( "Next target" ) );
+    ctxt.register_action( "PREV_TAB", to_translation( "Previous target" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1235,7 +1241,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
                                                colorize( string_from_color( oter.get_color( true ) ), oter.get_color( true ) ),
                                                colorize( oter.get_name(), oter.get_color() ),
                                                colorize( oter.id.str(), c_white ) );
-            pmenu.addentry( oter.id.id(), true, 0, entry_text );
+            pmenu.addentry( oter.id.id().to_i(), true, 0, entry_text );
         }
     } else {
         pmenu.title = _( "Select special to place:" );
@@ -1482,17 +1488,23 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             }
             const tripoint player_omt_pos = g->u.global_omt_location();
             if( !g->u.omt_path.empty() && g->u.omt_path.front() == curs ) {
-                if( query_yn( _( "Travel to this point?" ) ) ) {
+                std::string confirm_msg;
+                if( g->u.weight_carried() > g->u.weight_capacity() ) {
+                    confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
+                } else {
+                    confirm_msg = _( "Travel to this point?" );
+                }
+                if( query_yn( confirm_msg ) ) {
                     // renew the path incase of a leftover dangling path point
                     g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, ptype );
                     if( g->u.in_vehicle && g->u.controlling_vehicle ) {
                         vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( g->u.pos() ) );
                         player_veh->omt_path = g->u.omt_path;
                         player_veh->is_autodriving = true;
-                        g->u.assign_activity( activity_id( "ACT_AUTODRIVE" ) );
+                        g->u.assign_activity( ACT_AUTODRIVE );
                     } else {
                         g->u.reset_move_mode();
-                        g->u.assign_activity( activity_id( "ACT_TRAVELLING" ) );
+                        g->u.assign_activity( ACT_TRAVELLING );
                     }
                     action = "QUIT";
                 }

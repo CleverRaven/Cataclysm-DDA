@@ -333,7 +333,7 @@ bool overmapbuffer::has_note( const tripoint &p )
 bool overmapbuffer::is_marked_dangerous( const tripoint &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
-        return om_loc.om->is_marked_dangerous( p );
+        return om_loc.om->is_marked_dangerous( om_loc.local );
     }
     return false;
 }
@@ -930,7 +930,7 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const std::string 
 tripoint overmapbuffer::find_closest( const tripoint &origin, const omt_find_params &params )
 {
     // Check the origin before searching adjacent tiles!
-    if( params.min_distance == 0 &&  is_findable_location( origin, params ) ) {
+    if( params.min_distance == 0 && is_findable_location( origin, params ) ) {
         return origin;
     }
 
@@ -949,41 +949,35 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const omt_find_par
     // See overmap::place_specials for how we attempt to insure specials are placed within this
     // range.  The actual number is 5 because 1 covers the current overmap,
     // and each additional one expends the search to the next concentric circle of overmaps.
-    int max = params.search_range ? params.search_range : OMAPX * 5;
-    const int min_distance = std::max( 0, params.min_distance );
-    // expanding box
-    for( int dist = min_distance; dist <= max; dist++ ) {
-        // each edge length is 2*dist-2, because corners belong to one edge
-        // south is +y, north is -y
-        for( int i = min_distance * 2; i < dist * 2; i++ ) {
-            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-                //start at northwest, scan north edge
-                const tripoint n_loc( origin.x - dist + i, origin.y - dist, z );
-                if( is_findable_location( n_loc, params ) ) {
-                    return n_loc;
-                }
+    const int min_dist = params.min_distance;
+    const int max_dist = params.search_range ? params.search_range : OMAPX * 5;
 
-                //start at southeast, scan south
-                const tripoint s_loc( origin.x + dist - i, origin.y + dist, z );
-                if( is_findable_location( s_loc, params ) ) {
-                    return s_loc;
-                }
+    std::vector<tripoint> result;
+    cata::optional<int> found_dist;
 
-                //start at southwest, scan west
-                const tripoint w_loc( origin.x - dist, origin.y + dist - i, z );
-                if( is_findable_location( w_loc, params ) ) {
-                    return w_loc;
-                }
+    for( const point &loc_xy : closest_points_first( origin.xy(), min_dist, max_dist ) ) {
+        const int dist_xy = square_dist( origin.xy(), loc_xy );
 
-                //start at northeast, scan east
-                const tripoint e_loc( origin.x + dist, origin.y - dist + i, z );
-                if( is_findable_location( e_loc, params ) ) {
-                    return e_loc;
-                }
+        if( found_dist && *found_dist < dist_xy ) {
+            break;
+        }
+
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            const tripoint loc = { loc_xy, z };
+            const int dist = square_dist( origin, loc );
+
+            if( found_dist && *found_dist < dist ) {
+                continue;
+            }
+
+            if( is_findable_location( loc, params ) ) {
+                found_dist = dist;
+                result.push_back( loc );
             }
         }
     }
-    return overmap::invalid_tripoint;
+
+    return random_entry( result, overmap::invalid_tripoint );
 }
 
 std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
@@ -991,18 +985,18 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
 {
     std::vector<tripoint> result;
     // dist == 0 means search a whole overmap diameter.
-    const int dist = params.search_range ? params.search_range : OMAPX;
-    const int min_distance = std::max( 0, params.min_distance );
-    for( const tripoint &search_loc : points_in_radius( origin, dist ) ) {
-        if( square_dist( origin, search_loc ) < min_distance ) {
-            continue;
-        }
-        if( is_findable_location( search_loc, params ) ) {
-            result.push_back( search_loc );
+    const int min_dist = params.min_distance;
+    const int max_dist = params.search_range ? params.search_range : OMAPX;
+
+    for( const tripoint &loc : closest_tripoints_first( origin, min_dist, max_dist ) ) {
+        if( is_findable_location( loc, params ) ) {
+            result.push_back( loc );
         }
     }
+
     return result;
 }
+
 std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin, const std::string &type,
         int dist, bool must_be_seen, ot_match_type match_type,
         bool existing_overmaps_only,
@@ -1130,7 +1124,7 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near( const tripoint &
                                int radius )
 {
     std::vector<shared_ptr_fast<npc>> result;
-    for( auto &it : get_overmaps_near( p, radius ) ) {
+    for( auto &it : get_overmaps_near( p.xy(), radius ) ) {
         auto temp = it->get_npcs( [&]( const npc & guy ) {
             // Global position of NPC, in submap coordinates
             const tripoint pos = guy.global_sm_location();

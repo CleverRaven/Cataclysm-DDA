@@ -1,0 +1,20 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_tower",
+    "copy-from": "fungal_tower",
+    "sym": "\u00F0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_bloom",
+    "copy-from": "fungal_bloom",
+    "sym": "\u00F0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fungal_flowers",
+    "copy-from": "fungal_flowers",
+    "sym": "\u00F0"
+  }
+]

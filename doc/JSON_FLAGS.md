@@ -36,9 +36,8 @@
   - [Melee](#melee)
     - [Flags](#flags-5)
   - [Monster Groups](#monster-groups)
-    - [Conditions](#conditions)
-      - [Seasons](#seasons)
-      - [Time of day](#time-of-day)
+    - [Seasons](#seasons)
+    - [Time of day](#time-of-day)
   - [Monsters](#monsters)
     - [Anger, Fear and Placation Triggers](#anger-fear-and-placation-triggers)
     - [Categories](#categories)
@@ -81,7 +80,7 @@
 
 ## Inheritance
 
-When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, you can add the flag `NO_CRAFT_INHERIT` to that item.
+When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, specify the member delete_flags, which is an array of strings. Flags specified there will be removed from the resultant item upon crafting. This will override flag inheritance, but will not delete flags that are part of the item type itself.
 
 
 ## TODO
@@ -308,7 +307,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ACIDBOMB``` Pull the pin on an acid bomb.
 - ```AUTOCLAVE``` Sterilize one CBM by autoclaving it.
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
-- ```BATTLETORCH``` Light the battle torch.
 - ```BELL``` Ring the bell.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
 - ```BREAK_STICK``` Breaks long stick into two.
@@ -425,12 +423,10 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ALCOHOL_WEAK``` Slightly increases drunkenness. Adds disease `drunk`
 - ```ALCOHOL``` Increases drunkenness. Adds disease `drunk`.
 - ```ANTIBIOTIC``` Helps fight infections. Removes disease `infected` and adds disease `recover`.
-- ```ATOMIC_CAFF``` Greatly reduces fatigue and increases radiation dosage.
 - ```BANDAGE``` Stop bleeding.
 - ```BIRDFOOD``` Makes a small bird friendly.
 - ```BLECH``` Causes vomiting.
 - ```BLECH_BECAUSE_UNCLEAN``` Causes warning.
-- ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
 - ```CATTLEFODDER``` Makes a large herbivore friendly.
 - ```CHEW``` Displays message "You chew your %s", but otherwise does nothing.
@@ -706,7 +702,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```MECH_WEAPON``` A built-in mech weapon, cannot be removed or have mods added / removed.
 - ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
 - ```NEVER_JAMS``` Never malfunctions.
-- ```NO_BOOM``` Cancels the ammo effect "FLAME".
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```PRIMITIVE_RANGED_WEAPON``` Allows using non-gunsmith tools to repair it (but not reinforce).
 - ```PUMP_ACTION``` Gun has a rails on its pump action, allowing to install only mods with PUMP_RAIL_COMPATIBLE flag on underbarrel slot.
@@ -807,11 +802,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ## Monster Groups
 
-### Conditions
+The condition flags limit when monsters can spawn.
 
-Limit when monsters can spawn.
-
-#### Seasons
+### Seasons
 
 Multiple season conditions will be combined together so that any of those conditions become valid time of year spawn times.
 
@@ -820,7 +813,7 @@ Multiple season conditions will be combined together so that any of those condit
 - ```SUMMER```
 - ```WINTER```
 
-#### Time of day
+### Time of day
 
 Multiple time of day conditions will be combined together so that any of those conditions become valid time of day spawn times.
 
@@ -912,6 +905,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```CBM_TECH``` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
 - ```CHITIN``` May produce chitin when butchered.
 - ```CLIMBS``` Can climb.
+- ```COLDROOF``` Immune to cold damage.
 - ```CURRENT``` this water is flowing.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground.
@@ -938,7 +932,9 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```HUMAN``` It's a live human, as long as it's alive.
+- ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
+- ```ID_CARD_DESPAWN``` Despawns when a science ID card is used on a nearby console
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
@@ -1193,6 +1189,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BLIND_EASY``` Easy to craft with little to no light.
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
+- ```UNCRAFT_BY_QUANTITY``` Supresses the per-charge handling of uncraft recipes.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.  For deconstruction recipes, it will spawn a full magazine when deconstructed.
@@ -1334,6 +1331,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
 - ```CONE_LIGHT``` Projects a cone of light when turned on.
 - ```CONTROLS``` Can be used to control the vehicle.
+- ```CONTROL_ANIMAL``` These controls can only be used to control a vehicle pulled by an animal (such as reins etc).
 - ```COOLER``` There is separate command to toggle this part.
 - ```COVERED``` Prevents items in cargo parts from emitting any light.
 - ```CRAFTRIG``` Acts as a dehydrator, vacuum sealer and reloading press for crafting purposes. Potentially to include additional tools in the future.

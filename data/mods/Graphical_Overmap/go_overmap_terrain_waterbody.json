@@ -1,0 +1,14 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "lake_shore",
+    "copy-from": "lake_shore",
+    "sym": "\u00F7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_surface",
+    "copy-from": "lake_surface",
+    "sym": "\u00F7"
+  }
+]

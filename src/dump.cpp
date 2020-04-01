@@ -31,6 +31,8 @@
 #include "flat_set.h"
 #include "item.h"
 
+static const std::string flag_VARSIZE( "VARSIZE" );
+
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
 {
@@ -120,7 +122,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( e->armor ) {
                 item obj( e );
                 if( bp == num_bp || obj.covers( bp ) ) {
-                    if( obj.has_flag( "VARSIZE" ) ) {
+                    if( obj.has_flag( flag_VARSIZE ) ) {
                         obj.item_tags.insert( "FIT" );
                     }
                     dump( obj );

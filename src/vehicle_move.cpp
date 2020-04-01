@@ -35,16 +35,18 @@
 #include "int_id.h"
 #include "monster.h"
 
-static const std::string part_location_structure( "structure" );
+#define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_animal( "animal" );
 
-static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_harnessed( "harnessed" );
 static const skill_id skill_driving( "driving" );
 
-#define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_stunned( "stunned" );
+
+static const std::string part_location_structure( "structure" );
 
 // tile height in meters
 static const float tile_height = 4;
@@ -122,11 +124,13 @@ void vehicle::thrust( int thd )
     if( in_water && can_float() ) {
         // we're good
     } else if( is_floating && !can_float() ) {
+        stop();
         if( pl_ctrl ) {
             add_msg( _( "The %s is too leaky!" ), name );
         }
         return;
     } else if( !valid_wheel_config() ) {
+        stop();
         if( pl_ctrl ) {
             add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
         }
@@ -854,6 +858,20 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
 }
 
+bool vehicle::has_harnessed_animal() const
+{
+    for( size_t e = 0; e < parts.size(); e++ ) {
+        const vehicle_part &vp = parts[ e ];
+        if( vp.info().fuel_type == fuel_type_animal ) {
+            monster *mon = get_pet( e );
+            if( mon && mon->has_effect( effect_harnessed ) && mon->has_effect( effect_pet ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void vehicle::autodrive( int x, int y )
 {
     // for now, autodriving is only possible when pulled by an animal
@@ -982,7 +1000,8 @@ void vehicle::pldrive( const point &p )
     }
 
     // TODO: Actually check if we're on land on water (or disable water-skidding)
-    if( skidding && valid_wheel_config() ) {
+    // Only check for recovering from a skid if we did active steering (not cruise control).
+    if( skidding && ( p.x != 0 || ( p.y != 0 && !cruise_on ) ) && valid_wheel_config() ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle

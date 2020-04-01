@@ -146,7 +146,9 @@ MESSAGE(STATUS "${PROJECT_NAME} build options --\n")
 
 # Preset variables
 IF(NOT LANGUAGES)
-    SET (LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
+    # English is included to workaround a libintl bug that affects performance
+    # on MinGW targets. See lang/CMakeList.txt for more information.
+    SET (LANGUAGES en de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
 ENDIF(NOT LANGUAGES)
 
 IF (GIT_BINARY)
@@ -193,7 +195,7 @@ ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
     MESSAGE(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
     MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
     ADD_DEFINITIONS(-DRELEASE)
-    # Use PREFIX as storage of data,gfx, etc.. Usefull only on *nix OS.
+    # Use PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
     IF (PREFIX AND NOT WIN32)
       ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
     ENDIF (PREFIX AND NOT WIN32)
@@ -221,12 +223,21 @@ IF(MSVC)
 ELSE()
     SET(CATA_WARNINGS
       "-Werror -Wall -Wextra \
+       -Wformat-signedness \
+       -Wlogical-op \
        -Wmissing-declarations \
+       -Wmissing-noreturn \
+       -Wnon-virtual-dtor \
        -Wold-style-cast \
        -Woverloaded-virtual \
+       -Wpedantic \
        -Wsuggest-override \
-       -Wno-unknown-warning-option \
-       -Wpedantic")
+       -Wunused-macros \
+       -Wzero-as-null-pointer-constant \
+       -Wno-unknown-warning-option")
+    IF (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
+        SET(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
+    ENDIF()
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")

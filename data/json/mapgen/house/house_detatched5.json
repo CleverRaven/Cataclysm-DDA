@@ -77,10 +77,6 @@
         { "chance": 20, "item": "clutter_yard", "x": 5, "y": 17 },
         { "chance": 20, "item": "clutter_yard", "x": 17, "y": 14 },
         { "chance": 25, "item": "textbooks", "x": 10, "y": 2 }
-      ],
-      "place_monsters": [
-        { "chance": 10, "density": 1, "monster": "GROUP_DOGS", "x": 14, "y": 15 },
-        { "chance": 8, "density": 1, "monster": "GROUP_DOGS", "x": 8, "y": 6 }
       ]
     }
   },
@@ -118,6 +114,41 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_detatched5_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "  ||||||||||||||||||||| ",
+        "  |zz......g.F........| ",
+        "  |z..................| ",
+        "  |...................| ",
+        " ||.........z...z.....| ",
+        " |....................| ",
+        " |......z.......z.....| ",
+        " |....................| ",
+        " |....................| ",
+        " |..z................z| ",
+        " |<..............zz...| ",
+        " |%%+%||||||||||||||||| ",
+        " |....|                 ",
+        " |JWZJ|                 ",
+        " ||||||                 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ]
     }
   }
 ]
