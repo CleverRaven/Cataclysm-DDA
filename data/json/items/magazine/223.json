@@ -128,7 +128,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
-    "capacity": 5,
+    "capacity": 20,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
   },
@@ -273,7 +273,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "223", "300blk" ],
-    "capacity": 60,
+    "capacity": 100,
     "reliability": 7,
     "flags": [ "MAG_BULKY" ]
   },
