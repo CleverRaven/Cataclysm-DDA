@@ -1,0 +1,42 @@
+# This is a basic workflow to help you get started with Actions
+
+name: C:DDA JSON Lint
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+          
+    steps:
+      - name: Checkout DinoMod
+        uses: actions/checkout@v2
+        with:
+          path: 'DinoMod' 
+
+      - name: Checkout C:DDA
+        uses: actions/checkout@v2
+        with:
+          repository: 'CleverRaven/Cataclysm-DDA'
+          path:  'Cataclysm-DDA'
+          fetch-depth: '1' # We don't need the full repo history to build the formatter
+
+      # Note: Compiled formatter binary is placed in
+      #      `Cataclysm-DDA/tools/format/json_formatter.cgi`
+      - name: Build CDD:A JSON Formatter
+        working-directory: 'Cataclysm-DDA'
+        run: make json_formatter
+
+      - name: Validate JSON with C:DDA JSON Formatter
+        working-directory: 'DinoMod'
+        run: find . -name "*.json" -print0 | xargs -0 -L 1 ../Cataclysm-DDA/tools/format/json_formatter.cgi
+
+      # If JSON validation fails, show the changes required
+      # to make JSON validation pass.
+      - name: Display Corrections
+        if: failure()
+        run: git diff
