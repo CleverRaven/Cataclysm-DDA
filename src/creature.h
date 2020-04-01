@@ -10,6 +10,7 @@
 #include <string>
 #include <utility>
 
+#include "anatomy.h"
 #include "bodypart.h"
 #include "pimpl.h"
 #include "string_formatter.h"
@@ -442,6 +443,10 @@ class Creature
         virtual bool uncanny_dodge() {
             return false;
         }
+
+        anatomy_id creature_anatomy = anatomy_id("default_anatomy");
+        anatomy_id get_anatomy() const;
+        void set_anatomy(anatomy_id anat);
 
         virtual body_part get_random_body_part( bool main = false ) const = 0;
         /**

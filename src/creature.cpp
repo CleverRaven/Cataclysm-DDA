@@ -1382,6 +1382,16 @@ float Creature::get_hit() const
     return get_hit_base() + get_hit_bonus();
 }
 
+anatomy_id Creature::get_anatomy() const
+{
+    return creature_anatomy;
+}
+
+void Creature::set_anatomy( anatomy_id anat )
+{
+    creature_anatomy = anat;
+}
+
 int Creature::get_speed_base() const
 {
     return speed_base;
