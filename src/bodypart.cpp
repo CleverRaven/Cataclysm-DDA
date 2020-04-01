@@ -72,7 +72,7 @@ std::string enum_to_string<hp_part>( hp_part data )
 namespace
 {
 
-generic_factory<body_part_struct> body_part_factory( "body part" );
+generic_factory<body_part_type> body_part_factory( "body part" );
 
 } // namespace
 
@@ -115,13 +115,13 @@ bool bodypart_id::is_valid() const
 }
 
 template<>
-const body_part_struct &bodypart_ids::obj() const
+const body_part_type &bodypart_ids::obj() const
 {
     return body_part_factory.obj( *this );
 }
 
 template<>
-const body_part_struct &bodypart_id::obj() const
+const body_part_type &bodypart_id::obj() const
 {
     return body_part_factory.obj( *this );
 }
@@ -168,17 +168,17 @@ const bodypart_ids &convert_bp( body_part bp )
     return body_parts[static_cast<size_t>( bp )];
 }
 
-static const body_part_struct &get_bp( body_part bp )
+static const body_part_type &get_bp( body_part bp )
 {
     return convert_bp( bp ).obj();
 }
 
-void body_part_struct::load_bp( const JsonObject &jo, const std::string &src )
+void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
 {
     body_part_factory.load( jo, src );
 }
 
-void body_part_struct::load( const JsonObject &jo, const std::string & )
+void body_part_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
 
@@ -214,21 +214,21 @@ void body_part_struct::load( const JsonObject &jo, const std::string & )
     part_side = jo.get_enum_value<side>( "side" );
 }
 
-void body_part_struct::reset()
+void body_part_type::reset()
 {
     body_part_factory.reset();
 }
 
-void body_part_struct::finalize_all()
+void body_part_type::finalize_all()
 {
     body_part_factory.finalize();
 }
 
-void body_part_struct::finalize()
+void body_part_type::finalize()
 {
 }
 
-void body_part_struct::check_consistency()
+void body_part_type::check_consistency()
 {
     for( const body_part bp : all_body_parts ) {
         const auto &legacy_bp = convert_bp( bp );
@@ -240,7 +240,7 @@ void body_part_struct::check_consistency()
     body_part_factory.check();
 }
 
-void body_part_struct::check() const
+void body_part_type::check() const
 {
     const auto &under_token = get_bp( token );
     if( this != &under_token ) {
@@ -268,7 +268,7 @@ void body_part_struct::check() const
 std::string body_part_name( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    // See comments in `body_part_struct::load` about why these two strings are
+    // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
     return number > 1 ? bdy.name_multiple.translated() : bdy.name.translated();
 }
@@ -276,7 +276,7 @@ std::string body_part_name( body_part bp, int number )
 std::string body_part_name_accusative( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    // See comments in `body_part_struct::load` about why these two strings are
+    // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
     return number > 1 ? bdy.accusative_multiple.translated() : bdy.accusative.translated();
 }
@@ -284,7 +284,7 @@ std::string body_part_name_accusative( body_part bp, int number )
 std::string body_part_name_as_heading( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    // See comments in `body_part_struct::load` about why these two strings are
+    // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
     return number > 1 ? bdy.name_as_heading_multiple.translated() : bdy.name_as_heading.translated();
 }

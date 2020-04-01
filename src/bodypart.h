@@ -60,12 +60,12 @@ constexpr std::array<body_part, 12> all_body_parts = {{
     }
 };
 
-struct body_part_struct;
+struct body_part_type;
 
-using bodypart_ids = string_id<body_part_struct>;
-using bodypart_id = int_id<body_part_struct>;
+using bodypart_ids = string_id<body_part_type>;
+using bodypart_id = int_id<body_part_type>;
 
-struct body_part_struct {
+struct body_part_type {
     public:
         bodypart_ids id;
         bool was_loaded = false;
