@@ -182,7 +182,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
                 optional( joe, was_loaded, "message_npc", fe.message_npc );
 
                 if( joe.has_string( "body_part" ) ) {
-                    const bodypart_ids bp_string = bodypart_ids( joe.get_string( "body_part" ) );
+                    const bodypart_str_id bp_string = bodypart_str_id( joe.get_string( "body_part" ) );
                     if( bp_string.is_valid() ) {
                         fe.bp = bp_string.id();
                     } else {

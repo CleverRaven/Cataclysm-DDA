@@ -300,7 +300,7 @@ std::string texitify_healing_power( int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 class effects_map : public
-    std::unordered_map<efftype_id, std::unordered_map<bodypart_id, effect, std::hash<int_id<body_part_struct>>>>
+    std::unordered_map<efftype_id, std::unordered_map<bodypart_id, effect, std::hash<int_id<body_part_type>>>>
 {
 };
 
