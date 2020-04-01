@@ -117,12 +117,12 @@
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   },
   {
-    "id": "wasr10",
+    "id": "aksemi",
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "WASR-10" },
-    "description": "A semi-automatic, civilian-legal, Kalashnikov-pattern rifle, imported from Romania.  A valuable survivors' commodity.",
+    "name": { "str": "AK-47" },
+    "description": "A civilian-legal clone of the iconic Kalashnikov, these rifles was made and imported by many different firms.  A valuable survivors' commodity for its reliability in harsh conditions.",
     "weight": "3402 g",
     "volume": "4414 ml",
     "price": 79500,
