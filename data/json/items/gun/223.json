@@ -67,7 +67,27 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag42",
+          "stanag50",
+          "stanag60",
+          "stanag65",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "hk_g36",
@@ -89,7 +109,7 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "223", [ "g36mag_30rd", "g36mag_100rd" ] ] ]
   },
   {
     "id": "m249",
@@ -126,7 +146,28 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "223", [ "belt223", "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "belt223",
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag42",
+          "stanag50",
+          "stanag60",
+          "stanag65",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "m27iar",
@@ -136,7 +177,27 @@
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": "3710 g",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag42",
+          "stanag50",
+          "stanag60",
+          "stanag65",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ],
     "relative": { "ranged_damage": 1, "durability": 1 }
   },
   {
@@ -160,7 +221,27 @@
     "durability": 6,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag42",
+          "stanag50",
+          "stanag60",
+          "stanag65",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "m16a4",
@@ -182,7 +263,27 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag42",
+          "stanag50",
+          "stanag60",
+          "stanag65",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "rifle_223",
@@ -257,7 +358,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "ruger5", "stanag10", "ruger30", "ruger_makeshiftmag" ] ] ]
+    "magazines": [ [ "223", [ "ruger5", "ruger10", "ruger20", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ] ] ]
   },
   {
     "id": "scar_l",
@@ -280,7 +381,27 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag42",
+          "stanag50",
+          "stanag60",
+          "stanag65",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "sig552",
@@ -301,7 +422,27 @@
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag42",
+          "stanag50",
+          "stanag60",
+          "stanag65",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "steyr_aug",
@@ -338,7 +479,27 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag42",
+          "stanag50",
+          "stanag60",
+          "stanag65",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "surv_carbine_223",
@@ -375,6 +536,26 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "survivor223mag", "stanag30", "stanag50" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "survivor223mag",
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag42",
+          "stanag50",
+          "stanag60",
+          "stanag65",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150"
+        ]
+      ]
+    ]
   }
 ]
