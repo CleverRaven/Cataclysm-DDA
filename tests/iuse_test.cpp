@@ -305,7 +305,7 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
         item &atomic_coffee = dummy.i_add( item( "atomic_coffee", 0, item::default_charges_tag{} ) );
         dummy.consume_item( atomic_coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - atomic_coffee.get_comestible()->fatigue_mod );
-        CHECK( dummy.get_stim() == atomic_coffee()->stim );
+        CHECK( dummy.get_stim() == atomic_coffee.get_comestible()->stim );
     }
 }
 
