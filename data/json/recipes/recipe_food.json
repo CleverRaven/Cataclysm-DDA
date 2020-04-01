@@ -4582,6 +4582,27 @@
   },
   {
     "type": "recipe",
+    "result": "sandwich_butter",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "5 s",
+    "charges": 1,
+    "autolearn": true,
+    "components": [
+      [
+        [ "flatbread", 1 ],
+        [ "bread", 1 ],
+        [ "cornbread", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "brioche", 1 ]
+      ],
+      [ [ "any_butter", 8, "LIST" ], [ "ghee", 8 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "toasterpastry",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
