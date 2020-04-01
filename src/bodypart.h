@@ -11,6 +11,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;
@@ -59,11 +60,6 @@ constexpr std::array<body_part, 12> all_body_parts = {{
         bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
     }
 };
-
-struct body_part_type;
-
-using bodypart_str_id = string_id<body_part_type>;
-using bodypart_id = int_id<body_part_type>;
 
 struct body_part_type {
     public:

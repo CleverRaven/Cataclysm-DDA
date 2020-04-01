@@ -102,41 +102,51 @@ static body_part legacy_id_to_enum( const std::string &legacy_id )
     return iter->second;
 }
 
+/**@relates to str_id*/
 template<>
-bool bodypart_str_id::is_valid() const
+bool string_id<body_part_type>::is_valid() const
 {
     return body_part_factory.is_valid( *this );
 }
 
+/** @relates int_id */
 template<>
-bool bodypart_id::is_valid() const
+bool int_id<body_part_type>::is_valid() const
 {
     return body_part_factory.is_valid( *this );
 }
 
+/**@relates to str_id*/
 template<>
-const body_part_type &bodypart_str_id::obj() const
+const body_part_type &string_id<body_part_type>::obj() const
 {
     return body_part_factory.obj( *this );
 }
 
+/** @relates int_id */
 template<>
-const body_part_type &bodypart_id::obj() const
+const body_part_type &int_id<body_part_type>::obj() const
 {
     return body_part_factory.obj( *this );
 }
 
+/** @relates int_id */
 template<>
-const bodypart_str_id &bodypart_id::id() const
+const bodypart_str_id &int_id<body_part_type>::id() const
 {
     return body_part_factory.convert( *this );
 }
 
+/**@relates to str_id*/
 template<>
-bodypart_id bodypart_str_id::id() const
+bodypart_id string_id<body_part_type>::id() const
 {
     return body_part_factory.convert( *this, bodypart_id( 0 ) );
 }
+
+/** @relates int_id */
+template<>
+int_id<body_part_type>::int_id( const string_id<body_part_type> &id ) : _id( id.id() ) {}
 
 body_part get_body_part_token( const std::string &id )
 {
