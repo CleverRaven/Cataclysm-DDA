@@ -150,8 +150,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": -1
-  }
-  ,
+  },
   {
     "type": "COMESTIBLE",
     "id": "sandwich_honey",
