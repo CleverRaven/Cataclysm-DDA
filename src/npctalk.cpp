@@ -53,6 +53,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -1702,6 +1703,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     for( size_t i = 0; i < responses.size(); i++ ) {
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     int ch = text_only ? 'a' + responses.size() - 1 : ' ';
     bool okay;

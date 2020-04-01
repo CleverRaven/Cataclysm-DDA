@@ -13,6 +13,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -741,6 +742,9 @@ void Messages::dialog::input()
 
 void Messages::dialog::run()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( !errored && !canceled ) {
         show();
         input();

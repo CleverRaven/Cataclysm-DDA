@@ -22,6 +22,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "item.h"
@@ -1477,6 +1478,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         ict.register_action( "UP" );
         ict.register_action( "DOWN" );
         ict.register_action( "QUIT" );
+
+        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
         do {
             if( selected < 0 ) {

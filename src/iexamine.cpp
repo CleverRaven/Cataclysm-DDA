@@ -59,6 +59,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
 #include "vehicle.h"
@@ -658,6 +659,9 @@ void iexamine::vending( player &p, const tripoint &examp )
 
     const int lines_above = list_lines / 2;                  // lines above the selector
     const int lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     int cur_pos = 0;
     for( ;; ) {

@@ -41,6 +41,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "trap.h"
@@ -1473,6 +1474,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         return std::min( recoil_pc + angle * recoil_per_deg, MAX_RECOIL );
     };
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     bool redraw = true;
     const tripoint old_offset = pc.view_offset;
     do {
@@ -2013,6 +2017,10 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
     };
     const std::string fx = casting.effect();
     const tripoint old_offset = pc.view_offset;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         ret = g->m.find_clear_path( src, dst );
 

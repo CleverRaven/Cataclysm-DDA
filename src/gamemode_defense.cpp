@@ -474,6 +474,9 @@ void defense_game::setup()
     ctxt.register_action( "START" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         const std::string action = ctxt.handle_input();
 
@@ -910,6 +913,9 @@ void defense_game::caravan()
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     bool done = false;
     bool cancel = false;

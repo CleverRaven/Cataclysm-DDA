@@ -37,6 +37,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -314,6 +315,9 @@ cata::optional<tripoint> editmap::edit()
     uberdraw = uistate.editmap_nsa_viewmode;
     infoHeight = 20;
     blink = true;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     w_info = catacurses::newwin( infoHeight, width, point( offsetX, TERMY - infoHeight ) );
     do {
@@ -1440,6 +1444,9 @@ int editmap::select_shape( shapetype shape, int mode )
     }
     altblink = moveall;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         if( moveall ) {
             update_view_with_help( string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
@@ -1840,6 +1847,9 @@ void editmap::mapgen_retarget()
     ctxt.register_action( "ANY_INPUT" );
     std::string action;
     tripoint origm = target;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     blink = true;
     do {

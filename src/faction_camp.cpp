@@ -65,6 +65,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "weighted_list.h"
 #include "type_id.h"
@@ -1641,6 +1642,10 @@ void basecamp::job_assignment_ui()
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         werase( w_jobs );
         // create a list of npcs stationed at this camp

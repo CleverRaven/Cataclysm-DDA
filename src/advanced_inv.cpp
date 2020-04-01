@@ -25,6 +25,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -1065,6 +1066,9 @@ void advanced_inventory::display()
     exit = false;
     recalc = true;
     redraw = true;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     while( !exit ) {
         if( g->u.moves < 0 ) {
