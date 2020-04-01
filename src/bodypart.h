@@ -63,7 +63,7 @@ constexpr std::array<body_part, 12> all_body_parts = {{
 
 struct body_part_type;
 
-using bodypart_ids = string_id<body_part_type>;
+using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
 
 
