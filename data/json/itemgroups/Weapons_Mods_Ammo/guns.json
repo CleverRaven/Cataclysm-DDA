@@ -271,7 +271,7 @@
       { "item": "sks", "prob": 40, "charges-min": 0, "charges-max": 10 },
       { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 3 },
       { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 7 },
-      { "item": "wasr10", "prob": 35, "charges-min": 0, "charges-max": 30 }
+      { "item": "aksemi", "prob": 35, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -295,7 +295,7 @@
       { "item": "sks", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 0 },
-      { "item": "wasr10", "prob": 35, "charges-min": 0, "charges-max": 0 }
+      { "item": "aksemi", "prob": 35, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -749,7 +749,7 @@
       { "item": "shotgun_d", "prob": 10, "charges-min": 0, "charges-max": 2 },
       { "item": "sten", "prob": 20, "charges-min": 0, "charges-max": 32 },
       { "item": "sks", "prob": 10, "charges-min": 0, "charges-max": 10 },
-      { "item": "wasr10", "prob": 5, "charges-min": 0, "charges-max": 30 }
+      { "item": "aksemi", "prob": 5, "charges-min": 0, "charges-max": 30 }
     ]
   }
 ]
