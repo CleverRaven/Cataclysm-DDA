@@ -82,7 +82,7 @@
   },
   {
     "id": "ruger90",
-	"copy-from": "stanag90",
+    "copy-from": "stanag90",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "Ruger .223 90-round snail drum magazine" },
@@ -91,7 +91,7 @@
   },
   {
     "id": "ruger100",
-	"copy-from": "stanag100drum",
+    "copy-from": "stanag100drum",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "Ruger .223 100-round double drum magazine" },
@@ -315,7 +315,7 @@
   },
   {
     "id": "g36mag_30rd",
-	"copy-from": "stanag30",
+    "copy-from": "stanag30",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "G36 30-round magazine" },
@@ -324,7 +324,7 @@
   },
   {
     "id": "g36mag_100rd",
-	"copy-from": "stanag100drum",
+    "copy-from": "stanag100drum",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "G36 100-round double drum magazine" },
@@ -355,6 +355,6 @@
     "type": "MAGAZINE",
     "name": { "str": "Ruger makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the Ruger Mini-14 rifle.",
-	"ammo_type": "223"
+    "ammo_type": "223"
   }
 ]
