@@ -43,6 +43,7 @@ class save_t
         bool operator!=( const save_t &rhs ) const {
             return !operator==( rhs );
         }
+        save_t( const save_t & ) = default;
         save_t &operator=( const save_t & ) = default;
 };
 

@@ -2,7 +2,7 @@
   {
     "type": "npc_class",
     "id": "NC_BONE_SEER",
-    "name": "Bone Seer",
+    "name": { "str": "Bone Seer" },
     "job_description": "I wish to sing the song of the Bones",
     "traits": [
       { "trait": "OUTDOORSMAN" },
@@ -212,7 +212,7 @@
   {
     "id": "MISSION_SEER_GATHER_BONE",
     "type": "mission_definition",
-    "name": "Gather bones for Brigitte LaCroix.  About 8 should do it.",
+    "name": { "str": "Gather bones for Brigitte LaCroix.  About 8 should do it." },
     "difficulty": 1,
     "value": 10000,
     "goal": "MGOAL_FIND_ITEM",

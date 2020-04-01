@@ -140,6 +140,9 @@ struct islot_comestible {
         /** stimulant effect */
         int stim = 0;
 
+        /**fatigue altering effect*/
+        int fatigue_mod = 0;
+
         /** Reference to other item that replaces this one as a component in recipe results */
         itype_id cooks_like;
 
@@ -151,6 +154,9 @@ struct islot_comestible {
 
         /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
         int parasites = 0;
+
+        /**Amount of radiation you get from this comestible*/
+        int radiation = 0;
 
         /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
         int freeze_point = temperatures::freezing;

@@ -1577,7 +1577,7 @@
     "fuel_type": "wind",
     "noise_factor": 1,
     "m2c": 90,
-    "exclusions": [ "manual" ],
+    "exclusions": [ "wind" ],
     "item": "sail",
     "location": "engine_block",
     "folded_volume": 2,

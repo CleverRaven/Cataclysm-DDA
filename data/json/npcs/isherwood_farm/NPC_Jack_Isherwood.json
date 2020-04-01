@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_JACK",
-    "name": "Jack Isherwood",
+    "name": { "str": "Jack Isherwood" },
     "job_description": "I'm the patriarch of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -307,7 +307,7 @@
   {
     "id": "MISSION_ISHERWOOD_JACK_1",
     "type": "mission_definition",
-    "name": "Find 10 3L jars",
+    "name": { "str": "Find 10 3L jars" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
@@ -335,7 +335,7 @@
   {
     "id": "MISSION_ISHERWOOD_JACK_2",
     "type": "mission_definition",
-    "name": "Find 100 wheat seeds",
+    "name": { "str": "Find 100 wheat seeds" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
