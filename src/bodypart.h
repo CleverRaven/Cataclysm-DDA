@@ -66,7 +66,6 @@ struct body_part_type;
 using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
 
-
 struct body_part_type {
     public:
         bodypart_str_id id;
