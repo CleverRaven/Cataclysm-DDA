@@ -103,7 +103,7 @@ static body_part legacy_id_to_enum( const std::string &legacy_id )
 }
 
 template<>
-bool bodypart_ids::is_valid() const
+bool bodypart_str_id::is_valid() const
 {
     return body_part_factory.is_valid( *this );
 }
@@ -115,7 +115,7 @@ bool bodypart_id::is_valid() const
 }
 
 template<>
-const body_part_type &bodypart_ids::obj() const
+const body_part_type &bodypart_str_id::obj() const
 {
     return body_part_factory.obj( *this );
 }
@@ -127,13 +127,13 @@ const body_part_type &bodypart_id::obj() const
 }
 
 template<>
-const bodypart_ids &bodypart_id::id() const
+const bodypart_str_id &bodypart_id::id() const
 {
     return body_part_factory.convert( *this );
 }
 
 template<>
-bodypart_id bodypart_ids::id() const
+bodypart_id bodypart_str_id::id() const
 {
     return body_part_factory.convert( *this, bodypart_id( 0 ) );
 }
@@ -143,22 +143,22 @@ body_part get_body_part_token( const std::string &id )
     return legacy_id_to_enum( id );
 }
 
-const bodypart_ids &convert_bp( body_part bp )
+const bodypart_str_id &convert_bp( body_part bp )
 {
-    static const std::vector<bodypart_ids> body_parts = {
-        bodypart_ids( "torso" ),
-        bodypart_ids( "head" ),
-        bodypart_ids( "eyes" ),
-        bodypart_ids( "mouth" ),
-        bodypart_ids( "arm_l" ),
-        bodypart_ids( "arm_r" ),
-        bodypart_ids( "hand_l" ),
-        bodypart_ids( "hand_r" ),
-        bodypart_ids( "leg_l" ),
-        bodypart_ids( "leg_r" ),
-        bodypart_ids( "foot_l" ),
-        bodypart_ids( "foot_r" ),
-        bodypart_ids( "num_bp" ),
+    static const std::vector<bodypart_str_id> body_parts = {
+        bodypart_str_id( "torso" ),
+        bodypart_str_id( "head" ),
+        bodypart_str_id( "eyes" ),
+        bodypart_str_id( "mouth" ),
+        bodypart_str_id( "arm_l" ),
+        bodypart_str_id( "arm_r" ),
+        bodypart_str_id( "hand_l" ),
+        bodypart_str_id( "hand_r" ),
+        bodypart_str_id( "leg_l" ),
+        bodypart_str_id( "leg_r" ),
+        bodypart_str_id( "foot_l" ),
+        bodypart_str_id( "foot_r" ),
+        bodypart_str_id( "num_bp" ),
     };
     if( bp > num_bp || bp < bp_torso ) {
         debugmsg( "Invalid body part token %d", bp );
