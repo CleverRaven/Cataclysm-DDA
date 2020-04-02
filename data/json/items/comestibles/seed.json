@@ -745,7 +745,7 @@
     "color": "yellow",
     "use_action": "SEED",
     "fun": -3,
-    "description": "Some mustard seeds.  Could be grinded into mustard powder.",
+    "description": "Some mustard seeds.  Could be ground into mustard powder.",
     "price": 100,
     "charges": 2,
     "seed_data": { "plant_name": "mustard", "fruit": "seed_mustard", "byproducts": [ "withered" ], "grow": "91 days" }
