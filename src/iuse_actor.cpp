@@ -1157,7 +1157,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     const furn_t &the_furn = furn_type.obj();
     const std::string furn_name = the_furn.name();
 
-    if( the_furn.workbench.has_value() ) {
+    if( the_furn.workbench ) {
         can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
     }
     if( the_furn.has_flag( "BUTCHER_EQ" ) ) {
