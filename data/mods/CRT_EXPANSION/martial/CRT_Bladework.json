@@ -78,12 +78,7 @@
         "flat_bonuses": [ [ "arpen", "stab", 2 ], [ "arpen", "cut", 2 ] ]
       }
     ],
-    "techniques": [
-      "tec_crt_blade_rapid",
-      "tec_crt_blade_slash",
-      "tec_crt_blade_precise",
-      "tec_crt_blade_execute"
-    ],
+    "techniques": [ "tec_crt_blade_rapid", "tec_crt_blade_slash", "tec_crt_blade_precise", "tec_crt_blade_execute" ],
     "weapons": [
       "sword_crt",
       "blade_crt",
