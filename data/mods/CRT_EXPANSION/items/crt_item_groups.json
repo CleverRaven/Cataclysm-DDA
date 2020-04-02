@@ -35,16 +35,16 @@
     "type": "item_group",
     "id": "military",
     "items": [
-      [ "crt_belt", 10 ],
-      [ "crt_jacket", 20 ],
-      [ "crt_pants", 25 ],
+      [ "crt_belt", 1 ],
+      [ "crt_jacket", 2 ],
+      [ "crt_pants", 2 ],
       [ "crt_boots", 5 ],
       [ "crt_helmet", 5 ],
       [ "crt_gloves", 2 ],
       [ "crt_gasmask", 1 ],
       [ "crt_em_vest", 1 ],
-      [ "flare_gmod", 10 ],
-      [ "crt_backpack", 8 ],
+      [ "flare_gmod", 1 ],
+      [ "crt_backpack", 1 ],
       [ "crt_laser_pistol", 1 ]
     ]
   }
