@@ -29,6 +29,21 @@
   },
   {
     "type": "furniture",
+    "id": "f_burdock",
+    "name": "burdock",
+    "description": "A common weed with a purple thistle-like flower.  Its seeds tend to stick to clothing and fur.",
+    "symbol": "f",
+    "color": "magenta",
+    "looks_like": "f_dandelion",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "raw_burdock", "base_num": [ 1, 4 ] } ] } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
     "id": "f_chamomile",
     "name": "chamomile",
     "description": "Ahh, soothing chamomile tea.",
