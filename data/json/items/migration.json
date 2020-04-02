@@ -1153,5 +1153,15 @@
     "id": "bio_solar",
     "type": "MIGRATION",
     "replace": "potato"
+  },
+    {
+    "id": "akmmag",
+    "type": "MIGRATION",
+    "replace": "akmag30"
+  },
+    {
+    "id": "akmbigmag",
+    "type": "MIGRATION",
+    "replace": "akmag40"
   }
 ]
