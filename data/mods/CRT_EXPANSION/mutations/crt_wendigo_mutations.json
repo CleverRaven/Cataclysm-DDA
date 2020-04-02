@@ -123,5 +123,19 @@
         "strength_damage": { "damage_type": "biological", "amount": 0.25 }
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "MONSTROUSCARDIO",
+    "name": "Indefatigable",
+    "points": 2,
+    "description": "As you move, the world seems to breath life and energy into your limbs. You simply rarely tire less readily than others.  Your maximum stamina is 50% higher than usual.",
+    "valid": false,
+    "purifiable": false,
+    "threshreq": [ "THRESH_WENDIGO" ],
+    "category": [ "WENDIGO" ],
+    "cancels": [ "BADCARDIO" ],
+    "max_stamina_modifier": 1.75,
+    "stamina_regen_modifier": 0.25
   }
 ]
