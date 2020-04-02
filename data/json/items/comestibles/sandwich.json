@@ -349,7 +349,7 @@
     "name": { "str": "butter dog", "str_pl": "butter dogs" },
     "color": "brown",
     "calories": 1100,
-    "description": "A simple sandwich, if you can even call it that, of butter and bread. Frankly disgusting but it works in a pinch.",
+    "description": "A simple sandwich, if you can even call it that, of butter and bread.  Frankly disgusting but it works in a pinch.",
     "fun": -1
   }
 ]
