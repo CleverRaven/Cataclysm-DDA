@@ -1963,14 +1963,14 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    auto items = g->m.i_at( point( p.posx(), p.posy() ) );
+    map_stack items = g->m.i_at( point( p.posx(), p.posy() ) );
     std::vector<const item *> corpses;
 
-    for( auto &it : items ) {
-        const auto mt = it.get_mtype();
-        if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
-            mt->in_species( HUMAN ) && it.active && !it.has_var( "zlave" ) ) {
-            corpses.push_back( &it );
+    for( item &corpse_candidate : items ) {
+        const mtype *mt = corpse_candidate.get_mtype();
+        if( corpse_candidate.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
+            mt->in_species( HUMAN ) && corpse_candidate.active && !corpse_candidate.has_var( "zlave" ) ) {
+            corpses.push_back( &corpse_candidate );
         }
     }
 
@@ -3078,7 +3078,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     // Round up if checking, but roll if actually consuming
     // TODO: should 250_ml be part of the cost_scaling?
     const int items_needed = std::max<int>( 1, just_check ?
-                                            ceil( fix.volume() / 250_ml * cost_scaling ) :
+                                            std::ceil( fix.volume() / 250_ml * cost_scaling ) :
                                             roll_remainder( fix.volume() / 250_ml * cost_scaling ) );
 
     std::function<bool( const item & )> filter;
