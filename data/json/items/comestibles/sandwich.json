@@ -343,27 +343,13 @@
     "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 20 ] ]
   },
   {
-    "type": "COMESTIBLE",
     "id": "sandwich_butter",
-    "name": {
-      "str": "butter dog",
-      "str_pl": "butter dogs"
-    },
-    "weight": "88545 mg",
+    "copy-from": "sandwich_fairy",
+    "type": "COMESTIBLE",
+    "name": { "str": "butter dog", "str_pl": "butter dogs" },
     "color": "brown",
-    "spoils_in": "3 days",
-    "container": "wrapper",
-    "comestible_type": "FOOD",
-    "symbol": "%",
     "calories": 1100,
     "description": "A simple sandwich, if you can even call it that, of butter and bread. Frankly disgusting but it works in a pinch.",
-    "price": 85,
-    "material": [
-      "junk",
-      "wheat"
-    ],
-    "primary_material": "wheat",
-    "volume": "250 ml",
     "fun": -1
   }
 ]
