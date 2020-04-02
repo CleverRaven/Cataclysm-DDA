@@ -1110,7 +1110,7 @@ void avatar::load( const JsonObject &data )
         g->scen = &string_id<scenario>( scen_ident ).obj();
 
         if( !g->scen->allowed_start( start_location ) ) {
-            start_location = g->scen->start_location();
+            start_location = g->scen->random_start_location();
         }
     } else {
         const scenario *generic_scenario = scenario::generic();

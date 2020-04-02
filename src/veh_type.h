@@ -331,6 +331,9 @@ class vpart_info
         // Display order in vehicle interact display
         int list_order = 0;
 
+        const std::set<std::string> &get_flags() const {
+            return flags;
+        }
         bool has_flag( const std::string &flag ) const {
             return flags.count( flag ) != 0;
         }

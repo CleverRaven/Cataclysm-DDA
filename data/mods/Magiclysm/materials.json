@@ -78,11 +78,11 @@
     "fire_resist": 3,
     "elec_resist": 0,
     "chip_resist": 40,
-    "repaired_with": "scrap",
+    "repaired_with": "orichalcum_ingot",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap", 1 ] ],
+    "burn_products": [ [ "scrap_bronze", 1 ] ],
     "compacts_into": [ "orichalcum_lump", "orichalcum_sliver" ]
   }
 ]

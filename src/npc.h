@@ -114,13 +114,13 @@ enum class attitude_group : int {
 
 // a job assigned to an NPC when they are stationed at a basecamp.
 // this governs what tasks they will periodically scan to do.
-// some duties arent implemented yet
+// some duties aren't implemented yet
 // but are more indications of what category that duty will fall under when it is implemented.
 enum npc_job : int {
     NPCJOB_NULL = 0,   // a default job of no particular responsibility.
     NPCJOB_COOKING,    // includes cooking crafts and butchery
-    NPCJOB_MENIAL,  // sorting items, cleaning, refilling furniture ( charcoal kilns etc )
-    NPCJOB_VEHICLES,  // deconstructing/repairing/constructing/refuelling vehicles
+    NPCJOB_MENIAL,  // sorting items, cleaning, refilling furniture ( charcoal kilns etc. )
+    NPCJOB_VEHICLES,  // deconstructing/repairing/constructing/refueling vehicles
     NPCJOB_CONSTRUCTING, // building stuff from blueprint zones
     NPCJOB_CRAFTING, // crafting stuff generally. currently placeholder
     NPCJOB_SECURITY,  // patrolling - currently placeholder

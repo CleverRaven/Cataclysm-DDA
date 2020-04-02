@@ -3,7 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 100,
-    "om_terrain": [ "shelter" ],
+    "om_terrain": [ "dks_shelter" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -46,7 +46,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 100,
-    "om_terrain": [ "shelter_1" ],
+    "om_terrain": [ "dks_shelter_1" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -89,7 +89,7 @@
     "type": "mapgen",
     "method": "json",
     "weight": 100,
-    "om_terrain": [ "shelter_2" ],
+    "om_terrain": [ "dks_shelter_2" ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -367,11 +367,9 @@
       ],
       "terrain": {
         "x": "t_console_broken",
-        "+": "t_door_c",
-        ":": "t_window",
-        "-": "t_wall_w",
-        "=": "t_door_locked_interior",
-        "6": "t_console"
+        ":": [ "t_window_frame", "t_window" ],
+        "+": [ "t_door_c", "t_door_b" ],
+        "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ]
       },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
       "computers": {
@@ -428,8 +426,7 @@
         ":": [ "t_window_frame", "t_window" ],
         "+": [ "t_door_c", "t_door_b" ],
         "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
-        "6": "t_console_broken",
-        "-": "t_wall_w"
+        "6": "t_console_broken"
       },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": [ [ "f_locker", 2 ], "f_wreckage" ], "S": "f_sink", "%": "f_trashcan" },
       "items": {
@@ -473,7 +470,7 @@
         "                   c    ",
         "                        "
       ],
-      "terrain": { " ": "t_null", "6": "t_console" },
+      "terrain": { " ": "t_null" },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
       "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 70 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 50 } }
     }
@@ -510,15 +507,7 @@
         "   ||||||||||......c|   ",
         "            ||:|+|:||   "
       ],
-      "terrain": {
-        "x": "t_console_broken",
-        "-": "t_wall_w",
-        "=": "t_door_locked_interior",
-        "6": "t_console",
-        ":": "t_window_domestic",
-        "+": "t_door_c",
-        "*": "t_ladder_up"
-      },
+      "terrain": { "x": "t_console_broken" },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
       "computers": {
         "6": {
@@ -578,10 +567,7 @@
         ":": [ "t_window_frame", "t_window" ],
         "+": [ "t_door_c", "t_door_b" ],
         "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
-        "6": [ "t_console", "t_console_broken" ],
-        "-": "t_wall_w",
-        "*": "t_ladder_up",
-        "x": "t_console_broken"
+        "6": [ "t_console", "t_console_broken" ]
       },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": [ [ "f_locker", 2 ], "f_wreckage" ], "S": "f_sink", "%": "f_trashcan" },
       "items": {
@@ -604,5 +590,79 @@
     "method": "json",
     "nested_mapgen_id": "dks_general_graffiti",
     "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "x": 0, "y": 0, "snippet": "dks_general_graffiti_snippets" } ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter",
+    "copy-from": "Evac Shelter",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dks_shelter_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_north" }
+    ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter 1",
+    "copy-from": "Evac Shelter 1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dks_shelter_1_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_1_north" }
+    ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter 2",
+    "copy-from": "Evac Shelter 2",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dks_shelter_2_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_2_north" }
+    ]
+  },
+  {
+    "type": "start_location",
+    "ident": "shelter",
+    "name": "Shelter",
+    "target": "dks_shelter"
+  },
+  {
+    "type": "start_location",
+    "ident": "shelter_1",
+    "name": "Shelter",
+    "target": "dks_shelter_1"
+  },
+  {
+    "type": "start_location",
+    "ident": "shelter_2",
+    "name": "Shelter",
+    "target": "dks_shelter_2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dks_shelter",
+    "copy-from": "shelter"
+  },
+  {
+    "type": "overmap_terrain",
+    "copy-from": "shelter_1",
+    "id": "dks_shelter_1"
+  },
+  {
+    "type": "overmap_terrain",
+    "copy-from": "shelter_2",
+    "id": "dks_shelter_2"
+  },
+  {
+    "type": "recipe_group",
+    "name": "all_faction_base_types",
+    "building_type": "NONE",
+    "recipes": [
+      { "id": "faction_base_modular_hub_field_0", "description": "Field Camp", "om_terrains": [ "field" ] },
+      { "id": "faction_base_firestation_0", "description": "Firestation Base", "om_terrains": [ "fire_station" ] },
+      { "id": "faction_base_shelter_0", "description": "Evac Shelter Base", "om_terrains": [ "dks_shelter" ] },
+      { "id": "faction_base_shelter_1_0", "description": "Evac Shelter Base", "om_terrains": [ "dks_shelter_1" ] }
+    ]
   }
 ]

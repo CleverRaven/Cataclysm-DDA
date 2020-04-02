@@ -8056,14 +8056,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mass_grave",
-    "copy-from": "mass_grave",
-    "name": "mass grave",
-    "sym": "m",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "recyclecenter",
     "copy-from": "recyclecenter",
     "name": "recycle center",

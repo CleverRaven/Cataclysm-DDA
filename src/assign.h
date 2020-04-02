@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "calendar.h"
 #include "color.h"
 #include "debug.h"
 #include "json.h"

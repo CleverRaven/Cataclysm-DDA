@@ -732,7 +732,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     float best_bench_multi = 0.0;
     tripoint target = loc;
     for( const tripoint &adj : g->m.points_in_radius( pos(), 1 ) ) {
-        if( const cata::optional<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
+        if( const cata::value_ptr<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
             if( wb->multiplier > best_bench_multi ) {
                 best_bench_multi = wb->multiplier;
                 target = adj;

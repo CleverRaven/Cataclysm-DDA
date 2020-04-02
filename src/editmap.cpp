@@ -525,7 +525,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         }
     }
 
-    // custom hilight.
+    // custom highlight.
     // TODO: optimize
     for( auto &elem : hilights ) {
         if( !elem.second.points.empty() ) {
@@ -1372,7 +1372,7 @@ void editmap::recalc_target( shapetype shape )
 }
 
 /*
- * Shift 'var' (ie, part of a coordinate plane) by 'shift'.
+ * Shift 'var' (i.e., part of a coordinate plane) by 'shift'.
  * If the result is not >= min and < 'max', constrain the result and adjust 'shift',
  * so it can adjust subsequent points of a set consistently.
  */

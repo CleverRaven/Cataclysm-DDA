@@ -152,7 +152,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
         { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
-        { "WALL",                     TFLAG_WALL },           // smells
+        { "WALL",                     TFLAG_WALL },           // connects to other walls
+        { "NO_SCENT",                 TFLAG_NO_SCENT },       // cannot have scent values, which prevents scent diffusion through this tile
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
         { "CURRENT",                  TFLAG_CURRENT },        // Water is flowing.
         { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
@@ -1282,11 +1283,11 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     deconstruct.load( jo, "deconstruct", true );
 
     if( jo.has_object( "workbench" ) ) {
-        workbench = furn_workbench_info();
+        workbench = cata::make_value<furn_workbench_info>();
         workbench->load( jo, "workbench" );
     }
     if( jo.has_object( "plant_data" ) ) {
-        plant = plant_data();
+        plant = cata::make_value<plant_data>();
         plant->load( jo, "plant_data" );
     }
 }

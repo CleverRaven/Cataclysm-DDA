@@ -1188,9 +1188,9 @@ static int get_base_env_resist( const item &it )
 
 bool item::is_owned_by( const Character &c, bool available_to_take ) const
 {
-    // owner.is_null() implies faction_id( "no_faction" ) which shouldnt happen, or no owner at all.
+    // owner.is_null() implies faction_id( "no_faction" ) which shouldn't happen, or no owner at all.
     // either way, certain situations this means the thing is available to take.
-    // in other scenarios we actaully really want to check for id == id, even for no_faction
+    // in other scenarios we actually really want to check for id == id, even for no_faction
     if( get_owner().is_null() ) {
         return available_to_take;
     }
@@ -3803,7 +3803,7 @@ void item::on_wear( Character &p )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
     }
-    // if game is loaded - dont want ownership assigned during char creation
+    // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
@@ -3866,7 +3866,7 @@ void item::on_wield( player &p, int mv )
     } else {
         msg = _( "You wield your %s." );
     }
-    // if game is loaded - dont want ownership assigned during char creation
+    // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
@@ -3929,7 +3929,7 @@ void item::on_pickup( Character &p )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_carried );
     }
-    // if game is loaded - dont want ownership assigned during char creation
+    // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
@@ -8303,6 +8303,39 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
     }
 
     return false;
+}
+
+bool item::has_rotten_away( const tripoint &pnt )
+{
+    if( is_corpse() && goes_bad() ) {
+        process_temperature_rot( 1, pnt, nullptr );
+        return get_rot() > 10_days && !can_revive();
+    } else if( goes_bad() ) {
+        process_temperature_rot( 1, pnt, nullptr );
+        return has_rotten_away();
+    } else if( type->container && type->container->preserves ) {
+        // Containers like tin cans preserves all items inside, they do not rot at all.
+        return false;
+    } else if( type->container && type->container->seals ) {
+        // Items inside rot but do not vanish as the container seals them in.
+        for( auto &c : contents ) {
+            if( c.goes_bad() ) {
+                c.process_temperature_rot( 1, pnt, nullptr );
+            }
+        }
+        return false;
+    } else {
+        // Check and remove rotten contents, but always keep the container.
+        for( auto it = contents.begin(); it != contents.end(); ) {
+            if( it->has_rotten_away( pnt ) ) {
+                it = contents.erase( it );
+            } else {
+                ++it;
+            }
+        }
+
+        return false;
+    }
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right )
