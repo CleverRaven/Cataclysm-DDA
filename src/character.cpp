@@ -6210,27 +6210,6 @@ body_part Character::hp_to_bp( const hp_part hpart )
     }
 }
 
-body_part Character::get_random_body_part( bool main ) const
-{
-    // TODO: Refuse broken limbs, adjust for mutations
-    return random_body_part( main );
-}
-
-std::vector<bodypart_id> Character::get_all_body_parts( bool only_main ) const
-{
-    // TODO: Remove broken parts, parts removed by mutations etc.
-
-    const std::vector<bodypart_id> all_bps = get_anatomy()->get_bodyparts();
-    std::vector<bodypart_id> main_bps;
-
-    for( const bodypart_id bp : all_bps ) {
-        if( bp->main_part.id() == bp ) {
-            main_bps.emplace_back( bp );
-        }
-    }
-    return only_main ? main_bps : all_bps;
-}
-
 std::string Character::extended_description() const
 {
     std::string ss;
