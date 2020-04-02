@@ -63,7 +63,9 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.empty_skills();
     dummy.clear_morale();
     dummy.clear_bionics();
+    dummy.clear_effects();
     dummy.activity.set_to_null();
+    dummy.set_pain( 0 );
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
