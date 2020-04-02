@@ -17,6 +17,7 @@
 #include "profession.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "weather.h"
 #include "catacharset.h"
@@ -503,7 +504,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     center_print( w_bionics, 0, h_light_gray, _( title_BIONICS ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
+                                      " / <color_light_blue>%2$d</color>" ),
                                    units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
 
     const size_t useful_y = bionics_win_size_y - 1;
@@ -550,7 +552,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
         center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                        string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                        string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
+                                          " / <color_light_blue>%2$d</color>" ),
                                        units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
         for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
             mvwprintz( w_bionics, point( 1, static_cast<int>( i + 2 ) ), c_black, "                         " );
@@ -973,7 +976,8 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
+                                      " / <color_light_blue>%2$d</color>" ),
                                    units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
         trim_and_print( w_bionics, point( 1, static_cast<int>( i ) + 2 ), getmaxx( w_bionics ) - 1, c_white,
@@ -1308,10 +1312,9 @@ void player::disp_info()
     ctxt.register_action( "HELP_KEYBINDINGS" );
     std::string action;
 
-    std::string help_msg = string_format( _( "Press %s for help." ),
-                                          ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-    mvwprintz( w_tip, point( FULL_SCREEN_WIDTH - utf8_width( help_msg ), 0 ), c_light_red, help_msg );
-    help_msg.clear();
+    right_print( w_tip, 0, +4, c_white, string_format(
+                     _( "< [<color_yellow>%s</color>] keybindings >" ),
+                     ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
     wrefresh( w_tip );
 
     draw_initial_windows( w_stats, w_encumb, w_traits, w_bionics, w_effects, w_skills, w_speed, *this,
@@ -1345,6 +1348,9 @@ void player::disp_info()
     int curtab = 1;
     line = 0;
     bool done = false;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     // Initial printing is DONE.  Now we give the player a chance to scroll around
     // and "hover" over different items for more info.

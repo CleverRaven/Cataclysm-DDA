@@ -36,6 +36,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "veh_utils.h"
@@ -334,6 +335,10 @@ void veh_interact::do_main_loop()
     } else {
         owner_fac = g->faction_manager_ptr->get( faction_id( "no_faction" ) );
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( !finish ) {
         overview();
         display_mode();
@@ -973,6 +978,9 @@ bool veh_interact::do_install( std::string &msg )
     // full list of mountable parts, to be filtered according to tab
     std::vector<const vpart_info *> tab_vparts = can_mount;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int pos = 0;
     size_t tab = 0;
     while( true ) {
@@ -1152,6 +1160,9 @@ bool veh_interact::do_repair( std::string &msg )
     }
 
     set_title( _( "Choose a part here to repair:" ) );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     int pos = 0;
     while( true ) {
@@ -1554,6 +1565,9 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         } while( !opts[pos].hotkey );
     }
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     bool redraw = false;
     while( true ) {
         werase( w_list );
@@ -1785,6 +1799,10 @@ bool veh_interact::do_remove( std::string &msg )
             break;
         }
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         //redraw list of parts
         werase( w_parts );

@@ -17,12 +17,14 @@
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
+#include "popup.h"
 #include "sdlsound.h"
 #include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "worldfactory.h"
 #include "color.h"
 
@@ -2441,7 +2443,9 @@ static void draw_borders_external(
     mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( w, point( getmaxx( w ) - 1, horizontal_level ), BORDER_COLOR, LINE_XOXX ); // -|
     for( auto &mapLine : mapLines ) {
-        mvwputch( w, point( mapLine.first + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        if( mapLine.second ) {
+            mvwputch( w, point( mapLine.first + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        }
     }
     wrefresh( w );
 }
@@ -2460,7 +2464,8 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
     wrefresh( w );
 }
 
-std::string options_manager::show( bool ingame, const bool world_options_only )
+std::string options_manager::show( bool ingame, const bool world_options_only,
+                                   const std::function<bool()> &on_quit )
 {
     const int iWorldOptPage = std::find_if( pages_.begin(), pages_.end(), [&]( const Page & p ) {
         return &p == &world_default_page_;
@@ -2478,37 +2483,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         ingame = false;
     }
 
-    const int iWorldOffset = world_options_only ? 2 : 0;
-    const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
-    const int iTooltipHeight = 4;
-    const int iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;
-
     std::map<int, bool> mapLines;
-    std::map<int, bool> mapLinesOriginal;
     mapLines[4] = true;
     mapLines[60] = true;
 
-    catacurses::window w_options_border  = catacurses::newwin( TERMY, iMinScreenWidth,
-                                           point( iOffsetX, 0 ) );
-    catacurses::window w_options_tooltip = catacurses::newwin( iTooltipHeight, iMinScreenWidth - 2,
-                                           point( 1 + iOffsetX, 1 + iWorldOffset ) );
-    catacurses::window w_options_header  = catacurses::newwin( 1, iMinScreenWidth - 2,
-                                           point( 1 + iOffsetX, 1 + iTooltipHeight + iWorldOffset ) );
-    catacurses::window w_options         = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
-                                           point( 1 + iOffsetX, iTooltipHeight + 2 + iWorldOffset ) );
-
-    if( world_options_only ) {
-        worldfactory::draw_worldgen_tabs( w_options_border, 1 );
-    }
-
-    mapLinesOriginal = mapLines;
-    draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
-                           world_options_only );
-    draw_borders_internal( w_options_header, mapLines );
-
     int iCurrentPage = world_options_only ? iWorldOptPage : 0;
-    int iLastPage = 0;
     int iCurrentLine = 0;
     int iStartPos = 0;
 
@@ -2520,7 +2499,63 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    while( true ) {
+    const int iWorldOffset = world_options_only ? 2 : 0;
+    int iMinScreenWidth = 0;
+    const int iTooltipHeight = 4;
+    int iContentHeight = 0;
+
+    catacurses::window w_options_border;
+    catacurses::window w_options_tooltip;
+    catacurses::window w_options_header;
+    catacurses::window w_options;
+
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        if( OPTIONS.find( "TERMINAL_X" ) != OPTIONS.end() ) {
+            if( OPTIONS_OLD.find( "TERMINAL_X" ) != OPTIONS_OLD.end() ) {
+                OPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
+            }
+            if( WOPTIONS_OLD.find( "TERMINAL_X" ) != WOPTIONS_OLD.end() ) {
+                WOPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
+            }
+        }
+        if( OPTIONS.find( "TERMINAL_Y" ) != OPTIONS.end() ) {
+            if( OPTIONS_OLD.find( "TERMINAL_Y" ) != OPTIONS_OLD.end() ) {
+                OPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
+            }
+            if( WOPTIONS_OLD.find( "TERMINAL_Y" ) != WOPTIONS_OLD.end() ) {
+                WOPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
+            }
+        }
+
+
+        iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
+        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
+        iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;
+
+        w_options_border  = catacurses::newwin( TERMY, iMinScreenWidth,
+                                                point( iOffsetX, 0 ) );
+        w_options_tooltip = catacurses::newwin( iTooltipHeight, iMinScreenWidth - 2,
+                                                point( 1 + iOffsetX, 1 + iWorldOffset ) );
+        w_options_header  = catacurses::newwin( 1, iMinScreenWidth - 2,
+                                                point( 1 + iOffsetX, 1 + iTooltipHeight + iWorldOffset ) );
+        w_options         = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
+                                                point( 1 + iOffsetX, iTooltipHeight + 2 + iWorldOffset ) );
+
+        ui.position_from_window( w_options_border );
+    };
+
+    ui_adaptor ui;
+    ui.on_screen_resize( init_windows );
+    init_windows( ui );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        if( world_options_only ) {
+            worldfactory::draw_worldgen_tabs( w_options_border, 1 );
+        }
+
+        draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
+                               world_options_only );
+        draw_borders_internal( w_options_header, mapLines );
+
         Page &page = pages_[iCurrentPage];
         auto &page_items = page.items_;
 
@@ -2659,22 +2694,32 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                             current_opt.getDefaultText() );
         }
 
-        if( iCurrentPage != iLastPage ) {
-            iLastPage = iCurrentPage;
-            if( ingame && iCurrentPage == iWorldOptPage ) {
-                mvwprintz( w_options_tooltip, point( 3, 3 ), c_light_red, "%s", _( "Note: " ) );
-                wprintz( w_options_tooltip, c_white, "%s",
-                         _( "Some of these options may produce unexpected results if changed." ) );
-            }
+        if( ingame && iCurrentPage == iWorldOptPage ) {
+            mvwprintz( w_options_tooltip, point( 3, 3 ), c_light_red, "%s", _( "Note: " ) );
+            wprintz( w_options_tooltip, c_white, "%s",
+                     _( "Some of these options may produce unexpected results if changed." ) );
         }
         wrefresh( w_options_tooltip );
 
         wrefresh( w_options );
+    } );
+
+    while( true ) {
+        ui_manager::redraw();
+
+        Page &page = pages_[iCurrentPage];
+        auto &page_items = page.items_;
+
+        auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
+                         ACTIVE_WORLD_OPTIONS : OPTIONS;
+
+        const std::string &opt_name = *page_items[iCurrentLine];
+        cOpt &current_opt = cOPTIONS[opt_name];
 
         const std::string action = ctxt.handle_input();
 
-        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
-            catacurses::refresh();
+        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" ||
+                                    ( action == "QUIT" && ( !on_quit || on_quit() ) ) ) ) {
             return action;
         }
 
@@ -2757,9 +2802,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                     }
                 }
             }
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLinesOriginal,
-                                   world_options_only );
         } else if( action == "QUIT" ) {
             break;
         }
@@ -2807,7 +2849,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
     if( options_changed ) {
         if( query_yn( _( "Save changes?" ) ) ) {
-            popup_status( _( "Please wait…" ), _( "Applying option changes…" ) );
+            static_popup popup;
+            popup.message( "%s", _( "Please wait…\nApplying option changes…" ) );
+            ui_manager::redraw();
+            refresh_display();
+
             save();
             if( ingame && world_options_changed ) {
                 world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
@@ -2825,9 +2871,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             }
         }
     }
-
-    catacurses::clear();
-    catacurses::refresh();
 
     if( lang_changed ) {
         update_global_locale();

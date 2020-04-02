@@ -54,5 +54,35 @@
     "bashing": 20,
     "cutting": 35,
     "use_action": { "type": "cast_spell", "spell_id": "ethereal_grasp", "no_fail": true, "level": 10, "need_wielding": true }
+  },
+  {
+    "copy-from": "knife_combat",
+    "type": "TOOL",
+    "id": "orich_knife_combat",
+    "name": { "str": "orichalcum combat knife", "str_pl": "orichalcum combat knives" },
+    "description": "A variant of the combat knife that is made of orichalcum instead of steel.  Sharper and easier to maintain than steel while just as dense, this knife also has a thinner blade, which shaves off some weight.",
+    "material": [ "orichalcum_metal" ],
+    "proportional": { "cutting": 1.1, "price": 5, "weight": 0.99 },
+    "color": "yellow"
+  },
+  {
+    "copy-from": "longsword",
+    "type": "TOOL",
+    "id": "orich_longsword",
+    "name": { "str": "orichalcum longsword" },
+    "description": "A variant of the longsword that is made of orichalcum instead of steel.  Sharper and easier to maintain than steel while just as dense, this longsword also has a thinner blade, which shaves off some weight.",
+    "material": [ "orichalcum_metal" ],
+    "proportional": { "cutting": 1.1, "price": 5, "weight": 0.99 },
+    "color": "yellow"
+  },
+  {
+    "copy-from": "fire_ax",
+    "type": "TOOL",
+    "id": "orich_fire_ax",
+    "name": { "str": "orichalcum fire axe" },
+    "description": "A fire axe made with orichalcum instead of steel.  This makes it possible to chop through harder materials, and in the very well-funded fire stations is preferred.",
+    "material": [ "orichalcum_metal" ],
+    "proportional": { "cutting": 1.1, "price": 5 },
+    "color": "yellow"
   }
 ]

@@ -4692,25 +4692,27 @@ static void blood_magic( player *p, int cost )
     p->mod_pain( std::max( 1, cost / 3 ) );
 }
 
-static spell casting;
-
-static spell &player_or_item_spell( player *p, const spell_id &sp, int level )
+static void player_or_item_spell( player *p, const spell_id &sp, int level, spell &casting )
 {
+    // if level is -1 then we know it is a player spell
     if( level == -1 ) {
-        return p->magic.get_spell( sp );
+        casting = p->magic.get_spell( sp );
+        // so we return early
+        return;
     }
+    // otherwise we build the spell from the id and level
     casting = spell( sp );
     while( casting.get_level() < level && !casting.is_max_level() ) {
         casting.gain_level();
     }
-    return casting;
 }
 
 void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     const int level_override = act->get_value( 0 );
-    spell &casting = player_or_item_spell( p, spell_id( act->name ), level_override );
+    spell casting;
+    player_or_item_spell( p, spell_id( act->name ), level_override, casting );
     const bool no_fail = act->get_value( 1 ) == 1;
     const bool no_mana = act->get_value( 2 ) == 0;
 
@@ -4846,8 +4848,8 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->get_str_value( 1 ) == "study" ) {
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
                               total_exp_gained );
-        p->practice( skill_id( "spellcraft" ), total_exp_gained,
-                     p->magic.get_spell( spell_id( act->name ) ).get_difficulty() );
+        const spell &sp = p->magic.get_spell( spell_id( act->name ) );
+        p->practice( sp.skill(), total_exp_gained, sp.get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
         p->magic.learn_spell( act->name, *p );
     }

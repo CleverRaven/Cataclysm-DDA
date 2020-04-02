@@ -8055,7 +8055,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
                           const point &min, const point &max )
 {
     auto reduce = TFLAG_REDUCE_SCENT;
-    auto block = TFLAG_WALL;
+    auto block = TFLAG_NO_SCENT;
     auto fill_values = [&]( const tripoint & gp, const submap * sm, const point & lp ) {
         // We need to generate the x/y coordinates, because we can't get them "for free"
         const int x = gp.x * SEEX + lp.x;

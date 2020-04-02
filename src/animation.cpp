@@ -52,6 +52,7 @@ class basic_animation
             .on_top( true )
             .show();
 
+            catacurses::refresh();
             refresh_display();
         }
 

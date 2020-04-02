@@ -285,7 +285,7 @@ void monexamine::remove_battery( monster &z )
 void monexamine::insert_battery( monster &z )
 {
     if( z.battery_item ) {
-        // already has a battery, shouldnt be called with one, but just incase.
+        // already has a battery, shouldn't be called with one, but just incase.
         return;
     }
     std::vector<item *> bat_inv = g->u.items_with( []( const item & itm ) {

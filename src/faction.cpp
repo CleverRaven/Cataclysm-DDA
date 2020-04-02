@@ -27,6 +27,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "text_snippets.h"
+#include "ui_manager.h"
 #include "item.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -153,7 +154,7 @@ void faction::remove_member( const character_id &guy_id )
     }
     if( members.empty() ) {
         for( const faction_template &elem : npc_factions::all_templates ) {
-            // This is a templated base faction - dont delete it, just leave it as zero members for now.
+            // This is a templated base faction - don't delete it, just leave it as zero members for now.
             // Only want to delete dynamically created factions.
             if( elem.id == id ) {
                 return;
@@ -442,7 +443,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
         }
     }
     for( const faction_template &elem : npc_factions::all_templates ) {
-        // id isnt already in factions map, so load in the template.
+        // id isn't already in factions map, so load in the template.
         if( elem.id == id ) {
             factions[elem.id] = elem;
             if( !factions.empty() ) {
@@ -692,6 +693,10 @@ void faction_manager::display() const
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         werase( w_missions );
         // create a list of NPCs, visible and the ones on overmapbuffer

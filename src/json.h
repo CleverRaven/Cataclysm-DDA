@@ -787,12 +787,12 @@ class JsonOut
  *
  * By default, when a JsonObject is destroyed (or when you call finish) it will
  * check to see whether every member of the object was referenced in some way
- * (even simply checking for the existence of the member is suffucient).
+ * (even simply checking for the existence of the member is sufficient).
  *
  * If not all the members were referenced, then an error will be written to the
  * log (which in particular will cause the tests to fail).
  *
- * If you don't want this behaviour, then call allow_omitted_members() before
+ * If you don't want this behavior, then call allow_omitted_members() before
  * the JsonObject is destroyed.  Calling str() also suppresses it (on the basis
  * that you may be intending to re-parse that string later).
  */
@@ -904,7 +904,7 @@ class JsonObject
         // non-fatally read values by reference
         // return true if the value was set.
         // return false if the member is not found.
-        // throw_on_error dictates the behaviour when the member was present
+        // throw_on_error dictates the behavior when the member was present
         // but the read fails.
         template <typename T>
         bool read( const std::string &name, T &t, bool throw_on_error = true ) const {
