@@ -57,7 +57,6 @@
     "techniques": [
       "tec_crt_cqb_normal",
       "tec_crt_cqb_rapid",
-      "tec_crt_cqb_rapid_wp",
       "tec_crt_cqb_precise",
       "tec_crt_cqb_arpen",
       "tec_crt_cqb_feint"
