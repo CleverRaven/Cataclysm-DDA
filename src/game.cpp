@@ -712,7 +712,8 @@ bool game::start_game()
     load_master();
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
-    const start_location &start_loc = u.start_location.obj();
+    const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
+                                      u.start_location.obj();
     const tripoint omtstart = start_loc.find_player_initial_location();
     if( omtstart == overmap::invalid_tripoint ) {
         return false;
