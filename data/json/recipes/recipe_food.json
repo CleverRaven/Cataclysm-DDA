@@ -4614,14 +4614,7 @@
       { "id": "CUT", "level": 1 }
     ],
     "components": [
-      [
-        [ "flatbread", 1 ],
-        [ "bread", 1 ],
-        [ "cornbread", 1 ],
-        [ "wastebread", 1 ],
-        [ "sourdough_bread", 1 ],
-        [ "brioche", 1 ]
-      ],
+      [ [ "flatbread", 1 ], [ "bread", 1 ], [ "cornbread", 1 ], [ "sourdough_bread", 1 ], [ "brioche", 1 ] ],
       [ [ "any_butter", 2, "LIST" ], [ "ghee", 2 ] ]
     ]
   },
