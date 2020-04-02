@@ -62,7 +62,13 @@
   {
     "type": "item_group",
     "id": "displays",
-    "items": [ [ "mana_potion_lesser", 50 ], [ "magi_staff_minor", 5 ], [ "wizard_hat", 5 ], [ "cauldron_demon_chitin", 3 ] ]
+    "items": [
+      [ "mana_potion_lesser", 50 ],
+      [ "magi_staff_minor", 5 ],
+      [ "wizard_hat", 5 ],
+      [ "cauldron_demon_chitin", 3 ],
+      [ "manatouched_serum", 3 ]
+    ]
   },
   {
     "id": "coffee_display_2",
@@ -72,7 +78,7 @@
   {
     "type": "item_group",
     "id": "bar_alcohol",
-    "items": [ [ "mana_potion_lesser", 20 ] ]
+    "items": [ [ "mana_potion_lesser", 20 ], [ "manatouched_serum", 1 ] ]
   },
   {
     "type": "item_group",
@@ -129,7 +135,8 @@
       [ "ogres_strength_potion", 10 ],
       [ "foxs_cunning_potion", 10 ],
       [ "eagles_sight_potion", 10 ],
-      [ "cats_grace_potion", 10 ]
+      [ "cats_grace_potion", 10 ],
+      [ "manatouched_serum", 1 ]
     ]
   },
   {
