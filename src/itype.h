@@ -1010,6 +1010,9 @@ struct itype {
          */
         float solar_efficiency = 0;
 
+        translation toiletpaper_message; // message when use as toiletpaper
+        int toiletpaper_morale; // morale when use as toiletpaper
+
         std::string get_item_type_string() const {
             if( tool ) {
                 return "TOOL";

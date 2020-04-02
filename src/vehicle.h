@@ -1621,6 +1621,10 @@ class vehicle
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );
+        void use_toilet( int part );
+        void use_shower( int part, const std::string &mode);
+        bool is_available_washlet_resource();
+        void consume_washlet_resource();
 
         void interact_with( const tripoint &pos, int interact_part );
 

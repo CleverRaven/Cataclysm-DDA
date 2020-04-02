@@ -1449,6 +1449,8 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
+    std::pair<std::string, nc_color> excrete_pair = u.get_excrete_description();
+
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 8, 0 ), pain_pair.second, pain_pair.first );
@@ -1462,6 +1464,8 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 30, 1 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Heat :" ) );
     mvwprintz( w, point( 8, 2 ), temp_pair.first, temp_pair.second );
+    mvwprintz( w, point( 23, 2 ), c_light_gray, _( "Bowel :" ) );
+    mvwprintz( w, point( 30, 2 ), excrete_pair.second, excrete_pair.first );
     wrefresh( w );
 }
 

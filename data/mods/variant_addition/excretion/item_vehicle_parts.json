@@ -1,0 +1,32 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "vehicle_toilet",
+    "name": "vehicle toilet",
+    "description": "vehicle mountable toilet.",
+    "price": 10000,
+    "weight": "10000 g",
+    "to_hit": -2,
+    "color": "white",
+    "symbol": "&",
+    "material": ["steel", "plastic"],
+    "volume": "15 L",
+    "bashing": 4,
+    "category": "veh_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "vehicle_toilet_washlet",
+    "name": "vehicle toilet with washlet",
+    "description": "vehicle mountable toilet with washlet.",
+    "price": 20000,
+    "weight": "15000 g",
+    "to_hit": -2,
+    "color": "white",
+    "symbol": "&",
+    "material": ["steel", "plastic"],
+    "volume": "15 L",
+    "bashing": 4,
+    "category": "veh_parts"
+  }
+]

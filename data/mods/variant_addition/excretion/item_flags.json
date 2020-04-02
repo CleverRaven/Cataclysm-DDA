@@ -1,0 +1,8 @@
+[
+  {
+    "id": "TOILETPAPER",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item can use as toilet paper."
+  }
+]

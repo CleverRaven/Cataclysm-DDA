@@ -1854,6 +1854,50 @@ void vehicle::use_bike_rack( int part )
     }
 }
 
+void vehicle::use_toilet( int p ) {
+
+    auto items = get_items( p );
+    bool non_excretive = std::any_of( items.begin(), items.end(), []( const item & i ) {
+        return !( i.made_of(material_id("feces")) || i.made_of(material_id("paper")) );
+    } );
+
+    if( items.empty() ) {
+        add_msg( m_bad,
+                 _( "Toilet is empty." ) );
+    } else if( fuel_left( "water" ) < 12 && fuel_left( "water_clean" ) < 12 ) {
+        add_msg( m_bad, _( "You need 12 charges of water for flush toilet." ),
+                 name );
+    } else if( non_excretive ) {
+        add_msg( m_bad,
+                 _( "There are non excretive item on toilet." ) );
+    } else {
+
+        if( fuel_left( "water" ) >= 12 ) {
+            drain( "water", 12 );
+        } else {
+            drain( "water_clean", 12 );
+        }
+
+        items.clear();
+        add_msg( m_good, _( "You flushed toilet." ) );
+    }
+
+}
+
+bool vehicle::is_available_washlet_resource( ){
+    bool water = (4 <= fuel_left( "water" ) || 4 <= fuel_left( "water_clean" ));
+    bool battery = (500 <= fuel_left( "battery", true ));
+    return water && battery;
+}
+void vehicle::consume_washlet_resource( ){
+    if( 4 <= fuel_left( "water_clean" ) ) {
+        drain( "water_clean", 4 );
+    } else {
+        drain( "water", 4 );
+    }
+    drain( "battery", 500 );
+}
+
 // Handles interactions with a vehicle in the examine menu.
 void vehicle::interact_with( const tripoint &pos, int interact_part )
 {
@@ -1903,10 +1947,14 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const int workbench_part = avail_part_with_feature( interact_part, "WORKBENCH", true );
     const bool has_workbench = workbench_part >= 0;
 
+    const int toilet_part = avail_part_with_feature( interact_part, "TOILET", true );
+    const bool has_toilet = toilet_part >= 0;
+
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE, USE_DISHWASHER,
         USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, USE_TOWEL, PEEK_CURTAIN,
+        TOILET,
     };
     uilist selectmenu;
 
@@ -1988,6 +2036,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_workbench ) {
         selectmenu.addentry( WORKBENCH, true, '&', string_format( _( "Craft at the %s" ),
                              parts[workbench_part].name() ) );
+    }
+    if( has_toilet ) {
+        selectmenu.addentry( TOILET, true, 'F', string_format( _( "Flush toilet" ) ) );
     }
 
     int choice;
@@ -2159,6 +2210,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case WORKBENCH: {
             iexamine::workbench_internal( g->u, pos, vpart_reference( *this, workbench_part ) );
+            return;
+        }
+        case TOILET: {
+            use_toilet( toilet_part );
             return;
         }
     }

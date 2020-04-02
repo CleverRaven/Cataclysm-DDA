@@ -123,6 +123,14 @@ enum sleep_deprivation_levels {
     SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
 };
 
+enum excrete_need_levels {
+    EXCRETETABLE = 1000,
+    NEED_EXECRETE = 1500,
+    PATIENTING = 2000,
+    INCONTINENTING = 2500,
+    INCONTINENTED = 3000
+};
+
 // This tries to represent both rating and
 // character's decision to respect said rating
 enum edible_rating {
@@ -357,6 +365,8 @@ class Character : public Creature, public visitable<Character>
         std::pair<std::string, nc_color> get_fatigue_description() const;
         int get_fatigue() const;
         int get_sleep_deprivation() const;
+        virtual int get_excrete_amount() const;
+        virtual int get_excrete_need() const;
 
         std::pair<std::string, nc_color> get_pain_description() const override;
 
@@ -367,6 +377,8 @@ class Character : public Creature, public visitable<Character>
         virtual void mod_thirst( int nthirst );
         virtual void mod_fatigue( int nfatigue );
         virtual void mod_sleep_deprivation( int nsleep_deprivation );
+        virtual void mod_excrete_amount( int nexcrete );
+        virtual void mod_excrete_need( int nexcrete );
 
         /** Setters for need values exclusive to characters */
         virtual void set_stored_kcal( int kcal );
@@ -374,6 +386,8 @@ class Character : public Creature, public visitable<Character>
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
+        virtual void set_excrete_amount( int nexcrete );
+        virtual void set_excrete_need( int nexcrete );
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
@@ -1979,6 +1993,9 @@ class Character : public Creature, public visitable<Character>
         int fatigue;
         int sleep_deprivation;
         bool check_encumbrance = true;
+
+        int excrete_need;
+        int excrete_amount;
 
         int stim;
         int pkill;

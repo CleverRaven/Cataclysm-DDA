@@ -1,0 +1,9 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "copy-from": "feces_dog",
+    "id": "feces_human",
+    "name": "excrement",
+    "description": "Human excrement, could probably be used to make some great fertilizer."
+  }
+]

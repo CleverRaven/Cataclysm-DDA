@@ -1813,6 +1813,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Excretion",
+    "category": "DEFAULTMODE",
+    "id": "excretion",
+    "bindings": [ { "input_method": "keyboard", "key": "0" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Control Vehicle",
     "category": "DEFAULTMODE",
     "id": "control_vehicle",

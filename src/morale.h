@@ -67,6 +67,7 @@ class player_morale
         void on_item_takeoff( const item &it );
         void on_worn_item_transform( const item &old_it, const item &new_it );
         void on_worn_item_washed( const item &it );
+        void on_worn_item_be_filthy( const item &it  );
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
 
         void store( JsonOut &jsout ) const;

@@ -1,0 +1,36 @@
+[
+  {
+    "type": "recipe",
+    "result": "vehicle_toilet",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "tools": [],
+    "qualities": [],
+    "components": [ [ [ "plastic_chunk", 12 ] ], [ [ "water_faucet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "vehicle_toilet_washlet",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 8 ], [ "steel_tiny", 8 ] ],
+    "tools": [],
+    "qualities": [],
+    "components": [ 
+      [ [ "plastic_chunk", 16 ] ],
+      [ [ "water_faucet", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "element", 2 ] ],
+      [ [ "motor_small", 1 ] ]
+    ]
+  }
+]

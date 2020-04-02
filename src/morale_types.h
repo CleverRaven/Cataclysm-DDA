@@ -116,5 +116,12 @@ extern const morale_type MORALE_FUNERAL;
 extern const morale_type MORALE_TREE_COMMUNION;
 extern const morale_type MORALE_ACCOMPLISHMENT;
 extern const morale_type MORALE_FAILURE;
+extern const morale_type MORALE_SEX_WITH_LITTLEMAID;
+extern const morale_type MORALE_ECSTASY;
+extern const morale_type MORALE_TAKE_BATH;
+extern const morale_type MORALE_TAKE_WASHLET;
+extern const morale_type MORALE_USE_TOILETPAPER;
+extern const morale_type MORALE_EXCRETE;
+extern const morale_type MORALE_INCONTINENT;
 
 #endif

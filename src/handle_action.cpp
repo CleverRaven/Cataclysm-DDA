@@ -1053,6 +1053,18 @@ static void sleep()
     u.try_to_sleep( try_sleep_dur );
 }
 
+static void excretion(){
+
+    if( query_yn( _( "Do excrete?" ) ) ) {
+
+        g->u.assign_activity(player_activity( activity_id( "ACT_EXCRETE" ),
+        to_moves<int>( 3_minutes ),
+        -1,
+        0,
+        "Excrete" ));
+    }
+}
+
 static void loot()
 {
     enum ZoneFlags {
@@ -2114,6 +2126,10 @@ bool game::handle_action()
                 } else {
                     sleep();
                 }
+                break;
+
+            case ACTION_EXCRETE:
+                excretion();
                 break;
 
             case ACTION_CONTROL_VEHICLE:

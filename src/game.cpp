@@ -2333,6 +2333,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "construct" );
     ctxt.register_action( "disassemble" );
     ctxt.register_action( "sleep" );
+    ctxt.register_action( "excretion" );
     ctxt.register_action( "control_vehicle" );
     ctxt.register_action( "auto_travel_mode" );
     ctxt.register_action( "safemode" );

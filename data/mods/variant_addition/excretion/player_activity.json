@@ -1,0 +1,25 @@
+[
+  {
+    "id": "ACT_TAKE_SHOWER",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "taking shower",
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_TAKE_WASHLET",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "taking washlet",
+    "no_resume": true,
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_EXCRETE",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "excreting",
+    "based_on": "time",
+    "no_resume": true
+  }
+]
