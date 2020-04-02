@@ -1427,7 +1427,7 @@ void avatar::set_movement_mode( character_movemode new_mode )
                 }
             } else {
                 if( is_mounted() ) {
-                    // mounts dont currently have stamina, but may do in future.
+                    // mounts don't currently have stamina, but may do in future.
                     add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
                 } else if( get_working_leg_count() < 2 ) {
                     add_msg( m_bad, _( "You need two functional legs to run." ) );

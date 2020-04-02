@@ -4468,7 +4468,7 @@ needs_rates Character::calc_needs_rates() const
 
     if( has_activity( ACT_TREE_COMMUNION ) ) {
         // Much of the body's needs are taken care of by the trees.
-        // Hair Roots dont provide any bodily needs.
+        // Hair Roots don't provide any bodily needs.
         if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
             rates.hunger *= 0.5f;
             rates.thirst *= 0.5f;
@@ -8525,7 +8525,7 @@ void Character::cancel_activity()
     }
     // act wait stamina interrupts an ongoing activity.
     // and automatically puts auto_resume = true on it
-    // we dont want that to persist if there is another interruption.
+    // we don't want that to persist if there is another interruption.
     // and player moves elsewhere.
     if( has_activity( ACT_WAIT_STAMINA ) && !backlog.empty() &&
         backlog.front().auto_resume ) {

@@ -391,7 +391,7 @@ void map::generate_lightmap( const int zlev )
                 apply_light_source( mp, 8 );
             }
             // TODO: [lightmap] Attach natural light brightness to creatures
-            // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
+            // TODO: [lightmap] Allow creatures to have light attacks (i.e.: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
             if( critter.type->luminance > 0 ) {
                 apply_light_source( mp, critter.type->luminance );
