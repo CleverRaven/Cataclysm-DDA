@@ -16,6 +16,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 class JsonObject;
 struct itype;
@@ -371,6 +372,8 @@ struct furn_t : map_data_common_t {
     cata::optional<furn_workbench_info> workbench;
 
     cata::optional<plant_data> plant;
+
+    cata::value_ptr<float> surgery_skill_multiplier;
 
     // May return NULL
     const itype *crafting_pseudo_item_type() const;

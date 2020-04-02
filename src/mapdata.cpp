@@ -1289,6 +1289,9 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
         plant = plant_data();
         plant->load( jo, "plant_data" );
     }
+    if( jo.has_float( "surgery_skill_multiplier" ) ) {
+        surgery_skill_multiplier = cata::make_value<float>( jo.get_float( "surgery_skill_multiplier" ) );
+    }
 }
 
 void map_data_common_t::check() const
