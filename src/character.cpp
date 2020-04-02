@@ -161,9 +161,6 @@ static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_throw( "throw" );
-
 static const species_id HUMAN( "HUMAN" );
 static const species_id ROBOT( "ROBOT" );
 
