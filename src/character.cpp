@@ -4200,6 +4200,20 @@ void Character::update_body( const time_point &from, const time_point &to )
     do_skill_rust();
 }
 
+item *Character::best_quality_item( const quality_id &qual )
+{
+    std::vector<item *> qual_inv = items_with( [qual]( const item & itm ) {
+        return itm.has_quality( qual );
+    } );
+    item *best_qual = random_entry( qual_inv );
+    for( const auto elem : qual_inv ) {
+        if( elem->get_quality( qual ) > best_qual->get_quality( qual ) ) {
+            best_qual = elem;
+        }
+    }
+    return best_qual;
+}
+
 void Character::update_stomach( const time_point &from, const time_point &to )
 {
     const needs_rates rates = calc_needs_rates();

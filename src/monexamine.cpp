@@ -37,6 +37,10 @@
 #include "pimpl.h"
 #include "point.h"
 
+static const quality_id qual_shear( "SHEAR" );
+
+static const efftype_id effect_sheared( "sheared" );
+
 static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 
@@ -51,7 +55,6 @@ static const efftype_id effect_saddled( "monster_saddled" );
 static const efftype_id effect_tied( "tied" );
 
 static const skill_id skill_survival( "survival" );
-
 static const species_id ZOMBIE( "ZOMBIE" );
 
 bool monexamine::pet_menu( monster &z )
@@ -70,6 +73,7 @@ bool monexamine::pet_menu( monster &z )
         play_with_pet,
         pheromone,
         milk,
+        shear,
         pay,
         attach_saddle,
         remove_saddle,
@@ -132,6 +136,24 @@ bool monexamine::pet_menu( monster &z )
 
     if( z.has_flag( MF_MILKABLE ) ) {
         amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
+    }
+    if( z.has_flag( MF_SHEARABLE ) ) {
+        bool available = true;
+        if( season_of_year( calendar::turn ) == WINTER ) {
+            amenu.addentry( shear, false, 'S',
+                            _( "This animal would freeze if you shear it during winter." ) );
+            available = false;
+        } else if( z.has_effect( effect_sheared ) ) {
+            amenu.addentry( shear, false, 'S', _( "This animal is not ready to be sheared again yet." ) );
+            available = false;
+        }
+        if( available ) {
+            if( g->u.has_quality( qual_shear, 1 ) ) {
+                amenu.addentry( shear, true, 'S', _( "Shear %s." ), pet_name );
+            } else {
+                amenu.addentry( shear, false, 'S', _( "You cannot shear this animal without shears." ) );
+            }
+        }
     }
     if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_saddled ) &&
         g->u.has_item_with_flag( "TACK" ) && g->u.get_skill_level( skill_survival ) >= 1 ) {
@@ -240,6 +262,9 @@ bool monexamine::pet_menu( monster &z )
         case milk:
             milk_source( z );
             break;
+        case shear:
+            shear_animal( z );
+            break;
         case pay:
             pay_bot( z );
             break;
@@ -254,6 +279,22 @@ bool monexamine::pet_menu( monster &z )
             break;
     }
     return true;
+}
+
+void monexamine::shear_animal( monster &z )
+{
+    const int moves = to_moves<int>( time_duration::from_minutes( 30 / g->u.max_quality(
+                                         qual_shear ) ) );
+
+    g->u.assign_activity( activity_id( "ACT_SHEAR" ), moves, -1 );
+    g->u.activity.coords.push_back( g->m.getabs( z.pos() ) );
+    // pin the sheep in place if it isn't already
+    if( !z.has_effect( effect_tied ) ) {
+        z.add_effect( effect_tied, 1_turns, num_bp, true );
+        g->u.activity.str_values.push_back( "temp_tie" );
+    }
+    g->u.activity.targets.push_back( item_location( g->u, g->u.best_quality_item( qual_shear ) ) );
+    add_msg( _( "You start shearing the %s." ), z.get_name() );
 }
 
 static item_location pet_armor_loc( monster &z )

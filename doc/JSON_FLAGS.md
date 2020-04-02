@@ -963,6 +963,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```RIDEABLE_MECH``` This monster is a mech suit that can be piloted.
 - ```SEES``` It can see you (and will run/follow).
+- ```SHEARABLE``` This monster can be sheared for wool.
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
 - ```SMELLS``` It can smell you.

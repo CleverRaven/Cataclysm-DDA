@@ -1996,7 +1996,18 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "SHEARABLE",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "PET_WONT_FOLLOW",
+      "MILKABLE"
+    ]
   },
   {
     "id": "mon_squirrel",

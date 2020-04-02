@@ -2096,23 +2096,9 @@ static bool butcher_corpse_activity( player &p, const tripoint &src_loc,
     return false;
 }
 
-static item *best_quality_item( player &p, const quality_id &qual )
-{
-    std::vector<item *> qual_inv = p.items_with( [qual]( const item & itm ) {
-        return itm.has_quality( qual );
-    } );
-    item *best_qual = random_entry( qual_inv );
-    for( const auto elem : qual_inv ) {
-        if( elem->get_quality( qual ) > best_qual->get_quality( qual ) ) {
-            best_qual = elem;
-        }
-    }
-    return best_qual;
-}
-
 static bool chop_plank_activity( player &p, const tripoint &src_loc )
 {
-    item *best_qual = best_quality_item( p, qual_AXE );
+    item *best_qual = p.best_quality_item( qual_AXE );
     if( !best_qual ) {
         return false;
     }
@@ -2392,7 +2378,7 @@ static int chop_moves( player &p, item *it )
 
 static bool chop_tree_activity( player &p, const tripoint &src_loc )
 {
-    item *best_qual = best_quality_item( p, qual_AXE );
+    item *best_qual = p.best_quality_item( qual_AXE );
     if( !best_qual ) {
         return false;
     }
@@ -2829,7 +2815,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         p.backlog.push_front( act_id );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         p.activity = player_activity();
-        item *best_rod = best_quality_item( p, qual_FISHING );
+        item *best_rod = p.best_quality_item( qual_FISHING );
         p.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
                            p.get_item_position( best_rod ), best_rod->tname() );
         p.activity.coord_set = g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );
