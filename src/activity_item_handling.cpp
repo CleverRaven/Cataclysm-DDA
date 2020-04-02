@@ -74,7 +74,6 @@ static const efftype_id effect_pet( "pet" );
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
-static const zone_type_id zone_type_loot_unsorted( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_source_firewood( "SOURCE_FIREWOOD" );
 
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
@@ -87,6 +86,7 @@ static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
+static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -1527,7 +1527,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         return activity_reason_info::fail( NO_ZONE );
     }
     if( act == ACT_TIDY_UP ) {
-        if( mgr.has_near( z_loot_unsorted, g->m.getabs( src_loc ), distance ) ||
+        if( mgr.has_near( zone_type_LOOT_UNSORTED, g->m.getabs( src_loc ), distance ) ||
             mgr.has_near( z_camp_storage, g->m.getabs( src_loc ), distance ) ) {
             return activity_reason_info::ok( CAN_DO_FETCH );
         }
@@ -1989,7 +1989,7 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
         }
     }
     // we are adjacent to an unsorted zone, we came here to just drop items we are carrying
-    if( mgr.has( zone_type_loot_unsorted, g->m.getabs( src_loc ) ) ) {
+    if( mgr.has( zone_type_LOOT_UNSORTED, g->m.getabs( src_loc ) ) ) {
         for( item *inv_elem : p.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
@@ -2491,7 +2491,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
     if( act_id == ACT_TIDY_UP ) {
         dark_capable = true;
         tripoint unsorted_spot;
-        std::unordered_set<tripoint> unsorted_set = mgr.get_near( zone_type_loot_unsorted, abspos,
+        std::unordered_set<tripoint> unsorted_set = mgr.get_near( zone_type_LOOT_UNSORTED, abspos,
                 ACTIVITY_SEARCH_DISTANCE );
         if( !unsorted_set.empty() ) {
             unsorted_spot = g->m.getlocal( random_entry( unsorted_set ) );

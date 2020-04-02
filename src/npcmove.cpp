@@ -2512,7 +2512,9 @@ bool npc::find_job_to_perform()
             continue;
         }
         player_activity scan_act = player_activity( elem );
-        if( generic_multi_activity_handler( scan_act, *this->as_player(), true ) ) {
+        if( elem == activity_id( "ACT_MOVE_LOOT" ) ) {
+            assign_activity( elem );
+        } else if( generic_multi_activity_handler( scan_act, *this->as_player(), true ) ) {
             assign_activity( elem );
             return true;
         }
