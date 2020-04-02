@@ -81,7 +81,6 @@
     "techniques": [
       "tec_crt_blade_rapid",
       "tec_crt_blade_slash",
-      "tec_crt_blade_feint",
       "tec_crt_blade_precise",
       "tec_crt_blade_execute"
     ],
@@ -165,17 +164,6 @@
       "You release a blindingly fast low slash at %s and topple them off balance",
       "<npcname> slashes at %s and shoves them down"
     ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_crt_blade_feint",
-    "name": "Armed Feint",
-    "messages": [ "You fake a quick slash toward %s", "<npcname> fakes a quick slash toward %s" ],
-    "skill_requirements": [ { "name": "melee", "level": 4 } ],
-    "unarmed_allowed": false,
-    "melee_allowed": true,
-    "defensive": true,
-    "miss_recovery": true
   },
   {
     "type": "technique",
