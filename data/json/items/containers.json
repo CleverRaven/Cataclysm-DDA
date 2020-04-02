@@ -224,7 +224,7 @@
     "type": "CONTAINER",
     "category": "container",
     "name": { "str": "condiment bottle" },
-    "description": "An inverted plastic bottle for condiments. Still sealed from factory, preserves content from rot until opened.",
+    "description": "An inverted plastic bottle for condiments.  Still sealed from factory, preserves content from rot until opened.",
     "weight": "19 g",
     "volume": "500 ml",
     "price": 0,
