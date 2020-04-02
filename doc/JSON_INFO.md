@@ -609,6 +609,7 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 | `by_mood`       | Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions.
 | `neutral`       | Always be neutral towards this faction.
 | `friendly`      | Always be friendly towards this faction. By default a faction is friendly towards itself.
+| `hate`          | Always be hostile towards this faction. Will change target to monsters of this faction if available.
 
 ```C++
 {
@@ -616,7 +617,8 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
     "base_faction" : "zombie",
     "by_mood"      : ["blob"],
     "neutral"      : ["nether"],
-    "friendly"     : ["blob"]
+    "friendly"     : ["blob"],
+    "hate"         : ["fungus"]
 }
 ```
 
