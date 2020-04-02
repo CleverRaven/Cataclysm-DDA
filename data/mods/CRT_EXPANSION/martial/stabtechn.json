@@ -11,7 +11,7 @@
     "mult_bonuses": [ [ "damage", "stab", 1.1 ] ],
     "flat_bonuses": [ [ "damage", "stab", "str", 0.1 ], [ "damage", "stab", "per", 0.2 ] ],
     "messages": [ "You step forward and stab at %s", "<npcname> stabs into %s flesh" ],
-    "description": "110% Stab DMG, STR (E) and PER (D) provides bonus damage, melee (1)"
+    "description": "110% Stab DMG, STR (E) and PER (D) adds DMG, melee (1)"
   },
   {
     "type": "technique",
@@ -25,7 +25,7 @@
     "mult_bonuses": [ [ "damage", "stab", 1.15 ] ],
     "flat_bonuses": [ [ "damage", "stab", "str", 0.2 ], [ "damage", "stab", "per", 0.2 ] ],
     "messages": [ "You explosively jab at %s", "<npcname> violently jabs at %s" ],
-    "description": "Crit!, 115% Stab DMG, Strength (D) and Perception (D) adds DMG, melee (2)"
+    "description": "CRIT!, 115% Stab DMG, Strength (D) and Perception (D) adds DMG, melee (2)"
   },
   {
     "type": "technique",
@@ -39,7 +39,7 @@
     "mult_bonuses": [ [ "movecost", 0.66 ], [ "damage", "stab", 0.7 ] ],
     "flat_bonuses": [ [ "damage", "stab", "per", 0.3 ], [ "movecost", "dex", 0.5 ] ],
     "messages": [ "You prod at %s defensively", "<npcname> prods at %s " ],
-    "description": "66% AP cost, 70% Stab DMG, PER (C) adds DMG, DEX (B) reduces AP cost, melee (3)"
+    "description": "66% AP, 70% Stab DMG, PER (C) adds DMG, DEX (B) reduces AP cost, melee (3)"
   },
   {
     "type": "technique",
@@ -53,6 +53,6 @@
     "mult_bonuses": [ [ "movecost", 0.8 ] ],
     "flat_bonuses": [ [ "damage", "stab", "per", 0.6 ], [ "arpen", "stab", "per", 0.125 ] ],
     "messages": [ "You probe %s's openings", "<npcname> probe %s " ],
-    "description": "80% AP cost, PER (C) adds DMG and ArPen (E), melee (3)"
+    "description": "80% AP, PER (C) adds DMG and Arpen (E), melee (3)"
   }
 ]
