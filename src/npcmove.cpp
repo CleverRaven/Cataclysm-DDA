@@ -3874,17 +3874,18 @@ void npc::mug_player( player &mark )
         value_mod -= ( ( 8 - op_of_u.value ) * .07 );
     }
     double best_value = minimum_item_value() * value_mod;
-    int item_index = INT_MIN;
+    item *to_steal = nullptr;
     invslice slice = mark.inv.slice();
-    for( size_t i = 0; i < slice.size(); i++ ) {
-        if( value( slice[i]->front() ) >= best_value &&
-            can_pickVolume( slice[i]->front(), true ) &&
-            can_pickWeight( slice[i]->front(), true ) ) {
-            best_value = value( slice[i]->front() );
-            item_index = i;
+    for( std::list<item> *stack : slice ) {
+        item &front_stack = stack->front();
+        if( value( front_stack ) >= best_value &&
+            can_pickVolume( front_stack, true ) &&
+            can_pickWeight( front_stack, true ) ) {
+            best_value = value( front_stack );
+            to_steal = &front_stack;
         }
     }
-    if( item_index == INT_MIN ) { // Didn't find anything worthwhile!
+    if( to_steal == nullptr ) { // Didn't find anything worthwhile!
         set_attitude( NPCATT_FLEE_TEMP );
         if( !one_in( 3 ) ) {
             say( "<done_mugging>" );
@@ -3894,7 +3895,7 @@ void npc::mug_player( player &mark )
     }
     item stolen;
     if( !is_hallucination() ) {
-        stolen = mark.i_rem( item_index );
+        stolen = mark.i_rem( to_steal );
         i_add( stolen );
     }
     if( mark.is_npc() ) {
