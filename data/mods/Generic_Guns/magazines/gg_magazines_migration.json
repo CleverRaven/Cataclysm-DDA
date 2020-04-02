@@ -140,6 +140,10 @@
   },
   {
     "id": [
+      "augmag_10rd",
+      "augmag_30rd",
+      "augmag_42rd",
+      "augmag_100rd",
       "stanag20",
       "stanag30",
       "stanag40",

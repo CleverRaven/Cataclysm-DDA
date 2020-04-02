@@ -398,7 +398,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "ruger5", "ruger10", "ruger20", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ] ] ]
+    "magazines": [ [ "223", [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ] ] ]
   },
   {
     "id": "scar_l",
@@ -519,27 +519,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [
-      [
-        "223",
-        [
-          "stanag30",
-          "stanag5",
-          "stanag10",
-          "stanag20",
-          "stanag40",
-          "stanag42",
-          "stanag50",
-          "stanag60",
-          "stanag65",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      ]
-    ]
+    "magazines": [ [ "223", [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ] ] ]
   },
   {
     "id": "surv_carbine_223",

@@ -171,7 +171,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "STANAG 42-round magazine" },
-    "description": "An increased-capacity 40-round box magazine for use with STANAG compatible rifles.",
+    "description": "An increased-capacity 42-round box magazine for use with STANAG compatible rifles.",
     "weight": "400 g",
     "volume": "620 ml",
     "price": 8600,
@@ -329,6 +329,46 @@
     "type": "MAGAZINE",
     "name": { "str": "G36 100-round double drum magazine" },
     "description": "A bulky 100-round double drum magazine for use with the G36 assault rifle.",
+    "ammo_type": "223"
+  },
+  {
+    "id": "augmag_10rd",
+    "copy-from": "stanag10",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "AUG 10-round magazine" },
+    "description": "A compact 10-round box magazine for use with the Steyr AUG assault rifle.",
+    "material": [ "steel", "plastic" ],
+    "ammo_type": "223"
+  },
+  {
+    "id": "augmag_30rd",
+    "copy-from": "stanag30",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "AUG 30-round magazine" },
+    "description": "A standard capacity 30-round box magazine for use with the Steyr AUG assault rifle.",
+    "material": [ "steel", "plastic" ],
+    "ammo_type": "223"
+  },
+  {
+    "id": "augmag_42rd",
+    "copy-from": "stanag42",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "AUG 42-round magazine" },
+    "description": "An increased-capacity 42-round box magazine for use with the Steyr AUG assault rifle.",
+    "material": [ "steel", "plastic" ],
+    "ammo_type": "223"
+  },
+  {
+    "id": "augmag_100rd",
+    "copy-from": "stanag100drum",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "AUG 100-round double drum magazine" },
+    "description": "A bulky 100-round double drum magazine for use with the Steyr AUG assault rifle.",
+    "material": [ "steel", "plastic" ],
     "ammo_type": "223"
   },
   {

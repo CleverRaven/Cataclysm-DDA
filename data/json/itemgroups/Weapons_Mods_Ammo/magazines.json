@@ -257,6 +257,10 @@
       [ "stanag90", 10 ],
       [ "stanag100drum", 15 ],
       [ "stanag150", 10 ],
+      [ "augmag_10rd", 5 ],
+      [ "augmag_30rd", 15 ],
+      [ "augmag_42rd", 5 ],
+      [ "augmag_100d", 2 ],
       [ "g36mag_30rd", 15 ],
       [ "g36mag_100rd", 3 ]
     ]
