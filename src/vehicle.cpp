@@ -854,7 +854,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // accelerate when it dosnt need to turn.
     // when following player, take distance to player into account.
     // we really want to avoid running the player over.
-    // If its a helicopter, we dont need to worry about airborne obstacles so much.
+    // If its a helicopter, we dont need to worry about airborne obstacles so much
     // And fuel efficiency is terrible at low speeds.
     int safe_player_follow_speed = 400;
     if( g->u.movement_mode_is( CMM_RUN ) ) {
