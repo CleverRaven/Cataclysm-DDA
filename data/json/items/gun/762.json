@@ -34,7 +34,7 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ],
+    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ]
   },
   {
     "id": "arx160",
@@ -73,7 +73,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40" ] ] ],
+    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40" ] ] ]
   },
   {
     "id": "sks",
@@ -150,7 +150,7 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ],
+    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ]
   },
   {
     "id": "draco",
@@ -187,6 +187,6 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ],
+    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ]
   }
 ]
