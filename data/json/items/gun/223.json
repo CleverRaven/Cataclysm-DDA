@@ -213,7 +213,7 @@
     "looks_like": "skorpion_61",
     "type": "GUN",
     "name": { "str": "OA-93" },
-    "description": "An AR-15 derivative pistol manufactured by Olympic Arms in the nineties. The main difference compared to the AR-15 is that the recoil spring has been moved to the top of the gun, circumventing the necessity for a solid buttstock.",
+    "description": "An AR-15 derivative pistol manufactured by Olympic Arms in the nineties.  The main difference compared to the AR-15 is that the recoil spring has been moved to the top of the gun, circumventing the necessity for a solid buttstock.",
     "weight": "2023 g",
     "volume": "2135 ml",
     "price": 125000,

@@ -29,7 +29,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 10, "into": "DKS_GROUP_STRAY_UPGRADE" },
+    "upgrades": { "half_life": 10, "into_group": "DKS_GROUP_STRAY_UPGRADE" },
     "burn_into": "dks_mon_stray_burnt",
     "flags": [
       "SEES",
@@ -98,7 +98,7 @@
     "id": "dks_mon_stray_fast",
     "type": "MONSTER",
     "name": "stray sprinter",
-    "description": "This once-shambling human body has become subtly toned, and though its still appears caught between putrefying on the spot and living, it now moves with a hint of animal cunning. A tightened mouth surrounds gnashing teeth as it hunts for fresh meat with more intensity than those around it.",
+    "description": "This once-shambling human body has become subtly toned, and though its still appears caught between putrefying on the spot and living, it now moves with a hint of animal cunning.  A tightened mouth surrounds gnashing teeth as it hunts for fresh meat with more intensity than those around it.",
     "default_faction": "stray",
     "looks_like": "mon_zombie_runner",
     "bodytype": "human",

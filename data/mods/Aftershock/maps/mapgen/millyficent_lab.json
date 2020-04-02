@@ -243,7 +243,8 @@
         "x": "t_console_broken",
         "*": "t_utility_light",
         "w": "t_window_bars_curtains",
-        ">": "t_wood_stairs_down"
+        ">": "t_wood_stairs_down",
+        "_": "t_open_air"
       },
       "furniture": {
         "T": "f_trashcan",
@@ -272,6 +273,7 @@
         "N": "f_NMR",
         "O": "f_MRI",
         "0": "f_CTscan",
+        "P": "f_dishwasher",
         "r": "f_rack",
         "s": "f_stool",
         "S": "f_sink",

@@ -67,7 +67,7 @@
     "type": "SPELL",
     "id": "dks_spell_mindblast",
     "name": "psi mindblast",
-    "description": "blasts a target with a wave of disorienting psionic energy. has random effects",
+    "description": "blasts a target with a wave of disorienting psionic energy.  has random effects",
     "valid_targets": [ "hostile" ],
     "message": "",
     "effect": "none",

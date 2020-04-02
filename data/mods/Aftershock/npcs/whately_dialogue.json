@@ -12,7 +12,7 @@
       "context": "meeting",
       "value": "yes",
       "yes": [ "What did you bring me?", "Hello.", "How are you?", "Welcome!", "Do you smell something?" ],
-      "no": "New test subjects! I'm so glad you showed up!"
+      "no": "New test subjects!  I'm so glad you showed up!"
     },
     "responses": [
       {
@@ -57,7 +57,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_millyficent_place",
-    "dynamic_line": "Welcome to my lab! Here we explore the boundaries of the possible beyond the reach of small minds.",
+    "dynamic_line": "Welcome to my lab!  Here we explore the boundaries of the possible beyond the reach of small minds.",
     "responses": [
       { "text": "Can you give me something to eat then?", "topic": "TALK_millyficent_food" },
       { "text": "Oh, okay.", "topic": "TALK_Millyficent_1" },

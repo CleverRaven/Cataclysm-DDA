@@ -37,10 +37,10 @@
         "text": "\"When I think of the aliens I get mad, because I was supposed to be the next big leader.  WHERES MY CHANCE!??\""
       },
       { "id": "dks_note_13", "text": "\"They stopped me at the edge of town, said they wanted to make a deal…\"" },
-      { "id": "dks_note_14", "text": "\"robots cant smell. youll thank me later\"" },
+      { "id": "dks_note_14", "text": "\"robots cant smell.  youll thank me later\"" },
       {
         "id": "dks_note_15",
-        "text": "\"Hey. Everyone reading this.  Life isn't so bad with them.  People just need to read up on their capitals if you catch my drift.\""
+        "text": "\"Hey.  Everyone reading this.  Life isn't so bad with them.  People just need to read up on their capitals if you catch my drift.\""
       },
       { "id": "dks_note_16", "text": "\"goddamn piece of shit gun doesnt fucking work\"" },
       {
@@ -73,14 +73,14 @@
       { "id": "dks_note_26", "text": "\"This isn't real this is a test to turn you into a Manchurian Candidate!\"" },
       {
         "id": "dks_note_27",
-        "text": "\"they sold us all down the river real fast huh? they're on the radio near washington.\""
+        "text": "\"they sold us all down the river real fast huh?  they're on the radio near washington.\""
       },
       {
         "id": "dks_note_28",
         "text": "\"Some of 'em are big.  Real big.  Don't stick around, I saw my mate get fucking torn in half!\""
       },
       { "id": "dks_note_29", "text": "\"po p y fl ow er s don t ea at them\"" },
-      { "id": "dks_note_30", "text": "\"saw some of ours with them. traitor traitor traitor\"" },
+      { "id": "dks_note_30", "text": "\"saw some of ours with them.  traitor traitor traitor\"" },
       { "id": "dks_note_31", "text": "\"did they break all the fucking lawnmowers?!\"" },
       {
         "id": "dks_note_32",
@@ -107,7 +107,10 @@
         "text": "\"Why would you hide in a farm?  Sure, it's isolated, but if they know where you are, you don't exactly have cover on all sides.\""
       },
       { "id": "dks_note_41", "text": "\"earth wasn't the first\"" },
-      { "id": "dks_note_42", "text": "\"bullet holes and plasma burns all over the car. piece of shit hardly runs\"" },
+      {
+        "id": "dks_note_42",
+        "text": "\"bullet holes and plasma burns all over the car.  piece of shit hardly runs\""
+      },
       { "id": "dks_note_43", "text": "\"one day this will all be over.\"" },
       {
         "id": "dks_note_44",
@@ -145,7 +148,7 @@
       { "id": "dks_note_59", "text": "\"got close to one of their ships and i feel crawly inside\"" },
       {
         "id": "dks_note_60",
-        "text": "\"Remember history class with the invaders and their disesases? yeah… my gut doesn't feel right… like it's moving…\""
+        "text": "\"Remember history class with the invaders and their disesases?  yeah… my gut doesn't feel right… like it's moving…\""
       },
       {
         "id": "dks_note_61",
@@ -202,7 +205,7 @@
       { "id": "dks_note_80", "text": "\"THE MARLEY WAS RIGHT\"" },
       {
         "id": "dks_note_81",
-        "text": "\"We surrendered to them and they're treating us well.  I don't know why I was hiding all that time. \""
+        "text": "\"We surrendered to them and they're treating us well.  I don't know why I was hiding all that time.\""
       },
       { "id": "dks_note_82", "text": "\"how long were they watching us?\"" },
       {
@@ -240,7 +243,7 @@
       },
       {
         "id": "dks_note_95",
-        "text": "\"Crawled in through the vents.  Whole office building is a wreck. Saved some, turned their guns on others.\""
+        "text": "\"Crawled in through the vents.  Whole office building is a wreck.  Saved some, turned their guns on others.\""
       },
       {
         "id": "dks_note_96",
@@ -248,7 +251,7 @@
       },
       {
         "id": "dks_note_96a",
-        "text": "\"Occupants are everywhere. Do NOT let those fucking drones see you.  They'll alert the others with sirens and lights\""
+        "text": "\"Occupants are everywhere.  Do NOT let those fucking drones see you.  They'll alert the others with sirens and lights\""
       },
       {
         "id": "dks_note_97",
@@ -278,7 +281,7 @@
       { "id": "dks_note_107", "text": "\"My skin is crawling and I teleport every few minutes…  what is going o\"" },
       {
         "id": "dks_note_108",
-        "text": "\"Occupiers crawling all over the place. Have reinforcement points all over.  Could take them out.  Might buy us some time in some places.\""
+        "text": "\"Occupiers crawling all over the place.  Have reinforcement points all over.  Could take them out.  Might buy us some time in some places.\""
       },
       {
         "id": "dks_note_109",
@@ -295,7 +298,7 @@
         "text": "\"This thing isn't a car any more.  It's just a fucking mountain of metal on wheels, which I live in.\""
       },
       { "id": "dks_note_114", "text": "\"if you hear tires: run\"" },
-      { "id": "dks_note_115", "text": "\"get on the roofs. they might see you but they can't climb.\"" },
+      { "id": "dks_note_115", "text": "\"get on the roofs.  they might see you but they can't climb.\"" },
       { "id": "dks_note_116", "text": "\"i'm running out of ink but listen you need to\"" },
       {
         "id": "dks_note_117",
@@ -333,7 +336,7 @@
       },
       {
         "id": "dks_note_136",
-        "text": "\"made a movie out of some footage of the war. two days cut down into seven hours.\""
+        "text": "\"made a movie out of some footage of the war.  two days cut down into seven hours.\""
       },
       {
         "id": "dks_note_137",
@@ -343,7 +346,7 @@
         "id": "dks_note_138",
         "text": "\"if anyones reading this, please tell my mom i was right about robots being superior\""
       },
-      { "id": "dks_note_139", "text": "\"heard a kid whispering to me from inside a garage. i fucking bolted\"" },
+      { "id": "dks_note_139", "text": "\"heard a kid whispering to me from inside a garage.  i fucking bolted\"" },
       { "id": "dks_note_140", "text": "\"waded through 14 miles of sewage for playboy magazine, wasnt worth it\"" },
       {
         "id": "dks_note_141",
@@ -401,7 +404,7 @@
       { "id": "dks_note_164", "text": "\"all it takes to seal a wound is a sawblade and a match!  trust me\"" },
       {
         "id": "dks_note_165",
-        "text": "\"is it just me or are we healing faster?  i think they put something in the water...\""
+        "text": "\"is it just me or are we healing faster?  i think they put something in the water…\""
       },
       { "id": "dks_note_166", "text": "\"the 50cal is strong with this one\"" },
       {
