@@ -89,7 +89,9 @@ static void change_om_type( const std::string &new_type )
 static npc &prep_test( dialogue &d )
 {
     clear_avatar();
-    CHECK( !g->u.in_vehicle );
+    clear_vehicles();
+    REQUIRE_FALSE( g->u.in_vehicle );
+
     const tripoint test_origin( 15, 15, 0 );
     g->u.setpos( test_origin );
 

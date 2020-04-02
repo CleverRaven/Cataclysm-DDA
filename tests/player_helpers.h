@@ -17,5 +17,6 @@ void process_activity( player &dummy );
 
 npc &spawn_npc( const point &, const std::string &npc_class );
 void give_and_activate_bionic( player &, bionic_id const & );
+void clear_vehicles();
 
 #endif

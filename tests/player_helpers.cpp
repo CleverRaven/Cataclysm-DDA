@@ -143,3 +143,14 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
     }
 }
 
+void clear_vehicles()
+{
+    VehicleList vehs = g->m.get_vehicles();
+    vehicle *veh_ptr;
+    for( auto &vehs_v : vehs ) {
+        veh_ptr = vehs_v.v;
+        g->m.destroy_vehicle( veh_ptr );
+    }
+    REQUIRE( g->m.get_vehicles().empty() );
+}
+
