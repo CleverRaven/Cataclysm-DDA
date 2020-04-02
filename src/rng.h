@@ -26,7 +26,7 @@ unsigned int rng_bits();
 int rng( int lo, int hi );
 double rng_float( double lo, double hi );
 inline float rng_float( float lo, float hi ) {
-    return static_cast<float>( rng_float( static_cast<double>( lo ), static_cast<double>( hi ) );
+    return static_cast<float>( rng_float( static_cast<double>( lo ), static_cast<double>( hi ) ) );
 }
 bool one_in( int chance );
 bool one_turn_in( const time_duration &duration );
