@@ -9293,9 +9293,10 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             const monster *mon_ptr = g->critter_at<monster>( pnt );
             return mon_ptr != nullptr;
         };
-        const std::string query = string_format( _( "Grab which creature to place in the %s?" ), it->tname() );
+        const std::string query = string_format( _( "Grab which creature to place in the %s?" ),
+                                  it->tname() );
         const cata::optional<tripoint> target_ = choose_adjacent_highlight( query,
-            _( "There is no creature nearby you can capture." ), adjacent_capturable, false );
+                _( "There is no creature nearby you can capture." ), adjacent_capturable, false );
         if( !target_ ) {
             p->add_msg_if_player( m_info, _( "You cannot use a %s there." ), it->tname() );
             return 0;
