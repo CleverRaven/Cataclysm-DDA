@@ -134,10 +134,7 @@
     "turns_per_charge": 1,
     "revert_to": "crt_em_vest",
     "use_action": { "type": "transform", "menu_text": "Turn off armor", "msg": "C.R.I.T E.M powering off…", "target": "crt_em_vest" },
-    "artifact_data": {
-      "charge_type": "ARTC_SOLAR",
-      "effects_worn": [ "AEP_ALL_UP", "AEP_INT_DOWN", "AEP_PER_DOWN", "AEP_SPEED_UP" ]
-    },
+    "artifact_data": { "charge_type": "ARTC_SOLAR", "effects_worn": [ "AEP_ALL_UP", "AEP_INT_DOWN", "AEP_PER_DOWN", "AEP_SPEED_UP" ] },
     "flags": [
       "WATERPROOF",
       "STURDY",
