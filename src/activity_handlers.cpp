@@ -97,6 +97,8 @@
 #include "point.h"
 #include "weather.h"
 
+static const efftype_id effect_sheared( "sheared" );
+
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
@@ -398,6 +400,7 @@ activity_handlers::finish_functions = {
     { ACT_PRY_NAILS, pry_nails_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
     { ACT_MILK, milk_finish },
+    { activity_id( "ACT_SHEAR" ), shear_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
     { ACT_CHOP_PLANKS, chop_planks_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
@@ -1438,6 +1441,39 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     act->index = true;
     // if its mutli-tile butchering,then restart the backlog.
     resume_for_multi_activities( *p );
+}
+
+void activity_handlers::shear_finish( player_activity *act, player *p )
+{
+    if( act->coords.empty() ) {
+        debugmsg( "shearing activity with no position of monster stored" );
+        return;
+    }
+    item_location &loc = act->targets[ 0 ];
+    item *shears = loc.get_item();
+    if( shears == nullptr ) {
+        debugmsg( "shearing item location lost" );
+        return;
+    }
+    const tripoint source_pos = g->m.getlocal( act->coords.at( 0 ) );
+    monster *source_mon = g->critter_at<monster>( source_pos );
+    if( source_mon == nullptr ) {
+        debugmsg( "could not find source creature for shearing" );
+        return;
+    }
+    // 22 wool staples corresponds to an average wool-producing sheep yield of 10 lbs or so
+    for( int i = 0; i != 22; ++i ) {
+        item wool_staple( "wool_staple", calendar::turn );
+        g->m.add_item_or_charges( p->pos(), wool_staple );
+    }
+    source_mon->add_effect( effect_sheared, calendar::season_length() );
+    if( !act->str_values.empty() && act->str_values[0] == "temp_tie" ) {
+        source_mon->remove_effect( effect_tied );
+    }
+    act->set_to_null();
+    if( shears->type->can_have_charges() ) {
+        p->consume_charges( *shears, shears->type->charges_to_use() );
+    }
 }
 
 void activity_handlers::milk_finish( player_activity *act, player *p )
@@ -4692,25 +4728,27 @@ static void blood_magic( player *p, int cost )
     p->mod_pain( std::max( 1, cost / 3 ) );
 }
 
-static spell casting;
-
-static spell &player_or_item_spell( player *p, const spell_id &sp, int level )
+static void player_or_item_spell( player *p, const spell_id &sp, int level, spell &casting )
 {
+    // if level is -1 then we know it is a player spell
     if( level == -1 ) {
-        return p->magic.get_spell( sp );
+        casting = p->magic.get_spell( sp );
+        // so we return early
+        return;
     }
+    // otherwise we build the spell from the id and level
     casting = spell( sp );
     while( casting.get_level() < level && !casting.is_max_level() ) {
         casting.gain_level();
     }
-    return casting;
 }
 
 void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     const int level_override = act->get_value( 0 );
-    spell &casting = player_or_item_spell( p, spell_id( act->name ), level_override );
+    spell casting;
+    player_or_item_spell( p, spell_id( act->name ), level_override, casting );
     const bool no_fail = act->get_value( 1 ) == 1;
     const bool no_mana = act->get_value( 2 ) == 0;
 

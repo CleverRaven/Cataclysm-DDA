@@ -869,9 +869,9 @@ void place_construction( const std::string &desc )
         cons.front()->explain_failure( pnt );
         return;
     }
-    // Maybe there is alreayd a partial_con on an existing trap, that isnt caught by the usual trap-checking.
+    // Maybe there is already a partial_con on an existing trap, that isn't caught by the usual trap-checking.
     // because the pre-requisite construction is already a trap anyway.
-    // This shouldnt normally happen, unless it's a spike pit being built on a pit for example.
+    // This shouldn't normally happen, unless it's a spike pit being built on a pit for example.
     partial_con *pre_c = g->m.partial_con_at( pnt );
     if( pre_c ) {
         add_msg( m_info,
@@ -886,7 +886,7 @@ void place_construction( const std::string &desc )
     pc.counter = 0;
     // Set the trap that has the examine function
     // Special handling for constructions that take place on existing traps.
-    // Basically just dont add the unfinished construction trap.
+    // Basically just don't add the unfinished construction trap.
     // TODO: handle this cleaner, instead of adding a special case to pit iexamine.
     if( g->m.tr_at( pnt ).loadid == tr_null ) {
         g->m.trap_set( pnt, tr_unfinished_construction );

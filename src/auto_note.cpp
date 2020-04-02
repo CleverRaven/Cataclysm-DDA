@@ -150,7 +150,7 @@ auto_note_manager_gui::auto_note_manager_gui()
 
     for( auto &extra : MapExtras::mapExtraFactory().get_all() ) {
         // Ignore all extras that have autonote disabled in the JSON.
-        // This filters out lots of extras users shouldnt see (like "normal")
+        // This filters out lots of extras users shouldn't see (like "normal")
         if( !extra.autonote ) {
             continue;
         }

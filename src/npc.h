@@ -173,7 +173,6 @@ class job_data
         }
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
-
 };
 
 enum npc_mission : int {
