@@ -67,7 +67,7 @@ void ammo_effect::load( const JsonObject &jo, const std::string & )
         optional( joa, was_loaded, "intensity_max", aoe_intensity_max, 0 );
         optional( joa, was_loaded, "radius", aoe_radius, 1 );
         optional( joa, was_loaded, "radius_z", aoe_radius_z, 0 );
-        optional( joa, was_loaded, "chance", aoe_chance, 1 );
+        optional( joa, was_loaded, "chance", aoe_chance, 100 );
         optional( joa, was_loaded, "size", aoe_size, 0 );
         optional( joa, was_loaded, "check_passable", aoe_check_passable, false );
         optional( joa, was_loaded, "check_sees", aoe_check_sees, false );
@@ -78,7 +78,7 @@ void ammo_effect::load( const JsonObject &jo, const std::string & )
         optional( joa, was_loaded, "field_type", trail_field_type_name, "fd_null" );
         optional( joa, was_loaded, "intensity_min", trail_intensity_min, 0 );
         optional( joa, was_loaded, "intensity_max", trail_intensity_max, 0 );
-        optional( joa, was_loaded, "chance", trail_chance, 1 );
+        optional( joa, was_loaded, "chance", trail_chance, 100 );
     }
     if( jo.has_member( "explosion" ) ) {
         JsonObject joe = jo.get_object( "explosion" );

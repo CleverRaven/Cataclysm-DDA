@@ -35,16 +35,18 @@
 #include "int_id.h"
 #include "monster.h"
 
-static const std::string part_location_structure( "structure" );
+#define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_animal( "animal" );
 
-static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_harnessed( "harnessed" );
 static const skill_id skill_driving( "driving" );
 
-#define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_stunned( "stunned" );
+
+static const std::string part_location_structure( "structure" );
 
 // tile height in meters
 static const float tile_height = 4;
@@ -122,11 +124,13 @@ void vehicle::thrust( int thd )
     if( in_water && can_float() ) {
         // we're good
     } else if( is_floating && !can_float() ) {
+        stop();
         if( pl_ctrl ) {
             add_msg( _( "The %s is too leaky!" ), name );
         }
         return;
     } else if( !valid_wheel_config() ) {
+        stop();
         if( pl_ctrl ) {
             add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
         }
@@ -631,8 +635,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Damage for object
         const float obj_dmg = dmg * ( 100 - k ) / 100;
 
-        if( ret.type == veh_coll_other ) {
-        } else if( ret.type == veh_coll_bashable ) {
+        if( ret.type == veh_coll_bashable ) {
             // Something bashable -- use map::bash to determine outcome
             // NOTE: Floor bashing disabled for balance reasons
             //       Floor values are still used to set damage dealt to vehicle
@@ -996,7 +999,8 @@ void vehicle::pldrive( const point &p )
     }
 
     // TODO: Actually check if we're on land on water (or disable water-skidding)
-    if( skidding && valid_wheel_config() ) {
+    // Only check for recovering from a skid if we did active steering (not cruise control).
+    if( skidding && ( p.x != 0 || ( p.y != 0 && !cruise_on ) ) && valid_wheel_config() ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle

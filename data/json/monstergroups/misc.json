@@ -1,0 +1,168 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NULL",
+    "is_safe": true,
+    "default": "mon_null"
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CHUD",
+    "default": "mon_chud",
+    "monsters": [
+      { "monster": "mon_one_eye", "freq": 90, "cost_multiplier": 0 },
+      { "monster": "mon_crawler", "freq": 35, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DOMESTIC",
+    "default": "mon_dog",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_cat", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat", "freq": 20, "cost_multiplier": 10, "pack_size": [ 2, 8 ] },
+      { "monster": "mon_dog", "freq": 15, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_dog_bull", "freq": 1, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_dog_auscattle", "freq": 1, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_dog_pitbullmix", "freq": 13, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_dog_beagle", "freq": 4, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_dog_bcollie", "freq": 2, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_dog_boxer", "freq": 4, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_dog_chihuahua", "freq": 6, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_dog_dachshund", "freq": 2, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_dog_gshepherd", "freq": 3, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_chicken", "freq": 50, "cost_multiplier": 10, "pack_size": [ 1, 16 ] },
+      { "monster": "mon_cow", "freq": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
+      { "monster": "mon_horse", "freq": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_pig", "freq": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_pig", "freq": 10, "cost_multiplier": 25, "ends": 72, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_pig", "freq": 10, "cost_multiplier": 25, "ends": 168, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_pig", "freq": 10, "cost_multiplier": 25, "ends": 672, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_pig", "freq": 10, "cost_multiplier": 25, "ends": 2160, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_sheep", "freq": 50, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
+      { "monster": "mon_zombie_pig", "freq": 10, "cost_multiplier": 25, "starts": 72, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_zombie_pig", "freq": 10, "cost_multiplier": 25, "starts": 168, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_zombie_pig", "freq": 10, "cost_multiplier": 25, "starts": 672, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_zombie_pig", "freq": 10, "cost_multiplier": 25, "starts": 2160, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_giant_cockroach", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_pregnant_giant_cockroach", "freq": 1, "cost_multiplier": 3 },
+      { "monster": "mon_giant_cockroach_nymph", "freq": 5, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SAFE",
+    "is_safe": true,
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_bat", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_bobcat", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_cat", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_chicken", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_chipmunk", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_crow", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_deer", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_duck", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_dog", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_dog_bull", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_dog_auscattle", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_dog_pitbullmix", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_dog_beagle", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_dog_bcollie", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_dog_boxer", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_dog_chihuahua", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_dog_dachshund", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_dog_gshepherd", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_fox_gray", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_fox_red", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_goose_canadian", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_groundhog", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_hare", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_rabbit", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_squirrel_red", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_weasel", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_turkey", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_raccoon", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_opossum", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_sewer_rat", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_black_rat", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_rattlesnake", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_cow", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_horse", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_pig", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_sheep", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_lemming", "freq": 10, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "DUMP_ANIMALS",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_fly", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_crow", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fox_gray", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_fox_red", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_dog", "freq": 15, "cost_multiplier": 2 },
+      { "monster": "mon_black_rat", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_opossum", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_raccoon", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_rattlesnake", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_rattlesnake_giant", "freq": 5, "cost_multiplier": 2 },
+      { "monster": "mon_worm", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_wasp", "freq": 10, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PEST",
+    "default": "mon_crow",
+    "is_animal": true,
+    "monsters": [
+      {
+        "monster": "mon_bat",
+        "freq": 20,
+        "cost_multiplier": 0,
+        "pack_size": [ 6, 12 ],
+        "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_spider_widow_giant", "freq": 30, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_giant_cockroach", "freq": 50, "cost_multiplier": 1, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_black_rat", "freq": 30, "cost_multiplier": 1, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_wasp", "freq": 50, "cost_multiplier": 1, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_zombie_child", "freq": 20, "cost_multiplier": 1, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_zombie", "freq": 20, "cost_multiplier": 1, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_zombie_rot", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_beekeeper", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 5 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SEWER",
+    "default": "mon_sewer_rat",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_sewer_fish", "freq": 300, "cost_multiplier": 0, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_sewer_snake", "freq": 240, "cost_multiplier": 0 },
+      { "monster": "mon_sewer_rat", "freq": 100, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
+      { "monster": "mon_albino_penguin", "freq": 10, "cost_multiplier": 5, "pack_size": [ 3, 9 ] },
+      { "monster": "mon_gator", "freq": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nakedmolerat_giant", "freq": 25, "cost_multiplier": 3 }
+    ]
+  },
+  {
+    "name": "GROUP_VETS",
+    "type": "monstergroup",
+    "//": "for veterinarian",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_zombie_dog", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_dog_zombie_rot", "freq": 15, "cost_multiplier": 3 },
+      { "monster": "mon_squirrel", "freq": 1, "cost_multiplier": 0 },
+      { "monster": "mon_cat", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_dog", "freq": 10, "cost_multiplier": 0 }
+    ]
+  }
+]

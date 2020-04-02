@@ -9,7 +9,9 @@
 #include <tuple>
 #include <cmath>
 #include <type_traits>
+#include <cfloat>
 
+#include "activity_handlers.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_algo.h"
@@ -60,7 +62,53 @@
 #include "enums.h"
 #include "overmap.h"
 #include "stomach.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_PULP( "ACT_PULP" );
+
+static const ammotype ammo_reactor_slurry( "reactor_slurry" );
+static const ammotype ammo_plutonium( "plutonium" );
+
+static const skill_id skill_firstaid( "firstaid" );
+
+static const bionic_id bio_ads( "bio_ads" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_blade( "bio_blade" );
+static const bionic_id bio_claws( "bio_claws" );
+static const bionic_id bio_faraday( "bio_faraday" );
+static const bionic_id bio_furnace( "bio_furnace" );
+static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
+static const bionic_id bio_heatsink( "bio_heatsink" );
+static const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_laser( "bio_laser" );
+static const bionic_id bio_leukocyte( "bio_leukocyte" );
+static const bionic_id bio_lightning( "bio_chain_lightning" );
+static const bionic_id bio_nanobots( "bio_nanobots" );
+static const bionic_id bio_ods( "bio_ods" );
+static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_plutfilter( "bio_plutfilter" );
+static const bionic_id bio_radscrubber( "bio_radscrubber" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_shock( "bio_shock" );
+static const bionic_id bio_soporific( "bio_soporific" );
+
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_catch_up( "catch_up" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
+static const efftype_id effect_npc_flee_player( "npc_flee_player" );
+static const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
+static const efftype_id effect_npc_run_away( "npc_run_away" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_stunned( "stunned" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -188,7 +236,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         return rating;
     };
 
-    float best_rating = include_pos ? rate_pt( pos(), 0.0f ) :  INT_MAX;
+    float best_rating = include_pos ? rate_pt( pos(), 0.0f ) : FLT_MAX;
     candidates.emplace_back( pos() );
 
     std::map<direction, float> adj_map;
@@ -412,8 +460,8 @@ void npc::assess_danger()
         const auto test_too_close = [critter, def_radius,
                  &is_too_close]( const weak_ptr_fast<Creature> &guy ) {
             // HACK: Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
-            // friendly NPC when the NPC is riding a creature - I dont know why.
-            // so this skips the bad weak_ptrs, but this doesnt functionally change the AI Priority
+            // friendly NPC when the NPC is riding a creature - I don't know why.
+            // so this skips the bad weak_ptrs, but this doesn't functionally change the AI Priority
             // because the horse the NPC is riding is still in the ai_cache.friends vector,
             // so either one would count as a friendly for this purpose.
             if( guy.lock() ) {
@@ -616,7 +664,7 @@ void npc::regen_ai_cache()
 
 void npc::move()
 {
-    // dont just return from this function without doing something
+    // don't just return from this function without doing something
     // that will eventually subtract moves, or change the NPC to a different type of action.
     // because this will result in an infinite loop
     if( attitude == NPCATT_FLEE ) {
@@ -657,7 +705,7 @@ void npc::move()
     /* This bypasses the logic to determine the npc action, but this all needs to be rewritten
      * anyway.
      * NPC won't avoid dangerous terrain while accompanying the player inside a vehicle to keep
-     * them from inadvertantly getting themselves run over and/or cause vehicle related errors.
+     * them from inadvertently getting themselves run over and/or cause vehicle related errors.
      * NPCs flee from uncontained fires within 3 tiles
      */
     if( !in_vehicle && ( sees_dangerous_field( pos() ) || has_effect( effect_npc_fire_bad ) ) ) {
@@ -963,7 +1011,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_drop_items:
-            /* NPCs cant choose this action anymore, but at least it works */
+            /* NPCs can't choose this action anymore, but at least it works */
             drop_invalid_inventory();
             /* drop_items is still broken
              * drop_items( weight_carried() - weight_capacity(),
@@ -2214,7 +2262,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             realnomove->insert( pos() );
             say( "<let_me_pass>" );
             np->move_away_from( pos(), true, realnomove );
-            // if we moved NPC, readjust their path, so NPCs dont jostle each other out of their activity paths.
+            // if we moved NPC, readjust their path, so NPCs don't jostle each other out of their activity paths.
             if( np->attitude == NPCATT_ACTIVITY ) {
                 std::vector<tripoint> activity_route = np->get_auto_move_route();
                 if( !activity_route.empty() && !np->has_destination_activity() ) {
@@ -2605,7 +2653,7 @@ void npc::find_item()
     //int range = sight_range( g->light_level( posz() ) );
     //range = std::max( 1, std::min( 12, range ) );
 
-    static const zone_type_id no_pickup( "NO_NPC_PICKUP" );
+    static const zone_type_id zone_type_no_npc_pickup( "NO_NPC_PICKUP" );
 
     const item *wanted = nullptr;
 
@@ -2675,7 +2723,7 @@ void npc::find_item()
     for( const tripoint &p : closest_tripoints_first( pos(), range ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
-        if( is_player_ally() && g->check_zone( no_pickup, p ) ) {
+        if( is_player_ally() && g->check_zone( zone_type_no_npc_pickup, p ) ) {
             continue;
         }
 
@@ -3135,11 +3183,34 @@ bool npc::do_pulp()
 bool npc::do_player_activity()
 {
     int old_moves = moves;
+    if( moves > 200 && activity && ( activity.is_multi_type() ||
+                                     activity.id() == activity_id( "ACT_TIDY_UP" ) ) ) {
+        // a huge backlog of a multi-activity type can forever loop
+        // instead; just scan the map ONCE for a task to do, and if it returns false
+        // then stop scanning, abandon the activity, and kill the backlog of moves.
+        if( !generic_multi_activity_handler( activity, *this->as_player(), true ) ) {
+            revert_after_activity();
+            set_moves( 0 );
+            return true;
+        }
+    }
+    // the multi-activity types can sometimes cancel the activity, and return without using up any moves.
+    // ( when they are setting a destination etc. )
+    // normally this isn't a problem, but in the main game loop, if the NPC has a huge backlog of moves;
+    // then each of these occurrences will nudge the infinite loop counter up by one.
+    // ( even if other move-using things occur inbetween )
+    // so here - if no moves are used in a multi-type activity do_turn(), then subtract a nominal amount
+    // to satisfy the infinite loop counter.
+    const bool multi_type = activity ? activity.is_multi_type() : false;
+    const int moves_before = moves;
     while( moves > 0 && activity ) {
         activity.do_turn( *this );
         if( !is_active() ) {
             return true;
         }
+    }
+    if( multi_type && moves == moves_before ) {
+        moves -= 1;
     }
     /* if the activity is finished, grab any backlog or change the mission */
     if( !has_destination() && !activity ) {
@@ -3148,7 +3219,9 @@ bool npc::do_player_activity()
             backlog.pop_front();
             current_activity_id = activity.id();
         } else {
-            add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+            if( is_player_ally() ) {
+                add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+            }
             current_activity_id = activity_id::NULL_ID();
             revert_after_activity();
             // if we loaded after being out of the bubble for a while, we might have more
@@ -3973,12 +4046,12 @@ void npc::go_to_omt_destination()
         return;
     }
     if( !path.empty() ) {
-        // we already have a path, just use that until we cant.
+        // we already have a path, just use that until we can't.
         move_to_next();
         return;
     }
     // get the next path point
-    if( !omt_path.empty() && omt_path.back() == omt_pos ) {
+    if( omt_path.back() == omt_pos ) {
         // this should be the square we are at.
         omt_path.pop_back();
     }

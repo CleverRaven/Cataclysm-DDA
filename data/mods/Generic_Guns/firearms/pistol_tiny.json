@@ -3,10 +3,11 @@
     "id": "pistol_tiny_rifle",
     "copy-from": "marlin_9a",
     "type": "GUN",
-    "name": "plinker carbine",
+    "name": { "str": "plinker carbine" },
     "ammo": "ammo_pistol_tiny",
     "description": "With near non-existent recoil and inexpensive ammunition, rifles like this one are popular introductory firearms.  It has a built in magazine, capable of holding an impressive amount of its small cartridges.  You could take small game with this, but anything bigger might not even notice.",
-    "clip_size": 19
+    "clip_size": 19,
+    "magazines": [  ]
   },
   {
     "id": "pistol_tiny_target",

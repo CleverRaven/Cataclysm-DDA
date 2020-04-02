@@ -18,14 +18,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [
-          [ [ "2x4", 318 ] ],
-          [ [ "nail", 1080 ] ],
-          [ [ "wire", 20 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "wood_sheet", 18 ], [ "wood_panel", 36 ] ],
-          [ [ "wood_panel", 16 ] ]
-        ]
+        "components": [ [ [ "2x4", 318 ] ], [ [ "hinge", 2 ] ], [ [ "nail", 1080 ] ], [ [ "wire", 20 ] ], [ [ "wood_panel", 52 ] ] ]
       }
     }
   },
@@ -81,11 +74,10 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 311 ] ],
+          [ [ "hinge", 2 ] ],
           [ [ "nail", 1032 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "wood_sheet", 15 ], [ "wood_panel", 30 ] ],
-          [ [ "wood_panel", 17 ] ]
+          [ [ "wood_panel", 47 ] ]
         ]
       }
     }
@@ -111,11 +103,10 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 308 ] ],
+          [ [ "hinge", 4 ] ],
           [ [ "nail", 984 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
-          [ [ "hinge", 4 ] ],
-          [ [ "wood_sheet", 13 ], [ "wood_panel", 26 ] ],
-          [ [ "wood_panel", 19 ] ]
+          [ [ "wood_panel", 45 ] ]
         ]
       }
     }
@@ -141,11 +132,10 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 310 ] ],
+          [ [ "hinge", 4 ] ],
           [ [ "nail", 1004 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
-          [ [ "hinge", 4 ] ],
-          [ [ "wood_sheet", 14 ], [ "wood_panel", 28 ] ],
-          [ [ "wood_panel", 18 ] ]
+          [ [ "wood_panel", 46 ] ]
         ]
       }
     }

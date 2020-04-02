@@ -1,0 +1,8 @@
+#Ultimate Cataclysm 0.E release 30 March 2020
+NAME: UltimateCataclysmDemo
+VIEW: Ultica (Beta)
+JSON: tile_config.json
+TILESET: tiles.png
+#visit https://discord.gg/kAXNZuy to discuss and contribute to this community-driven tileset!
+#Development ongoing constantly!
+#tiles in opengameartgiant.png originally sourced from opengameart.org and drawn by Yar, edited by I-am-Erk

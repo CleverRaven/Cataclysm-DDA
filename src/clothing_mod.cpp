@@ -1,5 +1,6 @@
 #include "clothing_mod.h"
 
+#include <cmath>
 #include <string>
 #include <set>
 

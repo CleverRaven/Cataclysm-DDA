@@ -18,9 +18,27 @@
 #include "options.h"
 #include "output.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "color.h"
 #include "enums.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+
+static const trait_id trait_BADTEMPER( "BADTEMPER" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_LEAVES2( "LEAVES2" );
+static const trait_id trait_LEAVES3( "LEAVES3" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
+static const trait_id trait_ROOTS1( "ROOTS1" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
+static const trait_id trait_STYLISH( "STYLISH" );
 
 namespace
 {
@@ -514,6 +532,9 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
         penalty_rows++;
     }
     int rows_visible = std::max( win_h - 8 - penalty_rows, 0 );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     for( ;; ) {
 

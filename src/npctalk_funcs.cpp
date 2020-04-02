@@ -48,11 +48,44 @@
 #include "material.h"
 #include "monster.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
+static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
+static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
+static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
+static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
+static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+
+static const efftype_id effect_allow_sleep( "allow_sleep" );
+static const efftype_id effect_asked_for_item( "asked_for_item" );
+static const efftype_id effect_asked_personal_info( "asked_personal_info" );
+static const efftype_id effect_asked_to_follow( "asked_to_follow" );
+static const efftype_id effect_asked_to_lead( "asked_to_lead" );
+static const efftype_id effect_asked_to_train( "asked_to_train" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_currently_busy( "currently_busy" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_sleep( "sleep" );
+
+static const mtype_id mon_chicken( "mon_chicken" );
+static const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_horse( "mon_horse" );
+
+static const bionic_id bio_power_storage( "bio_power_storage" );
+static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
 struct itype;
-
-#define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
 void spawn_animal( npc &p, const mtype_id &mon );
 
@@ -201,10 +234,10 @@ void talk_function::find_mount( npc &p )
     // first find one nearby
     for( monster &critter : g->all_monsters() ) {
         if( p.can_mount( critter ) ) {
-            // keep the horse still for some time, so that NPC can catch up to it nad mount it.
+            // keep the horse still for some time, so that NPC can catch up to it and mount it.
             p.assign_activity( ACT_FIND_MOUNT );
             p.chosen_mount = g->shared_from( critter );
-            // we found one, thats all we need.
+            // we found one, that's all we need.
             return;
         }
     }
@@ -283,7 +316,7 @@ void talk_function::goto_location( npc &p )
     selection_menu.query();
     auto index = selection_menu.ret;
     if( index < 0 || index > static_cast<int>( camps.size() + 1 ) ||
-        index == static_cast<int>( camps.size() + 1 ) || index == UILIST_CANCEL ) {
+        index == static_cast<int>( camps.size() + 1 ) ) {
         return;
     }
     if( index == static_cast<int>( camps.size() ) ) {
@@ -591,15 +624,13 @@ static void generic_barber( const std::string &mut_type )
     }
 }
 
-void talk_function::barber_beard( npc &p )
+void talk_function::barber_beard( npc &/*p*/ )
 {
-    ( void )p;
     generic_barber( "facial_hair" );
 }
 
-void talk_function::barber_hair( npc &p )
+void talk_function::barber_hair( npc &/*p*/ )
 {
-    ( void )p;
     generic_barber( "hair_style" );
 }
 
@@ -762,13 +793,15 @@ void talk_function::leave( npc &p )
     }
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     p.set_attitude( NPCATT_NULL );
+    p.mission = NPC_MISSION_NULL;
+    p.long_term_goal_action();
 }
 
 void talk_function::stop_following( npc &p )
 {
     // this is to tell non-allied NPCs to stop following.
     // ( usually after a mission where they were temporarily tagging along )
-    // so dont tell already allied NPCs to stop following.
+    // so don't tell already allied NPCs to stop following.
     // they use the guard command for that.
     if( p.is_player_ally() ) {
         return;
@@ -831,15 +864,13 @@ void talk_function::drop_weapon( npc &p )
     g->m.add_item_or_charges( p.pos(), p.remove_weapon() );
 }
 
-void talk_function::player_weapon_away( npc &p )
+void talk_function::player_weapon_away( npc &/*p*/ )
 {
-    ( void )p; //unused
     g->u.i_add( g->u.remove_weapon() );
 }
 
-void talk_function::player_weapon_drop( npc &p )
+void talk_function::player_weapon_drop( npc &/*p*/ )
 {
-    ( void )p; // unused
     g->m.add_item_or_charges( g->u.pos(), g->u.remove_weapon() );
 }
 
@@ -888,7 +919,7 @@ void talk_function::start_training( npc &p )
         expert_multiplier = knows ? temp_spell.get_level() - g->u.magic.get_spell( sp_id ).get_level() : 1;
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
-        // if player doesnt know this spell, then the NPC will teach all of it
+        // if player doesn't know this spell, then the NPC will teach all of it
         // which takes max 6 hours, min 3 hours.
         // TODO: a system for NPCs to train new stuff in bits and pieces
         // and remember the progress.
@@ -904,7 +935,8 @@ void talk_function::start_training( npc &p )
     }
 
     mission *miss = p.chatbin.mission_selected;
-    if( miss != nullptr && miss->get_assigned_player_id() == g->u.getID() ) {
+    if( miss != nullptr && miss->get_assigned_player_id() == g->u.getID() &&
+        miss->is_complete( g->u.getID() ) ) {
         clear_mission( p );
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;

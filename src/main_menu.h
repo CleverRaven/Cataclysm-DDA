@@ -71,10 +71,9 @@ class main_menu
         int layer = 1;
         point LAST_TERM;
         catacurses::window w_open;
-        catacurses::window w_background;
         point menu_offset;
         std::vector<std::string> templates;
-        int extra_w;
+        int extra_w = 0;
         std::vector<save_t> savegames;
 
         /**
@@ -103,7 +102,6 @@ class main_menu
         void display_text( const std::string &text, const std::string &title, int &selected );
 
         void init_windows();
-        std::string handle_input_timeout( input_context &ctxt );
 
         static std::string halloween_spider();
         std::string halloween_graves();

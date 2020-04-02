@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_JACK",
-    "name": "Jack Isherwood",
+    "name": { "str": "Jack Isherwood" },
     "job_description": "I'm the patriarch of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -62,40 +62,42 @@
   {
     "type": "item_group",
     "id": "NC_ISHERWOOD_archery",
-    "items": [
-      [ "crossbow", 20 ],
-      [ "shortbow", 5 ],
-      [ "compbow", 15 ],
-      [ "compositebow", 15 ],
-      [ "recurbow", 15 ],
-      [ "reflexbow", 10 ],
-      [ "longbow", 10 ],
-      [ "hand_crossbow", 15 ],
-      [ "selfbow", 5 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "crossbow", "prob": 20 },
+      { "item": "shortbow", "prob": 5 },
+      { "item": "compbow", "prob": 15 },
+      { "item": "recurbow", "prob": 15 },
+      { "item": "reflexbow", "prob": 10 },
+      { "item": "longbow", "prob": 10 },
+      { "item": "hand_crossbow", "prob": 15 },
+      { "item": "selfbow", "prob": 5 }
     ]
   },
   {
     "type": "item_group",
     "id": "NC_ISHERWOOD_rifle",
-    "items": [
-      [ "rifle_22", 5 ],
-      [ "rifle_9mm", 5 ],
-      [ "ruger_1022", 10 ],
-      [ "browning_blr", 10 ],
-      [ "remington_700", 10 ],
-      [ "savage_111f", 5 ],
-      [ "marlin_9a", 25 ],
-      [ "m1903", 5 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "rifle_22", "prob": 5 },
+      { "item": "rifle_9mm", "prob": 5 },
+      { "item": "ruger_1022", "prob": 10 },
+      { "item": "browning_blr", "prob": 10 },
+      { "item": "remington_700", "prob": 10 },
+      { "item": "savage_111f", "prob": 5 },
+      { "item": "marlin_9a", "prob": 25 },
+      { "item": "m1903", "prob": 5 }
     ]
   },
   {
     "type": "item_group",
     "id": "NC_ISHERWOOD_JACK_misc",
-    "items": [
-      [ "cheese_hard", 50 ],
-      [ "vinegar", 55 ],
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cheese_hard", "prob": 50 },
+      { "item": "vinegar", "prob": 55 },
       { "item": "veggy_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
-      [ "jar_sauerkraut_pickled", 50 ],
+      { "item": "jar_sauerkraut_pickled", "prob": 50 },
       { "item": "meat_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "fish_pickled", "prob": 60, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
@@ -305,7 +307,7 @@
   {
     "id": "MISSION_ISHERWOOD_JACK_1",
     "type": "mission_definition",
-    "name": "Find 10 3L jars",
+    "name": { "str": "Find 10 3L jars" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
@@ -333,7 +335,7 @@
   {
     "id": "MISSION_ISHERWOOD_JACK_2",
     "type": "mission_definition",
-    "name": "Find 100 wheat seeds",
+    "name": { "str": "Find 100 wheat seeds" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,

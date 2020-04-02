@@ -102,13 +102,11 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 30 ], [ "log", 4 ] ],
-          [ [ "nail", 1060 ] ],
+          [ [ "2x4", 360 ] ],
           [ [ "glass_sheet", 2 ] ],
           [ [ "log", 60 ] ],
-          [ [ "stick", 90 ], [ "2x4", 180 ] ],
-          [ [ "wood_sheet", 25 ], [ "wood_panel", 50 ] ],
-          [ [ "2x4", 150 ] ]
+          [ [ "nail", 1060 ] ],
+          [ [ "wood_panel", 50 ], [ "wood_sheet", 25 ] ]
         ]
       }
     }

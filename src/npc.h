@@ -114,13 +114,13 @@ enum class attitude_group : int {
 
 // a job assigned to an NPC when they are stationed at a basecamp.
 // this governs what tasks they will periodically scan to do.
-// some duties arent implemented yet
+// some duties aren't implemented yet
 // but are more indications of what category that duty will fall under when it is implemented.
 enum npc_job : int {
     NPCJOB_NULL = 0,   // a default job of no particular responsibility.
     NPCJOB_COOKING,    // includes cooking crafts and butchery
-    NPCJOB_MENIAL,  // sorting items, cleaning, refilling furniture ( charcoal kilns etc )
-    NPCJOB_VEHICLES,  // deconstructing/repairing/constructing/refuelling vehicles
+    NPCJOB_MENIAL,  // sorting items, cleaning, refilling furniture ( charcoal kilns etc. )
+    NPCJOB_VEHICLES,  // deconstructing/repairing/constructing/refueling vehicles
     NPCJOB_CONSTRUCTING, // building stuff from blueprint zones
     NPCJOB_CRAFTING, // crafting stuff generally. currently placeholder
     NPCJOB_SECURITY,  // patrolling - currently placeholder
@@ -503,11 +503,11 @@ const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
                                     };
 
 struct healing_options {
-    bool bandage;
-    bool disinfect;
-    bool bleed;
-    bool bite;
-    bool infect;
+    bool bandage = false;
+    bool disinfect = false;
+    bool bleed = false;
+    bool bite = false;
+    bool infect = false;
     void clear_all();
     void set_all();
     bool any_true();
@@ -907,7 +907,7 @@ class npc : public player
         void update_worst_item_value();
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
-        bool wear_if_wanted( const item &it );
+        bool wear_if_wanted( const item &it, std::string &reason );
         void start_read( item &chosen, player *pl );
         void finish_read( item &book );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
@@ -1172,19 +1172,20 @@ class npc : public player
         // Message related stuff
         using player::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
-        void add_msg_if_npc( game_message_type type, const std::string &msg ) const override;
+        void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
         using player::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
-        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         using player::add_msg_if_player;
         void add_msg_if_player( const std::string &/*msg*/ ) const override {}
-        void add_msg_if_player( game_message_type /*type*/, const std::string &/*msg*/ ) const override {}
+        void add_msg_if_player( const game_message_params &/*type*/,
+                                const std::string &/*msg*/ ) const override {}
         using player::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
-        void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
 
         // The preceding are in npcmove.cpp

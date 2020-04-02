@@ -19,6 +19,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "game_ui.h"
+#include "ui_manager.h"
 
 extern int VIEW_OFFSET_X; // X position of terrain window
 extern int VIEW_OFFSET_Y; // Y position of terrain window
@@ -204,6 +205,7 @@ void catacurses::resizeterm()
     const int new_y = ::getmaxy( stdscr.get<::WINDOW>() );
     if( ::is_term_resized( new_x, new_y ) ) {
         game_ui::init_ui();
+        ui_manager::screen_resized();
     }
 }
 
@@ -218,7 +220,7 @@ void catacurses::init_interface()
     }
 #if !defined(__CYGWIN__)
     // ncurses mouse registration
-    mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL );
+    mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, nullptr );
 #endif
     // our curses wrapper does not support changing this behavior, ncurses must
     // behave exactly like the wrapper, therefor:

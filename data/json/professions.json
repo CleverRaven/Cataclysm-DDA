@@ -918,7 +918,7 @@
         "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
+          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "lighter", "charges": 100 }
@@ -1200,7 +1200,7 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_two_way_radio" },
-          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 6, "container-item": "sholster" },
+          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 6, "container-item": "holster" },
           { "item": "357mag_fmj", "charges": 24 }
         ]
       },
@@ -1226,7 +1226,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "tacvest", "contents-group": [ "army_mags_mp5", "army_mags_usp9" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
-          { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "sholster" },
+          { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           {
             "item": "hk_mp5",
             "ammo-item": "9mm",
@@ -1262,7 +1262,7 @@
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
-          { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "sholster" },
+          { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
           { "item": "baton-extended", "container-item": "police_belt" },
           { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" }
         ]
@@ -1483,6 +1483,23 @@
   },
   {
     "type": "profession",
+    "ident": "trucker",
+    "name": "Trucker",
+    "description": "You ruled the road in your big rig and managed to drive it somewhere you hoped was safe when the riots hit.  Now it's just you and your trusty truck cab.",
+    "points": 5,
+    "skills": [ { "level": 1, "name": "mechanics" }, { "level": 4, "name": "driving" } ],
+    "vehicle": "semi_truck",
+    "items": {
+      "both": {
+        "items": [ "tank_top", "socks", "boots_steel", "pants", "multitool", "wristwatch", "gloves_work", "hat_ball" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "ident": "lumberjack",
     "name": "Lumberjack",
     "description": "You're a lumberjack, and you're okay.  You felled trees before the world ended, but suspect the undead aren't nearly as tough.",
@@ -1617,7 +1634,7 @@
     "items": {
       "both": { "items": [ "socks", "knit_scarf", "dance_shoes" ], "entries": [ { "group": "charged_cell_phone" } ] },
       "male": [ "briefs", "tux" ],
-      "female": [ "bra", "panties", "dress" ]
+      "female": [ "bra", "panties", "dress", "purse" ]
     }
   },
   {
@@ -1990,7 +2007,6 @@
           "tent_kit",
           "rollmat",
           "e_tool",
-          "binoculars",
           "knife_hunting"
         ],
         "entries": [
@@ -2089,7 +2105,7 @@
       "both": {
         "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "shot_00" ],
         "entries": [
-          { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
+          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "ref_lighter", "charges": 100 }
         ]
@@ -2223,7 +2239,10 @@
     "description": "You haven't seen this much blood since the war.  The whole world's gone crazy!  They ate your grandkids!  But dagnabbit, you'll make them all pay for what they've done.",
     "points": 0,
     "items": {
-      "both": [ "tobacco", "pipe_tobacco", "ref_lighter", "socks", "dress_shoes", "knit_scarf", "cane" ],
+      "both": {
+        "items": [ "tobacco", "pipe_tobacco", "ref_lighter", "socks", "dress_shoes", "knit_scarf" ],
+        "entries": [ { "item": "cane", "custom-flags": [ "auto_wield" ] } ]
+      },
       "male": [ "briefs", "dress_shirt", "pants_checkered", "pocketwatch" ],
       "female": [ "panties", "bra", "dress", "fanny", "gold_watch" ]
     }
@@ -2266,7 +2285,7 @@
     "items": {
       "both": { "items": [  ], "entries": [ { "group": "charged_cell_phone" } ] },
       "male": [ "tux", "socks", "dress_shoes", "briefs" ],
-      "female": [ "veil_wedding", "dress_wedding", "stockings", "dress_shoes", "bra", "panties" ]
+      "female": [ "veil_wedding", "dress_wedding", "stockings", "dress_shoes", "bra", "panties", "purse" ]
     }
   },
   {
@@ -2565,7 +2584,7 @@
       "bio_stiff",
       "bio_metabolics",
       "bio_power_storage_mkII",
-      "bio_scent_vision",
+      "bio_adrenaline",
       "bio_claws",
       "bio_digestion",
       "bio_water_extractor",
@@ -4003,6 +4022,20 @@
           { "item": "colt_saa", "ammo-item": "45colt_jhp", "charges": 6, "container-item": "sholster" }
         ]
       }
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "frat",
+    "name": { "male": "Frat Boy", "female": "Sorority Girl" },
+    "description": "You were living the high life, spending your parents money without a care in the world.  You were at one of your usual crazy parties when the guests became hungry for more than your drugs.  You still have a chance to use the last symbol of your luxurious life - your sport car - and get far away.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 2, "name": "driving" } ],
+    "vehicle": "car_sports",
+    "items": {
+      "both": { "items": [ "gold_watch", "water_mineral", "smart_phone", "money_bundle", "cig", "ref_lighter" ] },
+      "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],
+      "female": [ "tank_top", "bra", "panties", "skirt", "heels", "jacket_leather", "stockings" ]
     }
   }
 ]

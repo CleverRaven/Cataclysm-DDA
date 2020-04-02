@@ -26,19 +26,16 @@
           [ { "id": "WRENCH", "level": 2 } ]
         ],
         "components": [
-          [ [ "pipe", 108 ], [ "frame", 18 ], [ "xlframe", 30 ] ],
-          [ [ "wire", 144 ], [ "spike", 144 ], [ "nail", 288 ] ],
-          [ [ "scrap", 240 ], [ "sheet_metal", 6 ], [ "sheet_metal_small", 120 ] ],
-          [ [ "sheet_metal_small", 120 ], [ "scrap", 240 ] ],
-          [ [ "spike", 8 ] ],
-          [ [ "steel_chunk", 16 ], [ "scrap", 48 ] ],
-          [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-          [ [ "hinge", 3 ] ],
-          [ [ "2x4", 45 ], [ "log", 6 ] ],
-          [ [ "nail", 530 ] ],
+          [ [ "2x4", 111 ] ],
+          [ [ "frame", 18 ], [ "pipe", 108 ], [ "xlframe", 30 ] ],
           [ [ "glass_sheet", 3 ] ],
-          [ [ "wood_sheet", 11 ], [ "wood_panel", 22 ] ],
-          [ [ "2x4", 66 ] ]
+          [ [ "hinge", 3 ] ],
+          [ [ "nail", 818 ] ],
+          [ [ "scrap", 480 ], [ "sheet_metal_small", 240 ] ],
+          [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ],
+          [ [ "sheet_metal", 8 ], [ "steel_plate", 2 ] ],
+          [ [ "spike", 8 ] ],
+          [ [ "wood_panel", 22 ], [ "wood_sheet", 11 ] ]
         ]
       }
     }
@@ -70,19 +67,16 @@
           [ { "id": "WRENCH", "level": 2 } ]
         ],
         "components": [
-          [ [ "pipe", 162 ], [ "frame", 27 ], [ "xlframe", 45 ] ],
-          [ [ "wire", 216 ], [ "spike", 216 ], [ "nail", 432 ] ],
-          [ [ "scrap", 360 ], [ "sheet_metal", 9 ], [ "sheet_metal_small", 180 ] ],
-          [ [ "sheet_metal_small", 180 ], [ "scrap", 360 ] ],
-          [ [ "spike", 16 ] ],
-          [ [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-          [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
-          [ [ "hinge", 6 ] ],
-          [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "nail", 670 ] ],
+          [ [ "2x4", 111 ] ],
+          [ [ "frame", 27 ], [ "pipe", 162 ], [ "xlframe", 45 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "wood_sheet", 16 ], [ "wood_panel", 32 ] ],
-          [ [ "2x4", 96 ] ]
+          [ [ "hinge", 6 ] ],
+          [ [ "nail", 1102 ] ],
+          [ [ "scrap", 720 ], [ "sheet_metal_small", 360 ] ],
+          [ [ "scrap", 96 ], [ "steel_chunk", 32 ] ],
+          [ [ "sheet_metal", 16 ], [ "steel_plate", 4 ] ],
+          [ [ "spike", 16 ] ],
+          [ [ "wood_panel", 32 ], [ "wood_sheet", 16 ] ]
         ]
       }
     }
@@ -115,10 +109,9 @@
         ],
         "components": [
           [ [ "2x4", 180 ] ],
+          [ [ "frame", 18 ], [ "pipe", 108 ], [ "xlframe", 30 ] ],
           [ [ "nail", 736 ] ],
-          [ [ "pipe", 108 ], [ "frame", 18 ], [ "xlframe", 30 ] ],
-          [ [ "scrap", 240 ], [ "sheet_metal", 6 ], [ "sheet_metal_small", 120 ] ],
-          [ [ "sheet_metal_small", 120 ], [ "scrap", 240 ] ],
+          [ [ "scrap", 480 ], [ "sheet_metal_small", 240 ] ],
           [ [ "wood_panel", 22 ] ]
         ]
       }
@@ -151,15 +144,12 @@
           [ { "id": "WRENCH", "level": 2 } ]
         ],
         "components": [
-          [ [ "pipe", 270 ], [ "frame", 45 ], [ "xlframe", 75 ] ],
-          [ [ "wire", 360 ], [ "spike", 360 ], [ "nail", 720 ] ],
-          [ [ "scrap", 600 ], [ "sheet_metal", 15 ], [ "sheet_metal_small", 300 ] ],
-          [ [ "sheet_metal_small", 300 ], [ "scrap", 600 ] ],
-          [ [ "2x4", 30 ], [ "log", 4 ] ],
-          [ [ "nail", 1060 ] ],
+          [ [ "2x4", 180 ] ],
+          [ [ "frame", 45 ], [ "pipe", 270 ], [ "xlframe", 75 ] ],
           [ [ "glass_sheet", 2 ] ],
-          [ [ "wood_sheet", 25 ], [ "wood_panel", 50 ] ],
-          [ [ "2x4", 150 ] ]
+          [ [ "nail", 1780 ] ],
+          [ [ "scrap", 1200 ], [ "sheet_metal_small", 600 ] ],
+          [ [ "wood_panel", 50 ], [ "wood_sheet", 25 ] ]
         ]
       }
     }
@@ -192,16 +182,15 @@
         ],
         "components": [
           [ [ "2x4", 108 ] ],
-          [ [ "nail", 818 ] ],
-          [ [ "pipe", 108 ], [ "frame", 18 ], [ "xlframe", 30 ] ],
-          [ [ "scrap", 240 ], [ "sheet_metal", 6 ], [ "sheet_metal_small", 120 ] ],
-          [ [ "sheet_metal_small", 120 ], [ "scrap", 240 ] ],
-          [ [ "spike", 8 ] ],
-          [ [ "steel_chunk", 16 ], [ "scrap", 48 ] ],
-          [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-          [ [ "hinge", 3 ] ],
+          [ [ "frame", 18 ], [ "pipe", 108 ], [ "xlframe", 30 ] ],
           [ [ "glass_sheet", 2 ] ],
-          [ [ "wood_sheet", 11 ], [ "wood_panel", 22 ] ]
+          [ [ "hinge", 3 ] ],
+          [ [ "nail", 818 ] ],
+          [ [ "scrap", 480 ], [ "sheet_metal_small", 240 ] ],
+          [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ],
+          [ [ "sheet_metal", 8 ], [ "steel_plate", 2 ] ],
+          [ [ "spike", 8 ] ],
+          [ [ "wood_panel", 22 ], [ "wood_sheet", 11 ] ]
         ]
       }
     }
@@ -234,12 +223,11 @@
         ],
         "components": [
           [ [ "2x4", 159 ] ],
-          [ [ "nail", 1136 ] ],
-          [ [ "pipe", 126 ], [ "frame", 21 ], [ "xlframe", 35 ] ],
-          [ [ "scrap", 280 ], [ "sheet_metal", 7 ], [ "sheet_metal_small", 140 ] ],
-          [ [ "sheet_metal_small", 140 ], [ "scrap", 280 ] ],
+          [ [ "frame", 21 ], [ "pipe", 126 ], [ "xlframe", 35 ] ],
           [ [ "glass_sheet", 3 ] ],
-          [ [ "wood_sheet", 17 ], [ "wood_panel", 34 ] ]
+          [ [ "nail", 1136 ] ],
+          [ [ "scrap", 560 ], [ "sheet_metal_small", 280 ] ],
+          [ [ "wood_panel", 34 ], [ "wood_sheet", 17 ] ]
         ]
       }
     }
@@ -271,19 +259,16 @@
           [ { "id": "WRENCH", "level": 2 } ]
         ],
         "components": [
-          [ [ "pipe", 36 ], [ "frame", 6 ], [ "xlframe", 10 ] ],
-          [ [ "wire", 48 ], [ "spike", 48 ], [ "nail", 96 ] ],
-          [ [ "scrap", 80 ], [ "sheet_metal", 2 ], [ "sheet_metal_small", 40 ] ],
-          [ [ "sheet_metal_small", 40 ], [ "scrap", 80 ] ],
-          [ [ "spike", 8 ] ],
-          [ [ "steel_chunk", 16 ], [ "scrap", 48 ] ],
-          [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ],
-          [ [ "hinge", 3 ] ],
-          [ [ "2x4", 15 ], [ "log", 2 ] ],
-          [ [ "nail", 990 ] ],
+          [ [ "2x4", 159 ] ],
+          [ [ "frame", 6 ], [ "pipe", 36 ], [ "xlframe", 10 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "wood_sheet", 24 ], [ "wood_panel", 48 ] ],
-          [ [ "2x4", 144 ] ]
+          [ [ "hinge", 3 ] ],
+          [ [ "nail", 1086 ] ],
+          [ [ "scrap", 160 ], [ "sheet_metal_small", 80 ] ],
+          [ [ "scrap", 48 ], [ "steel_chunk", 16 ] ],
+          [ [ "sheet_metal", 8 ], [ "steel_plate", 2 ] ],
+          [ [ "spike", 8 ] ],
+          [ [ "wood_panel", 48 ], [ "wood_sheet", 24 ] ]
         ]
       }
     }

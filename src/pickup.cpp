@@ -30,6 +30,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
@@ -602,13 +603,13 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         ctxt.register_action( "DOWN" );
         ctxt.register_action( "RIGHT" );
         ctxt.register_action( "LEFT" );
-        ctxt.register_action( "NEXT_TAB", translate_marker( "Next page" ) );
-        ctxt.register_action( "PREV_TAB", translate_marker( "Previous page" ) );
+        ctxt.register_action( "NEXT_TAB", to_translation( "Next page" ) );
+        ctxt.register_action( "PREV_TAB", to_translation( "Previous page" ) );
         ctxt.register_action( "SCROLL_UP" );
         ctxt.register_action( "SCROLL_DOWN" );
         ctxt.register_action( "CONFIRM" );
         ctxt.register_action( "SELECT_ALL" );
-        ctxt.register_action( "QUIT", translate_marker( "Cancel" ) );
+        ctxt.register_action( "QUIT", to_translation( "Cancel" ) );
         ctxt.register_action( "ANY_INPUT" );
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "FILTER" );
@@ -632,6 +633,10 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         if( g->was_fullscreen ) {
             g->draw_ter();
         }
+
+        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
         // Now print the two lists; those on the ground and about to be added to inv
         // Continue until we hit return or space
         do {

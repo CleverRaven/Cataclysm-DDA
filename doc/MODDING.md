@@ -181,6 +181,24 @@ Finally, if you're trying to blacklist something that spawns inside of cities, y
   }
 ]
 ````
+
+### Disabling certain scenarios
+The `SCENARIO_BLACKLIST` can be either a blacklist or a whitelist.
+When it is a whitelist, it blacklists all scenarios but the ones specified.
+No more than one blacklist can be specified at one time - this is in all json loaded for a particular game (all mods + base game), not just your specific mod.
+The format is as follows:
+```json
+[
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [ "largebuilding" ]
+  }
+]
+```
+Valid values for `subtype` are `whitelist` and `blacklist`.
+`scenarios` is an array of the scenario ids that you want to blacklist or whitelist.
+
 ## Important note on json files
 
 The following characters: `[ { , } ] : "` are *very* important when adding or modifying JSON files. This means a single missing `,` or `[` or `}` can be the difference between a working file and a hanging game at startup.
