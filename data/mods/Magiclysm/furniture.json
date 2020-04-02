@@ -226,6 +226,6 @@
       "sound": "crash!",
       "sound_fail": "whump.",
       "items": [ { "item": "demon_chitin_piece", "count": [ 20, 30 ] } ]
-     }
     }
+  }
 ]
