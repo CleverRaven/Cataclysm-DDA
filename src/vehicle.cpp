@@ -1023,11 +1023,13 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         int roll = dice( 1, 1000 );
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
-            double dist = damage_size == 0.0 ? 1.0 :
-                          clamp( 1.0 - trig_dist( damage_origin, part.precalc[0] ) / damage_size, 0.0, 1.0 );
+            double dist =  damage_size == 0.0f ? 1.0f :
+                           clamp( 1.0f - trig_dist( damage_origin, part.precalc[0].xy() ) /
+                                  damage_size, 0.0, 1.0 );
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
             if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
-                                               hp_percent_loss_max * dist ) * part.info().durability ), DT_BASH ) ) {
+                                               hp_percent_loss_max * dist ) *
+                                    part.info().durability ), DT_BASH ) ) {
                 part.ammo_unset();
             }
         }
@@ -2610,7 +2612,7 @@ bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabl
     const tripoint relative_pos = pos - global_pos3();
 
     for( const auto &e : parts ) {
-        if( e.precalc[0].x != relative_pos.x || e.precalc[0].y != relative_pos.y ) {
+        if( e.precalc[0] != relative_pos ) {
             continue;
         }
         if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag ) ) {
@@ -2626,7 +2628,7 @@ std::vector<vehicle_part *> vehicle::get_parts_at( const tripoint &pos, const st
     const tripoint relative_pos = pos - global_pos3();
     std::vector<vehicle_part *> res;
     for( auto &e : parts ) {
-        if( e.precalc[ 0 ].x != relative_pos.x || e.precalc[ 0 ].y != relative_pos.y ) {
+        if( e.precalc[ 0 ] != relative_pos ) {
             continue;
         }
         if( !e.removed &&
@@ -2646,7 +2648,7 @@ std::vector<const vehicle_part *> vehicle::get_parts_at( const tripoint &pos,
     const tripoint relative_pos = pos - global_pos3();
     std::vector<const vehicle_part *> res;
     for( const auto &e : parts ) {
-        if( e.precalc[ 0 ].x != relative_pos.x || e.precalc[ 0 ].y != relative_pos.y ) {
+        if( e.precalc[ 0 ] != relative_pos ) {
             continue;
         }
         if( !e.removed &&
@@ -2936,7 +2938,7 @@ bool vehicle::part_flag( int part, const vpart_bitflags flag ) const
 int vehicle::part_at( const point &dp ) const
 {
     for( const vpart_reference &vp : get_all_parts() ) {
-        if( vp.part().precalc[0] == dp && !vp.part().removed ) {
+        if( vp.part().precalc[0].xy() == dp && !vp.part().removed ) {
             return static_cast<int>( vp.part_index() );
         }
     }
@@ -3030,12 +3032,12 @@ int vehicle::roof_at_part( const int part ) const
 
 point vehicle::coord_translate( const point &p ) const
 {
-    point q;
+    tripoint q;
     coord_translate( pivot_rotation[0], pivot_anchor[0], p, q );
-    return q;
+    return q.xy();
 }
 
-void vehicle::coord_translate( int dir, const point &pivot, const point &p, point &q ) const
+void vehicle::coord_translate( int dir, const point &pivot, const point &p, tripoint &q ) const
 {
     tileray tdir( dir );
     tdir.advance( p.x - pivot.x );
@@ -3043,7 +3045,7 @@ void vehicle::coord_translate( int dir, const point &pivot, const point &p, poin
     q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
 }
 
-void vehicle::coord_translate( tileray tdir, const point &pivot, const point &p, point &q ) const
+void vehicle::coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const
 {
     tdir.clear_advance();
     tdir.advance( p.x - pivot.x );
@@ -3053,9 +3055,9 @@ void vehicle::coord_translate( tileray tdir, const point &pivot, const point &p,
 
 point vehicle::rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const
 {
-    point q;
+    tripoint q;
     coord_translate( new_dir - old_dir, pivot, p, q );
-    return q;
+    return q.xy();
 }
 
 tripoint vehicle::mount_to_tripoint( const point &mount ) const
@@ -3065,7 +3067,7 @@ tripoint vehicle::mount_to_tripoint( const point &mount ) const
 
 tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) const
 {
-    point mnt_translated;
+    tripoint mnt_translated;
     coord_translate( pivot_rotation[0], pivot_anchor[ 0 ], mount + offset, mnt_translated );
     return global_pos3() + mnt_translated;
 }
@@ -3076,7 +3078,7 @@ void vehicle::precalc_mounts( int idir, int dir, const point &pivot )
         idir = 0;
     }
     tileray tdir( dir );
-    std::unordered_map<point, point> mount_to_precalc;
+    std::unordered_map<point, tripoint> mount_to_precalc;
     for( auto &p : parts ) {
         if( p.removed ) {
             continue;
@@ -3211,9 +3213,9 @@ point vehicle::pivot_displacement() const
     // the vehicle.
 
     // rotate the old pivot point around the new pivot point with the old rotation angle
-    point dp;
+    tripoint dp;
     coord_translate( pivot_rotation[0], pivot_anchor[1], pivot_anchor[0], dp );
-    return dp;
+    return dp.xy();
 }
 
 int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
@@ -6830,7 +6832,7 @@ bounding_box vehicle::get_bounding_box()
 
     int i_use = 0;
     for( const tripoint &p : get_points( true ) ) {
-        const point pt = parts[part_at( p.xy() )].precalc[i_use];
+        const point pt = parts[part_at( p.xy() )].precalc[i_use].xy();
         if( pt.x < min_x ) {
             min_x = pt.x;
         }
