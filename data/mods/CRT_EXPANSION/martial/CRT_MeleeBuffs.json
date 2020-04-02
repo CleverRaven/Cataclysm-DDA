@@ -36,7 +36,7 @@
         "name": "Tactful Initiative",
         "description": "You have gained an advantage by always remaing mindful of common weaknesses. DEX provides dodge ability, accuracy and armor penetration.",
         "unarmed_allowed": true,
-        "melee_allowed": true,
+        "melee_allowed": false,
         "flat_bonuses": [ [ "arpen", "bash", "dex", 0.15 ], [ "dodge", "dex", 0.1 ], [ "hit", "dex", 0.15 ] ]
       }
     ],
@@ -46,7 +46,7 @@
         "name": "Fluid Tenacity",
         "description": "+Atk Speed and other small bonuses based on DEX per stack.  Max of 5 stacks",
         "unarmed_allowed": true,
-        "melee_allowed": true,
+        "meledescription": false,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 2,
         "max_stacks": 5,
@@ -114,12 +114,12 @@
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "weighting": 2,
     "unarmed_allowed": true,
-    "melee_allowed": true,
+    "melee_allowed": false,
     "mult_bonuses": [ [ "arpen", "bash", "dex", 0.75 ] ],
     "flat_bonuses": [ [ "movecost", "dex", -0.5 ] ],
     "crit_ok": true,
     "messages": [
-      "You envision a gathering tempest in and then release it's energy on %s's top half",
+      "You envision a gathering tempest and then release it's energy on %s's top half",
       "<npcname> lands a piercing blow on %s's face"
     ],
     "stun_dur": 1,
