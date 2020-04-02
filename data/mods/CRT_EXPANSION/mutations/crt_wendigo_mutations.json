@@ -99,5 +99,29 @@
         "strength_damage": { "damage_type": "biological", "amount": 0.25 }
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "SPURS",
+    "name": "Spurs",
+    "points": 5,
+    "visibility": 5,
+    "ugliness": 6,
+    "description": "Spurs of bone have erupted all across your arms. A thick, biological secretion oozes out of them promising extra harm to enemies.",
+    "valid": false,
+    "purifiable": false,
+    "threshreq": [ "THRESH_WENDIGO" ],
+    "category": [ "WENDIGO" ],
+    "social_modifiers": { "intimidate": 5 },
+    "attacks": [
+      {
+        "attack_text_u": "You tear into %s with your blades",
+        "attack_text_npc": "%1$s tears into %2$s with their blades",
+        "body_part": "ARMS",
+        "chance": 33,
+        "base_damage": { "damage_type": "stab", "amount": 2 },
+        "strength_damage": { "damage_type": "biological", "amount": 0.25 }
+      }
+    ]
   }
 ]
