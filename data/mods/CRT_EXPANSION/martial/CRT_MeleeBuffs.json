@@ -60,7 +60,7 @@
       "tec_crt_cqb_rapid_wp",
       "tec_crt_cqb_precise",
       "tec_crt_cqb_arpen",
-      "tec_feint"
+      "tec_crt_cqb_feint"
     ]
   },
   {
@@ -84,6 +84,17 @@
     "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.2 ] ],
     "messages": [ "You swiftly impale your fingers into %s joints", "<npcname> swiftly impales their fingers into %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_cqb_feint",
+    "name": "Shifting Feint",
+    "messages": [ "You fake a quick strike toward %s", "<npcname> fakes a quick strike toward %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": false,
+    "defensive": true,
+    "miss_recovery": true
   },
   {
     "type": "technique",
