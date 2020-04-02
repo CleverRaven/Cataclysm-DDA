@@ -36,6 +36,8 @@
 
 static const efftype_id effect_bounced( "bounced" );
 
+static const std::string flag_LIQUID( "LIQUID" );
+
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
     const auto &proj = attack.proj;
@@ -126,7 +128,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
 
         if( effects.count( "HEAVY_HIT" ) ) {
-            if( g->m.has_flag( "LIQUID", pt ) ) {
+            if( g->m.has_flag( flag_LIQUID, pt ) ) {
                 sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
             } else {
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );

@@ -2171,8 +2171,7 @@
     "type": "keybinding",
     "name": "Cycle move mode (run/walk/crouch)",
     "category": "DEFAULTMODE",
-    "id": "cycle_move",
-    "bindings": [ { "input_method": "keyboard", "key": "\"" } ]
+    "id": "cycle_move"
   },
   {
     "type": "keybinding",
@@ -2196,7 +2195,8 @@
     "type": "keybinding",
     "name": "Movement Mode Menu",
     "category": "DEFAULTMODE",
-    "id": "open_movement"
+    "id": "open_movement",
+    "bindings": [ { "input_method": "keyboard", "key": "\"" } ]
   },
   {
     "type": "keybinding",
@@ -2268,7 +2268,7 @@
     "type": "keybinding",
     "id": "fire",
     "category": "LIST_MONSTERS",
-    "name": "fire",
+    "name": { "ctxt": "verb", "str": "fire" },
     "bindings": [ { "input_method": "keyboard", "key": "f" } ]
   },
   {
@@ -2378,6 +2378,13 @@
     "category": "HELP_KEYBINDINGS",
     "name": "Add global keybinding",
     "bindings": [ { "input_method": "keyboard", "key": "=" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EXECUTE",
+    "category": "HELP_KEYBINDINGS",
+    "name": "Execute action keybinding",
+    "bindings": [ { "input_method": "keyboard", "key": "." } ]
   },
   {
     "type": "keybinding",
@@ -2787,6 +2794,31 @@
     "bindings": [
       { "input_method": "keyboard", "key": "N" },
       { "input_method": "keyboard", "key": "n" },
+      { "input_method": "keyboard", "key": "ESC" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
+    "category": "YESNOQUIT",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" }, { "input_method": "keyboard", "key": "y" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "YESNOQUIT",
+    "name": "No",
+    "bindings": [ { "input_method": "keyboard", "key": "N" }, { "input_method": "keyboard", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "YESNOQUIT",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard", "key": "Q" },
+      { "input_method": "keyboard", "key": "q" },
       { "input_method": "keyboard", "key": "ESC" }
     ]
   },

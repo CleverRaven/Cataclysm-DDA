@@ -79,7 +79,7 @@
     "special_attacks": [
       [ "PARROT", 0 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] },
-      { "type": "spell", "spell_id": "mi-go_slaver_beam", "spell_level": 3, "cooldown": 100 }
+      { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 3 }, "cooldown": 100 }
     ],
     "death_function": [ "NORMAL" ],
     "flags": [
@@ -147,7 +147,7 @@
     "id": "mon_mi_go_guard",
     "type": "MONSTER",
     "name": { "str": "mi-go guard" },
-    "description": "This, like the more common mi-go, is an alien creature; this one is more heavily armoured.  Its trunk is a shapeless mass of strange flesh encased in an iridescent carapace, from which sprout several appendages terminating in what appear to be devices of some sort.  Its pyramidal head is encrusted in barnacle-like armor, aside from the bristling antennae that serve as its - you must assume sensory devices and mouth.",
+    "description": "This, like the more common mi-go, is an alien creature; this one is more heavily armored.  Its trunk is a shapeless mass of strange flesh encased in an iridescent carapace, from which sprout several appendages terminating in what appear to be devices of some sort.  Its pyramidal head is encrusted in barnacle-like armor, aside from the bristling antennae that serve as its - you must assume sensory devices and mouth.",
     "default_faction": "mi-go",
     "bodytype": "migo",
     "species": [ "NETHER" ],
@@ -179,7 +179,7 @@
       [ "SHRIEK_STUN", 4 ],
       [ "TAZER", 5 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 35, "armor_multiplier": 0.7 } ] },
-      { "type": "spell", "spell_id": "mi-go_slaver_beam", "spell_level": 1, "cooldown": 100 }
+      { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 1 }, "cooldown": 100 }
     ],
     "death_function": [ "NORMAL" ],
     "flags": [
@@ -230,7 +230,7 @@
       [ "LONGSWIPE", 12 ],
       [ "STRETCH_ATTACK", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.7 } ] },
-      { "type": "spell", "spell_id": "mi-go_slaver_beam", "spell_level": 2, "cooldown": 100 }
+      { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 2 }, "cooldown": 100 }
     ],
     "death_function": [ "NORMAL" ],
     "flags": [

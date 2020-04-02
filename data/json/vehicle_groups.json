@@ -14,7 +14,8 @@
       [ "suv_electric", 120 ],
       [ "car_mini", 400 ],
       [ "beetle", 500 ],
-      [ "bicycle", 400 ],
+      [ "bicycle", 800 ],
+      [ "bicycle_dirt", 200 ],
       [ "bicycle_electric", 100 ],
       [ "motorcycle", 200 ],
       [ "motorcycle_cross", 20 ],
@@ -165,8 +166,9 @@
       [ "suv_electric", 120 ],
       [ "pickup", 300 ],
       [ "portable_generator", 50 ],
-      [ "bicycle", 150 ],
-      [ "bicycle_dirt", 125 ],
+      [ "bicycle", 200 ],
+      [ "bicycle_dirt", 150 ],
+      [ "bicycle_electric", 100 ],
       [ "tricycle", 5 ],
       [ "4x4_car", 200 ]
     ]
@@ -174,7 +176,13 @@
   {
     "type": "vehicle_group",
     "id": "dirtlot",
-    "vehicles": [ [ "quad_bike", 100 ], [ "pickup", 300 ], [ "bicycle_dirt", 100 ] ]
+    "vehicles": [
+      [ "quad_bike", 100 ],
+      [ "pickup", 300 ],
+      [ "bicycle_dirt", 100 ],
+      [ "motorcycle_cross", 75 ],
+      [ "motorcycle_enduro", 150 ]
+    ]
   },
   {
     "type": "vehicle_group",
@@ -211,7 +219,7 @@
       [ "hippie_van", 750 ],
       [ "golf_cart", 300 ],
       [ "scooter", 300 ],
-      [ "bicycle", 500 ],
+      [ "bicycle", 1000 ],
       [ "rara_x", 300 ],
       [ "unicycle", 100 ],
       [ "bicycle_electric", 200 ],
@@ -317,7 +325,6 @@
       [ "suv_electric", 120 ],
       [ "car_mini", 300 ],
       [ "beetle", 500 ],
-      [ "bubble_car", 20 ],
       [ "pickup", 600 ],
       [ "hippie_van", 700 ],
       [ "4x4_car", 500 ]
@@ -356,6 +363,8 @@
       [ "suv_electric", 100 ],
       [ "suv_electric_rack", 100 ],
       [ "bicycle_dirt", 50 ],
+      [ "motorcycle_cross", 75 ],
+      [ "motorcycle_enduro", 150 ],
       [ "car_mini", 100 ],
       [ "beetle", 200 ],
       [ "pickup", 700 ],
@@ -382,7 +391,6 @@
     "type": "vehicle_group",
     "id": "parkinglotbasic",
     "vehicles": [
-      [ "bubble_car", 50 ],
       [ "car_sports_electric", 100 ],
       [ "cube_van", 1000 ],
       [ "car_mini", 375 ],
@@ -466,7 +474,6 @@
     "vehicles": [
       [ "electric_car", 100 ],
       [ "suv_electric", 70 ],
-      [ "bubble_car", 60 ],
       [ "rara_x", 40 ],
       [ "car_sports", 30 ],
       [ "car_sports_electric", 20 ]
@@ -537,7 +544,6 @@
     "type": "vehicle_group",
     "id": "parking_garage",
     "vehicles": [
-      [ "bubble_car", 200 ],
       [ "4x4_car", 200 ],
       [ "car_sports_electric", 100 ],
       [ "car_mini", 375 ],

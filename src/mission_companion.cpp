@@ -52,28 +52,29 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "weighted_list.h"
 #include "material.h"
 #include "colony.h"
 #include "point.h"
 #include "weather.h"
 
-static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_unarmed( "unarmed" );
-static const skill_id skill_cutting( "cutting" );
-static const skill_id skill_stabbing( "stabbing" );
-static const skill_id skill_bashing( "bashing" );
-static const skill_id skill_melee( "melee" );
-static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_survival( "survival" );
+static const efftype_id effect_riding( "riding" );
 
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_unarmed( "unarmed" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
-static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-
-static const efftype_id effect_riding( "riding" );
 
 struct comp_rank {
     int industry;
@@ -398,8 +399,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                                 point( part_x + MAX_FAC_NAME_SIZE, part_y + TITLE_TAB_HEIGHT + 1 ) );
 
     input_context ctxt( "FACTIONS" );
-    ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Move cursor down" ) );
+    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "PAGE_UP" );
@@ -435,6 +436,9 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     g->draw_ter();
     wrefresh( g->w_terrain );
     g->draw_panels();
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     while( true ) {
         mission_key.cur_key = cur_key_list[sel];
@@ -1269,9 +1273,12 @@ bool talk_function::scavenging_raid_return( npc &p )
         }
     }
     //The loot value needs to be added to the faction - what the player is payed
+    tripoint loot_location = g->u.global_omt_location();
+    // Only check at the ground floor.
+    loot_location.z = 0;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
-        const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "house",
-                              0, false );
+        const tripoint site = overmap_buffer.find_closest( loot_location, "house", 0, false,
+                              ot_match_type::prefix );
         overmap_buffer.reveal( site, 2 );
         loot_building( site );
     }

@@ -2,7 +2,7 @@
   {
     "id": "mon_afs_headless_zombie",
     "type": "MONSTER",
-    "name": "headless zombie",
+    "name": { "str": "headless zombie" },
     "description": "Despite lacking a head, this zombie appears to have not gotten the memo, and shambles aimlessly around without functioning senses.  Black ooze pulses out of its neck, and it stumbles around listlessly.",
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
@@ -43,7 +43,7 @@
   {
     "id": "mon_afs_headless_horror",
     "type": "MONSTER",
-    "name": "headless horror",
+    "name": { "str": "headless horror" },
     "description": "This headless zombie has swollen to frightening proportions, towering almost nine feet tall.  Six-foot-long feelers of black ooze blindly wave from its neck, violently twitching at nearby sounds, and it moves at terrifying speed with its grotesquely-swollen hands.",
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],

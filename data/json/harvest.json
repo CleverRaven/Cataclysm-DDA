@@ -38,12 +38,30 @@
     ]
   },
   {
+    "id": "mutant_fish",
+    "type": "harvest",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.38 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
     "id": "shellfish",
     "type": "harvest",
     "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
     "entries": [
       { "drop": "fish", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "mutant_shellfish",
+    "type": "harvest",
+    "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
     ]
   },

@@ -20,6 +20,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "vehicle_selector.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -31,6 +32,7 @@
 #include "type_id.h"
 #include "faction.h"
 #include "pimpl.h"
+#include "item_category.h"
 
 static const skill_id skill_barter( "barter" );
 
@@ -91,7 +93,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
         const int price = it.price( true );
         int val = np.value( it );
         if( np.wants_to_sell( it, val, price ) ) {
-            result.emplace_back( np, i->front(), val, i->size() );
+            result.emplace_back( np, i->front(), val, static_cast<int>( i->size() ) );
         }
     }
 
@@ -183,12 +185,25 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         buy_helper( cursor, check_item );
     }
 
+    const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
+
+        // Sort items by category first, if we can.
+        if( a.loc->get_category() != b.loc->get_category() ) {
+            return a.loc->get_category() < b.loc->get_category();
+        }
+
+        // If categories are equal, sort by name.
+        return a.loc->display_name() < b.loc->display_name();
+    };
+
+    std::sort( result.begin(), result.end(), cmp );
+
     return result;
 }
 
 void item_pricing::set_values( int ip_count )
 {
-    item *i_p = loc.get_item();
+    const item *i_p = loc.get_item();
     is_container = i_p->is_container() || i_p->is_ammo_container();
     vol = i_p->volume();
     weight = i_p->weight();
@@ -204,7 +219,7 @@ void item_pricing::set_values( int ip_count )
 
 // Adjusts the pricing of an item, *unless* it is the currency of the
 // faction we're trading with, as that should always be worth face value.
-void item_pricing::adjust_values( const double adjust, faction *fac )
+void item_pricing::adjust_values( const double adjust, const faction *fac )
 {
     if( !fac || fac->currency != loc.get_item()->typeId() ) {
         price *= adjust;
@@ -370,6 +385,9 @@ void trading_window::update_win( npc &np, const std::string &deal )
 void trading_window::show_item_data( npc &np, size_t offset,
                                      std::vector<item_pricing> &target_list )
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     update = true;
     catacurses::window w_tmp = catacurses::newwin( 3, 21, point( 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2,
                                1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) );
@@ -424,6 +442,9 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
         volume_left = 5'000_liter;
         weight_left = 5'000_kilogram;
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         update_win( np, deal );

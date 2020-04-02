@@ -50,6 +50,18 @@
 #include "monster.h"
 #include "string_formatter.h"
 
+static const efftype_id effect_pet( "pet" );
+
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
+static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
+static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
+static const mongroup_id GROUP_SPIRAL( "GROUP_SPIRAL" );
+static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
+static const mongroup_id GROUP_WORM( "GROUP_WORM" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+
 class map_extra;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
@@ -59,10 +71,6 @@ class map_extra;
 #define MAX_ANT_SIZE 20
 #define MIN_GOO_SIZE 1
 #define MAX_GOO_SIZE 2
-#define MIN_RIFT_SIZE 6
-#define MAX_RIFT_SIZE 16
-
-static const efftype_id effect_pet( "pet" );
 
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
@@ -530,17 +538,10 @@ static void load_overmap_terrain_mapgens( const JsonObject &jo, const std::strin
 {
     const std::string fmapkey( id_base + suffix );
     const std::string jsonkey( "mapgen" + suffix );
-    bool default_mapgen = jo.get_bool( "default_mapgen", true );
-    int default_idx = -1;
-    if( default_mapgen ) {
-        if( const auto ptr = get_mapgen_cfunction( fmapkey ) ) {
-            oter_mapgen[fmapkey].push_back( std::make_shared<mapgen_function_builtin>( ptr ) );
-            default_idx = oter_mapgen[fmapkey].size() - 1;
-        }
-    }
+    register_mapgen_function( fmapkey );
     if( jo.has_array( jsonkey ) ) {
         for( JsonObject jio : jo.get_array( jsonkey ) ) {
-            load_mapgen_function( jio, fmapkey, default_idx );
+            load_mapgen_function( jio, fmapkey, point_zero );
         }
     }
 }
@@ -793,9 +794,8 @@ void overmap_terrains::check_consistency()
         }
 
         const bool exists_hardcoded = elem.is_hardcoded();
-        const bool exists_loaded = oter_mapgen.find( mid ) != oter_mapgen.end();
 
-        if( exists_loaded ) {
+        if( has_mapgen_for( mid ) ) {
             if( test_mode && exists_hardcoded ) {
                 debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function.  Consider removing the latter.",
                           mid.c_str() );
@@ -972,7 +972,7 @@ void overmap_special::finalize()
 
 void overmap_special::check() const
 {
-    std::set<int> invalid_terrains;
+    std::set<oter_id> invalid_terrains;
     std::set<tripoint> points;
 
     for( const auto &elem : terrains ) {
@@ -1607,7 +1607,7 @@ bool overmap::generate_sub( const int z )
                     ter_set( q, oter_id( "spiral" ) );
                 }
                 ter_set( p, oter_id( "spiral_hub" ) );
-                add_mon_group( mongroup( mongroup_id( "GROUP_SPIRAL" ), tripoint( i * 2, j * 2, z ), 2, 200 ) );
+                add_mon_group( mongroup( GROUP_SPIRAL, tripoint( i * 2, j * 2, z ), 2, 200 ) );
             }
         }
     }
@@ -1745,12 +1745,12 @@ bool overmap::generate_sub( const int z )
         tripoint sm_pos = omt_to_sm_copy( omt_pos );
         // Sewers and city subways are present at z == -1 and z == -2. Don't spawn CHUD on other z-levels.
         if( ( z == -1 || z == -2 ) && one_in( 3 ) ) {
-            add_mon_group( mongroup( mongroup_id( "GROUP_CHUD" ),
+            add_mon_group( mongroup( GROUP_CHUD,
                                      sm_pos, i.size, i.size * 20 ) );
         }
         // Sewers are present at z == -1. Don't spawn sewer monsters on other z-levels.
         if( z == -1 && !one_in( 8 ) ) {
-            add_mon_group( mongroup( mongroup_id( "GROUP_SEWER" ),
+            add_mon_group( mongroup( GROUP_SEWER,
                                      sm_pos, ( i.size * 7 ) / 2, i.size * 70 ) );
         }
     }
@@ -1966,7 +1966,6 @@ void overmap::move_hordes()
     zg.insert( tmpzg.begin(), tmpzg.end() );
 
     if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-        static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
         // Re-absorb zombies into hordes.
         // Scan over monsters outside the player's view and place them back into hordes.
@@ -1984,7 +1983,7 @@ void overmap::move_hordes()
             // Check if the monster is a zombie.
             auto &type = *( this_monster.type );
             if(
-                !type.species.count( species_id( "ZOMBIE" ) ) || // Only add zombies to hordes.
+                !type.species.count( ZOMBIE ) || // Only add zombies to hordes.
                 type.id == mtype_id( "mon_jabberwock" ) || // Jabberwockies are an exception.
                 this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
                 this_monster.has_effect( effect_pet ) || // "Zombie pet" zlaves are, too.
@@ -3805,9 +3804,6 @@ inline om_direction::type rotate_internal( om_direction::type dir, int step )
         return dir;
     }
     step = step % om_direction::size;
-    if( step < 0 ) {
-        step += om_direction::size;
-    }
     return static_cast<om_direction::type>( ( static_cast<int>( dir ) + step ) % om_direction::size );
 }
 
@@ -4228,7 +4224,7 @@ void overmap::place_mongroups()
     for( auto &elem : cities ) {
         if( get_option<bool>( "WANDER_SPAWNS" ) ) {
             if( !one_in( 16 ) || elem.size > 5 ) {
-                mongroup m( mongroup_id( "GROUP_ZOMBIE" ),
+                mongroup m( GROUP_ZOMBIE,
                             tripoint( elem.pos.x * 2, elem.pos.y * 2, 0 ),
                             static_cast<int>( elem.size * 2.5 ),
                             elem.size * 80 );
@@ -4253,7 +4249,7 @@ void overmap::place_mongroups()
                     }
                 }
                 if( swamp_count >= 25 ) {
-                    add_mon_group( mongroup( mongroup_id( "GROUP_SWAMP" ), tripoint( x * 2, y * 2, 0 ), 3,
+                    add_mon_group( mongroup( GROUP_SWAMP, tripoint( x * 2, y * 2, 0 ), 3,
                                              rng( swamp_count * 8, swamp_count * 25 ) ) );
                 }
             }
@@ -4272,7 +4268,7 @@ void overmap::place_mongroups()
                 }
             }
             if( river_count >= 25 ) {
-                add_mon_group( mongroup( mongroup_id( "GROUP_RIVER" ), tripoint( x * 2, y * 2, 0 ), 3,
+                add_mon_group( mongroup( GROUP_RIVER, tripoint( x * 2, y * 2, 0 ), 3,
                                          rng( river_count * 8, river_count * 25 ) ) );
             }
         }
@@ -4281,7 +4277,7 @@ void overmap::place_mongroups()
     // Place the "put me anywhere" groups
     int numgroups = rng( 0, 3 );
     for( int i = 0; i < numgroups; i++ ) {
-        add_mon_group( mongroup( mongroup_id( "GROUP_WORM" ), tripoint( rng( 0, OMAPX * 2 - 1 ), rng( 0,
+        add_mon_group( mongroup( GROUP_WORM, tripoint( rng( 0, OMAPX * 2 - 1 ), rng( 0,
                                  OMAPY * 2 - 1 ), 0 ),
                                  rng( 20, 40 ), rng( 30, 50 ) ) );
     }

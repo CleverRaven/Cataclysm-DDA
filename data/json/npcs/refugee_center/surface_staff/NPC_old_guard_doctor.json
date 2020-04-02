@@ -63,7 +63,7 @@
   {
     "id": "MISSION_SCIENCE_REP_1",
     "type": "mission_definition",
-    "name": "Analyze Zombie Blood",
+    "name": { "str": "Analyze Zombie Blood" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -89,7 +89,7 @@
   {
     "id": "MISSION_SCIENCE_REP_2",
     "type": "mission_definition",
-    "name": "Download Workstation Data",
+    "name": { "str": "Download Workstation Data" },
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -112,7 +112,7 @@
   {
     "id": "MISSION_SCIENCE_REP_3",
     "type": "mission_definition",
-    "name": "Download Encryption Codes",
+    "name": { "str": "Download Encryption Codes" },
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -135,7 +135,7 @@
   {
     "id": "MISSION_SCIENCE_REP_4",
     "type": "mission_definition",
-    "name": "Download Research Archives",
+    "name": { "str": "Download Research Archives" },
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -158,7 +158,7 @@
   {
     "id": "MISSION_SCIENCE_REP_5",
     "type": "mission_definition",
-    "name": "Find Lab Tunnels",
+    "name": { "str": "Find Lab Tunnels" },
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 5,
     "value": 50000,

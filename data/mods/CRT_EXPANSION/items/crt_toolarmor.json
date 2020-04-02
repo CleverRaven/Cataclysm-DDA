@@ -181,7 +181,7 @@
     "copy-from": "helmet_army",
     "type": "TOOL_ARMOR",
     "name": { "str": "CRIT helmet (on)", "str_pl": "CRIT helmets (on)" },
-    "description": "C.R.I.T standard-issue helmet.  Protects the noggin and has a stretch of insulated steel mesh for neck warmth and protection.  A tactically dim flashlight is attatched to the side.  This light is currently on and drawing power.",
+    "description": "C.R.I.T standard-issue helmet.  Protects the noggin and has a stretch of insulated steel mesh for neck warmth and protection.  A tactically dim flashlight is attached to the side.  This light is currently on and drawing power.",
     "color": "light_gray",
     "material": [ "kevlar", "hardsteel" ],
     "flags": [

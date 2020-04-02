@@ -8,7 +8,7 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 55,
-    "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "CONNECT_TO_WALL", "WALL", "BLOCK_WIND", "BURROWABLE" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "CONNECT_TO_WALL", "WALL", "REDUCE_SCENT", "BLOCK_WIND", "BURROWABLE" ],
     "bash": {
       "str_min": 24,
       "str_max": 150,
@@ -440,7 +440,7 @@
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE", "AUTO_WALL_SYMBOL" ],
     "examine_action": "chainfence",
     "deconstruct": {
-      "ter_set": "t_null",
+      "ter_set": "t_floor",
       "items": [ { "item": "screen_mesh", "count": 1 }, { "item": "nail", "charges": 10 }, { "item": "2x4", "charges": 4 } ]
     },
     "bash": {

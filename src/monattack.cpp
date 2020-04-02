@@ -19,6 +19,7 @@
 #include "ballistics.h"
 #include "bodypart.h"
 #include "debug.h"
+#include "dispersion.h"
 #include "effect.h"
 #include "timed_event.h"
 #include "field.h"
@@ -72,50 +73,7 @@
 #include "point.h"
 #include "units.h"
 
-static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
-static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
-static const mtype_id mon_ant_larva( "mon_ant_larva" );
-static const mtype_id mon_biollante( "mon_biollante" );
-static const mtype_id mon_blob( "mon_blob" );
-static const mtype_id mon_blob_brain( "mon_blob_brain" );
-static const mtype_id mon_blob_large( "mon_blob_large" );
-static const mtype_id mon_blob_small( "mon_blob_small" );
-static const mtype_id mon_breather( "mon_breather" );
-static const mtype_id mon_breather_hub( "mon_breather_hub" );
-static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
-static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
-static const mtype_id mon_dermatik( "mon_dermatik" );
-static const mtype_id mon_defective_robot_nurse( "mon_nursebot_defective" );
-static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
-static const mtype_id mon_fungaloid( "mon_fungaloid" );
-static const mtype_id mon_fungaloid_young( "mon_fungaloid_young" );
-static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
-static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
-static const mtype_id mon_headless_dog_thing( "mon_headless_dog_thing" );
-static const mtype_id mon_manhack( "mon_manhack" );
-static const mtype_id mon_shadow( "mon_shadow" );
-static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
-static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
-static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
-static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
-static const mtype_id mon_hound_tindalos_afterimage( "mon_hound_tindalos_afterimage" );
-static const mtype_id mon_triffid( "mon_triffid" );
-static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
-static const mtype_id mon_zombie_gasbag_crawler( "mon_zombie_gasbag_crawler" );
-static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
-static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
-static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
-static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
-
-static const skill_id skill_melee( "melee" );
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_unarmed( "unarmed" );
-static const skill_id skill_rifle( "rifle" );
-static const skill_id skill_launcher( "launcher" );
-
-static const species_id ZOMBIE( "ZOMBIE" );
-static const species_id BLOB( "BLOB" );
-static const species_id LEECH_PLANT( "LEECH_PLANT" );
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_bite( "bite" );
@@ -136,15 +94,15 @@ static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_operating( "operating" );
-static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_paid( "paid" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_raising( "raising" );
 static const efftype_id effect_rat( "rat" );
@@ -155,15 +113,68 @@ static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_under_op( "under_operation" );
 
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_unarmed( "unarmed" );
+
+static const species_id species_BLOB( "BLOB" );
+static const species_id LEECH_PLANT( "LEECH_PLANT" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
-static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
+static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
+static const trait_id trait_PROF_CYBERCO( "PROF_CYBERCO" );
+static const trait_id trait_PROF_FED( "PROF_FED" );
+static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
+static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
+static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
-static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
+static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
+static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_biollante( "mon_biollante" );
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_large( "mon_blob_large" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
+static const mtype_id mon_breather( "mon_breather" );
+static const mtype_id mon_breather_hub( "mon_breather_hub" );
+static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_defective_robot_nurse( "mon_nursebot_defective" );
+static const mtype_id mon_dermatik( "mon_dermatik" );
+static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
+static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
+static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
+static const mtype_id mon_fungaloid( "mon_fungaloid" );
+static const mtype_id mon_fungaloid_young( "mon_fungaloid_young" );
+static const mtype_id mon_headless_dog_thing( "mon_headless_dog_thing" );
+static const mtype_id mon_hound_tindalos_afterimage( "mon_hound_tindalos_afterimage" );
+static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
+static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
+static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
+static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_triffid( "mon_triffid" );
+static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
+static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+static const mtype_id mon_zombie_gasbag_crawler( "mon_zombie_gasbag_crawler" );
+static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
+static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
+
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 // shared utility functions
 static bool within_visual_range( monster *z, int max_range )
@@ -209,7 +220,8 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     proj.impact.add( dam );
     proj.proj_effects.insert( "NO_OVERSHOOT" );
 
-    dealt_projectile_attack atk = projectile_attack( proj, z->pos(), target->pos(), { 500 }, z );
+    dealt_projectile_attack atk = projectile_attack( proj, z->pos(), target->pos(),
+                                  dispersion_sources{ 500 }, z );
     if( atk.dealt_dam.total_damage() > 0 ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name() );
         return true;
@@ -519,8 +531,7 @@ bool mattack::rattle( monster *z )
     const int min_dist = z->friendly != 0 ? 1 : 4;
     Creature *target = &g->u;
     // Can't use attack_target - the snake has no target
-    if( target == nullptr ||
-        rl_dist( z->pos(), target->pos() ) > min_dist ||
+    if( rl_dist( z->pos(), target->pos() ) > min_dist ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -560,7 +571,7 @@ bool mattack::acid( monster *z )
     proj.impact.add_damage( DT_ACID, 5 );
     proj.range = 10;
     proj.proj_effects.insert( "NO_OVERSHOOT" );
-    auto dealt = projectile_attack( proj, z->pos(), target->pos(), { 5400 }, z );
+    auto dealt = projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 5400 }, z );
     const tripoint &hitp = dealt.end_point;
     const Creature *hit_critter = dealt.hit_critter;
     if( hit_critter == nullptr && g->m.hit_with_acid( hitp ) && g->u.sees( hitp ) ) {
@@ -673,7 +684,7 @@ bool mattack::acid_accurate( monster *z )
     proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
     proj.impact.add_damage( DT_ACID, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
-    projectile_attack( proj, z->pos(), target->pos(), { 8000.0 * static_cast<double>( range ) }, z );
+    projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 8000.0 * range }, z );
 
     return true;
 }
@@ -783,7 +794,7 @@ bool mattack::pull_metal_weapon( monster *z )
                 target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
                                                _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname() );
                 z->add_item( foe->remove_weapon() );
-                if( foe->has_activity( activity_id( "ACT_RELOAD" ) ) ) {
+                if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
                 }
             } else {
@@ -835,7 +846,7 @@ bool mattack::boomer( monster *z )
             target->add_msg_player_or_npc( _( "You dodge it!" ),
                                            _( "<npcname> dodges it!" ) );
         }
-        target->on_dodge( z, 10 );
+        target->on_dodge( z, 5 );
     }
 
     return true;
@@ -873,7 +884,7 @@ bool mattack::boomer_glow( monster *z )
         ///\EFFECT_DODGE increases chance to avoid glowing boomer effect
         if( rng( 0, 10 ) > target->get_dodge() || one_in( target->get_dodge() ) ) {
             target->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
-            target->on_dodge( z, 10 );
+            target->on_dodge( z, 5 );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
                 body_part bp = random_body_part();
                 target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
@@ -1465,8 +1476,8 @@ bool mattack::grow_vine( monster *z )
         }
     }
     z->moves -= 100;
-    // Attempt to fill all 8 surrounding tiles.
-    for( int i = 0; i < 8; ++i ) {
+    // Attempt to fill up to 8 surrounding tiles.
+    for( int i = 0; i < rng( 1, 8 ); ++i ) {
         if( monster *const vine = g->place_critter_around( mon_creeper_vine, z->pos(), 1 ) ) {
             vine->make_ally( *z );
             // Store position of parent hub in vine goal point.
@@ -1552,7 +1563,7 @@ bool mattack::spit_sap( monster *z )
     proj.range = 12;
     proj.proj_effects.insert( "APPLY_SAP" );
     proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
-    projectile_attack( proj, z->pos(), target->pos(), { 150 }, z );
+    projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 150 }, z );
 
     return true;
 }
@@ -1571,7 +1582,7 @@ bool mattack::triffid_heartbeat( monster *z )
         return true;
     }
 
-    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false );
+    static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false );
     if( rl_dist( z->pos(), g->u.pos() ) > 5 &&
         !g->m.route( g->u.pos(), z->pos(), root_pathfind ).empty() ) {
         add_msg( m_warning, _( "The root walls creak around you." ) );
@@ -2312,7 +2323,7 @@ bool mattack::formblob( monster *z )
 
         monster &othermon = *( dynamic_cast<monster *>( critter ) );
         // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
-        if( z->get_speed_base() > 40 && othermon.type->in_species( BLOB ) ) {
+        if( z->get_speed_base() > 40 && othermon.type->in_species( species_BLOB ) ) {
             if( othermon.type->id == mon_blob_brain ) {
                 // Brain blobs don't get sped up, they heal at the cost of the other blob.
                 // But only if they are hurt badly.
@@ -2370,7 +2381,7 @@ bool mattack::callblobs( monster *z )
     std::list<monster *> allies;
     std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.type->in_species( BLOB ) && candidate.type->id != mon_blob_brain ) {
+        if( candidate.type->in_species( species_BLOB ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
             allies.push_back( &candidate );
@@ -2607,6 +2618,9 @@ bool mattack::ranged_pull( monster *z )
             g->draw();
         }
     }
+    // The monster might drag a target that's not on it's z level
+    // So if they leave them on open air, make them fall
+    g->m.creature_on_trap( *target );
     if( seen ) {
         if( z->type->bodytype == "human" || z->type->bodytype == "angel" ) {
             add_msg( _( "The %1$s's arms fly out and pull and grab %2$s!" ), z->name(),
@@ -2691,11 +2705,10 @@ bool mattack::grab( monster *z )
 
 bool mattack::grab_drag( monster *z )
 {
-    if( !z->can_act() ) {
+    if( !z || !z->can_act() ) {
         return false;
     }
     Creature *target = z->attack_target();
-    monster *zz = dynamic_cast<monster *>( target );
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
         return false;
     }
@@ -2707,17 +2720,17 @@ bool mattack::grab_drag( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
-
     // First, grab the target
     grab( z );
 
     if( !target->has_effect( effect_grabbed ) ) { //Can't drag if isn't grabbed, otherwise try and move
         return false;
     }
-    tripoint target_square = z->pos() - ( target->pos() - z->pos() );
+    const tripoint target_square = z->pos() - ( target->pos() - z->pos() );
     if( z->can_move_to( target_square ) &&
         target->stability_roll() < dice( z->type->melee_sides, z->type->melee_dice ) ) {
+        player *foe = dynamic_cast<player *>( target );
+        monster *zz = dynamic_cast<monster *>( target );
         tripoint zpt = z->pos();
         z->move_to( target_square );
         if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
@@ -2815,7 +2828,7 @@ bool mattack::stare( monster *z )
         //dimensional effects don't take against dimensionally anchored foes.
         if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
             g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
-            add_msg( m_warning, _( "You feel a strange reverberation accross your body." ) );
+            add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
         if( g->u.sees( *z ) ) {
@@ -3089,7 +3102,7 @@ bool mattack::photograph( monster *z )
     // Badges should NOT be swappable between roles.
     // Hence separate checking.
     // If you are in fact listed as a police officer
-    if( g->u.has_trait( trait_id( "PROF_POLICE" ) ) ) {
+    if( g->u.has_trait( trait_PROF_POLICE ) ) {
         // And you're wearing your badge
         if( g->u.is_wearing( "badge_deputy" ) ) {
             if( one_in( 3 ) ) {
@@ -3109,7 +3122,7 @@ bool mattack::photograph( monster *z )
         }
     }
 
-    if( g->u.has_trait( trait_id( "PROF_PD_DET" ) ) ) {
+    if( g->u.has_trait( trait_PROF_PD_DET ) ) {
         // And you have your shield on
         if( g->u.is_wearing( "badge_detective" ) ) {
             if( one_in( 4 ) ) {
@@ -3127,7 +3140,7 @@ bool mattack::photograph( monster *z )
                 return true;
             }
         }
-    } else if( g->u.has_trait( trait_id( "PROF_SWAT" ) ) ) {
+    } else if( g->u.has_trait( trait_PROF_SWAT ) ) {
         // And you're wearing your badge
         if( g->u.is_wearing( "badge_swat" ) ) {
             if( one_in( 3 ) ) {
@@ -3144,7 +3157,7 @@ bool mattack::photograph( monster *z )
                 return true;
             }
         }
-    } else if( g->u.has_trait( trait_id( "PROF_CYBERCOP" ) ) ) {
+    } else if( g->u.has_trait( trait_PROF_CYBERCO ) ) {
         // And you're wearing your badge
         if( g->u.is_wearing( "badge_cybercop" ) ) {
             if( one_in( 3 ) ) {
@@ -3164,7 +3177,7 @@ bool mattack::photograph( monster *z )
         }
     }
 
-    if( g->u.has_trait( trait_id( "PROF_FED" ) ) ) {
+    if( g->u.has_trait( trait_PROF_FED ) ) {
         // And you're wearing your badge
         if( g->u.is_wearing( "badge_marshal" ) ) {
             add_msg( m_info, _( "The %s flashes a LED and departs.  The Feds got this." ), z->name() );
@@ -3303,7 +3316,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
 
     if( target == &g->u ) {
         if( !z->has_effect( effect_targeted ) ) {
-            if( g->u.has_trait( trait_id( "PROF_CHURL" ) ) ) {
+            if( g->u.has_trait( trait_PROF_CHURL ) ) {
                 //~ Potential grenading detected.
                 add_msg( m_warning, _( "Thee eye o dat divil be upon me!" ) );
             } else {
@@ -3856,7 +3869,7 @@ bool mattack::multi_robot( monster *z )
                cap > 4 ) {
         // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
         // Or if you've hacked it so the turret's on your side.  ;-)
-        if( dist >= 30 && dist < 50 ) {
+        if( dist < 50 ) {
             // Enforced max-range of 50.
             mode = 5;
             cap = 5;
@@ -4691,7 +4704,7 @@ bool mattack::riotbot( monster *z )
             handcuffs.set_var( "HANDCUFFS_X", foe->posx() );
             handcuffs.set_var( "HANDCUFFS_Y", foe->posy() );
 
-            const bool is_uncanny = foe->has_active_bionic( bionic_id( "bio_uncanny_dodge" ) ) &&
+            const bool is_uncanny = foe->has_active_bionic( bio_uncanny_dodge ) &&
                                     foe->get_power_level() > 74_kJ &&
                                     !one_in( 3 );
             ///\EFFECT_DEX >13 allows and increases chance to slip out of riot bot handcuffs
@@ -4834,8 +4847,9 @@ bool mattack::evolve_kill_strike( monster *z )
     const std::string target_name = target->disp_name();
     damage_instance damage( z->type->melee_damage );
     damage.mult_damage( 1.33f );
-    int damage_dealt = target->deal_damage( z, bp_torso, damage_instance( DT_STAB, rng( 10, 20 ),
-                                            rng( 5, 15 ) ) ).total_damage();
+    damage.add( damage_instance( DT_STAB, dice( z->type->melee_dice, z->type->melee_sides ), rng( 5,
+                                 15 ), 1.0, 0.5 ) );
+    int damage_dealt = target->deal_damage( z, bp_torso, damage ).total_damage();
     if( damage_dealt > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_warning;
         target->add_msg_player_or_npc( msg_type,

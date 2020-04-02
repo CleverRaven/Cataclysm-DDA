@@ -570,6 +570,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "radio_tower_even_stair_only",
+    "copy-from": "radio_tower"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "radio_tower_odd",
     "copy-from": "radio_tower"
   },

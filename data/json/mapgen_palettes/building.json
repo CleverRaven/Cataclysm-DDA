@@ -4,7 +4,7 @@
     "id": "standard_building_palette",
     "furniture": { "S": "f_sink" },
     "terrain": {
-      ".": [ [ "t_grass", 10 ], [ "t_dirt", 2 ], "t_shrub" ],
+      ".": [ [ "t_region_groundcover_urban", 20 ], "t_region_shrub_decorative" ],
       " ": "t_floor",
       "+": "t_door_c",
       "*": "t_door_glass_c",

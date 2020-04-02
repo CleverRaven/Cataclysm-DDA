@@ -20,6 +20,9 @@
 #include "assign.h"
 #include "json.h"
 
+static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_TRANSPARENT( "TRANSPARENT" );
+
 namespace
 {
 
@@ -149,7 +152,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
         { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
-        { "WALL",                     TFLAG_WALL },           // smells
+        { "WALL",                     TFLAG_WALL },           // connects to other walls
+        { "NO_SCENT",                 TFLAG_NO_SCENT },       // cannot have scent values, which prevents scent diffusion through this tile
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
         { "CURRENT",                  TFLAG_CURRENT },        // Water is flowing.
         { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
@@ -182,9 +186,9 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     }
 };
 
-static void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers )
+static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
 {
-    for( const std::string line : ja ) {
+    for( const std::string &line : ja ) {
         centers.emplace_back( line );
     }
 }
@@ -197,7 +201,8 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     drop_group( "EMPTY_GROUP" ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
-bool map_bash_info::load( const JsonObject &jsobj, const std::string &member, bool is_furniture )
+bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
+                          map_object_type obj_type )
 {
     if( !jsobj.has_object( member ) ) {
         return false;
@@ -229,13 +234,19 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member, bo
     j.read( "sound", sound );
     j.read( "sound_fail", sound_fail );
 
-    if( is_furniture ) {
-        furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
-    } else {
-        const std::string ter_set_string = j.get_string( "ter_set" );
-        ter_set = ter_str_id( ter_set_string );
-        ter_set_bashed_from_above = ter_str_id( j.get_string( "ter_set_bashed_from_above",
-                                                ter_set_string ) );
+    switch( obj_type ) {
+        case map_bash_info::furniture:
+            furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
+            break;
+        case map_bash_info::terrain:
+            ter_set = ter_str_id( j.get_string( "ter_set" ) );
+            ter_set_bashed_from_above = ter_str_id( j.get_string( "ter_set_bashed_from_above",
+                                                    ter_set.c_str() ) );
+            break;
+        case map_bash_info::field:
+            fd_bash_move_cost = j.get_int( "move_cost", 100 );
+            j.read( "msg_success", field_bash_msg_success );
+            break;
     }
 
     if( j.has_member( "items" ) ) {
@@ -313,7 +324,7 @@ furn_t null_furniture_t()
     new_furniture.movecost = 0;
     new_furniture.move_str_req = -1;
     new_furniture.transparent = true;
-    new_furniture.set_flag( "TRANSPARENT" );
+    new_furniture.set_flag( flag_TRANSPARENT );
     new_furniture.examine = iexamine_function_from_string( "none" );
     new_furniture.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_furniture;
@@ -334,8 +345,8 @@ ter_t null_terrain_t()
     new_terrain.light_emitted = 0;
     new_terrain.movecost = 0;
     new_terrain.transparent = true;
-    new_terrain.set_flag( "TRANSPARENT" );
-    new_terrain.set_flag( "DIGGABLE" );
+    new_terrain.set_flag( flag_TRANSPARENT );
+    new_terrain.set_flag( flag_DIGGABLE );
     new_terrain.examine = iexamine_function_from_string( "none" );
     new_terrain.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_terrain;
@@ -1165,7 +1176,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
-    bash.load( jo, "bash", false );
+    bash.load( jo, "bash", map_bash_info::terrain );
     deconstruct.load( jo, "deconstruct", false );
 }
 
@@ -1268,7 +1279,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
 
-    bash.load( jo, "bash", true );
+    bash.load( jo, "bash", map_bash_info::furniture );
     deconstruct.load( jo, "deconstruct", true );
 
     if( jo.has_object( "workbench" ) ) {

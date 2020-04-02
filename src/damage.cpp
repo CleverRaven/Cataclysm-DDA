@@ -194,7 +194,7 @@ resistances::resistances( const item &armor, bool to_self )
         }
     }
 }
-resistances::resistances( monster &monster )
+resistances::resistances( monster &monster ) : resistances()
 {
     set_resist( DT_BASH, monster.type->armor_bash );
     set_resist( DT_CUT,  monster.type->armor_cut );

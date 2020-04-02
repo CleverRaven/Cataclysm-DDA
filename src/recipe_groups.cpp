@@ -26,7 +26,7 @@ struct recipe_group_data {
     std::string building_type = "NONE";
     std::map<recipe_id, translation> recipes;
     std::map<recipe_id, std::set<std::string>> om_terrains;
-    bool was_loaded;
+    bool was_loaded = false;
 
     void load( const JsonObject &jo, const std::string &src );
     void check() const;

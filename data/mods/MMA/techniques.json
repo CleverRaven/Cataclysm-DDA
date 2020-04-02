@@ -10,7 +10,12 @@
     "unarmed_allowed": true,
     "dodge_counter": true,
     "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.2 ], [ "damage", "cut", 1.2 ], [ "damage", "stab", 1.2 ] ]
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.0 },
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ]
   },
   {
     "type": "technique",
@@ -20,7 +25,7 @@
     "messages": [ "You jump and somersault kick %s", "<npcname> jump and somersault kick %s" ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
   },
   {
     "type": "technique",
@@ -33,8 +38,8 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "flat_bonuses": [ [ "arpen", "bash", 10.0 ] ],
-    "mult_bonuses": [ [ "movecost", 1.2 ], [ "damage", "bash", 1.5 ] ]
+    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scale": 10.0 } ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.2 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ]
   },
   {
     "type": "technique",
@@ -45,6 +50,11 @@
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ]
   }
 ]
