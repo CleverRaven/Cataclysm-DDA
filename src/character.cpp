@@ -141,11 +141,12 @@ static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_winded( "winded" );
 
-static const species_id ROBOT( "ROBOT" );
-
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
+
+static const species_id HUMAN( "HUMAN" );
+static const species_id ROBOT( "ROBOT" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -160,9 +161,6 @@ static const trait_id trait_SMALL2( "SMALL2" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
-
-static const species_id HUMAN( "HUMAN" );
-static const species_id ROBOT( "ROBOT" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blaster( "bio_blaster" );
