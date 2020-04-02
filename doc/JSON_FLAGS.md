@@ -561,6 +561,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
 - ```NO_FLOOR``` Things should fall when placed on this tile
 - ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
+- ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
@@ -570,7 +571,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```PLOWABLE``` Terrain can be plowed.
 - ```RAMP_END```
 - ```RAMP``` Can be used to move up a z-level
-- ```REDUCE_SCENT``` Reduces scent even more; only works if also bashable.
+- ```REDUCE_SCENT``` Reduces scent diffusion (not total amount of scent in area); only works if also bashable.
 - ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
 - ```ROUGH``` May hurt the player's feet.
 - ```RUG``` Enables the `Remove Carpet` Construction entry.

@@ -110,6 +110,7 @@ struct plant_data {
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
  * NO_SIGHT - When on this tile sight is reduced to 1
+ * NO_SCENT - Scent on this tile (and thus scent diffusing through it) is reduced to 0. This acts like a wall for scent
  * MOUNTABLE - Player can fire mounted weapons from here (e.g. M2 Browning)
  * DESTROY_ITEM - Items that land here are destroyed
  * GOES_DOWN - Can use '>' to go down a level
@@ -168,6 +169,7 @@ enum ter_bitflags : int {
     TFLAG_MINEABLE,
     TFLAG_NOITEM,
     TFLAG_NO_SIGHT,
+    TFLAG_NO_SCENT,
     TFLAG_SEALED,
     TFLAG_ALLOW_FIELD_EFFECT,
     TFLAG_LIQUID,
