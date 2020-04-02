@@ -4747,7 +4747,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     const int level_override = act->get_value( 0 );
-    spell &spell_being_cast;
+    spell spell_being_cast;
     player_or_item_spell( p, spell_id( act->name ), level_override, spell_being_cast );
     const bool no_fail = act->get_value( 1 ) == 1;
     const bool no_mana = act->get_value( 2 ) == 0;
@@ -4758,7 +4758,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     tripoint target = p->pos();
     bool target_is_valid = false;
     if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( target_none ) &&
-        !casting.has_flag( RANDOM_TARGET ) ) {
+        !spell_being_cast.has_flag( RANDOM_TARGET ) ) {
         do {
             std::vector<tripoint> trajectory = th.target_ui( spell_being_cast, no_fail, no_mana );
             if( !trajectory.empty() ) {
