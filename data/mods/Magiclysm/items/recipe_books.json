@@ -131,7 +131,9 @@
     "max_level": 6,
     "intelligence": 9,
     "time": "20 m",
+    "fun": "-1"
   },
+  {
     "id": "magic_armormaking",
     "type": "BOOK",
     "name": { "str": "Protection from Magical Beasts", "str_pl": "copies of Protection from Magical Beasts" },
