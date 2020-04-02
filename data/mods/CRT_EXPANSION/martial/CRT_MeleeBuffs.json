@@ -37,11 +37,7 @@
         "description": "DEX provides dodge ability, accuracy and minor cut / stab damage with slight piercing capability.  50 Percent Bash Damage.",
         "unarmed_allowed": true,
         "melee_allowed": true,
-        "flat_bonuses": [
-          [ "arpen", "bash", "dex", 0.15 ],
-          [ "dodge", "dex", 0.1 ],
-          [ "hit", "dex", 0.15 ]
-        ]
+        "flat_bonuses": [ [ "arpen", "bash", "dex", 0.15 ], [ "dodge", "dex", 0.1 ], [ "hit", "dex", 0.15 ] ]
       }
     ],
     "onhit_buffs": [
