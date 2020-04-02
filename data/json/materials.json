@@ -759,7 +759,7 @@
     "type": "material",
     "ident": "lycra",
     "name": "Lycra",
-    "//": "not actually pure lycra, but poly/nylon and lycra blend",
+    "//": "not actually pure Lycra, but poly/nylon and Lycra blend",
     "density": 2,
     "specific_heat_liquid": 1.7,
     "specific_heat_solid": 1.7,

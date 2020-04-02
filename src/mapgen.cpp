@@ -5880,9 +5880,14 @@ void map::place_vending( const point &p, const std::string &type, bool reinforce
         furn_set( p, f_vending_reinforced );
         place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
     } else {
-        const bool broken = one_in( 5 );
-        if( broken ) {
+        // The chance to find a non-ransacked vending machine reduces greatly with every day after the cataclysm
+        if( !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
             furn_set( p, f_vending_o );
+            for( const auto &loc : points_in_radius( { p, abs_sub.z }, 1 ) ) {
+                if( one_in( 4 ) ) {
+                    spawn_item( loc, "glass_shard", rng( 1, 25 ) );
+                }
+            }
         } else {
             furn_set( p, f_vending_c );
             place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
@@ -6311,6 +6316,7 @@ void map::rotate( int turns, const bool setpos_safe )
 bool connects_to( const oter_id &there, int dir )
 {
     switch( dir ) {
+        // South
         case 2:
             if( there == "sewer_ns"   || there == "sewer_es" || there == "sewer_sw" ||
                 there == "sewer_nes"  || there == "sewer_nsw" || there == "sewer_esw" ||
@@ -6320,6 +6326,7 @@ bool connects_to( const oter_id &there, int dir )
                 return true;
             }
             return false;
+        // West
         case 3:
             if( there == "sewer_ew"   || there == "sewer_sw" || there == "sewer_wn" ||
                 there == "sewer_new"  || there == "sewer_nsw" || there == "sewer_esw" ||
@@ -6329,6 +6336,7 @@ bool connects_to( const oter_id &there, int dir )
                 return true;
             }
             return false;
+        // North
         case 0:
             if( there == "sewer_ns"   || there == "sewer_ne" ||  there == "sewer_wn" ||
                 there == "sewer_nes"  || there == "sewer_new" || there == "sewer_nsw" ||
@@ -6338,6 +6346,7 @@ bool connects_to( const oter_id &there, int dir )
                 return true;
             }
             return false;
+        // East
         case 1:
             if( there == "sewer_ew"   || there == "sewer_ne" || there == "sewer_es" ||
                 there == "sewer_nes"  || there == "sewer_new" || there == "sewer_esw" ||

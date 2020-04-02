@@ -57,7 +57,7 @@
     "name": { "str": "Kel-Tec P32 magazine" },
     "description": "A standard 7-round steel box magazine for the Kel-Tec P32.",
     "weight": "65 g",
-    "volume": "47ml",
+    "volume": "41ml",
     "price": 2600,
     "material": "steel",
     "symbol": "#",

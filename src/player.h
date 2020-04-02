@@ -921,6 +921,7 @@ class player : public Character
         int volume;
         const profession *prof;
 
+        bool random_start_location;
         start_location_id start_location;
 
         double recoil = MAX_RECOIL;
@@ -1072,7 +1073,7 @@ class player : public Character
         std::vector<tripoint> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
-        /** warnings from a faction about bad behaviour */
+        /** warnings from a faction about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
 
     protected:

@@ -722,13 +722,13 @@ float spell::spell_fail( const player &p ) const
         return 1.0f;
     }
     float fail_chance = pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    if( has_flag( spell_flag::SOMATIC ) ) {
+    if( has_flag( spell_flag::SOMATIC ) && !p.has_trait_flag( "SUBTLE_SPELL" ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
-    if( has_flag( spell_flag::VERBAL ) ) {
+    if( has_flag( spell_flag::VERBAL ) && !p.has_trait_flag( "SILENT_SPELL" ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
         const int mouth_encumb = std::max( 0, p.encumb( bp_mouth ) - 5 );
         fail_chance += mouth_encumb / 100.0f;

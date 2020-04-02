@@ -888,8 +888,8 @@ void npc::finish_read( item &book )
         return;
     }
     const skill_id &skill = reading->skill;
-    // NPCs dont need to identify the book or learn recipes yet.
-    // NPCs dont read to other NPCs yet.
+    // NPCs don't need to identify the book or learn recipes yet.
+    // NPCs don't read to other NPCs yet.
     const bool display_messages = my_fac->id == faction_id( "your_followers" ) && g->u.sees( pos() );
     bool continuous = false; //whether to continue reading or not
 
@@ -986,7 +986,7 @@ void npc::start_read( item &chosen, player *pl )
     player_activity act( ACT_READ, time_taken, 0, pl->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &chosen ) );
     act.str_values.push_back( to_string( penalty ) );
-    // push an indentifier of martial art book to the action handling
+    // push an identifier of martial art book to the action handling
     if( chosen.type->use_methods.count( "MA_MANUAL" ) ) {
         act.str_values.clear();
         act.str_values.emplace_back( "martial_art" );
@@ -1009,7 +1009,7 @@ void npc::do_npc_read()
         if( !ch ) {
             return;
         }
-        item &chosen = i_at( loc.obtain( *ch ) );
+        item &chosen = *loc.obtain( *ch );
         if( can_read( chosen, fail_reasons ) ) {
             if( g->u.sees( pos() ) ) {
                 add_msg( m_info, _( "%s starts reading." ), disp_name() );

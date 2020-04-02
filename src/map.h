@@ -1482,14 +1482,6 @@ class map
          */
         void add_roofs( const tripoint &grid );
         /**
-         * Whether the item has to be removed as it has rotten away completely.
-         * @param itm Item to check for rotting
-         * @param pnt The *absolute* position of the item in the world (not just on this map!),
-         * used for rot calculation.
-         * @return true if the item has rotten away and should be removed, false otherwise.
-         */
-        bool has_rotten_away( item &itm, const tripoint &pnt ) const;
-        /**
          * Go through the list of items, update their rotten status and remove items
          * that have rotten away completely.
          * @param items items to remove

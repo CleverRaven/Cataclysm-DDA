@@ -128,7 +128,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     prj.impact.add_damage( DT_ACID, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
         const tripoint &target = random_entry( pts );
-        projectile_attack( prj, m.pos(), target, { 1200 }, &m );
+        projectile_attack( prj, m.pos(), target, dispersion_sources{ 1200 }, &m );
     }
 
     if( g->u.sees( m.pos() ) ) {
