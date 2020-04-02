@@ -316,7 +316,7 @@ void talk_function::goto_location( npc &p )
     selection_menu.query();
     auto index = selection_menu.ret;
     if( index < 0 || index > static_cast<int>( camps.size() + 1 ) ||
-        index == static_cast<int>( camps.size() + 1 ) || index == UILIST_CANCEL ) {
+        index == static_cast<int>( camps.size() + 1 ) ) {
         return;
     }
     if( index == static_cast<int>( camps.size() ) ) {

@@ -3369,8 +3369,9 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist kmenu;
-    kmenu.text = string_format( _( "Select a style.  (press %s for more info)" ),
-                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
+    kmenu.text = colorize( string_format( _( "Select a style.  "
+                                          "Press <color_yellow>%s</color> for more info." ),
+                                          ctxt.get_desc( "SHOW_DESCRIPTION" ) ), c_white );
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
     kmenu.input_category = "MELEE_STYLE_PICKER";

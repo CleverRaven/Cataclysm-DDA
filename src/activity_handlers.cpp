@@ -4846,8 +4846,8 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->get_str_value( 1 ) == "study" ) {
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
                               total_exp_gained );
-        p->practice( skill_id( "spellcraft" ), total_exp_gained,
-                     p->magic.get_spell( spell_id( act->name ) ).get_difficulty() );
+        const spell &sp = p->magic.get_spell( spell_id( act->name ) );
+        p->practice( sp.skill(), total_exp_gained, sp.get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
         p->magic.learn_spell( act->name, *p );
     }

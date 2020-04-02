@@ -465,6 +465,13 @@ std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids )
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 
+bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
+bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
+bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
+bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
+bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
+bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
+
 enum class mutagen_technique : int {
     consumed_mutagen,
     injected_mutagen,

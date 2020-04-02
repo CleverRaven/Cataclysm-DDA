@@ -2880,9 +2880,6 @@ void map_extra::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "autonote", autonote, false );
 }
 
-extern std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
-extern std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> >
-        nested_mapgen;
 extern std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> >
         update_mapgen;
 
@@ -2898,13 +2895,6 @@ void map_extra::check() const
             break;
         }
         case map_extra_method::mapgen: {
-            /*
-            const auto fmapit = oter_mapgen.find( generator_id );
-            const oter_id extra_oter( generator_id );
-            if( ( fmapit == oter_mapgen.end() || !fmapit->second.empty() ) && !extra_oter.is_valid() ) {
-                debugmsg( "invalid mapgen function (%s) defined for map extra (%s)", generator_id, id.str() );
-            }
-            */
             break;
         }
         case map_extra_method::update_mapgen: {

@@ -138,6 +138,7 @@
 #include "ret_val.h"
 #include "tileray.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "int_id.h"
 #include "string_id.h"
@@ -614,9 +615,16 @@ void game::reenter_fullscreen()
  */
 void game::setup()
 {
-    popup_status( _( "Please wait while the world data loads…" ), _( "Loading core data" ) );
     loading_ui ui( true );
-    load_core_data( ui );
+    {
+        background_pane background;
+        static_popup popup;
+        popup.message( "%s", _( "Please wait while the world data loads…\nLoading core data" ) );
+        ui_manager::redraw();
+        refresh_display();
+
+        load_core_data( ui );
+    }
 
     load_world_modfiles( ui );
 
@@ -695,9 +703,12 @@ bool game::start_game()
 
     init_autosave();
 
-    catacurses::clear();
-    catacurses::refresh();
-    popup_nowait( _( "Please wait as we build your world" ) );
+    background_pane background;
+    static_popup popup;
+    popup.message( "%s", _( "Please wait as we build your world" ) );
+    ui_manager::redraw();
+    refresh_display();
+
     load_master();
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
@@ -838,6 +849,11 @@ bool game::start_game()
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
     }
+    if( u.starting_vehicle &&
+        !place_vehicle_nearby( u.starting_vehicle, u.global_omt_location().xy(), 1, 30,
+                               std::vector<std::string> {} ) ) {
+        debugmsg( "could not place starting vehicle" );
+    }
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
         const auto mission = mission::reserve_new( m, character_id() );
@@ -846,6 +862,53 @@ bool game::start_game()
 
     g->events().send<event_type::game_start>( u.getID() );
     return true;
+}
+
+vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, int min_distance,
+                                     int max_distance, const std::vector<std::string> &omt_search_types )
+{
+    std::vector<std::string> search_types = omt_search_types;
+    if( search_types.empty() ) {
+        vehicle veh( id );
+        std::vector<std::string> omt_search_types;
+        if( veh.max_ground_velocity() > 0 ) {
+            search_types.push_back( "road" );
+            search_types.push_back( "field" );
+        } else if( veh.can_float() ) {
+            search_types.push_back( "river" );
+            search_types.push_back( "lake" );
+        }
+    }
+    for( const std::string &search_type : search_types ) {
+        omt_find_params find_params;
+        find_params.must_see = false;
+        find_params.cant_see = false;
+        find_params.types.emplace_back( search_type, ot_match_type::type );
+        // find nearest road
+        find_params.min_distance = min_distance;
+        find_params.search_range = max_distance;
+        // if player spawns underground, park their car on the surface.
+        const tripoint omt_origin( origin, 0 );
+        for( const tripoint &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
+            // try place vehicle there.
+            tinymap target_map;
+            target_map.load( omt_to_sm_copy( goal ), false );
+            const tripoint origin( SEEX, SEEY, goal.z );
+            static const std::vector<int> angles = {0, 90, 180, 270};
+            vehicle *veh = target_map.add_vehicle( id, origin, random_entry( angles ), rng( 50, 80 ),
+                                                   0,
+                                                   false );
+            if( veh ) {
+                tripoint abs_local = g->m.getlocal( target_map.getabs( origin ) );
+                veh->sm_pos =  ms_to_sm_remain( abs_local );
+                veh->pos = abs_local.xy();
+                overmap_buffer.add_vehicle( veh );
+                target_map.save();
+                return veh;
+            }
+        }
+    }
+    return nullptr;
 }
 
 //Make any nearby overmap npcs active, and put them in the right location.
@@ -1444,7 +1507,7 @@ bool game::do_turn()
                 }
                 sounds::process_sound_markers( &u );
                 if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH ) {
-                    draw();
+                    ui_manager::redraw();
                 }
 
                 if( handle_action() ) {
@@ -1541,7 +1604,7 @@ bool game::do_turn()
     mon_info_update();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
-        draw();
+        ui_manager::redraw();
         refresh_display();
     }
 
@@ -1554,7 +1617,7 @@ bool game::do_turn()
 
     if( player_is_sleeping ) {
         if( calendar::once_every( 30_minutes ) || !player_was_sleeping ) {
-            draw();
+            ui_manager::redraw();
             //Putting this in here to save on checking
             if( calendar::once_every( 1_hours ) ) {
                 add_artifact_dreams( );
@@ -1576,6 +1639,9 @@ bool game::do_turn()
             .wait_message( "%s", *progress )
             .on_top( true )
             .show();
+
+            catacurses::refresh();
+            refresh_display();
         }
     }
 
@@ -2181,7 +2247,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     return true;
 }
 
-std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context ctxt, const int speed,
+std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, const int speed,
         const tripoint &last, bool iso )
 {
     const int rate = get_option<int>( "EDGE_SCROLL" );
@@ -2635,7 +2701,11 @@ bool game::load( const std::string &world )
 
 void game::load( const save_t &name )
 {
-    popup_status( _( "Please wait…" ), _( "Loading the save…" ) );
+    background_pane background;
+    static_popup popup;
+    popup.message( "%s", _( "Please wait…\nLoading the save…" ) );
+    ui_manager::redraw();
+    refresh_display();
 
     using namespace std::placeholders;
 
@@ -2714,14 +2784,10 @@ void game::load( const save_t &name )
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     u.reset();
-    draw();
 }
 
 void game::load_world_modfiles( loading_ui &ui )
 {
-    catacurses::erase();
-    catacurses::refresh();
-
     auto &mods = world_generator->active_world->active_mod_order;
 
     // remove any duplicates whilst preserving order (fixes #19385)
@@ -2753,9 +2819,6 @@ void game::load_world_modfiles( loading_ui &ui )
     // Load additional mods from that world-specific folder
     load_data_from_dir( get_world_base_save_path() + "/mods", "custom", ui );
 
-    catacurses::erase();
-    catacurses::refresh();
-
     DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
 
@@ -2781,9 +2844,13 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
 
         // if mod specifies legacy migrations load any that are required
         if( !mod.legacy.empty() ) {
+            static_popup popup;
             for( int i = get_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
-                popup_status( msg.c_str(), _( "Applying legacy migration (%s %i/%i)" ),
-                              e.c_str(), i, core_version - 1 );
+                popup.message( _( "%s Applying legacy migration (%s %i/%i)" ),
+                               msg, e.c_str(), i, core_version - 1 );
+                ui_manager::redraw();
+                refresh_display();
+
                 load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident.str(), ui );
             }
         }
@@ -4229,16 +4296,15 @@ void game::knockback( const tripoint &s, const tripoint &t, int force, int stun,
     traj = continue_line( traj, force );
     traj.insert( traj.begin(), t ); // how annoying, continue_line() doesn't either!
 
-    knockback( traj, force, stun, dam_mult );
+    knockback( traj, stun, dam_mult );
 }
 
 /* Knockback target at traj.front() along line traj; traj should already have considered knockback distance.
    stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
    dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
 
-void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int dam_mult )
+void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
 {
-    // FIXME: force is unused but header says it should do something
     // TODO: make the force parameter actually do something.
     // the header file says higher force causes more damage.
     // perhaps that is what it should do?
@@ -4247,7 +4313,7 @@ void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int 
         debugmsg( _( "Nothing at (%d,%d,%d) to knockback!" ), tp.x, tp.y, tp.z );
         return;
     }
-    int force_remaining = 0;
+    std::size_t force_remaining = traj.size();
     if( monster *const targ = critter_at<monster>( tp, true ) ) {
         if( stun > 0 ) {
             targ->add_effect( effect_stunned, 1_turns * stun );
@@ -4288,7 +4354,7 @@ void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int 
                 } else if( u.pos() == traj.front() ) {
                     add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->name() );
                 }
-                knockback( traj, force_remaining, stun, dam_mult );
+                knockback( traj, stun, dam_mult );
                 break;
             }
             targ->setpos( traj[i] );
@@ -4362,11 +4428,10 @@ void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int 
                            ( u.has_trait( trait_LEG_TENT_BRACE ) && ( !u.footwear_factor() ||
                                    ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) ) {
                     add_msg( _( "%s collided with you, and barely dislodges your tentacles!" ), targ->name );
-                    force_remaining = 1;
                 } else if( u.posx() == traj_front.x && u.posy() == traj_front.y ) {
                     add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->name );
                 }
-                knockback( traj, force_remaining, stun, dam_mult );
+                knockback( traj, stun, dam_mult );
                 break;
             }
             targ->setpos( traj[i] );
@@ -4440,10 +4505,10 @@ void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int 
                         add_msg( _( "You collided with someone and sent her flying!" ) );
                     }
                 }
-                knockback( traj, force_remaining, stun, dam_mult );
+                knockback( traj, stun, dam_mult );
                 break;
             }
-            if( m.has_flag( "LIQUID", u.pos() ) && force_remaining < 1 ) {
+            if( m.has_flag( "LIQUID", u.pos() ) && force_remaining == 0 ) {
                 avatar_action::swim( m, u, u.pos() );
             } else {
                 u.setpos( traj[i] );
@@ -10038,11 +10103,7 @@ void game::vertical_move( int movez, bool force )
             return;
         }
 
-        if( dexroll >= 14 ) {
-            add_msg( _( "You manage to slip past!" ) );
-        } else if( strroll >= 12 ) {
-            add_msg( _( "You manage to push past!" ) );
-        }
+        add_msg( _( "You manage to slip past!" ) );
         slippedpast = true;
         u.moves -= 100;
     }
@@ -11123,7 +11184,11 @@ void game::quicksave()
         return;
     }
     add_msg( m_info, _( "Saving game, this may take a while" ) );
-    popup_nowait( _( "Saving game, this may take a while" ) );
+
+    static_popup popup;
+    popup.message( "%s", _( "Saving game, this may take a while" ) );
+    ui_manager::redraw();
+    refresh_display();
 
     time_t now = time( nullptr ); //timestamp for start of saving procedure
 

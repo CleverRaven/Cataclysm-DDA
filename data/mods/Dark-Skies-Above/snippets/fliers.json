@@ -1,0 +1,299 @@
+[
+  {
+    "type": "snippet",
+    "category": "dks_flier",
+    "text": [
+      {
+        "id": "dks_flier_1",
+        "text": "This is an advertisement for Aunt Janice's Pickled Meat.  \"When times get tough, the tough get pickling.  Aunt Janice's Pickled Meat: more than 30% real beef!\""
+      },
+      { "id": "dks_flier_2", "text": "This is an advertisement for a quality-of-life medicine." },
+      { "id": "dks_flier_3", "text": "This is an advertisement promoting enlisting in the US armed forces." },
+      {
+        "id": "dks_flier_4",
+        "text": "This is a somewhat weather-worn advertisement for the 'new' FEMA evacuation shelters.  Beneath the colorful photo it reads, \"Familiarize yourself with your nearest emergency shelter.  It could save your life.\""
+      },
+      {
+        "id": "dks_flier_5",
+        "text": "This is an advertisement for a FEMA evacuation shelter.  Beneath a picture of a shelter it reads, \"Contact your local FEMA office to arrange a tour of your nearest evacuation shelter.  Be prepared!\""
+      },
+      {
+        "id": "dks_flier_6",
+        "text": "This is an advertisement for a pre-manufactured emergency supply kit.  It is made of a very flashy tactical fabric and looks very impractical based on your experience.  \"Be ready for anything with the Tactica Supreme GO-30 kit.\"00"
+      },
+      {
+        "id": "dks_flier_7",
+        "text": "This is an ad for a complicated survival knife with an enormous serrated back edge and far too many tools included in the handle.  \"Come down to the Knife Shack at Cumberton Mall!  We've got it all.\""
+      },
+      {
+        "id": "dks_flier_8",
+        "text": "This is an advertisement for a local church.  The picture looks surprisingly mundane, but the text is not: \"Revelations services offered round the clock.  The end times are here, make your peace.\""
+      },
+      {
+        "id": "dks_flier_9",
+        "text": "This is an advertisement for a local church.  It looks like it was put together at the last minute.  \"Visit St Mary's on the River while it's not too late.  Repent, while you still can!\""
+      },
+      {
+        "id": "dks_flier_10",
+        "text": "This is a hand-drawn flier that has been photocopied for wide distribution.  It reads, in what looks like sharpie-bolded letters, \"THEY DON'T WANT YOU TO KNOW.  They KNEW this would happen.  They were watching everything.  They struck a deal even before they landed.\"  There used to be tear-away phone numbers at the bottom, but they're all gone now."
+      },
+      {
+        "id": "dks_flier_11",
+        "text": "This is a government-issued, air-dropped alert.  \"EVACUTE IMMEDIATELY.  Proceed to your closest FEMA operated community shelter to await police and military escort to safety.\""
+      },
+      {
+        "id": "dks_flier_12",
+        "text": "This is a government-issued, air-dropped alert.  \"EVACUATE IMMEDIATELY.  Police and military forces have been dispatched to your area and will help escort you to safety.\""
+      },
+      {
+        "id": "dks_flier_13",
+        "text": "This is a government-issued, air-dropped alert.  \"EVACUATION ALERT.  Please make your way to the nearest FEMA evacuation shelter.    Seek protection from police and military forces if traveling in groups.\""
+      },
+      {
+        "id": "dks_flier_14",
+        "text": "This is a government-issued, air-dropped alert.  \"EVACUATION ALERT.  Please make your way to the nearest FEMA evacuation shelter.  Travel in groups and avoid crowds.  Avoid hostile forces at all costs.\""
+      },
+      {
+        "id": "dks_flier_15",
+        "text": "This is a glossy, high quality flier.  \"What they don't want you to know!  Reading this may save your life.\"  Inside is a series of warnings recommending people avoid the evacuation shelters, state roads, and worse, contact with any police or military forces as they might be rogue.  A picture of uniformed humans apparently in league with the invaders is included, as well as several shots of civilians being lead off a FEMA bus and towards an alien spaceship."
+      },
+      {
+        "id": "dks_flier_16",
+        "text": "This is a glossy advertisement from FEMA asking that people donate their canned goods in return for tax writeoffs.  From the date on the flier, it doesn't look like the initative ever had time to get off the ground."
+      },
+      {
+        "id": "dks_flier_17",
+        "text": "This is a grocery store coupon flier, dated three days before the evacuation orders went out.  \"At Marigold Market, we still have canned food and bottled water!  Come on in and stock up!\"  The front image shows a grocery store, the entrance flanked by a pair of smiling guards armed with assault rifles."
+      },
+      {
+        "id": "dks_flier_18",
+        "text": "This is an advertisement for a local electronics store, dated a few weeks before the evacuation order.  \"Sale on smartphones and refurbished laptops at DigiMart, three days only!\""
+      },
+      {
+        "id": "dks_flier_19",
+        "text": "This very recent looking air-dropped alert.  \"THE WAR IS OVER.  Do not continue to fight.  Fugitives will be charged with malcompliant destabilizaion if they do not surrender to their nearest safety office at once.  Join our New Order.  Do not live in squalor.  Witness what we can do *together*.\"  Pictured is one of the Designated Living Zones, a city and its surrounding areas set aside specifically for humans.  Underneath is listed some of the many qualities of the DLZs: safety, cleanliness, opprotunity, and so on."
+      },
+      {
+        "id": "dks_flier_20",
+        "text": "This very recent looking air-dropped alert.  \"THE WAR IS OVER.  Do not continue to fight.  Surrender to your nearest surveillance drone for immediate evacuation to a designated civilian zone.  Join our New Order.  Witness what we can do *together*.\"  Pictured is the president, along with several other 'smiling' world leaders, standing next to multiple cloaked creatures."
+      },
+      {
+        "id": "dks_flier_21",
+        "text": "This very recent looking air-dropped alert.  \"THE WAR IS OVER.  Resistance will be met with lethal deterrence.  Do not throw away your potential.  Join our New Order.  Witness what we can do *together*.\"  Pictured is a smiling family of humans standing in front of an alien soldier."
+      },
+      {
+        "id": "dks_flier_22",
+        "text": "This is an advertisement for a local funk-polka band, the \"Chilly Winters\".  Apparently they were playing in the Wonky Donkey Pub."
+      },
+      {
+        "id": "dks_flier_23",
+        "text": "This is a flier with the tour appearance dates of a small, niche-successful drum-and-bass/yodelling fusion band, the \"Ol' Yellers\".  The dates continue well past the end of the world; most likely, the tour was cut short."
+      },
+      {
+        "id": "dks_flier_24",
+        "text": "This is an advertisement for a death metal band, \"Roxanne and the Soul-Crushing Ennui\", known for mixing their ear-blasting riffs with chipper interludes of classic fifties doo-wop.  The art depicts a zombified version of a Betty Crocker-esque housewife, slamming on a spike-encrusted electric guitar."
+      },
+      {
+        "id": "dks_flier_25",
+        "text": "This is an advertisement for a local gun shop.  In huge red letters, it reads: \"This is it.  Arm yourselves and protect your freedom.  Come on down while supplies last.\""
+      },
+      { "id": "dks_flier_26", "text": "This is a flier for pet food, with a cute animal performing a silly trick." },
+      {
+        "id": "dks_flier_27",
+        "text": "This is an advertisement for a portable generator, the kind that was becoming popular in the face of increasing natural disasters before the end of the world as you knew it."
+      },
+      {
+        "id": "dks_flier_28",
+        "text": "This is very recent looking air-dropped alert.  \"HERE FOR YOU\" is written in somewhat imposing text at the bottom of a depiction of several smiling humans wearing Occupation uniforms."
+      },
+      {
+        "id": "dks_flier_29",
+        "text": "This is very recent looking air-dropped alert.  \"HERE FOR YOU\" is written in somewhat imposing text at the bottom of a depiction of several smiling humans wearing Occupation uniforms.  Someone has scrawled \"TRAITORS\" in marker across the front."
+      },
+      {
+        "id": "dks_flier_30",
+        "text": "This is very recent looking air-dropped alert.  \"HERE FOR YOU\" is written in somewhat imposing text at the bottom of a depiction of several smiling humans wearing Occupation uniforms.  Someone has scrawled \"FAIR WEATHER SOLDIERS\" across the front."
+      },
+      {
+        "id": "dks_flier_31",
+        "text": "This is a public notice from a local police department encouraging citizens to pack their supplies before their designated evacuation date to ensure faster transit."
+      },
+      {
+        "id": "dks_flier_32",
+        "text": "This is a public alert from the Centers for Disease Control.  Its message, repeated in several languages, reads: PUBLIC HEALTH ALERT: Due to recent events, the CDC is issuing a warning to avoid public areas and spaces.  An unknown biological contaminant is suspected to be affecting citizens.  The CDC would like to remind the public to cover your nose and mouth when sneezing, wash your hands frequently, and receive an up-to-date flu shot if possible.  Boiling water is recommended until further notice."
+      },
+      {
+        "id": "dks_flier_33",
+        "text": "This is a public alert from the Federal Emergency Management Agency.  Its message, repeated in several languages, reads: STAY IN YOUR HOMES!  All residents of the New England Disaster Area are advised to shelter in place wherever possible.  The United States Armed Forces are working to secure the area.  If there is a nearby evacuation shelter you can get to safely, you are recommended to do so.  Otherwise, stay in your homes until authorized personnel evacuate you to a secured facility.  Thank you for your compliance."
+      },
+      {
+        "id": "dks_flier_34",
+        "text": "This is a public alert from the Federal Emergency Management Agency.  Its message, repeated in several languages, consists of a list of towns serving as major evacuation points from the hot zones.  Someone has scribbled off most of the town names, and scrawled \"OVERRUN\" next to each one."
+      },
+      {
+        "id": "dks_flier_35",
+        "text": "This is a public warning from an unnamed source.  Its rambling message, poorly-photocopied onto both sides of the page, reads: Don't believe the lies!  The Army cannot stop them, FEMA is in league with them.  They want us alive but have no quams about killing anyone who RESISTS.  Secure supplies and escape while there is still time."
+      },
+      {
+        "id": "dks_flier_36",
+        "text": "This is a public message from an unnamed source.  Its message, photocopied from a scrawled handwritten copy, reads: REPENT YOUR SINS O BABYLON FOR THE TIME OF HIS JUDGEMENT IS NIGH!  LOOK UPON YOUR DESTRUCTION AND KNOW THAT IT IS JUST!  YOU WILL BE DIVIDED FATHER AGAINST SON AND MOTHER AGAINST CHILD UNTO THE VERY LAST SINNER!"
+      },
+      {
+        "id": "dks_flier_37",
+        "text": "This is a public warning from the Federal Government.  Its brief message, repeated in several languages, reads:  The President of the United States has declared unilateral martial law to be in effect in response to the ongoing national crisis.  Continue to shelter in place until evacuated to an appropriate emergency management camp by authorized military personnel.  A 24-hour curfew has been established.  This curfew will remain in effect until further notice.  Stay indoors to avoid friendly fire."
+      },
+      {
+        "id": "dks_flier_38",
+        "text": "This is an advertisement for Galaxybux coffee.  The smiling, feminine alien mascot seems a little inappropriate now."
+      },
+      {
+        "id": "dks_flier_39",
+        "text": "This is a soda advertisement.  On the front is a picture of a happy couple on a beach watching the sun set.  Between them are bottles of soda.  The poster reads, \"Cascade Cola, for those special moments\" in bold white letters."
+      },
+      {
+        "id": "dks_flier_40",
+        "text": "This is a flier for a fast food chain.  In it, a man is placing an order with an attractive woman wearing a bright green shirt in the window with two happy children sitting in the back seat.  The flier reads \"Burgers, fries, and a Smile.\" Down in one corner is a company logo."
+      },
+      {
+        "id": "dks_flier_41",
+        "text": "This is an advertisement for soda.  It shows a dark brown can of soda on a black background.  The label reads \"Spin\"."
+      },
+      {
+        "id": "dks_flier_42",
+        "text": "This is a flyer for a local pizza chain.  On it is a picture of a cartoon Italian holding a pizza, with the words \"It's a goooood pizza\" written above his head."
+      },
+      {
+        "id": "dks_flier_43",
+        "text": "This is a poster advertising contact lenses.  On it is a picture of a blood shot eye with a rather long block of information beneath it making some fairly exaggerated claims about the product."
+      },
+      {
+        "id": "dks_flier_44",
+        "text": "This is a public alert from the Federal Emergency Management Agency.  Its message, repeated in several languages, consists of a list of towns serving as major evacuation points from the hot zones."
+      },
+      {
+        "id": "dks_flier_45",
+        "text": "This is a large movie poster for \"Action Packstone 6, Revenge of the Catgirls\".  It shows a fit man in a leather jacket with a revolver and a claymore walking towards the viewer.  At his side is his trusty cyberdog companion and in the background is an explosion."
+      },
+      {
+        "id": "dks_flier_46",
+        "text": "This is an illustrated poster for a brand of solar car.  The vehicle is driving through a lush country side as small animals look on.  The slogan \"Improving the world, one tank at a time.\" is written across the top in small letters."
+      },
+      {
+        "id": "dks_flier_47",
+        "text": "This is a soda advertisement.  On the front is a picture of a happy couple on a beach watching the sun set.  Between them are bottles of soda.  The poster reads, \"Cascade Cola, for those special moments\" in bold white letters.  Someone has colored in the sun with a black marker.  The words \"oh Discordia\" are scrawled across the top."
+      },
+      {
+        "id": "dks_flier_48",
+        "text": "This is a flier for a fast food chain.  In it, a man is placing an order with an attractive woman wearing a bright green shirt in the window with two happy children in the back seat.  The flier reads \"Burgers, fries, and a Smile.\" down in one corner is a company logo.  Someone has gone to town on this one with a permanent marker.  It is now covered in rude images and racial epithets."
+      },
+      {
+        "id": "dks_flier_49",
+        "text": "This is a flier for a local pizza chain.  On it is a picture of a cartoon Italian holding a pizza, with the words \"It's a goooood pizza\" written above his head.  Someone has drawn an exaggerated mustache on the cartoon Italian, along with a pair of crude, oversized breasts."
+      },
+      {
+        "id": "dks_flier_50",
+        "text": "This is a poster advertising contact lenses.  On it is a picture of a blood shot eye.  Someone has defaced this one.  The informative part has been torn off, and written in jagged letters across the top in red crayon are the words \"ALL HAIL THE CRIMSON KING!\"."
+      },
+      {
+        "id": "dks_flier_51",
+        "text": "This is an illustrated poster for a brand of solar car.  The vehicle is driving through a lush country side as small animals look on.  The slogan \"Improving the world, one tank at a time.\" is written across the top.  Someone used a blue pen to write \"who gives a shit\" across the slogan and put X's over the eyes of all the animals."
+      },
+      {
+        "id": "dks_flier_52",
+        "text": "This is a poster advertising a underground bunker.  The poster shows a nuclear bomb wiping out a city while a family huddles safely underground.  There a slogan \"Concerned about enemy attack?  Want to protect your family?  Join the VAULT program today.\" which is written in the middle.  However, there seems to be no information about *how* one might do so."
+      },
+      {
+        "id": "dks_flier_53",
+        "text": "This is a flier for Red Ryder BBGuns.  On it a child is pulling a shining red wagon with a cooked pheasant on it and a wooden rifle over one shoulder.  The child has a dog trailing beside him and a satisfied look on his face.  The caption reads \"When you chose Red Ryder, you invested in the American Dream.  You invested in our Independence.\""
+      },
+      {
+        "id": "dks_flier_54",
+        "text": "This is an old flier for a movie from the 30s.  A tan man with slick black hair and muscles bulging through his offwhite suit is clasping a woman to his hip with one hand, and the woman is wearing a black leather dress.  With her hips splayed, she is holding a pistol in one hand and starring directly out of the advert.  The caption reads \"Witness the rebirth of New Noir with 'Jersey Shore Blues'.  Starring Jenifer Languiz as 'Snookie'!\""
+      },
+      {
+        "id": "dks_flier_55",
+        "text": "\"Joe's Diner; 1/2 pound of meat, 3 toppings, 'your choice', all with a side of freedom fries and a BIG Gulp size pop.\""
+      },
+      {
+        "id": "dks_flier_56",
+        "text": "This is an advertisement for the popular fast food chain, Foodplace.  On an unadorned blue-and-magenta background it shows clear, unmistakable depictions of their products and plainly stated prices.  The foodburger looks particularly nice."
+      },
+      {
+        "id": "dks_flier_57",
+        "text": "This is a leaflet about autoclaving procedure.  One sentence catches your attention \"/!\\Always place your tools into an autoclave pouch before autoclaving./!\\\""
+      },
+      {
+        "id": "dks_flier_58",
+        "text": "This is a propaganda poster from only a few weeks before the evacuation orders.  A parent dressed in military fatigues hugs their partner goodbye as their smiling children look on.  \"Enlist today.  Take your freedom in your own hands.\""
+      },
+      {
+        "id": "dks_flier_59",
+        "text": "This is a propaganda poster from only a few weeks before the evacuation orders.  A handsome looking person dressed in military fatigues exercises along with several other people.  \"Enlist today.\""
+      },
+      {
+        "id": "dks_flier_60",
+        "text": "This is a propaganda poster from only a few weeks before the evacuation orders.  Someone in military fatigues is helping someone stand up.  \"Enlist today and become a community leader.\""
+      },
+      {
+        "id": "dks_flier_61",
+        "text": "This advertisement reads \"Sick of FUEL PRICES?  Bus stop too far?  Get your driving fix from THE SUN!  Solar powered electric cars by Edison: Silent, Cheap, Powerful.\""
+      },
+      {
+        "id": "dks_flier_62",
+        "text": "This is an advertisement that looks like it came right out of Silicon Valley.  'Space age aesthetic' is written in cursive scipt underneath a picture of some sleek but terribly useless home gadget."
+      },
+      {
+        "id": "dks_flier_63",
+        "text": "PICKLED MEAT IN A JAR!  Just like your grandma used to make!  It will last for months or longer, and when you've eaten it, you can refill and seal the jar!  Stock your emergency supply TODAY!"
+      },
+      {
+        "id": "dks_flier_64",
+        "text": "BAGS, BAGS, BAGS!  They're very useful things!  If we didn't have BAGS, what-would-we-use… to PUT a lot of things in!?  (Ad by the \"Play SchoolClothing Co.\")"
+      },
+      {
+        "id": "dks_flier_65",
+        "text": "GLAMOPOLITAN!  We've got ALL the latest tips!  Whether you want to know what the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine!  So pick up a copy today and \"Sizzle Like A Star\"!"
+      },
+      {
+        "id": "dks_flier_66",
+        "text": "POPULAR MECHANICS: People say mechanics is boring?  We say, Prove them Wrong!  We've got all the articles that make it interesting to talk about, so you can \"Make Mechanics Popular\"!"
+      },
+      {
+        "id": "dks_flier_67",
+        "text": "BIRDHOUSE MONTHLY…  Which wood would a woodpecker prefer?  This month we discuss hardwood versus soft woods, whether to lacquer, oil or paint, and which type of nails you should use!"
+      },
+      {
+        "id": "dks_flier_68",
+        "text": "FEELING BLUE?  Try \"Greens\" for Magazines!  Your local Supermarket!  Nothing cheers you up like a good magazine…  Unless it's JUNK FOOD!  Or why not buy an MP3 PLAYER or a GAME CONSOLE?  Chase those Blues away at GREENS Supermarket"
+      },
+      {
+        "id": "dks_flier_69",
+        "text": "…What do you know about surviving in the Wilderness?  If you can't make a snare you don't know TRAP!  Hunt down a copy of TRAPPERS' LIFE and learn about wildlife!…  And how to kill it.  Classic BEAR TRAP returns in this issue!"
+      },
+      {
+        "id": "dks_flier_70",
+        "text": "HUNTING GOODS!  Food prices getting you down?  Why not get a crossbow or compound bow and Hunt Your Own!?  Our arrows and bolts are completely reusable, so why not hunt animals like Mother Nature intended?"
+      },
+      {
+        "id": "dks_flier_71",
+        "text": "FEELING BLUE?  Try \"Greens\" for Magazines!  Your local Supermarket!  Nothing cheers you up like a good magazine…  Unless it's JUNK FOOD!  Or why not buy an MP3 PLAYER or a GAME CONSOLE?  Chase those blues away at GREENS Supermarket"
+      },
+      {
+        "id": "dks_flier_72",
+        "text": "…What do you know about surviving in the Wilderness?  If you can't make a snare you don't know TRAP!  Hunt down a copy of TRAPPERS' LIFE and learn about wildlife!…  And how to kill it.  This week, a CROSSBOW TRAP!"
+      },
+      {
+        "id": "dks_flier_73",
+        "text": "BIRDHOUSE MONTHLY…  This month we look at some Dutch innovations in birdhouse design, and compare with the often confused Scandinavian Birdhouse design.  Our article on sheet metal birdhouses will have you riveted!"
+      },
+      {
+        "id": "dks_flier_74",
+        "text": "CRAFTY CRAFTERS QUARTERLY: Macaroni isn't just for eating anymore!  Learn how to make jewelry and art from it as well!  We also discuss the correct way to use superglue without gluing your hands together!"
+      },
+      {
+        "id": "dks_flier_75",
+        "text": "\"The Nintendy Flip!  Play your games anywhere!\" Following is an illustration of several people playing their games in unlikely places, using the titular gaming device."
+      }
+    ]
+  }
+]
