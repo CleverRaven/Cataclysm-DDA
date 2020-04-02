@@ -2,7 +2,7 @@
   {
     "id": "hair_black_crewcut",
     "type": "mutation",
-    "name": "Hair: black, crew-cut",
+    "name": { "str": "Hair: black, crew-cut" },
     "description": "Crewcut black hair style.",
     "points": 0,
     "starting_trait": true,
@@ -15,7 +15,7 @@
   {
     "id": "hair_black_mohawk",
     "type": "mutation",
-    "name": "Hair: black, mohawk",
+    "name": { "str": "Hair: black, mohawk" },
     "description": "Mohawk black hair style.",
     "points": 0,
     "starting_trait": true,
@@ -28,7 +28,7 @@
   {
     "id": "hair_black_fro",
     "type": "mutation",
-    "name": "Hair: black, 'fro",
+    "name": { "str": "Hair: black, 'fro" },
     "description": "'Fro black hair style.",
     "points": 0,
     "starting_trait": true,
@@ -41,7 +41,7 @@
   {
     "id": "hair_black_short",
     "type": "mutation",
-    "name": "Hair: black, short",
+    "name": { "str": "Hair: black, short" },
     "description": "Short black hair style",
     "points": 0,
     "starting_trait": true,
@@ -54,7 +54,7 @@
   {
     "id": "hair_black_medium",
     "type": "mutation",
-    "name": "Hair: black, medium-length",
+    "name": { "str": "Hair: black, medium-length" },
     "description": "Medium-length black hair style.",
     "points": 0,
     "starting_trait": true,
@@ -67,7 +67,7 @@
   {
     "id": "hair_black_long",
     "type": "mutation",
-    "name": "Hair: black, long",
+    "name": { "str": "Hair: black, long" },
     "description": "Long black hair style.",
     "points": 0,
     "starting_trait": true,
@@ -80,7 +80,7 @@
   {
     "id": "hair_brown_crewcut",
     "type": "mutation",
-    "name": "Hair: brown, crew-cut",
+    "name": { "str": "Hair: brown, crew-cut" },
     "description": "Crewcut brown hair style.",
     "points": 0,
     "starting_trait": true,
@@ -93,7 +93,7 @@
   {
     "id": "hair_brown_mohawk",
     "type": "mutation",
-    "name": "Hair: brown, mohawk",
+    "name": { "str": "Hair: brown, mohawk" },
     "description": "Mohawk brown hair style.",
     "points": 0,
     "starting_trait": true,
@@ -106,7 +106,7 @@
   {
     "id": "hair_brown_fro",
     "type": "mutation",
-    "name": "Hair: brown, 'fro",
+    "name": { "str": "Hair: brown, 'fro" },
     "description": "'Fro brown hair style.",
     "points": 0,
     "starting_trait": true,
@@ -119,7 +119,7 @@
   {
     "id": "hair_brown_short",
     "type": "mutation",
-    "name": "Hair: brown, short",
+    "name": { "str": "Hair: brown, short" },
     "description": "Short brown hair style",
     "points": 0,
     "starting_trait": true,
@@ -132,7 +132,7 @@
   {
     "id": "hair_brown_medium",
     "type": "mutation",
-    "name": "Hair: brown, medium-length",
+    "name": { "str": "Hair: brown, medium-length" },
     "description": "Medium-length brown hair style.",
     "points": 0,
     "starting_trait": true,
@@ -145,7 +145,7 @@
   {
     "id": "hair_brown_long",
     "type": "mutation",
-    "name": "Hair: brown, long",
+    "name": { "str": "Hair: brown, long" },
     "description": "Long brown hair style.",
     "points": 0,
     "starting_trait": true,
@@ -158,7 +158,7 @@
   {
     "id": "hair_blond_crewcut",
     "type": "mutation",
-    "name": "Hair: blond, crew-cut",
+    "name": { "str": "Hair: blond, crew-cut" },
     "description": "Crewcut blond hair style.",
     "points": 0,
     "starting_trait": true,
@@ -171,7 +171,7 @@
   {
     "id": "hair_blond_mohawk",
     "type": "mutation",
-    "name": "Hair: blond, mohawk",
+    "name": { "str": "Hair: blond, mohawk" },
     "description": "Mohawk blond hair style.",
     "points": 0,
     "starting_trait": true,
@@ -184,7 +184,7 @@
   {
     "id": "hair_blond_fro",
     "type": "mutation",
-    "name": "Hair: blond, 'fro",
+    "name": { "str": "Hair: blond, 'fro" },
     "description": "'Fro blond hair style.",
     "points": 0,
     "starting_trait": true,
@@ -197,7 +197,7 @@
   {
     "id": "hair_blond_short",
     "type": "mutation",
-    "name": "Hair: blond, short",
+    "name": { "str": "Hair: blond, short" },
     "description": "Short blond hair style",
     "points": 0,
     "starting_trait": true,
@@ -210,7 +210,7 @@
   {
     "id": "hair_blond_medium",
     "type": "mutation",
-    "name": "Hair: blond, medium-length",
+    "name": { "str": "Hair: blond, medium-length" },
     "description": "Medium-length blond hair style.",
     "points": 0,
     "starting_trait": true,
@@ -223,7 +223,7 @@
   {
     "id": "hair_blond_long",
     "type": "mutation",
-    "name": "Hair: blond, long",
+    "name": { "str": "Hair: blond, long" },
     "description": "Long blond hair style.",
     "points": 0,
     "starting_trait": true,
@@ -236,7 +236,7 @@
   {
     "id": "hair_red_crewcut",
     "type": "mutation",
-    "name": "Hair: red, crew-cut",
+    "name": { "str": "Hair: red, crew-cut" },
     "description": "Crewcut red hair style.",
     "points": 0,
     "starting_trait": true,
@@ -249,7 +249,7 @@
   {
     "id": "hair_red_mohawk",
     "type": "mutation",
-    "name": "Hair: red, mohawk",
+    "name": { "str": "Hair: red, mohawk" },
     "description": "Mohawk red hair style.",
     "points": 0,
     "starting_trait": true,
@@ -262,7 +262,7 @@
   {
     "id": "hair_red_fro",
     "type": "mutation",
-    "name": "Hair: red, 'fro",
+    "name": { "str": "Hair: red, 'fro" },
     "description": "'Fro red hair style.",
     "points": 0,
     "starting_trait": true,
@@ -275,7 +275,7 @@
   {
     "id": "hair_red_short",
     "type": "mutation",
-    "name": "Hair: red, short",
+    "name": { "str": "Hair: red, short" },
     "description": "Short red hair style",
     "points": 0,
     "starting_trait": true,
@@ -288,7 +288,7 @@
   {
     "id": "hair_red_medium",
     "type": "mutation",
-    "name": "Hair: red, medium-length",
+    "name": { "str": "Hair: red, medium-length" },
     "description": "Medium-length red hair style.",
     "points": 0,
     "starting_trait": true,
@@ -301,7 +301,7 @@
   {
     "id": "hair_red_long",
     "type": "mutation",
-    "name": "Hair: red, long",
+    "name": { "str": "Hair: red, long" },
     "description": "Long red hair style.",
     "points": 0,
     "starting_trait": true,
@@ -314,7 +314,7 @@
   {
     "id": "hair_gray_crewcut",
     "type": "mutation",
-    "name": "Hair: gray, crew-cut",
+    "name": { "str": "Hair: gray, crew-cut" },
     "description": "Crewcut gray hair style.",
     "points": 0,
     "starting_trait": true,
@@ -327,7 +327,7 @@
   {
     "id": "hair_gray_mohawk",
     "type": "mutation",
-    "name": "Hair: gray, mohawk",
+    "name": { "str": "Hair: gray, mohawk" },
     "description": "Mohawk gray hair style.",
     "points": 0,
     "starting_trait": true,
@@ -340,7 +340,7 @@
   {
     "id": "hair_gray_fro",
     "type": "mutation",
-    "name": "Hair: gray, 'fro",
+    "name": { "str": "Hair: gray, 'fro" },
     "description": "'Fro gray hair style.",
     "points": 0,
     "starting_trait": true,
@@ -353,7 +353,7 @@
   {
     "id": "hair_gray_short",
     "type": "mutation",
-    "name": "Hair: gray, short",
+    "name": { "str": "Hair: gray, short" },
     "description": "Short gray hair style",
     "points": 0,
     "starting_trait": true,
@@ -366,7 +366,7 @@
   {
     "id": "hair_gray_medium",
     "type": "mutation",
-    "name": "Hair: gray, medium-length",
+    "name": { "str": "Hair: gray, medium-length" },
     "description": "Medium-length gray hair style.",
     "points": 0,
     "starting_trait": true,
@@ -379,7 +379,7 @@
   {
     "id": "hair_gray_long",
     "type": "mutation",
-    "name": "Hair: gray, long",
+    "name": { "str": "Hair: gray, long" },
     "description": "Long gray hair style.",
     "points": 0,
     "starting_trait": true,
@@ -392,7 +392,7 @@
   {
     "id": "hair_white_crewcut",
     "type": "mutation",
-    "name": "Hair: white, crew-cut",
+    "name": { "str": "Hair: white, crew-cut" },
     "description": "Crewcut white hair style.",
     "points": 0,
     "starting_trait": true,
@@ -405,7 +405,7 @@
   {
     "id": "hair_white_mohawk",
     "type": "mutation",
-    "name": "Hair: white, mohawk",
+    "name": { "str": "Hair: white, mohawk" },
     "description": "Mohawk white hair style.",
     "points": 0,
     "starting_trait": true,
@@ -418,7 +418,7 @@
   {
     "id": "hair_white_fro",
     "type": "mutation",
-    "name": "Hair: white, 'fro",
+    "name": { "str": "Hair: white, 'fro" },
     "description": "'Fro white hair style.",
     "points": 0,
     "starting_trait": true,
@@ -431,7 +431,7 @@
   {
     "id": "hair_white_short",
     "type": "mutation",
-    "name": "Hair: white, short",
+    "name": { "str": "Hair: white, short" },
     "description": "Short white hair style",
     "points": 0,
     "starting_trait": true,
@@ -444,7 +444,7 @@
   {
     "id": "hair_white_medium",
     "type": "mutation",
-    "name": "Hair: white, medium-length",
+    "name": { "str": "Hair: white, medium-length" },
     "description": "Medium-length white hair style.",
     "points": 0,
     "starting_trait": true,
@@ -457,7 +457,7 @@
   {
     "id": "hair_white_long",
     "type": "mutation",
-    "name": "Hair: white, long",
+    "name": { "str": "Hair: white, long" },
     "description": "Long white hair style.",
     "points": 0,
     "starting_trait": true,
@@ -470,7 +470,7 @@
   {
     "id": "HAIR_BALD",
     "type": "mutation",
-    "name": "Hair: none",
+    "name": { "str": "Hair: none" },
     "description": "You are bald.",
     "points": 0,
     "starting_trait": true,
@@ -482,7 +482,7 @@
   {
     "id": "SKIN_DARK",
     "type": "mutation",
-    "name": "Skin tone: dark brown",
+    "name": { "str": "Skin tone: dark brown" },
     "description": "You have a dark brown skin tone.",
     "points": 0,
     "starting_trait": true,
@@ -494,7 +494,7 @@
   {
     "id": "SKIN_LIGHT",
     "type": "mutation",
-    "name": "Skin tone: light",
+    "name": { "str": "Skin tone: light" },
     "description": "You have a light peach skin tone.",
     "points": 0,
     "starting_trait": true,
@@ -506,7 +506,7 @@
   {
     "id": "SKIN_MEDIUM",
     "type": "mutation",
-    "name": "Skin tone: light brown",
+    "name": { "str": "Skin tone: light brown" },
     "description": "You have a light brown skin tone.",
     "points": 0,
     "starting_trait": true,
@@ -518,7 +518,7 @@
   {
     "id": "SKIN_PINK",
     "type": "mutation",
-    "name": "Skin tone: rose",
+    "name": { "str": "Skin tone: rose" },
     "description": "You have a rosy pink skin tone.",
     "points": 0,
     "starting_trait": true,
@@ -530,7 +530,7 @@
   {
     "id": "SKIN_TAN",
     "type": "mutation",
-    "name": "Skin tone: bronze",
+    "name": { "str": "Skin tone: bronze" },
     "description": "You have a bronze or tan skin tone.",
     "points": 0,
     "starting_trait": true,

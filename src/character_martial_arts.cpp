@@ -5,7 +5,9 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "output.h"
-#include "cata_string_consts.h"
+
+static const matype_id style_kicks( "style_kicks" );
+static const matype_id style_none( "style_none" );
 
 using itype_id = std::string;
 

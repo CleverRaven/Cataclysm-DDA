@@ -2,16 +2,19 @@
   {
     "type": "item_group",
     "id": "NC_DEBUG_worn",
-    "items": [ [ "towel", 100 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "towel", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "NC_DEBUG_carried",
-    "items": [ [ "mininuke", 100 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "mininuke", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "NC_DEBUG_weapon",
-    "items": [ [ "soap", 100 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "soap", "prob": 100 } ]
   }
 ]

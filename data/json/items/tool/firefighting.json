@@ -79,7 +79,7 @@
   {
     "id": "sm_extinguisher",
     "type": "TOOL",
-    "name": "small fire extinguisher",
+    "name": { "str": "small fire extinguisher" },
     "description": "This is a hand held fire extinguisher containing a liter of highly compressed CO2 gas.  It would be useful for putting out adjacent fires.",
     "weight": "2267 g",
     "volume": "2000 ml",
@@ -98,7 +98,7 @@
     "id": "throw_extinguisher",
     "type": "TOOL",
     "category": "tools",
-    "name": "throwable fire extinguisher",
+    "name": { "str": "throwable fire extinguisher" },
     "description": "This is a fire extinguisher in grenade form.  While not as effective as a regular fire extinguisher, you can use it from a distance.  It is activated by heat, so just throw it into the flames.",
     "weight": "630 g",
     "volume": "250 ml",

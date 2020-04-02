@@ -17,7 +17,7 @@
     "abstract": "book_martial",
     "type": "GENERIC",
     "category": "books",
-    "name": "martial art manual",
+    "name": { "str": "martial art manual" },
     "weight": "150 g",
     "volume": "250 ml",
     "price": 20000,

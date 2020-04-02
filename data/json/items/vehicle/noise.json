@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "muffler",
-    "name": "muffler",
+    "name": { "str": "muffler" },
     "description": "A muffler from a car.  Very unwieldy as a weapon.  Useful in a few crafting recipes.",
     "weight": "9525 g",
     "to_hit": -10,
@@ -34,7 +34,7 @@
   {
     "type": "GENERIC",
     "id": "stereo",
-    "name": "stereo system",
+    "name": { "str": "stereo system" },
     "description": "A stereo system with speakers.  It is capable of being hooked up to a vehicle.",
     "weight": "800 g",
     "to_hit": -2,

@@ -190,7 +190,7 @@
     "id": "kiln_lit",
     "type": "GENERIC",
     "category": "tools",
-    "name": "lit charcoal kiln",
+    "name": { "str": "lit charcoal kiln" },
     "description": "A kiln full of wood that has been lit; better drop it!",
     "weight": "15142 g",
     "volume": "10 L",
@@ -226,7 +226,7 @@
   {
     "id": "swage",
     "type": "TOOL",
-    "name": "swage and die set",
+    "name": { "str": "swage and die set" },
     "description": "These are a set of swages and dies for metalsmithing.  These loops and metal blocks are used in some metalworking fabrication recipes.",
     "weight": "2620 g",
     "volume": "2 L",

@@ -171,6 +171,9 @@ void profession::load( const JsonObject &jo, const std::string & )
         _description_male = to_translation( "prof_desc_male", desc );
         _description_female = to_translation( "prof_desc_female", desc );
     }
+    if( jo.has_string( "vehicle" ) ) {
+        _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
+    }
     if( jo.has_array( "pets" ) ) {
         for( JsonObject subobj : jo.get_array( "pets" ) ) {
             int count = subobj.get_int( "amount" );
@@ -222,6 +225,7 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "CBMs", _starting_CBMs, auto_flags_reader<bionic_id> {} );
     // TODO: use string_id<mutation_branch> or so
     optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
+    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 }
 
@@ -286,7 +290,10 @@ void profession::check_definition() const
     if( !item_group::group_is_defined( _starting_items_female ) ) {
         debugmsg( "_starting_items_female group is undefined" );
     }
-
+    if( _starting_vehicle && !_starting_vehicle.is_valid() ) {
+        debugmsg( "vehicle prototype %s for profession %s does not exist", _starting_vehicle.c_str(),
+                  id.c_str() );
+    }
     for( const auto &a : _starting_CBMs ) {
         if( !a.is_valid() ) {
             debugmsg( "bionic %s for profession %s does not exist", a.c_str(), id.c_str() );
@@ -428,10 +435,63 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
 
+    /*  Purpose:    Post processing on profession selection and generation on start.
+                    Professions are newly generated each time on selection, even
+                    if the profession has already been selected previously. The profession
+                    is even generated again after selection, and the game is started.
+                    The purpose of this loop is to provide default numbers for item charges
+                    and ammo. This extends to food as well, however due to the nature of
+                    the way these professions are generated, food items one see's on the profession
+                    screen will be different in-game, but still these charge numbers will be
+                    dictated by the default of said items.
+
+        Graphical Issue:    Currently, worn items can fluctuate between 0 and their default value
+                            upon entering the game this issue will resolve itself and the correct
+                            default value will be given to the player. This issue occurs
+                            on holding the enter key to make rapid selection of a profession.
+
+        TODO:   Currently the way magazines are implemented they do not contain a default value.
+                Professions contain a max charge value found in the JSON file however, this
+                does not help in choosing a default. Below is a compromise that takes the
+                half of the magazines capacity as a default. This was chosen because most
+                defaults are half of the items max value.
+       -- Ideally, the default value of a magazine would be defined in the profession JSON file. --
+    */
+    for( auto &item : result ) {
+        /* Set top level items that have a charge to their default states */
+        /* includes refillable liters */
+
+        item.charges = item::find_type( item.typeId() )->charges_default();
+
+        /* Top level item has a magazine */
+        if( item.is_magazine() ) {
+            //Check the TODO for more information as to why we are dividing by two here.
+            item.ammo_set( item.ammo_default(), item.ammo_capacity() / 2 );
+        } else {
+            /* For Items with a magazine or battery in its contents */
+            for( auto &item_contents : item.contents ) {
+                /* for guns and other items defined to have a magazine but don't use "ammo" */
+                if( item_contents.is_magazine() ) {
+                    item_contents.ammo_set(
+                        item_contents.ammo_default(), item_contents.ammo_capacity() / 2
+                    );
+                } else { //Contents are batteries or food
+                    item_contents.charges =
+                        item::find_type( item_contents.typeId() )->charges_default();
+                }
+            }
+        }
+    }
+
     result.sort( []( const item & first, const item & second ) {
         return first.get_layer() < second.get_layer();
     } );
     return result;
+}
+
+vproto_id profession::vehicle() const
+{
+    return _starting_vehicle;
 }
 
 std::vector<mtype_id> profession::pets() const
@@ -454,6 +514,11 @@ std::vector<trait_id> profession::get_locked_traits() const
     return _starting_traits;
 }
 
+std::set<trait_id> profession::get_forbidden_traits() const
+{
+    return _forbidden_traits;
+}
+
 profession::StartingSkillList profession::skills() const
 {
     return _starting_skills;
@@ -473,6 +538,11 @@ bool profession::is_locked_trait( const trait_id &trait ) const
 {
     return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
            _starting_traits.end();
+}
+
+bool profession::is_forbidden_trait( const trait_id &trait ) const
+{
+    return _forbidden_traits.count( trait ) != 0;
 }
 
 std::map<spell_id, int> profession::spells() const

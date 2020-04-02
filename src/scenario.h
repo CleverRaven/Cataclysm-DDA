@@ -50,6 +50,7 @@ class scenario
         std::vector<mission_type_id> _missions;
 
         void load( const JsonObject &jo, const std::string &src );
+        bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
 
     public:
         //these three aren't meant for external use, but had to be made public regardless

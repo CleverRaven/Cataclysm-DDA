@@ -152,13 +152,10 @@
     "//": "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
     "items": [
       [ "22_speedloader8", 15 ],
-      [ "223_speedloader5", 5 ],
       [ "44_speedloader6", 15 ],
       [ "454_speedloader5", 5 ],
-      [ "460_speedloader6", 10 ],
       [ "500_speedloader5", 5 ],
       [ "8x40_speedloader5", 5 ],
-      [ "9mm_speedloader7", 10 ],
       [ "glock_drum_50rd", 5 ],
       [ "glock_drum_100rd", 5 ],
       [ "deaglemag", 40 ],
@@ -173,9 +170,7 @@
       [ "j22mag", 1 ],
       [ "kp32mag", 5 ],
       [ "fn1910mag", 2 ],
-      [ "ppkmag", 15 ],
-      [ "lw12mag", 5 ],
-      [ "lw21mag", 5 ]
+      [ "ppkmag", 15 ]
     ]
   },
   {
@@ -183,7 +178,6 @@
     "id": "mags_smg_common",
     "//": "Factory specification SMG magazines commonly owned by citizens.",
     "items": [
-      [ "360_200_mag", 5 ],
       [ "a180mag", 10 ],
       [ "mac10mag", 10 ],
       [ "mac11mag", 5 ],
@@ -206,14 +200,7 @@
     "type": "item_group",
     "id": "mags_smg_rare",
     "//": "Aftermarket or otherwise uncommon SMG magazines excluding milspec.",
-    "items": [
-      [ "360_400_mag", 5 ],
-      [ "calicomag", 15 ],
-      [ "fnp90mag", 15 ],
-      [ "mp5bigmag", 10 ],
-      [ "thompson_bigmag", 5 ],
-      [ "thompson_drum", 15 ]
-    ]
+    "items": [ [ "calicomag", 15 ], [ "fnp90mag", 15 ], [ "mp5bigmag", 10 ], [ "thompson_bigmag", 5 ], [ "thompson_drum", 15 ] ]
   },
   {
     "type": "item_group",
@@ -250,9 +237,7 @@
       [ "g3mag", 80 ],
       [ "g3bigmag", 40 ],
       [ "m1918bigmag", 40 ],
-      [ "ruger1022bigmag", 70 ],
-      [ "lw223mag", 20 ],
-      [ "lw223bigmag", 20 ]
+      [ "ruger1022bigmag", 70 ]
     ]
   },
   {

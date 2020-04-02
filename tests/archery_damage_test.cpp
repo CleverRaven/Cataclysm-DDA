@@ -18,9 +18,33 @@
 #include "ballistics.h"
 #include "creature.h"
 #include "game_constants.h"
+#include "game.h"
 #include "item.h"
+#include "map.h"
 #include "monster.h"
 #include "projectile.h"
+
+// In short, a bow should never destroy a wall, pretty simple.
+static void test_projectile_hitting_wall( const std::string &target_type, bool smashable,
+        dealt_projectile_attack &attack, const std::string &weapon_type )
+{
+    static const tripoint target_point{ 5, 5, 0 };
+    for( int i = 0; i < 10; ++i ) {
+        projectile projectile_copy = attack.proj;
+        g->m.set( target_point, ter_id( target_type ), furn_id( "f_null" ) );
+        CAPTURE( projectile_copy.impact.total_damage() );
+        g->m.shoot( target_point, projectile_copy, false );
+        CAPTURE( target_type );
+        CAPTURE( weapon_type );
+        CAPTURE( ter_id( target_type ).obj().name() );
+        CAPTURE( g->m.ter( target_point ).obj().name() );
+        if( smashable ) {
+            CHECK( g->m.ter( target_point ) != ter_id( target_type ) );
+        } else {
+            CHECK( g->m.ter( target_point ) == ter_id( target_type ) );
+        }
+    }
+}
 
 static void test_projectile_attack( std::string target_type, bool killable,
                                     dealt_projectile_attack &attack, std::string weapon_type )
@@ -56,6 +80,11 @@ static void test_archery_balance( std::string weapon_type, std::string ammo_type
     }
     if( !unkillable.empty() ) {
         test_projectile_attack( unkillable, false, attack, weapon_type );
+    }
+    test_projectile_hitting_wall( "t_wall", false, attack, weapon_type );
+    // Use "can't kill anything" as an indication that it can't break a window either.
+    if( !killable.empty() ) {
+        test_projectile_hitting_wall( "t_window", true, attack, weapon_type );
     }
 }
 

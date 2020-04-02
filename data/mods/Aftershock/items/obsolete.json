@@ -111,7 +111,7 @@
   {
     "id": "afs_boot_quiver",
     "type": "ARMOR",
-    "name": "boot quiver",
+    "name": { "str": "boot quiver" },
     "description": "This is a makeshift quiver made from a thigh-high boot with the heel removed and patched shut, and strings used as a strap run through a hole punched into its side.  It can hold 40 arrows or bolts for easy access.",
     "weight": "770 g",
     "volume": "2 L",
@@ -183,7 +183,7 @@
   {
     "id": "afs_brigandine",
     "type": "ARMOR",
-    "name": "brigandine",
+    "name": { "str": "brigandine" },
     "description": "A piece of body armor from the Middle Ages consisting of boiled leather with riveted metal plates lying underneath.  Typically used to protect from arrows, it has very good protection against cuts.",
     "weight": "3268 g",
     "volume": "1500 ml",
@@ -204,8 +204,7 @@
     "id": "afs_mbr_titanium",
     "type": "ARMOR",
     "category": "armor",
-    "name": "MBR vest (titanium)",
-    "name_plural": "MBR vests (titanium)",
+    "name": { "str": "MBR vest (titanium)", "str_pl": "MBR vests (titanium)" },
     "description": "A Modular Bullet Resistant Vest.  Titanium scraps have been inserted to improve its protection.  It has four pouches capable of carrying magazines.",
     "weight": "3108 g",
     "volume": "6 L",

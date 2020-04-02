@@ -16,7 +16,13 @@
 #include "enums.h"
 #include "type_id.h"
 #include "flat_set.h"
-#include "cata_string_consts.h"
+
+static const std::string null_item_id( "null" );
+
+static const std::string flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
+static const std::string flag_NON_FOULING( "NON-FOULING" );
+static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
+static const std::string flag_VARSIZE( "VARSIZE" );
 
 Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
 {

@@ -36,7 +36,7 @@
     "id": "tazer",
     "type": "TOOL",
     "category": "weapons",
-    "name": "tazer",
+    "name": { "str": "tazer" },
     "description": "This is a high-powered stun gun.  Use this item to attempt to electrocute an adjacent enemy, damaging and temporarily paralyzing them.  Because the shock can actually jump through the air, it is difficult to miss.",
     "weight": "151 g",
     "volume": "250 ml",

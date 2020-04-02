@@ -115,7 +115,7 @@
   {
     "id": "chipper",
     "type": "TOOL",
-    "name": "paint chipper",
+    "name": { "str": "paint chipper" },
     "description": "A tool similar to a chisel, designed to remove paint.",
     "weight": "60 g",
     "volume": "500 ml",
@@ -300,7 +300,7 @@
   {
     "id": "hose",
     "type": "TOOL",
-    "name": "rubber hose",
+    "name": { "str": "rubber hose" },
     "description": "This is a flexible rubber hose.  It could be used for crafting, or siphoning fuel from a vehicle.",
     "weight": "544 g",
     "volume": "500 ml",
@@ -345,7 +345,7 @@
   {
     "id": "jack_small",
     "type": "TOOL",
-    "name": "scissor jack",
+    "name": { "str": "scissor jack" },
     "description": "A compact scissor jack used for lifting vehicles.",
     "material": "steel",
     "symbol": ";",
@@ -483,7 +483,7 @@
   {
     "id": "misc_repairkit",
     "type": "TOOL",
-    "name": "misc repair kit",
+    "name": { "str": "misc repair kit" },
     "description": "This is a portable toolkit, consisting of a small carving knife for precise carving of replacement parts from raw materials, a wood saw for more heavy-duty wood cutting, and a patch of soft material for cleaning surfaces.  If supplied with duct tape, it can be used to repair certain items.",
     "weight": "386 g",
     "volume": "1500 ml",
@@ -513,7 +513,7 @@
   {
     "id": "mold_plastic",
     "type": "TOOL",
-    "name": "plastic mold",
+    "name": { "str": "plastic mold" },
     "description": "This is a plastic mold.  It could be shaped and used to craft items made of plastic.",
     "weight": "320 g",
     "volume": "2500 ml",
@@ -528,7 +528,7 @@
   {
     "id": "multitool",
     "type": "TOOL",
-    "name": "multi-tool",
+    "name": { "str": "multi-tool" },
     "//": "The multi-tool is a bit more of a toolkit than a knife.",
     "description": "A cleverly designed all-in-one tool which combines several smaller tools into the handles of a pair of pliers.",
     "weight": "250 g",
@@ -578,7 +578,7 @@
   {
     "id": "pickaxe",
     "type": "TOOL",
-    "name": "pickaxe",
+    "name": { "str": "pickaxe" },
     "description": "This is a large steel pickaxe, suitable for breaking up hard things or (with enough skill) hard targets.  Strike the earth!",
     "weight": "4535 g",
     "volume": "3 L",
@@ -596,7 +596,7 @@
   {
     "id": "pin_reamer",
     "type": "TOOL",
-    "name": "pin reamer",
+    "name": { "str": "pin reamer" },
     "description": "Handheld pin reamers of this kind are used to enlarge existing holes, or remove any burs and such from them.",
     "weight": "76 g",
     "volume": "250 ml",
@@ -659,7 +659,7 @@
   {
     "id": "primitive_hammer",
     "type": "TOOL",
-    "name": "stone hammer",
+    "name": { "str": "stone hammer" },
     "description": "This is a rock affixed to a stick, in the crude facsimile of a hammer.  It functions adequately as a hammer, but really can't compare to a proper one.",
     "weight": "1020 g",
     "volume": "500 ml",
@@ -675,7 +675,7 @@
   {
     "id": "screwdriver",
     "type": "TOOL",
-    "name": "screwdriver",
+    "name": { "str": "screwdriver" },
     "description": "This is a Philips-head screwdriver.  It is important for almost all electronics crafting, most mechanics crafting, and has many more uses.",
     "weight": "170 g",
     "volume": "40 ml",
@@ -692,7 +692,7 @@
   {
     "id": "screwdriver_set",
     "type": "TOOL",
-    "name": "screwdriver set",
+    "name": { "str": "screwdriver set" },
     "description": "This is a set of screwdrivers in several sizes and blade types.  Guaranteed to have the right tools for more precise work.",
     "weight": "340 g",
     "volume": "500 ml",
@@ -747,7 +747,7 @@
   {
     "id": "soldering_iron",
     "type": "TOOL",
-    "name": "soldering iron",
+    "name": { "str": "soldering iron" },
     "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  You could also use it to cauterize wounds, if you had to.",
     "weight": "181 g",
     "volume": "500 ml",
@@ -970,7 +970,7 @@
   {
     "id": "wood_smoother",
     "type": "TOOL",
-    "name": "wooden smoother",
+    "name": { "str": "wooden smoother" },
     "description": "This large makeshift tool is used in smoothing concrete or mortar in construction projects.  You could also use it as an improvised head-basher.",
     "weight": "2000 g",
     "volume": "3500 ml",
@@ -986,7 +986,7 @@
     "id": "wool_staple",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": "wool staple",
+    "name": { "str": "wool staple" },
     "description": "The natural cluster of wool fibers.  Could be processed to the felt patches or yarns.",
     "weight": "200 g",
     "volume": "500 ml",
