@@ -138,6 +138,7 @@
     "items": [
       { "group": "potions_common", "prob": 80 },
       { "group": "alchemy_items", "prob": 30 },
+      { "group": "magical_reagents", "prob": 20 },
       [ "crystallized_mana", 55 ],
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
     ]
@@ -164,6 +165,7 @@
       { "group": "jewelry_safe", "prob": 10 },
       { "group": "jewelry_front", "prob": 8 },
       { "group": "potions_common", "prob": 15 },
+      { "group": "magical_reagents", "prob": 20 },
       {
         "distribution": [
           { "group": "enchanted_wands_lesser", "prob": 15 },
@@ -189,7 +191,8 @@
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
       { "group": "enchanted_combat_items", "prob": 10 },
-      { "group": "enchanted_belts", "prob": 2 }
+      { "group": "enchanted_belts", "prob": 2 },
+      { "group": "magical_reagents", "prob": 8 }
     ]
   },
   {
@@ -245,6 +248,7 @@
       { "group": "archery_ammo", "prob": 2, "count-min": 1, "count-max": 4 },
       { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 },
       { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 },
+      { "group": "magical_reagents", "prob": 2 },
       { "group": "enchanted_combat_items", "prob": 1 }
     ]
   },
@@ -655,6 +659,18 @@
         "prob": 10
       }
     ]
+  },
+  {
+    "id": "magical_reagents",
+    "//": "Reagents you'd use in crafting a wide variety of things, including alchemy and rituals.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "mercury", "prob": 15, "charges_min": 50 } ]
+  },
+  {
+    "id": "science",
+    "type": "item_group",
+    "items": [ { "group": "magical_reagents", "prob": 18 } ]
   },
   {
     "id": "magus_items",
