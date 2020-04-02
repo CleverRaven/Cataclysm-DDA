@@ -1277,7 +1277,7 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool check_rail_di
     for( int part_index : wheelcache ) {
         const auto &wheel = parts[ part_index ];
         bool rails_ahead = true;
-        point wheel_point;
+        tripoint wheel_point;
         coord_translate( mdir.dir(), this->pivot_point(), wheel.mount,
                          wheel_point );
 

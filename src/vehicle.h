@@ -365,7 +365,7 @@ struct vehicle_part {
 
         /** mount translated to face.dir [0] and turn_dir [1] */
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        std::array<point, 2> precalc = { { point( -1, -1 ), point( -1, -1 ) } };
+        std::array<tripoint, 2> precalc = { { tripoint( -1, -1, 0 ), tripoint( -1, -1, 0 ) } };
 
         /** current part health with range [0,durability] */
         int hp() const;
@@ -1042,10 +1042,10 @@ class vehicle
         point coord_translate( const point &p ) const;
 
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
-        void coord_translate( int dir, const point &pivot, const point &p, point &q ) const;
+        void coord_translate( int dir, const point &pivot, const point &p, tripoint &q ) const;
         // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
         // should be faster than previous call for repeated translations
-        void coord_translate( tileray tdir, const point &pivot, const point &p, point &q ) const;
+        void coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const;
 
         // Rotates mount coordinates "p" from old_dir to new_dir along pivot
         point rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const;
