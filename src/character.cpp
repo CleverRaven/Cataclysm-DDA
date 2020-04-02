@@ -7579,6 +7579,23 @@ void Character::recalculate_enchantment_cache()
             }
         }
     }
+
+    // get from traits/ mutations
+    for( const std::pair<trait_id, trait_data> &mut_map : my_mutations ) {
+        const mutation_branch &mut = mut_map.first.obj();
+
+        // only add the passive or powered active mutations
+        if( mut.activated && !mut_map.second.powered ) {
+            continue;
+        }
+
+        for( const enchantment_id &ench_id : mut.enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this ) ) {
+                enchantment_cache.force_add( ench );
+            }
+        }
+    }
 }
 
 double Character::calculate_by_enchantment( double modify, enchantment::mod value,
@@ -7888,13 +7905,13 @@ int Character::get_armor_fire( body_part bp ) const
 
 void Character::did_hit( Creature &target )
 {
-    enchantment_cache.cast_hit_you( *this, target.pos() );
+    enchantment_cache.cast_hit_you( *this, target );
 }
 
-void Character::on_hit( Creature * /*source*/, body_part /*bp_hit*/,
+void Character::on_hit( Creature *source, body_part /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
-    enchantment_cache.cast_hit_me( *this );
+    enchantment_cache.cast_hit_me( *this, source );
 }
 
 void Character::heal( body_part healed, int dam )

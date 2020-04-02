@@ -905,6 +905,11 @@ energy_type spell::energy_source() const
     return type->energy_source;
 }
 
+bool spell::is_target_in_range( const Creature &caster, const tripoint &p ) const
+{
+    return rl_dist( caster.pos(), p ) <= range();
+}
+
 bool spell::is_valid_target( valid_target t ) const
 {
     return type->valid_targets[t];
@@ -1947,6 +1952,10 @@ void fake_spell::load( const JsonObject &jo )
     mandatory( jo, false, "id", temp_id );
     id = spell_id( temp_id );
     optional( jo, false, "hit_self", self, false );
+
+    optional( jo, false, "once_in", trigger_once_in, 1 );
+    optional( jo, false, "message", trigger_message );
+    optional( jo, false, "npc_message", npc_trigger_message );
     int max_level_int;
     optional( jo, false, "max_level", max_level_int, -1 );
     if( max_level_int == -1 ) {
@@ -1965,6 +1974,8 @@ void fake_spell::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "id", id );
     json.member( "hit_self", self );
+    json.member( "once_in", trigger_once_in );
+
     if( !max_level ) {
         json.member( "max_level", -1 );
     } else {
