@@ -446,7 +446,7 @@ Apply item spawn scaling factor to monster drops.
 Balance bionic power use for realistic values.
 Allow large and huge creatures to move through underbrush.
 Mouse view was truncating last row of information.
-Draw debug vehicle autopilot AI and restore previous behaviour.
+Draw debug vehicle autopilot AI and restore previous behavior.
 Fix accidental IR vision.
 Can create camps in buildings that don't face North.
 Fixes martial arts initiate message when equipping an item.
@@ -1456,8 +1456,8 @@ Redesign bionics lab room to fix computer successful hack.
 Limit turret to its actual range.
 Make missed ranged attacks miss more realistically.
 Adds lifting capacity to Cantilevers description.
-Add "makeshift_kevlar" to recipes that include the kevlar vests.
-Bleeding also causes anaemia.
+Add "makeshift_kevlar" to recipes that include the Kevlar vests.
+Bleeding also causes anemia.
 Change chisel requirement to CHISEL quality requirement.
 Remove memorization of recipes from reading books.
 Nerf Sensory Dulling.
@@ -2082,7 +2082,7 @@ Implement printing aim accuracy as numbers.
 Textual vehicle facing indicator.
 Translatable moon phase.
 Fix of untranslated (sub)category in crafting gui.
-Dont' dynamically initialize using gettext.
+Don't dynamically initialize using gettext.
 Make vitamin and fault and mod targets translatable.
 Fixed terrain name translation.
 UI improvements (for easier translation).
@@ -2964,7 +2964,7 @@ Fix div0 on bad option setting.
 * Zombies will revive after a time, if not butchered (or otherwise dealt with).
 * The Android trait now behaves the way that the description indicates.
 * Gasoline can be siphoned from vehicles. Requires a rubber hose for now - these are easier to acquire.
-* Sewing requires materials other than thread - rags for cloth, leather patches for leather, kevlar bricks, plastic chunks.
+* Sewing requires materials other than thread - rags for cloth, leather patches for leather, Kevlar bricks, plastic chunks.
 * Leather/Kevlar/plastic/fur repair/reinforcement actually possible!
 * Inventory management UI improvements, and a new screen to organize worn items.
 * NPCs continue to be less buggy, but are still prone to crashes.
