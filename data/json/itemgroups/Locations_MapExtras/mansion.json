@@ -747,6 +747,8 @@
       [ "helmet_football", 10 ],
       [ "football", 60 ],
       [ "basketball", 50 ],
+      [ "beach_volleyball", 40 ],
+      [ "indoor_volleyball", 40 ],
       [ "helmet_bike", 25 ],
       [ "helmet_ball", 25 ],
       [ "headgear", 20 ],
@@ -758,8 +760,6 @@
       [ "rollerskates", 10 ],
       [ "longbow", 5 ],
       [ "compbow", 1 ],
-      [ "hybridbow", 1 ],
-      [ "compositebow", 3 ],
       [ "shortbow", 5 ],
       [ "recurbow", 2 ],
       [ "reflexbow", 2 ],
@@ -810,6 +810,7 @@
       [ "tongs", 25 ],
       [ "coffeemaker", 10 ],
       [ "cookbook_daintydishes", 40 ],
+      [ "cookbook_indian", 10 ],
       [ "cookbook_foodfashions", 18 ]
     ]
   },

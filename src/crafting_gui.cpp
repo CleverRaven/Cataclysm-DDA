@@ -27,6 +27,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
 #include "calendar.h"
 #include "color.h"
@@ -34,7 +35,9 @@
 #include "item.h"
 #include "recipe.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_BLIND_EASY( "BLIND_EASY" );
+static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 
 class inventory;
 class npc;
@@ -267,6 +270,9 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     const auto &available_recipes = g->u.get_available_recipes( crafting_inv, &helpers );
     std::map<const recipe *, availability> availability_cache;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         if( redraw ) {

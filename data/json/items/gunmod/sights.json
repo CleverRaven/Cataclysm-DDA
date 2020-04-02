@@ -132,7 +132,7 @@
   {
     "id": "rifle_scope",
     "type": "GUNMOD",
-    "name": "rifle scope",
+    "name": { "str": "rifle scope" },
     "//": "Leupold Mark 6",
     "description": "A 3-18x44 rifle scope.  It is adjustable for windage and elevation in 1/10th mrad increments and is remarkably small and light for its magnification.",
     "weight": "669 g",
@@ -200,7 +200,7 @@
   {
     "id": "tele_sight",
     "type": "GUNMOD",
-    "name": "telescopic sight",
+    "name": { "str": "telescopic sight" },
     "description": "A simple hand-crafted telescopic sight, essentially a small telescope with crosshairs.  Not as good as the ones made before the Cataclysm.  Increases weight but improves accuracy.",
     "weight": "300 g",
     "volume": "250 ml",
@@ -237,48 +237,5 @@
     "consume_divisor": 85,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "ZOOM" ]
-  },
-  {
-    "id": "lead_red_dot_sight",
-    "copy-from": "red_dot_sight",
-    "type": "GUNMOD",
-    "name": { "str": "LW red dot sight" },
-    "description": "Built in red-dot sight for the Leadworks weapon.",
-    "weight": "0 g",
-    "volume": "0 ml",
-    "price": 0,
-    "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
-  },
-  {
-    "id": "lead_rifle_scope",
-    "copy-from": "rifle_scope",
-    "type": "GUNMOD",
-    "name": { "str": "LW rifle scope" },
-    "description": "Built in rifle scope for the Leadworks weapon.",
-    "weight": "0 g",
-    "volume": "0 ml",
-    "price": 0,
-    "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
-  },
-  {
-    "id": "lead_acog_scope",
-    "copy-from": "acog_scope",
-    "type": "GUNMOD",
-    "name": { "str": "LW ACOG scope" },
-    "description": "A Leadworks built-in Advanced Combat Optical Gunsight, a milspec medium magnification scope.  Improves accuracy significantly.",
-    "weight": "0 g",
-    "volume": "0 ml",
-    "price": 0,
-    "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
-  },
-  {
-    "id": "lead_holo_sight",
-    "copy-from": "holo_sight",
-    "type": "GUNMOD",
-    "name": { "str": "LW holographic sight" },
-    "description": "Leadworks built-in holographic sight.",
-    "weight": "0 g",
-    "price": 0,
-    "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
   }
 ]

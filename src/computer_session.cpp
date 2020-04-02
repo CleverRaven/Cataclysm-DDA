@@ -50,7 +50,19 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
+#include "ui_manager.h"
+
+static const efftype_id effect_amigara( "amigara" );
+
+static const skill_id skill_computer( "computer" );
+
+static const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_secubot( "mon_secubot" );
+
+static const std::string flag_CONSOLE( "CONSOLE" );
 
 static catacurses::window init_window()
 {
@@ -204,8 +216,7 @@ static void remove_submap_turrets()
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
         if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( g->u.pos() ) ) &&
-            ( critter.type->id == mon_turret_rifle || critter.type->id == mon_turret_bmg ||
-              critter.type->id == mon_crows_m240 ) &&
+            critter.has_flag( MF_CONSOLE_DESPAWN ) &&
             critter.attitude_to( g->u ) == Creature::Attitude::A_HOSTILE ) {
             g->remove_zombie( critter );
         }
@@ -1427,6 +1438,10 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
                          ctxt.describe_key_and_name( "YES", allow_key ),
                          ctxt.describe_key_and_name( "NO", allow_key ),
                          ctxt.describe_key_and_name( "QUIT", allow_key ) );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         const std::string action = ctxt.handle_input();
         if( allow_key( ctxt.get_raw_input() ) ) {

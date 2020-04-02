@@ -2,9 +2,8 @@
 #ifndef BALLISTICS_H
 #define BALLISTICS_H
 
-#include "dispersion.h"
-
 class Creature;
+class dispersion_sources;
 class vehicle;
 struct dealt_projectile_attack;
 struct projectile;

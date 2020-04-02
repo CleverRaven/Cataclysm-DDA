@@ -47,6 +47,10 @@
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 #  make localization LANGUAGES=all
 #  (for every .po file in lang/po)
+#  Special note for MinGW: due to a libintl bug (https://savannah.gnu.org/bugs/index.php?58006),
+#  using English without a `.mo` file would cause significant slow down on MinGW
+#  targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`.
+#  `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
 # Enable sanitizer (address, undefined, etc.)
 #  make SANITIZE=address
 # Change mapsize (reality bubble size)
@@ -129,7 +133,7 @@ export CCACHE_COMMENTS=1
 # Explicitly let 'char' to be 'signed char' to fix #18776
 OTHERS += -fsigned-char
 
-VERSION = 0.D
+VERSION = 0.E
 
 TARGET_NAME = cataclysm
 TILES_TARGET_NAME = $(TARGET_NAME)-tiles

@@ -24,7 +24,7 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "glass_shard", 17 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "glass_shard", 4 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1504,7 +1504,7 @@
     "skill_used": "traps",
     "skills_required": [ "mechanics", 3 ],
     "difficulty": 2,
-    "time": "3 m",
+    "time": "3 h",
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
@@ -1568,7 +1568,7 @@
     "skill_used": "traps",
     "difficulty": 3,
     "time": "5 m",
-    "book_learn": [ [ "textbook_traps", 2 ], [ "manual_traps", 3 ], [ "howto_traps", 3 ] ],
+    "book_learn": [ [ "manual_traps_mil", 3 ] ],
     "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
@@ -1586,7 +1586,7 @@
     "difficulty": 5,
     "time": "10 m",
     "reversible": true,
-    "book_learn": [ [ "textbook_traps", 5 ], [ "manual_traps", 5 ], [ "howto_traps", 4 ], [ "recipe_bullets", 6 ] ],
+    "book_learn": [ [ "manual_traps_mil", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],
@@ -2922,7 +2922,6 @@
   {
     "type": "recipe",
     "result": "glass_shard",
-    "byproducts": [ [ "glass_shard", 33 ] ],
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -2930,6 +2929,7 @@
     "difficulty": 4,
     "time": "30 m",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "result_mult": 4,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
@@ -2942,7 +2942,7 @@
       [ [ "ammonia", 1 ] ],
       [ [ "salt", 20 ], [ "salt_water", 2 ], [ "saline", 10 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ], [ "saline", 10 ] ],
-      [ [ "material_quicklime", 2 ], [ "meal_bone", 2 ], [ "meal_bone_tainted", 4 ] ]
+      [ [ "material_quicklime", 2 ], [ "meal_bone", 1 ], [ "meal_bone_tainted", 2 ] ]
     ]
   },
   {
@@ -2956,7 +2956,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 150 ] ] ],
-    "components": [ [ [ "glass_shard", 27 ], [ "flask_glass", 6 ], [ "jar_glass", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 5 ], [ "flask_glass", 5 ], [ "test_tube", 10 ], [ "marble", 125 ] ] ]
   },
   {
     "type": "recipe",
@@ -2969,7 +2969,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 15 ], [ "flask_glass", 3 ], [ "jar_glass", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
   },
   {
     "type": "recipe",
@@ -2982,7 +2982,7 @@
     "book_learn": [ [ "glassblowing_book", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
-    "components": [ [ [ "glass_shard", 11 ], [ "flask_glass", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 2 ], [ "flask_glass", 2 ], [ "test_tube", 4 ], [ "marble", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -2995,7 +2995,7 @@
     "book_learn": [ [ "glassblowing_book", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ], [ "test_tube", 2 ], [ "marble", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -3006,9 +3006,10 @@
     "difficulty": 4,
     "time": "4 m",
     "book_learn": [ [ "glassblowing_book", 4 ] ],
+    "result_mult": 2,
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 5 ] ] ],
-    "components": [ [ [ "glass_shard", 1 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ], [ "flask_glass", 1 ], [ "marble", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -3047,7 +3048,7 @@
     "book_learn": [ [ "glassblowing_book", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 3 ], [ "bottle_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
   },
   {
     "type": "recipe",
@@ -3059,7 +3060,7 @@
     "time": "1 h",
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 250 ], [ "flask_glass", 63 ], [ "jar_glass", 21 ] ] ]
+    "components": [ [ [ "glass_shard", 182 ], [ "jar_glass", 91 ], [ "flask_glass", 182 ], [ "test_tube", 364 ] ] ]
   },
   {
     "type": "recipe",

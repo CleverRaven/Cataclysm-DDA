@@ -900,17 +900,6 @@
     "time": 60
   },
   {
-    "id": "bio_scent_vision",
-    "type": "bionic",
-    "name": { "str": "Scent Vision" },
-    "description": "While this system is powered, you're able to visually sense your own scent, making it possible for you to recognize your surroundings even in complete darkness.",
-    "occupied_bodyparts": [ [ "HEAD", 3 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": "2 J",
-    "react_cost": "2 J",
-    "time": 1
-  },
-  {
     "id": "bio_shakes",
     "type": "bionic",
     "name": { "str": "Bionic Short Circuit" },

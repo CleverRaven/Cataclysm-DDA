@@ -1,0 +1,608 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "shelter" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "    !!!!!!!!!!!!!!!!    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    &&&&&&&&&&&&&&&&    ",
+        "    |----:-++-:----|    ",
+        "    |.............6|    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    :..............:    ",
+        "    |..............|    ",
+        "    |......>>......|    ",
+        "    |......>>......|    ",
+        "    |..............|    ",
+        "    :..............:    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |||............|    ",
+        "    |*=...........6|    ",
+        "    |----:--+-:----|4   "
+      ],
+      "palettes": [ "shelter" ],
+      "place_nested": [
+        {
+          "chunks": [ [ "dks_shelter_nest_base", 25 ], [ "dks_shelter_nest_used", 45 ], [ "dks_shelter_nest_vandalized", 30 ] ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "shelter_1" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "    !!!!!!!!!!!!!!!!    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    &&&|---++---|&&&    ",
+        "       |........|       ",
+        "    |-:|........|       ",
+        "    |...........|:-|    ",
+        "    |.............6|    ",
+        "    |..............|    ",
+        "    :..............:    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |........|||...|    ",
+        "    |.-----..|*=...|    ",
+        "    :........|||...:    ",
+        "    |..........|-+-|    ",
+        "    |..........|...|    ",
+        "    |..........|>..|    ",
+        "    |..........|>..|4   ",
+        "    |----:--+-:----|    "
+      ],
+      "palettes": [ "shelter" ],
+      "place_nested": [
+        {
+          "chunks": [ [ "dks_shelter_1_nest_base", 25 ], [ "dks_shelter_1_nest_used", 45 ], [ "dks_shelter_1_nest_vandalized", 30 ] ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "shelter_2" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    &&&&&&&&&&&&&&&&    ",
+        "           |-:-++-:-|   ",
+        "   ||------|........|   ",
+        "   |*|..............|   ",
+        "   |.=..............|   ",
+        "  |--|.............--|  ",
+        "  |..................|  ",
+        "  :..................:  ",
+        "  |..................|  ",
+        "  |.......|--|.......|  ",
+        "  |........>>........|  ",
+        "  |........>>........|  ",
+        "  :.......|--|.......:  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |--..............--|  ",
+        "   |................|4  ",
+        "   |--------|.......|   ",
+        "            |-:-+-:-|   "
+      ],
+      "palettes": [ "shelter" ],
+      "place_nested": [
+        {
+          "chunks": [ [ "dks_shelter_2_nest_base", 25 ], [ "dks_shelter_2_nest_used", 45 ], [ "dks_shelter_2_nest_vandalized", 30 ] ],
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer",
+          "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "dks_shelter_nest_base",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     llll      c  6     ",
+        "      b b b    c        ",
+        "      b b b    c        ",
+        "      b b b    c        ",
+        "      b b b             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      b b b             ",
+        "      b b b    c        ",
+        "      b b b    c        ",
+        "        b b    c        ",
+        "               c  6     ",
+        "                        "
+      ],
+      "terrain": { " ": "t_null", "6": "t_console" },
+      "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer",
+          "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" }
+          ]
+        }
+      },
+      "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 75 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 50 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "dks_shelter_nest_used",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |||||:|++|:|||||    ",
+        "    |llll......c..6|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    :.b.b.b........:    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    :.b.b.b........:    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |||.b.b....c...|    ",
+        "    | =........c..x|    ",
+        "    |||||:||+|:|||||    "
+      ],
+      "terrain": { "x": "t_console_broken", "=": "t_door_locked_interior", "6": "t_console", ":": "t_window_domestic", "+": "t_door_c" },
+      "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer",
+          "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" }
+          ]
+        }
+      },
+      "items": {
+        "l": { "item": "SUS_evac_shelter_locker_used", "chance": 75 },
+        "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 50 },
+        "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "trash", "chance": 2 } ],
+        ".": [
+          { "item": "shelter_supplies", "chance": 1 },
+          { "item": "trash", "chance": 1 },
+          { "item": "trash_forest", "chance": 1 }
+        ]
+      },
+      "nested": { "|": { "chunks": [ [ "dks_shelter_graffiti", 10 ], [ "null", 90 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "dks_shelter_nest_vandalized",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |||||:|++|:|||||    ",
+        "    |llll......c..6|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    :.b.b.b........:    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    :.b.b.b........:    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |||.b.b....c...|    ",
+        "    | =........c..6|    ",
+        "    |||||:||+|:|||||    "
+      ],
+      "terrain": {
+        ":": [ "t_window_frame", "t_window_no_curtains" ],
+        "+": [ "t_door_c", "t_door_b" ],
+        "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
+        "6": "t_console_broken"
+      },
+      "furniture": { "b": "f_bench", "c": "f_cupboard", "l": [ [ "f_locker", 2 ], "f_wreckage" ], "S": "f_sink", "%": "f_trashcan" },
+      "items": {
+        "l": { "item": "shelter_supplies", "chance": 40 },
+        "c": [ { "item": "trash", "chance": 1 }, { "item": "softdrugs", "chance": 2 }, { "item": "shelter_supplies", "chance": 10 } ],
+        "b": [ { "item": "softdrugs", "chance": 2 }, { "item": "shelter_supplies", "chance": 1 }, { "item": "trash", "chance": 1 } ],
+        ".": [ { "item": "trash", "chance": 1 }, { "item": "trash_forest", "chance": 1 } ]
+      },
+      "nested": { "|": { "chunks": [ [ "dks_shelter_graffiti", 5 ], [ "dks_general_graffiti", 20 ], [ "null", 75 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "dks_shelter_1_nest_base",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      bbbbb     c 6     ",
+        "                c       ",
+        "      bbbbb     c       ",
+        "                cc      ",
+        "      bbbbb             ",
+        "            l           ",
+        "            l           ",
+        "            l           ",
+        "      b b b   c         ",
+        "      b b b   c   l     ",
+        "      b b b   c   l     ",
+        "                  l     ",
+        "                        "
+      ],
+      "terrain": { " ": "t_null", "6": "t_console" },
+      "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
+      "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 70 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 50 } },
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer",
+          "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "dks_shelter_1_nest_used",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       ||||++||||       ",
+        "       |........|       ",
+        "    ||:|........|       ",
+        "    |...........|:||    ",
+        "    |.bbbbb.....c.6|    ",
+        "    |...........c..|    ",
+        "    :.bbbbb.....c..:    ",
+        "    |...........cc.|    ",
+        "    |.bbbbb........|    ",
+        "    |.......l|||...|    ",
+        "    |.-----.l| =...|    ",
+        "    :.......l|||...:    ",
+        "    |.b.b.b...c|-+-|    ",
+        "    |.b.b.b...c|..l|    ",
+        "    |.b.b.b...c|..l|    ",
+        "    |..........|..l|    ",
+        "    |||||:||+|:|||||    "
+      ],
+      "terrain": {
+        "x": "t_console_broken",
+        "+": "t_door_c",
+        ":": "t_window",
+        "-": "t_wall_w",
+        "=": "t_door_locked_interior",
+        "6": "t_console"
+      },
+      "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer",
+          "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" }
+          ]
+        }
+      },
+      "items": {
+        "l": { "item": "SUS_evac_shelter_locker_used", "chance": 70 },
+        "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 50 },
+        "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "trash", "chance": 2 } ],
+        ".": [ { "item": "shelter_supplies", "chance": 1 }, { "item": "trash", "chance": 1 } ]
+      },
+      "nested": { "|": { "chunks": [ [ "dks_shelter_graffiti", 10 ], [ "null", 90 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "dks_shelter_1_nest_vandalized",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       ||||++||||       ",
+        "       |........|       ",
+        "    ||:|........|       ",
+        "    |...........|:||    ",
+        "    |.bbbbb.....c.6|    ",
+        "    |...........c..|    ",
+        "    :.bbbbb.....c..:    ",
+        "    |...........cc.|    ",
+        "    |.bbbbb........|    ",
+        "    |.......l|||...|    ",
+        "    |.-----.l| =...|    ",
+        "    :.......l|||...:    ",
+        "    |.b.b.b...c|-+-|    ",
+        "    |.b.b.b...c|..l|    ",
+        "    |.b.b.b...c|..l|    ",
+        "    |..........|..l|    ",
+        "    |||||:||+|:|||||    "
+      ],
+      "terrain": {
+        ":": [ "t_window_frame", "t_window" ],
+        "+": [ "t_door_c", "t_door_b" ],
+        "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
+        "6": "t_console_broken",
+        "-": "t_wall_w"
+      },
+      "furniture": { "b": "f_bench", "c": "f_cupboard", "l": [ [ "f_locker", 2 ], "f_wreckage" ], "S": "f_sink", "%": "f_trashcan" },
+      "items": {
+        "l": { "item": "shelter_supplies", "chance": 40 },
+        "c": [ { "item": "trash", "chance": 1 }, { "item": "softdrugs", "chance": 2 }, { "item": "shelter_supplies", "chance": 10 } ],
+        "b": [ { "item": "softdrugs", "chance": 2 }, { "item": "shelter_supplies", "chance": 1 }, { "item": "trash", "chance": 1 } ],
+        ".": [ { "item": "trash", "chance": 1 }, { "item": "trash_forest", "chance": 1 } ]
+      },
+      "nested": { "|": { "chunks": [ [ "dks_shelter_graffiti", 5 ], [ "dks_general_graffiti", 20 ], [ "null", 75 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "dks_shelter_2_nest_base",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            %      l    ",
+        "      cccc6        l    ",
+        "                   l    ",
+        "                        ",
+        "   b     bbbbb   b  b   ",
+        "   b  b          b  b   ",
+        "   b  b   llll   b  b   ",
+        "   b  b          b  b   ",
+        "   b  b          b  b   ",
+        "   b  b          b  b   ",
+        "   b  b          b  b   ",
+        "   b  b   llll   b  b   ",
+        "   b  b          b  b   ",
+        "          bbbb          ",
+        "                   6    ",
+        "                   c    ",
+        "                        "
+      ],
+      "terrain": { " ": "t_null", "6": "t_console" },
+      "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
+      "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 70 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 50 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "dks_shelter_2_nest_used",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           ||:|++|:||   ",
+        "   |||||||||%......l|   ",
+        "   |*|cccc6........l|   ",
+        "   |.=.............l|   ",
+        "  |--|.............|||  ",
+        "  |b.....bbbbb...b..b|  ",
+        "  :b..b..........b..b:  ",
+        "  |b..b...llll...b..b|  ",
+        "  |b..b...|--|...b..b|  ",
+        "  |b..b..........b..b|  ",
+        "  |b..b..........b..b|  ",
+        "  :b..b...|--|...b..b:  ",
+        "  |b..b...llll...b..b|  ",
+        "  |b..b..........b..b|  ",
+        "  |--.....bbbb.....|||  ",
+        "   |l..............x|   ",
+        "   ||||||||||......c|   ",
+        "            ||:|+|:||   "
+      ],
+      "terrain": {
+        "x": "t_console_broken",
+        "-": "t_wall_w",
+        "=": "t_door_locked_interior",
+        "6": "t_console",
+        ":": "t_window_domestic",
+        "+": "t_door_c",
+        "*": "t_ladder_up"
+      },
+      "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
+      "computers": {
+        "6": {
+          "name": "Evac shelter computer",
+          "options": [
+            { "name": "Emergency Message", "action": "emerg_mess" },
+            { "name": "Disable External Power", "action": "complete_disable_external_power" }
+          ]
+        }
+      },
+      "items": {
+        "l": { "item": "SUS_evac_shelter_locker_used", "chance": 70 },
+        "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 50 },
+        "%": [
+          { "item": "shelter_supplies", "chance": 15, "repeat": [ 1, 2 ] },
+          { "item": "trash", "chance": 25, "repeat": [ 1, 3 ] }
+        ],
+        "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "trash", "chance": 2 } ],
+        ".": [ { "item": "shelter_supplies", "chance": 1 }, { "item": "trash", "chance": 1 } ]
+      },
+      "nested": { "|": { "chunks": [ [ "dks_shelter_graffiti", 10 ], [ "null", 90 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "dks_shelter_2_nest_vandalized",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           ||:|++|:||   ",
+        "   |||||||||%......l|   ",
+        "   |*|cccc6........l|   ",
+        "   |.=.............l|   ",
+        "  |--|.............|||  ",
+        "  |b.....bbbbb...b..b|  ",
+        "  :b..b..........b..b:  ",
+        "  |b..b...llll...b..b|  ",
+        "  |b..b...|--|...b..b|  ",
+        "  |b..b..........b..b|  ",
+        "  |b..b..........b..b|  ",
+        "  :b..b...|--|...b..b:  ",
+        "  |b..b..........b..b|  ",
+        "  |b..b..........b..b|  ",
+        "  |--.....bbbb.....|||  ",
+        "   |l..............x|   ",
+        "   ||||||||||......c|   ",
+        "            ||:|+|:||   "
+      ],
+      "terrain": {
+        ":": [ "t_window_frame", "t_window" ],
+        "+": [ "t_door_c", "t_door_b" ],
+        "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
+        "6": [ "t_console", "t_console_broken" ],
+        "-": "t_wall_w",
+        "*": "t_ladder_up",
+        "x": "t_console_broken"
+      },
+      "furniture": { "b": "f_bench", "c": "f_cupboard", "l": [ [ "f_locker", 2 ], "f_wreckage" ], "S": "f_sink", "%": "f_trashcan" },
+      "items": {
+        "l": { "item": "shelter_supplies", "chance": 40 },
+        "c": [ { "item": "trash", "chance": 1 }, { "item": "softdrugs", "chance": 2 }, { "item": "shelter_supplies", "chance": 10 } ],
+        "b": [ { "item": "softdrugs", "chance": 2 }, { "item": "shelter_supplies", "chance": 1 }, { "item": "trash", "chance": 1 } ],
+        ".": [ { "item": "trash", "chance": 1 }, { "item": "trash_forest", "chance": 1 } ]
+      },
+      "nested": { "|": { "chunks": [ [ "dks_shelter_graffiti", 5 ], [ "dks_general_graffiti", 20 ], [ "null", 75 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "dks_shelter_graffiti",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "x": 0, "y": 0, "snippet": "dks_shelter_graffiti_snippets" } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "dks_general_graffiti",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "x": 0, "y": 0, "snippet": "dks_general_graffiti_snippets" } ] }
+  }
+]

@@ -17,6 +17,7 @@
 #include "avatar.h"
 #include "map_extras.h"
 #include "generic_factory.h"
+#include "ui_manager.h"
 
 namespace auto_notes
 {
@@ -245,6 +246,9 @@ void auto_note_manager_gui::show()
         ctx.register_action( "ENABLE_MAPEXTRA_NOTE" );
         ctx.register_action( "DISABLE_MAPEXTRA_NOTE" );
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     while( true ) {
         mvwprintz( w_header, point( 39, 0 ), c_white, _( "Auto notes enabled:" ) );

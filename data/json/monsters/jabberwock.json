@@ -2,7 +2,7 @@
   {
     "id": "mon_fleshy_shambler",
     "type": "MONSTER",
-    "name": "fleshy shambler",
+    "name": { "str": "fleshy shambler" },
     "description": "An amalgamation of throbbing organs from various creatures have fused together into this lurching, vaguely humanoid shape.  It's myriad roughly formed mouths sussurate in a chorus of sibilant groans and whispers.",
     "default_faction": "jabberwock",
     "species": [ "ABERRATION" ],
@@ -32,7 +32,7 @@
   {
     "id": "mon_flesh_golem",
     "type": "MONSTER",
-    "name": "flesh golem",
+    "name": { "str": "flesh golem" },
     "description": "A seeping conglomeration of spasming muscle and organs have fused together into this towering caricature of the human form.  Various organs fall off of it's hulking body only to be reabsorbed moments later.",
     "default_faction": "jabberwock",
     "species": [ "ABERRATION" ],
@@ -62,7 +62,7 @@
   {
     "id": "mon_jabberwock",
     "type": "MONSTER",
-    "name": "jabberwock",
+    "name": { "str": "jabberwock" },
     "description": "A putrid amalgamation of body parts from humans and other creatures have fused together in this aberration of flesh.  The eyes of all the heads dart about rapidly and the mouths form a chorus of groaning screams.",
     "default_faction": "jabberwock",
     "species": [ "ABERRATION" ],
