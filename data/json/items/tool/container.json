@@ -3,7 +3,7 @@
     "id": "bottle_metal",
     "type": "CONTAINER",
     "category": "other",
-    "name": "steel bottle",
+    "name": { "str": "steel bottle" },
     "description": "A stainless steel water bottle, holds 750ml of liquid.",
     "weight": "200 g",
     "volume": "750 ml",

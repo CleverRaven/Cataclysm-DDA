@@ -9,6 +9,7 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "string_id.h"
 #include "enums.h"
 
@@ -26,7 +27,7 @@ static void draw_exam_window( const catacurses::window &win, const int border_y 
 
 const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
 {
-    return string_format( comment, string_format( "<color_yellow>%s</color>", keys ) );
+    return string_format( comment, string_format( "[<color_yellow>%s</color>]", keys ) );
 };
 
 static void show_mutations_titlebar( const catacurses::window &window,
@@ -36,7 +37,7 @@ static void show_mutations_titlebar( const catacurses::window &window,
     std::string desc;
     if( menu_mode == "reassigning" ) {
         desc += std::string( _( "Reassigning." ) ) + "  " +
-                _( "Select a mutation to reassign or press <color_yellow>SPACE</color> to cancel. " );
+                _( "Select a mutation to reassign or press [<color_yellow>SPACE</color>] to cancel. " );
     }
     if( menu_mode == "activating" ) {
         desc += colorize( _( "Activating" ),
@@ -51,7 +52,7 @@ static void show_mutations_titlebar( const catacurses::window &window,
     if( menu_mode != "reassigning" ) {
         desc += shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
     }
-    desc += shortcut_desc( _( "%s to assign the hotkeys." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+    desc += shortcut_desc( _( "%s to change keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc );
     wrefresh( window );
@@ -141,6 +142,9 @@ void player::power_mutations()
 
     bool redraw = true;
     std::string menu_mode = "activating";
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     while( true ) {
         // offset for display: mutation with index i is drawn at y=list_start_y+i

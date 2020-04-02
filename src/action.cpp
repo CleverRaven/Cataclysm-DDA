@@ -21,9 +21,11 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "popup.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "creature.h"
@@ -32,7 +34,16 @@
 #include "ret_val.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_CUT_FINE( "CUT_FINE" );
+
+static const std::string flag_CONSOLE( "CONSOLE" );
+static const std::string flag_FLOTATION( "FLOTATION" );
+static const std::string flag_GOES_DOWN( "GOES_DOWN" );
+static const std::string flag_GOES_UP( "GOES_UP" );
+static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
+static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 class inventory;
 
@@ -579,8 +590,8 @@ int hotkey_for_action( action_id action, const bool restrict_to_printable )
 bool can_butcher_at( const tripoint &p )
 {
     // TODO: unify this with game::butcher
-    const int factor = g->u.max_quality( quality_BUTCHER );
-    const int factorD = g->u.max_quality( quality_CUT_FINE );
+    const int factor = g->u.max_quality( qual_BUTCHER );
+    const int factorD = g->u.max_quality( qual_CUT_FINE );
     auto items = g->m.i_at( p );
     bool has_item = false;
     bool has_corpse = false;
@@ -650,7 +661,7 @@ static bool can_pickup_at( const tripoint &p )
     bool veh_has_items = false;
     const optional_vpart_position vp = g->m.veh_at( p );
     if( vp ) {
-        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), flag_CARGO, false );
+        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
     return g->m.has_items( p ) || veh_has_items;
@@ -1021,35 +1032,38 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     ctxt.register_directions();
     ctxt.register_action( "pause" );
     ctxt.register_action( "QUIT" );
-    // why not?
     ctxt.register_action( "HELP_KEYBINDINGS" );
     if( allow_vertical ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
 
-    //~ appended to "Close where?" "Pry where?" etc.
-    const std::string query_text = message + _( " (Direction button)" );
-    popup( query_text, PF_NO_WAIT_ON_TOP );
+    static_popup popup;
+    //~ %s: "Close where?" "Pry where?" etc.
+    popup.message( _( "%s (Direction button)" ), message ).on_top( true );
 
-    const std::string action = ctxt.handle_input();
-    if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-        // Make player's sprite face left/right if interacting with something to the left or right
-        if( vec->x > 0 ) {
-            g->u.facing = FD_RIGHT;
-        } else if( vec->x < 0 ) {
-            g->u.facing = FD_LEFT;
+    std::string action;
+    do {
+        ui_manager::redraw();
+        action = ctxt.handle_input();
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            // Make player's sprite face left/right if interacting with something to the left or right
+            if( vec->x > 0 ) {
+                g->u.facing = FD_RIGHT;
+            } else if( vec->x < 0 ) {
+                g->u.facing = FD_LEFT;
+            }
+            return vec;
+        } else if( action == "pause" ) {
+            return tripoint_zero;
+        } else if( action == "LEVEL_UP" ) {
+            return tripoint_above;
+        } else if( action == "LEVEL_DOWN" ) {
+            return tripoint_below;
         }
-        return vec;
-    } else if( action == "pause" ) {
-        return tripoint_zero;
-    } else if( action == "LEVEL_UP" ) {
-        return tripoint_above;
-    } else if( action == "LEVEL_DOWN" ) {
-        return tripoint_below;
-    }
+    } while( action != "QUIT" );
 
-    add_msg( _( "Invalid direction." ) );
+    add_msg( _( "Never mind." ) );
     return cata::nullopt;
 }
 

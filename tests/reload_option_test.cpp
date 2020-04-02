@@ -5,7 +5,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "avatar.h"
-#include "cata_string_consts.h"
 
 TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 {
@@ -14,7 +13,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     item &gun = dummy.i_add( item( "sw_619", 0, 0 ) );
     item &ammo = dummy.i_add( item( "38_special", 0, gun.ammo_capacity() ) );
     item_location ammo_location( dummy, &ammo );
-    REQUIRE( gun.has_flag( flag_RELOAD_ONE ) );
+    REQUIRE( gun.has_flag( "RELOAD_ONE" ) );
     REQUIRE( gun.ammo_remaining() == 0 );
 
     const item::reload_option gun_option( &dummy, &gun, &gun, ammo_location );

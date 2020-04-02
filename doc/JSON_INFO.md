@@ -814,12 +814,20 @@ Example for mods:
 
 This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the special snippet id.
 
-#### `pet`
+#### `pets`
 
-(optional, string mtype_id)
+(optional, array of string mtype_ids )
 
-A string that is the same as a monster id
-player will start with this as a tamed pet.
+A list of strings, each is the same as a monster id
+player will start with these as tamed pets.
+
+#### `vehicle`
+
+(optional, string vproto_id )
+
+A  string, which is the same as a vehicle ( vproto_id )
+player will start with this as a nearby vehicle.
+( it will find the nearest road and place it there, then mark it as "remembered" on the overmap )
 
 #### `flags`
 
@@ -1074,7 +1082,6 @@ Note that even though most statistics yield an integer, you should still use
 "profession": true, //Trait is a starting profession special trait. (default: false)
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu
-"initial_ma_styles" : [ "style_centipede", "style_venom_snake" ], //List of starting martial arts types. One of the list is selectable at start. Only works at character creation.
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 "prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
 "prereqs2": ["LEAVES"], //Also need these mutations before you can mutate towards this mutation. When both set creates 2 different mutation paths, random from one is picked. Only use together with "prereqs"
@@ -1321,36 +1328,37 @@ See also VEHICLE_JSON.md
       "         `",
       "           `."
     ],
-"phase": "solid",                // (Optional, default = "solid") What phase it is
-"weight": "350 g",               // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
-"volume": "250 ml",              // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
-"integral_volume": 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
-"integral_weight": 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
-"rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
-"insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
-"price": 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
-"price_post": "1 USD",           // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
-"material": ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
-"cutting": 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
-"bashing": 0,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
-"to_hit": 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
-"flags": ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
-"magazine_well": 0,              // Volume above which the magazine starts to protrude from the item and add extra volume
-"magazines": [                   // Magazines types for each ammo type (if any) which can be used to reload this item
-    [ "9mm", [ "glockmag" ] ]     // The first magazine specified for each ammo type is the default
+"phase": "solid",                            // (Optional, default = "solid") What phase it is
+"weight": "350 g",                           // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
+"volume": "250 ml",                          // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
+"integral_volume": 0,                        // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
+"integral_weight": 0,                        // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
+"rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
+"insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
+"price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
+"price_post": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
+"cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
+"bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
+"to_hit": 0,                                 // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
+"environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
+"magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
+"magazines": [                               // Magazines types for each ammo type (if any) which can be used to reload this item
+    [ "9mm", [ "glockmag" ] ]                // The first magazine specified for each ammo type is the default
     [ "45", [ "m1911mag", "m1911bigmag" ] ],
 ],
-"explode_in_fire": true,         // Should the item explode if set on fire
-"explosion": {                    // Physical explosion data
-    "power": 10,                 // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
-    "distance_factor": 0.9,      // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
-    "fire": true,                // Should the explosion leave fire
-    "shrapnel": 200,              // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
+"explode_in_fire": true,                     // Should the item explode if set on fire
+"explosion": {                               // Physical explosion data
+    "power": 10,                             // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
+    "distance_factor": 0.9,                  // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
+    "fire": true,                            // Should the explosion leave fire
+    "shrapnel": 200,                         // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
     "shrapnel": {
-        "casing_mass": 200,      // Total mass of casing, casing/power ratio determines fragment velocity.
-        "fragment_mass": 0.05,   // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
-        "recovery": 10,          // Percentage chance to drop an item at landing point.
-        "drop": "nail"           // Which item to drop at landing point.
+        "casing_mass": 200,                  // Total mass of casing, casing/power ratio determines fragment velocity.
+        "fragment_mass": 0.05,               // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
+        "recovery": 10,                      // Percentage chance to drop an item at landing point.
+        "drop": "nail"                       // Which item to drop at landing point.
     }
 },
 ```
@@ -1576,6 +1584,8 @@ CBMs can be defined like this:
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
+"fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
+"radiation": 8,             // How much radiation you get from this comestible.
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting
 "quench" : 0,               // Thirst quenched
 "heal" : -2,                // Health effects (used for sickness chances)
@@ -2047,6 +2057,12 @@ The contents of use_action fields can either be a string indicating a built-in f
 "use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.
     "moves_cost": 15 // Number of moves it takes to start the fire.
+},
+"use_action": {
+    "type": "unpack", // unpack this item
+    "group": "gobag_contents", // itemgroup this unpacks into
+    "items_fit": true, // Do the armor items in this fit? Defaults to false.
+    "filthy_volume_threshold": "10 L" // If the items unpacked from this item have volume, and this item is filthy, at what amount of held volume should they become filthy
 },
 "use_action": {
     "type": "extended_firestarter", // Start a fire (like with magnifying glasses or a fire drill). This action can take many turns, not just some moves like firestarter, it can also be canceled (firestarter can't).
@@ -3011,4 +3027,21 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
     "type": "field_type", // this is a field type
     "id": "fd_gum_web", // id of the field
     "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
+    "bash": {
+      "str_min": 1, // lower bracket of bashing damage required to bash
+      "str_max": 3, // higher bracket
+      "sound_vol": 2, // noise made when succesfully bashing the field
+      "sound_fail_vol": 2, // noise made when failing to bash the field
+      "sound": "shwip", // sound on success
+      "sound_fail": "shwomp", // sound on failure
+      "msg_success": "You brush the gum web aside.", // message on success
+      "move_cost": 120, // how many moves it costs to succesfully bash that field (default: 100)
+      "items": [                                   // item dropped upon succesful bashing
+        { "item": "2x4", "count": [ 5, 8 ] },
+        { "item": "nail", "charges": [ 6, 8 ] },
+        { "item": "splinter", "count": [ 3, 6 ] },
+        { "item": "rag", "count": [ 40, 55 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
+      ]
+    }
   }

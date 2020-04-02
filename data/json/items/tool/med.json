@@ -2,7 +2,7 @@
   {
     "id": "anesthetic_kit",
     "type": "TOOL",
-    "name": "anesthesia kit",
+    "name": { "str": "anesthesia kit" },
     "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
     "weight": "100 g",
     "volume": "3250 ml",
@@ -19,7 +19,7 @@
   {
     "id": "autoclave",
     "type": "TOOL",
-    "name": "autoclave",
+    "name": { "str": "autoclave" },
     "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  It requires a massive amount of power, so standard batteries will not power it sufficiently.",
     "weight": "34500 g",
     "volume": "76 L",
@@ -43,7 +43,7 @@
     "id": "inhaler",
     "type": "TOOL",
     "category": "drugs",
-    "name": "inhaler",
+    "name": { "str": "inhaler" },
     "description": "Albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause nervousness or tremors.",
     "weight": "85 g",
     "volume": "250 ml",
@@ -76,7 +76,7 @@
   {
     "id": "scalpel",
     "type": "TOOL",
-    "name": "scalpel",
+    "name": { "str": "scalpel" },
     "description": "This is a very sharp knife designed for surgical cutting.  Its small, sharp blade allows for precision strikes in the hands of the skilled.",
     "weight": "23 g",
     "volume": "15 ml",
@@ -93,7 +93,7 @@
   {
     "id": "smoxygen_tank",
     "type": "TOOL",
-    "name": "emergency oxygen pack",
+    "name": { "str": "emergency oxygen pack" },
     "description": "This is a small tank of compressed medical oxygen with a folding regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "1134 g",
     "volume": "750 ml",
@@ -111,7 +111,7 @@
   {
     "id": "syringe",
     "type": "TOOL",
-    "name": "syringe",
+    "name": { "str": "syringe" },
     "description": "A medical syringe.  Used for administering intravenous drugs.",
     "weight": "10 g",
     "volume": "10ml",
@@ -139,7 +139,7 @@
   {
     "id": "oxygen_tank",
     "type": "TOOL",
-    "name": "oxygen tank",
+    "name": { "str": "oxygen tank" },
     "description": "This is tank of compressed medical oxygen with a regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "2268 g",
     "volume": "1500 ml",
@@ -177,10 +177,10 @@
   {
     "id": "wrapped_rad_badge",
     "type": "TOOL",
-    "name": "wrapped radiation badge",
+    "name": { "str": "wrapped radiation badge" },
     "description": "This is a badge that detects radiation dosage sealed in a radiation-blocking bag.  Use it to remove it from the bag.",
     "weight": "20 g",
-    "volume": 0,
+    "volume": "15 ml",
     "price": 1000,
     "material": [ "plastic" ],
     "symbol": ",",

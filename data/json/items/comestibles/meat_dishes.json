@@ -241,7 +241,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meat_aspic",
-    "name": "aspic",
+    "name": { "str": "aspic" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "abomination %s", "str_pl": "abomination %s" } },
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "amoral %s", "str_pl": "amoral %s" } }
@@ -292,7 +292,7 @@
     "copy-from": "fish_cooked",
     "color": "white",
     "spoils_in": "4 days",
-    "container": "jar_glass",
+    "container": "jar_glass_sealed",
     "quench": -1,
     "healthy": 1,
     "description": "This is a serving of crisply brined and canned fish.  Tasty and nutritious.",
@@ -475,7 +475,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pemmican",
-    "name": "pemmican",
+    "name": { "str": "pemmican", "str_pl": "pemmican" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "prepper %s", "str_pl": "prepper %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "pernicious %s", "str_pl": "pernicious %s" } }
@@ -651,7 +651,7 @@
     "weight": "232 g",
     "color": "white",
     "spoils_in": "4 days",
-    "container": "jar_glass",
+    "container": "jar_glass_sealed",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 465,
@@ -1073,7 +1073,7 @@
     "copy-from": "meat_cooked",
     "color": "pink",
     "spoils_in": "4 days",
-    "container": "jar_glass",
+    "container": "jar_glass_sealed",
     "healthy": 1,
     "description": "This is a serving of crisply brined and canned meat.  Tasty and nutritious.",
     "price": 250,

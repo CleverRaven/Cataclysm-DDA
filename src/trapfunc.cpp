@@ -17,6 +17,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "rng.h"
@@ -33,7 +34,29 @@
 #include "int_id.h"
 #include "point.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
+
+static const skill_id skill_throw( "throw" );
+
+static const species_id ROBOT( "ROBOT" );
+
+static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
+
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_tetanus( "tetanus" );
+
+static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
+static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
+static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
@@ -654,7 +677,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
         if( z->type->id != mon_blob ) {
             z->set_speed_base( z->get_speed_base() - 15 );
             //All monsters that aren't blobs or robots transform into a blob
-            if( !z->type->in_species( species_ROBOT ) ) {
+            if( !z->type->in_species( ROBOT ) ) {
                 z->poly( mon_blob );
                 z->set_hp( z->get_speed() );
             }
@@ -675,7 +698,7 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
     }
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
-        if( z->type->in_species( species_ROBOT ) ) {
+        if( z->type->in_species( ROBOT ) ) {
             //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
             //Dissector error sound.
             sounds::sound( p, 4, sounds::sound_t::electronic_speech,
@@ -707,21 +730,20 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
 
     //~ the sound of a dissector dissecting
     sounds::sound( p, 10, sounds::sound_t::combat, _( "BRZZZAP!" ), false, "trap", "dissector" );
-    if( c != nullptr ) {
-        if( g->u.sees( p ) ) {
-            add_msg( m_bad, _( "Electrical beams emit from the floor and slice the %s!" ), c->get_name() );
-        }
-        c->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
-        c->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
-        c->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
-        c->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
-        c->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
-        c->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
-        c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-        c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-        c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
-        c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
+    if( g->u.sees( p ) ) {
+        add_msg( m_bad, _( "Electrical beams emit from the floor and slice the %s!" ), c->get_name() );
     }
+    c->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
+    c->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
+    c->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
+    c->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
+    c->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
+    c->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
+    c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+    c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+    c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
+    c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
+
     c->check_dead_state();
     return true;
 }
@@ -966,16 +988,16 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
         if( z->made_of_any( Creature::cmat_flesh ) ) {
             dam = 50;
         }
-        if( z->made_of( material_veggy ) ) {
+        if( z->made_of( material_id( "veggy" ) ) ) {
             dam = 80;
         }
         if( z->made_of( LIQUID ) || z->made_of_any( Creature::cmat_flammable ) ) {
             dam = 200;
         }
-        if( z->made_of( material_stone ) ) {
+        if( z->made_of( material_id( "stone" ) ) ) {
             dam = 15;
         }
-        if( z->made_of( material_kevlar ) || z->made_of( material_steel ) ) {
+        if( z->made_of( material_id( "kevlar" ) ) || z->made_of( material_id( "steel" ) ) ) {
             dam = 5;
         }
         z->deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, dam ) );
@@ -1045,20 +1067,19 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
 
 bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
 {
+    // tiny creatures don't trigger the sinkhole to collapse
+    if( c == nullptr || c->get_size() == MS_TINY ) {
+        return false;
+    }
     monster *z = dynamic_cast<monster *>( c );
     player *pl = dynamic_cast<player *>( c );
-    // tiny creatures don't trigger the sinkhole to collapse
-    if( c != nullptr && c->get_size() == MS_TINY ) {
-        return false;
-    } else if( z != nullptr ) {
+    if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {
             add_msg( m_bad, _( "Your %s falls into a sinkhole!" ), z->get_name() );
             g->u.forced_dismount();
         }
-
-    }
-    bool success = false;
-    if( pl != nullptr ) {
+    } else if( pl != nullptr ) {
+        bool success = false;
         if( query_for_item( pl, "grapnel",
                             _( "You step into a sinkhole!  Throw your grappling hook out to try to catch something?" ) ) ) {
             success = sinkhole_safety_roll( pl, "grapnel", 6 );
@@ -1076,17 +1097,16 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
             g->m.remove_trap( p );
             g->m.ter_set( p, t_pit );
             return true;
-        } else {
-            pl->add_msg_player_or_npc( m_bad, _( "You fall into the sinkhole!" ),
-                                       _( "<npcname> falls into a sinkhole!" ) );
         }
+        pl->add_msg_player_or_npc( m_bad, _( "You fall into the sinkhole!" ),
+                                   _( "<npcname> falls into a sinkhole!" ) );
+    } else {
+        return false;
     }
-    if( z != nullptr || pl != nullptr ) {
-        g->m.remove_trap( p );
-        g->m.ter_set( p, t_pit );
-        c->moves -= 100;
-        pit( p, c, i );
-    }
+    g->m.remove_trap( p );
+    g->m.ter_set( p, t_pit );
+    c->moves -= 100;
+    pit( p, c, i );
     return true;
 }
 
@@ -1379,6 +1399,19 @@ bool trapfunc::drain( const tripoint &, Creature *c, item * )
     return false;
 }
 
+bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
+{
+    if( critter == nullptr ) {
+        return false;
+    }
+    const spell trap_spell = g->m.tr_at( p ).spell_data.get_spell( 0 );
+    npc dummy;
+    trap_spell.cast_all_effects( dummy, critter->pos() );
+    trap_spell.make_sound( p, 20 );
+    g->m.remove_trap( p );
+    return true;
+}
+
 bool trapfunc::snake( const tripoint &p, Creature *, item * )
 {
     //~ the sound a snake makes
@@ -1452,6 +1485,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "shadow", trapfunc::shadow },
             { "map_regen", trapfunc::map_regen },
             { "drain", trapfunc::drain },
+            { "spell", trapfunc::cast_spell },
             { "snake", trapfunc::snake }
         }
     };

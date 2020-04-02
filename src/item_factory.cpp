@@ -47,7 +47,6 @@
 #include "units.h"
 #include "cata_utility.h"
 #include "flat_set.h"
-#include "cata_string_consts.h"
 
 class player;
 struct tripoint;
@@ -227,8 +226,8 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         const auto &mats = obj.materials;
-        if( std::find( mats.begin(), mats.end(), material_hydrocarbons ) == mats.end() &&
-            std::find( mats.begin(), mats.end(), material_oil ) == mats.end() ) {
+        if( std::find( mats.begin(), mats.end(), material_id( "hydrocarbons" ) ) == mats.end() &&
+            std::find( mats.begin(), mats.end(), material_id( "oil" ) ) == mats.end() ) {
             const auto &ammo_effects = obj.ammo->ammo_effects;
             obj.ammo->cookoff = ammo_effects.count( "INCENDIARY" ) > 0 ||
                                 ammo_effects.count( "COOKOFF" ) > 0;
@@ -614,7 +613,7 @@ void Item_factory::finalize_item_blacklist()
         // remove any recipes used to craft the migrated item
         // if there's a valid recipe, it will be for the replacement
         recipe_dictionary::delete_if( [&migrate]( const recipe & r ) {
-            return r.result() == migrate.first;
+            return !r.obsolete && r.result() == migrate.first;
         } );
 
         // If the default ammo of an ammo_type gets migrated, we migrate all guns using that ammo
@@ -757,7 +756,6 @@ void Item_factory::init()
     add_iuse( "ANTIPARASITIC", &iuse::antiparasitic );
     add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
     add_iuse( "ARTIFACT", &iuse::artifact );
-    add_iuse( "ATOMIC_CAFF", &iuse::atomic_caff );
     add_iuse( "AUTOCLAVE", &iuse::autoclave );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
@@ -765,7 +763,6 @@ void Item_factory::init()
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
     add_iuse( "C4", &iuse::c4 );
     add_iuse( "CABLE_ATTACH", &iuse::cable_attach );
-    add_iuse( "CAFF", &iuse::caff );
     add_iuse( "CAMERA", &iuse::camera );
     add_iuse( "CAN_GOO", &iuse::can_goo );
     add_iuse( "COIN_FLIP", &iuse::coin_flip );
@@ -832,8 +829,6 @@ void Item_factory::init()
                                 "present</info>."
                               ) );
     add_iuse( "GEIGER", &iuse::geiger );
-    add_iuse( "GOBAG_NORMAL", &iuse::gobag_normal );
-    add_iuse( "GOBAG_PERSONAL", &iuse::gobag_personal );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
@@ -953,6 +948,7 @@ void Item_factory::init()
     add_actor( std::make_unique<holster_actor>() );
     add_actor( std::make_unique<inscribe_actor>() );
     add_actor( std::make_unique<iuse_transform>() );
+    add_actor( std::make_unique<unpack_actor>() );
     add_actor( std::make_unique<countdown_actor>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
@@ -1835,9 +1831,11 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "quench", slot.quench, strict );
     assign( jo, "fun", slot.fun, strict );
     assign( jo, "stim", slot.stim, strict );
+    assign( jo, "fatigue_mod", slot.fatigue_mod, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
     assign( jo, "contamination", slot.contamination, strict, 0, 100 );
+    assign( jo, "radiation", slot.radiation, strict );
     assign( jo, "freezing_point", slot.freeze_point, strict );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
     assign( jo, "cooks_like", slot.cooks_like, strict );
@@ -2114,31 +2112,31 @@ static void set_allergy_flags( itype &item_template )
     static const std::vector<material_allergy_pair> all_pairs = {{
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
-            std::make_pair( material_hflesh, flag_CANNIBALISM ),
+            std::make_pair( material_id( "hflesh" ), "CANNIBALISM" ),
 
-            std::make_pair( material_hflesh, flag_ALLERGEN_MEAT ),
-            std::make_pair( material_iflesh, flag_ALLERGEN_MEAT ),
-            std::make_pair( material_flesh, flag_ALLERGEN_MEAT ),
-            std::make_pair( material_wheat, flag_ALLERGEN_WHEAT ),
-            std::make_pair( material_fruit, flag_ALLERGEN_FRUIT ),
-            std::make_pair( material_veggy, flag_ALLERGEN_VEGGY ),
-            std::make_pair( material_bean, flag_ALLERGEN_VEGGY ),
-            std::make_pair( material_tomato, flag_ALLERGEN_VEGGY ),
-            std::make_pair( material_garlic, flag_ALLERGEN_VEGGY ),
-            std::make_pair( material_nut, flag_ALLERGEN_VEGGY ),
-            std::make_pair( material_mushroom, flag_ALLERGEN_VEGGY ),
-            std::make_pair( material_milk, flag_ALLERGEN_MILK ),
-            std::make_pair( material_egg, flag_ALLERGEN_EGG ),
-            std::make_pair( material_junk, flag_ALLERGEN_JUNK ),
+            std::make_pair( material_id( "hflesh" ), "ALLERGEN_MEAT" ),
+            std::make_pair( material_id( "iflesh" ), "ALLERGEN_MEAT" ),
+            std::make_pair( material_id( "flesh" ), "ALLERGEN_MEAT" ),
+            std::make_pair( material_id( "wheat" ), "ALLERGEN_WHEAT" ),
+            std::make_pair( material_id( "fruit" ), "ALLERGEN_FRUIT" ),
+            std::make_pair( material_id( "veggy" ), "ALLERGEN_VEGGY" ),
+            std::make_pair( material_id( "bean" ), "ALLERGEN_VEGGY" ),
+            std::make_pair( material_id( "tomato" ), "ALLERGEN_VEGGY" ),
+            std::make_pair( material_id( "garlic" ), "ALLERGEN_VEGGY" ),
+            std::make_pair( material_id( "nut" ), "ALLERGEN_NUT" ),
+            std::make_pair( material_id( "mushroom" ), "ALLERGEN_VEGGY" ),
+            std::make_pair( material_id( "milk" ), "ALLERGEN_MILK" ),
+            std::make_pair( material_id( "egg" ), "ALLERGEN_EGG" ),
+            std::make_pair( material_id( "junk" ), "ALLERGEN_JUNK" ),
             // Not food, but we can keep it here
-            std::make_pair( material_wool, flag_ALLERGEN_WOOL ),
+            std::make_pair( material_id( "wool" ), "ALLERGEN_WOOL" ),
             // Now "made of". Those flags should not be passed
-            std::make_pair( material_flesh, flag_CARNIVORE_OK ),
-            std::make_pair( material_hflesh, flag_CARNIVORE_OK ),
-            std::make_pair( material_iflesh, flag_CARNIVORE_OK ),
-            std::make_pair( material_milk, flag_CARNIVORE_OK ),
-            std::make_pair( material_egg, flag_CARNIVORE_OK ),
-            std::make_pair( material_honey, flag_URSINE_HONEY ),
+            std::make_pair( material_id( "flesh" ), "CARNIVORE_OK" ),
+            std::make_pair( material_id( "hflesh" ), "CARNIVORE_OK" ),
+            std::make_pair( material_id( "iflesh" ), "CARNIVORE_OK" ),
+            std::make_pair( material_id( "milk" ), "CARNIVORE_OK" ),
+            std::make_pair( material_id( "egg" ), "CARNIVORE_OK" ),
+            std::make_pair( material_id( "honey" ), "URSINE_HONEY" ),
         }
     };
 
@@ -2156,11 +2154,11 @@ void hflesh_to_flesh( itype &item_template )
 {
     auto &mats = item_template.materials;
     const auto old_size = mats.size();
-    mats.erase( std::remove( mats.begin(), mats.end(), material_hflesh ), mats.end() );
+    mats.erase( std::remove( mats.begin(), mats.end(), material_id( "hflesh" ) ), mats.end() );
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
-        std::find( mats.begin(), mats.end(), material_flesh ) == mats.end() ) {
-        mats.push_back( material_flesh );
+        std::find( mats.begin(), mats.end(), material_id( "flesh" ) ) == mats.end() ) {
+        mats.push_back( material_id( "flesh" ) );
     }
 }
 
@@ -2218,6 +2216,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "insulation", def.insulation_factor );
+    assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.ascii_picture );
 
     if( jo.has_member( "thrown_damage" ) ) {

@@ -39,7 +39,7 @@
     "id": "tokarevmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Tokarev TT-33 magazine",
+    "name": { "str": "Tokarev TT-33 magazine" },
     "description": "Standard 8-round magazine for Tokarev TT-33.",
     "weight": "56 g",
     "volume": "250 ml",

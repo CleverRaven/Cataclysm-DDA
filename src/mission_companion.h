@@ -30,8 +30,8 @@ struct mission_entry {
     std::string name_display;
     cata::optional<point> dir;
     std::string text;
-    bool priority;
-    bool possible;
+    bool priority = false;
+    bool possible = false;
 };
 
 class mission_data

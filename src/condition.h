@@ -145,4 +145,16 @@ struct conditional_t {
         }
 };
 
+#if !defined(MACOSX)
+struct dialogue;
+extern template struct conditional_t<dialogue>;
+extern template void read_condition<dialogue>( const JsonObject &jo, const std::string &member_name,
+        std::function<bool( const dialogue & )> &condition, bool default_val );
+struct mission_goal_condition_context;
+extern template struct conditional_t<mission_goal_condition_context>;
+extern template void read_condition<mission_goal_condition_context>( const JsonObject &jo,
+        const std::string &member_name,
+        std::function<bool( const mission_goal_condition_context & )> &condition, bool default_val );
+#endif
+
 #endif

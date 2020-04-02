@@ -62,9 +62,10 @@
 #include "translations.h"
 #include "type_id.h"
 #include "game_constants.h"
-#include "cata_string_consts.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+
+static const efftype_id effect_ridden( "ridden" );
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
@@ -1293,9 +1294,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     overlay_strings.emplace( player_to_screen( p.pos.xy() ) + point( tile_width / 2, 0 ),
                                              formatted_text( text, catacurses::red, NORTH ) );
                 }
-            }
-            if( !p.invisible[0] ) {
-                g->m.check_and_set_seen_cache( p.pos );
             }
         }
     }
@@ -2600,7 +2598,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             g->u.memorize_tile( g->m.getabs( p ), vpname, subtile, rotation );
         }
         if( !overridden ) {
-            const cata::optional<vpart_reference> cargopart = vp.part_with_feature( flag_CARGO, true );
+            const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
             const bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
             const bool ret = draw_from_id_string( vpname, C_VEHICLE_PART, empty_string, p, subtile, rotation,
                                                   ll, nv_goggles_activated, height_3d );

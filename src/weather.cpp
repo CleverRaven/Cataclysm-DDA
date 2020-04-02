@@ -35,7 +35,19 @@
 #include "colony.h"
 #include "player_activity.h"
 #include "regional_settings.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
+
+static const bionic_id bio_sunglasses( "bio_sunglasses" );
+
+static const efftype_id effect_glare( "glare" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_snow_glare( "snow_glare" );
+
+static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
+static const trait_id trait_FEATHERS( "FEATHERS" );
+
+static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -354,8 +366,8 @@ static void wet_player( int amount )
 {
     if( !is_player_outside() ||
         g->u.has_trait( trait_FEATHERS ) ||
-        g->u.weapon.has_flag( flag_RAIN_PROTECT ) ||
-        ( !one_in( 50 ) && g->u.worn_with_flag( flag_RAINPROOF ) ) ) {
+        g->u.weapon.has_flag( "RAIN_PROTECT" ) ||
+        ( !one_in( 50 ) && g->u.worn_with_flag( "RAINPROOF" ) ) ) {
         return;
     }
     // Coarse correction to get us back to previously intended soaking rate.
@@ -480,10 +492,10 @@ void weather_effect::lightning()
 void weather_effect::light_acid()
 {
     if( calendar::once_every( 1_minutes ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( flag_RAIN_PROTECT ) && !one_in( 3 ) ) {
+        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
             add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname() );
         } else {
-            if( g->u.worn_with_flag( flag_RAINPROOF ) && !one_in( 4 ) ) {
+            if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
                 add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
             } else {
                 bool has_helmet = false;
@@ -507,10 +519,10 @@ void weather_effect::light_acid()
 void weather_effect::acid()
 {
     if( calendar::once_every( 2_turns ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( flag_RAIN_PROTECT ) && one_in( 4 ) ) {
+        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
             add_msg( _( "Your umbrella protects you from the acid rain." ) );
         } else {
-            if( g->u.worn_with_flag( flag_RAINPROOF ) && one_in( 2 ) ) {
+            if( g->u.worn_with_flag( "RAINPROOF" ) && one_in( 2 ) ) {
                 add_msg( _( "Your clothing protects you from the acid rain." ) );
             } else {
                 bool has_helmet = false;
@@ -875,7 +887,7 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
 
 bool is_wind_blocker( const tripoint &location )
 {
-    return g->m.has_flag( flag_BLOCK_WIND, location );
+    return g->m.has_flag( "BLOCK_WIND", location );
 }
 
 // Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
@@ -943,7 +955,6 @@ bool warm_enough_to_plant( const tripoint &pos )
 
 weather_manager::weather_manager()
 {
-
     lightning_active = false;
     weather_override = WEATHER_NULL;
     nextweather = calendar::before_time_starts;

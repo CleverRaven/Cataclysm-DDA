@@ -3,7 +3,7 @@
     "abstract": "casing",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "Casing from ammunition cartridge",
+    "name": { "str": "Casing from ammunition cartridge" },
     "stackable": true,
     "material": "brass",
     "symbol": "=",
@@ -27,7 +27,7 @@
     "name": { "str": ".22 LR casing" },
     "description": "An empty casing from a .22 LR round.  These can't be hand-reloaded.",
     "weight": "2 g",
-    "volume": "3ml"
+    "volume": "3 ml"
   },
   {
     "id": "22_casing_new",
@@ -39,7 +39,7 @@
     "color": "yellow",
     "description": "An unfired, like-new .22 round casing, with the primer still intact.",
     "material": [ "powder", "brass" ],
-    "volume": "250 ml",
+    "volume": "3 ml",
     "weight": "1 g"
   },
   {
@@ -87,7 +87,7 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "GENERIC",
-    "name": "7.62x51mm casing",
+    "name": { "str": "7.62x51mm casing" },
     "description": "An empty casing from a 7.62x51mm M80 round.",
     "weight": "6 g",
     "volume": "9ml"
@@ -137,7 +137,7 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "GENERIC",
-    "name": "10mm Auto casing",
+    "name": { "str": "10mm Auto casing" },
     "description": "An empty casing from a 10mm Auto round.",
     "weight": "3 g",
     "volume": "5ml"
@@ -257,7 +257,7 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "GENERIC",
-    "name": "4.6x30mm casing",
+    "name": { "str": "4.6x30mm casing" },
     "description": "An empty casing from a 4.6x30mm round.",
     "weight": "2 g",
     "volume": "3ml"
@@ -277,7 +277,7 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "GENERIC",
-    "name": "5x50mm hull",
+    "name": { "str": "5x50mm hull" },
     "description": "An empty plastic hull from a 5x50mm flechette round.",
     "weight": "1 g",
     "volume": "5ml",
@@ -289,7 +289,7 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "GENERIC",
-    "name": ".500 S&W Magnum casing",
+    "name": { "str": ".500 S&W Magnum casing" },
     "description": "An empty casing from a .500 S&W Magnum round.",
     "weight": "7 g",
     "volume": "10ml"
@@ -299,7 +299,7 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "GENERIC",
-    "name": ".50 BMG casing",
+    "name": { "str": ".50 BMG casing" },
     "description": "An empty casing from a .50 BMG round.  These are rare, so you might want to hold onto these.",
     "weight": "18 g",
     "volume": "12ml"
@@ -309,7 +309,7 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "GENERIC",
-    "name": "5.45x39mm casing",
+    "name": { "str": "5.45x39mm casing" },
     "description": "An empty casing from a 5.45x39mm round.",
     "weight": "4 g",
     "volume": "7ml"
@@ -319,7 +319,7 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "GENERIC",
-    "name": "5.7x28mm casing",
+    "name": { "str": "5.7x28mm casing" },
     "description": "An empty casing from a 5.7x28mm round.",
     "weight": "2 g",
     "volume": "3ml"
@@ -329,7 +329,7 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "GENERIC",
-    "name": ".700 NX casing",
+    "name": { "str": ".700 NX casing" },
     "description": "An empty casing from a .700 NX round.  These are rare, so you might want to hold onto these.",
     "weight": "18 g",
     "volume": "12ml"
@@ -339,7 +339,7 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "GENERIC",
-    "name": "7.62x54mmR casing",
+    "name": { "str": "7.62x54mmR casing" },
     "description": "An empty casing from a 7.62x54mmR round.",
     "weight": "7 g",
     "volume": "10ml"
@@ -349,7 +349,7 @@
     "copy-from": "casing",
     "looks_like": "223_casing",
     "type": "GENERIC",
-    "name": "7.62x39mm casing",
+    "name": { "str": "7.62x39mm casing" },
     "description": "An empty casing from a 7.62x39mm round.",
     "weight": "6 g",
     "volume": "9ml"
@@ -359,7 +359,7 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "GENERIC",
-    "name": "7.62x25mm casing",
+    "name": { "str": "7.62x25mm casing" },
     "description": "An empty casing from a 7.62x25mm round.",
     "weight": "4 g",
     "volume": "7ml"
@@ -398,7 +398,7 @@
     "copy-from": "casing",
     "looks_like": "9mm_casing",
     "type": "GENERIC",
-    "name": "9x18mm casing",
+    "name": { "str": "9x18mm casing" },
     "description": "An empty casing from a 9x18mm round.",
     "weight": "3 g",
     "volume": "5ml"
@@ -428,7 +428,7 @@
     "id": "shot_hull",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "shotgun hull",
+    "name": { "str": "shotgun hull" },
     "description": "An empty hull from a shotgun shell.",
     "weight": "8 g",
     "volume": "12ml",

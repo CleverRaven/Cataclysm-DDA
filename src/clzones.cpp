@@ -34,23 +34,24 @@
 #include "player.h"
 #include "vpart_position.h"
 #include "faction.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_FIREWOOD( "FIREWOOD" );
 
 zone_manager::zone_manager()
 {
-    types.emplace( zone_type_NO_AUTO_PICKUP,
+    types.emplace( zone_type_id( "NO_AUTO_PICKUP" ),
                    zone_type( translate_marker( "No Auto Pickup" ),
                               translate_marker( "You won't auto-pickup items inside the zone." ) ) );
-    types.emplace( zone_type_NO_NPC_PICKUP,
+    types.emplace( zone_type_id( "NO_NPC_PICKUP" ),
                    zone_type( translate_marker( "No NPC Pickup" ),
                               translate_marker( "Friendly NPCs don't pickup items inside the zone." ) ) );
-    types.emplace( zone_type_NPC_RETREAT,
+    types.emplace( zone_type_id( "NPC_RETREAT" ),
                    zone_type( translate_marker( "NPC Retreat" ),
                               translate_marker( "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles." ) ) );
-    types.emplace( zone_type_NPC_NO_INVESTIGATE,
+    types.emplace( zone_type_id( "NPC_NO_INVESTIGATE" ),
                    zone_type( translate_marker( "NPC Ignore Sounds" ),
                               translate_marker( "Friendly NPCs won't investigate unseen sounds coming from this zone." ) ) );
-    types.emplace( zone_type_NPC_INVESTIGATE_ONLY,
+    types.emplace( zone_type_id( "NPC_INVESTIGATE_ONLY" ),
                    zone_type( translate_marker( "NPC Investigation Area" ),
                               translate_marker( "Friendly NPCs will investigate unseen sounds only if they come from inside this area." ) ) );
 
@@ -58,35 +59,35 @@ zone_manager::zone_manager()
         types.emplace( zone.id, zone );
     }
 
-    types.emplace( zone_type_SOURCE_FIREWOOD,
+    types.emplace( zone_type_id( "SOURCE_FIREWOOD" ),
                    zone_type( translate_marker( "Source: Firewood" ),
                               translate_marker( "Source for firewood or other flammable materials in this zone may be used to automatically refuel fires.  "
                                       "This will be done to maintain light during long-running tasks such as crafting, reading or waiting." ) ) );
-    types.emplace( zone_type_CONSTRUCTION_BLUEPRINT,
+    types.emplace( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                    zone_type( translate_marker( "Construction: Blueprint" ),
                               translate_marker( "Designate a blueprint zone for construction." ) ) );
-    types.emplace( zone_type_FARM_PLOT,
+    types.emplace( zone_type_id( "FARM_PLOT" ),
                    zone_type( translate_marker( "Farm: Plot" ),
                               translate_marker( "Designate a farm plot for tilling and planting." ) ) );
-    types.emplace( zone_type_CHOP_TREES,
+    types.emplace( zone_type_id( "CHOP_TREES" ),
                    zone_type( translate_marker( "Chop Trees" ),
                               translate_marker( "Designate an area to chop down trees." ) ) );
-    types.emplace( zone_type_FISHING_SPOT,
+    types.emplace( zone_type_id( "FISHING_SPOT" ),
                    zone_type( translate_marker( "Fishing Spot" ),
                               translate_marker( "Designate an area to fish from." ) ) );
-    types.emplace( zone_type_VEHICLE_DECONSTRUCT,
+    types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
                    zone_type( translate_marker( "Vehicle Deconstruct Zone" ),
                               translate_marker( "Any vehicles in this area are marked for deconstruction." ) ) );
-    types.emplace( zone_type_VEHICLE_REPAIR,
+    types.emplace( zone_type_id( "VEHICLE_REPAIR" ),
                    zone_type( translate_marker( "Vehicle Repair Zone" ),
                               translate_marker( "Any vehicles in this area are marked for repair work." ) ) );
-    types.emplace( zone_type_VEHICLE_PATROL,
+    types.emplace( zone_type_id( "VEHICLE_PATROL" ),
                    zone_type( translate_marker( "Vehicle Patrol Zone" ),
                               translate_marker( "Vehicles with an autopilot will patrol in this zone." ) ) );
-    types.emplace( zone_type_CAMP_STORAGE,
+    types.emplace( zone_type_id( "CAMP_STORAGE" ),
                    zone_type( translate_marker( "Basecamp: Storage" ),
                               translate_marker( "Items in this zone will be added to a basecamp's inventory for use by it's workers." ) ) );
-    types.emplace( zone_type_CAMP_FOOD,
+    types.emplace( zone_type_id( "CAMP_FOOD" ),
                    zone_type( translate_marker( "Basecamp: Food" ),
                               translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
 
@@ -138,11 +139,11 @@ void zone_type::load( const JsonObject &jo, const std::string & )
 
 shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
 {
-    if( type == zone_type_FARM_PLOT ) {
+    if( type == zone_type_id( "FARM_PLOT" ) ) {
         return make_shared_fast<plot_options>();
-    } else if( type == zone_type_CONSTRUCTION_BLUEPRINT ) {
+    } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
         return make_shared_fast<blueprint_options>();
-    } else if( type == zone_type_LOOT_CUSTOM ) {
+    } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
         return make_shared_fast<loot_options>();
     }
 
@@ -151,11 +152,11 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
 
 bool zone_options::is_valid( const zone_type_id &type, const zone_options &options )
 {
-    if( type == zone_type_FARM_PLOT ) {
+    if( type == zone_type_id( "FARM_PLOT" ) ) {
         return dynamic_cast<const plot_options *>( &options ) != nullptr;
-    } else if( type == zone_type_CONSTRUCTION_BLUEPRINT ) {
+    } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
         return dynamic_cast<const blueprint_options *>( &options ) != nullptr;
-    } else if( type == zone_type_LOOT_CUSTOM ) {
+    } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
         return dynamic_cast<const loot_options *>( &options ) != nullptr;
     }
 
@@ -241,7 +242,17 @@ plot_options::query_seed_result plot_options::query_seed()
     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
-
+    auto &mgr = zone_manager::get_manager();
+    const std::unordered_set<tripoint> &zone_src_set = mgr.get_near( zone_type_id( "LOOT_SEEDS" ),
+            g->m.getabs( p.pos() ), 60 );
+    for( const tripoint &elem : zone_src_set ) {
+        tripoint elem_loc = g->m.getlocal( elem );
+        for( item &it : g->m.i_at( elem_loc ) ) {
+            if( it.is_seed() ) {
+                seed_inv.push_back( &it );
+            }
+        }
+    }
     std::vector<seed_tuple> seed_entries = iexamine::get_seed_entries( seed_inv );
     seed_entries.emplace( seed_entries.begin(), seed_tuple( itype_id( "null" ), _( "No seed" ), 0 ) );
 
@@ -594,9 +605,8 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
 }
 
 std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &where,
-        int radius, bool npc_search, const faction_id &fac ) const
+        int radius, bool npc_search, const faction_id &/*fac*/ ) const
 {
-    ( void )fac;
     std::unordered_set<tripoint> res;
     for( const tripoint elem : g->m.points_in_radius( g->m.getlocal( where ), radius ) ) {
         const zone_data *zone = get_zone_at( g->m.getabs( elem ) );
@@ -604,7 +614,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
         if( ( !zone ) || ( zone->get_type().str().substr( 0, 4 ) != "LOOT" ) ) {
             continue;
         }
-        if( npc_search && ( has( zone_type_NO_NPC_PICKUP, elem ) ) ) {
+        if( npc_search && ( has( zone_type_id( "NO_NPC_PICKUP" ), elem ) ) ) {
             continue;
         }
         res.insert( elem );
@@ -660,10 +670,10 @@ bool zone_manager::has_loot_dest_near( const tripoint &where ) const
 {
     for( const auto &ztype : get_manager().get_types() ) {
         const zone_type_id &type = ztype.first;
-        if( type == zone_type_CAMP_FOOD || type == zone_type_FARM_PLOT ||
-            type == zone_type_LOOT_UNSORTED || type == zone_type_LOOT_IGNORE ||
-            type == zone_type_CONSTRUCTION_BLUEPRINT ||
-            type == zone_type_NO_AUTO_PICKUP || type == zone_type_NO_NPC_PICKUP ) {
+        if( type == zone_type_id( "CAMP_FOOD" ) || type == zone_type_id( "FARM_PLOT" ) ||
+            type == zone_type_id( "LOOT_UNSORTED" ) || type == zone_type_id( "LOOT_IGNORE" ) ||
+            type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ||
+            type == zone_type_id( "NO_AUTO_PICKUP" ) || type == zone_type_id( "NO_NPC_PICKUP" ) ) {
             continue;
         }
         if( has_near( type, where ) ) {
@@ -691,11 +701,11 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_ty
 
 bool zone_manager::custom_loot_has( const tripoint &where, const item *it ) const
 {
-    auto zone = get_zone_at( where, zone_type_LOOT_CUSTOM );
+    auto zone = get_zone_at( where, zone_type_id( "LOOT_CUSTOM" ) );
     if( !zone || !it ) {
         return false;
     }
-    const loot_options options = dynamic_cast<const loot_options &>( zone->get_options() );
+    const loot_options &options = dynamic_cast<const loot_options &>( zone->get_options() );
     std::string filter_string = options.get_mark();
     auto z = item_filter_from_string( filter_string );
 
@@ -711,7 +721,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     for( auto &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
-                if( it && has( zone_type_LOOT_CUSTOM, point ) ) {
+                if( it && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
                     if( custom_loot_has( point, it ) ) {
                         near_point_set.insert( point );
                     }
@@ -726,7 +736,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     for( auto &point : vzone_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
-                if( it && has( zone_type_LOOT_CUSTOM, point ) ) {
+                if( it && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
                     if( custom_loot_has( point, it ) ) {
                         near_point_set.insert( point );
                     }
@@ -783,20 +793,19 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
 {
     const item_category &cat = it.get_category();
 
-    if( has_near( zone_type_LOOT_CUSTOM, where, range ) ) {
-        for( const auto elem : get_near( zone_type_LOOT_CUSTOM, where, range, &it ) ) {
-            ( void )elem;
-            return zone_type_LOOT_CUSTOM;
+    if( has_near( zone_type_id( "LOOT_CUSTOM" ), where, range ) ) {
+        if( !get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ).empty() ) {
+            return zone_type_id( "LOOT_CUSTOM" );
         }
     }
     if( it.has_flag( flag_FIREWOOD ) ) {
-        if( has_near( zone_type_LOOT_WOOD, where, range ) ) {
-            return zone_type_LOOT_WOOD;
+        if( has_near( zone_type_id( "LOOT_WOOD" ), where, range ) ) {
+            return zone_type_id( "LOOT_WOOD" );
         }
     }
     if( it.is_corpse() ) {
-        if( has_near( zone_type_LOOT_CORPSE, where, range ) ) {
-            return zone_type_LOOT_CORPSE;
+        if( has_near( zone_type_id( "LOOT_CORPSE" ), where, range ) ) {
+            return zone_type_id( "LOOT_CORPSE" );
         }
     }
 
@@ -814,20 +823,20 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
 
         // skip food without comestible, like MREs
         if( const item *it_food = it.get_food() ) {
-            if( it_food->get_comestible()->comesttype == comesttype_DRINK ) {
-                if( !preserves && it_food->goes_bad() && has_near( zone_type_LOOT_PDRINK, where, range ) ) {
-                    return zone_type_LOOT_PDRINK;
-                } else if( has_near( zone_type_LOOT_DRINK, where, range ) ) {
-                    return zone_type_LOOT_DRINK;
+            if( it_food->get_comestible()->comesttype == "DRINK" ) {
+                if( !preserves && it_food->goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
+                    return zone_type_id( "LOOT_PDRINK" );
+                } else if( has_near( zone_type_id( "LOOT_DRINK" ), where, range ) ) {
+                    return zone_type_id( "LOOT_DRINK" );
                 }
             }
 
-            if( !preserves && it_food->goes_bad() && has_near( zone_type_LOOT_PFOOD, where, range ) ) {
-                return zone_type_LOOT_PFOOD;
+            if( !preserves && it_food->goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where, range ) ) {
+                return zone_type_id( "LOOT_PFOOD" );
             }
         }
 
-        return zone_type_LOOT_FOOD;
+        return zone_type_id( "LOOT_FOOD" );
     }
 
     return zone_type_id();
@@ -912,11 +921,11 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
     //the start is a vehicle tile with cargo space
     if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
-                start ) ).part_with_feature( flag_CARGO, false ) ) {
+                start ) ).part_with_feature( "CARGO", false ) ) {
         // TODO:Allow for loot zones on vehicles to be larger than 1x1
         if( start == end && query_yn( _( "Bind this zone to the cargo part here?" ) ) ) {
             // TODO: refactor zone options for proper validation code
-            if( type == zone_type_FARM_PLOT || type == zone_type_CONSTRUCTION_BLUEPRINT ) {
+            if( type == zone_type_id( "FARM_PLOT" ) || type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
                 popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
                 return;
             }
@@ -1178,7 +1187,7 @@ void zone_manager::revert_vzones()
     for( auto zone : removed_vzones ) {
         //Code is copied from add() to avoid yn query
         if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
-                    zone.get_start_point() ) ).part_with_feature( flag_CARGO, false ) ) {
+                    zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
             zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), zone );
             vp->vehicle().zones_dirty = false;

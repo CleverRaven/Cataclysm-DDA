@@ -31,7 +31,6 @@
 #include "memory_fast.h"
 
 #include "player_helpers.h"
-#include "cata_string_consts.h"
 
 class Creature;
 
@@ -309,6 +308,8 @@ TEST_CASE( "npc-movement" )
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
     const furn_id f_null( "f_null" );
+    const vpart_id vpart_frame_vertical( "frame_vertical" );
+    const vpart_id vpart_seat( "seat" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
@@ -382,9 +383,9 @@ TEST_CASE( "npc-movement" )
                 REQUIRE( g->m.passable( p ) );
             }
             if( type == 'R' ) {
-                REQUIRE( g->m.has_flag( flag_UNSTABLE, p ) );
+                REQUIRE( g->m.has_flag( "UNSTABLE", p ) );
             } else {
-                REQUIRE( !g->m.has_flag( flag_UNSTABLE, p ) );
+                REQUIRE( !g->m.has_flag( "UNSTABLE", p ) );
             }
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 REQUIRE( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );

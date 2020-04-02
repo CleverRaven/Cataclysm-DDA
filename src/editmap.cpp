@@ -37,6 +37,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -50,7 +51,6 @@
 #include "shadowcasting.h"
 #include "string_id.h"
 #include "colony.h"
-#include "cata_string_consts.h"
 
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
 static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
@@ -316,6 +316,9 @@ cata::optional<tripoint> editmap::edit()
     infoHeight = 20;
     blink = true;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     w_info = catacurses::newwin( infoHeight, width, point( offsetX, TERMY - infoHeight ) );
     do {
         if( target_list.empty() ) {
@@ -486,7 +489,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
 #ifdef TILES
             if( use_tiles ) {
                 if( draw_target_override ) {
-                    draw_target_override.value()( p );
+                    draw_target_override( p );
                 } else {
                     g->draw_highlight( p );
                 }
@@ -643,7 +646,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     }
     map_stack target_stack = g->m.i_at( target );
     const int target_stack_size = target_stack.size();
-    if( !g->m.has_flag( flag_CONTAINER, target ) && target_stack_size > 0 ) {
+    if( !g->m.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
         trim_and_print( w_info, point( 1, off ), getmaxx( w_info ), c_light_gray,
                         _( "There is a %s there." ),
                         target_stack.begin()->tname() );
@@ -921,11 +924,11 @@ void editmap::edit_feature()
     emenu.desc_enabled = true;
     emenu.input_category = "EDITMAP_FEATURE";
     emenu.additional_actions = {
-        { "CONFIRM_QUIT", "" },
-        { "EDITMAP_SHOW_ALL", "" },
-        { "EDITMAP_TAB", "" },
-        { "EDITMAP_MOVE", "" },
-        { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+        { "CONFIRM_QUIT", translation() },
+        { "EDITMAP_SHOW_ALL", translation() },
+        { "EDITMAP_TAB", translation() },
+        { "EDITMAP_MOVE", translation() },
+        { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     emenu.allow_additional = true;
 
@@ -960,7 +963,7 @@ void editmap::edit_feature()
                 draw_override( p, override );
             };
         } else {
-            draw_target_override = cata::nullopt;
+            draw_target_override = nullptr;
         }
         input_context ctxt( emenu.input_category );
         update_view_with_help( string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
@@ -998,7 +1001,7 @@ void editmap::edit_feature()
         blink = emenu.ret == UILIST_TIMEOUT ? !blink : true;
     } while( !quit );
     blink = false;
-    draw_target_override = cata::nullopt;
+    draw_target_override = nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1045,12 +1048,12 @@ void editmap::edit_fld()
     setup_fmenu( fmenu );
     fmenu.input_category = "EDIT_FIELDS";
     fmenu.additional_actions = {
-        { "EDITMAP_TAB", "" },
-        { "EDITMAP_MOVE", "" },
-        { "LEFT", "" },
-        { "RIGHT", "" },
-        { "EDITMAP_SHOW_ALL", "" },
-        { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+        { "EDITMAP_TAB", translation() },
+        { "EDITMAP_MOVE", translation() },
+        { "LEFT", translation() },
+        { "RIGHT", translation() },
+        { "EDITMAP_SHOW_ALL", translation() },
+        { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     fmenu.allow_additional = true;
 
@@ -1062,7 +1065,7 @@ void editmap::edit_fld()
                 g->draw_field_override( p, override );
             };
         } else {
-            draw_target_override = cata::nullopt;
+            draw_target_override = nullptr;
         }
         input_context ctxt( fmenu.input_category );
         // \u00A0 is the non-breaking space
@@ -1101,7 +1104,7 @@ void editmap::edit_fld()
                 int i = 0;
                 for( const auto &intensity_level : ftype.intensity_levels ) {
                     i++;
-                    femenu.addentry( string_format( "%d: %s", i, _( intensity_level.name ) ) );
+                    femenu.addentry( string_format( _( "%d: %s" ), i, intensity_level.name.translated() ) );
                 }
                 femenu.entries[field_intensity].text_color = c_cyan;
                 femenu.selected = sel_field_intensity > 0 ? sel_field_intensity : field_intensity;
@@ -1176,7 +1179,7 @@ void editmap::edit_fld()
         blink = fmenu.ret == UILIST_TIMEOUT ? !blink : true;
     } while( fmenu.ret != UILIST_CANCEL );
     blink = false;
-    draw_target_override = cata::nullopt;
+    draw_target_override = nullptr;
 }
 
 /*
@@ -1205,7 +1208,7 @@ void editmap::edit_itm()
     ilmenu.addentry( items.size(), true, 'a', _( "Add item" ) );
     ilmenu.input_category = "EDIT_ITEMS";
     ilmenu.additional_actions = {
-        { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+        { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     ilmenu.allow_additional = true;
 
@@ -1231,7 +1234,7 @@ void editmap::edit_itm()
                             "savetest" ) );
             imenu.input_category = "EDIT_ITEMS";
             imenu.additional_actions = {
-                { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+                { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
             };
             imenu.allow_additional = true;
 
@@ -1441,6 +1444,9 @@ int editmap::select_shape( shapetype shape, int mode )
     }
     altblink = moveall;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         if( moveall ) {
             update_view_with_help( string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
@@ -1476,7 +1482,7 @@ int editmap::select_shape( shapetype shape, int mode )
                 smenu.addentry( -2, true, 'p', pgettext( "shape", "Point" ) );
                 smenu.selected = static_cast<int>( editshape );
                 smenu.additional_actions = {
-                    { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+                    { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
                 };
                 smenu.allow_additional = true;
                 do {
@@ -1582,9 +1588,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     gpmenu.input_category = "MAPGEN_PREVIEW";
     gpmenu.additional_actions = {
-        { "LEFT", "" },
-        { "RIGHT", "" },
-        { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+        { "LEFT", translation() },
+        { "RIGHT", translation() },
+        { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     gpmenu.allow_additional = true;
 
@@ -1630,7 +1636,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         const int veh_part = vp->part_index();
                         char part_mod = 0;
                         const vpart_id &vp_id = veh.part_id_string( veh_part, part_mod );
-                        const cata::optional<vpart_reference> cargopart = vp.part_with_feature( flag_CARGO, true );
+                        const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
                         int veh_dir = veh.face.dir();
                         g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );
@@ -1842,6 +1848,9 @@ void editmap::mapgen_retarget()
     std::string action;
     tripoint origm = target;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     blink = true;
     do {
         update_view_with_help( string_format( pgettext( "keybinding descriptions", "%s, %s" ),
@@ -1887,8 +1896,8 @@ void editmap::edit_mapgen()
     gmenu.w_x = offsetX;
     gmenu.input_category = "EDIT_MAPGEN";
     gmenu.additional_actions = {
-        { "EDITMAP_MOVE", "" },
-        { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+        { "EDITMAP_MOVE", translation() },
+        { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     gmenu.allow_additional = true;
 

@@ -125,6 +125,7 @@ class vpart_reference : public vpart_position
     public:
         vpart_reference( ::vehicle &v, const size_t part ) : vpart_position( v, part ) { }
         vpart_reference( const vpart_reference & ) = default;
+        vpart_reference &operator=( const vpart_reference & ) = default;
 
         using vpart_position::vehicle;
 

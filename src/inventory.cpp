@@ -33,7 +33,11 @@
 #include "colony.h"
 #include "flat_set.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
+static const std::string flag_LEAK_DAM( "LEAK_DAM" );
+static const std::string flag_WATERPROOF( "WATERPROOF" );
+static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 
 struct itype;
 
@@ -439,7 +443,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             if( type != nullptr ) {
                 const itype *ammo = f.crafting_ammo_item_type();
                 item furn_item( type, calendar::turn, 0 );
-                furn_item.item_tags.insert( flag_PSEUDO );
+                furn_item.item_tags.insert( "PSEUDO" );
                 furn_item.charges = ammo ? count_charges_in_list( ammo, m.i_at( p ) ) : 0;
                 add_item( furn_item );
             }
@@ -506,14 +510,14 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         //Adds faucet to kitchen stuff; may be horribly wrong to do such....
         //ShouldBreak into own variable
-        const cata::optional<vpart_reference> kpart = vp.part_with_feature( flag_KITCHEN, true );
-        const cata::optional<vpart_reference> faupart = vp.part_with_feature( flag_FAUCET, true );
-        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( flag_WELDRIG, true );
-        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( flag_CRAFTRIG, true );
-        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( flag_FORGE, true );
-        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( flag_KILN, true );
-        const cata::optional<vpart_reference> chempart = vp.part_with_feature( flag_CHEMLAB, true );
-        const cata::optional<vpart_reference> cargo = vp.part_with_feature( flag_CARGO, true );
+        const cata::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN", true );
+        const cata::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
+        const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
+        const cata::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
+        const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
+        const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
+        const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+        const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( cargo ) {
             const auto items = veh->get_items( cargo->part_index() );
@@ -532,70 +536,70 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         if( kpart ) {
             item hotplate( "hotplate", 0 );
-            hotplate.charges = veh->fuel_left( fuel_type_battery, true );
-            hotplate.item_tags.insert( flag_PSEUDO );
+            hotplate.charges = veh->fuel_left( "battery", true );
+            hotplate.item_tags.insert( "PSEUDO" );
             add_item( hotplate );
 
             item pot( "pot", 0 );
-            pot.item_tags.insert( flag_PSEUDO );
+            pot.item_tags.insert( "PSEUDO" );
             add_item( pot );
             item pan( "pan", 0 );
-            pan.item_tags.insert( flag_PSEUDO );
+            pan.item_tags.insert( "PSEUDO" );
             add_item( pan );
         }
         if( weldpart ) {
             item welder( "welder", 0 );
-            welder.charges = veh->fuel_left( fuel_type_battery, true );
-            welder.item_tags.insert( flag_PSEUDO );
+            welder.charges = veh->fuel_left( "battery", true );
+            welder.item_tags.insert( "PSEUDO" );
             add_item( welder );
 
             item soldering_iron( "soldering_iron", 0 );
-            soldering_iron.charges = veh->fuel_left( fuel_type_battery, true );
-            soldering_iron.item_tags.insert( flag_PSEUDO );
+            soldering_iron.charges = veh->fuel_left( "battery", true );
+            soldering_iron.item_tags.insert( "PSEUDO" );
             add_item( soldering_iron );
         }
         if( craftpart ) {
             item vac_sealer( "vac_sealer", 0 );
-            vac_sealer.charges = veh->fuel_left( fuel_type_battery, true );
-            vac_sealer.item_tags.insert( flag_PSEUDO );
+            vac_sealer.charges = veh->fuel_left( "battery", true );
+            vac_sealer.item_tags.insert( "PSEUDO" );
             add_item( vac_sealer );
 
             item dehydrator( "dehydrator", 0 );
-            dehydrator.charges = veh->fuel_left( fuel_type_battery, true );
-            dehydrator.item_tags.insert( flag_PSEUDO );
+            dehydrator.charges = veh->fuel_left( "battery", true );
+            dehydrator.item_tags.insert( "PSEUDO" );
             add_item( dehydrator );
 
             item food_processor( "food_processor", 0 );
-            food_processor.charges = veh->fuel_left( fuel_type_battery, true );
-            food_processor.item_tags.insert( flag_PSEUDO );
+            food_processor.charges = veh->fuel_left( "battery", true );
+            food_processor.item_tags.insert( "PSEUDO" );
             add_item( food_processor );
 
             item press( "press", 0 );
-            press.charges = veh->fuel_left( fuel_type_battery, true );
-            press.item_tags.insert( flag_PSEUDO );
+            press.charges = veh->fuel_left( "battery", true );
+            press.item_tags.insert( "PSEUDO" );
             add_item( press );
         }
         if( forgepart ) {
             item forge( "forge", 0 );
-            forge.charges = veh->fuel_left( fuel_type_battery, true );
-            forge.item_tags.insert( flag_PSEUDO );
+            forge.charges = veh->fuel_left( "battery", true );
+            forge.item_tags.insert( "PSEUDO" );
             add_item( forge );
         }
         if( kilnpart ) {
             item kiln( "kiln", 0 );
-            kiln.charges = veh->fuel_left( fuel_type_battery, true );
-            kiln.item_tags.insert( flag_PSEUDO );
+            kiln.charges = veh->fuel_left( "battery", true );
+            kiln.item_tags.insert( "PSEUDO" );
             add_item( kiln );
         }
         if( chempart ) {
             item chemistry_set( "chemistry_set", 0 );
-            chemistry_set.charges = veh->fuel_left( fuel_type_battery, true );
-            chemistry_set.item_tags.insert( flag_PSEUDO );
+            chemistry_set.charges = veh->fuel_left( "battery", true );
+            chemistry_set.item_tags.insert( "PSEUDO" );
             add_item( chemistry_set );
 
             item electrolysis_kit( "electrolysis_kit", 0 );
-            electrolysis_kit.charges = veh->fuel_left( fuel_type_battery, true );
-            electrolysis_kit.item_tags.insert( flag_PSEUDO );
+            electrolysis_kit.charges = veh->fuel_left( "battery", true );
+            electrolysis_kit.item_tags.insert( "PSEUDO" );
             add_item( electrolysis_kit );
         }
     }
@@ -876,7 +880,7 @@ void inventory::rust_iron_items()
 {
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.made_of( material_iron ) &&
+            if( elem_stack_iter.made_of( material_id( "iron" ) ) &&
                 !elem_stack_iter.has_flag( flag_WATERPROOF_GUN ) &&
                 !elem_stack_iter.has_flag( flag_WATERPROOF ) &&
                 elem_stack_iter.damage() < elem_stack_iter.max_damage() / 2 &&

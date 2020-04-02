@@ -33,6 +33,7 @@
 #include "path_info.h"
 #include "player.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -51,7 +52,14 @@
 #include "magic.h"
 #include "point.h"
 #include "string_id.h"
-#include "cata_string_consts.h"
+
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
+static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
+static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
+
+static const efftype_id effect_got_checked( "got_checked" );
 
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
@@ -423,8 +431,8 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
 static std::string get_temp( const avatar &u )
 {
     std::string temp;
-    if( u.has_item_with_flag( flag_THERMOMETER ) ||
-        u.has_bionic( bio_meteorologist ) ) {
+    if( u.has_item_with_flag( "THERMOMETER" ) ||
+        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         temp = print_temperature( g->weather.get_temperature( u.pos() ) );
     }
     if( temp.empty() ) {
@@ -867,7 +875,8 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         nc_color color = c_light_red;
 
         const auto bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) );
-        if( u.worn_with_flag( flag_SPLINT, bp ) ) {
+        if( u.worn_with_flag( "SPLINT", bp ) ) {
+            static const efftype_id effect_mending( "mending" );
             const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
@@ -1513,7 +1522,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 5 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
 
-    if( u.has_item_with_flag( flag_THERMOMETER ) || u.has_bionic( bio_meteorologist ) ) {
+    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
@@ -1521,7 +1530,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void render_wind( avatar &u, const catacurses::window &w, std::string formatstr )
+static void render_wind( avatar &u, const catacurses::window &w, const std::string &formatstr )
 {
     werase( w );
     mvwprintz( w, point_zero, c_light_gray,
@@ -1904,7 +1913,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 15, 0 ), c_light_gray, _( "Time: ???" ) );
     }
 
-    if( u.has_item_with_flag( flag_THERMOMETER ) || u.has_bionic( bio_meteorologist ) ) {
+    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }
@@ -1923,7 +1932,7 @@ static void draw_hint( const avatar &, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void print_mana( const player &u, const catacurses::window &w, std::string fmt_string,
+static void print_mana( const player &u, const catacurses::window &w, const std::string &fmt_string,
                         const int j1, const int j2, const int j3, const int j4 )
 {
     werase( w );
@@ -2249,6 +2258,9 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     ctxt.register_action( "RIGHT" );
     ctxt.register_action( "MOVE_PANEL" );
     ctxt.register_action( "TOGGLE_PANEL" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     const std::vector<int> column_widths = { 17, 37, 17 };
     size_t max_index = 0;

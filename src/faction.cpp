@@ -27,12 +27,12 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "text_snippets.h"
+#include "ui_manager.h"
 #include "item.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
 
 namespace npc_factions
 {
@@ -416,7 +416,7 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
 faction *faction_manager::get( const faction_id &id, const bool complain )
 {
     if( id.is_null() ) {
-        return get( faction_no_faction );
+        return get( faction_id( "no_faction" ) );
     }
     for( auto &elem : factions ) {
         if( elem.first == id ) {
@@ -546,8 +546,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     std::string can_see;
     nc_color see_color;
-    bool u_has_radio = g->u.has_item_with_flag( flag_TWO_WAY_RADIO, true );
-    bool guy_has_radio = has_item_with_flag( flag_TWO_WAY_RADIO, true );
+    bool u_has_radio = g->u.has_item_with_flag( "TWO_WAY_RADIO", true );
+    bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
     // TODO: NPCS on mission contactable same as travelling
     if( has_companion_mission() && mission != NPC_MISSION_TRAVELLING ) {
         can_see = _( "Not interactable while on a mission" );
@@ -693,6 +693,10 @@ void faction_manager::display() const
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         werase( w_missions );
         // create a list of NPCs, visible and the ones on overmapbuffer
@@ -707,7 +711,7 @@ void faction_manager::display() const
         }
         std::vector<const faction *> valfac; // Factions that we know of.
         for( const auto &elem : g->faction_manager_ptr->all() ) {
-            if( elem.second.known_by_u && elem.second.id != faction_your_followers ) {
+            if( elem.second.known_by_u && elem.second.id != faction_id( "your_followers" ) ) {
                 valfac.push_back( &elem.second );
             }
         }
