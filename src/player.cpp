@@ -1115,7 +1115,7 @@ int player::overmap_sight_range( int light_level ) const
         multiplier += 1;
     }
 
-    sight = round( sight * multiplier );
+    sight = std::round( sight * multiplier );
     return std::max( sight, 3 );
 }
 
