@@ -5880,9 +5880,14 @@ void map::place_vending( const point &p, const std::string &type, bool reinforce
         furn_set( p, f_vending_reinforced );
         place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
     } else {
-        const bool broken = one_in( 5 );
-        if( broken ) {
+        // The chance to find a non-ransacked vending machine reduces greatly with every day after the cataclysm
+        if( !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
             furn_set( p, f_vending_o );
+            for( const auto &loc : points_in_radius( { p, abs_sub.z }, 1 ) ) {
+                if( one_in( 4 ) ) {
+                    spawn_item( loc, "glass_shard", rng( 1, 25 ) );
+                }
+            }
         } else {
             furn_set( p, f_vending_c );
             place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
