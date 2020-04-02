@@ -1445,10 +1445,10 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
     }
 }
 
-bool are_conflicting_traits( const trait_id &trait_1, const trait_id &trait_2 )
+bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )
 {
-    return ( are_opposite_traits( trait_1, trait_2 ) || b_is_lower_trait_of_a( trait_1, trait_2 )
-             || b_is_higher_trait_of_a( trait_1, trait_2 ) || are_same_type_traits( trait_1, trait_2 ) );
+    return ( are_opposite_traits( trait_a, trait_b ) || b_is_lower_trait_of_a( trait_a, trait_b )
+             || b_is_higher_trait_of_a( trait_a, trait_b ) || are_same_type_traits( trait_a, trait_b ) );
 }
 
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b )
