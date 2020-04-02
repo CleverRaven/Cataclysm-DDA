@@ -6,8 +6,8 @@
     "reload_noise_volume": 10,
     "name": { "str": "AKM" },
     "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
-    "weight": "3300 g",
-    "volume": "1750 ml",
+    "weight": "3402 g",
+    "volume": "4414 ml",
     "price": 290000,
     "to_hit": -1,
     "bashing": 12,
@@ -28,14 +28,13 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ],
   },
   {
     "id": "arx160",
@@ -74,7 +73,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ]
+    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40" ] ] ],
   },
   {
     "id": "sks",
@@ -151,8 +150,7 @@
       [ "stock", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ],
   },
   {
     "id": "draco",
@@ -189,6 +187,6 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ]
+    "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] ] ],
   }
 ]
