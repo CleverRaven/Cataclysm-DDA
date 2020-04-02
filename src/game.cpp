@@ -1985,6 +1985,9 @@ void game::handle_key_blocking_activity()
 {
     if( ( u.activity && u.activity.moves_left > 0 ) || ( u.has_destination() &&
             !u.omt_path.empty() ) ) {
+        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         if( action == "pause" ) {
@@ -2109,6 +2112,9 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         // Default menu border color is different, this matches the border of the item info window.
         action_menu.border_color = BORDER_COLOR;
 
+        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
         do {
             item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
             data.without_getch = true;
@@ -2218,6 +2224,10 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     auto &mgr = panel_manager::get_manager();
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     int width = sidebar_right ? mgr.get_width_right() : mgr.get_width_left();
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         action = ctxt.handle_input();
         if( action == "MOUSE_MOVE" ) {
@@ -6179,6 +6189,9 @@ void game::zones_manager()
         return cata::nullopt;
     };
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     zones_manager_open = true;
     do {
         if( action == "ADD_ZONE" ) {
@@ -6613,6 +6626,10 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     bool blink = true;
     bool redraw = true;
     look_around_result result;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         if( redraw ) {
             if( bNewWindow ) {
@@ -7192,6 +7209,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TRAVEL_TO" );
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         if( action == "COMPARE" ) {
             game_menus::inv::compare( u, active_pos );
@@ -7566,6 +7586,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             last_attitude = attitude;
         }
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         if( action == "HELP_KEYBINDINGS" ) {

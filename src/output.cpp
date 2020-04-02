@@ -874,6 +874,9 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
     const int width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
     const int height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     input_event result;
     while( true ) {
         int iLines = 0;
@@ -1798,6 +1801,9 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     const int rows = getmaxy( w ) - 2 - 1; // -2 for border, -1 for title
     const int col_width = width / columns;
     int offset = 0;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
 #if defined(__ANDROID__)
     // no bindings, but give it its own input context so stale buttons don't hang around.

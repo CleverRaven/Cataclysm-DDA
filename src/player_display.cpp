@@ -17,6 +17,7 @@
 #include "profession.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "weather.h"
 #include "catacharset.h"
@@ -1347,6 +1348,9 @@ void player::disp_info()
     int curtab = 1;
     line = 0;
     bool done = false;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     // Initial printing is DONE.  Now we give the player a chance to scroll around
     // and "hover" over different items for more info.

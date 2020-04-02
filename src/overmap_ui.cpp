@@ -54,6 +54,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui_manager.h"
 #include "vpart_position.h"
 #include "vehicle.h"
 #include "enums.h"
@@ -1182,6 +1183,9 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         tmp.x = locations[i].x;
         tmp.y = locations[i].y;
@@ -1283,6 +1287,9 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
             }
         }
 
+        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
         do {
             // overmap::draw will handle actually showing the preview
             draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
@@ -1356,6 +1363,9 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
 
 static tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() )
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     /* please do not change point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) to point( OVERMAP_WINDOW_WIDTH, 0 ) */
     /* because overmap legend will be absent */
     g->w_omlegend = catacurses::newwin( TERMY, OVERMAP_LEGEND_WIDTH,

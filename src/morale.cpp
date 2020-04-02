@@ -18,6 +18,7 @@
 #include "options.h"
 #include "output.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "color.h"
 #include "enums.h"
 
@@ -531,6 +532,9 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
         penalty_rows++;
     }
     int rows_visible = std::max( win_h - 8 - penalty_rows, 0 );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     for( ;; ) {
 

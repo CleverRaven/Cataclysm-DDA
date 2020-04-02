@@ -17,6 +17,7 @@
 #include "debug.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 
 void game::list_missions()
 {
@@ -39,6 +40,10 @@ void game::list_missions()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         werase( w_missions );
         std::vector<mission *> umissions;

@@ -50,6 +50,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 static const efftype_id effect_amigara( "amigara" );
 
@@ -1437,6 +1438,10 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
                          ctxt.describe_key_and_name( "YES", allow_key ),
                          ctxt.describe_key_and_name( "NO", allow_key ),
                          ctxt.describe_key_and_name( "QUIT", allow_key ) );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         const std::string action = ctxt.handle_input();
         if( allow_key( ctxt.get_raw_input() ) ) {

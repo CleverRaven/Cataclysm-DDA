@@ -17,6 +17,7 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "debug.h"
 #include "enums.h"
 
@@ -515,6 +516,9 @@ void player::sort_armor()
         g->u.activity.auto_resume = true;
         g->u.activity.moves_left = INT_MAX;
     };
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     bool exit = false;
     while( !exit ) {

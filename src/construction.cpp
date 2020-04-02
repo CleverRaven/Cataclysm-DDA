@@ -32,6 +32,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "trap.h"
+#include "ui_manager.h"
 #include "uistate.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -340,6 +341,9 @@ construction_id construction_menu( const bool blueprint )
 
     const std::vector<construction_category> &construct_cat = construction_categories::get_all();
     const int tabcount = static_cast<int>( construction_category::count() );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     std::string filter;
     do {
