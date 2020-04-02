@@ -6331,5 +6331,22 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "fiddlehead_boiled", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bread_buttered",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "15 s",
+    "charges": 1,
+    "autolearn": true,
+    "qualities": [
+      { "id": "CUT", "level": 1 }
+    ],
+    "components": [
+      [ [ "flatbread", 1 ], [ "bread", 1 ], [ "cornbread", 1 ], [ "sourdough_bread", 1 ], [ "brioche", 1 ] ],
+      [ [ "any_butter", 2, "LIST" ], [ "ghee", 2 ] ]
+    ]
   }
 ]
