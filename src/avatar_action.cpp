@@ -90,7 +90,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         }
         return false;
     }
-
+    const bool is_riding = you.is_mounted();
     tripoint dest_loc;
     if( dz == 0 && you.has_effect( effect_stunned ) ) {
         dest_loc.x = rng( you.posx() - 1, you.posx() + 1 );
@@ -110,7 +110,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
-        !you.is_mounted() ) {
+        !is_riding ) {
         if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
@@ -134,12 +134,14 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     }
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
-    if( you.movement_mode_is( CMM_WALK ) ) {
-        you.increase_activity_level( LIGHT_EXERCISE );
-    } else if( you.movement_mode_is( CMM_CROUCH ) ) {
-        you.increase_activity_level( MODERATE_EXERCISE );
-    } else {
-        you.increase_activity_level( ACTIVE_EXERCISE );
+    if( !is_riding ) {
+        if( you.movement_mode_is( CMM_WALK ) ) {
+            you.increase_activity_level( LIGHT_EXERCISE );
+        } else if( you.movement_mode_is( CMM_CROUCH ) ) {
+            you.increase_activity_level( MODERATE_EXERCISE );
+        } else {
+            you.increase_activity_level( ACTIVE_EXERCISE );
+        }
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
@@ -149,12 +151,12 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     if( !tile_iso ) {
         if( new_dx > 0 ) {
             you.facing = FD_RIGHT;
-            if( you.is_mounted() ) {
+            if( is_riding ) {
                 you.mounted_creature->facing = FD_RIGHT;
             }
         } else if( new_dx < 0 ) {
             you.facing = FD_LEFT;
-            if( you.is_mounted() ) {
+            if( is_riding ) {
                 you.mounted_creature->facing = FD_LEFT;
             }
         }
@@ -191,14 +193,14 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         //
         if( new_dx >= 0 && new_dy >= 0 ) {
             you.facing = FD_RIGHT;
-            if( you.is_mounted() ) {
+            if( is_riding ) {
                 auto mons = you.mounted_creature.get();
                 mons->facing = FD_RIGHT;
             }
         }
         if( new_dy <= 0 && new_dx <= 0 ) {
             you.facing = FD_LEFT;
-            if( you.is_mounted() ) {
+            if( is_riding ) {
                 auto mons = you.mounted_creature.get();
                 mons->facing = FD_LEFT;
             }
@@ -339,18 +341,25 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
             return false;
         }
     }
-
     bool toSwimmable = m.has_flag( flag_SWIMMABLE, dest_loc );
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
     bool fromBoat = veh0 != nullptr && veh0->is_in_water();
     bool toBoat = veh1 != nullptr && veh1->is_in_water();
-
+    if( is_riding ) {
+        if( !you.check_mount_will_move( dest_loc ) ) {
+            if( you.is_auto_moving() ) {
+                you.clear_destination();
+            }
+            you.moves -= 20;
+            return false;
+        }
+    }
     // Dive into water!
     if( toSwimmable && toDeepWater && !toBoat ) {
         // Requires confirmation if we were on dry land previously
-        if( you.is_mounted() ) {
+        if( is_riding ) {
             auto mon = you.mounted_creature.get();
             if( !mon->swims() || mon->get_size() < you.get_size() + 2 ) {
                 add_msg( m_warning, _( "The %s cannot swim while it is carrying you!" ), mon->get_name() );

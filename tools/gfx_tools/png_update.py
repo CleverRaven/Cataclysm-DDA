@@ -4,10 +4,8 @@
 # Rename a png and update all references to it.
 
 import argparse
-import copy
 import json
 import os
-import string
 import subprocess
 
 # stupid stinking Python 2 versus Python 3 syntax

@@ -756,7 +756,6 @@ void Item_factory::init()
     add_iuse( "ANTIPARASITIC", &iuse::antiparasitic );
     add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
     add_iuse( "ARTIFACT", &iuse::artifact );
-    add_iuse( "ATOMIC_CAFF", &iuse::atomic_caff );
     add_iuse( "AUTOCLAVE", &iuse::autoclave );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
@@ -764,7 +763,6 @@ void Item_factory::init()
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
     add_iuse( "C4", &iuse::c4 );
     add_iuse( "CABLE_ATTACH", &iuse::cable_attach );
-    add_iuse( "CAFF", &iuse::caff );
     add_iuse( "CAMERA", &iuse::camera );
     add_iuse( "CAN_GOO", &iuse::can_goo );
     add_iuse( "COIN_FLIP", &iuse::coin_flip );
@@ -1833,9 +1831,11 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "quench", slot.quench, strict );
     assign( jo, "fun", slot.fun, strict );
     assign( jo, "stim", slot.stim, strict );
+    assign( jo, "fatigue_mod", slot.fatigue_mod, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
     assign( jo, "contamination", slot.contamination, strict, 0, 100 );
+    assign( jo, "radiation", slot.radiation, strict );
     assign( jo, "freezing_point", slot.freeze_point, strict );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
     assign( jo, "cooks_like", slot.cooks_like, strict );

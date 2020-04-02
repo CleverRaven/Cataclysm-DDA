@@ -56,6 +56,7 @@
     "type": "furniture",
     "id": "f_counter_gate_c",
     "name": "closed counter gate",
+    "looks_like": "f_counter",
     "description": "A commercial quality swinging door made of wood that allows passage behind counters.",
     "symbol": "+",
     "color": "blue",

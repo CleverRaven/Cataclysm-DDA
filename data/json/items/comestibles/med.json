@@ -238,7 +238,7 @@
     "stim": 12,
     "addiction_potential": 3,
     "addiction_type": "caffeine",
-    "use_action": "CAFF"
+    "fatigue_mod": 9
   },
   {
     "id": "chaw",
@@ -391,7 +391,7 @@
     "weight": "61 g",
     "color": "brown",
     "addiction_type": "amphetamine",
-    "use_action": "CAFF",
+    "fatigue_mod": 60,
     "stim": 20,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
