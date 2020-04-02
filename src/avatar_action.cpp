@@ -1252,12 +1252,11 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             use_in_place = true;
         } else {
             const int obtain_cost = loc.obtain_cost( you );
-            item &target = you.i_at( loc.obtain( you ) );
-            if( target.is_null() ) {
+            loc = loc.obtain( you );
+            if( !loc ) {
                 debugmsg( "Failed to obtain target item" );
                 return;
             }
-            loc = item_location( you, &target );
 
             // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
             // This method only handles items in the inventory, so refund the obtain cost.
@@ -1295,7 +1294,7 @@ void avatar_action::unload( avatar &you )
 
     item *it = loc.get_item();
     if( loc.where() != item_location::type::character ) {
-        it = &you.i_at( loc.obtain( you ) );
+        it = loc.obtain( you ).get_item();
     }
     if( you.unload( *it ) ) {
         if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
