@@ -36,7 +36,19 @@
 #include "type_id.h"
 #include "pimpl.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_MILK( "ACT_MILK" );
+static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
+
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_paid( "paid" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_saddled( "monster_saddled" );
+static const efftype_id effect_tied( "tied" );
 
 static const skill_id skill_survival( "survival" );
 

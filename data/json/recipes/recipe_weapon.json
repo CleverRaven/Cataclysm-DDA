@@ -483,19 +483,6 @@
   },
   {
     "type": "recipe",
-    "result": "reflexrecurvebow",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 7 ] ],
-    "difficulty": 5,
-    "time": "25 m",
-    "book_learn": [ [ "recipe_bows", 6 ], [ "manual_archery", 7 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "compositebow",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -507,52 +494,6 @@
     "book_learn": [ [ "recipe_bows", 4 ], [ "manual_archery", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "recurbow",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 2 ] ],
-    "difficulty": 5,
-    "time": "30 m",
-    "book_learn": [ [ "recipe_bows", 6 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [
-      [ [ "stick", 3 ], [ "2x4", 2 ] ],
-      [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "adhesive", 2, "LIST" ] ],
-      [ [ "cordage_superior", 2, "LIST" ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "compbow",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ] ],
-    "difficulty": 7,
-    "time": "4 h",
-    "book_learn": [ [ "recipe_bows", 8 ], [ "welding_book", 7 ], [ "textbook_mechanics", 7 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_standard", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 10 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
-      [ [ "cordage_superior", 6, "LIST" ] ]
-    ]
   },
   {
     "type": "recipe",
@@ -772,33 +713,6 @@
     "book_learn": [ [ "recipe_bows", 5 ], [ "manual_archery", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 5 ], [ "2x4", 3 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 1, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "compcrossbow",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ] ],
-    "difficulty": 7,
-    "time": "4 h",
-    "book_learn": [ [ "recipe_bows", 9 ], [ "welding_book", 8 ], [ "textbook_mechanics", 8 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_standard", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 15 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 4 ] ],
-      [ [ "cordage_superior", 6, "LIST" ] ]
-    ]
   },
   {
     "type": "recipe",
@@ -1628,14 +1542,13 @@
     "components": [
       [ [ "xlframe", 1 ] ],
       [ [ "foot_crank", 1 ] ],
-      [ [ "spring", 1 ] ],
       [ [ "sheet_metal_small", 12 ] ],
       [ [ "pipe", 6 ] ],
       [ [ "chain", 1 ] ],
       [ [ "motor_small", 1 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "cable", 4 ] ],
-      [ [ "spring", 6 ] ],
+      [ [ "spring", 7 ] ],
       [ [ "scrap", 2 ] ]
     ]
   },

@@ -14,7 +14,7 @@
   {
     "type": "mutation",
     "id": "BIOLUM1",
-    "name": "Weak Photophore",
+    "name": { "str": "Weak Photophore" },
     "points": 1,
     "description": "A photophore has grown from your head, you can make it glow softly.  This will make you very visible in the dark, ideal to attract a partner during mating season.",
     "active": true,
@@ -241,7 +241,7 @@
   {
     "type": "mutation",
     "id": "TOUGH_FEET",
-    "name": "Tough Feet",
+    "name": { "str": "Tough Feet" },
     "points": 1,
     "description": "The bottoms of your feet are tough and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
     "starting_trait": true,
@@ -250,7 +250,7 @@
   {
     "type": "mutation",
     "id": "TOUGH",
-    "name": "Tough",
+    "name": { "str": "Tough" },
     "points": 2,
     "description": "It takes a lot to bring you down!  You get a 20% bonus to all hit points.",
     "starting_trait": true,
@@ -276,7 +276,7 @@
   {
     "type": "mutation",
     "id": "TOUGH3",
-    "name": "Unbreakable",
+    "name": { "str": "Unbreakable" },
     "points": 4,
     "description": "Nothing can break you!  You get a 40% bonus to all hit points.",
     "valid": false,
@@ -288,7 +288,7 @@
   {
     "type": "mutation",
     "id": "THICKSKIN",
-    "name": "Thick-Skinned",
+    "name": { "str": "Thick-Skinned" },
     "points": 1,
     "description": "Your skin is tough.  Cutting damage is slightly reduced for you.  Slightly decreases wet penalties.",
     "starting_trait": true,
@@ -316,7 +316,7 @@
   {
     "type": "mutation",
     "id": "STRONGBACK",
-    "name": "Strong Back",
+    "name": { "str": "Strong Back" },
     "points": 2,
     "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 35%.",
     "starting_trait": true,
@@ -346,7 +346,7 @@
   {
     "type": "mutation",
     "id": "STRONGSTOMACH",
-    "name": "Strong Stomach",
+    "name": { "str": "Strong Stomach" },
     "points": 1,
     "description": "You are less likely to throw up from food poisoning, alcohol, etc.  If you throw up nevertheless, you won't suffer a residual nausea.",
     "starting_trait": true,
@@ -381,14 +381,15 @@
     "name": { "str": "Drunken Master" },
     "points": 1,
     "description": "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
-    "starting_trait": true,
+    "//": "Remove this trait after 0.E stable.",
+    "starting_trait": false,
     "valid": false,
     "cancels": [ "LIGHTWEIGHT" ]
   },
   {
     "type": "mutation",
     "id": "SPIRITUAL",
-    "name": "Spiritual",
+    "name": { "str": "Spiritual" },
     "points": 1,
     "description": "You've always felt that there is more to the world than we can see.  Whether driven by religious beliefs or philosophical interest, you find great inspiration in studying holy texts and experiencing mystical things.",
     "starting_trait": true,
@@ -398,7 +399,7 @@
   {
     "type": "mutation",
     "id": "TOLERANCE",
-    "name": "Substance Tolerance",
+    "name": { "str": "Substance Tolerance" },
     "points": 1,
     "description": "You can handle intoxicants well.  Their effects clear up more quickly for you.",
     "starting_trait": true,
@@ -460,7 +461,7 @@
   {
     "type": "mutation",
     "id": "TERRIFYING",
-    "name": "Terrifying",
+    "name": { "str": "Terrifying" },
     "points": 1,
     "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
     "starting_trait": true,
@@ -522,7 +523,7 @@
   {
     "type": "mutation",
     "id": "STIMBOOST",
-    "name": "Stimulant Psychosis",
+    "name": { "str": "Stimulant Psychosis" },
     "cancels": [ "NONADDICTIVE" ],
     "points": 2,
     "mixed_effect": true,
@@ -533,7 +534,7 @@
   {
     "type": "mutation",
     "id": "STYLISH",
-    "name": "Stylish",
+    "name": { "str": "Stylish" },
     "points": 2,
     "description": "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
     "starting_trait": true,
@@ -576,7 +577,7 @@
   {
     "type": "mutation",
     "id": "UNOBSERVANT",
-    "name": "Topographagnosia",
+    "name": { "str": "Topographagnosia" },
     "points": -1,
     "description": "Focal brain damage has rendered you incapable of recognizing landmarks and orienting yourself in your surroundings, severely crippling your sight radius on the overmap.",
     "valid": false,
@@ -681,7 +682,7 @@
   {
     "type": "mutation",
     "id": "WEAKSCENT",
-    "name": "Weak Scent",
+    "name": { "str": "Weak Scent" },
     "points": 1,
     "description": "Your scent is quite weak.  Animals that track your scent will do so with more difficulty.",
     "starting_trait": true,
@@ -702,7 +703,7 @@
   {
     "type": "mutation",
     "id": "XS",
-    "name": "Weight: XS",
+    "name": { "str": "Weight: XS" },
     "points": -1,
     "description": "You lost an awful lot of weight before Cataclysm.  Whatever the reason, your skeletal figure is now an extra burden, when food is not at hand's reach.  You need to gain weight or die trying.",
     "starting_trait": true,
@@ -713,7 +714,7 @@
   {
     "type": "mutation",
     "id": "XXXL",
-    "name": "Weight: XXXL",
+    "name": { "str": "Weight: XXXL" },
     "points": -1,
     "description": "You gained an awful lot of weight before Cataclysm.  Whatever the reason, your bloated figure is now an extra burden, when mobility is a key to survival.  You need to go on a diet or die trying.",
     "starting_trait": true,
@@ -944,7 +945,7 @@
   {
     "type": "mutation",
     "id": "THINSKIN",
-    "name": "Thin-Skinned",
+    "name": { "str": "Thin-Skinned" },
     "points": -1,
     "description": "Your skin is fragile.  Cutting damage is slightly increased for you.",
     "starting_trait": true,
@@ -1015,7 +1016,7 @@
   {
     "type": "mutation",
     "id": "PROJUNK",
-    "name": "Sweet Tooth",
+    "name": { "str": "Sweet Tooth" },
     "points": 1,
     "description": "You have a soft spot for processed foods, and gain a morale bonus from eating them.",
     "starting_trait": true,
@@ -1026,7 +1027,7 @@
   {
     "type": "mutation",
     "id": "PROJUNK2",
-    "name": "Sugar-Loving",
+    "name": { "str": "Sugar-Loving" },
     "points": 2,
     "description": "You *adore* the taste of junk food, and find it preferable to everything else!",
     "purifiable": false,
@@ -1083,7 +1084,7 @@
   {
     "type": "mutation",
     "id": "TRIGGERHAPPY",
-    "name": "Trigger Happy",
+    "name": { "str": "Trigger Happy" },
     "points": -1,
     "description": "On rare occasion, you will go full-auto when you intended to fire a single shot.  This has no effect when firing semi-automatic firearms.",
     "starting_trait": true,
@@ -1092,7 +1093,7 @@
   {
     "type": "mutation",
     "id": "SMELLY",
-    "name": "Strong Scent",
+    "name": { "str": "Strong Scent" },
     "points": -1,
     "description": "Your scent is particularly strong.  It's not offensive to humans, but animals that track your scent will do so more easily.",
     "starting_trait": true,
@@ -1234,7 +1235,7 @@
   {
     "type": "mutation",
     "id": "WEAKSTOMACH",
-    "name": "Weak Stomach",
+    "name": { "str": "Weak Stomach" },
     "points": -1,
     "description": "You are more likely to throw up from food poisoning, alcohol, etc.",
     "starting_trait": true,
@@ -1244,7 +1245,7 @@
   {
     "type": "mutation",
     "id": "WOOLALLERGY",
-    "name": "Wool Allergy",
+    "name": { "str": "Wool Allergy" },
     "points": -1,
     "description": "You are badly allergic to wool, and cannot wear any clothing made of the substance.",
     "starting_trait": true,
@@ -1253,7 +1254,7 @@
   {
     "type": "mutation",
     "id": "TRUTHTELLER",
-    "name": "Truth Teller",
+    "name": { "str": "Truth Teller" },
     "points": -1,
     "description": "When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  Telling lies and otherwise bluffing will be much more difficult for you.",
     "starting_trait": true,
@@ -1263,7 +1264,7 @@
   {
     "type": "mutation",
     "id": "UGLY",
-    "name": "Ugly",
+    "name": { "str": "Ugly" },
     "points": -1,
     "visibility": 1,
     "ugliness": 2,
@@ -1463,7 +1464,7 @@
   {
     "type": "mutation",
     "id": "URSINE_EYE",
-    "name": "Ursine Vision",
+    "name": { "str": "Ursine Vision" },
     "points": 1,
     "description": "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.",
     "cancels": [
@@ -1530,7 +1531,7 @@
   {
     "type": "mutation",
     "id": "FASTHEALER2",
-    "name": "Very Fast Healer",
+    "name": { "str": "Very Fast Healer" },
     "points": 4,
     "description": "Your flesh regenerates slowly, and you will regain HP even when not sleeping.",
     "types": [ "HEALING" ],
@@ -1571,7 +1572,7 @@
   {
     "type": "mutation",
     "id": "WAKEFUL2",
-    "name": "Very Little Sleep",
+    "name": { "str": "Very Little Sleep" },
     "points": 3,
     "description": "You don't sleep often.  But when you do, you need very little of it.",
     "valid": false,
@@ -1585,7 +1586,7 @@
   {
     "type": "mutation",
     "id": "WAKEFUL3",
-    "name": "Tireless",
+    "name": { "str": "Tireless" },
     "points": 5,
     "description": "You defend the realm all night and all day.",
     "valid": false,
@@ -1600,7 +1601,7 @@
   {
     "type": "mutation",
     "id": "FANGS",
-    "name": "Fangs",
+    "name": { "str": "Fangs" },
     "points": 2,
     "visibility": 2,
     "ugliness": 2,
@@ -1646,7 +1647,7 @@
   {
     "type": "mutation",
     "id": "INCISORS",
-    "name": "Incisors",
+    "name": { "str": "Incisors" },
     "points": 2,
     "visibility": 3,
     "ugliness": 3,
@@ -1816,7 +1817,7 @@
   {
     "type": "mutation",
     "id": "THICK_SCALES",
-    "name": "Thick Scales",
+    "name": { "str": "Thick Scales" },
     "points": 3,
     "visibility": 10,
     "ugliness": 4,
@@ -2159,7 +2160,7 @@
   {
     "type": "mutation",
     "id": "CF_HAIR",
-    "name": "Urticating Hairs",
+    "name": { "str": "Urticating Hairs" },
     "points": 3,
     "visibility": 1,
     "ugliness": 1,
@@ -2171,7 +2172,7 @@
   {
     "type": "mutation",
     "id": "SPINES",
-    "name": "Spines",
+    "name": { "str": "Spines" },
     "points": 1,
     "visibility": 1,
     "ugliness": 2,
@@ -2257,7 +2258,7 @@
   {
     "type": "mutation",
     "id": "THORNS",
-    "name": "Thorns",
+    "name": { "str": "Thorns" },
     "points": 2,
     "visibility": 8,
     "ugliness": 4,
@@ -2297,7 +2298,7 @@
   {
     "type": "mutation",
     "id": "LEAVES3",
-    "name": "Verdant Leaves",
+    "name": { "str": "Verdant Leaves" },
     "points": 9,
     "visibility": 12,
     "ugliness": 6,
@@ -2312,7 +2313,7 @@
   {
     "type": "mutation",
     "id": "TRANSPIRATION",
-    "name": "Transpiration",
+    "name": { "str": "Transpiration" },
     "points": -5,
     "visibility": 0,
     "ugliness": 0,
@@ -2488,7 +2489,7 @@
   {
     "type": "mutation",
     "id": "CLAWS_ST",
-    "name": "Stainless Claws",
+    "name": { "str": "Stainless Claws" },
     "points": 6,
     "visibility": 3,
     "ugliness": 5,
@@ -2523,7 +2524,7 @@
   {
     "type": "mutation",
     "id": "CLAWS_TENTACLE",
-    "name": "Tentacle Rakes",
+    "name": { "str": "Tentacle Rakes" },
     "points": 0,
     "visibility": 4,
     "ugliness": 4,
@@ -2685,7 +2686,7 @@
   {
     "type": "mutation",
     "id": "POISONOUS",
-    "name": "Venomous",
+    "name": { "str": "Venomous" },
     "points": 1,
     "description": "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
     "prereqs": [ "POISRESIST" ],
@@ -2696,7 +2697,7 @@
   {
     "type": "mutation",
     "id": "POISONOUS2",
-    "name": "Strongly Venomous",
+    "name": { "str": "Strongly Venomous" },
     "points": 2,
     "description": "Your venom has become particularly strong.  You're confident that your bites or other cutting/stabbing natural attacks will take your target down quickly.",
     "prereqs": [ "POISONOUS" ],
@@ -2719,7 +2720,7 @@
   {
     "type": "mutation",
     "id": "BENDY1",
-    "name": "Stretchy Limbs",
+    "name": { "str": "Stretchy Limbs" },
     "points": 1,
     "visibility": 1,
     "description": "Your limbs seem to have a little more 'give' to them.  +1 Dexterity.",
@@ -2788,7 +2789,7 @@
   {
     "type": "mutation",
     "id": "RAP_TALONS",
-    "name": "Toe Talons",
+    "name": { "str": "Toe Talons" },
     "points": -1,
     "visibility": 4,
     "ugliness": 2,
@@ -2809,7 +2810,7 @@
   {
     "type": "mutation",
     "id": "HOOVES",
-    "name": "Hooves",
+    "name": { "str": "Hooves" },
     "points": -4,
     "visibility": 2,
     "ugliness": 2,
@@ -2842,7 +2843,7 @@
   {
     "type": "mutation",
     "id": "PAINRESIST_TROGLO",
-    "name": "Subterranean Fortitude",
+    "name": { "str": "Subterranean Fortitude" },
     "points": 2,
     "description": "The aches and pains of living underground don't bother you as much.",
     "prereqs": [ "PAINRESIST" ],
@@ -2853,7 +2854,7 @@
   {
     "type": "mutation",
     "id": "STOCKY_TROGLO",
-    "name": "Subterranean Build",
+    "name": { "str": "Subterranean Build" },
     "points": 0,
     "visibility": 3,
     "ugliness": 2,
@@ -2980,7 +2981,7 @@
   {
     "type": "mutation",
     "id": "SABER_TEETH",
-    "name": "Saber Teeth",
+    "name": { "str": "Saber Teeth" },
     "points": -2,
     "visibility": 10,
     "ugliness": 8,
@@ -3018,7 +3019,7 @@
   {
     "type": "mutation",
     "id": "HORNS",
-    "name": "Horns",
+    "name": { "str": "Horns" },
     "points": 1,
     "visibility": 3,
     "ugliness": 1,
@@ -3057,7 +3058,7 @@
   {
     "type": "mutation",
     "id": "HORNS_POINTED",
-    "name": "Pointed Horns",
+    "name": { "str": "Pointed Horns" },
     "points": 1,
     "visibility": 8,
     "ugliness": 2,
@@ -3124,7 +3125,7 @@
   {
     "type": "mutation",
     "id": "TAIL_STUB",
-    "name": "Stubby Tail",
+    "name": { "str": "Stubby Tail" },
     "points": 0,
     "visibility": 1,
     "ugliness": 2,
@@ -3136,7 +3137,7 @@
   {
     "type": "mutation",
     "id": "TAIL_FIN",
-    "name": "Tail Fin",
+    "name": { "str": "Tail Fin" },
     "points": -1,
     "visibility": 4,
     "ugliness": 2,
@@ -3198,7 +3199,7 @@
   {
     "type": "mutation",
     "id": "TAIL_THICK",
-    "name": "Thick Tail",
+    "name": { "str": "Thick Tail" },
     "points": 1,
     "visibility": 8,
     "ugliness": 2,
@@ -3250,7 +3251,7 @@
   {
     "type": "mutation",
     "id": "TAIL_STING",
-    "name": "Spiked Tail",
+    "name": { "str": "Spiked Tail" },
     "points": 0,
     "visibility": 6,
     "ugliness": 3,
@@ -3269,7 +3270,7 @@
   {
     "type": "mutation",
     "id": "TAIL_CLUB",
-    "name": "Club Tail",
+    "name": { "str": "Club Tail" },
     "points": 0,
     "visibility": 7,
     "ugliness": 2,
@@ -3317,7 +3318,7 @@
   {
     "type": "mutation",
     "id": "MUT_TOUGH2",
-    "name": "Solidly Built",
+    "name": { "str": "Solidly Built" },
     "points": 3,
     "description": "Not much scares you.  You get a 30% bonus to all hit points.  Stacks with Tough, etc.",
     "social_modifiers": { "intimidate": 3 },
@@ -3332,7 +3333,7 @@
   {
     "type": "mutation",
     "id": "MUT_TOUGH3",
-    "name": "TAAANK",
+    "name": { "str": "TAAANK" },
     "points": 4,
     "description": "You can simply take the punishment from lesser beings and keep going.  You get a 40% bonus to all hit points.  Stacks with Tough, etc.",
     "social_modifiers": { "intimidate": 4 },
@@ -3363,7 +3364,7 @@
   {
     "type": "mutation",
     "id": "PAINREC3",
-    "name": "Very Quick Pain Recovery",
+    "name": { "str": "Very Quick Pain Recovery" },
     "points": 8,
     "description": "You recover from pain much faster than normal.",
     "prereqs": [ "PAINREC2" ],
@@ -3616,7 +3617,7 @@
   {
     "type": "mutation",
     "id": "MANDIBLES",
-    "name": "Mandibles",
+    "name": { "str": "Mandibles" },
     "points": 1,
     "visibility": 8,
     "ugliness": 6,
@@ -3642,7 +3643,7 @@
   {
     "type": "mutation",
     "id": "FANGS_SPIDER",
-    "name": "Folding Fangs",
+    "name": { "str": "Folding Fangs" },
     "points": 2,
     "visibility": 6,
     "ugliness": 6,
@@ -3739,7 +3740,7 @@
   {
     "type": "mutation",
     "id": "WEB_WALKER",
-    "name": "Web Walker",
+    "name": { "str": "Web Walker" },
     "points": 1,
     "description": "Your body excretes very fine amounts of a chemical which prevents you from sticking to webs.  Walking through webs does not affect you at all.",
     "leads_to": [ "WEB_WEAVER" ],
@@ -3748,7 +3749,7 @@
   {
     "type": "mutation",
     "id": "WEB_SPINNER",
-    "name": "Web Spinner",
+    "name": { "str": "Web Spinner" },
     "points": -3,
     "description": "Your body produces and anchors webbing.  Too bad you can't seem to control the process.  There is a chance that you will leave webs in your wake.",
     "prereqs": [ "WEB_WALKER" ],
@@ -3760,7 +3761,7 @@
   {
     "type": "mutation",
     "id": "WEB_WEAVER",
-    "name": "Web Weaver",
+    "name": { "str": "Web Weaver" },
     "points": 2,
     "description": "You've developed the necessary anatomy and techniques to control your web-generation.  Activate this to start or stop weaving webs.",
     "prereqs": [ "WEB_SPINNER" ],
@@ -3776,7 +3777,7 @@
   {
     "type": "mutation",
     "id": "WEB_RAPPEL",
-    "name": "Web Diver",
+    "name": { "str": "Web Diver" },
     "points": 2,
     "description": "Your webbing is easily strong enough to support your weight.  You'll use it to descend down any sheer drops you may encounter.",
     "prereqs": [ "WEB_WEAVER" ],
@@ -3801,7 +3802,7 @@
   {
     "type": "mutation",
     "id": "WHISKERS",
-    "name": "Whiskers",
+    "name": { "str": "Whiskers" },
     "points": 1,
     "visibility": 3,
     "ugliness": 1,
@@ -3812,7 +3813,7 @@
   {
     "type": "mutation",
     "id": "WHISKERS_RAT",
-    "name": "Wiry Whiskers",
+    "name": { "str": "Wiry Whiskers" },
     "points": 2,
     "visibility": 3,
     "ugliness": 1,
@@ -3916,7 +3917,7 @@
   {
     "type": "mutation",
     "id": "STR_UP",
-    "name": "Strong",
+    "name": { "str": "Strong" },
     "points": 1,
     "description": "Your muscles are a little stronger.  Strength + 1",
     "changes_to": [ "STR_UP_2" ],
@@ -3926,7 +3927,7 @@
   {
     "type": "mutation",
     "id": "STR_UP_2",
-    "name": "Very Strong",
+    "name": { "str": "Very Strong" },
     "points": 2,
     "description": "Your muscles are stronger.  Strength + 2",
     "prereqs": [ "STR_UP" ],
@@ -3986,7 +3987,7 @@
   {
     "type": "mutation",
     "id": "DEX_UP_2",
-    "name": "Very Dextrous",
+    "name": { "str": "Very Dextrous" },
     "points": 2,
     "description": "You are nimbler.  Dexterity + 2",
     "prereqs": [ "DEX_UP" ],
@@ -4041,7 +4042,7 @@
   {
     "type": "mutation",
     "id": "INT_UP_2",
-    "name": "Very Smart",
+    "name": { "str": "Very Smart" },
     "points": 2,
     "description": "You are smarter.  Intelligence + 2",
     "prereqs": [ "INT_UP" ],
@@ -4116,7 +4117,7 @@
   {
     "type": "mutation",
     "id": "PER_UP_2",
-    "name": "Very Perceptive",
+    "name": { "str": "Very Perceptive" },
     "points": 2,
     "description": "Your senses are keener.  Perception + 2",
     "prereqs": [ "PER_UP" ],
@@ -4210,7 +4211,7 @@
   {
     "type": "mutation",
     "id": "SMALL2",
-    "name": "Tiny",
+    "name": { "str": "Tiny" },
     "points": -4,
     "visibility": 8,
     "mixed_effect": true,
@@ -4227,7 +4228,7 @@
   {
     "type": "mutation",
     "id": "SMALL_OK",
-    "name": "Unassuming",
+    "name": { "str": "Unassuming" },
     "points": 3,
     "mixed_effect": true,
     "description": "You've mastered your tiny form!  Item encumbrance and carry weight penalties are reduced, and you've learned to use your increased nimbleness to offset your reduced capacity to absorb damage.",
@@ -4323,7 +4324,7 @@
   {
     "type": "mutation",
     "id": "WINGS_STUB",
-    "name": "Wing Stubs",
+    "name": { "str": "Wing Stubs" },
     "points": 0,
     "visibility": 2,
     "ugliness": 2,
@@ -4378,7 +4379,7 @@
   {
     "type": "mutation",
     "id": "SPOTS",
-    "name": "Spots",
+    "name": { "str": "Spots" },
     "points": 0,
     "visibility": 6,
     "ugliness": 2,
@@ -4451,7 +4452,7 @@
   {
     "type": "mutation",
     "id": "BEAUTIFUL2",
-    "name": "Very Beautiful",
+    "name": { "str": "Very Beautiful" },
     "points": 3,
     "visibility": 7,
     "ugliness": -7,
@@ -4501,7 +4502,7 @@
   {
     "type": "mutation",
     "id": "MUZZLE",
-    "name": "Lupine Muzzle",
+    "name": { "str": "Lupine Muzzle" },
     "points": -2,
     "visibility": 5,
     "ugliness": 4,
@@ -4524,7 +4525,7 @@
   {
     "type": "mutation",
     "id": "MUZZLE_BEAR",
-    "name": "Ursine Muzzle",
+    "name": { "str": "Ursine Muzzle" },
     "points": -2,
     "visibility": 5,
     "ugliness": 4,
@@ -4559,7 +4560,7 @@
   {
     "type": "mutation",
     "id": "MUZZLE_LONG",
-    "name": "Reptilian Muzzle",
+    "name": { "str": "Reptilian Muzzle" },
     "points": -3,
     "visibility": 8,
     "ugliness": 8,
@@ -4624,7 +4625,7 @@
   {
     "type": "mutation",
     "id": "VOMITOUS",
-    "name": "Vomitous",
+    "name": { "str": "Vomitous" },
     "points": -3,
     "description": "You have a major digestive disorder.  Though it causes you to vomit frequently, you have found that you can trigger your vomit reflex on demand, too.",
     "prereqs": [ "NAUSEA" ],
@@ -4666,7 +4667,7 @@
   {
     "type": "mutation",
     "id": "HUNGER2",
-    "name": "Very Fast Metabolism",
+    "name": { "str": "Very Fast Metabolism" },
     "points": -2,
     "description": "You need about twice as much food as the average human to maintain your expanded cardiovascular and respiratory systems.  On a plus side, it doesn't take you much time to recover from any strenuous activity.",
     "prereqs": [ "HUNGER" ],
@@ -4704,7 +4705,7 @@
   {
     "type": "mutation",
     "id": "THIRST2",
-    "name": "Very Thirsty",
+    "name": { "str": "Very Thirsty" },
     "points": -3,
     "description": "Ugh, out of water already?  You need about twice the fluids of an average human.",
     "prereqs": [ "THIRST" ],
@@ -4737,7 +4738,7 @@
   {
     "type": "mutation",
     "id": "HEAVYSLEEPER2",
-    "name": "Very Heavy Sleeper",
+    "name": { "str": "Very Heavy Sleeper" },
     "points": -2,
     "description": "You could probably sleep through a firefight.",
     "valid": false,
@@ -4747,7 +4748,7 @@
   {
     "type": "mutation",
     "id": "SLEEPY2",
-    "name": "Very Sleepy",
+    "name": { "str": "Very Sleepy" },
     "points": -3,
     "description": "You find yourself needing to sleep quite often.  You'll spend about half of your time in or around bed.",
     "prereqs": [ "SLEEPY" ],
@@ -4796,7 +4797,7 @@
   {
     "type": "mutation",
     "id": "SUNBURN",
-    "name": "Solar Sensitivity",
+    "name": { "str": "Solar Sensitivity" },
     "points": -3,
     "description": "Your skin simply cannot handle ultraviolet radiation, such as sunlight.  It will seriously burn you.",
     "prereqs": [ "ALBINO" ],
@@ -4807,7 +4808,7 @@
   {
     "type": "mutation",
     "id": "SORES",
-    "name": "Sores",
+    "name": { "str": "Sores" },
     "points": -2,
     "visibility": 5,
     "ugliness": 6,
@@ -4828,7 +4829,7 @@
   {
     "type": "mutation",
     "id": "TROGLO2",
-    "name": "Very Light Sensitive",
+    "name": { "str": "Very Light Sensitive" },
     "points": -3,
     "description": "Sunlight makes you very uncomfortable.  If you are outdoors during the day, you suffer -1 to all stats; -2 if the weather is Sunny.",
     "cancels": [ "SUNLIGHT_DEPENDENT" ],
@@ -4839,7 +4840,7 @@
   {
     "type": "mutation",
     "id": "TROGLO3",
-    "name": "Troglobite",
+    "name": { "str": "Troglobite" },
     "points": -5,
     "description": "Sunlight makes you extremely uncomfortable, resulting in large penalties to all stats.",
     "cancels": [ "SUNLIGHT_DEPENDENT" ],
@@ -4849,7 +4850,7 @@
   {
     "type": "mutation",
     "id": "WEBBED",
-    "name": "Webbed Hands",
+    "name": { "str": "Webbed Hands" },
     "points": -2,
     "visibility": 3,
     "ugliness": 2,
@@ -4931,7 +4932,7 @@
   {
     "type": "mutation",
     "id": "BEAK_PECK",
-    "name": "Woodpecker Beak",
+    "name": { "str": "Woodpecker Beak" },
     "points": -2,
     "visibility": 10,
     "ugliness": 5,
@@ -5053,7 +5054,7 @@
   {
     "type": "mutation",
     "id": "VISCOUS",
-    "name": "Viscous",
+    "name": { "str": "Viscous" },
     "points": 4,
     "visibility": 7,
     "ugliness": 8,
@@ -5146,7 +5147,7 @@
   {
     "type": "mutation",
     "id": "PONDEROUS2",
-    "name": "Very Ponderous",
+    "name": { "str": "Very Ponderous" },
     "points": -5,
     "description": "Your muscles are quite slow to move.  You move 20% slower.",
     "types": [ "RUNNING" ],
@@ -5169,7 +5170,7 @@
   {
     "type": "mutation",
     "id": "SUNLIGHT_DEPENDENT",
-    "name": "Sunlight Dependent",
+    "name": { "str": "Sunlight Dependent" },
     "points": -5,
     "description": "You feel very sluggish when not in direct sunlight.  You suffer a 5% drop in speed when in shade, and a 10% drop in speed when in the dark.",
     "cancels": [ "TROGLO", "TROGLO2", "TROGLO3" ],
@@ -5178,7 +5179,7 @@
   {
     "type": "mutation",
     "id": "VINES1",
-    "name": "Vines",
+    "name": { "str": "Vines" },
     "points": -2,
     "visibility": 8,
     "ugliness": 5,
@@ -5192,7 +5193,7 @@
   {
     "type": "mutation",
     "id": "VINES2",
-    "name": "Vine Limbs",
+    "name": { "str": "Vine Limbs" },
     "points": 2,
     "visibility": 8,
     "ugliness": 5,
@@ -5215,7 +5216,7 @@
   {
     "type": "mutation",
     "id": "VINES3",
-    "name": "Vine Sprouter",
+    "name": { "str": "Vine Sprouter" },
     "points": 5,
     "visibility": 10,
     "ugliness": 6,
@@ -5253,7 +5254,7 @@
   {
     "type": "mutation",
     "id": "ROOTS1",
-    "name": "Toe Roots",
+    "name": { "str": "Toe Roots" },
     "points": -2,
     "visibility": 1,
     "ugliness": 5,
@@ -5345,7 +5346,7 @@
   {
     "type": "mutation",
     "id": "COLDBLOOD2",
-    "name": "Very Heat Dependent",
+    "name": { "str": "Very Heat Dependent" },
     "points": -2,
     "mixed_effect": true,
     "description": "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C), but your slow metabolism requires much less food.",
@@ -5537,7 +5538,7 @@
   {
     "type": "mutation",
     "id": "ARM_TENTACLES",
-    "name": "Tentacle Arms",
+    "name": { "str": "Tentacle Arms" },
     "points": -4,
     "visibility": 7,
     "ugliness": 4,
@@ -5576,7 +5577,7 @@
   {
     "type": "mutation",
     "id": "ARM_TENTACLES_4",
-    "name": "4 Tentacles",
+    "name": { "str": "4 Tentacles" },
     "points": -2,
     "visibility": 8,
     "ugliness": 5,
@@ -5614,7 +5615,7 @@
   {
     "type": "mutation",
     "id": "ARM_TENTACLES_8",
-    "name": "8 Tentacles",
+    "name": { "str": "8 Tentacles" },
     "points": -1,
     "visibility": 9,
     "ugliness": 6,
@@ -5713,7 +5714,7 @@
   {
     "type": "mutation",
     "id": "LEG_TENT_BRACE",
-    "name": "Tentacle Bracing",
+    "name": { "str": "Tentacle Bracing" },
     "points": -1,
     "visibility": 4,
     "ugliness": 2,
@@ -5776,7 +5777,7 @@
   {
     "type": "mutation",
     "id": "THRESH_LUPINE",
-    "name": "Wolf",
+    "name": { "str": "Wolf" },
     "points": 1,
     "description": "You're the perfect candidate to lead a pack.",
     "valid": false,
@@ -5837,7 +5838,7 @@
   {
     "type": "mutation",
     "id": "THRESH_TROGLOBITE",
-    "name": "Subterranean",
+    "name": { "str": "Subterranean" },
     "points": 1,
     "description": "Not much point to rebuilding up in that horribly bright roofless wasteland.  Now that you've become accustomed to your new digs, there's the beginnings of a great empire right here, underground.",
     "valid": false,
@@ -5867,7 +5868,7 @@
   {
     "type": "mutation",
     "id": "THRESH_RAT",
-    "name": "Survivor",
+    "name": { "str": "Survivor" },
     "points": 1,
     "description": "Hey.  Civilization fell.  You're still around.  'Rat' just isn't respectful.",
     "valid": false,
@@ -6021,7 +6022,7 @@
   {
     "type": "mutation",
     "id": "TOXICFLESH",
-    "name": "Toxic Flesh",
+    "name": { "str": "Toxic Flesh" },
     "points": 1,
     "description": "Your flesh is highly poisonous, and creatures that bite you will receive a nasty surprise.",
     "category": [ "FISH" ],
@@ -6050,7 +6051,7 @@
   {
     "type": "mutation",
     "id": "SHARKTEETH",
-    "name": "Shark Teeth",
+    "name": { "str": "Shark Teeth" },
     "points": 3,
     "visibility": 10,
     "ugliness": 8,
@@ -6123,7 +6124,7 @@
   {
     "type": "mutation",
     "id": "PROF_FED",
-    "name": "US Marshal",
+    "name": { "str": "US Marshal" },
     "points": 0,
     "description": "You are a duly sworn Federal marshal, with nationwide jurisdiction and the authority of the United States of America.",
     "valid": false,
@@ -6133,7 +6134,7 @@
   {
     "type": "mutation",
     "id": "PROF_FOODP",
-    "name": "True Foodperson",
+    "name": { "str": "True Foodperson" },
     "points": 0,
     "description": "You are the true Foodperson, some might think Foodperson is just a mascot, but you know better.  You are Foodperson, the mask has become your face, you are real and the only thing standing between this world and oblivion is you.",
     "valid": false,
@@ -6315,7 +6316,7 @@
   {
     "type": "mutation",
     "id": "NPC_STARTING_NPC",
-    "name": "Starting NPC",
+    "name": { "str": "Starting NPC" },
     "points": 0,
     "description": "Marker for starting NPCs",
     "player_display": false,
@@ -6325,7 +6326,7 @@
   {
     "type": "mutation",
     "id": "NPC_STATIC_NPC",
-    "name": "Static NPC",
+    "name": { "str": "Static NPC" },
     "points": 0,
     "description": "Marker for static NPCs",
     "player_display": false,
@@ -6464,7 +6465,7 @@
   {
     "type": "mutation",
     "id": "SQUEAMISH",
-    "name": "Squeamish",
+    "name": { "str": "Squeamish" },
     "points": -1,
     "starting_trait": true,
     "description": "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
@@ -6482,7 +6483,7 @@
   {
     "type": "mutation",
     "id": "MYCUS_FRIEND",
-    "name": "mycus friend",
+    "name": { "str": "mycus friend" },
     "points": 0,
     "valid": false,
     "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
@@ -6491,7 +6492,7 @@
   {
     "type": "mutation",
     "id": "MUTE",
-    "name": "mute",
+    "name": { "str": "mute" },
     "points": 0,
     "valid": false,
     "description": "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
@@ -6530,7 +6531,7 @@
   {
     "type": "mutation",
     "id": "WAYFARER",
-    "name": "Wayfarer",
+    "name": { "str": "Wayfarer" },
     "points": -8,
     "description": "Whether from personal choice or childhood trauma, traveling with vehicles is off-limits to you, even if your life depended on it.",
     "starting_trait": true,

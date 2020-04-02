@@ -43,10 +43,17 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
+static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
+static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
+
+static const efftype_id effect_assisted( "assisted" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
@@ -55,6 +62,23 @@ static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_firstaid( "firstaid" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+
+static const bionic_id bio_painkiller( "bio_painkiller" );
+
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
+
+static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
+static const std::string flag_ANESTHESIA( "ANESTHESIA" );
+static const std::string flag_FILTHY( "FILTHY" );
+static const std::string flag_IN_CBM( "IN_CBM" );
+static const std::string flag_MUSHY( "MUSHY" );
+static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
+static const std::string flag_NO_PACKED( "NO_PACKED" );
+static const std::string flag_NO_STERILE( "NO_STERILE" );
+static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 class Character;
 
@@ -1422,6 +1446,9 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
 
         int iScrollPos = 0;
         int iScrollPosLast = 0;
+
+        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
         do {
             item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );

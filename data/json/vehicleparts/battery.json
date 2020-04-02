@@ -69,7 +69,7 @@
     "id": "large_storage_battery_removable",
     "copy-from": "large_storage_battery",
     "type": "vehicle_part",
-    "name": "swappable large storage battery",
+    "name": { "str": "swappable large storage battery" },
     "item": "large_storage_battery",
     "location": "on_battery_mount",
     "requirements": {
@@ -139,7 +139,7 @@
     "id": "storage_battery_removable",
     "copy-from": "storage_battery",
     "type": "vehicle_part",
-    "name": "swappable storage battery",
+    "name": { "str": "swappable storage battery" },
     "item": "storage_battery",
     "location": "on_battery_mount",
     "requirements": {

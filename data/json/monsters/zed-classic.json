@@ -48,7 +48,7 @@
   {
     "id": "mon_zombie",
     "type": "MONSTER",
-    "name": "zombie",
+    "name": { "str": "zombie" },
     "description": "A human body, swaying as it moves, an unstoppable rage visible in its oily black eyes.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -93,7 +93,7 @@
   {
     "id": "mon_zombie_cop",
     "type": "MONSTER",
-    "name": "zombie cop",
+    "name": { "str": "zombie cop" },
     "description": "A human body covered by a weather-beaten and badly damaged set of riot gear.",
     "bodytype": "human",
     "default_faction": "cop_zombie",
@@ -184,7 +184,7 @@
   {
     "id": "mon_zombie_dancer",
     "type": "MONSTER",
-    "name": "zombie dancer",
+    "name": { "str": "zombie dancer" },
     "description": "The foulest stench is in the air,\nThe funk of forty thousand years,\nAnd grisly ghouls from every tomb,\nAre closing in to seal your doom!\n\nThe dancer doesn't even notice you, it seems like something nearby is controlling it.",
     "default_faction": "zombie",
     "bodytype": "human",

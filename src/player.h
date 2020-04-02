@@ -938,7 +938,7 @@ class player : public Character
 
         bool reach_attacking = false;
         bool manual_examine = false;
-
+        vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
@@ -970,16 +970,16 @@ class player : public Character
         //message related stuff
         using Character::add_msg_if_player;
         void add_msg_if_player( const std::string &msg ) const override;
-        void add_msg_if_player( game_message_type type, const std::string &msg ) const override;
+        void add_msg_if_player( const game_message_params &params, const std::string &msg ) const override;
         using Character::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_str ) const override;
-        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         using Character::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
-        void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
 
         using trap_map = std::map<tripoint, std::string>;

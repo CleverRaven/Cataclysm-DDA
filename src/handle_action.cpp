@@ -66,11 +66,45 @@
 #include "units.h"
 #include "string_id.h"
 #include "item.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
+static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
+static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
+static const activity_id ACT_PULP( "ACT_PULP" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
+static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
+static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+static const activity_id ACT_WAIT( "ACT_WAIT" );
+static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
+static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
+
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_relax_gas( "relax_gas" );
 
 static const skill_id skill_melee( "melee" );
 
 static const quality_id qual_CUT( "CUT" );
+
+static const bionic_id bio_remote( "bio_remote" );
+
+static const trait_id trait_HIBERNATE( "HIBERNATE" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
+static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_WAYFARER( "WAYFARER" );
+
+static const std::string flag_LITCIG( "LITCIG" );
+static const std::string flag_LOCKED( "LOCKED" );
+static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
+static const std::string flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
+static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
+static const std::string flag_REACH3( "REACH3" );
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -678,12 +712,28 @@ static void smash()
             crit->use_mech_power( -3 );
         }
     }
-    if( m.get_field( smashp, fd_web ) != nullptr ) {
-        m.remove_field( smashp, fd_web );
-        sounds::sound( smashp, 2, sounds::sound_t::combat, _( "hsh!" ), true, "smash", "web" );
-        add_msg( m_info, _( "You brush aside some webs." ) );
-        u.moves -= 100;
-        return;
+    for( std::pair<const field_type_id, field_entry> &fd_to_smsh : m.field_at( smashp ) ) {
+        const map_bash_info &bash_info = fd_to_smsh.first->bash_info;
+        if( bash_info.str_min == -1 ) {
+            continue;
+        }
+        if( smashskill < bash_info.str_min && one_in( 10 ) ) {
+            add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
+            return;
+        } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
+            sounds::sound( smashp, bash_info.sound_vol, sounds::sound_t::combat, bash_info.sound, true, "smash",
+                           "field" );
+            m.remove_field( smashp, fd_to_smsh.first );
+            m.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
+            u.mod_moves( - bash_info.fd_bash_move_cost );
+            add_msg( m_info, bash_info.field_bash_msg_success.translated() );
+            return;
+        } else {
+            sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
+                           true, "smash",
+                           "field" );
+            return;
+        }
     }
 
     for( const auto &maybe_corpse : m.i_at( smashp ) ) {
@@ -1300,23 +1350,20 @@ static void open_movement_mode_menu()
 
     as_m.text = _( "Change to which movement mode?" );
 
-    as_m.entries.emplace_back( 0, true, 'w', _( "Walk" ) );
-    as_m.entries.emplace_back( 1, true, 'r', _( "Run" ) );
-    as_m.entries.emplace_back( 2, true, 'c', _( "Crouch" ) );
+    as_m.entries.emplace_back( CMM_RUN, true, 'r', _( "Run" ) );
+    as_m.entries.emplace_back( CMM_WALK, true, 'w', _( "Walk" ) );
+    as_m.entries.emplace_back( CMM_CROUCH, true, 'c', _( "Crouch" ) );
+    as_m.entries.emplace_back( CMM_COUNT, true, '"', _( "Cycle move mode (run/walk/crouch)" ) );
+    as_m.selected = 1;
     as_m.query();
 
-    switch( as_m.ret ) {
-        case 0:
-            u.set_movement_mode( CMM_WALK );
-            break;
-        case 1:
-            u.set_movement_mode( CMM_RUN );
-            break;
-        case 2:
-            u.set_movement_mode( CMM_CROUCH );
-            break;
-        default:
-            break;
+
+    if( as_m.ret != UILIST_CANCEL ) {
+        if( as_m.ret == CMM_COUNT ) {
+            u.cycle_move_mode();
+        } else {
+            u.set_movement_mode( static_cast<character_movemode>( as_m.ret ) );
+        }
     }
 }
 
@@ -1327,7 +1374,8 @@ static void cast_spell()
     std::vector<spell_id> spells = u.magic.spells();
 
     if( spells.empty() ) {
-        add_msg( m_bad, _( "You don't know any spells to cast." ) );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You don't know any spells to cast." ) );
         return;
     }
 
@@ -1340,7 +1388,8 @@ static void cast_spell()
     }
 
     if( !can_cast_spells ) {
-        add_msg( m_bad, _( "You can't cast any of the spells you know!" ) );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You can't cast any of the spells you know!" ) );
     }
 
     const int spell_index = u.magic.select_spell( u );
@@ -1352,17 +1401,21 @@ static void cast_spell()
 
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
         !u.weapon.has_flag( flag_MAGIC_FOCUS ) ) {
-        add_msg( m_bad, _( "You need your hands free to cast this spell!" ) );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You need your hands free to cast this spell!" ) );
         return;
     }
 
     if( !u.magic.has_enough_energy( u, sp ) ) {
-        add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You don't have enough %s to cast the spell." ),
+                 sp.energy_string() );
         return;
     }
 
     if( sp.energy_source() == hp_energy && !u.has_quality( qual_CUT ) ) {
-        add_msg( m_bad, _( "You cannot cast Blood Magic without a cutting implement." ) );
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You cannot cast Blood Magic without a cutting implement." ) );
         return;
     }
 

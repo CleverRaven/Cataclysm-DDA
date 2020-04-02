@@ -327,6 +327,8 @@ void display_table( const catacurses::window &w, const std::string &title, int c
                     const std::vector<std::string> &data );
 void scrollable_text( const catacurses::window &w, const std::string &title,
                       const std::string &text );
+void scrollable_text( const std::function<catacurses::window()> &init_window,
+                      const std::string &title, const std::string &text );
 std::string name_and_value( const std::string &name, int value, int field_width );
 std::string name_and_value( const std::string &name, const std::string &value, int field_width );
 
@@ -402,10 +404,6 @@ std::vector<std::string> get_hotkeys( const std::string &s );
  * - PF_GET_KEY (ignored when combined with PF_NO_WAIT) cancels the popup on *any* user input.
  *   Without the flag the popup is only canceled when the user enters new-line, Space and Escape.
  *   This flag is passed by @ref popup_getkey.
- * - PF_NO_WAIT displays the popup, but does not wait for the user input. The popup window is
- *   immediately destroyed (but will be visible until another window is redrawn over it).
- *   The function always returns 0 upon this flag, no call to `getch` is done at all.
- *   This flag is passed by @ref popup_nowait.
  * - PF_ON_TOP makes the window appear on the top of the screen (at the upper most row). Without
  *   this flag, the popup is centered on the screen.
  *   The flag is passed by @ref popup_top.
@@ -418,10 +416,8 @@ std::vector<std::string> get_hotkeys( const std::string &s );
 enum PopupFlags {
     PF_NONE        = 0,
     PF_GET_KEY     = 1 << 0,
-    PF_NO_WAIT     = 1 << 1,
     PF_ON_TOP      = 1 << 2,
     PF_FULLSCREEN  = 1 << 3,
-    PF_NO_WAIT_ON_TOP = PF_NO_WAIT | PF_ON_TOP,
 };
 
 template<typename ...Args>
@@ -433,17 +429,6 @@ template<typename ...Args>
 inline void popup_top( const char *const mes, Args &&... args )
 {
     popup( string_format( mes, std::forward<Args>( args )... ), PF_ON_TOP );
-}
-template<typename ...Args>
-inline void popup_nowait( const char *mes, Args &&... args )
-{
-    popup( string_format( mes, std::forward<Args>( args )... ), PF_NO_WAIT );
-}
-void popup_status( const char *title, const std::string &mes );
-template<typename ...Args>
-inline void popup_status( const char *const title, const char *const fmt, Args &&... args )
-{
-    return popup_status( title, string_format( fmt, std::forward<Args>( args )... ) );
 }
 template<typename ...Args>
 inline void popup( const char *mes, Args &&... args )

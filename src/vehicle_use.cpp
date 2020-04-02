@@ -368,7 +368,7 @@ void vehicle::control_engines()
         }
         dirty = true;
         adjust_engine( e_toggle );
-    } while( e_toggle >= 0 && e_toggle < fuel_count );
+    } while( e_toggle < fuel_count );
 
     if( !dirty ) {
         return;
@@ -1280,9 +1280,11 @@ void vehicle::operate_reaper()
             continue;
         }
         g->m.furn_set( reaper_pos, f_null );
+        // Secure the seed type before i_clear destroys the item.
+        const itype &seed_type = *seed->type;
         g->m.i_clear( reaper_pos );
         for( auto &i : iexamine::get_harvest_items(
-                 *seed->type, plant_produced, seed_produced, false ) ) {
+                 seed_type, plant_produced, seed_produced, false ) ) {
             g->m.add_item_or_charges( reaper_pos, i );
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",

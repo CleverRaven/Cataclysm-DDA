@@ -50,8 +50,7 @@
   {
     "id": "mkey_opening",
     "type": "TOOL",
-    "name": "skeleton key of opening",
-    "name_plural": "skeleton key of opening",
+    "name": { "str": "skeleton key of opening", "str_pl": "skeleton keys of opening" },
     "description": "A small gold skeleton key.  You can activate it to unlock locked things.",
     "weight": "20 g",
     "volume": 0,
@@ -142,7 +141,19 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_fabric",
-        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin" ],
+        "materials": [
+          "cotton",
+          "leather",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "black_dragon_hide",
+          "demon_chitin"
+        ],
         "skill": "tailor",
         "tool_quality": 1,
         "cost_scaling": 0.1,
@@ -152,7 +163,7 @@
         "type": "sew_advanced",
         "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "plastic", "kevlar_rigid" ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
+        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -160,8 +171,7 @@
   {
     "id": "mspider_box",
     "type": "TOOL",
-    "name": "spider box",
-    "name_plural": "spider boxes",
+    "name": { "str": "spider box", "str_pl": "spider boxes" },
     "description": "This is a small glass box that contains a spider that diligently works day and night to produce silk thread that it stores in a reservoir you can open and retrieve it from.",
     "weight": "100 g",
     "volume": "100 ml",

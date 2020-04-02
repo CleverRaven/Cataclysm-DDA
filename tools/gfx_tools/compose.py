@@ -5,10 +5,8 @@
 # and a tile_config.json
 
 import argparse
-import copy
 import json
 import os
-import string
 import subprocess
 
 try:
@@ -159,7 +157,7 @@ class PngRefs(object):
         else:
             try:
                 del tile_entry["bg"]
-            except:
+            except Exception:
                 print("Cannot find bg for tile with id {}".format(tile_id))
 
         add_tile_entrys = tile_entry.get("additional_tiles", [])

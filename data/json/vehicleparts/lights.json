@@ -141,7 +141,7 @@
   {
     "id": "wide_headlight",
     "type": "vehicle_part",
-    "name": "wide angle headlight",
+    "name": { "str": "wide angle headlight" },
     "item": "car_wide_headlight",
     "copy-from": "headlight",
     "looks_like": "headlight",

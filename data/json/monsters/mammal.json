@@ -1983,7 +1983,7 @@
   {
     "id": "mon_weasel",
     "type": "MONSTER",
-    "name": "weasel",
+    "name": { "str": "weasel" },
     "description": "The long-tailed weasel, a small but ubiquitous predator whose range extends across the continent.  It forms its den in small burrows, preferring to occupy the nesting holes of its prey.",
     "bodytype": "pig",
     "default_faction": "small_animal",

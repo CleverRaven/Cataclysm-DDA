@@ -73,7 +73,7 @@
   {
     "id": "mon_hallu_mom",
     "type": "MONSTER",
-    "name": "your mother",
+    "name": { "str": "your mother" },
     "description": "Mom?",
     "default_faction": "factionless",
     "bodytype": "human",

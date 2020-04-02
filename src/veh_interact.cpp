@@ -36,6 +36,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "veh_utils.h"
@@ -334,6 +335,10 @@ void veh_interact::do_main_loop()
     } else {
         owner_fac = g->faction_manager_ptr->get( faction_id( "no_faction" ) );
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( !finish ) {
         overview();
         display_mode();
@@ -819,6 +824,35 @@ void veh_interact::move_fuel_cursor( int delta )
     display_stats();
 }
 
+static void sort_uilist_entries_by_line_drawing( std::vector<uilist_entry> &shape_ui_entries )
+{
+    // An ordering of the line drawing symbols that does not result in
+    // connecting when placed adjacent to each other vertically.
+    const static std::map<int, int> symbol_order = {
+        { LINE_XOXO, 0 }, { LINE_OXOX, 1 },
+        { LINE_XOOX, 2 }, { LINE_XXOO, 3 },
+        { LINE_XXXX, 4 }, { LINE_OXXO, 5 },
+        { LINE_OOXX, 6 }
+    };
+
+    std::sort( shape_ui_entries.begin(), shape_ui_entries.end(),
+    []( const uilist_entry & a, const uilist_entry & b ) {
+        auto a_iter = symbol_order.find( a.extratxt.sym );
+        auto b_iter = symbol_order.find( b.extratxt.sym );
+        if( a_iter != symbol_order.end() ) {
+            if( b_iter != symbol_order.end() ) {
+                return a_iter->second < b_iter->second;
+            } else {
+                return true;
+            }
+        } else if( b_iter != symbol_order.end() ) {
+            return false;
+        } else {
+            return a.extratxt.sym < b.extratxt.sym;
+        }
+    } );
+}
+
 bool veh_interact::do_install( std::string &msg )
 {
     task_reason reason = cant_do( 'i' );
@@ -944,6 +978,9 @@ bool veh_interact::do_install( std::string &msg )
     // full list of mountable parts, to be filtered according to tab
     std::vector<const vpart_info *> tab_vparts = can_mount;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int pos = 0;
     size_t tab = 0;
     while( true ) {
@@ -1014,6 +1051,7 @@ bool veh_interact::do_install( std::string &msg )
                         entry.extratxt.color = shapes[i]->color;
                         shape_ui_entries.push_back( entry );
                     }
+                    sort_uilist_entries_by_line_drawing( shape_ui_entries );
                     selected_shape = uilist(
                                          point( getbegx( w_list ), getbegy( w_list ) ), getmaxx( w_list ),
                                          _( "Choose shape:" ), shape_ui_entries );
@@ -1122,6 +1160,9 @@ bool veh_interact::do_repair( std::string &msg )
     }
 
     set_title( _( "Choose a part here to repair:" ) );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     int pos = 0;
     while( true ) {
@@ -1524,6 +1565,9 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         } while( !opts[pos].hotkey );
     }
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     bool redraw = false;
     while( true ) {
         werase( w_list );
@@ -1755,6 +1799,10 @@ bool veh_interact::do_remove( std::string &msg )
             break;
         }
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         //redraw list of parts
         werase( w_parts );

@@ -52,12 +52,14 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "weighted_list.h"
 #include "material.h"
 #include "colony.h"
 #include "point.h"
 #include "weather.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_riding( "riding" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
@@ -68,6 +70,11 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_unarmed( "unarmed" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
+static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
+static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 
 struct comp_rank {
     int industry;
@@ -429,6 +436,9 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     g->draw_ter();
     wrefresh( g->w_terrain );
     g->draw_panels();
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     while( true ) {
         mission_key.cur_key = cur_key_list[sel];

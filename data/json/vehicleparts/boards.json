@@ -72,7 +72,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "NO_ROOF_NEEDED" ],
+    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "NO_ROOF_NEEDED", "LOCKABLE_CARGO" ],
     "damage_reduction": { "all": 28 }
   },
   {
@@ -84,7 +84,7 @@
     "color": "brown",
     "broken_color": "dark_gray",
     "proportional": { "durability": 4.15, "size": 0.76 },
-    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD" ],
+    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "NO_ROOF_NEEDED", "LOCKABLE_CARGO" ],
     "damage_reduction": { "all": 72, "cut": 80, "stab": 80 }
   },
   {
@@ -119,7 +119,7 @@
   {
     "abstract": "woodboard",
     "type": "vehicle_part",
-    "name": "wooden board",
+    "name": { "str": "wooden board" },
     "item": "wood_plate",
     "location": "center",
     "color": "brown",
@@ -139,7 +139,7 @@
     "abstract": "woodhalfboard",
     "copy-from": "woodboard",
     "type": "vehicle_part",
-    "name": "wooden quarterpanel",
+    "name": { "str": "wooden quarterpanel" },
     "description": "A half-height wooden wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] },

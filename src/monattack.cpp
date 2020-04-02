@@ -72,7 +72,46 @@
 #include "material.h"
 #include "point.h"
 #include "units.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+
+static const efftype_id effect_assisted( "assisted" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_countdown( "countdown" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_dazed( "dazed" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_fearparalyze( "fearparalyze" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_got_checked( "got_checked" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
+static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_operating( "operating" );
+static const efftype_id effect_paid( "paid" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_raising( "raising" );
+static const efftype_id effect_rat( "rat" );
+static const efftype_id effect_shrieking( "shrieking" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_targeted( "targeted" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_under_op( "under_operation" );
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
@@ -83,6 +122,22 @@ static const skill_id skill_unarmed( "unarmed" );
 static const species_id species_BLOB( "BLOB" );
 static const species_id LEECH_PLANT( "LEECH_PLANT" );
 static const species_id ZOMBIE( "ZOMBIE" );
+
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_MARLOSS( "MARLOSS" );
+static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
+static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
+static const trait_id trait_PROF_CYBERCO( "PROF_CYBERCO" );
+static const trait_id trait_PROF_FED( "PROF_FED" );
+static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
+static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
+static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
+static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
@@ -118,6 +173,8 @@ static const mtype_id mon_zombie_gasbag_crawler( "mon_zombie_gasbag_crawler" );
 static const mtype_id mon_zombie_gasbag_impaler( "mon_zombie_gasbag_impaler" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
+
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 // shared utility functions
 static bool within_visual_range( monster *z, int max_range )
@@ -3811,7 +3868,7 @@ bool mattack::multi_robot( monster *z )
                cap > 4 ) {
         // Primary only kicks in if you're in a vehicle or are big enough to be mistaken for one.
         // Or if you've hacked it so the turret's on your side.  ;-)
-        if( dist >= 30 && dist < 50 ) {
+        if( dist < 50 ) {
             // Enforced max-range of 50.
             mode = 5;
             cap = 5;

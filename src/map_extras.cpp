@@ -50,7 +50,17 @@
 #include "string_formatter.h"
 #include "weighted_list.h"
 #include "rng.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_FLAT( "FLAT" );
+static const std::string flag_FLOWER( "FLOWER" );
+static const std::string flag_FUNGUS( "FUNGUS" );
+static const std::string flag_LIQUID( "LIQUID" );
+static const std::string flag_ORGANIC( "ORGANIC" );
+static const std::string flag_PLANT( "PLANT" );
+static const std::string flag_SHRUB( "SHRUB" );
+static const std::string flag_TREE( "TREE" );
+static const std::string flag_YOUNG( "YOUNG" );
 
 static const ter_str_id ter_dirt( "t_dirt" );
 static const ter_str_id ter_grass_dead( "t_grass_dead" );
@@ -2870,9 +2880,6 @@ void map_extra::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "autonote", autonote, false );
 }
 
-extern std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
-extern std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> >
-        nested_mapgen;
 extern std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> >
         update_mapgen;
 
@@ -2888,13 +2895,6 @@ void map_extra::check() const
             break;
         }
         case map_extra_method::mapgen: {
-            /*
-            const auto fmapit = oter_mapgen.find( generator_id );
-            const oter_id extra_oter( generator_id );
-            if( ( fmapit == oter_mapgen.end() || !fmapit->second.empty() ) && !extra_oter.is_valid() ) {
-                debugmsg( "invalid mapgen function (%s) defined for map extra (%s)", generator_id, id.str() );
-            }
-            */
             break;
         }
         case map_extra_method::update_mapgen: {

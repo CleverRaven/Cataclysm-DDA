@@ -41,6 +41,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "trap.h"
@@ -63,7 +64,12 @@
 #include "type_id.h"
 #include "point.h"
 #include "skill.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_AIM( "ACT_AIM" );
+
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_on_roof( "on_roof" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
@@ -77,6 +83,19 @@ static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_throw( "throw" );
+
+static const bionic_id bio_railgun( "bio_railgun" );
+static const bionic_id bio_targeting( "bio_targeting" );
+
+static const std::string flag_CONSUMABLE( "CONSUMABLE" );
+static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
+static const std::string flag_NON_FOULING( "NON-FOULING" );
+static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+static const std::string flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
+static const std::string flag_VEHICLE( "VEHICLE" );
+
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_attack( const Character &p, const itype &firing );
@@ -499,7 +518,11 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
             continue; // skip retargeting for launchers
         }
     }
-
+    // apply shot counter to gun and its mods.
+    gun.set_var( "shot_counter", gun.get_var( "shot_counter", 0 ) + curshot );
+    for( item *mod : gun.gunmods() ) {
+        mod->set_var( "shot_counter", mod->get_var( "shot_counter", 0 ) + curshot );
+    }
     // apply delayed recoil
     recoil += delay;
     if( is_mech_weapon ) {
@@ -529,7 +552,9 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 }
 
 // TODO: Method
-static int throw_cost( const player &c, const item &to_throw )
+// Silence warning about missing prototype.
+int throw_cost( const player &c, const item &to_throw );
+int throw_cost( const player &c, const item &to_throw )
 {
     // Very similar to player::attack_speed
     // TODO: Extract into a function?
@@ -1110,7 +1135,7 @@ static double calculate_aim_cap( const player &p, const tripoint &target )
 {
     double min_recoil = 0.0;
     const Creature *victim = g->critter_at( target, true );
-    if( victim == nullptr || !p.sees( *victim ) ) {
+    if( victim == nullptr || ( !p.sees( *victim ) && !p.sees_with_infrared( *victim ) ) ) {
         const int range = rl_dist( p.pos(), target );
         // Get angle of triangle that spans the target square.
         const double angle = atan2( 1, range );
@@ -1448,6 +1473,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
         return std::min( recoil_pc + angle * recoil_per_deg, MAX_RECOIL );
     };
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     bool redraw = true;
     const tripoint old_offset = pc.view_offset;
@@ -1989,6 +2017,10 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
     };
     const std::string fx = casting.effect();
     const tripoint old_offset = pc.view_offset;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         ret = g->m.find_clear_path( src, dst );
 

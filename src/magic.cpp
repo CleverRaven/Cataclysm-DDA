@@ -24,6 +24,7 @@
 #include "mutation.h"
 #include "output.h"
 #include "player.h"
+#include "skill.h"
 #include "sounds.h"
 #include "translations.h"
 #include "ui.h"
@@ -40,7 +41,8 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "line.h"
-#include "cata_string_consts.h"
+
+static const trait_id trait_NONE( "NONE" );
 
 namespace io
 {
@@ -231,6 +233,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "skill", skill, skill_id( "spellcraft" ) );
     optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
     optional( jo, was_loaded, "sound_description", sound_description,
               to_translation( "an explosion" ) );
@@ -443,6 +446,11 @@ spell_id spell::id() const
 trait_id spell::spell_class() const
 {
     return type->spell_class;
+}
+
+skill_id spell::skill() const
+{
+    return type->skill;
 }
 
 int spell::field_intensity() const
@@ -706,7 +714,7 @@ float spell::spell_fail( const player &p ) const
     // effective skill of 8 (8 int, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
     // effective skill of 30 is 0% failure
     const float effective_skill = 2 * ( get_level() - get_difficulty() ) + p.get_int() +
-                                  p.get_skill_level( skill_id( "spellcraft" ) );
+                                  p.get_skill_level( skill() );
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
         return 0.0f;
@@ -1022,7 +1030,7 @@ float spell::exp_modifier( const player &p ) const
 {
     const float int_modifier = ( p.get_int() - 8.0f ) / 8.0f;
     const float difficulty_modifier = get_difficulty() / 20.0f;
-    const float spellcraft_modifier = p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0f;
+    const float spellcraft_modifier = p.get_skill_level( skill() ) / 10.0f;
 
     return ( int_modifier + difficulty_modifier + spellcraft_modifier ) / 5.0f + 1.0f;
 }
@@ -1431,8 +1439,8 @@ int known_magic::time_to_learn_spell( const player &p, const std::string &str ) 
 int known_magic::time_to_learn_spell( const player &p, const spell_id &sp ) const
 {
     const int base_time = to_moves<int>( 30_minutes );
-    return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
-                         ( p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0 ) );
+    return base_time * ( 1.0 + sp->difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
+                         ( p.get_skill_level( sp->skill ) / 10.0 ) );
 }
 
 int known_magic::get_spellname_max_width()

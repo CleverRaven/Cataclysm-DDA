@@ -129,7 +129,7 @@
   {
     "id": "mon_zombie_static",
     "type": "MONSTER",
-    "name": "zapper zombie",
+    "name": { "str": "zapper zombie" },
     "description": "A very pale dead body with the worst case of static hair you have ever seen.  Sometimes, you can see sparks of electricity around it.",
     "default_faction": "zombie",
     "bodytype": "human",

@@ -65,6 +65,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "weighted_list.h"
 #include "type_id.h"
@@ -73,7 +74,11 @@
 #include "point.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+
+static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_TREE( "TREE" );
 
 static const zone_type_id zone_type_camp_food( "CAMP_FOOD" );
 static const zone_type_id zone_type_camp_storage( "CAMP_STORAGE" );
@@ -121,6 +126,8 @@ static const mtype_id mon_squirrel( "mon_squirrel" );
 static const mtype_id mon_turkey( "mon_turkey" );
 static const mtype_id mon_weasel( "mon_weasel" );
 static const mtype_id mon_wolf( "mon_wolf" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 struct mass_volume {
     units::mass wgt;
@@ -1635,6 +1642,10 @@ void basecamp::job_assignment_ui()
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         werase( w_jobs );
         // create a list of npcs stationed at this camp

@@ -63,7 +63,24 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "stomach.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_READ( "ACT_READ" );
+
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_high( "high" );
+static const efftype_id effect_infection( "infection" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_npc_flee_player( "npc_flee_player" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_pkill_l( "pkill_l" );
+static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_riding( "riding" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
@@ -75,6 +92,24 @@ static const skill_id skill_shotgun( "shotgun" );
 static const skill_id skill_smg( "smg" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
+
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_memory( "bio_memory" );
+
+static const trait_id trait_BEE( "BEE" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_MUTE( "MUTE" );
+static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_TERRIFYING( "TERRIFYING" );
+
+static const std::string flag_NPC_SAFE( "NPC_SAFE" );
 
 class basecamp;
 class monfaction;
@@ -1057,7 +1092,9 @@ void npc::stow_item( item &it )
 {
     if( wear_item( weapon, false ) ) {
         // Wearing the item was successful, remove weapon and post message.
-        add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname() );
+        if( g->u.sees( pos() ) ) {
+            add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname() );
+        }
         remove_weapon();
         moves -= 15;
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
@@ -1066,20 +1103,26 @@ void npc::stow_item( item &it )
     }
     for( auto &e : worn ) {
         if( e.can_holster( it ) ) {
-            //~ %1$s: weapon name, %2$s: holster name
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %1$s in the %2$s." ), weapon.tname(),
-                            e.tname() );
+            if( g->u.sees( pos() ) ) {
+                //~ %1$s: weapon name, %2$s: holster name
+                add_msg_if_npc( m_info, _( "<npcname> puts away the %1$s in the %2$s." ),
+                                weapon.tname(), e.tname() );
+            }
             auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
             ptr->store( *this, e, it );
             return;
         }
     }
     if( volume_carried() + weapon.volume() <= volume_capacity() ) {
-        add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname() );
+        if( g->u.sees( pos() ) ) {
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname() );
+        }
         i_add( remove_weapon() );
         moves -= 15;
     } else { // No room for weapon, so we drop it
-        add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname() );
+        if( g->u.sees( pos() ) ) {
+            add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname() );
+        }
         g->m.add_item_or_charges( pos(), remove_weapon() );
     }
 }
@@ -2587,16 +2630,17 @@ void npc::add_msg_player_or_npc( const std::string &/*player_msg*/,
     }
 }
 
-void npc::add_msg_if_npc( const game_message_type type, const std::string &msg ) const
+void npc::add_msg_if_npc( const game_message_params &params, const std::string &msg ) const
 {
-    add_msg( type, replace_with_npc_name( msg ) );
+    add_msg( params, replace_with_npc_name( msg ) );
 }
 
-void npc::add_msg_player_or_npc( const game_message_type type, const std::string &/*player_msg*/,
+void npc::add_msg_player_or_npc( const game_message_params &params,
+                                 const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( type, replace_with_npc_name( npc_msg ) );
+        add_msg( params, replace_with_npc_name( npc_msg ) );
     }
 }
 
@@ -2606,7 +2650,7 @@ void npc::add_msg_player_or_say( const std::string &/*player_msg*/,
     say( npc_speech );
 }
 
-void npc::add_msg_player_or_say( const game_message_type /*type*/,
+void npc::add_msg_player_or_say( const game_message_params &/*params*/,
                                  const std::string &/*player_msg*/, const std::string &npc_speech ) const
 {
     say( npc_speech );

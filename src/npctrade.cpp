@@ -20,6 +20,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "vehicle_selector.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -384,6 +385,9 @@ void trading_window::update_win( npc &np, const std::string &deal )
 void trading_window::show_item_data( npc &np, size_t offset,
                                      std::vector<item_pricing> &target_list )
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     update = true;
     catacurses::window w_tmp = catacurses::newwin( 3, 21, point( 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2,
                                1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) );
@@ -438,6 +442,9 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
         volume_left = 5'000_liter;
         weight_left = 5'000_kilogram;
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         update_win( np, deal );

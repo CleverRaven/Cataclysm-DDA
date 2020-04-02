@@ -1,9 +1,27 @@
-# 0.E (2020-03-13)
+# 0.E (Ellison)
+
+## Highlights:
+Long distance automove feature for walking, driving and boating.
+Extensive bugfixes to inter-level interactivity, on by default.
+Riding animals and animal-pulled vehicles.
+More flexible Basecamp construction options.
+Default starting date changed to mid-spring for better survivability.
+Time advancement is rationalized, a turn is now one second.
+Extensive river and lake systems, and boat support for navigating them.
+Expanded NPC usefulness and interactivity.
+Massive increases in location variety and consistency, especially rooftops.
+Expansion of mi-go faction with new enemies and locations.
+Batteries now store charge instead of being pseudo-items.
+Overhaul and rebalance of martial arts.
+Zombie grabbing and biting more manageable and predictable.
+Overhauled stamina and damage recovery for grittier gameplay.
+Crouching movement mode allows hiding.
+Magiclysm and Aftershock mods have first class support within the game.
 
 ## Statistics:
-4427 files changed, 4203140 insertions(+), 2879262 deletions(-)
-13,177 commits
-~485 contributors
+4429 files changed, 4175739 insertions(+), 2881113 deletions(-)
+13,507 commits
+~400 contributors
 
 New game entities (core): 12,290
 MAPGEN: 7350
@@ -401,6 +419,7 @@ Made can't-fire-gun messages more consistent.
 Made aiming UI controls more consistent.
 Change message for consuming liquid fuel to "Fuel bionic with it".
 Add water clearance to vehicle interaction. adjust sink/float phrasing.
+Ignoring far-away monsters re-warns when dangerously close.
 
 ## Mods:
 Re-adds fictional martial arts as a mod.
@@ -493,6 +512,8 @@ Increase bicycle, dirt bike, and electric bicycle spawn rates.
 Adjust MRE caloric value to reflect real MREs.
 Lower max stat cap in character creation to 14.
 Overhaul archery balance.
+Greatly reduce vines reproduction rate.
+Horses now spook and refuse to approach enemies.
 
 ## Bugfixes:
 Correctly set liquids as solid when they freeze.
@@ -591,6 +612,20 @@ Clear up item ownership for dead factions.
 Recalculate vehicle viability after part destruction.
 Monsters randomly select targets instead of preferring to attack the player.
 Fix player monster interactions when climbing between levels.
+Prevent endless deathcam loop when dying while asleep.
+Spawn vehicles and junk in junkyard.
+Fix firing accuracy calculation when entering aiming UI with no target in sight.
+Fix infinite loops and performance of NPC catching up on moves from time spent outside reality bubble.
+Make NPC overmap spawning weakly relative to player omt pos.
+Fix crash when detaching vehicle from bike rack in old saves.
+Allow drugs to modify morale again.
+Fix check for monster blocking stairs.
+Prevent monsters from seeing each other across z-levels.
+Fix NPC backlog of activity moves freeze.
+Fix savegame migration of obsolete house overmap terrains.
+Fix throwing movement cost for stacking items like bola/net/throwing stick.
+Stamina recovery no longer modified by move mode.
+Fix infinite aim loop when aiming with IR vision.
 
 ## Performance:
 Limit start location search radius.
@@ -626,6 +661,7 @@ Reduce memory usage of itype.
 Remove superfluous refresh calls from list views.
 Improve recipe loading speed.
 Fix out of control vehicle processing overhead.
+Fix low UI performance on Windows build when using the English language.
 
 ## Infrastructure:
 Npctalk: Complete overhaul of NPC conversation infrastructure.
@@ -761,6 +797,8 @@ Moved entity definitions to JSON: zone types, loot zones, scent neutralization, 
 flag inheritance in crafting, comestible enjoyability, gunmod weight modifier, allergen handling,
 species footsteps sound, bionic slots, swim speed modifiers, construction categories,
 martial arts skill and damage requirements, hunger messages, artifact effects and food morale modifiers.
+Large numbers of unit tests added to enhance stability.
+Expand testing doc with examples and tips.
 
 ## Build:
 Npctalk: add a python dialogue validator.

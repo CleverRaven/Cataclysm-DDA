@@ -75,9 +75,31 @@
 #include "flat_set.h"
 #include "point.h"
 #include "clothing_mod.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
+static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
+static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_music( "music" );
+static const efftype_id effect_playing_instrument( "playing_instrument" );
+static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const bionic_id bio_syringe( "bio_syringe" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -86,6 +108,27 @@ static const skill_id skill_survival( "survival" );
 
 static const species_id HUMAN( "HUMAN" );
 static const species_id ZOMBIE( "ZOMBIE" );
+
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
+static const trait_id trait_SMALL2( "SMALL2" );
+
+static const std::string flag_FIT( "FIT" );
+static const std::string flag_OVERSIZE( "OVERSIZE" );
+static const std::string flag_UNDERSIZE( "UNDERSIZE" );
+static const std::string flag_VARSIZE( "VARSIZE" );
 
 class npc;
 
@@ -1381,7 +1424,7 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     }
 
     tripoint pos = spos;
-    float light = light_mod( pos );
+    float light = light_mod( p.pos() );
     if( !prep_firestarter_use( p, pos ) ) {
         return 0;
     }
@@ -2451,7 +2494,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     study_spell.moves_left = study_spell.moves_total;
     if( study_spell.moves_total == 10100 ) {
         study_spell.str_values[0] = "gain_level";
-        study_spell.values[0]; // reserved for xp
+        study_spell.values[0] = 0; // reserved for xp
         study_spell.values[1] = p.magic.get_spell( spell_id( spells[action] ) ).get_level() + 1;
     }
     study_spell.name = spells[action];

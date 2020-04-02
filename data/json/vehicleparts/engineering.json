@@ -33,7 +33,7 @@
   {
     "id": "crane_small",
     "type": "vehicle_part",
-    "name": "telescopic crane",
+    "name": { "str": "telescopic crane" },
     "item": "cantilever_small",
     "location": "center",
     "symbol": "=",

@@ -15,6 +15,7 @@
 #include "color.h"
 #include "effect.h"
 #include "enums.h"
+#include "mapdata.h"
 #include "type_id.h"
 #include "string_id.h"
 #include "translations.h"
@@ -143,6 +144,7 @@ struct field_type {
         bool has_elec = false;
         bool has_fume = false;
         description_affix desc_affix = description_affix::DESCRIPTION_AFFIX_NUM;
+        map_bash_info bash_info;
 
         // chance, issue, duration, speech
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;

@@ -9,6 +9,7 @@
 #include <tuple>
 #include <cmath>
 #include <type_traits>
+#include <cfloat>
 
 #include "activity_handlers.h"
 #include "avatar.h"
@@ -61,12 +62,53 @@
 #include "enums.h"
 #include "overmap.h"
 #include "stomach.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_PULP( "ACT_PULP" );
 
 static const ammotype ammo_reactor_slurry( "reactor_slurry" );
 static const ammotype ammo_plutonium( "plutonium" );
 
 static const skill_id skill_firstaid( "firstaid" );
+
+static const bionic_id bio_ads( "bio_ads" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_blade( "bio_blade" );
+static const bionic_id bio_claws( "bio_claws" );
+static const bionic_id bio_faraday( "bio_faraday" );
+static const bionic_id bio_furnace( "bio_furnace" );
+static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
+static const bionic_id bio_heatsink( "bio_heatsink" );
+static const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_laser( "bio_laser" );
+static const bionic_id bio_leukocyte( "bio_leukocyte" );
+static const bionic_id bio_lightning( "bio_chain_lightning" );
+static const bionic_id bio_nanobots( "bio_nanobots" );
+static const bionic_id bio_ods( "bio_ods" );
+static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_plutfilter( "bio_plutfilter" );
+static const bionic_id bio_radscrubber( "bio_radscrubber" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_shock( "bio_shock" );
+static const bionic_id bio_soporific( "bio_soporific" );
+
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_catch_up( "catch_up" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
+static const efftype_id effect_npc_flee_player( "npc_flee_player" );
+static const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
+static const efftype_id effect_npc_run_away( "npc_run_away" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_stunned( "stunned" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -194,7 +236,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         return rating;
     };
 
-    float best_rating = include_pos ? rate_pt( pos(), 0.0f ) :  INT_MAX;
+    float best_rating = include_pos ? rate_pt( pos(), 0.0f ) : FLT_MAX;
     candidates.emplace_back( pos() );
 
     std::map<direction, float> adj_map;

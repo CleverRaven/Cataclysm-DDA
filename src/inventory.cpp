@@ -33,7 +33,11 @@
 #include "colony.h"
 #include "flat_set.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
+static const std::string flag_LEAK_DAM( "LEAK_DAM" );
+static const std::string flag_WATERPROOF( "WATERPROOF" );
+static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 
 struct itype;
 

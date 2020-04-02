@@ -48,11 +48,42 @@
 #include "material.h"
 #include "monster.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
+static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
+static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
+static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
+static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
+static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+
+static const efftype_id effect_allow_sleep( "allow_sleep" );
+static const efftype_id effect_asked_for_item( "asked_for_item" );
+static const efftype_id effect_asked_personal_info( "asked_personal_info" );
+static const efftype_id effect_asked_to_follow( "asked_to_follow" );
+static const efftype_id effect_asked_to_lead( "asked_to_lead" );
+static const efftype_id effect_asked_to_train( "asked_to_train" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_currently_busy( "currently_busy" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_sleep( "sleep" );
 
 static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
 static const mtype_id mon_horse( "mon_horse" );
+
+static const bionic_id bio_power_storage( "bio_power_storage" );
+static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
 struct itype;
 
@@ -285,7 +316,7 @@ void talk_function::goto_location( npc &p )
     selection_menu.query();
     auto index = selection_menu.ret;
     if( index < 0 || index > static_cast<int>( camps.size() + 1 ) ||
-        index == static_cast<int>( camps.size() + 1 ) || index == UILIST_CANCEL ) {
+        index == static_cast<int>( camps.size() + 1 ) ) {
         return;
     }
     if( index == static_cast<int>( camps.size() ) ) {

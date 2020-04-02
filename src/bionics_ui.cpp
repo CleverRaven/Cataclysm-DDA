@@ -10,9 +10,12 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "options.h"
 #include "string_id.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_PERPETUAL( "PERPETUAL" );
+static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -484,6 +487,9 @@ void player::power_bionics()
 
     bool recalc = false;
     bool redraw = true;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     for( ;; ) {
         if( recalc ) {

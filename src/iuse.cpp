@@ -100,7 +100,122 @@
 #include "omdata.h"
 #include "point.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_BURROW( "ACT_BURROW" );
+static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
+static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
+static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
+static const activity_id ACT_CHURN( "ACT_CHURN" );
+static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
+static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_DIG( "ACT_DIG" );
+static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
+static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
+static const activity_id ACT_FISH( "ACT_FISH" );
+static const activity_id ACT_GAME( "ACT_GAME" );
+static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
+static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
+static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
+static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
+static const activity_id ACT_HEATING( "ACT_HEATING" );
+static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
+static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
+static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
+static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
+static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
+static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
+static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
+static const activity_id ACT_SHAVE( "ACT_SHAVE" );
+static const activity_id ACT_VIBE( "ACT_VIBE" );
+static const activity_id ACT_WASH( "ACT_WASH" );
+
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_antibiotic( "antibiotic" );
+static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_attention( "attention" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_cureall( "cureall" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dazed( "dazed" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_flushot( "flushot" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_formication( "formication" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_glowy_led( "glowy_led" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_happy( "happy" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_has_bag( "has_bag" );
+static const efftype_id effect_haslight( "haslight" );
+static const efftype_id effect_high( "high" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_jetinjector( "jetinjector" );
+static const efftype_id effect_lack_sleep( "lack_sleep" );
+static const efftype_id effect_laserlocked( "laserlocked" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_melatonin_supplements( "melatonin" );
+static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_music( "music" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_panacea( "panacea" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_run( "run" );
+static const efftype_id effect_sad( "sad" );
+static const efftype_id effect_saddled( "monster_saddled" );
+static const efftype_id effect_sap( "sap" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_smoke( "smoke" );
+static const efftype_id effect_spores( "spores" );
+static const efftype_id effect_stimpack( "stimpack" );
+static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
+static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_teargas( "teargas" );
+static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
+static const efftype_id effect_took_flumed( "took_flumed" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
+static const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
+static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
+static const efftype_id effect_valium( "valium" );
+static const efftype_id effect_visuals( "visuals" );
+static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
+static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_weed_high( "weed_high" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_cooking( "cooking" );
@@ -110,6 +225,36 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
+
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
+static const trait_id trait_ALCMET( "ALCMET" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_EATDEAD( "EATDEAD" );
+static const trait_id trait_EATPOISON( "EATPOISON" );
+static const trait_id trait_GILLS( "GILLS" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_MARLOSS( "MARLOSS" );
+static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
+static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
+static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_MYOPIC( "MYOPIC" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
+static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
@@ -132,6 +277,19 @@ static const mtype_id mon_shadow( "mon_shadow" );
 static const mtype_id mon_spore( "mon_spore" );
 static const mtype_id mon_vortex( "mon_vortex" );
 static const mtype_id mon_wasp( "mon_wasp" );
+
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_shock( "bio_shock" );
+static const bionic_id bio_tools( "bio_tools" );
+
+static const std::string flag_EATEN_COLD( "EATEN_COLD" );
+static const std::string flag_ACID( "ACID" );
+static const std::string flag_CURRENT( "CURRENT" );
+static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_FISHABLE( "FISHABLE" );
+static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
+static const std::string flag_PLANT( "PLANT" );
+static const std::string flag_PLOWABLE( "PLOWABLE" );
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -255,20 +413,6 @@ int iuse::xanax( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     p->add_effect( effect_took_xanax, 90_minutes );
     p->add_effect( effect_took_xanax_visible, rng( 70_minutes, 110_minutes ) );
-    return it->type->charges_to_use();
-}
-
-int iuse::caff( player *p, item *it, bool, const tripoint & )
-{
-    p->mod_fatigue( -( it->get_comestible() ? it->get_comestible()->stim : 0 ) * 3 );
-    return it->type->charges_to_use();
-}
-
-int iuse::atomic_caff( player *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( m_good, _( "Wow!  This %s has a kick." ), it->tname() );
-    p->mod_fatigue( -( it->get_comestible() ? it->get_comestible()->stim : 0 ) * 12 );
-    p->irradiate( 8, true );
     return it->type->charges_to_use();
 }
 
@@ -3357,16 +3501,16 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
             goo->friendly = -1;
         }
     }
-    tries = 0;
-    while( !one_in( 4 ) && tries < 10 ) {
+    if( x_in_y( 3.0, 4.0 ) ) {
         tries = 0;
+        bool found = false;
         do {
             goop.x = p->posx() + rng( -2, 2 );
             goop.y = p->posy() + rng( -2, 2 );
             tries++;
-        } while( g->m.impassable( goop ) &&
-                 g->m.tr_at( goop ).is_null() && tries < 10 );
-        if( tries < 10 ) {
+            found = g->m.passable( goop ) && g->m.tr_at( goop ).is_null();
+        } while( !found && tries < 10 );
+        if( found ) {
             if( g->u.sees( goop ) ) {
                 add_msg( m_warning, _( "A nearby splatter of goo forms into a goo pit." ) );
             }
@@ -6843,7 +6987,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
             figure_effects += pronoun_sex + string_format( _( " is riding %s. " ),
                               colorize( mon->name(), c_light_blue ) );
         }
-        if( creature->has_effect( effect_glowing_led ) ) {
+        if( creature->has_effect( effect_glowy_led ) ) {
             figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly. " );
         }
     }

@@ -53,7 +53,35 @@
 #include "string_id.h"
 #include "flat_set.h"
 #include "weather.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_emp( "emp" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_run( "run" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_supercharged( "supercharged" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_webbed( "webbed" );
 
 static const species_id FISH( "FISH" );
 static const species_id FUNGUS( "FUNGUS" );
@@ -63,6 +91,20 @@ static const species_id MOLLUSK( "MOLLUSK" );
 static const species_id ROBOT( "ROBOT" );
 static const species_id SPIDER( "SPIDER" );
 static const species_id ZOMBIE( "ZOMBIE" );
+
+static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
+static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
+static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
+static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
+static const trait_id trait_BEE( "BEE" );
+static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_KILLER( "KILLER" );
+static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
+static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
+static const trait_id trait_TERRIFYING( "TERRIFYING" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static const mtype_id mon_ant( "mon_ant" );
 static const mtype_id mon_ant_fungus( "mon_ant_fungus" );
@@ -1025,7 +1067,7 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        if( type->in_species( FUNGUS ) && ( u->has_trait( trait_MYCUS_THRESH ) ||
+        if( type->in_species( FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
                                             u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
         }
@@ -2397,7 +2439,7 @@ void monster::process_effects()
             healing_format_string = _( "The %s is visibly regenerating!" );
         } else if( healed_amount >= 10 ) {
             healing_format_string = _( "The %s seems a little healthier." );
-        } else if( healed_amount >= 1 ) {
+        } else {
             healing_format_string = _( "The %s is healing slowly." );
         }
         add_msg( m_warning, healing_format_string, name() );
@@ -2611,18 +2653,18 @@ void monster::add_msg_player_or_npc( const std::string &/*player_msg*/,
     }
 }
 
-void monster::add_msg_if_npc( const game_message_type type, const std::string &msg ) const
+void monster::add_msg_if_npc( const game_message_params &params, const std::string &msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( type, replace_with_npc_name( msg ) );
+        add_msg( params, replace_with_npc_name( msg ) );
     }
 }
 
-void monster::add_msg_player_or_npc( const game_message_type type,
+void monster::add_msg_player_or_npc( const game_message_params &params,
                                      const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( type, replace_with_npc_name( npc_msg ) );
+        add_msg( params, replace_with_npc_name( npc_msg ) );
     }
 }
 

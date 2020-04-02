@@ -27,6 +27,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "text_snippets.h"
+#include "ui_manager.h"
 #include "item.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -692,6 +693,10 @@ void faction_manager::display() const
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         werase( w_missions );
         // create a list of NPCs, visible and the ones on overmapbuffer
