@@ -1198,6 +1198,8 @@ class vehicle
         int max_water_velocity( bool fueled = true ) const;
         // Get maximum velocity for the current movement mode
         int max_velocity( bool fueled = true ) const;
+        // Get maximum reverse velocity for the current movement mode
+        int max_reverse_velocity( bool fueled = true ) const;
 
         // Get safe ground velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included

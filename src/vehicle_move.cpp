@@ -159,8 +159,8 @@ void vehicle::thrust( int thd )
 
     //pos or neg if accelerator or brake
     int vel_inc = ( ( thrusting ) ? accel : brk ) * thd;
-    if( thd == -1 && thrusting ) {
-        //accelerate 60% if going backward
+    // Reverse is only 60% acceleration, unless an electric motor is in use
+    if( thd == -1 && thrusting && !has_engine_type( fuel_type_battery, true ) ) {
         vel_inc = .6 * vel_inc;
     }
 
@@ -225,7 +225,7 @@ void vehicle::thrust( int thd )
         stop();
     } else {
         // Increase velocity up to max_vel or min_vel, but not above.
-        const int min_vel = -max_vel / 4;
+        const int min_vel = max_reverse_velocity();
         if( vel_inc > 0 ) {
             // Don't allow braking by accelerating (could happen with damaged engines)
             velocity = std::max( velocity, std::min( velocity + vel_inc, max_vel ) );
@@ -257,7 +257,7 @@ void vehicle::cruise_thrust( int amount )
     }
     int safe_vel = safe_velocity();
     int max_vel = max_velocity();
-    int max_rev_vel = -max_vel / 4;
+    int max_rev_vel = max_reverse_velocity();
 
     //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
     if( ( cruise_velocity < safe_vel && safe_vel < ( cruise_velocity + amount ) ) ||

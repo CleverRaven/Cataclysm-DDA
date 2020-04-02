@@ -3543,6 +3543,18 @@ int vehicle::max_velocity( const bool fueled ) const
     return is_watercraft() ? max_water_velocity( fueled ) : max_ground_velocity( fueled );
 }
 
+int vehicle::max_reverse_velocity( const bool fueled ) const
+{
+    int max_vel = max_velocity( fueled );
+    if( has_engine_type( fuel_type_battery, true ) ) {
+        // Electric motors can go in reverse as well as forward
+        return -max_vel;
+    } else {
+        // All other motive powers do poorly in reverse
+        return -max_vel / 4;
+    }
+}
+
 // the same physics as max_ground_velocity, but with a smaller engine power
 int vehicle::safe_ground_velocity( const bool fueled ) const
 {
