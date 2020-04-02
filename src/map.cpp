@@ -125,9 +125,9 @@ map::map( int mapsize, bool zlev )
     my_MAPSIZE = mapsize;
     zlevels = zlev;
     if( zlevels ) {
-        grid.resize( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS, nullptr );
+        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS ), nullptr );
     } else {
-        grid.resize( my_MAPSIZE * my_MAPSIZE, nullptr );
+        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE ), nullptr );
     }
 
     for( auto &ptr : caches ) {
@@ -6088,7 +6088,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
     using PQ_type = std::priority_queue< pq_item, std::vector<pq_item>, pq_item_comp>;
 
     // temp buffer for grid
-    const int grid_dim = range * 2 + 1;
+    const size_t grid_dim = range * 2 + 1;
     std::vector< int > t_grid( grid_dim * grid_dim, -1 ); // init to -1 as "not visited yet"
     const tripoint origin_offset = {range, range, 0};
     const int initial_visit_distance = range * range; // Large unreachable value
