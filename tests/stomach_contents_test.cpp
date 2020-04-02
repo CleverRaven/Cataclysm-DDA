@@ -85,7 +85,7 @@ static void eat_all_nutrients( player &p )
 
 // how long does it take to starve to death
 // player does not thirst or tire or require vitamins
-TEST_CASE( "starve_test", "[starve]" )
+TEST_CASE( "starve_test", "[starve][slow]" )
 {
     // change this bool when editing the test
     const bool print_tests = false;
@@ -115,7 +115,7 @@ TEST_CASE( "starve_test", "[starve]" )
 
 // how long does it take to starve to death with extreme metabolism
 // player does not thirst or tire or require vitamins
-TEST_CASE( "starve_test_hunger3", "[starve]" )
+TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
 {
     // change this bool when editing the test
     const bool print_tests = false;
@@ -148,7 +148,7 @@ TEST_CASE( "starve_test_hunger3", "[starve]" )
 }
 
 // does eating enough food per day keep you alive
-TEST_CASE( "all_nutrition_starve_test", "[starve]" )
+TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
 {
     // change this bool when editing the test
     const bool print_tests = false;
