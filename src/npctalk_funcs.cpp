@@ -57,6 +57,7 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
+static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
@@ -217,6 +218,11 @@ void talk_function::sort_loot( npc &p )
 void talk_function::do_construction( npc &p )
 {
     p.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+}
+
+void talk_function::do_mining( npc &p )
+{
+    p.assign_activity( ACT_MULTIPLE_MINE );
 }
 
 void talk_function::do_read( npc &p )
