@@ -1283,11 +1283,11 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     deconstruct.load( jo, "deconstruct", true );
 
     if( jo.has_object( "workbench" ) ) {
-        workbench = furn_workbench_info();
+        workbench = cata::make_value<furn_workbench_info>();
         workbench->load( jo, "workbench" );
     }
     if( jo.has_object( "plant_data" ) ) {
-        plant = plant_data();
+        plant = cata::make_value<plant_data>();
         plant->load( jo, "plant_data" );
     }
 }

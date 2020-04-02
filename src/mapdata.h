@@ -11,11 +11,11 @@
 
 #include "color.h"
 #include "int_id.h"
-#include "optional.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 class JsonObject;
 struct itype;
@@ -370,9 +370,9 @@ struct furn_t : map_data_common_t {
 
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
 
-    cata::optional<furn_workbench_info> workbench;
+    cata::value_ptr<furn_workbench_info> workbench;
 
-    cata::optional<plant_data> plant;
+    cata::value_ptr<plant_data> plant;
 
     // May return NULL
     const itype *crafting_pseudo_item_type() const;
