@@ -4603,6 +4603,30 @@
   },
   {
     "type": "recipe",
+    "result": "bread_buttered",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "15 s",
+    "charges": 1,
+    "autolearn": true,
+    "qualities": [
+      { "id": "CUT", "level": 1 }
+    ],
+    "components": [
+      [
+        [ "flatbread", 1 ],
+        [ "bread", 1 ],
+        [ "cornbread", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "brioche", 1 ]
+      ],
+      [ [ "any_butter", 2, "LIST" ], [ "ghee", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "toasterpastry",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",

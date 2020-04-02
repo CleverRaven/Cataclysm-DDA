@@ -351,5 +351,30 @@
     "calories": 1100,
     "description": "A simple sandwich, if you can even call it that, composed of bread and a whole stick of butter.  Frankly disgusting but it works in a pinch.",
     "fun": -1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "bread_buttered",
+    "name": {
+      "str": "buttered bread",
+      "str_pl": "buttered breads"
+    },
+    "weight": "85887 mg",
+    "color": "brown",
+    "spoils_in": "3 days",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 286,
+    "description": "A simple sandwich, of spread butter.  Easy and delicious, the perfect snack to start your day. ",
+    "price": 85,
+    "material": [
+      "milk",
+      "wheat"
+    ],
+    "looks_like": "sandwich_pb",
+    "primary_material": "wheat",
+    "volume": "250 ml",
+    "fun": 2
   }
 ]
