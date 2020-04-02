@@ -77,7 +77,6 @@ static const efftype_id effect_pet( "pet" );
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
-static const zone_type_id zone_type_loot_unsorted( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_source_firewood( "SOURCE_FIREWOOD" );
 
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
@@ -91,6 +90,7 @@ static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
+static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -115,7 +115,6 @@ static const std::string flag_TREE( "TREE" );
 struct construction_category;
 
 void cancel_aim_processing();
-
 //Generic activity: maximum search distance for zones, constructions, etc.
 const int ACTIVITY_SEARCH_DISTANCE = 60;
 
@@ -1549,7 +1548,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         return activity_reason_info::fail( NO_ZONE );
     }
     if( act == ACT_TIDY_UP ) {
-        if( mgr.has_near( zone_type_loot_unsorted, g->m.getabs( src_loc ), distance ) ) {
+        if( mgr.has_near( zone_type_LOOT_UNSORTED, g->m.getabs( src_loc ), distance ) ||
+            mgr.has_near( z_camp_storage, g->m.getabs( src_loc ), distance ) ) {
             return activity_reason_info::ok( CAN_DO_FETCH );
         }
         return activity_reason_info::fail( NO_ZONE );
@@ -1637,6 +1637,22 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     return activity_reason_info::fail( NO_ZONE );
 }
 
+static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tripoint &src_loc,
+        player &p, std::vector<tripoint> &loot_zone_spots, std::vector<tripoint> &combined_spots )
+{
+    if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
+        if( guy->assigned_camp &&
+            mgr.has_near( z_camp_storage, g->m.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE ) ) {
+            std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
+                    g->m.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE );
+            for( const tripoint &elem : bc_storage_set ) {
+                loot_zone_spots.push_back( g->m.getlocal( elem ) );
+                combined_spots.push_back( g->m.getlocal( elem ) );
+            }
+        }
+    }
+}
+
 static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player &p,
         const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
@@ -1690,7 +1706,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             combined_spots.push_back( elem );
         }
     }
-    // if the requirements aren't available, then stop.
+    add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_spots, combined_spots );
+    // if the requirements arent available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
                                   activity_to_restore, pickup_task, src_loc ) ) {
         return requirement_map;
@@ -1994,7 +2011,7 @@ static bool tidy_activity( player &p, const tripoint &src_loc,
         }
     }
     // we are adjacent to an unsorted zone, we came here to just drop items we are carrying
-    if( mgr.has( zone_type_loot_unsorted, g->m.getabs( src_loc ) ) ) {
+    if( mgr.has( zone_type_LOOT_UNSORTED, g->m.getabs( src_loc ) ) ) {
         for( item *inv_elem : p.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
@@ -2061,7 +2078,6 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
                         continue;
                     }
                     item leftovers = it;
-
                     if( pickup_count != 1 && it.count_by_charges() ) {
                         // Reinserting leftovers happens after item removal to avoid stacking issues.
                         leftovers.charges = it.charges - pickup_count;
@@ -2072,12 +2088,13 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
                         leftovers.charges = 0;
                     }
                     it.set_var( "activity_var", p.name );
+                    const std::string item_name = it.tname();
                     p.i_add( it );
                     if( p.is_npc() ) {
                         if( pickup_count == 1 ) {
-                            add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), it.tname() );
+                            add_msg( _( "%1$s picks up a %2$s." ), p.disp_name(), item_name );
                         } else {
-                            add_msg( _( "%s picks up several items." ), p.disp_name() );
+                            add_msg( _( "%s picks up several items." ),  p.disp_name() );
                         }
                     }
                     items_there.erase( item_iter );
@@ -2532,7 +2549,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
     if( act_id == ACT_TIDY_UP ) {
         dark_capable = true;
         tripoint unsorted_spot;
-        std::unordered_set<tripoint> unsorted_set = mgr.get_near( zone_type_loot_unsorted, abspos,
+        std::unordered_set<tripoint> unsorted_set = mgr.get_near( zone_type_LOOT_UNSORTED, abspos,
                 ACTIVITY_SEARCH_DISTANCE );
         if( !unsorted_set.empty() ) {
             unsorted_spot = g->m.getlocal( random_entry( unsorted_set ) );
@@ -2697,6 +2714,8 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         for( const tripoint &elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
             combined_spots.push_back( elem );
         }
+        add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_zone_spots, combined_spots );
+
         if( ( reason == NO_COMPONENTS || reason == NO_COMPONENTS_PREREQ ||
               reason == NO_COMPONENTS_PREREQ_2 ) &&
             act_id == ACT_MULTIPLE_CONSTRUCTION ) {
