@@ -208,7 +208,7 @@
     "flat_bonuses": [ [ "arpen", "cut", 10 ], [ "arpen", "stab", 10 ] ],
     "crit_ok": true,
     "messages": [
-      "You drive your weapon down into the vunerable %s's center mass",
+      "You drive your weapon down into the vulnerable %s's center mass",
       "<npcname> lands a deadly blow on unguarded %s's center mass"
     ]
   }
