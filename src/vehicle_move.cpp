@@ -39,6 +39,7 @@
 
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_animal( "animal" );
+static const itype_id fuel_type_battery( "battery" );
 
 static const skill_id skill_driving( "driving" );
 
