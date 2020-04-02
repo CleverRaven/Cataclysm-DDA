@@ -318,8 +318,8 @@
         "distribution": [ { "item": "milk", "prob": 94 }, { "item": "almond_milk", "prob": 3 }, { "item": "soy_milk", "prob": 3 } ],
         "prob": 95
       },
-      { "item": "ketchup", "charges-min": 1, "prob": 85 },
-      { "item": "mustard", "charges-min": 1, "prob": 85 },
+      { "group": "ketchup_sealed_rng", "prob": 85 },
+      { "group": "mustard_sealed_rng", "prob": 85 },
       { "item": "mayonnaise", "charges-min": 1, "prob": 75 },
       { "item": "soysauce", "charges-min": 1, "prob": 65 },
       { "item": "horseradish", "charges-min": 1, "prob": 25 },
