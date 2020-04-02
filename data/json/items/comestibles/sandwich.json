@@ -355,10 +355,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bread_buttered",
-    "name": {
-      "str": "buttered bread",
-      "str_pl": "buttered breads"
-    },
+    "name": { "str": "buttered bread", "str_pl": "buttered breads" },
     "weight": "85887 mg",
     "color": "brown",
     "spoils_in": "3 days",
@@ -368,10 +365,7 @@
     "calories": 286,
     "description": "A simple sandwich, of spread butter.  Easy and delicious, the perfect snack to start your day. ",
     "price": 85,
-    "material": [
-      "milk",
-      "wheat"
-    ],
+    "material": [ "milk", "wheat" ],
     "looks_like": "sandwich_pb",
     "primary_material": "wheat",
     "volume": "250 ml",
