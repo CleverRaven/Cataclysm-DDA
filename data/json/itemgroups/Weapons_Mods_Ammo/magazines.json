@@ -230,7 +230,6 @@
       [ "stanag20", 5 ],
       [ "stanag30", 10 ],
       [ "stanag40", 3 ],
-      [ "stanag42", 2 ],
       [ "ar10mag_20rd", 30 ]
     ]
   },
@@ -253,7 +252,7 @@
       [ "g3bigmag", 40 ],
       [ "m1918bigmag", 40 ],
       [ "ruger1022bigmag", 70 ],
-      [ "stanag65", 20 ],
+      [ "stanag60drum", 10 ],
       [ "stanag90", 10 ],
       [ "stanag100drum", 15 ],
       [ "stanag150", 10 ],
