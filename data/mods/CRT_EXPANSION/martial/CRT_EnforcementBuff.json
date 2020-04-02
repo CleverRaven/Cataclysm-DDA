@@ -27,12 +27,7 @@
         "description": "Stand strong in the face of adversity. +1 armor.  STR provides accuracy and minor bash arpen.",
         "unarmed_allowed": false,
         "melee_allowed": true,
-        "flat_bonuses": [
-          [ "armor", "bash", 1.0 ],
-          [ "armor", "cut", 1.0 ],
-          [ "armor", "stab", 1.0 ],
-          [ "hit", "str", 0.4 ]
-        ]
+        "flat_bonuses": [ [ "armor", "bash", 1.0 ], [ "armor", "cut", 1.0 ], [ "armor", "stab", 1.0 ], [ "hit", "str", 0.4 ] ]
       }
     ],
     "onhit_buffs": [
