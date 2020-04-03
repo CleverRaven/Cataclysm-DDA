@@ -69,6 +69,9 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.set_stamina( dummy.get_stamina_max() );
     dummy.set_movement_mode( CMM_WALK );
 
+    // Make sure we don't carry around weird effects.
+    dummy.clear_effects();
+
     // Make stats nominal.
     dummy.str_cur = 8;
     dummy.dex_cur = 8;
