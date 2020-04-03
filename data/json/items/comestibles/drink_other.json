@@ -101,7 +101,6 @@
     "fun": -1,
     "calories": 10,
     "spoils_in": 600,
-
     "charges": 48,
     "phase": "liquid",
     "vitamins": [ [ "iron", 2 ] ]
