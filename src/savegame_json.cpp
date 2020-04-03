@@ -1466,8 +1466,10 @@ void job_data::serialize( JsonOut &json ) const
 }
 void job_data::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
-    jo.read( "task_priorities", task_priorities );
+    if( jsin.test_object() ) {
+        JsonObject jo = jsin.get_object();
+        jo.read( "task_priorities", task_priorities );
+    }
 }
 
 /*
