@@ -179,15 +179,11 @@ class player : public Character
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
-        /** Called after every action, invalidates player caches */
-        void action_taken();
 
         /** Define color for displaying the body temperature */
         nc_color bodytemp_color( int bp ) const;
         /** Returns the player's modified base movement cost */
         int  run_cost( int base_cost, bool diag = false ) const;
-        /** Returns the player's speed for swimming across water tiles */
-        int  swim_speed() const;
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
 
@@ -227,28 +223,10 @@ class player : public Character
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet( int ch );
 
-        const tripoint &pos() const override;
-        /** Returns the player's sight range */
-        int sight_range( int light_level ) const override;
-        /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
-        int  unimpaired_range() const;
-        /** Returns true if overmap tile is within player line-of-sight */
-        bool overmap_los( const tripoint &omt, int sight_points );
-        /** Returns the distance the player can see on the overmap */
-        int  overmap_sight_range( int light_level ) const;
-        /** Returns the distance the player can see through walls */
-        int  clairvoyance() const;
-        /** Returns true if the player has some form of impaired sight */
-        bool sight_impaired() const;
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
         bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
-
-        /** Returns true if the player or their vehicle has an alarm clock */
-        bool has_alarm_clock() const;
-        /** Returns true if the player or their vehicle has a watch */
-        bool has_watch() const;
 
         // see Creature::sees
         bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
@@ -296,10 +274,6 @@ class player : public Character
         bool is_stealthy() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
-        /** Always returns false, since players can't dig currently */
-        bool digging() const override;
-        /** Returns true if the player is knocked over or has broken legs */
-        bool is_on_ground() const override;
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
 
@@ -953,7 +927,6 @@ class player : public Character
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
 
-        bool is_underwater() const override;
         void set_underwater( bool );
         bool is_hallucination() const override;
         void environmental_revert_effect();
