@@ -35,7 +35,7 @@ TEST_CASE( "point_hash_distribution", "[hash]" )
     for( int x = -MAX_COORDINATE; x <= MAX_COORDINATE; ++x ) {
         for( int y = -MAX_COORDINATE; y <= MAX_COORDINATE; ++y ) {
             element_count++;
-            found_hashes.push_back( std::hash<point> {}( { x, y } ) );
+            found_hashes.push_back( std::hash<point> {}( point{ x, y } ) );
         }
     }
     CHECK( count_unique_elements( found_hashes ) > element_count * 0.9 );
