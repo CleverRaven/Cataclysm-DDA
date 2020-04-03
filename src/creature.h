@@ -277,7 +277,7 @@ class Creature
 
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
-        virtual bool is_underwater() const = 0;
+        virtual bool is_underwater() const;
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool in_species( const species_id & ) const;
 

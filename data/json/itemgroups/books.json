@@ -166,7 +166,8 @@
       { "item": "holybook_pastafarian", "prob": 1 },
       { "item": "holybook_slack", "prob": 1 },
       { "item": "holybook_kallisti", "prob": 1 },
-      { "item": "holybook_scientology", "prob": 1 }
+      { "item": "holybook_scientology", "prob": 1 },
+      { "item": "holybook_satanic", "prob": 1 }
     ]
   },
   {
@@ -276,6 +277,7 @@
       { "item": "cookbook_liverforkids", "prob": 15 },
       { "item": "cookbook_eatyrway", "prob": 15 },
       { "item": "cookbook_foodfashions", "prob": 10 },
+      { "item": "cookbook_indian", "prob": 10 },
       { "item": "survnote", "prob": 1 },
       { "item": "scots_cookbook", "prob": 8 },
       { "item": "offalcooking", "prob": 2 },
@@ -329,6 +331,7 @@
       { "item": "cookbook", "prob": 35 },
       { "item": "offalcooking", "prob": 8 },
       { "item": "cookbook_italian", "prob": 25 },
+      { "item": "cookbook_indian", "prob": 10 },
       { "item": "manual_electronics", "prob": 20 },
       { "item": "manual_tailor", "prob": 15 },
       { "item": "manual_carpentry", "prob": 10 },
@@ -376,6 +379,7 @@
       { "item": "tailor_portfolio", "prob": 3 },
       { "item": "textbook_chemistry", "prob": 11 },
       { "item": "brewing_cookbook", "prob": 3 },
+      { "item": "cookbook_indian", "prob": 5 },
       { "item": "textbook_carpentry", "prob": 6 },
       { "item": "SICP", "prob": 3 },
       { "item": "survival_book", "prob": 8 },
@@ -478,6 +482,7 @@
       { "item": "cookbook_human", "prob": 10 },
       { "item": "collector_book", "prob": 10 },
       { "item": "brewing_cookbook", "prob": 24 },
+      { "item": "cookbook_indian", "prob": 10 },
       { "item": "textbook_robots", "prob": 15 },
       { "item": "manual_dodge", "prob": 15 },
       { "item": "novel_experimental", "prob": 24 },

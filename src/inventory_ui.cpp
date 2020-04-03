@@ -15,6 +15,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
@@ -1831,6 +1832,9 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
 
 item_location inventory_pick_selector::execute()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     bool need_refresh = true;
     while( true ) {
         update( need_refresh );
@@ -1898,6 +1902,9 @@ inventory_compare_selector::inventory_compare_selector( player &p ) :
 
 std::pair<const item *, const item *> inventory_compare_selector::execute()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     bool need_refresh = true;
     while( true ) {
         update( need_refresh );
@@ -1975,6 +1982,9 @@ inventory_iuse_selector::inventory_iuse_selector(
 {}
 drop_locations inventory_iuse_selector::execute()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int count = 0;
     bool need_refresh = true;
     while( true ) {
@@ -2097,6 +2107,9 @@ void inventory_drop_selector::process_selected( int &count,
 
 drop_locations inventory_drop_selector::execute()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int count = 0;
     bool need_refresh = true;
     while( true ) {
