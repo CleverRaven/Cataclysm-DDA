@@ -144,7 +144,7 @@
     "unarmed_allowed": false,
     "melee_allowed": true,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.70 },
+      { "stat": "movecost", "scale": 0.7 },
       { "stat": "damage", "type": "bash", "scale": 0.88 },
       { "stat": "damage", "type": "cut", "scale": 0.88 },
       { "stat": "damage", "type": "stab", "scale": 0.88 }
@@ -192,7 +192,11 @@
     "melee_allowed": true,
     "downed_target": true,
     "stunned_target": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 1.3 }, { "stat": "damage", "type": "cut", "scale": 2 }, { "stat": "damage", "type": "stab", "scale": 2 } ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.3 },
+      { "stat": "damage", "type": "cut", "scale": 2 },
+      { "stat": "damage", "type": "stab", "scale": 2 }
+    ],
     "mult_bonuses": [ [ "movecost", 1.3 ], [ "damage", "cut", 2 ], [ "damage", "stab", 2 ] ],
     "flat_bonuses": [ { "stat": "arpen", "type": "cut", "scale": 10 }, { "stat": "arpen", "type": "stab", "scale": 10 } ],
     "crit_ok": true,
