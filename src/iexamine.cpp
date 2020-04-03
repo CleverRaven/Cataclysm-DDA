@@ -516,8 +516,8 @@ class atm_menu
 
         //!Move money from bank account onto cash card.
         bool do_withdraw_money() {
-            //We may want to use visit_items here but thats fairly heavy.
-            //For now, just check weapon if we didnt find it in the inventory.
+            //We may want to use visit_items here but that's fairly heavy.
+            //For now, just check weapon if we didn't find it in the inventory.
             int pos = u.inv.position_by_type( "cash_card" );
             item *dst;
             if( pos == INT_MIN ) {
@@ -1427,6 +1427,7 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
+        temp_camp->validate_bb_pos( g->m.getabs( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
 

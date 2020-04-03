@@ -345,8 +345,8 @@ static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const s
         unique_spell_list.emplace( fake_sp.id );
     }
 
-    for( const spell_id &sp : unique_spell_list ) {
-        if( spell_infinite_loop_check( spell_effects, sp ) ) {
+    for( const spell_id &other_sp : unique_spell_list ) {
+        if( spell_infinite_loop_check( spell_effects, other_sp ) ) {
             return true;
         }
     }
@@ -456,13 +456,13 @@ skill_id spell::skill() const
 int spell::field_intensity() const
 {
     return std::min( type->max_field_intensity,
-                     static_cast<int>( type->min_field_intensity + round( get_level() *
+                     static_cast<int>( type->min_field_intensity + std::round( get_level() *
                                        type->field_intensity_increment ) ) );
 }
 
 int spell::min_leveled_damage() const
 {
-    return type->min_damage + round( get_level() * type->damage_increment );
+    return type->min_damage + std::round( get_level() * type->damage_increment );
 }
 
 int spell::damage() const
@@ -497,7 +497,7 @@ std::string spell::damage_string() const
 
 int spell::min_leveled_aoe() const
 {
-    return type->min_aoe + round( get_level() * type->aoe_increment );
+    return type->min_aoe + std::round( get_level() * type->aoe_increment );
 }
 
 int spell::aoe() const
@@ -535,7 +535,7 @@ std::string spell::aoe_string() const
 
 int spell::range() const
 {
-    const int leveled_range = type->min_range + round( get_level() * type->range_increment );
+    const int leveled_range = type->min_range + std::round( get_level() * type->range_increment );
     if( type->max_range >= type->min_range ) {
         return std::min( leveled_range, type->max_range );
     } else {
@@ -545,7 +545,7 @@ int spell::range() const
 
 int spell::min_leveled_duration() const
 {
-    return type->min_duration + round( get_level() * type->duration_increment );
+    return type->min_duration + std::round( get_level() * type->duration_increment );
 }
 
 int spell::duration() const
@@ -722,13 +722,13 @@ float spell::spell_fail( const player &p ) const
         return 1.0f;
     }
     float fail_chance = pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    if( has_flag( spell_flag::SOMATIC ) ) {
+    if( has_flag( spell_flag::SOMATIC ) && !p.has_trait_flag( "SUBTLE_SPELL" ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
-    if( has_flag( spell_flag::VERBAL ) ) {
+    if( has_flag( spell_flag::VERBAL ) && !p.has_trait_flag( "SILENT_SPELL" ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
         const int mouth_encumb = std::max( 0, p.encumb( bp_mouth ) - 5 );
         fail_chance += mouth_encumb / 100.0f;
@@ -903,6 +903,11 @@ std::string spell::effect() const
 energy_type spell::energy_source() const
 {
     return type->energy_source;
+}
+
+bool spell::is_target_in_range( const Creature &caster, const tripoint &p ) const
+{
+    return rl_dist( caster.pos(), p ) <= range();
 }
 
 bool spell::is_valid_target( valid_target t ) const
@@ -1391,8 +1396,8 @@ void known_magic::update_mana( const player &p, float turns )
     // mana should replenish in 8 hours.
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
-    mod_mana( p, floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
-                        p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
+    mod_mana( p, std::floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
+                             p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -1947,6 +1952,10 @@ void fake_spell::load( const JsonObject &jo )
     mandatory( jo, false, "id", temp_id );
     id = spell_id( temp_id );
     optional( jo, false, "hit_self", self, false );
+
+    optional( jo, false, "once_in", trigger_once_in, 1 );
+    optional( jo, false, "message", trigger_message );
+    optional( jo, false, "npc_message", npc_trigger_message );
     int max_level_int;
     optional( jo, false, "max_level", max_level_int, -1 );
     if( max_level_int == -1 ) {
@@ -1965,6 +1974,8 @@ void fake_spell::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "id", id );
     json.member( "hit_self", self );
+    json.member( "once_in", trigger_once_in );
+
     if( !max_level ) {
         json.member( "max_level", -1 );
     } else {

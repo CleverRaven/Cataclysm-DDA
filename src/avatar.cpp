@@ -550,8 +550,8 @@ bool avatar::read( item &it, const bool continuous )
             uilist menu;
             menu.title = string_format( _( "Train %s from manual:" ),
                                         martial_art_learned_from( *it.type )->name );
-            menu.addentry( -1, true, 1, _( "Train once." ) );
-            menu.addentry( getID().get_value(), true, 2, _( "Train until tired or success." ) );
+            menu.addentry( -1, true, '1', _( "Train once" ) );
+            menu.addentry( getID().get_value(), true, '0', _( "Train until tired or success" ) );
             menu.query( true );
             if( menu.ret == UILIST_CANCEL ) {
                 add_msg( m_info, _( "Never mind." ) );
@@ -1427,7 +1427,7 @@ void avatar::set_movement_mode( character_movemode new_mode )
                 }
             } else {
                 if( is_mounted() ) {
-                    // mounts dont currently have stamina, but may do in future.
+                    // mounts don't currently have stamina, but may do in future.
                     add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
                 } else if( get_working_leg_count() < 2 ) {
                     add_msg( m_bad, _( "You need two functional legs to run." ) );

@@ -75,6 +75,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "FISHING_SPOT" ),
                    zone_type( translate_marker( "Fishing Spot" ),
                               translate_marker( "Designate an area to fish from." ) ) );
+    types.emplace( zone_type_id( "MINING" ),
+                   zone_type( translate_marker( "Mine Terrain" ),
+                              translate_marker( "Designate an area to mine." ) ) );
     types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
                    zone_type( translate_marker( "Vehicle Deconstruct Zone" ),
                               translate_marker( "Any vehicles in this area are marked for deconstruction." ) ) );
