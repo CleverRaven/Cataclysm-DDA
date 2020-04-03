@@ -28,6 +28,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "popup.h"
 #include "scent_map.h"
 #include "translations.h"
 #include "hash_utils.h"
@@ -38,6 +39,7 @@
 #include "regional_settings.h"
 #include "stats_tracker.h"
 #include "string_id.h"
+#include "ui_manager.h"
 
 #if defined(__ANDROID__)
 #include "input.h"
@@ -837,14 +839,17 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 ter_set( pos + point_south_east, oter_id( "haz_sar_b_4_west" ) );
             }
 
-        } else if( old == "house_base_north" ) {
-            ter_set( pos, oter_id( "house_north" ) );
-        } else if( old == "house_base_south" ) {
-            ter_set( pos, oter_id( "house_south" ) );
-        } else if( old == "house_base_east" ) {
-            ter_set( pos, oter_id( "house_east" ) );
-        } else if( old == "house_base_west" ) {
-            ter_set( pos, oter_id( "house_west" ) );
+        } else if( old == "house_base_north" || old == "house_north" ||
+                   old == "house_base" || old == "house" ) {
+            ter_set( pos, oter_id( "house_w_1_north" ) );
+        } else if( old == "house_base_south" || old == "house_south" ) {
+            ter_set( pos, oter_id( "house_w_1_south" ) );
+        } else if( old == "house_base_east" || old == "house_east" ) {
+            ter_set( pos, oter_id( "house_w_1_east" ) );
+        } else if( old == "house_base_west" || old == "house_west" ) {
+            ter_set( pos, oter_id( "house_w_1_west" ) );
+        } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
+            ter_set( pos, oter_id( "field" ) );
         }
 
         for( const auto &conv : nearby ) {
@@ -1608,10 +1613,14 @@ void game::unserialize_master( std::istream &fin )
 {
     savegame_loading_version = 0;
     chkversion( fin );
+    std::unique_ptr<static_popup> popup;
     if( savegame_loading_version < 11 ) {
-        popup_nowait(
+        popup = std::make_unique<static_popup>();
+        popup->message(
             _( "Cannot find loader for save data in old version %d, attempting to load as current version %d." ),
             savegame_loading_version, savegame_version );
+        ui_manager::redraw();
+        refresh_display();
     }
     try {
         // single-pass parsing example

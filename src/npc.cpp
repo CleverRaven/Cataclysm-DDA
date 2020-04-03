@@ -63,7 +63,53 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "stomach.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_READ( "ACT_READ" );
+
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_high( "high" );
+static const efftype_id effect_infection( "infection" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_npc_flee_player( "npc_flee_player" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_pkill_l( "pkill_l" );
+static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_riding( "riding" );
+
+static const skill_id skill_archery( "archery" );
+static const skill_id skill_barter( "barter" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_pistol( "pistol" );
+static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_shotgun( "shotgun" );
+static const skill_id skill_smg( "smg" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_throw( "throw" );
+
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_memory( "bio_memory" );
+
+static const trait_id trait_BEE( "BEE" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_MUTE( "MUTE" );
+static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_TERRIFYING( "TERRIFYING" );
+
+static const std::string flag_NPC_SAFE( "NPC_SAFE" );
 
 class basecamp;
 class monfaction;
@@ -842,8 +888,8 @@ void npc::finish_read( item &book )
         return;
     }
     const skill_id &skill = reading->skill;
-    // NPCs dont need to identify the book or learn recipes yet.
-    // NPCs dont read to other NPCs yet.
+    // NPCs don't need to identify the book or learn recipes yet.
+    // NPCs don't read to other NPCs yet.
     const bool display_messages = my_fac->id == faction_id( "your_followers" ) && g->u.sees( pos() );
     bool continuous = false; //whether to continue reading or not
 
@@ -940,7 +986,7 @@ void npc::start_read( item &chosen, player *pl )
     player_activity act( ACT_READ, time_taken, 0, pl->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &chosen ) );
     act.str_values.push_back( to_string( penalty ) );
-    // push an indentifier of martial art book to the action handling
+    // push an identifier of martial art book to the action handling
     if( chosen.type->use_methods.count( "MA_MANUAL" ) ) {
         act.str_values.clear();
         act.str_values.emplace_back( "martial_art" );
@@ -963,7 +1009,7 @@ void npc::do_npc_read()
         if( !ch ) {
             return;
         }
-        item &chosen = i_at( loc.obtain( *ch ) );
+        item &chosen = *loc.obtain( *ch );
         if( can_read( chosen, fail_reasons ) ) {
             if( g->u.sees( pos() ) ) {
                 add_msg( m_info, _( "%s starts reading." ), disp_name() );
@@ -1046,7 +1092,9 @@ void npc::stow_item( item &it )
 {
     if( wear_item( weapon, false ) ) {
         // Wearing the item was successful, remove weapon and post message.
-        add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname() );
+        if( g->u.sees( pos() ) ) {
+            add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname() );
+        }
         remove_weapon();
         moves -= 15;
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
@@ -1055,20 +1103,26 @@ void npc::stow_item( item &it )
     }
     for( auto &e : worn ) {
         if( e.can_holster( it ) ) {
-            //~ %1$s: weapon name, %2$s: holster name
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %1$s in the %2$s." ), weapon.tname(),
-                            e.tname() );
+            if( g->u.sees( pos() ) ) {
+                //~ %1$s: weapon name, %2$s: holster name
+                add_msg_if_npc( m_info, _( "<npcname> puts away the %1$s in the %2$s." ),
+                                weapon.tname(), e.tname() );
+            }
             auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
             ptr->store( *this, e, it );
             return;
         }
     }
     if( volume_carried() + weapon.volume() <= volume_capacity() ) {
-        add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname() );
+        if( g->u.sees( pos() ) ) {
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname() );
+        }
         i_add( remove_weapon() );
         moves -= 15;
     } else { // No room for weapon, so we drop it
-        add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname() );
+        if( g->u.sees( pos() ) ) {
+            add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname() );
+        }
         g->m.add_item_or_charges( pos(), remove_weapon() );
     }
 }
@@ -1275,7 +1329,14 @@ void npc::mutiny()
     // feel for you, but also reduces their respect for you.
     my_fac->likes_u = std::max( 0, my_fac->likes_u / 2 + 10 );
     my_fac->respects_u -= 5;
+    g->remove_npc_follower( getID() );
     set_fac( faction_id( "amf" ) );
+    job.clear_all_priorities();
+    if( assigned_camp ) {
+        assigned_camp = cata::nullopt;
+    }
+    chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
+    set_attitude( NPCATT_NULL );
     say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
     if( seen ) {
         my_fac->known_by_u = true;
@@ -1932,13 +1993,19 @@ bool npc::is_leader() const
     return attitude == NPCATT_LEAD;
 }
 
-bool npc::is_assigned_to_camp() const
+bool npc::within_boundaries_of_camp() const
 {
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( global_omt_location().xy() );
-    if( !bcp ) {
-        return false;
+    const int x = global_omt_location().x;
+    const int y = global_omt_location().y;
+    for( int x2 = x - 3; x2 < x + 3; x2++ ) {
+        for( int y2 = y - 3; y2 < y + 3; y2++ ) {
+            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( point( x2, y2 ) );
+            if( bcp ) {
+                return true;
+            }
+        }
     }
-    return !has_companion_mission() && mission == NPC_MISSION_ASSIGNED_CAMP;
+    return false;
 }
 
 bool npc::is_enemy() const
@@ -2142,7 +2209,8 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
-    mvwprintz( w, point( column, line++ ), c_white, _( "NPC: %s" ), name );
+    mvwprintz( w, point( column, line++ ), c_white, _( "NPC: " ) );
+    wprintz( w, basic_symbol_color(), name );
 
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, line++ ), c_yellow, _( "Aware of your presence!" ) );
@@ -2350,6 +2418,13 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
+    if( assigned_camp ) {
+        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        if( bcp ) {
+            ( *bcp )->remove_assignee( getID() );
+        }
+    }
+    assigned_camp = cata::nullopt;
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
@@ -2491,75 +2566,6 @@ std::string npc_attitude_name( npc_attitude att )
     return _( "Unknown attitude" );
 }
 
-std::string npc_job_id( npc_job job )
-{
-    static const std::map<npc_job, std::string> npc_job_ids = {
-        { NPCJOB_NULL, "NPCJOB_NULL" },
-        { NPCJOB_COOKING, "NPCJOB_COOKING" },
-        { NPCJOB_MENIAL, "NPCJOB_MENIAL" },
-        { NPCJOB_VEHICLES, "NPCJOB_VEHICLES" },
-        { NPCJOB_CONSTRUCTING, "NPCJOB_CONSTRUCTING" },
-        { NPCJOB_CRAFTING, "NPCJOB_CRAFTING" },
-        { NPCJOB_SECURITY, "NPCJOB_SECURITY" },
-        { NPCJOB_FARMING, "NPCJOB_FARMING" },
-        { NPCJOB_LUMBERJACK, "NPCJOB_LUMBERJACK" },
-        { NPCJOB_HUSBANDRY, "NPCJOB_HUSBANDRY" },
-        { NPCJOB_HUNTING, "NPCJOB_HUNTING" },
-        { NPCJOB_FORAGING, "NPCJOB_FORAGING" },
-    };
-    const auto &iter = npc_job_ids.find( job );
-    if( iter == npc_job_ids.end() ) {
-        debugmsg( "Invalid job: %d", job );
-        return "NPCJOB_INVALID";
-    }
-
-    return iter->second;
-}
-
-std::vector<std::string> all_jobs()
-{
-    std::vector<std::string> ret;
-    for( int i = 0; i < NPCJOB_END; i++ ) {
-        ret.push_back( npc_job_name( static_cast<npc_job>( i ) ) );
-    }
-    return ret;
-}
-
-std::string npc_job_name( npc_job job )
-{
-    switch( job ) {
-        case NPCJOB_NULL:
-            return _( "No particular job" );
-        case NPCJOB_COOKING:
-            return _( "Cooking and butchering - Currently only butchering is enabled" );
-        case NPCJOB_MENIAL:
-            return _( "Tidying and cleaning" );
-        case NPCJOB_VEHICLES:
-            return _( "Vehicle work" );
-        case NPCJOB_CONSTRUCTING:
-            return _( "Building" );
-        case NPCJOB_CRAFTING:
-            return _( "Crafting - Currently only a placeholder" );
-        case NPCJOB_SECURITY:
-            return _( "Guarding and patrolling - Currently only a placeholder" );
-        case NPCJOB_FARMING:
-            return _( "Farming the fields" );
-        case NPCJOB_LUMBERJACK:
-            return _( "Chopping wood" );
-        case NPCJOB_HUSBANDRY:
-            return _( "Caring for the livestock - Currently only a placeholder" );
-        case NPCJOB_HUNTING:
-            return _( "Hunting and fishing - Currently only fishing is enabled" );
-        case NPCJOB_FORAGING:
-            return _( "Gathering edibles - Currently only a placeholder" );
-        default:
-            break;
-    }
-
-    debugmsg( "Invalid job: %d", job );
-    return _( "Unknown job" );
-}
-
 //message related stuff
 
 //message related stuff
@@ -2576,16 +2582,17 @@ void npc::add_msg_player_or_npc( const std::string &/*player_msg*/,
     }
 }
 
-void npc::add_msg_if_npc( const game_message_type type, const std::string &msg ) const
+void npc::add_msg_if_npc( const game_message_params &params, const std::string &msg ) const
 {
-    add_msg( type, replace_with_npc_name( msg ) );
+    add_msg( params, replace_with_npc_name( msg ) );
 }
 
-void npc::add_msg_player_or_npc( const game_message_type type, const std::string &/*player_msg*/,
+void npc::add_msg_player_or_npc( const game_message_params &params,
+                                 const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( type, replace_with_npc_name( npc_msg ) );
+        add_msg( params, replace_with_npc_name( npc_msg ) );
     }
 }
 
@@ -2595,7 +2602,7 @@ void npc::add_msg_player_or_say( const std::string &/*player_msg*/,
     say( npc_speech );
 }
 
-void npc::add_msg_player_or_say( const game_message_type /*type*/,
+void npc::add_msg_player_or_say( const game_message_params &/*params*/,
                                  const std::string &/*player_msg*/, const std::string &npc_speech ) const
 {
     say( npc_speech );
@@ -3097,31 +3104,6 @@ void npc::set_mission( npc_mission new_mission )
 bool npc::has_activity() const
 {
     return mission == NPC_MISSION_ACTIVITY && attitude == NPCATT_ACTIVITY;
-}
-
-npc_job npc::get_job() const
-{
-    return job;
-}
-
-void npc::set_job( npc_job new_job )
-{
-    if( new_job == job ) {
-        return;
-    }
-    add_msg( m_debug, "%s changes job to %s.",
-             name, npc_job_id( job ) );
-    job = new_job;
-}
-
-bool npc::has_job() const
-{
-    return job != NPCJOB_NULL;
-}
-
-void npc::remove_job()
-{
-    job = NPCJOB_NULL;
 }
 
 npc_attitude npc::get_attitude() const

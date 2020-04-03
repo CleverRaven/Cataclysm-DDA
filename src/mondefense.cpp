@@ -27,7 +27,9 @@
 #include "enums.h"
 #include "item.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_rifle( "rifle" );
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
@@ -126,7 +128,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     prj.impact.add_damage( DT_ACID, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
         const tripoint &target = random_entry( pts );
-        projectile_attack( prj, m.pos(), target, { 1200 }, &m );
+        projectile_attack( prj, m.pos(), target, dispersion_sources{ 1200 }, &m );
     }
 
     if( g->u.sees( m.pos() ) ) {

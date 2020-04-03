@@ -17,6 +17,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "rng.h"
@@ -33,7 +34,29 @@
 #include "int_id.h"
 #include "point.h"
 #include "teleport.h"
-#include "cata_string_consts.h"
+
+static const skill_id skill_throw( "throw" );
+
+static const species_id ROBOT( "ROBOT" );
+
+static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
+
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_tetanus( "tetanus" );
+
+static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
+static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
+static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
@@ -1376,6 +1399,19 @@ bool trapfunc::drain( const tripoint &, Creature *c, item * )
     return false;
 }
 
+bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
+{
+    if( critter == nullptr ) {
+        return false;
+    }
+    const spell trap_spell = g->m.tr_at( p ).spell_data.get_spell( 0 );
+    npc dummy;
+    trap_spell.cast_all_effects( dummy, critter->pos() );
+    trap_spell.make_sound( p, 20 );
+    g->m.remove_trap( p );
+    return true;
+}
+
 bool trapfunc::snake( const tripoint &p, Creature *, item * )
 {
     //~ the sound a snake makes
@@ -1449,6 +1485,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "shadow", trapfunc::shadow },
             { "map_regen", trapfunc::map_regen },
             { "drain", trapfunc::drain },
+            { "spell", trapfunc::cast_spell },
             { "snake", trapfunc::snake }
         }
     };

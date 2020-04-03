@@ -2,7 +2,7 @@
   {
     "id": "mon_bushelephant",
     "type": "MONSTER",
-    "name": "bush elephant",
+    "name": { "str": "bush elephant" },
     "description": "The African Bush Elephant is a massive terrestrial animal with two long tusks protruding from its mouth.  Elephantry is on the rise since the Cataclysm.",
     "default_faction": "herbivore",
     "bodytype": "elephant",

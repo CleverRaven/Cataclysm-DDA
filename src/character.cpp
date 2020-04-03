@@ -12,7 +12,6 @@
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "bionics.h"
-#include "cata_string_consts.h"
 #include "cata_utility.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -67,6 +66,242 @@
 #include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
+
+static const activity_id ACT_DROP( "ACT_DROP" );
+static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_STASH( "ACT_STASH" );
+static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
+static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
+
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_watch( "bio_watch" );
+
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_blisters( "blisters" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_cough_suppress( "cough_suppress" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_foodpoison( "foodpoison" );
+static const efftype_id effect_frostbite( "frostbite" );
+static const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_glowy_led( "glowy_led" );
+static const efftype_id effect_got_checked( "got_checked" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_heating_bionic( "heating_bionic" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_hot_speed( "hot_speed" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_jetinjector( "jetinjector" );
+static const efftype_id effect_lack_sleep( "lack_sleep" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_melatonin_supplements( "melatonin" );
+static const efftype_id effect_masked_scent( "masked_scent" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_pkill1( "pkill1" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_recently_coughed( "recently_coughed" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_saddled( "monster_saddled" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_winded( "winded" );
+
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_throw( "throw" );
+
+static const species_id HUMAN( "HUMAN" );
+static const species_id ROBOT( "ROBOT" );
+
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
+static const trait_id trait_ADRENALINE( "ADRENALINE" );
+static const trait_id trait_ANTENNAE( "ANTENNAE" );
+static const trait_id trait_ANTLERS( "ANTLERS" );
+static const trait_id trait_BADBACK( "BADBACK" );
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+static const trait_id trait_HUGE( "HUGE" );
+static const trait_id trait_HUGE_OK( "HUGE_OK" );
+static const trait_id trait_SMALL2( "SMALL2" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
+static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
+
+static const bionic_id bio_ads( "bio_ads" );
+static const bionic_id bio_blaster( "bio_blaster" );
+static const bionic_id bio_blindfold( "bio_blindfold" );
+static const bionic_id bio_climate( "bio_climate" );
+static const bionic_id bio_earplugs( "bio_earplugs" );
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_faraday( "bio_faraday" );
+static const bionic_id bio_flashlight( "bio_flashlight" );
+static const bionic_id bio_gills( "bio_gills" );
+static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
+static const bionic_id bio_heatsink( "bio_heatsink" );
+static const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_infrared( "bio_infrared" );
+static const bionic_id bio_laser( "bio_laser" );
+static const bionic_id bio_leukocyte( "bio_leukocyte" );
+static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_membrane( "bio_membrane" );
+static const bionic_id bio_memory( "bio_memory" );
+static const bionic_id bio_night_vision( "bio_night_vision" );
+static const bionic_id bio_railgun( "bio_railgun" );
+static const bionic_id bio_recycler( "bio_recycler" );
+static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
+static const bionic_id bio_storage( "bio_storage" );
+static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
+static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
+static const bionic_id bio_tools( "bio_tools" );
+static const bionic_id bio_ups( "bio_ups" );
+static const bionic_id str_bio_cloak( "bio_cloak" );
+static const bionic_id str_bio_night( "bio_night" );
+// Aftershock stuff!
+static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
+
+static const trait_id trait_BARK( "BARK" );
+static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
+static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
+static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
+static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_DEAF( "DEAF" );
+static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
+static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
+static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
+static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
+static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
+static const trait_id trait_DOWN( "DOWN" );
+static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
+static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
+static const trait_id trait_ELFA_NV( "ELFA_NV" );
+static const trait_id trait_FEL_NV( "FEL_NV" );
+static const trait_id trait_GILLS( "GILLS" );
+static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
+static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
+static const trait_id trait_HIBERNATE( "HIBERNATE" );
+static const trait_id trait_HOARDER( "HOARDER" );
+static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
+static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
+static const trait_id trait_INFRARED( "INFRARED" );
+static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
+static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
+static const trait_id trait_LIZ_IR( "LIZ_IR" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_M_SKIN2( "M_SKIN2" );
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_MEMBRANE( "MEMBRANE" );
+static const trait_id trait_MYOPIC( "MYOPIC" );
+static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
+static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
+static const trait_id trait_NIGHTVISION3( "NIGHTVISION3" );
+static const trait_id trait_NO_THIRST( "NO_THIRST" );
+static const trait_id trait_NOMAD( "NOMAD" );
+static const trait_id trait_NOMAD2( "NOMAD2" );
+static const trait_id trait_NOMAD3( "NOMAD3" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PACKMULE( "PACKMULE" );
+static const trait_id trait_PAWS( "PAWS" );
+static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
+static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
+static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
+static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
+static const trait_id trait_SEESLEEP( "SEESLEEP" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_SHELL( "SHELL" );
+static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHOUT2( "SHOUT2" );
+static const trait_id trait_SHOUT3( "SHOUT3" );
+static const trait_id trait_SLIMY( "SLIMY" );
+static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
+static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
+static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
+static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
+static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
+static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
+static const trait_id trait_VISCOUS( "VISCOUS" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+static const trait_id trait_WEBBED( "WEBBED" );
+static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
+static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
+static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id debug_nodmg( "DEBUG_NODMG" );
+
+static const std::string flag_ACTIVE_CLOAKING( "ACTIVE_CLOAKING" );
+static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
+static const std::string flag_AURA( "AURA" );
+static const std::string flag_BELTED( "BELTED" );
+static const std::string flag_BLIND( "BLIND" );
+static const std::string flag_DEAF( "DEAF" );
+static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
+static const std::string flag_EFFECT_INVISIBLE( "EFFECT_INVISIBLE" );
+static const std::string flag_EFFECT_NIGHT_VISION( "EFFECT_NIGHT_VISION" );
+static const std::string flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
+static const std::string flag_FUNGUS( "FUNGUS" );
+static const std::string flag_GNV_EFFECT( "GNV_EFFECT" );
+static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
+static const std::string flag_IR_EFFECT( "IR_EFFECT" );
+static const std::string flag_ONLY_ONE( "ONLY_ONE" );
+static const std::string flag_OUTER( "OUTER" );
+static const std::string flag_OVERSIZE( "OVERSIZE" );
+static const std::string flag_PARTIAL_DEAF( "PARTIAL_DEAF" );
+static const std::string flag_PERPETUAL( "PERPETUAL" );
+static const std::string flag_PERSONAL( "PERSONAL" );
+static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_POWERARMOR_COMPATIBLE( "POWERARMOR_COMPATIBLE" );
+static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
+static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
+static const std::string flag_SKINTIGHT( "SKINTIGHT" );
+static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
+static const std::string flag_SPLINT( "SPLINT" );
+static const std::string flag_STURDY( "STURDY" );
+static const std::string flag_SWIMMABLE( "SWIMMABLE" );
+static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
+static const std::string flag_UNDERSIZE( "UNDERSIZE" );
+static const std::string flag_USE_UPS( "USE_UPS" );
 
 // *INDENT-OFF*
 Character::Character() :
@@ -400,6 +635,251 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     return std::min( aim_speed, recoil - limit );
 }
 
+const tripoint &Character::pos() const
+{
+    return position;
+}
+
+int Character::sight_range( int light_level ) const
+{
+    /* Via Beer-Lambert we have:
+     * light_level * (1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance) ) <= LIGHT_AMBIENT_LOW
+     * Solving for distance:
+     * 1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) <= LIGHT_AMBIENT_LOW / light_level
+     * 1 <= exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) * LIGHT_AMBIENT_LOW / light_level
+     * light_level <= exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) * LIGHT_AMBIENT_LOW
+     * log(light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance + log(LIGHT_AMBIENT_LOW)
+     * log(light_level) - log(LIGHT_AMBIENT_LOW) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
+     * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
+     * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
+     */
+    int range = static_cast<int>( -log( get_vision_threshold( static_cast<int>( g->m.ambient_light_at(
+                                            pos() ) ) ) /
+                                        static_cast<float>( light_level ) ) *
+                                  ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
+    // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
+
+    // Clamp to [1, sight_max].
+    return clamp( range, 1, sight_max );
+}
+
+int Character::unimpaired_range() const
+{
+    return std::min( sight_max, 60 );
+}
+
+bool Character::overmap_los( const tripoint &omt, int sight_points )
+{
+    const tripoint ompos = global_omt_location();
+    if( omt.x < ompos.x - sight_points || omt.x > ompos.x + sight_points ||
+        omt.y < ompos.y - sight_points || omt.y > ompos.y + sight_points ) {
+        // Outside maximum sight range
+        return false;
+    }
+
+    const std::vector<tripoint> line = line_to( ompos, omt, 0, 0 );
+    for( size_t i = 0; i < line.size() && sight_points >= 0; i++ ) {
+        const tripoint &pt = line[i];
+        const oter_id &ter = overmap_buffer.ter( pt );
+        sight_points -= static_cast<int>( ter->get_see_cost() );
+        if( sight_points < 0 ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int Character::overmap_sight_range( int light_level ) const
+{
+    int sight = sight_range( light_level );
+    if( sight < SEEX ) {
+        return 0;
+    }
+    if( sight <= SEEX * 4 ) {
+        return ( sight / ( SEEX / 2 ) );
+    }
+
+    sight = 6;
+    // The higher your perception, the farther you can see.
+    sight += static_cast<int>( get_per() / 2 );
+    // The higher up you are, the farther you can see.
+    sight += std::max( 0, posz() ) * 2;
+    // Mutations like Scout and Topographagnosia affect how far you can see.
+    sight += mutation_value( "overmap_sight" );
+
+    float multiplier = mutation_value( "overmap_multiplier" );
+    // Binoculars double your sight range.
+    const bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) ||
+                             ( is_mounted() &&
+                               mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) );
+    if( has_optic ) {
+        multiplier += 1;
+    }
+
+    sight = round( sight * multiplier );
+    return std::max( sight, 3 );
+}
+
+int Character::clairvoyance() const
+{
+    if( vision_mode_cache[VISION_CLAIRVOYANCE_SUPER] ) {
+        return MAX_CLAIRVOYANCE;
+    }
+
+    if( vision_mode_cache[VISION_CLAIRVOYANCE_PLUS] ) {
+        return 8;
+    }
+
+    if( vision_mode_cache[VISION_CLAIRVOYANCE] ) {
+        return 3;
+    }
+
+    return 0;
+}
+
+bool Character::sight_impaired() const
+{
+    return ( ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) ||
+                 has_effect( effect_darkness ) ) &&
+               ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
+             ( underwater && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
+               !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( trait_PER_SLIME_OK ) &&
+               !has_trait( trait_CEPH_EYES ) && !has_trait( trait_SEESLEEP ) ) ||
+             ( ( has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE ) ) &&
+               !worn_with_flag( "FIX_NEARSIGHT" ) &&
+               !has_effect( effect_contacts ) &&
+               !has_bionic( bio_eye_optic ) ) ||
+             has_trait( trait_PER_SLIME ) );
+}
+
+bool Character::has_alarm_clock() const
+{
+    return ( has_item_with_flag( "ALARMCLOCK", true ) ||
+             ( g->m.veh_at( pos() ) &&
+               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
+             has_bionic( bio_watch ) );
+}
+
+bool Character::has_watch() const
+{
+    return ( has_item_with_flag( "WATCH", true ) ||
+             ( g->m.veh_at( pos() ) &&
+               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
+             has_bionic( bio_watch ) );
+}
+
+void Character::react_to_felt_pain( int intensity )
+{
+    if( intensity <= 0 ) {
+        return;
+    }
+    if( is_player() && intensity >= 2 ) {
+        g->cancel_activity_or_ignore_query( distraction_type::pain, _( "Ouch, something hurts!" ) );
+    }
+    // Only a large pain burst will actually wake people while sleeping.
+    if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+        int pain_thresh = rng( 3, 5 );
+
+        if( has_trait( trait_HEAVYSLEEPER ) ) {
+            pain_thresh += 2;
+        } else if( has_trait( trait_HEAVYSLEEPER2 ) ) {
+            pain_thresh += 5;
+        }
+
+        if( intensity >= pain_thresh ) {
+            wake_up();
+        }
+    }
+}
+
+void Character::action_taken()
+{
+    nv_cached = false;
+}
+
+int Character::swim_speed() const
+{
+    int ret;
+    if( is_mounted() ) {
+        monster *mon = mounted_creature.get();
+        // no difference in swim speed by monster type yet.
+        // TODO: difference in swim speed by monster type.
+        // No monsters are currently mountable and can swim, though mods may allow this.
+        if( mon->swims() ) {
+            ret = 25;
+            ret += get_weight() / 120_gram - 50 * ( mon->get_size() - 1 );
+            return ret;
+        }
+    }
+    const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
+    float hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
+                            ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
+
+    // base swim speed.
+    ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + weight_carried() /
+          ( 60_gram / mutation_value( "movecost_swim_modifier" ) ) - 50 * get_skill_level( skill_swimming );
+    /** @EFFECT_STR increases swim speed bonus from PAWS */
+    if( has_trait( trait_PAWS ) ) {
+        ret -= hand_bonus_mult * ( 20 + str_cur * 3 );
+    }
+    /** @EFFECT_STR increases swim speed bonus from PAWS_LARGE */
+    if( has_trait( trait_PAWS_LARGE ) ) {
+        ret -= hand_bonus_mult * ( 20 + str_cur * 4 );
+    }
+    /** @EFFECT_STR increases swim speed bonus from swim_fins */
+    if( worn_with_flag( "FIN", bp_foot_l ) || worn_with_flag( "FIN", bp_foot_r ) ) {
+        if( worn_with_flag( "FIN", bp_foot_l ) && worn_with_flag( "FIN", bp_foot_r ) ) {
+            ret -= ( 15 * str_cur );
+        } else {
+            ret -= ( 15 * str_cur ) / 2;
+        }
+    }
+    /** @EFFECT_STR increases swim speed bonus from WEBBED */
+    if( has_trait( trait_WEBBED ) ) {
+        ret -= hand_bonus_mult * ( 60 + str_cur * 5 );
+    }
+    /** @EFFECT_SWIMMING increases swim speed */
+    ret += ( 50 - get_skill_level( skill_swimming ) * 2 ) * ( ( encumb( bp_leg_l ) + encumb(
+                bp_leg_r ) ) / 10 );
+    ret += ( 80 - get_skill_level( skill_swimming ) * 3 ) * ( encumb( bp_torso ) / 10 );
+    if( get_skill_level( skill_swimming ) < 10 ) {
+        for( auto &i : worn ) {
+            ret += i.volume() / 125_ml * ( 10 - get_skill_level( skill_swimming ) );
+        }
+    }
+    /** @EFFECT_STR increases swim speed */
+
+    /** @EFFECT_DEX increases swim speed */
+    ret -= str_cur * 6 + dex_cur * 4;
+    if( worn_with_flag( "FLOTATION" ) ) {
+        ret = std::min( ret, 400 );
+        ret = std::max( ret, 200 );
+    }
+    // If (ret > 500), we can not swim; so do not apply the underwater bonus.
+    if( underwater && ret < 500 ) {
+        ret -= 50;
+    }
+
+    // Running movement mode while swimming means faster swim style, like crawlstroke
+    if( move_mode == CMM_RUN ) {
+        ret -= 80;
+    }
+    // Crouching movement mode while swimming means slower swim style, like breaststroke
+    if( move_mode == CMM_CROUCH ) {
+        ret += 50;
+    }
+
+    if( ret < 30 ) {
+        ret = 30;
+    }
+    return ret;
+}
+
+bool Character::is_on_ground() const
+{
+    return get_working_leg_count() < 2 || has_effect( effect_downed );
+}
+
 void Character::cancel_stashed_activity()
 {
     stashed_outbounds_activity = player_activity();
@@ -516,6 +996,65 @@ void Character::mount_creature( monster &z )
     mod_moves( -100 );
 }
 
+bool Character::check_mount_will_move( const tripoint &dest_loc )
+{
+    if( !is_mounted() ) {
+        return true;
+    }
+    if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
+        for( const monster &critter : g->all_monsters() ) {
+            Attitude att = critter.attitude_to( *this );
+            if( att == A_HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 15 &&
+                rl_dist( dest_loc, critter.pos() ) < rl_dist( pos(), critter.pos() ) ) {
+                add_msg_if_player( _( "You fail to budge your %s!" ), mounted_creature->get_name() );
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool Character::check_mount_is_spooked()
+{
+    if( !is_mounted() ) {
+        return false;
+    }
+    // chance to spook per monster nearby:
+    // base 1% per turn.
+    // + 1% per square closer than 15 distanace. (1% - 15%)
+    // * 2 if hostile monster is bigger than or same size as mounted creature.
+    // -0.25% per point of dexterity (low -1%, average -2%, high -3%, extreme -3.5%)
+    // -0.1% per point of strength ( low -0.4%, average -0.8%, high -1.2%, extreme -1.4% )
+    // / 2 if horse has full tack and saddle.
+    // Monster in spear reach monster and average stat (8) player on saddled horse, 14% -2% -0.8% / 2 = ~5%
+    if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
+        const m_size mount_size = mounted_creature->get_size();
+        const bool saddled = mounted_creature->has_effect( effect_saddled );
+        for( const monster &critter : g->all_monsters() ) {
+            double chance = 1.0;
+            Attitude att = critter.attitude_to( *this );
+            // actually too close now - horse might spook.
+            if( att == A_HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 10 ) {
+                chance += 10 - rl_dist( pos(), critter.pos() );
+                if( critter.get_size() >= mount_size ) {
+                    chance *= 2;
+                }
+                chance -= 0.25 * get_dex();
+                chance -= 0.1 * get_str();
+                if( saddled ) {
+                    chance /= 2;
+                }
+                chance = std::max( 1.0, chance );
+                if( x_in_y( chance, 100.0 ) ) {
+                    forced_dismount();
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 bool Character::is_mounted() const
 {
     return has_effect( effect_riding ) && mounted_creature;
@@ -609,7 +1148,13 @@ void Character::forced_dismount()
             g->u.grab( OBJECT_NONE );
         }
         set_movement_mode( CMM_WALK );
+        if( g->u.is_auto_moving() || g->u.has_destination() || g->u.has_destination_activity() ) {
+            g->u.clear_destination();
+        }
         g->update_map( g->u );
+    }
+    if( activity ) {
+        cancel_activity();
     }
     moves -= 150;
 }
@@ -887,7 +1432,7 @@ bool Character::move_effects( bool attacking )
                 if( one_in( 4 ) ) {
                     add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
                     remove_effect( effect_grabbed );
-                    dynamic_cast<player &>( *this ).forced_dismount();
+                    forced_dismount();
                 }
             }
         } else {
@@ -2364,6 +2909,18 @@ bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
     return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item & it ) {
         return it.has_flag( flag ) && ( bp == num_bp || it.covers( bp ) );
     } );
+}
+
+item Character::item_worn_with_flag( const std::string &flag, body_part bp ) const
+{
+    item it_with_flag;
+    for( const item &it : worn ) {
+        if( it.has_flag( flag ) && ( bp == num_bp || it.covers( bp ) ) ) {
+            it_with_flag = it;
+            break;
+        }
+    }
+    return it_with_flag;
 }
 
 std::vector<std::string> Character::get_overlay_ids() const
@@ -3899,6 +4456,20 @@ void Character::update_body( const time_point &from, const time_point &to )
     do_skill_rust();
 }
 
+item *Character::best_quality_item( const quality_id &qual )
+{
+    std::vector<item *> qual_inv = items_with( [qual]( const item & itm ) {
+        return itm.has_quality( qual );
+    } );
+    item *best_qual = random_entry( qual_inv );
+    for( const auto elem : qual_inv ) {
+        if( elem->get_quality( qual ) > best_qual->get_quality( qual ) ) {
+            best_qual = elem;
+        }
+    }
+    return best_qual;
+}
+
 void Character::update_stomach( const time_point &from, const time_point &to )
 {
     const needs_rates rates = calc_needs_rates();
@@ -4167,7 +4738,7 @@ needs_rates Character::calc_needs_rates() const
 
     if( has_activity( ACT_TREE_COMMUNION ) ) {
         // Much of the body's needs are taken care of by the trees.
-        // Hair Roots dont provide any bodily needs.
+        // Hair Roots don't provide any bodily needs.
         if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
             rates.hunger *= 0.5f;
             rates.thirst *= 0.5f;
@@ -5456,7 +6027,7 @@ nc_color Character::symbol_color() const
 bool Character::is_immune_field( const field_type_id &fid ) const
 {
     // Obviously this makes us invincible
-    if( has_trait( debug_nodmg ) ) {
+    if( has_trait( trait_DEBUG_NODMG ) ) {
         return true;
     }
     // Check to see if we are immune
@@ -6526,7 +7097,7 @@ void Character::mod_stamina( int mod )
     if( stamina < 0 ) {
         add_effect( effect_winded, 10_turns );
     }
-    stamina = clamp( 0, stamina, get_stamina_max() );
+    stamina = clamp( stamina, 0, get_stamina_max() );
 }
 
 void Character::burn_move_stamina( int moves )
@@ -6568,7 +7139,7 @@ float Character::stamina_move_cost_modifier() const
     // Both walk and run speed drop to half their maximums as stamina approaches 0.
     // Convert stamina to a float first to allow for decimal place carrying
     float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
-    if( move_mode == CMM_RUN && get_stamina() > 0 ) {
+    if( move_mode == CMM_RUN && get_stamina() >= 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
         stamina_modifier *= 2.0;
     }
@@ -6622,7 +7193,7 @@ void Character::update_stamina( int turns )
         }
     }
 
-    mod_stamina( roll_remainder( stamina_recovery * turns / stamina_move_cost_modifier() ) );
+    mod_stamina( roll_remainder( stamina_recovery * turns ) );
     add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
@@ -7264,6 +7835,23 @@ void Character::recalculate_enchantment_cache()
             }
         }
     }
+
+    // get from traits/ mutations
+    for( const std::pair<trait_id, trait_data> &mut_map : my_mutations ) {
+        const mutation_branch &mut = mut_map.first.obj();
+
+        // only add the passive or powered active mutations
+        if( mut.activated && !mut_map.second.powered ) {
+            continue;
+        }
+
+        for( const enchantment_id &ench_id : mut.enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this ) ) {
+                enchantment_cache.force_add( ench );
+            }
+        }
+    }
 }
 
 double Character::calculate_by_enchantment( double modify, enchantment::mod value,
@@ -7573,13 +8161,13 @@ int Character::get_armor_fire( body_part bp ) const
 
 void Character::did_hit( Creature &target )
 {
-    enchantment_cache.cast_hit_you( *this, target.pos() );
+    enchantment_cache.cast_hit_you( *this, target );
 }
 
-void Character::on_hit( Creature * /*source*/, body_part /*bp_hit*/,
+void Character::on_hit( Creature *source, body_part /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
-    enchantment_cache.cast_hit_me( *this );
+    enchantment_cache.cast_hit_me( *this, source );
 }
 
 void Character::heal( body_part healed, int dam )
@@ -8224,7 +8812,7 @@ void Character::cancel_activity()
     }
     // act wait stamina interrupts an ongoing activity.
     // and automatically puts auto_resume = true on it
-    // we dont want that to persist if there is another interruption.
+    // we don't want that to persist if there is another interruption.
     // and player moves elsewhere.
     if( has_activity( ACT_WAIT_STAMINA ) && !backlog.empty() &&
         backlog.front().auto_resume ) {

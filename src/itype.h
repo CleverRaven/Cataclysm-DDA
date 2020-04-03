@@ -140,6 +140,9 @@ struct islot_comestible {
         /** stimulant effect */
         int stim = 0;
 
+        /**fatigue altering effect*/
+        int fatigue_mod = 0;
+
         /** Reference to other item that replaces this one as a component in recipe results */
         itype_id cooks_like;
 
@@ -154,6 +157,9 @@ struct islot_comestible {
 
         /** probability [0, 100] to get food poisoning from this comestible */
         int contamination = 0;
+
+        /**Amount of radiation you get from this comestible*/
+        int radiation = 0;
 
         /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
         int freeze_point = temperatures::freezing;
@@ -998,6 +1004,11 @@ struct itype {
          * greater than zero, transfers faster, cannot be less than zero.
          */
         float insulation_factor = 1;
+
+        /**
+         * Efficiency of solar energy conversion for solarpacks.
+         */
+        float solar_efficiency = 0;
 
         std::string get_item_type_string() const {
             if( tool ) {

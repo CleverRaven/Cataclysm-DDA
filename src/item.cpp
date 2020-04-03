@@ -85,7 +85,156 @@
 #include "faction.h"
 #include "magic.h"
 #include "clothing_mod.h"
-#include "cata_string_consts.h"
+
+static const std::string GUN_MODE_VAR_NAME( "item::mode" );
+static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
+
+static const ammotype ammo_battery( "battery" );
+static const ammotype ammo_plutonium( "plutonium" );
+
+static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_weed_high( "weed_high" );
+
+static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_weapon( "weapon" );
+
+static const quality_id qual_JACK( "JACK" );
+static const quality_id qual_LIFT( "LIFT" );
+static const species_id ROBOT( "ROBOT" );
+
+static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
+
+static const bionic_id bio_digestion( "bio_digestion" );
+
+static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_HUGE( "HUGE" );
+static const trait_id trait_HUGE_OK( "HUGE_OK" );
+static const trait_id trait_JITTERY( "JITTERY" );
+static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
+static const trait_id trait_SMALL2( "SMALL2" );
+static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
+
+static const std::string flag_ALWAYS_TWOHAND( "ALWAYS_TWOHAND" );
+static const std::string flag_AURA( "AURA" );
+static const std::string flag_BELTED( "BELTED" );
+static const std::string flag_BIPOD( "BIPOD" );
+static const std::string flag_BYPRODUCT( "BYPRODUCT" );
+static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
+static const std::string flag_CANNIBALISM( "CANNIBALISM" );
+static const std::string flag_CASING( "CASING" );
+static const std::string flag_CHARGEDIM( "CHARGEDIM" );
+static const std::string flag_COLD( "COLD" );
+static const std::string flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
+static const std::string flag_CONDUCTIVE( "CONDUCTIVE" );
+static const std::string flag_CONSUMABLE( "CONSUMABLE" );
+static const std::string flag_CORPSE( "CORPSE" );
+static const std::string flag_DANGEROUS( "DANGEROUS" );
+static const std::string flag_DEEP_WATER( "DEEP_WATER" );
+static const std::string flag_DIAMOND( "DIAMOND" );
+static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
+static const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
+static const std::string flag_FAKE_MILL( "FAKE_MILL" );
+static const std::string flag_FAKE_SMOKE( "FAKE_SMOKE" );
+static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
+static const std::string flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
+static const std::string flag_FILTHY( "FILTHY" );
+static const std::string flag_FIRE_100( "FIRE_100" );
+static const std::string flag_FIRE_20( "FIRE_20" );
+static const std::string flag_FIRE_50( "FIRE_50" );
+static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
+static const std::string flag_FIT( "FIT" );
+static const std::string flag_FLAMMABLE( "FLAMMABLE" );
+static const std::string flag_FLAMMABLE_ASH( "FLAMMABLE_ASH" );
+static const std::string flag_FREEZERBURN( "FREEZERBURN" );
+static const std::string flag_FROZEN( "FROZEN" );
+static const std::string flag_GIBBED( "GIBBED" );
+static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
+static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
+static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
+static const std::string flag_HOT( "HOT" );
+static const std::string flag_IRREMOVABLE( "IRREMOVABLE" );
+static const std::string flag_IS_ARMOR( "IS_ARMOR" );
+static const std::string flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
+static const std::string flag_IS_UPS( "IS_UPS" );
+static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
+static const std::string flag_LEAK_DAM( "LEAK_DAM" );
+static const std::string flag_LIQUID( "LIQUID" );
+static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
+static const std::string flag_LITCIG( "LITCIG" );
+static const std::string flag_MAG_BELT( "MAG_BELT" );
+static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
+static const std::string flag_MAG_EJECT( "MAG_EJECT" );
+static const std::string flag_MELTS( "MELTS" );
+static const std::string flag_MUSHY( "MUSHY" );
+static const std::string flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
+static const std::string flag_NEEDS_UNFOLD( "NEEDS_UNFOLD" );
+static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
+static const std::string flag_NONCONDUCTIVE( "NONCONDUCTIVE" );
+static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
+static const std::string flag_NO_DROP( "NO_DROP" );
+static const std::string flag_NO_PACKED( "NO_PACKED" );
+static const std::string flag_NO_PARASITES( "NO_PARASITES" );
+static const std::string flag_NO_RELOAD( "NO_RELOAD" );
+static const std::string flag_NO_REPAIR( "NO_REPAIR" );
+static const std::string flag_NO_SALVAGE( "NO_SALVAGE" );
+static const std::string flag_NO_STERILE( "NO_STERILE" );
+static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
+static const std::string flag_OUTER( "OUTER" );
+static const std::string flag_OVERSIZE( "OVERSIZE" );
+static const std::string flag_PERSONAL( "PERSONAL" );
+static const std::string flag_PROCESSING( "PROCESSING" );
+static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
+static const std::string flag_PULPED( "PULPED" );
+static const std::string flag_PUMP_ACTION( "PUMP_ACTION" );
+static const std::string flag_PUMP_RAIL_COMPATIBLE( "PUMP_RAIL_COMPATIBLE" );
+static const std::string flag_QUARTERED( "QUARTERED" );
+static const std::string flag_RADIOACTIVE( "RADIOACTIVE" );
+static const std::string flag_RADIOSIGNAL_1( "RADIOSIGNAL_1" );
+static const std::string flag_RADIOSIGNAL_2( "RADIOSIGNAL_2" );
+static const std::string flag_RADIOSIGNAL_3( "RADIOSIGNAL_3" );
+static const std::string flag_RADIO_ACTIVATION( "RADIO_ACTIVATION" );
+static const std::string flag_RADIO_INVOKE_PROC( "RADIO_INVOKE_PROC" );
+static const std::string flag_RADIO_MOD( "RADIO_MOD" );
+static const std::string flag_RAIN_PROTECT( "RAIN_PROTECT" );
+static const std::string flag_REACH3( "REACH3" );
+static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
+static const std::string flag_RECHARGE( "RECHARGE" );
+static const std::string flag_REDUCED_BASHING( "REDUCED_BASHING" );
+static const std::string flag_REDUCED_WEIGHT( "REDUCED_WEIGHT" );
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+static const std::string flag_RELOAD_EJECT( "RELOAD_EJECT" );
+static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
+static const std::string flag_REVIVE_SPECIAL( "REVIVE_SPECIAL" );
+static const std::string flag_SILENT( "SILENT" );
+static const std::string flag_SKINNED( "SKINNED" );
+static const std::string flag_SKINTIGHT( "SKINTIGHT" );
+static const std::string flag_SLOW_WIELD( "SLOW_WIELD" );
+static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
+static const std::string flag_SPLINT( "SPLINT" );
+static const std::string flag_STR_DRAW( "STR_DRAW" );
+static const std::string flag_TOBACCO( "TOBACCO" );
+static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
+static const std::string flag_UNDERSIZE( "UNDERSIZE" );
+static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
+static const std::string flag_USE_UPS( "USE_UPS" );
+static const std::string flag_VARSIZE( "VARSIZE" );
+static const std::string flag_VEHICLE( "VEHICLE" );
+static const std::string flag_WAIST( "WAIST" );
+static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
+static const std::string flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
+static const std::string flag_WET( "WET" );
+static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
 
 class npc_class;
 
@@ -1039,9 +1188,9 @@ static int get_base_env_resist( const item &it )
 
 bool item::is_owned_by( const Character &c, bool available_to_take ) const
 {
-    // owner.is_null() implies faction_id( "no_faction" ) which shouldnt happen, or no owner at all.
+    // owner.is_null() implies faction_id( "no_faction" ) which shouldn't happen, or no owner at all.
     // either way, certain situations this means the thing is available to take.
-    // in other scenarios we actaully really want to check for id == id, even for no_faction
+    // in other scenarios we actually really want to check for id == id, even for no_faction
     if( get_owner().is_null() ) {
         return available_to_take;
     }
@@ -1212,6 +1361,14 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       iteminfo::lower_is_better, attack_time() ) );
+            double dps = ( dmg_bash + dmg_cut + dmg_stab ) * to_moves<int>( 1_seconds ) /
+                         static_cast<double>( attack_time() );
+            static const matec_id rapid_strike( "RAPID" );
+            if( has_technique( rapid_strike ) ) {
+                dps *= 100.0 / 66;
+            }
+            info.push_back( iteminfo( "BASE", _( "Damage per second: " ), "",
+                                      iteminfo::is_decimal, dps ) );
         }
     }
 
@@ -1405,8 +1562,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                   abs( static_cast<int>( food_item->charges ) * batch ) ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
-        ( debug || ( g != nullptr && ( g->u.has_bionic( bio_scent_vision ) ||
-                                       g->u.has_trait( trait_CARNIVORE ) ||
+        ( debug || ( g != nullptr && ( g->u.has_trait( trait_CARNIVORE ) ||
                                        g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
     }
@@ -1891,15 +2047,15 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             mod_str += string_format( "<bold>%d/%d</bold> %s", free_slots,  elem.second,
                                       elem.first.name() );
             bool first_mods = true;
-            for( const item *mod : gunmods() ) {
-                if( mod->type->gunmod->location == ( elem ).first ) { // if mod for this location
+            for( const item *gmod : gunmods() ) {
+                if( gmod->type->gunmod->location == ( elem ).first ) { // if mod for this location
                     if( first_mods ) {
                         mod_str += ": ";
                         first_mods = false;
                     } else {
                         mod_str += ", ";
                     }
-                    mod_str += string_format( "<stat>%s</stat>", mod->tname() );
+                    mod_str += string_format( "<stat>%s</stat>", gmod->tname() );
                 }
             }
             iternum++;
@@ -3647,7 +3803,7 @@ void item::on_wear( Character &p )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
     }
-    // if game is loaded - dont want ownership assigned during char creation
+    // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
@@ -3710,7 +3866,7 @@ void item::on_wield( player &p, int mv )
     } else {
         msg = _( "You wield your %s." );
     }
-    // if game is loaded - dont want ownership assigned during char creation
+    // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
@@ -3773,7 +3929,7 @@ void item::on_pickup( Character &p )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_carried );
     }
-    // if game is loaded - dont want ownership assigned during char creation
+    // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
@@ -4450,7 +4606,7 @@ int item::lift_strength() const
 
 int item::attack_time() const
 {
-    int ret = 65 + volume() / 62.5_ml + weight() / 60_gram;
+    int ret = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
     ret = calculate_by_enchantment_wield( ret, enchantment::mod::ITEM_ATTACK_SPEED,
                                           true );
     return ret;
@@ -4995,7 +5151,7 @@ int item::get_env_resist( int override_base_resist ) const
     int resist_filter = get_var( "overwrite_env_resist", 0 );
     int resist = std::max( { resist_base, resist_filter, override_base_resist } );
 
-    return lround( resist * get_relative_health() );
+    return std::lround( resist * get_relative_health() );
 }
 
 int item::get_base_env_resist_w_filter() const
@@ -8149,6 +8305,39 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
     return false;
 }
 
+bool item::has_rotten_away( const tripoint &pnt )
+{
+    if( is_corpse() && goes_bad() ) {
+        process_temperature_rot( 1, pnt, nullptr );
+        return get_rot() > 10_days && !can_revive();
+    } else if( goes_bad() ) {
+        process_temperature_rot( 1, pnt, nullptr );
+        return has_rotten_away();
+    } else if( type->container && type->container->preserves ) {
+        // Containers like tin cans preserves all items inside, they do not rot at all.
+        return false;
+    } else if( type->container && type->container->seals ) {
+        // Items inside rot but do not vanish as the container seals them in.
+        for( auto &c : contents ) {
+            if( c.goes_bad() ) {
+                c.process_temperature_rot( 1, pnt, nullptr );
+            }
+        }
+        return false;
+    } else {
+        // Check and remove rotten contents, but always keep the container.
+        for( auto it = contents.begin(); it != contents.end(); ) {
+            if( it->has_rotten_away( pnt ) ) {
+                it = contents.erase( it );
+            } else {
+                ++it;
+            }
+        }
+
+        return false;
+    }
+}
+
 bool item_ptr_compare_by_charges( const item *left, const item *right )
 {
     if( left->contents.empty() ) {
@@ -8932,8 +9121,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     }
     std::string state = get_var( "state" );
     if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !carrier->has_item( *this ) || !( carrier->is_wearing( "solarpack_on" ) ||
-                                              carrier->is_wearing( "q_solarpack_on" ) ) ) {
+        if( !carrier->has_item( *this ) || !carrier->worn_with_flag( "SOLARPACK_ON" ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
             reset_cable( carrier );
             return false;
@@ -9443,7 +9631,7 @@ bool item::has_infinite_charges() const
 skill_id item::contextualize_skill( const skill_id &id ) const
 {
     if( id->is_contextual_skill() ) {
-        if( id == weapon_skill ) {
+        if( id == skill_weapon ) {
             if( is_gun() ) {
                 return gun_skill();
             } else if( is_melee() ) {

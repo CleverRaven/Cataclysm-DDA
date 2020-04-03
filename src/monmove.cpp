@@ -8,6 +8,7 @@
 #include <memory>
 #include <ostream>
 #include <list>
+#include <cfloat>
 
 #include "avatar.h"
 #include "bionics.h"
@@ -40,7 +41,27 @@
 #include "string_id.h"
 #include "pimpl.h"
 #include "string_formatter.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_countdown( "countdown" );
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_operating( "operating" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pushed( "pushed" );
+static const efftype_id effect_stunned( "stunned" );
+
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+static const std::string flag_LIQUID( "LIQUID" );
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -241,16 +262,16 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
 {
     const auto d = rl_dist_fast( pos(), c.pos() );
     if( d <= 0 ) {
-        return INT_MAX;
+        return FLT_MAX;
     }
 
     // Check a very common and cheap case first
     if( !smart && d >= best ) {
-        return INT_MAX;
+        return FLT_MAX;
     }
 
     if( !sees( c ) ) {
-        return INT_MAX;
+        return FLT_MAX;
     }
 
     if( !smart ) {
@@ -268,7 +289,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
         return int( d ) / power;
     }
 
-    return INT_MAX;
+    return FLT_MAX;
 }
 
 void monster::plan()
@@ -369,6 +390,7 @@ void monster::plan()
         }
         // Switch targets if closer and hostile or scarier than current target
         if( ( rating < dist && fleeing ) ||
+            ( faction_att == MFA_HATE ) ||
             ( rating < dist && attitude( &who ) == MATT_ATTACK ) ||
             ( !fleeing && fleeing_from ) ) {
             target = &who;
@@ -462,7 +484,7 @@ void monster::plan()
                     wandf = 2;
                     target = nullptr;
                     // Swarm to the furthest ally you can see
-                } else if( rating < INT_MAX && rating > dist && wandf <= 0 ) {
+                } else if( rating < FLT_MAX && rating > dist && wandf <= 0 ) {
                     target = &mon;
                     dist = rating;
                 }

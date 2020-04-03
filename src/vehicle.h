@@ -150,7 +150,7 @@ int vmiph_to_cmps( int vmiph );
 static constexpr float accel_g = 9.81f;
 
 /**
- * Structure, describing vehicle part (ie, wheel, seat)
+ * Structure, describing vehicle part (i.e., wheel, seat)
  */
 struct vehicle_part {
         friend vehicle;
@@ -314,6 +314,12 @@ struct vehicle_part {
         /** Is this part a reactor? */
         bool is_reactor() const;
 
+        /** is this part currently unable to retain to fluid/charge?
+         *  this doesn't take into account whether or not the part has any contents
+         *  remaining to leak
+         */
+        bool is_leaking() const;
+
         /** Can this part function as a turret? */
         bool is_turret() const;
 
@@ -474,6 +480,12 @@ class turret_data
 
         /** Maximum range considering current ammo (if any) */
         int range() const;
+
+        /**
+         * Check if target is in range of this turret (considers current ammo)
+         * Assumes this turret's status is 'ready'
+         */
+        bool in_range( const tripoint &target ) const;
 
         /**
          * Prepare the turret for firing, called by firing function.
@@ -670,11 +682,6 @@ class vehicle
         /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt );
 
-        /*
-         * Fire turret at automatically acquired targets
-         * @return number of shots actually fired (which may be zero)
-         */
-        int automatic_fire_turret( vehicle_part &pt );
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -1191,6 +1198,8 @@ class vehicle
         int max_water_velocity( bool fueled = true ) const;
         // Get maximum velocity for the current movement mode
         int max_velocity( bool fueled = true ) const;
+        // Get maximum reverse velocity for the current movement mode
+        int max_reverse_velocity( bool fueled = true ) const;
 
         // Get safe ground velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
@@ -1211,7 +1220,7 @@ class vehicle
          * Calculates the sum of the area under the wheels of the vehicle.
          */
         int wheel_area() const;
-        // average off-road rating for displaying off-road perfomance
+        // average off-road rating for displaying off-road performance
         float average_or_rating() const;
 
         /**
@@ -1243,6 +1252,12 @@ class vehicle
         double coeff_water_drag() const;
 
         /**
+         * watertight hull height in meters measures distance from bottom of vehicle
+         * to the point where the vehicle will start taking on water
+         */
+        double water_hull_height() const;
+
+        /**
          * water draft in meters - how much of the vehicle's body is under water
          * must be less than the hull height or the boat will sink
          * at some point, also add boats with deep draft running around
@@ -1251,7 +1266,7 @@ class vehicle
 
         /**
          * can_float
-         * does the vehicle have freeboard or does it overflow with whater?
+         * does the vehicle have freeboard or does it overflow with water?
          */
         bool can_float() const;
         /**
@@ -1430,32 +1445,46 @@ class vehicle
         /** Set firing mode for specific turrets */
         void turrets_set_mode();
 
-        /*
-         * Set specific target for automatic turret fire
-         * @param manual if true, allows target assignment for manually controlled turrets.
-         * @param automatic if true, allows target assignment for automatically controlled turrets.
-         * @param tur_part pointer to a turret aimed regardless of target mode filters, if not nullptr.
-         * @returns whether a valid target was selected.
-         */
-        bool turrets_aim( bool manual = true, bool automatic = false,
-                          vehicle_part *tur_part = nullptr );
+        /** Select a single ready turret, aim it using the aiming UI and fire. */
+        void turrets_aim_and_fire_single();
 
         /*
-         * Call turrets_aim and then fire turrets if we get a valid target.
-         * @param manual if true, allows targeting and firing for manual turrets.
-         * @param automatic if true, allows targeting and firing for automatic turrets.
-         * @param tur_part pointer to a turret aimed regardless of target mode filters, if not nullptr.
-         * @return the number of shots fired.
+         * Find all ready turrets that are set to manual mode, aim them using the aiming UI and fire.
+         * @param show_msg Show 'no such turrets found' message. Does not affect returned value.
+         * @return False if there are no such turrets
          */
-        int turrets_aim_and_fire( bool manual = true, bool automatic = false,
-                                  vehicle_part *tur_part = nullptr );
+        bool turrets_aim_and_fire_all_manual( bool show_msg = false );
+
+        /** Set target for automatic turrets using the aiming UI */
+        void turrets_override_automatic_aim();
 
         /*
-         * Call turrets_aim and then fire a selected single turret if we have a valid target.
-         * @param tur_part if not null, this turret is aimed instead of bringing up the selection menu.
-         * @return the number of shots fired.
+         * Fire turret at automatically acquired target
+         * @return number of shots actually fired (which may be zero)
          */
-        int turrets_aim_single( vehicle_part *tur_part = nullptr );
+        int automatic_fire_turret( vehicle_part &pt );
+
+    private:
+        /*
+         * Find all turrets that are ready to fire.
+         * @param manual Include turrets set to 'manual' targeting mode
+         * @param automatic Include turrets set to 'automatic' targeting mode
+         */
+        std::vector<vehicle_part *> find_all_ready_turrets( bool manual, bool automatic );
+
+        /*
+         * Select target using the aiming UI and set turrets to aim at it.
+         * Assumes all turrets are ready to fire.
+         * @return False if target selection was aborted / no target was found
+         */
+        bool turrets_aim( std::vector<vehicle_part *> &turrets );
+
+        /*
+         * Select target using the aiming UI, set turrets to aim at it and fire them.
+         * Assumes all turrets are ready to fire.
+         * @return Number of shots fired by all turrets (which may be zero)
+         */
+        int turrets_aim_and_fire( std::vector<vehicle_part *> &turrets );
 
         /*
          * @param pt the vehicle part containing the turret we're trying to target.
@@ -1464,6 +1493,7 @@ class vehicle
         npc get_targeting_npc( const vehicle_part &pt );
         /*@}*/
 
+    public:
         /**
          *  Try to assign a crew member (who must be a player ally) to a specific seat
          *  @note enforces NPC's being assigned to only one seat (per-vehicle) at once
@@ -1507,7 +1537,7 @@ class vehicle
         //scoop operation,pickups, battery drain, etc.
         void operate_scoop();
         void operate_reaper();
-        // for destorying any terrain around viehicle part. Automated mining tool.
+        // for destroying any terrain around vehicle part. Automated mining tool.
         void crash_terrain_around();
         void transform_terrain();
         void add_toggle_to_opts( std::vector<uilist_entry> &options,
@@ -1673,7 +1703,7 @@ class vehicle
         mutable point mount_min;
         mutable point mass_center_precalc;
         mutable point mass_center_no_precalc;
-        tripoint autodrive_local_target = tripoint_zero; // currrent node the autopilot is aiming for
+        tripoint autodrive_local_target = tripoint_zero; // current node the autopilot is aiming for
 
     public:
         // Subtract from parts.size() to get the real part count.
@@ -1727,7 +1757,7 @@ class vehicle
         int extra_drag = 0;
         // last time point the fluid was inside tanks was checked for processing
         time_point last_fluid_check = calendar::turn_zero;
-        // the time point when it was succesfully stolen
+        // the time point when it was successfully stolen
         cata::optional<time_point> theft_time;
         // rotation used for mount precalc values
         std::array<int, 2> pivot_rotation = { { 0, 0 } };

@@ -7,7 +7,7 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": "2 h",
-    "autolearn": true,
+    "book_learn": [ [ "cookbook_daintydishes", 6 ], [ "baking_book", 2 ], [ "sweets_book", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "charges": 12,
@@ -29,7 +29,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "30 m",
-    "autolearn": true,
+    "book_learn": [ [ "cookbook_foodfashions", 5 ], [ "baking_book", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "charges": 8,
@@ -381,7 +381,7 @@
     "difficulty": 2,
     "time": "9 m",
     "charges": 4,
-    "autolearn": true,
+    "book_learn": [ [ "cookbook", 1 ], [ "mag_cooking", 1 ], [ "cookbook_foodfashions", 1 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
@@ -494,6 +494,7 @@
         [ "cabbage", 1 ],
         [ "irradiated_cabbage", 1 ],
         [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
         [ "veggy_cooked", 1 ]
       ],
@@ -531,6 +532,7 @@
         [ "cabbage", 2 ],
         [ "irradiated_cabbage", 2 ],
         [ "dandelion_cooked", 2 ],
+        [ "burdock_cooked", 2 ],
         [ "veggy_wild_cooked", 2 ],
         [ "veggy_cooked", 2 ]
       ],
@@ -612,6 +614,7 @@
         [ "cabbage", 1 ],
         [ "irradiated_cabbage", 1 ],
         [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
         [ "veggy_cooked", 1 ]
       ],
@@ -637,6 +640,7 @@
         [ "cabbage", 2 ],
         [ "irradiated_cabbage", 2 ],
         [ "dandelion_cooked", 2 ],
+        [ "burdock_cooked", 2 ],
         [ "veggy_wild_cooked", 2 ],
         [ "veggy_cooked", 2 ]
       ],
@@ -705,7 +709,7 @@
     "difficulty": 4,
     "time": "1 h",
     "charges": 6,
-    "autolearn": true,
+    "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 10 ] ] ],
@@ -730,7 +734,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "1 h",
-    "autolearn": true,
+    "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
@@ -756,7 +760,7 @@
     "difficulty": 4,
     "time": "10 m",
     "charges": 6,
-    "autolearn": true,
+    "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "components": [
@@ -1014,9 +1018,77 @@
   },
   {
     "type": "recipe",
+    "result": "burdock_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 2 ],
+    "time": "6 m",
+    "book_learn": [
+      [ "pocket_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "manual_survival", 1 ],
+      [ "mag_survival", 1 ],
+      [ "family_cookbook", 1 ],
+      [ "cookbook_daintydishes", 2, "Royal Penny Tea" ]
+    ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "raw_burdock", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "burdock_fried",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "survival", 2 ],
+    "time": "8 m",
+    "book_learn": [
+      [ "pocket_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "manual_survival", 1 ],
+      [ "mag_survival", 1 ],
+      [ "family_cookbook", 1 ],
+      [ "cookbook_daintydishes", 2, "Royal Penny Tea" ]
+    ],
+    "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the burdocks",
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "components": [ [ [ "raw_burdock", 2 ] ], [ [ "batter", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dandelionburdock_fried",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "survival", 2 ],
+    "time": "8 m",
+    "book_learn": [
+      [ "pocket_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "manual_survival", 1 ],
+      [ "mag_survival", 1 ],
+      [ "family_cookbook", 1 ],
+      [ "cookbook_daintydishes", 2, "Royal Penny Tea" ]
+    ],
+    "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the burdocks",
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "raw_burdock", 1 ] ], [ [ "batter", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "acorns_cooked",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
+    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 3,
     "skills_required": [ "survival", 2 ],
@@ -1283,6 +1355,28 @@
   },
   {
     "type": "recipe",
+    "result": "dandelionburdock_tea",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "12 m",
+    "batch_time_factors": [ 80, 4 ],
+    "book_learn": [
+      [ "pocket_survival", 1 ],
+      [ "survival_book", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "manual_survival", 1 ],
+      [ "mag_survival", 1 ],
+      [ "family_cookbook", 1 ],
+      [ "cookbook_daintydishes", 2, "Royal Penny Tea" ]
+    ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "raw_burdock", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "chicory_coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1290,7 +1384,6 @@
     "difficulty": 1,
     "time": "12 m",
     "batch_time_factors": [ 80, 4 ],
-    "autolearn": true,
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -1364,7 +1457,7 @@
     "difficulty": 1,
     "time": "2 h",
     "//": "2 hours of roasting are required to fully break up the toxins in raw pods",
-    "autolearn": true,
+    "book_learn": [ [ "survival_book", 1 ] ],
     "batch_time_factors": [ 90, 1 ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
@@ -1515,7 +1608,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "15 m",
-    "autolearn": true,
+    "book_learn": [ [ "manual_sealing", 1 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ] ],
     "components": [ [ [ "coconut", 2 ] ], [ [ "water_clean", 2 ] ] ]
@@ -1767,7 +1860,7 @@
     "difficulty": 5,
     "//": "Gelatin from bones is just boiling them long enough.  Gelatin from pectin is harder.  Instead of duping the ingredients, *1.5 them for aforementioned pectin.",
     "time": "40 m",
-    "autolearn": true,
+    "book_learn": [ [ "cookbook_daintydishes", 4 ], [ "textbook_chemistry", 3 ] ],
     "batch_time_factors": [ 50, 5 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
@@ -1892,11 +1985,9 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 5,
-    "skills_required": [ "survival", 4 ],
     "time": "1 h",
-    "autolearn": true,
     "batch_time_factors": [ 50, 5 ],
-    "book_learn": [ [ "survival_book", 3 ], [ "textbook_survival", 3 ], [ "manual_survival", 3 ] ],
+    "book_learn": [ [ "survival_book", 7 ], [ "dairy_book", 3 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "COOK", "level": 3 },
@@ -2051,7 +2142,7 @@
     "difficulty": 4,
     "time": "20 m",
     "batch_time_factors": [ 50, 4 ],
-    "autolearn": true,
+    "book_learn": [ [ "cookbook_daintydishes", 6 ], [ "baking_book", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
@@ -2119,6 +2210,7 @@
     "charges": 2,
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
+    "book_learn": [ [ "cookbook_indian", 1 ], [ "cookbook", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [ [ [ "flour", 11 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
@@ -2133,7 +2225,13 @@
     "charges": 10,
     "time": "20 m",
     "batch_time_factors": [ 50, 4 ],
-    "autolearn": true,
+    "book_learn": [
+      [ "family_cookbook", 1 ],
+      [ "baking_book", 1 ],
+      [ "cookbook", 2 ],
+      [ "cookbook_italian", 3 ],
+      [ "atomic_survival", 6 ]
+    ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [ [ [ "flour", 20 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
@@ -2161,7 +2259,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "30 m",
-    "book_learn": [ [ "family_cookbook", 5 ] ],
+    "book_learn": [ [ "family_cookbook", 5 ], [ "sweets_book", 4 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "thermometer", -1 ] ] ],
     "components": [ [ [ "syrup", 2 ] ] ]
@@ -2274,7 +2372,7 @@
     "charges": 1,
     "time": "1 h 15 m",
     "batch_time_factors": [ 50, 4 ],
-    "autolearn": true,
+    "book_learn": [ [ "baking_book", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
     "components": [
@@ -2680,7 +2778,7 @@
     "type": "recipe",
     "result": "pine_nuts",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
+    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "skills_required": [ "survival", 2 ],
     "difficulty": 1,
@@ -3223,7 +3321,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "12 m",
-    "autolearn": true,
+    "book_learn": [ [ "baking_book", 1 ], [ "sweets_book", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
@@ -3332,7 +3430,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "25 m",
-    "autolearn": true,
+    "book_learn": [ [ "baking_book", 3 ], [ "family_cookbook", 3 ], [ "sweets_book", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
@@ -3351,7 +3449,7 @@
     "difficulty": 3,
     "charges": 4,
     "time": "25 m",
-    "autolearn": true,
+    "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ], [ "cookbook", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [ [ [ "flour", 30 ] ], [ [ "veggy_any", 8, "LIST" ], [ "wild_herbs", 40 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -3365,7 +3463,7 @@
     "difficulty": 3,
     "charges": 4,
     "time": "25 m",
-    "autolearn": true,
+    "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
@@ -3392,7 +3490,7 @@
     "difficulty": 3,
     "charges": 6,
     "time": "25 m",
-    "autolearn": true,
+    "book_learn": [ [ "baking_book", 3 ], [ "cookbook_foodfashions", 3 ], [ "cookbook_daintydishes", 7 ], [ "sweets_book", 3 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
@@ -3411,7 +3509,7 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": true,
+    "book_learn": [ [ "cookbook_indian", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
@@ -3446,7 +3544,7 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": true,
+    "book_learn": [ [ "cookbook_indian", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
@@ -3587,7 +3685,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "2 m",
-    "autolearn": true,
+    "book_learn": [ [ "sweets_book", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "grahmcrackers", 1 ] ], [ [ "marshmallow", 1 ] ], [ [ "chocolate", 1 ] ] ]
@@ -3665,7 +3763,7 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": "48 m",
-    "autolearn": true,
+    "book_learn": [ [ "textbook_chemistry", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [ [ [ "lye_powder", 100 ], [ "bleach", 10 ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
@@ -3696,6 +3794,7 @@
     "time": "24 m",
     "charges": 10,
     "autolearn": true,
+    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
@@ -3730,6 +3829,7 @@
     "skill_used": "cooking",
     "difficulty": 7,
     "time": "1 h",
+    "batch_time_factors": [ 20, 1 ],
     "book_learn": [ [ "adv_chemistry", 7 ], [ "textbook_chemistry", 8 ], [ "recipe_labchem", 6 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
@@ -3748,6 +3848,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "1 h 30 m",
+    "batch_time_factors": [ 20, 1 ],
     "book_learn": [ [ "adv_chemistry", 6 ], [ "textbook_chemistry", 6 ], [ "cookbook_foodfashions", 5, "Natural Beet Sugar" ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
@@ -4138,7 +4239,7 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": "18 m",
-    "autolearn": true,
+    "book_learn": [ [ "cookbook", 4 ], [ "cookbook_foodfashions", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "fish", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "lye_powder", 5 ] ] ]
@@ -4206,7 +4307,8 @@
         [ "potato_baked", 1 ],
         [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
-        [ "dandelion_cooked", 1 ]
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ]
       ],
       [
         [ "ketchup", 1 ],
@@ -4439,7 +4541,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "8 m",
-    "autolearn": true,
+    "book_learn": [ [ "sweets_book", 1 ], [ "mag_cooking", 1 ], [ "family_cookbook", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
@@ -4622,7 +4724,7 @@
     "difficulty": 5,
     "time": "30 m",
     "result_mult": 2,
-    "autolearn": true,
+    "book_learn": [ [ "manual_canning", 4 ] ],
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
@@ -4662,7 +4764,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "time": "1 m",
-    "autolearn": true,
+    "book_learn": [ [ "vinegar_maker", 1 ] ],
     "charges": 160,
     "components": [ [ [ "chem_acetic_acid", 1 ] ], [ [ "water_clean", 9 ] ] ]
   },
@@ -4674,7 +4776,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "30 m",
-    "autolearn": true,
+    "book_learn": [ [ "fermenting_book", 2 ], [ "cookbook_foodfashions", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
@@ -4692,7 +4794,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "30 m",
-    "autolearn": true,
+    "book_learn": [ [ "fermenting_book", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
@@ -4711,7 +4813,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "30 m",
-    "autolearn": true,
+    "book_learn": [ [ "fermenting_book", 4 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
@@ -4730,7 +4832,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "15 m",
-    "autolearn": true,
+    "book_learn": [ [ "fermenting_book", 2 ], [ "cookbook_foodfashions", 3 ] ],
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
@@ -4747,7 +4849,7 @@
     "difficulty": 6,
     "time": "30 m",
     "result_mult": 2,
-    "autolearn": true,
+    "book_learn": [ [ "manual_canning", 4 ] ],
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
@@ -4769,7 +4871,7 @@
     "difficulty": 6,
     "time": "30 m",
     "result_mult": 2,
-    "autolearn": true,
+    "book_learn": [ [ "manual_canning", 4 ] ],
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
@@ -4801,7 +4903,7 @@
     "difficulty": 2,
     "time": "30 m",
     "charges": 8,
-    "autolearn": true,
+    "book_learn": [ [ "sweets_book", 1 ], [ "cookbook", 1 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
@@ -4843,8 +4945,7 @@
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": "1 h",
-    "autolearn": true,
+    "book_learn": [ [ "baking_book", 3 ], [ "cookbook_daintydishes", 5 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
@@ -4874,6 +4975,7 @@
         [ "broccoli", 2 ],
         [ "irradiated_broccoli", 2 ],
         [ "dandelion_cooked", 2 ],
+        [ "burdock_cooked", 2 ],
         [ "veggy_wild_cooked", 2 ],
         [ "fiddlehead_boiled", 2 ],
         [ "fiddlehead_sauteed", 2 ],
@@ -4953,7 +5055,7 @@
     "skill_used": "cooking",
     "time": "1 h 30 m",
     "autolearn": true,
-    "batch_time_factors": [ 50, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "sweet_water", 10 ] ] ]
@@ -5091,7 +5193,8 @@
         [ "potato_baked", 1 ],
         [ "irradiated_potato", 1 ],
         [ "can_tomato", 1 ],
-        [ "dandelion_cooked", 1 ]
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ]
       ]
     ]
   },
@@ -5612,7 +5715,6 @@
     "skill_used": "cooking",
     "time": "3 m",
     "charges": 8,
-    "autolearn": false,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "sugar", 10 ] ], [ [ "salt", 1 ] ], [ [ "water_clean", 8 ] ] ],
     "//": "For later: this should also include baking soda / sodium bicarbonate.  Other electrolytes are debatable."
@@ -5787,6 +5889,7 @@
         [ "seed_wild_herbs", 1 ],
         [ "seed_veggy_wild", 1 ],
         [ "seed_raw_dandelion", 1 ],
+        [ "seed_raw_burdock", 1 ],
         [ "seed_rhubarb", 1 ],
         [ "seed_mushroom", 1 ],
         [ "seed_mushroom_morel", 1 ],
@@ -5870,12 +5973,12 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
-    "charges": 2,
-    "time": "1 h 10 m",
+    "charges": 1,
+    "time": "35 m",
     "autolearn": true,
-    "batch_time_factors": [ 83, 3 ],
+    "batch_time_factors": [ 83, 6 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 1 ] ] ],
+    "tools": [ [ [ "char_smoker", 5 ] ] ],
     "components": [ [ [ "sausage_wasteland_raw", 1 ] ] ]
   },
   {
@@ -6001,7 +6104,7 @@
     "result": "acorns_cooked",
     "id_suffix": "mortar",
     "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
+    "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 3,
     "skills_required": [ "survival", 2 ],
@@ -6066,7 +6169,7 @@
     "difficulty": 6,
     "time": "40 m",
     "result_mult": 12,
-    "autolearn": true,
+    "book_learn": [ [ "manual_canning", 4 ] ],
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
@@ -6088,7 +6191,7 @@
     "difficulty": 6,
     "time": "40 m",
     "result_mult": 12,
-    "autolearn": true,
+    "book_learn": [ [ "manual_canning", 4 ] ],
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
@@ -6110,7 +6213,7 @@
     "difficulty": 5,
     "time": "40 m",
     "result_mult": 12,
-    "autolearn": true,
+    "book_learn": [ [ "manual_canning", 4 ] ],
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
@@ -6165,7 +6268,6 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 3,
-    "autolearn": true,
     "time": "40 m",
     "book_learn": [ [ "cookbook_italian", 2 ], [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
     "batch_time_factors": [ 80, 4 ],
@@ -6184,7 +6286,7 @@
     "//": "Making the very first starter is a lot more finnicky than splitting it once it's mature.",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 1 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -6197,7 +6299,7 @@
     "result_mult": 2,
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 1 ] ], [ [ "sourdough_starter", 1 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 4 ] ], [ [ "sourdough_starter", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6212,7 +6314,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "flour", 4 ] ], [ [ "sourdough_starter", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
+    "components": [ [ [ "flour", 10 ] ], [ [ "sourdough_starter", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -6238,6 +6340,7 @@
     "charges": 3,
     "time": "30 m",
     "autolearn": true,
+    "//": "Someone should make a Mexican cookbook",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
@@ -6256,6 +6359,7 @@
         [ "lettuce", 2 ],
         [ "irradiated_lettuce", 2 ],
         [ "dandelion_cooked", 2 ],
+        [ "burdock_cooked", 2 ],
         [ "veggy_wild_cooked", 2 ],
         [ "irradiated_cabbage", 2 ],
         [ "cabbage", 2 ]

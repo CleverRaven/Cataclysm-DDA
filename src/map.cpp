@@ -125,9 +125,9 @@ map::map( int mapsize, bool zlev )
     my_MAPSIZE = mapsize;
     zlevels = zlev;
     if( zlevels ) {
-        grid.resize( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS, nullptr );
+        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS ), nullptr );
     } else {
-        grid.resize( my_MAPSIZE * my_MAPSIZE, nullptr );
+        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE ), nullptr );
     }
 
     for( auto &ptr : caches ) {
@@ -3393,7 +3393,11 @@ void map::crush( const tripoint &p )
 void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 {
     // TODO: Make bashing count fully, but other types much less
-    const float initial_damage = proj.impact.total_damage();
+    float initial_damage = 0.0;
+    for( damage_unit dam : proj.impact ) {
+        initial_damage += dam.amount / 3;
+        initial_damage += dam.res_pen;
+    }
     if( initial_damage < 0 ) {
         return;
     }
@@ -5364,6 +5368,21 @@ computer *map::computer_at( const tripoint &p )
     return sm->get_computer( l );
 }
 
+bool map::point_within_camp( const tripoint point_check ) const
+{
+    const tripoint omt_check = ms_to_omt_copy( point_check );
+    const int x = omt_check.x;
+    const int y = omt_check.y;
+    for( int x2 = x - 2; x2 < x + 2; x2++ ) {
+        for( int y2 = y - 2; y2 < y + 2; y2++ ) {
+            if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( point( x2, y2 ) ) ) {
+                return ( *bcp )->camp_omt_pos().z == point_check.z;
+            }
+        }
+    }
+    return false;
+}
+
 void map::remove_submap_camp( const tripoint &p )
 {
     get_submap_at( p )->camp.reset();
@@ -5969,8 +5988,9 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     tripoint last_point = F;
     bresenham( F, T, bresenham_slope, 0,
     [this, &visible, &T, &last_point]( const tripoint & new_point ) {
-        // Exit before checking the last square, it's still visible even if opaque.
-        if( new_point == T ) {
+        // Exit before checking the last square if it's not a vertical transition,
+        // it's still visible even if opaque.
+        if( new_point == T && last_point.z == T.z ) {
             return false;
         }
 
@@ -6084,7 +6104,8 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
 
     // temp buffer for grid
     const int grid_dim = range * 2 + 1;
-    std::vector< int > t_grid( grid_dim * grid_dim, -1 ); // init to -1 as "not visited yet"
+    // init to -1 as "not visited yet"
+    std::vector< int > t_grid( static_cast<size_t>( grid_dim * grid_dim ), -1 );
     const tripoint origin_offset = {range, range, 0};
     const int initial_visit_distance = range * range; // Large unreachable value
 
@@ -6149,7 +6170,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
             }
         }
     }
-    std::vector<char> o_grid( grid_dim * grid_dim, 0 );
+    std::vector<char> o_grid( static_cast<size_t>( grid_dim * grid_dim ), 0 );
     for( int y = 0, ndx = 0; y < grid_dim; ++y ) {
         for( int x = 0; x < grid_dim; ++x, ++ndx ) {
             if( t_grid[ ndx ] != -1 && t_grid[ ndx ] < initial_visit_distance ) {
@@ -6682,45 +6703,12 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     abs_sub.z = old_abs_z;
 }
 
-bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
-{
-    if( itm.is_corpse() && itm.goes_bad() ) {
-        itm.process_temperature_rot( 1, pnt, nullptr );
-        return itm.get_rot() > 10_days && !itm.can_revive();
-    } else if( itm.goes_bad() ) {
-        itm.process_temperature_rot( 1, pnt, nullptr );
-        return itm.has_rotten_away();
-    } else if( itm.type->container && itm.type->container->preserves ) {
-        // Containers like tin cans preserves all items inside, they do not rot at all.
-        return false;
-    } else if( itm.type->container && itm.type->container->seals ) {
-        // Items inside rot but do not vanish as the container seals them in.
-        for( auto &c : itm.contents ) {
-            if( c.goes_bad() ) {
-                c.process_temperature_rot( 1, pnt, nullptr );
-            }
-        }
-        return false;
-    } else {
-        // Check and remove rotten contents, but always keep the container.
-        for( auto it = itm.contents.begin(); it != itm.contents.end(); ) {
-            if( has_rotten_away( *it, pnt ) ) {
-                it = itm.contents.erase( it );
-            } else {
-                ++it;
-            }
-        }
-
-        return false;
-    }
-}
-
 template <typename Container>
 void map::remove_rotten_items( Container &items, const tripoint &pnt )
 {
     const tripoint abs_pnt = getabs( pnt );
     for( auto it = items.begin(); it != items.end(); ) {
-        if( has_rotten_away( *it, abs_pnt ) ) {
+        if( it->has_rotten_away( abs_pnt ) ) {
             if( it->is_comestible() ) {
                 rotten_item_spawn( *it, pnt );
             }
@@ -7731,10 +7719,10 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     for( int z = minz; z <= maxz; z++ ) {
         build_outside_cache( z );
         seen_cache_dirty |= build_transparency_cache( z );
-        seen_cache_dirty |= build_vision_transparency_cache( zlev );
         seen_cache_dirty |= build_floor_cache( z );
         do_vehicle_caching( z );
     }
+    seen_cache_dirty |= build_vision_transparency_cache( zlev );
 
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();
@@ -8050,7 +8038,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
                           const point &min, const point &max )
 {
     auto reduce = TFLAG_REDUCE_SCENT;
-    auto block = TFLAG_WALL;
+    auto block = TFLAG_NO_SCENT;
     auto fill_values = [&]( const tripoint & gp, const submap * sm, const point & lp ) {
         // We need to generate the x/y coordinates, because we can't get them "for free"
         const int x = gp.x * SEEX + lp.x;

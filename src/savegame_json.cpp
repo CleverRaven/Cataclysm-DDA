@@ -93,10 +93,14 @@
 #include "requirements.h"
 #include "stats_tracker.h"
 #include "vpart_position.h"
-#include "cata_string_consts.h"
+#include "ranged.h"
 
 struct oter_type_t;
 struct mutation_branch;
+
+static const activity_id ACT_AIM( "ACT_AIM" );
+
+static const efftype_id effect_riding( "riding" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
         "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -550,6 +554,7 @@ void Character::load( const JsonObject &data )
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const auto &mid = it->first;
         if( mid.is_valid() ) {
+            on_mutation_gain( mid );
             cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
@@ -1007,6 +1012,11 @@ void avatar::store( JsonOut &json ) const
     json.member( "int_upgrade", abs( int_upgrade ) );
     json.member( "per_upgrade", abs( per_upgrade ) );
 
+    // targeting
+    if( activity.id() == ACT_AIM ) {
+        json.member( "targeting_data", *tdata );
+    }
+
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes", *learned_recipes );
 
@@ -1076,6 +1086,13 @@ void avatar::load( const JsonObject &data )
     data.read( "int_upgrade", int_upgrade );
     data.read( "per_upgrade", per_upgrade );
 
+    // targeting
+    targeting_data tdata = targeting_data();
+    data.read( "targeting_data", tdata );
+    if( tdata.is_valid() ) {
+        set_targeting_data( tdata );
+    }
+
     // this is so we don't need to call get_option in a draw function
     if( !get_option<bool>( "STATS_THROUGH_KILLS" ) )         {
         str_upgrade = -str_upgrade;
@@ -1093,7 +1110,7 @@ void avatar::load( const JsonObject &data )
         g->scen = &string_id<scenario>( scen_ident ).obj();
 
         if( !g->scen->allowed_start( start_location ) ) {
-            start_location = g->scen->start_location();
+            start_location = g->scen->random_start_location();
         }
     } else {
         const scenario *generic_scenario = scenario::generic();
@@ -1183,6 +1200,32 @@ void avatar::load( const JsonObject &data )
         JsonIn *jip = data.get_raw( "invcache" );
         inv.json_load_invcache( *jip );
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+///// ranged.h
+
+void targeting_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "weapon_source", io::enum_to_string( weapon_source ) );
+    if( cached_fake_weapon ) {
+        json.member( "cached_fake_weapon", *cached_fake_weapon );
+    }
+    json.member( "bp_cost", bp_cost_per_shot );
+    json.end_object();
+}
+
+void targeting_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "weapon_source", weapon_source );
+    if( weapon_source == WEAPON_SOURCE_BIONIC || weapon_source == WEAPON_SOURCE_MUTATION ) {
+        cached_fake_weapon = shared_ptr_fast<item>( new item() );
+        data.read( "cached_fake_weapon", *cached_fake_weapon );
+    }
+
+    data.read( "bp_cost", bp_cost_per_shot );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1415,6 +1458,18 @@ void npc_favor::serialize( JsonOut &json ) const
     json.end_object();
 }
 
+void job_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "task_priorities", task_priorities );
+    json.end_object();
+}
+void job_data::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "task_priorities", task_priorities );
+}
+
 /*
  * load npc
  */
@@ -1431,7 +1486,6 @@ void npc::load( const JsonObject &data )
     int misstmp = 0;
     int classtmp = 0;
     int atttmp = 0;
-    int jobtmp = 0;
     std::string facID;
     std::string comp_miss_id;
     std::string comp_miss_role;
@@ -1514,7 +1568,10 @@ void npc::load( const JsonObject &data )
     } else {
         data.read( "pulp_location", pulp_location );
     }
-
+    data.read( "assigned_camp", assigned_camp );
+    data.read( "chair_pos", chair_pos );
+    data.read( "wander_pos", wander_pos );
+    data.read( "job", job );
     if( data.read( "mission", misstmp ) ) {
         mission = static_cast<npc_mission>( misstmp );
         static const std::set<npc_mission> legacy_missions = {{
@@ -1558,9 +1615,6 @@ void npc::load( const JsonObject &data )
         if( legacy_attitudes.count( attitude ) > 0 ) {
             attitude = NPCATT_NULL;
         }
-    }
-    if( data.read( "job", jobtmp ) ) {
-        job = static_cast<npc_job>( jobtmp );
     }
     if( data.read( "previous_attitude", atttmp ) ) {
         previous_attitude = static_cast<npc_attitude>( atttmp );
@@ -1680,9 +1734,12 @@ void npc::store( JsonOut &json ) const
     json.member( "guardz", guard_pos.z );
     json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
+    json.member( "assigned_camp", assigned_camp );
+    json.member( "chair_pos", chair_pos );
+    json.member( "wander_pos", wander_pos );
+    json.member( "job", job );
     // TODO: stringid
     json.member( "mission", mission );
-    json.member( "job", static_cast<int>( job ) );
     json.member( "previous_mission", previous_mission );
     json.member( "faction_api_ver", faction_api_version );
     if( !fac_id.str().empty() ) { // set in constructor
@@ -2120,6 +2177,14 @@ static void load_legacy_craft_data( io::JsonObjectOutputArchive &, T & )
 {
 }
 
+static std::set<itype_id> charge_removal_blacklist;
+
+void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
+void load_charge_removal_blacklist( const JsonObject &jo, const std::string &/*src*/ )
+{
+    charge_removal_blacklist = jo.get_tags( "list" );
+}
+
 template<typename Archive>
 void item::io( Archive &archive )
 {
@@ -2308,27 +2373,7 @@ void item::io( Archive &archive )
     if( charges != 0 && !type->can_have_charges() ) {
         // Types that are known to have charges, but should not have them.
         // We fix it here, but it's expected from bugged saves and does not require a message.
-        static const std::set<itype_id> known_bad_types = { {
-                itype_id( "chitin_piece" ), // from butchering (code supplied count as 3. parameter to item constructor).
-                itype_id( "laptop" ), // a monster-death-drop item group had this listed with random charges
-                itype_id( "usb_drive" ), // same as laptop
-                itype_id( "pipe" ), // similar as above, but in terrain bash result
-
-                itype_id( "light_disposable_cell" ), // those were created with charges via item groups, which is desired,
-                itype_id( "small_storage_battery" ), // but item_groups.cpp should create battery charges instead of
-                itype_id( "heavy_disposable_cell" ), // charges of the container item.
-                itype_id( "medium_battery_cell" ),
-                itype_id( "medium_plus_battery_cell" ),
-                itype_id( "medium_minus_battery_cell" ),
-                itype_id( "heavy_plus_battery_cell" ),
-                itype_id( "heavy_minus_battery_cell" ),
-                itype_id( "heavy_battery_cell" ),
-                itype_id( "light_battery_cell" ),
-                itype_id( "light_plus_battery_cell" ),
-                itype_id( "light_minus_battery_cell" ),
-            }
-        };
-        if( known_bad_types.count( type->get_id() ) == 0 ) {
+        if( charge_removal_blacklist.count( type->get_id() ) == 0 ) {
             debugmsg( "Item %s was loaded with charges, but can not have any!", type->get_id() );
         }
         charges = 0;

@@ -26,7 +26,42 @@
 #include "string_id.h"
 #include "enums.h"
 #include "bionics.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+
+static const efftype_id effect_stunned( "stunned" );
+
+static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
+static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
+static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
+static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
+static const trait_id trait_HUGE( "HUGE" );
+static const trait_id trait_HUGE_OK( "HUGE_OK" );
+static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
+static const trait_id trait_INT_SLIME( "INT_SLIME" );
+static const trait_id trait_LARGE( "LARGE" );
+static const trait_id trait_LARGE_OK( "LARGE_OK" );
+static const trait_id trait_M_BLOOM( "M_BLOOM" );
+static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
+static const trait_id trait_M_FERTILE( "M_FERTILE" );
+static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
+static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_MUTAGEN_AVOID( "MUTAGEN_AVOID" );
+static const trait_id trait_NAUSEA( "NAUSEA" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
+static const trait_id trait_ROBUST( "ROBUST" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
+static const trait_id trait_VOMITOUS( "VOMITOUS" );
+static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 namespace io
 {
@@ -411,8 +446,6 @@ void Character::activate_mutation( const trait_id &mut )
     const mutation_branch &mdata = mut.obj();
     trait_data &tdata = my_mutations[mut];
     int cost = mdata.cost;
-    // Preserve the fake weapon used to initiate ranged mutation firing
-    static item mut_ranged( weapon );
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
     if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
@@ -558,10 +591,9 @@ void Character::activate_mutation( const trait_id &mut )
         tdata.powered = false;
         return;
     } else if( !mdata.ranged_mutation.empty() ) {
-        mut_ranged = item( mdata.ranged_mutation );
         add_msg_if_player( mdata.ranged_mutation_message() );
         g->refresh_all();
-        avatar_action::fire( g->u, g->m, mut_ranged );
+        avatar_action::fire_ranged_mutation( g->u, g->m, item( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }
@@ -1411,4 +1443,35 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
         guy.add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
         guy.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
     }
+}
+
+bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return ( are_opposite_traits( trait_a, trait_b ) || b_is_lower_trait_of_a( trait_a, trait_b )
+             || b_is_higher_trait_of_a( trait_a, trait_b ) || are_same_type_traits( trait_a, trait_b ) );
+}
+
+bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return contains_trait( trait_a->cancels, trait_b );
+}
+
+bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return contains_trait( trait_a->prereqs, trait_b );
+}
+
+bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return contains_trait( trait_a->replacements, trait_b );
+}
+
+bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return contains_trait( get_mutations_in_types( trait_a->types ), trait_b );
+}
+
+bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait )
+{
+    return std::find( traits.begin(), traits.end(), trait ) != traits.end();
 }

@@ -44,6 +44,30 @@
     "flags": [ "WATCH", "ALARMCLOCK" ]
   },
   {
+    "type": "TOOL",
+    "id": "butane_can",
+    "name": { "str": "can of butane", "str_pl": "cans of butane" },
+    "description": "A typical can of butane that you would normally use to fill a lighter.  It could be useful as a fuel, but also as a solvent or chemical reagent.",
+    "symbol": "!",
+    "color": "dark_gray",
+    "looks_like": "spray_can",
+    "weight": "420 g",
+    "volume": "500 ml",
+    "price": 1500,
+    "initial_charges": 30,
+    "max_charges": 30,
+    "charges_per_use": 1,
+    "material": "steel",
+    "flags": [ "EXPLOSIVE", "EXPLODES" ],
+    "explosion": {
+      "power": 4503,
+      "distance_factor": 0.1,
+      "fire": true,
+      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.05, "recovery": 0 }
+    },
+    "explode_in_fire": true
+  },
+  {
     "id": "cow_bell",
     "type": "TOOL",
     "name": { "str": "cow bell" },
@@ -57,6 +81,68 @@
     "symbol": ";",
     "color": "brown",
     "use_action": "BELL"
+  },
+  {
+    "type": "TOOL",
+    "id": "dab_pen",
+    "name": { "str": "dab pen" },
+    "description": "A battery operated dab pen used for smoking cannabis distillate cartridges.",
+    "symbol": "!",
+    "color": "dark_gray",
+    "looks_like": "ecig",
+    "weight": "20 g",
+    "volume": "100 ml",
+    "price": 2500,
+    "material": "plastic",
+    "ammo": "battery",
+    "magazines": [
+      [
+        "battery",
+        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+      ]
+    ],
+    "charges_per_use": 1,
+    "max_charges": 100,
+    "use_action": {
+      "target": "dab_pen_on",
+      "msg": "You turn on the dab pen.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The dab pen's batteries need more charge.",
+      "type": "transform"
+    }
+  },
+  {
+    "type": "TOOL",
+    "id": "dab_pen_on",
+    "name": { "str": "dab pen (on)", "str_pl": "dab pens (on)" },
+    "description": "This dab pen, for vaporizing cannabis, is turned on.  Now all you need is a distillate cartridge and you're ready to rock and roll.",
+    "symbol": "!",
+    "color": "dark_gray",
+    "looks_like": "ecig",
+    "weight": "20 g",
+    "volume": "100 ml",
+    "price": 2500,
+    "material": "plastic",
+    "ammo": "battery",
+    "power_draw": 9000,
+    "revert_to": "dab_pen",
+    "magazines": [
+      [
+        "battery",
+        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+      ]
+    ],
+    "charges_per_use": 1,
+    "max_charges": 100,
+    "use_action": {
+      "target": "dab_pen",
+      "msg": "You turn off the dab pen.",
+      "active": false,
+      "need_charges": 0,
+      "need_charges_msg": "The dab pen's batteries need more charge.",
+      "type": "transform"
+    }
   },
   {
     "id": "e_tool",
@@ -344,6 +430,22 @@
     "volume": "1 L",
     "weight": "600 g",
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "gasket_plastic",
+    "name": { "str": "plastic gasket" },
+    "description": " A single-use plastic gasket.",
+    "symbol": "(",
+    "color": "dark_gray",
+    "looks_like": "plastic_chunk",
+    "weight": "5 g",
+    "volume": "30 ml",
+    "//": "gasket sizes range from 1in diameter to 6in.",
+    "price": 150,
+    "to_hit": 10,
+    "bashing": 1,
+    "material": "plastic"
   },
   {
     "id": "permanent_marker",
@@ -647,7 +749,7 @@
     "id": "umbrella",
     "type": "GENERIC",
     "category": "tools",
-    "name": "umbrella",
+    "name": { "str": "umbrella" },
     "description": "An umbrella with a pointy end, useful for keeping dry when wielded.",
     "weight": "141 g",
     "volume": "1500 ml",

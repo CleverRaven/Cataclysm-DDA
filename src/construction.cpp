@@ -32,6 +32,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "trap.h"
+#include "ui_manager.h"
 #include "uistate.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -52,7 +53,27 @@
 #include "mtype.h"
 #include "point.h"
 #include "units.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_practice_target( "tr_practice_target" );
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
+
+static const quality_id qual_CUT( "CUT" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+
+static const std::string flag_FLAT( "FLAT" );
+static const std::string flag_INITIAL_PART( "INITIAL_PART" );
+static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 
 class inventory;
 
@@ -321,6 +342,9 @@ construction_id construction_menu( const bool blueprint )
     const std::vector<construction_category> &construct_cat = construction_categories::get_all();
     const int tabcount = static_cast<int>( construction_category::count() );
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     std::string filter;
     do {
         if( update_cat ) {
@@ -388,15 +412,19 @@ construction_id construction_menu( const bool blueprint )
 
             std::vector<std::string> notes;
             if( tabindex == tabcount - 1 && !filter.empty() ) {
-                notes.push_back( string_format( _( "Press %s to clear filter" ),
+                notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] to clear filter" ),
                                                 ctxt.get_desc( "RESET_FILTER" ) ) );
             }
-            notes.push_back( string_format( _( "Press %s or %s to tab." ), ctxt.get_desc( "LEFT" ),
+            notes.push_back( string_format( _( "Press [<color_yellow>%s or %s</color>] "
+                                               "to tab." ), ctxt.get_desc( "LEFT" ),
                                             ctxt.get_desc( "RIGHT" ) ) );
-            notes.push_back( string_format( _( "Press %s to search." ), ctxt.get_desc( "FILTER" ) ) );
-            notes.push_back( string_format( _( "Press %s to toggle unavailable constructions." ),
+            notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] "
+                                               "to search." ), ctxt.get_desc( "FILTER" ) ) );
+            notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] "
+                                               "to toggle unavailable constructions." ),
                                             ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
-            notes.push_back( string_format( _( "Press %s to view and edit key-bindings." ),
+            notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] "
+                                               "to view and edit keybindings." ),
                                             ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
             //leave room for top and bottom UI text
@@ -841,9 +869,9 @@ void place_construction( const std::string &desc )
         cons.front()->explain_failure( pnt );
         return;
     }
-    // Maybe there is alreayd a partial_con on an existing trap, that isnt caught by the usual trap-checking.
+    // Maybe there is already a partial_con on an existing trap, that isn't caught by the usual trap-checking.
     // because the pre-requisite construction is already a trap anyway.
-    // This shouldnt normally happen, unless it's a spike pit being built on a pit for example.
+    // This shouldn't normally happen, unless it's a spike pit being built on a pit for example.
     partial_con *pre_c = g->m.partial_con_at( pnt );
     if( pre_c ) {
         add_msg( m_info,
@@ -858,7 +886,7 @@ void place_construction( const std::string &desc )
     pc.counter = 0;
     // Set the trap that has the examine function
     // Special handling for constructions that take place on existing traps.
-    // Basically just dont add the unfinished construction trap.
+    // Basically just don't add the unfinished construction trap.
     // TODO: handle this cleaner, instead of adding a special case to pit iexamine.
     if( g->m.tr_at( pnt ).loadid == tr_null ) {
         g->m.trap_set( pnt, tr_unfinished_construction );

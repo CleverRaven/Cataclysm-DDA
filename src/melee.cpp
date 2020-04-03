@@ -295,11 +295,6 @@ float player::hit_roll() const
 {
     // Dexterity, skills, weapon and martial arts
     float hit = get_hit();
-    // Drunken master makes us hit better
-    if( has_trait( trait_DRUNKEN ) ) {
-        hit += to_turns<float>( get_effect_dur( effect_drunk ) ) / ( used_weapon().is_null() ? 300.0f :
-                400.0f );
-    }
 
     // Farsightedness makes us hit worse
     if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
@@ -371,11 +366,11 @@ static void melee_train( player &p, int lo, int hi, const item &weap )
 
     // Unarmed may deal cut, stab, and bash damage depending on the weapon
     if( weap.is_unarmed_weapon() ) {
-        p.practice( skill_unarmed, ceil( 1 * rng( lo, hi ) ), hi );
+        p.practice( skill_unarmed, std::ceil( 1 * rng( lo, hi ) ), hi );
     } else {
-        p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ), hi );
-        p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
-        p.practice( skill_bashing, ceil( bash / total * rng( lo, hi ) ), hi );
+        p.practice( skill_cutting,  std::ceil( cut  / total * rng( lo, hi ) ), hi );
+        p.practice( skill_stabbing, std::ceil( stab / total * rng( lo, hi ) ), hi );
+        p.practice( skill_bashing, std::ceil( bash / total * rng( lo, hi ) ), hi );
     }
 }
 
@@ -616,9 +611,9 @@ void player::reach_attack( const tripoint &p )
     int t = 0;
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
     path.pop_back(); // Last point is our critter
-    for( const tripoint &p : path ) {
+    for( const tripoint &path_point : path ) {
         // Possibly hit some unintended target instead
-        Creature *inter = g->critter_at( p );
+        Creature *inter = g->critter_at( path_point );
         /** @EFFECT_STABBING decreases chance of hitting intervening target on reach attack */
         if( inter != nullptr &&
             !x_in_y( ( target_size * target_size + 1 ) * skill,
@@ -627,13 +622,13 @@ void player::reach_attack( const tripoint &p )
             critter = inter;
             break;
             /** @EFFECT_STABBING increases ability to reach attack through fences */
-        } else if( g->m.impassable( p ) &&
+        } else if( g->m.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( "SPEAR" ) &&
-                      g->m.has_flag( "THIN_OBSTACLE", p ) &&
+                      g->m.has_flag( "THIN_OBSTACLE", path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
-            g->m.bash( p, str_cur + weapon.damage_melee( DT_BASH ) );
+            g->m.bash( path_point, str_cur + weapon.damage_melee( DT_BASH ) );
             handle_melee_wear( weapon );
             mod_moves( -move_cost );
             return;
@@ -845,11 +840,11 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average,
         int maxdrunk = 0;
         const time_duration drunk_dur = get_effect_dur( effect_drunk );
         if( unarmed ) {
-            mindrunk = drunk_dur / 600_turns;
-            maxdrunk = drunk_dur / 250_turns;
+            mindrunk = drunk_dur / 1_hours;
+            maxdrunk = drunk_dur / 25_minutes;
         } else {
-            mindrunk = drunk_dur / 900_turns;
-            maxdrunk = drunk_dur / 400_turns;
+            mindrunk = drunk_dur / 90_minutes;
+            maxdrunk = drunk_dur / 40_minutes;
         }
 
         bash_dam += average ? ( mindrunk + maxdrunk ) * 0.5f : rng( mindrunk, maxdrunk );

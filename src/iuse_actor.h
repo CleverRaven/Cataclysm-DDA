@@ -113,6 +113,30 @@ class iuse_transform : public iuse_actor
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
+class unpack_actor : public iuse_actor
+{
+    public:
+        /** The itemgroup from which we unpack items from */
+        std::string unpack_group;
+
+        /** Whether or not the items from the group should spawn fitting */
+        bool items_fit = false;
+
+        /**
+         *  If the item is filthy, at what volume (held) threshold should the
+         *   items unpacked be made filthy
+         */
+        units::volume filthy_vol_threshold = 0_ml;
+
+        unpack_actor( const std::string &type = "unpack" ) : iuse_actor( type ) {}
+
+        ~unpack_actor() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &p, item &it, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        void info( const item &, std::vector<iteminfo> &dump ) const override;
+};
+
 class countdown_actor : public iuse_actor
 {
     public:

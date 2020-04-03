@@ -49,7 +49,18 @@
 #include "math_defines.h"
 #include "monster.h"
 #include "string_formatter.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_pet( "pet" );
+
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
+static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
+static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
+static const mongroup_id GROUP_SPIRAL( "GROUP_SPIRAL" );
+static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
+static const mongroup_id GROUP_WORM( "GROUP_WORM" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 class map_extra;
 
@@ -527,17 +538,10 @@ static void load_overmap_terrain_mapgens( const JsonObject &jo, const std::strin
 {
     const std::string fmapkey( id_base + suffix );
     const std::string jsonkey( "mapgen" + suffix );
-    bool default_mapgen = jo.get_bool( "default_mapgen", true );
-    int default_idx = -1;
-    if( default_mapgen ) {
-        if( const auto ptr = get_mapgen_cfunction( fmapkey ) ) {
-            oter_mapgen[fmapkey].push_back( std::make_shared<mapgen_function_builtin>( ptr ) );
-            default_idx = oter_mapgen[fmapkey].size() - 1;
-        }
-    }
+    register_mapgen_function( fmapkey );
     if( jo.has_array( jsonkey ) ) {
         for( JsonObject jio : jo.get_array( jsonkey ) ) {
-            load_mapgen_function( jio, fmapkey, default_idx );
+            load_mapgen_function( jio, fmapkey, point_zero );
         }
     }
 }
@@ -790,9 +794,8 @@ void overmap_terrains::check_consistency()
         }
 
         const bool exists_hardcoded = elem.is_hardcoded();
-        const bool exists_loaded = oter_mapgen.find( mid ) != oter_mapgen.end();
 
-        if( exists_loaded ) {
+        if( has_mapgen_for( mid ) ) {
             if( test_mode && exists_hardcoded ) {
                 debugmsg( "Mapgen terrain \"%s\" exists in both JSON and a hardcoded function.  Consider removing the latter.",
                           mid.c_str() );
@@ -3801,9 +3804,6 @@ inline om_direction::type rotate_internal( om_direction::type dir, int step )
         return dir;
     }
     step = step % om_direction::size;
-    if( step < 0 ) {
-        step += om_direction::size;
-    }
     return static_cast<om_direction::type>( ( static_cast<int>( dir ) + step ) % om_direction::size );
 }
 
@@ -3987,18 +3987,6 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         const int pop = rng( spawns.population.min, spawns.population.max );
         const int rad = rng( spawns.radius.min, spawns.radius.max );
         add_mon_group( mongroup( spawns.group, tripoint( p.x * 2, p.y * 2, p.z ), rad, pop ) );
-    }
-    // Place basement for houses.
-    if( special.id == "FakeSpecial_house" && one_in( settings.city_spec.house_basement_chance ) ) {
-        const overmap_special_id basement_tid = settings.city_spec.pick_basement();
-        const tripoint basement_p = tripoint( p.xy(), p.z - 1 );
-
-        // This basement isn't part of the special that we asserted we could place at
-        // the top of this function, so we need to make sure we can place the basement
-        // special before doing so.
-        if( can_place_special( *basement_tid, basement_p, dir, must_be_unexplored ) || force ) {
-            place_special( *basement_tid, basement_p, dir, cit, must_be_unexplored, force );
-        }
     }
 }
 

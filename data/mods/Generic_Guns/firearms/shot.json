@@ -3,7 +3,7 @@
     "id": "shot_double",
     "copy-from": "shotgun_d",
     "type": "GUN",
-    "name": "double-barrel shotgun",
+    "name": { "str": "double-barrel shotgun" },
     "ammo": "ammo_shot",
     "description": "An old-fashioned double barreled shotgun, with a trigger for each barrel.  Follow up shots are incredibly quick with this, but reloading is a bit slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds."
   },
@@ -11,7 +11,7 @@
     "id": "shot_pipe_double",
     "copy-from": "pipe_double_shotgun",
     "type": "GUN",
-    "name": "double-barrel pipe shotgun",
+    "name": { "str": "double-barrel pipe shotgun" },
     "ammo": "ammo_shot",
     "description": "A crudely handmade double barreled shotgun, with a trigger for each barrel.  Follow up shots are incredibly quick with this, but reloading is slow, as there are no extractors or ejectors.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds."
   },
@@ -37,7 +37,7 @@
     "id": "bio_shotgun_gun",
     "copy-from": "bio_shotgun_gun",
     "type": "GUN",
-    "name": "bionic shotgun",
+    "name": { "str": "bionic shotgun" },
     "ammo": "ammo_shot"
   }
 ]

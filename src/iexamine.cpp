@@ -59,6 +59,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
 #include "vehicle.h"
@@ -86,7 +87,95 @@
 #include "flat_set.h"
 #include "magic_teleporter_list.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_ATM( "ACT_ATM" );
+static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
+static const activity_id ACT_CRACKING( "ACT_CRACKING" );
+static const activity_id ACT_FORAGE( "ACT_FORAGE" );
+static const activity_id ACT_HACKING( "ACT_HACKING" );
+static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
+
+static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_pkill2( "pkill2" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_teleglow( "teleglow" );
+
+static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_survival( "survival" );
+
+static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
+static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
+static const trait_id trait_BADKNEES( "BADKNEES" );
+static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
+static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_M_FERTILE( "M_FERTILE" );
+static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
+static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
+static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
+static const quality_id qual_DIG( "DIG" );
+
+static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
+static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
+static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
+static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
+
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_fingerhack( "bio_fingerhack" );
+static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_lockpick( "bio_lockpick" );
+static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_power_storage( "bio_power_storage" );
+static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
+
+static const std::string flag_ANESTHESIA( "ANESTHESIA" );
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
+static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
+static const std::string flag_COOKED( "COOKED" );
+static const std::string flag_DIAMOND( "DIAMOND" );
+static const std::string flag_FERTILIZER( "FERTILIZER" );
+static const std::string flag_FILTHY( "FILTHY" );
+static const std::string flag_FIRE( "FIRE" );
+static const std::string flag_FIRESTARTER( "FIRESTARTER" );
+static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
+static const std::string flag_IN_CBM( "IN_CBM" );
+static const std::string flag_MILLABLE( "MILLABLE" );
+static const std::string flag_NO_CVD( "NO_CVD" );
+static const std::string flag_NO_PACKED( "NO_PACKED" );
+static const std::string flag_NO_STERILE( "NO_STERILE" );
+static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
+static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
+static const std::string flag_PROCESSING( "PROCESSING" );
+static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
+static const std::string flag_SAFECRACK( "SAFECRACK" );
+static const std::string flag_SMOKABLE( "SMOKABLE" );
+static const std::string flag_SMOKED( "SMOKED" );
+static const std::string flag_SPLINT( "SPLINT" );
+static const std::string flag_VARSIZE( "VARSIZE" );
+static const std::string flag_WALL( "WALL" );
+static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 
 static void pick_plant( player &p, const tripoint &examp, const std::string &itemType,
                         ter_id new_ter,
@@ -427,8 +516,8 @@ class atm_menu
 
         //!Move money from bank account onto cash card.
         bool do_withdraw_money() {
-            //We may want to use visit_items here but thats fairly heavy.
-            //For now, just check weapon if we didnt find it in the inventory.
+            //We may want to use visit_items here but that's fairly heavy.
+            //For now, just check weapon if we didn't find it in the inventory.
             int pos = u.inv.position_by_type( "cash_card" );
             item *dst;
             if( pos == INT_MIN ) {
@@ -570,6 +659,9 @@ void iexamine::vending( player &p, const tripoint &examp )
 
     const int lines_above = list_lines / 2;                  // lines above the selector
     const int lines_below = list_lines / 2 + list_lines % 2; // lines below the selector
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     int cur_pos = 0;
     for( ;; ) {
@@ -774,21 +866,21 @@ void iexamine::cardreader( player &p, const tripoint &examp )
         p.mod_moves( -to_turns<int>( 1_seconds ) );
         for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
             if( g->m.ter( tmp ) == t_door_metal_locked ) {
-                g->m.ter_set( tmp, t_floor );
+                g->m.ter_set( tmp, t_door_metal_c );
                 open = true;
             }
         }
         for( monster &critter : g->all_monsters() ) {
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( g->m.getabs( critter.pos() ) ) == ms_to_omt_copy( g->m.getabs( examp ) ) &&
-                ( critter.type->id == mon_turret_rifle ) &&
+                critter.has_flag( MF_ID_CARD_DESPAWN ) &&
                 critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
         }
         if( open ) {
             add_msg( _( "You insert your ID card." ) );
-            add_msg( m_good, _( "The nearby doors slide into the floor." ) );
+            add_msg( m_good, _( "The nearby doors unlock." ) );
             p.use_amount( card_type, 1 );
         } else {
             add_msg( _( "The nearby doors are already opened." ) );
@@ -1335,6 +1427,7 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
+        temp_camp->validate_bb_pos( g->m.getabs( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
 
@@ -3385,7 +3478,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
     p.assign_activity( ACT_FORAGE, move_cost, 0 );
-    p.activity.placement = examp;
+    p.activity.placement = g->m.getabs( examp );
     p.activity.auto_resume = true;
     return;
 }

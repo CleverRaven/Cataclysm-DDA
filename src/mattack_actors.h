@@ -113,7 +113,7 @@ class bite_actor : public melee_actor
 {
     public:
         // one_in( this - damage dealt ) chance of getting infected
-        // ie. the higher is this, the lower chance of infection
+        // i.e. the higher is this, the lower chance of infection
         int no_infection_chance;
 
         bite_actor();

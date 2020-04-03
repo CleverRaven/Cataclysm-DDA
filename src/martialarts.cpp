@@ -22,6 +22,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "item.h"
@@ -29,7 +30,14 @@
 #include "pldata.h"
 #include "enums.h"
 #include "optional.h"
-#include "cata_string_consts.h"
+
+static const skill_id skill_unarmed( "unarmed" );
+
+static const bionic_id bio_armor_arms( "bio_armor_arms" );
+static const bionic_id bio_armor_legs( "bio_armor_legs" );
+static const bionic_id bio_cqb( "bio_cqb" );
+
+static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
 namespace
 {
@@ -1470,6 +1478,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         ict.register_action( "UP" );
         ict.register_action( "DOWN" );
         ict.register_action( "QUIT" );
+
+        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
         do {
             if( selected < 0 ) {

@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "calendar.h"
 #include "color.h"
 #include "debug.h"
 #include "json.h"
@@ -558,9 +559,7 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
         strict = false;
         out = val * scalar;
 
-    } else if( read_with_factor( jo, name, out, factor ) ) {
-
-    } else {
+    } else if( !read_with_factor( jo, name, out, factor ) ) {
         return false;
     }
 

@@ -75,7 +75,60 @@
 #include "flat_set.h"
 #include "point.h"
 #include "clothing_mod.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
+static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
+static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_music( "music" );
+static const efftype_id effect_playing_instrument( "playing_instrument" );
+static const efftype_id effect_recover( "recover" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stunned( "stunned" );
+
+static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const bionic_id bio_syringe( "bio_syringe" );
+
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_survival( "survival" );
+
+static const species_id HUMAN( "HUMAN" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
+static const trait_id trait_SMALL2( "SMALL2" );
+
+static const std::string flag_FIT( "FIT" );
+static const std::string flag_OVERSIZE( "OVERSIZE" );
+static const std::string flag_UNDERSIZE( "UNDERSIZE" );
+static const std::string flag_VARSIZE( "VARSIZE" );
 
 class npc;
 
@@ -282,6 +335,57 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     if( explosion_use != nullptr ) {
         explosion_use->get_actor_ptr()->info( it, dump );
     }
+}
+
+std::unique_ptr<iuse_actor> unpack_actor::clone() const
+{
+    return std::make_unique<unpack_actor>( *this );
+}
+
+void unpack_actor::load( const JsonObject &obj )
+{
+    obj.read( "group", unpack_group );
+    obj.read( "items_fit", items_fit );
+    assign( obj, "filthy_volume_threshold", filthy_vol_threshold );
+}
+
+int unpack_actor::use( player &p, item &it, bool, const tripoint & ) const
+{
+    std::vector<item> items = item_group::items_from( unpack_group, calendar::turn );
+    item last_armor;
+
+    p.add_msg_if_player( _( "You unpack the %s." ), it.tname() );
+
+    for( item &content : items ) {
+        if( content.is_armor() ) {
+            if( items_fit ) {
+                content.set_flag( "FIT" );
+            } else if( content.typeId() == last_armor.typeId() ) {
+                if( last_armor.has_flag( "FIT" ) ) {
+                    content.set_flag( "FIT" );
+                } else if( !last_armor.has_flag( "FIT" ) ) {
+                    content.unset_flag( "FIT" );
+                }
+            }
+            last_armor = content;
+        }
+
+        if( content.get_storage() >= filthy_vol_threshold && it.has_flag( "FILTHY" ) ) {
+            content.set_flag( "FILTHY" );
+        }
+
+        g->m.add_item_or_charges( p.pos(), content );
+    }
+
+    p.i_rem( &it );
+
+    return 0;
+}
+
+void unpack_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION",
+                       _( "This item could be unpacked to receive something." ) );
 }
 
 std::unique_ptr<iuse_actor> countdown_actor::clone() const
@@ -1053,7 +1157,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     const furn_t &the_furn = furn_type.obj();
     const std::string furn_name = the_furn.name();
 
-    if( the_furn.workbench.has_value() ) {
+    if( the_furn.workbench ) {
         can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
     }
     if( the_furn.has_flag( "BUTCHER_EQ" ) ) {
@@ -1320,7 +1424,7 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     }
 
     tripoint pos = spos;
-    float light = light_mod( pos );
+    float light = light_mod( p.pos() );
     if( !prep_firestarter_use( p, pos ) ) {
         return 0;
     }
@@ -1859,14 +1963,14 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    auto items = g->m.i_at( point( p.posx(), p.posy() ) );
+    map_stack items = g->m.i_at( point( p.posx(), p.posy() ) );
     std::vector<const item *> corpses;
 
-    for( auto &it : items ) {
-        const auto mt = it.get_mtype();
-        if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
-            mt->in_species( HUMAN ) && it.active && !it.has_var( "zlave" ) ) {
-            corpses.push_back( &it );
+    for( item &corpse_candidate : items ) {
+        const mtype *mt = corpse_candidate.get_mtype();
+        if( corpse_candidate.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
+            mt->in_species( HUMAN ) && corpse_candidate.active && !corpse_candidate.has_var( "zlave" ) ) {
+            corpses.push_back( &corpse_candidate );
         }
     }
 
@@ -2390,7 +2494,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     study_spell.moves_left = study_spell.moves_total;
     if( study_spell.moves_total == 10100 ) {
         study_spell.str_values[0] = "gain_level";
-        study_spell.values[0]; // reserved for xp
+        study_spell.values[0] = 0; // reserved for xp
         study_spell.values[1] = p.magic.get_spell( spell_id( spells[action] ) ).get_level() + 1;
     }
     study_spell.name = spells[action];
@@ -2612,7 +2716,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
 
-        store( p, it, p.i_at( loc.obtain( p ) ) );
+        store( p, it, *loc.obtain( p ) );
     }
 
     return 0;
@@ -2974,7 +3078,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     // Round up if checking, but roll if actually consuming
     // TODO: should 250_ml be part of the cost_scaling?
     const int items_needed = std::max<int>( 1, just_check ?
-                                            ceil( fix.volume() / 250_ml * cost_scaling ) :
+                                            std::ceil( fix.volume() / 250_ml * cost_scaling ) :
                                             roll_remainder( fix.volume() / 250_ml * cost_scaling ) );
 
     std::function<bool( const item & )> filter;
@@ -3356,7 +3460,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( action == RT_DOWNSIZING ) {
-        //We dont need to check for smallness or undersize because DOWNSIZING already guarantees that
+        //We don't need to check for smallness or undersize because DOWNSIZING already guarantees that
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
                                   fix->tname().c_str() );
@@ -3368,7 +3472,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( action == RT_UPSIZING ) {
-        //We dont need to check for smallness or undersize because UPSIZING already guarantees that
+        //We don't need to check for smallness or undersize because UPSIZING already guarantees that
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
                                   fix->tname().c_str() );
@@ -4082,7 +4186,7 @@ int saw_barrel_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return 0;
     }
 
-    item &obj = p.i_at( loc.obtain( p ) );
+    item &obj = *loc.obtain( p );
     p.add_msg_if_player( _( "You saw down the barrel of your %s." ), obj.tname() );
     obj.contents.emplace_back( "barrel_small", calendar::turn );
 

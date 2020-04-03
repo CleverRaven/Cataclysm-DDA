@@ -28,7 +28,32 @@
 #include "debug.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_spores( "spores" );
+static const efftype_id effect_stunned( "stunned" );
+
+static const skill_id skill_melee( "melee" );
+
+static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_spore( "mon_spore" );
+
+static const species_id FUNGUS( "FUNGUS" );
+
+static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
+static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_FLAMMABLE( "FLAMMABLE" );
+static const std::string flag_FLAT( "FLAT" );
+static const std::string flag_FLOWER( "FLOWER" );
+static const std::string flag_FUNGUS( "FUNGUS" );
+static const std::string flag_ORGANIC( "ORGANIC" );
+static const std::string flag_PLANT( "PLANT" );
+static const std::string flag_SHRUB( "SHRUB" );
+static const std::string flag_THIN_OBSTACLE( "THIN_OBSTACLE" );
+static const std::string flag_TREE( "TREE" );
+static const std::string flag_WALL( "WALL" );
+static const std::string flag_YOUNG( "YOUNG" );
 
 fungal_effects::fungal_effects( game &g, map &mp )
     : gm( g ), m( mp )
@@ -52,7 +77,6 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
         // TODO: Make this accept NPCs when they understand fungals
         player &pl = gm.u;
         ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
-
         ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
         if( pl.has_trait( trait_TAIL_CATTLE ) &&
             one_in( 20 - pl.dex_cur - pl.get_skill_level( skill_melee ) ) ) {

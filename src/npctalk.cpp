@@ -53,6 +53,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -72,7 +73,35 @@
 #include "player_activity.h"
 #include "player.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_AIM( "ACT_AIM" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
+
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_under_op( "under_operation" );
+
+static const itype_id fuel_type_animal( "animal" );
+
+static const zone_type_id zone_type_npc_investigate_only( "NPC_INVESTIGATE_ONLY" );
+static const zone_type_id zone_type_npc_no_investigate( "NPC_NO_INVESTIGATE" );
+
+static const skill_id skill_speech( "speech" );
+
+static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
+static const bionic_id bio_deformity( "bio_deformity" );
+static const bionic_id bio_face_mask( "bio_face_mask" );
+static const bionic_id bio_voice( "bio_voice" );
+
+static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 class basecamp;
 
@@ -599,10 +628,10 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             bool should_check = rl_dist( pos(), spos ) < investigate_dist;
             if( should_check ) {
                 const zone_manager &mgr = zone_manager::get_manager();
-                if( mgr.has( zone_no_investigate, s_abs_pos, fac_id ) ) {
+                if( mgr.has( zone_type_npc_no_investigate, s_abs_pos, fac_id ) ) {
                     should_check = false;
-                } else if( mgr.has( zone_investigate_only, my_abs_pos, fac_id ) &&
-                           !mgr.has( zone_investigate_only, s_abs_pos, fac_id ) ) {
+                } else if( mgr.has( zone_type_npc_investigate_only, my_abs_pos, fac_id ) &&
+                           !mgr.has( zone_type_npc_investigate_only, s_abs_pos, fac_id ) ) {
                     should_check = false;
                 }
             }
@@ -1675,6 +1704,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
     }
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int ch = text_only ? 'a' + responses.size() - 1 : ' ';
     bool okay;
     do {
@@ -2542,6 +2574,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_chop_trees ),
             WRAP( do_fishing ),
             WRAP( do_construction ),
+            WRAP( do_mining ),
             WRAP( do_read ),
             WRAP( do_butcher ),
             WRAP( do_farming ),
@@ -3170,6 +3203,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
                 reason = _( "It doesn't look like a good idea to consume this…" );
                 return REFUSED;
             }
+            reason = _( "Thanks, I used it." );
         }
 
         to_eat.charges -= amount_used;

@@ -50,6 +50,8 @@ IF(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 ENDIF(NOT CMAKE_BUILD_TYPE)
 
+ADD_DEFINITIONS(-DCMAKE)
+
 if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
     FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h "\#define VERSION \"${GIT_VERSION}\"\n")
@@ -146,7 +148,9 @@ MESSAGE(STATUS "${PROJECT_NAME} build options --\n")
 
 # Preset variables
 IF(NOT LANGUAGES)
-    SET (LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
+    # English is included to workaround a libintl bug that affects performance
+    # on MinGW targets. See lang/CMakeList.txt for more information.
+    SET (LANGUAGES en de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
 ENDIF(NOT LANGUAGES)
 
 IF (GIT_BINARY)

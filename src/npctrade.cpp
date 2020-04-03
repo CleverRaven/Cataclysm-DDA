@@ -20,6 +20,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "vehicle_selector.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -31,8 +32,9 @@
 #include "type_id.h"
 #include "faction.h"
 #include "pimpl.h"
-#include "cata_string_consts.h"
 #include "item_category.h"
+
+static const skill_id skill_barter( "barter" );
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
                                   player &receiver, std::list<item_location *> &from_map,
@@ -332,10 +334,12 @@ void trading_window::update_win( npc &np, const std::string &deal )
                 const int &owner_sells = they ? ip.u_has : ip.npc_has;
                 const int &owner_sells_charge = they ? ip.u_charges : ip.npc_charges;
                 std::string itname = it->display_name();
-                if( ip.loc.where() != item_location::type::character ) {
-                    itname = itname + " " + ip.loc.describe( &g->u );
+
+                if( np.will_exchange_items_freely() && ip.loc.where() != item_location::type::character ) {
+                    itname = itname + " (" + ip.loc.describe( &g->u ) + ")";
                     color = c_light_blue;
                 }
+
                 if( ip.charges > 0 && owner_sells_charge > 0 ) {
                     itname += string_format( _( ": trading %d" ), owner_sells_charge );
                 } else {
@@ -383,6 +387,9 @@ void trading_window::update_win( npc &np, const std::string &deal )
 void trading_window::show_item_data( npc &np, size_t offset,
                                      std::vector<item_pricing> &target_list )
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     update = true;
     catacurses::window w_tmp = catacurses::newwin( 3, 21, point( 30 + ( TERMX - FULL_SCREEN_WIDTH ) / 2,
                                1 + ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) );
@@ -437,6 +444,9 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
         volume_left = 5'000_liter;
         weight_left = 5'000_kilogram;
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         update_win( np, deal );
@@ -658,5 +668,5 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 // Will the NPC accept the trade that's currently on offer?
 bool trading_window::npc_will_accept_trade( const npc &np ) const
 {
-    return np.is_player_ally() || your_balance + np.max_credit_extended() > 0;
+    return np.will_exchange_items_freely() || your_balance + np.max_credit_extended() > 0;
 }

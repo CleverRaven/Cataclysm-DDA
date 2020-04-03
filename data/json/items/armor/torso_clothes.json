@@ -229,7 +229,7 @@
     "id": "jersey",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "sports jersey",
+    "name": { "str": "sports jersey" },
     "//": "Genuine team merch, and priced like it!",
     "description": "A shirt made of thick material imprinted with the name and logo of a sports team.",
     "weight": "480 g",
@@ -280,6 +280,14 @@
       {
         "id": "monroeville",
         "text": "A hockey jersey made of thick material imprinted with the logo of the Monroeville Zombies."
+      },
+      {
+        "id": "rugby",
+        "text": "A rugby jersey made of thick material imprinted with the logo of the Canberra Drop Bears."
+      },
+      {
+        "id": "volleyball",
+        "text": "A volleyball jersey made of thick material imprinted with the logo of the Ooarai Ducks."
       }
     ],
     "flags": [ "VARSIZE" ]
@@ -459,7 +467,7 @@
     "id": "striped_shirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "striped shirt",
+    "name": { "str": "striped shirt" },
     "description": "A long-sleeved shirt with horizontal black and white stripes.",
     "weight": "146 g",
     "volume": "750 ml",
@@ -496,7 +504,7 @@
   {
     "id": "sweater",
     "type": "ARMOR",
-    "name": "sweater",
+    "name": { "str": "sweater" },
     "description": "A wool shirt.  Provides warmth.",
     "weight": "344 g",
     "volume": "2 L",
@@ -517,7 +525,7 @@
     "id": "sweatshirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "sweatshirt",
+    "name": { "str": "sweatshirt" },
     "description": "A thick cotton shirt.  Provides warmth and a bit of padding.",
     "weight": "244 g",
     "volume": "3500 ml",
@@ -538,7 +546,7 @@
     "id": "technician_shirt_gray",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "work t-shirt",
+    "name": { "str": "work t-shirt" },
     "description": "A gray work t-shirt with a small front pocket.",
     "weight": "64 g",
     "volume": "250 ml",
@@ -563,7 +571,7 @@
   {
     "id": "tshirt",
     "type": "ARMOR",
-    "name": "t-shirt",
+    "name": { "str": "t-shirt" },
     "description": "A short-sleeved cotton shirt.",
     "weight": "110 g",
     "volume": "500 ml",
@@ -582,7 +590,7 @@
     "id": "tshirt_text",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": "t-shirt",
+    "name": { "str": "t-shirt" },
     "description": "A short-sleeved cotton shirt.",
     "weight": "110 g",
     "volume": "500 ml",
@@ -608,7 +616,7 @@
     "repairs_like": "tshirt",
     "type": "ARMOR",
     "copy-from": "tshirt",
-    "name": "tour t-shirt",
+    "name": { "str": "tour t-shirt" },
     "description": "A short-sleeved cotton shirt.",
     "price": 1000,
     "looks_like": "tshirt",
@@ -675,7 +683,7 @@
   {
     "id": "wool_hoodie",
     "type": "ARMOR",
-    "name": "wool hoodie",
+    "name": { "str": "wool hoodie" },
     "description": "A wool hooded shirt.  It offers decent protection against the cold.  The front pocket offers both storage room and shelter for your hands.",
     "weight": "580 g",
     "volume": "3250 ml",

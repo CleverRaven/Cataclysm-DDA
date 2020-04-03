@@ -1276,6 +1276,7 @@ class map
         void add_camp( const tripoint &omt_pos, const std::string &name );
         void remove_submap_camp( const tripoint & );
         basecamp hoist_submap_camp( const tripoint &p );
+        bool point_within_camp( const tripoint point_check ) const;
         // Graffiti
         bool has_graffiti_at( const tripoint &p ) const;
         const std::string &graffiti_at( const tripoint &p ) const;
@@ -1481,14 +1482,6 @@ class map
          * Hacks in missing roofs. Should be removed when 3D mapgen is done.
          */
         void add_roofs( const tripoint &grid );
-        /**
-         * Whether the item has to be removed as it has rotten away completely.
-         * @param itm Item to check for rotting
-         * @param pnt The *absolute* position of the item in the world (not just on this map!),
-         * used for rot calculation.
-         * @return true if the item has rotten away and should be removed, false otherwise.
-         */
-        bool has_rotten_away( item &itm, const tripoint &pnt ) const;
         /**
          * Go through the list of items, update their rotten status and remove items
          * that have rotten away completely.

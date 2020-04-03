@@ -50,7 +50,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo]" )
         "Bash: <color_c_yellow>20</color>"
         "  Cut: <color_c_yellow>5</color>"
         "  To-hit bonus: <color_c_yellow>+2</color>\n"
-        "Moves per attack: <color_c_yellow>145</color>\n" );
+        "Moves per attack: <color_c_yellow>145</color>\n"
+        "Damage per second: <color_c_yellow>17.24</color>\n" );
 
 }
 

@@ -28,6 +28,20 @@
     "components": [ [ [ "splinter", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
+    "result": "shears",
+    "type": "uncraft",
+    "time": "2 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "elec_shears",
+    "type": "uncraft",
+    "time": "2 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
+  },
+  {
     "result": "bronze_medal",
     "type": "uncraft",
     "time": "30 s",
@@ -1759,25 +1773,25 @@
     "result": "glass",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "glass_shard", 1 ] ] ]
+    "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
     "result": "glass_bowl",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
     "result": "glass_plate",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
     "result": "glass_sheet",
     "type": "uncraft",
     "time": "2 m",
-    "components": [ [ [ "glass_shard", 322 ] ] ]
+    "components": [ [ [ "glass_shard", 182 ] ] ]
   },
   {
     "result": "game_watch",

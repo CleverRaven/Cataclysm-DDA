@@ -613,7 +613,7 @@ void Item_factory::finalize_item_blacklist()
         // remove any recipes used to craft the migrated item
         // if there's a valid recipe, it will be for the replacement
         recipe_dictionary::delete_if( [&migrate]( const recipe & r ) {
-            return r.result() == migrate.first;
+            return !r.obsolete && r.result() == migrate.first;
         } );
 
         // If the default ammo of an ammo_type gets migrated, we migrate all guns using that ammo
@@ -756,7 +756,6 @@ void Item_factory::init()
     add_iuse( "ANTIPARASITIC", &iuse::antiparasitic );
     add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
     add_iuse( "ARTIFACT", &iuse::artifact );
-    add_iuse( "ATOMIC_CAFF", &iuse::atomic_caff );
     add_iuse( "AUTOCLAVE", &iuse::autoclave );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
@@ -764,7 +763,6 @@ void Item_factory::init()
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
     add_iuse( "C4", &iuse::c4 );
     add_iuse( "CABLE_ATTACH", &iuse::cable_attach );
-    add_iuse( "CAFF", &iuse::caff );
     add_iuse( "CAMERA", &iuse::camera );
     add_iuse( "CAN_GOO", &iuse::can_goo );
     add_iuse( "COIN_FLIP", &iuse::coin_flip );
@@ -831,8 +829,6 @@ void Item_factory::init()
                                 "present</info>."
                               ) );
     add_iuse( "GEIGER", &iuse::geiger );
-    add_iuse( "GOBAG_NORMAL", &iuse::gobag_normal );
-    add_iuse( "GOBAG_PERSONAL", &iuse::gobag_personal );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
@@ -952,6 +948,7 @@ void Item_factory::init()
     add_actor( std::make_unique<holster_actor>() );
     add_actor( std::make_unique<inscribe_actor>() );
     add_actor( std::make_unique<iuse_transform>() );
+    add_actor( std::make_unique<unpack_actor>() );
     add_actor( std::make_unique<countdown_actor>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
@@ -1834,31 +1831,30 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "quench", slot.quench, strict );
     assign( jo, "fun", slot.fun, strict );
     assign( jo, "stim", slot.stim, strict );
+    assign( jo, "fatigue_mod", slot.fatigue_mod, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
     assign( jo, "contamination", slot.contamination, strict, 0, 100 );
+    assign( jo, "radiation", slot.radiation, strict );
     assign( jo, "freezing_point", slot.freeze_point, strict );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
 
-    bool is_junkfood = false;
     if( jo.has_member( "primary_material" ) ) {
         std::string mat = jo.get_string( "primary_material" );
         slot.specific_heat_solid = material_id( mat )->specific_heat_solid();
         slot.specific_heat_liquid = material_id( mat )->specific_heat_liquid();
         slot.latent_heat = material_id( mat )->latent_heat();
-        is_junkfood = is_junkfood || mat == "junk";
     } else if( jo.has_member( "material" ) ) {
         float specific_heat_solid = 0;
         float specific_heat_liquid = 0;
         float latent_heat = 0;
 
-        for( auto &m : jo.get_tags( "material" ) ) {
+        for( const std::string &m : jo.get_tags( "material" ) ) {
             specific_heat_solid += material_id( m )->specific_heat_solid();
             specific_heat_liquid += material_id( m )->specific_heat_liquid();
             latent_heat += material_id( m )->latent_heat();
-            is_junkfood = is_junkfood || m == "junk";
         }
         // Average based on number of materials.
         slot.specific_heat_liquid = specific_heat_liquid / jo.get_tags( "material" ).size();
@@ -1866,7 +1862,18 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         slot.latent_heat = latent_heat / jo.get_tags( "material" ).size();
     }
 
-    if( is_junkfood ) { // Junk food never gets old by default, but this can still be overriden.
+    bool is_not_boring = false;
+    if( jo.has_member( "primary_material" ) ) {
+        std::string mat = jo.get_string( "primary_material" );
+        is_not_boring = is_not_boring || mat == "junk";
+    }
+    if( jo.has_member( "material" ) ) {
+        for( const std::string &m : jo.get_tags( "material" ) ) {
+            is_not_boring = is_not_boring || m == "junk";
+        }
+    }
+    // Junk food never gets old by default, but this can still be overriden.
+    if( is_not_boring ) {
         slot.monotony_penalty = 0;
     }
     assign( jo, "monotony_penalty", slot.monotony_penalty, strict );
@@ -2217,6 +2224,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
     assign( jo, "insulation", def.insulation_factor );
+    assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.ascii_picture );
 
     if( jo.has_member( "thrown_damage" ) ) {

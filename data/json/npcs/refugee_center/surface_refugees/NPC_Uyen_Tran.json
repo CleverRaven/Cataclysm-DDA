@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Uyen",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "A paramedic who suffers a bit of racism for being asian",
@@ -125,7 +125,7 @@
   {
     "id": "MISSION_REFUGEE_Uyen_1",
     "type": "mission_definition",
-    "name": "Find 5 first aid kits",
+    "name": { "str": "Find 5 first aid kits" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
@@ -154,7 +154,7 @@
   {
     "id": "MISSION_REFUGEE_Uyen_2",
     "type": "mission_definition",
-    "name": "Find 6 bottles of Prozac",
+    "name": { "str": "Find 6 bottles of Prozac" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,

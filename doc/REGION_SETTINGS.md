@@ -406,9 +406,7 @@ relative placements of various classes of buildings.
 | `type`                  | City type identifier--currently unused.                            |
 | `shop_radius`           | Radial frequency of shop placement. Smaller number = more shops.   |
 | `park_radius`           | Radial frequency of park placement. Smaller number = more parks.   |
-| `house_basement_chance` | One in X chance that a house has a basement.                       |
 | `houses`                | Weighted list of overmap terrains and specials used for houses.    |
-| `basements`             | Weighted list of overmap terrains and specials used for basements. |
 | `parks`                 | Weighted list of overmap terrains and specials used for parks.     |
 | `shops`                 | Weighted list of overmap terrains and specials used for shops.     |
 
@@ -427,16 +425,11 @@ place the shop or park are based on the formula `rng( 0, 99 ) > X_radius * dista
 		"type": "town",
 		"shop_radius": 80,
 		"park_radius": 90,
-		"house_basement_chance": 5,
 		"houses": {
 			"house_two_story_basement": 1,
 			"house": 1000,
 			"house_base": 333,
 			"emptyresidentiallot": 20
-		},
-		"basements": {
-			"basement": 1000,
-			"basement_hidden_lab_stairs": 50
 		},
 		"parks": {
 			"park": 4,
