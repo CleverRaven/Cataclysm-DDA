@@ -5368,6 +5368,21 @@ computer *map::computer_at( const tripoint &p )
     return sm->get_computer( l );
 }
 
+bool map::point_within_camp( const tripoint point_check ) const
+{
+    const tripoint omt_check = ms_to_omt_copy( point_check );
+    const int x = omt_check.x;
+    const int y = omt_check.y;
+    for( int x2 = x - 2; x2 < x + 2; x2++ ) {
+        for( int y2 = y - 2; y2 < y + 2; y2++ ) {
+            if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( point( x2, y2 ) ) ) {
+                return ( *bcp )->camp_omt_pos().z == point_check.z;
+            }
+        }
+    }
+    return false;
+}
+
 void map::remove_submap_camp( const tripoint &p )
 {
     get_submap_at( p )->camp.reset();

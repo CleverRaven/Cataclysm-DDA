@@ -158,6 +158,7 @@ static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
@@ -293,6 +294,7 @@ activity_handlers::do_turn_functions = {
     { ACT_WEAR, wear_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
+    { ACT_MULTIPLE_MINE, multiple_mine_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
@@ -1939,7 +1941,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
 {
-    const tripoint &pos = act->placement;
+    const tripoint &pos = g->m.getlocal( act->placement );
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     // each turn is too much
     if( calendar::once_every( 1_minutes ) ) {
@@ -1950,36 +1952,45 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
 
 void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 {
-    const tripoint pos( act->placement );
+    const tripoint pos( g->m.getlocal( act->placement ) );
     item &it = p->i_at( act->position );
     // Invalidate the activity early to prevent a query from mod_pain()
     act->set_to_null();
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    if( g->m.is_bashable( pos ) && g->m.has_flag( flag_SUPPORTS_ROOF, pos ) &&
-        g->m.ter( pos ) != t_tree ) {
-        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
-        // Betcha wish you'd opted for the J-Hammer ;P
-        p->mod_stored_nutr( 15 - ( helpersize * 3 ) );
-        p->mod_thirst( 15 - ( helpersize * 3 ) );
-        if( p->has_trait( trait_STOCKY_TROGLO ) ) {
-            // Yep, dwarves can dig longer before tiring
-            p->mod_fatigue( 20 - ( helpersize  * 3 ) );
-        } else {
-            p->mod_fatigue( 30 - ( helpersize  * 3 ) );
+    if( p->is_avatar() ) {
+        const int helpersize = g->u.get_num_crafting_helpers( 3 );
+        if( g->m.is_bashable( pos ) && g->m.has_flag( flag_SUPPORTS_ROOF, pos ) &&
+            g->m.ter( pos ) != t_tree ) {
+            // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
+            // Betcha wish you'd opted for the J-Hammer ;P
+            p->mod_stored_nutr( 15 - ( helpersize * 3 ) );
+            p->mod_thirst( 15 - ( helpersize * 3 ) );
+            if( p->has_trait( trait_STOCKY_TROGLO ) ) {
+                // Yep, dwarves can dig longer before tiring
+                p->mod_fatigue( 20 - ( helpersize  * 3 ) );
+            } else {
+                p->mod_fatigue( 30 - ( helpersize  * 3 ) );
+            }
+            p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
+        } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
+                   g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
+            //Breaking up concrete on the surface? not nearly as bad
+            p->mod_stored_nutr( 5 - ( helpersize ) );
+            p->mod_thirst( 5 - ( helpersize ) );
+            p->mod_fatigue( 10 - ( helpersize  * 2 ) );
         }
-        p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-    } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
-               g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
-        //Breaking up concrete on the surface? not nearly as bad
-        p->mod_stored_nutr( 5 - ( helpersize ) );
-        p->mod_thirst( 5 - ( helpersize ) );
-        p->mod_fatigue( 10 - ( helpersize  * 2 ) );
     }
-    p->add_msg_if_player( m_good, _( "You finish digging." ) );
+    p->add_msg_player_or_npc( m_good,
+                              _( "You finish digging." ),
+                              _( "<npcname> finishes digging." ) );
     g->m.destroy( pos, true );
     it.charges = std::max( 0, it.charges - it.type->charges_to_use() );
     if( it.charges == 0 && it.destroyed_at_zero_charges() ) {
         p->i_rem( &it );
+    }
+    if( resume_for_multi_activities( *p ) ) {
+        for( item &elem : g->m.i_at( pos ) ) {
+            elem.set_var( "activity_var", p->name );
+        }
     }
 }
 
@@ -3683,6 +3694,12 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
     generic_multi_activity_handler( *act, *p );
 }
 
+void activity_handlers::multiple_mine_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
+
 void activity_handlers::multiple_chop_planks_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
@@ -4108,26 +4125,36 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
 {
-    sfx::play_activity_sound( "tool", "jackhammer", sfx::get_heard_volume( act->placement ) );
+    sfx::play_activity_sound( "tool", "jackhammer",
+                              sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a jackhammer at work!
-        sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "TATATATATATATAT!" ) );
+        sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::destructive_activity,
+                       //~ Sound of a jackhammer at work!
+                       _( "TATATATATATATAT!" ) );
     }
 }
 
 void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
+    const tripoint &pos = g->m.getlocal( act->placement );
 
     g->m.destroy( pos, true );
 
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
-    p->add_msg_if_player( m_good, _( "You finish drilling." ) );
-
+    if( p->is_avatar() ) {
+        const int helpersize = g->u.get_num_crafting_helpers( 3 );
+        p->mod_stored_nutr( 5 - helpersize );
+        p->mod_thirst( 5 - helpersize );
+        p->mod_fatigue( 10 - ( helpersize * 2 ) );
+    }
+    p->add_msg_player_or_npc( m_good,
+                              _( "You finish drilling." ),
+                              _( "<npcname> finishes drilling." ) );
     act->set_to_null();
+    if( resume_for_multi_activities( *p ) ) {
+        for( item &elem : g->m.i_at( pos ) ) {
+            elem.set_var( "activity_var", p->name );
+        }
+    }
 }
 
 void activity_handlers::dig_do_turn( player_activity *act, player * )
