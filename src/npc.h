@@ -112,39 +112,67 @@ enum class attitude_group : int {
     friendly // Follow, defend, listen
 };
 
-// a job assigned to an NPC when they are stationed at a basecamp.
-// this governs what tasks they will periodically scan to do.
-// some duties arent implemented yet
-// but are more indications of what category that duty will fall under when it is implemented.
-enum npc_job : int {
-    NPCJOB_NULL = 0,   // a default job of no particular responsibility.
-    NPCJOB_COOKING,    // includes cooking crafts and butchery
-    NPCJOB_MENIAL,  // sorting items, cleaning, refilling furniture ( charcoal kilns etc )
-    NPCJOB_VEHICLES,  // deconstructing/repairing/constructing/refuelling vehicles
-    NPCJOB_CONSTRUCTING, // building stuff from blueprint zones
-    NPCJOB_CRAFTING, // crafting stuff generally. currently placeholder
-    NPCJOB_SECURITY,  // patrolling - currently placeholder
-    NPCJOB_FARMING,   // tilling, planting, harvesting, fertilizing, making seeds
-    NPCJOB_LUMBERJACK, // chopping trees down, chopping logs into planks, other wood-related tasks
-    NPCJOB_HUSBANDRY, // feeding animals, shearing sheep, collecting eggs/milk, training animals
-    NPCJOB_HUNTING,  // hunting for meat ( this is currently handled by off-screen companion_mission )
-    NPCJOB_FORAGING, // foraging for edibles ( this is currently handled by off-screen companion_mission ) currently placeholder
-    NPCJOB_END
-};
+// jobs assigned to an NPC when they are stationed at a basecamp.
+class job_data
+{
+    private:
+        std::map<activity_id, int> task_priorities = {
+            { activity_id( "ACT_MULTIPLE_BUTCHER" ), 0 },
+            { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), 0 },
+            { activity_id( "ACT_VEHICLE_REPAIR" ), 0 },
+            { activity_id( "ACT_VEHICLE_DECONSTRUCTION" ), 0 },
+            { activity_id( "ACT_MULTIPLE_FARM" ), 0 },
+            { activity_id( "ACT_MULTIPLE_CHOP_TREES" ), 0 },
+            { activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ), 0 },
+            { activity_id( "ACT_MULTIPLE_FISH" ), 0 },
+            { activity_id( "ACT_MOVE_LOOT" ), 0 },
+            { activity_id( "ACT_TIDY_UP" ), 0 },
+        };
+    public:
+        bool set_task_priority( const activity_id task, int new_priority ) {
+            auto it = task_priorities.find( task );
+            if( it != task_priorities.end() ) {
+                task_priorities[task] = new_priority;
+                return true;
+            }
+            return false;
+        }
+        void clear_all_priorities() {
+            for( auto &elem : task_priorities ) {
+                elem.second = 0;
+            }
+        }
+        bool has_job() const {
+            for( auto &elem : task_priorities ) {
+                if( elem.second > 0 ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        int get_priority_of_job( const activity_id req_job ) const {
+            auto it = task_priorities.find( req_job );
+            if( it != task_priorities.end() ) {
+                return it->second;
+            } else {
+                return 0;
+            }
+        }
+        std::vector<activity_id> get_prioritised_vector() const {
+            std::vector<std::pair<activity_id, int>> pairs( begin( task_priorities ), end( task_priorities ) );
 
-std::vector<std::string> all_jobs();
-std::string npc_job_id( npc_job job );
-std::string npc_job_name( npc_job job );
-
-static std::map<npc_job, std::vector<activity_id>> job_duties = {
-    { NPCJOB_NULL, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } },
-    { NPCJOB_COOKING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_BUTCHER" ) } },
-    { NPCJOB_MENIAL, std::vector<activity_id>{ activity_id( "ACT_MOVE_LOOT" ), activity_id( "ACT_TIDY_UP" ) } },
-    { NPCJOB_VEHICLES, std::vector<activity_id>{ activity_id( "ACT_VEHICLE_REPAIR" ), activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) } },
-    { NPCJOB_CONSTRUCTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) } },
-    { NPCJOB_FARMING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FARM" ) } },
-    { NPCJOB_LUMBERJACK, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CHOP_TREES" ), activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) } },
-    { NPCJOB_HUNTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FISH" ) } },
+            std::vector<activity_id> ret;
+            sort( begin( pairs ), end( pairs ), []( const std::pair<activity_id, int> &a,
+            const std::pair<activity_id, int> &b ) {
+                return a.second > b.second;
+            } );
+            for( std::pair<activity_id, int> elem : pairs ) {
+                ret.push_back( elem.first );
+            }
+            return ret;
+        }
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 enum npc_mission : int {
@@ -160,8 +188,7 @@ enum npc_mission : int {
     NPC_MISSION_GUARD, // Assigns an non-allied NPC to remain in place
     NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
-    NPC_MISSION_TRAVELLING,
-    NPC_MISSION_ASSIGNED_CAMP, // this npc is assigned to a camp.
+    NPC_MISSION_TRAVELLING
 };
 
 struct npc_companion_mission {
@@ -878,7 +905,7 @@ class npc : public player
         bool is_guarding() const;
         // Has a guard patrol mission
         bool is_patrolling() const;
-        bool is_assigned_to_camp() const;
+        bool within_boundaries_of_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
         bool is_travelling() const;
@@ -1108,6 +1135,9 @@ class npc : public player
         void move_away_from( const tripoint &p, bool no_bash_atk = false,
                              std::set<tripoint> *nomove = nullptr );
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
+        // workers at camp relaxing/wandering
+        void worker_downtime();
+        bool find_job_to_perform();
         // Same as if the player pressed '.'
         void move_pause();
 
@@ -1208,12 +1238,11 @@ class npc : public player
         void travel_overmap( const tripoint &pos );
         npc_attitude get_attitude() const;
         void set_attitude( npc_attitude new_attitude );
-        npc_job get_job() const;
-        void set_job( npc_job new_job );
-        bool has_job() const;
-        void remove_job();
         void set_mission( npc_mission new_mission );
         bool has_activity() const;
+        bool has_job() const {
+            return job.has_job();
+        }
         npc_attitude get_previous_attitude();
         npc_mission get_previous_mission();
         void revert_after_activity();
@@ -1225,10 +1254,10 @@ class npc : public player
         std::string idz;
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
+        cata::optional<tripoint> assigned_camp = cata::nullopt;
 
     private:
         npc_attitude attitude; // What we want to do to the player
-        npc_job job = NPCJOB_NULL; // what is our job at camp
         npc_attitude previous_attitude = NPCATT_NULL;
         bool known_to_u = false; // Does the player know this NPC?
         /**
@@ -1267,13 +1296,14 @@ class npc : public player
         int last_seen_player_turn; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
+        tripoint chair_pos = no_goal_point; // This is the spot the NPC wants to move to to sit and relax.
         cata::optional<tripoint> base_location; // our faction base location in OMT coords.
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.
          */
         tripoint goal;
-        tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
+        tripoint wander_pos = no_goal_point;
         int wander_time;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         /**
@@ -1309,7 +1339,7 @@ class npc : public player
         cata::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint no_goal_point = tripoint_min;
-
+        job_data job;
         time_point last_updated;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.

@@ -194,7 +194,7 @@
   {
     "id": "MISSION_ISHERWOOD_EDDIE_1",
     "type": "mission_definition",
-    "name": "Gather 120 Rocks",
+    "name": { "str": "Gather 120 Rocks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -236,7 +236,7 @@
   {
     "id": "MISSION_ISHERWOOD_EDDIE_2",
     "type": "mission_definition",
-    "name": "Gather 2000 units of sand",
+    "name": { "str": "Gather 2000 units of sand" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
@@ -264,7 +264,7 @@
   {
     "id": "MISSION_ISHERWOOD_EDDIE_3",
     "type": "mission_definition",
-    "name": "Gather 1000 units of clay",
+    "name": { "str": "Gather 1000 units of clay" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,

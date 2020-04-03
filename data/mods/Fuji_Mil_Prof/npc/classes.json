@@ -2,7 +2,7 @@
   {
     "type": "npc_class",
     "id": "NC_ARMY",
-    "name": "Soldier",
+    "name": { "str": "Soldier" },
     "job_description": "I'm just here for the paycheck.",
     "common": true,
     "bonus_str": { "rng": [ 0, 2 ] },
@@ -20,7 +20,7 @@
   {
     "type": "npc_class",
     "id": "NC_OPS",
-    "name": "Operator",
+    "name": { "str": "Operator" },
     "job_description": "I'm just here for the paycheck.",
     "common": true,
     "bonus_str": { "rng": [ 0, 2 ] },

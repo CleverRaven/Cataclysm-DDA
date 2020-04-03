@@ -42,10 +42,10 @@ class mission_data
 
         mission_data();
         /**
-        * Adds the id's to the correct vectors (ie tabs) in the UI.
+        * Adds the id's to the correct vectors (i.e. tabs) in the UI.
         * @param id is the mission reference
         * @param name_display is string displayed
-        * @param dir is the direction of the expansion from the central camp, ie "[N]"
+        * @param dir is the direction of the expansion from the central camp, i.e. "[N]"
         * @param priority turns the mission key yellow and pushes to front of main tab
         * @param possible grays the mission key when false and makes it impossible to select
         */

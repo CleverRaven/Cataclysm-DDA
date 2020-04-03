@@ -1577,7 +1577,7 @@
     "fuel_type": "wind",
     "noise_factor": 1,
     "m2c": 90,
-    "exclusions": [ "manual" ],
+    "exclusions": [ "wind" ],
     "item": "sail",
     "location": "engine_block",
     "folded_volume": 2,
@@ -1891,7 +1891,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN", "WINDOW_CURTAIN", "MULTISQUARE" ],
+    "flags": [ "OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN", "MULTISQUARE", "NEEDS_WINDOW" ],
     "breaks_into": [  ]
   },
   {

@@ -374,7 +374,7 @@
   {
     "id": "MISSION_REFUGEE_Jenny_GET_MOTOR",
     "type": "mission_definition",
-    "name": "Find an electric motor",
+    "name": { "str": "Find an electric motor" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",

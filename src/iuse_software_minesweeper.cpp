@@ -12,6 +12,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "color.h"
 #include "compatibility.h"
 #include "cursesdef.h"
@@ -232,6 +233,9 @@ int minesweeper_game::start_game()
     };
 
     std::string action = "NEW";
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         if( action == "NEW" ) {

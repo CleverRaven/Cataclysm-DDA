@@ -280,6 +280,14 @@
       {
         "id": "monroeville",
         "text": "A hockey jersey made of thick material imprinted with the logo of the Monroeville Zombies."
+      },
+      {
+        "id": "rugby",
+        "text": "A rugby jersey made of thick material imprinted with the logo of the Canberra Drop Bears."
+      },
+      {
+        "id": "volleyball",
+        "text": "A volleyball jersey made of thick material imprinted with the logo of the Ooarai Ducks."
       }
     ],
     "flags": [ "VARSIZE" ]

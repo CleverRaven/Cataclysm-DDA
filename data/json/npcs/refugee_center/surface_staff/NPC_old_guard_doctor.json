@@ -158,7 +158,7 @@
   {
     "id": "MISSION_SCIENCE_REP_5",
     "type": "mission_definition",
-    "name": "Find Lab Tunnels",
+    "name": { "str": "Find Lab Tunnels" },
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 5,
     "value": 50000,

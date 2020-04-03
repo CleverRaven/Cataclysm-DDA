@@ -53,6 +53,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -1703,6 +1704,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
     }
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int ch = text_only ? 'a' + responses.size() - 1 : ' ';
     bool okay;
     do {
@@ -2570,6 +2574,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( do_chop_trees ),
             WRAP( do_fishing ),
             WRAP( do_construction ),
+            WRAP( do_mining ),
             WRAP( do_read ),
             WRAP( do_butcher ),
             WRAP( do_farming ),

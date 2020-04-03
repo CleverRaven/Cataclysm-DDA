@@ -33,6 +33,7 @@
 #include "path_info.h"
 #include "player.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -2257,6 +2258,9 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     ctxt.register_action( "RIGHT" );
     ctxt.register_action( "MOVE_PANEL" );
     ctxt.register_action( "TOGGLE_PANEL" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     const std::vector<int> column_widths = { 17, 37, 17 };
     size_t max_index = 0;

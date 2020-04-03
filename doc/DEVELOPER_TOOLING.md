@@ -316,9 +316,9 @@ required headers and add and remove includes as appropriate.
 
 Running on this codebase revealed some issues.  You will need a version of IWYU
 where the following PR has been merged (which has not yet happened at time of
-writing):
+writing, but with luck might make it into the clang-10 release of IWYU):
 
-* https://github.com/include-what-you-use/include-what-you-use/pull/681
+* https://github.com/include-what-you-use/include-what-you-use/pull/775
 
 Once you have IWYU built, build the codebase using cmake, with
 `CMAKE_EXPORT_COMPILE_COMMANDS=ON` on to create a compilation database

@@ -5368,6 +5368,21 @@ computer *map::computer_at( const tripoint &p )
     return sm->get_computer( l );
 }
 
+bool map::point_within_camp( const tripoint point_check ) const
+{
+    const tripoint omt_check = ms_to_omt_copy( point_check );
+    const int x = omt_check.x;
+    const int y = omt_check.y;
+    for( int x2 = x - 2; x2 < x + 2; x2++ ) {
+        for( int y2 = y - 2; y2 < y + 2; y2++ ) {
+            if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( point( x2, y2 ) ) ) {
+                return ( *bcp )->camp_omt_pos().z == point_check.z;
+            }
+        }
+    }
+    return false;
+}
+
 void map::remove_submap_camp( const tripoint &p )
 {
     get_submap_at( p )->camp.reset();
@@ -6687,45 +6702,12 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     abs_sub.z = old_abs_z;
 }
 
-bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
-{
-    if( itm.is_corpse() && itm.goes_bad() ) {
-        itm.process_temperature_rot( 1, pnt, nullptr );
-        return itm.get_rot() > 10_days && !itm.can_revive();
-    } else if( itm.goes_bad() ) {
-        itm.process_temperature_rot( 1, pnt, nullptr );
-        return itm.has_rotten_away();
-    } else if( itm.type->container && itm.type->container->preserves ) {
-        // Containers like tin cans preserves all items inside, they do not rot at all.
-        return false;
-    } else if( itm.type->container && itm.type->container->seals ) {
-        // Items inside rot but do not vanish as the container seals them in.
-        for( auto &c : itm.contents ) {
-            if( c.goes_bad() ) {
-                c.process_temperature_rot( 1, pnt, nullptr );
-            }
-        }
-        return false;
-    } else {
-        // Check and remove rotten contents, but always keep the container.
-        for( auto it = itm.contents.begin(); it != itm.contents.end(); ) {
-            if( has_rotten_away( *it, pnt ) ) {
-                it = itm.contents.erase( it );
-            } else {
-                ++it;
-            }
-        }
-
-        return false;
-    }
-}
-
 template <typename Container>
 void map::remove_rotten_items( Container &items, const tripoint &pnt )
 {
     const tripoint abs_pnt = getabs( pnt );
     for( auto it = items.begin(); it != items.end(); ) {
-        if( has_rotten_away( *it, abs_pnt ) ) {
+        if( it->has_rotten_away( abs_pnt ) ) {
             if( it->is_comestible() ) {
                 rotten_item_spawn( *it, pnt );
             }
@@ -8055,7 +8037,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
                           const point &min, const point &max )
 {
     auto reduce = TFLAG_REDUCE_SCENT;
-    auto block = TFLAG_WALL;
+    auto block = TFLAG_NO_SCENT;
     auto fill_values = [&]( const tripoint & gp, const submap * sm, const point & lp ) {
         // We need to generate the x/y coordinates, because we can't get them "for free"
         const int x = gp.x * SEEX + lp.x;

@@ -2348,5 +2348,25 @@
     "type": "recipe",
     "result": "l_lmg_223",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "compcrossbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "compbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "recurbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reflexrecurvebow",
+    "obsolete": true
   }
 ]

@@ -128,6 +128,7 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_recently_coughed( "recently_coughed" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_saddled( "monster_saddled" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 static const efftype_id effect_tied( "tied" );
@@ -739,6 +740,65 @@ void Character::mount_creature( monster &z )
     mod_moves( -100 );
 }
 
+bool Character::check_mount_will_move( const tripoint &dest_loc )
+{
+    if( !is_mounted() ) {
+        return true;
+    }
+    if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
+        for( const monster &critter : g->all_monsters() ) {
+            Attitude att = critter.attitude_to( *this );
+            if( att == A_HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 15 &&
+                rl_dist( dest_loc, critter.pos() ) < rl_dist( pos(), critter.pos() ) ) {
+                add_msg_if_player( _( "You fail to budge your %s!" ), mounted_creature->get_name() );
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool Character::check_mount_is_spooked()
+{
+    if( !is_mounted() ) {
+        return false;
+    }
+    // chance to spook per monster nearby:
+    // base 1% per turn.
+    // + 1% per square closer than 15 distanace. (1% - 15%)
+    // * 2 if hostile monster is bigger than or same size as mounted creature.
+    // -0.25% per point of dexterity (low -1%, average -2%, high -3%, extreme -3.5%)
+    // -0.1% per point of strength ( low -0.4%, average -0.8%, high -1.2%, extreme -1.4% )
+    // / 2 if horse has full tack and saddle.
+    // Monster in spear reach monster and average stat (8) player on saddled horse, 14% -2% -0.8% / 2 = ~5%
+    if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
+        const m_size mount_size = mounted_creature->get_size();
+        const bool saddled = mounted_creature->has_effect( effect_saddled );
+        for( const monster &critter : g->all_monsters() ) {
+            double chance = 1.0;
+            Attitude att = critter.attitude_to( *this );
+            // actually too close now - horse might spook.
+            if( att == A_HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 10 ) {
+                chance += 10 - rl_dist( pos(), critter.pos() );
+                if( critter.get_size() >= mount_size ) {
+                    chance *= 2;
+                }
+                chance -= 0.25 * get_dex();
+                chance -= 0.1 * get_str();
+                if( saddled ) {
+                    chance /= 2;
+                }
+                chance = std::max( 1.0, chance );
+                if( x_in_y( chance, 100.0 ) ) {
+                    forced_dismount();
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 bool Character::is_mounted() const
 {
     return has_effect( effect_riding ) && mounted_creature;
@@ -832,7 +892,13 @@ void Character::forced_dismount()
             g->u.grab( OBJECT_NONE );
         }
         set_movement_mode( CMM_WALK );
+        if( g->u.is_auto_moving() || g->u.has_destination() || g->u.has_destination_activity() ) {
+            g->u.clear_destination();
+        }
         g->update_map( g->u );
+    }
+    if( activity ) {
+        cancel_activity();
     }
     moves -= 150;
 }
@@ -1110,7 +1176,7 @@ bool Character::move_effects( bool attacking )
                 if( one_in( 4 ) ) {
                     add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
                     remove_effect( effect_grabbed );
-                    dynamic_cast<player &>( *this ).forced_dismount();
+                    forced_dismount();
                 }
             }
         } else {
@@ -4134,6 +4200,20 @@ void Character::update_body( const time_point &from, const time_point &to )
     do_skill_rust();
 }
 
+item *Character::best_quality_item( const quality_id &qual )
+{
+    std::vector<item *> qual_inv = items_with( [qual]( const item & itm ) {
+        return itm.has_quality( qual );
+    } );
+    item *best_qual = random_entry( qual_inv );
+    for( const auto elem : qual_inv ) {
+        if( elem->get_quality( qual ) > best_qual->get_quality( qual ) ) {
+            best_qual = elem;
+        }
+    }
+    return best_qual;
+}
+
 void Character::update_stomach( const time_point &from, const time_point &to )
 {
     const needs_rates rates = calc_needs_rates();
@@ -4402,7 +4482,7 @@ needs_rates Character::calc_needs_rates() const
 
     if( has_activity( ACT_TREE_COMMUNION ) ) {
         // Much of the body's needs are taken care of by the trees.
-        // Hair Roots dont provide any bodily needs.
+        // Hair Roots don't provide any bodily needs.
         if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
             rates.hunger *= 0.5f;
             rates.thirst *= 0.5f;
@@ -7499,6 +7579,23 @@ void Character::recalculate_enchantment_cache()
             }
         }
     }
+
+    // get from traits/ mutations
+    for( const std::pair<trait_id, trait_data> &mut_map : my_mutations ) {
+        const mutation_branch &mut = mut_map.first.obj();
+
+        // only add the passive or powered active mutations
+        if( mut.activated && !mut_map.second.powered ) {
+            continue;
+        }
+
+        for( const enchantment_id &ench_id : mut.enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this ) ) {
+                enchantment_cache.force_add( ench );
+            }
+        }
+    }
 }
 
 double Character::calculate_by_enchantment( double modify, enchantment::mod value,
@@ -7808,13 +7905,13 @@ int Character::get_armor_fire( body_part bp ) const
 
 void Character::did_hit( Creature &target )
 {
-    enchantment_cache.cast_hit_you( *this, target.pos() );
+    enchantment_cache.cast_hit_you( *this, target );
 }
 
-void Character::on_hit( Creature * /*source*/, body_part /*bp_hit*/,
+void Character::on_hit( Creature *source, body_part /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
-    enchantment_cache.cast_hit_me( *this );
+    enchantment_cache.cast_hit_me( *this, source );
 }
 
 void Character::heal( body_part healed, int dam )
@@ -8459,7 +8556,7 @@ void Character::cancel_activity()
     }
     // act wait stamina interrupts an ongoing activity.
     // and automatically puts auto_resume = true on it
-    // we dont want that to persist if there is another interruption.
+    // we don't want that to persist if there is another interruption.
     // and player moves elsewhere.
     if( has_activity( ACT_WAIT_STAMINA ) && !backlog.empty() &&
         backlog.front().auto_resume ) {

@@ -161,7 +161,7 @@
   {
     "id": "MISSION_ISHERWOOD_CHRIS_1",
     "type": "mission_definition",
-    "name": "Free Barry from the mysterious structure",
+    "name": { "str": "Free Barry from the mysterious structure" },
     "goal": "MGOAL_TALK_TO_NPC",
     "difficulty": 5,
     "value": 50000,
