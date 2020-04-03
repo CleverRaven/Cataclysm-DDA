@@ -1723,6 +1723,7 @@ float Character::bionics_adjusted_skill( const skill_id &most_important_skill,
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                            static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
+    adjusted_skill *= env_surgery_bonus( 1 ) + get_effect_int( effect_assisted );
     return adjusted_skill;
 }
 
@@ -1823,8 +1824,6 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         return false;
     }
 
-    int assist_bonus = installer.get_effect_int( effect_assisted );
-
     // removal of bionics adds +2 difficulty over installation
     float adjusted_skill;
     if( autodoc ) {
@@ -1838,8 +1837,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
                          skill_mechanics,
                          skill_level );
     }
-    int chance_of_success = bionic_manip_cos( adjusted_skill * env_surgery_bonus( 1 ) + assist_bonus,
-                            difficulty + 2 );
+    int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
 
     if( chance_of_success >= 100 ) {
         if( !g->u.query_yn(
@@ -1870,8 +1868,6 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
         }
     }
 
-    int assist_bonus = installer.get_effect_int( effect_assisted );
-
     // removal of bionics adds +2 difficulty over installation
     float adjusted_skill;
     int pl_skill;
@@ -1895,8 +1891,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
                                                skill_level );
     }
 
-    int chance_of_success = bionic_manip_cos( adjusted_skill * env_surgery_bonus( 1 ) + assist_bonus,
-                            difficulty + 2 );
+    int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
 
     // Surgery is imminent, retract claws or blade if active
     for( size_t i = 0; i < installer.my_bionics->size(); i++ ) {
@@ -1987,7 +1982,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
     const itype *itemtype = bionic_to_uninstall.type;
     int difficulty = itemtype->bionic->difficulty;
-    int chance_of_success = bionic_manip_cos( adjusted_skill,  difficulty + 2 );
+    int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
     int success = chance_of_success - rng( 1, 100 );
 
     const time_duration duration = difficulty * 20_minutes;
@@ -2058,7 +2053,6 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     if( is_mounted() ) {
         return false;
     }
-    int assist_bonus = installer.get_effect_int( effect_assisted );
 
     const bionic_id &bioid = type.bionic->id;
     const int difficult = type.bionic->difficulty;
@@ -2075,8 +2069,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
                          skill_mechanics,
                          skill_level );
     }
-    int chance_of_success = bionic_manip_cos( adjusted_skill * env_surgery_bonus( 1 ) + assist_bonus,
-                            difficult );
+    int chance_of_success = bionic_manip_cos( adjusted_skill, difficult );
 
     std::vector<std::string> conflicting_muts;
     for( const trait_id &mid : bioid->canceled_mutations ) {
@@ -2142,8 +2135,6 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
         return false;
     }
 
-    int assist_bonus = installer.get_effect_int( effect_assisted );
-
     const bionic_id &bioid = type.bionic->id;
     const bionic_id &upbioid = bioid->upgraded_bionic;
     const int difficulty = type.bionic->difficulty;
@@ -2168,8 +2159,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
                                                skill_mechanics,
                                                skill_level );
     }
-    int chance_of_success = bionic_manip_cos( adjusted_skill * env_surgery_bonus( 1 ) + assist_bonus,
-                            difficulty );
+    int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty );
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
