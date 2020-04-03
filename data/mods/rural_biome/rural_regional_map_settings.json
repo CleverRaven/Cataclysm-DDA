@@ -464,7 +464,6 @@
       "shop_sigma": 50,
       "park_radius": 60,
       "park_sigma": 80,
-      "house_basement_chance": 5,
       "houses": {
         "house_w_1": 50,
         "house_two_story_basement": 50,
@@ -539,7 +538,6 @@
         "motel_city": 5,
         "trailerpark_city": 15
       },
-      "basements": { "basement": 1000, "basement_hidden_lab_stairs": 25 },
       "parks": {
         "s_gas": 200,
         "s_gas_1": 200,

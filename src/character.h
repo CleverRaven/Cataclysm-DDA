@@ -64,6 +64,8 @@ struct bionic;
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
+#define MAX_CLAIRVOYANCE 40
+
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
@@ -416,6 +418,29 @@ class Character : public Creature, public visitable<Character>
         float get_dodge_base() const override;
         float get_hit_base() const override;
 
+        const tripoint &pos() const override;
+        /** Returns the player's sight range */
+        int sight_range( int light_level ) const override;
+        /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
+        int  unimpaired_range() const;
+        /** Returns true if overmap tile is within player line-of-sight */
+        bool overmap_los( const tripoint &omt, int sight_points );
+        /** Returns the distance the player can see on the overmap */
+        int  overmap_sight_range( int light_level ) const;
+        /** Returns the distance the player can see through walls */
+        int  clairvoyance() const;
+        /** Returns true if the player has some form of impaired sight */
+        bool sight_impaired() const;
+        /** Returns true if the player or their vehicle has an alarm clock */
+        bool has_alarm_clock() const;
+        /** Returns true if the player or their vehicle has a watch */
+        bool has_watch() const;
+        /** Called after every action, invalidates player caches */
+        void action_taken();
+        /** Returns true if the player is knocked over or has broken legs */
+        bool is_on_ground() const override;
+        /** Returns the player's speed for swimming across water tiles */
+        int  swim_speed() const;
         /**
          * Adds a reason for why the player would miss a melee attack.
          *

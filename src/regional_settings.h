@@ -46,18 +46,12 @@ struct city_settings {
     // We'll spread this out to the rest of the town.
     int park_sigma = 100 - park_radius;
 
-    int house_basement_chance = 5; // one_in(n) chance a house has a basement
     building_bin houses;
-    building_bin basements;
     building_bin shops;
     building_bin parks;
 
     overmap_special_id pick_house() const {
         return houses.pick()->id;
-    }
-
-    overmap_special_id pick_basement() const {
-        return basements.pick()->id;
     }
 
     overmap_special_id pick_shop() const {

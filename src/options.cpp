@@ -2133,13 +2133,6 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "ALIGN_STAIRS", "world_default", translate_marker( "Align up and down stairs" ),
-         translate_marker( "If true, downstairs will be placed directly above upstairs, even if this results in uglier maps." ),
-         false
-       );
-
-    add_empty_line();
-
     add( "CHARACTER_POINT_POOLS", "world_default", translate_marker( "Character point pools" ),
          translate_marker( "Allowed point pools for character generation." ),
     { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },

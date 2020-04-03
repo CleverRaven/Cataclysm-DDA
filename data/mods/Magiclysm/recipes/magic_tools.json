@@ -92,11 +92,11 @@
       { "id": "CHISEL", "level": 2 },
       { "id": "MANA_INFUSE", "level": 2 },
       { "id": "HAMMER", "level": 2 },
-      { "id": "SMOOTHING", "level": 1 }
+      { "id": "SMOOTH", "level": 1 }
     ],
     "components": [
       [ [ "demon_chitin_plate", 24 ] ],
-      [ [ "fire_mortar", 30 ] ],
+      [ [ "fireproof_mortar", 30 ] ],
       [ [ "pilot_light", 1 ] ],
       [ [ "pipe", 3 ] ],
       [ [ "crystallized_mana", 80 ] ]
