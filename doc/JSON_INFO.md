@@ -2665,9 +2665,12 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 "implement_prompt": "Pad with leather",      // prompt to show when implement mod.
 "destroy_prompt": "Destroy leather padding", // prompt to show when destroy mod.
 "restricted": true,       // (optional) If true, clothing must list this mod's flag in "valid_mods" list to use it. Defaults to false.
+"flags_applied": [ ],     // (optional) a list of additional flags to apply to the clothing when this mod is active
+"flags_excluded": [ ],    // (optional) a list of flags this mod is incompatible with (regardless of whether it's restricted)
+"min_coverage": 10,       // (optional) minimum coverage the original item must have in order for this mod to be used
 "mod_value": [            // List of mod effect.
     {
-        "type": "bash",   // "bash", "cut", "fire", "acid", "warmth", "storage", and "encumbrance" is available.
+        "type": "bash",   // "bash", "cut", "fire", "acid", "warmth", "storage", "coverage", and "encumbrance" is available.
         "value": 1,       // value of effect.
         "round_up": false // (optional) round up value of effect. defaults to false.
         "proportion": [   // (optional) value of effect propotions to clothing's parameter.
