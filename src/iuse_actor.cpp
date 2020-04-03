@@ -1968,7 +1968,8 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
 
     for( item &corpse_candidate : items ) {
         const mtype *mt = corpse_candidate.get_mtype();
-        if( corpse_candidate.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
+        if( corpse_candidate.is_corpse() && mt->in_species( ZOMBIE ) &&
+            mt->made_of( material_id( "flesh" ) ) &&
             mt->in_species( HUMAN ) && corpse_candidate.active && !corpse_candidate.has_var( "zlave" ) ) {
             corpses.push_back( &corpse_candidate );
         }
