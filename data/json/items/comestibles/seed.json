@@ -400,7 +400,7 @@
     "type": "COMESTIBLE",
     "id": "marloss_seed",
     "category": "seeds",
-    "name": { "str": "marloss seed" },
+    "name": { "str": "Marloss seed" },
     "weight": "177 g",
     "color": "cyan",
     "addiction_type": "marloss_b",
