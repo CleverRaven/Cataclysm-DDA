@@ -4941,7 +4941,8 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         difficulty += dmg_lvl;
     }
 
-    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, true, difficulty );
+    int chance_of_success = bionic_manip_cos( adjusted_skill * installer.env_surgery_bonus(
+                                1 ) + assist_bonus, difficulty );
     int success = chance_of_success - rng( 1, 100 );
 
     if( !g->u.query_yn(
