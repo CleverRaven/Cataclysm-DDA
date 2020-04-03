@@ -108,7 +108,7 @@
   {
     "id": "MISSION_Warrener_LOG_1",
     "type": "mission_definition",
-    "name": "Timber!",
+    "name": { "str": "Timber!" },
     "description": "Bring five logs.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 1,
@@ -133,7 +133,7 @@
   {
     "id": "MISSION_Warrener_FOOD_2",
     "type": "mission_definition",
-    "name": "Sweets",
+    "name": { "str": "Sweets" },
     "description": "Find 25 blackberries.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,

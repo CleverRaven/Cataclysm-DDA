@@ -114,13 +114,14 @@
   {
     "id": "baseball_equip",
     "type": "item_group",
-    "items": [
-      [ "bat", 55 ],
-      [ "baseball", 80 ],
-      [ "armguard_hard", 55 ],
-      [ "legguard_hard", 55 ],
-      [ "hat_ball", 75 ],
-      [ "helmet_ball", 65 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bat", "prob": 55 },
+      { "item": "baseball", "prob": 80 },
+      { "item": "armguard_hard", "prob": 55 },
+      { "item": "legguard_hard", "prob": 55 },
+      { "item": "hat_ball", "prob": 75 },
+      { "item": "helmet_ball", "prob": 65 }
     ]
   }
 ]

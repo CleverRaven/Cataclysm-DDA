@@ -146,7 +146,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "--\n"
             "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>7</color>"
             "  To-hit bonus: <color_c_yellow>-2</color>\n"
-            "Moves per attack: <color_c_yellow>79</color>\n" );
+            "Moves per attack: <color_c_yellow>79</color>\n"
+            "Damage per second: <color_c_yellow>8.86</color>\n" );
     }
 
     SECTION( "bash and cut damage" ) {
@@ -156,7 +157,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>20</color>"
             "  Cut: <color_c_yellow>5</color>"
             "  To-hit bonus: <color_c_yellow>+2</color>\n"
-            "Moves per attack: <color_c_yellow>145</color>\n" );
+            "Moves per attack: <color_c_yellow>145</color>\n"
+            "Damage per second: <color_c_yellow>17.24</color>\n" );
     }
 
     SECTION( "bash and pierce damage" ) {
@@ -166,7 +168,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>4</color>"
             "  Pierce: <color_c_yellow>8</color>"
             "  To-hit bonus: <color_c_yellow>+1</color>\n"
-            "Moves per attack: <color_c_yellow>100</color>\n" );
+            "Moves per attack: <color_c_yellow>100</color>\n"
+            "Damage per second: <color_c_yellow>12.00</color>\n" );
     }
 
     SECTION( "no damage" ) {

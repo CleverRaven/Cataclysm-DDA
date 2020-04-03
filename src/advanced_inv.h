@@ -17,6 +17,8 @@ class uilist;
 class vehicle;
 class item;
 
+struct advanced_inv_save_state;
+
 struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
     bool operator()( char x, char y ) const {
         return toupper( static_cast< unsigned char >( x ) ) < toupper( static_cast< unsigned char >( y ) );
@@ -108,11 +110,10 @@ class advanced_inventory
         std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
 
         catacurses::window head;
-        catacurses::window left_window;
-        catacurses::window right_window;
 
         bool exit = false;
 
+        advanced_inv_save_state *save_state;
         // store/load settings (such as index, filter, etc)
         void save_settings( bool only_panes );
         void load_settings();

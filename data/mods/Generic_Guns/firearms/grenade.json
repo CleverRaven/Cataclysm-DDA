@@ -37,7 +37,7 @@
     "id": "grenade_revolver",
     "copy-from": "mgl",
     "type": "GUN",
-    "name": "revolver grenade launcher",
+    "name": { "str": "revolver grenade launcher" },
     "ammo": "ammo_grenade",
     "description": "Looking something like a large revolver from a cartoon this launcher is capable of firing six grenades in rapid succession.  Its huge cylinder is wound by a clock spring, which hastens firing, but slows reloading, as it must be re-wound.  Needless to say, six well placed shots is an incredible amount of firepower, depending on the cartridges loaded.",
     "clip_size": 6

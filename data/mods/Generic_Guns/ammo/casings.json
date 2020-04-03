@@ -10,21 +10,21 @@
     "id": "pistol_casing",
     "copy-from": "9mm_casing",
     "type": "GENERIC",
-    "name": "pistol casing",
+    "name": { "str": "pistol casing" },
     "description": "An empty casing from a standard pistol round."
   },
   {
     "id": "pistol_magnum_casing",
     "copy-from": "44_casing",
     "type": "GENERIC",
-    "name": "magnum pistol casing",
+    "name": { "str": "magnum pistol casing" },
     "description": "An empty casing from a magnum pistol round."
   },
   {
     "id": "rifle_casing",
     "copy-from": "308_casing",
     "type": "GENERIC",
-    "name": "rifle casing",
+    "name": { "str": "rifle casing" },
     "description": "An empty casing from a rifle round."
   },
   {
@@ -52,7 +52,7 @@
     "id": "ammolinkrifle",
     "copy-from": "ammolink",
     "type": "GENERIC",
-    "name": "rifle belt linkage",
+    "name": { "str": "rifle belt linkage" },
     "use_action": { "type": "ammobelt", "belt": "rifle_belt" }
   },
   {

@@ -155,7 +155,7 @@
   {
     "id": "MISSION_OLD_GUARD_REP_3",
     "type": "mission_definition",
-    "name": "Secure Trade Route",
+    "name": { "str": "Secure Trade Route" },
     "description": "One of the Free Merchants silently disappeared while escorting a trade caravan.  Whoever or whatever is responsible must be quick and quiet - investigate the trade route and eliminate the threat.",
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,

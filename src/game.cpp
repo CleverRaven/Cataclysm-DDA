@@ -138,6 +138,7 @@
 #include "ret_val.h"
 #include "tileray.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "int_id.h"
 #include "string_id.h"
@@ -614,9 +615,16 @@ void game::reenter_fullscreen()
  */
 void game::setup()
 {
-    popup_status( _( "Please wait while the world data loads…" ), _( "Loading core data" ) );
     loading_ui ui( true );
-    load_core_data( ui );
+    {
+        background_pane background;
+        static_popup popup;
+        popup.message( "%s", _( "Please wait while the world data loads…\nLoading core data" ) );
+        ui_manager::redraw();
+        refresh_display();
+
+        load_core_data( ui );
+    }
 
     load_world_modfiles( ui );
 
@@ -695,13 +703,17 @@ bool game::start_game()
 
     init_autosave();
 
-    catacurses::clear();
-    catacurses::refresh();
-    popup_nowait( _( "Please wait as we build your world" ) );
+    background_pane background;
+    static_popup popup;
+    popup.message( "%s", _( "Please wait as we build your world" ) );
+    ui_manager::redraw();
+    refresh_display();
+
     load_master();
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
-    const start_location &start_loc = u.start_location.obj();
+    const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
+                                      u.start_location.obj();
     const tripoint omtstart = start_loc.find_player_initial_location();
     if( omtstart == overmap::invalid_tripoint ) {
         return false;
@@ -838,6 +850,11 @@ bool game::start_game()
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
     }
+    if( u.starting_vehicle &&
+        !place_vehicle_nearby( u.starting_vehicle, u.global_omt_location().xy(), 1, 30,
+                               std::vector<std::string> {} ) ) {
+        debugmsg( "could not place starting vehicle" );
+    }
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
         const auto mission = mission::reserve_new( m, character_id() );
@@ -846,6 +863,53 @@ bool game::start_game()
 
     g->events().send<event_type::game_start>( u.getID() );
     return true;
+}
+
+vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, int min_distance,
+                                     int max_distance, const std::vector<std::string> &omt_search_types )
+{
+    std::vector<std::string> search_types = omt_search_types;
+    if( search_types.empty() ) {
+        vehicle veh( id );
+        std::vector<std::string> omt_search_types;
+        if( veh.max_ground_velocity() > 0 ) {
+            search_types.push_back( "road" );
+            search_types.push_back( "field" );
+        } else if( veh.can_float() ) {
+            search_types.push_back( "river" );
+            search_types.push_back( "lake" );
+        }
+    }
+    for( const std::string &search_type : search_types ) {
+        omt_find_params find_params;
+        find_params.must_see = false;
+        find_params.cant_see = false;
+        find_params.types.emplace_back( search_type, ot_match_type::type );
+        // find nearest road
+        find_params.min_distance = min_distance;
+        find_params.search_range = max_distance;
+        // if player spawns underground, park their car on the surface.
+        const tripoint omt_origin( origin, 0 );
+        for( const tripoint &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
+            // try place vehicle there.
+            tinymap target_map;
+            target_map.load( omt_to_sm_copy( goal ), false );
+            const tripoint origin( SEEX, SEEY, goal.z );
+            static const std::vector<int> angles = {0, 90, 180, 270};
+            vehicle *veh = target_map.add_vehicle( id, origin, random_entry( angles ), rng( 50, 80 ),
+                                                   0,
+                                                   false );
+            if( veh ) {
+                tripoint abs_local = g->m.getlocal( target_map.getabs( origin ) );
+                veh->sm_pos =  ms_to_sm_remain( abs_local );
+                veh->pos = abs_local.xy();
+                overmap_buffer.add_vehicle( veh );
+                target_map.save();
+                return veh;
+            }
+        }
+    }
+    return nullptr;
 }
 
 //Make any nearby overmap npcs active, and put them in the right location.
@@ -1388,6 +1452,10 @@ bool game::do_turn()
             veh->handle_potential_theft( dynamic_cast<player &>( u ), false, false );
         }
     }
+    // If riding a horse - chance to spook
+    if( u.is_mounted() ) {
+        u.check_mount_is_spooked();
+    }
     if( calendar::once_every( 1_days ) ) {
         overmap_buffer.process_mongroups();
     }
@@ -1440,7 +1508,7 @@ bool game::do_turn()
                 }
                 sounds::process_sound_markers( &u );
                 if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH ) {
-                    draw();
+                    ui_manager::redraw();
                 }
 
                 if( handle_action() ) {
@@ -1537,7 +1605,7 @@ bool game::do_turn()
     mon_info_update();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
-        draw();
+        ui_manager::redraw();
         refresh_display();
     }
 
@@ -1550,7 +1618,7 @@ bool game::do_turn()
 
     if( player_is_sleeping ) {
         if( calendar::once_every( 30_minutes ) || !player_was_sleeping ) {
-            draw();
+            ui_manager::redraw();
             //Putting this in here to save on checking
             if( calendar::once_every( 1_hours ) ) {
                 add_artifact_dreams( );
@@ -1572,6 +1640,9 @@ bool game::do_turn()
             .wait_message( "%s", *progress )
             .on_top( true )
             .show();
+
+            catacurses::refresh();
+            refresh_display();
         }
     }
 
@@ -1915,6 +1986,9 @@ void game::handle_key_blocking_activity()
 {
     if( ( u.activity && u.activity.moves_left > 0 ) || ( u.has_destination() &&
             !u.omt_path.empty() ) ) {
+        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         if( action == "pause" ) {
@@ -2039,6 +2113,9 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         // Default menu border color is different, this matches the border of the item info window.
         action_menu.border_color = BORDER_COLOR;
 
+        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
         do {
             item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
             data.without_getch = true;
@@ -2148,6 +2225,10 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     auto &mgr = panel_manager::get_manager();
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     int width = sidebar_right ? mgr.get_width_right() : mgr.get_width_left();
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         action = ctxt.handle_input();
         if( action == "MOUSE_MOVE" ) {
@@ -2177,7 +2258,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     return true;
 }
 
-std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context ctxt, const int speed,
+std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, const int speed,
         const tripoint &last, bool iso )
 {
     const int rate = get_option<int>( "EDGE_SCROLL" );
@@ -2631,7 +2712,11 @@ bool game::load( const std::string &world )
 
 void game::load( const save_t &name )
 {
-    popup_status( _( "Please wait…" ), _( "Loading the save…" ) );
+    background_pane background;
+    static_popup popup;
+    popup.message( "%s", _( "Please wait…\nLoading the save…" ) );
+    ui_manager::redraw();
+    refresh_display();
 
     using namespace std::placeholders;
 
@@ -2710,14 +2795,10 @@ void game::load( const save_t &name )
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     u.reset();
-    draw();
 }
 
 void game::load_world_modfiles( loading_ui &ui )
 {
-    catacurses::erase();
-    catacurses::refresh();
-
     auto &mods = world_generator->active_world->active_mod_order;
 
     // remove any duplicates whilst preserving order (fixes #19385)
@@ -2749,9 +2830,6 @@ void game::load_world_modfiles( loading_ui &ui )
     // Load additional mods from that world-specific folder
     load_data_from_dir( get_world_base_save_path() + "/mods", "custom", ui );
 
-    catacurses::erase();
-    catacurses::refresh();
-
     DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
 
@@ -2777,9 +2855,13 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
 
         // if mod specifies legacy migrations load any that are required
         if( !mod.legacy.empty() ) {
+            static_popup popup;
             for( int i = get_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
-                popup_status( msg.c_str(), _( "Applying legacy migration (%s %i/%i)" ),
-                              e.c_str(), i, core_version - 1 );
+                popup.message( _( "%s Applying legacy migration (%s %i/%i)" ),
+                               msg, e.c_str(), i, core_version - 1 );
+                ui_manager::redraw();
+                refresh_display();
+
                 load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident.str(), ui );
             }
         }
@@ -3231,8 +3313,6 @@ void game::draw_ter( const bool draw_sounds )
 void game::draw_ter( const tripoint &center, const bool looking, const bool draw_sounds )
 {
     ter_view_p = center;
-    const int posx = center.x;
-    const int posy = center.y;
 
     // TODO: Make it not rebuild the cache all the time (cache point+moves?)
     if( !looking ) {
@@ -3248,28 +3328,6 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
     for( Creature &critter : all_creatures() ) {
         draw_critter( critter, center );
-    }
-
-    if( u.has_active_bionic( bionic_id( "bio_scent_vision" ) ) && u.view_offset.z == 0 ) {
-        tripoint tmp = center;
-        int &realx = tmp.x;
-        int &realy = tmp.y;
-        for( realx = posx - POSX; realx <= posx + POSX; realx++ ) {
-            for( realy = posy - POSY; realy <= posy + POSY; realy++ ) {
-                if( scent.get( tmp ) != 0 ) {
-                    int tempx = posx - realx;
-                    int tempy = posy - realy;
-                    if( !( isBetween( tempx, -2, 2 ) &&
-                           isBetween( tempy, -2, 2 ) ) ) {
-                        if( critter_at( tmp ) ) {
-                            mvwputch( w_terrain, point( realx + POSX - posx, realy + POSY - posy ), c_white, '?' );
-                        } else {
-                            mvwputch( w_terrain, point( realx + POSX - posx, realy + POSY - posy ), c_magenta, '#' );
-                        }
-                    }
-                }
-            }
-        }
     }
 
     if( !destination_preview.empty() && u.view_offset.z == 0 ) {
@@ -3868,7 +3926,7 @@ void game::mon_info_update( )
     for( auto &m : unique_mons ) {
         m.clear();
     }
-    std::fill( dangerous, dangerous + sizeof( dangerous ), false );
+    std::fill( dangerous, dangerous + 8, false );
 
     const tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
@@ -4162,6 +4220,9 @@ void game::monmove()
     // Now, do active NPCs.
     for( npc &guy : g->all_npcs() ) {
         int turns = 0;
+        if( guy.is_mounted() ) {
+            guy.check_mount_is_spooked();
+        }
         m.creature_in_field( guy );
         if( !guy.has_effect( effect_npc_suspend ) ) {
             guy.process_turn();
@@ -4246,16 +4307,15 @@ void game::knockback( const tripoint &s, const tripoint &t, int force, int stun,
     traj = continue_line( traj, force );
     traj.insert( traj.begin(), t ); // how annoying, continue_line() doesn't either!
 
-    knockback( traj, force, stun, dam_mult );
+    knockback( traj, stun, dam_mult );
 }
 
 /* Knockback target at traj.front() along line traj; traj should already have considered knockback distance.
    stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
    dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
 
-void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int dam_mult )
+void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
 {
-    // FIXME: force is unused but header says it should do something
     // TODO: make the force parameter actually do something.
     // the header file says higher force causes more damage.
     // perhaps that is what it should do?
@@ -4264,7 +4324,7 @@ void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int 
         debugmsg( _( "Nothing at (%d,%d,%d) to knockback!" ), tp.x, tp.y, tp.z );
         return;
     }
-    int force_remaining = 0;
+    std::size_t force_remaining = traj.size();
     if( monster *const targ = critter_at<monster>( tp, true ) ) {
         if( stun > 0 ) {
             targ->add_effect( effect_stunned, 1_turns * stun );
@@ -4305,7 +4365,7 @@ void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int 
                 } else if( u.pos() == traj.front() ) {
                     add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->name() );
                 }
-                knockback( traj, force_remaining, stun, dam_mult );
+                knockback( traj, stun, dam_mult );
                 break;
             }
             targ->setpos( traj[i] );
@@ -4379,11 +4439,10 @@ void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int 
                            ( u.has_trait( trait_LEG_TENT_BRACE ) && ( !u.footwear_factor() ||
                                    ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) ) {
                     add_msg( _( "%s collided with you, and barely dislodges your tentacles!" ), targ->name );
-                    force_remaining = 1;
                 } else if( u.posx() == traj_front.x && u.posy() == traj_front.y ) {
                     add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->name );
                 }
-                knockback( traj, force_remaining, stun, dam_mult );
+                knockback( traj, stun, dam_mult );
                 break;
             }
             targ->setpos( traj[i] );
@@ -4457,10 +4516,10 @@ void game::knockback( std::vector<tripoint> &traj, int /*force*/, int stun, int 
                         add_msg( _( "You collided with someone and sent her flying!" ) );
                     }
                 }
-                knockback( traj, force_remaining, stun, dam_mult );
+                knockback( traj, stun, dam_mult );
                 break;
             }
-            if( m.has_flag( "LIQUID", u.pos() ) && force_remaining < 1 ) {
+            if( m.has_flag( "LIQUID", u.pos() ) && force_remaining == 0 ) {
                 avatar_action::swim( m, u, u.pos() );
             } else {
                 u.setpos( traj[i] );
@@ -4593,9 +4652,9 @@ template player *game::critter_by_id<player>( const character_id & );
 template npc *game::critter_by_id<npc>( const character_id & );
 template Creature *game::critter_by_id<Creature>( const character_id & );
 
-static bool can_place_monster( game &g, const monster &mon, const tripoint &p )
+static bool can_place_monster( const monster &mon, const tripoint &p )
 {
-    if( const monster *const critter = g.critter_at<monster>( p ) ) {
+    if( const monster *const critter = g->critter_at<monster>( p ) ) {
         // Creature_tracker handles this. The hallucination monster will simply vanish
         if( !critter->is_hallucination() ) {
             return false;
@@ -4603,17 +4662,17 @@ static bool can_place_monster( game &g, const monster &mon, const tripoint &p )
     }
     // Although monsters can sometimes exist on the same place as a Character (e.g. ridden horse),
     // it is usually wrong. So don't allow it.
-    if( g.critter_at<Character>( p ) ) {
+    if( g->critter_at<Character>( p ) ) {
         return false;
     }
     return mon.will_move_to( p );
 }
 
-static cata::optional<tripoint> choose_where_to_place_monster( game &g, const monster &mon,
+static cata::optional<tripoint> choose_where_to_place_monster( const monster &mon,
         const tripoint_range &range )
 {
     return random_point( range, [&]( const tripoint & p ) {
-        return can_place_monster( g, mon, p );
+        return can_place_monster( mon, p );
     } );
 }
 
@@ -4641,14 +4700,14 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
                                      const int radius )
 {
     cata::optional<tripoint> where;
-    if( can_place_monster( *this, *mon, center ) ) {
+    if( can_place_monster( *mon, center ) ) {
         where = center;
     }
 
     // This loop ensures the monster is placed as close to the center as possible,
     // but all places that equally far from the center have the same probability.
     for( int r = 1; r <= radius && !where; ++r ) {
-        where = choose_where_to_place_monster( *this, *mon, m.points_in_radius( center, r ) );
+        where = choose_where_to_place_monster( *mon, m.points_in_radius( center, r ) );
     }
 
     if( !where ) {
@@ -4670,7 +4729,7 @@ monster *game::place_critter_within( const mtype_id &id, const tripoint_range &r
 monster *game::place_critter_within( const shared_ptr_fast<monster> &mon,
                                      const tripoint_range &range )
 {
-    const cata::optional<tripoint> where = choose_where_to_place_monster( *this, *mon, range );
+    const cata::optional<tripoint> where = choose_where_to_place_monster( *mon, range );
     if( !where ) {
         return nullptr;
     }
@@ -4965,7 +5024,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     }
     const tripoint kbp( kbx, kby, p.z );
     if( kbp == p ) {
-        // cant pushback any creatures anywhere, that means the door cant close.
+        // can't pushback any creatures anywhere, that means the door can't close.
         return false;
     }
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
@@ -6131,6 +6190,9 @@ void game::zones_manager()
         return cata::nullopt;
     };
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     zones_manager_open = true;
     do {
         if( action == "ADD_ZONE" ) {
@@ -6565,6 +6627,10 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     bool blink = true;
     bool redraw = true;
     look_around_result result;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         if( redraw ) {
             if( bNewWindow ) {
@@ -6956,7 +7022,7 @@ bool game::take_screenshot( const std::string &/*path*/ ) const
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
 {
-    const int width = 44;
+    const int width = getmaxx( window );
     for( int i = 1; i < TERMX; i++ ) {
         if( i < width ) {
             mvwputch( window, point( i, 0 ), c_light_gray, LINE_OXOX ); // -
@@ -7070,8 +7136,19 @@ void game::list_items_monsters()
 
 game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 {
+    std::vector<map_item_stack> ground_items = item_list;
     int iInfoHeight = std::min( 25, TERMY / 2 );
-    const int width = 45;
+    int width = 45;
+
+    //find max length of item name and resize window width
+    for( const map_item_stack &cur_item : ground_items ) {
+        const int item_len = utf8_width( remove_color_tags( cur_item.example->display_name() ) ) + 15;
+        if( item_len > width ) {
+            width = item_len;
+        }
+    }
+    width = clamp( width, 45, ( TERMX - VIEW_OFFSET_X ) / 3 );
+
     const int offsetX = TERMX - VIEW_OFFSET_X - width;
 
     catacurses::window w_items = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2,
@@ -7099,7 +7176,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         uistate.list_item_init = true;
     }
 
-    std::vector<map_item_stack> ground_items = item_list;
     //this stores only those items that match our filter
     std::vector<map_item_stack> filtered_items =
         !sFilter.empty() ? filter_item_stacks( ground_items, sFilter ) : ground_items;
@@ -7143,6 +7219,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     ctxt.register_action( "PRIORITY_DECREASE" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TRAVEL_TO" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         if( action == "COMPARE" ) {
@@ -7518,6 +7597,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             last_attitude = attitude;
         }
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         if( action == "HELP_KEYBINDINGS" ) {
@@ -8114,7 +8196,7 @@ void game::butcher()
         MULTIDISASSEMBLE_ALL,
         NUM_BUTCHER_ACTIONS
     };
-    // What are we butchering (ie. which vector to pick indices from)
+    // What are we butchering (i.e.. which vector to pick indices from)
     enum {
         BUTCHER_CORPSE,
         BUTCHER_DISASSEMBLE,
@@ -8263,7 +8345,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 {
     item *it = loc.get_item();
 
-    // bows etc do not need to reload. select favorite ammo for them instead
+    // bows etc. do not need to reload. select favorite ammo for them instead
     if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
         item::reload_option opt = u.select_ammo( *it, prompt );
         if( !opt ) {
@@ -8308,7 +8390,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
     bool use_loc = true;
     if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
-        it = &u.i_at( loc.obtain( u ) );
+        it = loc.obtain( u ).get_item();
         use_loc = false;
     }
 
@@ -8399,7 +8481,7 @@ void game::reload_weapon( bool try_everything )
         if( this->u.is_wielding( *ap ) ) {
             return true;
         }
-        // Second sort by afiliation with wielded gun
+        // Second sort by affiliation with wielded gun
         const std::set<itype_id> compatible_magazines = this->u.weapon.magazine_compatible();
         const bool mag_ap = compatible_magazines.count( ap->typeId() ) > 0;
         const bool mag_bp = compatible_magazines.count( bp->typeId() ) > 0;
@@ -8499,7 +8581,6 @@ void game::wield( item_location &loc )
             worn_index = Character::worn_position_to_index( item_pos );
         }
     }
-    int move_cost = loc.obtain_cost( u );
     loc.remove_item();
     if( !u.wield( to_wield ) ) {
         switch( location_type ) {
@@ -8529,8 +8610,6 @@ void game::wield( item_location &loc )
         }
         return;
     }
-
-    u.mod_moves( -move_cost );
 }
 
 void game::wield()
@@ -9397,7 +9476,7 @@ point game::place_player( const tripoint &dest_loc )
 
 void game::place_player_overmap( const tripoint &om_dest )
 {
-    // if player is teleporting around, they dont bring their horse with them
+    // if player is teleporting around, they don't bring their horse with them
     if( u.is_mounted() ) {
         u.remove_effect( effect_riding );
         u.mounted_creature->remove_effect( effect_ridden );
@@ -10055,11 +10134,7 @@ void game::vertical_move( int movez, bool force )
             return;
         }
 
-        if( dexroll >= 14 ) {
-            add_msg( _( "You manage to slip past!" ) );
-        } else if( strroll >= 12 ) {
-            add_msg( _( "You manage to push past!" ) );
-        }
+        add_msg( _( "You manage to slip past!" ) );
         slippedpast = true;
         u.moves -= 100;
     }
@@ -10106,7 +10181,7 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() ) {
         const tripoint to = u.pos();
         for( monster &critter : all_monsters() ) {
-            // if its a ladder instead of stairs - most zombies cant climb that.
+            // if its a ladder instead of stairs - most zombies can't climb that.
             // unless that have a special flag to allow them to do so.
             if( ( m.has_flag( "DIFFICULT_Z", u.pos() ) && !critter.climbs() ) ||
                 critter.has_effect( effect_ridden ) ||
@@ -10223,7 +10298,11 @@ void game::vertical_move( int movez, bool force )
                 }
             }
             monster *mon = g->critter_at<monster>( u.pos(), true );
-            if( mon ) {
+            // if the monster is ridden by the player or an NPC:
+            // Dont displace them. If they are mounted by a friendly NPC,
+            // then the NPC will already have been displaced just above.
+            // if they are ridden by the player, we want them to coexist on same tile
+            if( mon && !mon->mounted_player ) {
                 crit_name = mon->get_name();
                 if( mon->friendly == -1 ) {
                     mon->setpos( displace );
@@ -10973,7 +11052,7 @@ void game::perhaps_add_random_npc()
                                      rng( -radius_spawn_range, radius_spawn_range ) );
         spawn_point.z = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
-        // shouldnt spawn on lakes or rivers.
+        // shouldn't spawn on lakes or rivers.
         if( !is_river_or_lake( oter ) ) {
             spawn_allowed = true;
         }
@@ -11136,7 +11215,11 @@ void game::quicksave()
         return;
     }
     add_msg( m_info, _( "Saving game, this may take a while" ) );
-    popup_nowait( _( "Saving game, this may take a while" ) );
+
+    static_popup popup;
+    popup.message( "%s", _( "Saving game, this may take a while" ) );
+    ui_manager::redraw();
+    refresh_display();
 
     time_t now = time( nullptr ); //timestamp for start of saving procedure
 
@@ -11526,7 +11609,11 @@ void game::start_calendar()
         }
     } else {
         // No scenario, so use the starting date+time configured in world options
-        const int initial_days = get_option<int>( "INITIAL_DAY" );
+        int initial_days = get_option<int>( "INITIAL_DAY" );
+        if( initial_days == -1 ) {
+            // 0 - 363 for a 91 day season
+            initial_days = rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+        }
         calendar::start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
 
         // Determine the season based off how long the seasons are set to be

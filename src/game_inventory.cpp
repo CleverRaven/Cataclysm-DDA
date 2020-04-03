@@ -43,6 +43,7 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "type_id.h"
 #include "point.h"
@@ -1445,6 +1446,9 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
 
         int iScrollPos = 0;
         int iScrollPosLast = 0;
+
+        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
         do {
             item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );

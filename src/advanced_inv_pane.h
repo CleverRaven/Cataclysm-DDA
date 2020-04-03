@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 
+struct advanced_inv_pane_save_state;
+
 enum aim_location : char;
 
 enum advanced_inv_sortby {
@@ -57,9 +59,10 @@ class advanced_inventory_pane
         bool in_vehicle() const {
             return viewing_cargo;
         }
-        bool on_ground() const {
-            return area > AIM_INVENTORY && area < AIM_DRAGGED;
-        }
+        advanced_inv_pane_save_state *save_state;
+        void save_settings();
+        void load_settings( int saved_area_idx,
+                            const std::array<advanced_inv_area, NUM_AIM_LOCATIONS> &squares, bool is_re_enter );
         /**
          * Index of the selected item (index of @ref items),
          */

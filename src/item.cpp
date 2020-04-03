@@ -112,7 +112,6 @@ static const species_id ROBOT( "ROBOT" );
 static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_scent_vision( "bio_scent_vision" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_HUGE( "HUGE" );
@@ -1189,9 +1188,9 @@ static int get_base_env_resist( const item &it )
 
 bool item::is_owned_by( const Character &c, bool available_to_take ) const
 {
-    // owner.is_null() implies faction_id( "no_faction" ) which shouldnt happen, or no owner at all.
+    // owner.is_null() implies faction_id( "no_faction" ) which shouldn't happen, or no owner at all.
     // either way, certain situations this means the thing is available to take.
-    // in other scenarios we actaully really want to check for id == id, even for no_faction
+    // in other scenarios we actually really want to check for id == id, even for no_faction
     if( get_owner().is_null() ) {
         return available_to_take;
     }
@@ -1510,8 +1509,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                   abs( static_cast<int>( food_item->charges ) * batch ) ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
-        ( debug || ( g != nullptr && ( g->u.has_bionic( bio_scent_vision ) ||
-                                       g->u.has_trait( trait_CARNIVORE ) ||
+        ( debug || ( g != nullptr && ( g->u.has_trait( trait_CARNIVORE ) ||
                                        g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
     }
@@ -3045,6 +3043,14 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       iteminfo::lower_is_better, attack_time() ) );
+            double dps = ( dmg_bash + dmg_cut + dmg_stab ) * to_moves<int>( 1_seconds ) /
+                         static_cast<double>( attack_time() );
+            static const matec_id rapid_strike( "RAPID" );
+            if( has_technique( rapid_strike ) ) {
+                dps *= 100.0 / 66;
+            }
+            info.push_back( iteminfo( "BASE", _( "Damage per second: " ), "",
+                                      iteminfo::is_decimal, dps ) );
         }
     }
 
@@ -3839,7 +3845,7 @@ void item::on_wear( Character &p )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
     }
-    // if game is loaded - dont want ownership assigned during char creation
+    // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
@@ -3902,7 +3908,7 @@ void item::on_wield( player &p, int mv )
     } else {
         msg = _( "You wield your %s." );
     }
-    // if game is loaded - dont want ownership assigned during char creation
+    // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
@@ -3965,7 +3971,7 @@ void item::on_pickup( Character &p )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_carried );
     }
-    // if game is loaded - dont want ownership assigned during char creation
+    // if game is loaded - don't want ownership assigned during char creation
     if( g->u.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
@@ -4642,7 +4648,7 @@ int item::lift_strength() const
 
 int item::attack_time() const
 {
-    int ret = 65 + volume() / 62.5_ml + weight() / 60_gram;
+    int ret = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
     ret = calculate_by_enchantment_wield( ret, enchantment::mod::ITEM_ATTACK_SPEED,
                                           true );
     return ret;
@@ -8339,6 +8345,39 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
     }
 
     return false;
+}
+
+bool item::has_rotten_away( const tripoint &pnt )
+{
+    if( is_corpse() && goes_bad() ) {
+        process_temperature_rot( 1, pnt, nullptr );
+        return get_rot() > 10_days && !can_revive();
+    } else if( goes_bad() ) {
+        process_temperature_rot( 1, pnt, nullptr );
+        return has_rotten_away();
+    } else if( type->container && type->container->preserves ) {
+        // Containers like tin cans preserves all items inside, they do not rot at all.
+        return false;
+    } else if( type->container && type->container->seals ) {
+        // Items inside rot but do not vanish as the container seals them in.
+        for( auto &c : contents ) {
+            if( c.goes_bad() ) {
+                c.process_temperature_rot( 1, pnt, nullptr );
+            }
+        }
+        return false;
+    } else {
+        // Check and remove rotten contents, but always keep the container.
+        for( auto it = contents.begin(); it != contents.end(); ) {
+            if( it->has_rotten_away( pnt ) ) {
+                it = contents.erase( it );
+            } else {
+                ++it;
+            }
+        }
+
+        return false;
+    }
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right )
