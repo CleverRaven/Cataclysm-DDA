@@ -106,7 +106,7 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
                 continue;
             }
             const float eff = bp.second;
-            const int n = floor( eff * ( by_weight / item::find_type( id )->weight ) );
+            const int n = std::floor( eff * ( by_weight / item::find_type( id )->weight ) );
 
             if( n <= 0 ) {
                 continue;
