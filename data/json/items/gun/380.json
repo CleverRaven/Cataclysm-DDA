@@ -21,10 +21,11 @@
     "type": "GUN",
     "name": { "str": "Kel-Tec P3AT" },
     "description": "Essentially a slightly scaled up Kel-tec P32 in .380 ACP, the ever popular P3AT offers better ballistics in a small, concealable lightweight package.  Handling leaves something to be desired due to snappier recoil and diminuitive controls.",
-    "weight": "220 g",
-    "volume": "231ml",
+    "weight": "218 g",
+    "volume": "151ml",
     "price": 25000,
     "ammo": "380",
+    "magazine_well": "44 ml",
     "min_cycle_recoil": 270,
     "magazines": [ [ "380", [ "kp3atmag" ] ] ]
   },

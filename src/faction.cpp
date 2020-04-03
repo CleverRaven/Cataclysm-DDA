@@ -27,6 +27,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "text_snippets.h"
+#include "ui_manager.h"
 #include "item.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -153,7 +154,7 @@ void faction::remove_member( const character_id &guy_id )
     }
     if( members.empty() ) {
         for( const faction_template &elem : npc_factions::all_templates ) {
-            // This is a templated base faction - dont delete it, just leave it as zero members for now.
+            // This is a templated base faction - don't delete it, just leave it as zero members for now.
             // Only want to delete dynamically created factions.
             if( elem.id == id ) {
                 return;
@@ -442,7 +443,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
         }
     }
     for( const faction_template &elem : npc_factions::all_templates ) {
-        // id isnt already in factions map, so load in the template.
+        // id isn't already in factions map, so load in the template.
         if( elem.id == id ) {
             factions[elem.id] = elem;
             if( !factions.empty() ) {
@@ -521,14 +522,11 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
     tripoint guy_abspos = global_omt_location();
-    basecamp *stationed_at;
-    bool is_stationed = false;
-    cata::optional<basecamp *> p = overmap_buffer.find_camp( guy_abspos.xy() );
-    if( p ) {
-        is_stationed = true;
-        stationed_at = *p;
-    } else {
-        stationed_at = nullptr;
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+    const bool is_stationed = assigned_camp && bcp;
+    basecamp *temp_camp = nullptr;
+    if( bcp ) {
+        temp_camp = *bcp;
     }
     std::string direction = direction_name( direction_from( player_abspos, guy_abspos ) );
     if( direction != "center" ) {
@@ -538,7 +536,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     if( is_stationed ) {
         mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d), at camp: %s" ), guy_abspos.x,
-                   guy_abspos.y, stationed_at->camp_name() );
+                   guy_abspos.y, temp_camp->camp_name() );
     } else {
         mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d)" ), guy_abspos.x,
                    guy_abspos.y );
@@ -561,7 +559,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             max_range *= ( 1 + ( pos().z * 0.1 ) );
             if( is_stationed ) {
                 // if camp that NPC is at, has a radio tower
-                if( stationed_at->has_provides( "radio_tower" ) ) {
+                if( temp_camp->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
                 }
             }
@@ -616,10 +614,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         current_status += _( "Guarding" );
     }
     mvwprintz( fac_w, point( width, ++y ), status_col, current_status );
-    if( is_stationed ) {
-        std::string current_job = _( "Basecamp job: " );
-        current_job += npc_job_name( job );
-        mvwprintz( fac_w, point( width, ++y ), col, current_job );
+    if( is_stationed && has_job() ) {
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Working at camp" ) );
+    } else if( is_stationed ) {
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Idling at camp" ) );
     }
 
     const std::pair <std::string, nc_color> condition = hp_description();
@@ -692,6 +690,10 @@ void faction_manager::display() const
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         werase( w_missions );
         // create a list of NPCs, visible and the ones on overmapbuffer

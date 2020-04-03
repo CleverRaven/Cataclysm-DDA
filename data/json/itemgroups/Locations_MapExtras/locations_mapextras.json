@@ -195,6 +195,8 @@
       [ "helmet_football", 20 ],
       [ "jersey", 100 ],
       [ "basketball", 100 ],
+      [ "beach_volleyball", 25 ],
+      [ "indoor_volleyball", 50 ],
       [ "armguard_soft", 50 ],
       [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],

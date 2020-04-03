@@ -120,6 +120,9 @@ class enchantment
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
 
+        // this enchantment has a valid item independent conditions
+        bool is_active( const Character &guy ) const;
+
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
         bool active_wield() const;
@@ -134,10 +137,11 @@ class enchantment
         void serialize( JsonOut &jsout ) const;
 
         // casts all the hit_you_effects on the target
-        void cast_hit_you( Character &caster, const tripoint &target ) const;
-        // casts all the hit_me_effects on self
-        void cast_hit_me( Character &caster ) const;
+        void cast_hit_you( Character &caster, const Creature &target ) const;
+        // casts all the hit_me_effects on self or a target depending on the enchantment definition
+        void cast_hit_me( Character &caster, const Creature *target ) const;
     private:
+        cata::optional<emit_id> emitter;
         // values that add to the base value
         std::map<mod, int> values_add;
         // values that get multiplied to the base value
@@ -157,6 +161,10 @@ class enchantment
         bool stacks_with( const enchantment &rhs ) const;
 
         int mult_bonus( mod value_type, int base_value ) const;
+
+        // performs cooldown and distance checks before casting enchantment spells
+        void cast_enchantment_spell( Character &caster, const Creature *target,
+                                     const fake_spell &sp ) const;
 };
 
 #endif

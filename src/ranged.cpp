@@ -41,6 +41,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "trap.h"
@@ -517,7 +518,11 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
             continue; // skip retargeting for launchers
         }
     }
-
+    // apply shot counter to gun and its mods.
+    gun.set_var( "shot_counter", gun.get_var( "shot_counter", 0 ) + curshot );
+    for( item *mod : gun.gunmods() ) {
+        mod->set_var( "shot_counter", mod->get_var( "shot_counter", 0 ) + curshot );
+    }
     // apply delayed recoil
     recoil += delay;
     if( is_mech_weapon ) {
@@ -754,8 +759,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     Creature *critter = g->critter_at( target, true );
-    const dispersion_sources dispersion = throwing_dispersion( thrown, critter,
-                                          blind_throw_from_pos.has_value() );
+    const dispersion_sources dispersion( throwing_dispersion( thrown, critter,
+                                         blind_throw_from_pos.has_value() ) );
     const itype *thrown_type = thrown.type;
 
     // Put the item into the projectile
@@ -1205,7 +1210,7 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
         target = nullptr;
     }
 
-    const dispersion_sources dispersion = p.throwing_dispersion( weapon, target, is_blind_throw );
+    const dispersion_sources dispersion( p.throwing_dispersion( weapon, target, is_blind_throw ) );
     const double range = rl_dist( p.pos(), target_pos );
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
@@ -1468,6 +1473,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
         return std::min( recoil_pc + angle * recoil_per_deg, MAX_RECOIL );
     };
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     bool redraw = true;
     const tripoint old_offset = pc.view_offset;
@@ -2009,6 +2017,10 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
     };
     const std::string fx = casting.effect();
     const tripoint old_offset = pc.view_offset;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         ret = g->m.find_clear_path( src, dst );
 
