@@ -1596,11 +1596,11 @@ tab_direction set_profession( avatar &u, points_left &points,
             for( const trait_id &old_trait : u.prof->get_locked_traits() ) {
                 u.toggle_trait( old_trait );
             }
+            const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
             u.prof = &sorted_profs[cur_id].obj();
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
             u.add_traits( points );
-            const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
             points.skill_points -= netPointCost;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
