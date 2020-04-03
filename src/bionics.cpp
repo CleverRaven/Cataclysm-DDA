@@ -2803,6 +2803,24 @@ void bionic::deserialize( JsonIn &jsin )
 
 }
 
+std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &bios,
+        const trait_id &tid )
+{
+    // Vector of bionics to return
+    std::vector<bionic_id> bionics_cancelling;
+
+    // Search through the vector of of bionics, and see if the trait is cancelled by one of them
+    for( const bionic_id &bid : bios ) {
+        for( const trait_id &trait : bid->canceled_mutations ) {
+            if( trait == tid ) {
+                bionics_cancelling.emplace_back( bid );
+            }
+        }
+    }
+
+    return bionics_cancelling;
+}
+
 void Character::introduce_into_anesthesia( const time_duration &duration, player &installer,
         bool needs_anesthesia )   //used by the Autodoc
 {
