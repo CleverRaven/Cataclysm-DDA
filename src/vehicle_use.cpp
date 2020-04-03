@@ -520,7 +520,7 @@ void vehicle::autopilot_patrol_check()
     }
 }
 
-void vehicle::control_burner()
+static int prompt_for_altitude()
 {
     const std::string formatted = _( "Select a desired altitude: ( 0 - 10 )" );
     const int amount = string_input_popup()
@@ -528,11 +528,25 @@ void vehicle::control_burner()
                        .width( 20 )
                        .only_digits( true )
                        .query_int();
-    desired_altitude = clamp( amount, 0, 10 );
+
+    return clamp( amount, 0, 10 );
+}
+
+void vehicle::control_burner( int burner_part )
+{
+    const int result = prompt_for_altitude();
+    if( !result ) {
+        return;
+    }
+    desired_altitude = result;
+    parts[burner_part].enabled = true;
     if( desired_altitude > sm_pos.z ) {
         add_msg( m_info, _( "You start burning to raise altitude" ) );
     } else if( desired_altitude < sm_pos.z ) {
-        add_msg( m_info, _( "You start letting out hot air to descend" ) );
+        add_msg( m_info, _( "You turn off the burner, and start descending" ) );
+        parts[burner_part].enabled = false;
+    } else {
+        add_msg( m_info, _( "You start a steady burn to maintain altitude" ) );
     }
 }
 
@@ -693,18 +707,6 @@ void vehicle::use_controls( const tripoint &pos )
         options.emplace_back( _( "Control autopilot" ),
                               keybind( "CONTROL_AUTOPILOT" ) );
         actions.push_back( [&] { toggle_autopilot(); refresh(); } );
-    }
-    if( has_part( "BURNER" ) ) {
-        std::string msg;
-        if( has_burner_fuel() ) {
-            actions.push_back( [&] { control_burner(); refresh(); } );
-            msg = string_format(
-                      _( "Set desired altitude for balloon : current desired altitude = %d, current altitude = %d" ),
-                      desired_altitude, sm_pos.z );
-        } else {
-            msg = _( "The burner has no fuel left!" );
-        }
-        options.emplace_back( msg, has_burner_fuel() );
     }
 
     options.emplace_back( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
@@ -1910,6 +1912,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool has_autoclave = autoclave_part >= 0;
     bool autoclave_on = ( autoclave_part == -1 ) ? false :
                         parts[autoclave_part].enabled;
+    const int burner_part = avail_part_with_feature( interact_part, "BURNER", true );
+    const bool has_burner = burner_part >= 0;
     const int washing_machine_part = avail_part_with_feature( interact_part, "WASHING_MACHINE", true );
     const bool has_washmachine = washing_machine_part >= 0;
     bool washing_machine_on = ( washing_machine_part == -1 ) ? false :
@@ -1933,7 +1937,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     enum {
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE, USE_DISHWASHER,
-        USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, USE_TOWEL, PEEK_CURTAIN,
+        USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, USE_BURNER, RELOAD_PLANTER, WORKBENCH, USE_TOWEL, PEEK_CURTAIN,
     };
     uilist selectmenu;
 
@@ -1955,6 +1959,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         selectmenu.addentry( USE_WASHMACHINE, true, 'W',
                              washing_machine_on ? _( "Deactivate the washing machine" ) :
                              _( "Activate the washing machine (1.5 hours)" ) );
+    }
+    if( has_burner ) {
+        selectmenu.addentry( USE_BURNER, true, 'B', _( "Control the burner" ) );
     }
     if( has_dishwasher ) {
         selectmenu.addentry( USE_DISHWASHER, true, 'D',
@@ -2071,6 +2078,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case USE_AUTOCLAVE: {
             use_autoclave( autoclave_part );
+            return;
+        }
+        case USE_BURNER: {
+            control_burner( burner_part );
             return;
         }
         case USE_WASHMACHINE: {

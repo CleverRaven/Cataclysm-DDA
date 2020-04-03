@@ -1295,7 +1295,7 @@ class vehicle
         bool is_rotorcraft() const;
         bool has_burner_fuel() const;
         bool is_burner_fuel( itype_id fuel ) const;
-        void control_burner();
+        void control_burner( int burner );
         bool is_hot_air_balloon() const;
         void wind_movement();
         void balloon_vertical_movement();
