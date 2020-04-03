@@ -378,6 +378,12 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
     GIVEN( "a gun with potential fouling" ) {
         item gun( "hk_mp5" );
 
+        // Ensure the player and gun are normal size to prevent "too big" or "too small" suffix in tname
+        g->u.empty_traits();
+        REQUIRE( gun.get_sizing( g-> u, true ) == item::sizing::human_sized_human_char );
+        REQUIRE_FALSE( gun.has_flag( "OVERSIZE" ) );
+        REQUIRE_FALSE( gun.has_flag( "UNDERSIZE" ) );
+
         WHEN( "it is perfectly clean" ) {
             gun.set_var( "dirt", 0 );
             CHECK( gun.tname() == "H&K MP5A2" );
