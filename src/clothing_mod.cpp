@@ -46,6 +46,7 @@ std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
         case clothing_mod_type_encumbrance: return "encumbrance";
         case clothing_mod_type_warmth: return "warmth";
         case clothing_mod_type_storage: return "storage";
+        case clothing_mod_type_coverage: return "coverage";
         case clothing_mod_type_invalid: return "invalid";
         // *INDENT-ON*
         case num_clothing_mod_types:
@@ -64,6 +65,9 @@ void clothing_mod::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "implement_prompt", implement_prompt );
     mandatory( jo, was_loaded, "destroy_prompt", destroy_prompt );
     optional( jo, was_loaded, "restricted", restricted, false );
+    optional( jo, was_loaded, "min_coverage", min_coverage, 0.0f );
+    optional( jo, was_loaded, "apply_flags", apply_flags, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "exclude_flags", exclude_flags, auto_flags_reader<> {} );
 
     for( const JsonObject mv_jo : jo.get_array( "mod_value" ) ) {
         mod_value mv;
@@ -117,6 +121,25 @@ bool clothing_mod::has_mod_type( const clothing_mod_type &type ) const
         }
     }
     return false;
+}
+
+bool clothing_mod::applies_flag( const std::string &f ) const
+{
+    if( std::find( apply_flags.begin(), apply_flags.end(), f ) != apply_flags.end() ) {
+        return true;
+    }
+
+    return false;
+}
+
+bool clothing_mod::applies_flags() const
+{
+    return !apply_flags.empty();
+}
+
+bool clothing_mod::flags_compatible( const item &it ) const
+{
+    return !( it.has_any_flag( exclude_flags ) || it.has_any_flag( apply_flags ) );
 }
 
 size_t clothing_mod::count()

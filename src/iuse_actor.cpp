@@ -29,6 +29,7 @@
 #include "timed_event.h"
 #include "explosion.h"
 #include "field.h"
+#include "flag.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "item.h"
@@ -4639,7 +4640,6 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-
     if( p.fine_detail_vision_mod() > 4 ) {
         add_msg( m_info, _( "You can't see to sew!" ) );
         return 0;
@@ -4722,15 +4722,17 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
         bool enab = false;
         std::string prompt;
+
+        // TODO: Fix for UTF-8 strings
+        // TODO: find other places where this is used and make a global function for all
+        static const auto tolower = []( std::string t ) {
+            if( !t.empty() ) {
+                t.front() = std::tolower( t.front() );
+            }
+            return t;
+        };
+
         if( mod.item_tags.count( obj.flag ) == 0 ) {
-            // TODO: Fix for UTF-8 strings
-            // TODO: find other places where this is used and make a global function for all
-            static const auto tolower = []( std::string t ) {
-                if( !t.empty() ) {
-                    t.front() = std::tolower( t.front() );
-                }
-                return t;
-            };
             // Mod not already present, check if modification is possible
             if( it.charges < thread_needed ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
@@ -4740,10 +4742,23 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
                 prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), tolower( obj.implement_prompt ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
-            } else if( obj.restricted &&
-                       std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
-                //~ %1$s: modification desc, %2$s: mod name
+            } else if( !obj.flags_compatible( mod ) ||
+                       ( obj.restricted &&
+                         std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) ) {
+                //~ %1$s: modification desc, %2$s: item name
                 prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
+                                        mod.tname( 1, false ) );
+            } else if( obj.applies_flags() && p.is_worn( mod ) ) {
+                // some flags cause errors when applied to worn items (e.g. FANCY throws from a morale consistency check)
+                // rather than deal with the implications lets just ask the player to remove the item first
+                //~ %1$s: modification desc, %2$s: item name
+                prompt = string_format( _( "Can't %1$s (take the %2$s off first)" ),
+                                        tolower( obj.implement_prompt ),
+                                        mod.tname( 1, false ) );
+            } else if( obj.min_coverage > mod.get_coverage() ) {
+                //~ %1$s: modification desc, %2$s: item name
+                prompt = string_format( _( "Can't %1$s (%2$s has too little coverage)" ),
+                                        tolower( obj.implement_prompt ),
                                         mod.tname( 1, false ) );
             } else {
                 // Modification is possible
@@ -4754,23 +4769,59 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
             }
 
         } else {
-            // Mod already present, give option to destroy
-            enab = true;
-            prompt = _( obj.destroy_prompt );
+            // removing a mod that changes flags causes bugs (see note in above check for applying mods)
+            if( obj.applies_flags() && p.is_worn( mod ) ) {
+                //~ %1$s: modification desc, %2$s: item name
+                prompt = string_format( _( "Can't %1$s (take the %2$s off first)" ),
+                                        tolower( obj.destroy_prompt ),
+                                        mod.tname( 1, false ) );
+            } else {
+                // Mod already present, give option to destroy
+                enab = true;
+                prompt = _( obj.destroy_prompt );
+            }
         }
+
         std::string desc;
-        desc += format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );
-        desc += format_desc_string( _( "Cut" ), mod.cut_resist(), temp_item.cut_resist(), true );
-        desc += format_desc_string( _( "Acid" ), mod.acid_resist(), temp_item.acid_resist(), true );
-        desc += format_desc_string( _( "Fire" ), mod.fire_resist(), temp_item.fire_resist(), true );
-        desc += format_desc_string( _( "Warmth" ), mod.get_warmth(), temp_item.get_warmth(), true );
-        desc += format_desc_string( _( "Encumbrance" ), mod.get_encumber( p ), temp_item.get_encumber( p ),
-                                    false );
+        if( mod.bash_resist() != temp_item.bash_resist() ) {
+            desc += format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );
+        }
+        if( mod.bash_resist() != temp_item.bash_resist() ) {
+            desc += format_desc_string( _( "Cut" ), mod.cut_resist(), temp_item.cut_resist(), true );
+        }
+        if( mod.acid_resist() != temp_item.acid_resist() ) {
+            desc += format_desc_string( _( "Acid" ), mod.acid_resist(), temp_item.acid_resist(), true );
+        }
+        if( mod.fire_resist() != temp_item.fire_resist() ) {
+            desc += format_desc_string( _( "Fire" ), mod.fire_resist(), temp_item.fire_resist(), true );
+        }
+        if( mod.get_warmth() != temp_item.get_warmth() ) {
+            desc += format_desc_string( _( "Warmth" ), mod.get_warmth(), temp_item.get_warmth(), true );
+        }
+        if( mod.get_encumber( p ) != temp_item.get_encumber( p ) ) {
+            desc += format_desc_string( _( "Encumbrance" ), mod.get_encumber( p ), temp_item.get_encumber( p ),
+                                        false );
+        }
+        if( mod.get_coverage() != temp_item.get_coverage() ) {
+            desc += format_desc_string( _( "Coverage" ), mod.get_coverage(), temp_item.get_coverage(),
+                                        true );
+        }
         auto before = mod.get_storage();
         auto after = temp_item.get_storage();
-        desc += colorize( string_format( "%s: %s %s->%s %s\n", _( "Storage" ),
-                                         format_volume( before ), volume_units_abbr(), format_volume( after ),
-                                         volume_units_abbr() ), get_volume_compare_color( before, after, true ) );
+        if( before != after ) {
+            desc += colorize( string_format( "%s: %s %s->%s %s\n", _( "Storage" ),
+                                             format_volume( before ), volume_units_abbr(), format_volume( after ),
+                                             volume_units_abbr() ), get_volume_compare_color( before, after, true ) );
+        }
+        if( obj.applies_flags() ) {
+            desc += "\n";
+            for( const std::string &e : obj.apply_flags ) {
+                const json_flag &f = json_flag::get( e );
+                if( !f.info().empty() ) {
+                    desc += replace_colors( string_format( "* %s\n", _( f.info() ) ) );
+                }
+            }
+        }
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }

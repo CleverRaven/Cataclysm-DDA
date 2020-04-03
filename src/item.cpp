@@ -4044,7 +4044,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             maintext += string_format( "+%d", amt );
         }
     } else if( is_armor() && has_clothing_mod() ) {
-        maintext = label( quantity ) + "+1";
+        maintext = label( quantity ) + string_format( "+%d", count_clothing_mods() );
     } else if( is_craft() ) {
         maintext = string_format( _( "in progress %s" ), craft_data_->making->result_name() );
         if( charges > 1 ) {
@@ -4709,6 +4709,15 @@ bool item::has_flag( const std::string &f ) const
 {
     bool ret = false;
 
+    if( has_clothing_mod() ) {
+        // TODO this is going to be slow - find a better way?
+        for( const clothing_mod &cm : clothing_mods::get_all() ) {
+            if( item_tags.count( cm.flag ) > 0 && cm.applies_flag( f ) ) {
+                return true;
+            }
+        }
+    }
+
     if( json_flag::get( f ).inherit() ) {
         for( const item *e : is_gun() ? gunmods() : toolmods() ) {
             // gunmods fired separately do not contribute to base gun flags
@@ -5282,7 +5291,12 @@ int item::get_coverage() const
     if( t == nullptr ) {
         return 0;
     }
-    return t->coverage;
+    int result = t->coverage;
+
+    result += get_clothing_mod_val( clothing_mod_type_coverage );
+
+    // note: this may not be the best place to put this check?
+    return std::max( 0, std::min( result, 100 ) );
 }
 
 int item::get_thickness() const
@@ -9756,6 +9770,17 @@ bool item::has_clothing_mod() const
         }
     }
     return false;
+}
+
+int item::count_clothing_mods() const
+{
+    int count = 0;
+    for( const clothing_mod &cm : clothing_mods::get_all() ) {
+        if( item_tags.count( cm.flag ) > 0 ) {
+            count++;
+        }
+    }
+    return count;
 }
 
 float item::get_clothing_mod_val( clothing_mod_type type ) const
