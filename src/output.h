@@ -14,7 +14,8 @@
 #include "catacharset.h"
 #include "color.h"
 #include "enums.h"
-#include "player.h"
+#include "item.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
@@ -145,6 +146,7 @@ extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
+extern int OVERMAP_LEGEND_WIDTH; // width of overmap window legend
 
 nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
 
@@ -309,6 +311,7 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  */
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text );
+std::string trim_by_length( const std::string &text, int width );
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const point &begin,
                             const int width, const nc_color base_color, const char *const mes, Args &&... args )
@@ -322,8 +325,10 @@ int right_print( const catacurses::window &w, int line, int right_indent,
                  const nc_color &FG, const std::string &text );
 void display_table( const catacurses::window &w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
-void multipage( const catacurses::window &w, const std::vector<std::string> &text,
-                const std::string &caption = "", int begin_y = 0 );
+void scrollable_text( const catacurses::window &w, const std::string &title,
+                      const std::string &text );
+void scrollable_text( const std::function<catacurses::window()> &init_window,
+                      const std::string &title, const std::string &text );
 std::string name_and_value( const std::string &name, int value, int field_width );
 std::string name_and_value( const std::string &name, const std::string &value, int field_width );
 
@@ -399,10 +404,6 @@ std::vector<std::string> get_hotkeys( const std::string &s );
  * - PF_GET_KEY (ignored when combined with PF_NO_WAIT) cancels the popup on *any* user input.
  *   Without the flag the popup is only canceled when the user enters new-line, Space and Escape.
  *   This flag is passed by @ref popup_getkey.
- * - PF_NO_WAIT displays the popup, but does not wait for the user input. The popup window is
- *   immediately destroyed (but will be visible until another window is redrawn over it).
- *   The function always returns 0 upon this flag, no call to `getch` is done at all.
- *   This flag is passed by @ref popup_nowait.
  * - PF_ON_TOP makes the window appear on the top of the screen (at the upper most row). Without
  *   this flag, the popup is centered on the screen.
  *   The flag is passed by @ref popup_top.
@@ -415,10 +416,8 @@ std::vector<std::string> get_hotkeys( const std::string &s );
 enum PopupFlags {
     PF_NONE        = 0,
     PF_GET_KEY     = 1 << 0,
-    PF_NO_WAIT     = 1 << 1,
     PF_ON_TOP      = 1 << 2,
     PF_FULLSCREEN  = 1 << 3,
-    PF_NO_WAIT_ON_TOP = PF_NO_WAIT | PF_ON_TOP,
 };
 
 template<typename ...Args>
@@ -432,17 +431,6 @@ inline void popup_top( const char *const mes, Args &&... args )
     popup( string_format( mes, std::forward<Args>( args )... ), PF_ON_TOP );
 }
 template<typename ...Args>
-inline void popup_nowait( const char *mes, Args &&... args )
-{
-    popup( string_format( mes, std::forward<Args>( args )... ), PF_NO_WAIT );
-}
-void popup_status( const char *title, const std::string &mes );
-template<typename ...Args>
-inline void popup_status( const char *const title, const char *const fmt, Args &&... args )
-{
-    return popup_status( title, string_format( fmt, std::forward<Args>( args )... ) );
-}
-template<typename ...Args>
 inline void popup( const char *mes, Args &&... args )
 {
     popup( string_format( mes, std::forward<Args>( args )... ), PF_NONE );
@@ -452,16 +440,6 @@ template<typename ...Args>
 inline void full_screen_popup( const char *mes, Args &&... args )
 {
     popup( string_format( mes, std::forward<Args>( args )... ), PF_FULLSCREEN );
-}
-template<typename ...Args>
-inline void popup_player_or_npc( player &p, const char *player_mes, const char *npc_mes,
-                                 Args &&... args )
-{
-    if( p.is_player() ) {
-        popup( player_mes, std::forward<Args>( args )... );
-    } else {
-        popup( p.replace_with_npc_name( string_format( npc_mes, std::forward<Args>( args )... ) ) );
-    }
 }
 
 /*@}*/

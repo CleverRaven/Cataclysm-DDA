@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "isherwood_barry",
-    "//": "A naked prisoner, from the isherwood faction trapped in a horrifing cage, watching horrible things happen.",
+    "//": "A naked prisoner, from the isherwood faction trapped in a horrifying cage, watching horrible things happen.",
     "class": "NC_ISHERWOOD_BARRY",
     "name_unique": "Barry Isherwood",
     "gender": "male",
@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_BARRY",
-    "name": "Barry Isherwood",
+    "name": { "str": "Barry Isherwood" },
     "job_description": "Missing member of the Isherwood family.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -70,14 +70,14 @@
   {
     "id": "MISSION_ISHERWOOD_BARRY_1",
     "type": "mission_definition",
-    "name": "Return Barry to Eddie at the dairy.",
+    "name": { "str": "Return Barry to Eddie at the dairy." },
     "goal": "MGOAL_GO_TO",
     "difficulty": 3,
     "value": 20000,
     "destination": "dairy_farm_isherwood_W",
     "start": {
       "effect": [ { "u_add_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" } ],
-      "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "om_special": "Isherwood Farms", "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "reveal_radius": 3 }
     },
     "end": {
       "opinion": { "trust": 5, "value": 5 },

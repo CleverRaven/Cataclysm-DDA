@@ -53,18 +53,25 @@
 #include "mtype.h"
 #include "weather.h"
 
-static const itype_id fuel_type_none( "null" );
+static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
+static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
+static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
+
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_wind( "wind" );
+
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_tied( "tied" );
 
 static const fault_id fault_diesel( "fault_engine_pump_diesel" );
 static const fault_id fault_glowplug( "fault_engine_glow_plug" );
 static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_pump( "fault_engine_pump_fuel" );
 static const fault_id fault_starter( "fault_engine_starter" );
-static const efftype_id effect_harnessed( "harnessed" );
-static const efftype_id effect_tied( "tied" );
+
 static const skill_id skill_mechanics( "mechanics" );
 
 enum change_types : int {
@@ -361,7 +368,7 @@ void vehicle::control_engines()
         }
         dirty = true;
         adjust_engine( e_toggle );
-    } while( e_toggle >= 0 && e_toggle < fuel_count );
+    } while( e_toggle < fuel_count );
 
     if( !dirty ) {
         return;
@@ -428,7 +435,7 @@ bool vehicle::interact_vehicle_locked()
                 const int hotwire_time = 6000 / ( ( mechanics_skill > 0 ) ? mechanics_skill : 1 );
                 const int moves = to_moves<int>( time_duration::from_turns( hotwire_time ) );
                 //assign long activity
-                g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), moves, -1, INT_MIN, _( "Hotwire" ) );
+                g->u.assign_activity( ACT_HOTWIRE_CAR, moves, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
                 const tripoint abs_veh_pos = g->m.getabs( global_pos3() );
@@ -518,6 +525,7 @@ void vehicle::toggle_autopilot()
     uilist smenu;
     enum autopilot_option : int {
         PATROL,
+        FOLLOW,
         STOP
     };
     smenu.desc_enabled = true;
@@ -525,6 +533,9 @@ void vehicle::toggle_autopilot()
     smenu.addentry_col( PATROL, true, 'P', _( "Patrol…" ),
                         "", string_format( _( "Program the autopilot to patrol a nearby vehicle patrol zone.  "
                                            "If no zones are nearby, you will be prompted to create one." ) ) );
+    smenu.addentry_col( FOLLOW, true, 'F', _( "Follow…" ),
+                        "", string_format(
+                            _( "Program the autopilot to follow you. It might be a good idea to have a remote control available to tell it to stop, too." ) ) );
     smenu.addentry_col( STOP, true, 'S', _( "Stop…" ),
                         "", string_format( _( "Stop all autopilot related activities." ) ) );
     smenu.query();
@@ -540,6 +551,13 @@ void vehicle::toggle_autopilot()
             autodrive_local_target = tripoint_zero;
             stop_engines();
             break;
+        case FOLLOW:
+            autopilot_on = true;
+            is_following = true;
+            is_patrolling = false;
+            is_autodriving = true;
+            start_engines();
+            refresh();
         default:
             return;
     }
@@ -726,14 +744,14 @@ void vehicle::use_controls( const tripoint &pos )
 
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
         options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
-        actions.push_back( [&] { turrets_aim_and_fire( true, false ); refresh(); } );
+        actions.push_back( [&] { turrets_aim_and_fire_all_manual( true ); refresh(); } );
 
         // This lets us manually override and set the target for the automatic turrets instead.
         options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
-        actions.push_back( [&] { turrets_aim( false, true ); refresh(); } );
+        actions.push_back( [&] { turrets_override_automatic_aim(); refresh(); } );
 
         options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
-        actions.push_back( [&] { turrets_aim_single(); refresh(); } );
+        actions.push_back( [&] { turrets_aim_and_fire_single(); refresh(); } );
     }
 
     uilist menu;
@@ -828,7 +846,7 @@ bool vehicle::fold_up()
         bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
 
-    g->m.add_item_or_charges( g->u.pos(), bicycle );
+    g->m.add_item_or_charges( global_part_pos3( 0 ), bicycle );
     g->m.destroy_vehicle( this );
 
     // TODO: take longer to fold bigger vehicles
@@ -940,7 +958,7 @@ bool vehicle::start_engine( const int e )
                            "engine_single_click_fail" );
             return false;
         }
-        // @todo start_moves is in moves, but it's an integer, convert it to some time class
+        // TODO: start_moves is in moves, but it's an integer, convert it to some time class
         const int start_draw_bat = power_to_energy_bat( engine_power *
                                    ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
                                    1_turns * start_moves / 100 );
@@ -1050,7 +1068,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         add_msg( _( "You take control of the %s." ), name );
     }
     if( !autodrive ) {
-        g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
+        g->u.assign_activity( ACT_START_ENGINES, start_time );
         g->u.activity.placement = starting_engine_position - g->u.pos();
         g->u.activity.values.push_back( take_control );
     }
@@ -1273,9 +1291,11 @@ void vehicle::operate_reaper()
             continue;
         }
         g->m.furn_set( reaper_pos, f_null );
+        // Secure the seed type before i_clear destroys the item.
+        const itype &seed_type = *seed->type;
         g->m.i_clear( reaper_pos );
         for( auto &i : iexamine::get_harvest_items(
-                 *seed->type, plant_produced, seed_produced, false ) ) {
+                 seed_type, plant_produced, seed_produced, false ) ) {
             g->m.add_item_or_charges( reaper_pos, i );
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
@@ -1533,8 +1553,11 @@ void vehicle::use_autoclave( int p )
 
 void vehicle::use_washing_machine( int p )
 {
-    // Get all the items the player has that can be used as detergent
-    std::vector<const item *> detergents = g->u.all_items_with_flag( "DETERGENT" );
+    // Get all the items that can be used as detergent
+    const inventory &inv = g->u.crafting_inventory();
+    std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
+        return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
+    } );
 
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
@@ -1706,7 +1729,8 @@ void vehicle::use_harness( int part, const tripoint &pos )
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Where is the creature to harness?" ), f, false, true );
+            _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
+            false );
     if( !pnt_ ) {
         add_msg( m_info, _( "Never mind." ) );
         return;
@@ -1739,7 +1763,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         m.remove_effect( effect_tied );
         if( m.tied_item ) {
             g->u.i_add( *m.tied_item );
-            m.tied_item = cata::nullopt;
+            m.tied_item.reset();
         }
     }
 }
@@ -1829,6 +1853,7 @@ void vehicle::use_bike_rack( int part )
         if( success ) {
             for( const int &rack_part : carrying_racks[unload_carried] ) {
                 parts[ rack_part ].remove_flag( vehicle_part::carrying_flag );
+                parts[rack_part].remove_flag( vehicle_part::tracked_flag );
             }
         }
     } else {
@@ -2054,9 +2079,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case USE_WELDER: {
             if( veh_tool( "welder" ) ) {
-                // Evil hack incoming
+                // HACK: Evil hack incoming
                 auto &act = g->u.activity;
-                if( act.id() == activity_id( "ACT_REPAIR_ITEM" ) ) {
+                if( act.id() == ACT_REPAIR_ITEM ) {
                     // Magic: first tell activity the item doesn't really exist
                     act.index = INT_MIN;
                     // Then tell it to search it on `pos`
@@ -2101,7 +2126,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         case RELOAD_TURRET: {
             item::reload_option opt = g->u.select_ammo( *turret.base(), true );
             if( opt ) {
-                g->u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+                g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
                 g->u.activity.targets.emplace_back( turret.base() );
                 g->u.activity.targets.push_back( std::move( opt.ammo ) );
             }

@@ -194,7 +194,6 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_turret_disarmed",
-      "use_message": "Error.  No weapon systems found.",
       "difficulty": 4,
       "moves": 100,
       "skill1": "electronics",
@@ -213,7 +212,6 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_milturret_disarmed",
-      "use_message": "Error.  No weapon systems found.",
       "difficulty": 5,
       "moves": 100,
       "skill1": "electronics",
@@ -232,7 +230,6 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_advturret_disarmed",
-      "use_message": "Error.  No weapon systems found.",
       "difficulty": 6,
       "moves": 100,
       "skill1": "electronics",

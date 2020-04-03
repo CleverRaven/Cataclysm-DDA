@@ -1,6 +1,6 @@
 #include "behavior.h"
 
-#include <assert.h>
+#include <cassert>
 #include <list>
 #include <set>
 #include <unordered_map>
@@ -96,7 +96,7 @@ void behavior::load_behavior( const JsonObject &jo, const std::string &src )
 
 node_t::node_t()
 {
-    predicate = &oracle_t::return_running;
+    predicate = &return_running;
 }
 
 void node_t::load( const JsonObject &jo, const std::string & )
@@ -160,7 +160,7 @@ void behavior::reset()
 void behavior::finalize()
 {
     for( const node_data &new_node : temp_node_data ) {
-        for( const std::string child : new_node.children ) {
+        for( const std::string &child : new_node.children ) {
             const_cast<node_t &>( new_node.id.obj() ).
             add_child( &string_id<node_t>( child ).obj() );
         }

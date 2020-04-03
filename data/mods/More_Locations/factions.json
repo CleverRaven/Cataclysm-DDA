@@ -10,7 +10,7 @@
     "power": 1,
     "food_supply": 0,
     "wealth": 0,
-    "description": "These are hapless survivors who have been captured by raiders, slavers, mutants, or worse. Without your help, the remainder of their lives will be short and gruesome."
+    "description": "These are hapless survivors who have been captured by raiders, slavers, mutants, or worse.  Without your help, the remainder of their lives will be short and gruesome."
   },
   {
     "type": "faction",
@@ -23,6 +23,6 @@
     "power": 10,
     "food_supply": 1000,
     "wealth": 1000,
-    "description": "The scattered remnants of civilization, these lucky few managed to barricade themselves inside during the earliest stages of the Cataclysm. Although temporarily secure, they are short on supplies and lack the skills to obtain more. It's only a matter of time before they too become the prey of otherwordly creatures, or of all-too-human monsters."
+    "description": "The scattered remnants of civilization, these lucky few managed to barricade themselves inside during the earliest stages of the Cataclysm.  Although temporarily secure, they are short on supplies and lack the skills to obtain more.  It's only a matter of time before they too become the prey of otherwordly creatures, or of all-too-human monsters."
   }
 ]

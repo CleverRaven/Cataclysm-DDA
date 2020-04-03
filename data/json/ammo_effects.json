@@ -1,0 +1,195 @@
+[
+  {
+    "id": "AE_NULL",
+    "type": "ammo_effect",
+    "aoe": {
+      "field_type": "fd_null",
+      "intensity_min": 0,
+      "intensity_max": 0,
+      "radius": 0,
+      "radius_z": 0,
+      "chance": 100,
+      "size": 0,
+      "check_passable": false,
+      "check_sees": false,
+      "check_sees_radius": 0
+    },
+    "explosion": {
+      "power": 0,
+      "distance_factor": 0.8,
+      "fire": false,
+      "shrapnel": { "casing_mass": 0, "fragment_mass": 0.005, "recovery": 0, "drop": "null" }
+    },
+    "do_flashbang": false,
+    "do_emp_blast": false
+  },
+  {
+    "id": "FLAME",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "size": 3 }
+  },
+  {
+    "id": "NAPALM",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "size": 3 },
+    "explosion": { "power": 60, "distance_factor": 0.7, "fire": true }
+  },
+  {
+    "id": "NAPALM_BIG",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4 },
+    "explosion": { "power": 360, "distance_factor": 0.8, "fire": true }
+  },
+  {
+    "id": "PYROPHORIC",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "radius": 3 },
+    "explosion": { "power": 360, "distance_factor": 0.8, "fire": true }
+  },
+  {
+    "id": "ACIDBOMB",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_acid", "intensity_min": 3, "intensity_max": 3 }
+  },
+  {
+    "id": "TOXICGAS",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_toxic_gas", "intensity_min": 3, "intensity_max": 3 }
+  },
+  {
+    "id": "GAS_FUNGICIDAL",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_fungicidal_gas", "intensity_min": 3, "intensity_max": 3 }
+  },
+  {
+    "id": "GAS_INSECTICIDAL",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_insecticidal_gas", "intensity_min": 3, "intensity_max": 3 }
+  },
+  {
+    "id": "SMOKE",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_smoke", "intensity_min": 3, "intensity_max": 3 }
+  },
+  {
+    "id": "SMOKE_BIG",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_smoke", "intensity_min": 3, "intensity_max": 3, "radius": 6 }
+  },
+  {
+    "id": "FLARE",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1 }
+  },
+  {
+    "id": "LIGHTNING",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_electricity", "intensity_min": 3, "intensity_max": 3 }
+  },
+  {
+    "id": "PLASMA",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_plasma", "intensity_min": 2, "intensity_max": 3, "chance": 50 },
+    "trail": { "field_type": "fd_plasma", "intensity_min": 1, "intensity_max": 2, "chance": 50 }
+  },
+  {
+    "id": "EXPLOSIVE_HUGE",
+    "type": "ammo_effect",
+    "explosion": { "power": 1200 }
+  },
+  {
+    "id": "EXPLOSIVE_BIG",
+    "type": "ammo_effect",
+    "explosion": { "power": 600 }
+  },
+  {
+    "id": "EXPLOSIVE",
+    "type": "ammo_effect",
+    "explosion": { "power": 360 }
+  },
+  {
+    "id": "EXPLOSIVE_SMALL",
+    "type": "ammo_effect",
+    "explosion": { "power": 360, "distance_factor": 0.4 }
+  },
+  {
+    "id": "EXPLOSIVE_RAUFOSS",
+    "type": "ammo_effect",
+    "explosion": {
+      "power": 2.4,
+      "distance_factor": 0.6,
+      "fire": true,
+      "shrapnel": { "casing_mass": 28, "fragment_mass": 1.4, "recovery": 0, "drop": "null" }
+    }
+  },
+  {
+    "id": "FRAG",
+    "type": "ammo_effect",
+    "explosion": { "power": 185, "shrapnel": { "casing_mass": 212, "fragment_mass": 0.05 } }
+  },
+  {
+    "id": "MININUKE_MOD",
+    "type": "ammo_effect",
+    "aoe": {
+      "field_type": "fd_nuke_gas",
+      "intensity_min": 3,
+      "intensity_max": 3,
+      "radius": 18,
+      "size": 1,
+      "check_passable": true,
+      "check_sees": true,
+      "check_sees_radius": 3
+    },
+    "explosion": { "power": 72000000 }
+  },
+  {
+    "id": "FLASHBANG",
+    "type": "ammo_effect",
+    "do_flashbang": true
+  },
+  {
+    "id": "EMP",
+    "type": "ammo_effect",
+    "do_emp_blast": true
+  },
+  {
+    "id": "TRAIL",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_smoke", "intensity_min": 1, "intensity_max": 2, "chance": 75 }
+  },
+  {
+    "id": "STREAM",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 2, "chance": 66 }
+  },
+  {
+    "id": "STREAM_BIG",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "chance": 75 }
+  },
+  {
+    "id": "STREAM_GAS_FUNGICIDAL",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_fungicidal_gas", "intensity_min": 1, "intensity_max": 2, "chance": 66 }
+  },
+  {
+    "id": "STREAM_GAS_INSCENTICIDAL",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_insecticidal_gas", "intensity_min": 1, "intensity_max": 2, "chance": 66 }
+  },
+  {
+    "id": "LIGHTNING",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_electricity", "intensity_min": 2, "intensity_max": 3 }
+  },
+  {
+    "id": "LASER",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_laser", "intensity_min": 2, "intensity_max": 2 }
+  },
+  {
+    "id": "DRAW_LASER_BEAM",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_laser", "intensity_min": 2, "intensity_max": 2 }
+  }
+]

@@ -8,8 +8,16 @@
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
 
+struct ammo_effect;
+using ammo_effect_id = int_id<ammo_effect>;
+using ammo_effect_str_id = string_id<ammo_effect>;
+
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
+
+struct body_part_type;
+using bodypart_id = int_id<body_part_type>;
+using bodypart_str_id = string_id<body_part_type>;
 
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
@@ -148,5 +156,12 @@ using vproto_id = string_id<vehicle_prototype>;
 
 class zone_type;
 using zone_type_id = string_id<zone_type>;
+
+class translation;
+using snippet_id = string_id<translation>;
+
+struct construction;
+using construction_id = int_id<construction>;
+using construction_str_id = string_id<construction>;
 
 #endif // TYPE_ID_H

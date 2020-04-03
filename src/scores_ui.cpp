@@ -6,6 +6,7 @@
 #include "output.h"
 #include "event_statistics.h"
 #include "stats_tracker.h"
+#include "ui_manager.h"
 
 static std::string get_scores_text( stats_tracker &stats )
 {
@@ -43,6 +44,9 @@ void show_scores_ui( stats_tracker &stats, const kill_tracker &kills )
                                 point( getbegx( w ), getbegy( w ) + 3 ) );
     scrolling_text_view view( w_view );
     bool new_tab = true;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     while( true ) {
         werase( w );

@@ -32,6 +32,10 @@ int dice( int number, int sides );
 
 // Returns x + x_in_y( x-int(x), 1 )
 int roll_remainder( double value );
+inline int roll_remainder( float value )
+{
+    return roll_remainder( static_cast<double>( value ) );
+}
 
 int djb2_hash( const unsigned char *input );
 

@@ -1,0 +1,53 @@
+[
+  {
+    "id": "rifle_ball",
+    "type": "AMMO",
+    "copy-from": "762_51",
+    "name": { "str": "rifle ammo, ball", "str_pl": "rifle ammo, ball" },
+    "ammo_type": "ammo_rifle",
+    "casing": "rifle_casing",
+    "description": "Modern rifle ammunition, ubiquitous and affordable.  It's suitable for international conflicts, hunting small to large game, home defense, and these days, zombies.  'Ball' is an old term for full metal jacketed bullets which offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead."
+  },
+  {
+    "id": "rifle_AP",
+    "type": "AMMO",
+    "copy-from": "rifle_ball",
+    "name": { "str": "rifle ammo, AP", "str_pl": "rifle ammo, AP" },
+    "description": "Modern rifle ammunition, ubiquitous and affordable.  It's suitable for international conflicts, hunting small to large game, home defense, and these days, zombies.  This 'armor piercing' variant features a mild steel penetrator for environmental friendliness, improved barrier penetration, and enhanced effect on armor.",
+    "relative": { "damage": -2, "pierce": 4 }
+  },
+  {
+    "id": "reloaded_rifle_ball",
+    "type": "AMMO",
+    "copy-from": "rifle_ball",
+    "name": { "str": "rifle ammo, ball (reloaded)", "str_pl": "rifle ammo, ball (reloaded)" },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] }
+  },
+  {
+    "id": "reloaded_rifle_AP",
+    "type": "AMMO",
+    "copy-from": "rifle_AP",
+    "name": { "str": "rifle ammo, AP (reloaded)", "str_pl": "rifle ammo, AP (reloaded)" },
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] }
+  },
+  {
+    "id": "bp_rifle_ball",
+    "copy-from": "rifle_ball",
+    "type": "AMMO",
+    "name": { "str": "rifle ammo, ball (black powder)", "str_pl": "rifle ammo, ball (black powder)" },
+    "proportional": { "price": 0.3, "damage": 0.57, "recoil": 0.57, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_rifle_AP",
+    "copy-from": "rifle_AP",
+    "type": "AMMO",
+    "name": { "str": "rifle ammo, AP (black powder)", "str_pl": "rifle ammo, AP (black powder)" },
+    "proportional": { "price": 0.3, "damage": 0.57, "recoil": 0.57, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

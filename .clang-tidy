@@ -16,6 +16,8 @@ cppcoreguidelines-slicing,\
 llvm-namespace-comment,\
 misc-*,\
 modernize-*,\
+-modernize-use-auto,\
+-modernize-use-trailing-return-type,\
 performance-*,\
 readability-*,\
 -bugprone-misplaced-widening-cast,\
@@ -29,10 +31,8 @@ readability-*,\
 -cert-msc51-cpp,\
 -misc-non-private-member-variables-in-classes,\
 -modernize-avoid-c-arrays,\
--modernize-deprecated-headers,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\
--modernize-use-auto,\
 -modernize-use-default-member-init,\
 -modernize-use-emplace,\
 -modernize-use-transparent-functors,\

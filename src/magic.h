@@ -2,7 +2,7 @@
 #ifndef MAGIC_H
 #define MAGIC_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <set>
 #include <string>
@@ -35,6 +35,7 @@ template <typename E> struct enum_traits;
 enum spell_flag {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
     IGNORE_WALLS, // spell's aoe goes through walls
+    SWAP_POS, // a projectile spell swaps the positions of the caster and target
     HOSTILE_SUMMON, // summon spell always spawns a hostile monster
     HOSTILE_50, // summoned monster spawns friendly 50% of the time
     SILENT, // spell makes no noise at target
@@ -92,16 +93,23 @@ struct fake_spell {
     // if null pointer, spell can be up to its own max level
     cata::optional<int> max_level;
     // level for things that need it
-    int level;
+    int level = 0;
     // target tripoint is source (true) or target (false)
-    bool self;
+    bool self = false;
+    // a chance to trigger the enchantment spells
+    int trigger_once_in = 1;
+    // a message when the enchantment is triggered
+    translation trigger_message;
+    // a message when the enchantment is triggered and is on npc
+    translation npc_trigger_message;
 
     fake_spell() = default;
     fake_spell( const spell_id &sp_id, bool hit_self = false,
                 const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
 
-    spell get_spell( int input_level ) const;
+    // gets the spell with an additional override for minimum level (default 0)
+    spell get_spell( int min_level_override = 0 ) const;
 
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
@@ -131,8 +139,9 @@ class spell_type
         translation message;
         // spell sound effect
         translation sound_description;
-        sounds::sound_t sound_type;
-        bool sound_ambient;
+        skill_id skill;
+        sounds::sound_t sound_type = sounds::sound_t::_LAST;
+        bool sound_ambient = false;
         std::string sound_id;
         std::string sound_variant;
         // spell effect string. used to look up spell function
@@ -146,104 +155,106 @@ class spell_type
         // if the spell has a field name defined, this is where it is
         cata::optional<field_type_id> field;
         // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
-        int field_chance;
+        int field_chance = 0;
         // field intensity at spell level 0
-        int min_field_intensity;
+        int min_field_intensity = 0;
         // increment of field intensity per level
-        float field_intensity_increment;
+        float field_intensity_increment = 0.0f;
         // maximum field intensity allowed
-        int max_field_intensity;
+        int max_field_intensity = 0;
         // field intensity added to the map is +- ( 1 + field_intensity_variance ) * field_intensity
-        float field_intensity_variance;
+        float field_intensity_variance = 0.0f;
 
         // minimum damage this spell can cause
-        int min_damage;
+        int min_damage = 0;
         // amount of damage increase per spell level
-        float damage_increment;
+        float damage_increment = 0.0f;
         // maximum damage this spell can cause
-        int max_damage;
+        int max_damage = 0;
 
         // minimum range of a spell
-        int min_range;
+        int min_range = 0;
         // amount of range increase per spell level
-        float range_increment;
+        float range_increment = 0.0f;
         // max range this spell can achieve
-        int max_range;
+        int max_range = 0;
 
         // minimum area of effect of a spell (radius)
         // 0 means the spell only affects the target
-        int min_aoe;
+        int min_aoe = 0;
         // amount of area of effect increase per spell level (radius)
-        float aoe_increment;
+        float aoe_increment = 0.0f;
         // max area of effect of a spell (radius)
-        int max_aoe;
+        int max_aoe = 0;
 
         // damage over time deals damage per turn
 
         // minimum damage over time
-        int min_dot;
+        int min_dot = 0;
         // increment per spell level
-        float dot_increment;
+        float dot_increment = 0.0f;
         // max damage over time
-        int max_dot;
+        int max_dot = 0;
 
         // amount of time effect lasts
 
         // minimum time for effect in moves
-        int min_duration;
+        int min_duration = 0;
         // increment per spell level in moves
         // DoT is per turn, but increments can be smaller
-        int duration_increment;
+        int duration_increment = 0;
         // max time for effect in moves
-        int max_duration;
+        int max_duration = 0;
 
         // amount of damage that is piercing damage
         // not added to damage stat
 
         // minimum pierce damage
-        int min_pierce;
+        int min_pierce = 0;
         // increment of pierce damage per spell level
-        float pierce_increment;
+        float pierce_increment = 0;
         // max pierce damage
-        int max_pierce;
+        int max_pierce = 0;
 
         // base energy cost of spell
-        int base_energy_cost;
+        int base_energy_cost = 0;
         // increment of energy cost per spell level
-        float energy_increment;
+        float energy_increment = 0.0f;
         // max or min energy cost, based on sign of energy_increment
-        int final_energy_cost;
+        int final_energy_cost = 0.0f;
 
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
         trait_id spell_class;
 
         // the difficulty of casting a spell
-        int difficulty;
+        int difficulty = 0;
 
         // max level this spell can achieve
-        int max_level;
+        int max_level = 0;
 
         // base amount of time to cast the spell in moves
-        int base_casting_time;
+        int base_casting_time = 0;
         // increment of casting time per level
-        float casting_time_increment;
+        float casting_time_increment = 0.0f;
         // max or min casting time
-        int final_casting_time;
+        int final_casting_time = 0;
 
         // Does leveling this spell lead to learning another spell?
         std::map<std::string, int> learn_spells;
 
         // what energy do you use to cast this spell
-        energy_type energy_source;
+        energy_type energy_source = energy_type::none_energy;
 
-        damage_type dmg_type;
+        damage_type dmg_type = damage_type::DT_NULL;
 
         // list of valid targets to be affected by the area of effect.
         enum_bitset<valid_target> effect_targets;
 
         // list of valid targets enum
         enum_bitset<valid_target> valid_targets;
+
+        std::set<mtype_id> targeted_monster_ids;
 
         // lits of bodyparts this spell applies its effect to
         enum_bitset<body_part> affected_bps;
@@ -269,7 +280,7 @@ class spell
         spell_id type;
 
         // once you accumulate enough exp you level the spell
-        int experience;
+        int experience = 0;
         // returns damage type for the spell
         damage_type dmg_type() const;
 
@@ -286,7 +297,9 @@ class spell
     public:
         spell() = default;
         spell( spell_id sp, int xp = 0 );
-        spell( spell_id sp, translation alt_msg );
+
+        // sets the message to be different than the spell_type specifies
+        void set_message( const translation &msg );
 
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
@@ -349,6 +362,8 @@ class spell
         spell_id id() const;
         // get spell class (from type)
         trait_id spell_class() const;
+        // get skill id
+        skill_id skill() const;
         // get spell effect string (from type)
         std::string effect() const;
         // get spell effect_str data
@@ -367,6 +382,9 @@ class spell
         std::string energy_cur_string( const player &p ) const;
         // prints out a list of valid targets separated by commas
         std::string enumerate_targets() const;
+        // returns the name string of all list of all targeted monster id
+        //if targeted_monster_ids is empty, it returns an empty string
+        std::string list_targeted_monster_names() const;
 
         std::string damage_string() const;
         std::string aoe_string() const;
@@ -396,13 +414,18 @@ class spell
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
 
+        // checks if a target point is in spell range
+        bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
+
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
         bool is_valid_effect_target( valid_target t ) const;
+        bool target_by_monster_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
-        tripoint random_valid_target( const Creature &caster, const tripoint &caster_pos ) const;
+        cata::optional<tripoint> random_valid_target( const Creature &caster,
+                const tripoint &caster_pos ) const;
 };
 
 class known_magic
@@ -413,9 +436,9 @@ class known_magic
         // invlets assigned to spell_id
         std::map<spell_id, int> invlets;
         // the base mana a player would start with
-        int mana_base;
+        int mana_base = 0;
         // current mana
-        int mana;
+        int mana = 0;
     public:
         // ignores all distractions when casting a spell when true
         bool casting_ignore = false;

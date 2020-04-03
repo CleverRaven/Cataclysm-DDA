@@ -7,6 +7,7 @@
   },
   {
     "id": "EFFECT_INVISIBLE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
@@ -70,6 +71,7 @@
   },
   {
     "id": "EFFECT_NIGHT_VISION",
+    "context": [  ],
     "type": "json_flag"
   },
   {
@@ -144,6 +146,7 @@
   {
     "id": "ETHEREAL_ITEM",
     "type": "json_flag",
+    "context": [  ],
     "info": "This item disappears as soon as its timer runs out whether it is food or not."
   },
   {
@@ -387,6 +390,12 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Prevents the item from participating in the encumbrance system when worn.",
     "info": "It seems <info>partially intangible</info>, and can occupy the same space as other things when worn."
+  },
+  {
+    "id": "SHEATH_AXE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "//": "This item can be stored in a sheath of the appropriate size."
   },
   {
     "id": "SHEATH_KNIFE",
@@ -634,7 +643,7 @@
     "id": "VERBAL",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "//": "The caster must speak in order to cast the spell.  More mouth encumbrannce increases failure percent, and the caster speaks when casting."
+    "//": "The caster must speak in order to cast the spell.  More mouth encumbrance increases failure percent, and the caster speaks when casting."
   },
   {
     "id": "SOMATIC",
@@ -680,38 +689,47 @@
   },
   {
     "id": "EFFECT_FEATHER_FALL",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_BIO_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_BASH_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_CUT_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_ACID_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_STAB_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_HEAT_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "EFFECT_COLD_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {
     "id": "ELECTRIC_IMMUNE",
+    "context": [  ],
     "type": "json_flag"
   },
   {

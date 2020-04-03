@@ -195,11 +195,10 @@ void start_location::prepare_map( tinymap &m ) const
 
 tripoint start_location::find_player_initial_location() const
 {
-    popup_nowait( _( "Please wait as we build your world" ) );
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 3;
-    for( const point &omp : closest_points_first( radius, point_zero ) ) {
+    for( const point &omp : closest_points_first( point_zero, radius ) ) {
         overmap &omap = overmap_buffer.get( omp );
         const tripoint omtstart = omap.find_random_omt( target() );
         if( omtstart != overmap::invalid_tripoint ) {

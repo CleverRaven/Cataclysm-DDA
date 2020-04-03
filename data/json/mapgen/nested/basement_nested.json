@@ -1,0 +1,308 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of art.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "items": { "x": { "item": "art", "chance": 90, "repeat": [ 0, 3 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of hardware.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": [ "f_crate_c", "f_cardboard_box" ] },
+      "items": { "x": { "item": "mischw", "chance": 90, "repeat": [ 0, 3 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of bedding.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "items": { "x": { "item": "bed", "chance": 90, "repeat": [ 0, 8 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of winter clothing.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "items": { "x": { "item": "clothing_outdoor_set", "chance": 90, "repeat": [ 0, 3 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of work clothing.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "items": {
+        "x": [
+          { "item": "hardware_clothing", "chance": 90, "repeat": [ 0, 3 ] },
+          { "item": "plumbing_clothing", "chance": 50, "repeat": [ 0, 3 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of old clothing.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "items": { "x": { "item": "donated_clothes", "chance": 90, "repeat": [ 0, 3 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "for dispersed scattering around a basement. This is a box of toys.",
+    "nested_mapgen_id": "basement_storage_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "items": { "x": { "item": "crate_toys", "chance": 90, "repeat": [ 0, 3 ] } }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "basement_utility_nest_palette",
+    "terrain": { " ": "t_null", ".": "t_thconc_floor", "g": "t_thconc_floor", "f": "t_thconc_floor" },
+    "furniture": { "g": "f_water_heater", "f": "f_home_furnace", "a": [ "f_air_conditioner", "f_null", "f_counter" ] },
+    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "utility_3x3_N",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "gfa",
+        "...",
+        "   "
+      ],
+      "palettes": [ "basement_utility_nest_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "utility_3x3_S",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   ",
+        "...",
+        "gfa"
+      ],
+      "palettes": [ "basement_utility_nest_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "utility_3x3_W",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "a. ",
+        "f. ",
+        "g. "
+      ],
+      "palettes": [ "basement_utility_nest_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "utility_3x3_e",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " .a",
+        " .f",
+        " .g"
+      ],
+      "palettes": [ "basement_utility_nest_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "recroom_12x12",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "............",
+        "....ElHHHl..",
+        "..........T.",
+        "..........ER",
+        "...eee.....R",
+        "...eee.....R",
+        "...eee......",
+        "...eee.....$",
+        "........AC..",
+        "........AC..",
+        "........AC..",
+        "MMM......CS!"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "terrain": {
+        ".": "t_carpet_purple",
+        "e": "t_carpet_purple",
+        "R": "t_carpet_purple",
+        "E": "t_carpet_purple",
+        "l": "t_carpet_purple",
+        "H": "t_carpet_purple",
+        "T": "t_carpet_purple",
+        "A": "t_carpet_purple",
+        "C": "t_carpet_purple",
+        "S": "t_carpet_purple",
+        "!": "t_carpet_purple",
+        "$": "t_carpet_purple"
+      },
+      "furniture": { "!": "f_fridge", "$": "f_rack_wood" },
+      "items": {
+        "!": { "item": "wetbar_fridge", "chance": 100, "repeat": [ 1, 10 ] },
+        "e": { "item": "pool_table", "chance": 5 },
+        "C": [ { "item": "wetbar_stack", "chance": 25 }, { "item": "wetbar_counter", "chance": 25 } ],
+        "M": [ { "item": "antique", "chance": 65 }, { "item": "antique_rare", "chance": 1 } ],
+        "$": { "item": "pool_table", "chance": 100, "repeat": [ 1, 6 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "tvroom_12x12",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "............",
+        ".,,,,,,,,,..",
+        ".,,,,,,,,,!.",
+        ".,,,,,,,,,!.",
+        ".,,,,,,,,,!.",
+        ".,,,,,,,,,..",
+        "..HHHHHHH...",
+        "..H........T",
+        "....lll....E",
+        "............",
+        ".....$......",
+        "............"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "terrain": {
+        ".": "t_carpet_yellow",
+        ",": "t_carpet_yellow",
+        "H": "t_carpet_yellow",
+        "l": "t_carpet_yellow",
+        "T": "t_carpet_yellow",
+        "E": "t_carpet_yellow",
+        "$": "t_carpet_yellow",
+        "!": "t_carpet_yellow"
+      },
+      "furniture": { "!": "f_rack_wood", "$": "f_rack_wood" },
+      "items": {
+        "!": { "item": "toy_box", "chance": 80, "repeat": [ 1, 10 ] },
+        ".": [
+          { "item": "toy_box", "chance": 5 },
+          { "item": "trash", "chance": 1 },
+          { "item": "bed", "chance": 1 },
+          { "item": "candy_chocolate", "chance": 2 }
+        ],
+        "$": { "item": "a_television", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "workoutroom_12x12",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "............",
+        "..,,,,,,,,..",
+        "..,X,,,,X,..",
+        "..,,,,,,,,..",
+        "..,,,,,,,,..",
+        "..,cc,,uu,..",
+        "..,,,,,,,,..",
+        "............",
+        ".........AA.",
+        ".......CCCC.",
+        ".......S....",
+        ".......!...$"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "terrain": {
+        ".": "t_carpet_red",
+        "A": "t_carpet_red",
+        "C": "t_carpet_red",
+        "S": "t_carpet_red",
+        "!": "t_carpet_red",
+        "$": "t_carpet_red",
+        ",": "t_linoleum_white",
+        "c": "t_linoleum_white",
+        "u": "t_linoleum_white",
+        "X": "t_linoleum_white"
+      },
+      "furniture": { "!": "f_fridge", "$": "f_rack_wood" },
+      "items": { "!": { "item": "produce", "chance": 80, "repeat": [ 2, 8 ] }, "$": { "item": "a_television", "chance": 100 } }
+    }
+  }
+]

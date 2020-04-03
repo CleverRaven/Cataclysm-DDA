@@ -25,6 +25,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -62,6 +63,14 @@
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
+
+static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
+static const activity_id ACT_DROP( "ACT_DROP" );
+static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
+static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+static const activity_id ACT_WEAR( "ACT_WEAR" );
+
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 
 void create_advanced_inv()
 {
@@ -108,23 +117,23 @@ advanced_inventory::advanced_inventory()
     }
 } )
 {
+    save_state = &uistate.transfer_save;
 }
 // *INDENT-ON*
 
 advanced_inventory::~advanced_inventory()
 {
     save_settings( false );
-    auto &aim_code = uistate.adv_inv_exit_code;
-    if( aim_code != exit_re_entry ) {
-        aim_code = exit_okay;
+    if( save_state->exit_code != exit_re_entry ) {
+        save_state->exit_code = exit_okay;
     }
     // Only refresh if we exited manually, otherwise we're going to be right back
     if( exit ) {
         werase( head );
         werase( minimap );
         werase( mm_border );
-        werase( left_window );
-        werase( right_window );
+        werase( panes[left].window );
+        werase( panes[right].window );
         g->refresh_all();
         g->u.check_item_encumbrance_flag();
     }
@@ -133,43 +142,19 @@ advanced_inventory::~advanced_inventory()
 void advanced_inventory::save_settings( bool only_panes )
 {
     if( !only_panes ) {
-        uistate.adv_inv_last_coords = g->u.pos();
-        uistate.adv_inv_src = src;
-        uistate.adv_inv_dest = dest;
+        save_state->active_left = ( src == left );
     }
     for( int i = 0; i < NUM_PANES; ++i ) {
-        uistate.adv_inv_in_vehicle[i] = panes[i].in_vehicle();
-        uistate.adv_inv_area[i] = panes[i].get_area();
-        uistate.adv_inv_index[i] = panes[i].index;
-        uistate.adv_inv_filter[i] = panes[i].filter;
+        panes[i].save_settings();
     }
 }
 
 void advanced_inventory::load_settings()
 {
-    aim_exit aim_code = static_cast<aim_exit>( uistate.adv_inv_exit_code );
-    for( int i = 0; i < NUM_PANES; ++i ) {
-        aim_location location;
-        if( get_option<bool>( "OPEN_DEFAULT_ADV_INV" ) ) {
-            location = static_cast<aim_location>( uistate.adv_inv_default_areas[i] );
-        } else {
-            location = static_cast<aim_location>( uistate.adv_inv_area[i] );
-        }
-        auto square = squares[location];
-        // determine the square's vehicle/map item presence
-        bool has_veh_items = square.can_store_in_vehicle() ?
-                             !square.veh->get_items( square.vstor ).empty() : false;
-        bool has_map_items = !g->m.i_at( square.pos ).empty();
-        // determine based on map items and settings to show cargo
-        bool show_vehicle = aim_code == exit_re_entry ?
-                            uistate.adv_inv_in_vehicle[i] : has_veh_items ? true :
-                            has_map_items ? false : square.can_store_in_vehicle();
-        panes[i].set_area( square, show_vehicle );
-        panes[i].sortby = static_cast<advanced_inv_sortby>( uistate.adv_inv_sort[i] );
-        panes[i].index = uistate.adv_inv_index[i];
-        panes[i].filter = uistate.adv_inv_filter[i];
-    }
-    uistate.adv_inv_exit_code = exit_none;
+    aim_exit aim_code = static_cast<aim_exit>( save_state->exit_code );
+    panes[left].load_settings( save_state->saved_area, squares, aim_code == exit_re_entry );
+    panes[right].load_settings( save_state->saved_area_right, squares, aim_code == exit_re_entry );
+    save_state->exit_code = exit_none;
 }
 
 std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
@@ -230,10 +215,13 @@ void advanced_inventory::init()
         square.init();
     }
 
+    panes[left].save_state = &save_state->pane;
+    panes[right].save_state = &save_state->pane_right;
+
     load_settings();
 
-    src = static_cast<side>( uistate.adv_inv_src );
-    dest = static_cast<side>( uistate.adv_inv_dest );
+    src = ( save_state->active_left ) ? left : right;
+    dest = ( save_state->active_left ) ? right : left;
 
     w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
     w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
@@ -248,19 +236,16 @@ void advanced_inventory::init()
                                     point( colstart + ( w_width - ( minimap_width + 2 ) ), headstart ) );
     minimap = catacurses::newwin( minimap_height, minimap_width,
                                   point( colstart + ( w_width - ( minimap_width + 1 ) ), headstart + 1 ) );
-    left_window = catacurses::newwin( w_height, w_width / 2, point( colstart,
-                                      headstart + head_height ) );
-    right_window = catacurses::newwin( w_height, w_width / 2, point( colstart + w_width / 2,
-                                       headstart + head_height ) );
+    panes[left].window = catacurses::newwin( w_height, w_width / 2, point( colstart,
+                         headstart + head_height ) );
+    panes[right].window = catacurses::newwin( w_height, w_width / 2, point( colstart + w_width / 2,
+                          headstart + head_height ) );
 
     // 2 for the borders, 5 for the header stuff
     itemsPerPage = w_height - 2 - 5;
-
-    panes[left].window = left_window;
-    panes[right].window = right_window;
 }
 
-void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active )
+void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool active )
 {
     const auto &items = pane.items;
     const catacurses::window &window = pane.window;
@@ -670,6 +655,8 @@ void advanced_inventory::recalc_pane( side p )
 
 void advanced_inventory::redraw_pane( side p )
 {
+    input_context ctxt( "ADVANCED_INVENTORY" );
+
     // don't update ui if processing demands
     if( is_processing() ) {
         return;
@@ -719,7 +706,8 @@ void advanced_inventory::redraw_pane( side p )
     }
     // draw a darker border around the inactive pane
     draw_border( w, active ? BORDER_COLOR : c_dark_gray );
-    mvwprintw( w, point( 3, 0 ), _( "< [s]ort: %s >" ), get_sortname( pane.sortby ) );
+    mvwprintw( w, point( 3, 0 ), _( "< [%s] Sort: %s >" ), ctxt.get_desc( "SORT" ),
+               get_sortname( pane.sortby ) );
     int max = square.max_size;
     if( max > 0 ) {
         int itemcount = square.get_item_count();
@@ -728,8 +716,8 @@ void advanced_inventory::redraw_pane( side p )
         mvwprintw( w, point( w_width / 2 - fmtw, 0 ), "< %d/%d >", itemcount, max );
     }
 
-    const char *fprefix = _( "[F]ilter" );
-    const char *fsuffix = _( "[R]eset" );
+    std::string fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
+    std::string fsuffix = string_format( _( "[%s] Reset" ), ctxt.get_desc( "RESET_FILTER" ) );
     if( !filter_edit ) {
         if( !pane.filter.empty() ) {
             mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
@@ -759,8 +747,8 @@ enum aim_entry {
 
 bool advanced_inventory::move_all_items( bool nested_call )
 {
-    auto &spane = panes[src];
-    auto &dpane = panes[dest];
+    advanced_inventory_pane &spane = panes[src];
+    advanced_inventory_pane &dpane = panes[dest];
 
     // AIM_ALL source area routine
     if( spane.get_area() == AIM_ALL ) {
@@ -775,8 +763,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
             return false;
         }
 
-        auto &sarea = squares[spane.get_area()];
-        auto &darea = squares[dpane.get_area()];
+        advanced_inv_area &sarea = squares[spane.get_area()];
+        advanced_inv_area &darea = squares[dpane.get_area()];
 
         // Check first if the destination area still have enough room for moving all.
         if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
@@ -787,12 +775,12 @@ bool advanced_inventory::move_all_items( bool nested_call )
         // make sure that there are items to be moved
         bool done = false;
         // copy the current pane, to be restored after the move is queued
-        auto shadow = panes[src];
+        advanced_inventory_pane shadow = panes[src];
         // here we recursively call this function with each area in order to
         // put all items in the proper destination area, with minimal fuss
-        auto &loc = uistate.adv_inv_aim_all_location;
+        int &loc = save_state->aim_all_location;
         // re-entry nonsense
-        auto &entry = uistate.adv_inv_re_enter_move_all;
+        int &entry = save_state->re_enter_move_all;
         // if we are just starting out, set entry to initial value
         switch( static_cast<aim_entry>( entry++ ) ) {
             case ENTRY_START:
@@ -839,7 +827,15 @@ bool advanced_inventory::move_all_items( bool nested_call )
     }
 
     // Check some preconditions to quickly leave the function.
-    if( spane.items.empty() ) {
+    size_t liquid_items = 0;
+    for( const advanced_inv_listitem elem : spane.items ) {
+        for( const item *elemit : elem.items ) {
+            if( elemit->made_of_from_type( LIQUID ) && !elemit->is_frozen_liquid() ) {
+                liquid_items++;
+            }
+        }
+    }
+    if( spane.items.empty() || liquid_items == spane.items.size() ) {
         return false;
     }
     bool restore_area = false;
@@ -855,8 +851,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
         popup( _( "You can't put items there!" ) );
         return false;
     }
-    auto &sarea = squares[spane.get_area()];
-    auto &darea = squares[dpane.get_area()];
+    advanced_inv_area &sarea = squares[spane.get_area()];
+    advanced_inv_area &darea = squares[dpane.get_area()];
 
     // Make sure source and destination are different, otherwise items will disappear
     // Need to check actual position to account for dragged vehicles
@@ -882,31 +878,43 @@ bool advanced_inventory::move_all_items( bool nested_call )
     }
 
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
-        std::list<std::pair<int, int>> dropped;
+        drop_locations dropped;
         // keep a list of favorites separated, only drop non-fav first if they exist
-        std::list<std::pair<int, int>> dropped_favorite;
+        drop_locations dropped_favorite;
 
         if( spane.get_area() == AIM_INVENTORY ) {
             for( size_t index = 0; index < g->u.inv.size(); ++index ) {
-                const auto &stack = g->u.inv.const_stack( index );
-                const auto &it = stack.front();
+                const std::list<item> &stack = g->u.inv.const_stack( index );
+                const item &it = stack.front();
+                item_location indexed_item( g->u, const_cast<item *>( &it ) );
 
                 if( !spane.is_filtered( it ) ) {
-                    ( it.is_favorite ? dropped_favorite : dropped ).emplace_back( static_cast<int>( index ),
-                            it.count_by_charges() ? static_cast<int>( it.charges ) : static_cast<int>( stack.size() ) );
+                    int count;
+                    if( it.count_by_charges() )                         {
+                        count = it.charges;
+                    } else {
+                        count = stack.size();
+                    }
+                    if( it.is_favorite ) {
+                        dropped_favorite.emplace_back( indexed_item, count );
+                    } else {
+                        dropped.emplace_back( indexed_item, count );
+                    }
                 }
             }
         } else if( spane.get_area() == AIM_WORN ) {
             // do this in reverse, to account for vector item removal messing with future indices
             auto iter = g->u.worn.rbegin();
             for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
-                const size_t index = g->u.worn.size() - idx - 1;
-                const auto &it = *iter;
+                item &it = *iter;
 
                 if( !spane.is_filtered( it ) ) {
-                    ( it.is_favorite ? dropped_favorite : dropped ).emplace_back( player::worn_position_to_index(
-                                index ),
-                            it.count() );
+                    item_location loc( g->u, &it );
+                    if( it.is_favorite ) {
+                        dropped_favorite.emplace_back( loc, it.count() );
+                    } else {
+                        dropped.emplace_back( loc, it.count() );
+                    }
                 }
             }
         }
@@ -920,7 +928,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
         g->u.drop( dropped, g->u.pos() + darea.off );
     } else {
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
-            g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+            g->u.assign_activity( ACT_PICKUP );
             g->u.activity.coords.push_back( g->u.pos() );
         } else {
             // Vehicle and map destinations are handled the same.
@@ -930,7 +938,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 return false;
             }
 
-            g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+            g->u.assign_activity( ACT_MOVE_ITEMS );
             // store whether the destination is a vehicle
             g->u.activity.values.push_back( dpane.in_vehicle() );
             // Stash the destination
@@ -1059,6 +1067,9 @@ void advanced_inventory::display()
     recalc = true;
     redraw = true;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( !exit ) {
         if( g->u.moves < 0 ) {
             do_return_entry();
@@ -1077,9 +1088,9 @@ void advanced_inventory::display()
             draw_border( head );
             Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
             draw_minimap();
-            const std::string msg = _( "< [?] show help >" );
-            mvwprintz( head, point( w_width - ( minimap_width + 2 ) - utf8_width( msg ) - 1, 0 ),
-                       c_white, msg );
+            right_print( head, 0, +3, c_white, string_format(
+                             _( "< [<color_yellow>%s</color>] keybindings >" ),
+                             ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
             if( g->u.has_watch() ) {
                 const std::string time = to_string_time_of_day( calendar::turn );
                 mvwprintz( head, point( 2, 0 ), c_white, time );
@@ -1108,7 +1119,8 @@ void advanced_inventory::display()
                      left, right
                  } ) {
                 auto &pane = panes[cside];
-                aim_location location = static_cast<aim_location>( uistate.adv_inv_default_areas[cside] );
+                int i_location = cside == left ? save_state->saved_area : save_state->saved_area_right;
+                aim_location location = static_cast<aim_location>( i_location );
                 if( pane.get_area() != location || location == AIM_ALL ) {
                     pane.recalc = true;
                 }
@@ -1116,8 +1128,8 @@ void advanced_inventory::display()
             }
             redraw = true;
         } else if( action == "SAVE_DEFAULT" ) {
-            uistate.adv_inv_default_areas[left] = panes[left].get_area();
-            uistate.adv_inv_default_areas[right] = panes[right].get_area();
+            save_state->saved_area = panes[left].get_area();
+            save_state->saved_area_right = panes[right].get_area();
             popup( _( "Default layout was saved." ) );
             redraw = true;
         } else if( get_square( action, changeSquare ) ) {
@@ -1231,7 +1243,7 @@ void advanced_inventory::display()
                 // make sure advanced inventory is reopened after activity completion.
                 do_return_entry();
 
-                g->u.assign_activity( activity_id( "ACT_WEAR" ) );
+                g->u.assign_activity( ACT_WEAR );
 
                 g->u.activity.targets.emplace_back( g->u, sitem->items.front() );
                 g->u.activity.values.push_back( amount_to_move );
@@ -1256,7 +1268,7 @@ void advanced_inventory::display()
                 } else {
                     // important if item is worn
                     if( g->u.can_unwield( g->u.i_at( idx ) ).success() ) {
-                        g->u.assign_activity( activity_id( "ACT_DROP" ) );
+                        g->u.assign_activity( ACT_DROP );
                         g->u.activity.placement = squares[destarea].off;
 
                         // incase there is vehicle cargo space at dest but the player wants to drop to ground
@@ -1264,7 +1276,7 @@ void advanced_inventory::display()
                             g->u.activity.str_values.push_back( "force_ground" );
                         }
 
-                        g->u.activity.values.push_back( idx );
+                        g->u.activity.targets.push_back( item_location( g->u, &g->u.i_at( idx ) ) );
                         g->u.activity.values.push_back( amount_to_move );
 
                         // exit so that the activity can be carried out
@@ -1277,13 +1289,13 @@ void advanced_inventory::display()
                 do_return_entry();
 
                 if( destarea == AIM_INVENTORY ) {
-                    g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+                    g->u.assign_activity( ACT_PICKUP );
                     g->u.activity.coords.push_back( g->u.pos() );
                 } else if( destarea == AIM_WORN ) {
-                    g->u.assign_activity( activity_id( "ACT_WEAR" ) );
+                    g->u.assign_activity( ACT_WEAR );
                 } else {
                     // Vehicle and map destinations are handled similarly.
-                    g->u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
+                    g->u.assign_activity( ACT_MOVE_ITEMS );
                     // store whether the destination is a vehicle
                     g->u.activity.values.push_back( to_vehicle );
                     // Stash the destination
@@ -1326,7 +1338,6 @@ void advanced_inventory::display()
         } else if( action == "SORT" ) {
             if( show_sort_menu( spane ) ) {
                 recalc = true;
-                uistate.adv_inv_sort[src] = spane.sortby;
             }
             redraw = true;
         } else if( action == "FILTER" ) {
@@ -1381,6 +1392,7 @@ void advanced_inventory::display()
             if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
                 int idx = spane.get_area() == AIM_INVENTORY ? sitem->idx :
                           player::worn_position_to_index( sitem->idx );
+                item_location loc( g->u, &g->u.i_at( idx ) );
                 // Setup a "return to AIM" activity. If examining the item creates a new activity
                 // (e.g. reading, reloading, activating), the new activity will be put on top of
                 // "return to AIM". Once the new activity is finished, "return to AIM" comes back
@@ -1388,10 +1400,10 @@ void advanced_inventory::display()
                 // If examining the item did not create a new activity, we have to remove
                 // "return to AIM".
                 do_return_entry();
-                assert( g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) );
-                ret = g->inventory_item_menu( idx, info_startx, info_width,
+                assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
+                ret = g->inventory_item_menu( loc, info_startx, info_width,
                                               src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
-                if( !g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) ) {
+                if( !g->u.has_activity( ACT_ADV_INVENTORY ) ) {
                     exit = true;
                 } else {
                     g->u.cancel_activity();
@@ -1408,6 +1420,7 @@ void advanced_inventory::display()
                 it.info( true, vThisItem );
 
                 item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
+                data.handle_scrolling = true;
 
                 ret = draw_item_info( info_startx, info_width, 0, 0, data ).get_first_input();
             }
@@ -1547,7 +1560,7 @@ bool advanced_inventory::query_destination( aim_location &def )
         }
     }
     // Selected keyed to uilist.entries, which starts at 0.
-    menu.selected = uistate.adv_inv_last_popup_dest - AIM_SOUTHWEST;
+    menu.selected = save_state->last_popup_dest - AIM_SOUTHWEST;
     // generate and show window.
     menu.show();
     // query, but don't loop
@@ -1562,7 +1575,7 @@ bool advanced_inventory::query_destination( aim_location &def )
         // we have to set the destination pane so that move actions will target it
         // we can use restore_area later to undo this
         panes[dest].set_area( squares[def], true );
-        uistate.adv_inv_last_popup_dest = menu.ret;
+        save_state->last_popup_dest = menu.ret;
         return true;
     }
     return false;
@@ -1668,7 +1681,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
         const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
-        const units::mass max_weight = g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
+        const units::mass max_weight = g->u.has_trait( trait_DEBUG_STORAGE ) ?
                                        units::mass_max : g->u.weight_capacity() * 4 - g->u.weight_carried();
         if( unitweight > 0_gram && unitweight * amount > max_weight ) {
             const int weightmax = max_weight / unitweight;
@@ -1811,6 +1824,8 @@ void advanced_inventory::swap_panes()
 {
     // Switch left and right pane.
     std::swap( panes[left], panes[right] );
+    // Switch save states
+    std::swap( panes[left].save_state, panes[right].save_state );
     // Window pointer must be unchanged!
     std::swap( panes[left].window, panes[right].window );
     // Recalculation required for weight & volume
@@ -1822,17 +1837,17 @@ void advanced_inventory::do_return_entry()
 {
     // only save pane settings
     save_settings( true );
-    g->u.assign_activity( activity_id( "ACT_ADV_INVENTORY" ) );
+    g->u.assign_activity( ACT_ADV_INVENTORY );
     g->u.activity.auto_resume = true;
-    uistate.adv_inv_exit_code = exit_re_entry;
+    save_state->exit_code = exit_re_entry;
 }
 
 bool advanced_inventory::is_processing() const
 {
-    return uistate.adv_inv_re_enter_move_all != ENTRY_START;
+    return save_state->re_enter_move_all != ENTRY_START;
 }
 
 void cancel_aim_processing()
 {
-    uistate.adv_inv_re_enter_move_all = ENTRY_START;
+    uistate.transfer_save.re_enter_move_all = ENTRY_START;
 }

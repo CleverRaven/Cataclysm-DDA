@@ -13,7 +13,7 @@
   {
     "type": "npc_class",
     "id": "NC_ROBOFAC_SECURITY",
-    "name": "Hub Security",
+    "name": { "str": "Hub Security" },
     "job_description": "I'm part of the Hub security team.",
     "common": false,
     "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
@@ -55,8 +55,8 @@
       { "item": "grenade", "prob": 2 },
       { "item": "PR24-extended" },
       { "item": "flashlight" },
-      { "item": "l_mp_9mm", "charges": 21, "ammo-item": "9mmP" },
-      { "item": "lw21mag", "charges": 21, "ammo-item": "9mmP" },
+      { "item": "glock_17", "charges": 21, "ammo-item": "9mmP" },
+      { "item": "glock17_22", "charges": 21, "ammo-item": "9mmP" },
       { "item": "9mmP", "count": 6 }
     ]
   },

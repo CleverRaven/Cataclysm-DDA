@@ -2,8 +2,7 @@
   {
     "type": "BOOK",
     "id": "recipe_igm",
-    "name": "Case #5846, Illegal Gun Modification",
-    "name_plural": "Case #5846, Illegal Gun Modification",
+    "name": { "str": "Case #5846, Illegal Gun Modification", "str_pl": "copies of Case #5846, Illegal Gun Modification" },
     "max_level": 3,
     "description": "This file details illegal gun modifications.  Maybe you could learn something.  At least you don't have to worry about the cops anymore.",
     "weight": "400 g",

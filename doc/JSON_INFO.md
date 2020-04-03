@@ -3,6 +3,7 @@
 Use the `Home` key to return to the top.
 
 - [Introduction](#introduction)
+- [Navigating the JSON](#navigating-the-json)
 - [File descriptions](#file-descriptions)
   * [`data/json/`](#datajson)
   * [`data/json/items/`](#datajsonitems)
@@ -19,6 +20,7 @@ Use the `Home` key to return to the top.
     + [Bionics](#bionics)
     + [Dreams](#dreams)
     + [Item Groups](#item-groups)
+    + [Item Category](#item-category)
     + [Materials](#materials)
     + [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
@@ -26,7 +28,7 @@ Use the `Home` key to return to the top.
     + [Monster Factions](#monster-factions)
     + [Monsters](#monsters)
     + [Names](#names)
-    + [Professions](#professions)
+    + [Profession item substitution](#profession-item-substitution)
       - [`description`](#-description-)
       - [`name`](#-name-)
       - [`points`](#-points-)
@@ -70,11 +72,11 @@ Use the `Home` key to return to the top.
     + [Seed Data](#seed-data)
     + [Artifact Data](#artifact-data)
     + [Brewing Data](#brewing-data)
-      - [`Charge_type`](#charge_type)
-      - [`Effects_carried`](#effects_carried)
-      - [`effects_worn`](#effects_worn)
-      - [`effects_wielded`](#effects_wielded)
-      - [`effects_activated`](#effects_activated)
+      - [`Charge_type`](#charge-type)
+      - [`Effects_carried`](#effects-carried)
+      - [`effects_worn`](#effects-worn)
+      - [`effects_wielded`](#effects-wielded)
+      - [`effects_activated`](#effects-activated)
     + [Software Data](#software-data)
     + [Fuel data](#fuel-data)
     + [Use Actions](#use-actions)
@@ -156,9 +158,20 @@ Use the `Home` key to return to the top.
 - [MOD tileset](#mod-tileset)
   * [`compatibility`](#-compatibility-)
   * [`tiles-new`](#-tiles-new-)
-  
+- [Field types](#-field-types-)
+
 # Introduction
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
+
+# Navigating the JSON
+A lot of the JSON involves cross-references to other JSON entities.  To make it easier to navigate, we provide a script `tools/json_tools/cddatags.py` that can build a `tags` file for you.
+
+To run the script you'll need Python 3.  On Windows you'll probably need to install that, and associate `.py` files with Python.  Then open a command prompt, navigate to your CDDA folder, and run `tools\json_tools\cddatags.py`.
+
+To use this feature your editor will need [ctags support](http://ctags.sourceforge.net/).  When that's working you should be able to easily jump to the definition of any entity.  For example, by positioning your cursor over an id and hitting the appropriate key combination.
+
+* In Vim, this feature exists by default, and you can jump to a definition using [`^]`](http://vimdoc.sourceforge.net/htmldoc/tagsrch.html#tagsrch.txt).
+* In Notepad++ go to "Plugins" -> "Plugins Admin" and enable the "TagLEET" plugin.  Then select any id and press Alt+Space to open the references window.
 
 # File descriptions
 Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is not comprehensive, but covers the broad strokes.
@@ -303,10 +316,10 @@ A few properties are applicable to most if not all json files and do not need to
 | Identifier               | Description
 |---                       |---
 | type                     | The type of object this json entry is describing. Setting this entry to 'armor' for example means the game will expect properties specific to armor in that entry. Also ties in with 'copy-from' (see below), if you want to inherit properties of another object, it must be of the same tipe.
-| [copy-from](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item __of the same type__ and only provide entries that should change from the item you copied from. 
+| [copy-from](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item __of the same type__ and only provide entries that should change from the item you copied from.
 | [extends](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                  | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.
 | [delete](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                   | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.
-| [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'. 
+| [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'.
 
 
 
@@ -377,9 +390,12 @@ This section describes each json file and their contents. Each json has their ow
 | included_bionics            | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | included                    | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | env_protec                  | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
+| bash_protec                 | (_optional_) How much bash protection does this bionic provide on the specified body parts.
+| cut_protec                  | (_optional_) How much cut protection does this bionic provide on the specified body parts.
 | occupied_bodyparts          | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
 | capacity                    | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | fuel_options                | (_optional_) A list of fuel that this bionic can use to produce bionic power.
+| is_remote_fueled            | (_optional_) If true this bionic allows you to plug your power banks to an external power source (solar backpack, UPS, vehicle etc) via a cable. (default: `false`)
 | fuel_capacity               | (_optional_) Volume of fuel this bionic can store.
 | fuel_efficiency             | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
 | passive_fuel_efficiency     | (_optional_) Fraction of fuel energy passively converted into power. Useful for CBM using PERPETUAL fuel like `muscle`, `wind` or `sun_light`. (default: `0`)
@@ -413,6 +429,8 @@ This section describes each json file and their contents. Each json has their ow
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
     "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
     "env_protec": [ [ "MOUTH", 7 ] ],
+    "bash_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "cut_protec": [ [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
 }
 ```
@@ -465,20 +483,43 @@ The syntax listed here is still valid.
 }
 ```
 
+### Item Category
+
+When you sort your inventory by category, these are the categories that are displayed.
+
+| Identifier      | Description
+|---              |---
+| id              | Unique ID. Must be one continuous word, use underscores if necessary
+| name            | The name of the category. This is what shows up in-game when you open the inventory.
+| zone            | The corresponding loot_zone (see loot_zones.json)
+| sort_rank       | Used to sort categories when displaying.  Lower values are shown first
+| priority_zones  | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
+
+```C++
+{
+    "id":"armor",
+    "name": "ARMOR",
+    "zone": "LOOT_ARMOR",
+    "sort_rank": -21,
+    "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
+}
+```
+
 ### Materials
 
 | Identifier       | Description
 |---               |---
-| `ident`          | Unique ID. Must be one continuous word, use underscores if necessary.
+| `ident`          | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
 | `name`           | In-game name displayed.
 | `bash_resist`    | How well a material resists bashing damage.
 | `cut_resist`     | How well a material resists cutting damage.
-| `bash_dmg_verb`  | Verb used when material takes bashing damage.
-| `cut_dmg_verb`   | Verb used when material takes cutting damage.
-| `dmg_adj`        | Description added to damaged item in ascending severity.
 | `acid_resist`    | Ability of a material to resist acid.
 | `elec_resist`    | Ability of a material to resist electricity.
 | `fire_resist`    | Ability of a material to resist fire.
+| `chip_resist`    | Returns resistance to being damaged by attacks against the item itself.
+| `bash_dmg_verb`  | Verb used when material takes bashing damage.
+| `cut_dmg_verb`   | Verb used when material takes cutting damage.
+| `dmg_adj`        | Description added to damaged item in ascending severity.
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Density of a material.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
@@ -486,6 +527,12 @@ The syntax listed here is still valid.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
 | `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
 | `freeze_point`   | Freezing point of this material (F). Default 32 F ( 0 C ).
+| `edible`   | Optional boolean. Default is false.
+| `rotting`   | Optional boolean. Default is false.
+| `soft`   | Optional boolean. Default is false.
+| `reinforces`   | Optional boolean. Default is false.
+
+There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These are integer values; the default is 0 and they can be negative to take more damage.
 
 ```C++
 {
@@ -526,13 +573,13 @@ The syntax listed here is still valid.
 | `default`   | Default monster, automatically fills in any remaining spawn chances.
 | `monsters`  | To choose a monster for spawning, the game creates 1000 entries and picks one. Each monster will have a number of entries equal to it's "freq" and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
 | `is_safe`   | (bool) Check to not trigger safe-mode warning.
-| `is_animal` | (bool) Check if that group has only normal animals. 
+| `is_animal` | (bool) Check if that group has only normal animals.
 
 #### Monster definition
 
 | Identifier        | Description
 |---                |---
-| `monster`         | The monster's id.
+| `monster`         | The monster's unique ID, eg. `"mon_zombie"`.
 | `freq`            | Chance of occurrence, x/1000.
 | `cost_multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.
 | `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
@@ -562,6 +609,7 @@ The syntax listed here is still valid.
 | `by_mood`       | Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions.
 | `neutral`       | Always be neutral towards this faction.
 | `friendly`      | Always be friendly towards this faction. By default a faction is friendly towards itself.
+| `hate`          | Always be hostile towards this faction. Will change target to monsters of this faction if available.
 
 ```C++
 {
@@ -569,7 +617,8 @@ The syntax listed here is still valid.
     "base_faction" : "zombie",
     "by_mood"      : ["blob"],
     "neutral"      : ["nether"],
-    "friendly"     : ["blob"]
+    "friendly"     : ["blob"],
+    "hate"         : ["fungus"]
 }
 ```
 
@@ -583,6 +632,41 @@ See MONSTERS.md
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
 // NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
 ```
+
+### Profession item substitution
+
+Defines item replacements that are applied to the starting items based upon the starting traits. This allows for example to replace wool items with non-wool items when the characters starts with the wool allergy trait.
+
+If the JSON objects contains a "item" member, it defines a replacement for the given item, like this:
+
+```C++
+{
+  "type": "profession_item_substitutions",
+  "item": "sunglasses",
+  "sub": [
+    { "present": [ "HYPEROPIC" ], "new": [ "fitover_sunglasses" ] },
+    { "present": [ "MYOPIC" ], "new": [ { "fitover_sunglasses", "ratio": 2 } ] }
+  ]
+}
+```
+This defines each item of type "sunglasses" shall be replaced with:
+- an item "fitover_sunglasses" if the character has the "HYPEROPIC" trait,
+- two items "fitover_sunglasses" if the character has the "MYOPIC" trait.
+
+If the JSON objects contains a "trait" member, it defines a replacement for multiple items that applies when the character has the given trait:
+```C++
+{
+  "type": "profession_item_substitutions",
+  "trait": "WOOLALLERGY",
+  "sub": [
+    { "item": "blazer", "new": [ "jacket_leather_red" ] },
+    { "item": "hat_hunting", "new": [ { "item": "hat_cotton", "ratio": 2 } ] }
+  ]
+}
+```C++
+This defines characters with the WOOLALLERGY trait get some items replaced:
+- "blazer" is converted into "jacket_leather_red",
+- each "hat_hunting" is converted into *two* "hat_cotton" items.
 
 ### Professions
 
@@ -732,12 +816,20 @@ Example for mods:
 
 This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the special snippet id.
 
-#### `pet`
+#### `pets`
 
-(optional, string mtype_id)
+(optional, array of string mtype_ids )
 
-A string that is the same as a monster id
-player will start with this as a tamed pet.
+A list of strings, each is the same as a monster id
+player will start with these as tamed pets.
+
+#### `vehicle`
+
+(optional, string vproto_id )
+
+A  string, which is the same as a vehicle ( vproto_id )
+player will start with this as a nearby vehicle.
+( it will find the nearest road and place it there, then mark it as "remembered" on the overmap )
 
 #### `flags`
 
@@ -823,6 +915,40 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ]
 ]
 ```
+
+#### Overlapping recipe component requirements
+
+If recipes have requirements which overlap, this makes it more
+difficult for the game to calculate whether it is possible to craft a recipe at
+all.
+
+For example, the survivor telescope recipe has the following requirements
+(amongst others):
+
+```
+1 high-quality lens
+AND
+1 high-quality lens OR 1 small high-quality lens
+```
+
+These overlap because both list the high-quality lens.
+
+A small amount of overlap (such as the above) can be handled, but if you have
+too many component lists which overlap in too many ways, then you may see an
+error during recipe finalization that your recipe is too complex.  In this
+case, the game may not be able to corectly predict whether it can be crafted.
+
+To work around this issue, if you do not wish to simplify the recipe
+requirements, then you can split your recipe into multiple steps.  For
+example, if we wanted to simplify the above survivor telescope recipe we could
+introduce an intermediate item "survivor eyepiece", which requires one of
+either lens, and then the telescope would require a high-quality lens and an
+eyepiece.  Overall, the requirements are the same, but neither recipe has any
+overlap.
+
+For more details, see [this pull
+request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
+[related issue](https://github.com/CleverRaven/Cataclysm-DDA/issues/32311).
 
 ### Constructions
 ```C++
@@ -958,7 +1084,6 @@ Note that even though most statistics yield an integer, you should still use
 "profession": true, //Trait is a starting profession special trait. (default: false)
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu
-"initial_ma_styles" : [ "style_centipede", "style_venom_snake" ], //List of starting martial arts types. One of the list is selectable at start. Only works at character creation.
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 "prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
 "prereqs2": ["LEAVES"], //Also need these mutations before you can mutate towards this mutation. When both set creates 2 different mutation paths, random from one is picked. Only use together with "prereqs"
@@ -974,6 +1099,7 @@ Note that even though most statistics yield an integer, you should still use
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 "vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
 "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ], [ "all", [ [ "vitA", 2 ], [ "vitB", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 2 ] ] ] ], // multiplier of vitamin absorption based on material. "all" is every material. supports multiple materials.
+"craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses. Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
 "restricts_gear" : [ "TORSO" ], //list of bodyparts that get restricted by this mutation
 "allow_soft_gear" : true, //If there is a list of 'restricts_gear' this sets if the location still allows items made out of soft materials (Only one of the types need to be soft for it to be considered soft). (default: false)
 "destroys_gear" : true, //If true, destroys the gear in the 'restricts_gear' location when mutated into. (default: false)
@@ -1012,12 +1138,19 @@ Note that even though most statistics yield an integer, you should still use
 "healthy_rate": 0.0, // How fast your health can change. If set to 0 it never changes. (default: 1.0)
 "weakness_to_water": 5, // How much damage water does to you, negative values heal you. (default: 0)
 "ignored_by": [ "ZOMBIE" ], // List of species ignoring you. (default: empty)
+"anger_relations": [ [ "MARSHMALLOW", 20 ], [ "GUMMY", 5 ], [ "CHEWGUM", 20 ] ], // List of species angered by you and by how much, can use negative value to calm.  (default: empty)
 "can_only_eat": [ "junk" ], // List of materiel required for food to be comestible for you. (default: empty)
 "can_only_heal_with": [ "bandage" ], // List of med you are restricted to, this includes mutagen,serum,aspirin,bandages etc... (default: empty)
 "can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
 "allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
 "no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
 "lumination": [ [ "HEAD", 20 ], [ "ARM_L", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
+"metabolism_modifier": 0.333, // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
+"fatigue_modifier": 0.5, // Extra fatigue rate multiplier. 1.0 doubles usage, -0.5 halves.
+"fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
+"healing_awake": 1.0, // Healing rate per turn while awake.
+"healing_resting": 0.5, // Healing rate per turn while resting.
+"mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
 ```
 
 ### Vehicle Groups
@@ -1080,7 +1213,7 @@ Vehicle components when installed on a vehicle.
 "exclusions": [ "souls" ]     // Optional field, defaults to empty. A list of words. A new engine can't be installed on the vehicle if any engine on the vehicle shares a word from exclusions.
 "fuel_options": [ "soul", "black_soul" ] // Optional field, defaults to fuel_type.  A list of words. An engine can be fueled by any fuel type in its fuel_options.  If provided, it overrides fuel_type and should include the fuel in fuel_type.
 "comfort": 3,                 // Optional field, defaults to 0. How comfortable this terrain/furniture is. Impact ability to fall asleep on it. (uncomfortable = -999, neutral = 0, slightly_comfortable = 3, comfortable = 5, very_comfortable = 10)
-"floor_bedding_warmth": 300,  // Optional field, defaults to 0. Bonus warmth offered by this terrain/furniture when used to sleep. 
+"floor_bedding_warmth": 300,  // Optional field, defaults to 0. Bonus warmth offered by this terrain/furniture when used to sleep.
 "bonus_fire_warmth_feet": 200,// Optional field, defaults to 300. Increase warmth received on feet from nearby fire.
 ```
 
@@ -1164,41 +1297,70 @@ See also VEHICLE_JSON.md
     "condition": "leather",       // The condition to check for.
     "name": { "str": "pair of leather socks", "str_pl": "pairs of leather socks" } // Name field, same rules as above.
 } ],
-"container" : "null",             // What container (if any) this item should spawn within
-"color" : "blue",                 // Color of the item symbol.
-"symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
+"container": "null",             // What container (if any) this item should spawn within
+"repairs_like": "scarf",          // If this item does not have recipe, what item to look for a recipe for when repairing it.
+"color": "blue",                 // Color of the item symbol.
+"symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
-"description" : "Socks. Put 'em on your feet.", // Description of the item
-"phase" : "solid",                // (Optional, default = "solid") What phase it is
-"weight" : "350 g",               // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
-"volume" : "250 ml",              // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
-"integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
-"integral_weight" : 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
-"rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
-"insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
-"price" : 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
-"price_post" : "1 USD",           // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
-"material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
-"cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
-"bashing" : -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
-"to_hit" : 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
-"flags" : ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
-"magazine_well" : 0,              // Volume above which the magazine starts to protrude from the item and add extra volume
-"magazines" : [                   // Magazines types for each ammo type (if any) which can be used to reload this item
-    [ "9mm", [ "glockmag" ] ]     // The first magazine specified for each ammo type is the default
+"description": "Socks. Put 'em on your feet.", // Description of the item
+"ascii_picture": [
+      "        ,,,,,,,,,,,,,",
+      "    .;;;;;;;;;;;;;;;;;;;,.",
+      " .;;;;;;;;;;;;;;;;;;;;;;;;,",
+      ".;;;;;;;;;;;;;;;;;;;;;;;;;;;;.",
+      ";;;;;@;;;;;;;;;;;;;;;;;;;;;;;;' .............",
+      ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'.................",
+      ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'...................`",
+      ";;;;@;;;;;;;;;;;;;;;@;;;;;;;'.....................",
+      " `;;;;;;;;;;;;;;;;;;;@@;;;;;'..................;....", // Ascii art that  will be displayed at the bottom of the item description. Array of string with each element being a line of the picture. Lines longer than 42 characters won't display properly.
+      "   `;;;;;;;;;;;;;;;;@@;;;;'....................;;...",
+      "     `;;;;;;;;;;;;;@;;;;'...;.................;;....",
+      "        `;;;;;;;;;;;;'   ...;;...............;.....",
+      "           `;;;;;;'        ...;;..................",
+      "              ;;              ..;...............",
+      "              `                  ............",
+      "             `                      ......",
+      "             `                         ..",
+      "           `                           '",
+      "          `                           '",
+      "         `                           '",
+      "        `                           `",
+      "        `                           `,",
+      "        `",
+      "         `",
+      "           `."
+    ],
+"phase": "solid",                            // (Optional, default = "solid") What phase it is
+"weight": "350 g",                           // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
+"volume": "250 ml",                          // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
+"integral_volume": 0,                        // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
+"integral_weight": 0,                        // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
+"rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
+"insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
+"price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
+"price_post": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
+"cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
+"bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
+"to_hit": 0,                                 // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
+"environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
+"magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
+"magazines": [                               // Magazines types for each ammo type (if any) which can be used to reload this item
+    [ "9mm", [ "glockmag" ] ]                // The first magazine specified for each ammo type is the default
     [ "45", [ "m1911mag", "m1911bigmag" ] ],
 ],
-"explode_in_fire" : true,         // Should the item explode if set on fire
-"explosion": {                    // Physical explosion data
-    "power" : 10,                 // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
-    "distance_factor" : 0.9,      // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
-    "fire" : true,                // Should the explosion leave fire
-    "shrapnel": 200,              // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
-    "shrapnel" : {
-        "casing_mass" : 200,      // Total mass of casing, casing/power ratio determines fragment velocity.
-        "fragment_mass" : 0.05,   // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
-        "recovery" : 10,          // Percentage chance to drop an item at landing point.
-        "drop" : "nail"           // Which item to drop at landing point.
+"explode_in_fire": true,                     // Should the item explode if set on fire
+"explosion": {                               // Physical explosion data
+    "power": 10,                             // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
+    "distance_factor": 0.9,                  // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
+    "fire": true,                            // Should the explosion leave fire
+    "shrapnel": 200,                         // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
+    "shrapnel": {
+        "casing_mass": 200,                  // Total mass of casing, casing/power ratio determines fragment velocity.
+        "fragment_mass": 0.05,               // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
+        "recovery": 10,                      // Percentage chance to drop an item at landing point.
+        "drop": "nail"                       // Which item to drop at landing point.
     }
 },
 ```
@@ -1336,6 +1498,19 @@ Alternately, every item (tool, gun, even food) can be used as book if it has boo
 }
 ```
 
+Since many book names are proper names, it's often necessary to explicitly specify
+the plural forms. The following is the game's convention on plural names of books:
+
+1. For non-periodical books (textbooks, manuals, spellbooks, etc.),
+    1. If the book's singular name is a proper name, then the plural name is `copies of (singular name)`. For example, the plural name of `Lessons for the Novice Bowhunter` is `copies of Lessons for the Novice Bowhunter`.
+    2. Otherwise, the plural name is the usual plural of the singular name. For example, the plural name of `tactical baton defense manual` is `tactical baton defense manuals`
+2. For periodicals (magazines and journals),
+    1. If the periodical's singular name is a proper name, and doesn't end with "Magazine", "Weekly", "Monthly", etc., the plural name is `issues of (singular name)`. For example, the plural name of `Archery for Kids` is `issues of Archery for Kids`.
+    2. Otherwise, the periodical's plural name is the usual plural of the singular name. For example, the plural name of `Crafty Crafter's Quarterly` is `Crafty Crafter's Quarterlies`.
+3. For board games (represented internally as book items),
+    1. If the board game's singular name is a proper name, the plural is `sets of (singular name)`. For example, the plural name of `Picturesque` is `sets of Picturesque`.
+    2. Otherwise the plural name is the usual plural. For example, the plural of `deck of cards` is `decks of cards`.
+
 #### Conditional Naming
 
 The `conditional_names` field allows defining alternate names for items that will be displayed instead of (or in addition to) the default name, when specific conditions are met. Take the following (incomplete) definition for `sausage` as an example of the syntax:
@@ -1411,6 +1586,8 @@ CBMs can be defined like this:
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
+"fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
+"radiation": 8,             // How much radiation you get from this comestible.
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting
 "quench" : 0,               // Thirst quenched
 "heal" : -2,                // Health effects (used for sickness chances)
@@ -1496,7 +1673,8 @@ Guns can be defined like this:
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
-"barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 9mL per inch is a decent approximation.
+"barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
+"valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
 ```json
@@ -1529,7 +1707,8 @@ Gun mods can be defined like this:
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "recoil_modifier": -100,       // Optional field increasing or decreasing base gun recoil
-"ups_charges": 200,            // Optional field increasing or decreasing base gun UPS consumption (per shot)
+"ups_charges_modifier": 200,   // Optional field increasing or decreasing base gun UPS consumption (per shot) by adding given value
+"ups_charges_multiplier": 2.5, // Optional field increasing or decreasing base gun UPS consumption (per shot) by multiplying by given value
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
 "min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
 ```
@@ -1540,7 +1719,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "gunmod_data" : {
     "location": ...,
     "mod_targets": ...,
-    ... 
+    ...
 }
 ```
 
@@ -1589,7 +1768,7 @@ Every item type can have optional seed data, if the item has seed data, it's con
 
 ```C++
 "seed_data" : {
-    "fruits": "weed", // The item id of the fruits that this seed will produce.
+    "fruit": "weed", // The item id of the fruits that this seed will produce.
     "seeds": false, // (optional, default is true). If true, harvesting the plant will spawn seeds (the same type as the item used to plant). If false only the fruits are spawned, no seeds.
     "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
     "byproducts": ["withered", "straw_pile"], // A list of further items that should spawn upon harvest.
@@ -1819,6 +1998,16 @@ The contents of use_action fields can either be a string indicating a built-in f
     "scrambler_blast_radius": 4
 },
 "use_action": {
+    "type": "change_scent", // Change the scent type of the user.
+    "scent_typeid": "sc_fetid", // The scenttype_id of the new scent.
+    "charges_to_use": 2, // Charges consumed when the item is used.  (Default: 1)
+    "scent_mod": 150, // Modifier added to the scent intensity.  (Default: 0)
+    "duration": "6 m", // How long does the effect last.
+    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "TORSO", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
+    "waterproof": true, // Is the effect waterproof.  (Default: false)
+    "moves": 500 // Number of moves required in the process.
+},
+"use_action": {
     "type": "unfold_vehicle", // Transforms the item into a vehicle.
     "vehicle_name": "bicycle", // Vehicle name to create.
     "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.", // Message to display when transforming.
@@ -1846,6 +2035,13 @@ The contents of use_action fields can either be a string indicating a built-in f
     "moves": 60 // how many move points the action takes.
 },
 "use_action": {
+    "type": "place_npc", // place npc of specific class on the map
+    "npc_class_id": "true_foodperson", // npc class id, see npcs/classes.json
+    "summon_msg": "You summon a food hero!", // (optional) message when summoning the npc.
+    "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
+    "moves": 50 // how many move points the action takes.
+},
+"use_action": {
     "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional json code to work
     "activate_msg": "You activate your foo.", // Message when the player activates the item.
     "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
@@ -1863,6 +2059,12 @@ The contents of use_action fields can either be a string indicating a built-in f
 "use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.
     "moves_cost": 15 // Number of moves it takes to start the fire.
+},
+"use_action": {
+    "type": "unpack", // unpack this item
+    "group": "gobag_contents", // itemgroup this unpacks into
+    "items_fit": true, // Do the armor items in this fit? Defaults to false.
+    "filthy_volume_threshold": "10 L" // If the items unpacked from this item have volume, and this item is filthy, at what amount of held volume should they become filthy
 },
 "use_action": {
     "type": "extended_firestarter", // Start a fire (like with magnifying glasses or a fire drill). This action can take many turns, not just some moves like firestarter, it can also be canceled (firestarter can't).
@@ -1932,7 +2134,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "fun": -5, // Together with fun_bonus, this defines how much morale the character gets from playing the instrument. They get `fun + fun_bonus * <character-perception>` morale points out of it. Both values and the result may be negative.
     "fun_bonus": 2,
     "description_frequency": 20, // Once every Nth turn, a randomly chosen description (from the that array) is displayed.
-    "descriptions": [
+    "player_descriptions": [
         "You play a little tune on your flute.",
         "You play a beautiful piece on your flute.",
         "You play a piece on your flute that sounds harmonious with nature."
@@ -2131,7 +2333,7 @@ Array of dictionaries defining possible items produced on butchering and their l
 For every `type` other then `bionic` and `bionic_group` following entries scale the results:
     `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
     `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
-    `max` upper limit after `bas_num` and `scale_num` are calculated using  
+    `max` upper limit after `bas_num` and `scale_num` are calculated using
     `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`
 
 
@@ -2195,7 +2397,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 #### `plant_data`
 
-(Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag. 
+(Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag.
 
 ### Terrain
 
@@ -2318,7 +2520,7 @@ How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
 
 #### `floor_bedding_warmth`
 
-Bonus warmth offered by this terrain/furniture when used to sleep. 
+Bonus warmth offered by this terrain/furniture when used to sleep.
 
 #### `bonus_fire_warmth_feet`
 
@@ -2820,3 +3022,28 @@ The internal ID of the compatible tilesets. MOD tileset is only applied when bas
 ## `tiles-new`
 
 Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from the same folder json file exists.
+
+# Field types
+
+  {
+    "type": "field_type", // this is a field type
+    "id": "fd_gum_web", // id of the field
+    "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
+    "bash": {
+      "str_min": 1, // lower bracket of bashing damage required to bash
+      "str_max": 3, // higher bracket
+      "sound_vol": 2, // noise made when succesfully bashing the field
+      "sound_fail_vol": 2, // noise made when failing to bash the field
+      "sound": "shwip", // sound on success
+      "sound_fail": "shwomp", // sound on failure
+      "msg_success": "You brush the gum web aside.", // message on success
+      "move_cost": 120, // how many moves it costs to succesfully bash that field (default: 100)
+      "items": [                                   // item dropped upon succesful bashing
+        { "item": "2x4", "count": [ 5, 8 ] },
+        { "item": "nail", "charges": [ 6, 8 ] },
+        { "item": "splinter", "count": [ 3, 6 ] },
+        { "item": "rag", "count": [ 40, 55 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
+      ]
+    }
+  }

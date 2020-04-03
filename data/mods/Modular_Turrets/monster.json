@@ -5,7 +5,8 @@
     "name": "automated turret",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
-    "size": "SMALL",
+    "volume": "30000 ml",
+    "weight": "40750 g",
     "hp": 30,
     "speed": 100,
     "material": [ "steel" ],
@@ -30,7 +31,6 @@
     "default_faction": "defense_bot",
     "diff": 14,
     "color": "light_gray",
-    "luminance": 200,
     "revert_to_itype": "bot_turret_disarmed"
   },
   {
@@ -41,7 +41,6 @@
     "symbol": "t",
     "description": "The Leadworks LLC's TX series turret, a military-grade automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  It requires a integrated gun module to operate.",
     "color": "light_gray",
-    "luminance": 200,
     "revert_to_itype": "bot_milturret_disarmed"
   },
   {
@@ -53,7 +52,6 @@
     "description": "The DoubleTech T-series turret, an advanced automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  It requires an integrated gun module to function.",
     "default_faction": "defense_bot",
     "color": "light_gray",
-    "luminance": 200,
     "revert_to_itype": "bot_advturret_disarmed"
   },
   {
@@ -66,7 +64,6 @@
     "default_faction": "defense_bot",
     "diff": 10,
     "color": "light_gray",
-    "luminance": 200,
     "revert_to_itype": "bot_turret_9mm",
     "starting_ammo": { "9mm": 100 },
     "special_attacks": [
@@ -80,7 +77,8 @@
         "no_ammo_sound": "click click!",
         "ranges": [ [ 0, 2, "BURST" ], [ 3, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ]
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_turret_shot",
@@ -92,7 +90,6 @@
     "default_faction": "defense_bot",
     "diff": 10,
     "color": "red",
-    "luminance": 200,
     "revert_to_itype": "bot_turret_shot",
     "starting_ammo": { "shot_00": 100 },
     "special_attacks": [
@@ -106,7 +103,8 @@
         "no_ammo_sound": "click click!",
         "ranges": [ [ 0, 8, "DEFAULT" ] ]
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_turret_teargas",
@@ -118,7 +116,6 @@
     "default_faction": "cop_bot",
     "diff": 10,
     "color": "blue",
-    "luminance": 300,
     "revert_to_itype": "bot_turret_teargas",
     "starting_ammo": { "40x46mm_m651": 50 },
     "special_attacks": [
@@ -132,7 +129,8 @@
         "no_ammo_sound": "click click!",
         "ranges": [ [ 0, 6, "DEFAULT" ], [ 7, 12, "BURST" ] ]
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_turret_beanbag",
@@ -144,7 +142,6 @@
     "default_faction": "cop_bot",
     "diff": 5,
     "color": "blue",
-    "luminance": 300,
     "revert_to_itype": "bot_turret_beanbag",
     "starting_ammo": { "40x46mm_m1006": 50 },
     "special_attacks": [
@@ -158,7 +155,8 @@
         "no_ammo_sound": "click click!",
         "ranges": [ [ 0, 8, "DEFAULT" ] ]
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milturret_556",
@@ -170,9 +168,8 @@
     "default_faction": "military",
     "diff": 20,
     "color": "green",
-    "luminance": 200,
     "revert_to_itype": "bot_milturret_556",
-    "starting_ammo": { "556": 100 },
+    "starting_ammo": { "556": 1600 },
     "special_attacks": [
       {
         "type": "gun",
@@ -191,7 +188,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milturret_308",
@@ -203,9 +201,8 @@
     "default_faction": "military",
     "diff": 20,
     "color": "green",
-    "luminance": 200,
     "revert_to_itype": "bot_milturret_308",
-    "starting_ammo": { "762_51": 100 },
+    "starting_ammo": { "762_51": 1000 },
     "special_attacks": [
       {
         "type": "gun",
@@ -224,7 +221,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milturret_50bmg",
@@ -236,9 +234,8 @@
     "default_faction": "military",
     "diff": 30,
     "color": "green",
-    "luminance": 200,
     "revert_to_itype": "bot_milturret_50bmg",
-    "starting_ammo": { "50bmg": 100 },
+    "starting_ammo": { "50bmg": 400 },
     "special_attacks": [
       {
         "type": "gun",
@@ -258,7 +255,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milturret_8x40mm",
@@ -270,9 +268,8 @@
     "default_faction": "military",
     "diff": 20,
     "color": "green",
-    "luminance": 200,
     "revert_to_itype": "bot_milturret_8x40mm",
-    "starting_ammo": { "8mm_caseless": 100 },
+    "starting_ammo": { "8mm_caseless": 1200 },
     "special_attacks": [
       {
         "type": "gun",
@@ -291,7 +288,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milturret_needle",
@@ -303,9 +301,8 @@
     "default_faction": "military",
     "diff": 20,
     "color": "green",
-    "luminance": 200,
     "revert_to_itype": "bot_milturret_needle",
-    "starting_ammo": { "5x50dart": 100 },
+    "starting_ammo": { "5x50dart": 1000 },
     "special_attacks": [
       {
         "type": "gun",
@@ -324,7 +321,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milturret_40mm",
@@ -336,7 +334,6 @@
     "default_faction": "military",
     "diff": 20,
     "color": "red",
-    "luminance": 200,
     "revert_to_itype": "bot_milturret_40mm",
     "starting_ammo": { "40x46mm_m433": 50 },
     "special_attacks": [
@@ -357,7 +354,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_milturret_flame",
@@ -369,9 +367,8 @@
     "default_faction": "military",
     "diff": 20,
     "color": "red",
-    "luminance": 200,
     "revert_to_itype": "bot_milturret_flame",
-    "starting_ammo": { "napalm": 100 },
+    "starting_ammo": { "napalm": 10000 },
     "special_attacks": [
       {
         "type": "gun",
@@ -403,7 +400,6 @@
     "default_faction": "military",
     "diff": 20,
     "color": "yellow",
-    "luminance": 300,
     "revert_to_itype": "bot_advturret_laser",
     "special_attacks": [
       {
@@ -433,7 +429,6 @@
     "default_faction": "military",
     "diff": 10,
     "color": "light_green",
-    "luminance": 300,
     "revert_to_itype": "bot_advturret_acid",
     "special_attacks": [
       {
@@ -459,7 +454,6 @@
     "default_faction": "military",
     "diff": 20,
     "color": "magenta",
-    "luminance": 300,
     "revert_to_itype": "bot_advturret_plasma",
     "special_attacks": [
       {
@@ -490,9 +484,8 @@
     "default_faction": "military",
     "diff": 30,
     "color": "magenta",
-    "luminance": 300,
     "revert_to_itype": "bot_advturret_rail",
-    "starting_ammo": { "steel_rail": 100 },
+    "starting_ammo": { "steel_rail": 200 },
     "special_attacks": [
       {
         "type": "gun",
@@ -511,7 +504,8 @@
         "targeting_sound": "\"Hostile detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
     "id": "mon_advturret_lightning",
@@ -523,7 +517,6 @@
     "default_faction": "military",
     "diff": 20,
     "color": "yellow",
-    "luminance": 300,
     "revert_to_itype": "bot_advturret_lightning",
     "special_attacks": [
       {
@@ -554,7 +547,6 @@
     "default_faction": "military",
     "diff": 10,
     "color": "yellow",
-    "luminance": 300,
     "revert_to_itype": "bot_advturret_emp",
     "special_attacks": [
       {
@@ -599,6 +591,7 @@
         "ranges": [ [ 0, 2, "BURST" ], [ 3, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ]
       }
     ],
+    "extend": { "flags": [ "DROPS_AMMO" ] },
     "death_drops": { "groups": [ [ "broken_robots", 10 ], [ "broken_ceramics", 10 ] ] }
   }
 ]

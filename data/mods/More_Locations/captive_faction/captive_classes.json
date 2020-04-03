@@ -21,7 +21,8 @@
       [ "LIGHTEATER", 50 ],
       [ "WAKEFUL", 50 ],
       [ "FASTHEALER", 10 ],
-      [ "LIGHTSTEP", 10 ]
+      [ "LIGHTSTEP", 10 ],
+      { "group": "Appearance_demographics", "prob": 100 }
     ],
     "weapon_override": "EMPTY_GROUP",
     "worn_override": "captive_clothing",
@@ -55,7 +56,8 @@
       [ "ALBINO", 20 ],
       [ "SLIMY", 20 ],
       [ "FANGS", 20 ],
-      [ "CLAWS", 20 ]
+      [ "CLAWS", 20 ],
+      { "group": "Appearance_demographics", "prob": 100 }
     ],
     "weapon_override": "EMPTY_GROUP",
     "worn_override": "captive_clothing",

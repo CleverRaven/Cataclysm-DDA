@@ -5,7 +5,7 @@
     "copy-from": "lettuce",
     "name": "irradiated lettuce",
     "description": "An irradiated head of lettuce will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2 },
+    "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -15,7 +15,7 @@
     "copy-from": "cabbage",
     "name": "irradiated cabbage",
     "description": "An irradiated head of cabbage will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2 },
+    "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -23,10 +23,9 @@
     "type": "COMESTIBLE",
     "id": "irradiated_tomato",
     "copy-from": "tomato",
-    "name": "irradiated tomato",
-    "name_plural": "irradiated tomatoes",
+    "name": { "str": "irradiated tomato", "str_pl": "irradiated tomatoes" },
     "description": "An irradiated tomato will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2 },
+    "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -34,10 +33,9 @@
     "type": "COMESTIBLE",
     "id": "irradiated_broccoli",
     "copy-from": "broccoli",
-    "name": "irradiated broccoli",
-    "name_plural": "irradiated broccoli",
+    "name": { "str": "irradiated broccoli", "str_pl": "irradiated broccoli" },
     "description": "An irradiated cluster of broccoli will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2 },
+    "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -47,7 +45,7 @@
     "copy-from": "zucchini",
     "name": "irradiated zucchini",
     "description": "An irradiated zucchini will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2 },
+    "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -57,7 +55,7 @@
     "copy-from": "onion",
     "name": "irradiated onion",
     "description": "An irradiated onion will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2 },
+    "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -67,7 +65,7 @@
     "copy-from": "carrot",
     "name": "irradiated carrot",
     "description": "An irradiated bundle of carrots will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2 },
+    "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -75,10 +73,9 @@
     "type": "COMESTIBLE",
     "id": "irradiated_corn",
     "copy-from": "corn",
-    "name": "irradiated corn",
-    "name_plural": "irradiated corn",
+    "name": { "str": "irradiated corn", "str_pl": "irradiated corn" },
     "description": "An irradiated ear of corn will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2 },
+    "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -88,7 +85,7 @@
     "copy-from": "pumpkin",
     "name": "irradiated pumpkin",
     "description": "An irradiated pumpkin will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2 },
+    "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -96,10 +93,9 @@
     "type": "COMESTIBLE",
     "id": "irradiated_potato",
     "copy-from": "potato",
-    "name": "irradiated potato",
-    "name_plural": "irradiated potatoes",
+    "name": { "str": "irradiated potato", "str_pl": "irradiated potatoes" },
     "description": "An irradiated potato will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2 },
+    "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -143,7 +139,7 @@
     "copy-from": "rhubarb",
     "name": "irradiated rhubarb",
     "description": "An irradiated rhubarb will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2 },
+    "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   }

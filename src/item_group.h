@@ -134,6 +134,7 @@ class Item_spawn_data
          * all linked groups.
          */
         virtual bool remove_item( const Item_tag &itemid ) = 0;
+        virtual bool replace_item( const Item_tag &itemid, const Item_tag &replacementid ) = 0;
         virtual bool has_item( const Item_tag &itemid ) const = 0;
 
         virtual std::set<const itype *> every_item() const = 0;
@@ -189,6 +190,7 @@ class Item_modifier
         void modify( item &new_item ) const;
         void check_consistency( const std::string &context ) const;
         bool remove_item( const Item_tag &itemid );
+        bool replace_item( const Item_tag &itemid, const Item_tag &replacementid );
 
         // Currently these always have the same chance as the item group it's part of, but
         // theoretically it could be defined per-item / per-group.
@@ -236,6 +238,8 @@ class Single_item_creator : public Item_spawn_data
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
         bool remove_item( const Item_tag &itemid ) override;
+        bool replace_item( const Item_tag &itemid, const Item_tag &replacementid ) override;
+
         bool has_item( const Item_tag &itemid ) const override;
         std::set<const itype *> every_item() const override;
 };
@@ -280,6 +284,7 @@ class Item_group : public Item_spawn_data
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
         bool remove_item( const Item_tag &itemid ) override;
+        bool replace_item( const Item_tag &itemid, const Item_tag &replacementid ) override;
         bool has_item( const Item_tag &itemid ) const override;
         std::set<const itype *> every_item() const override;
 

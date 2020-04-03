@@ -52,6 +52,19 @@
     "components": [ [ [ "leather", 5 ], [ "rag", 5 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ], [ [ "filament", 20, "LIST" ] ] ]
   },
   {
+    "result": "axe_ring",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "20 m",
+    "autolearn": true,
+    "using": [ [ "adhesive", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ] ], [ [ "nail", 4 ] ] ]
+  },
+  {
     "result": "back_holster",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -295,7 +308,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "rag", 40 ], [ "fur", 32 ], [ "tanned_pelt", 6 ], [ "leather", 24 ], [ "tanned_hide", 6 ] ] ]
+    "components": [ [ [ "rag", 40 ] ] ]
   },
   {
     "result": "flintlock_pouch",
@@ -373,6 +386,18 @@
     "using": [ [ "adhesive", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "components": [ [ [ "rag", 6 ], [ "leather", 6 ], [ "cordage_short", 3, "LIST" ] ], [ [ "jerrycan", 1 ] ] ]
+  },
+  {
+    "result": "boxpack",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "2x4", 3 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 20 ] ], [ [ "rope_natural", 1, "LIST" ] ] ]
   },
   {
     "result": "leather_belt",
@@ -483,7 +508,7 @@
     "time": "48 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "sheet", 1 ], [ "blanket", 1 ] ] ],
+    "components": [ [ [ "sheet", 1 ], [ "blanket", 1 ], [ "electric_blanket", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -806,7 +831,7 @@
     "time": "16 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ], [ [ "leather_pouch", 5 ] ] ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "leather_belt", 1 ] ], [ [ "leather_pouch", 7 ] ] ]
   },
   {
     "result": "javelin_bag",

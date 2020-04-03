@@ -6,7 +6,7 @@
     "dynamic_line": "Are you part of the rescue team?",
     "responses": [
       { "text": "Sorry, <sass>, the rescue has been delayed.", "topic": "TALK_DONE" },
-      { "text": "Part? I AM the rescue team.", "topic": "TALK_CAPTIVE_FREE" }
+      { "text": "Part?  I AM the rescue team.", "topic": "TALK_CAPTIVE_FREE" }
     ]
   },
   {

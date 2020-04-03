@@ -14,7 +14,7 @@ class JsonObject;
 
 // this is a helper struct with rules for picking a zone
 struct zone_priority_data {
-    bool was_loaded;
+    bool was_loaded = false;
     zone_type_id id;
     bool filthy = false;
     cata::flat_set<std::string> flags;

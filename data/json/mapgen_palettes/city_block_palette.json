@@ -1,0 +1,123 @@
+[
+  {
+    "type": "palette",
+    "id": "city_block_foundation_palette",
+    "furniture": {
+      "A": "f_stool",
+      "B": "f_beaded_door",
+      "D": "f_chair",
+      "E": "f_rack_coat",
+      "F": "f_bench",
+      "G": "f_bench",
+      "H": "f_armchair",
+      "I": "f_desk",
+      "J": "f_counter",
+      "K": "f_cupboard",
+      "L": "f_table",
+      "N": "f_workbench",
+      "O": "f_wardrobe",
+      "P": "f_locker",
+      "Q": "f_rack",
+      "R": "f_bookcase",
+      "T": "f_bathtub",
+      "U": "f_utility_shelf",
+      "W": "f_washer",
+      "X": "f_birdbath",
+      "Y": "f_trashcan",
+      "Z": "f_dryer",
+      "d": "f_shower",
+      "g": "f_water_heater",
+      "h": "f_fireplace",
+      "i": "f_oven",
+      "j": "f_sink",
+      "n": "f_sink",
+      "k": "f_woodstove",
+      "l": "f_fridge",
+      "m": "f_glass_fridge",
+      "p": [ "f_dumpster", "f_recycle_bin" ],
+      "r": "f_wood_keg",
+      "v": "f_safe_l",
+      "w": "f_rack_wood",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "z": "f_metal_butcher_rack"
+    },
+    "terrain": {
+      ".": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
+      "-": "t_open_air",
+      "p": "t_concrete",
+      "X": "t_region_groundcover_urban",
+      " ": "t_floor",
+      "|": "t_brick_wall",
+      "%": "t_wall_w",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "o": "t_laminated_glass",
+      "+": "t_laminated_door_glass_c",
+      "@": "t_window_domestic",
+      "*": [ [ "t_door_c", 10 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 3 ] ],
+      "!": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked", 10 ], "t_door_c" ],
+      "s": "t_concrete",
+      "~": "t_pavement",
+      "#": "t_chainfence",
+      "u": "t_chaingate_l",
+      "x": [ [ "t_door_metal_pickable", 20 ], [ "t_door_metal_c", 5 ], [ "t_door_metal_c_peep", 3 ] ],
+      "C": "t_column",
+      "^": "t_gutter_downspout",
+      ",": "t_glass_railing",
+      ";": "t_grate",
+      "M": "t_region_shrub_decorative",
+      "S": "t_ladder_down",
+      "V": "t_ladder_up",
+      "?": "t_console_broken",
+      "$": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ]
+    },
+    "toilets": { "t": {  } },
+    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "items": {
+      "O": [ { "item": "SUS_wardrobe_mens", "chance": 50 }, { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
+      "Q": [
+        { "item": "preserved_food", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "dry_goods", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "pet_food", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "condiments", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "pantry_liquids", "chance": 10 }
+      ],
+      "K": [
+        { "item": "dishes_utility", "chance": 30 },
+        { "item": "condiments", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "SUS_knife_drawer", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "SUS_junk_drawer", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "SUS_cookware", "chance": 20 }
+      ],
+      "w": [
+        { "item": "shower", "chance": 20 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "v": [
+        { "item": "art", "chance": 5 },
+        { "item": "gemstones", "chance": 10, "repeat": [ 3, 6 ] },
+        { "item": "jewelry_front", "chance": 5, "repeat": [ 1, 4 ] },
+        { "item": "drugdealer", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "maps", "chance": 2 }
+      ],
+      "U": [
+        { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "mechanics", "chance": 10, "repeat": [ 1, 2 ] }
+      ],
+      "j": [
+        { "item": "softdrugs", "chance": 45, "repeat": [ 1, 3 ] },
+        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_toilet", "chance": 5 },
+        { "item": "SUS_bathroom_sink", "chance": 50 }
+      ],
+      "T": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
+      "n": { "item": "SUS_kitchen_sink", "chance": 10, "repeat": [ 1, 2 ] },
+      "i": { "item": "SUS_oven", "chance": 25, "repeat": [ 1, 2 ] },
+      "l": { "item": "SUS_fridge", "chance": 30, "repeat": [ 1, 2 ] },
+      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
+      "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] }
+    }
+  }
+]

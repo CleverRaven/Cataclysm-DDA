@@ -2,7 +2,7 @@
   {
     "id": "brass_catcher",
     "type": "GUNMOD",
-    "name": "brass catcher",
+    "name": { "str": "brass catcher" },
     "description": "A bag that hangs off the side of your gun and catches ejected casings so you don't have to pick them up.",
     "weight": "114 g",
     "volume": "250 ml",

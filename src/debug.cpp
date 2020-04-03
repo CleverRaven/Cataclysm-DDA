@@ -2,6 +2,7 @@
 
 #include <sys/stat.h>
 #include <cctype>
+#include <cmath>
 #include <cstdio>
 #include <algorithm>
 #include <cassert>
@@ -34,13 +35,14 @@
 #include "worldfactory.h"
 #include "mod_manager.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 #if !defined(_MSC_VER)
 #include <sys/time.h>
 #endif
 
 #if defined(_WIN32)
-#   if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
+#   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
 #       include "platform_win.h"
 #   endif
 #endif
@@ -48,6 +50,9 @@
 #if defined(BACKTRACE)
 #   if defined(_WIN32)
 #       include <dbghelp.h>
+#       if defined(LIBBACKTRACE)
+#           include <backtrace.h>
+#       endif
 #   else
 #       include <execinfo.h>
 #       include <unistd.h>
@@ -140,31 +145,45 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         );
 #endif
 
-    fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
-                    "\n\n" // Looks nicer with some space
-                    " %s\n" // translated user string: error notification
-                    " -----------------------------------------------------------\n"
-                    "%s"
-                    " -----------------------------------------------------------\n"
+    // temporarily disable redrawing and resizing of previous uis since they
+    // could be in an unknown state.
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    const auto init_window = []( ui_adaptor & ui ) {
+        ui.position_from_window( catacurses::stdscr );
+    };
+    init_window( ui );
+    ui.on_screen_resize( init_window );
+    const std::string message = string_format(
+                                    "\n\n" // Looks nicer with some space
+                                    " %s\n" // translated user string: error notification
+                                    " -----------------------------------------------------------\n"
+                                    "%s"
+                                    " -----------------------------------------------------------\n"
 #if defined(BACKTRACE)
-                    " %s\n" // translated user string: where to find backtrace
+                                    " %s\n" // translated user string: where to find backtrace
 #endif
-                    " %s\n" // translated user string: space to continue
-                    " %s\n" // translated user string: ignore key
+                                    " %s\n" // translated user string: space to continue
+                                    " %s\n" // translated user string: ignore key
 #if defined(TILES)
-                    " %s\n" // translated user string: copy
+                                    " %s\n" // translated user string: copy
 #endif // TILES
-                    , _( "An error has occurred!  Written below is the error report:" ),
-                    formatted_report,
+                                    , _( "An error has occurred!  Written below is the error report:" ),
+                                    formatted_report,
 #if defined(BACKTRACE)
-                    backtrace_instructions,
+                                    backtrace_instructions,
 #endif
-                    _( "Press <color_white>space bar</color> to continue the game." ),
-                    _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
+                                    _( "Press <color_white>space bar</color> to continue the game." ),
+                                    _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
 #if defined(TILES)
-                    , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
+                                    , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
 #endif // TILES
-                  );
+                                );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        catacurses::erase();
+        fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
+                        "%s", message );
+        catacurses::refresh();
+    } );
 
 #if defined(__ANDROID__)
     input_context ctxt( "DEBUG_MSG" );
@@ -173,6 +192,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     ctxt.register_manual_key( ' ' );
 #endif
     for( bool stop = false; !stop; ) {
+        ui_manager::redraw();
         switch( inp_mngr.get_input_event().get_first_input() ) {
 #if defined(TILES)
             case 'c':
@@ -189,9 +209,6 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
                 break;
         }
     }
-
-    werase( catacurses::stdscr );
-    catacurses::refresh();
 }
 
 // Normal functions                                                 {{{1
@@ -211,27 +228,6 @@ void limitDebugClass( int class_bitmask )
 
 // Debug only                                                       {{{1
 // ---------------------------------------------------------------------
-
-#if defined(BACKTRACE)
-#if defined(_WIN32)
-constexpr int module_path_len = 512;
-// on some systems the number of frames to capture have to be less than 63 according to the documentation
-constexpr int bt_cnt = 62;
-constexpr int max_name_len = 512;
-// ( max_name_len - 1 ) because SYMBOL_INFO already contains a TCHAR
-constexpr int sym_size = sizeof( SYMBOL_INFO ) + ( max_name_len - 1 ) * sizeof( TCHAR );
-static char mod_path[module_path_len];
-static PVOID bt[bt_cnt];
-static struct {
-    alignas( SYMBOL_INFO ) char storage[sym_size];
-} sym_storage;
-static SYMBOL_INFO &sym = reinterpret_cast<SYMBOL_INFO &>( sym_storage );
-#else
-#define TRACE_SIZE 20
-
-void *tracePtrs[TRACE_SIZE];
-#endif
-#endif
 
 // Debug Includes                                                   {{{2
 // ---------------------------------------------------------------------
@@ -578,25 +574,122 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
 }
 #endif
 
+#if defined(_WIN32) && defined(LIBBACKTRACE)
+// wrap libbacktrace to use std::function instead of function pointers
+using bt_error_callback = std::function<void( const char *, int )>;
+using bt_full_callback = std::function<int( uintptr_t, const char *, int, const char * )>;
+using bt_syminfo_callback = std::function<void( uintptr_t, const char *, uintptr_t, uintptr_t )>;
+
+static backtrace_state *bt_create_state( const char *const filename, const int threaded,
+        const bt_error_callback &cb )
+{
+    return backtrace_create_state( filename, threaded,
+    []( void *const data, const char *const msg, const int errnum ) {
+        const bt_error_callback &cb = *reinterpret_cast<const bt_error_callback *>( data );
+        cb( msg, errnum );
+    },
+    const_cast<bt_error_callback *>( &cb ) );
+}
+
+static int bt_pcinfo( backtrace_state *const state, const uintptr_t pc,
+                      const bt_full_callback &cb_full, const bt_error_callback &cb_error )
+{
+    using cb_pair = std::pair<const bt_full_callback &, const bt_error_callback &>;
+    cb_pair cb { cb_full, cb_error };
+    return backtrace_pcinfo( state, pc,
+                             // backtrace callback
+                             []( void *const data, const uintptr_t pc, const char *const filename,
+    const int lineno, const char *const function ) -> int {
+        cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
+        return cb.first( pc, filename, lineno, function );
+    },
+    // error callback
+    []( void *const data, const char *const msg, const int errnum ) {
+        cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
+        cb.second( msg, errnum );
+    },
+    &cb );
+}
+
+static int bt_syminfo( backtrace_state *const state, const uintptr_t addr,
+                       const bt_syminfo_callback &cb_syminfo, const bt_error_callback cb_error )
+{
+    using cb_pair = std::pair<const bt_syminfo_callback &, const bt_error_callback &>;
+    cb_pair cb { cb_syminfo, cb_error };
+    return backtrace_syminfo( state, addr,
+                              // syminfo callback
+                              []( void *const data, const uintptr_t pc, const char *const symname,
+    const uintptr_t symval, const uintptr_t symsize ) {
+        cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
+        cb.first( pc, symname, symval, symsize );
+    },
+    // error callback
+    []( void *const data, const char *const msg, const int errnum ) {
+        cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
+        cb.second( msg, errnum );
+    },
+    &cb );
+}
+#endif
+
+#if defined(_WIN32)
+class sym_init
+{
+    public:
+        sym_init() {
+            SymInitialize( GetCurrentProcess(), nullptr, TRUE );
+        }
+
+        ~sym_init() {
+            SymCleanup( GetCurrentProcess() );
+        }
+};
+static std::unique_ptr<sym_init> sym_init_;
+
+constexpr int module_path_len = 512;
+// on some systems the number of frames to capture have to be less than 63 according to the documentation
+constexpr int bt_cnt = 62;
+constexpr int max_name_len = 512;
+// ( max_name_len - 1 ) because SYMBOL_INFO already contains a TCHAR
+constexpr int sym_size = sizeof( SYMBOL_INFO ) + ( max_name_len - 1 ) * sizeof( TCHAR );
+static char mod_path[module_path_len];
+static PVOID bt[bt_cnt];
+static struct {
+    alignas( SYMBOL_INFO ) char storage[sym_size];
+} sym_storage;
+static SYMBOL_INFO &sym = reinterpret_cast<SYMBOL_INFO &>( sym_storage );
+#if defined(LIBBACKTRACE)
+static std::map<DWORD64, backtrace_state *> bt_states;
+#endif
+#else
+constexpr int bt_cnt = 20;
+static void *bt[bt_cnt];
+#endif
+
 void debug_write_backtrace( std::ostream &out )
 {
 #if defined(_WIN32)
+    if( !sym_init_ ) {
+        sym_init_ = std::make_unique<sym_init>();
+    }
     sym.SizeOfStruct = sizeof( SYMBOL_INFO );
     sym.MaxNameLen = max_name_len;
-    USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, nullptr );
-    HANDLE proc = GetCurrentProcess();
+    // libbacktrace's own backtrace capturing doesn't seem to work on Windows
+    const USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, nullptr );
+    const HANDLE proc = GetCurrentProcess();
     for( USHORT i = 0; i < num_bt; ++i ) {
         DWORD64 off;
-        out << "\n    (";
+        out << "\n  #" << i;
+        out << "\n    (dbghelp: ";
         if( SymFromAddr( proc, reinterpret_cast<DWORD64>( bt[i] ), &off, &sym ) ) {
             out << sym.Name << "+0x" << std::hex << off << std::dec;
         }
         out << "@" << bt[i];
-        DWORD64 mod_base = SymGetModuleBase64( proc, reinterpret_cast<DWORD64>( bt[i] ) );
+        const DWORD64 mod_base = SymGetModuleBase64( proc, reinterpret_cast<DWORD64>( bt[i] ) );
         if( mod_base ) {
             out << "[";
-            DWORD mod_len = GetModuleFileName( reinterpret_cast<HMODULE>( mod_base ), mod_path,
-                                               module_path_len );
+            const DWORD mod_len = GetModuleFileName( reinterpret_cast<HMODULE>( mod_base ), mod_path,
+                                  module_path_len );
             // mod_len == module_path_len means insufficient buffer
             if( mod_len > 0 && mod_len < module_path_len ) {
                 const char *mod_name = mod_path + mod_len;
@@ -610,6 +703,67 @@ void debug_write_backtrace( std::ostream &out )
                 std::dec << "]";
         }
         out << "), ";
+#if defined(LIBBACKTRACE)
+        backtrace_state *bt_state = nullptr;
+        if( mod_base ) {
+            const auto it = bt_states.find( mod_base );
+            if( it != bt_states.end() ) {
+                bt_state = it->second;
+            } else {
+                const DWORD mod_len = GetModuleFileName( reinterpret_cast<HMODULE>( mod_base ), mod_path,
+                                      module_path_len );
+                if( mod_len > 0 && mod_len < module_path_len ) {
+                    bt_state = bt_create_state( mod_path, 0,
+                                                // error callback
+                    [&out]( const char *const msg, const int errnum ) {
+                        out << "\n    (backtrace_create_state failed: errno = " << errnum
+                            << ", msg = " << ( msg ? msg : "[no msg]" ) << "),";
+                    } );
+                } else {
+                    out << "\n    (executable path exceeds " << module_path_len << " chars),";
+                }
+                if( bt_state ) {
+                    bt_states.emplace( mod_base, bt_state );
+                }
+            }
+        } else {
+            out << "\n    (unable to get module base address),";
+        }
+        if( bt_state ) {
+            bt_syminfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
+                        // syminfo callback
+                        [&out]( const uintptr_t pc, const char *const symname,
+            const uintptr_t symval, const uintptr_t ) {
+                out << "\n    (libbacktrace: " << ( symname ? symname : "[unknown symbol]" )
+                    << "+0x" << std::hex << pc - symval << std::dec
+                    << "@0x" << std::hex << pc << std::dec
+                    << "),";
+            },
+            // error callback
+            [&out]( const char *const msg, const int errnum ) {
+                out << "\n    (backtrace_syminfo failed: errno = " << errnum
+                    << ", msg = " << ( msg ? msg : "[no msg]" )
+                    << "),";
+            } );
+            bt_pcinfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
+                       // backtrace callback
+                       [&out]( const uintptr_t pc, const char *const filename,
+            const int lineno, const char *const function ) -> int {
+                out << "\n    (libbacktrace: 0x" << std::hex << pc << std::dec
+                    << "    " << ( filename ? filename : "[unknown src]" )
+                    << ":" << lineno
+                    << "    " << ( function ? function : "[unknown func]" )
+                    << "),";
+                return 0;
+            },
+            // error callback
+            [&out]( const char *const msg, const int errnum ) {
+                out << "\n    (backtrace_pcinfo failed: errno = " << errnum
+                    << ", msg = " << ( msg ? msg : "[no msg]" )
+                    << "),";
+            } );
+        }
+#endif
     }
     out << "\n";
 #else
@@ -617,8 +771,8 @@ void debug_write_backtrace( std::ostream &out )
     // BACKTRACE is not supported under CYGWIN!
     ( void ) out;
 #   else
-    int count = backtrace( tracePtrs, TRACE_SIZE );
-    char **funcNames = backtrace_symbols( tracePtrs, count );
+    int count = backtrace( bt, bt_cnt );
+    char **funcNames = backtrace_symbols( bt, count );
     for( int i = 0; i < count; ++i ) {
         out << "\n    " << funcNames[i];
     }
@@ -684,7 +838,7 @@ void debug_write_backtrace( std::ostream &out )
         // From that we need to extract the binary name, the symbol
         // name, and the offset within the symbol.  We don't need to
         // extract the address (the last thing) because that's already
-        // available in tracePtrs.
+        // available in bt.
 
         auto funcName = funcNames[i];
         assert( funcName ); // To appease static analysis
@@ -719,7 +873,7 @@ void debug_write_backtrace( std::ostream &out )
 
                 cata::optional<uintptr_t> offset =
                     debug_compute_load_offset( binary_name, symbol_name, offset_within_symbol,
-                                               tracePtrs[i], out );
+                                               bt[i], out );
                 if( offset ) {
                     load_offsets.emplace( binary_name, *offset );
                 }
@@ -739,7 +893,7 @@ void debug_write_backtrace( std::ostream &out )
         }
 
         last_binary_name = binary_name;
-        addresses.push_back( reinterpret_cast<uintptr_t>( tracePtrs[i] ) );
+        addresses.push_back( reinterpret_cast<uintptr_t>( bt[i] ) );
     }
 
     if( !addresses.empty() ) {
@@ -829,7 +983,7 @@ std::string game_info::operating_system()
 #endif
 }
 
-#if !defined(__CYGWIN__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) ) // linux; unix; MacOs; BSD
+#if !defined(__CYGWIN__) && !defined (__ANDROID__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) ) // linux; unix; MacOs; BSD
 /** Execute a command with the shell by using `popen()`.
  * @param command The full command to execute.
  * @note The output buffer is limited to 512 characters.
@@ -1119,11 +1273,21 @@ std::string game_info::game_report()
         os_version = "<unknown>";
     }
     std::stringstream report;
+
+    std::string lang = get_option<std::string>( "USE_LANG" );
+    std::string lang_translated;
+    for( const options_manager::id_and_option &vItem : options_manager::lang_options ) {
+        if( vItem.first == lang ) {
+            lang_translated = vItem.second.translated();
+        }
+    }
+
     report <<
            "- OS: " << operating_system() << "\n" <<
            "    - OS Version: " << os_version << "\n" <<
            "- Game Version: " << game_version() << " [" << bitness() << "]\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
+           "- Game Language: " << lang_translated << " [" << lang << "]\n" <<
            "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
 
     return report.str();

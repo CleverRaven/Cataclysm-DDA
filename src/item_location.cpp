@@ -74,7 +74,7 @@ class item_location::impl
         virtual type where() const = 0;
         virtual tripoint position() const = 0;
         virtual std::string describe( const Character * ) const = 0;
-        virtual int obtain( Character &, int ) = 0;
+        virtual item_location obtain( Character &, int ) = 0;
         virtual int obtain_cost( const Character &, int ) const = 0;
         virtual void remove_item() = 0;
         virtual void serialize( JsonOut &js ) const = 0;
@@ -127,9 +127,9 @@ class item_location::impl::nowhere : public item_location::impl
             return "";
         }
 
-        int obtain( Character &, int ) override {
+        item_location obtain( Character &, int ) override {
             debugmsg( "invalid use of nowhere item_location" );
-            return INT_MIN;
+            return item_location();
         }
 
         int obtain_cost( const Character &, int ) const override {
@@ -189,16 +189,16 @@ class item_location::impl::item_on_map : public item_location::impl
             return res;
         }
 
-        int obtain( Character &ch, int qty ) override {
+        item_location obtain( Character &ch, int qty ) override {
             ch.moves -= obtain_cost( ch, qty );
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
+                return item_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
+                item *inv = &ch.i_add( *target(), should_stack );
                 remove_item();
-                return inv;
+                return item_location( ch, inv );
             }
         }
 
@@ -307,21 +307,21 @@ class item_location::impl::item_on_person : public item_location::impl
             }
         }
 
-        int obtain( Character &ch, int qty ) override {
+        item_location obtain( Character &ch, int qty ) override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
             if( &ch.i_at( ch.get_item_position( target() ) ) == target() ) {
                 // item already in target characters inventory at base of stack
-                return ch.get_item_position( target() );
+                return item_location( ch, target() );
             }
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
+                return item_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
+                item *inv = &ch.i_add( *target(), should_stack );
                 remove_item();  // This also takes off the item from whoever wears it.
-                return inv;
+                return item_location( ch, inv );
             }
         }
 
@@ -434,16 +434,16 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             return res;
         }
 
-        int obtain( Character &ch, int qty ) override {
+        item_location obtain( Character &ch, int qty ) override {
             ch.moves -= obtain_cost( ch, qty );
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj, should_stack ) );
+                return item_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *target(), should_stack ) );
+                item *inv = &ch.i_add( *target(), should_stack );
                 remove_item();
-                return inv;
+                return item_location( ch, inv );
             }
         }
 
@@ -581,11 +581,11 @@ std::string item_location::describe( const Character *ch ) const
     return ptr->describe( ch );
 }
 
-int item_location::obtain( Character &ch, int qty )
+item_location item_location::obtain( Character &ch, int qty )
 {
     if( !ptr->valid() ) {
         debugmsg( "item location does not point to valid item" );
-        return INT_MIN;
+        return item_location();
     }
     return ptr->obtain( ch, qty );
 }

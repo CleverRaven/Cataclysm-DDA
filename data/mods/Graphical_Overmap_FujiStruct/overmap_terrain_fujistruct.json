@@ -3,7 +3,7 @@
     "type": "overmap_terrain",
     "id": "s_electronicstore",
     "copy-from": "s_electronicstore",
-    "sym": "ç"
+    "sym": "\u00E7"
   },
   {
     "type": "overmap_terrain",
@@ -14,7 +14,7 @@
     "type": "overmap_terrain",
     "id": "s_gunstore",
     "copy-from": "s_gunstore",
-    "sym": "ç"
+    "sym": "\u00E7"
   },
   {
     "type": "overmap_terrain",
@@ -30,7 +30,7 @@
     "type": "overmap_terrain",
     "id": "s_diner",
     "copy-from": "s_diner",
-    "sym": "ç"
+    "sym": "\u00E7"
   },
   {
     "type": "overmap_terrain",
@@ -46,7 +46,7 @@
     "type": "overmap_terrain",
     "id": "s_apt",
     "copy-from": "s_apt",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
@@ -62,7 +62,7 @@
     "type": "overmap_terrain",
     "id": "s_apt_2",
     "copy-from": "s_apt_2",
-    "sym": "Ç"
+    "sym": "\u00C7"
   },
   {
     "type": "overmap_terrain",
@@ -78,7 +78,7 @@
     "type": "overmap_terrain",
     "id": "s_cardealer",
     "copy-from": "s_cardealer",
-    "sym": "ç"
+    "sym": "\u00E7"
   },
   {
     "type": "overmap_terrain",
@@ -89,7 +89,7 @@
     "type": "overmap_terrain",
     "id": "s_camping",
     "copy-from": "s_camping",
-    "sym": "ç"
+    "sym": "\u00E7"
   },
   {
     "type": "overmap_terrain",
@@ -100,7 +100,7 @@
     "type": "overmap_terrain",
     "id": "s_games",
     "copy-from": "s_games",
-    "sym": "ç"
+    "sym": "\u00E7"
   },
   {
     "type": "overmap_terrain",
@@ -111,144 +111,144 @@
     "type": "overmap_terrain",
     "id": "s_air_term",
     "copy-from": "s_air_term",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_parking",
     "copy-from": "s_air_parking",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_atc",
     "copy-from": "s_air_atc",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_atc_2",
     "copy-from": "s_air_atc_2",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_atc_3",
     "copy-from": "s_air_atc_3",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_hangars",
     "copy-from": "s_air_hangars",
-    "sym": "ý"
+    "sym": "\u00FD"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway",
     "copy-from": "s_air_runway",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway_hangars",
     "copy-from": "s_air_runway_hangars",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway_l",
     "copy-from": "s_air_runway_l",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway_r",
     "copy-from": "s_air_runway_r",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "s_air_runway_term",
     "copy-from": "s_air_runway_term",
-    "sym": "ô"
+    "sym": "\u00F4"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_road_0",
     "copy-from": "s_lightindustry_road_0",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_road_1",
     "copy-from": "s_lightindustry_road_1",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_00",
     "copy-from": "s_lightindustry_00",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_01",
     "copy-from": "s_lightindustry_01",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_10",
     "copy-from": "s_lightindustry_10",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "s_lightindustry_11",
     "copy-from": "s_lightindustry_11",
-    "sym": "Ö"
+    "sym": "\u00D6"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_g1",
     "copy-from": "s_gas_g1",
-    "sym": "ú"
+    "sym": "\u00FA"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_g0",
     "copy-from": "s_gas_g0",
-    "sym": "ú"
+    "sym": "\u00FA"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_b11",
     "copy-from": "s_gas_b11",
-    "sym": "ú"
+    "sym": "\u00FA"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_b20",
     "copy-from": "s_gas_b20",
-    "sym": "Õ"
+    "sym": "\u00D5"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gas_b21",
     "copy-from": "s_gas_b21",
-    "sym": "Õ"
+    "sym": "\u00D5"
   },
   {
     "type": "overmap_terrain",
     "id": "s_bunker_shop_g",
     "copy-from": "s_bunker_shop_g",
-    "sym": "à"
+    "sym": "\u00E0"
   },
   {
     "type": "overmap_terrain",
     "id": "s_bunker_shop_b",
     "copy-from": "s_bunker_shop_b",
-    "sym": "Õ"
+    "sym": "\u00D5"
   }
 ]

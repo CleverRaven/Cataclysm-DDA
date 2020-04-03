@@ -9,6 +9,11 @@
 #include "itype.h"
 #include "vitamin.h"
 
+static const trait_id trait_GIZZARD( "GIZZARD" );
+static const trait_id trait_GOURMAND( "GOURMAND" );
+static const trait_id trait_HIBERNATE( "HIBERNATE" );
+static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+
 void nutrients::min_in_place( const nutrients &r )
 {
     kcal = std::min( kcal, r.kcal );
@@ -149,16 +154,16 @@ void stomach_contents::deserialize( JsonIn &json )
 units::volume stomach_contents::capacity( const Character &owner ) const
 {
     float max_mod = 1;
-    if( owner.has_trait( trait_id( "GIZZARD" ) ) ) {
+    if( owner.has_trait( trait_GIZZARD ) ) {
         max_mod *= 0.9;
     }
-    if( owner.has_active_mutation( trait_id( "HIBERNATE" ) ) ) {
+    if( owner.has_active_mutation( trait_HIBERNATE ) ) {
         max_mod *= 3;
     }
-    if( owner.has_active_mutation( trait_id( "GOURMAND" ) ) ) {
+    if( owner.has_active_mutation( trait_GOURMAND ) ) {
         max_mod *= 2;
     }
-    if( owner.has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
+    if( owner.has_trait( trait_SLIMESPAWNER ) ) {
         max_mod *= 3;
     }
     return max_volume * max_mod;
@@ -203,12 +208,12 @@ food_summary stomach_contents::digest( const Character &owner, const needs_rates
 
     // Digest kCal -- use min_kcal by default, but no more than what's in stomach,
     // and no less than percentage_kcal of what's in stomach.
-    int kcal_fraction = lround( nutr.kcal * rates.percent_kcal );
+    int kcal_fraction = std::lround( nutr.kcal * rates.percent_kcal );
     digested.nutr.kcal = half_hours * clamp( rates.min_kcal, kcal_fraction, nutr.kcal );
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
     for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins ) {
-        int vit_fraction = lround( vit.second * rates.percent_vitamin );
+        int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
         digested.nutr.vitamins[vit.first] =
             half_hours * clamp( rates.min_vitamin, vit_fraction, vit.second );
     }

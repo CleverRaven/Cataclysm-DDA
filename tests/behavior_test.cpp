@@ -1,7 +1,6 @@
 #include <memory>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "behavior.h"
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
@@ -11,6 +10,9 @@
 #include "material.h"
 #include "string_id.h"
 #include "weather.h"
+
+#include "catch/catch.hpp"
+#include "player_helpers.h"
 
 namespace behavior
 {
@@ -131,13 +133,12 @@ TEST_CASE( "behavior_tree", "[behavior]" )
 }
 
 // Make assertions about loaded behaviors.
-TEST_CASE( "check_npc_behavior_tree", "[behavior]" )
+TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 {
     behavior::tree npc_needs;
     npc_needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
-    npc test_npc;
-    test_npc.normalize();
-    test_npc.setpos( { 50, 50, 0 } );
+    npc &test_npc = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( test_npc );
     behavior::character_oracle_t oracle( &test_npc );
     CHECK( npc_needs.tick( &oracle ) == "idle" );
     SECTION( "Freezing" ) {

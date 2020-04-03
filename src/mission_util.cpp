@@ -115,7 +115,7 @@ static tripoint random_house_in_city( const city_reference &cref )
     const tripoint city_center_omt = sm_to_omt_copy( cref.abs_sm_pos );
     std::vector<tripoint> valid;
     for( const tripoint &p : points_in_radius( city_center_omt, cref.city->size ) ) {
-        if( overmap_buffer.check_ot( "house", ot_match_type::type, p ) ) {
+        if( overmap_buffer.check_ot( "house", ot_match_type::prefix, p ) ) {
             valid.push_back( p );
         }
     }
@@ -359,56 +359,56 @@ tripoint mission_util::target_om_ter_random( const std::string &omter, int revea
 mission_target_params mission_util::parse_mission_om_target( const JsonObject &jo )
 {
     mission_target_params p;
-    if( jo.has_string( "om_terrain" ) ) {
+    if( jo.has_member( "om_terrain" ) ) {
         p.overmap_terrain = jo.get_string( "om_terrain" );
     }
-    if( jo.has_string( "om_terrain_match_type" ) ) {
+    if( jo.has_member( "om_terrain_match_type" ) ) {
         p.overmap_terrain_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type" );
     }
-    if( jo.has_bool( "origin_npc" ) ) {
+    if( jo.get_bool( "origin_npc", false ) ) {
         p.origin_u = false;
     }
-    if( jo.has_string( "om_terrain_replace" ) ) {
+    if( jo.has_member( "om_terrain_replace" ) ) {
         p.replaceable_overmap_terrain = jo.get_string( "om_terrain_replace" );
     }
-    if( jo.has_string( "om_special" ) ) {
+    if( jo.has_member( "om_special" ) ) {
         p.overmap_special = overmap_special_id( jo.get_string( "om_special" ) );
     }
-    if( jo.has_int( "reveal_radius" ) ) {
+    if( jo.has_member( "reveal_radius" ) ) {
         p.reveal_radius = std::max( 1, jo.get_int( "reveal_radius" ) );
     }
-    if( jo.has_bool( "must_see" ) ) {
+    if( jo.has_member( "must_see" ) ) {
         p.must_see = jo.get_bool( "must_see" );
     }
-    if( jo.has_bool( "cant_see" ) ) {
+    if( jo.has_member( "cant_see" ) ) {
         p.cant_see = jo.get_bool( "cant_see" );
     }
-    if( jo.has_bool( "exclude_seen" ) ) {
+    if( jo.has_member( "exclude_seen" ) ) {
         p.random = jo.get_bool( "exclude" );
     }
-    if( jo.has_bool( "random" ) ) {
+    if( jo.has_member( "random" ) ) {
         p.random = jo.get_bool( "random" );
     }
-    if( jo.has_int( "search_range" ) ) {
+    if( jo.has_member( "search_range" ) ) {
         p.search_range = std::max( 1, jo.get_int( "search_range" ) );
     }
-    if( jo.has_int( "min_distance" ) ) {
+    if( jo.has_member( "min_distance" ) ) {
         p.min_distance = std::max( 1, jo.get_int( "min_distance" ) );
     }
-    if( jo.has_int( "offset_x" ) || jo.has_int( "offset_y" ) || jo.has_int( "offset_z" ) ) {
+    if( jo.has_member( "offset_x" ) || jo.has_member( "offset_y" ) || jo.has_member( "offset_z" ) ) {
         tripoint offset;
-        if( jo.has_int( "offset_x" ) ) {
+        if( jo.has_member( "offset_x" ) ) {
             offset.x = jo.get_int( "offset_x" );
         }
-        if( jo.has_int( "offset_y" ) ) {
+        if( jo.has_member( "offset_y" ) ) {
             offset.y = jo.get_int( "offset_y" );
         }
-        if( jo.has_int( "offset_z" ) ) {
+        if( jo.has_member( "offset_z" ) ) {
             offset.z = jo.get_int( "offset_z" );
         }
         p.offset = offset;
     }
-    if( jo.has_int( "z" ) ) {
+    if( jo.has_member( "z" ) ) {
         p.z = jo.get_int( "z" );
     }
     return p;
@@ -427,7 +427,7 @@ void mission_util::set_reveal_any( const JsonArray &ja,
                                    std::vector<std::function<void( mission *miss )>> &funcs )
 {
     std::vector<std::string> terrains;
-    for( const std::string &terrain : ja ) {
+    for( const std::string terrain : ja ) {
         terrains.push_back( terrain );
     }
     const auto mission_func = [ terrains ]( mission * miss ) {
@@ -439,9 +439,6 @@ void mission_util::set_reveal_any( const JsonArray &ja,
 void mission_util::set_assign_om_target( const JsonObject &jo,
         std::vector<std::function<void( mission *miss )>> &funcs )
 {
-    if( !jo.has_string( "om_terrain" ) ) {
-        jo.throw_error( "'om_terrain' is required for assign_mission_target" );
-    }
     mission_target_params p = parse_mission_om_target( jo );
     const auto mission_func = [p]( mission * miss ) {
         mission_target_params mtp = p;
@@ -461,7 +458,7 @@ bool mission_util::set_update_mapgen( const JsonObject &jo,
         return false;
     }
 
-    if( jo.has_string( "om_special" ) && jo.has_string( "om_terrain" ) ) {
+    if( jo.has_member( "om_terrain" ) ) {
         const std::string om_terrain = jo.get_string( "om_terrain" );
         const auto mission_func = [update_map, om_terrain]( mission * miss ) {
             tripoint update_pos3 = mission_util::reveal_om_ter( om_terrain, 1, false );
@@ -484,9 +481,9 @@ bool mission_util::load_funcs( const JsonObject &jo,
     if( jo.has_string( "reveal_om_ter" ) ) {
         const std::string target_terrain = jo.get_string( "reveal_om_ter" );
         set_reveal( target_terrain, funcs );
-    } else if( jo.has_array( "reveal_om_ter" ) ) {
+    } else if( jo.has_member( "reveal_om_ter" ) ) {
         set_reveal_any( jo.get_array( "reveal_om_ter" ), funcs );
-    } else if( jo.has_object( "assign_mission_target" ) ) {
+    } else if( jo.has_member( "assign_mission_target" ) ) {
         JsonObject mission_target = jo.get_object( "assign_mission_target" );
         set_assign_om_target( mission_target, funcs );
     }
@@ -496,7 +493,7 @@ bool mission_util::load_funcs( const JsonObject &jo,
         if( !set_update_mapgen( update_mapgen, funcs ) ) {
             return false;
         }
-    } else if( jo.has_array( "update_mapgen" ) ) {
+    } else {
         for( JsonObject update_mapgen : jo.get_array( "update_mapgen" ) ) {
             if( !set_update_mapgen( update_mapgen, funcs ) ) {
                 return false;

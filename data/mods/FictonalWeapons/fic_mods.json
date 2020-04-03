@@ -32,14 +32,8 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "pistol", "smg" ],
-    "gun_data": {
-      "ammo": "flammable",
-      "skill": "launcher",
-      "dispersion": 320,
-      "durability": 10,
-      "clip_size": 300,
-      "flags": [ "FIRE_50" ]
-    },
+    "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 320, "durability": 10, "clip_size": 300 },
+    "flags": [ "FIRE_50" ],
     "dispersion_modifier": 25,
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 2 ] ]
   },
@@ -60,7 +54,6 @@
     "bashing": 5,
     "handling_modifier": -5,
     "price": 20000,
-    "min_skills": [ [ "gun", 5 ] ],
-    "ups_charges": 5
+    "min_skills": [ [ "gun", 5 ] ]
   }
 ]

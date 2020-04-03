@@ -1,6 +1,6 @@
 #include "magic_teleporter_list.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <algorithm>
 #include <memory>
@@ -184,7 +184,7 @@ cata::optional<tripoint> teleporter_list::choose_teleport_location()
     int index = 0;
     int column_width = 25;
     std::map<int, tripoint> index_pairs;
-    for( const std::pair<tripoint, std::string> &gate : known_teleporters ) {
+    for( const std::pair<const tripoint, std::string> &gate : known_teleporters ) {
         teleport_selector.addentry( index, true, 0, gate.second );
         column_width = std::max( column_width, utf8_width( gate.second ) );
         index_pairs.emplace( index, gate.first );

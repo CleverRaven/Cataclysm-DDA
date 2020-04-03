@@ -1,75 +1,75 @@
 # JSON Flags
 
-* [Notes](#notes)
-* [Inheritance](#inheritance)
-* [TODO](#todo)
-* [Ammo](#ammo)
-  + [Ammo type](#ammo-type)
-  + [Effects](#effects)
-* [Armor](#armor)
-  + [Covers](#covers)
-  + [Flags](#flags)
-* [Bionics](#bionics)
-* [Books](#books)
-  + [Use actions](#use-actions)
-* [Comestibles](#comestibles)
-  + [Comestible type](#comestible-type)
-  + [Addiction type](#addiction-type)
-  + [Use action](#use-action)
-  + [Flags](#flags-1)
-* [Furniture and Terrain](#furniture-and-terrain)
-  + [Flags](#flags-2)
-  + [Examine Actions](#examine-actions)
-  + [Fungal Conversions Only](#fungal-conversions-only)
-  + [Furniture Only](#furniture-only)
-* [Generic](#generic)
-  + [Flags](#flags-3)
-* [Guns](#guns)
-  + [Firing modes](#firing-modes)
-  + [Faults](#faults)
+- [JSON Flags](#json-flags)
+  - [Notes](#notes)
+  - [Inheritance](#inheritance)
+  - [TODO](#todo)
+  - [Ammo](#ammo)
+    - [Ammo type](#ammo-type)
+    - [Effects](#effects)
+  - [Armor](#armor)
+    - [Covers](#covers)
     - [Flags](#flags)
-    - [Parameters](#parameters)
-* [Magazines](#magazines)
-* [MAP SPECIALS](#map-specials)
-* [Material Phases](#material-phases)
-* [Melee](#melee)
-  + [Flags](#flags-4)
-* [Monster Groups](#monster-groups)
-  + [Conditions](#conditions)
+  - [Bionics](#bionics)
+  - [Books](#books)
+    - [Use actions](#use-actions)
+  - [Comestibles](#comestibles)
+    - [Comestible type](#comestible-type)
+    - [Addiction type](#addiction-type)
+    - [Use action](#use-action)
+    - [Flags](#flags-1)
+  - [Furniture and Terrain](#furniture-and-terrain)
+    - [Flags](#flags-2)
+    - [Examine Actions](#examine-actions)
+    - [Fungal Conversions Only](#fungal-conversions-only)
+    - [Furniture Only](#furniture-only)
+  - [Generic](#generic)
+    - [Flags](#flags-3)
+  - [Guns](#guns)
+    - [Firing modes](#firing-modes)
+    - [Faults](#faults)
+      - [Flags](#flags-4)
+      - [Parameters](#parameters)
+  - [Magazines](#magazines)
+  - [MAP SPECIALS](#map-specials)
+  - [Material Phases](#material-phases)
+  - [Melee](#melee)
+    - [Flags](#flags-5)
+  - [Monster Groups](#monster-groups)
     - [Seasons](#seasons)
     - [Time of day](#time-of-day)
-* [Monsters](#monsters)
-  + [Anger, Fear and Placation Triggers](#anger--fear-and-placation-triggers)
-  + [Categories](#categories)
-  + [Death Functions](#death-functions)
-  + [Flags](#flags-5)
-  + [Monster Defense and Attacks](#monster-defense-and-attacks)
-  + [Sizes](#sizes)
-  + [Special attacks](#special-attacks)
-* [Mutations](#mutations)
-  + [Categories](#categories-1)
-* [Overmap](#overmap)
-  + [Overmap connections](#overmap-connections)
+  - [Monsters](#monsters)
+    - [Anger, Fear and Placation Triggers](#anger-fear-and-placation-triggers)
+    - [Categories](#categories)
+    - [Death Functions](#death-functions)
     - [Flags](#flags-6)
-  + [Overmap specials](#overmap-specials)
-    - [Flags](#flags-7)
-  + [Overmap terrains](#overmap-terrains)
-    - [Flags](#flags-8)
-* [Recipes](#recipes)
-  + [Categories](#categories-2)
-  + [Flags](#flags-9)
-* [Scenarios](#scenarios)
-  + [Flags](#flags-10)
-    - [Season Flags](#season-flags)
-* [Skills](#skills)
-  + [Tags](#tags)
-* [Techniques](#techniques)
-* [Tools](#tools)
-  + [Flags](#flags-11)
-  + [Flags that apply to items](#flags-that-apply-to-items)
-* [Vehicle Parts](#vehicle-parts)
-  + [Flags](#flags-12)
-  + [Fuel types](#fuel-types)
+    - [Monster Defense and Attacks](#monster-defense-and-attacks)
+    - [Sizes](#sizes)
+    - [Special attacks](#special-attacks)
+  - [Mutations](#mutations)
+      - [Flags](#flags-7)
+    - [Categories](#categories-1)
+  - [Overmap](#overmap)
+    - [Overmap connections](#overmap-connections)
+    - [Overmap specials](#overmap-specials)
+      - [Flags](#flags-8)
+    - [Overmap terrains](#overmap-terrains)
+      - [Flags](#flags-9)
+  - [Recipes](#recipes)
+    - [Categories](#categories-2)
+    - [Flags](#flags-10)
+  - [Scenarios](#scenarios)
+    - [Flags](#flags-11)
+      - [Season Flags](#season-flags)
+  - [Skills](#skills)
+    - [Tags](#tags)
+  - [Techniques](#techniques)
+  - [Tools](#tools)
+    - [Flags](#flags-12)
+    - [Flags that apply to items](#flags-that-apply-to-items)
+  - [Vehicle Parts](#vehicle-parts)
+    - [Flags](#flags-13)
+    - [Fuel types](#fuel-types)
 
 
 ## Notes
@@ -80,7 +80,7 @@
 
 ## Inheritance
 
-When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, you can add the flag `NO_CRAFT_INHERIT` to that item.
+When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, specify the member delete_flags, which is an array of strings. Flags specified there will be removed from the resultant item upon crafting. This will override flag inheritance, but will not delete flags that are part of the item type itself.
 
 
 ## TODO
@@ -307,7 +307,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ACIDBOMB``` Pull the pin on an acid bomb.
 - ```AUTOCLAVE``` Sterilize one CBM by autoclaving it.
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
-- ```BATTLETORCH``` Light the battle torch.
 - ```BELL``` Ring the bell.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
 - ```BREAK_STICK``` Breaks long stick into two.
@@ -424,12 +423,10 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ALCOHOL_WEAK``` Slightly increases drunkenness. Adds disease `drunk`
 - ```ALCOHOL``` Increases drunkenness. Adds disease `drunk`.
 - ```ANTIBIOTIC``` Helps fight infections. Removes disease `infected` and adds disease `recover`.
-- ```ATOMIC_CAFF``` Greatly reduces fatigue and increases radiation dosage.
 - ```BANDAGE``` Stop bleeding.
 - ```BIRDFOOD``` Makes a small bird friendly.
 - ```BLECH``` Causes vomiting.
 - ```BLECH_BECAUSE_UNCLEAN``` Causes warning.
-- ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
 - ```CATTLEFODDER``` Makes a large herbivore friendly.
 - ```CHEW``` Displays message "You chew your %s", but otherwise does nothing.
@@ -564,6 +561,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
 - ```NO_FLOOR``` Things should fall when placed on this tile
 - ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
+- ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
@@ -573,7 +571,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```PLOWABLE``` Terrain can be plowed.
 - ```RAMP_END```
 - ```RAMP``` Can be used to move up a z-level
-- ```REDUCE_SCENT``` Reduces scent even more; only works if also bashable.
+- ```REDUCE_SCENT``` Reduces scent diffusion (not total amount of scent in area); only works if also bashable.
 - ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
 - ```ROUGH``` May hurt the player's feet.
 - ```RUG``` Enables the `Remove Carpet` Construction entry.
@@ -597,6 +595,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 ### Examine Actions
 
 - ```aggie_plant``` Harvest plants.
+- ```autodoc``` Brings the autodoc consoles menu. Needs the ```AUTODOC``` flag to function properly and an adjacent furniture with the ```AUTODOC_COUCH``` flag.
 - ```autoclave_empty``` Start the autoclave cycle if it contains filthy CBM, and the player has enough water.
 - ```autoclave_full``` Check on the progress of the cycle, and collect sterile CBM once cycle is completed.
 - ```bars``` Take advantage of AMORPHOUS and slip through the bars.
@@ -639,6 +638,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ### Furniture Only
 
+- ```AUTODOC``` This furniture can be an autodoc console, it also needs the ```autodoc``` examine action.
+- ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the ```autodoc``` examine action.
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`)
 
 
@@ -678,6 +679,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```REQUIRES_TINDER``` ... Requires tinder to be present on the tile this item tries to start a fire on.
 - ```SLEEP_AID``` ... This item helps in sleeping.
 - ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "NEEDS_UNFOLD".
+- ```TACK``` ... Item can be used as tack for a mount.
 - ```TIE_UP``` ... Item can be used to tie up a creature.
 - ```TINDER``` ... This item can be used as tinder for lighting a fire with a REQUIRES_TINDER flagged firestarter.
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
@@ -701,7 +703,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```MECH_WEAPON``` A built-in mech weapon, cannot be removed or have mods added / removed.
 - ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
 - ```NEVER_JAMS``` Never malfunctions.
-- ```NO_BOOM``` Cancels the ammo effect "FLAME".
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```PRIMITIVE_RANGED_WEAPON``` Allows using non-gunsmith tools to repair it (but not reinforce).
 - ```PUMP_ACTION``` Gun has a rails on its pump action, allowing to install only mods with PUMP_RAIL_COMPATIBLE flag on underbarrel slot.
@@ -802,11 +803,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ## Monster Groups
 
-### Conditions
+The condition flags limit when monsters can spawn.
 
-Limit when monsters can spawn.
-
-#### Seasons
+### Seasons
 
 Multiple season conditions will be combined together so that any of those conditions become valid time of year spawn times.
 
@@ -815,7 +814,7 @@ Multiple season conditions will be combined together so that any of those condit
 - ```SUMMER```
 - ```WINTER```
 
-#### Time of day
+### Time of day
 
 Multiple time of day conditions will be combined together so that any of those conditions become valid time of day spawn times.
 
@@ -907,6 +906,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```CBM_TECH``` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
 - ```CHITIN``` May produce chitin when butchered.
 - ```CLIMBS``` Can climb.
+- ```COLDROOF``` Immune to cold damage.
 - ```CURRENT``` this water is flowing.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground.
@@ -933,7 +933,9 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```HUMAN``` It's a live human, as long as it's alive.
+- ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
+- ```ID_CARD_DESPAWN``` Despawns when a science ID card is used on a nearby console
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
@@ -961,6 +963,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```RIDEABLE_MECH``` This monster is a mech suit that can be piloted.
 - ```SEES``` It can see you (and will run/follow).
+- ```SHEARABLE``` This monster can be sheared for wool.
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
 - ```SMELLS``` It can smell you.
@@ -1006,7 +1009,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```BRANDISH``` Brandish a knife at the player.
 - ```BREATHE``` Spawns a `breather`
 - ```CALLBLOBS``` Calls 2/3 of nearby blobs to defend this monster, and sends 1/3 of nearby blobs after the player.
-- ```CHICKENBOT``` Robot can attack with tazer, M4, or MGL depending on distance.
+- ```CHICKENBOT``` LEGACY - Robot can attack with tazer, M4, or MGL depending on distance.
 - ```COPBOT``` Cop-bot alerts and then tazes the player.
 - ```DANCE``` Monster dances.
 - ```DARKMAN``` Can cause darkness and wraiths to spawn.
@@ -1085,6 +1088,10 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
 - ```NEED_ACTIVE_TO_MELEE``` This mutation gives bonus to unarmed melee only if it's active.
+- ```NO_DISEASE``` This mutation grants immunity to diseases.
+- ```NO_THIRST``` Your thirst is not modified by food or drinks.
+- ```NO_RADIATION``` This mutation grants immunity to radiations.
+
 
 ### Categories
 
@@ -1184,6 +1191,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BLIND_EASY``` Easy to craft with little to no light.
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
+- ```UNCRAFT_BY_QUANTITY``` Supresses the per-charge handling of uncraft recipes.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.  For deconstruction recipes, it will spawn a full magazine when deconstructed.
@@ -1304,7 +1312,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```AUTOPILOT``` This part will enable a vehicle to have a simple autopilot.
 - ```AISLE_LIGHT```
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
-- ```ALTERNATOR``` Recharges batteries installed on the vehicle.
+- ```ALTERNATOR``` Recharges batteries installed on the vehicle. Can only be installed on a part with ```E_ALTERNATOR``` flag.
 - ```ANCHOR_POINT``` Allows secure seatbelt attachment.
 - ```ANIMAL_CTRL``` Can harness an animal, need HARNESS_bodytype flag to specify bodytype of animal.
 - ```ARMOR``` Protects the other vehicle parts it's installed over during collisions.
@@ -1318,13 +1326,14 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```CAMERA_CONTROL```
 - ```CAMERA```
 - ```CAPTURE_MOSNTER_VEH``` Can be used to capture monsters when mounted on a vehicle.
-- ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs.
+- ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs. Can only be installed on a part with ```LOCKABLE_CARGO``` flag.
 - ```CARGO``` Cargo holding area.
 - ```CHEMLAB``` Acts as a chemistry set for crafting.
 - ```CHIMES``` Generates continuous noise when used.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
 - ```CONE_LIGHT``` Projects a cone of light when turned on.
 - ```CONTROLS``` Can be used to control the vehicle.
+- ```CONTROL_ANIMAL``` These controls can only be used to control a vehicle pulled by an animal (such as reins etc).
 - ```COOLER``` There is separate command to toggle this part.
 - ```COVERED``` Prevents items in cargo parts from emitting any light.
 - ```CRAFTRIG``` Acts as a dehydrator, vacuum sealer and reloading press for crafting purposes. Potentially to include additional tools in the future.
@@ -1332,7 +1341,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```CURTAIN``` Can be installed over a part flagged with ```WINDOW```, and functions the same as blinds found on windows in buildings.
 - ```DIFFICULTY_REMOVE```
 - ```DOME_LIGHT```
-- ```DOOR_MOTOR```
+- ```DOOR_MOTOR``` Can only be installed on a part with ```OPENABLE``` flag.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```EVENTURN``` Only on during even turns.
 - ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
@@ -1354,7 +1363,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```HARNESS_bodytype``` Replace bodytype with `any` to accept any type, or with the targeted type.
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
-- ```INTERNAL``` Must be mounted inside a cargo area.
+- ```INTERNAL``` Can only be installed on a part with ```CARGO``` flag.
 - ```KITCHEN``` Acts as a kitchen unit and heat source for crafting.
 - ```LOCKABLE_CARGO``` Cargo containers that are able to have a lock installed.
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
@@ -1367,7 +1376,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NO_JACK```
 - ```OBSTACLE``` Cannot walk through part, unless the part is also ```OPENABLE```.
 - ```ODDTURN``` Only on during odd turns.
-- ```ON_CONTROLS```
+- ```ON_CONTROLS``` Can only be installed on a part with ```CONTROLS``` flag.
 - ```ON_ROOF``` - Parts with this flag could only be installed on a roof (parts with ```ROOF``` flag).
 - ```OPAQUE``` Cannot be seen through.
 - ```OPENABLE``` Can be opened or closed.
@@ -1385,7 +1394,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```REVERSIBLE``` Removal has identical requirements to installation but is twice as quick
 - ```ROOF``` Covers a section of the vehicle. Areas of the vehicle that have a roof and roofs on surrounding sections, are considered inside. Otherwise they're outside.
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids.
-- ```SEATBELT``` Helps prevent the player from being ejected from the vehicle during an accident.
+- ```SEATBELT``` Helps prevent the player from being ejected from the vehicle during an accident. Can only be installed on a part with ```BELTABLE``` flag.
 - ```SEAT``` A seat where the player can sit or sleep.
 - ```SECURITY```
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
@@ -1401,7 +1410,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TOWEL``` Can be used to dry yourself up.
 - ```TRACKED``` Contributes to steering effectiveness but doesn't count as a steering axle for install difficulty and still contributes to drag for the center of steering calculation.
 - ```TRACK``` Allows the vehicle installed on, to be marked and tracked on map.
-- ```TURRET_CONTROLS``` If part with this flag is installed over the turret, it allows to set said turret's targeting mode to full auto.
+- ```TURRET_CONTROLS``` If part with this flag is installed over the turret, it allows to set said turret's targeting mode to full auto. Can only be installed on a part with ```TURRET``` flag.
 - ```TURRET_MOUNT``` Parts with this flag are suitable for installing turrets.
 - ```TURRET``` Is a weapon turret. Can only be installed on a part with ```TURRET_MOUNT``` flag.
 - ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage.
@@ -1419,6 +1428,15 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```WIND_POWERED``` This engine is powered by wind ( sails etc ).
 - ```WIND_TURBINE``` Recharges vehicle batteries when exposed to wind.
 - ```WORKBENCH``` Can craft at this part, must be paired with a workbench json entry.
+- ```NEEDS_WINDOW``` Can only be installed on a part with ```WINDOW``` flag.
+- ```NEEDS_WHEEL_MOUNT_LIGHT``` Can only be installed on a part with ```WHEEL_MOUNT_LIGHT``` flag.
+- ```NEEDS_WHEEL_MOUNT_MEDIUM``` Can only be installed on a part with ```WHEEL_MOUNT_MEDIUM``` flag.
+- ```NEEDS_WHEEL_MOUNT_HEAVY``` Can only be installed on a part with ```WHEEL_MOUNT_HEAVY``` flag.
+
+### Vehicle parts requiring other vehicle parts
+
+The requirement for other vehicle parts is defined for a json flag by setting ```requires_flag``` for the flag. ```requires_flag``` is the other flag that a part with this flag requires. 
+
 
 ### Fuel types
 

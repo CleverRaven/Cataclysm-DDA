@@ -62,6 +62,7 @@ ignore_files = {os.path.normpath(i) for i in {
 
 # these objects have no translatable strings
 ignorable = {
+    "ammo_effect",
     "behavior",
     "city_building",
     "colordef",
@@ -94,7 +95,7 @@ ignorable = {
     "rotatable_symbol",
     "scent_type",
     "skill_boost",
-    "SPECIES",
+    "TRAIT_BLACKLIST",
     "trait_group",
     "uncraft",
     "vehicle_group",
@@ -124,7 +125,6 @@ automatically_convertible = {
     "CONTAINER",
     "dream",
     "ENGINE",
-    "epilogue",
     "faction",
     "furniture",
     "GENERIC",
@@ -145,6 +145,7 @@ automatically_convertible = {
     "PET_ARMOR",
     "score",
     "skill",
+    "SPECIES",
     "speech",
     "SPELL",
     "start_location",
@@ -153,7 +154,6 @@ automatically_convertible = {
     "TOOLMOD",
     "TOOL_ARMOR",
     "tool_quality",
-    "tutorial_messages",
     "vehicle",
     "vehicle_part",
     "vitamin",
@@ -167,13 +167,17 @@ needs_plural = {
     "BIONIC_ITEM",
     "BOOK",
     "CONTAINER",
+    "ENGINE",
     "GENERIC",
     "GUN",
     "GUNMOD",
+    "MAGAZINE",
     "MONSTER",
+    "PET_ARMOR",
     "TOOL",
     "TOOLMOD",
     "TOOL_ARMOR",
+    "WHEEL",
 }
 
 # these objects can be automatically converted, but use format strings
@@ -198,14 +202,16 @@ def extract_harvest(item):
 
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
+    # See comments in `body_part_struct::load` of bodypart.cpp about why xxx and xxx_multiple are not inside a single translation object.
     writestr(outfile, item["name"])
-    writestr(outfile, item["name"], context="bodypart_accusative")
-    if "name_plural" in item:
-        writestr(outfile, item["name_plural"])
-        writestr(outfile, item["name_plural"], context="bodypart_accusative")
+    if "name_multiple" in item:
+        writestr(outfile, item["name_multiple"])
+    writestr(outfile, item["accusative"])
+    if "accusative_multiple" in item:
+        writestr(outfile, item["accusative_multiple"])
     writestr(outfile, item["encumbrance_text"])
-    writestr(outfile, item["heading_singular"])
-    writestr(outfile, item["heading_plural"])
+    writestr(outfile, item["heading"])
+    writestr(outfile, item["heading_multiple"])
     if "hp_bar_ui_text" in item:
         writestr(outfile, item["hp_bar_ui_text"])
 
@@ -468,7 +474,6 @@ def extract_mapgen(item):
                     if speckey == "signage":
                         writestr(outfile, specval, comment="Sign")
         elif objkey == "signs":
-            obj = objval
             for (k, v) in sorted(objval.items(), key=lambda x: x[0]):
                 sign = v.get("signage", None)
                 writestr(outfile, sign, comment="Sign")
@@ -538,8 +543,8 @@ dynamic_line_string_keys = {
     "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
     "u_driving", "npc_driving",
     "has_pickup_list", "is_by_radio", "has_reason",
-# yes/no strings for complex conditions
-    "yes", "no"
+# yes/no strings for complex conditions, 'and' list
+    "yes", "no", "and"
 }
 
 def extract_dynamic_line(line, outfile):

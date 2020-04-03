@@ -2,8 +2,7 @@
   {
     "id": "book_archery",
     "type": "BOOK",
-    "name": "Lessons for the Novice Bowhunter",
-    "name_plural": "Lessons for the Novice Bowhunter",
+    "name": { "str": "Lessons for the Novice Bowhunter", "str_pl": "copies of Lessons for the Novice Bowhunter" },
     "description": "This hefty paperback book contains all the information needed for novice archers to get started hunting with a variety of bows and crossbows.",
     "weight": "932 g",
     "volume": "1250 ml",
@@ -20,8 +19,7 @@
   {
     "id": "mag_archery",
     "type": "BOOK",
-    "name": "Archery for Kids",
-    "name_plural": "Archery for Kids",
+    "name": { "str": "Archery for Kids", "str_pl": "issues of Archery for Kids" },
     "description": "Will you be able to place the arrow right into the bullseye?  It is not that easy, but once you know how it's done, you will have a lot of fun with archery.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -39,8 +37,7 @@
   {
     "id": "manual_archery",
     "type": "BOOK",
-    "name": "Zen and the Art of Archery",
-    "name_plural": "Zen and the Art of Archery",
+    "name": { "str": "Zen and the Art of Archery", "str_pl": "copies of Zen and the Art of Archery" },
     "description": "This massive book contains a wealth of vital information for the novice archer.",
     "weight": "1454 g",
     "volume": "1250 ml",

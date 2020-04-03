@@ -59,6 +59,8 @@ struct city {
 struct om_note {
     std::string text;
     point p;
+    bool dangerous = false;
+    int danger_radius = 0;
 };
 
 struct om_map_extra {
@@ -233,9 +235,11 @@ class overmap
         bool is_explored( const tripoint &p ) const;
 
         bool has_note( const tripoint &p ) const;
+        bool is_marked_dangerous( const tripoint &p ) const;
         const std::string &note( const tripoint &p ) const;
         void add_note( const tripoint &p, std::string message );
         void delete_note( const tripoint &p );
+        void mark_note_dangerous( const tripoint &p, int radius, bool is_dangerous );
 
         bool has_extra( const tripoint &p ) const;
         const string_id<map_extra> &extra( const tripoint &p ) const;
@@ -317,12 +321,12 @@ class overmap
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( shared_ptr_fast<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
-        shared_ptr_fast<npc> erase_npc( character_id id );
+        shared_ptr_fast<npc> erase_npc( const character_id &id );
 
         void for_each_npc( const std::function<void( npc & )> &callback );
         void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
-        shared_ptr_fast<npc> find_npc( character_id id ) const;
+        shared_ptr_fast<npc> find_npc( const character_id &id ) const;
 
         const std::vector<shared_ptr_fast<npc>> &get_npcs() const {
             return npcs;
@@ -511,7 +515,7 @@ std::string oter_no_dir( const oter_id &oter );
 
 /**
 * Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east
-* Return 0 if theres' no suffix
+* Return 0 if there's' no suffix
 */
 int oter_get_rotation( const oter_id &oter );
 

@@ -176,14 +176,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "house",
-    "copy-from": "house",
-    "name": "house",
-    "sym": "^",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "house_prepper",
     "copy-from": "house_prepper",
     "name": "house",
@@ -1881,38 +1873,6 @@
     "name": "toxic waste dump",
     "sym": "t",
     "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar_entrance",
-    "copy-from": "haz_sar_entrance",
-    "name": "hazardous waste sarcophagus",
-    "sym": "H",
-    "color": "i_pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar",
-    "copy-from": "haz_sar",
-    "name": "hazardous waste sarcophagus",
-    "sym": "h",
-    "color": "i_pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar_entrance_b1",
-    "copy-from": "haz_sar_entrance_b1",
-    "name": "hazardous waste sarcophagus",
-    "sym": "H",
-    "color": "i_pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "haz_sar_b1",
-    "copy-from": "haz_sar_b1",
-    "name": "hazardous waste sarcophagus",
-    "sym": "h",
-    "color": "i_pink"
   },
   {
     "type": "overmap_terrain",
@@ -8093,14 +8053,6 @@
     "name": "pond",
     "sym": "#",
     "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mass_grave",
-    "copy-from": "mass_grave",
-    "name": "mass grave",
-    "sym": "m",
-    "color": "red"
   },
   {
     "type": "overmap_terrain",

@@ -31,7 +31,7 @@
     "id": "f_entertainment_center",
     "name": "entertainment center",
     "symbol": "{",
-    "description": "Stores audio visual equipment, books and collectible.",
+    "description": "Stores audio visual equipment, books and collectibles.",
     "color": "brown",
     "looks_like": "f_bookcase",
     "move_cost_mod": -1,
@@ -59,6 +59,7 @@
     "type": "furniture",
     "id": "f_coffin_c",
     "name": "coffin",
+    "looks_like": "f_coffin_o",
     "description": "Holds the bodies of the countless killed in the Cataclysm.",
     "symbol": "0",
     "bgcolor": "brown",
@@ -203,40 +204,23 @@
     "max_volume": "1500 L",
     "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "BASHABLE", "HIDE_PLACE", "NO_SIGHT" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE_ASH",
+      "PLACE_ITEM",
+      "ORGANIC",
+      "EASY_DECONSTRUCT",
+      "BASHABLE",
+      "HIDE_PLACE",
+      "NO_SIGHT",
+      "CONTAINER"
+    ],
     "bash": {
       "str_min": 2,
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
       "items": [ { "item": "paper", "charges": [ 50, 100 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_cupboard",
-    "name": "cupboard",
-    "symbol": "#",
-    "description": "Store your cups.",
-    "color": "blue",
-    "move_cost_mod": 1,
-    "coverage": 55,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 3 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
-    },
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 1, 3 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "nail", "charges": [ 2, 6 ] },
-        { "item": "splinter", "count": 1 }
-      ]
     }
   },
   {
@@ -327,6 +311,7 @@
     "type": "furniture",
     "id": "f_gunsafe_mj",
     "name": "jammed gun safe",
+    "looks_like": "f_gunsafe_ml",
     "description": "Does it have guns in it?  You won't find out.  It's jammed.",
     "symbol": "X",
     "color": "light_gray",
@@ -351,6 +336,7 @@
     "type": "furniture",
     "id": "f_gun_safe_el",
     "name": "electronic gun safe",
+    "looks_like": "f_gunsafe_ml",
     "description": "Can you hack it open to get the firearms?",
     "symbol": "X",
     "color": "light_gray",
@@ -436,6 +422,7 @@
     "type": "furniture",
     "id": "f_clothing_rail",
     "name": "clothing rail",
+    "looks_like": "f_rack",
     "description": "A rail for hanging clothes on.",
     "symbol": "{",
     "color": "light_gray",
@@ -508,7 +495,7 @@
     "coverage": 70,
     "required_str": 7,
     "looks_like": "f_bookcase",
-    "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
+    "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 12 },
@@ -556,7 +543,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 5,
-    "max_volume": "20 L",
+    "max_volume": "200 L",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -570,6 +557,7 @@
     "type": "furniture",
     "id": "f_safe_c",
     "name": "safe",
+    "looks_like": "f_gunsafe_ml",
     "description": "Holds items.  Securely.",
     "symbol": "X",
     "color": "light_gray",
@@ -596,6 +584,7 @@
     "type": "furniture",
     "id": "f_safe_l",
     "name": "safe",
+    "looks_like": "f_safe_c",
     "symbol": "X",
     "description": "What needs protection like this?",
     "color": "light_gray",
@@ -621,6 +610,7 @@
     "type": "furniture",
     "id": "f_safe_o",
     "name": "open safe",
+    "looks_like": "f_safe_c",
     "description": "Grab the firearms!",
     "symbol": "O",
     "color": "light_gray",
@@ -738,7 +728,7 @@
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
-    "max_volume": "500 L",
+    "max_volume": "1500 L",
     "bash": {
       "str_min": 16,
       "str_max": 40,
@@ -754,8 +744,42 @@
   },
   {
     "type": "furniture",
+    "id": "f_warehouse_shelf",
+    "name": "warehouse shelf",
+    "description": "A large, sturdy shelf made of metal for storing pallets and crates in warehouses.",
+    "symbol": "{",
+    "looks_like": "f_utility_shelf",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 95,
+    "required_str": 10,
+    "flags": [ "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "sheet_metal", "count": [ 4, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] }
+      ]
+    },
+    "max_volume": "3500 L",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
+        { "item": "pipe", "count": 4 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_wood_keg",
     "name": "wooden keg",
+    "looks_like": "f_standing_tank",
     "description": "A keg made mostly of wood.  Holds liquids, preferably alcoholic.",
     "symbol": "H",
     "color": "brown",
@@ -793,6 +817,7 @@
     "type": "furniture",
     "id": "f_displaycase",
     "name": "display case",
+    "looks_like": "f_rack",
     "description": "Display your stuff fancily and securely.",
     "symbol": "#",
     "color": "light_cyan",
@@ -815,6 +840,7 @@
     "type": "furniture",
     "id": "f_displaycase_b",
     "name": "broken display case",
+    "looks_like": "f_rack",
     "description": "Display your stuff.  It'll get stolen.",
     "symbol": "#",
     "color": "light_gray",

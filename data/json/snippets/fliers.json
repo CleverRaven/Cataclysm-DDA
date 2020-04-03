@@ -1,0 +1,308 @@
+[
+  {
+    "type": "snippet",
+    "category": "flier",
+    "text": [
+      {
+        "id": "flier_1",
+        "text": "This is an advertisement for Aunt Janice's Pickled Meat.  \"When times get tough, the tough get pickling.  Aunt Janice's Pickled Meat: more than 30% real beef!\""
+      },
+      {
+        "id": "flier_2",
+        "text": "This is an advertisement for compact bionic modules.  \"Nerve pain?  Depression?  Tardiness?  There's not a problem a compact bionic module can't solve.  Talk to your doctor to find out of CBMs are right for you!\""
+      },
+      {
+        "id": "flier_3",
+        "text": "This is an advertisement promoting facial recognition quadcopters.  It shows a formation of the so-called 'eyebots' flying outward from an American flag in an explosion of stars and stripes.  Beneath, it reads \"Don't worry, we'll watch your back.\""
+      },
+      {
+        "id": "flier_4",
+        "text": "This is a somewhat weather-worn advertisement for the 'new' FEMA evacuation shelters.  Beneath the colorful photo it reads, \"Familiarize yourself with your nearest emergency shelter.  It could save your life.\""
+      },
+      {
+        "id": "flier_5",
+        "text": "This is an advertisement for a FEMA evacuation shelter.  Beneath a picture of a shelter it reads, \"Contact your local FEMA office to arrange a tour of your nearest evacuation shelter.  Be prepared!\""
+      },
+      {
+        "id": "flier_6",
+        "text": "This is an advertisement for a pre-manufactured emergency supply kit.  It is made of a very flashy tactical fabric and looks very impractical based on your experience.  \"Be ready for anything with the Tactica Supreme GO-30 kit.\"00"
+      },
+      {
+        "id": "flier_7",
+        "text": "This is an ad for a complicated survival knife with an enormous serrated back edge and far too many tools included in the handle.  \"Come down to the Knife Shack at Cumberton Mall!  We've got it all.\""
+      },
+      {
+        "id": "flier_8",
+        "text": "This is an advertisement for a local church.  The picture looks surprisingly mundane, but the text is not: \"Revelations services offered round the clock.  The end times are here, make your peace.\""
+      },
+      {
+        "id": "flier_9",
+        "text": "This is an advertisement for a local church.  It looks like it was put together at the last minute.  \"Visit St Mary's on the River while it's not too late.  Repent, while you still can!\""
+      },
+      {
+        "id": "flier_10",
+        "text": "This is a hand-drawn flier that has been photocopied for wide distribution.  It reads, in what looks like sharpie-bolded letters, \"THEY DON'T WANT YOU TO KNOW.  This is all THEIR fault.  They are watching everything.  They brought this on us.\"  There used to be tear-away phone numbers at the bottom, but they're all gone now."
+      },
+      {
+        "id": "flier_11",
+        "text": "This is a government-issued, air-dropped alert.  \"STAY IN YOUR HOMES.  Universal curfew in effect.  Police and military forces are authorized to use lethal force against looters and rioters.\""
+      },
+      {
+        "id": "flier_12",
+        "text": "This is a government-issued, air-dropped alert.  \"STAY IN YOUR HOMES.  Police and military forces have been dispatched to your area and will help escort you to safety.  DO NOT APPROACH ROADBLOCKS WITHOUT AUTHORIZED PERSONNEL.\""
+      },
+      {
+        "id": "flier_13",
+        "text": "This is a government-issued, air-dropped alert.  \"EVACUATION ALERT.  Please make your way to the nearest FEMA evacuation shelter.  Avoid crowds.  Looters and rioters may turn violent against unarmed civilians.  Seek protection from police and military forces if traveling in groups.\""
+      },
+      {
+        "id": "flier_14",
+        "text": "This is a government-issued, air-dropped alert.  \"EVACUATION ALERT.  Please make your way to the nearest FEMA evacuation shelter.  Travel in groups and avoid crowds.  This is believed to be a biological agent that causes violent behavior: do not attempt to engage looters or rioters.\""
+      },
+      {
+        "id": "flier_15",
+        "text": "This is a glossy, high quality flier.  \"What they don't want you to know!  Reading this may save your life.\"  Inside is a series of warnings recommending people avoid the evacuation shelters, and worse, the FEMA evacuation camps, along with some high-quality telephoto shots showing bodies being shoveled into huge pits by excavation machines."
+      },
+      {
+        "id": "flier_16",
+        "text": "This is a grocery store coupon flier.  The front page looks like normal meat advertising, but inside the pictures become increasingly more gruesome images of severed human body parts and organs.  It is dated two days after the evacuation orders were sounded."
+      },
+      {
+        "id": "flier_17",
+        "text": "This is a grocery store coupon flier, dated three days before the evacuation orders went out.  \"At Marigold Market, we still have canned food and bottled water!  Come on in and stock up!\"  The front image shows a grocery store, the entrance flanked by a pair of smiling guards armed with assault rifles."
+      },
+      {
+        "id": "flier_18",
+        "text": "This is an advertisement for a local electronics store, dated a few weeks before the evacuation order.  \"Sale on Universal Power Supplies and refurbished laptops at DigiMart, three days only!\""
+      },
+      {
+        "id": "flier_19",
+        "text": "This is an advertisement for Rivtech brand handguns.  It shows a picture of a well armed couple in business suits with matching handguns facing down a legion of villainous looking characters.  The caption reads:  \"Protect yourself with the Rivtech caseless automagnum!\""
+      },
+      {
+        "id": "flier_20",
+        "text": "This is an advertisement for Rivtech brand rifles.  It shows a picture of a smiling soldier with a futuristic looking rifle on her shoulder saluting the viewer.  The caption reads:  \"Rivtech caseless firearms proudly supports our Military.\""
+      },
+      {
+        "id": "flier_21",
+        "text": "This is an advertisement for Rivtech brand firearms.  It shows a picture of a trio of well armed hunters.  The three are each armed with different futuristic looking weapons and are shooting at a hostile crowd of approaching wildlife.  The caption reads:  \"Rivtech caseless firearms.  Superior stopping power.\""
+      },
+      {
+        "id": "flier_22",
+        "text": "This is an advertisement for a local funk-polka band, the \"Chilly Winters\".  Apparently they were playing in the Wonky Donkey Pub."
+      },
+      {
+        "id": "flier_23",
+        "text": "This is a flier with the tour appearance dates of a small, niche-successful drum-and-bass/yodelling fusion band, the \"Ol' Yellers\".  The dates continue well past the end of the world; most likely, the tour was cut short."
+      },
+      {
+        "id": "flier_24",
+        "text": "This is an advertisement for a death metal band, \"Roxanne and the Soul-Crushing Ennui\", known for mixing their ear-blasting riffs with chipper interludes of classic fifties doo-wop.  The art depicts a zombified version of a Betty Crocker-esque housewife, slamming on a spike-encrusted electric guitar."
+      },
+      {
+        "id": "flier_25",
+        "text": "This is an advertisement for a local gun shop.  In huge red letters, it reads: \"This is it.  Arm yourselves and protect your freedom.  Come on down while supplies last.\""
+      },
+      {
+        "id": "flier_26",
+        "text": "This is an advertisement for Rivtech brand ammunition.  It shows a picture of an armored steel plate with a gaping hole blasted through the middle.  Sitting beside the plate is a block of brightly colored caseless ammunition.  The caption reads:  \"Rivtech 8x40mm caseless.  Nothing else comes close.\""
+      },
+      {
+        "id": "flier_27",
+        "text": "This is an advertisement for Leadworks LLC's Home Frontier Starter Pack.  It shows a picture of a young suburban parent, equipped with rifle and revolver, keeping a steely eye on the neighborhood from the front porch.  Similarly-armed parents are visible in front of every house on the street.  Young children are at play and older ones tend a large vegetable garden.  The caption reads: \"A well-armed community is a SAFE community.  Leadworks, LLC.\""
+      },
+      {
+        "id": "flier_28",
+        "text": "This is a propaganda poster showing the Northrop Dispatch's military variant.  It depicts the iconic dark green, arachnoid dispatch, standing before a fence and facing away from the camera as blurring machines rush forward from its back towards black silhouettes menacing on the horizon.  It reads: \"WE ARE HERE TO PROTECT YOU.\""
+      },
+      {
+        "id": "flier_29",
+        "text": "This is an advertisement for Leadworks LLC handguns.  It shows a picture of a bionic police officer assisting a young couple, who were being attacked by a gang of ruffians.  The caption reads: \"You don't have to void your warranty or wear out your thumb to achieve felon-stopping firepower.  The L39B, tried and true by our fine cyborgs in blue, is available in .45 ACP for that extra punch, and we offer semiautomatic (but equally robust!) versions for the civilian market.  Leadworks, LLC.\""
+      },
+      {
+        "id": "flier_30",
+        "text": "This is an advertisement for Leadworks LLC modular weapons.  It shows a picture of an overworked-yet-grateful police sergeant assembling a sleek rifle, with similar-looking weapons racked neatly behind her.  The caption reads: \"Leadworks is proud to offer the L523 modular weapon system.  No more must armorers stock and maintain stacks and stacks of rifles, carbines, and squad support weapons, juggling multiple incompatible ammunition types!  Just procure a base unit for every trooper, and use our lightweight and portable conversion kits to swap from house-to-house CQB carbine to rooftop-patrol DSR, safely and cleanly!\""
+      },
+      {
+        "id": "flier_31",
+        "text": "This is a public notice from the Centers for Disease Control.  Its message, repeated in several languages, reads: \"BOIL WATER ADVISORY.  An unidentified agent has contaminated local groundwater.  It is highly infectious and can cause erratic and violent behavior.  Boil all water, and isolate any loved ones showing concerning symptoms.  Visit www.cdc.gov/cdda-advisory for more information.\""
+      },
+      {
+        "id": "flier_32",
+        "text": "This is a public alert from the Centers for Disease Control.  Its message, repeated in several languages, reads: PUBLIC HEALTH ALERT: Due to recent events, the CDC is issuing a warning to avoid public areas and spaces.  An unknown biological contaminant is suspected to be affecting citizens.  The CDC would like to remind the public to cover your nose and mouth when sneezing, wash your hands frequently, and receive an up-to-date flu shot if possible.  Boiling water is recommended until further notice."
+      },
+      {
+        "id": "flier_33",
+        "text": "This is a public alert from the Federal Emergency Management Agency.  Its message, repeated in several languages, reads: STAY IN YOUR HOMES!  All residents of the New England Disaster Area are advised to shelter in place wherever possible.  The United States Armed Forces are working to contain the area.  If there is a nearby evacuation shelter you can get to safely, you are recommended to do so.  Otherwise, stay in your homes until authorized personnel evacuate you to a secured facility.  Thank you for your compliance."
+      },
+      {
+        "id": "flier_34",
+        "text": "This is a public alert from the Federal Emergency Management Agency.  Its message, repeated in several languages, consists of a list of towns serving as major evacuation points from the New England Disaster Area.  Someone has scribbled off most of the town names, and scrawled \"OVERRUN\" next to each one, with the exception of the Tacoma evacuation point."
+      },
+      {
+        "id": "flier_35",
+        "text": "This is a public warning from an unnamed source.  Its rambling message, poorly-photocopied onto both sides of the page, reads: Don't believe the lies!  The Army is rounding up people in death camps and executing them at mass graves.  They cannot stop this.  Do not believe what the mainstream news-media is reporting.  All official evacuation points are death-traps.  Secure supplies and escape the cities while there is still time."
+      },
+      {
+        "id": "flier_36",
+        "text": "This is a public message from an unnamed source.  Its message, photocopied from a scrawled handwritten copy, reads: REPENT YOUR SINS O BABYLON FOR THE TIME OF HIS JUDGEMENT IS NIGH!  LOOK UPON YOUR DESTRUCTION AND KNOW THAT IT IS JUST!  YOU WILL BE DIVIDED FATHER AGAINST SON AND MOTHER AGAINST CHILD UNTO THE VERY LAST SINNER!"
+      },
+      {
+        "id": "flier_37",
+        "text": "This is a public warning from the Federal Government.  Its brief message, repeated in several languages, reads:  The President of the United States has declared unilateral martial law to be in effect for the 48 contiguous states in response to the ongoing national crisis.  Continue to shelter in place until evacuated to an appropriate emergency management camp by authorized military personnel.  A 24-hour curfew has been established.  This curfew will remain in effect until further notice.  Stay indoors.  Violators will be shot on sight."
+      },
+      {
+        "id": "flier_38",
+        "text": "This is an advertisement for Rivtech's 'ATOMIC POWER THIRST' energy drink.  While intended to advertise a new flavor called Isotope RU-238 'FRUIT', most of the text is dedicated to a long list of possible side effects: anxiety, insomnia, severe insomnia, dizziness, tremors, nausea, headache, vomiting, delusions, hallucinations, rhabdomyolysis, internal burns, thyroid cancer, extensive internal bleeding, upper gastrointestinal bleeding, diarrhea, cardiac dysrhythmia, cardiovascular collapse, suicidal ideation, seizures, ataxia, amnesia, mania, stroke, neurodegeneration, malignalitaloptereosis, necrotizing fasciitis, recurrent flu, and pinkeye."
+      },
+      {
+        "id": "flier_39",
+        "text": "This is a soda advertisement.  On the front is a picture of a happy couple on a beach watching the sun set.  Between them are bottles of soda.  The poster reads, \"Cascade Cola, for those special moments\" in bold white letters."
+      },
+      {
+        "id": "flier_40",
+        "text": "This is a flier for a fast food chain.  In it, a man is placing an order with an attractive woman wearing a bright green shirt in the window with two happy children sitting in the back seat.  The flier reads \"Burgers, fries, and a Smile.\" Down in one corner is a company logo."
+      },
+      {
+        "id": "flier_41",
+        "text": "This is an advertisement for soda.  It shows a dark brown can of soda on a black background.  The label reads \"Spin\"."
+      },
+      {
+        "id": "flier_42",
+        "text": "This is a flyer for a local pizza chain.  On it is a picture of a cartoon Italian holding a pizza, with the words \"It's a goooood pizza\" written above his head."
+      },
+      {
+        "id": "flier_43",
+        "text": "This is a poster advertising contact lenses.  On it is a picture of a blood shot eye with a rather long block of information beneath it making some fairly exaggerated claims about the product."
+      },
+      {
+        "id": "flier_44",
+        "text": "This is a flyer advertising a local radio station.  It has a lot of bright colors and patterns, but no definite message other than \"104.4 all the best, all the time!\" in big yellow letters."
+      },
+      {
+        "id": "flier_45",
+        "text": "This is a large movie poster for \"Action Packstone 6, Revenge of the Dog Men\".  It shows a fit man in a leather jacket with a revolver and a claymore walking towards the viewer.  At his side is his trusty cyberdog companion and in the background is an explosion."
+      },
+      {
+        "id": "flier_46",
+        "text": "This is an illustrated poster for a brand of solar car.  The vehicle is driving through a lush country side as small animals look on.  The slogan \"Improving the world, one tank at a time.\" is written across the top in small letters."
+      },
+      {
+        "id": "flier_47",
+        "text": "This is a soda advertisement.  On the front is a picture of a happy couple on a beach watching the sun set.  Between them are bottles of soda.  The poster reads, \"Cascade Cola, for those special moments\" in bold white letters.  Someone has colored in the sun with a black marker.  The words \"oh Discordia\" are scrawled across the top."
+      },
+      {
+        "id": "flier_48",
+        "text": "This is a flier for a fast food chain.  In it, a man is placing an order with an attractive woman wearing a bright green shirt in the window with two happy children in the back seat.  The flier reads \"Burgers, fries, and a Smile.\" down in one corner is a company logo.  Someone has gone to town on this one with a permanent marker.  It is now covered in rude images and racial epithets."
+      },
+      {
+        "id": "flier_49",
+        "text": "This is a flier for a local pizza chain.  On it is a picture of a cartoon Italian holding a pizza, with the words \"It's a goooood pizza\" written above his head.  Someone has drawn an exaggerated mustache on the cartoon Italian, along with a pair of crude, oversized breasts."
+      },
+      {
+        "id": "flier_50",
+        "text": "This is a poster advertising contact lenses.  On it is a picture of a blood shot eye.  Someone has defaced this one.  The informative part has been torn off, and written in jagged letters across the top in red crayon are the words \"ALL HAIL THE CRIMSON KING!\"."
+      },
+      {
+        "id": "flier_51",
+        "text": "This is an illustrated poster for a brand of solar car.  The vehicle is driving through a lush country side as small animals look on.  The slogan \"Improving the world, one tank at a time.\" is written across the top.  Someone used a blue pen to write \"who gives a shit\" across the slogan and put X's over the eyes of all the animals."
+      },
+      {
+        "id": "flier_52",
+        "text": "This is a poster advertising a underground bunker.  The poster shows a nuclear bomb wiping out a city while a family huddles safely underground.  There a slogan \"Concerned about enemy attack?  Want to protect your family?  Join the VAULT program today.\" which is written in the middle.  However, there seems to be no information about *how* one might do so."
+      },
+      {
+        "id": "flier_53",
+        "text": "This is a flier for Red Ryder BBGuns.  On it a child is pulling a shining red wagon with a cooked pheasant on it and a wooden rifle over one shoulder.  The child has a dog trailing beside him and a satisfied look on his face.  The caption reads \"When you chose Red Ryder, you invested in the American Dream.  You invested in our Independence.\""
+      },
+      {
+        "id": "flier_54",
+        "text": "This is an old flier for a movie from the 30s.  A tan man with slick black hair and muscles bulging through his offwhite suit is clasping a woman to his hip with one hand, and the woman is wearing a black leather dress.  With her hips splayed, she is holding a pistol in one hand and starring directly out of the advert.  The caption reads \"Witness the rebirth of New Noir with 'Jersey Shore Blues'.  Starring Jenifer Languiz as 'Snookie'!\""
+      },
+      {
+        "id": "flier_55",
+        "text": "\"Joe's Diner; 1/2 pound of meat, 3 toppings, 'your choice', all with a side of freedom fries and a BIG Gulp size pop.\""
+      },
+      {
+        "id": "flier_56",
+        "text": "This is an advertisement for the popular fast food chain, Foodplace.  On an unadorned blue-and-magenta background it shows clear, unmistakable depictions of their products and plainly stated prices.  The foodburger looks particularly nice."
+      },
+      {
+        "id": "flier_57",
+        "text": "This is a leaflet about autoclaving procedure.  One sentence catches your attention \"/!\\Always place your tools into an autoclave pouch before autoclaving./!\\\""
+      },
+      {
+        "id": "flier_58",
+        "text": "This is an advertisement for a local hospital.  You see a clean hospital room with a smiling man lying on the bed.  The bed is connected to some medical apparatus with a \"Autodoc Mk. X\" printed on it.  A doctor is seen working with its console, while his assistant is unpacking some high-tech hardware.  The caption reads: \"Autodoc - helping your loved ones get the safest surgery possible.\""
+      },
+      {
+        "id": "flier_59",
+        "text": "This advertisement reads \"NEVER BE LEFT IN THE DARK!  Powered by the inexhaustible might of betavoltaics, our new atomic lamp will glow as long as you need.  Let there be light!\""
+      },
+      {
+        "id": "flier_60",
+        "text": "This advertisement reads \"The Future… powered by COFFEE!  Cuppatech brings you the greatest revolution since espresso with our new Curie-G.  Why wait for milk to boil?  Have your coffee ready instantly with THE POWER OF THE ATOM!\""
+      },
+      {
+        "id": "flier_61",
+        "text": "This advertisement reads \"Sick of FUEL PRICES?  Bus stop too far?  Get your driving fix from THE SUN!  Solar powered electric cars by Edison: Silent, Cheap, Powerful.\""
+      },
+      {
+        "id": "flier_62",
+        "text": "This advertisement reads \"Coffee of The Future… RIGHT NOW!  No one has really has the time to make great coffee, but now you don't have to!  Cuppatech gives you inexhaustible ATOMIC power!  To make boiling hot coffee the MINUTE you want it!  The Curie-G Atomic One-Cup Coffeemaker.\""
+      },
+      {
+        "id": "flier_63",
+        "text": "PICKLED MEAT IN A JAR!  Just like your grandma used to make!  It will last for months or longer, and when you've eaten it, you can refill and seal the jar!  Stock your emergency supply TODAY!"
+      },
+      {
+        "id": "flier_64",
+        "text": "BAGS, BAGS, BAGS!  They're very useful things!  If we didn't have BAGS, what-would-we-use… to PUT a lot of things in!?  (Ad by the \"Play SchoolClothing Co.\")"
+      },
+      {
+        "id": "flier_65",
+        "text": "GLAMOPOLITAN!  We've got ALL the latest tips!  Whether you want to know what the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine!  So pick up a copy today and \"Sizzle Like A Star\"!"
+      },
+      {
+        "id": "flier_66",
+        "text": "POPULAR MECHANICS: People say mechanics is boring?  We say, Prove them Wrong!  We've got all the articles that make it interesting to talk about, so you can \"Make Mechanics Popular\"!"
+      },
+      {
+        "id": "flier_67",
+        "text": "BIRDHOUSE MONTHLY…  Which wood would a woodpecker prefer?  This month we discuss hardwood versus soft woods, whether to lacquer, oil or paint, and which type of nails you should use!"
+      },
+      {
+        "id": "flier_68",
+        "text": "FEELING BLUE?  Try \"Greens\" for Magazines!  Your local Supermarket!  Nothing cheers you up like a good magazine…  Unless it's JUNK FOOD!  Or why not buy an MP3 PLAYER or a GAME CONSOLE?  Chase those Blues away at GREENS Supermarket"
+      },
+      {
+        "id": "flier_69",
+        "text": "…What do you know about surviving in the Wilderness?  If you can't make a snare you don't know TRAP!  Hunt down a copy of TRAPPERS' LIFE and learn about wildlife!…  And how to kill it.  Classic BEAR TRAP returns in this issue!"
+      },
+      {
+        "id": "flier_70",
+        "text": "HUNTING GOODS!  Food prices getting you down?  Why not get a crossbow or compound bow and Hunt Your Own!?  Our arrows and bolts are completely reusable, so why not hunt animals like Mother Nature intended?"
+      },
+      {
+        "id": "flier_71",
+        "text": "FEELING BLUE?  Try \"Greens\" for Magazines!  Your local Supermarket!  Nothing cheers you up like a good magazine…  Unless it's JUNK FOOD!  Or why not buy an MP3 PLAYER or a GAME CONSOLE?  Chase those blues away at GREENS Supermarket"
+      },
+      {
+        "id": "flier_72",
+        "text": "…What do you know about surviving in the Wilderness?  If you can't make a snare you don't know TRAP!  Hunt down a copy of TRAPPERS' LIFE and learn about wildlife!…  And how to kill it.  This week, a CROSSBOW TRAP!"
+      },
+      {
+        "id": "flier_73",
+        "text": "BIRDHOUSE MONTHLY…  This month we look at some Dutch innovations in birdhouse design, and compare with the often confused Scandinavian Birdhouse design.  Our article on sheet metal birdhouses will have you riveted!"
+      },
+      {
+        "id": "flier_74",
+        "text": "CRAFTY CRAFTERS QUARTERLY: Macaroni isn't just for eating anymore!  Learn how to make jewelry and art from it as well!  We also discuss the correct way to use superglue without gluing your hands together!"
+      },
+      {
+        "id": "flier_75",
+        "text": "THE RIPLEY-9k!  Pilot your own cargo exoskeleton now!  Our exoskeletons allow the power of a forklift guided by the strength of your own muscles.  Carry heavy loads over rough terrain, even up stairs!"
+      }
+    ]
+  }
+]

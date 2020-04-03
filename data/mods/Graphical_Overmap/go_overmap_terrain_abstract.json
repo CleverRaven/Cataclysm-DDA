@@ -1,0 +1,8 @@
+[
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_cemetery",
+    "copy-from": "generic_cemetery",
+    "sym": "\u00C4"
+  }
+]

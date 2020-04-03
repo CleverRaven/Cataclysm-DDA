@@ -15,7 +15,6 @@
 
 #include "colony.h"
 #include "enum_conversions.h"
-#include "optional.h"
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -36,6 +35,12 @@ class JsonArray;
 class JsonSerializer;
 class JsonDeserializer;
 class JsonValue;
+
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 
 template<typename T>
 class string_id;
@@ -224,7 +229,6 @@ class JsonIn
             } catch( const io::InvalidEnumString & ) {
                 seek( old_offset ); // so the error message points to the correct place.
                 error( "invalid enumeration value" );
-                throw; // ^^ error already throws, but the compiler doesn't know that )-:
             }
         }
 
@@ -783,12 +787,12 @@ class JsonOut
  *
  * By default, when a JsonObject is destroyed (or when you call finish) it will
  * check to see whether every member of the object was referenced in some way
- * (even simply checking for the existence of the member is suffucient).
+ * (even simply checking for the existence of the member is sufficient).
  *
  * If not all the members were referenced, then an error will be written to the
  * log (which in particular will cause the tests to fail).
  *
- * If you don't want this behaviour, then call allow_omitted_members() before
+ * If you don't want this behavior, then call allow_omitted_members() before
  * the JsonObject is destroyed.  Calling str() also suppresses it (on the basis
  * that you may be intending to re-parse that string later).
  */
@@ -796,14 +800,17 @@ class JsonObject
 {
     private:
         std::map<std::string, int> positions;
-        mutable std::set<std::string> visited_members;
         int start;
         int end_;
         bool final_separator;
-        mutable bool report_unvisited_members = true;
 #ifndef CATA_IN_TOOL
+        mutable std::set<std::string> visited_members;
+        mutable bool report_unvisited_members = true;
         mutable bool reported_unvisited_members = false;
 #endif
+        void mark_visited( const std::string &name ) const;
+        void report_unvisited() const;
+
         JsonIn *jsin;
         int verify_position( const std::string &name,
                              bool throw_exception = true ) const;
@@ -831,7 +838,6 @@ class JsonObject
 
         void allow_omitted_members() const;
         bool has_member( const std::string &name ) const; // true iff named member exists
-        std::set<std::string> get_member_names() const;
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( std::string err ) const;
         [[noreturn]] void throw_error( std::string err, const std::string &name ) const;
@@ -856,11 +862,13 @@ class JsonObject
             if( !has_member( name ) ) {
                 return fallback;
             }
+            mark_visited( name );
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
         }
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value( const std::string &name ) const {
+            mark_visited( name );
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
         }
@@ -896,7 +904,7 @@ class JsonObject
         // non-fatally read values by reference
         // return true if the value was set.
         // return false if the member is not found.
-        // throw_on_error dictates the behaviour when the member was present
+        // throw_on_error dictates the behavior when the member was present
         // but the read fails.
         template <typename T>
         bool read( const std::string &name, T &t, bool throw_on_error = true ) const {
@@ -904,6 +912,7 @@ class JsonObject
             if( !pos ) {
                 return false;
             }
+            mark_visited( name );
             jsin->seek( pos );
             return jsin->read( t, throw_on_error );
         }
@@ -996,7 +1005,7 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &ja );
-        JsonArray() : start( 0 ), index( 0 ), end_( 0 ), jsin( nullptr ) {}
+        JsonArray() : start( 0 ), index( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
         ~JsonArray() {
             finish();
         }
@@ -1008,8 +1017,8 @@ class JsonArray
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
-        void throw_error( std::string err );
-        void throw_error( std::string err, int idx );
+        [[noreturn]] void throw_error( std::string err );
+        [[noreturn]] void throw_error( std::string err, int idx );
 
         // iterative access
         bool next_bool();
@@ -1133,7 +1142,7 @@ class JsonValue
             return seek().test_array();
         }
 
-        void throw_error( const std::string &err ) const {
+        [[noreturn]] void throw_error( const std::string &err ) const {
             seek().error( err );
         }
 
@@ -1239,7 +1248,7 @@ class JsonObject::const_iterator
             return *this;
         }
         JsonMember operator*() const {
-            object_.visited_members.insert( iter_->first );
+            object_.mark_visited( iter_->first );
             return JsonMember( iter_->first, JsonValue( *object_.jsin, iter_->second ) );
         }
 
@@ -1275,7 +1284,7 @@ std::set<T> JsonArray::get_tags( const size_t index ) const
         return res;
     }
 
-    for( const std::string &line : jsin->get_array() ) {
+    for( const std::string line : jsin->get_array() ) {
         res.insert( T( line ) );
     }
 
@@ -1290,6 +1299,7 @@ std::set<T> JsonObject::get_tags( const std::string &name ) const
     if( !pos ) {
         return res;
     }
+    mark_visited( name );
     jsin->seek( pos );
 
     // allow single string as tag
@@ -1299,7 +1309,7 @@ std::set<T> JsonObject::get_tags( const std::string &name ) const
     }
 
     // otherwise assume it's an array and error if it isn't.
-    for( const std::string &line : jsin->get_array() ) {
+    for( const std::string line : jsin->get_array() ) {
         res.insert( T( line ) );
     }
 

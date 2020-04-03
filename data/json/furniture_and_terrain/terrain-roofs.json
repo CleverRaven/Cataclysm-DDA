@@ -18,7 +18,7 @@
     "name": "open air",
     "description": "This is open air.",
     "symbol": " ",
-    "color": [ "i_cyan" ],
+    "color": "i_cyan",
     "move_cost": 2,
     "trap": "tr_ledge",
     "roof": "t_flat_roof",
@@ -330,6 +330,27 @@
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
+      "ter_set": "t_open_air",
+      "bash_below": true
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_roof_paper",
+    "name": "flat roof",
+    "description": "A flat surface made of pulpy mass, covered in sticky wasp saliva.",
+    "symbol": ".",
+    "looks_like": "t_paper",
+    "color": "white",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 6,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "sound_fail_vol": 4,
       "ter_set": "t_open_air",
       "bash_below": true
     }

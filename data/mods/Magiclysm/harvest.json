@@ -65,6 +65,17 @@
     ]
   },
   {
+    "id": "demon_spider",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "demon_chitin_piece", "type": "bone", "mass_ratio": 0.04 },
+      { "drop": "demon_chitin_plate", "type": "skin", "mass_ratio": 0.01 },
+      { "drop": "demon_spider_fang", "base_num": [ 0, 0 ], "scale_num": [ 0.1, 0.6 ], "max": 2, "type": "flesh" }
+    ]
+  },
+  {
     "id": "mammal_small_fur",
     "//": "override of vanilla harvest, includes hairballs",
     "type": "harvest",

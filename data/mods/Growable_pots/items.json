@@ -19,7 +19,7 @@
   {
     "type": "GENERIC",
     "abstract": "gp_pot_growing",
-    "name": "garden pot (growing)",
+    "name": { "str": "garden pot (growing)", "str_pl": "garden pots (growing)" },
     "description": "A garden pot growing some tasty, unnameable plants.  You shouldn't see this item.",
     "weight": "480 g",
     "symbol": ")",
@@ -33,7 +33,7 @@
   {
     "type": "GENERIC",
     "abstract": "gp_pot_grown",
-    "name": "garden pot (grown)",
+    "name": { "str": "garden pot (grown)", "str_pl": "garden pots (grown)" },
     "description": "A garden pot with some ripe, unnameable plants.  You shouldn't see this item.",
     "copy-from": "gp_pot_growing",
     "use_action": "DISASSEMBLE"

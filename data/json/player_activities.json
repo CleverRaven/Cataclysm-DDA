@@ -36,6 +36,16 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_MULTIPLE_MINE",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "mining",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
+  },
+  {
     "id": "ACT_TIDY_UP",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -449,6 +459,26 @@
     "no_resume": true
   },
   {
+    "id": "ACT_MILK",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "milking an animal",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_SHEAR",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "shearing an animal",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
     "id": "ACT_HOTWIRE_CAR",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -579,6 +609,13 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_PRY_NAILS",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "prying nails",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_CHOP_TREE",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
@@ -612,6 +649,13 @@
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
     "verb": "churning earth",
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_PLANT_SEED",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "planting seeds",
     "based_on": "time"
   },
   {

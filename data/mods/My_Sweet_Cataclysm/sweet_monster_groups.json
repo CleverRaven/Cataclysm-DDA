@@ -1,0 +1,37 @@
+[
+  {
+    "name": "GROUP_EGG_MARSHMALLOW",
+    "type": "monstergroup",
+    "default": "mon_marshmallow_kid"
+  },
+  {
+    "name": "GROUP_EGG_SMORES",
+    "type": "monstergroup",
+    "default": "mon_marshmallow_kid_armored"
+  },
+  {
+    "name": "GROUP_EGG_GUMMY",
+    "type": "monstergroup",
+    "default": "mon_gummy_cub"
+  },
+  {
+    "name": "GROUP_EGG_CRACKER",
+    "type": "monstergroup",
+    "default": "mon_small_cracker"
+  },
+  {
+    "name": "GROUP_EGG_COOKIE",
+    "type": "monstergroup",
+    "default": "mon_cookie"
+  },
+  {
+    "name": "GROUP_EGG_GUM",
+    "type": "monstergroup",
+    "default": "mon_spider_gum"
+  },
+  {
+    "name": "GROUP_EGG_CAFFGUM",
+    "type": "monstergroup",
+    "default": "mon_gum_spider_wolf"
+  }
+]

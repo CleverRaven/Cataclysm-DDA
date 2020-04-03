@@ -1,4 +1,4 @@
-#include <limits.h>
+#include <climits>
 #include <list>
 #include <memory>
 #include <set>
@@ -23,7 +23,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
     player &dummy = g->u;
 
-    clear_player();
+    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 
@@ -45,7 +45,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
 {
     player &dummy = g->u;
 
-    clear_player();
+    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 
@@ -80,7 +80,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 {
     player &dummy = g->u;
 
-    clear_player();
+    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 
@@ -140,7 +140,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 {
     player &dummy = g->u;
 
-    clear_player();
+    clear_avatar();
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
 

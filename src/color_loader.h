@@ -71,8 +71,7 @@ class color_loader
             try {
                 load_colorfile( custom_path );
             } catch( const JsonError &err ) {
-                DebugLog( D_ERROR, D_SDL ) << "Failed to load color data from " << custom_path << ": " <<
-                                           err.what();
+                debugmsg( "Failed to load color data from \"%s\": %s", custom_path, err.what() );
 
                 // this should succeed, otherwise the installation is botched
                 load_colorfile( default_path );

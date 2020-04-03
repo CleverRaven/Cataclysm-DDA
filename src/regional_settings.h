@@ -46,18 +46,12 @@ struct city_settings {
     // We'll spread this out to the rest of the town.
     int park_sigma = 100 - park_radius;
 
-    int house_basement_chance = 5; // one_in(n) chance a house has a basement
     building_bin houses;
-    building_bin basements;
     building_bin shops;
     building_bin parks;
 
     overmap_special_id pick_house() const {
         return houses.pick()->id;
-    }
-
-    overmap_special_id pick_basement() const {
-        return basements.pick()->id;
     }
 
     overmap_special_id pick_shop() const {
@@ -222,20 +216,20 @@ struct region_terrain_and_furniture_settings {
     std::map<furn_id, weighted_int_list<furn_id>> furniture;
 
     void finalize();
-    ter_id resolve( ter_id ) const;
-    furn_id resolve( furn_id ) const;
+    ter_id resolve( const ter_id & ) const;
+    furn_id resolve( const furn_id & ) const;
     region_terrain_and_furniture_settings() = default;
 };
 
 /*
- * Spationally relevant overmap and mapgen variables grouped into a set of suggested defaults;
- * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
+ * Spatially relevant overmap and mapgen variables grouped into a set of suggested defaults;
+ * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smooth fashion
  */
 struct regional_settings {
     std::string id;           //
     oter_str_id default_oter; // 'field'
-    double river_scale;
-    weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
+    double river_scale = 1;
+    weighted_int_list<ter_id> default_groundcover; // i.e., 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
     city_settings     city_spec;      // put what where in a city of what kind

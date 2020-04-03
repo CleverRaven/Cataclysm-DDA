@@ -20,7 +20,7 @@
   {
     "id": "aperture_potato",
     "type": "TOOL",
-    "name": "companion potato",
+    "name": { "str": "companion potato", "str_pl": "companion potatoes" },
     "description": "Seems like some kind of Genetic Lifeform and Disk Operating System, attached to a potato.",
     "weight": "900 g",
     "volume": "500 ml",

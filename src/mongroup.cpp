@@ -13,7 +13,7 @@
 
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.
-//     Ie. a group with 1 monster at frequency will have 50% chance to spawn
+//     I.e. a group with 1 monster at frequency will have 50% chance to spawn
 //     the default monster.
 //     In the same spirit, if you have a total point count of over 1000, the
 //     default monster will never get picked, and nor will the others past the
@@ -370,7 +370,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
             MonsterGroupEntry new_mon_group = MonsterGroupEntry( name, freq, cost, pack_min, pack_max, starts,
                                               ends );
             if( mon.has_member( "conditions" ) ) {
-                for( const std::string &line : mon.get_array( "conditions" ) ) {
+                for( const std::string line : mon.get_array( "conditions" ) ) {
                     new_mon_group.conditions.push_back( line );
                 }
             }
