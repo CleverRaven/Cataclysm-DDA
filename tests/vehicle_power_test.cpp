@@ -44,22 +44,11 @@ static void build_test_map( const ter_id &terrain )
     g->m.build_map_cache( 0, true );
 }
 
-static void remove_all_vehicles()
-{
-    VehicleList vehs = g->m.get_vehicles();
-    vehicle *veh_ptr;
-    for( auto &vehs_v : vehs ) {
-        veh_ptr = vehs_v.v;
-        g->m.destroy_vehicle( veh_ptr );
-    }
-    REQUIRE( g->m.get_vehicles().empty() );
-}
-
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 {
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );
-    remove_all_vehicles();
+    clear_vehicles();
 
     SECTION( "vehicle with reactor" ) {
         const tripoint reactor_origin = tripoint( 10, 10, 0 );
@@ -153,7 +142,7 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 {
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );
-    remove_all_vehicles();
+    clear_vehicles();
 
     GIVEN( "a scooter with combustion engine and charged battery" ) {
         const tripoint origin = tripoint( 10, 0, 0 );
