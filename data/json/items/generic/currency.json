@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "FMCNote",
-    "name": "Merch",
+    "name": { "str": "Merch" },
     "description": "The Free Merchant Certified Note, also known by names such as a 'c-note' or 'merch', is a currency based on old American bills.  Fifty dollar bills and larger are printed with a promissory note signed by the treasurer of the Free Merchants, along with a complex design.  The note explains that this can be exchanged for food, water, and other services through the Free Merchants in the Refugee Center.",
     "price": 5000,
     "price_postapoc": 320,
@@ -44,7 +44,7 @@
   {
     "type": "GENERIC",
     "id": "signed_chit",
-    "name": "chit",
+    "name": { "str": "chit" },
     "description": "This is a slip of paper signed by the issuer.",
     "price": 5,
     "price_postapoc": 320,
@@ -57,7 +57,7 @@
   {
     "type": "GENERIC",
     "id": "icon",
-    "name": "icon",
+    "name": { "str": "icon" },
     "description": "This is a small picture, about the same size as an ID card, symbolizing a religious figure.  On the back, there is a text that faintly reads 'New England Church Community'.",
     "price": 200,
     "price_postapoc": 320,

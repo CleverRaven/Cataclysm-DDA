@@ -27,6 +27,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "input.h"
 #include "loading_ui.h"
 #include "main_menu.h"
 #include "mapsharing.h"
@@ -35,8 +36,8 @@
 #include "path_info.h"
 #include "rng.h"
 #include "translations.h"
-#include "input.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -576,10 +577,6 @@ int main( int argc, char *argv[] )
     }
 #endif
 
-    get_options().init();
-    get_options().load();
-    set_language();
-
 #if defined(TILES)
     SDL_version compiled;
     SDL_VERSION( &compiled );
@@ -596,6 +593,11 @@ int main( int argc, char *argv[] )
                                << static_cast<int>( linked.patch );
 #endif
 
+#if !defined(TILES)
+    get_options().init();
+    get_options().load();
+#endif
+
     // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
     if( !test_mode ) {
         try {
@@ -610,6 +612,8 @@ int main( int argc, char *argv[] )
             return 1;
         }
     }
+
+    set_language();
 
     rng_set_engine_seed( seed );
 
@@ -685,6 +689,14 @@ int main( int argc, char *argv[] )
             }
         }
 
+        ui_adaptor main_ui;
+        main_ui.position_from_window( catacurses::stdscr );
+        main_ui.on_redraw( []( const ui_adaptor & ) {
+            g->draw();
+        } );
+        main_ui.on_screen_resize( []( ui_adaptor & ui ) {
+            ui.position_from_window( catacurses::stdscr );
+        } );
         while( !g->do_turn() );
     }
 

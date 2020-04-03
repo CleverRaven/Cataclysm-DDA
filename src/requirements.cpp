@@ -27,7 +27,8 @@
 #include "item.h"
 #include "visitable.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static std::map<requirement_id, requirement_data> requirements_all;
 
@@ -1040,7 +1041,7 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
     // Create an empty requirement_data
     requirement_data ret;
 
-    // For items we cant change what alternative we selected half way through
+    // For items we can't change what alternative we selected half way through
     for( const item_comp &it : required_comps ) {
         ret.components.emplace_back( std::vector<item_comp>( {it} ) );
     }

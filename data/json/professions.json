@@ -1483,6 +1483,23 @@
   },
   {
     "type": "profession",
+    "ident": "trucker",
+    "name": "Trucker",
+    "description": "You ruled the road in your big rig and managed to drive it somewhere you hoped was safe when the riots hit.  Now it's just you and your trusty truck cab.",
+    "points": 5,
+    "skills": [ { "level": 1, "name": "mechanics" }, { "level": 4, "name": "driving" } ],
+    "vehicle": "semi_truck",
+    "items": {
+      "both": {
+        "items": [ "tank_top", "socks", "boots_steel", "pants", "multitool", "wristwatch", "gloves_work", "hat_ball" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "ident": "lumberjack",
     "name": "Lumberjack",
     "description": "You're a lumberjack, and you're okay.  You felled trees before the world ended, but suspect the undead aren't nearly as tough.",
@@ -2567,7 +2584,7 @@
       "bio_stiff",
       "bio_metabolics",
       "bio_power_storage_mkII",
-      "bio_scent_vision",
+      "bio_adrenaline",
       "bio_claws",
       "bio_digestion",
       "bio_water_extractor",
@@ -4005,6 +4022,20 @@
           { "item": "colt_saa", "ammo-item": "45colt_jhp", "charges": 6, "container-item": "sholster" }
         ]
       }
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "frat",
+    "name": { "male": "Frat Boy", "female": "Sorority Girl" },
+    "description": "You were living the high life, spending your parents money without a care in the world.  You were at one of your usual crazy parties when the guests became hungry for more than your drugs.  You still have a chance to use the last symbol of your luxurious life - your sport car - and get far away.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 2, "name": "driving" } ],
+    "vehicle": "car_sports",
+    "items": {
+      "both": { "items": [ "gold_watch", "water_mineral", "smart_phone", "money_bundle", "cig", "ref_lighter" ] },
+      "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],
+      "female": [ "tank_top", "bra", "panties", "skirt", "heels", "jacket_leather", "stockings" ]
     }
   }
 ]

@@ -141,7 +141,7 @@
     "copy-from": "rifle_base",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": "Serbu BFG-50",
+    "name": { "str": "Serbu BFG-50" },
     "description": "A single-shot, bolt-action rifle made by Serbu Firearms, the BFG-50 is a very affordable firearm for those wishing to shoot .50 BMG.",
     "weight": "8144 g",
     "volume": "1387 ml",

@@ -24,6 +24,7 @@ void remove_harness( monster &z );
 void play_with( monster &z );
 void kill_zslave( monster &z );
 void tie_or_untie( monster &z );
+void shear_animal( monster &z );
 void mount_pet( monster &z );
 void attach_or_remove_saddle( monster &z );
 /*

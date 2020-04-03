@@ -401,6 +401,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "leads_to", additions, trait_reader{} );
     optional( jo, was_loaded, "flags", flags, string_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
+    optional( jo, was_loaded, "enchantments", enchantments );
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( get_body_part_token( s ) );
@@ -424,7 +425,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     for( JsonArray ja : jo.get_array( "lumination" ) ) {
         const body_part bp = get_body_part_token( ja.next_string() );
-        lumination.emplace( bp, ja.next_float() );
+        lumination.emplace( bp, static_cast<float>( ja.next_float() ) );
     }
 
     for( JsonArray ja : jo.get_array( "anger_relations" ) ) {

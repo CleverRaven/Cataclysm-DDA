@@ -63,7 +63,46 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
-#include "cata_string_consts.h"
+#include "ranged.h"
+
+static const activity_id ACT_READ( "ACT_READ" );
+
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_memory( "bio_memory" );
+static const bionic_id bio_watch( "bio_watch" );
+
+static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_depressants( "depressants" );
+static const efftype_id effect_happy( "happy" );
+static const efftype_id effect_irradiated( "irradiated" );
+static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_sad( "sad" );
+static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_sleep_deprived( "sleep_deprived" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_stim( "stim" );
+static const efftype_id effect_stim_overdose( "stim_overdose" );
+
+static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
+static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_CHITIN2( "CHITIN2" );
+static const trait_id trait_CHITIN3( "CHITIN3" );
+static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+static const trait_id trait_STIMBOOST( "STIMBOOST" );
+static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
+static const trait_id trait_WEBBED( "WEBBED" );
+static const trait_id trait_WHISKERS( "WHISKERS" );
+static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
+
+static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
 class JsonIn;
 class JsonOut;
@@ -511,8 +550,8 @@ bool avatar::read( item &it, const bool continuous )
             uilist menu;
             menu.title = string_format( _( "Train %s from manual:" ),
                                         martial_art_learned_from( *it.type )->name );
-            menu.addentry( -1, true, 1, _( "Train once." ) );
-            menu.addentry( getID().get_value(), true, 2, _( "Train until tired or success." ) );
+            menu.addentry( -1, true, '1', _( "Train once" ) );
+            menu.addentry( getID().get_value(), true, '0', _( "Train until tired or success" ) );
             menu.query( true );
             if( menu.ret == UILIST_CANCEL ) {
                 add_msg( m_info, _( "Never mind." ) );
@@ -1388,7 +1427,7 @@ void avatar::set_movement_mode( character_movemode new_mode )
                 }
             } else {
                 if( is_mounted() ) {
-                    // mounts dont currently have stamina, but may do in future.
+                    // mounts don't currently have stamina, but may do in future.
                     add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
                 } else if( get_working_leg_count() < 2 ) {
                     add_msg( m_bad, _( "You need two functional legs to run." ) );
@@ -1569,6 +1608,20 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
 bool avatar::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
+}
+
+targeting_data &avatar::get_targeting_data()
+{
+    if( tdata == nullptr ) {
+        debugmsg( "Tried to get targeting data before setting it" );
+        tdata.reset( new targeting_data() );
+    }
+    return *tdata;
+}
+
+void avatar::set_targeting_data( const targeting_data &td )
+{
+    tdata.reset( new targeting_data( td ) );
 }
 
 points_left::points_left()

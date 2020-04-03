@@ -36,6 +36,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "veh_utils.h"
@@ -57,7 +58,18 @@
 #include "mapdata.h"
 #include "point.h"
 #include "material.h"
-#include "cata_string_consts.h"
+
+static const itype_id fuel_type_battery( "battery" );
+
+static const skill_id skill_mechanics( "mechanics" );
+
+static const quality_id qual_JACK( "JACK" );
+static const quality_id qual_LIFT( "LIFT" );
+static const quality_id qual_SELF_JACK( "SELF_JACK" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
+static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 class player;
 
@@ -102,14 +114,18 @@ player_activity veh_interact::serialize_activity()
             time = vp->install_time( g->u );
             break;
         case 'r':
-            if( pt->is_broken() ) {
-                time = vp->install_time( g->u );
-            } else if( pt->base.max_damage() > 0 ) {
-                time = vp->repair_time( g->u ) * pt->base.damage() / pt->base.max_damage();
+            if( pt != nullptr ) {
+                if( pt->is_broken() ) {
+                    time = vp->install_time( g->u );
+                } else if( pt->base.max_damage() > 0 ) {
+                    time = vp->repair_time( g->u ) * pt->base.damage() / pt->base.max_damage();
+                }
             }
             break;
         case 'o':
             time = vp->removal_time( g->u );
+            break;
+        default:
             break;
     }
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
@@ -119,9 +135,10 @@ player_activity veh_interact::serialize_activity()
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
-    point q = veh->coord_translate( pt ? pt->mount : veh->parts[0].mount );
-    for( const auto pt : veh->get_points( true ) ) {
-        res.coord_set.insert( g->m.getabs( pt ) );
+    const point q = veh->coord_translate( pt ? pt->mount : veh->parts[0].mount );
+    const vehicle_part *vpt = pt ? pt : &veh->parts[0];
+    for( const tripoint &p : veh->get_points( true ) ) {
+        res.coord_set.insert( g->m.getabs( p ) );
     }
     res.values.push_back( g->m.getabs( veh->global_pos3() ).x + q.x );    // values[0]
     res.values.push_back( g->m.getabs( veh->global_pos3() ).y + q.y );    // values[1]
@@ -129,7 +146,7 @@ player_activity veh_interact::serialize_activity()
     res.values.push_back( dd.y );   // values[3]
     res.values.push_back( -dd.x );   // values[4]
     res.values.push_back( -dd.y );   // values[5]
-    res.values.push_back( veh->index_of_part( pt ) ); // values[6]
+    res.values.push_back( veh->index_of_part( vpt ) ); // values[6]
     res.str_values.push_back( vp->get_id().str() );
     res.targets.emplace_back( std::move( target ) );
 
@@ -318,6 +335,10 @@ void veh_interact::do_main_loop()
     } else {
         owner_fac = g->faction_manager_ptr->get( faction_id( "no_faction" ) );
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( !finish ) {
         overview();
         display_mode();
@@ -803,6 +824,35 @@ void veh_interact::move_fuel_cursor( int delta )
     display_stats();
 }
 
+static void sort_uilist_entries_by_line_drawing( std::vector<uilist_entry> &shape_ui_entries )
+{
+    // An ordering of the line drawing symbols that does not result in
+    // connecting when placed adjacent to each other vertically.
+    const static std::map<int, int> symbol_order = {
+        { LINE_XOXO, 0 }, { LINE_OXOX, 1 },
+        { LINE_XOOX, 2 }, { LINE_XXOO, 3 },
+        { LINE_XXXX, 4 }, { LINE_OXXO, 5 },
+        { LINE_OOXX, 6 }
+    };
+
+    std::sort( shape_ui_entries.begin(), shape_ui_entries.end(),
+    []( const uilist_entry & a, const uilist_entry & b ) {
+        auto a_iter = symbol_order.find( a.extratxt.sym );
+        auto b_iter = symbol_order.find( b.extratxt.sym );
+        if( a_iter != symbol_order.end() ) {
+            if( b_iter != symbol_order.end() ) {
+                return a_iter->second < b_iter->second;
+            } else {
+                return true;
+            }
+        } else if( b_iter != symbol_order.end() ) {
+            return false;
+        } else {
+            return a.extratxt.sym < b.extratxt.sym;
+        }
+    } );
+}
+
 bool veh_interact::do_install( std::string &msg )
 {
     task_reason reason = cant_do( 'i' );
@@ -928,6 +978,9 @@ bool veh_interact::do_install( std::string &msg )
     // full list of mountable parts, to be filtered according to tab
     std::vector<const vpart_info *> tab_vparts = can_mount;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int pos = 0;
     size_t tab = 0;
     while( true ) {
@@ -998,6 +1051,7 @@ bool veh_interact::do_install( std::string &msg )
                         entry.extratxt.color = shapes[i]->color;
                         shape_ui_entries.push_back( entry );
                     }
+                    sort_uilist_entries_by_line_drawing( shape_ui_entries );
                     selected_shape = uilist(
                                          point( getbegx( w_list ), getbegy( w_list ) ), getmaxx( w_list ),
                                          _( "Choose shape:" ), shape_ui_entries );
@@ -1106,6 +1160,9 @@ bool veh_interact::do_repair( std::string &msg )
     }
 
     set_title( _( "Choose a part here to repair:" ) );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     int pos = 0;
     while( true ) {
@@ -1288,6 +1345,12 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         if( hotkey == '{' ) {
             hotkey = 'A';
         }
+
+        while( hotkey == 'c' || hotkey == 'g' || hotkey == 'j' || hotkey == 'k' || hotkey == 'l' ||
+               hotkey == 'p' || hotkey == 'q' || hotkey == 't' || hotkey == 'v' || hotkey == 'x' ||
+               hotkey == 'z' ) {
+            hotkey += 1;
+        }
         return hotkey;
     };
 
@@ -1396,7 +1459,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     int offset = 1;
                     std::string fmtstring = "%s %s  %5.1fL";
-                    if( pt.damage_percent() >= 0.5 ) {
+                    if( pt.is_leaking() ) {
                         fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
                         offset = 0;
                     }
@@ -1404,7 +1467,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                                  string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
                                                 round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
                 } else {
-                    if( pt.damage_percent() >= 0.5 ) {
+                    if( pt.is_leaking() ) {
                         std::string outputstr = leak_marker + "      " + leak_marker;
                         right_print( w, y, 0, c_light_gray, outputstr );
                     }
@@ -1415,15 +1478,17 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         } else if( pt.is_fuel_store() && !( pt.is_battery() || pt.is_reactor() ) && !pt.is_broken() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_current() != "null" ) {
+                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                    auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     int offset = 1;
-                    std::string fmtstring = "%s  %6i";
-                    if( pt.damage_percent() >= 0.5 ) {
-                        fmtstring = "%s  " + leak_marker + "%6i" + leak_marker;
+                    std::string fmtstring = "%s  %5.1fL";
+                    if( pt.is_leaking() ) {
+                        fmtstring = "%s  " + leak_marker + "%5.1fL" + leak_marker;
                         offset = 0;
                     }
-                    right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                    right_print( w, y, offset, pt_ammo_cur->color,
                                  string_format( fmtstring, item::nname( pt.ammo_current() ),
-                                                pt.ammo_remaining() ) );
+                                                round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
                 }
             };
             opts.emplace_back( "TANK", &pt, action && enable &&
@@ -1438,7 +1503,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
                 int offset = 1;
                 std::string fmtstring = "%i    %3i%%";
-                if( pt.damage_percent() >= 0.5 ) {
+                if( pt.is_leaking() ) {
                     fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
                     offset = 0;
                 }
@@ -1452,8 +1517,14 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
 
     auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
         if( pt.ammo_remaining() ) {
-            right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                         string_format( "%s   %5i", item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
+            int offset = 1;
+            std::string fmtstring = "%s   %5i";
+            if( pt.is_leaking() ) {
+                fmtstring = "%s  " + leak_marker + "%5i" + leak_marker;
+                offset = 0;
+            }
+            right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                         string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
         }
     };
 
@@ -1493,6 +1564,9 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             }
         } while( !opts[pos].hotkey );
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     bool redraw = false;
     while( true ) {
@@ -1725,6 +1799,10 @@ bool veh_interact::do_remove( std::string &msg )
             break;
         }
     }
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         //redraw list of parts
         werase( w_parts );
@@ -2176,9 +2254,9 @@ static std::string wheel_state_description( const vehicle &veh )
 
     std::string boat_status;
     if( !suf_boat ) {
-        boat_status = _( "<color_light_red>leaks</color>" );
+        boat_status = _( "<color_light_red>sinks</color>" );
     } else {
-        boat_status = _( "<color_blue>swims</color>" );
+        boat_status = _( "<color_light_blue>floats</color>" );
     }
 
     if( is_boat && is_land ) {
@@ -2355,9 +2433,15 @@ void veh_interact::display_stats() const
     i += 1;
 
     if( is_boat ) {
+
+        const double water_clearance = veh->water_hull_height() - veh->water_draft();
+        std::string draft_string = water_clearance > 0 ?
+                                   _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_blue>%4.2f</color>m" ) :
+                                   _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_red>%4.2f</color>m" ) ;
+
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        _( "Draft:          <color_light_blue>%4.2f</color>m" ),
-                        veh->water_draft() );
+                        draft_string.c_str(),
+                        veh->water_draft(), water_clearance );
         i += 1;
     }
 
