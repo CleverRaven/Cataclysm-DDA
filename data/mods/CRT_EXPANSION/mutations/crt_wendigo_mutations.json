@@ -117,7 +117,7 @@
       {
         "attack_text_u": "You ravage %s with your arms",
         "attack_text_npc": "%1$s ravages %2$s with their arm spurs",
-        "body_part": "R_ARM",
+        "body_part": "arm_r",
         "chance": 10,
         "base_damage": { "damage_type": "stab", "amount": 2 },
         "strength_damage": { "damage_type": "biological", "amount": 0.25 }
@@ -127,7 +127,7 @@
   {
     "type": "mutation",
     "id": "MONSTROUSCARDIO",
-    "name": "Indefatigable",
+    "name": "Persistent Body",
     "points": 2,
     "description": "As you move, the world seems to breath life and energy into your limbs. You simply rarely tire less readily than others.  Your maximum stamina is 50% higher than usual.",
     "valid": false,
