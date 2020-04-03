@@ -61,7 +61,6 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.empty_skills();
     dummy.clear_morale();
     dummy.clear_bionics();
-    dummy.clear_effects();
     dummy.activity.set_to_null();
     dummy.set_pain( 0 );
 
