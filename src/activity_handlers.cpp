@@ -4573,3 +4573,4 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     data_card.contents.clear();
     data_card.put_in( item( "mind_scan_robofac" ) );
 }
+rtryrtyrtyrtyrtyrtyrtyrtyrty
