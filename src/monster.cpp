@@ -640,8 +640,8 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
 
-    mvwprintz( w, point( column, vStart ), c_white, "%s ", name() );
-
+    mvwprintz( w, point( column, vStart ), basic_symbol_color(), name() );
+    wprintw( w, " " );
     const auto att = get_attitude();
     wprintz( w, att.second, att.first );
 

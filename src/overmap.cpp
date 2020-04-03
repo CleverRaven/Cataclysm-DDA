@@ -3988,18 +3988,6 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         const int rad = rng( spawns.radius.min, spawns.radius.max );
         add_mon_group( mongroup( spawns.group, tripoint( p.x * 2, p.y * 2, p.z ), rad, pop ) );
     }
-    // Place basement for houses.
-    if( special.id == "FakeSpecial_house" && one_in( settings.city_spec.house_basement_chance ) ) {
-        const overmap_special_id basement_tid = settings.city_spec.pick_basement();
-        const tripoint basement_p = tripoint( p.xy(), p.z - 1 );
-
-        // This basement isn't part of the special that we asserted we could place at
-        // the top of this function, so we need to make sure we can place the basement
-        // special before doing so.
-        if( can_place_special( *basement_tid, basement_p, dir, must_be_unexplored ) || force ) {
-            place_special( *basement_tid, basement_p, dir, cit, must_be_unexplored, force );
-        }
-    }
 }
 
 om_special_sectors get_sectors( const int sector_width )

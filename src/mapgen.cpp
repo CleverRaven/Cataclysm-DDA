@@ -182,11 +182,11 @@ void map::generate( const tripoint &p, const time_point &when )
             if( !spawn_details.name ) {
                 continue;
             }
-            if( const cata::optional<tripoint> p =
+            if( const cata::optional<tripoint> pt =
             random_point( *this, [this]( const tripoint & n ) {
             return passable( n );
             } ) ) {
-                add_spawn( spawn_details.name, spawn_details.pack_size, *p );
+                add_spawn( spawn_details.name, spawn_details.pack_size, *pt );
             }
         }
     }
@@ -2321,7 +2321,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     JsonArray sparray;
     JsonObject pjo;
 
-    format.resize( mapgensize.x * mapgensize.y );
+    format.resize( static_cast<size_t>( mapgensize.x * mapgensize.y ) );
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
     if( jo.has_array( "rows" ) ) {
         mapgen_palette palette = mapgen_palette::load_temp( jo, "dda" );
@@ -2738,8 +2738,6 @@ void mapgen_function_json::generate( mapgendata &md )
     for( auto &elem : setmap_points ) {
         elem.apply( md, point_zero );
     }
-
-    place_stairs( md );
 
     objects.apply( md, point_zero );
 

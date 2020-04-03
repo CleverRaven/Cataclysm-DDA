@@ -1015,8 +1015,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                      0.5f ); //The distance between our first leadingEdge and start
 
         //We initialize delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
-        delta.x = -distance + std::max( static_cast<int>( ceil( away * ( -distance - 0.5f ) ) ),
-                                        0 );
+        delta.x = -distance + std::max( static_cast<int>( std::ceil( away * ( -distance - 0.5f ) ) ), 0 );
 
         for( ; delta.x <= 0; delta.x++ ) {
             int currentX = offset.x + delta.x * xx + delta.y * xy;

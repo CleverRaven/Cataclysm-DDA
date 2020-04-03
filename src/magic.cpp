@@ -345,8 +345,8 @@ static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const s
         unique_spell_list.emplace( fake_sp.id );
     }
 
-    for( const spell_id &sp : unique_spell_list ) {
-        if( spell_infinite_loop_check( spell_effects, sp ) ) {
+    for( const spell_id &other_sp : unique_spell_list ) {
+        if( spell_infinite_loop_check( spell_effects, other_sp ) ) {
             return true;
         }
     }
@@ -456,13 +456,13 @@ skill_id spell::skill() const
 int spell::field_intensity() const
 {
     return std::min( type->max_field_intensity,
-                     static_cast<int>( type->min_field_intensity + round( get_level() *
+                     static_cast<int>( type->min_field_intensity + std::round( get_level() *
                                        type->field_intensity_increment ) ) );
 }
 
 int spell::min_leveled_damage() const
 {
-    return type->min_damage + round( get_level() * type->damage_increment );
+    return type->min_damage + std::round( get_level() * type->damage_increment );
 }
 
 int spell::damage() const
@@ -497,7 +497,7 @@ std::string spell::damage_string() const
 
 int spell::min_leveled_aoe() const
 {
-    return type->min_aoe + round( get_level() * type->aoe_increment );
+    return type->min_aoe + std::round( get_level() * type->aoe_increment );
 }
 
 int spell::aoe() const
@@ -535,7 +535,7 @@ std::string spell::aoe_string() const
 
 int spell::range() const
 {
-    const int leveled_range = type->min_range + round( get_level() * type->range_increment );
+    const int leveled_range = type->min_range + std::round( get_level() * type->range_increment );
     if( type->max_range >= type->min_range ) {
         return std::min( leveled_range, type->max_range );
     } else {
@@ -545,7 +545,7 @@ int spell::range() const
 
 int spell::min_leveled_duration() const
 {
-    return type->min_duration + round( get_level() * type->duration_increment );
+    return type->min_duration + std::round( get_level() * type->duration_increment );
 }
 
 int spell::duration() const
@@ -1396,8 +1396,8 @@ void known_magic::update_mana( const player &p, float turns )
     // mana should replenish in 8 hours.
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
-    mod_mana( p, floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
-                        p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
+    mod_mana( p, std::floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
+                             p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
