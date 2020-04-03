@@ -25,7 +25,12 @@
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "book_learn": [ [ "recipe_uplift", 9 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
-    "components": [ [ [ "mutagen", 3 ] ], [ [ "afs_biomaterial_3", 3 ] ], [ [ "mutagen_medical", 1 ], [ "afs_biomaterial_5", 1 ] ], [ [ "syringe", 1 ] ] ]
+    "components": [
+      [ [ "mutagen", 3 ] ],
+      [ [ "afs_biomaterial_3", 3 ] ],
+      [ [ "mutagen_medical", 1 ], [ "afs_biomaterial_5", 1 ] ],
+      [ [ "syringe", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
