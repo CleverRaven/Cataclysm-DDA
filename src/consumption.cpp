@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "disease.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"

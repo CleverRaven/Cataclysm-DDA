@@ -16,6 +16,7 @@
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "disease.h"
 #include "effect.h"
 #include "event_bus.h"
 #include "field.h"

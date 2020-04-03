@@ -21,7 +21,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "creature.h"
-#include "disease.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "pimpl.h"
