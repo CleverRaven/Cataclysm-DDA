@@ -1,5 +1,9 @@
 #include "stats_tracker.h"
 
+#include <assert.h>
+#include <map>
+#include <utility>
+
 #include "event_statistics.h"
 
 static bool event_data_matches( const cata::event::data_type &data,

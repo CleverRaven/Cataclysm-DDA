@@ -1,13 +1,18 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <cstdlib>
 #include <algorithm>
+#include <array>
 #include <cstddef>
+#include <cstdlib>
+#include <memory>
+#include <unordered_map>
 
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "debug.h"
 #include "effect.h"
 #include "game.h"
 #include "input.h"
@@ -17,13 +22,11 @@
 #include "profession.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "weather.h"
-#include "catacharset.h"
-#include "translations.h"
-#include "string_id.h"
-#include "enums.h"
 
 static const skill_id skill_swimming( "swimming" );
 

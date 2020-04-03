@@ -2,34 +2,37 @@
 #ifndef MAGIC_H
 #define MAGIC_H
 
-#include <cstddef>
+#include <functional>
 #include <map>
+#include <memory>
+#include <queue>
 #include <set>
 #include <string>
 #include <vector>
-#include <queue>
 
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
+#include "event_bus.h"
+#include "optional.h"
+#include "point.h"
+#include "sounds.h"
+#include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "string_id.h"
-#include "translations.h"
-#include "event_bus.h"
-#include "sounds.h"
 
-struct tripoint;
 class Creature;
-class player;
-class spell;
+class JsonIn;
 class JsonObject;
 class JsonOut;
-class JsonIn;
-class spell;
-class teleporter_list;
-class time_duration;
 class nc_color;
+class player;
+class spell;
+class time_duration;
+namespace cata
+{
+class event;
+}  // namespace cata
 template <typename E> struct enum_traits;
 
 enum spell_flag {

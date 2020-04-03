@@ -1,37 +1,36 @@
-#include <cstdio>
-#include <cstdlib>
-#include <sstream>
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
+#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
+#include "item.h"
 #include "itype.h"
+#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
+#include "point.h"
 #include "test_statistics.h"
+#include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "vpart_range.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "item.h"
-#include "line.h"
-#include "mapdata.h"
-#include "units.h"
-#include "type_id.h"
-#include "point.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 using efficiency_stat = statistics<int>;
 

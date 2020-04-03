@@ -1,12 +1,17 @@
+#include <math.h>
+#include <algorithm>
 #include <string>
+#include <utility>
 
-#include "avatar.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "compatibility.h"
 #include "json.h"
+#include "player.h"
+#include "rng.h"
 #include "stomach.h"
+#include "string_id.h"
 #include "units.h"
-#include "game.h"
-#include "itype.h"
 #include "vitamin.h"
 
 static const trait_id trait_GIZZARD( "GIZZARD" );

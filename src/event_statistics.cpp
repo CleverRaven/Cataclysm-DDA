@@ -1,8 +1,19 @@
 #include "event_statistics.h"
 
+#include <map>
+#include <memory>
+#include <set>
+#include <unordered_map>
+#include <utility>
+
+#include "cata_variant.h"
+#include "debug.h"
 #include "event.h"
 #include "generic_factory.h"
+#include "json.h"
+#include "optional.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
 
 namespace
 {

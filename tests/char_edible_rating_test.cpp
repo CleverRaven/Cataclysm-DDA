@@ -1,11 +1,16 @@
-#include <vector>
+#include <memory>
+#include <string>
 
 #include "avatar.h"
-#include "character.h"
-#include "itype.h"
-#include "type_id.h"
-
+#include "calendar.h"
 #include "catch/catch.hpp"
+#include "character.h"
+#include "flat_set.h"
+#include "item.h"
+#include "itype.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 // Character "edible rating" tests, covering the `can_eat` and `will_eat` functions
 

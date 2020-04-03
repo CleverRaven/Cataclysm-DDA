@@ -1,8 +1,7 @@
-#include <unordered_set>
-#include <vector>
 #include <algorithm>
 #include <cstddef>
 #include <iterator>
+#include <vector>
 
 #include "catch/catch.hpp"
 #include "point.h"

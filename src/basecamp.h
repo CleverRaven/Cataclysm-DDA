@@ -4,30 +4,32 @@
 
 #include <cstddef>
 #include <list>
-#include <memory>
-#include <vector>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
+#include <vector>
 
+#include "craft_command.h"
 #include "inventory.h"
+#include "map.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
+#include "requirements.h"
 #include "translations.h"
-#include "memory_fast.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonOut;
+class character_id;
 class npc;
 class time_duration;
 
 enum class farm_ops;
 class item;
-class map;
 class mission_data;
 class recipe;
-class requirements_data;
-class tinymap;
 
 struct expansion_data {
     std::string type;

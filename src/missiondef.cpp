@@ -1,17 +1,19 @@
 #include "mission.h" // IWYU pragma: associated
 
+#include <stdlib.h>
 #include <algorithm>
 #include <set>
 
 #include "assign.h"
 #include "calendar.h"
 #include "condition.h"
+#include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
 #include "init.h"
 #include "item.h"
-#include "rng.h"
-#include "debug.h"
 #include "json.h"
+#include "rng.h"
 
 enum legacy_mission_type_id {
     MISSION_NULL,

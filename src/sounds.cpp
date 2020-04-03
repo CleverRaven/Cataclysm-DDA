@@ -1,21 +1,26 @@
 #include "sounds.h"
 
-#include <cstdlib>
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <cstdlib>
 #include <memory>
 #include <ostream>
 #include <set>
+#include <system_error>
 #include <type_traits>
 #include <unordered_map>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "coordinate_conversions.h"
+#include "creature.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "item.h"
 #include "itype.h"
 #include "line.h"
@@ -24,26 +29,23 @@
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
+#include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "weather.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "creature.h"
-#include "game_constants.h"
-#include "optional.h"
 #include "player_activity.h"
+#include "point.h"
 #include "rng.h"
+#include "safemode_ui.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "veh_type.h"
-#include "type_id.h"
-#include "point.h"
-#include "string_id.h"
-#include "safemode_ui.h"
+#include "weather.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

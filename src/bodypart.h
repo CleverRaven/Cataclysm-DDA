@@ -2,14 +2,12 @@
 #ifndef BODYPART_H
 #define BODYPART_H
 
-#include <cstddef>
 #include <array>
 #include <bitset>
+#include <cstddef>
 #include <initializer_list>
 #include <string>
 
-#include "int_id.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 

@@ -10,6 +10,10 @@
 #include <utility>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "clone_ptr.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -17,17 +21,17 @@
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "iuse.h"
 #include "json.h"
 #include "output.h"
 #include "player.h"
 #include "ret_val.h"
+#include "string_formatter.h"
 #include "translations.h"
-#include "ui.h"
-#include "calendar.h"
-#include "catacharset.h"
-#include "cursesdef.h"
-#include "iuse.h"
 #include "type_id.h"
+#include "ui.h"
+
+class Character;
 
 static const std::string errstring( "ERROR" );
 

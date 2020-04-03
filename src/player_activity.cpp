@@ -1,17 +1,25 @@
 #include "player_activity.h"
 
 #include <algorithm>
+#include <memory>
 
 #include "activity_handlers.h"
 #include "activity_type.h"
-#include "construction.h"
-#include "map.h"
-#include "game.h"
-#include "player.h"
-#include "sounds.h"
 #include "avatar.h"
+#include "calendar.h"
+#include "construction.h"
+#include "game.h"
+#include "item.h"
 #include "itype.h"
+#include "map.h"
+#include "player.h"
+#include "rng.h"
 #include "skill.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 

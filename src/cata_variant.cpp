@@ -1,7 +1,5 @@
 #include "cata_variant.h"
 
-#include <unordered_map>
-
 namespace io
 {
 

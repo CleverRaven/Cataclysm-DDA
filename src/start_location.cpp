@@ -1,30 +1,31 @@
 #include "start_location.h"
 
-#include <climits>
 #include <algorithm>
+#include <climits>
 #include <memory>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
 #include "generic_factory.h"
+#include "int_id.h"
+#include "json.h"
 #include "map.h"
 #include "map_extras.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "output.h"
-#include "map_iterator.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "calendar.h"
-#include "game_constants.h"
-#include "int_id.h"
 #include "pldata.h"
+#include "point.h"
 #include "rng.h"
 #include "translations.h"
-#include "point.h"
 
 class item;
 

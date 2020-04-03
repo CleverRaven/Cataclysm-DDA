@@ -1,18 +1,18 @@
+#include <algorithm>
 #include <memory>
-#include <string>
 #include <vector>
 
-#include "catch/catch.hpp"
-#include "map.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "common_types.h"
-#include "omdata.h"
-#include "overmap_types.h"
-#include "type_id.h"
+#include "enums.h"
 #include "game_constants.h"
+#include "omdata.h"
+#include "overmap.h"
+#include "overmap_types.h"
+#include "overmapbuffer.h"
 #include "point.h"
+#include "type_id.h"
 
 TEST_CASE( "set_and_get_overmap_scents" )
 {

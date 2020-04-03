@@ -3,36 +3,37 @@
 #define MISSION_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <unordered_map>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "character_id.h"
 #include "enums.h"
-#include "npc_favor.h"
-#include "overmap.h"
-#include "item_group.h"
-#include "string_id.h"
-#include "mtype.h"
-#include "type_id.h"
 #include "game_constants.h"
+#include "item_group.h"
+#include "mtype.h"
+#include "npc_favor.h"
 #include "omdata.h"
 #include "optional.h"
+#include "overmap.h"
 #include "point.h"
+#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
 
-class avatar;
-class mission;
 class Creature;
-class JsonObject;
 class JsonArray;
 class JsonIn;
+class JsonObject;
 class JsonOut;
-class overmapbuffer;
+class avatar;
 class item;
+class mission;
 class npc;
+class overmapbuffer;
+class player;
 template<typename T> struct enum_traits;
 
 enum npc_mission : int;

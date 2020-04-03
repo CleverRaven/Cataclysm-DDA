@@ -2,15 +2,17 @@
 #ifndef CATA_POINT_H
 #define CATA_POINT_H
 
+#include <stdlib.h>
+#include <cstdint>
+#include <string>
+#include <system_error>
 // The CATA_NO_STL macro is used by the cata clang-tidy plugin tests so they
 // can include this header when compiling with -nostdinc++
 #ifndef CATA_NO_STL
 
 #include <array>
 #include <cassert>
-#include <cstddef>
 #include <climits>
-#include <functional>
 #include <ostream>
 #include <vector>
 
@@ -26,8 +28,8 @@ class ostream;
 
 #endif // CATA_NO_STL
 
-class JsonOut;
 class JsonIn;
+class JsonOut;
 
 // NOLINTNEXTLINE(cata-xy)
 struct point {

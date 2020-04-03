@@ -1,10 +1,10 @@
 #include "ui.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cctype>
 #include <climits>
 #include <cstdlib>
-#include <algorithm>
 #include <iterator>
 #include <memory>
 
@@ -18,6 +18,7 @@
 #include "output.h"
 #include "player.h"
 #include "string_input_popup.h"
+#include "translations.h"
 #include "ui_manager.h"
 
 #if defined(__ANDROID__)

@@ -5,15 +5,14 @@
 #include <list>
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
 #include <utility>
+#include <vector>
 
-#include "string_id.h"
 #include "pldata.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "veh_type.h"
 
 template<typename T>
 class generic_factory;
@@ -22,9 +21,9 @@ using Group_tag = std::string;
 class item;
 
 using itype_id = std::string;
+class JsonObject;
 class avatar;
 class player;
-class JsonObject;
 
 enum add_type : int;
 

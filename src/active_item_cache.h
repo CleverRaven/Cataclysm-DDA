@@ -2,12 +2,14 @@
 #ifndef ACTIVE_ITEM_CACHE_H
 #define ACTIVE_ITEM_CACHE_H
 
+#include <iosfwd>
 #include <list>
+#include <system_error>
 #include <unordered_map>
 #include <vector>
 
-#include "safe_reference.h"
 #include "point.h"
+#include "safe_reference.h"
 
 class item;
 

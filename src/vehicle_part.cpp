@@ -3,12 +3,15 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
-#include <set>
-#include <memory>
 #include <list>
+#include <memory>
+#include <set>
 
 #include "avatar.h"
+#include "color.h"
 #include "debug.h"
+#include "enums.h"
+#include "flat_set.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -17,13 +20,10 @@
 #include "npc.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "optional.h"
-#include "color.h"
-#include "enums.h"
-#include "flat_set.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );

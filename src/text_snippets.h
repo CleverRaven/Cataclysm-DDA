@@ -2,16 +2,18 @@
 #ifndef TEXT_SNIPPETS_H
 #define TEXT_SNIPPETS_H
 
+#include <map>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "optional.h"
-#include "type_id.h"
+#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
-class JsonObject;
 class JsonArray;
+class JsonObject;
 
 class snippet_library
 {

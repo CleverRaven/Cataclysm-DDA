@@ -1,33 +1,32 @@
 #include "item_location.h"
 
-#include <climits>
 #include <iosfwd>
 #include <vector>
 
 #include "avatar.h"
 #include "character.h"
 #include "character_id.h"
+#include "color.h"
 #include "debug.h"
 #include "game.h"
 #include "game_constants.h"
+#include "item.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
+#include "line.h"
 #include "map.h"
 #include "map_selector.h"
+#include "optional.h"
 #include "player.h"
+#include "point.h"
+#include "safe_reference.h"
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "vpart_position.h"
-#include "color.h"
-#include "item.h"
-#include "iuse.h"
-#include "line.h"
-#include "optional.h"
 #include "visitable.h"
-#include "point.h"
-#include "safe_reference.h"
+#include "vpart_position.h"
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )
@@ -60,10 +59,10 @@ static item *retrieve_index( const T &sel, int idx )
 class item_location::impl
 {
     public:
-        class nowhere;
         class item_on_map;
         class item_on_person;
         class item_on_vehicle;
+        class nowhere;
 
         impl() = default;
         impl( item *i ) : what( i->get_safe_reference() ), needs_unpacking( false ) {}

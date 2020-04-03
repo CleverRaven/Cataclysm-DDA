@@ -1,9 +1,16 @@
+#include <memory>
+#include <set>
+#include <string>
+
 #include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "options_helpers.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 static const std::string flag_COLD( "COLD" );
 static const std::string flag_DIAMOND( "DIAMOND" );

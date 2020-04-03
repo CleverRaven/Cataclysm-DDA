@@ -1,39 +1,40 @@
 #include "debug_menu.h" // IWYU pragma: associated
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
 #include <vector>
 
+#include "calendar.h"
+#include "catacharset.h"
+#include "color.h"
+#include "cursesdef.h"
 #include "debug.h"
+#include "flat_set.h"
 #include "game.h"
 #include "input.h"
+#include "item.h"
 #include "item_factory.h"
+#include "itype.h"
 #include "map.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "optional.h"
 #include "output.h"
 #include "player.h"
+#include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "uistate.h"
-#include "calendar.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "item.h"
-#include "itype.h"
-#include "optional.h"
-#include "type_id.h"
-#include "flat_set.h"
-#include "point.h"
 
 class wish_mutate_callback: public uilist_callback
 {

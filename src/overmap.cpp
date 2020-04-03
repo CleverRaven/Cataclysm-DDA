@@ -5,16 +5,18 @@
 #include <cassert>
 #include <cmath>
 #include <cstring>
+#include <exception>
+#include <memory>
 #include <numeric>
 #include <ostream>
-#include <queue>
-#include <vector>
-#include <exception>
-#include <unordered_set>
 #include <set>
+#include <unordered_set>
+#include <vector>
 
-#include "catacharset.h"
+#include "assign.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "character_id.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "flood_fill.h"
@@ -26,9 +28,10 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
-#include "mapgen_functions.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
@@ -36,19 +39,16 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_connection.h"
-#include "overmap_noise.h"
 #include "overmap_location.h"
+#include "overmap_noise.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
-#include "translations.h"
-#include "assign.h"
-#include "math_defines.h"
-#include "monster.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 static const efftype_id effect_pet( "pet" );
 

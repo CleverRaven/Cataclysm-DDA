@@ -2,19 +2,17 @@
 #ifndef MAPGEN_FUNCTIONS_H
 #define MAPGEN_FUNCTIONS_H
 
+#include <functional>
 #include <map>
 #include <string>
-#include <functional>
 #include <utility>
 
 #include "type_id.h"
 
-struct tripoint;
-struct point;
-class time_point;
 class map;
 class mapgendata;
 class mission;
+struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint &map_pos3, mission *miss )>;
 class JsonObject;

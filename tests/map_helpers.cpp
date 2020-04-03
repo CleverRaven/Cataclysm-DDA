@@ -1,21 +1,20 @@
 #include "map_helpers.h"
 
+#include <assert.h>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "field.h"
 #include "game.h"
+#include "game_constants.h"
 #include "map.h"
 #include "mapdata.h"
-#include "monster.h"
 #include "npc.h"
-#include "field.h"
-#include "game_constants.h"
-#include "pimpl.h"
-#include "type_id.h"
 #include "point.h"
+#include "type_id.h"
 
 void wipe_map_terrain()
 {

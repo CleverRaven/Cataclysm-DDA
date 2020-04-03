@@ -1,11 +1,15 @@
-#include "catch/catch.hpp"
+#include <memory>
 
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "mapdata.h"
 #include "monster.h"
 #include "options_helpers.h"
+
+struct tripoint;
 
 static monster &spawn_and_clear( const tripoint &pos, bool set_floor )
 {

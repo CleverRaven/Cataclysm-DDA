@@ -1,18 +1,15 @@
 #include "mapsharing.h"
 
-#include "cata_utility.h"
-#include "filesystem.h"
-#include "platform_win.h"
-
 #include <cstdlib>
+#include <fstream>
+#include <map>
 #include <stdexcept>
 
+#include "cata_utility.h"
+#include "filesystem.h"
+
 #if defined(__linux__)
-#include <sys/file.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <unistd.h>
-#include <cstdio>
 #endif // __linux__
 
 bool MAP_SHARING::sharing;

@@ -2,19 +2,22 @@
 #ifndef JSON_H
 #define JSON_H
 
-#include <cstddef>
-#include <type_traits>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <bitset>
+#include <stdint.h>
 #include <array>
+#include <bitset>
+#include <cstddef>
+#include <iostream>
 #include <map>
 #include <set>
 #include <stdexcept>
+#include <string>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
 #include "colony.h"
 #include "enum_conversions.h"
+#include "string_id.h"
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -30,10 +33,10 @@
  * Further documentation can be found below.
  */
 
-class JsonObject;
 class JsonArray;
-class JsonSerializer;
 class JsonDeserializer;
+class JsonObject;
+class JsonSerializer;
 class JsonValue;
 
 namespace cata
@@ -827,6 +830,7 @@ class JsonObject
         }
 
         class const_iterator;
+
         friend const_iterator;
 
         const_iterator begin() const;

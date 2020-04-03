@@ -2,26 +2,25 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
-#include <cstddef>
 #include <array>
 #include <bitset>
+#include <cstddef>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 
+#include "calendar.h"
 #include "color.h"
-#include "int_id.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 
 class JsonObject;
+class player;
+struct furn_t;
 struct itype;
 struct ter_t;
-struct furn_t;
-class player;
 struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
