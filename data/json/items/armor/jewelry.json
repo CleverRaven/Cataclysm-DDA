@@ -966,7 +966,7 @@
     "volume": "25 ml",
     "price": 5000,
     "price_postapoc": 500,
-    "material": "gold",
+    "material": [ "gold" ],
     "symbol": ",",
     "color": "yellow",
     "use_action": "MEDITATE",
