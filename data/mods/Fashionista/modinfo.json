@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Fashionista",
+    "name": "Fashionista",
+    "authors": [ "Nphyx" ],
+    "maintainers": [ "Nphyx" ],
+    "description": "Expanded tailoring tools and recipes for fashionistas.",
+    "category": "items",
+    "dependencies": [ "dda" ],
+    "obsolete": false
+  }
+]

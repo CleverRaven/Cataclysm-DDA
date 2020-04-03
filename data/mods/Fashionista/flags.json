@@ -1,0 +1,38 @@
+[
+  {
+    "id": "embroidered_paisley",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has been embroidered with a rustic paisley motif. Wearing it makes you feel <good>stylish</good> in a country sort of way, but it's <bad>a bit more stiff</bad> than before."
+  },
+  {
+    "id": "embroidered_badass",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has been embroidered with menacing skulls and whorls of fire. Wearing it makes you feel <good>like a total badass</good> but it's <bad>a bit more stiff</bad> than before."
+  },
+  {
+    "id": "embroidered_monogram",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has been embroidered with its owner's personal monogram. Wearing it makes you feel <good>sophisticated</good> but it's <bad>a bit more stiff</bad> than before."
+  },
+  {
+    "id": "cutwork_lace",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "Portions of this gear have been replaced with luxurious lace. It <good>looks and feels incredible</good> but it's <bad>much more flimsy and delicate</bad> than the original piece."
+  },
+  {
+    "id": "hemline_up",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "The hemline of this gear has been raised substantially. It <good>keeps you cool in the summer</good> but <bad>doesn't leave much to the imagination.</bad>"
+  },
+  {
+    "id": "hemline_down",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "The hemline of this gear has been lowered. It <good>protects your modesty and keeps you warm</good> but <bad>is a little more encumbering</bad>."
+  }
+]

@@ -1,0 +1,129 @@
+[
+	{
+		"//": "NONE OF THESE OVERRIDES WORK because armor loader does not implement generic_factory - So this is a placeholder",
+		"id": "skirt",
+		"type": "ARMOR",
+    "name": { "str": "skirt" },
+		"copy-from": "skirt",
+		"valid_mods": ["embroidered", "cutwork"]
+	},
+	{
+		"id": "kilt",
+    "name": { "str": "kilt" },
+		"type": "ARMOR",
+		"copy-from": "kilt",
+		"valid_mods": ["embroidered", "cutwork"]
+	},
+	{
+		"id": "kilt_leather",
+		"type": "ARMOR",
+    "name": { "str": "leather kilt" },
+		"copy-from": "kilt_leather",
+		"valid_mods": ["embroidered", "cutwork"]
+	},
+	{
+		"id": "skirt_leather",
+		"type": "ARMOR",
+    "name": { "str": "leather skirt" },
+		"copy-from": "skirt_leather",
+		"valid_mods": ["embroidered", "cutwork"]
+	},
+	{
+		"id": "jeans",
+		"type": "ARMOR",
+    "name": { "str": "jeans", "str_pl": "jeans" },
+		"copy-from": "skirt_leather",
+		"valid_mods": ["embroidered", "cutwork"]
+	},
+	{
+		"id": "pants_leather",
+		"type": "ARMOR",
+    "name": { "str": "leather pants", "str_pl": "leather pants" },
+		"copy-from": "skirt_leather",
+		"valid_mods": ["embroidered", "cutwork"]
+	},
+	{
+		"id": "hot_pants",
+		"type": "ARMOR",
+    "name": { "str": "hot pants", "str_pl": "hot pants" },
+		"copy-from": "hot_pants",
+		"valid_mods": ["embroidered", "cutwork"]
+	},
+	{
+		"id": "hot_pants_leather",
+		"type": "ARMOR",
+    "name": { "str": "leather hot pants", "str_pl": "leather hot pants" },
+		"copy-from": "hot_pants_leather",
+		"valid_mods": ["embroidered", "cutwork"]
+	},
+	{
+		"id": "leggings",
+		"type": "ARMOR",
+    "name": { "str": "leggings", "str_pl": "leggings" },
+		"copy-from": "leggings",
+		"valid_mods": ["embroidered", "cutwork"]
+	},
+	{
+		"id": "arm_warmers",
+		"type": "ARMOR",
+    "name": { "str": "pair of arm warmers", "str_pl": "pairs of arm warmers" },
+		"copy-from": "arm_warmers",
+		"valid_mods": ["embroidered", "cutwork"]
+	},
+	{
+		"id": "bikini_top",
+		"type": "ARMOR",
+    "name": { "str": "bikini top" },
+		"copy-from": "bikini_top",
+		"valid_mods": ["embroidered"]
+	},
+	{
+		"id": "bikini_bottom",
+		"type": "ARMOR",
+    "name": { "str": "bikini bottom" },
+		"copy-from": "bikini_bottom",
+		"valid_mods": ["embroidered"]
+	},
+	{
+		"id": "bra",
+		"type": "ARMOR",
+    "name": { "str": "bra" },
+		"copy-from": "bra",
+		"valid_mods": ["cutwork"]
+	},
+	{
+		"id": "briefs",
+		"type": "ARMOR",
+    "name": { "str": "briefs", "str_pl": "briefs" },
+		"copy-from": "panties",
+		"valid_mods": ["cutwork"]
+	},
+	{
+		"id": "panties",
+		"type": "ARMOR",
+    "name": { "str": "panties", "str_pl": "panties" },
+		"copy-from": "panties",
+		"valid_mods": ["cutwork"]
+	},
+	{
+		"id": "leg_warmers",
+		"type": "ARMOR",
+    "name": { "str": "pair of leg warmers", "str_pl": "pairs of leg warmers" },
+		"copy-from": "leg_warmers",
+		"valid_mods": ["embroidered", "cutwork"]
+	},
+	{
+		"id": "tights",
+		"type": "ARMOR",
+    "name": { "str": "tights", "str_pl": "tights" },
+		"copy-from": "tights",
+		"valid_mods": ["embroidered", "cutwork"]
+	},
+	{
+		"id": "halter_top",
+		"type": "ARMOR",
+    "name": { "str": "halter top" },
+		"copy-from": "halter_top",
+		"valid_mods": ["embroidered", "cutwork"]
+	}
+]

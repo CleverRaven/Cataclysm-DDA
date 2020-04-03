@@ -1,0 +1,43 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "embroidery_floss",
+    "name": "embroidery floss",
+    "default": "embroidery_floss"
+  },
+	{
+    "id": "embroidery_floss",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "price": 20000,
+		"price_post": 55000,
+    "name": { "str": "embroidery floss" },
+    "symbol": "=",
+		"looks_like": "thread",
+    "color": "light_blue",
+    "description": "A sturdy decorative thread composed of multiple losely twisted strands. It could be used to refill an embroidery kit or broken down for use as thread.",
+    "material": "cotton",
+		"//": "should match 3x thread",
+    "volume": "750 ml",
+    "weight": "6 g",
+    "ammo_type": "embroidery_floss",
+    "count": 50,
+    "stack_size": 200
+  },
+	{
+		"id": "sheet_lace",
+		"type": "GENERIC",
+		"category": "spare_parts",
+		"price": 8000,
+		"price_post": 7000,
+		"name": { "str": "sheet of lace", "str_pl": "sheets of lace" },
+		"symbol": "=",
+		"looks_like": "sheet",
+		"color": "red",
+		"description": "A sheet of delicate needlework lace. It's sure to make anything look and feel luxurious, if you know how to work with it.",
+		"material": "cotton",
+		"//": "TODO non-bs values",
+		"weight": "1 g",
+		"volume": "100 ml"
+	}	
+]
