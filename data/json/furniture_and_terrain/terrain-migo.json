@@ -9,7 +9,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_resin_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 250,
       "str_max": 700,
@@ -29,7 +29,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_resin_roof",
-    "flags": [ "NOITEM", "WALL", "TRANSPARENT", "INDOORS", "NONFLAMMABLE", "MINEABLE" ],
+    "flags": [ "NOITEM", "WALL", "PERMEABLE", "TRANSPARENT", "INDOORS", "NONFLAMMABLE", "MINEABLE" ],
     "bash": {
       "str_min": 70,
       "str_max": 300,

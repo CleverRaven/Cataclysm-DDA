@@ -37,7 +37,11 @@
         "description": "You have gained an advantage by always remaing mindful of common weaknesses. DEX provides dodge ability, accuracy and armor penetration.",
         "unarmed_allowed": true,
         "melee_allowed": false,
-        "flat_bonuses": [ [ "arpen", "bash", "dex", 0.15 ], [ "dodge", "dex", 0.1 ], [ "hit", "dex", 0.15 ] ]
+        "flat_bonuses": [
+          { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.15 },
+          { "stat": "dodge", "scaling-stat": "dex", "scale": 0.1 },
+          { "stat": "hit", "scaling-stat": "dex", "scale": 0.15 }
+        ],
       }
     ],
     "onhit_buffs": [
@@ -50,8 +54,10 @@
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 2,
         "max_stacks": 5,
-        "flat_bonuses": [ [ "movecost", "dex", -0.05 ], [ "movecost", -0.1 ] ],
-        "mult_bonuses": [ [ "dodge", "dex", 0.1 ] ]
+        "flat_bonuses": [
+          { "stat": "movecost", "scaling-stat": "dex", "scale": -0.05 },
+          { "stat": "movecost", "scale": 0.1 } ],
+        "mult_bonuses": [ "stat": "dodge", "scaling-stat": "dex", "scale": 1.0 } ]
       }
     ],
     "techniques": [
@@ -69,8 +75,9 @@
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "melee_allowed": false,
-    "mult_bonuses": [ [ "movecost", 0.85 ] ],
-    "flat_bonuses": [ [ "damage", "stab", "dex", 0.1 ], [ "movecost", "dex", -0.05 ] ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.85 },
+    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.1 } ], { "stat": "movecost", "scaling-stat": "dex", "scale": -0.1 } ],
     "messages": [ "You quickly dig your fingers into %s", "<npcname> digs their fingers into %s" ]
   },
   {
@@ -80,8 +87,16 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": false,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ] ],
-    "flat_bonuses": [ [ "damage", "stab", "dex", 0.2 ] ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.2 }
+    ],
     "messages": [ "You swiftly impale your fingers into %s joints", "<npcname> swiftly impales their fingers into %s" ]
   },
   {
@@ -102,7 +117,10 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "melee_allowed": false,
-    "flat_bonuses": [ [ "arpen", "bash", "dex", 0.5 ] ],
+    "flat_bonuses": [ 
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.25 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.15 }
+    ],
     "crit_tec": true,
     "messages": [ "You steady your hand and release a piercing jab at %s", "<npcname> releases a piercing jab at %s" ],
     "stun_dur": 1
@@ -115,9 +133,13 @@
     "weighting": 2,
     "unarmed_allowed": true,
     "melee_allowed": false,
-    "mult_bonuses": [ [ "arpen", "bash", "dex", 0.75 ] ],
-    "flat_bonuses": [ [ "movecost", "dex", -0.5 ] ],
     "crit_ok": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.5 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.75 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ],
     "messages": [
       "You envision a gathering tempest and then release it's energy on %s's top half",
       "<npcname> lands a piercing blow on %s's face"

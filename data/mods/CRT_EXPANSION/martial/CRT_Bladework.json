@@ -38,7 +38,7 @@
         "unarmed_allowed": false,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 3 }, { "name": "cutting", "level": 3 }, { "name": "stabbing", "level": 3 } ],
-        "flat_bonuses": [ [ "damage", "stab", 3 ], [ "damage", "cut", 3 ] ]
+        "flat_bonuses": [ { "stat": "damage", "type": "stab", "scale": 3.0 }, { "stat": "damage", "type": "cut", "scale": 3.0 } ]
       }
     ],
     "onhit_buffs": [
@@ -75,7 +75,7 @@
         "buff_duration": 1,
         "bonus_dodges": -1,
         "max_stacks": 2,
-        "flat_bonuses": [ [ "arpen", "stab", 2 ], [ "arpen", "cut", 2 ] ]
+        "flat_bonuses": [ { "stat": "arpen", "type": "stab", "scale": 2.0 }, { "stat": "arpen", "type": "cut", "scale": 2.0 } ]
       }
     ],
     "techniques": [ "tec_crt_blade_rapid", "tec_crt_blade_slash", "tec_crt_blade_precise", "tec_crt_blade_execute" ],
@@ -143,7 +143,12 @@
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "unarmed_allowed": false,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.7 ], [ "damage", "bash", 0.88 ], [ "damage", "cut", 0.88 ], [ "damage", "stab", 0.88 ] ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.70 },
+      { "stat": "damage", "type": "bash", "scale": 0.88 },
+      { "stat": "damage", "type": "cut", "scale": 0.88 },
+      { "stat": "damage", "type": "stab", "scale": 0.88 }
+    ],
     "messages": [ "You quickly jab your weapon at %s", "<npcname> quickly jabs their weapon at %s" ]
   },
   {
@@ -169,7 +174,7 @@
     "unarmed_allowed": false,
     "melee_allowed": true,
     "downed_target": true,
-    "mult_bonuses": [ [ "damage", "cut", 1.2 ], [ "damage", "stab", 1.2 ] ],
+    "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 1.2 }, { "stat": "damage", "type": "stab", "scale": 1.2 } ],
     "crit_tec": true,
     "messages": [
       "You hold your blade taut, and then launch a piercing slash on %s's top half",
@@ -187,8 +192,9 @@
     "melee_allowed": true,
     "downed_target": true,
     "stunned_target": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.3 }, { "stat": "damage", "type": "cut", "scale": 2 }, { "stat": "damage", "type": "stab", "scale": 2 } ],
     "mult_bonuses": [ [ "movecost", 1.3 ], [ "damage", "cut", 2 ], [ "damage", "stab", 2 ] ],
-    "flat_bonuses": [ [ "arpen", "cut", 10 ], [ "arpen", "stab", 10 ] ],
+    "flat_bonuses": [ { "stat": "arpen", "type": "cut", "scale": 10 }, { "stat": "arpen", "type": "stab", "scale": 10 } ],
     "crit_ok": true,
     "messages": [
       "You drive your weapon down into %s's vulnerable center mass",

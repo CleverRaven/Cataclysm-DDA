@@ -5,5 +5,12 @@
     "friendly": [ "Prepnet_Phyle", "human", "PrepNet", "player" ],
     "neutral": "herbivore",
     "by_mood": [ "insect", "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "whately",
+    "friendly": [ "human", "player" ],
+    "neutral": "herbivore",
+    "by_mood": [ "insect", "small_animal" ]
   }
 ]

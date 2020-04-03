@@ -4,7 +4,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "CRIT gasmask (off)", "str_pl": "CRIT gasmasks (off)" },
-    "description": "This is the C.R.I.T Spec Ops modified gasmask, fitted with top-of-the-line electronics and lined with kevlar for extra protection in order to keep one's head where it should be.  Various filters and other high tech wizardry allow for enhanced oxygen intake and safety even under bombardment.  It has an integrated HUD and the option to turn it on for more features.",
+    "description": "This is the C.R.I.T Spec Ops modified gasmask, fitted with top-of-the-line electronics and lined with Kevlar for extra protection in order to keep one's head where it should be.  Various filters and other high tech wizardry allow for enhanced oxygen intake and safety even under bombardment.  It has an integrated HUD and the option to turn it on for more features.",
     "weight": "5 kg",
     "volume": "1 L",
     "price": 2500000,

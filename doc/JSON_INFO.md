@@ -609,6 +609,7 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 | `by_mood`       | Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions.
 | `neutral`       | Always be neutral towards this faction.
 | `friendly`      | Always be friendly towards this faction. By default a faction is friendly towards itself.
+| `hate`          | Always be hostile towards this faction. Will change target to monsters of this faction if available.
 
 ```C++
 {
@@ -616,7 +617,8 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
     "base_faction" : "zombie",
     "by_mood"      : ["blob"],
     "neutral"      : ["nether"],
-    "friendly"     : ["blob"]
+    "friendly"     : ["blob"],
+    "hate"         : ["fungus"]
 }
 ```
 
@@ -814,12 +816,20 @@ Example for mods:
 
 This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the special snippet id.
 
-#### `pet`
+#### `pets`
 
-(optional, string mtype_id)
+(optional, array of string mtype_ids )
 
-A string that is the same as a monster id
-player will start with this as a tamed pet.
+A list of strings, each is the same as a monster id
+player will start with these as tamed pets.
+
+#### `vehicle`
+
+(optional, string vproto_id )
+
+A  string, which is the same as a vehicle ( vproto_id )
+player will start with this as a nearby vehicle.
+( it will find the nearest road and place it there, then mark it as "remembered" on the overmap )
 
 #### `flags`
 
@@ -1074,7 +1084,6 @@ Note that even though most statistics yield an integer, you should still use
 "profession": true, //Trait is a starting profession special trait. (default: false)
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu
-"initial_ma_styles" : [ "style_centipede", "style_venom_snake" ], //List of starting martial arts types. One of the list is selectable at start. Only works at character creation.
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 "prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
 "prereqs2": ["LEAVES"], //Also need these mutations before you can mutate towards this mutation. When both set creates 2 different mutation paths, random from one is picked. Only use together with "prereqs"
@@ -1577,6 +1586,8 @@ CBMs can be defined like this:
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
+"fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
+"radiation": 8,             // How much radiation you get from this comestible.
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting
 "quench" : 0,               // Thirst quenched
 "heal" : -2,                // Health effects (used for sickness chances)
@@ -3018,4 +3029,21 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
     "type": "field_type", // this is a field type
     "id": "fd_gum_web", // id of the field
     "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
+    "bash": {
+      "str_min": 1, // lower bracket of bashing damage required to bash
+      "str_max": 3, // higher bracket
+      "sound_vol": 2, // noise made when succesfully bashing the field
+      "sound_fail_vol": 2, // noise made when failing to bash the field
+      "sound": "shwip", // sound on success
+      "sound_fail": "shwomp", // sound on failure
+      "msg_success": "You brush the gum web aside.", // message on success
+      "move_cost": 120, // how many moves it costs to succesfully bash that field (default: 100)
+      "items": [                                   // item dropped upon succesful bashing
+        { "item": "2x4", "count": [ 5, 8 ] },
+        { "item": "nail", "charges": [ 6, 8 ] },
+        { "item": "splinter", "count": [ 3, 6 ] },
+        { "item": "rag", "count": [ 40, 55 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
+      ]
+    }
   }

@@ -106,7 +106,8 @@
       ],
       "palettes": [ "subway_underground" ],
       "vendingmachines": { "J": { "item_group": "vending_drink" }, "C": { "item_group": "vending_food" } },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 20 ], "y": [ 4, 9 ], "repeat": [ 5, 9 ] } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 20 ], "y": [ 4, 9 ], "repeat": [ 5, 9 ] } ],
+      "place_item": [ { "item": "subwaymap", "x": 1, "y": [ 6, 7 ], "chance": 75 } ]
     }
   },
   {

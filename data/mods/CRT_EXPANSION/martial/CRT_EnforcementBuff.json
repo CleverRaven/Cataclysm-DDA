@@ -27,7 +27,12 @@
         "description": "Stand strong in the face of adversity. +1 armor.  STR provides accuracy and minor bash arpen.",
         "unarmed_allowed": false,
         "melee_allowed": true,
-        "flat_bonuses": [ [ "armor", "bash", 1.0 ], [ "armor", "cut", 1.0 ], [ "armor", "stab", 1.0 ], [ "hit", "str", 0.4 ] ]
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 1.0 },
+          { "stat": "armor", "type": "cut", "scale": 1.0 },
+          { "stat": "armor", "type": "stab", "scale": 1.0 },
+          { "stat": "hit", "scaling-stat": "str", "scale": 0.4 }
+        ]
       }
     ],
     "onhit_buffs": [
@@ -41,13 +46,13 @@
         "buff_duration": 1,
         "max_stacks": 2,
         "flat_bonuses": [
-          [ "arpen", "bash", "str", 0.25 ],
-          [ "armor", "bash", 1 ],
-          [ "armor", "cut", 1 ],
-          [ "armor", "stab", 1 ],
-          [ "armor", "bash", "str", 0.1 ],
-          [ "armor", "cut", "str", 0.1 ],
-          [ "armor", "stab", "str", 0.1 ]
+          { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.25 },
+          { "stat": "armor", "type": "bash", "scale": 1},
+          { "stat": "armor", "type": "cut", "scale": 1 },
+          { "stat": "armor", "type": "stab", "scale": 1 },
+          { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 0.1 },
+          { "stat": "armor", "type": "cut", "scaling-stat": "str", "scale": 0.1 },
+          { "stat": "armor", "type": "stab", "scaling-stat": "str", "scale": 0.1 }
         ]
       }
     ],
@@ -83,8 +88,8 @@
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "unarmed_allowed": false,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ],
-    "flat_bonuses": [ [ "movecost", "str", -1 ] ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
+    "flat_bonuses": [ { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 } ],
     "messages": [ "You clock %s's in a weak spot to knock em down", "<npcname> smashes in %s's face" ],
     "down_dur": 1
   },
@@ -95,8 +100,8 @@
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "unarmed_allowed": false,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.85 ] ],
-    "flat_bonuses": [ [ "arpen", "bash", "str", 0.25 ], [ "movecost", "str", -1.5 ] ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
+    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.2 }, { "stat": "movecost", "scaling-stat": "str", "scale": -1.3 } ],
     "messages": [ "You swiftly swipe your weapon's tip at %s", "<npcname> swiftly jabs their weapon into %s" ]
   },
   {
@@ -106,6 +111,10 @@
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "unarmed_allowed": false,
     "melee_allowed": true,
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "movecost", "scaling-stat": "str", "scale": -0.5 }
+    ],
     "crit_tec": true,
     "messages": [ "You steady your arm and release a crushing blow at %s", "<npcname> releases a crushing blow at %s" ],
     "stun_dur": 3,

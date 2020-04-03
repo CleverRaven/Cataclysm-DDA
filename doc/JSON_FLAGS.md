@@ -423,12 +423,10 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ALCOHOL_WEAK``` Slightly increases drunkenness. Adds disease `drunk`
 - ```ALCOHOL``` Increases drunkenness. Adds disease `drunk`.
 - ```ANTIBIOTIC``` Helps fight infections. Removes disease `infected` and adds disease `recover`.
-- ```ATOMIC_CAFF``` Greatly reduces fatigue and increases radiation dosage.
 - ```BANDAGE``` Stop bleeding.
 - ```BIRDFOOD``` Makes a small bird friendly.
 - ```BLECH``` Causes vomiting.
 - ```BLECH_BECAUSE_UNCLEAN``` Causes warning.
-- ```CAFF``` Reduces fatigue.
 - ```CATFOOD``` Makes a cat friendly.
 - ```CATTLEFODDER``` Makes a large herbivore friendly.
 - ```CHEW``` Displays message "You chew your %s", but otherwise does nothing.
@@ -563,6 +561,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`
 - ```NO_FLOOR``` Things should fall when placed on this tile
 - ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
+- ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
@@ -572,7 +571,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```PLOWABLE``` Terrain can be plowed.
 - ```RAMP_END```
 - ```RAMP``` Can be used to move up a z-level
-- ```REDUCE_SCENT``` Reduces scent even more; only works if also bashable.
+- ```REDUCE_SCENT``` Reduces scent diffusion (not total amount of scent in area); only works if also bashable.
 - ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
 - ```ROUGH``` May hurt the player's feet.
 - ```RUG``` Enables the `Remove Carpet` Construction entry.
@@ -964,6 +963,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```RIDEABLE_MECH``` This monster is a mech suit that can be piloted.
 - ```SEES``` It can see you (and will run/follow).
+- ```SHEARABLE``` This monster can be sheared for wool.
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
 - ```SMELLS``` It can smell you.
@@ -1312,7 +1312,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```AUTOPILOT``` This part will enable a vehicle to have a simple autopilot.
 - ```AISLE_LIGHT```
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
-- ```ALTERNATOR``` Recharges batteries installed on the vehicle.
+- ```ALTERNATOR``` Recharges batteries installed on the vehicle. Can only be installed on a part with ```E_ALTERNATOR``` flag.
 - ```ANCHOR_POINT``` Allows secure seatbelt attachment.
 - ```ANIMAL_CTRL``` Can harness an animal, need HARNESS_bodytype flag to specify bodytype of animal.
 - ```ARMOR``` Protects the other vehicle parts it's installed over during collisions.
@@ -1326,7 +1326,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```CAMERA_CONTROL```
 - ```CAMERA```
 - ```CAPTURE_MOSNTER_VEH``` Can be used to capture monsters when mounted on a vehicle.
-- ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs.
+- ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs. Can only be installed on a part with ```LOCKABLE_CARGO``` flag.
 - ```CARGO``` Cargo holding area.
 - ```CHEMLAB``` Acts as a chemistry set for crafting.
 - ```CHIMES``` Generates continuous noise when used.
@@ -1341,7 +1341,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```CURTAIN``` Can be installed over a part flagged with ```WINDOW```, and functions the same as blinds found on windows in buildings.
 - ```DIFFICULTY_REMOVE```
 - ```DOME_LIGHT```
-- ```DOOR_MOTOR```
+- ```DOOR_MOTOR``` Can only be installed on a part with ```OPENABLE``` flag.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```EVENTURN``` Only on during even turns.
 - ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
@@ -1363,7 +1363,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```HARNESS_bodytype``` Replace bodytype with `any` to accept any type, or with the targeted type.
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
-- ```INTERNAL``` Must be mounted inside a cargo area.
+- ```INTERNAL``` Can only be installed on a part with ```CARGO``` flag.
 - ```KITCHEN``` Acts as a kitchen unit and heat source for crafting.
 - ```LOCKABLE_CARGO``` Cargo containers that are able to have a lock installed.
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
@@ -1376,7 +1376,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NO_JACK```
 - ```OBSTACLE``` Cannot walk through part, unless the part is also ```OPENABLE```.
 - ```ODDTURN``` Only on during odd turns.
-- ```ON_CONTROLS```
+- ```ON_CONTROLS``` Can only be installed on a part with ```CONTROLS``` flag.
 - ```ON_ROOF``` - Parts with this flag could only be installed on a roof (parts with ```ROOF``` flag).
 - ```OPAQUE``` Cannot be seen through.
 - ```OPENABLE``` Can be opened or closed.
@@ -1394,7 +1394,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```REVERSIBLE``` Removal has identical requirements to installation but is twice as quick
 - ```ROOF``` Covers a section of the vehicle. Areas of the vehicle that have a roof and roofs on surrounding sections, are considered inside. Otherwise they're outside.
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids.
-- ```SEATBELT``` Helps prevent the player from being ejected from the vehicle during an accident.
+- ```SEATBELT``` Helps prevent the player from being ejected from the vehicle during an accident. Can only be installed on a part with ```BELTABLE``` flag.
 - ```SEAT``` A seat where the player can sit or sleep.
 - ```SECURITY```
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
@@ -1410,7 +1410,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```TOWEL``` Can be used to dry yourself up.
 - ```TRACKED``` Contributes to steering effectiveness but doesn't count as a steering axle for install difficulty and still contributes to drag for the center of steering calculation.
 - ```TRACK``` Allows the vehicle installed on, to be marked and tracked on map.
-- ```TURRET_CONTROLS``` If part with this flag is installed over the turret, it allows to set said turret's targeting mode to full auto.
+- ```TURRET_CONTROLS``` If part with this flag is installed over the turret, it allows to set said turret's targeting mode to full auto. Can only be installed on a part with ```TURRET``` flag.
 - ```TURRET_MOUNT``` Parts with this flag are suitable for installing turrets.
 - ```TURRET``` Is a weapon turret. Can only be installed on a part with ```TURRET_MOUNT``` flag.
 - ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage.
@@ -1428,6 +1428,15 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```WIND_POWERED``` This engine is powered by wind ( sails etc ).
 - ```WIND_TURBINE``` Recharges vehicle batteries when exposed to wind.
 - ```WORKBENCH``` Can craft at this part, must be paired with a workbench json entry.
+- ```NEEDS_WINDOW``` Can only be installed on a part with ```WINDOW``` flag.
+- ```NEEDS_WHEEL_MOUNT_LIGHT``` Can only be installed on a part with ```WHEEL_MOUNT_LIGHT``` flag.
+- ```NEEDS_WHEEL_MOUNT_MEDIUM``` Can only be installed on a part with ```WHEEL_MOUNT_MEDIUM``` flag.
+- ```NEEDS_WHEEL_MOUNT_HEAVY``` Can only be installed on a part with ```WHEEL_MOUNT_HEAVY``` flag.
+
+### Vehicle parts requiring other vehicle parts
+
+The requirement for other vehicle parts is defined for a json flag by setting ```requires_flag``` for the flag. ```requires_flag``` is the other flag that a part with this flag requires. 
+
 
 ### Fuel types
 

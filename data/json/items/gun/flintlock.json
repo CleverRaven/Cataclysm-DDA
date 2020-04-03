@@ -68,7 +68,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "flintlock rifle" },
+    "name": { "str": "flintlock musket" },
     "description": "For once, something *good* came back from the dead.  This ancient design lacks the fire-rate of modern weapons, but packs as much punch as the best of 'em and rewards the skilled shooter with easily-crafted ammunition.",
     "weight": "1950 g",
     "volume": "2500 ml",
@@ -97,5 +97,14 @@
       [ "stock mount", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
+  },
+  {
+    "id": "longrifle_flintlock",
+    "copy-from": "rifle_flintlock",
+    "type": "GUN",
+    "name": "flintlock rifle",
+    "description": "Also called a Pennsylvania rifle, this long barreled rifled flintlock gun has signficantly increased accuracy at the cost of taking even longer to reload.",
+    "relative": { "weight": 500, "range": 2 },
+    "proportional": { "dispersion": 0.5, "reload": 2.0 }
   }
 ]

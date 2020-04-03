@@ -124,7 +124,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 
     const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
-    // allow NPCs to use welding rigs they cant see ( on the other side of a vehicle )
+    // allow NPCs to use welding rigs they can't see ( on the other side of a vehicle )
     // as they have the handicap of not being able to use the veh interaction menu
     // or able to drag a welding cart etc.
     map_inv.form_from_map( who.pos(), PICKUP_RANGE, &who_c, false, !who.is_npc() );

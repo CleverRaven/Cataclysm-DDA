@@ -119,8 +119,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "mayonnaise", "prob": 3 },
-      { "item": "mustard", "prob": 3 },
-      { "item": "ketchup", "prob": 3 },
+      { "group": "ketchup_sealed_rng", "prob": 3 },
+      { "group": "mustard_sealed_rng", "prob": 3 },
       { "item": "pickle", "prob": 5, "charges": 6, "container-item": "jar_glass_sealed" },
       { "item": "pickle", "prob": 5 },
       { "item": "cheeseburger", "prob": 10 },
@@ -672,8 +672,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "mayonnaise", "prob": 40 },
-      { "item": "ketchup", "prob": 60 },
-      { "item": "mustard", "prob": 60 },
+      { "group": "ketchup_sealed_rng", "prob": 60 },
+      { "group": "mustard_sealed_rng", "prob": 60 },
       { "item": "horseradish", "prob": 10 },
       { "item": "sprinkles", "prob": 20 },
       { "item": "honey_bottled", "prob": 35 },
