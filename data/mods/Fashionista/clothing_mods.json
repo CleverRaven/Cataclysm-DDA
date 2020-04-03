@@ -1,80 +1,78 @@
 [
-	{
-		"type": "clothing_mod",
-		"id": "embroidered_paisley",
-		"flag": "embroidered_paisley",
-		"item": "rag",
-		"implement_prompt": "Embroider with a rustic paisley motif",
-		"destroy_prompt": "Pull out paisley embroidery",
-		"apply_flags": [ "FANCY" ],
-		"exclude_flags": [ "SUPER_FANCY" ],
-		"//": "\"restricted\": true // TODO when armor inheritance supported",
-		"mod_value": [
-			{ "type": "encumbrance", "value": 1, "proportion": [ "coverage" ] }
-		]
-	},
-	{
-		"type": "clothing_mod",
-		"id": "embroidered_badass",
-		"flag": "embroidered_badass",
-		"copy-from": "embroidered_paisley",
-		"implement_prompt": "Embroider with a badass skulls-and-fire motif",
-		"destroy_prompt": "Pull out badass embroidery"
-	},
-	{
-		"type": "clothing_mod",
-		"id": "embroidered_monogram",
-		"flag": "embroidered_monogram",
-		"copy-from": "embroidered_paisley",
-		"implement_prompt": "Embroider with your personal monogram",
-		"destroy_prompt": "Pull out monogram embroidery"
-	},
-	{
-		"type": "clothing_mod",
-		"id": "cutwork",
-		"flag": "cutwork_lace",
-		"apply_flags": [ "SUPER_FANCY", "FRAGILE" ],
-		"exclude_flags": [ "FANCY" ],
-		"item": "sheet_lace",
-		"min_coverage": 15,
-		"implement_prompt": "Enhance with luxurious lace cutwork",
-		"destroy_prompt": "Remove cutwork",
-		"//": "\"restricted\": true // TODO when armor inheritance supported",
-		"mod_value": [
-			{ "type": "bash", "value": -1, "round_up": true, "proportion": [ "coverage" ] },
-			{ "type": "cut", "value": -2, "round_up": true, "proportion": [ "coverage" ] },
-			{ "type": "warmth", "value": -5, "round_up": true, "proportion": [ "coverage" ] },
-			{ "type": "coverage", "value": -33, "round_up": true, "proportion": [ "coverage" ] }
-		]
-	},
-	{
-		"type": "clothing_mod",
-		"id": "hemline_up",
-		"flag": "hemline_up",
-		"exclude_flags": [ "hemline_down" ],
-		"item": "rag",
-		"implement_prompt": "Raise the hemline",
-		"destroy_prompt": "Restore the hemline",
-		"min_coverage": 40,
-		"mod_value": [
-			{ "type": "warmth", "value": -5, "round_up": true, "proportion": [ "coverage" ] },
-			{ "type": "coverage", "value": -50, "round_up": true, "proportion": [ "coverage" ] },
-			{ "type": "encumbrance", "value": -1, "round_up": true, "proportion": [ "coverage", "thickness" ] }
-		]
-	},
-	{
-		"type": "clothing_mod",
-		"id": "hemline_down",
-		"flag": "hemline_down",
-		"item": "rag",
-		"exclude_flags": [ "hemline_up" ],
-		"implement_prompt": "Lower the hemline",
-		"destroy_prompt": "Restore the hemline",
-		"min_coverage": 40,
-		"mod_value": [
-			{ "type": "warmth", "value": 1, "round_up": true, "proportion": [ "coverage", "thickness" ] },
-			{ "type": "coverage", "value": 15, "round_up": true, "proportion": [ "coverage" ] },
-			{ "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "coverage", "thickness" ] }
-		]
-	}
+  {
+    "type": "clothing_mod",
+    "id": "embroidered_paisley",
+    "flag": "embroidered_paisley",
+    "item": "rag",
+    "implement_prompt": "Embroider with a rustic paisley motif",
+    "destroy_prompt": "Pull out paisley embroidery",
+    "apply_flags": [ "FANCY" ],
+    "exclude_flags": [ "SUPER_FANCY" ],
+    "//": "\"restricted\": true // TODO when armor inheritance supported",
+    "mod_value": [ { "type": "encumbrance", "value": 1, "proportion": [ "coverage" ] } ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "embroidered_badass",
+    "flag": "embroidered_badass",
+    "copy-from": "embroidered_paisley",
+    "implement_prompt": "Embroider with a badass skulls-and-fire motif",
+    "destroy_prompt": "Pull out badass embroidery"
+  },
+  {
+    "type": "clothing_mod",
+    "id": "embroidered_monogram",
+    "flag": "embroidered_monogram",
+    "copy-from": "embroidered_paisley",
+    "implement_prompt": "Embroider with your personal monogram",
+    "destroy_prompt": "Pull out monogram embroidery"
+  },
+  {
+    "type": "clothing_mod",
+    "id": "cutwork",
+    "flag": "cutwork_lace",
+    "apply_flags": [ "SUPER_FANCY", "FRAGILE" ],
+    "exclude_flags": [ "FANCY" ],
+    "item": "sheet_lace",
+    "min_coverage": 15,
+    "implement_prompt": "Enhance with luxurious lace cutwork",
+    "destroy_prompt": "Remove cutwork",
+    "//": "\"restricted\": true // TODO when armor inheritance supported",
+    "mod_value": [
+      { "type": "bash", "value": -1, "round_up": true, "proportion": [ "coverage" ] },
+      { "type": "cut", "value": -2, "round_up": true, "proportion": [ "coverage" ] },
+      { "type": "warmth", "value": -5, "round_up": true, "proportion": [ "coverage" ] },
+      { "type": "coverage", "value": -33, "round_up": true, "proportion": [ "coverage" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "hemline_up",
+    "flag": "hemline_up",
+    "exclude_flags": [ "hemline_down" ],
+    "item": "rag",
+    "implement_prompt": "Raise the hemline",
+    "destroy_prompt": "Restore the hemline",
+    "min_coverage": 40,
+    "mod_value": [
+      { "type": "warmth", "value": -5, "round_up": true, "proportion": [ "coverage" ] },
+      { "type": "coverage", "value": -50, "round_up": true, "proportion": [ "coverage" ] },
+      { "type": "encumbrance", "value": -1, "round_up": true, "proportion": [ "coverage", "thickness" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "hemline_down",
+    "flag": "hemline_down",
+    "item": "rag",
+    "exclude_flags": [ "hemline_up" ],
+    "implement_prompt": "Lower the hemline",
+    "destroy_prompt": "Restore the hemline",
+    "min_coverage": 40,
+    "mod_value": [
+      { "type": "warmth", "value": 1, "round_up": true, "proportion": [ "coverage", "thickness" ] },
+      { "type": "coverage", "value": 15, "round_up": true, "proportion": [ "coverage" ] },
+      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "coverage", "thickness" ] }
+    ]
+  }
 ]
