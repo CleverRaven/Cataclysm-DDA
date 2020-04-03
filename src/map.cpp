@@ -644,11 +644,10 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     }
     if( veh.is_towing() ) {
         veh.do_towing_move();
-    }
-    if( veh.is_towed() ) {
-        if( veh.tow_cable_too_far() ) {
-            veh.invalidate_towing( true );
-            add_msg( m_info, _( "A towing cable snaps off of the %s." ), veh.disp_name() );
+        if( veh.tow_data.get_towed()->tow_cable_too_far() ) {
+            add_msg( m_info, _( "A towing cable snaps off of the %s." ),
+                     veh.tow_data.get_towed()->disp_name() );
+            veh.tow_data.get_towed()->invalidate_towing( true );
         }
     }
     // Redraw scene

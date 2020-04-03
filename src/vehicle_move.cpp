@@ -153,6 +153,13 @@ void vehicle::thrust( int thd )
     // TODO: Pass this as an argument to avoid recalculating
     float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
     int accel = current_acceleration() * traction;
+    if( accel < 200 && velocity > 0 && is_towing() ) {
+        if( pl_ctrl ) {
+            add_msg( _( "The %s struggles to pull the %s on this surface!" ), name,
+                     tow_data.get_towed()->name );
+        }
+        return;
+    }
     if( thrusting && accel == 0 ) {
         if( pl_ctrl ) {
             add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
