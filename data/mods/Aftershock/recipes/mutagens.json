@@ -54,5 +54,5 @@
     "book_learn": [ [ "millyficents_diary", 9 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "components": [ [ [ "mutagen_migo", 2 ] ], [ [ "afs_biomaterial_1", 4 ] ], [ [ "syringe", 1 ] ] ]
-  },
+  }
 ]
