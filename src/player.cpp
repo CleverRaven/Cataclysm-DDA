@@ -374,7 +374,7 @@ void player::process_turn()
     } );
 
     suffer();
-    // NPCs curently dont make any use of their scent, pointless to calculate it
+    // NPCs currently don't make any use of their scent, pointless to calculate it
     // TODO: make use of NPC scent.
     if( !is_npc() ) {
         if( !has_effect( effect_masked_scent ) ) {
@@ -497,11 +497,6 @@ void player::process_turn()
             it++;
         }
     }
-}
-
-void player::action_taken()
-{
-    nv_cached = false;
 }
 
 int player::kcal_speed_penalty()
@@ -710,94 +705,6 @@ int player::run_cost( int base_cost, bool diag ) const
     return static_cast<int>( movecost );
 }
 
-int player::swim_speed() const
-{
-    int ret;
-    if( is_mounted() ) {
-        monster *mon = mounted_creature.get();
-        // no difference in swim speed by monster type yet.
-        // TODO: difference in swim speed by monster type.
-        // No monsters are currently mountable and can swim, though mods may allow this.
-        if( mon->swims() ) {
-            ret = 25;
-            ret += get_weight() / 120_gram - 50 * ( mon->get_size() - 1 );
-            return ret;
-        }
-    }
-    const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
-    float hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
-                            ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
-
-    // base swim speed.
-    ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + weight_carried() /
-          ( 60_gram / mutation_value( "movecost_swim_modifier" ) ) - 50 * get_skill_level( skill_swimming );
-    /** @EFFECT_STR increases swim speed bonus from PAWS */
-    if( has_trait( trait_PAWS ) ) {
-        ret -= hand_bonus_mult * ( 20 + str_cur * 3 );
-    }
-    /** @EFFECT_STR increases swim speed bonus from PAWS_LARGE */
-    if( has_trait( trait_PAWS_LARGE ) ) {
-        ret -= hand_bonus_mult * ( 20 + str_cur * 4 );
-    }
-    /** @EFFECT_STR increases swim speed bonus from swim_fins */
-    if( worn_with_flag( "FIN", bp_foot_l ) || worn_with_flag( "FIN", bp_foot_r ) ) {
-        if( worn_with_flag( "FIN", bp_foot_l ) && worn_with_flag( "FIN", bp_foot_r ) ) {
-            ret -= ( 15 * str_cur );
-        } else {
-            ret -= ( 15 * str_cur ) / 2;
-        }
-    }
-    /** @EFFECT_STR increases swim speed bonus from WEBBED */
-    if( has_trait( trait_WEBBED ) ) {
-        ret -= hand_bonus_mult * ( 60 + str_cur * 5 );
-    }
-    /** @EFFECT_SWIMMING increases swim speed */
-    ret += ( 50 - get_skill_level( skill_swimming ) * 2 ) * ( ( encumb( bp_leg_l ) + encumb(
-                bp_leg_r ) ) / 10 );
-    ret += ( 80 - get_skill_level( skill_swimming ) * 3 ) * ( encumb( bp_torso ) / 10 );
-    if( get_skill_level( skill_swimming ) < 10 ) {
-        for( auto &i : worn ) {
-            ret += i.volume() / 125_ml * ( 10 - get_skill_level( skill_swimming ) );
-        }
-    }
-    /** @EFFECT_STR increases swim speed */
-
-    /** @EFFECT_DEX increases swim speed */
-    ret -= str_cur * 6 + dex_cur * 4;
-    if( worn_with_flag( "FLOTATION" ) ) {
-        ret = std::min( ret, 400 );
-        ret = std::max( ret, 200 );
-    }
-    // If (ret > 500), we can not swim; so do not apply the underwater bonus.
-    if( underwater && ret < 500 ) {
-        ret -= 50;
-    }
-
-    // Running movement mode while swimming means faster swim style, like crawlstroke
-    if( move_mode == CMM_RUN ) {
-        ret -= 80;
-    }
-    // Crouching movement mode while swimming means slower swim style, like breaststroke
-    if( move_mode == CMM_CROUCH ) {
-        ret += 50;
-    }
-
-    if( ret < 30 ) {
-        ret = 30;
-    }
-    return ret;
-}
-
-bool player::digging() const
-{
-    return false;
-}
-
-bool player::is_on_ground() const
-{
-    return get_working_leg_count() < 2 || has_effect( effect_downed );
-}
-
 float player::stability_roll() const
 {
     /** @EFFECT_STR improves player stability roll */
@@ -825,11 +732,6 @@ double player::recoil_vehicle() const
 double player::recoil_total() const
 {
     return recoil + recoil_vehicle();
-}
-
-bool player::is_underwater() const
-{
-    return underwater;
 }
 
 bool player::is_hallucination() const
@@ -1031,127 +933,6 @@ std::list<item *> player::get_artifact_items()
     return art_items;
 }
 
-const tripoint &player::pos() const
-{
-    return position;
-}
-
-int player::sight_range( int light_level ) const
-{
-    if( light_level == 0 ) {
-        return 1;
-    }
-    /* Via Beer-Lambert we have:
-     * light_level * (1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance) ) <= LIGHT_AMBIENT_LOW
-     * Solving for distance:
-     * 1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) <= LIGHT_AMBIENT_LOW / light_level
-     * 1 <= exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) * LIGHT_AMBIENT_LOW / light_level
-     * light_level <= exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) * LIGHT_AMBIENT_LOW
-     * log(light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance + log(LIGHT_AMBIENT_LOW)
-     * log(light_level) - log(LIGHT_AMBIENT_LOW) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
-     * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
-     * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
-     */
-    float vision_threshold =
-        get_vision_threshold( static_cast<int>( g->m.ambient_light_at( pos() ) ) );
-    int range = static_cast<int>( -log( vision_threshold / light_level ) *
-                                  ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
-    // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
-
-    // Clamp to [1, sight_max].
-    return std::max( 1, std::min( range, sight_max ) );
-}
-
-int player::unimpaired_range() const
-{
-    return std::min( sight_max, 60 );
-}
-
-bool player::overmap_los( const tripoint &omt, int sight_points )
-{
-    const tripoint ompos = global_omt_location();
-    if( omt.x < ompos.x - sight_points || omt.x > ompos.x + sight_points ||
-        omt.y < ompos.y - sight_points || omt.y > ompos.y + sight_points ) {
-        // Outside maximum sight range
-        return false;
-    }
-
-    const std::vector<tripoint> line = line_to( ompos, omt, 0, 0 );
-    for( size_t i = 0; i < line.size() && sight_points >= 0; i++ ) {
-        const tripoint &pt = line[i];
-        const oter_id &ter = overmap_buffer.ter( pt );
-        sight_points -= static_cast<int>( ter->get_see_cost() );
-        if( sight_points < 0 ) {
-            return false;
-        }
-    }
-    return true;
-}
-
-int player::overmap_sight_range( int light_level ) const
-{
-    int sight = sight_range( light_level );
-    if( sight < SEEX ) {
-        return 0;
-    }
-    if( sight <= SEEX * 4 ) {
-        return ( sight / ( SEEX / 2 ) );
-    }
-
-    sight = 6;
-    // The higher your perception, the farther you can see.
-    sight += static_cast<int>( get_per() / 2 );
-    // The higher up you are, the farther you can see.
-    sight += std::max( 0, posz() ) * 2;
-    // Mutations like Scout and Topographagnosia affect how far you can see.
-    sight += Character::mutation_value( "overmap_sight" );
-
-    float multiplier = Character::mutation_value( "overmap_multiplier" );
-    // Binoculars double your sight range.
-    const bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) ||
-                             ( is_mounted() &&
-                               mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) );
-    if( has_optic ) {
-        multiplier += 1;
-    }
-
-    sight = round( sight * multiplier );
-    return std::max( sight, 3 );
-}
-
-#define MAX_CLAIRVOYANCE 40
-int player::clairvoyance() const
-{
-    if( vision_mode_cache[VISION_CLAIRVOYANCE_SUPER] ) {
-        return MAX_CLAIRVOYANCE;
-    }
-
-    if( vision_mode_cache[VISION_CLAIRVOYANCE_PLUS] ) {
-        return 8;
-    }
-
-    if( vision_mode_cache[VISION_CLAIRVOYANCE] ) {
-        return 3;
-    }
-
-    return 0;
-}
-
-bool player::sight_impaired() const
-{
-    return ( ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) ||
-                 has_effect( effect_darkness ) ) &&
-               ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
-             ( underwater && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
-               !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( trait_PER_SLIME_OK ) &&
-               !has_trait( trait_CEPH_EYES ) && !has_trait( trait_SEESLEEP ) ) ||
-             ( ( has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE ) ) &&
-               !worn_with_flag( "FIX_NEARSIGHT" ) &&
-               !has_effect( effect_contacts ) &&
-               !has_bionic( bio_eye_optic ) ) ||
-             has_trait( trait_PER_SLIME ) );
-}
-
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 {
     /** @EFFECT_DEX increases chance to avoid traps */
@@ -1174,22 +955,6 @@ bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
     }
 
     return myroll >= traproll;
-}
-
-bool player::has_alarm_clock() const
-{
-    return ( has_item_with_flag( "ALARMCLOCK", true ) ||
-             ( g->m.veh_at( pos() ) &&
-               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
-             has_bionic( bio_watch ) );
-}
-
-bool player::has_watch() const
-{
-    return ( has_item_with_flag( "WATCH", true ) ||
-             ( g->m.veh_at( pos() ) &&
-               !empty( g->m.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
-             has_bionic( bio_watch ) );
 }
 
 void player::pause()
@@ -1754,30 +1519,6 @@ int player::get_perceived_pain() const
     }
 
     return std::max( get_pain() - get_painkiller(), 0 );
-}
-
-void Character::react_to_felt_pain( int intensity )
-{
-    if( intensity <= 0 ) {
-        return;
-    }
-    if( is_player() && intensity >= 2 ) {
-        g->cancel_activity_or_ignore_query( distraction_type::pain,  _( "Ouch, something hurts!" ) );
-    }
-    // Only a large pain burst will actually wake people while sleeping.
-    if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
-        int pain_thresh = rng( 3, 5 );
-
-        if( has_trait( trait_HEAVYSLEEPER ) ) {
-            pain_thresh += 2;
-        } else if( has_trait( trait_HEAVYSLEEPER2 ) ) {
-            pain_thresh += 5;
-        }
-
-        if( intensity >= pain_thresh ) {
-            wake_up();
-        }
-    }
 }
 
 int player::reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt )
@@ -2765,6 +2506,8 @@ bool player::consume_med( item &target )
         // Assume that parenteral meds don't spoil, so don't apply rot
         modify_health( comest );
         modify_stimulation( comest );
+        modify_fatigue( comest );
+        modify_radiation( comest );
         modify_addiction( comest );
         modify_morale( target );
     } else {
@@ -3367,8 +3110,9 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist kmenu;
-    kmenu.text = string_format( _( "Select a style.  (press %s for more info)" ),
-                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
+    kmenu.text = colorize( string_format( _( "Select a style.  "
+                                          "Press <color_yellow>%s</color> for more info." ),
+                                          ctxt.get_desc( "SHOW_DESCRIPTION" ) ), c_white );
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
     kmenu.input_category = "MELEE_STYLE_PICKER";
@@ -5744,6 +5488,7 @@ void player::on_mutation_gain( const trait_id &mid )
     morale->on_mutation_gain( mid );
     magic.on_mutation_gain( mid, *this );
     update_type_of_scent( mid );
+    recalculate_enchantment_cache(); // mutations can have enchantments
 }
 
 void player::on_mutation_loss( const trait_id &mid )
@@ -5751,6 +5496,7 @@ void player::on_mutation_loss( const trait_id &mid )
     morale->on_mutation_loss( mid );
     magic.on_mutation_loss( mid );
     update_type_of_scent( mid, false );
+    recalculate_enchantment_cache(); // mutations can have enchantments
 }
 
 void player::on_stat_change( const std::string &stat, int value )

@@ -5,7 +5,7 @@
     "type": "TOOL",
     "name": { "str": "precision solderers", "str_pl": "precision solderers" },
     "flags": "TRADER_AVOID",
-    "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ] ]
+    "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ], [ "BIONIC_ASSEMBLY", 2 ] ]
   },
   {
     "type": "GENERIC",

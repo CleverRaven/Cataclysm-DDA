@@ -97,6 +97,8 @@
 #include "point.h"
 #include "weather.h"
 
+static const efftype_id effect_sheared( "sheared" );
+
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
@@ -156,6 +158,7 @@ static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
@@ -291,6 +294,7 @@ activity_handlers::do_turn_functions = {
     { ACT_WEAR, wear_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
+    { ACT_MULTIPLE_MINE, multiple_mine_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
@@ -398,6 +402,7 @@ activity_handlers::finish_functions = {
     { ACT_PRY_NAILS, pry_nails_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
     { ACT_MILK, milk_finish },
+    { activity_id( "ACT_SHEAR" ), shear_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
     { ACT_CHOP_PLANKS, chop_planks_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
@@ -790,13 +795,13 @@ static int corpse_damage_effect( int weight, const std::string &entry_type, int 
         case 2:
             // "damaged"
             if( entry_type == "offal" ) {
-                return round( weight * damage );
+                return std::round( weight * damage );
             }
             if( entry_type == "skin" ) {
-                return round( weight * damage );
+                return std::round( weight * damage );
             }
             if( entry_type == "flesh" ) {
-                return round( weight * slight_damage );
+                return std::round( weight * slight_damage );
             }
             break;
         case 3:
@@ -805,13 +810,13 @@ static int corpse_damage_effect( int weight, const std::string &entry_type, int 
                 return destroyed;
             }
             if( entry_type == "skin" ) {
-                return round( weight * high_damage );
+                return std::round( weight * high_damage );
             }
             if( entry_type == "bone" ) {
-                return round( weight * slight_damage );
+                return std::round( weight * slight_damage );
             }
             if( entry_type == "flesh" ) {
-                return round( weight * damage );
+                return std::round( weight * damage );
             }
             break;
         case 4:
@@ -823,10 +828,10 @@ static int corpse_damage_effect( int weight, const std::string &entry_type, int 
                 return destroyed;
             }
             if( entry_type == "bone" ) {
-                return round( weight * damage );
+                return std::round( weight * damage );
             }
             if( entry_type == "flesh" ) {
-                return round( weight * high_damage );
+                return std::round( weight * high_damage );
             }
             break;
         default:
@@ -842,19 +847,19 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
 {
     p.add_msg_if_player( m_neutral, mt.harvest->message() );
     int monster_weight = to_gram( mt.weight );
-    monster_weight += round( monster_weight * rng_float( -0.1, 0.1 ) );
+    monster_weight += std::round( monster_weight * rng_float( -0.1, 0.1 ) );
     if( corpse_item->has_flag( flag_QUARTERED ) ) {
         monster_weight /= 4;
     }
     if( corpse_item->has_flag( flag_GIBBED ) ) {
-        monster_weight = round( 0.85 * monster_weight );
+        monster_weight = std::round( 0.85 * monster_weight );
         if( action != F_DRESS ) {
             p.add_msg_if_player( m_bad,
                                  _( "You salvage what you can from the corpse, but it is badly damaged." ) );
         }
     }
     if( corpse_item->has_flag( flag_SKINNED ) ) {
-        monster_weight = round( 0.85 * monster_weight );
+        monster_weight = std::round( 0.85 * monster_weight );
     }
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
@@ -871,7 +876,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         int roll = 0;
         // mass_ratio will override the use of base_num, scale_num, and max
         if( entry.mass_ratio != 0.00f ) {
-            roll = static_cast<int>( round( entry.mass_ratio * monster_weight ) );
+            roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) );
         } else if( entry.type != "bionic" && entry.type != "bionic_group" ) {
             roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
@@ -1233,7 +1238,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             skill_shift -= rng_float( 0, -factor / 5.0 );
         }
 
-        return static_cast<int>( round( skill_shift ) );
+        return static_cast<int>( std::round( skill_shift ) );
     };
 
     if( action == DISMEMBER ) {
@@ -1438,6 +1443,39 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     act->index = true;
     // if its mutli-tile butchering,then restart the backlog.
     resume_for_multi_activities( *p );
+}
+
+void activity_handlers::shear_finish( player_activity *act, player *p )
+{
+    if( act->coords.empty() ) {
+        debugmsg( "shearing activity with no position of monster stored" );
+        return;
+    }
+    item_location &loc = act->targets[ 0 ];
+    item *shears = loc.get_item();
+    if( shears == nullptr ) {
+        debugmsg( "shearing item location lost" );
+        return;
+    }
+    const tripoint source_pos = g->m.getlocal( act->coords.at( 0 ) );
+    monster *source_mon = g->critter_at<monster>( source_pos );
+    if( source_mon == nullptr ) {
+        debugmsg( "could not find source creature for shearing" );
+        return;
+    }
+    // 22 wool staples corresponds to an average wool-producing sheep yield of 10 lbs or so
+    for( int i = 0; i != 22; ++i ) {
+        item wool_staple( "wool_staple", calendar::turn );
+        g->m.add_item_or_charges( p->pos(), wool_staple );
+    }
+    source_mon->add_effect( effect_sheared, calendar::season_length() );
+    if( !act->str_values.empty() && act->str_values[0] == "temp_tie" ) {
+        source_mon->remove_effect( effect_tied );
+    }
+    act->set_to_null();
+    if( shears->type->can_have_charges() ) {
+        p->consume_charges( *shears, shears->type->charges_to_use() );
+    }
 }
 
 void activity_handlers::milk_finish( player_activity *act, player *p )
@@ -1903,7 +1941,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
 {
-    const tripoint &pos = act->placement;
+    const tripoint &pos = g->m.getlocal( act->placement );
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     // each turn is too much
     if( calendar::once_every( 1_minutes ) ) {
@@ -1914,36 +1952,45 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
 
 void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 {
-    const tripoint pos( act->placement );
+    const tripoint pos( g->m.getlocal( act->placement ) );
     item &it = p->i_at( act->position );
     // Invalidate the activity early to prevent a query from mod_pain()
     act->set_to_null();
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    if( g->m.is_bashable( pos ) && g->m.has_flag( flag_SUPPORTS_ROOF, pos ) &&
-        g->m.ter( pos ) != t_tree ) {
-        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
-        // Betcha wish you'd opted for the J-Hammer ;P
-        p->mod_stored_nutr( 15 - ( helpersize * 3 ) );
-        p->mod_thirst( 15 - ( helpersize * 3 ) );
-        if( p->has_trait( trait_STOCKY_TROGLO ) ) {
-            // Yep, dwarves can dig longer before tiring
-            p->mod_fatigue( 20 - ( helpersize  * 3 ) );
-        } else {
-            p->mod_fatigue( 30 - ( helpersize  * 3 ) );
+    if( p->is_avatar() ) {
+        const int helpersize = g->u.get_num_crafting_helpers( 3 );
+        if( g->m.is_bashable( pos ) && g->m.has_flag( flag_SUPPORTS_ROOF, pos ) &&
+            g->m.ter( pos ) != t_tree ) {
+            // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
+            // Betcha wish you'd opted for the J-Hammer ;P
+            p->mod_stored_nutr( 15 - ( helpersize * 3 ) );
+            p->mod_thirst( 15 - ( helpersize * 3 ) );
+            if( p->has_trait( trait_STOCKY_TROGLO ) ) {
+                // Yep, dwarves can dig longer before tiring
+                p->mod_fatigue( 20 - ( helpersize  * 3 ) );
+            } else {
+                p->mod_fatigue( 30 - ( helpersize  * 3 ) );
+            }
+            p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
+        } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
+                   g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
+            //Breaking up concrete on the surface? not nearly as bad
+            p->mod_stored_nutr( 5 - ( helpersize ) );
+            p->mod_thirst( 5 - ( helpersize ) );
+            p->mod_fatigue( 10 - ( helpersize  * 2 ) );
         }
-        p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-    } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
-               g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
-        //Breaking up concrete on the surface? not nearly as bad
-        p->mod_stored_nutr( 5 - ( helpersize ) );
-        p->mod_thirst( 5 - ( helpersize ) );
-        p->mod_fatigue( 10 - ( helpersize  * 2 ) );
     }
-    p->add_msg_if_player( m_good, _( "You finish digging." ) );
+    p->add_msg_player_or_npc( m_good,
+                              _( "You finish digging." ),
+                              _( "<npcname> finishes digging." ) );
     g->m.destroy( pos, true );
     it.charges = std::max( 0, it.charges - it.type->charges_to_use() );
     if( it.charges == 0 && it.destroyed_at_zero_charges() ) {
         p->i_rem( &it );
+    }
+    if( resume_for_multi_activities( *p ) ) {
+        for( item &elem : g->m.i_at( pos ) ) {
+            elem.set_var( "activity_var", p->name );
+        }
     }
 }
 
@@ -1956,8 +2003,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                                     p->weapon.damage_melee( DT_STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) *
-                             ( cut_power + 1.0f ) );
+    float pulp_power = std::sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) *
+                                  ( cut_power + 1.0f ) );
     float pulp_effort = p->str_cur + p->weapon.damage_melee( DT_BASH );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
@@ -3647,6 +3694,12 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
     generic_multi_activity_handler( *act, *p );
 }
 
+void activity_handlers::multiple_mine_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
+
 void activity_handlers::multiple_chop_planks_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
@@ -4072,26 +4125,36 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
 {
-    sfx::play_activity_sound( "tool", "jackhammer", sfx::get_heard_volume( act->placement ) );
+    sfx::play_activity_sound( "tool", "jackhammer",
+                              sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a jackhammer at work!
-        sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "TATATATATATATAT!" ) );
+        sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::destructive_activity,
+                       //~ Sound of a jackhammer at work!
+                       _( "TATATATATATATAT!" ) );
     }
 }
 
 void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
+    const tripoint &pos = g->m.getlocal( act->placement );
 
     g->m.destroy( pos, true );
 
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
-    p->add_msg_if_player( m_good, _( "You finish drilling." ) );
-
+    if( p->is_avatar() ) {
+        const int helpersize = g->u.get_num_crafting_helpers( 3 );
+        p->mod_stored_nutr( 5 - helpersize );
+        p->mod_thirst( 5 - helpersize );
+        p->mod_fatigue( 10 - ( helpersize * 2 ) );
+    }
+    p->add_msg_player_or_npc( m_good,
+                              _( "You finish drilling." ),
+                              _( "<npcname> finishes drilling." ) );
     act->set_to_null();
+    if( resume_for_multi_activities( *p ) ) {
+        for( item &elem : g->m.i_at( pos ) ) {
+            elem.set_var( "activity_var", p->name );
+        }
+    }
 }
 
 void activity_handlers::dig_do_turn( player_activity *act, player * )
@@ -4692,25 +4755,27 @@ static void blood_magic( player *p, int cost )
     p->mod_pain( std::max( 1, cost / 3 ) );
 }
 
-static spell casting;
-
-static spell &player_or_item_spell( player *p, const spell_id &sp, int level )
+static void player_or_item_spell( player *p, const spell_id &sp, int level, spell &casting )
 {
+    // if level is -1 then we know it is a player spell
     if( level == -1 ) {
-        return p->magic.get_spell( sp );
+        casting = p->magic.get_spell( sp );
+        // so we return early
+        return;
     }
+    // otherwise we build the spell from the id and level
     casting = spell( sp );
     while( casting.get_level() < level && !casting.is_max_level() ) {
         casting.gain_level();
     }
-    return casting;
 }
 
 void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     const int level_override = act->get_value( 0 );
-    spell &casting = player_or_item_spell( p, spell_id( act->name ), level_override );
+    spell spell_being_cast;
+    player_or_item_spell( p, spell_id( act->name ), level_override, spell_being_cast );
     const bool no_fail = act->get_value( 1 ) == 1;
     const bool no_mana = act->get_value( 2 ) == 0;
 
@@ -4719,14 +4784,14 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     target_handler th;
     tripoint target = p->pos();
     bool target_is_valid = false;
-    if( casting.range() > 0 && !casting.is_valid_target( target_none ) &&
-        !casting.has_flag( RANDOM_TARGET ) ) {
+    if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( target_none ) &&
+        !spell_being_cast.has_flag( RANDOM_TARGET ) ) {
         do {
-            std::vector<tripoint> trajectory = th.target_ui( casting, no_fail, no_mana );
+            std::vector<tripoint> trajectory = th.target_ui( spell_being_cast, no_fail, no_mana );
             if( !trajectory.empty() ) {
                 target = trajectory.back();
-                target_is_valid = casting.is_valid_target( *p, target );
-                if( !( casting.is_valid_target( target_ground ) || p->sees( target ) ) ) {
+                target_is_valid = spell_being_cast.is_valid_target( *p, target );
+                if( !( spell_being_cast.is_valid_target( target_ground ) || p->sees( target ) ) ) {
                     target_is_valid = false;
                 }
             } else {
@@ -4738,8 +4803,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 }
             }
         } while( !target_is_valid );
-    } else if( casting.has_flag( RANDOM_TARGET ) ) {
-        const cata::optional<tripoint> target_ = casting.random_valid_target( *p, p->pos() );
+    } else if( spell_being_cast.has_flag( RANDOM_TARGET ) ) {
+        const cata::optional<tripoint> target_ = spell_being_cast.random_valid_target( *p, p->pos() );
         if( !target_ ) {
             p->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
                                   _( "Your spell can't find a suitable target." ) );
@@ -4749,33 +4814,33 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     }
 
     // no turning back now. it's all said and done.
-    bool success = no_fail || rng_float( 0.0f, 1.0f ) >= casting.spell_fail( *p );
-    int exp_gained = casting.casting_exp( *p );
+    bool success = no_fail || rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *p );
+    int exp_gained = spell_being_cast.casting_exp( *p );
     if( !success ) {
         p->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
                               _( "You lose your concentration!" ) );
-        if( !casting.is_max_level() && level_override == -1 ) {
+        if( !spell_being_cast.is_max_level() && level_override == -1 ) {
             // still get some experience for trying
-            casting.gain_exp( exp_gained / 5 );
+            spell_being_cast.gain_exp( exp_gained / 5 );
             p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
-                                  casting.xp() );
+                                  spell_being_cast.xp() );
         }
         return;
     }
 
-    if( casting.has_flag( spell_flag::VERBAL ) ) {
+    if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
         sounds::sound( p->pos(), p->get_shout_volume() / 2, sounds::sound_t::speech, _( "cast a spell" ),
                        false );
     }
 
-    p->add_msg_if_player( casting.message(), casting.name() );
+    p->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
 
-    casting.cast_all_effects( *p, target );
+    spell_being_cast.cast_all_effects( *p, target );
 
     if( !no_mana ) {
         // pay the cost
-        int cost = casting.energy_cost( *p );
-        switch( casting.energy_source() ) {
+        int cost = spell_being_cast.energy_cost( *p );
+        switch( spell_being_cast.energy_source() ) {
             case mana_energy:
                 p->magic.mod_mana( *p, -cost );
                 break;
@@ -4797,20 +4862,21 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         }
     }
     if( level_override == -1 ) {
-        if( !casting.is_max_level() ) {
+        if( !spell_being_cast.is_max_level() ) {
             // reap the reward
-            int old_level = casting.get_level();
+            int old_level = spell_being_cast.get_level();
             if( old_level == 0 ) {
-                casting.gain_level();
+                spell_being_cast.gain_level();
                 p->add_msg_if_player( m_good,
                                       _( "Something about how this spell works just clicked!  You gained a level!" ) );
             } else {
-                casting.gain_exp( exp_gained );
+                spell_being_cast.gain_exp( exp_gained );
                 p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                      casting.xp() );
+                                      spell_being_cast.xp() );
             }
-            if( casting.get_level() != old_level ) {
-                g->events().send<event_type::player_levels_spell>( casting.id(), casting.get_level() );
+            if( spell_being_cast.get_level() != old_level ) {
+                g->events().send<event_type::player_levels_spell>( spell_being_cast.id(),
+                        spell_being_cast.get_level() );
             }
         }
     }
@@ -4846,8 +4912,8 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->get_str_value( 1 ) == "study" ) {
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
                               total_exp_gained );
-        p->practice( skill_id( "spellcraft" ), total_exp_gained,
-                     p->magic.get_spell( spell_id( act->name ) ).get_difficulty() );
+        const spell &sp = p->magic.get_spell( spell_id( act->name ) );
+        p->practice( sp.skill(), total_exp_gained, sp.get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
         p->magic.learn_spell( act->name, *p );
     }

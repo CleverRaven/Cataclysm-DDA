@@ -357,7 +357,7 @@
   {
     "id": "acid_res_aura",
     "type": "ARMOR",
-    "name": "acid resistance aura",
+    "name": { "str": "acid resistance aura" },
     "description": "An all-encompassing, invisible layer of protection against acid.",
     "weight": "1g",
     "volume": "1ml",

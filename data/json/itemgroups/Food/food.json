@@ -58,6 +58,24 @@
   },
   {
     "type": "item_group",
+    "id": "ketchup_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ketchup", "prob": 6, "charges-min": 1 },
+      { "item": "ketchup", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mustard_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mustard", "prob": 6, "charges-min": 1 },
+      { "item": "mustard", "prob": 1, "charges": 96, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "condiments",
     "ammo": 75,
     "magazine": 100,
@@ -74,8 +92,8 @@
       { "item": "cookbook_italian", "prob": 25 },
       { "item": "family_cookbook", "prob": 6 },
       { "item": "brewing_cookbook", "prob": 4 },
-      { "item": "ketchup", "prob": 35 },
-      { "item": "mustard", "prob": 35 },
+      { "group": "ketchup_sealed_rng", "prob": 35 },
+      { "group": "mustard_sealed_rng", "prob": 35 },
       { "item": "soysauce", "prob": 25 },
       { "item": "horseradish", "prob": 15 },
       { "item": "honey_bottled", "prob": 35 },
@@ -692,8 +710,8 @@
       { "item": "bacon", "prob": 20 },
       { "item": "potato_baked", "prob": 15 },
       { "item": "bread", "prob": 40 },
-      { "item": "ketchup", "prob": 80 },
-      { "item": "mustard", "prob": 75 },
+      { "group": "ketchup_sealed_rng", "prob": 80 },
+      { "group": "mustard_sealed_rng", "prob": 75 },
       { "item": "pickle", "prob": 20, "charges": 6, "container-item": "jar_glass_sealed" },
       { "item": "pickle", "prob": 20 },
       { "item": "cheeseburger", "prob": 30 },
@@ -730,8 +748,8 @@
       { "item": "mayonnaise", "prob": 60 },
       { "item": "spork", "prob": 10 },
       { "item": "foon", "prob": 10 },
-      { "item": "ketchup", "prob": 60 },
-      { "item": "mustard", "prob": 60 },
+      { "group": "ketchup_sealed_rng", "prob": 60 },
+      { "group": "mustard_sealed_rng", "prob": 60 },
       { "item": "soysauce", "prob": 45 },
       { "item": "horseradish", "prob": 30 },
       { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },

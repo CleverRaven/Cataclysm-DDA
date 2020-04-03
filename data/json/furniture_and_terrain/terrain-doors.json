@@ -1761,7 +1761,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "REDUCE_SCENT", "BLOCK_WIND" ],
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -1789,7 +1789,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 10,
       "str_max": 40,
@@ -1818,7 +1818,7 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "examine_action": "door_peephole",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "REDUCE_SCENT", "BLOCK_WIND" ],
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -1845,7 +1845,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT", "BLOCK_WIND" ],
     "bash": {
       "str_min": 25,
       "str_max": 60,
@@ -1873,7 +1873,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 20,
       "str_max": 50,
@@ -1902,7 +1902,7 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "examine_action": "door_peephole",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 10,
       "str_max": 40,

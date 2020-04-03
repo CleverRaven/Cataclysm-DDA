@@ -104,7 +104,7 @@ void anatomy::check() const
     }
 }
 
-void anatomy::add_body_part( const bodypart_ids &new_bp )
+void anatomy::add_body_part( const bodypart_str_id &new_bp )
 {
     cached_bps.emplace_back( new_bp.id() );
     const auto &bp_struct = new_bp.obj();
@@ -112,7 +112,7 @@ void anatomy::add_body_part( const bodypart_ids &new_bp )
 }
 
 // TODO: get_function_with_better_name
-bodypart_ids anatomy::get_part_with_cumulative_hit_size( float size ) const
+bodypart_str_id anatomy::get_part_with_cumulative_hit_size( float size ) const
 {
     for( auto &part : cached_bps ) {
         size -= part->hit_size;
@@ -121,7 +121,7 @@ bodypart_ids anatomy::get_part_with_cumulative_hit_size( float size ) const
         }
     }
 
-    return bodypart_ids::NULL_ID();
+    return bodypart_str_id::NULL_ID();
 }
 
 bodypart_id anatomy::random_body_part() const
@@ -154,7 +154,7 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
     const bodypart_id *ret = hit_weights.pick();
     if( ret == nullptr ) {
         debugmsg( "Attempted to select body part from empty anatomy %s", id.c_str() );
-        return bodypart_ids::NULL_ID().id();
+        return bodypart_str_id::NULL_ID().id();
     }
 
     add_msg( m_debug, "selected part: %s", ret->id().obj().name );

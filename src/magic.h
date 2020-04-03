@@ -96,6 +96,12 @@ struct fake_spell {
     int level = 0;
     // target tripoint is source (true) or target (false)
     bool self = false;
+    // a chance to trigger the enchantment spells
+    int trigger_once_in = 1;
+    // a message when the enchantment is triggered
+    translation trigger_message;
+    // a message when the enchantment is triggered and is on npc
+    translation npc_trigger_message;
 
     fake_spell() = default;
     fake_spell( const spell_id &sp_id, bool hit_self = false,
@@ -133,6 +139,7 @@ class spell_type
         translation message;
         // spell sound effect
         translation sound_description;
+        skill_id skill;
         sounds::sound_t sound_type = sounds::sound_t::_LAST;
         bool sound_ambient = false;
         std::string sound_id;
@@ -355,6 +362,8 @@ class spell
         spell_id id() const;
         // get spell class (from type)
         trait_id spell_class() const;
+        // get skill id
+        skill_id skill() const;
         // get spell effect string (from type)
         std::string effect() const;
         // get spell effect_str data
@@ -404,6 +413,9 @@ class spell
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
+
+        // checks if a target point is in spell range
+        bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;

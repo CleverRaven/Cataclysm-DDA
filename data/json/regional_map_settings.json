@@ -390,7 +390,8 @@
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
           "mx_casings": 30,
-          "mx_corpses": 30
+          "mx_corpses": 30,
+          "mx_mass_grave": 5
         }
       },
       "forest_thick": {
@@ -418,7 +419,8 @@
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
           "mx_casings": 30,
-          "mx_corpses": 30
+          "mx_corpses": 30,
+          "mx_mass_grave": 5
         }
       },
       "forest_water": {
@@ -445,7 +447,8 @@
           "mx_point_burned_ground": 500,
           "mx_casings": 30,
           "mx_corpses": 30,
-          "mx_nest_dermatik": 10
+          "mx_nest_dermatik": 10,
+          "mx_mass_grave": 5
         }
       },
       "field": {
@@ -468,7 +471,8 @@
           "mx_point_burned_ground": 50,
           "mx_casings": 20,
           "mx_corpses": 3,
-          "mx_nest_wasp": 2
+          "mx_nest_wasp": 2,
+          "mx_mass_grave": 5
         }
       },
       "road": {
@@ -546,7 +550,6 @@
       "shop_sigma": 50,
       "park_radius": 20,
       "park_sigma": 80,
-      "house_basement_chance": 5,
       "houses": {
         "house_w_1": 50,
         "house_two_story_basement": 50,
@@ -649,7 +652,6 @@
         "trailerpark_city": 15,
         "railroad_city": 10
       },
-      "basements": { "basement": 100, "basement_hidden_lab_stairs": 25 },
       "parks": {
         "park": 400,
         "pool": 20,

@@ -8,7 +8,7 @@ num_jobs=3
 
 function run_tests
 {
-    # The grep supresses lines that begin with "0.0## s:", which are timing lines for tests with a very short duration.
+    # The grep suppresses lines that begin with "0.0## s:", which are timing lines for tests with a very short duration.
     $WINE "$@" -d yes --use-colour yes --rng-seed time $EXTRA_TEST_OPTS | grep -Ev "^0\.0[0-9]{2} s:"
 }
 
@@ -140,13 +140,13 @@ then
 
     # Tweak the ccache compiler analysis.  We're using the compiler from the
     # Android NDK which has an unpredictable mtime, so we need to hash the
-    # content rather than the size+mtime (which is ccache's default behaviour).
+    # content rather than the size+mtime (which is ccache's default behavior).
     export CCACHE_COMPILERCHECK=content
 
     cd android
-    # Specify dumb terminal to suppress gradle's constatnt output of time spent building, which
+    # Specify dumb terminal to suppress gradle's constant output of time spent building, which
     # fills the log with nonsense.
-    TERM=dumb ./gradlew assembleRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
+    TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
     make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 

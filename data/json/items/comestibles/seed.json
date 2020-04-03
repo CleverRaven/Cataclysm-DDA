@@ -400,7 +400,7 @@
     "type": "COMESTIBLE",
     "id": "marloss_seed",
     "category": "seeds",
-    "name": { "str": "marloss seed" },
+    "name": { "str": "Marloss seed" },
     "weight": "177 g",
     "color": "cyan",
     "addiction_type": "marloss_b",
@@ -574,6 +574,16 @@
     "description": "Some dandelion seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "dandelion", "fruit": "raw_dandelion", "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_raw_burdock",
+    "copy-from": "seed",
+    "name": { "str": "burdock seeds", "str_pl": "burdock seeds" },
+    "color": "green",
+    "description": "Some burdock seeds.",
+    "charges": 2,
+    "seed_data": { "plant_name": "burdock", "fruit": "raw_burdock", "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",

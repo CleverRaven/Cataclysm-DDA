@@ -156,6 +156,11 @@ void Creature::process_turn()
     }
 }
 
+bool Creature::is_underwater() const
+{
+    return underwater;
+}
+
 bool Creature::digging() const
 {
     return false;

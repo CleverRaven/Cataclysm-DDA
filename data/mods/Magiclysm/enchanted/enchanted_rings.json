@@ -87,7 +87,7 @@
     "copy-from": "mring_gold",
     "type": "TOOL_ARMOR",
     "id": "mring_dodge_bonus_2",
-    "name": "bicephalous eel ring",
+    "name": { "str": "bicephalous eel ring" },
     "description": "A thin gold band ring, depicting a bicephalous eel coiled on itself.  Allows you to dodge two extra attacks per turn.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] }
   },

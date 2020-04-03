@@ -30,6 +30,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
@@ -632,6 +633,10 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         if( g->was_fullscreen ) {
             g->draw_ter();
         }
+
+        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
         // Now print the two lists; those on the ground and about to be added to inv
         // Continue until we hit return or space
         do {

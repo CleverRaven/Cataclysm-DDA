@@ -57,6 +57,8 @@
       [ "distaff_spindle", 2 ],
       [ "carding_paddles", 2 ],
       [ "scythe", 40 ],
+      [ "shears", 20 ],
+      [ "elec_shears", 10 ],
       [ "tree_spile", 40 ],
       [ "material_quicklime", 30 ],
       [ "pitchfork", 40 ],

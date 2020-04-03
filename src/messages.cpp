@@ -13,6 +13,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -741,6 +742,9 @@ void Messages::dialog::input()
 
 void Messages::dialog::run()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( !errored && !canceled ) {
         show();
         input();
@@ -750,11 +754,15 @@ void Messages::dialog::run()
 std::vector<std::string> Messages::dialog::filter_help_text( int width )
 {
     const auto &help_fmt = _(
-                               "Format is [[TYPE]:]TEXT.  The values for TYPE are: %s\n"
-                               "Examples:\n"
-                               "  good:mutation\n"
-                               "  :you pick up: 1\n"
-                               "  crash!\n"
+                               "<color_light_gray>The default is to search the entire message log.  "
+                               "Use message-types as prefixes followed by (:) to filter more specific.\n"
+                               "Valid message-type values are:</color> %s\n"
+                               "\n"
+                               "<color_white>Examples:</color>\n"
+                               "  <color_light_green>good</color><color_white>:mutation\n"
+                               "  :you pick up: 1</color>\n"
+                               "  <color_light_red>bad</color><color_white>:</color>\n"
+                               "\n"
                            );
     std::string type_text;
     const auto &type_list = msg_type_and_names();

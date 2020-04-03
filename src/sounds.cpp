@@ -1000,8 +1000,19 @@ void sfx::generate_melee_sound( const tripoint &source, const tripoint &target, 
     // If creating a new thread for each invocation is to much, we have to consider a thread
     // pool or maybe a single thread that works continuously, but that requires a queue or similar
     // to coordinate its work.
-    std::thread the_thread( sound_thread( source, target, hit, targ_mon, material ) );
-    the_thread.detach();
+    try {
+        std::thread the_thread( sound_thread( source, target, hit, targ_mon, material ) );
+        try {
+            if( the_thread.joinable() ) {
+                the_thread.detach();
+            }
+        } catch( std::system_error &err ) {
+            dbg( D_ERROR ) << "Failed to detach melee sound thread: std::system_error: " << err.what();
+        }
+    } catch( std::system_error &err ) {
+        // not a big deal, just skip playing the sound.
+        dbg( D_ERROR ) << "Failed to create melee sound thread: std::system_error: " << err.what();
+    }
 }
 
 sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target, const bool hit,
