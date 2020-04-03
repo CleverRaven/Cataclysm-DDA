@@ -642,6 +642,9 @@ const tripoint &Character::pos() const
 
 int Character::sight_range( int light_level ) const
 {
+    if( light_level == 0 ) {
+        return 1;
+    }
     /* Via Beer-Lambert we have:
      * light_level * (1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance) ) <= LIGHT_AMBIENT_LOW
      * Solving for distance:
