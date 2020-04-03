@@ -644,13 +644,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mass_grave",
-    "copy-from": "mass_grave",
-    "sym": "\u00C4",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "ws_giant_sinkhole_1",
     "copy-from": "ws_giant_sinkhole_1",
     "sym": "\u00FC"

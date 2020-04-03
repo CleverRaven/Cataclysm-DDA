@@ -6,7 +6,7 @@
     "name": { "str": "Kel-Tec P3AT magazine" },
     "description": "A standard 6-round steel box magazine for the Kel-Tec P3AT.",
     "weight": "60 g",
-    "volume": "50ml",
+    "volume": "44 ml",
     "price": 1900,
     "material": "steel",
     "symbol": "#",

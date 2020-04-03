@@ -12,7 +12,7 @@
     "id": "pistol_machine",
     "copy-from": "glock_18c",
     "type": "GUN",
-    "name": "machine pistol",
+    "name": { "str": "machine pistol" },
     "ammo": "ammo_pistol",
     "description": "This pistol is a tiny machinegun you can stuff into a holster, with which you could dump its magazine at a blistering rate into any close range foes.  Machine pistols mostly see use by vehicle crewmen or bodygaurds of VIPs.  Due to its preposterous rate of fire it is difficult to control.",
     "magazines": [ [ "ammo_pistol", [ "pistol_mag", "pistol_smg_mag" ] ] ]
@@ -39,7 +39,7 @@
     "id": "pistol_revolver",
     "copy-from": "model_10_revolver",
     "type": "GUN",
-    "name": "police revolver",
+    "name": { "str": "police revolver" },
     "ammo": "ammo_pistol",
     "description": "Revolvers like this, chambered for standard defensive calibers, were a favorite of police departments for nearly a century, up until the 1986 Miami shootout.  Afterwards, the slow reloading and shooting of revolvers were considered liabilities; still, this model's accuracy and moderate recoil make for a serviceable sidearm, and there are no magazines for you to lose or damage.",
     "clip_size": 6,

@@ -15,6 +15,7 @@
 #include <cmath>
 
 #include "clzones.h"
+#include "generic_factory.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -181,11 +182,11 @@ void map::generate( const tripoint &p, const time_point &when )
             if( !spawn_details.name ) {
                 continue;
             }
-            if( const cata::optional<tripoint> p =
+            if( const cata::optional<tripoint> pt =
             random_point( *this, [this]( const tripoint & n ) {
             return passable( n );
             } ) ) {
-                add_spawn( spawn_details.name, spawn_details.pack_size, *p );
+                add_spawn( spawn_details.name, spawn_details.pack_size, *pt );
             }
         }
     }
@@ -218,44 +219,148 @@ void mapgen_function_builtin::generate( mapgendata &mgd )
 ///// mapgen_function class.
 ///// all sorts of ways to apply our hellish reality to a grid-o-squares
 
+class mapgen_basic_container
+{
+    private:
+        std::vector<std::shared_ptr<mapgen_function>> mapgens_;
+        weighted_int_list<std::shared_ptr<mapgen_function>> weights_;
+
+    public:
+        int add( const std::shared_ptr<mapgen_function> ptr ) {
+            assert( ptr );
+            mapgens_.push_back( ptr );
+            return mapgens_.size() - 1;
+        }
+        /**
+         * Pick a mapgen function randomly and call its generate function.
+         * This basically runs the mapgen functions with the given @ref mapgendata
+         * as argument.
+         * @return Whether the mapgen function has been run. It may not get run if
+         * the list of mapgen functions is effectively empty.
+         * @p hardcoded_weight Weight for an additional entry. If that entry is chosen,
+         * false is returned. If unsure, just use 0 for it.
+         */
+        bool generate( mapgendata &dat, const int hardcoded_weight ) const {
+            if( hardcoded_weight > 0 &&
+                rng( 1, weights_.get_weight() + hardcoded_weight ) > weights_.get_weight() ) {
+                return false;
+            }
+            const std::shared_ptr<mapgen_function> *const ptr = weights_.pick();
+            if( !ptr ) {
+                return false;
+            }
+            assert( *ptr );
+            ( *ptr )->generate( dat );
+            return true;
+        }
+        /**
+         * Calls @ref mapgen_function::setup and sets up the internal weighted list using
+         * the **current** value of @ref mapgen_function::weight. This value may have
+         * changed since it was first added, so this is needed to recalculate the weighted list.
+         */
+        void setup() {
+            for( const std::shared_ptr<mapgen_function> &ptr : mapgens_ ) {
+                const int weight = ptr->weight;
+                if( weight < 1 ) {
+                    continue; // rejected!
+                }
+                weights_.add( ptr, weight );
+                ptr->setup();
+            }
+            // Not needed anymore, pointers are now stored in weights_ (or not used at all)
+            mapgens_.clear();
+        }
+        void check_consistency( const std::string &key ) {
+            for( auto &mapgen_function_ptr : mapgens_ ) {
+                mapgen_function_ptr->check( key );
+            }
+        }
+};
+
+class mapgen_factory
+{
+    private:
+        std::map<std::string, mapgen_basic_container> mapgens_;
+
+        /// Collect all the possible and expected keys that may get used with @ref pick.
+        static std::set<std::string> get_usages() {
+            std::set<std::string> result;
+            for( const oter_t &elem : overmap_terrains::get_all() ) {
+                result.insert( elem.get_mapgen_id() );
+                result.insert( elem.id.str() );
+            }
+            // Why do I have to repeat the MapExtras here? Wouldn't "MapExtras::factory" be enough?
+            for( const map_extra &elem : MapExtras::mapExtraFactory().get_all() ) {
+                if( elem.generator_method == map_extra_method::mapgen ) {
+                    result.insert( elem.generator_id );
+                }
+            }
+            // Used in C++ code only, see calls to `oter_mapgen.generate()` below
+            result.insert( "lab_1side" );
+            result.insert( "lab_4side" );
+            result.insert( "lab_finale_1level" );
+            return result;
+        }
+
+    public:
+        void reset() {
+            mapgens_.clear();
+        }
+        /// @see mapgen_basic_container::setup
+        void setup() {
+            for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
+                omw.second.setup();
+            }
+            // Dummy entry, overmap terrain null should never appear and is therefor never generated.
+            mapgens_.erase( "null" );
+        }
+        void check_consistency() {
+            // Cache all strings that may get looked up here so we don't have to go through
+            // all the sources for them upon each loop.
+            const std::set<std::string> usages = get_usages();
+            for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
+                omw.second.check_consistency( omw.first );
+                if( usages.count( omw.first ) == 0 ) {
+                    debugmsg( "Mapgen %s is not used by anything!", omw.first );
+                }
+            }
+        }
+        /**
+         * Checks whether we have an entry for the given key.
+         * Note that the entry itself may not contain any valid mapgen instance
+         * (could all have been removed via @ref erase).
+         */
+        bool has( const std::string &key ) const {
+            return mapgens_.count( key ) != 0;
+        }
+        /// @see mapgen_basic_container::add
+        int add( const std::string &key, const std::shared_ptr<mapgen_function> ptr ) {
+            return mapgens_[key].add( ptr );
+        }
+        /// @see mapgen_basic_container::generate
+        bool generate( mapgendata &dat, const std::string &key, const int hardcoded_weight = 0 ) const {
+            const auto iter = mapgens_.find( key );
+            if( iter == mapgens_.end() ) {
+                return false;
+            }
+            return iter->second.generate( dat, hardcoded_weight );
+        }
+};
+
+static mapgen_factory oter_mapgen;
+
 /*
- * ptr storage.
+ * stores function ref and/or required data
  */
-std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> > nested_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> > update_mapgen;
 
 /*
- * index to the above, adjusted to allow for rarity
- */
-std::map<std::string, std::map<int, int> > oter_mapgen_weights;
-
-/*
- * setup oter_mapgen_weights which mapgen uses to diceroll. Also setup mapgen_function_json
+ * setup mapgen_basic_container::weights_ which mapgen uses to diceroll. Also setup mapgen_function_json
  */
 void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup too
 {
-    oter_mapgen_weights.clear();
-    for( auto &omw : oter_mapgen ) {
-        int funcnum = 0;
-        int wtotal = 0;
-        oter_mapgen_weights[ omw.first ] = std::map<int, int>();
-        for( auto fit = omw.second.begin(); fit != omw.second.end(); ++fit ) {
-            //
-            int weight = ( *fit )->weight;
-            if( weight < 1 ) {
-                dbg( D_INFO ) << "wcalc " << omw.first << "(" << funcnum << "): (rej(1), " << weight << ") = " <<
-                              wtotal;
-                ++funcnum;
-                continue; // rejected!
-            }
-            ( *fit )->setup();
-            wtotal += weight;
-            oter_mapgen_weights[ omw.first ][ wtotal ] = funcnum;
-            dbg( D_INFO ) << "wcalc " << omw.first << "(" << funcnum << "): +" << weight << " = " << wtotal;
-            ++funcnum;
-        }
-    }
+    oter_mapgen.setup();
     // Not really calculate weights, but let's keep it here for now
     for( auto &pr : nested_mapgen ) {
         for( std::unique_ptr<mapgen_function_json_nested> &ptr : pr.second ) {
@@ -272,11 +377,7 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
 
 void check_mapgen_definitions()
 {
-    for( auto &oter_definition : oter_mapgen ) {
-        for( auto &mapgen_function_ptr : oter_definition.second ) {
-            mapgen_function_ptr->check( oter_definition.first );
-        }
-    }
+    oter_mapgen.check_consistency();
     for( auto &oter_definition : nested_mapgen ) {
         for( auto &mapgen_function_ptr : oter_definition.second ) {
             mapgen_function_ptr->check( oter_definition.first );
@@ -317,53 +418,28 @@ static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 std::shared_ptr<mapgen_function>
-load_mapgen_function( const JsonObject &jio, const std::string &id_base,
-                      int default_idx, const point &offset )
+load_mapgen_function( const JsonObject &jio, const std::string &id_base, const point &offset )
 {
     int mgweight = jio.get_int( "weight", 1000 );
     std::shared_ptr<mapgen_function> ret;
     if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
-        const std::string mgtype = jio.get_string( "method" );
-        if( default_idx != -1 && mgtype == "builtin" ) {
-            if( jio.has_string( "name" ) ) {
-                const std::string mgname = jio.get_string( "name" );
-                if( mgname == id_base ) {
-                    oter_mapgen[id_base][ default_idx ]->weight = 0;
-                }
-            }
-        }
         jio.allow_omitted_members();
         return nullptr; // nothing
-    } else if( jio.has_string( "method" ) ) {
-        const std::string mgtype = jio.get_string( "method" );
-        if( mgtype == "builtin" ) { // c-function
-            if( jio.has_string( "name" ) ) {
-                const std::string mgname = jio.get_string( "name" );
-                if( const auto ptr = get_mapgen_cfunction( mgname ) ) {
-                    ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
-                    oter_mapgen[id_base].push_back( ret );
-                } else {
-                    debugmsg( "oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(),
-                              mgname );
-                }
-            } else {
-                debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str() );
-            }
-        } else if( mgtype == "json" ) {
-            if( jio.has_object( "object" ) ) {
-                JsonObject jo = jio.get_object( "object" );
-                std::string jstr = jo.str();
-                ret = std::make_shared<mapgen_function_json>( jstr, mgweight, offset );
-                oter_mapgen[id_base].push_back( ret );
-            } else {
-                debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
-            }
+    }
+    const std::string mgtype = jio.get_string( "method" );
+    if( mgtype == "builtin" ) {
+        if( const auto ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
+            ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
+            oter_mapgen.add( id_base, ret );
         } else {
-            debugmsg( "oter_t[%s]: Invalid mapgen function type: %s", id_base.c_str(), mgtype.c_str() );
+            jio.throw_error( "function does not exist", "name" );
         }
+    } else if( mgtype == "json" ) {
+        const std::string jstr = jio.get_object( "object" ).str();
+        ret = std::make_shared<mapgen_function_json>( jstr, mgweight, offset );
+        oter_mapgen.add( id_base, ret );
     } else {
-        debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"method\" value, must be \"builtin\" or \"json\").",
-                  id_base.c_str() );
+        jio.throw_error( R"(invalid value: must be "builtin" or "json")", "method" );
     }
     return ret;
 }
@@ -416,9 +492,9 @@ void load_mapgen( const JsonObject &jo )
             point offset;
             for( JsonArray row_items : ja ) {
                 for( const std::string mapgenid : row_items ) {
-                    const auto mgfunc = load_mapgen_function( jo, mapgenid, -1, offset );
+                    const auto mgfunc = load_mapgen_function( jo, mapgenid, offset );
                     if( mgfunc ) {
-                        oter_mapgen[ mapgenid ].push_back( mgfunc );
+                        oter_mapgen.add( mapgenid, mgfunc );
                     }
                     offset.x++;
                 }
@@ -432,16 +508,16 @@ void load_mapgen( const JsonObject &jo )
             }
             if( !mapgenid_list.empty() ) {
                 const std::string mapgenid = mapgenid_list[0];
-                const auto mgfunc = load_mapgen_function( jo, mapgenid, -1 );
+                const auto mgfunc = load_mapgen_function( jo, mapgenid, point_zero );
                 if( mgfunc ) {
                     for( auto &i : mapgenid_list ) {
-                        oter_mapgen[ i ].push_back( mgfunc );
+                        oter_mapgen.add( i, mgfunc );
                     }
                 }
             }
         }
     } else if( jo.has_string( "om_terrain" ) ) {
-        load_mapgen_function( jo, jo.get_string( "om_terrain" ), -1 );
+        load_mapgen_function( jo, jo.get_string( "om_terrain" ), point_zero );
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
         load_nested_mapgen( jo, jo.get_string( "nested_mapgen_id" ) );
     } else if( jo.has_string( "update_mapgen_id" ) ) {
@@ -454,7 +530,7 @@ void load_mapgen( const JsonObject &jo )
 
 void reset_mapgens()
 {
-    oter_mapgen.clear();
+    oter_mapgen.reset();
     nested_mapgen.clear();
     update_mapgen.clear();
 }
@@ -708,6 +784,20 @@ void jmapgen_place::offset( const point &offset )
     x.valmax -= offset.x;
     y.val -= offset.y;
     y.valmax -= offset.y;
+}
+
+map_key::map_key( const std::string &s ) : str( s )
+{
+    if( utf8_width( str ) != 1 ) {
+        debugmsg( "map key '%s' must be 1 column", str );
+    }
+}
+
+map_key::map_key( const JsonMember &member ) : str( member.name() )
+{
+    if( utf8_width( str ) != 1 ) {
+        member.throw_error( "format map key must be 1 column" );
+    }
 }
 
 /**
@@ -1984,16 +2074,13 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
 {
     if( jo.has_object( "mapping" ) ) {
         for( const JsonMember member : jo.get_object( "mapping" ) ) {
-            const std::string &key = member.name();
-            if( key.size() != 1 ) {
-                member.throw_error( "format map key must be 1 character" );
-            }
+            const map_key key( member );
             JsonObject sub = member.get_object();
             sub.allow_omitted_members();
             if( !sub.has_member( member_name ) ) {
                 continue;
             }
-            auto &vect = format_placings[ key[0] ];
+            auto &vect = format_placings[ key ];
             ::load_place_mapings<PieceType>( sub.get_member( member_name ), vect );
         }
     }
@@ -2007,11 +2094,8 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
         return;
     }
     for( const JsonMember member : jo.get_object( member_name ) ) {
-        const std::string &key = member.name();
-        if( key.size() != 1 ) {
-            member.throw_error( "format map key must be 1 character" );
-        }
-        auto &vect = format_placings[ key[0] ];
+        const map_key key( member );
+        auto &vect = format_placings[ key ];
         ::load_place_mapings<PieceType>( member, vect );
     }
 }
@@ -2089,20 +2173,17 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     // "terrain": { "a": "t_grass", "b": "t_lava" }
     if( jo.has_member( "terrain" ) ) {
         for( const JsonMember member : jo.get_object( "terrain" ) ) {
-            const std::string &key = member.name();
-            if( key.size() != 1 ) {
-                member.throw_error( "format map key must be 1 character" );
-            }
+            const map_key key( member );
             if( member.test_string() ) {
-                format_terrain[key[0]] = ter_id( member.get_string() );
+                format_terrain[key] = ter_id( member.get_string() );
             } else {
-                auto &vect = format_placings[ key[0] ];
+                auto &vect = format_placings[ key ];
                 ::load_place_mapings<jmapgen_terrain>( member, vect );
                 if( !vect.empty() ) {
                     // Dummy entry to signal that this terrain is actually defined, because
                     // the code below checks that each square on the map has a valid terrain
                     // defined somehow.
-                    format_terrain[key[0]] = t_null;
+                    format_terrain[key] = t_null;
                 }
             }
         }
@@ -2110,14 +2191,11 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
 
     if( jo.has_object( "furniture" ) ) {
         for( const JsonMember member : jo.get_object( "furniture" ) ) {
-            const std::string &key = member.name();
-            if( key.size() != 1 ) {
-                member.throw_error( "format map key must be 1 character" );
-            }
+            const map_key key( member );
             if( member.test_string() ) {
-                format_furniture[key[0]] = furn_id( member.get_string() );
+                format_furniture[key] = furn_id( member.get_string() );
             } else {
-                auto &vect = format_placings[ key[0] ];
+                auto &vect = format_placings[ key ];
                 ::load_place_mapings<jmapgen_furniture>( member, vect );
             }
         }
@@ -2243,7 +2321,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     JsonArray sparray;
     JsonObject pjo;
 
-    format.resize( mapgensize.x * mapgensize.y );
+    format.resize( static_cast<size_t>( mapgensize.x * mapgensize.y ) );
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
     if( jo.has_array( "rows" ) ) {
         mapgen_palette palette = mapgen_palette::load_temp( jo, "dda" );
@@ -2255,27 +2333,35 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             return false;
         }
 
-        // mandatory: mapgensize rows of mapgensize character lines, each of which must have a matching key in "terrain",
-        // unless fill_ter is set
+        // mandatory: mapgensize rows of mapgensize character lines, each of which must have a
+        // matching key in "terrain", unless fill_ter is set
         // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
         point expected_dim = mapgensize + m_offset;
+        assert( expected_dim.x >= 0 );
+        assert( expected_dim.y >= 0 );
+
         parray = jo.get_array( "rows" );
         if( static_cast<int>( parray.size() ) < expected_dim.y ) {
             parray.throw_error( string_format( "format: rows: must have at least %d rows, not %d",
                                                expected_dim.y, parray.size() ) );
         }
         for( int c = m_offset.y; c < expected_dim.y; c++ ) {
-            const auto tmpval = parray.get_string( c );
-            if( static_cast<int>( tmpval.size() ) < expected_dim.x ) {
-                parray.throw_error( string_format( "format: row %d must have at least %d columns, not %d",
-                                                   c + 1, expected_dim.x, tmpval.size() ) );
+            const std::string row = parray.get_string( c );
+            std::vector<map_key> row_keys;
+            for( const std::string &key : utf8_display_split( row ) ) {
+                row_keys.emplace_back( key );
+            }
+            if( row_keys.size() < static_cast<size_t>( expected_dim.x ) ) {
+                parray.throw_error(
+                    string_format( "  format: row %d must have at least %d columns, not %d",
+                                   c + 1, expected_dim.x, row_keys.size() ) );
             }
             for( int i = m_offset.x; i < expected_dim.x; i++ ) {
                 const point p = point( i, c ) - m_offset;
-                const int tmpkey = tmpval[i];
-                const auto iter_ter = format_terrain.find( tmpkey );
-                const auto iter_furn = format_furniture.find( tmpkey );
-                const auto fpi = format_placings.find( tmpkey );
+                const map_key key = row_keys[i];
+                const auto iter_ter = format_terrain.find( key );
+                const auto iter_furn = format_furniture.find( key );
+                const auto fpi = format_placings.find( key );
 
                 const bool has_terrain = iter_ter != format_terrain.end();
                 const bool has_furn = iter_furn != format_furniture.end();
@@ -2284,18 +2370,19 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                 if( !has_terrain && !fallback_terrain_exists ) {
                     parray.throw_error(
                         string_format( "format: rows: row %d column %d: "
-                                       "'%c' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, static_cast<char>( tmpkey ) ) );
+                                       "'%s' is not in 'terrain', and no 'fill_ter' is set!",
+                                       c + 1, i + 1, key.str ) );
                 }
-                if( test_mode && !has_terrain && !has_furn && !has_placing && tmpkey != ' ' && tmpkey != '.' ) {
+                if( test_mode && !has_terrain && !has_furn && !has_placing &&
+                    key.str != " " && key.str != "." ) {
                     // TODO: Once all the in-tree mods don't report this error,
                     // it should be changed to happen in regular games (not
                     // just test_mode) and be non-fatal, so that mappers find
                     // out about their issues before they PR their changes.
                     parray.throw_error(
                         string_format( "format: rows: row %d column %d: "
-                                       "'%c' has no terrain, furniture, or other definition",
-                                       c + 1, i + 1, static_cast<char>( tmpkey ) ) );
+                                       "'%s' has no terrain, furniture, or other definition",
+                                       c + 1, i + 1, key.str ) );
                 }
                 if( has_terrain ) {
                     format[ calc_index( p ) ].ter = iter_ter->second;
@@ -2651,8 +2738,6 @@ void mapgen_function_json::generate( mapgendata &md )
     for( auto &elem : setmap_points ) {
         elem.apply( md, point_zero );
     }
-
-    place_stairs( md );
 
     objects.apply( md, point_zero );
 
@@ -3509,18 +3594,8 @@ void map::draw_lab( mapgendata &dat )
 
             //A lab area with only one entrance
             if( boarders == 1 ) {
-                const std::string function_key = "lab_1side"; // terrain_type->get_mapgen_id();
-                const auto fmapit = oter_mapgen.find( function_key );
-
-                if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-                    std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
-                                function_key );
-                    const int rlast = weightit->second.rbegin()->first;
-                    const int roll = rng( 1, rlast );
-
-                    const int fidx = weightit->second.lower_bound( roll )->second;
-
-                    fmapit->second[fidx]->generate( dat );
+                // If you remove the usage of "lab_1side" here, remove it from mapgen_factory::get_usages above as well.
+                if( oter_mapgen.generate( dat, "lab_1side" ) ) {
                     if( tw == 2 ) {
                         rotate( 2 );
                     }
@@ -3536,75 +3611,57 @@ void map::draw_lab( mapgendata &dat )
                 maybe_insert_stairs( dat.above(), t_stairs_up );
                 maybe_insert_stairs( terrain_type, t_stairs_down );
             } else {
-                const std::string function_key = "lab_4side";
-                const auto fmapit = oter_mapgen.find( function_key );
                 const int hardcoded_4side_map_weight = 1500; // weight of all hardcoded maps.
-                bool use_hardcoded_4side_map = false;
+                // If you remove the usage of "lab_4side" here, remove it from mapgen_factory::get_usages above as well.
+                if( oter_mapgen.generate( dat, "lab_4side", hardcoded_4side_map_weight ) ) {
+                    // If the map template hasn't handled borders, handle them in code.
+                    // Rotated maps cannot handle borders and have to be caught in code.
+                    // We determine if a border isn't handled by checking the east-facing
+                    // border space where the door normally is -- it should be a wall or door.
+                    tripoint east_border( 23, 11, abs_sub.z );
+                    if( !has_flag_ter( "WALL", east_border ) &&
+                        !has_flag_ter( "DOOR", east_border ) ) {
+                        // TODO: create a ter_reset function that does ter_set,
+                        // furn_set, and i_clear?
+                        ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                        ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                        ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass :
+                                         t_concrete_wall;
+                        ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass :
+                                         t_concrete_wall;
+                        for( int i = 0; i < SEEX * 2; i++ ) {
+                            ter_set( point( 23, i ), rw_type );
+                            furn_set( point( 23, i ), f_null );
+                            i_clear( tripoint( 23, i, get_abs_sub().z ) );
 
-                if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-                    std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
-                                function_key );
-                    const int rlast = weightit->second.rbegin()->first;
-                    const int roll = rng( 1, rlast + hardcoded_4side_map_weight );
+                            ter_set( point( i, 23 ), bw_type );
+                            furn_set( point( i, 23 ), f_null );
+                            i_clear( tripoint( i, 23, get_abs_sub().z ) );
 
-                    if( roll <= rlast ) {
-                        const int fidx = weightit->second.lower_bound( roll )->second;
-                        fmapit->second[fidx]->generate( dat );
-
-                        // If the map template hasn't handled borders, handle them in code.
-                        // Rotated maps cannot handle borders and have to be caught in code.
-                        // We determine if a border isn't handled by checking the east-facing
-                        // border space where the door normally is -- it should be a wall or door.
-                        tripoint east_border( 23, 11, abs_sub.z );
-                        if( !has_flag_ter( "WALL", east_border ) &&
-                            !has_flag_ter( "DOOR", east_border ) ) {
-                            // TODO: create a ter_reset function that does ter_set,
-                            // furn_set, and i_clear?
-                            ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                            ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                            ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass :
-                                             t_concrete_wall;
-                            ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass :
-                                             t_concrete_wall;
-                            for( int i = 0; i < SEEX * 2; i++ ) {
-                                ter_set( point( 23, i ), rw_type );
-                                furn_set( point( 23, i ), f_null );
-                                i_clear( tripoint( 23, i, get_abs_sub().z ) );
-
-                                ter_set( point( i, 23 ), bw_type );
-                                furn_set( point( i, 23 ), f_null );
-                                i_clear( tripoint( i, 23, get_abs_sub().z ) );
-
-                                if( lw == 2 ) {
-                                    ter_set( point( 0, i ), lw_type );
-                                    furn_set( point( 0, i ), f_null );
-                                    i_clear( tripoint( 0, i, get_abs_sub().z ) );
-                                }
-                                if( tw == 2 ) {
-                                    ter_set( point( i, 0 ), tw_type );
-                                    furn_set( point( i, 0 ), f_null );
-                                    i_clear( tripoint( i, 0, get_abs_sub().z ) );
-                                }
+                            if( lw == 2 ) {
+                                ter_set( point( 0, i ), lw_type );
+                                furn_set( point( 0, i ), f_null );
+                                i_clear( tripoint( 0, i, get_abs_sub().z ) );
                             }
-                            if( rw != 2 ) {
-                                ter_set( point( 23, 11 ), t_door_metal_c );
-                                ter_set( point( 23, 12 ), t_door_metal_c );
-                            }
-                            if( bw != 2 ) {
-                                ter_set( point( 11, 23 ), t_door_metal_c );
-                                ter_set( point( 12, 23 ), t_door_metal_c );
+                            if( tw == 2 ) {
+                                ter_set( point( i, 0 ), tw_type );
+                                furn_set( point( i, 0 ), f_null );
+                                i_clear( tripoint( i, 0, get_abs_sub().z ) );
                             }
                         }
+                        if( rw != 2 ) {
+                            ter_set( point( 23, 11 ), t_door_metal_c );
+                            ter_set( point( 23, 12 ), t_door_metal_c );
+                        }
+                        if( bw != 2 ) {
+                            ter_set( point( 11, 23 ), t_door_metal_c );
+                            ter_set( point( 12, 23 ), t_door_metal_c );
+                        }
+                    }
 
-                        maybe_insert_stairs( dat.above(), t_stairs_up );
-                        maybe_insert_stairs( terrain_type, t_stairs_down );
-                    } else { // then weighted roll was in the hardcoded section
-                        use_hardcoded_4side_map = true;
-                    } // end json maps
+                    maybe_insert_stairs( dat.above(), t_stairs_up );
+                    maybe_insert_stairs( terrain_type, t_stairs_down );
                 } else { // then no json maps for lab_4side were found
-                    use_hardcoded_4side_map = true;
-                } // end if no lab_4side was found.
-                if( use_hardcoded_4side_map ) {
                     switch( rng( 1, 3 ) ) {
                         case 1:
                             // Cross shaped
@@ -4099,69 +4156,50 @@ void map::draw_lab( mapgendata &dat )
         bw = is_ot_match( "lab", dat.south(), ot_match_type::contains ) ? 1 : 2;
         lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
 
-        const std::string function_key = "lab_finale_1level";
-        const auto fmapit = oter_mapgen.find( function_key );
         const int hardcoded_finale_map_weight = 500; // weight of all hardcoded maps.
-        bool use_hardcoded_finale_map = false;
+        // If you remove the usage of "lab_finale_1level" here, remove it from mapgen_factory::get_usages above as well.
+        if( oter_mapgen.generate( dat, "lab_finale_1level", hardcoded_finale_map_weight ) ) {
+            // If the map template hasn't handled borders, handle them in code.
+            // Rotated maps cannot handle borders and have to be caught in code.
+            // We determine if a border isn't handled by checking the east-facing
+            // border space where the door normally is -- it should be a wall or door.
+            tripoint east_border( 23, 11, abs_sub.z );
+            if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
+                // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
+                ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
+                ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
+                for( int i = 0; i < SEEX * 2; i++ ) {
+                    ter_set( point( 23, i ), rw_type );
+                    furn_set( point( 23, i ), f_null );
+                    i_clear( tripoint( 23, i, get_abs_sub().z ) );
 
-        if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-            std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
-                        function_key );
-            const int rlast = weightit->second.rbegin()->first;
-            const int roll = rng( 1, rlast + hardcoded_finale_map_weight );
+                    ter_set( point( i, 23 ), bw_type );
+                    furn_set( point( i, 23 ), f_null );
+                    i_clear( tripoint( i, 23, get_abs_sub().z ) );
 
-            if( roll <= rlast ) {
-                const int fidx = weightit->second.lower_bound( roll )->second;
-                fmapit->second[fidx]->generate( dat );
-
-                // If the map template hasn't handled borders, handle them in code.
-                // Rotated maps cannot handle borders and have to be caught in code.
-                // We determine if a border isn't handled by checking the east-facing
-                // border space where the door normally is -- it should be a wall or door.
-                tripoint east_border( 23, 11, abs_sub.z );
-                if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
-                    // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
-                    ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                    ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                    ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
-                    ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
-                    for( int i = 0; i < SEEX * 2; i++ ) {
-                        ter_set( point( 23, i ), rw_type );
-                        furn_set( point( 23, i ), f_null );
-                        i_clear( tripoint( 23, i, get_abs_sub().z ) );
-
-                        ter_set( point( i, 23 ), bw_type );
-                        furn_set( point( i, 23 ), f_null );
-                        i_clear( tripoint( i, 23, get_abs_sub().z ) );
-
-                        if( lw == 2 ) {
-                            ter_set( point( 0, i ), lw_type );
-                            furn_set( point( 0, i ), f_null );
-                            i_clear( tripoint( 0, i, get_abs_sub().z ) );
-                        }
-                        if( tw == 2 ) {
-                            ter_set( point( i, 0 ), tw_type );
-                            furn_set( point( i, 0 ), f_null );
-                            i_clear( tripoint( i, 0, get_abs_sub().z ) );
-                        }
+                    if( lw == 2 ) {
+                        ter_set( point( 0, i ), lw_type );
+                        furn_set( point( 0, i ), f_null );
+                        i_clear( tripoint( 0, i, get_abs_sub().z ) );
                     }
-                    if( rw != 2 ) {
-                        ter_set( point( 23, 11 ), t_door_metal_c );
-                        ter_set( point( 23, 12 ), t_door_metal_c );
-                    }
-                    if( bw != 2 ) {
-                        ter_set( point( 11, 23 ), t_door_metal_c );
-                        ter_set( point( 12, 23 ), t_door_metal_c );
+                    if( tw == 2 ) {
+                        ter_set( point( i, 0 ), tw_type );
+                        furn_set( point( i, 0 ), f_null );
+                        i_clear( tripoint( i, 0, get_abs_sub().z ) );
                     }
                 }
-            } else { // then weighted roll was in the hardcoded section
-                use_hardcoded_finale_map = true;
-            } // end json maps
+                if( rw != 2 ) {
+                    ter_set( point( 23, 11 ), t_door_metal_c );
+                    ter_set( point( 23, 12 ), t_door_metal_c );
+                }
+                if( bw != 2 ) {
+                    ter_set( point( 11, 23 ), t_door_metal_c );
+                    ter_set( point( 12, 23 ), t_door_metal_c );
+                }
+            }
         } else { // then no json maps for lab_finale_1level were found
-            use_hardcoded_finale_map = true;
-        } // end if no lab_4side was found.
-
-        if( use_hardcoded_finale_map ) {
             // Start by setting up a large, empty room.
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
@@ -4221,7 +4259,7 @@ void map::draw_lab( mapgendata &dat )
                             spawn_item( point( SEEX, SEEY ), "plasma" );
                             spawn_item( point( SEEX - 1, SEEY ), "recipe_atomic_battery" );
                             spawn_item( point( SEEX, SEEY  - 1 ), "solar_panel_v3" );
-                        } else if( loot_variant > 67 && loot_variant < 89 ) {
+                        } else if( loot_variant < 89 ) {
                             spawn_item( point( SEEX - 1, SEEY - 1 ), "mininuke", dice( 3, 6 ) );
                             spawn_item( point( SEEX, SEEY - 1 ), "mininuke", dice( 3, 6 ) );
                             spawn_item( point( SEEX - 1, SEEY ), "mininuke", dice( 3, 6 ) );
@@ -5840,9 +5878,14 @@ void map::place_vending( const point &p, const std::string &type, bool reinforce
         furn_set( p, f_vending_reinforced );
         place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
     } else {
-        const bool broken = one_in( 5 );
-        if( broken ) {
+        // The chance to find a non-ransacked vending machine reduces greatly with every day after the cataclysm
+        if( !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
             furn_set( p, f_vending_o );
+            for( const auto &loc : points_in_radius( { p, abs_sub.z }, 1 ) ) {
+                if( one_in( 4 ) ) {
+                    spawn_item( loc, "glass_shard", rng( 1, 25 ) );
+                }
+            }
         } else {
             furn_set( p, f_vending_c );
             place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
@@ -6271,6 +6314,7 @@ void map::rotate( int turns, const bool setpos_safe )
 bool connects_to( const oter_id &there, int dir )
 {
     switch( dir ) {
+        // South
         case 2:
             if( there == "sewer_ns"   || there == "sewer_es" || there == "sewer_sw" ||
                 there == "sewer_nes"  || there == "sewer_nsw" || there == "sewer_esw" ||
@@ -6280,6 +6324,7 @@ bool connects_to( const oter_id &there, int dir )
                 return true;
             }
             return false;
+        // West
         case 3:
             if( there == "sewer_ew"   || there == "sewer_sw" || there == "sewer_wn" ||
                 there == "sewer_new"  || there == "sewer_nsw" || there == "sewer_esw" ||
@@ -6289,6 +6334,7 @@ bool connects_to( const oter_id &there, int dir )
                 return true;
             }
             return false;
+        // North
         case 0:
             if( there == "sewer_ns"   || there == "sewer_ne" ||  there == "sewer_wn" ||
                 there == "sewer_nes"  || there == "sewer_new" || there == "sewer_nsw" ||
@@ -6298,6 +6344,7 @@ bool connects_to( const oter_id &there, int dir )
                 return true;
             }
             return false;
+        // East
         case 1:
             if( there == "sewer_ew"   || there == "sewer_ne" || there == "sewer_es" ||
                 there == "sewer_nes"  || there == "sewer_new" || there == "sewer_esw" ||
@@ -7335,15 +7382,18 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat )
 {
-    const auto fmapit = oter_mapgen.find( mapgen_id );
-    if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-        std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
-                    mapgen_id );
-        const int rlast = weightit->second.rbegin()->first;
-        const int roll = rng( 1, rlast );
-        const int fidx = weightit->second.lower_bound( roll )->second;
-        fmapit->second[fidx]->generate( dat );
-        return true;
+    return oter_mapgen.generate( dat, mapgen_id );
+}
+
+int register_mapgen_function( const std::string &key )
+{
+    if( const auto ptr = get_mapgen_cfunction( key ) ) {
+        return oter_mapgen.add( key, std::make_shared<mapgen_function_builtin>( ptr ) );
     }
-    return false;
+    return -1;
+}
+
+bool has_mapgen_for( const std::string &key )
+{
+    return oter_mapgen.has( key );
 }

@@ -531,7 +531,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_3",
     "type": "mission_definition",
-    "name": "Retrieve Prospectus",
+    "name": { "str": "Retrieve Prospectus" },
     "description": "Visit the farming commune and bring the foreman's prospectus back to the refugee center, for <reward_count:FMCNote> certified notes.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
@@ -577,7 +577,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_4",
     "type": "mission_definition",
-    "name": "Solar Power",
+    "name": { "str": "Solar Power" },
     "description": "Deliver 10 solar panels to help the Free Merchants set up a renewable power grid, in exchange for a handsome reward.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,

@@ -254,6 +254,7 @@
     "//": "Rifles commonly owned by citizens and found in many locations.",
     "items": [
       { "item": "browning_blr", "prob": 25, "charges-min": 0, "charges-max": 4 },
+      { "item": "ar_pistol", "prob": 52, "charges-min": 0, "charges-max": 30 },
       { "item": "garand", "prob": 65, "charges-min": 0, "charges-max": 8 },
       { "item": "ar10", "prob": 20, "charges-min": 0, "charges-max": 20 },
       { "item": "ar15", "prob": 30, "charges-min": 0, "charges-max": 30 },
@@ -398,6 +399,7 @@
       { "item": "bfg50", "prob": 5, "charges-min": 0, "charges-max": 1 },
       { "item": "carbine_flintlock", "prob": 140 },
       { "item": "rifle_flintlock", "prob": 180 },
+      { "item": "oa93", "prob": 3, "charges-min": 0, "charges-max": 30 },
       { "item": "steyr_aug", "prob": 40, "charges-min": 0, "charges-max": 30 },
       { "item": "trex_gun", "prob": 60 },
       { "item": "arx160", "prob": 40, "charges-min": 0, "charges-max": 30 },
@@ -737,6 +739,7 @@
     "items": [
       { "group": "guns_improvised", "prob": 200 },
       { "item": "ar15", "prob": 5, "charges-min": 0, "charges-max": 30 },
+      { "item": "ar_pistol", "prob": 3, "charges-min": 0, "charges-max": 30 },
       { "item": "mossberg_500", "prob": 5, "charges-min": 0, "charges-max": 8 },
       { "item": "remington_870", "prob": 5, "charges-min": 0, "charges-max": 6 },
       { "item": "ruger_1022", "prob": 15, "charges-min": 0, "charges-max": 10 },
