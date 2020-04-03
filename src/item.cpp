@@ -5263,7 +5263,7 @@ int item::get_encumber_when_containing(
 
     encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
 
-    return encumber;
+    return std::max( 0, encumber );
 }
 
 layer_level item::get_layer() const
@@ -5301,7 +5301,6 @@ int item::get_coverage() const
 
     result += get_clothing_mod_val( clothing_mod_type_coverage );
 
-    // note: this may not be the best place to put this check?
     return std::max( 0, std::min( result, 100 ) );
 }
 
@@ -5324,7 +5323,7 @@ int item::get_warmth() const
 
     result += get_clothing_mod_val( clothing_mod_type_warmth );
 
-    return result;
+    return std::max( 0, result );
 }
 
 units::volume item::get_pet_armor_max_vol() const
@@ -5452,7 +5451,7 @@ int item::bash_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return lround( ( resist * eff_thickness ) + mod );
+    return std::max( 0, static_cast<int>( lround( ( resist * eff_thickness ) + mod ) ) );
 }
 
 int item::cut_resist( bool to_self ) const
@@ -5481,7 +5480,7 @@ int item::cut_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return lround( ( resist * eff_thickness ) + mod );
+    return std::max( 0, static_cast<int>( lround( ( resist * eff_thickness ) + mod ) ) );
 }
 
 #if defined(_MSC_VER)
@@ -5525,7 +5524,7 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return lround( resist + mod );
+    return std::max( 0, static_cast<int>( lround( resist + mod ) ) );
 }
 
 int item::fire_resist( bool to_self, int base_env_resist ) const
@@ -5556,7 +5555,7 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return lround( resist + mod );
+    return std::max( 0, static_cast<int>( lround( resist + mod ) ) );
 }
 
 int item::chip_resistance( bool worst ) const
