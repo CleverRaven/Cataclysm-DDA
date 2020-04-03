@@ -387,9 +387,9 @@ A repeat response has the following format:
 
 One of `"for_item"` or `"for_category"`, and each can either be a single string or list of items or item categories.  The `response` is generated for each item in the list in the player or NPC's inventory.
 
-`"is_npc"` is an optioanl bool value, and if it is present, the NPC's inventory list is checked.  By default, the player's inventory list is checked.
+`"is_npc"` is an optional bool value, and if it is present, the NPC's inventory list is checked.  By default, the player's inventory list is checked.
 
-`"include_containers"` is an optional bool value, and if it is present, items containing an item will generate seperate responses from the item itself.
+`"include_containers"` is an optional bool value, and if it is present, items containing an item will generate separate responses from the item itself.
 
 ---
 
@@ -426,7 +426,7 @@ Effect | Description
 `u_add_trait: trait_string`<br/>`npc_add_trait: trait_string` | Your character or the NPC will gain the trait.
 `u_lose_effect: effect_string`<br/>`npc_lose_effect: effect_string` | Your character or the NPC will lose the effect if they have it.
 `u_lose_trait: trait_string`<br/>`npc_lose_trait: trait_string` | Your character or the NPC will lose the trait.
-`u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, `value: value_str` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.
+`u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, `value: value_str` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitrary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
 `u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: adjustment_num` | Your character or the NPC will adjust the stored variable by `adjustment_num`.
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.

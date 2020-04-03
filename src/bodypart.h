@@ -11,6 +11,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;
@@ -60,14 +61,9 @@ constexpr std::array<body_part, 12> all_body_parts = {{
     }
 };
 
-struct body_part_struct;
-
-using bodypart_ids = string_id<body_part_struct>;
-using bodypart_id = int_id<body_part_struct>;
-
-struct body_part_struct {
+struct body_part_type {
     public:
-        bodypart_ids id;
+        bodypart_str_id id;
         bool was_loaded = false;
 
         // Those are stored untranslated
@@ -96,9 +92,9 @@ struct body_part_struct {
         float hit_difficulty = 0.0f;
         // "Parent" of this part - main parts are their own "parents"
         // TODO: Connect head and limbs to torso
-        bodypart_ids main_part;
+        bodypart_str_id main_part;
         // A part that has no opposite is its own opposite (that's pretty Zen)
-        bodypart_ids opposite_part;
+        bodypart_str_id opposite_part;
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
 
@@ -191,7 +187,7 @@ class body_part_set
 };
 
 /** Returns the new id for old token */
-const bodypart_ids &convert_bp( body_part bp );
+const bodypart_str_id &convert_bp( body_part bp );
 
 /** Returns the opposite side. */
 side opposite_side( side s );

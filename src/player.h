@@ -921,6 +921,7 @@ class player : public Character
         int volume;
         const profession *prof;
 
+        bool random_start_location;
         start_location_id start_location;
 
         double recoil = MAX_RECOIL;

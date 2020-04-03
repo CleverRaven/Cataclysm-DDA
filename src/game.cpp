@@ -712,7 +712,8 @@ bool game::start_game()
     load_master();
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
-    const start_location &start_loc = u.start_location.obj();
+    const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
+                                      u.start_location.obj();
     const tripoint omtstart = start_loc.find_player_initial_location();
     if( omtstart == overmap::invalid_tripoint ) {
         return false;
@@ -7021,7 +7022,7 @@ bool game::take_screenshot( const std::string &/*path*/ ) const
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
 {
-    const int width = 44;
+    const int width = getmaxx( window );
     for( int i = 1; i < TERMX; i++ ) {
         if( i < width ) {
             mvwputch( window, point( i, 0 ), c_light_gray, LINE_OXOX ); // -
@@ -7135,8 +7136,19 @@ void game::list_items_monsters()
 
 game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 {
+    std::vector<map_item_stack> ground_items = item_list;
     int iInfoHeight = std::min( 25, TERMY / 2 );
-    const int width = 45;
+    int width = 45;
+
+    //find max length of item name and resize window width
+    for( const map_item_stack &cur_item : ground_items ) {
+        const int item_len = utf8_width( remove_color_tags( cur_item.example->display_name() ) ) + 15;
+        if( item_len > width ) {
+            width = item_len;
+        }
+    }
+    width = clamp( width, 45, ( TERMX - VIEW_OFFSET_X ) / 3 );
+
     const int offsetX = TERMX - VIEW_OFFSET_X - width;
 
     catacurses::window w_items = catacurses::newwin( TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2,
@@ -7164,7 +7176,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         uistate.list_item_init = true;
     }
 
-    std::vector<map_item_stack> ground_items = item_list;
     //this stores only those items that match our filter
     std::vector<map_item_stack> filtered_items =
         !sFilter.empty() ? filter_item_stacks( ground_items, sFilter ) : ground_items;
@@ -8379,7 +8390,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
     bool use_loc = true;
     if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
-        it = &u.i_at( loc.obtain( u ) );
+        it = loc.obtain( u ).get_item();
         use_loc = false;
     }
 
@@ -8570,7 +8581,6 @@ void game::wield( item_location &loc )
             worn_index = Character::worn_position_to_index( item_pos );
         }
     }
-    int move_cost = loc.obtain_cost( u );
     loc.remove_item();
     if( !u.wield( to_wield ) ) {
         switch( location_type ) {
@@ -8600,8 +8610,6 @@ void game::wield( item_location &loc )
         }
         return;
     }
-
-    u.mod_moves( -move_cost );
 }
 
 void game::wield()
@@ -11601,7 +11609,11 @@ void game::start_calendar()
         }
     } else {
         // No scenario, so use the starting date+time configured in world options
-        const int initial_days = get_option<int>( "INITIAL_DAY" );
+        int initial_days = get_option<int>( "INITIAL_DAY" );
+        if( initial_days == -1 ) {
+            // 0 - 363 for a 91 day season
+            initial_days = rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+        }
         calendar::start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
 
         // Determine the season based off how long the seasons are set to be

@@ -36,6 +36,16 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_MULTIPLE_MINE",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "mining",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
+  },
+  {
     "id": "ACT_TIDY_UP",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -453,6 +463,16 @@
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
     "verb": "milking an animal",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_SHEAR",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "shearing an animal",
     "suspendable": false,
     "rooted": true,
     "based_on": "time",

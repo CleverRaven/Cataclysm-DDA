@@ -3258,7 +3258,7 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
     }
 
     p->assign_activity( ACT_JACKHAMMER, moves, -1, p->get_item_position( it ) );
-    p->activity.placement = pnt;
+    p->activity.placement = g->m.getabs( pnt );
     p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
 
@@ -3314,7 +3314,7 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
     }
 
     p->assign_activity( ACT_PICKAXE, moves, -1, p->get_item_position( it ) );
-    p->activity.placement = pnt;
+    p->activity.placement = g->m.getabs( pnt );
     p->add_msg_if_player( _( "You strike the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
     return 0; // handled when the activity finishes
@@ -9279,28 +9279,34 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             return 0;
         }
     } else {
-        const std::string query = string_format( _( "Capture what with the %s?" ), it->tname() );
-        const cata::optional<tripoint> target_ = choose_adjacent( query );
+        if( !it->has_property( "monster_size_capacity" ) ) {
+            debugmsg( "%s has no monster_size_capacity.", it->tname() );
+            return 0;
+        }
+        const std::string capacity = it->get_property_string( "monster_size_capacity" );
+        if( Creature::size_map.count( capacity ) == 0 ) {
+            debugmsg( "%s has invalid monster_size_capacity %s.",
+                      it->tname(), capacity.c_str() );
+            return 0;
+        }
+        const std::function<bool( const tripoint & )> adjacent_capturable = []( const tripoint & pnt ) {
+            const monster *mon_ptr = g->critter_at<monster>( pnt );
+            return mon_ptr != nullptr;
+        };
+        const std::string query = string_format( _( "Grab which creature to place in the %s?" ),
+                                  it->tname() );
+        const cata::optional<tripoint> target_ = choose_adjacent_highlight( query,
+                _( "There is no creature nearby you can capture." ), adjacent_capturable, false );
         if( !target_ ) {
             p->add_msg_if_player( m_info, _( "You cannot use a %s there." ), it->tname() );
             return 0;
         }
         const tripoint target = *target_;
 
-        // Capture the thing, if it's on the same square.
+        // Capture the thing, if it's on the target square.
         if( const monster *const mon_ptr = g->critter_at<monster>( target ) ) {
             const monster &f = *mon_ptr;
 
-            if( !it->has_property( "monster_size_capacity" ) ) {
-                debugmsg( "%s has no monster_size_capacity.", it->tname() );
-                return 0;
-            }
-            const std::string capacity = it->get_property_string( "monster_size_capacity" );
-            if( Creature::size_map.count( capacity ) == 0 ) {
-                debugmsg( "%s has invalid monster_size_capacity %s.",
-                          it->tname(), capacity.c_str() );
-                return 0;
-            }
             if( f.get_size() > Creature::size_map.find( capacity )->second ) {
                 p->add_msg_if_player( m_info, _( "The %1$s is too big to put in your %2$s." ),
                                       f.type->nname(), it->tname() );

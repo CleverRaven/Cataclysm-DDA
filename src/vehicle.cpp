@@ -20,6 +20,7 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "clzones.h"
+#include "flag.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -1350,111 +1351,23 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         return false;
     }
 
-    // Alternators must be installed on a gas engine
-    if( part.has_flag( VPFLAG_ALTERNATOR ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "E_ALTERNATOR" ) ) {
-                anchor_found = true;
+    // Check all the flags of the part to see if they require other flags
+    // If other flags are required check if those flags are present
+    for( const std::string flag : part.get_flags() ) {
+        if( !json_flag::get( flag ).requires_flag().empty() ) {
+            bool anchor_found = false;
+            for( const auto &elem : parts_in_square ) {
+                if( part_info( elem ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
+                    anchor_found = true;
+                }
             }
-        }
-        if( !anchor_found ) {
-            return false;
+            if( !anchor_found ) {
+                return false;
+            }
         }
     }
 
-    //Seatbelts must be installed on a seat
-    if( part.has_flag( "SEATBELT" ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "BELTABLE" ) ) {
-                anchor_found = true;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
-        }
-    }
 
-    //Internal must be installed into a cargo area.
-    if( part.has_flag( "INTERNAL" ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "CARGO" ) ) {
-                anchor_found = true;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
-        }
-    }
-
-    // curtains must be installed on (reinforced)windshields
-    // TODO: do this automatically using "location":"on_mountpoint"
-    if( part.has_flag( "WINDOW_CURTAIN" ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "WINDOW" ) ) {
-                anchor_found = true;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
-        }
-    }
-
-    // Security system must be installed on controls
-    if( part.has_flag( "ON_CONTROLS" ) ) {
-        bool anchor_found = false;
-        for( auto it : parts_in_square ) {
-            if( part_info( it ).has_flag( "CONTROLS" ) ) {
-                anchor_found = true;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
-        }
-    }
-
-    // Cargo locks must go on lockable cargo containers
-    // TODO: do this automatically using "location":"on_mountpoint"
-    if( part.has_flag( "CARGO_LOCKING" ) ) {
-        bool anchor_found = false;
-        for( auto it : parts_in_square ) {
-            if( part_info( it ).has_flag( "LOCKABLE_CARGO" ) ) {
-                anchor_found = true;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
-        }
-    }
-
-    //Swappable storage battery must be installed on a BATTERY_MOUNT
-    if( part.has_flag( "NEEDS_BATTERY_MOUNT" ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "BATTERY_MOUNT" ) ) {
-                anchor_found = true;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
-        }
-    }
-
-    //Door motors need OPENABLE
-    if( part.has_flag( "DOOR_MOTOR" ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "OPENABLE" ) ) {
-                anchor_found = true;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
-        }
-    }
 
     //Mirrors cannot be mounted on OPAQUE parts
     if( part.has_flag( "VISION" ) && !part.has_flag( "CAMERA" ) ) {
@@ -1464,7 +1377,7 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
             }
         }
     }
-    //and vice versa
+    //Opaque parts cannot be mounted on mirrors parts
     if( part.has_flag( "OPAQUE" ) ) {
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "VISION" ) &&
@@ -1474,92 +1387,12 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         }
     }
 
-    //Turrets must be installed on a turret mount
-    if( part.has_flag( "TURRET" ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
-                anchor_found = true;
-                break;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
-        }
-    }
-
     //Turret mounts must NOT be installed on other (modded) turret mounts
     if( part.has_flag( "TURRET_MOUNT" ) ) {
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
                 return false;
             }
-        }
-    }
-
-    //Roof-mounted parts must be installed on a roofs
-    if( part.has_flag( "ON_ROOF" ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "ROOF" ) ) {
-                anchor_found = true;
-                break;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
-        }
-    }
-
-    // Wheels that need axles must be installed on a wheel mount
-    if( part.has_flag( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "WHEEL_MOUNT_LIGHT" ) ) {
-                anchor_found = true;
-                break;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
-        }
-    }
-    if( part.has_flag( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "WHEEL_MOUNT_MEDIUM" ) ) {
-                anchor_found = true;
-                break;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
-        }
-    }
-    if( part.has_flag( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "WHEEL_MOUNT_HEAVY" ) ) {
-                anchor_found = true;
-                break;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
-        }
-    }
-
-    //Turret controls must be installed on a turret
-    if( part.has_flag( "TURRET_CONTROLS" ) ) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "TURRET" ) ) {
-                anchor_found = true;
-                break;
-            }
-        }
-        if( !anchor_found ) {
-            return false;
         }
     }
 
@@ -1579,25 +1412,16 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         return false;
     }
 
-    // Check if the part is required by another part. Do not allow removing those.
-    // { "FLAG THAT IS REQUIRED", "FLAG THAT REQUIRES", "Reason why can't remove." }
-    static const std::array<std::tuple<std::string, std::string, std::string>, 9> blocking_flags = {{
-            std::make_tuple( "ENGINE", "ALTERNATOR", translate_marker( "Remove attached alternator first." ) ),
-            std::make_tuple( "BELTABLE", "SEATBELT", translate_marker( "Remove attached seatbelt first." ) ),
-            std::make_tuple( "WINDOW", "CURTAIN", translate_marker( "Remove attached curtains first." ) ),
-            std::make_tuple( "CONTROLS", "ON_CONTROLS", translate_marker( "Remove the attached %s first." ) ),
-            std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", translate_marker( "Remove battery from mount first." ) ),
-            std::make_tuple( "TURRET_MOUNT", "TURRET", translate_marker( "Remove attached mounted weapon first." ) ),
-            std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", translate_marker( "Remove attached wheel first." ) ),
-            std::make_tuple( "WHEEL_MOUNT_MEDIUM", "NEEDS_WHEEL_MOUNT_MEDIUM", translate_marker( "Remove attached wheel first." ) ),
-            std::make_tuple( "WHEEL_MOUNT_HEAVY", "NEEDS_WHEEL_MOUNT_HEAVY", translate_marker( "Remove attached wheel first." ) )
-        }
-    };
-    for( auto &flag_check : blocking_flags ) {
-        const int part_idx_requires = part_with_feature( p, std::get<1>( flag_check ), false );
-        if( part_flag( p, std::get<0>( flag_check ) ) && part_idx_requires >= 0 ) {
-            reason = string_format( _( std::get<2>( flag_check ) ), parts[part_idx_requires].info().name() );
-            return false;
+    // Find all the flags on parts in this tile that require other flags
+    const point pt = parts[p].mount;
+    std::vector<int> parts_here = parts_at_relative( pt, false );
+
+    for( auto &elem : parts_here ) {
+        for( const std::string &flag : part_info( elem ).get_flags() ) {
+            if( part_info( p ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
+                reason = string_format( _( "Remove the attached %s first." ), part_info( elem ).name() );
+                return false;
+            }
         }
     }
 
@@ -3717,6 +3541,18 @@ int vehicle::max_water_velocity( const bool fueled ) const
 int vehicle::max_velocity( const bool fueled ) const
 {
     return is_watercraft() ? max_water_velocity( fueled ) : max_ground_velocity( fueled );
+}
+
+int vehicle::max_reverse_velocity( const bool fueled ) const
+{
+    int max_vel = max_velocity( fueled );
+    if( has_engine_type( fuel_type_battery, true ) ) {
+        // Electric motors can go in reverse as well as forward
+        return -max_vel;
+    } else {
+        // All other motive powers do poorly in reverse
+        return -max_vel / 4;
+    }
 }
 
 // the same physics as max_ground_velocity, but with a smaller engine power

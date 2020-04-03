@@ -8,7 +8,7 @@ num_jobs=3
 
 function run_tests
 {
-    # The grep supresses lines that begin with "0.0## s:", which are timing lines for tests with a very short duration.
+    # The grep suppresses lines that begin with "0.0## s:", which are timing lines for tests with a very short duration.
     $WINE "$@" -d yes --use-colour yes --rng-seed time $EXTRA_TEST_OPTS | grep -Ev "^0\.0[0-9]{2} s:"
 }
 

@@ -57,6 +57,7 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
+static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
@@ -219,6 +220,11 @@ void talk_function::do_construction( npc &p )
     p.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
 }
 
+void talk_function::do_mining( npc &p )
+{
+    p.assign_activity( ACT_MULTIPLE_MINE );
+}
+
 void talk_function::do_read( npc &p )
 {
     p.do_npc_read();
@@ -379,7 +385,9 @@ void talk_function::assign_camp( npc &p )
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         p.set_attitude( NPCATT_NULL );
-        p.set_mission( NPC_MISSION_ASSIGNED_CAMP );
+        p.set_mission( NPC_MISSION_GUARD_ALLY );
+        temp_camp->add_assignee( p.getID() );
+        temp_camp->job_assignment_ui();
         temp_camp->validate_assignees();
         add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
         if( p.has_player_activity() ) {
@@ -393,7 +401,6 @@ void talk_function::assign_camp( npc &p )
         }
         p.chatbin.first_topic = "TALK_FRIEND_GUARD";
         p.set_omt_destination();
-        temp_camp->job_assignment_ui();
     }
 }
 
@@ -407,14 +414,15 @@ void talk_function::stop_guard( npc &p )
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
     p.set_mission( NPC_MISSION_NULL );
-    p.set_job( static_cast<npc_job>( 0 ) );
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
-    if( bcp ) {
-        basecamp *temp_camp = *bcp;
-        temp_camp->validate_assignees();
+    if( p.assigned_camp ) {
+        if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
+            ( *bcp )->remove_assignee( p.getID() );
+            ( *bcp )->validate_assignees();
+        }
+        p.assigned_camp = cata::nullopt;
     }
 }
 
@@ -784,6 +792,7 @@ void talk_function::leave( npc &p )
     g->remove_npc_follower( p.getID() );
     std::string new_fac_id = "solo_";
     new_fac_id += p.name;
+    p.job.clear_all_priorities();
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
                             faction_id( new_fac_id ), faction_id( "no_faction" ) );

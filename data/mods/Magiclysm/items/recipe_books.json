@@ -115,6 +115,25 @@
     "fun": 1
   },
   {
+    "id": "metal_legends",
+    "type": "BOOK",
+    "name": { "str": "Metals of Legend", "str_pl": "copies of Metals of Legend" },
+    "description": "A book with a brass coverplate.  It professes to teach one how to make magical metals such as Orichalcum.  It is dry reading even for an alchemical tome.",
+    "weight": "1 kg",
+    "volume": "750 ml",
+    "price": 7900,
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "white",
+    "skill": "fabrication",
+    "required_level": 4,
+    "max_level": 6,
+    "intelligence": 9,
+    "time": "20 m",
+    "fun": "-1"
+  },
+  {
     "id": "magic_armormaking",
     "type": "BOOK",
     "name": { "str": "Protection from Magical Beasts", "str_pl": "copies of Protection from Magical Beasts" },
