@@ -149,7 +149,7 @@ struct miss_data {
 recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_options,
                               const std::string &option );
 
-// enventually this will move to JSON
+// eventually this will move to JSON
 std::map<std::string, miss_data> miss_info = {{
         {
             "_faction_upgrade_camp", {
@@ -174,7 +174,7 @@ std::map<std::string, miss_data> miss_info = {{
         },
         {
             "traveling", {
-                "Travelling", to_translation( "Traveling" ),
+                "Traveling", to_translation( "Traveling" ),
                 to_translation( "Busy traveling!\n" ),
                 "Recall ally from traveling", to_translation( "Recall ally from traveling" )
             }

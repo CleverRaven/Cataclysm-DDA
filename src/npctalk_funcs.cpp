@@ -340,7 +340,7 @@ void talk_function::goto_location( npc &p )
         add_msg( m_info, _( "That is not a valid destination for %s." ), p.disp_name() );
         return;
     }
-    p.set_companion_mission( p.global_omt_location(), "TRAVELLER", "travelling", destination );
+    p.set_companion_mission( p.global_omt_location(), "TRAVELER", "traveling", destination );
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.guard_pos = npc::no_goal_point;

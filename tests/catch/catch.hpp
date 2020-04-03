@@ -3523,7 +3523,7 @@ namespace Matchers {
             bool match(std::vector<T> const &v) const override {
                 // !TBD: This currently works if all elements can be compared using !=
                 // - a more general approach would be via a compare template that defaults
-                // to using !=. but could be specialised for, e.g. std::vector<T> etc
+                // to using !=. but could be specialized for, e.g. std::vector<T> etc
                 // - then just call that directly
                 if (m_comparator.size() != v.size())
                     return false;
@@ -11682,7 +11682,7 @@ namespace Catch {
         mutable RunTests::InWhatOrder m_currentSortOrder = RunTests::InDeclarationOrder;
         mutable std::vector<TestCase> m_sortedFunctions;
         std::size_t m_unnamedCount = 0;
-        std::ios_base::Init m_ostreamInit; // Forces cout/ cerr to be initialised
+        std::ios_base::Init m_ostreamInit; // Forces cout/ cerr to be initialized
     };
 
     ///////////////////////////////////////////////////////////////////////////
