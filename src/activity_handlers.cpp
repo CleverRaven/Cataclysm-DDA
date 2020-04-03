@@ -4762,7 +4762,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     spell_id sp( act->name );
 
     // if level is -1 then we know it's a player spell, otherwise we build it from the ground up
-    spell &spell_being_cast = level_override == -1 ? p->magic.get_spell( sp ) : spell( sp );
+    spell temp_spell( sp );
+    spell &spell_being_cast = ( level_override == -1 ) ? p->magic.get_spell( sp ) : temp_spell;
 
     // if level != 1 then we need to set the spell's level
     if( level_override != -1 ) {
