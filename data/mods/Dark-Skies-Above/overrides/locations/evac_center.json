@@ -366,6 +366,7 @@
         "    |||||:||+|:|||||    "
       ],
       "terrain": {
+        "-": "t_wall_w",
         "x": "t_console_broken",
         ":": [ "t_window_frame", "t_window" ],
         "+": [ "t_door_c", "t_door_b" ],
@@ -423,6 +424,7 @@
         "    |||||:||+|:|||||    "
       ],
       "terrain": {
+        "-": "t_wall_w",
         ":": [ "t_window_frame", "t_window" ],
         "+": [ "t_door_c", "t_door_b" ],
         "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
@@ -507,7 +509,7 @@
         "   ||||||||||......c|   ",
         "            ||:|+|:||   "
       ],
-      "terrain": { "x": "t_console_broken" },
+      "terrain": { "-": "t_wall_w", "x": "t_console_broken" },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan" },
       "computers": {
         "6": {
@@ -564,6 +566,7 @@
         "            ||:|+|:||   "
       ],
       "terrain": {
+        "-": "t_wall_w",
         ":": [ "t_window_frame", "t_window" ],
         "+": [ "t_door_c", "t_door_b" ],
         "=": [ "t_door_b", "t_door_locked_interior", "t_door_c", "t_door_o" ],
