@@ -173,10 +173,10 @@ std::map<std::string, miss_data> miss_info = {{
             }
         },
         {
-            "travelling", {
-                "Travelling", to_translation( "Travelling" ),
-                to_translation( "Busy travelling!\n" ),
-                "Recall ally from travelling", to_translation( "Recall ally from travelling" )
+            "traveling", {
+                "Travelling", to_translation( "Traveling" ),
+                to_translation( "Busy traveling!\n" ),
+                "Recall ally from traveling", to_translation( "Recall ally from traveling" )
             }
         },
         {

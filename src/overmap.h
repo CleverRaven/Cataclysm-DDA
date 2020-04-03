@@ -515,7 +515,7 @@ std::string oter_no_dir( const oter_id &oter );
 
 /**
 * Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east
-* Return 0 if there's' no suffix
+* Return 0 if there's no suffix
 */
 int oter_get_rotation( const oter_id &oter );
 

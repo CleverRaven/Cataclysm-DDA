@@ -167,7 +167,7 @@ void player_activity::do_turn( player &p )
     // it just sets a destination, clears the activity, then moves afterwards
     // so set stamina -1 if that is the case
     // to simulate that the next step will surely use up some stamina anyway
-    // this is to ensure that resting will occur when travelling overburdened
+    // this is to ensure that resting will occur when traveling overburdened
     const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
     if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {

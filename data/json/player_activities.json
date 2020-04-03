@@ -364,7 +364,7 @@
     "id": "ACT_TRAVELLING",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
-    "verb": "travelling",
+    "verb": "traveling",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true

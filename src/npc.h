@@ -862,7 +862,7 @@ class npc : public player
 
         bool is_hallucination() const override; // true if the NPC isn't actually real
 
-        // Ally of or travelling with p
+        // Ally of or traveling with p
         bool is_friendly( const player &p ) const;
         // Leading the player
         bool is_leader() const;

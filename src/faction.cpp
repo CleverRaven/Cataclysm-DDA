@@ -509,9 +509,9 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->xy() );
             if( temp_camp ) {
                 dest_camp = *temp_camp;
-                dest_string = _( "travelling to: " ) + dest_camp->camp_name();
+                dest_string = _( "traveling to: " ) + dest_camp->camp_name();
             } else {
-                dest_string = string_format( _( "travelling to: (%d, %d)" ), dest->x, dest->y );
+                dest_string = string_format( _( "traveling to: (%d, %d)" ), dest->x, dest->y );
             }
             mission_string = _( "Current Mission: " ) + dest_string;
         } else {
@@ -548,7 +548,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     nc_color see_color;
     bool u_has_radio = g->u.has_item_with_flag( "TWO_WAY_RADIO", true );
     bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
-    // TODO: NPCS on mission contactable same as travelling
+    // TODO: NPCS on mission contactable same as traveling
     if( has_companion_mission() && mission != NPC_MISSION_TRAVELLING ) {
         can_see = _( "Not interactable while on a mission" );
         see_color = c_light_red;

@@ -3380,7 +3380,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
             const_cast<Character *>( this )->position_to_wear_new_item( new_item );
     }
 
-    // Track highest layer observed so far so we can penalise out-of-order
+    // Track highest layer observed so far so we can penalize out-of-order
     // items
     std::array<layer_level, num_bp> highest_layer_so_far;
     std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),

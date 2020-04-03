@@ -736,7 +736,7 @@ void activity_on_turn_pickup()
     if( !g->u.activity.coords.empty() && g->u.activity.coords.at( 0 ) != g->u.pos() ) {
         g->u.cancel_activity();
         if( g->u.is_player() ) {
-            g->u.add_msg_if_player( _( "Moving cancelled auto-pickup." ) );
+            g->u.add_msg_if_player( _( "Moving canceled auto-pickup." ) );
         }
         return;
     }
@@ -2864,7 +2864,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
     std::unordered_set<tripoint> src_set = generic_multi_activity_locations( p, activity_to_restore );
     // now we have our final set of points
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-    // now loop through the work-spot tiles and judge whether its worth travelling to it yet
+    // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
     for( const tripoint &src : src_sorted ) {
         const tripoint &src_loc = g->m.getlocal( src );

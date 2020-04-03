@@ -2552,7 +2552,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
     if( cleared_destination ) {
         // Produce no-op if auto-move had just been cleared on this action
         // e.g. from a previous single left mouse click. This has the effect
-        // of right-click cancelling an auto-move before it is initiated.
+        // of right-click canceling an auto-move before it is initiated.
         return false;
     }
 

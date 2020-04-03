@@ -1865,7 +1865,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         slot.latent_heat = latent_heat / jo.get_tags( "material" ).size();
     }
 
-    if( is_junkfood ) { // Junk food never gets old by default, but this can still be overriden.
+    if( is_junkfood ) { // Junk food never gets old by default, but this can still be overridden.
         slot.monotony_penalty = 0;
     }
     assign( jo, "monotony_penalty", slot.monotony_penalty, strict );

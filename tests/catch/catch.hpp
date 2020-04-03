@@ -2251,7 +2251,7 @@ namespace Catch {
         {}
     };
 
-    // Specialised comparison functions to handle equality comparisons between ints and pointers (NULL deduces as an int)
+    // Specialized comparison functions to handle equality comparisons between ints and pointers (NULL deduces as an int)
     template<typename LhsT, typename RhsT>
     auto compareEqual( LhsT const& lhs, RhsT const& rhs ) -> bool { return static_cast<bool>(lhs == rhs); }
     template<typename T>
