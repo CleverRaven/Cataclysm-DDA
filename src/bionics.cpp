@@ -1758,10 +1758,9 @@ int Character::bionics_pl_skill( const skill_id &most_important_skill,
 }
 
 // bionic manipulation chance of success
-int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty )
+int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
 {
-    if( ( autodoc && get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-        g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+    if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
         return 100;
     }
 
@@ -1840,7 +1839,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
                          skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill * env_surgery_bonus( 1 ) + assist_bonus,
-                            autodoc, difficulty + 2 );
+                            difficulty + 2 );
 
     if( chance_of_success >= 100 ) {
         if( !g->u.query_yn(
@@ -1897,7 +1896,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     }
 
     int chance_of_success = bionic_manip_cos( adjusted_skill * env_surgery_bonus( 1 ) + assist_bonus,
-                            autodoc, difficulty + 2 );
+                            difficulty + 2 );
 
     // Surgery is imminent, retract claws or blade if active
     for( size_t i = 0; i < installer.my_bionics->size(); i++ ) {
@@ -1988,7 +1987,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
     const itype *itemtype = bionic_to_uninstall.type;
     int difficulty = itemtype->bionic->difficulty;
-    int chance_of_success = bionic_manip_cos( adjusted_skill, autodoc, difficulty + 2 );
+    int chance_of_success = bionic_manip_cos( adjusted_skill,  difficulty + 2 );
     int success = chance_of_success - rng( 1, 100 );
 
     const time_duration duration = difficulty * 20_minutes;
@@ -2077,7 +2076,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
                          skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill * env_surgery_bonus( 1 ) + assist_bonus,
-                            autodoc, difficult );
+                            difficult );
 
     std::vector<std::string> conflicting_muts;
     for( const trait_id &mid : bioid->canceled_mutations ) {
@@ -2116,7 +2115,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     } else {
         if( !g->u.query_yn(
                 _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation!  Continue anyway?" ),
-                ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
+                ( 100 - chance_of_success ) ) ) {
             return false;
         }
     }
@@ -2170,7 +2169,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
                                                skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill * env_surgery_bonus( 1 ) + assist_bonus,
-                            autodoc, difficulty );
+                            difficulty );
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {

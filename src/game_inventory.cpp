@@ -1709,8 +1709,7 @@ class bionic_install_preset: public inventory_selector_preset
                                        skill_electronics,
                                        -1 );
 
-            if( ( get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
@@ -1821,8 +1820,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                                        skill_electronics,
                                        20 );
 
-            if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
@@ -1912,8 +1910,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
                                        skill_electronics,
                                        -1 );
 
-            if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
