@@ -25,11 +25,15 @@
       {
         "id": "crt_blade_static",
         "name": "Calculating Eyes",
-        "description": "You have been taught how to properly utilize small to medium-sized sharp weaponry. Gain great Cutting and Stabbing Armor Penetration on top of decent Accuracy",
+        "description": "You have been taught how to properly utilize small to medium-sized sharp weaponry. Gain great Cutting and Stabbing Armor Penetration on top of minor Accuracy",
         "unarmed_allowed": false,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 0 } ],
-        "flat_bonuses": [ [ "arpen", "stab", 5 ], [ "arpen", "cut", 5 ], [ "hit", 2 ] ]
+        "flat_bonuses": [
+          { "stat": "arpen", "type": "stab", "scale": 5.0 },
+          { "stat": "arpen", "type": "cut", "scale": 5.0 },
+          { "stat": "hit", "scale": 1.0 }
+        ]
       },
       {
         "id": "crt_blade_static_2",
@@ -51,7 +55,11 @@
         "skill_requirements": [ { "name": "melee", "level": 0 } ],
         "buff_duration": 2,
         "max_stacks": 2,
-        "flat_bonuses": [ [ "hit", 1 ], [ "arpen", "cut", 1 ], [ "arpen", "stab", 1 ], [ "dodge", -2 ] ]
+        "flat_bonuses": [
+          { "stat": "arpen", "type": "stab", "scale": 1.0 },
+          { "stat": "arpen", "type": "cut", "scale": 1.0 },
+          { "stat": "dodge", "scale": -2.0 }
+        ]
       },
       {
         "id": "crt_blade_hit_buff_2",
@@ -63,18 +71,18 @@
         "buff_duration": 1,
         "bonus_dodges": -1,
         "max_stacks": 4,
-        "flat_bonuses": [ [ "damage", "stab", 1 ], [ "damage", "cut", 1 ] ]
+        "flat_bonuses": [ { "stat": "damage", "type": "stab", "scale": 1.0 }, { "stat": "damage", "type": "cut", "scale": 1.0 } ]
       },
       {
         "id": "crt_blade_hit_buff_3",
         "name": "Rending Strikes",
-        "description": "Additional Armor penetration per stack.  Further reduces dodge attempts. 2 stacks max.",
+        "description": "Additional Armor penetration per stack.  Further reduces dodge attempts. 3 stacks max.",
         "unarmed_allowed": false,
         "melee_allowed": true,
-        "skill_requirements": [ { "name": "melee", "level": 4 }, { "name": "piercing", "level": 4 }, { "name": "cutting", "level": 4 } ],
+        "skill_requirements": [ { "name": "melee", "level": 6 }, { "name": "piercing", "level": 4 }, { "name": "cutting", "level": 4 } ],
         "buff_duration": 1,
         "bonus_dodges": -1,
-        "max_stacks": 2,
+        "max_stacks": 3,
         "flat_bonuses": [ { "stat": "arpen", "type": "stab", "scale": 2.0 }, { "stat": "arpen", "type": "cut", "scale": 2.0 } ]
       }
     ],
