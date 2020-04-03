@@ -16,7 +16,9 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "relative": { "weight": -500, "volume": -4, "range": -2, "ranged_damage": -4 },
+    "volume": "2250 ml",
+    "weight": "3600 g",
+    "relative": { "range": -2, "ranged_damage": -4 },
     "proportional": { "bashing": 0.6, "dispersion": 1.35, "reload": 0.6 }
   },
   {
