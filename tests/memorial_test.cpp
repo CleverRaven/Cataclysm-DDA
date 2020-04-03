@@ -101,7 +101,7 @@ TEST_CASE( "memorials" )
         m, b, "Fell in a pit.", ch, trap_str_id( "tr_pit" ) );
 
     check_memorial<event_type::consumes_marloss_item>(
-        m, b, "Consumed a Marloss seed.", ch, it );
+        m, b, "Consumed a marloss seed.", ch, it );
 
     check_memorial<event_type::crosses_marloss_threshold>(
         m, b, "Opened the Marloss Gateway.", ch );
