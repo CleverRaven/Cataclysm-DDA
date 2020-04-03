@@ -795,13 +795,13 @@ static int corpse_damage_effect( int weight, const std::string &entry_type, int 
         case 2:
             // "damaged"
             if( entry_type == "offal" ) {
-                return round( weight * damage );
+                return std::round( weight * damage );
             }
             if( entry_type == "skin" ) {
-                return round( weight * damage );
+                return std::round( weight * damage );
             }
             if( entry_type == "flesh" ) {
-                return round( weight * slight_damage );
+                return std::round( weight * slight_damage );
             }
             break;
         case 3:
@@ -810,13 +810,13 @@ static int corpse_damage_effect( int weight, const std::string &entry_type, int 
                 return destroyed;
             }
             if( entry_type == "skin" ) {
-                return round( weight * high_damage );
+                return std::round( weight * high_damage );
             }
             if( entry_type == "bone" ) {
-                return round( weight * slight_damage );
+                return std::round( weight * slight_damage );
             }
             if( entry_type == "flesh" ) {
-                return round( weight * damage );
+                return std::round( weight * damage );
             }
             break;
         case 4:
@@ -828,10 +828,10 @@ static int corpse_damage_effect( int weight, const std::string &entry_type, int 
                 return destroyed;
             }
             if( entry_type == "bone" ) {
-                return round( weight * damage );
+                return std::round( weight * damage );
             }
             if( entry_type == "flesh" ) {
-                return round( weight * high_damage );
+                return std::round( weight * high_damage );
             }
             break;
         default:
@@ -847,19 +847,19 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
 {
     p.add_msg_if_player( m_neutral, mt.harvest->message() );
     int monster_weight = to_gram( mt.weight );
-    monster_weight += round( monster_weight * rng_float( -0.1, 0.1 ) );
+    monster_weight += std::round( monster_weight * rng_float( -0.1, 0.1 ) );
     if( corpse_item->has_flag( flag_QUARTERED ) ) {
         monster_weight /= 4;
     }
     if( corpse_item->has_flag( flag_GIBBED ) ) {
-        monster_weight = round( 0.85 * monster_weight );
+        monster_weight = std::round( 0.85 * monster_weight );
         if( action != F_DRESS ) {
             p.add_msg_if_player( m_bad,
                                  _( "You salvage what you can from the corpse, but it is badly damaged." ) );
         }
     }
     if( corpse_item->has_flag( flag_SKINNED ) ) {
-        monster_weight = round( 0.85 * monster_weight );
+        monster_weight = std::round( 0.85 * monster_weight );
     }
     int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
@@ -876,7 +876,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         int roll = 0;
         // mass_ratio will override the use of base_num, scale_num, and max
         if( entry.mass_ratio != 0.00f ) {
-            roll = static_cast<int>( round( entry.mass_ratio * monster_weight ) );
+            roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) );
         } else if( entry.type != "bionic" && entry.type != "bionic_group" ) {
             roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
@@ -1238,7 +1238,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             skill_shift -= rng_float( 0, -factor / 5.0 );
         }
 
-        return static_cast<int>( round( skill_shift ) );
+        return static_cast<int>( std::round( skill_shift ) );
     };
 
     if( action == DISMEMBER ) {
@@ -2003,8 +2003,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                                     p->weapon.damage_melee( DT_STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) *
-                             ( cut_power + 1.0f ) );
+    float pulp_power = std::sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) *
+                                  ( cut_power + 1.0f ) );
     float pulp_effort = p->str_cur + p->weapon.damage_melee( DT_BASH );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
@@ -4774,8 +4774,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     const int level_override = act->get_value( 0 );
-    spell casting;
-    player_or_item_spell( p, spell_id( act->name ), level_override, casting );
+    spell spell_being_cast;
+    player_or_item_spell( p, spell_id( act->name ), level_override, spell_being_cast );
     const bool no_fail = act->get_value( 1 ) == 1;
     const bool no_mana = act->get_value( 2 ) == 0;
 
@@ -4784,14 +4784,14 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     target_handler th;
     tripoint target = p->pos();
     bool target_is_valid = false;
-    if( casting.range() > 0 && !casting.is_valid_target( target_none ) &&
-        !casting.has_flag( RANDOM_TARGET ) ) {
+    if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( target_none ) &&
+        !spell_being_cast.has_flag( RANDOM_TARGET ) ) {
         do {
-            std::vector<tripoint> trajectory = th.target_ui( casting, no_fail, no_mana );
+            std::vector<tripoint> trajectory = th.target_ui( spell_being_cast, no_fail, no_mana );
             if( !trajectory.empty() ) {
                 target = trajectory.back();
-                target_is_valid = casting.is_valid_target( *p, target );
-                if( !( casting.is_valid_target( target_ground ) || p->sees( target ) ) ) {
+                target_is_valid = spell_being_cast.is_valid_target( *p, target );
+                if( !( spell_being_cast.is_valid_target( target_ground ) || p->sees( target ) ) ) {
                     target_is_valid = false;
                 }
             } else {
@@ -4803,8 +4803,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 }
             }
         } while( !target_is_valid );
-    } else if( casting.has_flag( RANDOM_TARGET ) ) {
-        const cata::optional<tripoint> target_ = casting.random_valid_target( *p, p->pos() );
+    } else if( spell_being_cast.has_flag( RANDOM_TARGET ) ) {
+        const cata::optional<tripoint> target_ = spell_being_cast.random_valid_target( *p, p->pos() );
         if( !target_ ) {
             p->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
                                   _( "Your spell can't find a suitable target." ) );
@@ -4814,33 +4814,33 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     }
 
     // no turning back now. it's all said and done.
-    bool success = no_fail || rng_float( 0.0f, 1.0f ) >= casting.spell_fail( *p );
-    int exp_gained = casting.casting_exp( *p );
+    bool success = no_fail || rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *p );
+    int exp_gained = spell_being_cast.casting_exp( *p );
     if( !success ) {
         p->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
                               _( "You lose your concentration!" ) );
-        if( !casting.is_max_level() && level_override == -1 ) {
+        if( !spell_being_cast.is_max_level() && level_override == -1 ) {
             // still get some experience for trying
-            casting.gain_exp( exp_gained / 5 );
+            spell_being_cast.gain_exp( exp_gained / 5 );
             p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
-                                  casting.xp() );
+                                  spell_being_cast.xp() );
         }
         return;
     }
 
-    if( casting.has_flag( spell_flag::VERBAL ) ) {
+    if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
         sounds::sound( p->pos(), p->get_shout_volume() / 2, sounds::sound_t::speech, _( "cast a spell" ),
                        false );
     }
 
-    p->add_msg_if_player( casting.message(), casting.name() );
+    p->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
 
-    casting.cast_all_effects( *p, target );
+    spell_being_cast.cast_all_effects( *p, target );
 
     if( !no_mana ) {
         // pay the cost
-        int cost = casting.energy_cost( *p );
-        switch( casting.energy_source() ) {
+        int cost = spell_being_cast.energy_cost( *p );
+        switch( spell_being_cast.energy_source() ) {
             case mana_energy:
                 p->magic.mod_mana( *p, -cost );
                 break;
@@ -4862,20 +4862,20 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         }
     }
     if( level_override == -1 ) {
-        if( !casting.is_max_level() ) {
+        if( !spell_being_cast.is_max_level() ) {
             // reap the reward
-            int old_level = casting.get_level();
+            int old_level = spell_being_cast.get_level();
             if( old_level == 0 ) {
-                casting.gain_level();
+                spell_being_cast.gain_level();
                 p->add_msg_if_player( m_good,
                                       _( "Something about how this spell works just clicked!  You gained a level!" ) );
             } else {
-                casting.gain_exp( exp_gained );
+                spell_being_cast.gain_exp( exp_gained );
                 p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                      casting.xp() );
+                                      spell_being_cast.xp() );
             }
-            if( casting.get_level() != old_level ) {
-                g->events().send<event_type::player_levels_spell>( casting.id(), casting.get_level() );
+            if( spell_being_cast.get_level() != old_level ) {
+                g->events().send<event_type::player_levels_spell>( spell_being_cast.id(), spell_being_cast.get_level() );
             }
         }
     }

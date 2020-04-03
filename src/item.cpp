@@ -2047,15 +2047,15 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             mod_str += string_format( "<bold>%d/%d</bold> %s", free_slots,  elem.second,
                                       elem.first.name() );
             bool first_mods = true;
-            for( const item *mod : gunmods() ) {
-                if( mod->type->gunmod->location == ( elem ).first ) { // if mod for this location
+            for( const item *gmod : gunmods() ) {
+                if( gmod->type->gunmod->location == ( elem ).first ) { // if mod for this location
                     if( first_mods ) {
                         mod_str += ": ";
                         first_mods = false;
                     } else {
                         mod_str += ", ";
                     }
-                    mod_str += string_format( "<stat>%s</stat>", mod->tname() );
+                    mod_str += string_format( "<stat>%s</stat>", gmod->tname() );
                 }
             }
             iternum++;
@@ -5151,7 +5151,7 @@ int item::get_env_resist( int override_base_resist ) const
     int resist_filter = get_var( "overwrite_env_resist", 0 );
     int resist = std::max( { resist_base, resist_filter, override_base_resist } );
 
-    return lround( resist * get_relative_health() );
+    return std::lround( resist * get_relative_health() );
 }
 
 int item::get_base_env_resist_w_filter() const
