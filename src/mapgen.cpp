@@ -2739,8 +2739,6 @@ void mapgen_function_json::generate( mapgendata &md )
         elem.apply( md, point_zero );
     }
 
-    place_stairs( md );
-
     objects.apply( md, point_zero );
 
     resolve_regional_terrain_and_furniture( md );
