@@ -85,7 +85,7 @@ struct clothing_mod {
     std::vector< std::string > exclude_flags;
     std::vector< mod_value > mod_values;
     /** (optional) if set, the mod requires the item to have this coverage level at minimum to be applied **/
-    float min_coverage = 0.0f;
+    int min_coverage = 0;
     bool restricted = false;
 
     static size_t count();
