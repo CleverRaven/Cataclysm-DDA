@@ -28,8 +28,8 @@ enum class type : int;
  * An instance of this class is passed through most of the mapgen code.
  * If any of these functions need more information, add them here.
  */
-// @TODO: documentation
-// @TODO: encapsulate data member
+// TODO: documentation
+// TODO: encapsulate data member
 class mapgendata
 {
     private:
@@ -94,7 +94,7 @@ class mapgendata
             return mission_;
         }
         int zlevel() const {
-            // @TODO: should be able to determine this from the map itself
+            // TODO: should be able to determine this from the map itself
             return zlevel_;
         }
 
@@ -136,7 +136,6 @@ class mapgendata
         void square_groundcover( int x1, int y1, int x2, int y2 );
         ter_id groundcover();
         bool is_groundcover( const ter_id &iid ) const;
-        bool has_basement() const;
 };
 
 #endif

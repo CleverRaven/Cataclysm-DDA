@@ -371,7 +371,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                     if LIST_CONSTEXPR( std::is_trivially_copyable<node_pointer_type>::value &&
                                        std::is_trivially_destructible<node_pointer_type>::value ) {
-                        // Dereferencing here in order to deal with smart pointer situations ie. obtaining the raw pointer from the smart pointer
+                        // Dereferencing here in order to deal with smart pointer situations i.e. obtaining the raw pointer from the smart pointer
                         // reinterpret_cast necessary to deal with GCC 8 warnings
                         std::memcpy( static_cast<void *>( &*block_pointer ), static_cast<void *>( &*old_block ),
                                      sizeof( group ) * size );
@@ -379,7 +379,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         std::uninitialized_copy( std::make_move_iterator( old_block ),
                                                  std::make_move_iterator( old_block + size ), block_pointer );
                     } else {
-                        // If allocator supplies non-trivial pointers it becomes necessary to destroy the group. uninitialized_copy will not work in this context as the copy constructor for "group" is overriden in C++03/98. The = operator for "group" has been overriden to make the following work:
+                        // If allocator supplies non-trivial pointers it becomes necessary to destroy the group. uninitialized_copy will not work in this context as the copy constructor for "group" is overridden in C++03/98. The = operator for "group" has been overridden to make the following work:
                         const group_pointer_type beyond_end = old_block + size;
                         group_pointer_type current_new_group = block_pointer;
 
@@ -2329,7 +2329,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                             if( current_node->next != nullptr && predicate( current_node->element ) ) {
                                 erase( current_node );
 
-                                // ie. group will be empty (and removed) now - nothing left to iterate over
+                                // i.e. group will be empty (and removed) now - nothing left to iterate over
                                 if( --num_elements == 0 ) {
                                     // As current group has been removed, subsequent groups have already shifted back by one, hence, the ++ to the current group in the for loop is unnecessary, and negated here
                                     --current_group;

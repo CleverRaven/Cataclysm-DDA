@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Dana",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Dana is a young woman who survived with her husband, but she was pregnant and lost the baby.",
@@ -321,7 +321,7 @@
   {
     "id": "MISSION_REFUGEE_Dana_Sourdough",
     "type": "mission_definition",
-    "name": "Find Dana's family sourdough culture",
+    "name": { "str": "Find Dana's family sourdough culture" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 1000,
@@ -355,7 +355,7 @@
     "type": "GENERIC",
     "copy-from": "sourdough_starter",
     "looks_like": "sourdough_starter",
-    "name": "Dana's family sourdough starter",
+    "name": { "str": "Dana's family sourdough starter", "str_pl": "Dana's family sourdough starter" },
     "description": "This crusty old jar has a glow-in-the-dark millennium falcon decal on the side, and a label that reads, \"Landough Calrisean.  Dana's.  Do not touch on pain of death\".  It's been abandoned for some time and doesn't look like it could be readily salvaged as a sourdough culture, but maybe an experienced sourdough baker could manage it."
   },
   {
@@ -365,6 +365,6 @@
     "copy-from": "sourdough_bread",
     "looks_like": "sourdough_bread",
     "description": "This round loaf of bread has a thick, dark crust, and smells very enticing.",
-    "proportional": { "fun": 2, "price": 2 }
+    "proportional": { "fun": 2.0, "price": 2.0 }
   }
 ]

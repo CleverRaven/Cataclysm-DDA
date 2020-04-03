@@ -321,12 +321,12 @@ class overmap
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( shared_ptr_fast<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
-        shared_ptr_fast<npc> erase_npc( character_id id );
+        shared_ptr_fast<npc> erase_npc( const character_id &id );
 
         void for_each_npc( const std::function<void( npc & )> &callback );
         void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
-        shared_ptr_fast<npc> find_npc( character_id id ) const;
+        shared_ptr_fast<npc> find_npc( const character_id &id ) const;
 
         const std::vector<shared_ptr_fast<npc>> &get_npcs() const {
             return npcs;
@@ -515,7 +515,7 @@ std::string oter_no_dir( const oter_id &oter );
 
 /**
 * Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east
-* Return 0 if theres' no suffix
+* Return 0 if there's' no suffix
 */
 int oter_get_rotation( const oter_id &oter );
 

@@ -21,9 +21,11 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "popup.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "cursesdef.h"
 #include "game_constants.h"
 #include "item.h"
@@ -34,6 +36,15 @@
 #include "point.h"
 #include "weather.h"
 
+static const skill_id skill_barter( "barter" );
+
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
+static const mongroup_id GROUP_ROBOT( "GROUP_ROBOT" );
+static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
+static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
+static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
 
@@ -42,15 +53,6 @@
                       ((b) ? c_green : c_dark_gray))
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
-
-static const skill_id skill_barter( "barter" );
-
-static const mongroup_id GROUP_NETHER = mongroup_id( "GROUP_NETHER" );
-static const mongroup_id GROUP_ROBOT = mongroup_id( "GROUP_ROBOT" );
-static const mongroup_id GROUP_SPIDER = mongroup_id( "GROUP_SPIDER" );
-static const mongroup_id GROUP_TRIFFID = mongroup_id( "GROUP_TRIFFID" );
-static const mongroup_id GROUP_VANILLA = mongroup_id( "GROUP_VANILLA" );
-static const mongroup_id GROUP_ZOMBIE = mongroup_id( "GROUP_ZOMBIE" );
 
 std::string caravan_category_name( caravan_category cat );
 std::vector<itype_id> caravan_items( caravan_category cat );
@@ -114,7 +116,6 @@ bool defense_game::init()
     init_to_style( DEFENSE_EASY );
     setup();
     g->u.cash = initial_cash;
-    popup_nowait( _( "Please wait as the map generates [ 0%% ]" ) );
     // TODO: support multiple defense games? clean up old defense game
     defloc_pos = tripoint( 50, 50, 0 );
     init_map();
@@ -185,9 +186,8 @@ void defense_game::pre_action( action_id &act )
     }
 }
 
-void defense_game::post_action( action_id act )
+void defense_game::post_action( action_id /*act*/ )
 {
-    ( void )act;
 }
 
 void defense_game::game_over()
@@ -215,6 +215,12 @@ void defense_game::init_constructions()
 
 void defense_game::init_map()
 {
+    background_pane background;
+    static_popup popup;
+    popup.message( _( "Please wait as the map generates [%2d%%]" ), 0 );
+    ui_manager::redraw();
+    refresh_display();
+
     auto &starting_om = overmap_buffer.get( point_zero );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
@@ -264,7 +270,9 @@ void defense_game::init_map()
             int percent = 100 * ( ( j / 2 + MAPSIZE * ( i / 2 ) ) ) /
                           ( ( MAPSIZE ) * ( MAPSIZE + 1 ) );
             if( percent >= old_percent + 1 ) {
-                popup_nowait( _( "Please wait as the map generates [%2d%%]" ), percent );
+                popup.message( _( "Please wait as the map generates [%2d%%]" ), percent );
+                ui_manager::redraw();
+                refresh_display();
                 old_percent = percent;
             }
             // Round down to the nearest even number
@@ -456,15 +464,18 @@ void defense_game::setup()
     refresh_setup( w, selection );
 
     input_context ctxt( "DEFENSE_SETUP" );
-    ctxt.register_action( "UP", translate_marker( "Previous option" ) );
-    ctxt.register_action( "DOWN", translate_marker( "Next option" ) );
-    ctxt.register_action( "LEFT", translate_marker( "Cycle option value" ) );
-    ctxt.register_action( "RIGHT", translate_marker( "Cycle option value" ) );
-    ctxt.register_action( "CONFIRM", translate_marker( "Toggle option" ) );
+    ctxt.register_action( "UP", to_translation( "Previous option" ) );
+    ctxt.register_action( "DOWN", to_translation( "Next option" ) );
+    ctxt.register_action( "LEFT", to_translation( "Cycle option value" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Cycle option value" ) );
+    ctxt.register_action( "CONFIRM", to_translation( "Toggle option" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "START" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     while( true ) {
         const std::string action = ctxt.handle_input();
@@ -902,6 +913,9 @@ void defense_game::caravan()
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     bool done = false;
     bool cancel = false;

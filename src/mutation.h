@@ -80,13 +80,13 @@ struct mutation_branch {
         // True if this is a valid mutation (False for "unavailable from generic mutagen").
         bool valid = false;
         // True if Purifier can remove it (False for *Special* mutations).
-        bool purifiable;
+        bool purifiable = false;
         // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
-        bool threshold;
+        bool threshold = false;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
-        bool profession;
-        //True if the mutation is obtained through the debug menu
-        bool debug;
+        bool profession = false;
+        // True if the mutation is obtained through the debug menu
+        bool debug = false;
         // True if the mutation should be displayed in the `@` menu
         bool player_display = true;
         // Whether it has positive as well as negative effects.
@@ -117,6 +117,8 @@ struct mutation_branch {
         // Healing per turn
         float healing_awake = 0.0f;
         float healing_resting = 0.0f;
+        // Limb mending bonus
+        float mending_modifier = 1.0f;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
         float hp_modifier = 0.0f;
         // Second HP modifier that stacks with first but is otherwise identical.
@@ -153,8 +155,8 @@ struct mutation_branch {
         /**What do you smell like*/
         cata::optional<scenttype_id> scent_typeid;
 
-        /**Map of glowing bodypart and there intensity*/
-        std::map<body_part, int> lumination;
+        /**Map of glowing body parts and their glow intensity*/
+        std::map<body_part, float> lumination;
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;
@@ -221,11 +223,13 @@ struct mutation_branch {
         std::set<body_part> no_cbm_on_bp;
 
         // amount of mana added or subtracted from max
-        float mana_modifier;
-        float mana_multiplier;
-        float mana_regen_multiplier;
+        float mana_modifier = 0.0f;
+        float mana_multiplier = 1.0f;
+        float mana_regen_multiplier = 1.0f;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
+        /** mutation enchantments */
+        std::vector<enchantment_id> enchantments;
     private:
         std::string raw_spawn_item_message;
     public:
@@ -462,6 +466,13 @@ bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
+
+bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
+bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
+bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
+bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
+bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
+bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
 
 enum class mutagen_technique : int {
     consumed_mutagen,

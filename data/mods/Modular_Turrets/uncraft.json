@@ -4,7 +4,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": 10000,
+    "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "plut_cell", 10 ] ], [ [ "scrap", 5 ] ], [ [ "e_scrap", 5 ] ], [ [ "cable", 10 ] ] ]
   },
@@ -13,7 +13,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 3 ] ], [ [ "scrap", 2 ] ], [ [ "e_scrap", 1 ] ], [ [ "cable", 1 ] ] ]
   },
@@ -22,7 +22,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "power_supply", 3 ] ],
@@ -38,7 +38,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
@@ -55,7 +55,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
@@ -72,7 +72,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
@@ -89,7 +89,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
@@ -106,7 +106,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
@@ -123,7 +123,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
@@ -140,7 +140,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
@@ -157,7 +157,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
@@ -174,7 +174,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
@@ -191,7 +191,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
@@ -208,7 +208,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
@@ -225,7 +225,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "lens", 3 ] ],
@@ -241,7 +241,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "metal_tank_little", 2 ] ],
@@ -257,7 +257,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "lens", 3 ] ],
@@ -273,7 +273,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "lens", 3 ] ],
@@ -289,7 +289,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": 6000,
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pipe", 3 ] ],
@@ -304,7 +304,7 @@
   {
     "result": "bot_turret_disarmed",
     "type": "uncraft",
-    "time": 4000,
+    "time": "4 m",
     "difficulty": 3,
     "skill_used": "electronics",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -314,7 +314,6 @@
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
-      [ [ "lightstrip_inactive", 3 ] ],
       [ [ "lens", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 1 ] ],
@@ -325,7 +324,7 @@
   {
     "result": "bot_milturret_disarmed",
     "type": "uncraft",
-    "time": 5000,
+    "time": "5 m",
     "difficulty": 3,
     "skill_used": "electronics",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -335,7 +334,6 @@
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
-      [ [ "lightstrip_inactive", 3 ] ],
       [ [ "lens", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 2 ] ],
@@ -346,7 +344,7 @@
   {
     "result": "bot_advturret_disarmed",
     "type": "uncraft",
-    "time": 6000,
+    "time": "6 m",
     "difficulty": 4,
     "skill_used": "electronics",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -356,7 +354,6 @@
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
-      [ [ "lightstrip_inactive", 3 ] ],
       [ [ "lens", 3 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 5 ] ],

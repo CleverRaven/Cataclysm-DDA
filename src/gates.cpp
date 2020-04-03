@@ -32,6 +32,8 @@
 #include "colony.h"
 #include "point.h"
 
+static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
+
 // Gates namespace
 
 namespace
@@ -241,7 +243,7 @@ void gates::open_gate( const tripoint &pos, player &p )
     const gate_data &gate = gates_data.obj( gid );
 
     p.add_msg_if_player( gate.pull_message );
-    p.assign_activity( activity_id( "ACT_OPEN_GATE" ), gate.moves );
+    p.assign_activity( ACT_OPEN_GATE, gate.moves );
     p.activity.placement = pos;
 }
 

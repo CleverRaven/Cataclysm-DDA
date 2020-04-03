@@ -7,6 +7,7 @@
     "maintainers": [ "Noctifer-de-Mortem" ],
     "description": "Adds more craftable firearms, and gunpowder.  WARNING: Breaks intended balance.",
     "category": "items",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

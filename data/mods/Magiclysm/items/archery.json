@@ -5,7 +5,7 @@
     "looks_like": "reflexrecurvebow",
     "symbol": "(",
     "color": "white",
-    "name": "Ichaival",
+    "name": { "str": "Ichaival" },
     "description": "Ichaival, the bow of Odin.  Rumored to fire 10 arrows with every pull of the string.  It has gold and silver ornaments on it, as well as an ornate Raven.",
     "price": 160000,
     "material": [ "orichalcum_metal", "gold", "wood" ],

@@ -595,7 +595,7 @@ void vpart_info::check()
             part.fuel_type = "null";
         } else if( part.fuel_type != "null" && !item::find_type( part.fuel_type )->fuel &&
                    ( !base_item_type.container || !base_item_type.container->watertight ) ) {
-            // Tanks are allowed to specify non-fuel "fuel",
+            // HACK: Tanks are allowed to specify non-fuel "fuel",
             // because currently legacy blazemod uses it as a hack to restrict content types
             debugmsg( "non-tank vehicle part %s uses non-fuel item %s as fuel, setting to null",
                       part.id.c_str(), part.fuel_type.c_str() );
@@ -896,6 +896,22 @@ bool string_id<vehicle_prototype>::is_valid() const
 {
     return vtypes.count( *this ) > 0;
 }
+
+vehicle_prototype::vehicle_prototype() = default;
+
+vehicle_prototype::vehicle_prototype( const std::string &name,
+                                      const std::vector<part_def> &parts,
+                                      const std::vector<vehicle_item_spawn> &item_spawns,
+                                      std::unique_ptr<vehicle> &&blueprint )
+    : name( name ), parts( parts ), item_spawns( item_spawns ),
+      blueprint( std::move( blueprint ) )
+{
+}
+
+vehicle_prototype::vehicle_prototype( vehicle_prototype && ) = default;
+vehicle_prototype::~vehicle_prototype() = default;
+
+vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && ) = default;
 
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.

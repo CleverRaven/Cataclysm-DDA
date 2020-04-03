@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Boris",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Boris is nice, but shy and sad.  He was a carpenter; he and his partner lost their son in the Cataclysm, and it makes it harder for them to make friends in the survivor group.",

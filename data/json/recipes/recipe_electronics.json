@@ -2017,6 +2017,22 @@
   },
   {
     "type": "recipe",
+    "result": "vibrator",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [ [ [ "superglue", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "cable", 5 ] ], [ [ "motor_micro", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "elec_jackhammer",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",

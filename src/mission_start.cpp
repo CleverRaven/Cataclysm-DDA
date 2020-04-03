@@ -27,6 +27,7 @@
 #include "rng.h"
 
 static const mtype_id mon_dog( "mon_dog" );
+
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
 static const mtype_id mon_zombie_dog( "mon_zombie_dog" );
@@ -225,7 +226,7 @@ void mission_start::place_npc_software( mission *miss )
     compmap.ter_set( comppoint, t_console );
     computer *tmpcomp = compmap.add_computer( comppoint, string_format( _( "%s's Terminal" ),
                         dev->name ), 0 );
-    tmpcomp->mission_id = miss->uid;
+    tmpcomp->set_mission( miss->get_id() );
     tmpcomp->add_option( _( "Download Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
     compmap.save();
 }
@@ -631,7 +632,7 @@ void static create_lab_consoles( mission *miss, const tripoint &place, const std
         tripoint comppoint = find_potential_computer_point( compmap );
 
         computer *tmpcomp = compmap.add_computer( comppoint, _( comp_name ), security );
-        tmpcomp->mission_id = miss->get_id();
+        tmpcomp->set_mission( miss->get_id() );
         tmpcomp->add_option( _( download_name ), COMPACT_DOWNLOAD_SOFTWARE, security );
         tmpcomp->add_failure( COMPFAIL_ALARM );
         tmpcomp->add_failure( COMPFAIL_DAMAGE );
@@ -712,7 +713,7 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     }
 
     computer *tmpcomp = compmap.computer_at( *comppoint );
-    tmpcomp->mission_id = miss->uid;
+    tmpcomp->set_mission( miss->get_id() );
     tmpcomp->add_option( _( "Download Routing Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
 
     compmap.save();

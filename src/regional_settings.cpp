@@ -517,9 +517,6 @@ void load_region_settings( const JsonObject &jo )
         if( !cjo.read( "park_sigma", new_region.city_spec.park_sigma ) && strict ) {
             jo.throw_error( "city: park_sigma required for default" );
         }
-        if( !cjo.read( "house_basement_chance", new_region.city_spec.house_basement_chance ) && strict ) {
-            jo.throw_error( "city: house_basement_chance required for default" );
-        }
         const auto load_building_types = [&jo, &cjo, strict]( const std::string & type,
         building_bin & dest ) {
             if( !cjo.has_object( type ) && strict ) {
@@ -534,7 +531,6 @@ void load_region_settings( const JsonObject &jo )
             }
         };
         load_building_types( "houses", new_region.city_spec.houses );
-        load_building_types( "basements", new_region.city_spec.basements );
         load_building_types( "shops", new_region.city_spec.shops );
         load_building_types( "parks", new_region.city_spec.parks );
     }
@@ -685,7 +681,6 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     cityjo.read( "shop_sigma", region.city_spec.shop_sigma );
     cityjo.read( "park_radius", region.city_spec.park_radius );
     cityjo.read( "park_sigma", region.city_spec.park_sigma );
-    cityjo.read( "house_basement_chance", region.city_spec.house_basement_chance );
 
     const auto load_building_types = [&cityjo]( const std::string & type, building_bin & dest ) {
         for( const JsonMember member : cityjo.get_object( type ) ) {
@@ -696,7 +691,6 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
         }
     };
     load_building_types( "houses", region.city_spec.houses );
-    load_building_types( "basements", region.city_spec.basements );
     load_building_types( "shops", region.city_spec.shops );
     load_building_types( "parks", region.city_spec.parks );
 
@@ -958,7 +952,7 @@ void region_terrain_and_furniture_settings::finalize()
     }
 }
 
-ter_id region_terrain_and_furniture_settings::resolve( const ter_id tid ) const
+ter_id region_terrain_and_furniture_settings::resolve( const ter_id &tid ) const
 {
     ter_id result = tid;
     auto region_list = terrain.find( result );
@@ -969,7 +963,7 @@ ter_id region_terrain_and_furniture_settings::resolve( const ter_id tid ) const
     return result;
 }
 
-furn_id region_terrain_and_furniture_settings::resolve( const furn_id fid ) const
+furn_id region_terrain_and_furniture_settings::resolve( const furn_id &fid ) const
 {
     furn_id result = fid;
     auto region_list = furniture.find( result );
@@ -1001,7 +995,6 @@ void regional_settings::finalize()
 void city_settings::finalize()
 {
     houses.finalize();
-    basements.finalize();
     shops.finalize();
     parks.finalize();
 }
