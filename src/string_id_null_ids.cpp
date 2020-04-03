@@ -28,7 +28,6 @@ MAKE_NULL_ID( vpart_info, "null" )
 MAKE_NULL_ID( emit, "null" )
 MAKE_NULL_ID( anatomy, "null_anatomy" )
 MAKE_NULL_ID( martialart, "style_none" )
-MAKE_NULL_ID( vehicle_prototype, "null" )
 MAKE_NULL_ID( recipe, "null" )
 MAKE_NULL_ID( translation, "null" )
 
