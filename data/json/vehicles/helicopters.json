@@ -3100,7 +3100,6 @@
       { "x": -3, "y": 3, "part": "roof" },
       { "x": -2, "y": 3, "part": "roof" },
       { "x": -1, "y": 3, "part": "roof" },
-      { "x": -5, "y": 0, "part": "alternator_car" },
       { "x": -5, "y": 0, "part": "engine_turbine_medium" },
       { "x": -5, "y": 2, "part": "engine_turbine_medium" }
     ],
