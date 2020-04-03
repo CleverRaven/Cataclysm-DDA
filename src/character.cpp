@@ -4282,7 +4282,7 @@ int Character::get_max_healthy() const
 {
     const float bmi = get_bmi();
     return clamp( static_cast<int>( std::round( -3 * ( bmi - character_weight_category::normal ) *
-                                           ( bmi - character_weight_category::overweight ) + 200 ) ), -200, 200 );
+                                    ( bmi - character_weight_category::overweight ) + 200 ) ), -200, 200 );
 }
 
 void Character::regen( int rate_multiplier )
