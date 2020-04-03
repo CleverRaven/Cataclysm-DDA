@@ -2206,12 +2206,12 @@ class item : public visitable<item>
         void set_favorite( bool favorite );
         bool has_clothing_mod() const;
 
-				/**
-				 * Counts the number of clothing mods applied to the item.
-				 *
-				 * Used for item short description (e.g. "pants+2").
-				 * @return int
-				 */
+        /**
+         * Counts the number of clothing mods applied to the item.
+         *
+         * Used for item short description (e.g. "pants+2").
+         * @return int
+         */
         int count_clothing_mods() const;
         float get_clothing_mod_val( clothing_mod_type type ) const;
         void update_clothing_mod_val();
