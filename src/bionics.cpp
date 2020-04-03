@@ -1968,7 +1968,7 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
 }
 
 bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
-                                  float adjusted_skill, bool autodoc )
+                                  float adjusted_skill )
 {
     const std::string ammo_type( "anesthetic" );
 
