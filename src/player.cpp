@@ -4720,6 +4720,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
             if( pos < 0 ) {
                 return false;
             }
+            internal_item = &*std::next( container.contents.begin(), pos );
         } else {
             internal_item = &container.contents.front();
         }

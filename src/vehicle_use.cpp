@@ -535,7 +535,7 @@ void vehicle::toggle_autopilot()
                                            "If no zones are nearby, you will be prompted to create one." ) ) );
     smenu.addentry_col( FOLLOW, true, 'F', _( "Follow…" ),
                         "", string_format(
-                            _( "Program the autopilot to follow you. It might be a good idea to have a remote control available to tell it to stop, too." ) ) );
+                            _( "Program the autopilot to follow you.  It might be a good idea to have a remote control available to tell it to stop, too." ) ) );
     smenu.addentry_col( STOP, true, 'S', _( "Stop…" ),
                         "", string_format( _( "Stop all autopilot related activities." ) ) );
     smenu.query();
