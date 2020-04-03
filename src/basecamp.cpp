@@ -480,15 +480,37 @@ void basecamp::reset_camp_workers()
     }
 }
 
+void basecamp::add_assignee( character_id id )
+{
+    npc_ptr npc_to_add = overmap_buffer.find_npc( id );
+    if( !npc_to_add ) {
+        debugmsg( "cant find npc to assign to basecamp, on the overmap_buffer" );
+        return;
+    }
+    npc_to_add->assigned_camp = omt_pos;
+    assigned_npcs.push_back( npc_to_add );
+}
+
+void basecamp::remove_assignee( character_id id )
+{
+    npc_ptr npc_to_remove = overmap_buffer.find_npc( id );
+    if( !npc_to_remove ) {
+        debugmsg( "cant find npc to remove from basecamp, on the overmap_buffer" );
+        return;
+    }
+    npc_to_remove->assigned_camp = cata::nullopt;
+    assigned_npcs.erase( std::remove( assigned_npcs.begin(), assigned_npcs.end(), npc_to_remove ),
+                         assigned_npcs.end() );
+}
+
 void basecamp::validate_assignees()
 {
-    for( auto it2 = assigned_npcs.begin(); it2 != assigned_npcs.end(); ) {
-        auto ptr = *it2;
-        if( ptr->mission != NPC_MISSION_ASSIGNED_CAMP || ptr->global_omt_location() != omt_pos ||
-            ptr->has_companion_mission() ) {
-            it2 = assigned_npcs.erase( it2 );
+    std::vector<npc_ptr>::iterator iter = assigned_npcs.begin();
+    while( iter != assigned_npcs.end() ) {
+        if( !( *iter ) || !( *iter )->assigned_camp || *( *iter )->assigned_camp != omt_pos ) {
+            iter = assigned_npcs.erase( iter );
         } else {
-            ++it2;
+            ++iter;
         }
     }
     for( character_id elem : g->get_follower_list() ) {
@@ -499,9 +521,7 @@ void basecamp::validate_assignees()
         if( std::find( assigned_npcs.begin(), assigned_npcs.end(), npc_to_add ) != assigned_npcs.end() ) {
             continue;
         } else {
-            if( npc_to_add->global_omt_location() == omt_pos &&
-                npc_to_add->mission == NPC_MISSION_ASSIGNED_CAMP &&
-                !npc_to_add->has_companion_mission() ) {
+            if( npc_to_add->assigned_camp && *npc_to_add->assigned_camp == omt_pos ) {
                 assigned_npcs.push_back( npc_to_add );
             }
         }

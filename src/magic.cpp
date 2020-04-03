@@ -24,6 +24,7 @@
 #include "mutation.h"
 #include "output.h"
 #include "player.h"
+#include "skill.h"
 #include "sounds.h"
 #include "translations.h"
 #include "ui.h"
@@ -232,6 +233,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "skill", skill, skill_id( "spellcraft" ) );
     optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
     optional( jo, was_loaded, "sound_description", sound_description,
               to_translation( "an explosion" ) );
@@ -444,6 +446,11 @@ spell_id spell::id() const
 trait_id spell::spell_class() const
 {
     return type->spell_class;
+}
+
+skill_id spell::skill() const
+{
+    return type->skill;
 }
 
 int spell::field_intensity() const
@@ -707,7 +714,7 @@ float spell::spell_fail( const player &p ) const
     // effective skill of 8 (8 int, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
     // effective skill of 30 is 0% failure
     const float effective_skill = 2 * ( get_level() - get_difficulty() ) + p.get_int() +
-                                  p.get_skill_level( skill_id( "spellcraft" ) );
+                                  p.get_skill_level( skill() );
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
         return 0.0f;
@@ -715,13 +722,13 @@ float spell::spell_fail( const player &p ) const
         return 1.0f;
     }
     float fail_chance = pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    if( has_flag( spell_flag::SOMATIC ) ) {
+    if( has_flag( spell_flag::SOMATIC ) && !p.has_trait_flag( "SUBTLE_SPELL" ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
-    if( has_flag( spell_flag::VERBAL ) ) {
+    if( has_flag( spell_flag::VERBAL ) && !p.has_trait_flag( "SILENT_SPELL" ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
         const int mouth_encumb = std::max( 0, p.encumb( bp_mouth ) - 5 );
         fail_chance += mouth_encumb / 100.0f;
@@ -898,6 +905,11 @@ energy_type spell::energy_source() const
     return type->energy_source;
 }
 
+bool spell::is_target_in_range( const Creature &caster, const tripoint &p ) const
+{
+    return rl_dist( caster.pos(), p ) <= range();
+}
+
 bool spell::is_valid_target( valid_target t ) const
 {
     return type->valid_targets[t];
@@ -1023,7 +1035,7 @@ float spell::exp_modifier( const player &p ) const
 {
     const float int_modifier = ( p.get_int() - 8.0f ) / 8.0f;
     const float difficulty_modifier = get_difficulty() / 20.0f;
-    const float spellcraft_modifier = p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0f;
+    const float spellcraft_modifier = p.get_skill_level( skill() ) / 10.0f;
 
     return ( int_modifier + difficulty_modifier + spellcraft_modifier ) / 5.0f + 1.0f;
 }
@@ -1432,8 +1444,8 @@ int known_magic::time_to_learn_spell( const player &p, const std::string &str ) 
 int known_magic::time_to_learn_spell( const player &p, const spell_id &sp ) const
 {
     const int base_time = to_moves<int>( 30_minutes );
-    return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
-                         ( p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0 ) );
+    return base_time * ( 1.0 + sp->difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
+                         ( p.get_skill_level( sp->skill ) / 10.0 ) );
 }
 
 int known_magic::get_spellname_max_width()
@@ -1940,6 +1952,10 @@ void fake_spell::load( const JsonObject &jo )
     mandatory( jo, false, "id", temp_id );
     id = spell_id( temp_id );
     optional( jo, false, "hit_self", self, false );
+
+    optional( jo, false, "once_in", trigger_once_in, 1 );
+    optional( jo, false, "message", trigger_message );
+    optional( jo, false, "npc_message", npc_trigger_message );
     int max_level_int;
     optional( jo, false, "max_level", max_level_int, -1 );
     if( max_level_int == -1 ) {
@@ -1958,6 +1974,8 @@ void fake_spell::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "id", id );
     json.member( "hit_self", self );
+    json.member( "once_in", trigger_once_in );
+
     if( !max_level ) {
         json.member( "max_level", -1 );
     } else {
