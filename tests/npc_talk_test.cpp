@@ -28,6 +28,7 @@
 #include "material.h"
 #include "type_id.h"
 #include "point.h"
+#include "map_helpers.h"
 
 static const efftype_id effect_gave_quest_item( "gave_quest_item" );
 static const efftype_id effect_currently_busy( "currently_busy" );

@@ -13,7 +13,7 @@
 #include "mapdata.h"
 #include "type_id.h"
 #include "point.h"
-#include "player_helpers.h"
+#include "map_helpers.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
@@ -26,22 +26,6 @@ static void reset_player()
     g->u.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
     g->u.add_effect( effect_blind, 1_turns, num_bp, true );
-}
-
-// Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given
-// terrain, and no furniture, traps, or items.
-static void build_test_map( const ter_id &terrain )
-{
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
-        g->m.furn_set( p, furn_id( "f_null" ) );
-        g->m.ter_set( p, terrain );
-        g->m.trap_set( p, trap_id( "tr_null" ) );
-        g->m.i_clear( p );
-    }
-
-    g->m.invalidate_map_cache( 0 );
-    g->m.build_map_cache( 0, true );
 }
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
