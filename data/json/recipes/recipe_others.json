@@ -2618,6 +2618,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "2 h",
+    "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [
       [ "textbook_fabrication", 4 ],
       [ "textbook_weapeast", 5 ],
