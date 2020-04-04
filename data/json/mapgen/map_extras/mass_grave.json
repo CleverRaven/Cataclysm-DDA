@@ -7,9 +7,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mass_grave" ],
+    "update_mapgen_id": "mx_mass_grave",
     "object": {
-      "fill_ter": "t_dirt",
       "rows": [
         "                        ",
         " cccccccccccccccccccccc ",

@@ -787,7 +787,7 @@
     "name": { "str": "television" },
     "description": "A large LCD television, full of delicious electronics.",
     "price": 0,
-    "material": "plastic",
+    "material": [ "aluminum", "plastic" ],
     "weight": "15000 g",
     "volume": "20 L",
     "bashing": 5,

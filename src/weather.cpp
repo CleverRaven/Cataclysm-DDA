@@ -776,19 +776,19 @@ std::string get_shortdirstring( int angle )
     int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
         dirstring = _( "N" );
-    } else if( dirangle <= 68 && dirangle > 23 ) {
+    } else if( dirangle <= 68 ) {
         dirstring = _( "NE" );
-    } else if( dirangle <= 113 && dirangle > 68 ) {
+    } else if( dirangle <= 113 ) {
         dirstring = _( "E" );
-    } else if( dirangle <= 158 && dirangle > 113 ) {
+    } else if( dirangle <= 158 ) {
         dirstring = _( "SE" );
-    } else if( dirangle <= 203 && dirangle > 158 ) {
+    } else if( dirangle <= 203 ) {
         dirstring = _( "S" );
-    } else if( dirangle <= 248 && dirangle > 203 ) {
+    } else if( dirangle <= 248 ) {
         dirstring = _( "SW" );
-    } else if( dirangle <= 293 && dirangle > 248 ) {
+    } else if( dirangle <= 293 ) {
         dirstring = _( "W" );
-    } else if( dirangle <= 338 && dirangle > 293 ) {
+    } else {
         dirstring = _( "NW" );
     }
     return dirstring;
@@ -801,19 +801,19 @@ std::string get_dirstring( int angle )
     int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
         dirstring = _( "North" );
-    } else if( dirangle <= 68 && dirangle > 23 ) {
+    } else if( dirangle <= 68 ) {
         dirstring = _( "North-East" );
-    } else if( dirangle <= 113 && dirangle > 68 ) {
+    } else if( dirangle <= 113 ) {
         dirstring = _( "East" );
-    } else if( dirangle <= 158 && dirangle > 113 ) {
+    } else if( dirangle <= 158 ) {
         dirstring = _( "South-East" );
-    } else if( dirangle <= 203 && dirangle > 158 ) {
+    } else if( dirangle <= 203 ) {
         dirstring = _( "South" );
-    } else if( dirangle <= 248 && dirangle > 203 ) {
+    } else if( dirangle <= 248 ) {
         dirstring = _( "South-West" );
-    } else if( dirangle <= 293 && dirangle > 248 ) {
+    } else if( dirangle <= 293 ) {
         dirstring = _( "West" );
-    } else if( dirangle <= 338 && dirangle > 293 ) {
+    } else {
         dirstring = _( "North-West" );
     }
     return dirstring;
@@ -822,24 +822,24 @@ std::string get_dirstring( int angle )
 std::string get_wind_arrow( int dirangle )
 {
     std::string wind_arrow;
-    if( ( dirangle <= 23 && dirangle >= 0 ) || ( dirangle > 338 && dirangle < 360 ) ) {
-        wind_arrow = "\u21D3";
-    } else if( dirangle <= 68 && dirangle > 23 ) {
-        wind_arrow = "\u21D9";
-    } else if( dirangle <= 113 && dirangle > 68 ) {
-        wind_arrow = "\u21D0";
-    } else if( dirangle <= 158 && dirangle > 113 ) {
-        wind_arrow = "\u21D6";
-    } else if( dirangle <= 203 && dirangle > 158 ) {
-        wind_arrow = "\u21D1";
-    } else if( dirangle <= 248 && dirangle > 203 ) {
-        wind_arrow = "\u21D7";
-    } else if( dirangle <= 293 && dirangle > 248 ) {
-        wind_arrow = "\u21D2";
-    } else if( dirangle <= 338 && dirangle > 293 ) {
-        wind_arrow = "\u21D8";
-    } else {
+    if( dirangle < 0 || dirangle >= 360 ) {
         wind_arrow.clear();
+    } else if( dirangle <= 23 || dirangle > 338 ) {
+        wind_arrow = "\u21D3";
+    } else if( dirangle <= 68 ) {
+        wind_arrow = "\u21D9";
+    } else if( dirangle <= 113 ) {
+        wind_arrow = "\u21D0";
+    } else if( dirangle <= 158 ) {
+        wind_arrow = "\u21D6";
+    } else if( dirangle <= 203 ) {
+        wind_arrow = "\u21D1";
+    } else if( dirangle <= 248 ) {
+        wind_arrow = "\u21D7";
+    } else if( dirangle <= 293 ) {
+        wind_arrow = "\u21D2";
+    } else {
+        wind_arrow = "\u21D8";
     }
     return wind_arrow;
 }

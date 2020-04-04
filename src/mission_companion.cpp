@@ -52,6 +52,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "weighted_list.h"
 #include "material.h"
 #include "colony.h"
@@ -435,6 +436,9 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     g->draw_ter();
     wrefresh( g->w_terrain );
     g->draw_panels();
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     while( true ) {
         mission_key.cur_key = cur_key_list[sel];

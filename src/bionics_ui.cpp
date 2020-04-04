@@ -10,6 +10,7 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "options.h"
 #include "string_id.h"
 
@@ -486,6 +487,9 @@ void player::power_bionics()
 
     bool recalc = false;
     bool redraw = true;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     for( ;; ) {
         if( recalc ) {

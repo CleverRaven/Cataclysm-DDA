@@ -17,6 +17,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "rng.h"
@@ -1398,6 +1399,19 @@ bool trapfunc::drain( const tripoint &, Creature *c, item * )
     return false;
 }
 
+bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
+{
+    if( critter == nullptr ) {
+        return false;
+    }
+    const spell trap_spell = g->m.tr_at( p ).spell_data.get_spell( 0 );
+    npc dummy;
+    trap_spell.cast_all_effects( dummy, critter->pos() );
+    trap_spell.make_sound( p, 20 );
+    g->m.remove_trap( p );
+    return true;
+}
+
 bool trapfunc::snake( const tripoint &p, Creature *, item * )
 {
     //~ the sound a snake makes
@@ -1471,6 +1485,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "shadow", trapfunc::shadow },
             { "map_regen", trapfunc::map_regen },
             { "drain", trapfunc::drain },
+            { "spell", trapfunc::cast_spell },
             { "snake", trapfunc::snake }
         }
     };

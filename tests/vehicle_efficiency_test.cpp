@@ -32,6 +32,8 @@
 #include "type_id.h"
 #include "point.h"
 #include "vpart_position.h"
+#include "player_helpers.h"
+#include "map_helpers.h"
 
 using efficiency_stat = statistics<int>;
 
@@ -43,28 +45,15 @@ static void clear_game( const ter_id &terrain )
     calendar::turn = 0;
     clear_creatures();
     clear_npcs();
+    clear_vehicles();
 
     // Move player somewhere safe
-    CHECK( !g->u.in_vehicle );
+    REQUIRE_FALSE( g->u.in_vehicle );
     g->u.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
     g->u.add_effect( effect_blind, 1_turns, num_bp, true );
 
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
-        g->m.furn_set( p, furn_id( "f_null" ) );
-        g->m.ter_set( p, terrain );
-        g->m.trap_set( p, trap_id( "tr_null" ) );
-        g->m.i_clear( p );
-    }
-
-    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint_zero, tripoint( MAPSIZE * SEEX,
-            MAPSIZE * SEEY, 0 ) ) ) {
-        g->m.destroy_vehicle( veh.v );
-    }
-
-    g->m.invalidate_map_cache( 0 );
-    g->m.build_map_cache( 0, true );
+    build_test_map( terrain );
 }
 
 // Returns how much fuel did it provide
@@ -131,7 +120,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
 }
 
 // Returns the lowest percentage of fuel left
-// ie. 1 means no fuel was used, 0 means at least one dry tank
+// i.e. 1 means no fuel was used, 0 means at least one dry tank
 static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &started_with )
 {
     std::map<itype_id, int> fuel_amount;
@@ -173,7 +162,7 @@ const int cycle_limit = 100;
 // Repeat that for a set number of turns or until all fuel is drained
 // Compare saved percentage (set before) to current percentage
 // Rescale the recorded number of tiles based on fuel percentage left
-// (ie. 0% fuel left means no scaling, 50% fuel left means double the effective distance)
+// (i.e. 0% fuel left means no scaling, 50% fuel left means double the effective distance)
 // Return the rescaled number
 static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
                             const ter_id &terrain,
