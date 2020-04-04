@@ -181,7 +181,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "cordage_36", 3 ], [ "sinew", 900 ] ],
-      [ [ "candle", 1 ], [ "wax", 1 ], [ "tallow", 1 ], [ "mutant_tallow", 1 ], [ "human_tallow", 1 ] ],
+      [ [ "wax_product", 1, "LIST" ] ],
       [ [ "thread", 300 ], [ "sinew", 300 ], [ "plant_fibre", 300 ] ]
     ]
   },
@@ -211,7 +211,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "cordage_36", 3 ], [ "sinew", 900 ] ],
-      [ [ "candle", 1 ], [ "wax", 1 ], [ "tallow", 1 ], [ "mutant_tallow", 1 ], [ "human_tallow", 1 ] ],
+      [ [ "wax_product", 1, "LIST" ] ],
       [ [ "thread", 300 ], [ "sinew", 300 ], [ "plant_fibre", 300 ] ]
     ]
   }
