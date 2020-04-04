@@ -852,7 +852,7 @@ void player_morale::update_stylish_bonus()
 
     if( stylish ) {
         int tmp_bonus = 0;
-        for( const std::pair<bodypart_id, body_part_data> bpt : body_parts ) {
+        for( const std::pair<bodypart_id, body_part_data> &bpt : body_parts ) {
             if( bpt.second.fancy > 0 ) {
                 tmp_bonus += bpt.first->stylish_bonus;
             }
@@ -886,9 +886,9 @@ void player_morale::update_masochist_bonus()
 
 void player_morale::update_bodytemp_penalty( const time_duration &ticks )
 {
-    int max_cold_penalty = 0;
-    int max_hot_penalty = 0;
-    for( const std::pair<bodypart_id, body_part_data> bpt : body_parts ) {
+    float max_cold_penalty = 0;
+    float max_hot_penalty = 0;
+    for( const std::pair<bodypart_id, body_part_data> &bpt : body_parts ) {
         const bodypart_id bp = bpt.first;
         max_cold_penalty += body_parts[bp].cold * bp->cold_morale_mod;
         max_hot_penalty += body_parts[bp].hot * bp->hot_morale_mod;
@@ -932,7 +932,7 @@ void player_morale::update_squeamish_penalty()
         return;
     }
     int penalty = 0;
-    for( std::pair<bodypart_id, body_part_data> bpt : body_parts ) {
+    for( const std::pair<bodypart_id, body_part_data> &bpt : body_parts ) {
         if( bpt.second.filthy > 0 ) {
             penalty += bpt.first->squeamish_penalty;
         }
