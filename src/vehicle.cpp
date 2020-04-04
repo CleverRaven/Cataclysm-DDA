@@ -5659,7 +5659,8 @@ void vehicle::do_towing_move()
     vehicle *towed_veh = tow_data.get_towed();
     if( !towed_veh ) {
         debugmsg( "tried to do towing move, but towed vehicle dosnt exist." );
-        invalidate = true;
+        invalidate_towing();
+        return;
     }
     const int other_tow_index = towed_veh->get_tow_part();
     if( other_tow_index == -1 ) {
