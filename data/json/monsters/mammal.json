@@ -317,7 +317,8 @@
     "name": "longhair cat",
     "description": "This cat's long fur appears difficult to groom, but the cat seems to manage it despite the environmental conditions.",
     "volume": "6000 ml",
-    "weight": "6 kg"
+    "weight": "6 kg",
+    "reproduction": { "baby_monster": "mon_cat_longhair_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_longhair_kitten",
@@ -335,7 +336,8 @@
     "description": "Impressively large for a domestic cat, this thick-haired breed was once native to the state of Maine.",
     "volume": "8000 ml",
     "weight": "9 kg",
-    "hp": 16
+    "hp": 16,
+    "reproduction": { "baby_monster": "mon_cat_maine_coon_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_maine_coon_kitten",
@@ -350,7 +352,8 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Siamese cat",
-    "description": "This cat has the distinctive dark extremeties of a Siamese, first native to Asia but a common domestic breed in North America."
+    "description": "This cat has the distinctive dark extremeties of a Siamese, first native to Asia but a common domestic breed in North America.",
+    "reproduction": { "baby_monster": "mon_cat_siamese_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_siamese_kitten",
@@ -365,7 +368,8 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Persian cat",
-    "description": "The short nose and rounded face of this cat suggest it comes from the popular Persian breed."
+    "description": "The short nose and rounded face of this cat suggest it comes from the popular Persian breed.",
+    "reproduction": { "baby_monster": "mon_cat_persian_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_persian_kitten",
@@ -381,7 +385,9 @@
     "copy-from": "mon_cat",
     "name": "Bengal cat",
     "description": "Looking like a spotted wild cat, the Bengal breed derives from the Asian leopard cat and Egyptian Mau.",
-    "weight": "6 kg"
+    "volume": "5000 ml",
+    "weight": "5 kg",
+    "reproduction": { "baby_monster": "mon_cat_bengal_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_bengal_kitten",
@@ -397,8 +403,7 @@
     "copy-from": "mon_cat",
     "name": "Devon Rex cat",
     "description": "An unusual-looking cat with strikingly large eyes and ears, sporting a soft curly coat of fur.",
-    "volume": "3000 ml",
-    "weight": "4 kg"
+    "reproduction": { "baby_monster": "mon_cat_devon_rex_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_devon_rex_kitten",
@@ -413,7 +418,8 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Sphynx cat",
-    "description": "The Sphynx cat has practically no fur on its body, exposing its curiously wrinkled skin."
+    "description": "The Sphynx cat has practically no fur on its body, exposing its curiously wrinkled skin.",
+    "reproduction": { "baby_monster": "mon_cat_sphynx_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_sphynx_kitten",
@@ -428,7 +434,8 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "tabby cat",
-    "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings must provide excellent camouflage."
+    "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings must provide excellent camouflage.",
+    "reproduction": { "baby_monster": "mon_cat_tabby_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_tabby_kitten",
@@ -443,7 +450,8 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "calico cat",
-    "description": "Partly white with patches of orange and black, the calico coloring tells you this cat is probably female.  The Calico was the Maryland State cat (back when there were still states)."
+    "description": "Partly white with patches of orange and black, the calico coloring tells you this cat is probably female.  The Calico was the Maryland State cat (back when there were still states).",
+    "reproduction": { "baby_monster": "mon_cat_calico_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_calico_kitten",
@@ -461,7 +469,8 @@
     "description": "Lawd, he comin!  This impressive feline would once have been celebrated on internet cat forums for its chonkiness and majestic golden mane.  Appears surprisingly well-groomed for a feral cat.",
     "volume": "8000 ml",
     "weight": "10 kg",
-    "hp": 20
+    "hp": 20,
+    "reproduction": { "baby_monster": "mon_cat_chonker_kitten", "baby_count": 8, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_chonker_kitten",
