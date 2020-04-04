@@ -307,6 +307,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "thread_embroidery_floss",
+    "name": "embroidery floss",
+    "default": "thread_embroidery_floss"
+  },
+  {
+    "type": "ammunition_type",
     "id": "anesthetic",
     "name": "anesthetic",
     "default": "anesthetic"

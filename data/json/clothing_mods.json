@@ -1,6 +1,118 @@
 [
   {
     "type": "clothing_mod",
+    "id": "cutwork",
+    "flag": "cutwork_lace",
+    "apply_flags": [ "SUPER_FANCY", "FRAGILE" ],
+    "exclude_flags": [ "FANCY" ],
+    "//": "technically cutwork should not consume lace as the lace is constructed in-place, this is a gamey/UI thing - need fixes to crafting inventories to remove this",
+    "item": "sheet_lace",
+    "min_coverage": 15,
+    "implement_prompt": "Enhance with luxurious lace cutwork",
+    "destroy_prompt": "Remove cutwork",
+    "mod_value": [
+      { "type": "bash", "value": -1, "round_up": false, "proportion": [ "coverage" ] },
+      { "type": "cut", "value": -2, "round_up": false, "proportion": [ "coverage" ] },
+      { "type": "warmth", "value": -5, "round_up": false, "proportion": [ "coverage" ] },
+      { "type": "encumbrance", "value": -2, "round_up": false, "proportion": [ "coverage" ] },
+      { "type": "coverage", "value": -33, "round_up": false, "proportion": [ "coverage" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
+    "abstract": "embroidered_default",
+    "//": "per docs required fields are not enforced in abstracts, but leaving them out is raising errors - bug?",
+    "flag": "embroidered_default",
+    "implement_prompt": "Embroider with generic patterns",
+    "destroy_prompt": "Pull out generic embroidery",
+    "item": "rag",
+    "apply_flags": [ "FANCY" ],
+    "exclude_flags": [ "SUPER_FANCY" ],
+    "mod_value": [ { "type": "encumbrance", "value": 1, "proportion": [ "coverage" ] } ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "embroidered_badass",
+    "flag": "embroidered_badass",
+    "item": "rag",
+    "implement_prompt": "Embroider with a badass skulls-and-fire motif",
+    "destroy_prompt": "Pull out badass embroidery",
+    "copy-from": "embroidered_default"
+  },
+  {
+    "type": "clothing_mod",
+    "id": "embroidered_paisley",
+    "flag": "embroidered_paisley",
+    "implement_prompt": "Embroider with a rustic paisley motif",
+    "destroy_prompt": "Pull out paisley embroidery",
+    "copy-from": "embroidered_default"
+  },
+  {
+    "type": "clothing_mod",
+    "id": "embroidered_monogram",
+    "flag": "embroidered_monogram",
+    "implement_prompt": "Embroider with your personal monogram",
+    "destroy_prompt": "Pull out monogram embroidery",
+    "copy-from": "embroidered_default"
+  },
+  {
+    "type": "clothing_mod",
+    "id": "furred",
+    "flag": "furred",
+    "item": "fur",
+    "implement_prompt": "Line it with fur",
+    "destroy_prompt": "Destroy fur lining",
+    "mod_value": [
+      { "type": "encumbrance", "value": 1 },
+      { "type": "encumbrance", "value": 4, "proportion": [ "coverage" ] },
+      { "type": "warmth", "value": 35, "proportion": [ "coverage" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "hemline_up",
+    "flag": "hemline_up",
+    "exclude_flags": [ "hemline_down" ],
+    "item": "rag",
+    "implement_prompt": "Raise the hemline",
+    "destroy_prompt": "Restore the hemline",
+    "min_coverage": 15,
+    "mod_value": [
+      { "type": "warmth", "value": -5, "round_up": true, "proportion": [ "coverage" ] },
+      { "type": "coverage", "value": -50, "round_up": false, "proportion": [ "coverage" ] },
+      { "type": "encumbrance", "value": -1, "round_up": false, "proportion": [ "coverage", "thickness" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "hemline_down",
+    "flag": "hemline_down",
+    "item": "rag",
+    "exclude_flags": [ "hemline_up" ],
+    "implement_prompt": "Lower the hemline",
+    "destroy_prompt": "Restore the hemline",
+    "min_coverage": 40,
+    "mod_value": [
+      { "type": "warmth", "value": 1, "round_up": false, "proportion": [ "coverage", "thickness" ] },
+      { "type": "coverage", "value": 15, "round_up": false, "proportion": [ "coverage" ] },
+      { "type": "encumbrance", "value": 2, "round_up": false, "proportion": [ "coverage", "thickness" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "kevlar_padded",
+    "flag": "kevlar_padded",
+    "item": "kevlar_plate",
+    "implement_prompt": "Pad with Kevlar",
+    "destroy_prompt": "Destroy Kevlar padding",
+    "mod_value": [
+      { "type": "bash", "value": 1, "proportion": [ "thickness", "coverage" ] },
+      { "type": "cut", "value": 2, "proportion": [ "thickness", "coverage" ] },
+      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
     "id": "leather_padded",
     "flag": "leather_padded",
     "item": "leather",
@@ -24,32 +136,6 @@
       { "type": "bash", "value": 1, "proportion": [ "thickness", "coverage" ] },
       { "type": "cut", "value": 1, "proportion": [ "thickness", "coverage" ] },
       { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] }
-    ]
-  },
-  {
-    "type": "clothing_mod",
-    "id": "kevlar_padded",
-    "flag": "kevlar_padded",
-    "item": "kevlar_plate",
-    "implement_prompt": "Pad with Kevlar",
-    "destroy_prompt": "Destroy Kevlar padding",
-    "mod_value": [
-      { "type": "bash", "value": 1, "proportion": [ "thickness", "coverage" ] },
-      { "type": "cut", "value": 2, "proportion": [ "thickness", "coverage" ] },
-      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] }
-    ]
-  },
-  {
-    "type": "clothing_mod",
-    "id": "furred",
-    "flag": "furred",
-    "item": "fur",
-    "implement_prompt": "Line it with fur",
-    "destroy_prompt": "Destroy fur lining",
-    "mod_value": [
-      { "type": "encumbrance", "value": 1 },
-      { "type": "encumbrance", "value": 4, "proportion": [ "coverage" ] },
-      { "type": "warmth", "value": 35, "proportion": [ "coverage" ] }
     ]
   },
   {

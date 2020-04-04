@@ -2480,6 +2480,13 @@
     "components": [ [ [ "thread", 80 ] ] ]
   },
   {
+    "result": "thread_embroidery_floss",
+    "type": "uncraft",
+    "time": "30 s",
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "thread", 6 ] ] ]
+  },
+  {
     "result": "stick_fiber",
     "type": "uncraft",
     "time": "1 h",

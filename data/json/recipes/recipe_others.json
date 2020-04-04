@@ -1122,6 +1122,23 @@
   },
   {
     "type": "recipe",
+    "result": "thread_embroidery_floss",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "1 h",
+    "difficulty": 1,
+    "skills_required": [ [ "cooking", 3 ] ],
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": [ [ "tailor", 2 ], [ "cooking", 3 ] ],
+    "decomp_learn": [ [ "tailor", 2 ] ],
+    "book_learn": [ [ "manual_tailor", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "thread", 300 ] ], [ [ "dye_cloth", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "thread",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1168,6 +1185,21 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 50 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_lace",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "5 h",
+    "difficulty": 4,
+    "reversible": true,
+    "autolearn": false,
+    "decomp_learn": [ [ "tailor", 6 ] ],
+    "book_learn": [ [ "textbook_tailor", 5 ] ],
+    "qualities": [ { "id": "SEW", "level": 4 } ],
+    "components": [ [ [ "thread", 150 ] ], [ [ "thread_embroidery_floss", 50 ] ] ]
   },
   {
     "type": "recipe",

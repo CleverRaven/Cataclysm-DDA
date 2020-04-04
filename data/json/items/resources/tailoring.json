@@ -188,6 +188,22 @@
     "ammo_type": "components"
   },
   {
+    "id": "sheet_lace",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "price": 8000,
+    "price_postapoc": 7000,
+    "name": { "str": "quarter of lace", "str_pl": "quarter of lace" },
+    "symbol": "=",
+    "looks_like": "sheet",
+    "color": "red",
+    "description": "A quarter-yard of delicate needlework lace.  It's sure to make anything look and feel luxurious, if you know how to work with it.",
+    "material": "cotton",
+    "//": "note: lace should not produce byproduct scraps - just thread - and should not have a patchwork version",
+    "weight": "1 g",
+    "volume": "100 ml"
+  },
+  {
     "id": "sheet_lycra",
     "type": "AMMO",
     "category": "spare_parts",
@@ -290,6 +306,25 @@
     "volume": "60 ml",
     "price": 1000,
     "count": 1
+  },
+  {
+    "id": "thread_embroidery_floss",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "price": 20000,
+    "price_postapoc": 55000,
+    "name": { "str": "embroidery floss" },
+    "symbol": "=",
+    "looks_like": "thread",
+    "color": "light_blue",
+    "description": "A sturdy decorative thread composed of multiple losely twisted strands.  It could be used to refill an embroidery kit or broken down for use as thread.",
+    "material": "cotton",
+    "//": "should match 6x thread",
+    "volume": "1500 ml",
+    "weight": "12 g",
+    "ammo_type": "thread_embroidery_floss",
+    "count": 50,
+    "stack_size": 200
   },
   {
     "type": "AMMO",
