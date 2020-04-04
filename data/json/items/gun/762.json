@@ -19,7 +19,6 @@
     "dispersion": 180,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -121,7 +120,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "AK-47" },
-    "description": "A civilian-legal clone of the iconic Kalashnikov, these rifles was made and imported by many different firms.  A valuable survivors' commodity for its reliability in harsh conditions.",
+    "description": "Civilian-legal clones of the iconic Kalashnikov, like this one, were manufactured and imported by many different firms.  Even without full-auto function, their solid firepower and reliability in harsh conditions make them valuable weapons in this new world.",
     "weight": "3402 g",
     "volume": "4414 ml",
     "price": 79500,
@@ -135,7 +134,6 @@
     "dispersion": 180,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -170,9 +168,9 @@
     "ammo": "762",
     "skill": "pistol",
     "dispersion": 240,
+    "ranged_damage": -5,
     "durability": 7,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
