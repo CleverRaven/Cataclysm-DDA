@@ -68,6 +68,8 @@
 #include "item.h"
 #include "cata_string_consts.h"
 
+static const std::string flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
+
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 #if defined(__ANDROID__)
