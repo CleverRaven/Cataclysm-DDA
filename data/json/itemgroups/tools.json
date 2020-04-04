@@ -331,6 +331,7 @@
       [ "scissors", 1000 ],
       [ "sewing_kit", 120 ],
       [ "tailors_kit", 10 ],
+      [ "embroidery_kit", 5 ],
       [ "knitting_needles", 20 ]
     ]
   },

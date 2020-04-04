@@ -73,10 +73,12 @@
             ],
             "prob": 25
           },
-          { "item": "tailors_kit", "prob": 75 }
+          { "item": "tailors_kit", "prob": 75 },
+          { "item": "embroidery_kit", "prob": 25 }
         ]
       },
-      { "item": "thread", "count": [ 2, 7 ], "prob": 75 }
+      { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
+      { "item": "thread_embroidery_floss", "count": [ 1, 3 ], "prob": 25 }
     ]
   },
   {
@@ -102,8 +104,10 @@
     "subtype": "collection",
     "entries": [
       { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
+      { "item": "thread_embroidery_floss", "count": [ 2, 7 ], "prob": 30 },
       { "item": "rag", "count": [ 10, 40 ], "prob": 75 },
       { "item": "sheet_cotton", "count": [ 1, 5 ], "prob": 70 },
+      { "item": "sheet_lace", "count": [ 1, 5 ], "prob": 15 },
       { "item": "sheet_felt", "count": [ 1, 5 ], "prob": 40 },
       { "item": "sheet_lycra", "count": [ 1, 5 ], "prob": 20 },
       { "item": "sheet_nylon", "count": [ 1, 5 ], "prob": 20 }
