@@ -769,6 +769,12 @@
     "craft_inherit": true
   },
   {
+    "id": "embroidered_floral",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has been embroidered with a bouquet of flowers and fluttering butterflies.  Wearing it makes you feel <good>pretty</good>, but it's <bad>a bit more stiff</bad> than before."
+  },
+  {
     "id": "embroidered_paisley",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -785,6 +791,12 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear has been embroidered with its owner's personal monogram.  Wearing it makes you feel <good>sophisticated</good> but it's <bad>a bit more stiff</bad> than before."
+  },
+  {
+    "id": "tailored_pockets",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has had pockets sewn in.  They're <bad>a little cumbersome</bad> but <good>keep your hands warm</good> if you're not holding anything.  Or you can just put stuff in them."
   },
   {
     "id": "cutwork_lace",

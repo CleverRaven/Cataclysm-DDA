@@ -63,7 +63,7 @@
         "type": "sew_advanced",
         "materials": [ "cotton", "leather", "lycra", "nylon", "wool", "fur", "faux_fur", "neoprene", "gutskin" ],
         "skill": "tailor",
-        "clothing_mods": [ "embroidered_paisley", "embroidered_badass", "embroidered_monogram", "cutwork", "hemline_up", "hemline_down" ]
+        "clothing_mods": [ "embroidered_paisley", "embroidered_badass", "embroidered_monogram", "embroidered_floral", "cutwork" ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
