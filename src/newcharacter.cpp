@@ -1200,6 +1200,10 @@ tab_direction set_traits( avatar &u, points_left &points )
             int inc_type = 0;
             const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
             const mutation_branch &mdata = cur_trait.obj();
+
+            // Look through the profession bionics, and see if any of them conflict with this trait
+            std::vector<bionic_id> cbms_blocking_trait = bionics_cancelling_trait( u.prof->CBMs(), cur_trait );
+
             if( u.has_trait( cur_trait ) ) {
 
                 inc_type = -1;
@@ -1220,6 +1224,15 @@ tab_direction set_traits( avatar &u, points_left &points )
             } else if( u.prof->is_forbidden_trait( cur_trait ) ) {
                 popup( _( "Your profession of %s prevents you from taking this trait." ),
                        u.prof->gender_appropriate_name( u.male ) );
+            } else if( !cbms_blocking_trait.empty() ) {
+                // Grab a list of the names of the bionics that block this trait
+                // So that the player know what is preventing them from taking it
+                std::vector<std::string> conflict_names;
+                for( const bionic_id &conflict : cbms_blocking_trait ) {
+                    conflict_names.emplace_back( conflict->name.translated() );
+                }
+                popup( _( "The following bionics prevent you from taking this trait: %s." ),
+                       enumerate_as_string( conflict_names ) );
             } else if( iCurWorkingPage == 0 && num_good + mdata.points >
                        max_trait_points && !points.is_freeform() ) {
                 popup( ngettext( "Sorry, but you can only take %d point of advantages.",
