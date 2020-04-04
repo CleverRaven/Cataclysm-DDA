@@ -90,8 +90,8 @@ static void test_archery_balance( std::string weapon_type, std::string ammo_type
 
 TEST_CASE( "archery_damage_thresholds", "[balance],[archery]" )
 {
-    // Selfbow can't kill a turkey
-    test_archery_balance( "selfbow", "arrow_metal", "", "mon_turkey" );
+    // Makeshift Shortbow can't kill a turkey
+    test_archery_balance( "shortbow_makeshift", "arrow_metal", "", "mon_turkey" );
     test_archery_balance( "rep_crossbow", "bolt_steel", "", "mon_turkey" );
     // Shortbow can kill turkeys, but not deer
     test_archery_balance( "shortbow", "arrow_metal", "mon_turkey", "mon_deer" );
