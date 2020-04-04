@@ -4814,8 +4814,13 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                                              format_volume( before ), volume_units_abbr(), format_volume( after ),
                                              volume_units_abbr() ), get_volume_compare_color( before, after, true ) );
         }
+        bool will_remove = mod.item_tags.count( obj.flag );
         if( obj.applies_flags() ) {
-            desc += "\nProperties gained:\n";
+            if( will_remove ) {
+                desc += "\nProperties lost:\n";
+            } else {
+                desc += "\nProperties gained:\n";
+            }
             for( const std::string &e : obj.apply_flags ) {
                 const json_flag &f = json_flag::get( e );
                 if( !f.info().empty() ) {
@@ -4823,8 +4828,10 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 }
             }
         }
-        desc += string_format( "\nIt will take about %s to complete.\n",
-                               to_string( obj.time_base * p.fine_detail_vision_mod() ) );
+        if( !will_remove ) {
+            desc += string_format( "\nIt will take about %s to complete.\n",
+                                   to_string( obj.time_base * p.fine_detail_vision_mod() ) );
+        }
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }
