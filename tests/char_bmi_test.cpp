@@ -11,12 +11,12 @@ static float bmi_at_kcal_ratio( player &dummy, float kcal_percent )
     return dummy.get_bmi();
 }
 
-// Return the `kcal_ratio` needed to reach the given `body_mass_index`
+// Return the `kcal_ratio` needed to reach the given `bmi`
 //   BMI = 13 + (12 * kcal_ratio)
 //   kcal_ratio = (BMI - 13) / 12
-static float bmi_to_kcal_ratio( float body_mass_index )
+static float bmi_to_kcal_ratio( float bmi )
 {
-    return ( body_mass_index - 13 ) / 12;
+    return ( bmi - 13 ) / 12;
 }
 
 // Return the player's `get_max_healthy` value at the given body mass index
@@ -44,18 +44,25 @@ TEST_CASE( "body mass index determines weight description", "[healthy][bmi][weig
 
     CHECK( weight_string_at_bmi( dummy, 13.0f ) == "Skeletal" );
     CHECK( weight_string_at_bmi( dummy, 13.9f ) == "Skeletal" );
+    // 14
     CHECK( weight_string_at_bmi( dummy, 14.1f ) == "Emaciated" );
     CHECK( weight_string_at_bmi( dummy, 15.9f ) == "Emaciated" );
+    // 16
     CHECK( weight_string_at_bmi( dummy, 16.1f ) == "Underweight" );
     CHECK( weight_string_at_bmi( dummy, 18.4f ) == "Underweight" );
+    // 18.5
     CHECK( weight_string_at_bmi( dummy, 18.6f ) == "Normal" );
     CHECK( weight_string_at_bmi( dummy, 24.9f ) == "Normal" );
+    // 25
     CHECK( weight_string_at_bmi( dummy, 25.1f ) == "Overweight" );
     CHECK( weight_string_at_bmi( dummy, 29.9f ) == "Overweight" );
+    // 30 
     CHECK( weight_string_at_bmi( dummy, 30.1f ) == "Obese" );
     CHECK( weight_string_at_bmi( dummy, 34.9f ) == "Obese" );
+    // 35
     CHECK( weight_string_at_bmi( dummy, 35.1f ) == "Very Obese" );
     CHECK( weight_string_at_bmi( dummy, 39.9f ) == "Very Obese" );
+    // 40
     CHECK( weight_string_at_bmi( dummy, 40.1f ) == "Morbidly Obese" );
     CHECK( weight_string_at_bmi( dummy, 41.0f ) == "Morbidly Obese" );
 }
@@ -98,7 +105,7 @@ TEST_CASE( "stored kcal ratio determines body mass index", "[healthy][kcal][bmi]
     CHECK( bmi_at_kcal_ratio( dummy, 2.5f ) == Approx( 43.0f ).margin( 0.01f ) );
 }
 
-TEST_CASE( "body mass effect on maximum healthiness", "[healthy][bmi][max]" )
+TEST_CASE( "body mass index determines maximum healthiness", "[healthy][bmi][max]" )
 {
     avatar dummy;
 
