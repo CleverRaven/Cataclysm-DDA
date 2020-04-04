@@ -1149,7 +1149,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     }
 }
 
-static void butchery_quarter( item *corpse_item, player &p )
+static void butchery_quarter( item *corpse_item, const player &p )
 {
     corpse_item->set_flag( flag_QUARTERED );
     p.add_msg_if_player( m_good,
@@ -3086,7 +3086,7 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, std::vector<monster *> &fishables )
+static void rod_fish( player *p, const std::vector<monster *> &fishables )
 {
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
