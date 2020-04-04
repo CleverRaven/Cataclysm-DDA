@@ -25,6 +25,7 @@
 #include <vector>
 #include <bitset>
 
+#include "activity_actor.h"
 #include "auto_pickup.h"
 #include "assign.h"
 #include "avatar.h"
@@ -241,6 +242,7 @@ void player_activity::serialize( JsonOut &json ) const
     json.member( "type", type );
 
     if( !type.is_null() ) {
+        json.member( "actor", actor );
         json.member( "moves_left", moves_left );
         json.member( "index", index );
         json.member( "position", position );
@@ -274,10 +276,21 @@ void player_activity::deserialize( JsonIn &jsin )
         return;
     }
 
+    const bool has_actor = activity_actors::deserialize_functions.find( type ) !=
+                           activity_actors::deserialize_functions.end();
+
+    // Handle migration of pre-activity_actor activities
+    // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
+    // this may cause inconvenience but should avoid any lasting damage to npcs
+    if( has_actor && !data.has_member( "actor" ) ) {
+        type = activity_id( "ACT_MIGRATION_CANCEL" );
+    }
+
     if( !data.read( "position", tmppos ) ) {
         tmppos = INT_MIN;  // If loading a save before position existed, hope.
     }
 
+    data.read( "actor", actor );
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;

@@ -95,7 +95,6 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type 
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
-void activity_on_turn_move_items( player_activity &act, player &p );
 void activity_on_turn_move_loot( player_activity &act, player &p );
 //return true if there is an activity that can be done potentially, return false if no work can be found.
 bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );

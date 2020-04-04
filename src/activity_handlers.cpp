@@ -306,7 +306,6 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
-    { ACT_MOVE_ITEMS, move_items_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
@@ -2993,11 +2992,6 @@ void activity_handlers::consume_drink_menu_do_turn( player_activity *, player * 
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 {
     avatar_action::eat( g->u, game_menus::inv::consume_meds( g->u ) );
-}
-
-void activity_handlers::move_items_do_turn( player_activity *act, player *p )
-{
-    activity_on_turn_move_items( *act, *p );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
