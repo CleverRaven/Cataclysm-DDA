@@ -662,8 +662,8 @@ else
 
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(HAVE_PKGCONFIG),1)
-    CXXFLAGS += $(shell pkg-config --cflags $(NCURSES_PREFIX))
-    LDFLAGS += $(shell pkg-config --libs $(NCURSES_PREFIX))
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags $(NCURSES_PREFIX))
+    LDFLAGS += $(shell $(PKG_CONFIG) --libs $(NCURSES_PREFIX))
   else
     ifeq ($(HAVE_NCURSES5CONFIG),1)
       CXXFLAGS += $(shell $(NCURSES_PREFIX)5-config --cflags)
