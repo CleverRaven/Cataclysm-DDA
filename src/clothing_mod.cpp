@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include <string>
-#include <set>
 
 #include "generic_factory.h"
 #include "item.h"
