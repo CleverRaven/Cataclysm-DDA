@@ -2744,7 +2744,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                         check_npc_revert( p );
                         if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
                             const std::string text = string_format(
-                                                         _( "cannot complete %s due as I cannot see where to move components" ),
+                                                         _( "cannot complete %s as I cannot see where to move components" ),
                                                          act_id.obj().verb() );
                             guy->add_to_work_log( ENTRY_WORK_RESULT, text );
                         }
@@ -2875,7 +2875,6 @@ static void report_work_log_result( player &p, activity_id &act_id, activity_rea
     if( !p.is_npc() ) {
         return;
     }
-    ( void )act_id;
     npc *guy = dynamic_cast<npc *>( &p );
     std::string construction_desc = "";
     std::string tripoint_string = string_format( _( "x:%d,y:%d" ), src_loc.x, src_loc.y );
@@ -2932,6 +2931,11 @@ static void report_work_log_result( player &p, activity_id &act_id, activity_rea
                 ignore = true;
             } else if( act_id == activity_id( "ACT_TIDY_UP" ) ) {
                 desc = _( "trying to tidy up, but there is no unsorted zones nearby." );
+            } else {
+                player_activity test_act = player_activity( act_id );
+                desc = string_format(
+                           _( "the job is %s, but there is no applicable zone or object to work on at %s" ),
+                           test_act.get_verb(), tripoint_string );
             }
             break;
         }
@@ -3042,6 +3046,10 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
     const tripoint abspos = g->m.getabs( p.pos() );
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     activity_id activity_to_restore = act.id();
+    tripoint prioritised_spot = tripoint_zero;
+    if( act.placement != tripoint_zero && act.placement != tripoint_min ) {
+        prioritised_spot = act.placement;
+    }
     // Nuke the current activity, leaving the backlog alone
     if( !check_only ) {
         p.activity = player_activity();
@@ -3051,6 +3059,15 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
     std::unordered_set<tripoint> src_set = generic_multi_activity_locations( p, activity_to_restore );
     // now we have our final set of points
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+    if( prioritised_spot != tripoint_zero && activity_to_restore != ACT_FETCH_REQUIRED &&
+        activity_to_restore != ACT_TIDY_UP ) {
+        std::vector<tripoint>::iterator it = std::find( src_sorted.begin(), src_sorted.end(),
+                                             prioritised_spot );
+        if( it != src_sorted.end() ) {
+            src_sorted.erase( it );
+        }
+        src_sorted.insert( src_sorted.begin(), prioritised_spot );
+    }
     // now loop through the work-spot tiles and judge whether its worth travelling to it yet
     // or if we need to fetch something first.
     if( src_set.empty() && p.is_npc() ) {
@@ -3118,7 +3135,11 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
                 // we don't need to check for safe mode,
                 // activity will be restarted only if
                 // player arrives on destination tile
-                p.set_destination( route, player_activity( activity_to_restore ) );
+                player_activity new_activity_to_restore( activity_to_restore );
+                // this process identified the spot that we want to work at.
+                // so prioritise to recheck that one first next time around when we arrive.
+                new_activity_to_restore.placement = src;
+                p.set_destination( route, new_activity_to_restore );
                 return true;
             }
         }

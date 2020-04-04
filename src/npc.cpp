@@ -690,9 +690,6 @@ void npc_log_manager::display( character_id filter_id )
 
 void npc_log_manager::display( std::vector<std::string> entries )
 {
-    if( entries.empty() ) {
-        return;
-    }
     folded.clear();
     w_width = std::min( TERMX, FULL_SCREEN_WIDTH );
     w_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
@@ -713,7 +710,6 @@ void npc_log_manager::display( std::vector<std::string> entries )
     max_height = w_height - 2;
 
     offset = 0;
-
     for( size_t i = 0; i < entries.size(); ++i ) {
         const std::vector<std::string> lines = foldstring( entries[i], max_width - 1 );
         folded.insert( folded.end(), lines.begin(), lines.end() );
@@ -725,7 +721,6 @@ void npc_log_manager::show()
 {
     werase( w );
     draw_border( w, c_white, _( "Work Log" ) );
-
     scrollbar()
     .offset_x( 0 )
     .offset_y( 1 )
@@ -733,20 +728,20 @@ void npc_log_manager::show()
     .viewport_pos( offset )
     .viewport_size( max_height )
     .apply( w );
-
     nc_color col = c_light_gray;
 
     for( int i = 0; i < std::min( static_cast<int>( folded.size() ), max_height ); ++i ) {
+        const int index = std::min( static_cast<int>( folded.size() ), offset + i );
         print_colored_text( w, point( 2, 1 + i ), col, col,
-                            folded[offset + i] );
+                            folded[static_cast<size_t>( index )] );
     }
-
     wrefresh( w );
 }
 
 void npc_log_manager::run()
 {
     bool done = false;
+    offset = std::min( static_cast<int>( folded.size() ), max_height );
     while( !done ) {
         show();
         const std::string &action = ctxt.handle_input();
@@ -3285,9 +3280,6 @@ std::string npc::get_mission_conversion_string()
             break;
         case NPC_MISSION_NULL:
             ret = _( "Mission - Null" );
-            break;
-        case NPC_MISSION_ASSIGNED_CAMP:
-            ret = _( "Mission - Working at Camp" );
             break;
         default:
             ret = _( "Mission - Legacy or error" );

@@ -1723,6 +1723,10 @@ void basecamp::worker_assignment_ui()
 void basecamp::show_work_log()
 {
     std::vector<int> char_ids;
+    validate_assignees();
+    if( get_npcs_assigned().empty() ) {
+        return;
+    }
     for( const npc_ptr guy_ptr : get_npcs_assigned() ) {
         char_ids.push_back( guy_ptr.get()->getID().get_value() );
     }

@@ -305,6 +305,7 @@ std::string enum_to_string<do_activity_reason>( const do_activity_reason act )
         case NEEDS_VEH_DECONST: return "NEEDS_VEH_DECONST";
         case NEEDS_VEH_REPAIR: return "NEEDS_VEH_REPAIR";
         case NEEDS_FISHING: return "NEEDS_FISHING";
+        case NEEDS_MINING: return "NEEDS_MINING";
         // *INDENT-ON*
         case NUM_DO_ACTIVITY_REASON:
             break;
