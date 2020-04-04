@@ -192,11 +192,13 @@
   {
     "type": "mutation",
     "id": "RUMINANT",
+    "name": { "str": "Ruminant" },
     "extend": { "category": [ "MASTODON" ] }
   },
   {
     "type": "mutation",
     "id": "GRAZER",
+    "name": { "str": "Grazer" },
     "extend": { "category": [ "MASTODON" ] }
   },
   {
