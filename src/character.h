@@ -927,7 +927,7 @@ class Character : public Creature, public visitable<Character>
 
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype *cbm, player &patient );
-        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
+        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
         /** Removes a bionic from my_bionics[] */
