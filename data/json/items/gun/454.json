@@ -37,6 +37,8 @@
     "type": "GUN",
     "name": { "str": "Taurus Raging Judge Magnum", "str_pl": "Taurus Raging Judge Magnum" },
     "description": "The Taurus Raging Judge Magnum is a 5-shot revolver chambered in .454 Casull.  It can fire .410 shotshells and .45 Colt cartridges as well.",
-    "weight": "2041 g"
+    "weight": "2070 g",
+    "volume": "1175 ml",
+    "clip_size": 6
   }
 ]
