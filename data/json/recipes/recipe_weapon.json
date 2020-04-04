@@ -435,7 +435,7 @@
     "autolearn": true,
     "book_learn": [ [ "manual_archery", 2 ], [ "recipe_bows", 1 ], [ "book_archery", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick_long", 1 ], [ "2x4", 1 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "bowstring_advanced", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -450,20 +450,34 @@
     "decomp_learn": 1,
     "book_learn": [ [ "manual_archery", 6 ], [ "recipe_bows", 5 ], [ "book_archery", 7 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick_long", 4 ], [ "2x4", 4 ] ], [ [ "cordage_superior", 6, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 4 ], [ "2x4", 4 ] ], [ [ "bowstring_advanced", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "result": "selfbow",
+    "result": "shortbow_makeshift",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
-    "skills_required": [ "survival", 1 ],
+    "skills_required": [ "archery", 0 ], 
     "time": "12 m",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "bowstring_makeshift", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "longbow_makeshift",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": ["archery", 1 ],
+    "difficulty": 1,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "bowstring_makeshift", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -479,7 +493,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bows", 1 ], [ "manual_archery", 2 ], [ "book_archery", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "bowstring_advanced", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -493,7 +507,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bows", 4 ], [ "manual_archery", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
+    "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "bowstring_advanced", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -519,7 +533,7 @@
       [ [ "plastic_chunk", 10 ] ],
       [ [ "sheet_metal_small", 8 ] ],
       [ [ "duct_tape", 200 ], [ "superglue", 8 ] ],
-      [ [ "cordage_superior", 18, "LIST" ] ]
+      [ [ "bowstring_advanced", 1 ] ]
     ]
   },
   {

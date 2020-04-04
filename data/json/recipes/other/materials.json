@@ -144,5 +144,47 @@
     "charges": 3,
     "batch_time_factors": [ 30, 2 ],
     "components": [ [ [ "rolling_paper", 1 ] ], [ [ "chem_black_powder", 3 ], [ "chem_match_head_powder", 3 ], [ "gunpowder", 3 ] ] ]
-  }
+  },
+  {
+    "result": "bowstring_makeshift",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "autolearn": true,
+    "time": "45 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cordage", 3, "LIST" ] ] ]
+  }, 
+  {
+    "result": "bowstring_advanced",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "skills_required": [ "archery", 2 ],
+    "difficulty": 2,
+    "book_learn": [ [ "recipe_bows", 1 ], [ "mag_archery", 1 ], [ "manual_archery", 1 ], [ "book_archery", 1 ], [ "mag_dude", 1 ], [ "mag_survival", 1 ], [ "pocket_survival", 1 ], [ "survival_book", 1 ], [ "textbook_survival", 1 ] ],
+    "autolearn": false,
+    "time": "120 m",
+    "tools": [ [ [ "soldering_iron", 12 ], [ "lighter", 12 ], [ "ref_lighter", 12 ], [ "matches", 12 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cordage_36", 3 ], ["sinew", 900] ], [ [ "candle", 1 ], [ "wax", 1 ], [ "tallow", 1], [ "mutant_tallow", 1], [ "human_tallow", 1 ] ], [ [ "thread", 300 ], [ "sinew", 300 ], [ "plant_fibre", 300 ] ] ]
+  },  
+{
+    "result": "bowstring_advanced",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "id_suffix": "with candle & flame",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "skills_required": [ "archery", 2 ],
+    "difficulty": 2,
+    "book_learn": [ [ "recipe_bows", 1 ], [ "mag_archery", 1 ], [ "manual_archery", 1 ], [ "book_archery", 1 ], [ "mag_dude", 1 ], [ "mag_survival", 1 ], [ "pocket_survival", 1 ], [ "survival_book", 1 ], [ "textbook_survival", 1 ] ],
+    "autolearn": false,
+    "time": "120 m",
+    "tools": [ [ [ "fire", -1 ] ], [ [ "candle", 12 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cordage_36", 3 ], ["sinew", 900] ], [ [ "candle", 1 ], [ "wax", 1 ], [ "tallow", 1], [ "mutant_tallow", 1 ], ["human_tallow", 1 ] ], [ [ "thread", 300 ], [ "sinew", 300 ], [ "plant_fibre", 300 ] ] ]
+  }  
 ]

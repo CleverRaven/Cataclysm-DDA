@@ -107,5 +107,33 @@
     "volume": "1 L",
     "stack_size": 10,
     "weight": "80 g"
+  },
+  {
+    "id": "bowstring_makeshift",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "makeshift bowstring",
+    "symbol": ")",
+    "looks_like": "rope_6",
+    "material": [ "cotton" ],
+    "color": "light_gray",
+    "description": "A relatively strong cord, woven from whatever you had on hand. You could use this to string a simple bow.",
+    "volume": "349ml",
+    "stack_size": 3,
+    "weight": "80 g"
+  },
+  {
+    "id": "bowstring_advanced",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "bowstring",
+    "symbol": ")",
+    "looks_like": "bullwhip",
+    "material": [ "flesh", "dry_plant" ],
+    "color": "light_gray",
+    "description": "A strong, flexible cord, woven from natural cordage or gut and rolled in wax or tallow. It has two small knots reinforcing its attachment points, and one on which an arrow could sit, all sealed with a small flame. You could use this to string a proper bow.",
+    "volume": "399ml",
+    "stack_size": 3,
+    "weight": "100 g"
   }
 ]

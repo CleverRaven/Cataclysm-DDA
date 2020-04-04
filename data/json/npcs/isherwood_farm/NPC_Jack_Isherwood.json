@@ -71,7 +71,8 @@
       { "item": "reflexbow", "prob": 10 },
       { "item": "longbow", "prob": 10 },
       { "item": "hand_crossbow", "prob": 15 },
-      { "item": "selfbow", "prob": 5 }
+      { "item": "shortbow_makeshift", "prob": 5 },
+      { "item": "longbow_makeshift", "prob": 5 }
     ]
   },
   {
