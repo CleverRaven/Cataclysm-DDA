@@ -2664,6 +2664,8 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 "item": "leather",        // item to consume.
 "implement_prompt": "Pad with leather",      // prompt to show when implement mod.
 "destroy_prompt": "Destroy leather padding", // prompt to show when destroy mod.
+"time_base": "30 s",      // (optional, default 30 seconds) amount of time the mod takes to apply (will later be multiplied by parts used)
+"difficulty": 1,          // (optional) difficulty to apply the mod
 "restricted": true,       // (optional) If true, clothing must list this mod's flag in "valid_mods" list to use it. Defaults to false.
 "flags_applied": [ ],     // (optional) a list of additional flags to apply to the clothing when this mod is active
 "flags_excluded": [ ],    // (optional) a list of flags this mod is incompatible with (regardless of whether it's restricted)
