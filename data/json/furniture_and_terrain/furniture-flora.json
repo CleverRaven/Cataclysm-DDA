@@ -300,5 +300,20 @@
       "sound_fail": "whump.",
       "items": [ { "item": "withered", "count": [ 45, 50 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_mustard",
+    "name": "mustard",
+    "description": "Yellow flower known as Brassica Nigra.  Known for its seeds that can be used for making table mustard.",
+    "symbol": "f",
+    "color": "yellow",
+    "looks_like": "f_dandelion",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn",
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "seed_mustard", "base_num": [ 2, 6 ] } ] } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   }
 ]
