@@ -454,7 +454,7 @@
   },
   {
     "type": "recipe",
-    "result": "shortbow_makeshift",
+    "result": "selfbow",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",

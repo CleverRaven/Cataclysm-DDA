@@ -331,7 +331,7 @@
     "effects": [ "IGNITE" ]
   },
   {
-    "id": "shortbow_makeshift",
+    "id": "selfbow",
     "looks_like": "longbow",
     "type": "GUN",
     "symbol": "(",
@@ -358,12 +358,12 @@
     "clip_size": 1
   },
   {
-    "id": "longbow_makeshift",
+    "id": "flatbow_makeshift",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
-    "name": { "str": "makeshift longbow" },
-    "description": "A terribly bulky and awkward effort at recreating an effective English weapon. Much larger, harder to draw, and more accurate than the shortbow alternative, but you still feel embarrassed for whoever made this.",
+    "name": { "str": "makeshift flatbow" },
+    "description": "A terribly bulky and awkward full-length bow. Much larger, harder to draw, and more accurate than the shortbow alternative, but you still feel embarrassed for whoever made this.",
     "price": 200,
     "//": "TODO: I don't know the math here, just going to try for Balanced Game Design Numbers(TM) for now. Higher strength requirement relative to normal longbow is to reflect its higher weight and makeshift bowstring",
     "material": "wood",
@@ -597,10 +597,10 @@
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
-    "name": { "str": "longbow" },
-    "description": "A six-foot wooden bow that takes a fair amount of strength to draw.  It can be used effectively by those of somewhat above-average strength.  Used mainly in medieval England in wartime, but pierces zombie hide just as well as chainmail.",
+    "name": { "str": "flatbow" },
+    "description": "A simple, six-foot wooden bow that takes a fair amount of strength to draw.  It can be used effectively by those of somewhat above-average strength.",
     "price": 50000,
-    "//": "70in Yew Longbow at 28in, 60 lbs draw, 45J, 0.37 slugs with 30g arrow",
+    "//": "TODO: using old longbow stats for now. 70in Yew Longbow at 28in, 60 lbs draw, 45J, 0.37 slugs with 30g arrow",
     "material": "wood",
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
