@@ -5301,7 +5301,7 @@ int item::get_coverage() const
 
     result += get_clothing_mod_val( clothing_mod_type_coverage );
 
-    return std::max( 0, std::min( result, 100 ) );
+    return clamp( result, 0, 100 );
 }
 
 int item::get_thickness() const
