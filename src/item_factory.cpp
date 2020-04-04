@@ -514,6 +514,14 @@ void Item_factory::finalize_post( itype &obj )
         }
     }
 
+    if( obj.comestible ) {
+        for( const std::pair<diseasetype_id, int> elem : obj.comestible->contamination ) {
+            const diseasetype_id dtype = elem.first;
+            if( !dtype.is_valid() ) {
+                debugmsg( "contamination in %s contains invalid diseasetype_id %s.", obj.id, dtype.c_str() );
+            }
+        }
+    }
     for( std::string &line : obj.ascii_picture ) {
         if( utf8_width( remove_color_tags( line ) ) > ascii_art_width ) {
             line = trim_by_length( line, ascii_art_width );
@@ -762,6 +770,7 @@ void Item_factory::init()
     add_iuse( "BLECH_BECAUSE_UNCLEAN", &iuse::blech_because_unclean );
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
     add_iuse( "C4", &iuse::c4 );
+    add_iuse( "TOW_ATTACH", &iuse::tow_attach );
     add_iuse( "CABLE_ATTACH", &iuse::cable_attach );
     add_iuse( "CAMERA", &iuse::camera );
     add_iuse( "CAN_GOO", &iuse::can_goo );
@@ -1834,12 +1843,16 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "fatigue_mod", slot.fatigue_mod, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
-    assign( jo, "contamination", slot.contamination, strict, 0, 100 );
     assign( jo, "radiation", slot.radiation, strict );
     assign( jo, "freezing_point", slot.freeze_point, strict );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
+
+    for( const JsonObject &jsobj : jo.get_array( "contamination" ) ) {
+        slot.contamination.emplace( diseasetype_id( jsobj.get_string( "disease" ) ),
+                                    jsobj.get_int( "probability" ) );
+    }
 
     if( jo.has_member( "primary_material" ) ) {
         std::string mat = jo.get_string( "primary_material" );

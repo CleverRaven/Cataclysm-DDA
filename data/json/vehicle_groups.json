@@ -419,15 +419,58 @@
     "type": "vehicle_group",
     "id": "crashed_helicopters",
     "vehicles": [
-      [ "helicopter_wreck_1a", 100 ],
-      [ "helicopter_wreck_1b", 400 ],
-      [ "helicopter_wreck_1c", 200 ],
-      [ "helicopter_wreck_2a", 100 ],
-      [ "helicopter_wreck_2b", 400 ],
-      [ "helicopter_wreck_2c", 200 ],
-      [ "helicopter_wreck_3a", 100 ],
-      [ "helicopter_wreck_3b", 400 ],
-      [ "helicopter_wreck_3c", 200 ]
+      [ "helicopter_apache_1a", 100 ],
+      [ "helicopter_apache_1b", 400 ],
+      [ "helicopter_apache_1c", 200 ],
+      [ "helicopter_osprey_2a", 100 ],
+      [ "helicopter_osprey_2b", 400 ],
+      [ "helicopter_osprey_2c", 200 ],
+      [ "helicopter_blackhawk_3a", 100 ],
+      [ "helicopter_blackhawk_3b", 400 ],
+      [ "helicopter_blackhawk_3c", 200 ],
+      [ "2seater2_Wreck", 400 ],
+      [ "SmallFlier3_Wreck", 400 ],
+      [ "Smallflier1_Wreck", 400 ],
+      [ "SmallFlier2_Wreck", 400 ],
+      [ "Medevac1_Wreck", 400 ],
+      [ "Medevac2_Wreck", 400 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "helicopters",
+    "vehicles": [
+      [ "2seater2", 100 ],
+      [ "SmallFlier1", 400 ],
+      [ "2seater2_Wreck", 200 ],
+      [ "SmallFlier3_Wreck", 100 ],
+      [ "SmallFlier2", 400 ],
+      [ "Medevac1", 100 ],
+      [ "Smallflier1_Wreck", 200 ],
+      [ "SmallFlier2_Wreck", 200 ],
+      [ "Medevac1_Wreck", 100 ],
+      [ "SmallFlier3", 400 ],
+      [ "Medevac2", 200 ],
+      [ "Medevac2_Wreck", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "mil_helicopters",
+    "vehicles": [
+      [ "Medevac1", 200 ],
+      [ "Medevac2", 200 ],
+      [ "Medevac1_Wreck", 200 ],
+      [ "Medevac2_Wreck", 200 ],
+      [ "helicopter_apache_1a", 200 ],
+      [ "helicopter_apache_1b", 400 ],
+      [ "helicopter_apache_1c", 200 ],
+      [ "helicopter_osprey_2a", 100 ],
+      [ "helicopter_osprey_2b", 400 ],
+      [ "helicopter_osprey_2c", 200 ],
+      [ "helicopter_blackhawk_3a", 100 ],
+      [ "helicopter_blackhawk_3b", 400 ],
+      [ "helicopter_blackhawk_3c", 200 ]
     ]
   },
   {

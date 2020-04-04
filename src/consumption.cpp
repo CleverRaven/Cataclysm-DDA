@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "disease.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
@@ -1001,11 +1002,9 @@ bool player::eat( item &food, bool force )
         }
     }
 
-    // Chance to get food poisoning from bacterial contamination
-    if( !will_vomit && !has_bionic( bio_digestion ) ) {
-        const int contamination = food.get_comestible()->contamination;
-        if( rng( 1, 100 ) <= contamination ) {
-            add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
+    for( const std::pair<diseasetype_id, int> &elem : food.get_comestible()->contamination ) {
+        if( rng( 1, 100 ) <= elem.second ) {
+            expose_to_disease( elem.first );
         }
     }
 

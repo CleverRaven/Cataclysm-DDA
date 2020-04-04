@@ -208,4 +208,7 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
 
 int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty );
 
+std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &bios,
+        const trait_id &tid );
+
 #endif

@@ -95,6 +95,7 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
+static const trait_id trait_PROF_HELI_PILOT( "PROF_HELI_PILOT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
@@ -424,7 +425,7 @@ inline static void rcdrive( point d )
     return rcdrive( d.x, d.y );
 }
 
-static void pldrive( int x, int y )
+static void pldrive( int x, int y, int z = 0 )
 {
     if( !g->check_safe_mode_allowed() ) {
         return;
@@ -467,8 +468,28 @@ static void pldrive( int x, int y )
             return;
         }
     }
-
-    veh->pldrive( point( x, y ) );
+    if( !remote && z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
+        u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
+        return;
+    }
+    if( z != 0 && !g->m.has_zlevels() ) {
+        u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
+        return;
+    }
+    if( z == -1 ) {
+        if( veh->check_heli_descend( u ) ) {
+            u.add_msg_if_player( m_info, _( "You steer the vehicle into a descent." ) );
+        } else {
+            return;
+        }
+    } else if( z == 1 ) {
+        if( veh->check_heli_ascend( u ) ) {
+            u.add_msg_if_player( m_info, _( "You steer the vehicle into an ascent." ) );
+        } else {
+            return;
+        }
+    }
+    veh->pldrive( point( x, y ), z );
 }
 
 inline static void pldrive( point d )
@@ -1785,6 +1806,8 @@ bool game::handle_action()
                 }
                 if( !u.in_vehicle ) {
                     vertical_move( -1, false );
+                } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
+                    pldrive( 0, 0, -1 );
                 }
                 break;
 
@@ -1798,6 +1821,8 @@ bool game::handle_action()
                 }
                 if( !u.in_vehicle ) {
                     vertical_move( 1, false );
+                } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
+                    pldrive( 0, 0, 1 );
                 }
                 break;
 

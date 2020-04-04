@@ -33,7 +33,7 @@ TEST_CASE( "set_and_get_overmap_scents" )
     REQUIRE( test_overmap->scent_at( { 75, 85, 0} ).initial_strength == 90 );
 }
 
-TEST_CASE( "default_overmap_generation_always_succeeds" )
+TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
 {
     int overmaps_to_construct = 10;
     for( const point &candidate_addr : closest_points_first( point_zero, 10 ) ) {
@@ -55,7 +55,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds" )
     }
 }
 
-TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin" )
+TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[slow]" )
 {
     const point origin = point_zero;
 

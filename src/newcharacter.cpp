@@ -1200,6 +1200,10 @@ tab_direction set_traits( avatar &u, points_left &points )
             int inc_type = 0;
             const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
             const mutation_branch &mdata = cur_trait.obj();
+
+            // Look through the profession bionics, and see if any of them conflict with this trait
+            std::vector<bionic_id> cbms_blocking_trait = bionics_cancelling_trait( u.prof->CBMs(), cur_trait );
+
             if( u.has_trait( cur_trait ) ) {
 
                 inc_type = -1;
@@ -1220,6 +1224,15 @@ tab_direction set_traits( avatar &u, points_left &points )
             } else if( u.prof->is_forbidden_trait( cur_trait ) ) {
                 popup( _( "Your profession of %s prevents you from taking this trait." ),
                        u.prof->gender_appropriate_name( u.male ) );
+            } else if( !cbms_blocking_trait.empty() ) {
+                // Grab a list of the names of the bionics that block this trait
+                // So that the player know what is preventing them from taking it
+                std::vector<std::string> conflict_names;
+                for( const bionic_id &conflict : cbms_blocking_trait ) {
+                    conflict_names.emplace_back( conflict->name.translated() );
+                }
+                popup( _( "The following bionics prevent you from taking this trait: %s." ),
+                       enumerate_as_string( conflict_names ) );
             } else if( iCurWorkingPage == 0 && num_good + mdata.points >
                        max_trait_points && !points.is_freeform() ) {
                 popup( ngettext( "Sorry, but you can only take %d point of advantages.",
@@ -1596,11 +1609,11 @@ tab_direction set_profession( avatar &u, points_left &points,
             for( const trait_id &old_trait : u.prof->get_locked_traits() ) {
                 u.toggle_trait( old_trait );
             }
+            const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
             u.prof = &sorted_profs[cur_id].obj();
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
             u.add_traits( points );
-            const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
             points.skill_points -= netPointCost;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
@@ -2200,7 +2213,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 {
 
     static constexpr int RANDOM_START_LOC_ENTRY = INT_MIN;
-    const std::string RANDOM_START_LOC_TEXT = _( "<color_red>* Random location *</color>" );
+    const std::string RANDOM_START_LOC_TEXT = _( "* Random location *" );
 
     ui_adaptor ui;
     catacurses::window w;
@@ -2250,6 +2263,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     select_location.text = _( "Select a starting location." );
     int offset = 1;
     uilist_entry entry_random_start_location( RANDOM_START_LOC_ENTRY, true, -1, RANDOM_START_LOC_TEXT );
+    entry_random_start_location.text_color = c_red;
     select_location.entries.emplace_back( entry_random_start_location );
     for( const auto &loc : start_location::get_all() ) {
         if( g->scen->allowed_start( loc.ident() ) ) {
@@ -2418,7 +2432,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         mvwprintz( w_location, point( prompt_offset + 1, 0 ), c_light_gray, _( "Starting location:" ) );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, point( prompt_offset + utf8_width( _( "Starting location:" ) ) + 2, 0 ),
-                   c_light_gray,
+                   you.random_start_location ? c_red : c_light_gray,
                    you.random_start_location ? RANDOM_START_LOC_TEXT : you.start_location.obj().name() );
         wrefresh( w_location );
 

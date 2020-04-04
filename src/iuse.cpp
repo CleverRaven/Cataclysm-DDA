@@ -8823,6 +8823,133 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
+int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
+{
+    std::string initial_state = it->get_var( "state", "attach_first" );
+    if( !p ) {
+        return 0;
+    }
+    const auto set_cable_active = []( player * p, item * it, const std::string & state ) {
+        it->set_var( "state", state );
+        it->active = true;
+        it->process( p, p->pos(), false );
+        p->moves -= 15;
+    };
+    if( initial_state == "attach_first" ) {
+        const cata::optional<tripoint> posp_ = choose_adjacent(
+                _( "Attach cable to the vehicle that will do the towing." ) );
+        if( !posp_ ) {
+            return 0;
+        }
+        const tripoint posp = *posp_;
+        const optional_vpart_position vp = g->m.veh_at( posp );
+        if( !vp ) {
+            p->add_msg_if_player( _( "There's no vehicle there." ) );
+            return 0;
+        } else {
+            vehicle *const source_veh = veh_pointer_or_null( vp );
+            if( source_veh ) {
+                if( source_veh->has_tow_attached() || source_veh->is_towed() ||
+                    source_veh->is_towing() ) {
+                    p->add_msg_if_player( _( "That vehicle already has a tow-line attached." ) );
+                    return 0;
+                }
+                if( !source_veh->is_external_part( posp ) ) {
+                    p->add_msg_if_player( _( "You can't attach the tow-line to an internal part." ) );
+                    return 0;
+                }
+            }
+            const tripoint &abspos = g->m.getabs( posp );
+            it->set_var( "source_x", abspos.x );
+            it->set_var( "source_y", abspos.y );
+            it->set_var( "source_z", g->get_levz() );
+            set_cable_active( p, it, "pay_out_cable" );
+        }
+    } else {
+        const auto confirm_source_vehicle = []( player * p, item * it, const bool detach_if_missing ) {
+            tripoint source_global( it->get_var( "source_x", 0 ),
+                                    it->get_var( "source_y", 0 ),
+                                    it->get_var( "source_z", 0 ) );
+            tripoint source_local = g->m.getlocal( source_global );
+            const optional_vpart_position source_vp = g->m.veh_at( source_local );
+            vehicle *const source_veh = veh_pointer_or_null( source_vp );
+            if( detach_if_missing && source_veh == nullptr ) {
+                if( p->has_item( *it ) ) {
+                    p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                }
+                it->reset_cable( p );
+            }
+            return source_vp;
+        };
+
+        const bool paying_out = initial_state == "pay_out_cable";
+        uilist kmenu;
+        kmenu.text = _( "Using cable:" );
+        kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        kmenu.addentry( 1, paying_out, -1, _( "Attach loose end to vehicle" ) );
+
+        kmenu.query();
+        int choice = kmenu.ret;
+
+        if( choice < 0 ) {
+            return 0; // we did nothing.
+        } else if( choice == 0 ) { // unconnect & respool
+            it->reset_cable( p );
+            return 0;
+        }
+        const optional_vpart_position source_vp = confirm_source_vehicle( p, it, paying_out );
+        vehicle *const source_veh = veh_pointer_or_null( source_vp );
+        if( source_veh == nullptr && paying_out ) {
+            return 0;
+        }
+        const cata::optional<tripoint> vpos_ = choose_adjacent(
+                _( "Attach cable to vehicle that will be towed." ) );
+        if( !vpos_ ) {
+            return 0;
+        }
+        const tripoint vpos = *vpos_;
+
+        const optional_vpart_position target_vp = g->m.veh_at( vpos );
+        if( !target_vp ) {
+            p->add_msg_if_player( _( "There's no vehicle there." ) );
+            return 0;
+        } else {
+            vehicle *const target_veh = &target_vp->vehicle();
+            if( target_veh && ( target_veh->has_tow_attached() || target_veh->is_towed() ||
+                                target_veh->is_towing() ) ) {
+                p->add_msg_if_player( _( "That vehicle already has a tow-line attached." ) );
+                return 0;
+            }
+            if( source_veh == target_veh ) {
+                if( p->has_item( *it ) ) {
+                    p->add_msg_if_player( m_warning, _( "You cannot set a vehicle to tow itself!" ) );
+                }
+                return 0;
+            }
+            if( !target_veh->is_external_part( vpos ) ) {
+                p->add_msg_if_player( _( "You can't attach the tow-line to an internal part." ) );
+                return 0;
+            }
+            const vpart_id vpid( it->typeId() );
+            point vcoords = source_vp->mount();
+            vehicle_part source_part( vpid, vcoords, item( *it ) );
+            source_veh->install_part( vcoords, source_part );
+            vcoords = target_vp->mount();
+            vehicle_part target_part( vpid, vcoords, item( *it ) );
+            target_veh->install_part( vcoords, target_part );
+
+            if( p->has_item( *it ) ) {
+                p->add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
+                                      source_veh->name, target_veh->name );
+            }
+            source_veh->tow_data.set_towing( source_veh, target_veh );
+            return 1; // Let the cable be destroyed.
+        }
+    }
+
+    return 0;
+}
+
 int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 {
     std::string initial_state = it->get_var( "state", "attach_first" );

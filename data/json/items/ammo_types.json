@@ -283,6 +283,18 @@
   },
   {
     "type": "ammunition_type",
+    "id": "jp8",
+    "name": "jp8",
+    "default": "jp8"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "avgas",
+    "name": "avgas",
+    "default": "avgas"
+  },
+  {
+    "type": "ammunition_type",
     "id": "diesel",
     "name": "diesel",
     "default": "diesel"
