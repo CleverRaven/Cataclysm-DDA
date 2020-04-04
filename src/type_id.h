@@ -31,6 +31,9 @@ using efftype_id = string_id<effect_type>;
 class scent_type;
 using scenttype_id = string_id<scent_type>;
 
+class disease_type;
+using diseasetype_id = string_id<disease_type>;
+
 class emit;
 using emit_id = string_id<emit>;
 

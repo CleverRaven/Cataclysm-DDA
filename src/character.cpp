@@ -16,6 +16,7 @@
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "disease.h"
 #include "effect.h"
 #include "event_bus.h"
 #include "field.h"
@@ -1483,6 +1484,25 @@ void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, 
                             bool permanent, int intensity, bool force, bool deferred )
 {
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
+}
+
+void Character::expose_to_disease( const diseasetype_id dis_type )
+{
+    const cata::optional<int> &healt_thresh = dis_type->health_threshold;
+    if( healt_thresh && healt_thresh.value() < get_healthy() ) {
+        return;
+    }
+    const std::set<body_part> &bps = dis_type->affected_bodyparts;
+    if( !bps.empty() ) {
+        for( const body_part &bp : bps ) {
+            add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), bp, false,
+                        rng( dis_type->min_intensity, dis_type->max_intensity ) );
+        }
+    } else {
+        add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), num_bp,
+                    false,
+                    rng( dis_type->min_intensity, dis_type->max_intensity ) );
+    }
 }
 
 void Character::process_turn()
