@@ -138,7 +138,7 @@
     "copy-from": "textbook_atomic",
     "skill": "cooking",
     "required_level": 9,
-    "max_level": 10,
+    "max_level": 10
   },
   {
     "id": "millyficents_diary",
