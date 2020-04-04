@@ -8,6 +8,7 @@
 #include <array>
 
 #include "type_id.h"
+#include "calendar.h"
 
 class JsonObject;
 class player;
@@ -78,6 +79,10 @@ struct clothing_mod {
     std::string item_string;
     std::string implement_prompt;
     std::string destroy_prompt;
+		/** (optional) base time to complete the mod (default 30s), multiplied by number of material items consumed **/
+		time_duration time_base = 30_seconds;
+		/** (optional) difficulty, default 1 **/
+		int difficulty = 1;
     /** (optional) additional flags that the mod applies to the clothing **/
     std::vector< std::string > apply_flags;
     /** (optional) flags the mod is incompatible with, regardless of other issues **/

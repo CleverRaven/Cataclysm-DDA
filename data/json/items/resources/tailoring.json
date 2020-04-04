@@ -193,7 +193,7 @@
     "category": "spare_parts",
     "price": 8000,
     "price_postapoc": 7000,
-    "name": { "str": "quarter of lace", "str_pl": "quarter of lace" },
+    "name": { "str": "quarter of lace", "str_pl": "quarters of lace" },
     "symbol": "=",
     "looks_like": "sheet",
     "color": "red",

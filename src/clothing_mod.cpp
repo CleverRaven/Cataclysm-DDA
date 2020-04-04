@@ -6,6 +6,7 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "debug.h"
+#include "calendar.h"
 
 namespace
 {
@@ -64,7 +65,12 @@ void clothing_mod::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "implement_prompt", implement_prompt );
     mandatory( jo, was_loaded, "destroy_prompt", destroy_prompt );
     optional( jo, was_loaded, "restricted", restricted, false );
-    optional( jo, was_loaded, "min_coverage", min_coverage, 0.0f );
+    if( jo.has_string( "time_base" ) ) {
+        time_base = read_from_json_string<time_duration>( *jo.get_raw( "time_base" ),
+                    time_duration::units );
+    }
+    optional( jo, was_loaded, "difficulty", difficulty, 1 );
+    optional( jo, was_loaded, "min_coverage", min_coverage, 0 );
     optional( jo, was_loaded, "apply_flags", apply_flags, auto_flags_reader<> {} );
     optional( jo, was_loaded, "exclude_flags", exclude_flags, auto_flags_reader<> {} );
 

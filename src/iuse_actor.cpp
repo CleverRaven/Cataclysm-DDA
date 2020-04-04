@@ -1969,7 +1969,8 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
 
     for( item &corpse_candidate : items ) {
         const mtype *mt = corpse_candidate.get_mtype();
-        if( corpse_candidate.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
+        if( corpse_candidate.is_corpse() && mt->in_species( ZOMBIE ) &&
+            mt->made_of( material_id( "flesh" ) ) &&
             mt->in_species( HUMAN ) && corpse_candidate.active && !corpse_candidate.has_var( "zlave" ) ) {
             corpses.push_back( &corpse_candidate );
         }
@@ -4814,7 +4815,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                                              volume_units_abbr() ), get_volume_compare_color( before, after, true ) );
         }
         if( obj.applies_flags() ) {
-            desc += "\n";
+            desc += "\nProperties gained:\n";
             for( const std::string &e : obj.apply_flags ) {
                 const json_flag &f = json_flag::get( e );
                 if( !f.info().empty() ) {
@@ -4822,6 +4823,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 }
             }
         }
+        desc += string_format( "\nIt will take about %s to complete.\n",
+                               to_string( obj.time_base * items_needed * p.fine_detail_vision_mod() ) );
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }
@@ -4834,13 +4837,13 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    // The mod player picked
-    const std::string &the_mod = clothing_mods[choice].obj().flag;
+    // The mod the player picked
+    const clothing_mod &the_mod = clothing_mods[choice].obj();
 
     // If the picked mod already exists, player wants to destroy it
-    if( mod.item_tags.count( the_mod ) ) {
+    if( mod.item_tags.count( the_mod.flag ) ) {
         if( query_yn( _( "Are you sure?  You will not gain any materials back." ) ) ) {
-            mod.item_tags.erase( the_mod );
+            mod.item_tags.erase( the_mod.flag );
         }
         mod.update_clothing_mod_val();
 
@@ -4850,17 +4853,25 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     // Get the id of the material used
     const auto &repair_item = clothing_mods[choice].obj().item_string;
 
+    // TODO bring this more in line with difficulty for repairs & weapon mods
+    // the way this will work out right now is that it's extremely difficult
+    // to add more than 2 mods for anybody with sub-legendary skill levels
+    // it's also easier to do easy mods first, then hard mods; it would be nicer
+    // if the complexity of preexisting mods factored into the difficulty roll
     std::vector<item_comp> comps;
     comps.push_back( item_comp( repair_item, items_needed ) );
-    p.moves -= to_moves<int>( 30_seconds * p.fine_detail_vision_mod() );
-    p.practice( used_skill, items_needed * 3 + 3 );
+    p.moves -= to_moves<int>( the_mod.time_base * items_needed * p.fine_detail_vision_mod() );
+    // concerned that spamming really hard mods on trash items might be
+    // a way to quickly practice tailoring, but the material costs should
+    // be high for higher difficulty mods so maybe that's ok
+    p.practice( used_skill, items_needed * ( 2 + the_mod.difficulty ) + 3 );
     /** @EFFECT_TAILOR randomly improves clothing modification efforts */
     int rn = dice( 3, 2 + p.get_skill_level( used_skill ) ); // Skill
     /** @EFFECT_DEX randomly improves clothing modification efforts */
     rn += rng( 0, p.dex_cur / 2 );                    // Dexterity
     /** @EFFECT_PER randomly improves clothing modification efforts */
     rn += rng( 0, p.per_cur / 2 );                    // Perception
-    rn -= mod_count * 10;                              // Other mods
+    rn -= mod_count * ( 1 + the_mod.difficulty ) * 5; // Other mods
 
     if( rn <= 8 ) {
         const std::string startdurability = mod.durability_indicator( true );
@@ -4882,13 +4893,13 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of thread." ),
                              mod.tname() );
         p.consume_items( comps, 1, is_crafting_component );
-        mod.item_tags.insert( the_mod );
+        mod.item_tags.insert( the_mod.flag );
         mod.update_clothing_mod_val();
         return thread_needed;
     }
 
     p.add_msg_if_player( m_good, _( "You modify your %s!" ), mod.tname() );
-    mod.item_tags.insert( the_mod );
+    mod.item_tags.insert( the_mod.flag );
     mod.update_clothing_mod_val();
     p.consume_items( comps, 1, is_crafting_component );
     return thread_needed / 2;

@@ -8,6 +8,8 @@
     "//": "technically cutwork should not consume lace as the lace is constructed in-place, this is a gamey/UI thing - need fixes to crafting inventories to remove this",
     "item": "sheet_lace",
     "min_coverage": 15,
+    "time_base": "30 m",
+    "difficulty": 4,
     "implement_prompt": "Enhance with luxurious lace cutwork",
     "destroy_prompt": "Remove cutwork",
     "mod_value": [
@@ -26,6 +28,7 @@
     "implement_prompt": "Embroider with generic patterns",
     "destroy_prompt": "Pull out generic embroidery",
     "item": "rag",
+    "difficulty": 2,
     "apply_flags": [ "FANCY" ],
     "exclude_flags": [ "SUPER_FANCY" ],
     "mod_value": [ { "type": "encumbrance", "value": 1, "proportion": [ "coverage" ] } ]
@@ -77,6 +80,8 @@
     "implement_prompt": "Raise the hemline",
     "destroy_prompt": "Restore the hemline",
     "min_coverage": 15,
+    "time_base": "5 m",
+    "difficulty": 2,
     "mod_value": [
       { "type": "warmth", "value": -5, "round_up": true, "proportion": [ "coverage" ] },
       { "type": "coverage", "value": -50, "round_up": false, "proportion": [ "coverage" ] },
@@ -92,6 +97,8 @@
     "implement_prompt": "Lower the hemline",
     "destroy_prompt": "Restore the hemline",
     "min_coverage": 40,
+    "time_base": "5 m",
+    "difficulty": 2,
     "mod_value": [
       { "type": "warmth", "value": 1, "round_up": false, "proportion": [ "coverage", "thickness" ] },
       { "type": "coverage", "value": 15, "round_up": false, "proportion": [ "coverage" ] },
