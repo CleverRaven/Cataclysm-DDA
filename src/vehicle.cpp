@@ -752,13 +752,13 @@ static int get_turn_from_angle( const double angle, const tripoint &vehpos, cons
     if( angle > 10.0 && angle <= 45.0 ) {
         return reverse ? 4 : 1;
     } else if( angle > 45.0 && angle <= 90.0 ) {
-        return reverse ? 3 : 3;
+        return 3;
     } else if( angle > 90.0 && angle < 180.0 ) {
         return reverse ? 1 : 4;
     } else if( angle < -10.0 && angle >= -45.0 ) {
         return reverse ? -4 : -1;
     } else if( angle < -45.0 && angle >= -90.0 ) {
-        return reverse ? -3 : -3;
+        return -3;
     } else if( angle < -90.0 && angle > -180.0 ) {
         return reverse ? -1 : -4;
         // edge case of being exactly on the button for the target.

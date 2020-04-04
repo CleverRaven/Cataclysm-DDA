@@ -3586,17 +3586,12 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
 {
     std::vector<options_manager::id_and_option> renderer_names;
     std::vector<options_manager::id_and_option> default_renderer_names = {
-#if defined(TILES)
 #   if defined(_WIN32)
         { "direct3d", translate_marker( "direct3d" ) },
 #   endif
         { "software", translate_marker( "software" ) },
         { "opengl", translate_marker( "opengl" ) },
         { "opengles2", translate_marker( "opengles2" ) },
-#else
-        { "software", translate_marker( "software" ) }
-#endif
-
     };
     int numRenderDrivers = SDL_GetNumRenderDrivers();
     DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;
