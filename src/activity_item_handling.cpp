@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "construction.h"
 #include "clzones.h"
 #include "debug.h"
@@ -73,6 +74,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_nausea( "nausea" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
@@ -3030,6 +3032,79 @@ static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoin
     }
 
     return {};
+}
+
+bool find_auto_consume( player &p, const bool food )
+{
+    // return false if there is no point searching again while the activity is still happening.
+    if( p.is_npc() ) {
+        return false;
+    }
+    if( p.has_effect( effect_nausea ) ) {
+        return true;
+    }
+    static const std::string flag_MELTS( "MELTS" );
+    static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
+    const tripoint pos = p.pos();
+    zone_manager &mgr = zone_manager::get_manager();
+    zone_type_id consume_type_zone( "" );
+    if( food ) {
+        consume_type_zone = zone_type_id( "AUTO_EAT" );
+    } else {
+        consume_type_zone = zone_type_id( "AUTO_DRINK" );
+    }
+    const std::unordered_set<tripoint> &dest_set = mgr.get_near( consume_type_zone, g->m.getabs( pos ),
+            ACTIVITY_SEARCH_DISTANCE );
+    if( dest_set.empty() ) {
+        return false;
+    }
+    for( const tripoint loc : dest_set ) {
+        if( loc.z != p.pos().z ) {
+            continue;
+        }
+        map_stack food_there = g->m.i_at( g->m.getlocal( loc ) );
+        for( item &it : food_there ) {
+            item &comest = p.get_consumable_from( it );
+            if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
+                p.fun_for( comest ).first < -5 ) {
+                // not good eatings.
+                continue;
+            }
+            if( !p.can_consume( it ) ) {
+                continue;
+            }
+            if( food && p.compute_effective_nutrients( comest ).kcal < 50 ) {
+                // not filling enough
+                continue;
+            }
+            if( !p.will_eat( comest, false ).success() ) {
+                // wont like it, cannibal meat etc
+                continue;
+            }
+            if( !it.is_owned_by( p, true ) ) {
+                // it aint ours.
+                continue;
+            }
+            if( !food && comest.get_comestible()->quench < 15 ) {
+                // not quenching enough
+                continue;
+            }
+            if( !food && it.is_watertight_container() && it.contents_made_of( SOLID ) ) {
+                // its frozen
+                continue;
+            }
+            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
+                         g->m.getlocal( loc ) ), 1 ) );
+            item_location item_loc( map_cursor( g->m.getlocal( loc ) ), &it );
+            avatar_action::eat( g->u, item_loc );
+            // eat() may have removed the item, so check its still there.
+            if( item_loc.get_item() && item_loc->is_container() ) {
+                item_loc->on_contents_changed();
+            }
+            return true;
+        }
+    }
+    return false;
 }
 
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )

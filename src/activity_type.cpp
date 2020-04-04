@@ -57,6 +57,7 @@ void activity_type::load( const JsonObject &jo )
     assign( jo, "no_resume", result.no_resume_, true );
     assign( jo, "multi_activity", result.multi_activity_, false );
     assign( jo, "refuel_fires", result.refuel_fires, false );
+    assign( jo, "auto_needs", result.auto_needs, false );
 
     std::string activity_level = jo.get_string( "activity_level", "" );
     if( activity_level.empty() ) {

@@ -137,6 +137,22 @@ void player_activity::do_turn( player &p )
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
     }
+    if( calendar::once_every( 30_minutes ) ) {
+        no_food_nearby_for_auto_consume = false;
+        no_drink_nearby_for_auto_consume = false;
+    }
+    if( *this && !p.is_npc() && type->valid_auto_needs() && !no_food_nearby_for_auto_consume ) {
+        if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f ) {
+            if( !find_auto_consume( p, true ) ) {
+                no_food_nearby_for_auto_consume = true;
+            }
+        }
+        if( p.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
+            if( !find_auto_consume( p, false ) ) {
+                no_drink_nearby_for_auto_consume = true;
+            }
+        }
+    }
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
             moves_left -= 100;
