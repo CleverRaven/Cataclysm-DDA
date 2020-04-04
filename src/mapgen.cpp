@@ -7250,6 +7250,10 @@ bool update_mapgen_function_json::setup_internal( const JsonObject &/*jo*/ )
 bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const point &offset,
         mission *miss, bool verify ) const
 {
+    if( omt_pos == overmap::invalid_tripoint ) {
+        debugmsg( "Mapgen update function called with overmap::invalid_tripoint" );
+        return false;
+    }
     tinymap update_tmap;
     const tripoint sm_pos = omt_to_sm_copy( omt_pos );
     update_tmap.load( sm_pos, true );
