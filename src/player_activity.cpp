@@ -24,6 +24,11 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
 {
 }
 
+player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
+    actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
+{
+}
+
 void player_activity::set_to_null()
 {
     type = activity_id::NULL_ID();
@@ -132,6 +137,22 @@ void player_activity::do_turn( player &p )
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
     }
+    if( calendar::once_every( 30_minutes ) ) {
+        no_food_nearby_for_auto_consume = false;
+        no_drink_nearby_for_auto_consume = false;
+    }
+    if( *this && !p.is_npc() && type->valid_auto_needs() && !no_food_nearby_for_auto_consume ) {
+        if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f ) {
+            if( !find_auto_consume( p, true ) ) {
+                no_food_nearby_for_auto_consume = true;
+            }
+        }
+        if( p.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
+            if( !find_auto_consume( p, false ) ) {
+                no_drink_nearby_for_auto_consume = true;
+            }
+        }
+    }
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
             moves_left -= 100;
@@ -160,7 +181,12 @@ void player_activity::do_turn( player &p )
     }
     const bool travel_activity = id() == "ACT_TRAVELLING";
     // This might finish the activity (set it to null)
-    type->call_do_turn( this, &p );
+    if( actor ) {
+        actor->do_turn( *this, p );
+    } else {
+        // Use the legacy turn function
+        type->call_do_turn( this, &p );
+    }
     // Activities should never excessively drain stamina.
     // adjusted stamina because
     // autotravel doesn't reduce stamina after do_turn()
@@ -187,9 +213,13 @@ void player_activity::do_turn( player &p )
     if( *this && moves_left <= 0 ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
         // type is ACT_NULL below.
-        if( !type->call_finish( this, &p ) ) {
-            // "Finish" is never a misnomer for any activity without a finish function
-            set_to_null();
+        if( actor ) {
+            actor->finish( *this, p );
+        } else {
+            if( !type->call_finish( this, &p ) ) {
+                // "Finish" is never a misnomer for any activity without a finish function
+                set_to_null();
+            }
         }
     }
     if( !*this ) {

@@ -439,6 +439,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     if( def.has_flag( "BALLOON" ) ) {
         load_balloon( def.balloon_info, jo );
     }
+
     if( def.has_flag( "WORKBENCH" ) ) {
         load_workbench( def.workbench_info, jo );
     }

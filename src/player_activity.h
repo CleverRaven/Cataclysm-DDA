@@ -10,11 +10,13 @@
 #include <string>
 #include <unordered_set>
 
+#include "activity_actor.h"
+#include "clone_ptr.h"
 #include "enums.h"
 #include "item_location.h"
 #include "point.h"
-#include "string_id.h"
 #include "memory_fast.h"
+#include "type_id.h"
 
 class avatar;
 class player;
@@ -25,13 +27,14 @@ class activity_type;
 class monster;
 class translation;
 
-using activity_id = string_id<activity_type>;
-
 class player_activity
 {
     private:
         activity_id type;
+        cata::clone_ptr<activity_actor> actor;
+
         std::set<distraction_type> ignored_distractions;
+
     public:
         /** Total number of moves required to complete the activity */
         int moves_total = 0;
@@ -50,14 +53,23 @@ class player_activity
         std::unordered_set<tripoint> coord_set;
         std::vector<weak_ptr_fast<monster>> monsters;
         tripoint placement;
+        bool no_drink_nearby_for_auto_consume = false;
+        bool no_food_nearby_for_auto_consume = false;
         /** If true, the activity will be auto-resumed next time the player attempts
          *  an identical activity. This value is set dynamically.
          */
         bool auto_resume = false;
 
         player_activity();
+        // This constructor does not work with activites using the new activity_actor system
+        // TODO: delete this constructor once migration to the activity_actor system is complete
         player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
                          const std::string &name_in = "" );
+        /**
+         * Create a new activity with the given actor
+         */
+        player_activity( const activity_actor &actor );
+
         player_activity( player_activity && ) = default;
         player_activity( const player_activity & ) = default;
         player_activity &operator=( player_activity && ) = default;

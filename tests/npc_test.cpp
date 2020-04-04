@@ -431,7 +431,7 @@ TEST_CASE( "npc_can_target_player" )
 
     g->faction_manager_ptr->create_if_needed();
 
-    g->place_player( tripoint( 10, 10, 0 ) );
+    g->place_player( tripoint( 0, 0, 0 ) );
 
     clear_npcs();
     clear_creatures();

@@ -38,21 +38,9 @@ static void clear_game_drag( const ter_id &terrain )
     // Make sure the ST is 8 so that muscle powered results are consistent
     g->u.str_cur = 8;
 
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
-        g->m.furn_set( p, furn_id( "f_null" ) );
-        g->m.ter_set( p, terrain );
-        g->m.trap_set( p, trap_id( "tr_null" ) );
-        g->m.i_clear( p );
-    }
+    clear_vehicles();
+    build_test_map( terrain );
 
-    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint_zero, tripoint( MAPSIZE * SEEX,
-            MAPSIZE * SEEY, 0 ) ) ) {
-        g->m.destroy_vehicle( veh.v );
-    }
-
-    g->m.invalidate_map_cache( 0 );
-    g->m.build_map_cache( 0, true );
     // hard force a rebuild of caches
     g->m.shift( point_south );
     g->m.shift( point_north );

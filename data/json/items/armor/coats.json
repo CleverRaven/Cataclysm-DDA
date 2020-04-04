@@ -1180,7 +1180,7 @@
     "volume": "1250 ml",
     "price": 4200,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "sweatshirt",
     "color": "dark_gray",

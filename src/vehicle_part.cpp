@@ -68,7 +68,7 @@ item vehicle_part::properties_to_item() const
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
-    if( tmp.has_flag( "CABLE_SPOOL" ) ) {
+    if( tmp.has_flag( "CABLE_SPOOL" ) && !tmp.has_flag( "TOW_CABLE" ) ) {
         const tripoint local_pos = g->m.getlocal( target.first );
         if( !g->m.veh_at( local_pos ) ) {
             // That vehicle ain't there no more.
