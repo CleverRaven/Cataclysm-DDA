@@ -103,6 +103,14 @@ struct body_part_type {
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
 
+        //Morale parameters
+        float hot_morale_mod = 0;
+        float cold_morale_mod = 0;
+
+        int stylish_bonus = 0;
+
+        int squeamish_penalty = 0;
+
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
