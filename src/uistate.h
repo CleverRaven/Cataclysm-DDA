@@ -14,7 +14,6 @@
 
 class item;
 
-
 struct advanced_inv_pane_save_state {
     public:
         int sort_idx = 1;

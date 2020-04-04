@@ -2520,7 +2520,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             }
         }
 
-
         iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
         iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;

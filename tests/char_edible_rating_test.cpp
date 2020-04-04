@@ -36,7 +36,6 @@ static void expect_will_eat( avatar &dummy, item &food, std::string expect_conse
     CHECK( rate_will.value() == expect_rating );
 }
 
-
 TEST_CASE( "cannot eat non-comestible", "[can_eat][will_eat][edible_rating][nonfood]" )
 {
     avatar dummy;
