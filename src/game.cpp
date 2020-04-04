@@ -5188,9 +5188,6 @@ void game::control_vehicle()
             veh_part = vp->part_index();
         }
     }
-    if( veh != nullptr ) {
-        veh->has_sufficient_balloon_lift();
-    }
     if( veh != nullptr && veh->player_in_control( u ) &&
         veh->avail_part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
         veh->use_controls( u.pos() );

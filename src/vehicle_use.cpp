@@ -534,6 +534,10 @@ static int prompt_for_altitude()
 
 void vehicle::control_burner( int burner_part )
 {
+    if( !g->m.has_zlevels() ){
+        add_msg( m_info, _( "It does not look like a good idea to mess with this") );
+        return;
+    }
     const int result = prompt_for_altitude();
     if( !result ) {
         return;
