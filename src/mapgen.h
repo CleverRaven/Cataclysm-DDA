@@ -453,36 +453,19 @@ enum room_type {
 bool connects_to( const oter_id &there, int dir );
 void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
-void line( map *m, const ter_id &type, int x1, int y1, int x2, int y2 );
-void line( map *m, const ter_id &type, int x1, int y1, const point &p2 );
 void line( map *m, const ter_id &type, const point &p1, const point &p2 );
-void line_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 );
-void line_furn( map *m, const furn_id &type, int x1, int y1, const point &p2 );
 void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
 void fill_background( map *m, const ter_id &type );
 void fill_background( map *m, ter_id( *f )() );
-void square( map *m, const ter_id &type, int x1, int y1, int x2, int y2 );
-void square( map *m, const ter_id &type, int x1, int y1, const point &p2 );
 void square( map *m, const ter_id &type, const point &p1, const point &p2 );
-void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 );
-void square( map *m, ter_id( *f )(), int x1, int y1, const point &p2 );
 void square( map *m, ter_id( *f )(), const point &p1, const point &p2 );
-void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 );
-void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, const point &p2 );
 void square( map *m, const weighted_int_list<ter_id> &f, const point &p1, const point &p2 );
-void square_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 );
-void square_furn( map *m, const furn_id &type, int x1, int y1, const point &p2 );
 void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
-void rough_circle( map *m, const ter_id &type, int x, int y, int rad );
 void rough_circle( map *m, const ter_id &type, const point &, int rad );
-void rough_circle_furn( map *m, const furn_id &type, int x, int y, int rad );
 void rough_circle_furn( map *m, const furn_id &type, const point &, int rad );
 void circle( map *m, const ter_id &type, double x, double y, double rad );
-void circle( map *m, const ter_id &type, int x, int y, int rad );
 void circle( map *m, const ter_id &type, const point &, int rad );
-void circle_furn( map *m, const furn_id &type, int x, int y, int rad );
 void circle_furn( map *m, const furn_id &type, const point &, int rad );
-void add_corpse( map *m, int x, int y );
 void add_corpse( map *m, const point & );
 
 #endif

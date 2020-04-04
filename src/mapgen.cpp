@@ -7167,13 +7167,13 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 }
 ///////////////////// part of map
 
-void line( map *m, const ter_id &type, int x1, int y1, int x2, int y2 )
+void line( map *m, const ter_id &type, const point &p1, const point &p2 )
 {
-    m->draw_line_ter( type, point( x1, y1 ), point( x2, y2 ) );
+    m->draw_line_ter( type, p1, p2 );
 }
-void line_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 )
+void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
 {
-    m->draw_line_furn( type, point( x1, y1 ), point( x2, y2 ) );
+    m->draw_line_furn( type, p1, p2 );
 }
 void fill_background( map *m, const ter_id &type )
 {
@@ -7183,45 +7183,45 @@ void fill_background( map *m, ter_id( *f )() )
 {
     m->draw_fill_background( f );
 }
-void square( map *m, const ter_id &type, int x1, int y1, int x2, int y2 )
+void square( map *m, const ter_id &type, const point &p1, const point &p2 )
 {
-    m->draw_square_ter( type, point( x1, y1 ), point( x2, y2 ) );
+    m->draw_square_ter( type, p1, p2 );
 }
-void square_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 )
+void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
 {
-    m->draw_square_furn( type, point( x1, y1 ), point( x2, y2 ) );
+    m->draw_square_furn( type, p1, p2 );
 }
-void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 )
+void square( map *m, ter_id( *f )(), const point &p1, const point &p2 )
 {
-    m->draw_square_ter( f, point( x1, y1 ), point( x2, y2 ) );
+    m->draw_square_ter( f, p1, p2 );
 }
-void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 )
+void square( map *m, const weighted_int_list<ter_id> &f, const point &p1, const point &p2 )
 {
-    m->draw_square_ter( f, point( x1, y1 ), point( x2, y2 ) );
+    m->draw_square_ter( f, p1, p2 );
 }
-void rough_circle( map *m, const ter_id &type, int x, int y, int rad )
+void rough_circle( map *m, const ter_id &type, const point &p, int rad )
 {
-    m->draw_rough_circle_ter( type, point( x, y ), rad );
+    m->draw_rough_circle_ter( type, p, rad );
 }
-void rough_circle_furn( map *m, const furn_id &type, int x, int y, int rad )
+void rough_circle_furn( map *m, const furn_id &type, const point &p, int rad )
 {
-    m->draw_rough_circle_furn( type, point( x, y ), rad );
+    m->draw_rough_circle_furn( type, p, rad );
 }
 void circle( map *m, const ter_id &type, double x, double y, double rad )
 {
     m->draw_circle_ter( type, rl_vec2d( x, y ), rad );
 }
-void circle( map *m, const ter_id &type, int x, int y, int rad )
+void circle( map *m, const ter_id &type, const point &p, int rad )
 {
-    m->draw_circle_ter( type, point( x, y ), rad );
+    m->draw_circle_ter( type, p, rad );
 }
-void circle_furn( map *m, const furn_id &type, int x, int y, int rad )
+void circle_furn( map *m, const furn_id &type, const point &p, int rad )
 {
-    m->draw_circle_furn( type, point( x, y ), rad );
+    m->draw_circle_furn( type, p, rad );
 }
-void add_corpse( map *m, int x, int y )
+void add_corpse( map *m, const point &p )
 {
-    m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
+    m->add_corpse( tripoint( p, m->get_abs_sub().z ) );
 }
 
 //////////////////// mapgen update
