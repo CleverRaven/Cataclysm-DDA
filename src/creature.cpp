@@ -271,7 +271,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
           g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) ) {
         int range = 0;
         if( g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) {
-            range = wanted_range;
+            range = MAX_VIEW_DISTANCE;
         } else {
             range = range_min;
         }
