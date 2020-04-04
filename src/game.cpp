@@ -871,7 +871,6 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         vehicle veh( id );
-        std::vector<std::string> omt_search_types;
         if( veh.max_ground_velocity() > 0 ) {
             search_types.push_back( "road" );
             search_types.push_back( "field" );
@@ -894,13 +893,12 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
             // try place vehicle there.
             tinymap target_map;
             target_map.load( omt_to_sm_copy( goal ), false );
-            const tripoint origin( SEEX, SEEY, goal.z );
+            const tripoint tinymap_center( SEEX, SEEY, goal.z );
             static const std::vector<int> angles = {0, 90, 180, 270};
-            vehicle *veh = target_map.add_vehicle( id, origin, random_entry( angles ), rng( 50, 80 ),
-                                                   0,
-                                                   false );
+            vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ), rng( 50, 80 ),
+                                                   0, false );
             if( veh ) {
-                tripoint abs_local = g->m.getlocal( target_map.getabs( origin ) );
+                tripoint abs_local = g->m.getlocal( target_map.getabs( tinymap_center ) );
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
                 veh->pos = abs_local.xy();
                 overmap_buffer.add_vehicle( veh );

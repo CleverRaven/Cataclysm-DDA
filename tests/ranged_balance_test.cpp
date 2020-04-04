@@ -247,7 +247,7 @@ static void assert_encumbrance( npc &shooter, int encumbrance )
 
 static constexpr tripoint shooter_pos( 60, 60, 0 );
 
-TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
+TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 {
     clear_map();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );

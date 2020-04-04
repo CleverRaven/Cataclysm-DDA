@@ -50,4 +50,7 @@
     { symbol: ["std::stringstream", "private", "<sstream>", "public"] },
     { symbol: ["std::istringstream", "private", "<sstream>", "public"] },
     { symbol: ["std::ostringstream", "private", "<sstream>", "public"] },
+    { symbol: ["std::hash", "private", "<functional>", "public"] },
+    { symbol: ["std::hash", "private", "<unordered_set>", "public"] },
+    { symbol: ["std::hash", "private", "<unordered_map>", "public"] },
 ]

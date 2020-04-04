@@ -719,7 +719,7 @@ int Character::overmap_sight_range( int light_level ) const
         multiplier += 1;
     }
 
-    sight = round( sight * multiplier );
+    sight = std::round( sight * multiplier );
     return std::max( sight, 3 );
 }
 
@@ -3979,7 +3979,7 @@ void Character::mod_stored_kcal( int nkcal )
 void Character::mod_stored_nutr( int nnutr )
 {
     // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_stored_kcal( -1 * round( nnutr * 2500.0f / ( 12 * 24 ) ) );
+    mod_stored_kcal( -1 * std::round( nnutr * 2500.0f / ( 12 * 24 ) ) );
 }
 
 void Character::set_stored_kcal( int kcal )
@@ -4031,7 +4031,7 @@ int Character::get_starvation() const
         }
     };
     if( get_kcal_percent() < 0.95f ) {
-        return round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
+        return std::round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
     }
     return 0;
 }
@@ -4281,8 +4281,8 @@ void Character::reset_bonuses()
 int Character::get_max_healthy() const
 {
     const float bmi = get_bmi();
-    return clamp( static_cast<int>( round( -3 * ( bmi - character_weight_category::normal ) *
-                                           ( bmi - character_weight_category::overweight ) + 200 ) ), -200, 200 );
+    return clamp( static_cast<int>( std::round( -3 * ( bmi - character_weight_category::normal ) *
+                                    ( bmi - character_weight_category::overweight ) + 200 ) ), -200, 200 );
 }
 
 void Character::regen( int rate_multiplier )
@@ -4387,7 +4387,7 @@ void Character::update_health( int external_modifiers )
 
     // And healthy_mod decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
-    set_healthy_mod( round( get_healthy_mod() * 0.95f ) );
+    set_healthy_mod( std::round( get_healthy_mod() * 0.95f ) );
 
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
@@ -7863,7 +7863,7 @@ double Character::calculate_by_enchantment( double modify, enchantment::mod valu
     modify += enchantment_cache.get_value_add( value );
     modify *= 1.0 + enchantment_cache.get_value_multiply( value );
     if( round_output ) {
-        modify = round( modify );
+        modify = std::round( modify );
     }
     return modify;
 }

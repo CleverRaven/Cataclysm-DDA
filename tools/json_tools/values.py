@@ -6,10 +6,9 @@ from __future__ import print_function
 
 import argparse
 import sys
-import os
 import json
 from util import import_data, value_counter, ui_counts_to_columns,\
-        matches_all_wheres, CDDAJSONWriter, WhereAction
+        WhereAction
 
 parser = argparse.ArgumentParser(description="""Count the number of times a specific values occurs
 for a specific key.
