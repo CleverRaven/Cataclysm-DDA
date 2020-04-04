@@ -4860,7 +4860,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     // if the complexity of preexisting mods factored into the difficulty roll
     std::vector<item_comp> comps;
     comps.push_back( item_comp( repair_item, items_needed ) );
-    p.moves -= to_moves<int>( the_mod.time_base * items_needed * p.fine_detail_vision_mod() );
+    p.moves -= to_moves<int>( the_mod.time_base * p.fine_detail_vision_mod() );
     // concerned that spamming really hard mods on trash items might be
     // a way to quickly practice tailoring, but the material costs should
     // be high for higher difficulty mods so maybe that's ok

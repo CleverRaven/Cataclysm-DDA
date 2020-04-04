@@ -8,7 +8,7 @@
     "//": "technically cutwork should not consume lace as the lace is constructed in-place, this is a gamey/UI thing - need fixes to crafting inventories to remove this",
     "item": "sheet_lace",
     "min_coverage": 15,
-    "time_base": "30 m",
+    "time_base": "10 m",
     "difficulty": 4,
     "implement_prompt": "Enhance with luxurious lace cutwork",
     "destroy_prompt": "Remove cutwork",
@@ -80,7 +80,7 @@
     "implement_prompt": "Raise the hemline",
     "destroy_prompt": "Restore the hemline",
     "min_coverage": 15,
-    "time_base": "5 m",
+    "time_base": "2 m",
     "difficulty": 2,
     "mod_value": [
       { "type": "warmth", "value": -5, "round_up": true, "proportion": [ "coverage" ] },
@@ -97,7 +97,7 @@
     "implement_prompt": "Lower the hemline",
     "destroy_prompt": "Restore the hemline",
     "min_coverage": 40,
-    "time_base": "5 m",
+    "time_base": "2 m",
     "difficulty": 2,
     "mod_value": [
       { "type": "warmth", "value": 1, "round_up": false, "proportion": [ "coverage", "thickness" ] },
