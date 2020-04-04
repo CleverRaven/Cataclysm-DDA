@@ -528,7 +528,6 @@ ifeq ($(shell git rev-parse --is-inside-work-tree),true)
 endif
 
 PKG_CONFIG = $(CROSS)pkg-config
-SDL2_CONFIG = $(CROSS)sdl2-config
 
 ifeq ($(SOUND), 1)
   ifneq ($(TILES),1)
@@ -595,14 +594,14 @@ ifdef TILES
       endif
     endif
   else # not osx
-    CXXFLAGS += $(shell $(SDL2_CONFIG) --cflags)
+    CXXFLAGS += $(shell $(PKG_CONFIG) sdl2 --cflags)
     CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_image --cflags)
     CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --cflags)
 
     ifdef STATIC
-      LDFLAGS += $(shell $(SDL2_CONFIG) --static-libs)
+      LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --static --libs)
     else
-      LDFLAGS += $(shell $(SDL2_CONFIG) --libs)
+      LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --libs)
     endif
 
     LDFLAGS += -lSDL2_ttf -lSDL2_image
