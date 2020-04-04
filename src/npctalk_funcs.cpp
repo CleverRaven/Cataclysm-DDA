@@ -533,18 +533,20 @@ void talk_function::give_equipment( npc &p )
 {
     std::vector<item_pricing> giving = npc_trading::init_selling( p );
     int chosen = -1;
-    while( chosen == -1 && giving.size() > 1 ) {
+    while( chosen == -1 && !giving.empty() ) {
         int index = rng( 0, giving.size() - 1 );
         if( giving[index].price < p.op_of_u.owed ) {
             chosen = index;
+        } else {
+            giving.erase( giving.begin() + index );
         }
-        giving.erase( giving.begin() + index );
     }
     if( giving.empty() ) {
         popup( _( "%s has nothing to give!" ), p.name );
         return;
     }
-    if( chosen == -1 ) {
+    if( chosen < 0 || static_cast<size_t>( chosen ) >= giving.size() ) {
+        debugmsg( "Chosen index is outside of available item range!" );
         chosen = 0;
     }
     item it = *giving[chosen].loc.get_item();

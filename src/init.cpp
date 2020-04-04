@@ -22,6 +22,7 @@
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "disease.h"
 #include "effect.h"
 #include "emit.h"
 #include "event_statistics.h"
@@ -221,6 +222,7 @@ void DynamicDataLoader::initialize()
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
     add( "scent_type", &scent_type::load_scent_type );
+    add( "disease_type", &disease_type::load_disease_type );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
@@ -696,6 +698,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },
             { _( "Scores" ), &score::check_consistency },
+            { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
         }
     };

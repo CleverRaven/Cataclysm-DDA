@@ -1488,8 +1488,13 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
             if( vp && in_vehicle ) {
                 vehicle &veh = vp->vehicle();
-                ptype.only_water = veh.can_float() && veh.is_watercraft() && veh.is_in_water();
-                ptype.only_road = !ptype.only_water;
+                if( veh.can_float() && veh.is_watercraft() && veh.is_in_water() ) {
+                    ptype.only_water = true;
+                } else if( veh.is_rotorcraft() && veh.is_flying_in_air() ) {
+                    ptype.only_air = true;
+                } else {
+                    ptype.only_road = true;
+                }
             } else {
                 const oter_id oter = overmap_buffer.ter( curs );
                 // going to or coming from a water tile

@@ -1447,20 +1447,31 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
         int iScrollPos = 0;
         int iScrollPosLast = 0;
 
-        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+        item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
+        last_item_info.without_getch = true;
+
+        item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
+        cur_item_info.without_getch = true;
+
+        catacurses::window w_last_item_info;
+        catacurses::window w_cur_item_info;
+        ui_adaptor ui;
+        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+            const int half_width = ( TERMX - VIEW_OFFSET_X * 2 ) / 2;
+            const int height = TERMY -  VIEW_OFFSET_Y * 2;
+            w_last_item_info = catacurses::newwin( height, half_width, point( 0, 0 ) );
+            w_cur_item_info = catacurses::newwin( height, half_width, point( half_width, 0 ) );
+            ui.position( point( 0, 0 ), point( half_width * 2, height ) );
+        } );
+        ui.mark_resize();
+
+        ui.on_redraw( [&]( const ui_adaptor & ) {
+            draw_item_info( w_last_item_info, last_item_info );
+            draw_item_info( w_cur_item_info, cur_item_info );
+        } );
 
         do {
-            item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
-            last_item_info.without_getch = true;
-
-            item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
-            cur_item_info.without_getch = true;
-
-            draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                            last_item_info );
-            draw_item_info( ( TERMX - VIEW_OFFSET_X * 2 ) / 2, ( TERMX - VIEW_OFFSET_X * 2 ) / 2,
-                            0, TERMY - VIEW_OFFSET_Y * 2, cur_item_info );
+            ui_manager::redraw();
 
             action = ctxt.handle_input();
 
@@ -1473,7 +1484,6 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
             }
 
         } while( action != "QUIT" );
-        g->refresh_all();
     } while( true );
 }
 

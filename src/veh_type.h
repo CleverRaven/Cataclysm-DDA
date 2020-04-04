@@ -48,6 +48,7 @@ enum vpart_bitflags : int {
     VPFLAG_SPACE_HEATER,
     VPFLAG_COOLER,
     VPFLAG_WHEEL,
+    VPFLAG_ROTOR,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
     VPFLAG_DOME_LIGHT,
@@ -116,6 +117,10 @@ struct vpslot_wheel {
     float or_rating = 0.0f;
 };
 
+struct vpslot_rotor {
+    int rotor_diameter = 1;
+};
+
 struct vpslot_workbench {
     // Base multiplier applied for crafting here
     float multiplier = 1.0f;
@@ -141,6 +146,7 @@ class vpart_info
 
         cata::optional<vpslot_engine> engine_info;
         cata::optional<vpslot_wheel> wheel_info;
+        cata::optional<vpslot_rotor> rotor_info;
         cata::optional<vpslot_workbench> workbench_info;
 
     public:
@@ -305,7 +311,9 @@ class vpart_info
         int wheel_area() const;
         std::vector<std::pair<std::string, veh_ter_mod>> wheel_terrain_mod() const;
         float wheel_or_rating() const;
-
+        /** @name rotor specific functions
+        */
+        int rotor_diameter() const;
         /**
          * Getter for optional workbench info
          */
@@ -346,6 +354,7 @@ class vpart_info
                                  const itype_id &fuel_type );
         static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
         static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
+        static void load_rotor( cata::optional<vpslot_rotor> &whptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
