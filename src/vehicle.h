@@ -1178,6 +1178,9 @@ class vehicle
         // Get water acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle has fuel for are included
         int water_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
+        // get air acceleration gained by combined power of all engines. If fueled == true,
+        // then only engines which the vehicle hs fuel for are included
+        int rotor_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
         // Get acceleration for the current movement mode
         int acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
 
@@ -1196,6 +1199,8 @@ class vehicle
         // Get maximum water velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
         int max_water_velocity( bool fueled = true ) const;
+        // get maximum air velocity based on rotor physics
+        int max_rotor_velocity( bool fueled = true ) const;
         // Get maximum velocity for the current movement mode
         int max_velocity( bool fueled = true ) const;
         // Get maximum reverse velocity for the current movement mode
@@ -1204,6 +1209,9 @@ class vehicle
         // Get safe ground velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
         int safe_ground_velocity( bool fueled = true ) const;
+        // get safe air velocity gained by combined power of all engines.
+        // if fueled == true, then only the engines which the vehicle hs fuel for are included
+        int safe_rotor_velocity( bool fueled = true ) const;
         // Get safe water velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
         int safe_water_velocity( bool fueled = true ) const;
@@ -1274,7 +1282,15 @@ class vehicle
          */
         bool is_in_water( bool deep_water = false ) const;
         bool is_watercraft() const;
-
+        /**
+         * is the vehicle flying? is it a rotorcraft?
+         */
+        double lift_thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
+        bool has_sufficient_rotorlift() const;
+        int get_z_change() const;
+        bool is_flying_in_air() const;
+        void set_flying( bool new_flying_value );
+        bool is_rotorcraft() const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
@@ -1320,7 +1336,8 @@ class vehicle
         void slow_leak();
 
         // thrust (1) or brake (-1) vehicle
-        void thrust( int thd );
+        // @param z = z thrust for helicopters etc
+        void thrust( int thd, int z = 0 );
 
         //deceleration due to ground friction and air resistance
         int slowdown( int velocity ) const;
@@ -1356,10 +1373,17 @@ class vehicle
          */
         void autodrive( int x, int y );
         /**
+         * can the helicopter descend/ascend here?
+         */
+        bool check_heli_descend( player &p );
+        bool check_heli_ascend( player &p );
+        bool check_is_heli_landed();
+        /**
          * Player is driving the vehicle
          * @param p direction player is steering
+         * @param z for vertical movement - e.g helicopters
          */
-        void pldrive( const point &p );
+        void pldrive( const point &p, int z = 0 );
 
         // stub for per-vpart limit
         units::volume max_volume( int part ) const;
@@ -1668,6 +1692,7 @@ class vehicle
         std::vector<int> emitters;         // List of emitter parts
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
+        std::vector<int> rotors;           // List of rotors
         std::vector<int> rail_wheelcache;  // List of rail wheels
         std::vector<int> steering;         // List of STEERABLE parts
         // List of parts that will not be on a vehicle very often, or which only one will be present
@@ -1793,6 +1818,9 @@ class vehicle
         mutable bool is_floating = false;
         // is the vehicle currently mostly in water
         mutable bool in_water = false;
+        // is the vehicle currently flying
+        mutable bool is_flying = false;
+        int requested_z_change = 0;
 
     public:
         bool is_autodriving = false;

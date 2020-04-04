@@ -73,6 +73,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "OPENABLE", VPFLAG_OPENABLE },
     { "SEATBELT", VPFLAG_SEATBELT },
     { "WHEEL", VPFLAG_WHEEL },
+    { "ROTOR", VPFLAG_ROTOR },
     { "FLOATS", VPFLAG_FLOATS },
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
@@ -230,6 +231,17 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
     }
     eptr = e_info;
     assert( eptr );
+}
+
+void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo )
+{
+    vpslot_rotor rotor_info{};
+    if( roptr ) {
+        rotor_info = *roptr;
+    }
+    assign( jo, "rotor_diameter", rotor_info.rotor_diameter );
+    roptr = rotor_info;
+    assert( roptr );
 }
 
 void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo )
@@ -408,6 +420,10 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     if( def.has_flag( "WHEEL" ) ) {
         load_wheel( def.wheel_info, jo );
+    }
+
+    if( def.has_flag( "ROTOR" ) ) {
+        load_rotor( def.rotor_info, jo );
     }
 
     if( def.has_flag( "WORKBENCH" ) ) {
@@ -865,6 +881,11 @@ std::vector<std::pair<std::string, veh_ter_mod>> vpart_info::wheel_terrain_mod()
 float vpart_info::wheel_or_rating() const
 {
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->or_rating : 0.0f;
+}
+
+int vpart_info::rotor_diameter() const
+{
+    return has_flag( VPFLAG_ROTOR ) ? rotor_info->rotor_diameter : 0;
 }
 
 const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const

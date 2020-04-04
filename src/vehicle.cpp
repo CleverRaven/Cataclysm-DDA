@@ -855,6 +855,8 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // accelerate when it dosnt need to turn.
     // when following player, take distance to player into account.
     // we really want to avoid running the player over.
+    // If its a helicopter, we dont need to worry about airborne obstacles so much
+    // And fuel efficiency is terrible at low speeds.
     int safe_player_follow_speed = 400;
     if( g->u.movement_mode_is( CMM_RUN ) ) {
         safe_player_follow_speed = 800;
@@ -875,7 +877,8 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
             accel_y = 1;
         }
-        if( ( velocity < std::min( safe_velocity(), 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
+        if( ( velocity < std::min( safe_velocity(), is_rotorcraft() &&
+                                   is_flying_in_air() ? 12000 : 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
             accel_y = -1;
         }
         if( is_patrolling && velocity > 400 ) {
@@ -3419,6 +3422,16 @@ int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
     return cmps_to_vmiph( accel_at_vel );
 }
 
+int vehicle::rotor_acceleration( const bool fueled, int at_vel_in_vmi ) const
+{
+    ( void )at_vel_in_vmi;
+    if( !( engine_on || is_flying ) ) {
+        return 0;
+    }
+    const int accel_at_vel = 100 * lift_thrust_of_rotorcraft( fueled ) / to_kilogram( total_mass() );
+    return cmps_to_vmiph( accel_at_vel );
+}
+
 int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
     if( !( engine_on || skidding ) ) {
@@ -3472,6 +3485,8 @@ int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
     if( is_watercraft() ) {
         return water_acceleration( fueled, at_vel_in_vmi );
+    } else if( is_rotorcraft() && is_flying ) {
+        return rotor_acceleration( fueled, at_vel_in_vmi );
     }
     return ground_acceleration( fueled, at_vel_in_vmi );
 }
@@ -3538,9 +3553,24 @@ int vehicle::max_water_velocity( const bool fueled ) const
     return mps_to_vmiph( max_in_mps );
 }
 
+int vehicle::max_rotor_velocity( const bool fueled ) const
+{
+    const double max_air_mps = std::sqrt( lift_thrust_of_rotorcraft( fueled ) / coeff_air_drag() );
+    // helicopters just cannot go over 250mph at very maximum
+    // weird things start happening to their rotors if they do.
+    // due to the rotor tips going supersonic.
+    return std::min( 25501, mps_to_vmiph( max_air_mps ) );
+}
+
 int vehicle::max_velocity( const bool fueled ) const
 {
-    return is_watercraft() ? max_water_velocity( fueled ) : max_ground_velocity( fueled );
+    if( is_flying && is_rotorcraft() ) {
+        return max_rotor_velocity( fueled );
+    } else if( is_watercraft() ) {
+        return max_water_velocity( fueled );
+    } else {
+        return max_ground_velocity( fueled );
+    }
 }
 
 int vehicle::max_reverse_velocity( const bool fueled ) const
@@ -3566,6 +3596,13 @@ int vehicle::safe_ground_velocity( const bool fueled ) const
     return mps_to_vmiph( safe_in_mps );
 }
 
+int vehicle::safe_rotor_velocity( const bool fueled ) const
+{
+    const double max_air_mps = std::sqrt( lift_thrust_of_rotorcraft( fueled,
+                                          true ) / coeff_air_drag() );
+    return std::min( 22501, mps_to_vmiph( max_air_mps ) );
+}
+
 // the same physics as max_water_velocity, but with a smaller engine power
 int vehicle::safe_water_velocity( const bool fueled ) const
 {
@@ -3577,7 +3614,13 @@ int vehicle::safe_water_velocity( const bool fueled ) const
 
 int vehicle::safe_velocity( const bool fueled ) const
 {
-    return is_watercraft() ? safe_water_velocity( fueled ) : safe_ground_velocity( fueled );
+    if( is_flying && is_rotorcraft() ) {
+        return safe_rotor_velocity( fueled );
+    } else if( is_watercraft() ) {
+        return safe_water_velocity( fueled );
+    } else {
+        return safe_ground_velocity( fueled );
+    }
 }
 
 bool vehicle::do_environmental_effects()
@@ -3628,6 +3671,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             { translate_marker( "BRRROARRR!" ), 180 }, { translate_marker( "BRUMBRUMBRUMBRUM!" ), INT_MAX }
         }
     };
+    const std::string heli_noise = translate_marker( "WUMPWUMPWUMP!" );
     double noise = 0.0;
     double mufflesmoke = 0.0;
     double muffle = 1.0;
@@ -3692,6 +3736,9 @@ void vehicle::noise_and_smoke( int load, time_duration time )
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
                     bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
+    if( is_rotorcraft() ) {
+        noise *= 2;
+    }
     // Cap engine noise to avoid deafening.
     noise = std::min( noise, 100.0 );
     // Even a vehicle with engines off will make noise traveling at high speeds
@@ -3704,7 +3751,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
     add_msg( m_debug, "VEH NOISE final: %d", static_cast<int>( noise ) );
     vehicle_noise = static_cast<unsigned char>( noise );
-    sounds::sound( global_pos3(), noise, sounds::sound_t::movement, _( sounds[lvl].first ), true );
+    sounds::sound( global_pos3(), noise, sounds::sound_t::movement,
+                   _( is_rotorcraft() ? heli_noise : sounds[lvl].first ), true );
 }
 
 int vehicle::wheel_area() const
@@ -3755,6 +3803,7 @@ struct drag_column {
     int panel = minrow;
     int windmill = minrow;
     int sail = minrow;
+    int rotor = minrow;
     int last = maxrow;
 };
 
@@ -3771,6 +3820,7 @@ double vehicle::coeff_air_drag() const
     constexpr double roof_height = 0.1;
     constexpr double windmill_height = 0.7;
     constexpr double sail_height = 0.8;
+    constexpr double rotor_height = 0.6;
 
     std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
     int width = mount_max.y - mount_min.y + 1;
@@ -3825,6 +3875,7 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].roof, pa, pa.info().has_flag( "ROOF" ) );
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
+            d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR" ) );
             d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
@@ -3857,6 +3908,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c += ( dc.turret > minrow ) ? 3 * c_air_mod : 0;
         // having a windmill is terrible for your drag
         c_air_drag_c += ( dc.windmill > minrow ) ? 5 * c_air_mod : 0;
+        // rotors are not great for drag!
+        c_air_drag_c += ( dc.rotor > minrow ) ? 6 * c_air_mod : 0;
         // having a sail is terrible for your drag
         c_air_drag_c += ( dc.sail > minrow ) ? 7 * c_air_mod : 0;
         c_air_drag += c_air_drag_c;
@@ -3874,6 +3927,7 @@ double vehicle::coeff_air_drag() const
         c_height += ( dc.panel > minrow ) ? roof_height : 0;
         // windmills are tall, too
         c_height += ( dc.windmill > minrow ) ? windmill_height : 0;
+        c_height += ( dc.rotor > minrow ) ? rotor_height : 0;
         // sails are tall, too
         c_height += ( dc.sail > minrow ) ? sail_height : 0;
         height += c_height;
@@ -3947,6 +4001,60 @@ bool vehicle::can_float() const
     return draft_m < hull_height;
 }
 
+// apologies for the imperial measurements, theyll get converted before used finally in the vehicle speed at the end of the function.
+// sources for the equations to calculate rotor lift thrust were only available in imperial, and the constants used are designed for that.
+// r= radius or d = diameter of rotor blades.
+// area A [ft^2] = Pi * r^2 -or- A [ft^2] = (Pi/4) * D^2
+// Power loading [hp/ft^2] = power( in hp ) / A
+// thrust loading [lb/hp]= 8.6859 * Power loading^(-0.3107)
+// Lift = Thrust loading * power >>>[lb] = [lb/hp] * [hp]
+
+double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
+{
+    int total_diameter = 0;
+    for( const int rotor : rotors ) {
+        total_diameter += parts[ rotor ].info().rotor_diameter();
+    }
+    int total_engine_w = total_power_w( fuelled, safe );
+    // take off 15 % due to the imaginary tail rotor power.
+    double engine_power_in_hp = total_engine_w * 0.00134102;
+    int rotor_area_in_feet = ( M_PI / 4 ) * std::pow( total_diameter * 3.28084, 2 );
+    // lift_thrust in lbthrust
+    double lift_thrust = ( 8.8658 * std::pow( engine_power_in_hp / rotor_area_in_feet,
+                           -0.3107 ) ) * engine_power_in_hp;
+    add_msg( m_debug,
+             "lift thrust in lbs of %s = %f, rotor area in feet : %d, engine power in hp %f, thrust in newtons : %f",
+             name, lift_thrust, rotor_area_in_feet, engine_power_in_hp, engine_power_in_hp * 4.45 );
+    // convert to newtons.
+    return lift_thrust * 4.45;
+}
+
+bool vehicle::has_sufficient_rotorlift() const
+{
+    // comparison of newton to newton - convert kg to newton.
+    return lift_thrust_of_rotorcraft( true ) > to_kilogram( total_mass() ) * 9.8;
+}
+
+bool vehicle::is_rotorcraft() const
+{
+    return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( g->u );
+}
+
+int vehicle::get_z_change() const
+{
+    return requested_z_change;
+}
+
+bool vehicle::is_flying_in_air() const
+{
+    return is_flying;
+}
+
+void vehicle::set_flying( bool new_flying_value )
+{
+    is_flying = new_flying_value;
+}
+
 bool vehicle::is_watercraft() const
 {
     return is_floating || ( in_water && wheelcache.empty() );
@@ -4011,6 +4119,9 @@ float vehicle::k_traction( float wheel_traction_area ) const
 {
     if( is_floating ) {
         return can_float() ? 1.0f : -1.0f;
+    }
+    if( is_flying ) {
+        return is_rotorcraft() ? 1.0f : -1.0f;
     }
     if( is_watercraft() && can_float() ) {
         return 1.0f;
@@ -4196,6 +4307,10 @@ float vehicle::steering_effectiveness() const
     if( is_floating ) {
         // I'M ON A BOAT
         return can_float() ? 1.0f : 0.0f;
+    }
+    if( is_flying ) {
+        // I'M IN THE AIR
+        return is_rotorcraft() ? 1.0f : 0.0f;
     }
     // irksome special case for boats in shallow water
     if( is_watercraft() && can_float() ) {
@@ -4809,6 +4924,11 @@ void vehicle::idle( bool on_map )
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
+        // helicopters use basicaly nearly all of their power just to hover.
+        // it becomes more efficient the closer they reach their safe cruise speed.
+        if( is_rotorcraft() && is_flying_in_air() ) {
+            idle_rate = 1000;
+        }
         if( has_engine_type_not( fuel_type_muscle, true ) ) {
             consume_fuel( idle_rate, to_turns<int>( 1_turns ), true );
         }
@@ -5228,6 +5348,7 @@ void vehicle::refresh()
     loose_parts.clear();
     wheelcache.clear();
     rail_wheelcache.clear();
+    rotors.clear();
     steering.clear();
     speciality.clear();
     floating.clear();
@@ -5296,6 +5417,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
             solar_panels.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_ROTOR ) ) {
+            rotors.push_back( p );
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
             wind_turbines.push_back( p );

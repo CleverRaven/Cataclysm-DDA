@@ -710,7 +710,6 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
     const auto get_ter_at = [&]( const point & p ) {
         return ter( base + p );
     };
-
     const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
         int res = 0;
         const oter_id oter = get_ter_at( cur.pos );
@@ -728,9 +727,17 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
                                   is_ot_match( "bridge", oter, ot_match_type::type ) ) ) {
             return pf::rejected;
         }
-        if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ||
-            is_ot_match( "open_air", oter, ot_match_type::type ) ) {
+        if( ptype.only_air && ( !is_ot_match( "open_air", oter, ot_match_type::type ) ) ) {
             return pf::rejected;
+        }
+        if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ) {
+            return pf::rejected;
+        } else if( is_ot_match( "open_air", oter, ot_match_type::type ) ) {
+            if( ptype.only_air ) {
+                travel_cost += 1;
+            } else {
+                return pf::rejected;
+            }
         } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
             travel_cost = 10;
         } else if( is_ot_match( "forest_water", oter, ot_match_type::type ) ) {
