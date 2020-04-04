@@ -770,6 +770,7 @@ void Item_factory::init()
     add_iuse( "BLECH_BECAUSE_UNCLEAN", &iuse::blech_because_unclean );
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
     add_iuse( "C4", &iuse::c4 );
+    add_iuse( "TOW_ATTACH", &iuse::tow_attach );
     add_iuse( "CABLE_ATTACH", &iuse::cable_attach );
     add_iuse( "CAMERA", &iuse::camera );
     add_iuse( "CAN_GOO", &iuse::can_goo );

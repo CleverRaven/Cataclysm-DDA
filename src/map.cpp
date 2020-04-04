@@ -312,7 +312,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
             unboard_vehicle( part, passenger );
         }
     }
-
+    veh->invalidate_towing( true );
     submap *const current_submap = get_submap_at_grid( veh->sm_pos );
     auto &ch = get_cache( z );
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
@@ -642,6 +642,14 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
                 //~ %1$s: vehicle name
                 smash_items( wheel_p, wheel_damage, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
             }
+        }
+    }
+    if( veh.is_towing() ) {
+        veh.do_towing_move();
+        if( veh.tow_data.get_towed()->tow_cable_too_far() ) {
+            add_msg( m_info, _( "A towing cable snaps off of the %s." ),
+                     veh.tow_data.get_towed()->disp_name() );
+            veh.tow_data.get_towed()->invalidate_towing( true );
         }
     }
     // Redraw scene

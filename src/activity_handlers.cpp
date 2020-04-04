@@ -601,6 +601,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
         const bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) ||
+                              u.has_amount( "hd_tow_cable", 1 ) ||
                               u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
         const bool big_corpse = corpse.size >= MS_MEDIUM;
 
