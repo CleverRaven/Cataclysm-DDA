@@ -363,7 +363,7 @@
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "makeshift longbow" },
-    "description": "A terribly bulky and awkward effort at recreating an effective English weapon. Much larger, harder to draw, and more accurate than your previous attempts, but you still feel embarrassed just looking at it.",
+    "description": "A terribly bulky and awkward effort at recreating an effective English weapon. Much larger, harder to draw, and more accurate than the shortbow alternative, but you still feel embarrassed for whoever made this.",
     "price": 200,
     "//": "TODO: I don't know the math here, just going to try for Balanced Game Design Numbers(TM) for now. Higher strength requirement relative to normal longbow is to reflect its higher weight and makeshift bowstring",
     "material": "wood",
