@@ -71,7 +71,6 @@ static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
-static const std::string flag_ANESTHESIA( "ANESTHESIA" );
 static const std::string flag_FILTHY( "FILTHY" );
 static const std::string flag_IN_CBM( "IN_CBM" );
 static const std::string flag_MUSHY( "MUSHY" );
@@ -1569,22 +1568,12 @@ static item_location autodoc_internal( player &u, player &patient,
             std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
                 return it.has_quality( qual_ANESTHESIA );
             } );
-            std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
-                return it.has_flag( flag_ANESTHESIA ); // legacy
-            } );
             for( const item *anesthesia_item : a_filter ) {
                 if( anesthesia_item->ammo_remaining() >= 1 ) {
                     drug_count += anesthesia_item->ammo_remaining();
                 }
             }
-
-            if( !b_filter.empty() ) {
-                // Legacy
-                hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );
-            } else {
-                hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
-            }
-
+            hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
         }
     }
 
@@ -1738,18 +1727,7 @@ class bionic_install_preset: public inventory_selector_preset
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 duration * weight;
-
-            std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
-                // Legacy
-                return it.has_flag( flag_ANESTHESIA );
-            } );
-
-            if( !b_filter.empty() ) {
-                // Legacy
-                return  _( "kit available" );
-            } else {
-                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
-            }
+            return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
         }
 };
 
@@ -1941,16 +1919,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 duration * weight;
-
-            std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
-                return it.has_flag( flag_ANESTHESIA ); // legacy
-            } );
-
-            if( !b_filter.empty() ) {
-                return  _( "kit available" ); // legacy
-            } else {
-                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
-            }
+            return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
         }
 };
 
