@@ -382,9 +382,9 @@ This section describes each json file and their contents. Each json has their ow
 | hp_bar_ui_text    | How it's displayed next to the hp bar in the panel.
 | main_part         | What is the main part this one is attached to. (If this is a main part it's attahed to itself)
 | opposite_part     | What is the opposite part ot this one in case of a pair.
-| hit_size          | 
-| hit_size_relative | 
-| hit_difficulty    | 
+| hit_size          | Size of the body part when doing an unweighted selection.
+| hit_size_relative | Hit sizes for attackers who are smaller, equal in size, and bigger.
+| hit_difficulty    | How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
 | stylish_bonus     | Mood bonus associated with wearing fancy cloth on this part. (default: `0`)
 | hot_morale_mod    | Mood effect of being too hot on this part. (default: `0`)
 | cold_morale_mod   | Mood effect of being too cold on this part. (default: `0`)
