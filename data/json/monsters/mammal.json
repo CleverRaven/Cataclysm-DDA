@@ -184,7 +184,7 @@
     "id": "mon_cat_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": { "str": "kitten" },
+    "name": { "str": "shorthair kitten" },
     "description": "A cuddly kitten meowing and scampering amidst the death.  Currently feral.",
     "default_faction": "cat",
     "bodytype": "dog",
@@ -248,6 +248,14 @@
     "weight": "6 kg"
   },
   {
+    "id": "mon_cat_longhair_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "longhair kitten",
+    "description": "Barely more than a ball of fluff with eyes, this kitten looks like a longhair breed.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_longhair" }
+  },
+  {
     "id": "mon_cat_maine_coon",
     "type": "MONSTER",
     "copy-from": "mon_cat",
@@ -258,11 +266,27 @@
     "hp": 16
   },
   {
+    "id": "mon_cat_maine_coon_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "Maine coon kitten",
+    "description": "This young Maine coon has tufted ears and a striking pattern on its face.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_maine_coon" }
+  },
+  {
     "id": "mon_cat_siamese",
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Siamese cat",
     "description": "This cat has the distinctive dark extremeties of a Siamese, first native to Asia but a common domestic breed in North America."
+  },
+  {
+    "id": "mon_cat_siamese_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "Siamese kitten",
+    "description": "With cream-colored fur and dark points, you guess this kitten must be a young Siamese.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_siamese" }
   },
   {
     "id": "mon_cat_persian",
@@ -272,12 +296,28 @@
     "description": "The short nose and rounded face of this cat suggest it comes from the popular Persian breed."
   },
   {
+    "id": "mon_cat_persian_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "Persian kitten",
+    "description": "An adorably squashed nose and sad pleading eyes beg you to adopt this tiny Persian.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_persian" }
+  },
+  {
     "id": "mon_cat_bengal",
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Bengal cat",
     "description": "Looking like a spotted wild cat, the Bengal breed derives from the Asian leopard cat and Egyptian Mau.",
     "weight": "6 kg"
+  },
+  {
+    "id": "mon_cat_bengal_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "Bengal kitten",
+    "description": "You have seen spots like this on Bengal cats, but this one is just a kitten.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_bengal" }
   },
   {
     "id": "mon_cat_devon_rex",
@@ -289,11 +329,27 @@
     "weight": "4 kg"
   },
   {
+    "id": "mon_cat_devon_rex_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "Devon Rex kitten",
+    "description": "This curly-coated kitten has enormous ears and inquisitive eyes, possibly a Devon Rex.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_devon_rex" }
+  },
+  {
     "id": "mon_cat_sphynx",
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "Sphynx cat",
     "description": "The Sphynx cat has practically no fur on its body, exposing its curiously wrinkled skin."
+  },
+  {
+    "id": "mon_cat_sphynx_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "Sphynx kitten",
+    "description": "An almost total lack of fur on this kitten suggests it is of the hairless Sphynx breed.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_sphynx" }
   },
   {
     "id": "mon_cat_tabby",
@@ -303,11 +359,27 @@
     "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings must provide excellent camouflage."
   },
   {
+    "id": "mon_cat_tabby_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "tabby kitten",
+    "description": "Sharp lines around the eyes and familiar wavy stripes mark this kitten as a common tabby.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_tabby" }
+  },
+  {
     "id": "mon_cat_calico",
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": "calico cat",
     "description": "Partly white with patches of orange and black, the calico coloring tells you this cat is probably female.  The Calico was the Maryland State cat (back when there were still states)."
+  },
+  {
+    "id": "mon_cat_calico_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "calico kitten",
+    "description": "Splotches of tan and grey mark this young cat as a calico, and probably female.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_calico" }
   },
   {
     "id": "mon_cat_chonker",
@@ -318,6 +390,14 @@
     "volume": "8000 ml",
     "weight": "10 kg",
     "hp": 20
+  },
+  {
+    "id": "mon_cat_chonker_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "yellow kitten",
+    "description": "This poor little kitten is starving!  You wonder if you have some cat food around…",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_chonker" }
   },
   {
     "id": "mon_chipmunk",
