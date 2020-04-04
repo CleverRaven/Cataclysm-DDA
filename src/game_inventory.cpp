@@ -1459,9 +1459,9 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
         ui.on_screen_resize( [&]( ui_adaptor & ui ) {
             const int half_width = ( TERMX - VIEW_OFFSET_X * 2 ) / 2;
             const int height = TERMY -  VIEW_OFFSET_Y * 2;
-            w_last_item_info = catacurses::newwin( height, half_width, point( 0, 0 ) );
+            w_last_item_info = catacurses::newwin( height, half_width, point_zero );
             w_cur_item_info = catacurses::newwin( height, half_width, point( half_width, 0 ) );
-            ui.position( point( 0, 0 ), point( half_width * 2, height ) );
+            ui.position( point_zero, point( half_width * 2, height ) );
         } );
         ui.mark_resize();
 

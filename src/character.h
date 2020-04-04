@@ -567,7 +567,7 @@ class Character : public Creature, public visitable<Character>
                          int intensity = 0, bool force = false, bool deferred = false ) override;
 
         /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
-        void expose_to_disease( const diseasetype_id dis_type );
+        void expose_to_disease( diseasetype_id dis_type );
         /**
          * Handles end-of-turn processing.
          */
