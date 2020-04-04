@@ -4241,9 +4241,9 @@ void map::draw_lab( mapgendata &dat )
                         mtrap_set( this, SEEX + 2, SEEY - 3, tr_dissector );
                         mtrap_set( this, SEEX - 3, SEEY + 2, tr_dissector );
                         mtrap_set( this, SEEX + 2, SEEY + 2, tr_dissector );
-                        line( this, t_reinforced_glass, SEEX + 1, SEEY + 1, SEEX - 2, SEEY + 1 );
-                        line( this, t_reinforced_glass, SEEX - 2, SEEY, SEEX - 2, SEEY - 2 );
-                        line( this, t_reinforced_glass, SEEX - 1, SEEY - 2, SEEX + 1, SEEY - 2 );
+                        line( this, t_reinforced_glass, point( SEEX + 1, SEEY + 1 ), point( SEEX - 2, SEEY + 1 ) );
+                        line( this, t_reinforced_glass, point( SEEX - 2, SEEY ), point( SEEX - 2, SEEY - 2 ) );
+                        line( this, t_reinforced_glass, point( SEEX - 1, SEEY - 2 ), point( SEEX + 1, SEEY - 2 ) );
                         ter_set( point( SEEX + 1, SEEY - 1 ), t_reinforced_glass );
                         ter_set( point( SEEX + 1, SEEY ), t_reinforced_door_glass_c );
                         furn_set( point( SEEX - 1, SEEY - 1 ), f_table );
@@ -4286,12 +4286,12 @@ void map::draw_lab( mapgendata &dat )
                         furn_set( point( SEEX - 1, SEEY ), f_rack );
                         furn_set( point( SEEX, SEEY ), f_rack );
                         furn_set( point( SEEX + 1, SEEY ), f_rack );
-                        line( this, t_reinforced_door_glass_c, SEEX - 2, SEEY - 2,
-                              SEEX + 1, SEEY - 2 );
-                        line( this, t_reinforced_door_glass_c, SEEX - 2, SEEY + 1,
-                              SEEX + 1, SEEY + 1 );
-                        line( this, t_reinforced_glass, SEEX - 3, SEEY - 2, SEEX - 3, SEEY + 1 );
-                        line( this, t_reinforced_glass, SEEX + 2, SEEY - 2, SEEX + 2, SEEY + 1 );
+                        line( this, t_reinforced_door_glass_c, point( SEEX - 2, SEEY - 2 ),
+                              point( SEEX + 1, SEEY - 2 ) );
+                        line( this, t_reinforced_door_glass_c, point( SEEX - 2, SEEY + 1 ),
+                              point( SEEX + 1, SEEY + 1 ) );
+                        line( this, t_reinforced_glass, point( SEEX - 3, SEEY - 2 ), point( SEEX - 3, SEEY + 1 ) );
+                        line( this, t_reinforced_glass, point( SEEX + 2, SEEY - 2 ), point( SEEX + 2, SEEY + 1 ) );
                         place_items( "ammo_rare", 96, point( SEEX - 2, SEEY - 1 ),
                                      point( SEEX + 1, SEEY - 1 ), false, calendar::start_of_cataclysm );
                         place_items( "guns_rare", 96, point( SEEX - 2, SEEY ), point( SEEX + 1, SEEY ), false,
@@ -4360,16 +4360,16 @@ void map::draw_lab( mapgendata &dat )
                     mtrap_set( this, SEEX + 1, SEEY - 2, tr_dissector );
                     mtrap_set( this, SEEX - 2, SEEY + 1, tr_dissector );
                     mtrap_set( this, SEEX + 1, SEEY + 1, tr_dissector );
-                    square_furn( this, f_counter, SEEX - 1, SEEY - 1, SEEX, SEEY );
+                    square_furn( this, f_counter, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEY ) );
                     int item_count = 0;
                     while( item_count < 5 ) {
                         item_count += place_items( "bionics", 75, point( SEEX - 1, SEEY - 1 ),
                                                    point( SEEX, SEEY ), false, calendar::start_of_cataclysm ).size();
                     }
-                    line( this, t_reinforced_glass, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2 );
-                    line( this, t_reinforced_glass, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1 );
-                    line( this, t_reinforced_glass, SEEX - 2, SEEY - 1, SEEX - 2, SEEY );
-                    line( this, t_reinforced_glass, SEEX + 1, SEEY - 1, SEEX + 1, SEEY );
+                    line( this, t_reinforced_glass, point( SEEX - 2, SEEY - 2 ), point( SEEX + 1, SEEY - 2 ) );
+                    line( this, t_reinforced_glass, point( SEEX - 2, SEEY + 1 ), point( SEEX + 1, SEEY + 1 ) );
+                    line( this, t_reinforced_glass, point( SEEX - 2, SEEY - 1 ), point( SEEX - 2, SEEY ) );
+                    line( this, t_reinforced_glass, point( SEEX + 1, SEEY - 1 ), point( SEEX + 1, SEEY ) );
                     spawn_item( point( SEEX - 4, SEEY - 3 ), "id_science" );
                     ter_set( point( SEEX - 3, SEEY - 3 ), t_console );
                     tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z ),
@@ -4392,10 +4392,10 @@ void map::draw_lab( mapgendata &dat )
                                   point( 6, SEEY * 2 - 7 ), 1, true );
                     place_spawns( GROUP_ROBOT_SECUBOT, 1, point( SEEX * 2 - 7, SEEY * 2 - 7 ),
                                   point( SEEX * 2 - 7, SEEY * 2 - 7 ), 1, true );
-                    line( this, t_cvdbody, SEEX - 2, SEEY - 2, SEEX - 2, SEEY + 1 );
-                    line( this, t_cvdbody, SEEX - 1, SEEY - 2, SEEX - 1, SEEY + 1 );
-                    line( this, t_cvdbody, SEEX, SEEY - 1, SEEX, SEEY + 1 );
-                    line( this, t_cvdbody, SEEX + 1, SEEY - 2, SEEX + 1, SEEY + 1 );
+                    line( this, t_cvdbody, point( SEEX - 2, SEEY - 2 ), point( SEEX - 2, SEEY + 1 ) );
+                    line( this, t_cvdbody, point( SEEX - 1, SEEY - 2 ), point( SEEX - 1, SEEY + 1 ) );
+                    line( this, t_cvdbody, point( SEEX, SEEY - 1 ), point( SEEX, SEEY + 1 ) );
+                    line( this, t_cvdbody, point( SEEX + 1, SEEY - 2 ), point( SEEX + 1, SEEY + 1 ) );
                     ter_set( point( SEEX, SEEY - 2 ), t_cvdmachine );
                     spawn_item( point( SEEX, SEEY - 3 ), "id_science" );
                     break;
@@ -4449,20 +4449,20 @@ void map::draw_temple( mapgendata &dat )
             // Ground floor
             // TODO: More varieties?
             fill_background( this, t_dirt );
-            square( this, t_grate, SEEX - 1, SEEY - 1, SEEX, SEEX );
+            square( this, t_grate, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEX ) );
             ter_set( point( SEEX + 1, SEEY + 1 ), t_pedestal_temple );
         } else {
             // Underground!  Shit's about to get interesting!
             // Start with all rock floor
-            square( this, t_rock_floor, 0, 0, EAST_EDGE, SOUTH_EDGE );
+            square( this, t_rock_floor, point_zero, point( EAST_EDGE, SOUTH_EDGE ) );
             // We always start at the south and go north.
             // We use (y / 2 + z) % 4 to guarantee that rooms don't repeat.
             switch( 1 + abs( abs_sub.y / 2 + dat.zlevel() + 4 ) % 4 ) { // TODO: More varieties!
 
                 case 1:
                     // Flame bursts
-                    square( this, t_rock, 0, 0, SEEX - 1, SOUTH_EDGE );
-                    square( this, t_rock, SEEX + 2, 0, EAST_EDGE, SOUTH_EDGE );
+                    square( this, t_rock, point_zero, point( SEEX - 1, SOUTH_EDGE ) );
+                    square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, SOUTH_EDGE ) );
                     for( int i = 2; i < SEEY * 2 - 4; i++ ) {
                         add_field( {SEEX, i, abs_sub.z}, fd_fire_vent, rng( 1, 3 ) );
                         add_field( {SEEX + 1, i, abs_sub.z}, fd_fire_vent, rng( 1, 3 ) );
@@ -4471,22 +4471,22 @@ void map::draw_temple( mapgendata &dat )
 
                 case 2:
                     // Spreading water
-                    square( this, t_water_dp, 4, 4, 5, 5 );
+                    square( this, t_water_dp, point( 4, 4 ), point( 5, 5 ) );
                     // replaced mon_sewer_snake spawn with GROUP_SEWER
                     // Decide whether a group of only sewer snakes be made, probably not worth it
                     place_spawns( GROUP_SEWER, 1, point( 4, 4 ), point( 4, 4 ), 1, true );
 
-                    square( this, t_water_dp, SEEX * 2 - 5, 4, SEEX * 2 - 4, 6 );
+                    square( this, t_water_dp, point( SEEX * 2 - 5, 4 ), point( SEEX * 2 - 4, 6 ) );
                     place_spawns( GROUP_SEWER, 1, point( 1, SEEX * 2 - 5 ), point( 1, SEEX * 2 - 5 ), 1, true );
 
-                    square( this, t_water_dp, 4, SEEY * 2 - 5, 6, SEEY * 2 - 4 );
+                    square( this, t_water_dp, point( 4, SEEY * 2 - 5 ), point( 6, SEEY * 2 - 4 ) );
 
-                    square( this, t_water_dp, SEEX * 2 - 5, SEEY * 2 - 5, SEEX * 2 - 4,
-                            SEEY * 2 - 4 );
+                    square( this, t_water_dp, point( SEEX * 2 - 5, SEEY * 2 - 5 ), point( SEEX * 2 - 4,
+                            SEEY * 2 - 4 ) );
 
-                    square( this, t_rock, 0, SEEY * 2 - 2, SEEX - 1, SOUTH_EDGE );
-                    square( this, t_rock, SEEX + 2, SEEY * 2 - 2, EAST_EDGE, SOUTH_EDGE );
-                    line( this, t_grate, SEEX, 1, SEEX + 1, 1 ); // To drain the water
+                    square( this, t_rock, point( 0, SEEY * 2 - 2 ), point( SEEX - 1, SOUTH_EDGE ) );
+                    square( this, t_rock, point( SEEX + 2, SEEY * 2 - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
+                    line( this, t_grate, point( SEEX, 1 ), point( SEEX + 1, 1 ) ); // To drain the water
                     mtrap_set( this, SEEX, SEEY * 2 - 2, tr_temple_flood );
                     mtrap_set( this, SEEX + 1, SEEY * 2 - 2, tr_temple_flood );
                     for( int y = 2; y < SEEY * 2 - 2; y++ ) {
@@ -4499,21 +4499,21 @@ void map::draw_temple( mapgendata &dat )
                     break;
 
                 case 3: { // Flipping walls puzzle
-                    line( this, t_rock, 0, 0, SEEX - 1, 0 );
-                    line( this, t_rock, SEEX + 2, 0, EAST_EDGE, 0 );
-                    line( this, t_rock, SEEX - 1, 1, SEEX - 1, 6 );
-                    line( this, t_bars, SEEX + 2, 1, SEEX + 2, 6 );
+                    line( this, t_rock, point_zero, point( SEEX - 1, 0 ) );
+                    line( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, 0 ) );
+                    line( this, t_rock, point( SEEX - 1, 1 ), point( SEEX - 1, 6 ) );
+                    line( this, t_bars, point( SEEX + 2, 1 ), point( SEEX + 2, 6 ) );
                     ter_set( point( 14, 1 ), t_switch_rg );
                     ter_set( point( 15, 1 ), t_switch_gb );
                     ter_set( point( 16, 1 ), t_switch_rb );
                     ter_set( point( 17, 1 ), t_switch_even );
                     // Start with clear floors--then work backwards to the starting state
-                    line( this, t_floor_red,   SEEX, 1, SEEX + 1, 1 );
-                    line( this, t_floor_green, SEEX, 2, SEEX + 1, 2 );
-                    line( this, t_floor_blue,  SEEX, 3, SEEX + 1, 3 );
-                    line( this, t_floor_red,   SEEX, 4, SEEX + 1, 4 );
-                    line( this, t_floor_green, SEEX, 5, SEEX + 1, 5 );
-                    line( this, t_floor_blue,  SEEX, 6, SEEX + 1, 6 );
+                    line( this, t_floor_red,   point( SEEX, 1 ), point( SEEX + 1, 1 ) );
+                    line( this, t_floor_green, point( SEEX, 2 ), point( SEEX + 1, 2 ) );
+                    line( this, t_floor_blue,  point( SEEX, 3 ), point( SEEX + 1, 3 ) );
+                    line( this, t_floor_red,   point( SEEX, 4 ), point( SEEX + 1, 4 ) );
+                    line( this, t_floor_green, point( SEEX, 5 ), point( SEEX + 1, 5 ) );
+                    line( this, t_floor_blue,  point( SEEX, 6 ), point( SEEX + 1, 6 ) );
                     // Now, randomly choose actions
                     // Set up an actions vector so that there's not undue repetition
                     std::vector<int> actions;
@@ -4589,12 +4589,12 @@ void map::draw_temple( mapgendata &dat )
                 break;
 
                 case 4: { // Toggling walls maze
-                    square( this, t_rock, 0,     0, SEEX     - 1,     1 );
-                    square( this, t_rock, 0, SEEY * 2 - 2, SEEX     - 1, SOUTH_EDGE );
-                    square( this, t_rock, 0,     2, SEEX     - 4, SEEY * 2 - 3 );
-                    square( this, t_rock, SEEX + 2,     0, EAST_EDGE,     1 );
-                    square( this, t_rock, SEEX + 2, SEEY * 2 - 2, EAST_EDGE, SOUTH_EDGE );
-                    square( this, t_rock, SEEX + 5,     2, EAST_EDGE, SEEY * 2 - 3 );
+                    square( this, t_rock, point_zero, point( SEEX     - 1, 1 ) );
+                    square( this, t_rock, point( 0, SEEY * 2 - 2 ), point( SEEX     - 1, SOUTH_EDGE ) );
+                    square( this, t_rock, point( 0, 2 ), point( SEEX     - 4, SEEY * 2 - 3 ) );
+                    square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, 1 ) );
+                    square( this, t_rock, point( SEEX + 2, SEEY * 2 - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
+                    square( this, t_rock, point( SEEX + 5, 2 ), point( EAST_EDGE, SEEY * 2 - 3 ) );
                     int x = rng( SEEX - 1, SEEX + 2 ), y = 2;
                     std::vector<point> path; // Path, from end to start
                     while( x < SEEX - 1 || x > SEEX + 2 || y < SEEY * 2 - 2 ) {
@@ -4667,19 +4667,19 @@ void map::draw_temple( mapgendata &dat )
             } // Done with room type switch
             // Stairs down if we need them
             if( terrain_type == "temple_stairs" ) {
-                line( this, t_stairs_down, SEEX, 0, SEEX + 1, 0 );
+                line( this, t_stairs_down, point( SEEX, 0 ), point( SEEX + 1, 0 ) );
             }
             // Stairs at the south if dat.above() has stairs down.
             if( dat.above() == "temple_stairs" ) {
-                line( this, t_stairs_up, SEEX, SOUTH_EDGE, SEEX + 1, SOUTH_EDGE );
+                line( this, t_stairs_up, point( SEEX, SOUTH_EDGE ), point( SEEX + 1, SOUTH_EDGE ) );
             }
 
         } // Done with underground-only stuff
     } else if( terrain_type == "temple_finale" ) {
         fill_background( this, t_rock );
-        square( this, t_rock_floor, SEEX - 1, 1, SEEX + 2, 4 );
-        square( this, t_rock_floor, SEEX, 5, SEEX + 1, SOUTH_EDGE );
-        line( this, t_stairs_up, SEEX, SOUTH_EDGE, SEEX + 1, SOUTH_EDGE );
+        square( this, t_rock_floor, point( SEEX - 1, 1 ), point( SEEX + 2, 4 ) );
+        square( this, t_rock_floor, point( SEEX, 5 ), point( SEEX + 1, SOUTH_EDGE ) );
+        line( this, t_stairs_up, point( SEEX, SOUTH_EDGE ), point( SEEX + 1, SOUTH_EDGE ) );
         spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z ) );
         spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z ) );
         return;
@@ -4727,8 +4727,8 @@ void map::draw_mine( mapgendata &dat )
     } else if( terrain_type == "mine_shaft" ) {
         // Not intended to actually be inhabited!
         fill_background( this, t_rock );
-        square( this, t_hole, SEEX - 3, SEEY - 3, SEEX + 2, SEEY + 2 );
-        line( this, t_grate, SEEX - 3, SEEY - 4, SEEX + 2, SEEY - 4 );
+        square( this, t_hole, point( SEEX - 3, SEEY - 3 ), point( SEEX + 2, SEEY + 2 ) );
+        line( this, t_grate, point( SEEX - 3, SEEY - 4 ), point( SEEX + 2, SEEY - 4 ) );
         ter_set( point( SEEX - 3, SEEY - 5 ), t_ladder_up );
         ter_set( point( SEEX + 2, SEEY - 5 ), t_ladder_down );
         rotate( rng( 0, 3 ) );
@@ -4768,16 +4768,16 @@ void map::draw_mine( mapgendata &dat )
         }
 
         if( dat.above() == "mine_shaft" ) { // We need the entrance room
-            square( this, t_floor, 10, 10, 15, 15 );
-            line( this, t_wall,  9,  9, 16,  9 );
-            line( this, t_wall,  9, 16, 16, 16 );
-            line( this, t_wall,  9, 10,  9, 15 );
-            line( this, t_wall, 16, 10, 16, 15 );
-            line( this, t_wall, 10, 11, 12, 11 );
+            square( this, t_floor, point( 10, 10 ), point( 15, 15 ) );
+            line( this, t_wall,  point( 9, 9 ), point( 16, 9 ) );
+            line( this, t_wall,  point( 9, 16 ), point( 16, 16 ) );
+            line( this, t_wall,  point( 9, 10 ),  point( 9, 15 ) );
+            line( this, t_wall, point( 16, 10 ), point( 16, 15 ) );
+            line( this, t_wall, point( 10, 11 ), point( 12, 11 ) );
             ter_set( point( 10, 10 ), t_elevator_control );
             ter_set( point( 11, 10 ), t_elevator );
             ter_set( point( 10, 12 ), t_ladder_up );
-            line_furn( this, f_counter, 10, 15, 15, 15 );
+            line_furn( this, f_counter, point( 10, 15 ), point( 15, 15 ) );
             place_items( "mine_equipment", 86, point( 10, 15 ), point( 15, 15 ), false,
                          calendar::start_of_cataclysm );
             if( one_in( 2 ) ) {
@@ -4808,7 +4808,7 @@ void map::draw_mine( mapgendata &dat )
                     for( int i = 0; i < num; i++ ) {
                         int lx1 = x1 + rng( -1, 1 ), lx2 = x2 + rng( -1, 1 ),
                             ly1 = y1 + rng( -1, 1 ), ly2 = y2 + rng( -1, 1 );
-                        line( this, t_lava, lx1, ly1, lx2, ly2 );
+                        line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
                     }
                 }
                 break;
@@ -4888,11 +4888,11 @@ void map::draw_mine( mapgendata &dat )
 
                 case 6: { // Spiral
                     int orx = rng( SEEX - 4, SEEX ), ory = rng( SEEY - 4, SEEY );
-                    line( this, t_rock, orx, ory, orx + 5, ory );
-                    line( this, t_rock, orx + 5, ory, orx + 5, ory + 5 );
-                    line( this, t_rock, orx + 1, ory + 5, orx + 5, ory + 5 );
-                    line( this, t_rock, orx + 1, ory + 2, orx + 1, ory + 4 );
-                    line( this, t_rock, orx + 1, ory + 2, orx + 3, ory + 2 );
+                    line( this, t_rock, point( orx, ory ), point( orx + 5, ory ) );
+                    line( this, t_rock, point( orx + 5, ory ), point( orx + 5, ory + 5 ) );
+                    line( this, t_rock, point( orx + 1, ory + 5 ), point( orx + 5, ory + 5 ) );
+                    line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 1, ory + 4 ) );
+                    line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 3, ory + 2 ) );
                     ter_set( point( orx + 3, ory + 3 ), t_rock );
                     add_item( point( orx + 2, ory + 3 ), item::make_corpse() );
                     place_items( "mine_equipment", 60, point( orx + 2, ory + 3 ), point( orx + 2, ory + 3 ),
@@ -4936,26 +4936,27 @@ void map::draw_mine( mapgendata &dat )
                     }
                 } while( !okay && tries < 10 );
                 if( tries == 10 ) { // Clear the area around the slope down
-                    square( this, t_rock_floor, p.x, p.y, p.x + 5, p.y + 5 );
+                    square( this, t_rock_floor, p, p + point( 5, 5 ) );
                 }
-                square( this, t_slope_down, p.x + 1, p.y + 1, p.x + 2, p.y + 2 );
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                square( this, t_slope_down, p + point( 1, 1 ), p + point( 2, 2 ) );
             } else { // We can build against a wall
                 switch( random_entry( open ) ) {
                     case NORTH:
-                        square( this, t_rock_floor, SEEX - 3, 6, SEEX + 2, SEEY );
-                        line( this, t_slope_down, SEEX - 2, 6, SEEX + 1, 6 );
+                        square( this, t_rock_floor, point( SEEX - 3, 6 ), point( SEEX + 2, SEEY ) );
+                        line( this, t_slope_down, point( SEEX - 2, 6 ), point( SEEX + 1, 6 ) );
                         break;
                     case EAST:
-                        square( this, t_rock_floor, SEEX + 1, SEEY - 3, SEEX * 2 - 7, SEEY + 2 );
-                        line( this, t_slope_down, SEEX * 2 - 7, SEEY - 2, SEEX * 2 - 7, SEEY + 1 );
+                        square( this, t_rock_floor, point( SEEX + 1, SEEY - 3 ), point( SEEX * 2 - 7, SEEY + 2 ) );
+                        line( this, t_slope_down, point( SEEX * 2 - 7, SEEY - 2 ), point( SEEX * 2 - 7, SEEY + 1 ) );
                         break;
                     case SOUTH:
-                        square( this, t_rock_floor, SEEX - 3, SEEY + 1, SEEX + 2, SEEY * 2 - 7 );
-                        line( this, t_slope_down, SEEX - 2, SEEY * 2 - 7, SEEX + 1, SEEY * 2 - 7 );
+                        square( this, t_rock_floor, point( SEEX - 3, SEEY + 1 ), point( SEEX + 2, SEEY * 2 - 7 ) );
+                        line( this, t_slope_down, point( SEEX - 2, SEEY * 2 - 7 ), point( SEEX + 1, SEEY * 2 - 7 ) );
                         break;
                     case WEST:
-                        square( this, t_rock_floor, 6, SEEY - 3, SEEX, SEEY + 2 );
-                        line( this, t_slope_down, 6, SEEY - 2, 6, SEEY + 1 );
+                        square( this, t_rock_floor, point( 6, SEEY - 3 ), point( SEEX, SEEY + 2 ) );
+                        line( this, t_slope_down, point( 6, SEEY - 2 ), point( 6, SEEY + 1 ) );
                         break;
                     default:
                         break;
@@ -4998,23 +4999,24 @@ void map::draw_mine( mapgendata &dat )
                     }
                 } while( !okay && tries < 10 );
                 if( tries == 10 ) { // Clear the area around the slope down
-                    square( this, t_rock_floor, p.x, p.y, p.x + 5, p.y + 5 );
+                    square( this, t_rock_floor, p, p + point( 5, 5 ) );
                 }
-                square( this, t_slope_up, p.x + 1, p.y + 1, p.x + 2, p.y + 2 );
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                square( this, t_slope_up, p + point( 1, 1 ), p + point( 2, 2 ) );
 
             } else { // We can build against a wall
                 switch( random_entry( open ) ) {
                     case NORTH:
-                        line( this, t_slope_up, SEEX - 2, 6, SEEX + 1, 6 );
+                        line( this, t_slope_up, point( SEEX - 2, 6 ), point( SEEX + 1, 6 ) );
                         break;
                     case EAST:
-                        line( this, t_slope_up, SEEX * 2 - 7, SEEY - 2, SEEX * 2 - 7, SEEY + 1 );
+                        line( this, t_slope_up, point( SEEX * 2 - 7, SEEY - 2 ), point( SEEX * 2 - 7, SEEY + 1 ) );
                         break;
                     case SOUTH:
-                        line( this, t_slope_up, SEEX - 2, SEEY * 2 - 7, SEEX + 1, SEEY * 2 - 7 );
+                        line( this, t_slope_up, point( SEEX - 2, SEEY * 2 - 7 ), point( SEEX + 1, SEEY * 2 - 7 ) );
                         break;
                     case WEST:
-                        line( this, t_slope_up, 6, SEEY - 2, 6, SEEY + 1 );
+                        line( this, t_slope_up, point( 6, SEEY - 2 ), point( 6, SEEY + 1 ) );
                         break;
                     default:
                         break;
@@ -5036,25 +5038,25 @@ void map::draw_mine( mapgendata &dat )
         std::vector<direction> face; // Which walls are solid, and can be a facing?
         // Now draw the entrance(s)
         if( dat.north() == "mine" ) {
-            square( this, t_rock_floor, SEEX, 0, SEEX + 1, 3 );
+            square( this, t_rock_floor, point( SEEX, 0 ), point( SEEX + 1, 3 ) );
         } else {
             face.push_back( NORTH );
         }
 
         if( dat.east()  == "mine" ) {
-            square( this, t_rock_floor, SEEX * 2 - 4, SEEY, EAST_EDGE, SEEY + 1 );
+            square( this, t_rock_floor, point( SEEX * 2 - 4, SEEY ), point( EAST_EDGE, SEEY + 1 ) );
         } else {
             face.push_back( EAST );
         }
 
         if( dat.south() == "mine" ) {
-            square( this, t_rock_floor, SEEX, SEEY * 2 - 4, SEEX + 1, SOUTH_EDGE );
+            square( this, t_rock_floor, point( SEEX, SEEY * 2 - 4 ), point( SEEX + 1, SOUTH_EDGE ) );
         } else {
             face.push_back( SOUTH );
         }
 
         if( dat.west()  == "mine" ) {
-            square( this, t_rock_floor, 0, SEEY, 3, SEEY + 1 );
+            square( this, t_rock_floor, point( 0, SEEY ), point( 3, SEEY + 1 ) );
         } else {
             face.push_back( WEST );
         }
@@ -5091,17 +5093,17 @@ void map::draw_mine( mapgendata &dat )
             break;
 
             case 3: { // Spiral down
-                line( this, t_rock,  5,  5,  5, 18 );
-                line( this, t_rock,  5,  5, 18,  5 );
-                line( this, t_rock, 18,  5, 18, 18 );
-                line( this, t_rock,  8, 18, 18, 18 );
-                line( this, t_rock,  8,  8,  8, 18 );
-                line( this, t_rock,  8,  8, 15,  8 );
-                line( this, t_rock, 15,  8, 15, 15 );
-                line( this, t_rock, 10, 15, 15, 15 );
-                line( this, t_rock, 10, 10, 10, 15 );
-                line( this, t_rock, 10, 10, 13, 10 );
-                line( this, t_rock, 13, 10, 13, 13 );
+                line( this, t_rock,  point( 5, 5 ),  point( 5, 18 ) );
+                line( this, t_rock,  point( 5, 5 ), point( 18, 5 ) );
+                line( this, t_rock, point( 18, 5 ), point( 18, 18 ) );
+                line( this, t_rock,  point( 8, 18 ), point( 18, 18 ) );
+                line( this, t_rock,  point( 8, 8 ),  point( 8, 18 ) );
+                line( this, t_rock,  point( 8, 8 ), point( 15, 8 ) );
+                line( this, t_rock, point( 15, 8 ), point( 15, 15 ) );
+                line( this, t_rock, point( 10, 15 ), point( 15, 15 ) );
+                line( this, t_rock, point( 10, 10 ), point( 10, 15 ) );
+                line( this, t_rock, point( 10, 10 ), point( 13, 10 ) );
+                line( this, t_rock, point( 13, 10 ), point( 13, 13 ) );
                 ter_set( point( 12, 13 ), t_rock );
                 ter_set( point( 12, 12 ), t_slope_down );
                 ter_set( point( 12, 11 ), t_slope_down );
@@ -5112,20 +5114,20 @@ void map::draw_mine( mapgendata &dat )
                 // Construct the fault on the appropriate face
                 switch( random_entry( face ) ) {
                     case NORTH:
-                        square( this, t_rock, 0, 0, EAST_EDGE, 4 );
-                        line( this, t_fault, 4, 4, SEEX * 2 - 5, 4 );
+                        square( this, t_rock, point_zero, point( EAST_EDGE, 4 ) );
+                        line( this, t_fault, point( 4, 4 ), point( SEEX * 2 - 5, 4 ) );
                         break;
                     case EAST:
-                        square( this, t_rock, SEEX * 2 - 5, 0, SOUTH_EDGE, EAST_EDGE );
-                        line( this, t_fault, SEEX * 2 - 5, 4, SEEX * 2 - 5, SEEY * 2 - 5 );
+                        square( this, t_rock, point( SEEX * 2 - 5, 0 ), point( SOUTH_EDGE, EAST_EDGE ) );
+                        line( this, t_fault, point( SEEX * 2 - 5, 4 ), point( SEEX * 2 - 5, SEEY * 2 - 5 ) );
                         break;
                     case SOUTH:
-                        square( this, t_rock, 0, SEEY * 2 - 5, EAST_EDGE, SOUTH_EDGE );
-                        line( this, t_fault, 4, SEEY * 2 - 5, SEEX * 2 - 5, SEEY * 2 - 5 );
+                        square( this, t_rock, point( 0, SEEY * 2 - 5 ), point( EAST_EDGE, SOUTH_EDGE ) );
+                        line( this, t_fault, point( 4, SEEY * 2 - 5 ), point( SEEX * 2 - 5, SEEY * 2 - 5 ) );
                         break;
                     case WEST:
-                        square( this, t_rock, 0, 0, 4, SOUTH_EDGE );
-                        line( this, t_fault, 4, 4, 4, SEEY * 2 - 5 );
+                        square( this, t_rock, point_zero, point( 4, SOUTH_EDGE ) );
+                        line( this, t_fault, point( 4, 4 ), point( 4, SEEY * 2 - 5 ) );
                         break;
                     default:
                         break;
@@ -5148,22 +5150,22 @@ void map::draw_spiral( mapgendata &dat )
     const oter_id &terrain_type = dat.terrain_type();
     if( terrain_type == "spiral_hub" ) {
         fill_background( this, t_rock_floor );
-        line( this, t_rock, 23,  0, 23, 23 );
-        line( this, t_rock,  2, 23, 23, 23 );
-        line( this, t_rock,  2,  4,  2, 23 );
-        line( this, t_rock,  2,  4, 18,  4 );
-        line( this, t_rock, 18,  4, 18, 18 ); // bad
-        line( this, t_rock,  6, 18, 18, 18 );
-        line( this, t_rock,  6,  7,  6, 18 );
-        line( this, t_rock,  6,  7, 15,  7 );
-        line( this, t_rock, 15,  7, 15, 15 );
-        line( this, t_rock,  8, 15, 15, 15 );
-        line( this, t_rock,  8,  9,  8, 15 );
-        line( this, t_rock,  8,  9, 13,  9 );
-        line( this, t_rock, 13,  9, 13, 13 );
-        line( this, t_rock, 10, 13, 13, 13 );
-        line( this, t_rock, 10, 11, 10, 13 );
-        square( this, t_slope_up, 11, 11, 12, 12 );
+        line( this, t_rock, point( 23, 0 ), point( 23, 23 ) );
+        line( this, t_rock,  point( 2, 23 ), point( 23, 23 ) );
+        line( this, t_rock,  point( 2, 4 ),  point( 2, 23 ) );
+        line( this, t_rock,  point( 2, 4 ), point( 18, 4 ) );
+        line( this, t_rock, point( 18, 4 ), point( 18, 18 ) ); // bad
+        line( this, t_rock,  point( 6, 18 ), point( 18, 18 ) );
+        line( this, t_rock,  point( 6, 7 ),  point( 6, 18 ) );
+        line( this, t_rock,  point( 6, 7 ), point( 15, 7 ) );
+        line( this, t_rock, point( 15, 7 ), point( 15, 15 ) );
+        line( this, t_rock,  point( 8, 15 ), point( 15, 15 ) );
+        line( this, t_rock,  point( 8, 9 ),  point( 8, 15 ) );
+        line( this, t_rock,  point( 8, 9 ), point( 13, 9 ) );
+        line( this, t_rock, point( 13, 9 ), point( 13, 13 ) );
+        line( this, t_rock, point( 10, 13 ), point( 13, 13 ) );
+        line( this, t_rock, point( 10, 11 ), point( 10, 13 ) );
+        square( this, t_slope_up, point( 11, 11 ), point( 12, 12 ) );
         rotate( rng( 0, 3 ) );
     } else if( terrain_type == "spiral" ) {
         fill_background( this, t_rock_floor );
@@ -5187,11 +5189,11 @@ void map::draw_spiral( mapgendata &dat )
             const int orx = chosen_point.x;
             const int ory = chosen_point.y;
 
-            line( this, t_rock, orx, ory, orx + 5, ory );
-            line( this, t_rock, orx + 5, ory, orx + 5, ory + 5 );
-            line( this, t_rock, orx + 1, ory + 5, orx + 5, ory + 5 );
-            line( this, t_rock, orx + 1, ory + 2, orx + 1, ory + 4 );
-            line( this, t_rock, orx + 1, ory + 2, orx + 3, ory + 2 );
+            line( this, t_rock, point( orx, ory ), point( orx + 5, ory ) );
+            line( this, t_rock, point( orx + 5, ory ), point( orx + 5, ory + 5 ) );
+            line( this, t_rock, point( orx + 1, ory + 5 ), point( orx + 5, ory + 5 ) );
+            line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 1, ory + 4 ) );
+            line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 3, ory + 2 ) );
             ter_set( point( orx + 3, ory + 3 ), t_rock );
             ter_set( point( orx + 2, ory + 3 ), t_rock_floor );
             place_items( "spiral", 60, point( orx + 2, ory + 3 ), point( orx + 2, ory + 3 ), false, 0 );
@@ -5205,24 +5207,24 @@ void map::draw_fema( mapgendata &dat )
     if( terrain_type == "fema_entrance" ) {
         fill_background( this, t_dirt );
         // Left wall
-        line( this, t_chainfence, 0, 23, 23, 23 );
-        line( this, t_chaingate_l, 10, 23, 14, 23 );
-        line( this, t_chainfence,  0,  0,  0, 23 );
-        line( this, t_chainfence,  23,  0,  23, 23 );
-        line( this, t_fence_barbed, 1, 4, 9, 12 );
-        line( this, t_fence_barbed, 1, 5, 8, 12 );
-        line( this, t_fence_barbed, 22, 4, 15, 12 );
-        line( this, t_fence_barbed, 22, 5, 16, 12 );
-        square( this, t_wall_wood, 2, 13, 9, 21 );
-        square( this, t_floor, 3, 14, 8, 20 );
-        line( this, t_reinforced_glass, 5, 13, 6, 13 );
-        line( this, t_reinforced_glass, 5, 21, 6, 21 );
-        line( this, t_reinforced_glass, 9, 15, 9, 18 );
-        line( this, t_door_c, 9, 16, 9, 17 );
-        line_furn( this, f_locker, 3, 16, 3, 18 );
-        line_furn( this, f_chair, 5, 16, 5, 18 );
-        line_furn( this, f_desk, 6, 16, 6, 18 );
-        line_furn( this, f_chair, 7, 16, 7, 18 );
+        line( this, t_chainfence, point( 0, 23 ), point( 23, 23 ) );
+        line( this, t_chaingate_l, point( 10, 23 ), point( 14, 23 ) );
+        line( this, t_chainfence,  point_zero,  point( 0, 23 ) );
+        line( this, t_chainfence,  point( 23, 0 ),  point( 23, 23 ) );
+        line( this, t_fence_barbed, point( 1, 4 ), point( 9, 12 ) );
+        line( this, t_fence_barbed, point( 1, 5 ), point( 8, 12 ) );
+        line( this, t_fence_barbed, point( 22, 4 ), point( 15, 12 ) );
+        line( this, t_fence_barbed, point( 22, 5 ), point( 16, 12 ) );
+        square( this, t_wall_wood, point( 2, 13 ), point( 9, 21 ) );
+        square( this, t_floor, point( 3, 14 ), point( 8, 20 ) );
+        line( this, t_reinforced_glass, point( 5, 13 ), point( 6, 13 ) );
+        line( this, t_reinforced_glass, point( 5, 21 ), point( 6, 21 ) );
+        line( this, t_reinforced_glass, point( 9, 15 ), point( 9, 18 ) );
+        line( this, t_door_c, point( 9, 16 ), point( 9, 17 ) );
+        line_furn( this, f_locker, point( 3, 16 ), point( 3, 18 ) );
+        line_furn( this, f_chair, point( 5, 16 ), point( 5, 18 ) );
+        line_furn( this, f_desk, point( 6, 16 ), point( 6, 18 ) );
+        line_furn( this, f_chair, point( 7, 16 ), point( 7, 18 ) );
         place_items( "office", 80, point( 3, 16 ), point( 3, 18 ), false, calendar::start_of_cataclysm );
         place_items( "office", 80, point( 6, 16 ), point( 6, 18 ), false, calendar::start_of_cataclysm );
         place_spawns( GROUP_MIL_WEAK, 1, point( 3, 15 ), point( 4, 17 ), 0.2 );
@@ -5244,42 +5246,43 @@ void map::draw_fema( mapgendata &dat )
         fill_background( this, t_dirt );
         // check all sides for non fema/fema entrance, place fence on those sides
         if( dat.north() != "fema" && dat.north() != "fema_entrance" ) {
-            line( this, t_chainfence, 0, 0, 23, 0 );
+            line( this, t_chainfence, point_zero, point( 23, 0 ) );
         }
         if( dat.south() != "fema" && dat.south() != "fema_entrance" ) {
-            line( this, t_chainfence, 0, 23, 23, 23 );
+            line( this, t_chainfence, point( 0, 23 ), point( 23, 23 ) );
         }
         if( dat.west() != "fema" && dat.west() != "fema_entrance" ) {
-            line( this, t_chainfence, 0, 0, 0, 23 );
+            line( this, t_chainfence, point_zero, point( 0, 23 ) );
         }
         if( dat.east() != "fema" && dat.east() != "fema_entrance" ) {
-            line( this, t_chainfence, 23, 0, 23, 23 );
+            line( this, t_chainfence, point( 23, 0 ), point( 23, 23 ) );
         }
         if( dat.west() == "fema" && dat.east() == "fema" && dat.south() != "fema" ) {
             //lab bottom side
-            square( this, t_dirt, 1, 1, 22, 22 );
-            square( this, t_floor, 4, 4, 19, 19 );
-            line( this, t_concrete_wall, 4, 4, 19, 4 );
-            line( this, t_concrete_wall, 4, 19, 19, 19 );
-            line( this, t_concrete_wall, 4, 5, 4, 18 );
-            line( this, t_concrete_wall, 19, 5, 19, 18 );
-            line( this, t_door_metal_c, 11, 4, 12, 4 );
-            line_furn( this, f_glass_fridge, 6, 5, 9, 5 );
-            line_furn( this, f_glass_fridge, 14, 5, 17, 5 );
-            square( this, t_grate, 6, 8, 8, 9 );
-            line_furn( this, f_table, 7, 8, 7, 9 );
-            square( this, t_grate, 6, 12, 8, 13 );
-            line_furn( this, f_table, 7, 12, 7, 13 );
-            square( this, t_grate, 6, 16, 8, 17 );
-            line_furn( this, f_table, 7, 16, 7, 17 );
-            line_furn( this, f_counter, 10, 8, 10, 17 );
-            line_furn( this, f_chair, 14, 8, 14, 10 );
-            line_furn( this, f_chair, 17, 8, 17, 10 );
-            square( this, t_console_broken, 15, 8, 16, 10 );
-            line_furn( this, f_desk, 15, 11, 16, 11 );
-            line_furn( this, f_chair, 15, 12, 16, 12 );
-            line( this, t_reinforced_glass, 13, 14, 18, 14 );
-            line( this, t_reinforced_glass, 13, 14, 13, 18 );
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            square( this, t_dirt, point( 1, 1 ), point( 22, 22 ) );
+            square( this, t_floor, point( 4, 4 ), point( 19, 19 ) );
+            line( this, t_concrete_wall, point( 4, 4 ), point( 19, 4 ) );
+            line( this, t_concrete_wall, point( 4, 19 ), point( 19, 19 ) );
+            line( this, t_concrete_wall, point( 4, 5 ), point( 4, 18 ) );
+            line( this, t_concrete_wall, point( 19, 5 ), point( 19, 18 ) );
+            line( this, t_door_metal_c, point( 11, 4 ), point( 12, 4 ) );
+            line_furn( this, f_glass_fridge, point( 6, 5 ), point( 9, 5 ) );
+            line_furn( this, f_glass_fridge, point( 14, 5 ), point( 17, 5 ) );
+            square( this, t_grate, point( 6, 8 ), point( 8, 9 ) );
+            line_furn( this, f_table, point( 7, 8 ), point( 7, 9 ) );
+            square( this, t_grate, point( 6, 12 ), point( 8, 13 ) );
+            line_furn( this, f_table, point( 7, 12 ), point( 7, 13 ) );
+            square( this, t_grate, point( 6, 16 ), point( 8, 17 ) );
+            line_furn( this, f_table, point( 7, 16 ), point( 7, 17 ) );
+            line_furn( this, f_counter, point( 10, 8 ), point( 10, 17 ) );
+            line_furn( this, f_chair, point( 14, 8 ), point( 14, 10 ) );
+            line_furn( this, f_chair, point( 17, 8 ), point( 17, 10 ) );
+            square( this, t_console_broken, point( 15, 8 ), point( 16, 10 ) );
+            line_furn( this, f_desk, point( 15, 11 ), point( 16, 11 ) );
+            line_furn( this, f_chair, point( 15, 12 ), point( 16, 12 ) );
+            line( this, t_reinforced_glass, point( 13, 14 ), point( 18, 14 ) );
+            line( this, t_reinforced_glass, point( 13, 14 ), point( 13, 18 ) );
             ter_set( point( 15, 14 ), t_door_metal_locked );
             place_items( "dissection", 90, point( 10, 8 ), point( 10, 17 ), false,
                          calendar::start_of_cataclysm );
@@ -5293,39 +5296,40 @@ void map::draw_fema( mapgendata &dat )
                          calendar::start_of_cataclysm );
             place_spawns( GROUP_LAB_FEMA, 1, point( 11, 12 ), point( 16, 17 ), 0.1 );
         } else if( dat.west() == "fema_entrance" ) {
-            square( this, t_dirt, 1, 1, 22, 22 ); //Supply tent
-            line_furn( this, f_canvas_wall, 4, 4, 19, 4 );
-            line_furn( this, f_canvas_wall, 4, 4, 4, 19 );
-            line_furn( this, f_canvas_wall, 19, 19, 19, 4 );
-            line_furn( this, f_canvas_wall, 19, 19, 4, 19 );
-            square_furn( this, f_fema_groundsheet, 5, 5, 8, 18 );
-            square_furn( this, f_fema_groundsheet, 10, 5, 13, 5 );
-            square_furn( this, f_fema_groundsheet, 10, 18, 13, 18 );
-            square_furn( this, f_fema_groundsheet, 15, 5, 18, 7 );
-            square_furn( this, f_fema_groundsheet, 15, 16, 18, 18 );
-            square_furn( this, f_fema_groundsheet, 16, 10, 17, 14 );
-            square_furn( this, f_fema_groundsheet, 9, 7, 14, 16 );
-            line_furn( this, f_canvas_door, 11, 4, 12, 4 );
-            line_furn( this, f_canvas_door, 11, 19, 12, 19 );
-            square_furn( this, f_crate_c, 5, 6, 7, 7 );
-            square_furn( this, f_crate_c, 5, 11, 7, 12 );
-            square_furn( this, f_crate_c, 5, 16, 7, 17 );
-            line( this, t_chainfence, 9, 6, 14, 6 );
-            line( this, t_chainfence, 9, 17, 14, 17 );
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            square( this, t_dirt, point( 1, 1 ), point( 22, 22 ) ); //Supply tent
+            line_furn( this, f_canvas_wall, point( 4, 4 ), point( 19, 4 ) );
+            line_furn( this, f_canvas_wall, point( 4, 4 ), point( 4, 19 ) );
+            line_furn( this, f_canvas_wall, point( 19, 19 ), point( 19, 4 ) );
+            line_furn( this, f_canvas_wall, point( 19, 19 ), point( 4, 19 ) );
+            square_furn( this, f_fema_groundsheet, point( 5, 5 ), point( 8, 18 ) );
+            square_furn( this, f_fema_groundsheet, point( 10, 5 ), point( 13, 5 ) );
+            square_furn( this, f_fema_groundsheet, point( 10, 18 ), point( 13, 18 ) );
+            square_furn( this, f_fema_groundsheet, point( 15, 5 ), point( 18, 7 ) );
+            square_furn( this, f_fema_groundsheet, point( 15, 16 ), point( 18, 18 ) );
+            square_furn( this, f_fema_groundsheet, point( 16, 10 ), point( 17, 14 ) );
+            square_furn( this, f_fema_groundsheet, point( 9, 7 ), point( 14, 16 ) );
+            line_furn( this, f_canvas_door, point( 11, 4 ), point( 12, 4 ) );
+            line_furn( this, f_canvas_door, point( 11, 19 ), point( 12, 19 ) );
+            square_furn( this, f_crate_c, point( 5, 6 ), point( 7, 7 ) );
+            square_furn( this, f_crate_c, point( 5, 11 ), point( 7, 12 ) );
+            square_furn( this, f_crate_c, point( 5, 16 ), point( 7, 17 ) );
+            line( this, t_chainfence, point( 9, 6 ), point( 14, 6 ) );
+            line( this, t_chainfence, point( 9, 17 ), point( 14, 17 ) );
             ter_set( point( 9, 5 ), t_chaingate_c );
             ter_set( point( 14, 18 ), t_chaingate_c );
             ter_set( point( 14, 5 ), t_chainfence );
             ter_set( point( 9, 18 ), t_chainfence );
             furn_set( point( 12, 17 ), f_counter );
             furn_set( point( 11, 6 ), f_counter );
-            line_furn( this, f_chair, 10, 10, 13, 10 );
-            square_furn( this, f_desk, 10, 11, 13, 12 );
-            line_furn( this, f_chair, 10, 13, 13, 13 );
-            line( this, t_chainfence, 15, 8, 18, 8 );
-            line( this, t_chainfence, 15, 15, 18, 15 );
-            line( this, t_chainfence, 15, 9, 15, 14 );
-            line( this, t_chaingate_c, 15, 11, 15, 12 );
-            line_furn( this, f_locker, 18, 9, 18, 14 );
+            line_furn( this, f_chair, point( 10, 10 ), point( 13, 10 ) );
+            square_furn( this, f_desk, point( 10, 11 ), point( 13, 12 ) );
+            line_furn( this, f_chair, point( 10, 13 ), point( 13, 13 ) );
+            line( this, t_chainfence, point( 15, 8 ), point( 18, 8 ) );
+            line( this, t_chainfence, point( 15, 15 ), point( 18, 15 ) );
+            line( this, t_chainfence, point( 15, 9 ), point( 15, 14 ) );
+            line( this, t_chaingate_c, point( 15, 11 ), point( 15, 12 ) );
+            line_furn( this, f_locker, point( 18, 9 ), point( 18, 14 ) );
             place_items( "allclothes", 90, point( 5, 6 ), point( 7, 7 ), false, calendar::start_of_cataclysm );
             place_items( "softdrugs", 90, point( 5, 11 ), point( 7, 12 ), false, calendar::start_of_cataclysm );
             place_items( "hardware", 90, point( 5, 16 ), point( 7, 17 ), false, calendar::start_of_cataclysm );
@@ -5340,63 +5344,65 @@ void map::draw_fema( mapgendata &dat )
                 case 1:
                 case 2:
                 case 3:
-                    square( this, t_dirt, 1, 1, 22, 22 );
-                    square_furn( this, f_canvas_wall, 4, 4, 19, 19 ); //Lodging
-                    square_furn( this, f_fema_groundsheet, 5, 5, 18, 18 );
-                    line_furn( this, f_canvas_door, 11, 4, 12, 4 );
-                    line_furn( this, f_canvas_door, 11, 19, 12, 19 );
-                    line_furn( this, f_makeshift_bed, 6, 6, 6, 17 );
-                    line_furn( this, f_makeshift_bed, 8, 6, 8, 17 );
-                    line_furn( this, f_makeshift_bed, 10, 6, 10, 17 );
-                    line_furn( this, f_makeshift_bed, 13, 6, 13, 17 );
-                    line_furn( this, f_makeshift_bed, 15, 6, 15, 17 );
-                    line_furn( this, f_makeshift_bed, 17, 6, 17, 17 );
-                    line_furn( this, f_fema_groundsheet, 6, 8, 17, 8 );
-                    line_furn( this, f_fema_groundsheet, 6, 8, 17, 8 );
-                    square_furn( this, f_fema_groundsheet, 6, 11, 17, 12 );
-                    line_furn( this, f_fema_groundsheet, 6, 15, 17, 15 );
-                    line_furn( this, f_crate_o, 6, 7, 17, 7 );
-                    line_furn( this, f_crate_o, 6, 10, 17, 10 );
-                    line_furn( this, f_crate_o, 6, 14, 17, 14 );
-                    line_furn( this, f_crate_o, 6, 17, 17, 17 );
-                    line_furn( this, f_fema_groundsheet, 7, 5, 7, 18 );
-                    line_furn( this, f_fema_groundsheet, 9, 5, 9, 18 );
-                    square_furn( this, f_fema_groundsheet, 11, 5, 12, 18 );
-                    line_furn( this, f_fema_groundsheet, 14, 5, 14, 18 );
-                    line_furn( this, f_fema_groundsheet, 16, 5, 16, 18 );
+                    // NOLINTNEXTLINE(cata-use-named-point-constants)
+                    square( this, t_dirt, point( 1, 1 ), point( 22, 22 ) );
+                    square_furn( this, f_canvas_wall, point( 4, 4 ), point( 19, 19 ) ); //Lodging
+                    square_furn( this, f_fema_groundsheet, point( 5, 5 ), point( 18, 18 ) );
+                    line_furn( this, f_canvas_door, point( 11, 4 ), point( 12, 4 ) );
+                    line_furn( this, f_canvas_door, point( 11, 19 ), point( 12, 19 ) );
+                    line_furn( this, f_makeshift_bed, point( 6, 6 ), point( 6, 17 ) );
+                    line_furn( this, f_makeshift_bed, point( 8, 6 ), point( 8, 17 ) );
+                    line_furn( this, f_makeshift_bed, point( 10, 6 ), point( 10, 17 ) );
+                    line_furn( this, f_makeshift_bed, point( 13, 6 ), point( 13, 17 ) );
+                    line_furn( this, f_makeshift_bed, point( 15, 6 ), point( 15, 17 ) );
+                    line_furn( this, f_makeshift_bed, point( 17, 6 ), point( 17, 17 ) );
+                    line_furn( this, f_fema_groundsheet, point( 6, 8 ), point( 17, 8 ) );
+                    line_furn( this, f_fema_groundsheet, point( 6, 8 ), point( 17, 8 ) );
+                    square_furn( this, f_fema_groundsheet, point( 6, 11 ), point( 17, 12 ) );
+                    line_furn( this, f_fema_groundsheet, point( 6, 15 ), point( 17, 15 ) );
+                    line_furn( this, f_crate_o, point( 6, 7 ), point( 17, 7 ) );
+                    line_furn( this, f_crate_o, point( 6, 10 ), point( 17, 10 ) );
+                    line_furn( this, f_crate_o, point( 6, 14 ), point( 17, 14 ) );
+                    line_furn( this, f_crate_o, point( 6, 17 ), point( 17, 17 ) );
+                    line_furn( this, f_fema_groundsheet, point( 7, 5 ), point( 7, 18 ) );
+                    line_furn( this, f_fema_groundsheet, point( 9, 5 ), point( 9, 18 ) );
+                    square_furn( this, f_fema_groundsheet, point( 11, 5 ), point( 12, 18 ) );
+                    line_furn( this, f_fema_groundsheet, point( 14, 5 ), point( 14, 18 ) );
+                    line_furn( this, f_fema_groundsheet, point( 16, 5 ), point( 16, 18 ) );
                     place_items( "livingroom", 80, point( 5, 5 ), point( 18, 18 ), false,
                                  calendar::start_of_cataclysm );
                     place_spawns( GROUP_PLAIN, 1, point( 11, 12 ), point( 13, 14 ), 0.1 );
                     break;
                 case 4:
-                    square( this, t_dirt, 1, 1, 22, 22 );
-                    square_furn( this, f_canvas_wall, 4, 4, 19, 19 ); //Mess hall/tent
-                    square_furn( this, f_fema_groundsheet, 5, 5, 18, 18 );
-                    line_furn( this, f_canvas_door, 11, 4, 12, 4 );
-                    line_furn( this, f_canvas_door, 11, 19, 12, 19 );
-                    line_furn( this, f_crate_c, 5, 5, 5, 6 );
-                    square_furn( this, f_counter, 6, 6, 10, 8 );
-                    square( this, t_rock_floor, 6, 5, 9, 7 );
+                    // NOLINTNEXTLINE(cata-use-named-point-constants)
+                    square( this, t_dirt, point( 1, 1 ), point( 22, 22 ) );
+                    square_furn( this, f_canvas_wall, point( 4, 4 ), point( 19, 19 ) ); //Mess hall/tent
+                    square_furn( this, f_fema_groundsheet, point( 5, 5 ), point( 18, 18 ) );
+                    line_furn( this, f_canvas_door, point( 11, 4 ), point( 12, 4 ) );
+                    line_furn( this, f_canvas_door, point( 11, 19 ), point( 12, 19 ) );
+                    line_furn( this, f_crate_c, point( 5, 5 ), point( 5, 6 ) );
+                    square_furn( this, f_counter, point( 6, 6 ), point( 10, 8 ) );
+                    square( this, t_rock_floor, point( 6, 5 ), point( 9, 7 ) );
                     furn_set( point( 7, 6 ), f_woodstove );
-                    line_furn( this, f_bench, 13, 6, 17, 6 );
-                    line_furn( this, f_table, 13, 7, 17, 7 );
-                    line_furn( this, f_bench, 13, 8, 17, 8 );
+                    line_furn( this, f_bench, point( 13, 6 ), point( 17, 6 ) );
+                    line_furn( this, f_table, point( 13, 7 ), point( 17, 7 ) );
+                    line_furn( this, f_bench, point( 13, 8 ), point( 17, 8 ) );
 
-                    line_furn( this, f_bench, 13, 11, 17, 11 );
-                    line_furn( this, f_table, 13, 12, 17, 12 );
-                    line_furn( this, f_bench, 13, 13, 17, 13 );
+                    line_furn( this, f_bench, point( 13, 11 ), point( 17, 11 ) );
+                    line_furn( this, f_table, point( 13, 12 ), point( 17, 12 ) );
+                    line_furn( this, f_bench, point( 13, 13 ), point( 17, 13 ) );
 
-                    line_furn( this, f_bench, 13, 15, 17, 15 );
-                    line_furn( this, f_table, 13, 16, 17, 16 );
-                    line_furn( this, f_bench, 13, 17, 17, 17 );
+                    line_furn( this, f_bench, point( 13, 15 ), point( 17, 15 ) );
+                    line_furn( this, f_table, point( 13, 16 ), point( 17, 16 ) );
+                    line_furn( this, f_bench, point( 13, 17 ), point( 17, 17 ) );
 
-                    line_furn( this, f_bench, 6, 11, 10, 11 );
-                    line_furn( this, f_table, 6, 12, 10, 12 );
-                    line_furn( this, f_bench, 6, 13, 10, 13 );
+                    line_furn( this, f_bench, point( 6, 11 ), point( 10, 11 ) );
+                    line_furn( this, f_table, point( 6, 12 ), point( 10, 12 ) );
+                    line_furn( this, f_bench, point( 6, 13 ), point( 10, 13 ) );
 
-                    line_furn( this, f_bench, 6, 15, 10, 15 );
-                    line_furn( this, f_table, 6, 16, 10, 16 );
-                    line_furn( this, f_bench, 6, 17, 10, 17 );
+                    line_furn( this, f_bench, point( 6, 15 ), point( 10, 15 ) );
+                    line_furn( this, f_table, point( 6, 16 ), point( 10, 16 ) );
+                    line_furn( this, f_bench, point( 6, 17 ), point( 10, 17 ) );
 
                     place_items( "mil_food_nodrugs", 80, point( 5, 5 ), point( 5, 6 ), false,
                                  calendar::start_of_cataclysm );
@@ -5410,10 +5416,11 @@ void map::draw_fema( mapgendata &dat )
                     place_spawns( GROUP_PLAIN, 1, point( 11, 12 ), point( 13, 14 ), 0.1 );
                     break;
                 case 5:
-                    square( this, t_dirt, 1, 1, 22, 22 );
-                    square( this, t_fence_barbed, 4, 4, 19, 19 );
-                    square( this, t_dirt, 5, 5, 18, 18 );
-                    square( this, t_pit_corpsed, 6, 6, 17, 17 );
+                    // NOLINTNEXTLINE(cata-use-named-point-constants)
+                    square( this, t_dirt, point( 1, 1 ), point( 22, 22 ) );
+                    square( this, t_fence_barbed, point( 4, 4 ), point( 19, 19 ) );
+                    square( this, t_dirt, point( 5, 5 ), point( 18, 18 ) );
+                    square( this, t_pit_corpsed, point( 6, 6 ), point( 17, 17 ) );
                     place_spawns( GROUP_PLAIN, 1, point( 11, 12 ), point( 13, 14 ), 0.5 );
                     break;
             }
@@ -5523,7 +5530,7 @@ void map::draw_triffid( mapgendata &dat )
             step++;
             int nodex = 1 + 6 * ( node % 4 ), nodey = 1 + 6 * static_cast<int>( node / 4 );
             // Clear a 4x4 dirt square
-            square( this, t_dirt, nodex, nodey, nodex + 3, nodey + 3 );
+            square( this, t_dirt, point( nodex, nodey ), point( nodex + 3, nodey + 3 ) );
             // Spawn a monster in there
             if( step > 2 ) { // First couple of chambers are safe
                 int monrng = rng( 1, 25 );
@@ -5557,24 +5564,24 @@ void map::draw_triffid( mapgendata &dat )
             }
 
             if( move.empty() ) { // Nowhere to go!
-                square( this, t_slope_down, nodex + 1, nodey + 1, nodex + 2, nodey + 2 );
+                square( this, t_slope_down, point( nodex + 1, nodey + 1 ), point( nodex + 2, nodey + 2 ) );
                 done = true;
             } else {
                 switch( random_entry( move ) ) {
                     case NORTH:
-                        square( this, t_dirt, nodex + 1, nodey - 2, nodex + 2, nodey - 1 );
+                        square( this, t_dirt, point( nodex + 1, nodey - 2 ), point( nodex + 2, nodey - 1 ) );
                         node -= 4;
                         break;
                     case EAST:
-                        square( this, t_dirt, nodex + 4, nodey + 1, nodex + 5, nodey + 2 );
+                        square( this, t_dirt, point( nodex + 4, nodey + 1 ), point( nodex + 5, nodey + 2 ) );
                         node++;
                         break;
                     case SOUTH:
-                        square( this, t_dirt, nodex + 1, nodey + 4, nodex + 2, nodey + 5 );
+                        square( this, t_dirt, point( nodex + 1, nodey + 4 ), point( nodex + 2, nodey + 5 ) );
                         node += 4;
                         break;
                     case WEST:
-                        square( this, t_dirt, nodex - 2, nodey + 1, nodex - 1, nodey + 2 );
+                        square( this, t_dirt, point( nodex - 2, nodey + 1 ), point( nodex - 1, nodey + 2 ) );
                         node--;
                         break;
                     default:
@@ -5582,12 +5589,13 @@ void map::draw_triffid( mapgendata &dat )
                 }
             }
         } while( !done );
-        square( this, t_slope_up, 2, 2, 3, 3 );
+        square( this, t_slope_up, point( 2, 2 ), point( 3, 3 ) );
         rotate( rng( 0, 3 ) );
     } else if( terrain_type == "triffid_finale" ) {
         fill_background( this, t_root_wall );
-        square( this, t_dirt, 1, 1, 4, 4 );
-        square( this, t_dirt, 19, 19, 22, 22 );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        square( this, t_dirt, point( 1, 1 ), point( 4, 4 ) );
+        square( this, t_dirt, point( 19, 19 ), point( 22, 22 ) );
         // Drunken walk until we reach the heart (lower right, [19, 19])
         // Chance increases by 1 each turn, and gives the % chance of forcing a move
         // to the right or down.
@@ -5646,7 +5654,8 @@ void map::draw_triffid( mapgendata &dat )
                 }
             } // Done with drunken walk
         } while( x < 19 || y < 19 );
-        square( this, t_slope_up, 1, 1, 2, 2 );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        square( this, t_slope_up, point( 1, 1 ), point( 2, 2 ) );
         place_spawns( GROUP_TRIFFID_HEART, 1, point( 21, 21 ), point( 21, 21 ), 1, true );
 
     }
@@ -6890,16 +6899,16 @@ void build_mine_room( room_type type, int x1, int y1, int x2, int y2, mapgendata
         default:
             break;
     }
-    square( m, t_floor, x1, y1, x2, y2 );
-    line( m, t_wall, x1, y1, x2, y1 );
-    line( m, t_wall, x1, y2, x2, y2 );
-    line( m, t_wall, x1, y1 + 1, x1, y2 - 1 );
-    line( m, t_wall, x2, y1 + 1, x2, y2 - 1 );
+    square( m, t_floor, point( x1, y1 ), point( x2, y2 ) );
+    line( m, t_wall, point( x1, y1 ), point( x2, y1 ) );
+    line( m, t_wall, point( x1, y2 ), point( x2, y2 ) );
+    line( m, t_wall, point( x1, y1 + 1 ), point( x1, y2 - 1 ) );
+    line( m, t_wall, point( x2, y1 + 1 ), point( x2, y2 - 1 ) );
     // Main build switch!
     switch( type ) {
         case room_mine_shaft: {
             m->ter_set( point( x1 + 1, y1 + 1 ), t_console );
-            line( m, t_wall, x2 - 2, y1 + 2, x2 - 1, y1 + 2 );
+            line( m, t_wall, point( x2 - 2, y1 + 2 ), point( x2 - 1, y1 + 2 ) );
             m->ter_set( point( x2 - 2, y1 + 1 ), t_elevator );
             m->ter_set( point( x2 - 1, y1 + 1 ), t_elevator_control_off );
             computer *tmpcomp = m->add_computer( tripoint( x1 + 1,  y1 + 1, m->get_abs_sub().z ),
@@ -6910,11 +6919,11 @@ void build_mine_room( room_type type, int x1, int y1, int x2, int y2, mapgendata
         break;
 
         case room_mine_office:
-            line_furn( m, f_counter, midx, y1 + 2, midx, y2 - 2 );
-            line( m, t_window, midx - 1, y1, midx + 1, y1 );
-            line( m, t_window, midx - 1, y2, midx + 1, y2 );
-            line( m, t_window, x1, midy - 1, x1, midy + 1 );
-            line( m, t_window, x2, midy - 1, x2, midy + 1 );
+            line_furn( m, f_counter, point( midx, y1 + 2 ), point( midx, y2 - 2 ) );
+            line( m, t_window, point( midx - 1, y1 ), point( midx + 1, y1 ) );
+            line( m, t_window, point( midx - 1, y2 ), point( midx + 1, y2 ) );
+            line( m, t_window, point( x1, midy - 1 ), point( x1, midy + 1 ) );
+            line( m, t_window, point( x2, midy - 1 ), point( x2, midy + 1 ) );
             m->place_items( "office", 80, point( x1 + 1, y1 + 1 ), point( x2 - 1, y2 - 1 ), false,
                             calendar::start_of_cataclysm );
             break;
@@ -6999,16 +7008,16 @@ void build_mine_room( room_type type, int x1, int y1, int x2, int y2, mapgendata
     if( type == room_mine_fuel ) { // Fuel stations are open on one side
         switch( door_side ) {
             case NORTH:
-                line( m, t_floor, x1, y1, x2, y1 );
+                line( m, t_floor, point( x1, y1 ), point( x2, y1 ) );
                 break;
             case EAST:
-                line( m, t_floor, x2, y1 + 1, x2, y2 - 1 );
+                line( m, t_floor, point( x2, y1 + 1 ), point( x2, y2 - 1 ) );
                 break;
             case SOUTH:
-                line( m, t_floor, x1, y2, x2, y2 );
+                line( m, t_floor, point( x1, y2 ), point( x2, y2 ) );
                 break;
             case WEST:
-                line( m, t_floor, x1, y1 + 1, x1, y2 - 1 );
+                line( m, t_floor, point( x1, y1 + 1 ), point( x1, y2 - 1 ) );
                 break;
             default:
                 break;
@@ -7028,8 +7037,8 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
     int cx = cp.x;
     int cy = cp.y;
     if( create_rubble ) {
-        rough_circle( this, t_dirt, cx, cy, 11 );
-        rough_circle_furn( this, f_rubble, cx, cy, 5 );
+        rough_circle( this, t_dirt, point( cx, cy ), 11 );
+        rough_circle_furn( this, f_rubble, point( cx, cy ), 5 );
         furn_set( point( cx, cy ), f_null );
     }
     switch( prop ) {
@@ -7158,13 +7167,13 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 }
 ///////////////////// part of map
 
-void line( map *m, const ter_id &type, int x1, int y1, int x2, int y2 )
+void line( map *m, const ter_id &type, const point &p1, const point &p2 )
 {
-    m->draw_line_ter( type, point( x1, y1 ), point( x2, y2 ) );
+    m->draw_line_ter( type, p1, p2 );
 }
-void line_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 )
+void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
 {
-    m->draw_line_furn( type, point( x1, y1 ), point( x2, y2 ) );
+    m->draw_line_furn( type, p1, p2 );
 }
 void fill_background( map *m, const ter_id &type )
 {
@@ -7174,45 +7183,45 @@ void fill_background( map *m, ter_id( *f )() )
 {
     m->draw_fill_background( f );
 }
-void square( map *m, const ter_id &type, int x1, int y1, int x2, int y2 )
+void square( map *m, const ter_id &type, const point &p1, const point &p2 )
 {
-    m->draw_square_ter( type, point( x1, y1 ), point( x2, y2 ) );
+    m->draw_square_ter( type, p1, p2 );
 }
-void square_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 )
+void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
 {
-    m->draw_square_furn( type, point( x1, y1 ), point( x2, y2 ) );
+    m->draw_square_furn( type, p1, p2 );
 }
-void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 )
+void square( map *m, ter_id( *f )(), const point &p1, const point &p2 )
 {
-    m->draw_square_ter( f, point( x1, y1 ), point( x2, y2 ) );
+    m->draw_square_ter( f, p1, p2 );
 }
-void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 )
+void square( map *m, const weighted_int_list<ter_id> &f, const point &p1, const point &p2 )
 {
-    m->draw_square_ter( f, point( x1, y1 ), point( x2, y2 ) );
+    m->draw_square_ter( f, p1, p2 );
 }
-void rough_circle( map *m, const ter_id &type, int x, int y, int rad )
+void rough_circle( map *m, const ter_id &type, const point &p, int rad )
 {
-    m->draw_rough_circle_ter( type, point( x, y ), rad );
+    m->draw_rough_circle_ter( type, p, rad );
 }
-void rough_circle_furn( map *m, const furn_id &type, int x, int y, int rad )
+void rough_circle_furn( map *m, const furn_id &type, const point &p, int rad )
 {
-    m->draw_rough_circle_furn( type, point( x, y ), rad );
+    m->draw_rough_circle_furn( type, p, rad );
 }
 void circle( map *m, const ter_id &type, double x, double y, double rad )
 {
     m->draw_circle_ter( type, rl_vec2d( x, y ), rad );
 }
-void circle( map *m, const ter_id &type, int x, int y, int rad )
+void circle( map *m, const ter_id &type, const point &p, int rad )
 {
-    m->draw_circle_ter( type, point( x, y ), rad );
+    m->draw_circle_ter( type, p, rad );
 }
-void circle_furn( map *m, const furn_id &type, int x, int y, int rad )
+void circle_furn( map *m, const furn_id &type, const point &p, int rad )
 {
-    m->draw_circle_furn( type, point( x, y ), rad );
+    m->draw_circle_furn( type, p, rad );
 }
-void add_corpse( map *m, int x, int y )
+void add_corpse( map *m, const point &p )
 {
-    m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
+    m->add_corpse( tripoint( p, m->get_abs_sub().z ) );
 }
 
 //////////////////// mapgen update
