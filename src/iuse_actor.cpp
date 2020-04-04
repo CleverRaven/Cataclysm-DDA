@@ -4824,7 +4824,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
             }
         }
         desc += string_format( "\nIt will take about %s to complete.\n",
-                               to_string( obj.time_base * items_needed * p.fine_detail_vision_mod() ) );
+                               to_string( obj.time_base * p.fine_detail_vision_mod() ) );
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }
