@@ -1260,7 +1260,8 @@ void player::on_hit( Creature *source, body_part bp_hit,
             } else {
                 add_msg( m_bad, _( "You lose your balance while being hit!" ) );
             }
-            add_effect( effect_downed, 2_turns );
+            // This kind of downing is not subject to immunity.
+            add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
         }
     }
     Character::on_hit( source, bp_hit, 0.0f, proj );

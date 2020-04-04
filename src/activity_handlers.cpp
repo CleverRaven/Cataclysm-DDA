@@ -306,7 +306,6 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
-    { ACT_MOVE_ITEMS, move_items_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
@@ -602,6 +601,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
         const bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) ||
+                              u.has_amount( "hd_tow_cable", 1 ) ||
                               u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
         const bool big_corpse = corpse.size >= MS_MEDIUM;
 
@@ -2993,11 +2993,6 @@ void activity_handlers::consume_drink_menu_do_turn( player_activity *, player * 
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 {
     avatar_action::eat( g->u, game_menus::inv::consume_meds( g->u ) );
-}
-
-void activity_handlers::move_items_do_turn( player_activity *act, player *p )
-{
-    activity_on_turn_move_items( *act, *p );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )

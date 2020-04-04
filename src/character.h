@@ -565,6 +565,9 @@ class Character : public Creature, public visitable<Character>
         void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
+
+        /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
+        void expose_to_disease( const diseasetype_id dis_type );
         /**
          * Handles end-of-turn processing.
          */
@@ -1528,7 +1531,10 @@ class Character : public Creature, public visitable<Character>
         void use_fire( int quantity );
         void assign_stashed_activity();
         bool check_outbounds_activity( const player_activity &act, bool check_only = false );
-        /** Legacy activity assignment, should not be used where resuming is important. */
+        /** Legacy activity assignment, does not work for any activites using
+         * the new activity_actor class and may cause issues with resuming.
+         * TODO: delete this once migration of activites to the activity_actor system is complete
+         */
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
                               const std::string &name = "" );

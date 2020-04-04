@@ -31,7 +31,8 @@
       [ "seed_flower", 60 ],
       [ "seed_beans", 60 ],
       [ "seed_chili_pepper", 60 ],
-      [ "seed_tomato", 60 ]
+      [ "seed_tomato", 60 ],
+      [ "seed_mustard", 10 ]
     ]
   },
   {
@@ -112,6 +113,7 @@
       [ "seed_lentils", 1 ],
       [ "seed_chili_pepper", 1 ],
       [ "seed_garlic", 1 ],
+      [ "seed_mustard", 1 ],
       [ "tomato", 9 ],
       [ "pumpkin", 6 ],
       [ "broccoli", 9 ],

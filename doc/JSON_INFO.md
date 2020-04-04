@@ -19,6 +19,7 @@ Use the `Home` key to return to the top.
   * [`data/json/` JSONs](#datajson-jsons)
     + [Bionics](#bionics)
     + [Dreams](#dreams)
+    + [Disease](#disease_type)
     + [Item Groups](#item-groups)
     + [Item Category](#item-category)
     + [Materials](#materials)
@@ -188,6 +189,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | default_blacklist.json      | a standard blacklist of joke monsters
 | doll_speech.json            | talk doll speech messages
 | dreams.json                 | dream text and linked mutation categories
+| disease.json                | disease definitions
 | effects.json                | common effects and their effects
 | emit.json                   | smoke and gas emissions
 | flags.json                  | common flags and their descriptions
@@ -455,6 +457,34 @@ When adding a new bionic, if it's not included with another one, you must also a
     "category" : "MUTCAT_BIRD",
     "strength" : 1
 }
+```
+
+### Disease
+
+| Identifier         | Description
+|---                 |---
+| id                 | Unique ID. Must be one continuous word, use underscores if necessary.
+| min_duration       | The minimum duration the disease can last. Uses strings "x m", "x s","x d".
+| max_duration       | The maximum duration the disease can last.
+| min_intensity      | The minimum intensity of the effect applied by the disease
+| max_intensity      | The maximum intensity of the effect.
+| health_threshold   | The amount of health above which one is immune to the disease. Must be between -200 and 200. (optional )
+| symptoms           | The effect applied by the disease.
+| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to num_bp)
+
+
+```json
+  {
+    "type": "disease_type",
+    "id": "bad_food",
+    "min_duration": "6 m",
+    "max_duration": "1 h",
+    "min_intensity": 1,
+    "max_intensity": 1,
+    "affected_bodyparts": [ "TORSO" ],
+    "health_threshold": 100,
+    "symptoms": "foodpoison"
+  }
 ```
 
 ### Item Groups
@@ -1603,7 +1633,7 @@ CBMs can be defined like this:
 "freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
-"contamination": 5,         // (Optional) Probability to get food poisoning from this comestible. Values must be in the [0, 100] range.
+"contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 ```
 
 ### Containers

@@ -1099,6 +1099,23 @@
   },
   {
     "type": "profession",
+    "ident": "heli_pilot",
+    "name": "Helicopter Pilot",
+    "description": "You earned a living ferrying businessmen and tourists from helipad to helipad, the Cataclysm has grounded you, but the sky still calls you...",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "speech" }, { "level": 3, "name": "mechanics" } ],
+    "traits": [ "PROF_HELI_PILOT" ],
+    "items": {
+      "both": {
+        "items": [ "pants_cargo", "socks", "polo_shirt", "boots", "wristwatch", "fancy_sunglasses" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
     "ident": "k9_cop",
     "name": "K9 Officer",
     "description": "You spent your career busting drug smugglers with your faithful canine companion.  Now the world has ended and none of that matters anymore.  But at least you have a loyal friend.",

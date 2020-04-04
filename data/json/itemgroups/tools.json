@@ -53,6 +53,7 @@
       [ "xacto", 40 ],
       [ "bucket", 5 ],
       [ "jumper_cable", 10 ],
+      [ "hd_tow_cable", 5 ],
       [ "funnel", 50 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
