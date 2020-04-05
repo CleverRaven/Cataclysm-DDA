@@ -4061,28 +4061,11 @@
   "name": "Military Pilot",
   "description": "You got to see things fall apart from the sky, transporting soldiers and survivors from one holdout to the next. You knew it was only a matter of time before the horrors patrolling the skies shot you down.",
   "points": 5,
-  "skills": [
-    { "level": 4, "name": "driving" },
-    { "level": 3, "name": "pistol" },
-    { "level": 3, "name": "mechanics" },
-    { "level": 3, "name": "gun" }
-  ],
+  "skills": [ { "level": 4, "name": "driving" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "mechanics" }, { "level": 3, "name": "gun" } ],
   "traits": [ "MILI_PILOT" ],
   "items": {
     "both": {
-      "items": [
-        "pants_army",
-        "socks",
-        "undershirt",
-        "boots_combat",
-        "wristwatch",
-        "fancy_sunglasses",
-        "gloves_tactical",
-        "helmet_army",
-        "jacket_army",
-        "webbing_belt",
-        "legpouch_large"
-      ],
+      "items": [ "pants_army", "socks", "undershirt", "boots_combat", "wristwatch", "fancy_sunglasses", "gloves_tactical", "helmet_army", "jacket_army", "webbing_belt", "legpouch_large" ],
       "entries": [
         { "group": "charged_two_way_radio" },
         { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -4091,8 +4074,8 @@
         { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 }
       ]
     },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boy_shorts" ]
+    "male": [ "boxer_shorts" ],
+    "female": [ "sports_bra", "boy_shorts" ]
   },
   "flags": [ "SCEN_ONLY" ]
 }
