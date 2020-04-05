@@ -49,15 +49,31 @@ static float bodyweight_kg_at_bmi( player &dummy, float bmi )
     return to_kilogram( dummy.bodyweight() );
 }
 
-// Return player `metabolic_rate_base` with a given mutation
-static float metabolic_rate_with_mutation( player &dummy, std::string trait_name )
+// Clear player traits and give them a single trait by name
+static void set_single_trait( player &dummy, std::string trait_name )
 {
     dummy.empty_traits();
     dummy.toggle_trait( trait_id( trait_name ) );
     REQUIRE( dummy.has_trait( trait_id( trait_name ) ) );
+}
 
+// Return player `metabolic_rate_base` with a given mutation
+static float metabolic_rate_with_mutation( player &dummy, std::string trait_name )
+{
+    set_single_trait( dummy, trait_name );
     return dummy.metabolic_rate_base();
 }
+
+// Return player `get_bmr` (basal metabolic rate) with the given BMI and activity level.
+static int bmr_at_bmi_act_level( player &dummy, float bmi, float activity_level )
+{
+    set_player_bmi( dummy, bmi );
+    dummy.reset_activity_level();
+    dummy.increase_activity_level( activity_level );
+
+    return dummy.get_bmr();
+}
+
 
 TEST_CASE( "body mass index determines weight description", "[biometrics][bmi][weight]" )
 {
@@ -128,6 +144,11 @@ TEST_CASE( "stored kcal ratio determines body mass index", "[biometrics][kcal][b
 
 TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][max]" )
 {
+    // "BMIs under 20 and over 25 have been associated with higher all-causes mortality,
+    // with the risk increasing with distance from the 20–25 range."
+    //
+    // https://en.wikipedia.org/wiki/Body_mass_index
+
     avatar dummy;
 
     // Skeletal (<14)
@@ -151,8 +172,8 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
     CHECK( max_healthy_at_bmi( dummy, 22.0f ) == 200 );
     CHECK( max_healthy_at_bmi( dummy, 23.0f ) == 200 );
     CHECK( max_healthy_at_bmi( dummy, 24.0f ) == 200 );
-    // Overweight (25)
     CHECK( max_healthy_at_bmi( dummy, 25.0f ) == 200 );
+    // Overweight (25)
     CHECK( max_healthy_at_bmi( dummy, 26.0f ) == 178 );
     CHECK( max_healthy_at_bmi( dummy, 27.0f ) == 149 );
     CHECK( max_healthy_at_bmi( dummy, 28.0f ) == 115 );
@@ -176,7 +197,7 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
 }
 
 
-TEST_CASE( "character height and body weight", "[biometrics][height][bodyweight]" )
+TEST_CASE( "size determines height and body weight", "[biometrics][height][bodyweight]" )
 {
     avatar dummy;
 
@@ -206,8 +227,7 @@ TEST_CASE( "character height and body weight", "[biometrics][height][bodyweight]
     }
 
     GIVEN( "character is small" ) {
-        dummy.toggle_trait( trait_id( "SMALL" ) );
-        REQUIRE( dummy.has_trait( trait_id( "SMALL" ) ) );
+        set_single_trait( dummy, "SMALL" );
         REQUIRE( dummy.get_size() == MS_SMALL );
 
         THEN( "height is 125cm" ) {
@@ -221,8 +241,7 @@ TEST_CASE( "character height and body weight", "[biometrics][height][bodyweight]
     }
 
     GIVEN( "character is large" ) {
-        dummy.toggle_trait( trait_id( "LARGE" ) );
-        REQUIRE( dummy.has_trait( trait_id( "LARGE" ) ) );
+        set_single_trait( dummy, "LARGE" );
         REQUIRE( dummy.get_size() == MS_LARGE );
 
         THEN( "height is 225cm" ) {
@@ -236,8 +255,7 @@ TEST_CASE( "character height and body weight", "[biometrics][height][bodyweight]
     }
 
     GIVEN( "character is huge" ) {
-        dummy.toggle_trait( trait_id( "HUGE" ) );
-        REQUIRE( dummy.has_trait( trait_id( "HUGE" ) ) );
+        set_single_trait( dummy, "HUGE" );
         REQUIRE( dummy.get_size() == MS_HUGE );
 
         THEN( "height is 275cm" ) {
@@ -251,7 +269,7 @@ TEST_CASE( "character height and body weight", "[biometrics][height][bodyweight]
     }
 }
 
-TEST_CASE( "character activity level", "[biometrics][activity]" )
+TEST_CASE( "activity level reset, increase and decrease", "[biometrics][activity]" )
 {
     // Activity level is a floating-point number, but only set to discrete values:
     //
@@ -334,7 +352,7 @@ TEST_CASE( "character activity level", "[biometrics][activity]" )
     }
 }
 
-TEST_CASE( "character metabolic rate", "[biometrics][metabolism]" )
+TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabolism]" )
 {
     avatar dummy;
 
@@ -370,25 +388,105 @@ TEST_CASE( "character metabolic rate", "[biometrics][metabolism]" )
     CHECK( metabolic_rate_with_mutation( dummy, "COLDBLOOD4" ) == Approx( 0.5f ) );
 }
 
-TEST_CASE( "character basal metabolic rate", "[biometrics][bmr]" )
+TEST_CASE( "basal metabolic rate with various metabolism", "[biometrics][bmr]" )
 {
     avatar dummy;
 
-    CHECK( dummy.height() == 175 );
-    CHECK( dummy.bodyweight() == 76562500_milligram );
-    CHECK( dummy.metabolic_rate_base() == 1.0f );
-    CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
-    CHECK( dummy.get_bmr() == 2087 );
+    // Basal metabolic rate depends on size (height), bodyweight (BMI), and activity level
+    // scaled by metabolic base rate. Assume default metabolic rate.
+    REQUIRE( dummy.metabolic_rate_base() == 1.0f );
 
-    // metabolic_rate_base:
-    // PLAYER_HUNGER_RATE option, metabolism_modifier (based on mutation)
+    // Tests cover:
+    // - normal, very fast, and cold-blooded metabolisms for normal body size
+    // - BMI from 16.0 (Emaciated/Underweight) to 35.0 (Obese/Very Obese)
+    // - three different levels of exercise (none, moderate, extra)
 
-    // metabolic_rate (filled with TODOs)
-    // Based on four thresholds for hunger level(?)
-    // Penalize fast survivors
-    // Cold decreases metabolism
+    // CHECK expressions have expected value on the left hand side for better readability.
 
-    // get_bmr:
-    // bodyweight, height, metabolic_base_rate, activity_level
+    SECTION( "normal body size" ) {
+        REQUIRE( dummy.get_size() == MS_MEDIUM );
+
+        SECTION( "normal metabolism" ) {
+            CHECK( 1757 == bmr_at_bmi_act_level( dummy, 16.0, NO_EXERCISE ) );
+            CHECK( 2087 == bmr_at_bmi_act_level( dummy, 25.0, NO_EXERCISE ) );
+            CHECK( 2454 == bmr_at_bmi_act_level( dummy, 35.0, NO_EXERCISE ) );
+
+            CHECK( 2269 == bmr_at_bmi_act_level( dummy, 16.0, MODERATE_EXERCISE ) );
+            CHECK( 2696 == bmr_at_bmi_act_level( dummy, 25.0, MODERATE_EXERCISE ) );
+            CHECK( 3170 == bmr_at_bmi_act_level( dummy, 35.0, MODERATE_EXERCISE ) );
+
+            CHECK( 2782 == bmr_at_bmi_act_level( dummy, 16.0, EXTRA_EXERCISE ) );
+            CHECK( 3304 == bmr_at_bmi_act_level( dummy, 25.0, EXTRA_EXERCISE ) );
+            CHECK( 3886 == bmr_at_bmi_act_level( dummy, 35.0, EXTRA_EXERCISE ) );
+        }
+
+        SECTION( "very fast metabolism" ) {
+            set_single_trait( dummy, "HUNGER2" );
+            REQUIRE( dummy.metabolic_rate_base() == 2.0f );
+
+            CHECK( 3514 == bmr_at_bmi_act_level( dummy, 16.0, NO_EXERCISE ) );
+            CHECK( 4174 == bmr_at_bmi_act_level( dummy, 25.0, NO_EXERCISE ) );
+            CHECK( 4908 == bmr_at_bmi_act_level( dummy, 35.0, NO_EXERCISE ) );
+
+            CHECK( 4538 == bmr_at_bmi_act_level( dummy, 16.0, MODERATE_EXERCISE ) );
+            CHECK( 5391 == bmr_at_bmi_act_level( dummy, 25.0, MODERATE_EXERCISE ) );
+            CHECK( 6339 == bmr_at_bmi_act_level( dummy, 35.0, MODERATE_EXERCISE ) );
+
+            CHECK( 5563 == bmr_at_bmi_act_level( dummy, 16.0, EXTRA_EXERCISE ) );
+            CHECK( 6608 == bmr_at_bmi_act_level( dummy, 25.0, EXTRA_EXERCISE ) );
+            CHECK( 7771 == bmr_at_bmi_act_level( dummy, 35.0, EXTRA_EXERCISE ) );
+        }
+
+        SECTION( "very slow (cold-blooded) metabolism" ) {
+            set_single_trait( dummy, "COLDBLOOD3" );
+            REQUIRE( dummy.metabolic_rate_base() == 0.5f );
+
+            CHECK( 879 == bmr_at_bmi_act_level( dummy, 16.0, NO_EXERCISE ) );
+            CHECK( 1044 == bmr_at_bmi_act_level( dummy, 25.0, NO_EXERCISE ) );
+            CHECK( 1227 == bmr_at_bmi_act_level( dummy, 35.0, NO_EXERCISE ) );
+
+            CHECK( 1135 == bmr_at_bmi_act_level( dummy, 16.0, MODERATE_EXERCISE ) );
+            CHECK( 1348 == bmr_at_bmi_act_level( dummy, 25.0, MODERATE_EXERCISE ) );
+            CHECK( 1585 == bmr_at_bmi_act_level( dummy, 35.0, MODERATE_EXERCISE ) );
+
+            CHECK( 1391 == bmr_at_bmi_act_level( dummy, 16.0, EXTRA_EXERCISE ) );
+            CHECK( 1652 == bmr_at_bmi_act_level( dummy, 25.0, EXTRA_EXERCISE ) );
+            CHECK( 1943 == bmr_at_bmi_act_level( dummy, 35.0, EXTRA_EXERCISE ) );
+        }
+    }
+
+    SECTION( "small body size" ) {
+        set_single_trait( dummy, "SMALL" );
+        REQUIRE( dummy.get_size() == MS_SMALL );
+
+        CHECK( 1094 == bmr_at_bmi_act_level( dummy, 16.0, NO_EXERCISE ) );
+        CHECK( 1262 == bmr_at_bmi_act_level( dummy, 25.0, NO_EXERCISE ) );
+        CHECK( 1449 == bmr_at_bmi_act_level( dummy, 35.0, NO_EXERCISE ) );
+
+        CHECK( 1413 == bmr_at_bmi_act_level( dummy, 16.0, MODERATE_EXERCISE ) );
+        CHECK( 1630 == bmr_at_bmi_act_level( dummy, 25.0, MODERATE_EXERCISE ) );
+        CHECK( 1872 == bmr_at_bmi_act_level( dummy, 35.0, MODERATE_EXERCISE ) );
+
+        CHECK( 1732 == bmr_at_bmi_act_level( dummy, 16.0, EXTRA_EXERCISE ) );
+        CHECK( 1998 == bmr_at_bmi_act_level( dummy, 25.0, EXTRA_EXERCISE ) );
+        CHECK( 2294 == bmr_at_bmi_act_level( dummy, 35.0, EXTRA_EXERCISE ) );
+    }
+
+    SECTION( "large body size" ) {
+        set_single_trait( dummy, "LARGE" );
+        REQUIRE( dummy.get_size() == MS_LARGE );
+
+        CHECK( 2516 == bmr_at_bmi_act_level( dummy, 16.0, NO_EXERCISE ) );
+        CHECK( 3062 == bmr_at_bmi_act_level( dummy, 25.0, NO_EXERCISE ) );
+        CHECK( 3669 == bmr_at_bmi_act_level( dummy, 35.0, NO_EXERCISE ) );
+
+        CHECK( 3250 == bmr_at_bmi_act_level( dummy, 16.0, MODERATE_EXERCISE ) );
+        CHECK( 3955 == bmr_at_bmi_act_level( dummy, 25.0, MODERATE_EXERCISE ) );
+        CHECK( 4739 == bmr_at_bmi_act_level( dummy, 35.0, MODERATE_EXERCISE ) );
+
+        CHECK( 3983 == bmr_at_bmi_act_level( dummy, 16.0, EXTRA_EXERCISE ) );
+        CHECK( 4848 == bmr_at_bmi_act_level( dummy, 25.0, EXTRA_EXERCISE ) );
+        CHECK( 5809 == bmr_at_bmi_act_level( dummy, 35.0, EXTRA_EXERCISE ) );
+    }
 }
 
