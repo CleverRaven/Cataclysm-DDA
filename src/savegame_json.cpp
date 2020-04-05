@@ -25,6 +25,7 @@
 #include <vector>
 #include <bitset>
 
+#include "activity_actor.h"
 #include "auto_pickup.h"
 #include "assign.h"
 #include "avatar.h"
@@ -241,6 +242,7 @@ void player_activity::serialize( JsonOut &json ) const
     json.member( "type", type );
 
     if( !type.is_null() ) {
+        json.member( "actor", actor );
         json.member( "moves_left", moves_left );
         json.member( "index", index );
         json.member( "position", position );
@@ -274,10 +276,21 @@ void player_activity::deserialize( JsonIn &jsin )
         return;
     }
 
+    const bool has_actor = activity_actors::deserialize_functions.find( type ) !=
+                           activity_actors::deserialize_functions.end();
+
+    // Handle migration of pre-activity_actor activities
+    // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
+    // this may cause inconvenience but should avoid any lasting damage to npcs
+    if( has_actor && !data.has_member( "actor" ) ) {
+        type = activity_id( "ACT_MIGRATION_CANCEL" );
+    }
+
     if( !data.read( "position", tmppos ) ) {
         tmppos = INT_MIN;  // If loading a save before position existed, hope.
     }
 
+    data.read( "actor", actor );
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;
@@ -1466,8 +1479,10 @@ void job_data::serialize( JsonOut &json ) const
 }
 void job_data::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
-    jo.read( "task_priorities", task_priorities );
+    if( jsin.test_object() ) {
+        JsonObject jo = jsin.get_object();
+        jo.read( "task_priorities", task_priorities );
+    }
 }
 
 /*
@@ -2676,6 +2691,7 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "velocity", velocity );
     data.read( "falling", is_falling );
     data.read( "floating", is_floating );
+    data.read( "flying", is_flying );
     data.read( "cruise_velocity", cruise_velocity );
     data.read( "vertical_velocity", vertical_velocity );
     data.read( "cruise_on", cruise_on );
@@ -2711,7 +2727,6 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "theft_time", theft_time );
 
     data.read( "parts", parts );
-
     // we persist the pivot anchor so that if the rules for finding
     // the pivot change, existing vehicles do not shift around.
     // Loading vehicles that predate the pivot logic is a special
@@ -2793,7 +2808,7 @@ void vehicle::deserialize( JsonIn &jsin )
         sdata.read( "zone", zd );
         loot_zones.emplace( p, zd );
     }
-
+    data.read( "other_tow_point", tow_data.other_towing_point );
     // Note that it's possible for a vehicle to be loaded midway
     // through a turn if the player is driving REALLY fast and their
     // own vehicle motion takes them in range. An undefined value for
@@ -2817,6 +2832,7 @@ void vehicle::deserialize( JsonIn &jsin )
             }
         }
     };
+
     set_legacy_state( "stereo_on", "STEREO" );
     set_legacy_state( "chimes_on", "CHIMES" );
     set_legacy_state( "fridge_on", "FRIDGE" );
@@ -2841,6 +2857,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "velocity", velocity );
     json.member( "falling", is_falling );
     json.member( "floating", is_floating );
+    json.member( "flying", is_flying );
     json.member( "cruise_velocity", cruise_velocity );
     json.member( "vertical_velocity", vertical_velocity );
     json.member( "cruise_on", cruise_on );
@@ -2864,6 +2881,15 @@ void vehicle::serialize( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+    tripoint other_tow_temp_point;
+    if( is_towed() ) {
+        vehicle *tower = tow_data.get_towed_by();
+        if( tower ) {
+            other_tow_temp_point = tower->global_part_pos3( tower->get_tow_part() );
+        }
+    }
+    json.member( "other_tow_point", other_tow_temp_point );
+
     json.member( "is_locked", is_locked );
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );

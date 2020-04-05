@@ -762,7 +762,7 @@ void mapgen_road( mapgendata &dat )
                     int y2 = SEEY - 1 + dead_end_extension;
                     coord_rotate_cw( x1, y1, dir );
                     coord_rotate_cw( x2, y2, dir );
-                    square( m, t_sidewalk, x1, y1, x2, y2 );
+                    square( m, t_sidewalk, point( x1, y1 ), point( x2, y2 ) );
                 }
                 // sidewalk east of north road, etc
                 if( sidewalks_neswx[( dir + 1 ) % 4 ] ||   // has_sidewalk east?
@@ -774,14 +774,15 @@ void mapgen_road( mapgendata &dat )
                     int y2 = SEEY - 1 + dead_end_extension;
                     coord_rotate_cw( x1, y1, dir );
                     coord_rotate_cw( x2, y2, dir );
-                    square( m, t_sidewalk, x1, y1, x2, y2 );
+                    square( m, t_sidewalk, point( x1, y1 ), point( x2, y2 ) );
                 }
             }
         }
 
         //draw dead end sidewalk
         if( dead_end_extension > 0 && sidewalks_neswx[ 2 ] ) {
-            square( m, t_sidewalk, 0, SEEY + dead_end_extension, SEEX * 2 - 1, SEEY + dead_end_extension + 4 );
+            square( m, t_sidewalk, point( 0, SEEY + dead_end_extension ), point( SEEX * 2 - 1,
+                    SEEY + dead_end_extension + 4 ) );
         }
 
         // draw 16-wide pavement from the middle to the edge in each road direction
@@ -794,7 +795,7 @@ void mapgen_road( mapgendata &dat )
                 int y2 = SEEY - 1 + dead_end_extension;
                 coord_rotate_cw( x1, y1, dir );
                 coord_rotate_cw( x2, y2, dir );
-                square( m, t_pavement, x1, y1, x2, y2 );
+                square( m, t_pavement, point( x1, y1 ), point( x2, y2 ) );
                 if( curvedir_nesw[dir] != 0 ) {
                     for( int x = 1; x < 4; x++ ) {
                         for( int y = 0; y < x; y++ ) {
@@ -841,25 +842,25 @@ void mapgen_road( mapgendata &dat )
                 // TODO: something interesting here
             } else if( plaza_dir < 4 ) {
                 // plaza side
-                square( m, t_pavement, 0, SEEY - 10, SEEX * 2 - 1, SEEY - 1 );
-                square( m, t_sidewalk, 0, SEEY - 2, SEEX * 2 - 1, SEEY * 2 - 1 );
+                square( m, t_pavement, point( 0, SEEY - 10 ), point( SEEX * 2 - 1, SEEY - 1 ) );
+                square( m, t_sidewalk, point( 0, SEEY - 2 ), point( SEEX * 2 - 1, SEEY * 2 - 1 ) );
                 if( one_in( 3 ) ) {
-                    line( m, t_tree_young, 1, SEEY, SEEX * 2 - 2, SEEY );
+                    line( m, t_tree_young, point( 1, SEEY ), point( SEEX * 2 - 2, SEEY ) );
                 }
                 if( one_in( 3 ) ) {
-                    line_furn( m, f_bench, 2, SEEY + 2, 5, SEEY + 2 );
-                    line_furn( m, f_bench, 10, SEEY + 2, 13, SEEY + 2 );
-                    line_furn( m, f_bench, 18, SEEY + 2, 21, SEEY + 2 );
+                    line_furn( m, f_bench, point( 2, SEEY + 2 ), point( 5, SEEY + 2 ) );
+                    line_furn( m, f_bench, point( 10, SEEY + 2 ), point( 13, SEEY + 2 ) );
+                    line_furn( m, f_bench, point( 18, SEEY + 2 ), point( 21, SEEY + 2 ) );
                 }
             } else { // plaza corner
-                circle( m, t_pavement, 0, SEEY * 2 - 1, 21 );
-                circle( m, t_sidewalk, 0, SEEY * 2 - 1, 13 );
+                circle( m, t_pavement, point( 0, SEEY * 2 - 1 ), 21 );
+                circle( m, t_sidewalk, point( 0, SEEY * 2 - 1 ), 13 );
                 if( one_in( 3 ) ) {
-                    circle( m, t_tree_young, 0, SEEY * 2 - 1, 11 );
-                    circle( m, t_sidewalk,   0, SEEY * 2 - 1, 10 );
+                    circle( m, t_tree_young, point( 0, SEEY * 2 - 1 ), 11 );
+                    circle( m, t_sidewalk,   point( 0, SEEY * 2 - 1 ), 10 );
                 }
                 if( one_in( 3 ) ) {
-                    circle( m, t_water_sh, 4, SEEY * 2 - 5, 3 );
+                    circle( m, t_water_sh, point( 4, SEEY * 2 - 5 ), 3 );
                 }
             }
         }
@@ -1820,11 +1821,11 @@ void mapgen_river_straight( mapgendata &dat )
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
-        line( m, grass_or_dirt(), x, 0, x, ground_edge );
+        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
         if( one_in( 25 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
-        line( m, t_water_moving_sh, x, ++ground_edge, x, shallow_edge );
+        line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
     }
 
     if( dat.terrain_type() == "river_east" ) {
@@ -1846,20 +1847,20 @@ void mapgen_river_curved( mapgendata &dat )
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
-        line( m, grass_or_dirt(), x, 0, x, ground_edge );
+        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
         if( one_in( 25 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
-        line( m, t_water_moving_sh, x, ++ground_edge, x, shallow_edge );
+        line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
     }
     for( int y = 0; y < SEEY * 2; y++ ) {
         int ground_edge = rng( 19, 21 );
         int shallow_edge = rng( 16, 18 );
-        line( m, grass_or_dirt(), ground_edge, y, SEEX * 2 - 1, y );
+        line( m, grass_or_dirt(), point( ground_edge, y ), point( SEEX * 2 - 1, y ) );
         if( one_in( 25 ) ) {
             m->ter_set( point( --ground_edge, y ), clay_or_sand() );
         }
-        line( m, t_water_moving_sh, shallow_edge, y, --ground_edge, y );
+        line( m, t_water_moving_sh, point( shallow_edge, y ), point( --ground_edge, y ) );
     }
 
     if( dat.terrain_type() == "river_se" ) {
@@ -1917,7 +1918,7 @@ void mapgen_cave( mapgendata &dat )
                 }
             }
         }
-        square( m, t_slope_up, SEEX - 1, SEEY - 1, SEEX, SEEY );
+        square( m, t_slope_up, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEY ) );
         switch( rng( 1, 10 ) ) {
             case 1:
                 // natural refuse, chance of minerals
@@ -1984,7 +1985,7 @@ void mapgen_cave( mapgendata &dat )
         mapgendata forest_mapgen_dat( dat, oter_str_id( "forest" ).id() );
         mapgen_forest( forest_mapgen_dat );
         // Clear the center with some rocks
-        square( m, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5 );
+        square( m, t_rock, point( SEEX - 6, SEEY - 6 ), point( SEEX + 5, SEEY + 5 ) );
         int pathx = 0;
         int pathy = 0;
         if( one_in( 2 ) ) {
@@ -1996,13 +1997,13 @@ void mapgen_cave( mapgendata &dat )
         }
         std::vector<point> pathline = line_to( point( pathx, pathy ), point( SEEX - 1, SEEY - 1 ), 0 );
         for( auto &ii : pathline ) {
-            square( m, t_dirt, ii.x, ii.y,
-                    ii.x + 1, ii.y + 1 );
+            square( m, t_dirt, ii,
+                    ii + point_south_east );
         }
         while( !one_in( 8 ) ) {
             m->ter_set( point( rng( SEEX - 6, SEEX + 5 ), rng( SEEY - 6, SEEY + 5 ) ), t_dirt );
         }
-        square( m, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY );
+        square( m, t_slope_down, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEY ) );
     }
 
 }
@@ -2015,9 +2016,9 @@ void mapgen_cave_rat( mapgendata &dat )
 
     if( dat.above() == "cave_rat" ) {
         // Finale
-        rough_circle( m, t_rock_floor, SEEX, SEEY, 8 );
-        square( m, t_rock_floor, SEEX - 1, SEEY, SEEX, SEEY * 2 - 2 );
-        line( m, t_slope_up, SEEX - 1, SEEY * 2 - 3, SEEX, SEEY * 2 - 2 );
+        rough_circle( m, t_rock_floor, point( SEEX, SEEY ), 8 );
+        square( m, t_rock_floor, point( SEEX - 1, SEEY ), point( SEEX, SEEY * 2 - 2 ) );
+        line( m, t_slope_up, point( SEEX - 1, SEEY * 2 - 3 ), point( SEEX, SEEY * 2 - 2 ) );
         for( int i = SEEX - 4; i <= SEEX + 4; i++ ) {
             for( int j = SEEY - 4; j <= SEEY + 4; j++ ) {
                 if( ( i <= SEEX - 2 || i >= SEEX + 2 ) && ( j <= SEEY - 2 || j >= SEEY + 2 ) ) {

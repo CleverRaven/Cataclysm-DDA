@@ -116,7 +116,8 @@ targeting_data targeting_data::use_wielded()
     };
 }
 
-targeting_data targeting_data::use_bionic( const item &fake_gun, units::energy cost_per_shot )
+targeting_data targeting_data::use_bionic( const item &fake_gun,
+        const units::energy &cost_per_shot )
 {
     return targeting_data{
         WEAPON_SOURCE_BIONIC,

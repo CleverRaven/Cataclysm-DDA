@@ -16,6 +16,7 @@
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "disease.h"
 #include "effect.h"
 #include "event_bus.h"
 #include "field.h"
@@ -268,7 +269,6 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
 static const std::string flag_ACTIVE_CLOAKING( "ACTIVE_CLOAKING" );
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
@@ -642,6 +642,9 @@ const tripoint &Character::pos() const
 
 int Character::sight_range( int light_level ) const
 {
+    if( light_level == 0 ) {
+        return 1;
+    }
     /* Via Beer-Lambert we have:
      * light_level * (1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance) ) <= LIGHT_AMBIENT_LOW
      * Solving for distance:
@@ -716,7 +719,7 @@ int Character::overmap_sight_range( int light_level ) const
         multiplier += 1;
     }
 
-    sight = round( sight * multiplier );
+    sight = std::round( sight * multiplier );
     return std::max( sight, 3 );
 }
 
@@ -1480,6 +1483,25 @@ void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, 
                             bool permanent, int intensity, bool force, bool deferred )
 {
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
+}
+
+void Character::expose_to_disease( const diseasetype_id dis_type )
+{
+    const cata::optional<int> &healt_thresh = dis_type->health_threshold;
+    if( healt_thresh && healt_thresh.value() < get_healthy() ) {
+        return;
+    }
+    const std::set<body_part> &bps = dis_type->affected_bodyparts;
+    if( !bps.empty() ) {
+        for( const body_part &bp : bps ) {
+            add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), bp, false,
+                        rng( dis_type->min_intensity, dis_type->max_intensity ) );
+        }
+    } else {
+        add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), num_bp,
+                    false,
+                    rng( dis_type->min_intensity, dis_type->max_intensity ) );
+    }
 }
 
 void Character::process_turn()
@@ -3976,7 +3998,7 @@ void Character::mod_stored_kcal( int nkcal )
 void Character::mod_stored_nutr( int nnutr )
 {
     // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_stored_kcal( -1 * round( nnutr * 2500.0f / ( 12 * 24 ) ) );
+    mod_stored_kcal( -1 * std::round( nnutr * 2500.0f / ( 12 * 24 ) ) );
 }
 
 void Character::set_stored_kcal( int kcal )
@@ -4028,7 +4050,7 @@ int Character::get_starvation() const
         }
     };
     if( get_kcal_percent() < 0.95f ) {
-        return round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
+        return std::round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
     }
     return 0;
 }
@@ -4278,8 +4300,8 @@ void Character::reset_bonuses()
 int Character::get_max_healthy() const
 {
     const float bmi = get_bmi();
-    return clamp( static_cast<int>( round( -3 * ( bmi - character_weight_category::normal ) *
-                                           ( bmi - character_weight_category::overweight ) + 200 ) ), -200, 200 );
+    return clamp( static_cast<int>( std::round( -3 * ( bmi - character_weight_category::normal ) *
+                                    ( bmi - character_weight_category::overweight ) + 200 ) ), -200, 200 );
 }
 
 void Character::regen( int rate_multiplier )
@@ -4384,7 +4406,7 @@ void Character::update_health( int external_modifiers )
 
     // And healthy_mod decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
-    set_healthy_mod( round( get_healthy_mod() * 0.95f ) );
+    set_healthy_mod( std::round( get_healthy_mod() * 0.95f ) );
 
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
@@ -7860,7 +7882,7 @@ double Character::calculate_by_enchantment( double modify, enchantment::mod valu
     modify += enchantment_cache.get_value_add( value );
     modify *= 1.0 + enchantment_cache.get_value_multiply( value );
     if( round_output ) {
-        modify = round( modify );
+        modify = std::round( modify );
     }
     return modify;
 }

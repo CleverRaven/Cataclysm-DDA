@@ -759,7 +759,7 @@ static bool can_fire_weapon( avatar &you, const map &m, const item &weapon )
 
 /**
  * Checks if the turret is valid and if the player meets certain conditions for manually firing it.
- * @param tdata Turret to check.
+ * @param turret Turret to check.
  * @return True if all conditions are true, otherwise false.
  */
 static bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )

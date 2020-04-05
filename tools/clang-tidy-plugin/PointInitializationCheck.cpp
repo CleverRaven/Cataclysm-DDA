@@ -1,7 +1,7 @@
 #include "PointInitializationCheck.h"
 
-#include "clang/ASTMatchers/ASTMatchFinder.h"
-#include "clang/Frontend/CompilerInstance.h"
+#include <clang/ASTMatchers/ASTMatchFinder.h>
+#include <clang/Frontend/CompilerInstance.h>
 
 using namespace clang::ast_matchers;
 

@@ -129,7 +129,7 @@ class job_data
             { activity_id( "ACT_TIDY_UP" ), 0 },
         };
     public:
-        bool set_task_priority( const activity_id task, int new_priority ) {
+        bool set_task_priority( const activity_id &task, int new_priority ) {
             auto it = task_priorities.find( task );
             if( it != task_priorities.end() ) {
                 task_priorities[task] = new_priority;
@@ -150,7 +150,7 @@ class job_data
             }
             return false;
         }
-        int get_priority_of_job( const activity_id req_job ) const {
+        int get_priority_of_job( const activity_id &req_job ) const {
             auto it = task_priorities.find( req_job );
             if( it != task_priorities.end() ) {
                 return it->second;

@@ -51,9 +51,7 @@ void clear_character( player &dummy, bool debug_storage )
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
     dummy.inv.clear();
     dummy.remove_weapon();
-    for( const trait_id &tr : dummy.get_mutations() ) {
-        dummy.unset_mutation( tr );
-    }
+    dummy.empty_traits();
 
     // Prevent spilling, but don't cause encumbrance
     if( debug_storage && !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
@@ -64,6 +62,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.clear_morale();
     dummy.clear_bionics();
     dummy.activity.set_to_null();
+    dummy.set_pain( 0 );
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
@@ -145,4 +144,3 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
         }
     }
 }
-

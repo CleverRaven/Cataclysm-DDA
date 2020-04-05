@@ -3,7 +3,7 @@
 
 #include <set>
 
-#include "ClangTidy.h"
+#include <ClangTidy.h>
 
 namespace clang
 {

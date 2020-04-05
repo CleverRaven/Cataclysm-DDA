@@ -871,7 +871,6 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         vehicle veh( id );
-        std::vector<std::string> omt_search_types;
         if( veh.max_ground_velocity() > 0 ) {
             search_types.push_back( "road" );
             search_types.push_back( "field" );
@@ -894,13 +893,12 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
             // try place vehicle there.
             tinymap target_map;
             target_map.load( omt_to_sm_copy( goal ), false );
-            const tripoint origin( SEEX, SEEY, goal.z );
+            const tripoint tinymap_center( SEEX, SEEY, goal.z );
             static const std::vector<int> angles = {0, 90, 180, 270};
-            vehicle *veh = target_map.add_vehicle( id, origin, random_entry( angles ), rng( 50, 80 ),
-                                                   0,
-                                                   false );
+            vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ), rng( 50, 80 ),
+                                                   0, false );
             if( veh ) {
-                tripoint abs_local = g->m.getlocal( target_map.getabs( origin ) );
+                tripoint abs_local = g->m.getlocal( target_map.getabs( tinymap_center ) );
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
                 veh->pos = abs_local.xy();
                 overmap_buffer.add_vehicle( veh );
@@ -1704,8 +1702,8 @@ void game::process_activity()
 
 void game::autopilot_vehicles()
 {
-    for( auto &veh : m.get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : m.get_vehicles() ) {
+        vehicle *&v = veh.v;
         if( v->is_following ) {
             v->drive_to_local_target( g->m.getabs( u.pos() ), true );
         } else if( v->is_patrolling ) {
@@ -1917,6 +1915,21 @@ static void update_faction_api( npc *guy )
     if( guy->get_faction_ver() < 2 ) {
         guy->set_fac( your_followers );
         guy->set_faction_ver( 2 );
+    }
+}
+
+void game::validate_linked_vehicles()
+{
+    for( auto &veh : m.get_vehicles() ) {
+        vehicle *v = veh.v;
+        if( v->tow_data.other_towing_point != tripoint_zero ) {
+            vehicle *other_v = veh_pointer_or_null( m.veh_at( v->tow_data.other_towing_point ) );
+            if( other_v ) {
+                // the other vehicle is towing us.
+                v->tow_data.set_towing( other_v, v );
+                v->tow_data.other_towing_point = tripoint_zero;
+            }
+        }
     }
 }
 
@@ -2771,6 +2784,7 @@ void game::load( const save_t &name )
     validate_npc_followers();
     validate_mounted_npcs();
     validate_camps();
+    validate_linked_vehicles();
     update_map( u );
     for( auto &e : u.inv_dump() ) {
         e->set_owner( g->u );
@@ -10349,28 +10363,37 @@ void game::vertical_move( int movez, bool force )
 
 void game::start_hauling( const tripoint &pos )
 {
-    u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
-    // Whether the destination is inside a vehicle (not supported)
-    u.activity.values.push_back( 0 );
-    // Destination relative to the player
-    u.activity.coords.push_back( tripoint_zero );
+    // Find target items and quantities thereof for the new activity
+    std::vector<item_location> target_items;
+    std::vector<int> quantities;
+
     map_stack items = m.i_at( pos );
-    if( items.empty() ) {
-        u.stop_hauling();
-        return;
-    }
     for( item &it : items ) {
-        //liquid not allowed
+        // Liquid cannot be picked up
         if( it.made_of_from_type( LIQUID ) ) {
             continue;
         }
-        u.activity.targets.emplace_back( map_cursor( pos ), &it );
+        target_items.emplace_back( map_cursor( pos ), &it );
         // Quantity of 0 means move all
-        u.activity.values.push_back( 0 );
+        quantities.push_back( 0 );
     }
-    if( u.activity.targets.empty() ) {
-        u.stop_hauling();
+
+    if( target_items.empty() ) {
+        // Nothing to haul
+        return;
     }
+
+    // Whether the destination is inside a vehicle (not supported)
+    const bool to_vehicle = false;
+    // Destination relative to the player
+    const tripoint relative_destination = tripoint_zero;
+
+    u.assign_activity( player_activity( move_items_activity_actor(
+                                            target_items,
+                                            quantities,
+                                            to_vehicle,
+                                            relative_destination
+                                        ) ) );
 }
 
 cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )

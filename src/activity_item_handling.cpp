@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "construction.h"
 #include "clzones.h"
 #include "debug.h"
@@ -73,6 +74,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_nausea( "nausea" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
@@ -774,92 +776,6 @@ void activity_on_turn_pickup()
         g->u.cancel_activity();
         // But do not cancel AIM processing as it might have more pickup activities
         // pending for other locations.
-    }
-}
-
-// I'd love to have this not duplicate so much code from Pickup::pick_one_up(),
-// but I don't see a clean way to do that.
-static void move_items( player &p, const tripoint &relative_dest, bool to_vehicle,
-                        std::vector<item_location> &targets, std::vector<int> &quantities )
-{
-    const tripoint dest = relative_dest + p.pos();
-
-    while( p.moves > 0 && !targets.empty() ) {
-        item_location target = std::move( targets.back() );
-        int quantity = quantities.back();
-        targets.pop_back();
-        quantities.pop_back();
-
-        if( !target ) {
-            debugmsg( "Lost target item of ACT_MOVE_ITEMS" );
-            continue;
-        }
-
-        // Don't need to make a copy here since movement can't be canceled
-        item &leftovers = *target;
-        // Make a copy to be put in the destination location
-        item newit = leftovers;
-
-        // Handle charges, quantity == 0 means move all
-        if( quantity != 0 && newit.count_by_charges() ) {
-            newit.charges = std::min( newit.charges, quantity );
-            leftovers.charges -= quantity;
-        } else {
-            leftovers.charges = 0;
-        }
-
-        // Check that we can pick it up.
-        if( !newit.made_of_from_type( LIQUID ) ) {
-            // This is for hauling across zlevels, remove when going up and down stairs
-            // is no longer teleportation
-            if( newit.is_owned_by( p, true ) ) {
-                newit.set_owner( p );
-            } else {
-                continue;
-            }
-            const tripoint src = target.position();
-            int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            p.mod_moves( -Pickup::cost_to_move_item( p, newit ) * distance );
-            if( to_vehicle ) {
-                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { newit }, dest );
-            } else {
-                drop_on_map( p, item_drop_reason::deliberate, { newit }, dest );
-            }
-            // If we picked up a whole stack, remove the leftover item
-            if( leftovers.charges <= 0 ) {
-                target.remove_item();
-            }
-        }
-    }
-}
-
-/*      values explanation
- *      0: items to a vehicle?
- *      1: amount 0 <-+
- *      2: amount 1   |
- *      n: ^----------+
- *
- *      targets correspond to amounts
- */
-void activity_on_turn_move_items( player_activity &act, player &p )
-{
-    // Drop activity if we don't know destination coordinates or have target items.
-    if( act.coords.empty() || act.targets.empty() ) {
-        act.set_to_null();
-        return;
-    }
-
-    // Move activity has source square, target square,
-    // item_locations of targets, and quantities of same.
-    const tripoint relative_dest = act.coords.front();
-    const bool to_vehicle = act.values.front();
-
-    // *puts on 3d glasses from 90s cereal box*
-    move_items( p, relative_dest, to_vehicle, act.targets, act.values );
-
-    if( act.targets.empty() ) {
-        // Nuke the current activity, leaving the backlog alone.
-        act.set_to_null();
     }
 }
 
@@ -3116,6 +3032,79 @@ static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoin
     }
 
     return {};
+}
+
+bool find_auto_consume( player &p, const bool food )
+{
+    // return false if there is no point searching again while the activity is still happening.
+    if( p.is_npc() ) {
+        return false;
+    }
+    if( p.has_effect( effect_nausea ) ) {
+        return true;
+    }
+    static const std::string flag_MELTS( "MELTS" );
+    static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
+    const tripoint pos = p.pos();
+    zone_manager &mgr = zone_manager::get_manager();
+    zone_type_id consume_type_zone( "" );
+    if( food ) {
+        consume_type_zone = zone_type_id( "AUTO_EAT" );
+    } else {
+        consume_type_zone = zone_type_id( "AUTO_DRINK" );
+    }
+    const std::unordered_set<tripoint> &dest_set = mgr.get_near( consume_type_zone, g->m.getabs( pos ),
+            ACTIVITY_SEARCH_DISTANCE );
+    if( dest_set.empty() ) {
+        return false;
+    }
+    for( const tripoint loc : dest_set ) {
+        if( loc.z != p.pos().z ) {
+            continue;
+        }
+        map_stack food_there = g->m.i_at( g->m.getlocal( loc ) );
+        for( item &it : food_there ) {
+            item &comest = p.get_consumable_from( it );
+            if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
+                p.fun_for( comest ).first < -5 ) {
+                // not good eatings.
+                continue;
+            }
+            if( !p.can_consume( it ) ) {
+                continue;
+            }
+            if( food && p.compute_effective_nutrients( comest ).kcal < 50 ) {
+                // not filling enough
+                continue;
+            }
+            if( !p.will_eat( comest, false ).success() ) {
+                // wont like it, cannibal meat etc
+                continue;
+            }
+            if( !it.is_owned_by( p, true ) ) {
+                // it aint ours.
+                continue;
+            }
+            if( !food && comest.get_comestible()->quench < 15 ) {
+                // not quenching enough
+                continue;
+            }
+            if( !food && it.is_watertight_container() && it.contents_made_of( SOLID ) ) {
+                // its frozen
+                continue;
+            }
+            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
+                         g->m.getlocal( loc ) ), 1 ) );
+            item_location item_loc( map_cursor( g->m.getlocal( loc ) ), &it );
+            avatar_action::eat( g->u, item_loc );
+            // eat() may have removed the item, so check its still there.
+            if( item_loc.get_item() && item_loc->is_container() ) {
+                item_loc->on_contents_changed();
+            }
+            return true;
+        }
+    }
+    return false;
 }
 
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )

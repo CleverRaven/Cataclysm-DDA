@@ -6094,6 +6094,16 @@
   },
   {
     "type": "mutation",
+    "id": "PROF_HELI_PILOT",
+    "name": "Helicopter Pilot",
+    "points": 0,
+    "description": "You are a commercial helicopter pilot, there are no paying passengers anymore, yet still you dream of taking your bird for a spin.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
     "id": "PROF_SWAT",
     "name": { "str": "SWAT Officer" },
     "points": 0,
