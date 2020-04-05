@@ -377,18 +377,18 @@ This section describes each json file and their contents. Each json has their ow
 | id                | Unique ID. Must be one continuous word, use underscores if necessary.
 | name              | In-game name displayed.
 | accusative        | Accusative form for this bodypart.
-| heading           | How it's is displayed in headings.
+| heading           | How it's displayed in headings.
 | heading_multiple  | Plural form of heading.
 | hp_bar_ui_text    | How it's displayed next to the hp bar in the panel.
-| main_part         | What is the main part this one is attached to. (If this is a main part it's attahed to itself)
+| main_part         | What is the main part this one is attached to. (If this is a main part it's attached to itself)
 | opposite_part     | What is the opposite part ot this one in case of a pair.
 | hit_size          | Size of the body part when doing an unweighted selection.
 | hit_size_relative | Hit sizes for attackers who are smaller, equal in size, and bigger.
 | hit_difficulty    | How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
-| stylish_bonus     | Mood bonus associated with wearing fancy cloth on this part. (default: `0`)
+| stylish_bonus     | Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
 | hot_morale_mod    | Mood effect of being too hot on this part. (default: `0`)
 | cold_morale_mod   | Mood effect of being too cold on this part. (default: `0`)
-| squeamish_penalty | Mood effect of wearing filthy cloth on this part. (default: `0`)
+| squeamish_penalty | Mood effect of wearing filthy clothing on this part. (default: `0`)
 | bionic_slots      | How many bionic slots does this part have.
 
 ```C++
