@@ -4080,17 +4080,19 @@
         "gloves_tactical",
         "helmet_army",
         "jacket_army",
-        "webbing_belt"
+        "webbing_belt",
+        "legpouch_large"
       ],
       "entries": [
         { "group": "charged_two_way_radio" },
         { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
         { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+        { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
         { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 }
       ]
     },
-    "male": [ "boxer_shorts" ],
-    "female": [ "sports_bra", "boy_shorts" ]
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boy_shorts" ]
   },
   "flags": [ "SCEN_ONLY" ]
 }
