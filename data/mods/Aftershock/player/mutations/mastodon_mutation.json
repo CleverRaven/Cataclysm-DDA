@@ -189,35 +189,18 @@
       "strength_damage": { "damage_type": "bash", "amount": 5 }
     }
   },
-  {
-    "type": "mutation",
-    "id": "RUMINANT",
-    "name": { "str": "Ruminant" },
-    "points": 2,
-    "description": "Your digestive system is capable of digesting cellulose and other rough plant material.  You can eat underbrush and shrubs by activating this, standing over your target, and pressing E.",
-    "prereqs": [ "HERBIVORE" ],
-    "changes_to": [ "GRAZER" ],
-    "cancels": [ "CARNIVORE", "SAPROVORE" ],
-    "extend": { "category": [ "MASTODON" ] },
-    "active": true,
-    "cost": 0
-  },
-  {
-    "type": "mutation",
-    "id": "GRAZER",
-    "name": { "str": "Grazer" },
-    "type": "mutation",
-    "id": "GRAZER",
-    "name": { "str": "Grazer" },
-    "points": 3,
-    "description": "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush and shrubs.  Eat either one by activating this, standing over your target, and pressing E.",
-    "prereqs": [ "RUMINANT" ],
-    "threshreq": [ "THRESH_CATTLE" ],
-    "cancels": [ "CARNIVORE", "SAPROVORE" ],
-    "extend": { "category": [ "MASTODON" ] },
-    "active": true,
-    "cost": 0
-  },
+    {
+       "type": "mutation",
+       "id": "RUMINANT",
+       "copy-from": "RUMINANT",
+       "extend": { "category": [ "MASTODON" ] }
+     },
+     {
+        "type": "mutation",
+        "id": "GRAZER",
+        "copy-from": "GRAZER",
+        "extend": { "category": [ "MASTODON" ] }
+      },
   {
     "type": "mutation",
     "id": "FACEBUMPS",
@@ -419,12 +402,12 @@
     "visibility": 5,
     "ugliness": 6,
     "mixed_effect": true,
-    "description": "Your face resembles that of an elephant, with a significant trunk.  It looks friendly but prevents wearing mouthgear.  Prehensile and able to perform some fine detail work.",
+    "description": "Your face resembles that of an elephant, with a significant trunk.  It looks fierce but prevents wearing mouthgear.  Prehensile and able to perform some fine detail work.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "MINITRUNK" ],
     "category": [ "MASTODON" ],
     "restricts_gear": [ "MOUTH" ],
-    "social_modifiers": { "persuade": 10 },
+    "social_modifiers": { "intimidate": 10 },
     "craft_skill_bonus": [ [ "electronics", 1 ], [ "tailor", 1 ], [ "mechanics", 1 ], [ "cooking", 1 ] ]
   },
   {
@@ -497,15 +480,11 @@
     "category": [ "MASTODON" ]
   },
   {
-    "type": "mutation",
-    "id": "GRAZER",
-    "name": "Strict Herbivore",
-    "points": -3,
-    "description": "Your body's ability to digest meat is severely hampered.  Eating meat has a good chance of making you vomit it back up; even if you manage to keep it down, its nutritional value is greatly reduced.",
-    "cancels": [ "CARNIVORE", "SAPROVORE", "ANTIFRUIT", "MEATARIAN" ],
-    "leads_to": [ "RUMINANT" ],
-    "category": [ "MASTODON" ]
-  },
+     "type": "mutation",
+     "id": "HERBIVORE",
+     "copy-from": "HERBIVORE",
+     "extend": { "category": [ "MASTODON" ] }
+   },
   {
     "type": "mutation",
     "id": "DELIBERATE1",
@@ -537,17 +516,17 @@
     "name": "Trumpeting Voice",
     "points": -1,
     "mixed_effect": true,
-    "description": "You have a trumpeting elephantine voice.  Persuading and threatening NPCs will be easier, but lying will very hard.",
+    "description": "You have a trumpeting elephantine voice.  threatening NPCs will be easier, but lying will very hard.",
     "changes_to": [ "SNARL" ],
     "category": [ "MASTODON" ],
-    "social_modifiers": { "persuade": 10, "lie": -30, "intimidate": 10 }
+    "social_modifiers": { "lie": -30, "intimidate": 10 }
   },
   {
     "type": "mutation",
     "id": "THRESH_MASTODON",
     "name": { "str": "Killophant" },
     "points": 1,
-    "description": "Your species was created as the ultimate shock troop.  Inherit the earth, pedigree your ancestors, crush the foe.  Because of a popular pre-Cataclysm tv show, people will expect you to be a hero.",
+    "description": "Your species was created as the ultimate shock troop.  Inherit the earth, pedigree your ancestors, crush the foe.",
     "valid": false,
     "profession": true,
     "purifiable": false,
