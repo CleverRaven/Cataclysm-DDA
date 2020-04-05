@@ -189,18 +189,18 @@
       "strength_damage": { "damage_type": "bash", "amount": 5 }
     }
   },
-    {
-       "type": "mutation",
-       "id": "RUMINANT",
-       "copy-from": "RUMINANT",
-       "extend": { "category": [ "MASTODON" ] }
-     },
-     {
-        "type": "mutation",
-        "id": "GRAZER",
-        "copy-from": "GRAZER",
-        "extend": { "category": [ "MASTODON" ] }
-      },
+  {
+    "type": "mutation",
+    "id": "RUMINANT",
+    "copy-from": "RUMINANT",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GRAZER",
+    "copy-from": "GRAZER",
+    "extend": { "category": [ "MASTODON" ] }
+  },
   {
     "type": "mutation",
     "id": "FACEBUMPS",
@@ -480,11 +480,11 @@
     "category": [ "MASTODON" ]
   },
   {
-     "type": "mutation",
-     "id": "HERBIVORE",
-     "copy-from": "HERBIVORE",
-     "extend": { "category": [ "MASTODON" ] }
-   },
+    "type": "mutation",
+    "id": "HERBIVORE",
+    "copy-from": "HERBIVORE",
+    "extend": { "category": [ "MASTODON" ] }
+  },
   {
     "type": "mutation",
     "id": "DELIBERATE1",
