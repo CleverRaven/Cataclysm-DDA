@@ -138,12 +138,12 @@ class basecamp
         tripoint get_bb_pos() const {
             return bb_pos;
         }
-        void validate_bb_pos( tripoint new_abs_pos ) {
+        void validate_bb_pos( const tripoint &new_abs_pos ) {
             if( bb_pos == tripoint_zero ) {
                 bb_pos = new_abs_pos;
             }
         }
-        void set_bb_pos( tripoint new_abs_pos ) {
+        void set_bb_pos( const tripoint &new_abs_pos ) {
             bb_pos = new_abs_pos;
         }
         void set_by_radio( bool access_by_radio );

@@ -362,7 +362,7 @@ class vpart_info
                                  const itype_id &fuel_type );
         static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
         static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
-        static void load_rotor( cata::optional<vpslot_rotor> &whptr, const JsonObject &jo );
+        static void load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo );
         static void load_balloon( cata::optional<vpslot_balloon> &balptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
         static void finalize();

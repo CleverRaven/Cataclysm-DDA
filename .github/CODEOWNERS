@@ -18,6 +18,7 @@
 /data/mods/ruralbiome/ @I-am-Erk
 /data/mods/speedydex/ @KorGgenT
 /data/mods/stats_through_kills/ @KorGgenT
+/data/mods/Dark-Skies-Above/ @ephemeralstoryteller
 
 magic*.cpp @KorGgenT
 magic*.h @KorGgenT
