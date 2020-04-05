@@ -562,7 +562,8 @@ extern furn_id f_null,
        f_brazier,
        f_firering,
        f_tourist_table,
-       f_camp_chair;
+       f_camp_chair,
+       f_sign;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.
