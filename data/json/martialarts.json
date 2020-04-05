@@ -844,7 +844,7 @@
       {
         "id": "buff_ninjutsu_onmove",
         "name": "Momentum Shift",
-        "description": "Ninjas are training to be extremely agile and mobile.\n\n+1.0 Dodge skill, Accuracy increased by 20%% of Dexterity.\nLast 1 turn.",
+        "description": "Ninjas are training to be extremely agile and mobile.\n\n+1.0 Dodge skill, Accuracy increased by 20% of Dexterity.\nLast 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
