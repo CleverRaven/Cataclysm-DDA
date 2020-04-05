@@ -572,7 +572,7 @@ class player : public Character
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
          * @param container Container containing the item to be wielded
-         * @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
+         * @param internal_item reference to contained item to wield.
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */

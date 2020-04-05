@@ -152,7 +152,6 @@ static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
-static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -1150,7 +1149,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     }
 }
 
-static void butchery_quarter( item *corpse_item, player &p )
+static void butchery_quarter( item *corpse_item, const player &p )
 {
     corpse_item->set_flag( flag_QUARTERED );
     p.add_msg_if_player( m_good,
@@ -3087,7 +3086,7 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, std::vector<monster *> &fishables )
+static void rod_fish( player *p, const std::vector<monster *> &fishables )
 {
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
@@ -3693,7 +3692,6 @@ void activity_handlers::multiple_mine_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
 }
-
 
 void activity_handlers::multiple_chop_planks_do_turn( player_activity *act, player *p )
 {

@@ -737,14 +737,14 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     const quality_id quality_jack( "JACK" );
     const quality_id quality_lift( "LIFT" );
     for( const auto &qual : qualities ) {
-        msg += "> <color_" + string_from_color( format_color ) + ">" + string_format(
-                   _( "Has level %1$d %2$s quality" ), qual.second, qual.first.obj().name );
+        msg += string_format(
+                   _( "Has level <color_cyan>%1$d %2$s quality</color>" ), qual.second, qual.first.obj().name );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
-            msg += string_format( _( " and is rated at %1$d %2$s" ),
+            msg += string_format( _( " and is rated at <color_cyan>%1$d %2$s</color>" ),
                                   static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
                                   weight_units() );
         }
-        msg += ".</color>\n";
+        msg += ".\n";
         lines += 1;
     }
     return lines;

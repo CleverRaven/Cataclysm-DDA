@@ -171,7 +171,6 @@ static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
-static const std::string flag_ANESTHESIA( "ANESTHESIA" );
 static const std::string flag_AURA( "AURA" );
 static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
 static const std::string flag_FILTHY( "FILTHY" );
@@ -1703,13 +1702,7 @@ bool Character::has_enough_anesth( const itype *cbm, player &patient )
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                         cbm->bionic->difficulty * 2 * weight;
 
-    std::vector<const item *> b_filter = crafting_inventory().items_with( []( const item & it ) {
-        // legacy
-        return it.has_flag( flag_ANESTHESIA );
-    } );
-
-    return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component ) ||
-           !b_filter.empty();
+    return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component );
 }
 
 // bionic manipulation adjusted skill

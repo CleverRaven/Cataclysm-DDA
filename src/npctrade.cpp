@@ -178,9 +178,14 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         check_item( item_location( seller, &seller.weapon ), 1 );
     }
 
-    for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
-        buy_helper( cursor, check_item );
+    //nearby items owned by the NPC will only show up in
+    //the trade window if the NPC is also a shopkeeper
+    if( np.mission == NPC_MISSION_SHOPKEEP ) {
+        for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
+            buy_helper( cursor, check_item );
+        }
     }
+
     for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
         buy_helper( cursor, check_item );
     }

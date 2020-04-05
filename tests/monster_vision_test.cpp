@@ -57,7 +57,6 @@ TEST_CASE( "monsters shouldn't see through floors", "[vision]" )
     CHECK( !distant.sees( deep ) );
     CHECK( !deep.sees( distant ) );
 
-
     // Then cases where they should be able to see each other.
     // No floor between monsters
     CHECK( upper.sees( sky ) );

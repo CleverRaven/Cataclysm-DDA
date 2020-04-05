@@ -1785,7 +1785,6 @@ void monster::stumble()
 
     if( g->m.has_zlevels() ) {
         tripoint below( posx(), posy(), posz() - 1 );
-        tripoint above( posx(), posy(), posz() + 1 );
         if( g->m.valid_move( pos(), below, false, true ) ) {
             valid_stumbles.push_back( below );
         }

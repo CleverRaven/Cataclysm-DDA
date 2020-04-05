@@ -149,7 +149,6 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
-static const std::string flag_ANESTHESIA( "ANESTHESIA" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
@@ -4529,8 +4528,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.query();
 
     bool needs_anesthesia = true;
-    // Legacy
-    std::vector<item_comp> acomps;
     std::vector<tool_comp> anesth_kit;
     int drug_count = 0;
 
@@ -4542,17 +4539,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( qual_ANESTHESIA );
         } );
-        std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
-            return it.has_flag( flag_ANESTHESIA ); // legacy
-        } );
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining() >= 1 ) {
                 anesth_kit.push_back( tool_comp( anesthesia_item->typeId(), 1 ) );
                 drug_count += anesthesia_item->ammo_remaining();
             }
-        }
-        for( const item *anesthesia_item : b_filter ) {
-            acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) ); // legacy
         }
     }
 
@@ -4581,20 +4572,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 bionic.remove_item();
                 if( needs_anesthesia ) {
-                    // Consume obsolete anesthesia first
-                    if( acomps.empty() ) {
-                        for( const auto &e : req_anesth.get_components() ) {
-                            p.consume_items( e, 1, is_crafting_component );
-                        }
-                        for( const auto &e : req_anesth.get_tools() ) {
-                            p.consume_tools( e );
-                        }
-                        p.invalidate_crafting_inventory();
-                    } else {
-                        // Legacy
-                        p.consume_items( acomps, 1, is_crafting_component );
+                    for( const auto &e : req_anesth.get_components() ) {
+                        p.consume_items( e, 1, is_crafting_component );
                     }
-
+                    for( const auto &e : req_anesth.get_tools() ) {
+                        p.consume_tools( e );
+                    }
+                    p.invalidate_crafting_inventory();
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
                 patient.install_bionics( ( *itemtype ), installer, true );
@@ -4651,13 +4635,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 const time_duration duration = difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
-                    if( acomps.empty() ) {
-                        // consume obsolete anesthesia first
-                        p.consume_tools( anesth_kit, volume_anesth );
-                    } else {
-                        p.consume_items( acomps, 1, is_crafting_component ); // legacy
-                    }
-
+                    p.consume_tools( anesth_kit, volume_anesth );
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
                 patient.uninstall_bionic( bid, installer, true );
