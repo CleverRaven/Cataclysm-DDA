@@ -995,7 +995,7 @@ bool vehicle::check_heli_descend( player &p )
                                  _( "It would be unsafe to try and land when there are obstacles below you." ) );
             return false;
         }
-        if( g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, below ) ){
+        if( g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, below ) ) {
             air_count++;
         }
         count++;
@@ -1021,7 +1021,8 @@ bool vehicle::check_heli_ascend( player &p )
     for( const tripoint &pt : get_points( true ) ) {
         tripoint above( pt.xy(), pt.z + 1 );
         const optional_vpart_position ovp = g->m.veh_at( above );
-        if( g->m.impassable_ter_furn( above ) || ovp || g->critter_at( above ) || !g->m.is_outside( pt ) || !g->m.is_outside( above ) ) {
+        if( g->m.impassable_ter_furn( above ) || ovp || g->critter_at( above ) || !g->m.is_outside( pt ) ||
+            !g->m.is_outside( above ) ) {
             p.add_msg_if_player( m_bad,
                                  _( "It would be unsafe to try and ascend when there are obstacles above you." ) );
             return false;
