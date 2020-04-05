@@ -1428,8 +1428,8 @@ class vehicle
         /**
          * can the helicopter descend/ascend here?
          */
-        bool check_heli_descend( player &p );
-        bool check_heli_ascend( player &p );
+        std::pair<bool, std::string> check_aircraft_descend( bool only_stationary_landing = false );
+        std::pair<bool, std::string> check_aircraft_ascend();
         bool check_is_heli_landed();
         /**
          * Player is driving the vehicle

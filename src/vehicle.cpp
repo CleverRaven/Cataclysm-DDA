@@ -5044,7 +5044,7 @@ void vehicle::do_engine_damage( size_t e, int strain )
 void vehicle::idle( bool on_map )
 {
     power_parts();
-    if( on_map && has_part( "BALLOON" ) && is_airworthy() && desired_altitude != sm_pos.z ) {
+    if( on_map && has_part( "BALLOON" ) && is_airworthy() ) {
         balloon_vertical_movement();
     }
     if( engine_on && total_power_w() > 0 ) {
@@ -5105,11 +5105,10 @@ void vehicle::idle( bool on_map )
     }
 }
 
-void vehicle::balloon_vertical_movement()
+bool vehicle::has_burner_fuel() const
 {
     itype_id most_fuel = "null";
     int most_fuel_amount = 0;
-    bool out_of_fuel = false;
     for( const auto &p : parts ) {
         if( p.is_fuel_store() && is_burner_fuel( p.ammo_current() ) &&
             p.ammo_remaining() > most_fuel_amount ) {
@@ -5117,7 +5116,16 @@ void vehicle::balloon_vertical_movement()
             most_fuel_amount = p.ammo_remaining();
         }
     }
-    if( most_fuel == "null" || most_fuel_amount == 0 ) {
+    if( most_fuel == "null" || most_fuel_amount < 50 ) {
+        return false;
+    }
+    return true;
+}
+
+void vehicle::balloon_vertical_movement()
+{
+    bool out_of_fuel = false;
+    if( !has_burner_fuel() ) {
         out_of_fuel = true;
         add_msg( _( "The burner is out of fuel!" ) );
     }
@@ -5130,28 +5138,34 @@ void vehicle::balloon_vertical_movement()
         }
         if( calendar::once_every( time_between_burns ) ) {
             if( desired_altitude > sm_pos.z ) {
-                requested_z_change = 1;
-                if( !is_flying ) {
-                    is_flying = true;
+                std::pair<bool, std::string> check_ascend = check_aircraft_ascend();
+                if( check_ascend.first ) {
+                    requested_z_change = 1;
+                    if( !is_flying ) {
+                        is_flying = true;
+                    }
                 }
             } else {
                 requested_z_change = 0;
             }
             for( vehicle_part &p : parts ) {
-                if( p.is_fuel_store() && p.ammo_current() == most_fuel ) {
+                if( p.is_fuel_store() && is_burner_fuel( p.ammo_current() ) && p.ammo_remaining() >= 50 ) {
                     p.ammo_consume( 50, global_part_pos3( p ) );
                 }
             }
         }
-    } else if( desired_altitude < sm_pos.z ) {
-        requested_z_change = 0;
-        if( calendar::once_every( 1_minutes ) ) {
-            requested_z_change = -1;
-        }
-    } else if( !burner_enabled ) {
-        requested_z_change = 0;
-        if( calendar::once_every( 5_minutes ) ) {
-            requested_z_change = -1;
+    } else if( !check_is_heli_landed() ) {
+        std::pair<bool, std::string> check = check_aircraft_descend();
+        if( desired_altitude < sm_pos.z ) {
+            requested_z_change = 0;
+            if( calendar::once_every( 1_minutes ) && check.first ) {
+                requested_z_change = -1;
+            }
+        } else if( !burner_enabled ) {
+            requested_z_change = 0;
+            if( calendar::once_every( 5_minutes ) && check.first ) {
+                requested_z_change = -1;
+            }
         }
     }
 }
@@ -6572,17 +6586,6 @@ bool vehicle::is_burner_fuel( itype_id fuel ) const
     if( fuel == "gasoline" || fuel == "diesel" || fuel == "lamp_oil" || fuel == "jp8" ||
         fuel == "motor_oil" || fuel == "avgas" ) {
         return true;
-    }
-    return false;
-}
-
-bool vehicle::has_burner_fuel() const
-{
-    std::map<itype_id, int> fuels = fuels_left();
-    for( const std::pair<itype_id, int> fuel : fuels ) {
-        if( is_burner_fuel( fuel.first ) && fuel.second > 10 ) {
-            return true;
-        }
     }
     return false;
 }

@@ -529,7 +529,7 @@ static int prompt_for_altitude()
                        .only_digits( true )
                        .query_int();
 
-    return clamp( amount, 0, 10 );
+    return amount;
 }
 
 void vehicle::control_burner( int burner_part )
@@ -538,8 +538,13 @@ void vehicle::control_burner( int burner_part )
         add_msg( m_info, _( "It does not look like a good idea to mess with this" ) );
         return;
     }
+    if( !has_burner_fuel() ) {
+        add_msg( _( "The burner is out of fuel!" ) );
+        return;
+    }
     const int result = prompt_for_altitude();
-    if( !result ) {
+    if( result > 10 || result < 0 ) {
+        popup( _( "That is not a valid altitude" ) );
         return;
     }
     desired_altitude = result;

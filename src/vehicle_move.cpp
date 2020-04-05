@@ -974,45 +974,66 @@ bool vehicle::check_is_heli_landed()
     return false;
 }
 
-bool vehicle::check_heli_descend( player &p )
+std::pair<bool, std::string> vehicle::check_aircraft_descend( bool only_stationary_landing )
 {
+    std::pair<bool, std::string> ret;
+    ret.first = false;
+    ret.second = "";
     if( !is_airworthy() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
-        return true;
+        return ret;
     }
+    int count = 0;
+    int air_count = 0;
     for( const tripoint &pt : get_points( true ) ) {
         tripoint below( pt.xy(), pt.z - 1 );
         if( g->m.has_zlevels() && ( pt.z < -OVERMAP_DEPTH ||
                                     !g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, pt ) ) ) {
-            p.add_msg_if_player( _( "You are already landed!" ) );
-            return false;
+            ret.second = _( "You are already landed!" );
+            return ret;
         }
         const optional_vpart_position ovp = g->m.veh_at( below );
         if( g->m.impassable_ter_furn( below ) || ovp || g->critter_at( below ) ) {
-            p.add_msg_if_player( m_bad,
-                                 _( "It would be unsafe to try and land when there are obstacles below you." ) );
-            return false;
+            ret.second = _( "It would be unsafe to try and land when there are obstacles below you." );
+            return ret;
         }
+        if( g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, below ) ) {
+            air_count++;
+        }
+        count++;
     }
-    if( velocity > 0 ) {
-        p.add_msg_if_player( m_bad, _( "It would be unsafe to try and land while you are moving." ) );
-        return false;
+    if( only_stationary_landing && velocity > 0 && air_count != count ) {
+        ret.second = _( "It would be unsafe to try and land while you are moving." );
+        return ret;
     }
-    return true;
-
+    ret.first = true;
+    return ret;
 }
 
-bool vehicle::check_heli_ascend( player &p )
+std::pair<bool, std::string> vehicle::check_aircraft_ascend()
 {
+    std::pair<bool, std::string> ret;
+    ret.first = false;
+    ret.second = "";
     if( !is_airworthy() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
-        return true;
+        return ret;
     }
     if( velocity > 0 && !is_flying_in_air() ) {
-        p.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off while you are moving." ) );
-        return false;
+        ret.second = _( "It would be unsafe to try and take off while you are moving." );
+        return ret;
     }
-    return true;
+    for( const tripoint &pt : get_points( true ) ) {
+        tripoint above( pt.xy(), pt.z + 1 );
+        const optional_vpart_position ovp = g->m.veh_at( above );
+        if( g->m.impassable_ter_furn( above ) || ovp || g->critter_at( above ) || !g->m.is_outside( pt ) ||
+            !g->m.is_outside( above ) ) {
+            ret.second = _( "It would be unsafe to try and ascend when there are obstacles above you." );
+            return ret;
+        }
+    }
+    ret.first = true;
+    return ret;
 }
 
 void vehicle::pldrive( const point &p, int z )

@@ -482,16 +482,20 @@ static void pldrive( int x, int y, int z = 0 )
         return;
     }
     if( z == -1 ) {
-        if( veh->check_heli_descend( u ) ) {
-            u.add_msg_if_player( m_info, _( "You steer the vehicle into a descent." ) );
-        } else {
+        std::pair<bool, std::string> check_descend = veh->check_aircraft_descend( true );
+        if( !check_descend.first ) {
+            u.add_msg_if_player( m_bad, "%s", check_descend.second );
             return;
+        } else {
+            u.add_msg_if_player( m_info, _( "You steer the vehicle into a descent." ) );
         }
     } else if( z == 1 ) {
-        if( veh->check_heli_ascend( u ) ) {
-            u.add_msg_if_player( m_info, _( "You steer the vehicle into an ascent." ) );
-        } else {
+        std::pair<bool, std::string> check_ascend = veh->check_aircraft_ascend();
+        if( !check_ascend.first ) {
+            u.add_msg_if_player( m_bad, "%s", check_ascend.second );
             return;
+        } else {
+            u.add_msg_if_player( m_info, _( "You steer the vehicle into an ascent." ) );
         }
     }
     veh->pldrive( point( x, y ), z );
