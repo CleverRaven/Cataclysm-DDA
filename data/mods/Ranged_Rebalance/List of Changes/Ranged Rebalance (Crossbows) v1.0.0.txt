@@ -1,0 +1,221 @@
+/========================
+|
+|  Requests:
+|  * Obs.: I don't know if some/all of them can already be done --
+|  as I'm not really experienced with the code.
+|
+\========================
+| 
+| * Weapon Mods that can reduce MinSTR requirement.
+| * Weapon Mods that can reduce RELOAD times.
+| * Some sort of "prop_pierce" "tag"(what is it called?) that converts -- 
+| a percentage of "Total Damage" into Pierce.
+| * Custom values for "STR_RELOAD";
+| E.g.: Each point of [STR] over "[MinSTR]/[STR]" reduces Reload Times by X, up to Y.
+|  
+/========================
+|
+|  About Balance:
+|
+\========================
+|
+| * This Mod is balanced around "Multipool" Stats, with each STAT at 8 points, and no "free" points to spend;
+| This means that, to increase any stat above 8, you need to take points from other stats;
+| But this is for another mod, or perhaps... future mainline?
+|
+| * A [STR] STAT of 8 is the "Average [STR] of an Adult Male";
+| The [STR] STAT of 16 is the Absolute Maximum a Non-mutated Human Male can achieve -- This is the [STR] that someone like "Hafþór Júlíus Björnsson" has. 
+|
+| * I used the site "bestrecurvebowguide", found by searching on Google "Bow Draw Weight Chart", and used it somewhat as a guideline.
+| E.g.: According to that site, a "Small-Frame Female" with no archery experience should be able to fire a 25~35 lbs recurve bow.
+|
+| * Some crossbows are assumed to come pre-installed with a "reloading aid" Weapon Mod, heavily reducing the [STR] requirements of them;
+| They could, instead, have a Massive [STR] requirement, that allows bow-like reload speeds...
+| And this Massive [STR] requirement could be heavily reduced by a "Weapon Mod", at the cost of a massive increase in Reload Times!  
+| (I >ASSUME< drawing a Crossbow is similar to Deadlifting, so you could, for example, reload a 1000lbs Crossbow if you had 15~16 [STR])
+|
+| * It takes ~7.5 Seconds to fully draw and fire a 130lbs, "11" Inches Draw Weight Crossbow.
+| Video: https://youtu.be/HagCuGXJgUs?t=143
+| > It takes ~26 seconds (I assume ~22.5 if rushed) to fully ready and fire a 1250lbs [DrawWeight], 20In(assumed) Windlass Crossbow.
+| Video: https://youtu.be/MMoL_SBD6gw?t=444
+| > It takes around 8 seconds to fully ready and fire the compound crossbow from the video below. 
+| I assume the reload mechanism reduces reloading time by around 1/3 (~33.33%).
+| Video: https://youtu.be/Z30YWWmFt9w?t=180
+|
+/========================
+|
+|  Crossbows
+|
+\========================
+| Values used for crossbows are obtained through the following formulas:
+|  Minimum Strength: 
+|
+|     IF by hand:          (√DrawWeight * (PowerStroke * 0.025 + 0.75)) / 3
+|     IF mechanical-aided: (√DrawWeight * (PowerStroke * 0.025 + 0.75)) / 9
+|
+|  Damage: ( √(DrawWeight * 100 * (PowerStroke / 20)) / 7)
+|  Pierce: Damage / 6
+|  Range: ( √(DrawWeight * 100 * (PowerStroke / 20)) / 10)
+|  Reload: ( √(DrawWeight * 100 * (PowerStroke / 20)) / 7) * 62.5 + ( (20 * MinSTR) - (20 * STR) )
+|
+|    IF the crossbow is draw by hand:   ( ( ( √(DrawWeight * 100 * ( PowerStroke / 20 ) ) ) / 28 ) * 100 ) + 100
+|    IF draw with aid, low-efficiency:  ( ( ( ( √(DrawWeight * 100 * ( PowerStroke / 20 ) ) ) / 28 ) * 100 ) * 2) + 100
+|    IF draw with aid, high-efficiency: ( ( ( ( √(DrawWeight * 100 * ( PowerStroke / 20 ) ) ) / 28 ) * 100 ) * 1.33) + 100
+|
+/========================
+|  Bullet Crossbow
+\========================
+| Min STR:  0 ->   5
+| Damage:  10 ->  16
+| Pierce    0 ->   2
+| Range:   10 ->   11
+| Reload: 800 -> 600 (480 @ MinSTR) 
+/========================
+|  Pistol Crossbow
+\========================
+| Min STR:   0 ->   3
+| Damage:   13 ->   11
+| Pierce:    0 ==   2
+| Range:     6 ->   7
+| Reload: 1200 -> 400 (340 @ MinSTR)
+/========================
+|  Crossbow
+\========================
+| Min STR:  8 ->   5
+| Damage:  19 ->  16
+| Pierce:   0 ->   2
+| Range:    9 ->   11
+| Reload: 800 -> 600 (480 @ MinSTR) 
+/========================
+|  Composite Crossbow
+\========================
+| Min STR:   9 ->    2
+| Damage:   27 ->   22
+| Pierce:    0 ->    4
+| Range:    16 ==   16
+| Reload: 1200 -> 1200
+/========================
+|  Compound Crossbow
+\========================
+| Min STR:   7 ->    3
+| Damage:   64 ->   29
+| Pierce:    0 ->    5
+| Range:    22 ->   20
+| Reload: 1200 -> 1100
+/========================
+|  Heavy Crossbow
+\========================
+| Min STR: 0(?) ->   4
+| Damage:    30 ->   50
+| Pierce:     0 ->    7
+| Range:     30 ->   35
+| Reload:  3000 -> 2700
+/========================
+|  Repeating Crossbow
+\========================
+| Min STR:  0 ->    1 
+| Damage:   5 ->    7
+| Pierce:   0 ->    1
+| Range:    8 ->    5
+| Reload: 900 -> 1000*
+|
+| * Magazine-Fed. Reload Times assume --
+| 100 moves per bolt.
+|
+/========================
+|
+|  Crossbow Bolts
+|
+\========================
+| Values used for bolts are obtained through the following formulas:
+|  Damage: 2 point for every 0.25x multiplier;
+|  Pierce: (Damage/6) -> Broadhead / (damage*1.5) -> Bodkin
+|  Range: ( ( Damage / 2 ) - ( ( BoltWeight / 25 ) - 1 ) )  
+/========================
+|  Crude Wooden Bolt
+\========================
+| Damage: 0.75x ->  6
+| Pierce:     0 ->  1
+| Range:      0 ->  3
+| WEIGHT:   20g -> 25g
+/========================
+|  Simple Wooden Bolt
+\========================
+| Damage: 0.75x -> 6
+| Pierce:    0  -> 1
+| Range:     0  -> 3
+/========================
+|  Simple Wooden Small Game Bolt
+\========================
+| Damage: 0.5x -> 4
+| Pierce:   0  -> 0
+| Range:    0  -> 2
+/========================
+|  Makeshift Wooden Bolt
+\========================
+| Damage: 1.25x ->  10
+| Pierce:    0  ->  1
+| Range:     0  ->  5
+| WEIGHT:   27  -> 25
+/========================
+|  Wooden Broadhead Bolt
+\========================
+| Damage: 1.5x ->  12
+| Pierce:   1  ->  2
+| Range:    0  ->  5
+| WEIGHT:  45  -> 50
+/========================
+|  Wooden Bodkin Bolt
+\========================
+| Damage: 1x ->  8
+| Pierce:  3 ->  12
+| Range:   0 ->  3
+| WEIGHT: 45 -> 50
+/========================
+|  Wooden Small Game Bolt
+\========================
+| Damage: 0.5x -> 4
+| Pierce:   0  -> 0
+| Range:    0  -> 1
+/========================
+|  Simple Metal Bolt
+\========================
+| Damage: 1x ->  8
+| Pierce:  2 ->  1
+| Range:   0 ->  3
+| WEIGHT: 45 -> 50
+/========================
+|  Aluminum Broadhead Bolt
+\========================
+| Damage: 1.5x  ->  12
+| Pierce:    2  ->  2
+| Range:     2  ==  6
+| WEIGHT:   40  == 40
+/========================
+|  Aluminum Field Point Bolt (Bodkin)
+\========================
+| Damage: 1x ->  8
+| Pierce:  4 ->  12
+| Range:   2 ->  6
+| WEIGHT: 40 == 40
+/========================
+|  Aluminum Small Game Bolt
+\========================
+| Damage: 0.5x -> 4
+| Pierce:   0 ==  0
+| Range:    2 ->  2
+| WEIGHT:  40 == 40
+/========================
+|  Carbon Fiber Hunting Bolt
+\========================
+| Damage: 1.5x -> 16 (buff)
+| Pierce:   0  -> 2
+| Range:    0  -> 8
+| WEIGHT:  30  -> 25
+/========================
+|  Explosive Crossbow Bolt
+\========================
+| Damage:   12 ->   10
+| Pierce:    2 ->   1
+| Range:     8 ->   0
+| WEIGHT: 620g -> 150g
