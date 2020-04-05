@@ -175,10 +175,12 @@ ifdef MSYSTEM
 endif
 
 # Determine JSON formatter binary name
+JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
 ifeq ($(MSYS2), 1)
   JSON_FORMATTER_BIN=tools/format/json_formatter.exe
-else
-  JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
+endif
+ifneq (,$(findstring mingw32,$(CROSS)))
+  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
 endif
 
 # Enable backtrace by default
