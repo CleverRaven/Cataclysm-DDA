@@ -467,7 +467,7 @@
   },
   {
     "type": "recipe",
-    "result": "longbow_makeshift",
+    "result": "flatbow_makeshift",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
