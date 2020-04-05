@@ -22,12 +22,10 @@ static const efftype_id effect_winded( "winded" );
 //
 // Other tags used include: [cost], [move], [burn], [update], [regen]. [encumbrance]
 
-
 // TODO: cover additional aspects of `burn_move_stamina` and `update_stamina`:
 // - stamina burn is modified by bionic muscles
 // - stamina recovery is modified by "bio_gills"
 // - stimulants (positive or negative) affect stamina recovery in mysterious ways
-
 
 // Helpers
 // -------
@@ -124,7 +122,6 @@ static float actual_regen_rate( player &dummy, int moves )
 
     return after_stam - before_stam;
 }
-
 
 // Test cases
 // ----------

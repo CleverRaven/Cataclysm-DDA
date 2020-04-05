@@ -5388,7 +5388,7 @@ computer *map::computer_at( const tripoint &p )
     return sm->get_computer( l );
 }
 
-bool map::point_within_camp( const tripoint point_check ) const
+bool map::point_within_camp( const tripoint &point_check ) const
 {
     const tripoint omt_check = ms_to_omt_copy( point_check );
     const int x = omt_check.x;

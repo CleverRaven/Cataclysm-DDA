@@ -1375,8 +1375,6 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         }
     }
 
-
-
     //Mirrors cannot be mounted on OPAQUE parts
     if( part.has_flag( "VISION" ) && !part.has_flag( "CAMERA" ) ) {
         for( const auto &elem : parts_in_square ) {
@@ -5659,7 +5657,8 @@ void vehicle::do_towing_move()
     vehicle *towed_veh = tow_data.get_towed();
     if( !towed_veh ) {
         debugmsg( "tried to do towing move, but towed vehicle dosnt exist." );
-        invalidate = true;
+        invalidate_towing();
+        return;
     }
     const int other_tow_index = towed_veh->get_tow_part();
     if( other_tow_index == -1 ) {
@@ -5872,14 +5871,12 @@ bool vehicle::tow_cable_too_far() const
         debugmsg( "checking tow cable length on a vehicle that has no towing vehicle" );
         return false;
     }
-    tripoint towing_point;
-    tripoint towed_point;
     int index = get_tow_part();
     if( index == -1 ) {
         debugmsg( "towing data exists but no towing part" );
         return false;
     }
-    towing_point = g->m.getabs( global_part_pos3( index ) );
+    tripoint towing_point = g->m.getabs( global_part_pos3( index ) );
     if( !tow_data.get_towed_by()->tow_data.get_towed() ) {
         debugmsg( "vehicle %s has data for a towing vehicle, but that towing vehicle does not have %s listed as towed",
                   disp_name(), disp_name() );
@@ -5890,7 +5887,7 @@ bool vehicle::tow_cable_too_far() const
         debugmsg( "towing data exists but no towing part" );
         return false;
     }
-    towed_point = g->m.getabs( tow_data.get_towed_by()->global_part_pos3( other_index ) );
+    tripoint towed_point = g->m.getabs( tow_data.get_towed_by()->global_part_pos3( other_index ) );
     if( towing_point == tripoint_zero || towed_point == tripoint_zero ) {
         debugmsg( "towing data exists but no towing part" );
         return false;
@@ -5905,14 +5902,12 @@ bool vehicle::no_towing_slack() const
     if( !tow_data.get_towed() ) {
         return false;
     }
-    tripoint towing_point;
-    tripoint towed_point;
     int index = get_tow_part();
     if( index == -1 ) {
         debugmsg( "towing data exists but no towing part" );
         return false;
     }
-    towing_point = g->m.getabs( global_part_pos3( index ) );
+    tripoint towing_point = g->m.getabs( global_part_pos3( index ) );
     if( !tow_data.get_towed()->tow_data.get_towed_by() ) {
         debugmsg( "vehicle %s has data for a towed vehicle, but that towed vehicle does not have %s listed as tower",
                   disp_name(), disp_name() );
@@ -5923,7 +5918,7 @@ bool vehicle::no_towing_slack() const
         debugmsg( "towing data exists but no towing part" );
         return false;
     }
-    towed_point = g->m.getabs( tow_data.get_towed()->global_part_pos3( other_index ) );
+    tripoint towed_point = g->m.getabs( tow_data.get_towed()->global_part_pos3( other_index ) );
     if( towing_point == tripoint_zero || towed_point == tripoint_zero ) {
         debugmsg( "towing data exists but no towing part" );
         return false;

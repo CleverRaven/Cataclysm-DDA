@@ -1386,7 +1386,6 @@ static void open_movement_mode_menu()
     as_m.selected = 1;
     as_m.query();
 
-
     if( as_m.ret != UILIST_CANCEL ) {
         if( as_m.ret == CMM_COUNT ) {
             u.cycle_move_mode();
