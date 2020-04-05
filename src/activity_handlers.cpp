@@ -170,7 +170,6 @@ static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
-static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
@@ -299,7 +298,6 @@ activity_handlers::do_turn_functions = {
     { ACT_HAND_CRANK, hand_crank_do_turn },
     { ACT_OXYTORCH, oxytorch_do_turn },
     { ACT_AIM, aim_do_turn },
-    { ACT_PICKUP, pickup_do_turn },
     { ACT_WEAR, wear_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
@@ -3057,11 +3055,6 @@ void activity_handlers::aim_do_turn( player_activity *act, player * )
         g->m.build_map_cache( g->get_levz() );
         avatar_action::aim_do_turn( g->u, g->m );
     }
-}
-
-void activity_handlers::pickup_do_turn( player_activity *, player * )
-{
-    activity_on_turn_pickup();
 }
 
 void activity_handlers::wear_do_turn( player_activity *act, player *p )
