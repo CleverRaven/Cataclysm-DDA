@@ -100,6 +100,9 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_accomplishment" ),
             morale_type( "morale_failure" ),
 
+            morale_type( "morale_excrete" ),
+            morale_type( "morale_incontinent" ),
+
             morale_type( "morale_null" )
         }
     };
@@ -190,6 +193,10 @@ const morale_type MORALE_FUNERAL( "morale_funeral" );
 const morale_type MORALE_TREE_COMMUNION( "morale_tree_communion" );
 const morale_type MORALE_ACCOMPLISHMENT( "morale_accomplishment" );
 const morale_type MORALE_FAILURE( "morale_failure" );
+const morale_type MORALE_TAKE_WASHLET( "morale_take_washlet" );
+const morale_type MORALE_USE_TOILETPAPER( "morale_use_toiletpaper" );
+const morale_type MORALE_EXCRETE( "morale_excrete" );
+const morale_type MORALE_INCONTINENT( "morale_incontinent" );
 
 namespace
 {

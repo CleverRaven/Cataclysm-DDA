@@ -1,0 +1,14 @@
+[
+  {
+    "id": "TOILET",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "This parts is toilet. you can excrete on here comfy."
+  },
+  {
+    "id": "WASHLET",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "This parts has washlet. When you excrete on here, you can take washlet by consuming vehicle's resource."
+  }
+]

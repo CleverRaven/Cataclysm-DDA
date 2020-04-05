@@ -1,0 +1,11 @@
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "variant_addition",
+    "name": "コア - Variant addition",
+    "author": "roloa",
+    "description": "ヴァリアントに必須のコンテンツです。",
+    "category": "content",
+    "dependencies": [ "dda" ],
+    "path": ""
+}

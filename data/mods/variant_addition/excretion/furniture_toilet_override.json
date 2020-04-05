@@ -1,0 +1,12 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_toilet",
+    "copy-from": "f_toilet",
+    "name": "toilet",
+    "symbol": "&",
+    "color": "white",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE", "LIQUIDCONT", "TOILET" ],
+    "//": "i can not understand copy-from of furniture definition fuck this fucking volatile overriding"
+  }
+]

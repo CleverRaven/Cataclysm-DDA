@@ -66,6 +66,7 @@ std::vector<options_manager::id_and_option> options_manager::lang_options = {
     { "fr", no_translation( R"(Français)" ) },
     { "hu", no_translation( R"(Magyar)" ) },
     { "ja", no_translation( R"(日本語)" ) },
+    { "ja_variant", no_translation( R"(日本語_variant)" ) },
     { "ko", no_translation( R"(한국어)" ) },
     { "pl", no_translation( R"(Polski)" ) },
     { "pt_BR", no_translation( R"(Português (Brasil))" )},
@@ -2093,6 +2094,13 @@ void options_manager::add_options_world_default()
     add( "BLACK_ROAD", "world_default", translate_marker( "Surrounded start" ),
          translate_marker( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
          false
+       );
+
+    add_empty_line();
+
+    add( "EXCREMENT_FEATURE", "world_default", translate_marker( "Excrement feature" ),
+         translate_marker( "Player need excrement after consume food." ),
+         true
        );
 
     add_empty_line();

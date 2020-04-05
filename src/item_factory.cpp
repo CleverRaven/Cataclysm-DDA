@@ -2412,6 +2412,17 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         m_templates[ def.id ] = def;
     }
+
+    if( jo.has_member( "toiletpaper_message" ) ) {
+        jo.read( "toiletpaper_message", def.toiletpaper_message );
+    }
+
+    if( jo.has_member( "toiletpaper_morale" ) ) {
+        jo.read( "toiletpaper_morale", def.toiletpaper_morale );
+    } else {
+        def.toiletpaper_morale = 0;
+    }
+
 }
 
 void Item_factory::load_migration( const JsonObject &jo )

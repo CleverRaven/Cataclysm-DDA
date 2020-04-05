@@ -648,6 +648,8 @@ class player : public Character
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
 
+        std::pair<std::string, nc_color> get_excrete_description() const;
+
     private:
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;
