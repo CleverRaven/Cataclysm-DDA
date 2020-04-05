@@ -2428,7 +2428,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                         ctxt.get_desc( "CHANGE_GENDER" ) );
         wrefresh( w_gender );
 
-        const std::string location_prompt = string_format( _( "Press <color_light_green>%s</color> to select location." ),
+        const std::string location_prompt = string_format( _( "Press <color_light_green>%s</color> "
+                                                              "to select location." ),
                                             ctxt.get_desc( "CHOOSE_LOCATION" ) );
         const int prompt_offset = utf8_width( location_prompt );
         werase( w_location );
