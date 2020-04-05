@@ -117,9 +117,8 @@
     "looks_like": "rope_6",
     "material": [ "mixed_fabric" ],
     "color": "light_gray",
-    "description": "A relatively strong cord, woven from whatever you had on hand. You could use this to string a simple bow.",
-    "volume": "349ml",
-    "stack_size": 3,
+    "description": "A relatively strong cord, woven from whatever you had on hand.  You could use this to string a simple bow.",
+    "volume": "350ml",
     "weight": "80 g"
   },
   {
@@ -131,9 +130,8 @@
     "looks_like": "bullwhip",
     "material": [ "mixed_fabric" ],
     "color": "light_gray",
-    "description": "A strong, flexible cord, woven from natural cordage or gut and rolled in wax or tallow. It has two small knots reinforcing its attachment points, and one on which an arrow could sit, all sealed with a small flame. You could use this to string a proper bow.",
-    "volume": "399ml",
-    "stack_size": 3,
+    "description": "A strong, flexible cord, woven from natural cordage or gut and rolled in wax or tallow.  It has two small knots reinforcing its attachment points, and one on which an arrow could sit, all sealed with a small flame. You could use this to string a proper bow.",
+    "volume": "400ml",
     "weight": "100 g"
   }
 ]
