@@ -2785,10 +2785,10 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 ]
 ```
 
-  - Note that if your clothing mod adds additional flags to an item with apply_flags, they will **not** be displayed in the item's description. You should indicate what your mod does with a description in `data/json/flags.json`. See existing clothing mods for examples.
-  - Be careful changing flags that have mechanical effects. Use suppress_flags to remove flags that would cause conflicts. Examples:
-	   - if your mod adds SUPER_FANCY, make it suppress FANCY so you don't create a stacking FANCY morale bonus.
-		 - if your mod changes the clothing layer of an item, be sure to suppress the other clothing layer flags.
+- Note that if your clothing mod adds additional flags to an item with apply_flags, they will **not** be displayed in the item's description. You should indicate what your mod does with a description in `data/json/flags.json`. See existing clothing mods for examples.
+- Be careful changing flags that have mechanical effects. Use suppress_flags to remove flags that would cause conflicts. Examples:
+  - if your mod adds SUPER_FANCY, make it suppress FANCY so you don't create a conflicting FANCY morale bonus.
+  - if your mod changes the clothing layer of an item, be sure to suppress the other clothing layer flags.
 
 # Scenarios
 
