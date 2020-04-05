@@ -197,3 +197,5 @@ Xcode/
 # language
 /lang/po/ja_variant.po
 
+# tiles
+/gfx/*
