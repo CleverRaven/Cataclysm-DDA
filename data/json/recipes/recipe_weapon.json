@@ -458,7 +458,6 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
-    "skills_required": [ "archery", 0 ],
     "time": "12 m",
     "reversible": true,
     "autolearn": true,

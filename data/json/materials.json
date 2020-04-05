@@ -1222,7 +1222,7 @@
   {
     "type": "material",
     "ident": "mixed_fabric",
-    "name": "mixed fabric",
+    "name": "Mixed Fabric",
     "density": 3,
     "specific_heat_liquid": 0.03,
     "specific_heat_solid": 0.03,
