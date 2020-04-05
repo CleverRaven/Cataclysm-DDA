@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Ranged_Rebalance",
+    "name": "Ranged Rebalance",
+    "authors": [ "Hydraki" ],
+    "description": "A mod to rebalance ranged weapons. Currently changes only Bows and Crossbows.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
