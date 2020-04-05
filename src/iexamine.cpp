@@ -98,7 +98,6 @@ static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
-static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
 static const efftype_id effect_earphones( "earphones" );
@@ -3371,9 +3370,8 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         }
 
         case REMOVE_CONTAINER: {
-            g->u.assign_activity( ACT_PICKUP );
-            g->u.activity.targets.emplace_back( map_cursor( examp ), container );
-            g->u.activity.values.push_back( 0 );
+            g->u.assign_activity( player_activity( pickup_activity_actor(
+            { item_location( map_cursor( examp ), container ) }, { 0 }, g->u.pos() ) ) );
             return;
         }
 
@@ -3659,9 +3657,8 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             auto items = g->m.i_at( examp );
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
-                    p.assign_activity( ACT_PICKUP );
-                    p.activity.targets.emplace_back( map_cursor( examp ), &itm );
-                    p.activity.values.push_back( 0 );
+                    g->u.assign_activity( player_activity( pickup_activity_actor(
+                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, g->u.pos() ) ) );
                     return;
                 }
             }
