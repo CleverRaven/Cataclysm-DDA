@@ -78,7 +78,15 @@ List of scenttype_id ignored by this monster. scent_types are defined in scent_t
 ## "symbol", "color"
 (string)
 
-Symbol and color representing monster in-game. The symbol must be a UTF-8 string, that is exactly one console cell width (may be several Unicode characters). The color must be a valid color id, see TODO: find or create a list of color ids.
+Symbol and color representing monster in-game. The symbol must be a UTF-8 string, that is exactly one console cell width (may be several Unicode characters). The color must be a valid color id, one of:
+white, light_gray, dark_gray, red, light_red, pink, brown, light_blue, blue, yellow, cyan, green, light_green, magenta, light_cyan
+pink_white, red_white, yellow_white, black_white, cyan_white, brown_white
+black_green, cyan_green, pink_green, white_green, light_green_cyan, brown_green, light_green_green, yellow_green, light_red_green
+red_cyan, white_cyan, magenta_cyan, i_light_cyan
+light_gray_magenta, white_magenta
+light_gray_yellow, magenta_yellow, light_green_yellow
+pink_red, dark_gray_red
+i_cyan, i_brown (black text, coloured background)
 
 ## "size"
 (string, optional)
