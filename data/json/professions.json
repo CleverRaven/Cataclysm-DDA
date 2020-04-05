@@ -4067,9 +4067,7 @@
     { "level": 3, "name": "mechanics" },
     { "level": 3, "name": "gun" }
   ],
-  "traits": [
-    "MILI_PILOT"
-  ],
+  "traits": [ "MILI_PILOT" ],
   "items": {
     "both": {
       "items": [
@@ -4094,8 +4092,6 @@
     "male": [ "boxer_shorts" ],
     "female": [ "sports_bra", "boy_shorts" ]
   },
-  "flags": [
-    "SCEN_ONLY"
-  ]
+  "flags": [ "SCEN_ONLY" ]
 }
 ]
