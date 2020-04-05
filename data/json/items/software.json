@@ -17,6 +17,14 @@
     "price": 300
   },
   {
+    "id": "software_os_open_source",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str": "open source OS", "str_pl": "open source OSes" },
+    "description": "A popular open source operating system.",
+    "price": 300
+  },
+  {
     "id": "software_hacking",
     "copy-from": "software",
     "type": "GENERIC",
@@ -80,5 +88,67 @@
     "name": { "str": "integrated circuit datasheet archives", "str_pl": "misc software" },
     "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
     "price": 40000
+  },
+  {
+    "abstract": "mod_software",
+    "type": "TOOLMOD",
+    "container": "usb_drive",
+    "name": { "str": "USB with usable software" },
+    "material": [ "plastic" ],
+    "color": "dark_gray",
+    "symbol": ","
+  },
+  {
+    "id": "software_compiler_bootstrap",
+    "copy-from": "mod_software",
+    "type": "TOOLMOD",
+    "flags": [ "SOFTWARE" ],
+    "name": { "str": "bootstrap compiler", "str_pl": "bootstrap compilers" },
+    "description": "A very basic compiler written directly in binary machine code by some mad genius. It's not much good for anything besides compiling a better compiler on a machine that has no development tools, but you could install it on a computer.",
+    "qualities": [ [ "SOFTWARE_COMPILER", 1 ] ]
+  },
+  {
+    "id": "software_compiler_homebrew",
+    "copy-from": "mod_software",
+    "type": "TOOLMOD",
+    "flags": [ "SOFTWARE" ],
+    "name": { "str": "homebrew compiler", "str_pl": "homebrew compilers" },
+    "description": "A competently written compiler for a homebrew programming language, along with documentation for the language itself and a few useful libraries. It doesn't do any fancy optimization and lacks cross-platform compatibility, but you can write real code with it - albeit with a very simplistic language.",
+    "qualities": [ [ "SOFTWARE_COMPILER", 1 ] ]
+  },
+  {
+    "id": "software_decompiler",
+    "copy-from": "mod_software",
+    "type": "TOOLMOD",
+    "flags": [ "SOFTWARE" ],
+    "name": { "str": "decompiler", "str_pl": "decompilers" },
+    "description": "A hex editor, decompiler and some associated analytic software. If you were in an apocalyptic scenario and had with no access to code documentation, you might use it to gain some insight into the operation and APIs of some compiled code. It would be a huge mind-numbing pain, but it would be possible.",
+    "qualities": [ [ "SOFTWARE_DECOMPILER", 1 ] ]
+  },
+  {
+    "id": "software_compiler_professional",
+    "copy-from": "mod_software",
+    "type": "TOOLMOD",
+    "flags": [ "SOFTWARE" ],
+    "name": { "str": "professional compiler", "str_pl": "professional compilers" },
+    "description": "A suite of professional software development tools, including an IDE, compiler, build system, and an archive of useful software libraries with offline documentation.  You could install it in a computer and write some code.",
+    "qualities": [ [ "SOFTWARE_COMPILER", 3 ] ]
+  },
+  {
+    "id": "software_ai_sdk_makeshift",
+    "copy-from": "mod_software",
+    "type": "TOOLMOD",
+    "flags": [ "SOFTWARE" ],
+    "name": { "str": "makeshift AI SDK", "str_pl": "makeshift AI SDK" },
+    "description": "A hacky AI SDK reverse-engineered from firmware dumps of AI cores.  It's jank AF, but you could probably program some simple AI modules using it if you're brave enough.",
+    "qualities": [ [ "SOFTWARE_AI_SDK", 1 ] ]
+  },
+  {
+    "id": "software_ai_core",
+    "copy-from": "mod_software",
+    "type": "TOOLMOD",
+    "flags": [ "SOFTWARE" ],
+    "name": { "str": "basic AI source code", "str_pl": "basic AI source code" },
+    "description": "The source code for a simple AI core.  It's not very useful on its own, but with the right tools you could compile it, construct an AI core, and install it."
   }
 ]

@@ -1,40 +1,40 @@
 [
   {
-    "result": "consumer_laptop_hacked",
+    "result": "laptop_consumer_hacked",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_OTHER",
-    "skill_used": "computers",
+    "skill_used": "computer",
     "difficulty": 5,
     "skills_required": [ "electronics", 1 ],
     "time": "4 h",
-    "autolearn": [ [ "computers", 4 ] ],
-    "components": [ [ [ "consumer_laptop", 1 ] ], [ [ "usb_drive", 1 ] ] ],
-    "tools": [ [ "notebook_hacker", -1 ], [ "os_open_source", -1 ] ]
+    "autolearn": [ [ "computer", 4 ] ],
+    "components": [ [ [ "laptop_consumer", 1 ] ], [ [ "usb_drive", 1 ] ] ],
+    "tools": [ [ [ "notebook_hacker", -1 ] ], [ [ "software_os_open_source", -1 ] ] ]
   },
   {
     "result": "software_compiler_bootstrap",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_OTHER",
-    "skill_used": "computers",
+    "skill_used": "computer",
     "difficulty": 8,
     "time": "14 d",
     "components": [ [ [ "usb_drive", 1 ] ] ],
-    "autolearn": [ [ "computers", 7 ] ],
-    "qualities": [ { "id": "KEYBOARD", "level": 1 } ]
+    "autolearn": [ [ "computer", 7 ] ],
+    "qualities": [ [ { "id": "KEYBOARD", "level": 1 } ] ]
   },
   {
     "result": "software_compiler_homebrew",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_OTHER",
-    "skill_used": "computers",
+    "skill_used": "computer",
     "//": "yes, this is intentionally easier than the bootstrap compiler",
     "difficulty": 6,
     "time": "30 d",
     "book_learn": [ [ "SICP", 4 ], [ "computer_science", 4 ], [ "textbook_computer", 4 ] ],
-    "autolearn": [ [ "computers", 5 ] ],
+    "autolearn": [ [ "computer", 5 ] ],
     "using": [ [ "software_basic", 1 ] ]
   },
   {
@@ -42,60 +42,60 @@
     "type": "recipe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_OTHER",
-    "skill_used": "computers",
+    "skill_used": "computer",
     "difficulty": 7,
     "time": "30 d",
     "book_learn": [ [ "SICP", 5 ], [ "computer_science", 5 ], [ "textbook_computer", 5 ] ],
-    "autolearn": [ [ "computers", 6 ] ],
+    "autolearn": [ [ "computer", 6 ] ],
     "using": [ [ "software_basic", 1 ] ]
   },
   {
-    "result": "makeshift_eeprom_extractor",
+    "result": "makeshift_eeprom_interface",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_OTHER",
-    "skill_used": "computers",
+    "skill_used": "computer",
     "skills_required": [ "electronics", 7 ],
     "difficulty": 7,
     "time": "30 d",
-    "autolearn": [ [ "computers", 7 ], [ "electronics", 7 ] ],
+    "autolearn": [ [ "computer", 7 ], [ "electronics", 7 ] ],
     "using": [ [ "software_basic", 1 ], [ "soldering_standard", 10 ] ]
   },
   {
     "result": "software_ai_sdk_makeshift",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
-    "skill_used": "computers",
+    "skill_used": "computer",
     "skills_required": [ "electronics", 7 ],
     "difficulty": 9,
     "time": "48 h",
-    "autolearn": [ [ "computers", 7 ], [ "electronics", 7 ] ],
+    "autolearn": [ [ "computer", 7 ], [ "electronics", 7 ] ],
     "using": [ [ "software_basic", 1 ], [ "soldering_standard", 10 ] ],
-    "qualities": [ [ "SOFTWARE_DECOMPILER", 1 ], [ "EEPROM_INTERFACE", 1 ] ]
+    "qualities": [ [ { "id": "SOFTWARE_DECOMPILER", "level": 1 } ], [ { "id": "EEPROM_INTERFACE", "level": 1 } ] ]
   },
   {
     "result": "software_ai_core",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
-    "skill_used": "computers",
+    "skill_used": "computer",
     "skills_required": [ "electronics", 7 ],
     "difficulty": 9,
     "time": "21 d",
-    "autolearn": [ [ "computers", 7 ], [ "electronics", 7 ] ],
+    "autolearn": [ [ "computer", 7 ], [ "electronics", 7 ] ],
     "using": [ [ "software_basic", 1 ], [ "soldering_standard", 10 ] ],
-    "qualities": [ [ "SOFTWARE_AI_SDK", 1 ] ]
+    "qualities": [ [ { "id": "SOFTWARE_AI_SDK", "level": 1 } ] ]
   },
   {
     "result": "ai_module_basic",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_OTHER",
-    "skill_used": "computers",
+    "skill_used": "computer",
     "skills_required": [ "electronics", 5 ],
     "difficulty": 8,
     "time": "30 d",
     "book_learn": [ [ "SICP", 7 ] ],
-    "autolearn": [ [ "computers", 8 ] ],
+    "autolearn": [ [ "computer", 8 ] ],
     "using": [ [ "software_basic", 1 ], [ "robot_module_basic", 1 ] ]
   },
   {
@@ -103,13 +103,13 @@
     "type": "recipe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_OTHER",
-    "skill_used": "computers",
+    "skill_used": "computer",
     "difficulty": 10,
     "skills_required": [ "electronics", 5 ],
     "time": "30 d",
-    "autolearn": [ [ "computers", 10 ] ],
-    "qualities": [ { "id": "EEPROM_INTERFACE", "level": 1 } ],
+    "autolearn": [ [ "computer", 10 ] ],
+    "qualities": [ [ { "id": "EEPROM_INTERFACE", "level": 1 } ] ],
     "using": [ [ "software_advanced", 1 ], [ "soldering_standard", 1 ] ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "circuit", 2 ] ], [ [ "RAM", 1 ] ], [ [ "e_scrap", 10 ] ], [ [ "power_converter", 1 ] ] ]
+    "components": [ [ [ "processor", 1 ] ], [ [ "circuit", 2 ] ], [ [ "RAM", 1 ] ], [ [ "e_scrap", 10 ] ], [ [ "power_supply", 1 ] ] ]
   }
 ]

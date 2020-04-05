@@ -271,8 +271,32 @@
   },
   {
     "type": "tool_quality",
+    "id": "SOFTWARE_DECOMPILER",
+    "name": { "str": "compiler" },
+    "//": "software used for reverse-engineering compiled code"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SOFTWARE_AI_SDK",
+    "name": { "str": "compiler" },
+    "//": "a software development kit for working with AI Cores, necessary for programming robot modules"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SOFTWARE_AI_CORE",
+    "name": { "str": "compiler" },
+    "//": "AI source code, key for completing a robot module"
+  },
+  {
+    "type": "tool_quality",
     "id": "KEYBOARD",
     "name": { "str": "keyboard" },
     "//": "tool has a keyboard - required for some computer tasks"
+  },
+  {
+    "type": "tool_quality",
+    "id": "EEPROM_INTERFACE",
+    "name": { "str": "eeprom interface" },
+    "//": "a gadget that lets you interact with programmable read-only memory"
   }
 ]

@@ -156,17 +156,14 @@
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
-    "id": "consumer_laptop_hacked",
+    "id": "laptop_consumer_hacked",
     "type": "TOOL",
-    "copy-from": "consumer_laptop",
+    "copy-from": "laptop_consumer",
     "name": { "str": "hacked ultrabook" },
     "description": "This ultrabook has been hacked to bypass its bootloader protection. Better yet its crappy cloud-based operating system was replaced with a popular open source OS.  It only came with development tools and a clock app, but it's a start.",
     "material": [ "plastic", "aluminum" ],
     "price_postapoc": "1500 USD",
     "ammo": "battery",
-    "initial_charges": 90,
-    "max_charges": 300,
-    "charges_per_use": 2,
     "qualities": [ [ "KEYBOARD", 1 ], [ "SOFTWARE_COMPILER", 2 ] ],
     "magazines": [
       [
@@ -302,7 +299,7 @@
     "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "_",
-    "color": "dark_red",
+    "color": "red",
     "qualities": [ [ "EEPROM_INTERFACE", 1 ] ]
   },
   {
