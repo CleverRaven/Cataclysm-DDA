@@ -1,0 +1,294 @@
+/========================
+|
+|  Requests:
+|  * Obs.: I don't know if some/all of them can already be done --
+|  as I'm not really experienced with the code.
+|
+\========================
+| 
+| * Weapon Mods that can reduce MinSTR requirement.
+| * Weapon Mods that can reduce RELOAD times.
+| * Some sort of "prop_pierce" "tag"(what is it called?) that converts -- 
+| a percentage of "Total Damage" into Pierce.
+| * Custom values for "STR_RELOAD";
+| E.g.: Each point of [STR] over "[MinSTR]/[STR]" reduces Reload Times by X, up to Y.
+|  
+/========================
+|
+|  About Balance:
+|
+\========================
+|
+| * This Mod is balanced around "Multipool" Stats, with each STAT at 8 points, and no "free" points to spend;
+| This means that, to increase any stat above 8, you need to take points from other stats;
+| But this is for another mod, or perhaps... future mainline?
+|
+| * A [STR] STAT of 8 is the "Average [STR] of an Adult Male";
+| The [STR] STAT of 16 is the Absolute Maximum a Non-mutated Human Male can achieve -- This is the [STR] that someone like "Hafþór Júlíus Björnsson" has. 
+|
+| * I used the site "bestrecurvebowguide", found by searching on Google "Bow Draw Weight Chart", and used it somewhat as a guideline.
+| E.g.: According to that site, a "Small-Frame Female" with no archery experience should be able to fire a 25~35 lbs recurve bow.
+|
+| * Some crossbows are assumed to come pre-installed with a "reloading aid" Weapon Mod, heavily reducing the [STR] requirements of them;
+| They could, instead, have a Massive [STR] requirement, that allows bow-like reload speeds...
+| And this Massive [STR] requirement could be heavily reduced by a "Weapon Mod", at the cost of a massive increase in Reload Times!  
+| (I >ASSUME< drawing a Crossbow is similar to Deadlifting, so you could, for example, reload a 1000lbs Crossbow if you had 15~16 [STR])
+|
+| * It takes ~7.5 Seconds to fully draw and fire a 130lbs, "11" Inches Draw Weight Crossbow.
+| Video: https://youtu.be/HagCuGXJgUs?t=143
+| > It takes ~26 seconds (I assume ~22.5 if rushed) to fully ready and fire a 1250lbs [DrawWeight], 20In(assumed) Windlass Crossbow.
+| Video: https://youtu.be/MMoL_SBD6gw?t=444
+| > It takes around 8 seconds to fully ready and fire the compound crossbow from the video below. 
+| I assume the reload mechanism reduces reloading time by around 1/3 (~33.33%).
+| Video: https://youtu.be/Z30YWWmFt9w?t=180
+|
+/========================
+|  Bows
+\========================
+|
+| Values used for bows are obtained through the following formulas:
+|  Minimum Strength: (√DrawWeight * (PowerStroke * 0.025 + 0.75)) / 1.33
+|  Damage: ( √(DrawWeight * 100 * (PowerStroke / 20)) / 7)
+|  Pierce: Damage / 6
+|  Range: ( √(DrawWeight * 100 * (PowerStroke / 20)) / 10)
+|  Reload: ( √(DrawWeight * 100 * (PowerStroke / 20)) / 7) * 10.5
+|
+/========================
+| Self bow
+\========================
+| Minimum Strength: 6 ⇒ 5
+| Damage: 7 ⇒ 8
+| Pierce: 0 -> 1
+| Range: 8 ⇒ 5
+| Reload: 0(?) -> 80
+/========================
+| Shortbow
+\========================
+| Minimum Strength: 8 ⇒ 7
+| Damage: 20 ⇒ 11
+| Pierce: 0 -> 1
+| Range: 8 == 8
+| Reload: 0(?) -> 120
+/========================
+| Compound Bow (Low)
+\========================
+| Minimum Strength: 7 == 7
+| Damage: 35 ⇒ 10
+| Pierce: 0 -> 1
+| Range: 18 ⇒ 7
+| Reload: 0(?) -> 110
+/========================
+| Compound Bow (Med)
+\========================
+| Minimum Strength: 9 ⇒ 8
+| Damage: 50 -> 12
+| Pierce: 0 -> 2
+| Range: 18 -> 8
+| Reload: 0(?) -> 130
+/========================
+| Compound Bow (High)
+\========================
+| Minimum Strength: 11 ⇒ 9
+| Damage: 61 -> 14
+| Pierce: 0 -> 2
+| Range: 18 -> 13
+| Reload: 0(?) -> 150
+/========================
+| Composite Bow
+\========================
+| Minimum Strength: 12 ⇒ 10
+| Damage: 38 -> 16
+| Pierce: 0 -> 2
+| Range: 12 -> 11
+| Reload: 0(?) -> 170
+/========================
+| Recurve Bow
+\========================
+| Minimum Strength: 9 == 9 
+| Damage: 28 -> 15
+| Pierce: 0 -> 2
+| Range: 14 -> 10
+| Reload: 0(?) -> 150
+/========================
+| Reflex Bow
+\========================
+| Minimum Strength: 9 ⇒ 8
+| Damage: 29 -> 12
+| Pierce: 0 -> 2
+| Range: 12 -> 8
+| Reload: 0(?) -> 130
+/========================
+| Hybrid Longbow
+\========================
+| Minimum Strength: 12 ⇒ 10
+| Damage: 58 -> 15
+| Pierce: 0 -> 2
+| Range: 14 -> 11
+| Reload: 0(?) -> 160
+/========================
+| Longbow
+\========================
+| Minimum Strength: 9 ⇒ 10
+| Damage: 23 -> 19
+| Pierce: 0 -> 3
+| Range: 18 -> 13
+| Reload: 0(?) -> 200
+/========================
+| Wooden Greatbow
+\========================
+| Minimum Strength: 17 ⇒ 12
+| Damage: 44 -> 22
+| Pierce: 0 -> 3
+| Range: 20 -> 15
+| Reload: 0(?) -> 230
+/========================
+| Compound Greatbow [New] (Low)
+\========================
+| Minimum Strength: 10
+| Damage: 21
+| Pierce: 0 -> 3
+| Range: 15
+| Reload: 0(?) -> 220
+/========================
+| Compound Greatbow [Old] (Med)
+\========================
+| Minimum Strength: 15 -> 11
+| Damage: 43 -> 23
+| Pierce: 0 -> 3
+| Range: 22 -> 16
+| Reload: 0(?) -> 240
+/========================
+| Compound Greatbow [New] (High)
+\========================
+| Minimum Strength: 12
+| Damage: 25
+| Pierce: 0 -> 3
+| Range: 17
+| Reload: 0(?) -> 260
+/========================
+| Reflex Recurve Bow
+\========================
+| Minimum Strength: 8 -> 9
+| Damage: 28 -> 13
+| Pierce: 0 -> 2
+| Range: 18 -> 9
+| Reload: 0(?) -> 120
+/========================
+|  Bow Arrows
+\========================
+| Values used for arrows are obtained through the following formulas:
+|  Damage: 1 point for every 0.25x multiplier;
+|  Pierce: (Damage/6) -> Broadhead / (damage*1.5) -> Bodkin
+|  Range: ( ( Damage / 2 ) - ( ( ArrowWeight / 25 ) - 1 ) )  -> (Pierce / 2) instead, if bodkin!
+/========================
+|  Crude Wooden Arrow
+\========================
+| Damage: 0.75x ->  3
+| Pierce:     0 ->  0
+| Range:      0 ->  1
+| WEIGHT:   30g -> 25g
+/========================
+|  Wooden Bodkin Arrow
+\========================
+| Damage: 1x ->  4
+| Pierce:     0 ->  6
+| Range:      0 ->  3
+| WEIGHT:   30g -> 25g
+/========================
+|  Wooden Rubber Blunt Arrow
+\========================
+| Damage: 0.20x ->  1
+| Pierce:     0 ==  0
+| Range:      0 ==  0
+| WEIGHT:   60g -> 50g
+/========================
+| Simple Wooden Small Game Arrow"
+\========================
+| Damage: 0.50x ->  2
+| Pierce:     0 ->  0
+| Range:      0 ->  1
+| WEIGHT:   30g -> 25g
+/========================
+|  Wooden Broadhead Arrow
+\========================
+| Damage: 1.50x ->  6
+| Pierce:     0 ->  1
+| Range:      0 ->  3
+| WEIGHT:   20g -> 25g
+/========================
+|  Simple Wooden Arrow
+\========================
+| Damage: 0.75x ->  3
+| Pierce:     0 ==  0
+| Range:      0 ->  1
+| WEIGHT:   30g -> 25g
+/========================
+|  Wooden Small Game Arrow
+\========================
+| Damage: 0.75x ->  2
+| Pierce:     0 ==  0
+| Range:      0 ->  1
+| WEIGHT:   30g -> 25g
+/========================
+|  Makeshift Wooden Arrow
+\========================
+| Damage: 1.25x ->  5
+| Pierce:     0 ==  0
+| Range:      0 ->  2
+| WEIGHT:   30g -> 25g
+/========================
+|  Simple Metal Arrow
+\========================
+| Damage:    1x ->  4
+| Pierce:     1 ->  0
+| Range:      0 ->  2
+| WEIGHT:   30g -> 25g
+/========================
+|  Aluminum Broadhead Arrow
+\========================
+| Damage:  1.5x ->  6
+| Pierce:     1 ==  1
+| Range:      2 ==  3
+| WEIGHT:   30g -> 25g
+/========================
+|  Aluminum Field Point Arrow
+\========================
+| Damage:    1x ->  4
+| Pierce:     3 ->  6
+| Range:      2 ->  3
+| WEIGHT:   20g -> 25g
+/========================
+|  Aluminum Small Game Arrow
+\========================
+| Damage:  0.5x ->  2
+| Pierce:     0 ==  0
+| Range:      2 ->  3
+| WEIGHT:   30g -> 25g
+/========================
+|  Carbon Fiber Hunting Arrow
+\========================
+| Damage:  1.5x ->  6
+| Pierce:     0 ->  1
+| Range:      4 ->  3
+| WEIGHT:   30g -> 25g
+/========================
+|  Explosive Arrow (WIP)
+\========================
+| Damage:   0.1x ->  0
+| Pierce:      0 ==  0
+| Range:       0 ==  0
+| WEIGHT:   633g -> 75g
+/========================
+|  Explosive Arrowhead (WIP)
+\========================
+| Damage:      0 ->   0
+| Pierce:      0 ->   0
+| Range:       0 ->   0
+| WEIGHT:   562g -> 500g
+/========================
+|  Flaming Arrow (WIP)
+\========================
+| Damage:    15 ->  6
+| Pierce:     9 ->  1
+| Range:      0 ->  2
+| WEIGHT:   30g -> 50g
