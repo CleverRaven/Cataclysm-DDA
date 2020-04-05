@@ -937,7 +937,7 @@
       { "trait": "ELEPHANTINE_SMELL", "prob": 50 },
       { "trait": "CRUSHINGFEET", "prob": 50 },
       { "trait": "HERBIVORE", "prob": 50 },
-      { "trait": "FACEBUMPS", "prob": 50 },
+      { "trait": "FACEBUMPS", "prob": 50 }
     ]
   },
   {
