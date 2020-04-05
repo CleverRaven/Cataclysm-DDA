@@ -397,5 +397,12 @@
     "sym": "X",
     "color": "yellow",
     "autonote": true
+  },
+  {
+    "id": "mx_grave",
+    "type": "map_extra",
+    "name": "Grave",
+    "description": "A grave.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_grave" }
   }
 ]
