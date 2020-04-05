@@ -86,7 +86,6 @@ static const trait_id trait_XXXL( "XXXL" );
 #define COL_TR_NEUT_ON_PAS  c_brown     // A toggled-on neutral trait
 #define COL_SKILL_USED      c_green   // A skill with at least one point
 #define COL_HEADER          c_white   // Captions, like "Profession items"
-#define COL_NOTE_MAJOR      c_green   // Important note
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
 #define HIGH_STAT 12 // The point after which stats cost double
