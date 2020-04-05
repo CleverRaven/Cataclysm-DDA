@@ -522,12 +522,14 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
     tripoint guy_abspos = global_omt_location();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
-    const bool is_stationed = assigned_camp && bcp;
     basecamp *temp_camp = nullptr;
-    if( bcp ) {
-        temp_camp = *bcp;
+    if( assigned_camp ) {
+        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        if( bcp ) {
+            temp_camp = *bcp;
+        }
     }
+    const bool is_stationed = assigned_camp && temp_camp;
     std::string direction = direction_name( direction_from( player_abspos, guy_abspos ) );
     if( direction != "center" ) {
         mvwprintz( fac_w, point( width, ++y ), col, _( "Direction: to the " ) + direction );
