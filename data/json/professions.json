@@ -4059,7 +4059,7 @@
   "type": "profession",
   "ident": "mili_pilot",
   "name": "Military Pilot",
-  "description": "placeholder, if you see this the profession worked!",
+  "description": "You got to see things fall apart from the sky, transporting soldiers and survivors from one holdout to the next. You knew it was only a matter of time before the horrors patrolling the skies shot you down.",
   "points": 5,
   "skills": [
     { "level": 4, "name": "driving" },
