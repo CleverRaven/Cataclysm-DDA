@@ -54,6 +54,23 @@
     "fun": -1
   },
   {
+    "id": "notebook_hacker",
+    "type": "BOOK",
+    "name": { "str": "a hacker's notebook" },
+    "description": "A collection of scribbled notes by a hacker.  There's around a dozen half-baked manifestos about the evils of intellectual property, some heavily annotated equations calculating the aerodynamics of a potato under various xeno-atmospheric conditions, cryptic notes about the algorithms used in BIOS password recovery dialogs, and a sketch of what looks like a wizard nibbbling on his own toejam.  Why would you keep this?",
+    "weight": "40 g",
+    "volume": "215 ml",
+    "price": 0,
+    "bashing": 2,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_green",
+    "intelligence": 8,
+    "time": "30 m",
+    "flags": [ "TRADER_AVOID" ],
+    "fun": -1
+  },
+  {
     "id": "child_book",
     "type": "BOOK",
     "name": { "str": "children's book" },

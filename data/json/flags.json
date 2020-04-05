@@ -767,5 +767,17 @@
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
     "craft_inherit": true
+  },
+  {
+    "id": "SOFTWARE",
+    "type": "json_flag",
+    "context": [ "TOOLMOD" ],
+    "info": "This item stores software. You may be able to install it in a working computer."
+  },
+  {
+    "id": "ACCEPTS_SOFTWARE",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "You can <info>install software</info> on this device."
   }
 ]
