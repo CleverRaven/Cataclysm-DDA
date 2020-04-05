@@ -392,7 +392,7 @@
       { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "shotgun", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } }
     ],
     "bonus_str": 5,
     "traits": [
