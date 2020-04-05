@@ -56,7 +56,7 @@ TEST_CASE( "body mass index determines weight description", "[healthy][bmi][weig
     // 25
     CHECK( weight_string_at_bmi( dummy, 25.1f ) == "Overweight" );
     CHECK( weight_string_at_bmi( dummy, 29.9f ) == "Overweight" );
-    // 30 
+    // 30
     CHECK( weight_string_at_bmi( dummy, 30.1f ) == "Obese" );
     CHECK( weight_string_at_bmi( dummy, 34.9f ) == "Obese" );
     // 35
