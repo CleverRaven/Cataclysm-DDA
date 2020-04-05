@@ -6003,18 +6003,23 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
     }
 
     auto filter = [&it]( const item & e ) {
-        // don't allow ups battery mods on a UPS or UPS-powered tools
-        if( it->has_flag( "USE_UPS" ) && ( e.typeId() == "UPS_off" || e.typeId() == "adv_UPS_off" ||
-                                           e.has_flag( "USE_UPS" ) ) ) {
-            return false;
-        }
+        if( it->type->mod->acceptable_ammo.size() ) { // attaching a battery-type mod
+            // don't allow ups battery mods on a UPS or UPS-powered tools
+            if( it->has_flag( "USE_UPS" ) && ( e.typeId() == "UPS_off" || e.typeId() == "adv_UPS_off" ||
+                                               e.has_flag( "USE_UPS" ) ) ) {
+                return false;
+            }
 
-        // can only attach to unmodified tools that use compatible ammo
-        return e.is_tool() && e.toolmods().empty() && !e.magazine_current() &&
-               std::any_of( it->type->mod->acceptable_ammo.begin(),
-        it->type->mod->acceptable_ammo.end(), [&]( const ammotype & at ) {
-            return e.ammo_types( false ).count( at );
-        } );
+            // can only attach to unmodified tools that use compatible ammo
+            return e.is_tool() && e.toolmods().empty() && !e.magazine_current() &&
+                   std::any_of( it->type->mod->acceptable_ammo.begin(),
+            it->type->mod->acceptable_ammo.end(), [&]( const ammotype & at ) {
+                return e.ammo_types( false ).count( at );
+            } );
+        } else if( it->has_flag( "SOFTWARE" ) ) {
+            return e.is_tool() && e.has_flag( "ACCEPTS_SOFTWARE" );
+        }
+        return false;
     };
 
     auto loc = g->inv_map_splice( filter, _( "Select tool to modify" ), 1,
@@ -6025,7 +6030,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    if( loc->ammo_remaining() ) {
+    if( loc->ammo_remaining() && it->type->mod->acceptable_ammo.size() ) {
         if( !g->unload( *loc ) ) {
             p->add_msg_if_player( m_info, _( "You cancel unloading the tool." ) );
             return 0;
@@ -6440,7 +6445,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         } else {
             it->active = false;
             it->erase_var( "EIPC_MUSIC_ON" );
-            p->add_msg_if_player( m_info, _( "Tablet's batteries are dead." ) );
+            p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         }
 
         return 0;
