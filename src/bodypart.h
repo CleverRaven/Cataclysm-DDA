@@ -107,7 +107,7 @@ struct body_part_type {
         float hot_morale_mod = 0;
         float cold_morale_mod = 0;
 
-        int stylish_bonus = 0;
+        float stylish_bonus = 0;
 
         int squeamish_penalty = 0;
 

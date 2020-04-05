@@ -739,12 +739,13 @@ void player_morale::on_worn_item_washed( const item &it )
         bp_data.filthy -= 1;
     };
 
-    const auto covered( it.get_covered_body_parts() );
+    const body_part_set covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
-        for( const std::pair<bodypart_id, body_part_data> bpt : body_parts ) {
-            if( covered.test( bpt.first->token ) ) {
-                update_body_part( body_parts[bpt.first] );
+        for( const body_part bp : all_body_parts ) {
+            if( covered.test( bp ) ) {
+                const bodypart_id bp_id = convert_bp( bp ).id();
+                update_body_part( body_parts[bp_id] );
             }
         }
     } else {
@@ -785,12 +786,13 @@ void player_morale::set_worn( const item &it, bool worn )
         bp_data.covered += sign;
     };
 
-    const auto covered( it.get_covered_body_parts() );
+    const body_part_set covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
-        for( const std::pair<bodypart_id, body_part_data> bpt : body_parts ) {
-            if( covered.test( bpt.first->token ) ) {
-                update_body_part( body_parts[bpt.first] );
+        for( const body_part bp : all_body_parts ) {
+            if( covered.test( bp ) ) {
+                const bodypart_id bp_id = convert_bp( bp ).id();
+                update_body_part( body_parts[bp_id] );
             }
         }
     } else {
@@ -851,14 +853,14 @@ void player_morale::update_stylish_bonus()
     int bonus = 0;
 
     if( stylish ) {
-        int tmp_bonus = 0;
+        float tmp_bonus = 0;
         for( const std::pair<bodypart_id, body_part_data> &bpt : body_parts ) {
             if( bpt.second.fancy > 0 ) {
                 tmp_bonus += bpt.first->stylish_bonus;
             }
         }
         bonus = std::min( static_cast<int>( 2 * super_fancy_items.size() ) +
-                          2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) + tmp_bonus, 20 );
+                          2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) + static_cast<int>( tmp_bonus ), 20 );
     }
     set_permanent( MORALE_PERM_FANCY, bonus );
 }
