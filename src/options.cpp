@@ -2103,6 +2103,11 @@ void options_manager::add_options_world_default()
          true
        );
 
+    add( "ACID_RAIN", "world_default", translate_marker( "Acid rain" ),
+         translate_marker( "set acid rain frequency." ),
+         0, 100, 20
+       );
+
     add_empty_line();
 
     add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),

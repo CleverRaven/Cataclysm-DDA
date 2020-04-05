@@ -127,6 +127,9 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
         case WEATHER_ACID_RAIN:
             data.acid_amount += 8 * to_turns<int>( tick_size );
             break;
+        case WEATHER_ACID_STORM:
+            data.acid_amount += 12 * to_turns<int>( tick_size );
+            break;
         default:
             break;
     }
@@ -491,25 +494,37 @@ void weather_effect::lightning()
  */
 void weather_effect::light_acid()
 {
-    if( calendar::once_every( 1_minutes ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
-            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname() );
-        } else {
-            if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
-                add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
-            } else {
-                bool has_helmet = false;
-                if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 4 ) ) ) {
-                    add_msg( _( "Your power armor protects you from the acidic drizzle." ) );
-                } else {
-                    add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now…" ) );
-                    if( one_in( 10 ) && ( g->u.get_pain() < 10 ) ) {
-                        g->u.mod_pain( 1 );
-                    }
-                }
+    if( calendar::once_every( 10_turns ) && is_player_outside() ) {
+
+        // wielding unbrella does completely protects from acid drizzle
+        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your umbrella protects you from the acid rain." ) );
             }
+            return;
+        }
+        // wearing poewer armer with helmet does completely protects from acid drizzle
+        bool has_helmet = false;
+        if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your power armor protects you from the acid rain." ) );
+            }
+            return;
+        }
+        // wearing RAINPROOF clothes completely protects from acid drizzle
+        if( g->u.worn_with_flag( "RAINPROOF" ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your clothing protects you from the acid rain." ) );
+            }
+            return;
+        }
+
+        add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now…" ) );
+        if( one_in( 10 ) && ( g->u.get_pain() < 10 ) ) {
+            g->u.mod_pain(1);
         }
     }
+
 }
 
 /**
@@ -518,23 +533,74 @@ void weather_effect::light_acid()
  */
 void weather_effect::acid()
 {
-    if( calendar::once_every( 2_turns ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
-            add_msg( _( "Your umbrella protects you from the acid rain." ) );
-        } else {
-            if( g->u.worn_with_flag( "RAINPROOF" ) && one_in( 2 ) ) {
-                add_msg( _( "Your clothing protects you from the acid rain." ) );
-            } else {
-                bool has_helmet = false;
-                if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 2 ) ) ) {
-                    add_msg( _( "Your power armor protects you from the acid rain." ) );
-                } else {
-                    add_msg( m_bad, _( "The acid rain burns!" ) );
-                    if( one_in( 2 ) && ( g->u.get_pain() < 100 ) ) {
-                        g->u.mod_pain( rng( 1, 5 ) );
-                    }
-                }
+    if( calendar::once_every( 10_turns ) && is_player_outside() ) {
+
+        // wielding unbrella does completely protects from normal acid rain
+        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your umbrella protects you from the acid rain." ) );
             }
+            return;
+        }
+        // wearing poewer armer with helmet does completely protects from normal acid rain
+        bool has_helmet = false;
+        if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your power armor protects you from the acid rain." ) );
+            }
+            return;
+        }
+        // wearing RAINPROOF clothes blocks 90% of normal acid rain
+        if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 10 ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your clothing protects you from the acid rain." ) );
+            }
+            return;
+        }
+
+        add_msg( m_bad, _( "The acid rain burns!" ) );
+
+        if( one_in( 2 ) && ( g->u.get_pain() < 100 ) ) {
+            g->u.mod_pain( rng( 1, 5 ) );
+        }
+        if( one_in( 10 ) ) {
+            g->u.hurtall( 1, nullptr );
+        }
+    }
+}
+
+void weather_effect::acid_storm()
+{
+    if( calendar::once_every( 10_turns ) && is_player_outside() ) {
+
+        // wielding unbrella blocks 90% of acid storm
+        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 10 )) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your umbrella protects you from the acid rain." ) );
+            }
+            return;
+        }
+        // wearing poewer armer with helmet does completely protects from acid storm
+        bool has_helmet = false;
+        if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your power armor protects you from the acid rain." ) );
+            }
+            return;
+        }
+        // wearing RAINPROOF clothes blocks 75% of acid storm
+        if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your clothing protects you from the acid rain." ) );
+            }
+            return;
+        }
+
+        add_msg( m_bad, _( "The acid rain burns!" ) );
+
+        g->u.mod_pain( rng( 2, 7 ) );
+        if( one_in( 5 ) ) {
+            g->u.hurtall( 2, nullptr );
         }
     }
 }

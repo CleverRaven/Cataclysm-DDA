@@ -52,9 +52,12 @@ enum weather_type : int {
     WEATHER_LIGHTNING,    //!< Rare lightning strikes!
     WEATHER_ACID_DRIZZLE, //!< No real effects; warning of acid rain
     WEATHER_ACID_RAIN,    //!< Minor acid damage
+    WEATHER_ACID_STORM,   //!< Massive acid damage
     WEATHER_FLURRIES,     //!< Light snow
     WEATHER_SNOW,         //!< snow glare effects
     WEATHER_SNOWSTORM,    //!< sight penalties
+    WEATHER_ACID_FLURRIES,//!< No real effect
+    WEATHER_ACID_SNOW,    //!< Minor acid damage
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
@@ -117,6 +120,7 @@ void thunder();
 void lightning();
 void light_acid();
 void acid();
+void acid_storm();
 //!< Currently flurries have no additional effects.
 void flurry();
 void snow();

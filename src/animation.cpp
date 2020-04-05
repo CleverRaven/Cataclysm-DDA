@@ -678,6 +678,7 @@ void game::draw_weather( const weather_printable &w )
         // Acid weathers; uses acid droplet tile, fallthrough intended
         case WEATHER_ACID_DRIZZLE:
         case WEATHER_ACID_RAIN:
+        case WEATHER_ACID_STORM:
             weather_name = weather_acid_drop;
             break;
         // Normal rainy weathers; uses normal raindrop tile, fallthrough intended
@@ -692,6 +693,8 @@ void game::draw_weather( const weather_printable &w )
         case WEATHER_FLURRIES:
         case WEATHER_SNOW:
         case WEATHER_SNOWSTORM:
+        case WEATHER_ACID_FLURRIES:
+        case WEATHER_ACID_SNOW:
             weather_name = weather_snowflake;
             break;
         default:

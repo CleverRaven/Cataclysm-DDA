@@ -1255,8 +1255,8 @@ void Character::suffer_from_artifacts()
     }
 
     if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
-        g->weather.weather != WEATHER_SNOWSTORM ) {
-        g->weather.weather_override = WEATHER_SNOWSTORM;
+            g->weather.weather != WEATHER_ACID_STORM ) {
+            g->weather.weather_override = WEATHER_ACID_STORM;
         g->weather.set_nextweather( calendar::turn );
     }
 

@@ -3754,7 +3754,7 @@ bool vehicle::do_environmental_effects()
          * - The weather is any effect that would cause the player to be wet. */
         if( vp.part().blood > 0 && g->m.is_outside( vp.pos() ) ) {
             needed = true;
-            if( g->weather.weather >= WEATHER_LIGHT_DRIZZLE && g->weather.weather <= WEATHER_ACID_RAIN ) {
+            if( g->weather.weather >= WEATHER_LIGHT_DRIZZLE && g->weather.weather <= WEATHER_ACID_STORM ) {
                 vp.part().blood--;
             }
         }

@@ -886,11 +886,12 @@ void sfx::do_ambient()
                                             1000 );
                 break;
             case WEATHER_RAINY:
+            case WEATHER_ACID_RAIN:
                 play_ambient_variant_sound( "environment", "WEATHER_RAINY", heard_volume,
                                             channel::outdoors_rain_env,
                                             1000 );
                 break;
-            case WEATHER_ACID_RAIN:
+            case WEATHER_ACID_STORM:
             case WEATHER_THUNDER:
             case WEATHER_LIGHTNING:
                 play_ambient_variant_sound( "environment", "WEATHER_THUNDER", heard_volume,
@@ -898,6 +899,7 @@ void sfx::do_ambient()
                                             1000 );
                 break;
             case WEATHER_FLURRIES:
+            case WEATHER_ACID_FLURRIES:
                 play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", heard_volume,
                                             channel::outdoors_flurry_env,
                                             1000 );
@@ -911,6 +913,7 @@ void sfx::do_ambient()
                                             1000 );
                 break;
             case WEATHER_SNOW:
+            case WEATHER_ACID_SNOW:
                 play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, channel::outdoors_snow_env,
                                             1000 );
                 break;

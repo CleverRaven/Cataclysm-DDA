@@ -8987,15 +8987,19 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             break;
         case WEATHER_DRIZZLE:
         case WEATHER_FLURRIES:
+        case WEATHER_ACID_DRIZZLE:
+        case WEATHER_ACID_FLURRIES:
             precipitation = one_in( 50 );
             break;
         case WEATHER_RAINY:
         case WEATHER_SNOW:
+        case WEATHER_ACID_RAIN:
             precipitation = one_in( 25 );
             break;
         case WEATHER_THUNDER:
         case WEATHER_LIGHTNING:
         case WEATHER_SNOWSTORM:
+        case WEATHER_ACID_STORM:
             precipitation = one_in( 10 );
             break;
         default:
