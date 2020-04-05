@@ -113,6 +113,30 @@ static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_under_op( "under_operation" );
 
+// littlemaid order things
+const efftype_id effect_littlemaid_play( "littlemaid_play" );
+const efftype_id effect_littlemaid_itemize( "littlemaid_itemize" );
+const efftype_id effect_littlemaid_talk( "littlemaid_talk" );
+
+// littlemaid order status things
+const efftype_id effect_littlemaid_stay( "littlemaid_stay" );
+const efftype_id effect_littlemaid_speak_off( "littlemaid_speak_off" );
+
+// littlemaid play things
+const efftype_id effect_littlemaid_in_kiss( "littlemaid_in_kiss" );
+const efftype_id effect_littlemaid_in_petting( "littlemaid_in_petting" );
+const efftype_id effect_littlemaid_in_service( "littlemaid_in_service" );
+const efftype_id effect_littlemaid_in_special( "littlemaid_in_special" );
+
+// littlemaid playing status things
+const efftype_id effect_happiness( "happiness" );
+const efftype_id effect_comfortness( "comfortness" );
+const efftype_id effect_ecstasy( "ecstasy" );
+const efftype_id effect_maid_fatigue( "maid_fatigue" );
+
+// littlemaid auto move things
+const efftype_id effect_littlemaid_goodnight( "littlemaid_goodnight" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_melee( "melee" );
@@ -175,6 +199,10 @@ static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 static const mtype_id mon_zombie_skeltal_minion( "mon_zombie_skeltal_minion" );
 
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
+
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
 
 // shared utility functions
 static bool within_visual_range( monster *z, int max_range )
@@ -5571,3 +5599,230 @@ bool mattack::dodge_check( monster *z, Creature *target )
     float dodge = std::max( target->get_dodge() - rng( 0, z->get_hit() ), 0.0f );
     return rng( 0, 10000 ) < 10000 / ( 1 + 99 * exp( -.6 * dodge ) );
 }
+
+
+bool mattack::littlemaid_action( monster *maid )
+{
+
+    std::string speech_id = "";
+    if( maid->has_effect( effect_littlemaid_speak_off ) ) {
+        return true;
+    } else if ( !maid->sees( g->u ) ){
+        return true;
+    } else if( maid->has_effect( effect_littlemaid_goodnight ) ) {
+        if( g->u.in_sleep_state() ) {
+            return true;
+        } else {
+            speech_id = "mon_little_maid_R18_milk_sanpo_goodmorning";
+            maid->remove_effect( effect_littlemaid_goodnight );
+        }
+    } else if( g->u.in_sleep_state() ) {
+        speech_id = "mon_little_maid_R18_milk_sanpo_goodnight";
+        maid->add_effect( effect_littlemaid_goodnight, 12_hours, num_bp, false);
+    } else if( maid->has_effect( effect_littlemaid_in_kiss ) ) {
+        if( !one_in( 20 ) ){
+            return true;
+        }
+        if ( 70 < maid->get_effect_int( effect_happiness) ){
+            speech_id = "mon_little_maid_R18_milk_sanpo_in_kiss_int2";
+        } else if ( 30 < maid->get_effect_int( effect_happiness) ){
+            speech_id = "mon_little_maid_R18_milk_sanpo_in_kiss_int1";
+        } else {
+            speech_id = "mon_little_maid_R18_milk_sanpo_in_kiss";
+        }
+    } else if( maid->has_effect( effect_littlemaid_in_petting ) ) {
+        if( !one_in( 20 ) ){
+            return true;
+        }
+        if ( 70 < maid->get_effect_int( effect_comfortness) ){
+            speech_id = "mon_little_maid_R18_milk_sanpo_in_petting_int2";
+        } else if ( 30 < maid->get_effect_int( effect_comfortness) ){
+            speech_id = "mon_little_maid_R18_milk_sanpo_in_petting_int1";
+        } else {
+            speech_id = "mon_little_maid_R18_milk_sanpo_in_petting";
+        }
+    } else if( maid->has_effect( effect_littlemaid_in_service ) ) {
+        if( !one_in( 20 ) ){
+            return true;
+        }
+        if ( 70 < g->u.get_effect_int( effect_comfortness) ){
+            speech_id = "mon_little_maid_R18_milk_sanpo_in_service_int2";
+        } else if ( 30 < g->u.get_effect_int( effect_comfortness) ){
+            speech_id = "mon_little_maid_R18_milk_sanpo_in_service_int1";
+        } else {
+            speech_id = "mon_little_maid_R18_milk_sanpo_in_service";
+        }
+    } else if( maid->has_effect( effect_littlemaid_in_special ) ) {
+        if( !one_in( 20 ) ){
+            return true;
+        }
+        if ( 70 < maid->get_effect_int( effect_comfortness) ){
+            speech_id = "mon_little_maid_R18_milk_sanpo_in_special_int2";
+        } else if ( 30 < maid->get_effect_int( effect_comfortness) ){
+            speech_id = "mon_little_maid_R18_milk_sanpo_in_special_int1";
+        } else {
+            speech_id = "mon_little_maid_R18_milk_sanpo_in_special";
+        }
+    } else if( one_in( 3 ) && maid->has_effect( effect_ecstasy )) {
+        speech_id = "mon_little_maid_R18_milk_sanpo_in_ecstasy";
+    } else if( one_in( 3 ) ) {
+
+        // search nearest monster
+        Creature *target = nullptr;
+        int closest = maid->sight_range( default_daylight_level() );
+        for( monster &mons : g->all_monsters() ) {
+            if( mons.friendly != 0 ) {
+                continue;
+            }
+            const int dist = rl_dist_fast( maid->pos(), mons.pos() );
+            if( dist <= 0 ) {
+                continue;
+            }
+            if( dist >= closest ) {
+                continue;
+            }
+            if( !maid->sees( mons ) ) {
+                continue;
+            }
+            closest = dist;
+            target = &mons;
+        }
+
+        if( maid->get_hp() < maid->get_hp_max() && target != nullptr && rl_dist( maid->pos(), target->pos() ) < 3 ) {
+            speech_id = "mon_little_maid_R18_milk_sanpo_maid_in_attacked";
+        } else if( !g->u.activity.is_null() && !one_in( 20 ) ){
+            // reduce talk frequency at master is working
+            return true;
+        } else if( target != nullptr && one_in( 2 )){
+            // talk about saw monster
+            if( target->in_species( ZOMBIE )){
+                if(rl_dist( maid->pos(), target->pos() ) < 10 ){
+                    speech_id = "mon_little_maid_R18_milk_sanpo_saw_zombie_near";
+                } else {
+                    speech_id = "mon_little_maid_R18_milk_sanpo_saw_zombie_far";
+                }
+            } else if( target->in_species( FUNGUS )) {
+                speech_id = "mon_little_maid_R18_milk_sanpo_saw_fungus";
+            } else if( target->in_species( INSECT ) || target->in_species( SPIDER )) {
+                speech_id = "mon_little_maid_R18_milk_sanpo_saw_insect";
+            } else {
+                // other specie
+                return true;
+            }
+        } else if( one_in( 2 ) && std::none_of(g->u.worn.begin(), g->u.worn.end(), [](item it){
+            return it.covers( bp_leg_l ) || it.covers( bp_leg_r );}) ){
+            // player is not covering leg
+            speech_id = "mon_little_maid_R18_milk_sanpo_player_is_naked";
+        } else if ( one_in( 2 ) && maid->type->id.str() == "mon_little_maid_R18_milk_sanpo_altanate") {
+            speech_id = "mon_little_maid_R18_milk_sanpo_altanate";
+        } else {
+            speech_id = "mon_little_maid_R18_milk_sanpo";
+        }
+    } else {
+        return true;
+    }
+
+    if( 0 < speech_id.size() ){
+        const SpeechBubble &speech = get_speech( speech_id );
+        sounds::sound( maid->pos(), speech.volume, sounds::sound_t::speech, speech.text.translated(),
+                       false, "speech", maid->type->id.str() );
+        return true;
+    }
+
+    return false;
+}
+
+bool mattack::shoggothmaid_action( monster *maid )
+{
+
+    std::string speech_id = "";
+    if( maid->has_effect( effect_littlemaid_speak_off ) ) {
+        return true;
+    } else if ( !maid->sees( g->u ) ){
+        return true;
+    } else if( maid->has_effect( effect_littlemaid_goodnight ) ) {
+        if( g->u.in_sleep_state() ) {
+            return true;
+        } else {
+            speech_id = "mon_shoggoth_maid_goodmorning";
+            maid->remove_effect( effect_littlemaid_goodnight );
+        }
+    } else if( g->u.in_sleep_state() ) {
+        speech_id = "mon_shoggoth_maid_goodnight";
+        maid->add_effect( effect_littlemaid_goodnight, 12_hours, num_bp, false);
+    } else if( maid->has_effect( effect_littlemaid_in_kiss ) ) {
+        if( !one_in( 20 ) ){
+            return true;
+        }
+        if ( 70 < maid->get_effect_int( effect_happiness) ){
+            speech_id = "mon_shoggoth_maid_in_kiss_int2";
+        } else if ( 30 < maid->get_effect_int( effect_happiness) ){
+            speech_id = "mon_shoggoth_maid_in_kiss_int1";
+        } else {
+            speech_id = "mon_shoggoth_maid_in_kiss";
+        }
+    } else if( maid->has_effect( effect_littlemaid_in_petting ) ) {
+        if( !one_in( 20 ) ){
+            return true;
+        }
+        if ( 70 < maid->get_effect_int( effect_comfortness) ){
+            speech_id = "mon_shoggoth_maid_in_petting_int2";
+        } else if ( 30 < maid->get_effect_int( effect_comfortness) ){
+            speech_id = "mon_shoggoth_maid_in_petting_int1";
+        } else {
+            speech_id = "mon_shoggoth_maid_in_petting";
+        }
+    } else if( maid->has_effect( effect_littlemaid_in_service ) ) {
+        if( !one_in( 20 ) ){
+            return true;
+        }
+        if ( 70 < g->u.get_effect_int( effect_comfortness) ){
+            speech_id = "mon_shoggoth_maid_in_service_int2";
+        } else if ( 30 < g->u.get_effect_int( effect_comfortness) ){
+            speech_id = "mon_shoggoth_maid_in_service_int1";
+        } else {
+            speech_id = "mon_shoggoth_maid_in_service";
+        }
+    } else if( maid->has_effect( effect_littlemaid_in_special ) ) {
+        if( !one_in( 20 ) ){
+            return true;
+        }
+        if ( 70 < maid->get_effect_int( effect_comfortness) ){
+            speech_id = "mon_shoggoth_maid_in_special_int2";
+        } else if ( 30 < maid->get_effect_int( effect_comfortness) ){
+            speech_id = "mon_shoggoth_maid_in_special_int1";
+        } else {
+            speech_id = "mon_shoggoth_maid_in_special";
+        }
+    } else if( one_in( 3 ) && maid->has_effect( effect_ecstasy )) {
+        speech_id = "mon_shoggoth_maid_in_ecstasy";
+    } else if( one_in( 3 ) ) {
+        if( !g->u.activity.is_null() && !one_in( 20 ) ){
+            // reduce talk frequency at master is working
+            return true;
+        } else if( one_in( 2 ) && std::none_of(g->u.worn.begin(), g->u.worn.end(), [](item it){
+            return it.covers( bp_leg_l ) || it.covers( bp_leg_r );}) ){
+            // player is not covering leg
+            speech_id = "mon_shoggoth_maid_player_is_naked";
+        } else if ( one_in( 2 ) && maid->type->id.str() == "mon_shoggoth_maid_altanate") {
+            speech_id = "mon_shoggoth_maid_altanate";
+        } else {
+            speech_id = "mon_shoggoth_maid";
+        }
+    } else {
+        return true;
+    }
+
+    if( 0 < speech_id.size() ){
+        const SpeechBubble &speech = get_speech( speech_id );
+        sounds::sound( maid->pos(), speech.volume, sounds::sound_t::speech, speech.text.translated(),
+                       false, "speech", maid->type->id.str() );
+        return true;
+    }
+
+    return false;
+}
+
+
+
+

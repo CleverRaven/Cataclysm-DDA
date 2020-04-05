@@ -32,5 +32,12 @@ void attach_or_remove_saddle( monster &z );
 *and amount the times per day you can milk the monster.
 */
 void milk_source( monster &source_mon );
+
+void maid_stay_or_follow( monster &z );
+void maid_itemize( monster &z );
+void maid_toggle_speak( monster &z );
+void maid_play( monster &z );
+void maid_change_costume( monster &z );
+
 } // namespace monexamine
 #endif

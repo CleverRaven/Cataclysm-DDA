@@ -111,6 +111,10 @@ void tankgun( monster *z, Creature *target );           // Tankbot primary.
 void flame( monster *z, Creature *target );
 
 bool dodge_check( monster *z, Creature *target );
+
+bool littlemaid_action( monster *maid );
+bool shoggothmaid_action( monster *maid );
+
 } //namespace mattack
 
 #endif

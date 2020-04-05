@@ -170,6 +170,8 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_STUN_IMMUNE: return "STUN_IMMUNE";
         case MF_LOUDMOVES: return "LOUDMOVES";
         case MF_DROPS_AMMO: return "DROPS_AMMO";
+        case MF_LITTLE_MAID: return "LITTLE_MAID";
+        case MF_SHOGGOTH_MAID: return "SHOGGOTH_MAID";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -588,6 +590,8 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
+    add_hardcoded_attack( "LITTLEMAID_ACTION", mattack::littlemaid_action );
+    add_hardcoded_attack( "SHOGGOTHMAID_ACTION", mattack::shoggothmaid_action );
 }
 
 void MonsterGenerator::init_defense()

@@ -116,7 +116,7 @@ extern const morale_type MORALE_FUNERAL;
 extern const morale_type MORALE_TREE_COMMUNION;
 extern const morale_type MORALE_ACCOMPLISHMENT;
 extern const morale_type MORALE_FAILURE;
-extern const morale_type MORALE_SEX_WITH_LITTLEMAID;
+extern const morale_type MORALE_PLAY_WITH_LITTLEMAID;
 extern const morale_type MORALE_ECSTASY;
 extern const morale_type MORALE_TAKE_BATH;
 extern const morale_type MORALE_TAKE_WASHLET;

@@ -1,0 +1,102 @@
+[
+  {
+    "type": "effect_type",
+    "id": "littlemaid_stay",
+    "name": [ "littlemaid_stay" ],
+    "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "littlemaid_speak_off",
+    "name": [ "littlemaid_speak_off" ],
+    "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]
+  },
+  
+    {
+    "type": "effect_type",
+    "id": "happiness",
+    "name": [ "Happiness" ],
+    "desc": ["You are feeling happiness."],
+    "max_intensity": 100,
+    "max_duration": "100 m",
+    "int_dur_factor": "1 m",
+    "base_mods": {
+    },
+    "scaling_mods": {
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "comfortness",
+    "name": [ "Comfortness" ],
+    "desc": ["You are feeling comfortness."],
+    "max_intensity": 100,
+    "max_duration": "100 m",
+    "int_dur_factor": "1 m",
+
+    "base_mods": {
+    },
+    "scaling_mods": {
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "ecstasy",
+    "name": ["ecstasy"],
+    "desc": ["You are on ecstasy."],
+    "base_mods": {
+    },
+    "scaling_mods": {
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "maid_fatigue",
+    "name": ["fatigue"],
+    "desc": ["You are on the ecstasy."],
+    "max_intensity": 100,
+    "max_duration": "600 m",
+    "int_dur_factor": "6 m",
+
+    "base_mods": {
+    },
+    "scaling_mods": {
+    }
+  },
+
+  {
+    "type": "effect_type",
+    "id": "littlemaid_in_kiss",
+    "name": ["in kiss"],
+    "desc": ["This is little maid AI control effect."],
+    "max_duration": "20 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "littlemaid_in_petting",
+    "name": ["in petting"],
+    "desc": ["This is little maid AI control effect."],
+    "max_duration": "20 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "littlemaid_in_service",
+    "name": ["in service"],
+    "desc": ["This is little maid AI control effect."],
+    "max_duration": "20 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "littlemaid_in_special",
+    "name": ["in special"],
+    "desc": ["This is little maid AI control effect."],
+    "max_duration": "20 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "littlemaid_goodnight",
+    "name": ["goodnight"],
+    "desc": ["This is little maid AI control effect."]
+  }
+
+]

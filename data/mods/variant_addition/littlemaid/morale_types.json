@@ -1,0 +1,40 @@
+[
+
+  {
+    "id": "morale_play_with_littlemaid",
+    "type": "morale_type",
+    "text": "Played with littlemaid"
+  },
+  {
+    "id": "morale_excrete",
+    "type": "morale_type",
+    "text": "Took a crap"
+  },
+  {
+    "id": "morale_incontinent",
+    "type": "morale_type",
+    "text": "Incontinented"
+  },
+  {
+    "id": "morale_take_bath",
+    "type": "morale_type",
+    "text": "Took a bath"
+  },
+  {
+    "id": "morale_take_washlet",
+    "type": "morale_type",
+    "text": "Took a washlet"
+  },
+  {
+    "id": "morale_use_toiletpaper",
+    "type": "morale_type",
+    "text": "Used toilet paper"
+  },
+  {
+    "id": "morale_ecstasy",
+    "type": "morale_type",
+    "text": "Rised on the ecstasy"
+  }
+
+]
+

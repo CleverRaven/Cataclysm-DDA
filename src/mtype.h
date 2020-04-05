@@ -174,6 +174,8 @@ enum m_flag : int {
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
     MF_DROPS_AMMO,          // This monster drops ammo. Check to make sure starting_ammo paramter is present for this monster type!
+    MF_LITTLE_MAID,         // This monster is littlemaid.
+    MF_SHOGGOTH_MAID,       // This monster is shoggothmaid.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
