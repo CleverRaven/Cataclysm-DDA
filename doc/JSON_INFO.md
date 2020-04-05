@@ -2689,29 +2689,41 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 
 ```JSON
 "type": "clothing_mod",
-"id": "leather_padded",   // Unique ID.
-"flag": "leather_padded", // flag to add to clothing.
-"item": "leather",        // item to consume.
+"id": "leather_padded",                      // Unique ID.
+"flag": "leather_padded",                    // flag to add to clothing.
+"item": "leather",                           // item to consume.
+"no_material_scaling": false,                // (optional) if true, items used will be a fixed number
+"item_quantity": 1,                          // (optional) how many components will be consumed; scaled by the item's volume, unless no_material_scaling is true.  Default 1.
 "implement_prompt": "Pad with leather",      // prompt to show when implement mod.
 "destroy_prompt": "Destroy leather padding", // prompt to show when destroy mod.
-"time_base": "30 s",      // (optional, default 30 seconds) amount of time the mod takes to apply (will later be multiplied by parts used)
-"difficulty": 1,          // (optional) difficulty to apply the mod
-"restricted": true,       // (optional) If true, clothing must list this mod's flag in "valid_mods" list to use it. Defaults to false.
-"flags_applied": [ ],     // (optional) a list of additional flags to apply to the clothing when this mod is active
-"flags_excluded": [ ],    // (optional) a list of flags this mod is incompatible with (regardless of whether it's restricted)
-"min_coverage": 10,       // (optional) minimum coverage the original item must have in order for this mod to be used
-"mod_value": [            // List of mod effect.
+"time_base": "30 s",                         // (optional, default 30 seconds) amount of time the mod takes to apply (will later be multiplied by parts used)
+"difficulty": 1,                             // (optional) difficulty to apply the mod
+"restricted": true,                          // (optional) If true, clothing must list this mod's flag in "valid_mods" list to use it. Defaults to false.
+"apply_flags": [ "FANCY" ],                  // (optional) a list of additional flags to apply to the clothing when this mod is active
+"suppress_flags": [ "SUPER_FANCY" ],         // (optional) flags the mod suppresses from the original item when applied
+"require_flags": [ "OVERSIZE" ],             // (optional) if present at least one of the listed flags are required for the mod to be compatible
+"exclude_flags": [ "SKINTIGHT" ],            // (optional) a list of flags this mod is incompatible with (regardless of whether it's restricted)
+"min_coverage": 0,                           // (optional) minimum coverage the original item must have in order for this mod to be used
+"min_coverage": 100,                         // (optional) maximum coverage the original item must have in order for this mod to be used
+"valid_parts": [ "TORSO", "LEGS" ],          // (optional) the item must cover at least one of these parts to be used if any are listed
+"invalid_parts": [ "HANDS", "FEET" ],        // (optional) the item cannot cover any of the listed parts
+"mod_value": [                               // List of mod effect.
     {
-        "type": "bash",   // "bash", "cut", "fire", "acid", "warmth", "storage", "coverage", and "encumbrance" is available.
-        "value": 1,       // value of effect.
-        "round_up": false // (optional) round up value of effect. defaults to false.
-        "proportion": [   // (optional) value of effect propotions to clothing's parameter.
-            "thickness",  //            "thickness" and "coverage" is available.
+        "type": "bash",                      // "bash", "cut", "fire", "acid", "warmth", "storage", "coverage", and "encumbrance" are available.
+        "value": 1,                          // value of effect.
+        "round_up": false                    // (optional) round up value of effect. defaults to false.
+        "proportion": [                      // (optional) value of effect propotions to clothing's parameter.
+            "thickness",                     // "thickness" and "coverage" are available.
             "coverage"
         ]
     }
 ]
 ```
+
+  - Note that if your clothing mod adds additional flags to an item with apply_flags, they will **not** be displayed in the item's description. You should indicate what your mod does with a description in `data/json/flags.json`. See existing clothing mods for examples.
+  - Be careful changing flags that have mechanical effects. Use suppress_flags to remove flags that would cause conflicts. Examples:
+	   - if your mod adds SUPER_FANCY, make it suppress FANCY so you don't create a stacking FANCY morale bonus.
+		 - if your mod changes the clothing layer of an item, be sure to suppress the other clothing layer flags.
 
 # Scenarios
 

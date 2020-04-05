@@ -701,6 +701,17 @@ bool item::covers( const body_part bp ) const
     return get_covered_body_parts().test( bp );
 }
 
+bool item::covers_any( const std::vector<body_part> &parts ) const
+{
+    for( body_part bp : parts ) {
+        if( covers( bp ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 body_part_set item::get_covered_body_parts() const
 {
     return get_covered_body_parts( get_side() );
@@ -2923,8 +2934,23 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         item_tags.begin(), item_tags.end(),
                         std::back_inserter( flags ) );
 
+        // find any flags suppressed by clothing mods...
+        std::vector<std::string> to_suppress;
+        for( const clothing_mod &cm : clothing_mods::get_all() ) {
+            if( item_tags.count( cm.flag ) ) {
+                for( const std::string &suppressed : cm.suppress_flags ) {
+                    to_suppress.push_back( suppressed );
+                }
+            }
+        }
+
+        // take the difference
+        std::vector<std::string> final_flags;
+        std::set_difference( flags.begin(), flags.end(), to_suppress.begin(), to_suppress.end(),
+                             std::back_inserter( final_flags ) );
+
         // ...and display those which have an info description
-        for( const std::string &e : flags ) {
+        for( const std::string &e : final_flags ) {
             const json_flag &f = json_flag::get( e );
             if( !f.info().empty() ) {
                 info.emplace_back( "DESCRIPTION", string_format( "* %s", _( f.info() ) ) );
@@ -4718,8 +4744,12 @@ bool item::has_flag( const std::string &f ) const
     if( has_clothing_mod() ) {
         // TODO this is going to be slow - find a better way?
         for( const clothing_mod &cm : clothing_mods::get_all() ) {
-            if( item_tags.count( cm.flag ) > 0 && cm.applies_flag( f ) ) {
-                return true;
+            if( item_tags.count( cm.flag ) ) {
+                if( cm.applies_flag( f ) ) {
+                    return true;
+                } else if( cm.suppresses_flag( f ) ) {
+                    return false;
+                }
             }
         }
     }

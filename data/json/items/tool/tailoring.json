@@ -327,7 +327,24 @@
           "kevlar_rigid"
         ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled", "hemline_up", "hemline_down" ]
+        "clothing_mods": [
+          "leather_padded",
+          "steel_padded",
+          "kevlar_padded",
+          "furred",
+          "wooled",
+          "hemline_up",
+          "hemline_down",
+          "tailored_pockets",
+          "tailored_fur_collar",
+          "tailored_faux_fur_collar",
+          "tailored_earplugs",
+          "tailored_padded_soles",
+          "tailored_short_sleeves",
+          "tailored_long_sleeves",
+          "tailored_fingerless",
+          "tailored_thermometer_strap"
+        ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]

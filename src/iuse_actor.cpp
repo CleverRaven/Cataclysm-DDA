@@ -4676,13 +4676,20 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         return mcopy;
     };
 
+    const auto calc_items_needed = []( const item it, const clothing_mod cm ) {
+        if( cm.item_quantity == 0 ) {
+            return 0;
+        }
+        return cm.no_material_scaling ? 1 : ( it.volume() / 750_ml + 1 ) * cm.item_quantity;
+    };
+
     // Cache available materials
     std::map< itype_id, bool > has_enough;
-    const int items_needed = mod.volume() / 750_ml + 1;
     const inventory &crafting_inv = p.crafting_inventory();
     // Go through all discovered repair items and see if we have any of them available
     for( auto &cm : clothing_mods::get_all() ) {
-        has_enough[cm.item_string] = crafting_inv.has_amount( cm.item_string, items_needed );
+        has_enough[cm.item_string] = crafting_inv.has_amount( cm.item_string, calc_items_needed( mod,
+                                     cm ) );
     }
 
     int mod_count = 0;
@@ -4692,8 +4699,6 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     // We need extra thread to lose it on bad rolls
     const int thread_needed = mod.volume() / 125_ml + 10;
-
-    const auto valid_mods = mod.find_armor_data()->valid_mods;
 
     const auto get_compare_color = [&]( const int before, const int after,
     const bool higher_is_better ) {
@@ -4716,8 +4721,17 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     tmenu.text = _( "How do you want to modify it?" );
 
     int index = 0;
+    int compat_count = 0;
+
     for( auto cm : clothing_mods ) {
-        auto obj = cm.obj();
+        clothing_mod obj = cm.obj();
+        int items_needed = calc_items_needed( mod, obj );
+        if( !mod.has_flag( obj.flag ) && !obj.is_compatible( mod ) ) {
+            // hide incompatible mods, hopefully there will be a lot of them someday and there's no need to show the ones that don't work
+            index++;
+            continue;
+        }
+        compat_count++;
         item temp_item = modded_copy( mod, obj.flag );
         temp_item.update_clothing_mod_val();
 
@@ -4733,6 +4747,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
             return t;
         };
 
+        // TODO replace "thread" everywhere below with the charge item used by the tool
         if( mod.item_tags.count( obj.flag ) == 0 ) {
             // Mod not already present, check if modification is possible
             if( it.charges < thread_needed ) {
@@ -4743,12 +4758,6 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
                 prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), tolower( obj.implement_prompt ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
-            } else if( !obj.flags_compatible( mod ) ||
-                       ( obj.restricted &&
-                         std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) ) {
-                //~ %1$s: modification desc, %2$s: item name
-                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
-                                        mod.tname( 1, false ) );
             } else if( obj.applies_flags() && p.is_worn( mod ) ) {
                 // some flags cause errors when applied to worn items (e.g. FANCY throws from a morale consistency check)
                 // rather than deal with the implications lets just ask the player to remove the item first
@@ -4756,22 +4765,22 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 prompt = string_format( _( "Can't %1$s (take the %2$s off first)" ),
                                         tolower( obj.implement_prompt ),
                                         mod.tname( 1, false ) );
-            } else if( obj.min_coverage > mod.get_coverage() ) {
-                //~ %1$s: modification desc, %2$s: item name
-                prompt = string_format( _( "Can't %1$s (%2$s has too little coverage)" ),
-                                        tolower( obj.implement_prompt ),
-                                        mod.tname( 1, false ) );
             } else {
                 // Modification is possible
                 enab = true;
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
-                prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), tolower( obj.implement_prompt ),
-                                        items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
+                if( items_needed > 0 ) {
+                    prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), tolower( obj.implement_prompt ),
+                                            items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
+                } else {
+                    //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
+                    prompt = string_format( _( "%1$s (%2$d thread)" ), tolower( obj.implement_prompt ), thread_needed );
+                }
             }
 
         } else {
             // removing a mod that changes flags causes bugs (see note in above check for applying mods)
-            if( obj.applies_flags() && p.is_worn( mod ) ) {
+            if( ( obj.applies_flags() || obj.suppresses_flags() ) && p.is_worn( mod ) ) {
                 //~ %1$s: modification desc, %2$s: item name
                 prompt = string_format( _( "Can't %1$s (take the %2$s off first)" ),
                                         tolower( obj.destroy_prompt ),
@@ -4815,26 +4824,65 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                                              volume_units_abbr() ), get_volume_compare_color( before, after, true ) );
         }
         bool will_remove = mod.item_tags.count( obj.flag );
+
+        static const auto format_flag = []( const std::string & e ) {
+            const json_flag &f = json_flag::get( e );
+            if( !f.info().empty() ) {
+                return replace_colors( string_format( "* %s\n", _( f.info() ) ) );
+            }
+            return std::string();
+        };
+
         if( obj.applies_flags() ) {
             if( will_remove ) {
-                desc += "\nProperties lost:\n";
+                desc += replace_colors( "\n<bad>Properties lost:</bad>\n" );
             } else {
-                desc += "\nProperties gained:\n";
+                desc += replace_colors( "\n<good>Properties gained:</good>\n" );
             }
             for( const std::string &e : obj.apply_flags ) {
-                const json_flag &f = json_flag::get( e );
-                if( !f.info().empty() ) {
-                    desc += replace_colors( string_format( "* %s\n", _( f.info() ) ) );
+                desc += format_flag( e );
+            }
+        }
+        if( obj.suppresses_flags() ) {
+            std::string tmp_string;
+            if( will_remove ) {
+                for( const std::string &e : obj.suppress_flags ) {
+                    if( temp_item.has_flag( e ) ) {
+                        tmp_string += format_flag( e );
+                    }
+                }
+                if( tmp_string.size() ) {
+                    desc += replace_colors( "\n<good>Properties gained:</good>\n" );
+                    desc += tmp_string;
+                }
+            } else {
+                for( const std::string &e : obj.suppress_flags ) {
+                    if( mod.has_flag( e ) ) {
+                        tmp_string += format_flag( e );
+                    }
+                }
+                if( tmp_string.size() ) {
+                    desc += replace_colors( "\n<bad>Properties lost:</bad>\n" );
+                    desc += tmp_string;
                 }
             }
         }
         if( !will_remove ) {
+            // TODO estimate difficulty, and generally bring this dialog in-line with gun and tool mods
             desc += string_format( "\nIt will take about %s to complete.\n",
                                    to_string( obj.time_base * p.fine_detail_vision_mod() ) );
         }
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }
+
+    if( compat_count == 0 ) {
+        std::string prompt =
+            string_format( "You can't think of any ways to modify this item using your %s.",
+                           it.tname( 1, false ) );
+        tmenu.addentry_desc( 0, false, MENU_AUTOASSIGN, prompt, "" );
+    }
+
     tmenu.textwidth = 80;
     tmenu.desc_enabled = true;
     tmenu.query();
@@ -4858,28 +4906,34 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // Get the id of the material used
-    const auto &repair_item = clothing_mods[choice].obj().item_string;
+    const auto &repair_item = the_mod.item_string;
+
+    const int items_needed = calc_items_needed( mod, the_mod );
 
     // TODO bring this more in line with difficulty for repairs & weapon mods
-    // the way this will work out right now is that it's extremely difficult
-    // to add more than 2 mods for anybody with sub-legendary skill levels
-    // it's also easier to do easy mods first, then hard mods; it would be nicer
+    // it's easier to do easy mods first, then hard mods; it would be nicer
     // if the complexity of preexisting mods factored into the difficulty roll
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( repair_item, items_needed ) );
+    int skill_level = p.get_skill_level( used_skill );
+    if( items_needed > 0 ) {
+        comps.push_back( item_comp( repair_item, items_needed ) );
+    }
     p.moves -= to_moves<int>( the_mod.time_base * p.fine_detail_vision_mod() );
     // concerned that spamming really hard mods on trash items might be
     // a way to quickly practice tailoring, but the material costs should
     // be high for higher difficulty mods so maybe that's ok
     p.practice( used_skill, items_needed * ( 2 + the_mod.difficulty ) + 3 );
     /** @EFFECT_TAILOR randomly improves clothing modification efforts */
-    int rn = dice( 3, 2 + p.get_skill_level( used_skill ) ); // Skill
+    int rn = dice( 3, 2 + skill_level ); // Skill
     /** @EFFECT_DEX randomly improves clothing modification efforts */
     rn += rng( 0, p.dex_cur / 2 );                    // Dexterity
     /** @EFFECT_PER randomly improves clothing modification efforts */
     rn += rng( 0, p.per_cur / 2 );                    // Perception
-    rn -= mod_count * ( 1 + the_mod.difficulty ) * 5; // Other mods
+    // Other mods - adding mods to an already modified item is harder,
+    // but tailoring skill reduces the overall multiple mods difficulty
+    rn -= mod_count * ( 1 + the_mod.difficulty ) * ( 5 - ( skill_level / 5 ) );
 
+    // TODO replace below with a player_activity
     if( rn <= 8 ) {
         const std::string startdurability = mod.durability_indicator( true );
         const auto destroyed = mod.inc_damage();
@@ -4894,12 +4948,16 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     } else if( rn <= 10 ) {
         p.add_msg_if_player( m_bad,
                              _( "You fail to modify the clothing, and you waste thread and materials." ) );
-        p.consume_items( comps, 1, is_crafting_component );
+        if( items_needed > 0 ) {
+            p.consume_items( comps, 1, is_crafting_component );
+        }
         return thread_needed;
     } else if( rn <= 14 ) {
         p.add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of thread." ),
                              mod.tname() );
-        p.consume_items( comps, 1, is_crafting_component );
+        if( items_needed > 0 ) {
+            p.consume_items( comps, 1, is_crafting_component );
+        }
         mod.item_tags.insert( the_mod.flag );
         mod.update_clothing_mod_val();
         return thread_needed;
@@ -4908,7 +4966,9 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     p.add_msg_if_player( m_good, _( "You modify your %s!" ), mod.tname() );
     mod.item_tags.insert( the_mod.flag );
     mod.update_clothing_mod_val();
-    p.consume_items( comps, 1, is_crafting_component );
+    if( items_needed > 0 ) {
+        p.consume_items( comps, 1, is_crafting_component );
+    }
     return thread_needed / 2;
 }
 

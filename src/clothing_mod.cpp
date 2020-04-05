@@ -5,6 +5,7 @@
 
 #include "generic_factory.h"
 #include "item.h"
+#include "itype.h"
 #include "debug.h"
 #include "calendar.h"
 
@@ -64,15 +65,29 @@ void clothing_mod::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "item", item_string );
     mandatory( jo, was_loaded, "implement_prompt", implement_prompt );
     mandatory( jo, was_loaded, "destroy_prompt", destroy_prompt );
+    optional( jo, was_loaded, "item_quantity", item_quantity, 1 );
     optional( jo, was_loaded, "restricted", restricted, false );
+    optional( jo, was_loaded, "difficulty", difficulty, 1 );
+    optional( jo, was_loaded, "min_coverage", min_coverage, 0 );
+    optional( jo, was_loaded, "max_coverage", max_coverage, 100 );
+    optional( jo, was_loaded, "apply_flags", apply_flags, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "exclude_flags", exclude_flags, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "require_flags", require_flags, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "suppress_flags", suppress_flags, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "no_material_scaling", no_material_scaling, false );
+
     if( jo.has_string( "time_base" ) ) {
         time_base = read_from_json_string<time_duration>( *jo.get_raw( "time_base" ),
                     time_duration::units );
     }
-    optional( jo, was_loaded, "difficulty", difficulty, 1 );
-    optional( jo, was_loaded, "min_coverage", min_coverage, 0 );
-    optional( jo, was_loaded, "apply_flags", apply_flags, auto_flags_reader<> {} );
-    optional( jo, was_loaded, "exclude_flags", exclude_flags, auto_flags_reader<> {} );
+
+    if( jo.has_array( "valid_parts" ) ) {
+        valid_parts = clothing_mods::parse_json_body_parts( jo.get_array( "valid_parts" ) );
+    }
+
+    if( jo.has_array( "invalid_parts" ) ) {
+        valid_parts = clothing_mods::parse_json_body_parts( jo.get_array( "valid_parts" ) );
+    }
 
     for( const JsonObject mv_jo : jo.get_array( "mod_value" ) ) {
         mod_value mv;
@@ -137,14 +152,37 @@ bool clothing_mod::applies_flag( const std::string &f ) const
     return false;
 }
 
+bool clothing_mod::suppresses_flag( const std::string &f ) const
+{
+    if( std::find( suppress_flags.begin(), suppress_flags.end(), f ) != suppress_flags.end() ) {
+        return true;
+    }
+
+    return false;
+}
+
 bool clothing_mod::applies_flags() const
 {
     return !apply_flags.empty();
 }
 
-bool clothing_mod::flags_compatible( const item &it ) const
+bool clothing_mod::suppresses_flags() const
 {
-    return !( it.has_any_flag( exclude_flags ) || it.has_any_flag( apply_flags ) );
+    return !suppress_flags.empty();
+}
+
+bool clothing_mod::is_compatible( const item &it ) const
+{
+    const auto valid_mods = it.find_armor_data()->valid_mods;
+
+    return ( !it.has_any_flag( exclude_flags ) &&
+             !it.has_any_flag( apply_flags ) &&
+             ( require_flags.size() == 0  || it.has_any_flag( require_flags ) ) &&
+             it.get_coverage() <= max_coverage &&
+             it.get_coverage() > min_coverage &&
+             !( restricted && std::find( valid_mods.begin(), valid_mods.end(), flag ) == valid_mods.end() ) &&
+             ( valid_parts.size() == 0 || it.covers_any( valid_parts ) ) &&
+             ( invalid_parts.size() == 0 || !it.covers_any( invalid_parts ) ) );
 }
 
 size_t clothing_mod::count()
@@ -189,4 +227,29 @@ const std::vector<clothing_mod> &clothing_mods::get_all_with( clothing_mod_type 
 std::string clothing_mods::string_from_clothing_mod_type( clothing_mod_type type )
 {
     return io::enum_to_string<clothing_mod_type>( type );
+}
+
+const std::vector<body_part> clothing_mods::parse_json_body_parts( const JsonArray &jo )
+{
+    std::vector<body_part> parts;
+    for( std::string val : jo ) {
+        // TODO borrowed from item_factory.cpp, should make an auto parser for this someday
+        if( val == "ARMS" || val == "ARM_EITHER" ) {
+            parts.push_back( bp_arm_l );
+            parts.push_back( bp_arm_r );
+        } else if( val == "HANDS" || val == "HAND_EITHER" ) {
+            parts.push_back( bp_hand_l );
+            parts.push_back( bp_hand_r );
+        } else if( val == "LEGS" || val == "LEG_EITHER" ) {
+            parts.push_back( bp_leg_l );
+            parts.push_back( bp_leg_r );
+        } else if( val == "FEET" || val == "FOOT_EITHER" ) {
+            parts.push_back( bp_foot_l );
+            parts.push_back( bp_foot_r );
+        } else {
+            parts.push_back( get_body_part_token( val ) );
+        }
+    }
+
+    return parts;
 }

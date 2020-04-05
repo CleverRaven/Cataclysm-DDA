@@ -1456,6 +1456,10 @@ class item : public visitable<item>
          * Whether this item (when worn) covers the given body part.
          */
         bool covers( body_part bp ) const;
+	/**
+	 * Whether this item (when worn) covers any in the given list of parts.
+	 */
+	bool covers_any( const std::vector<body_part> &parts ) const;
         /**
          * Bitset of all covered body parts.
          *

@@ -793,12 +793,6 @@
     "info": "This gear has been embroidered with its owner's personal monogram.  Wearing it makes you feel <good>sophisticated</good> but it's <bad>a bit more stiff</bad> than before."
   },
   {
-    "id": "tailored_pockets",
-    "type": "json_flag",
-    "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This gear has had pockets sewn in.  They're <bad>a little cumbersome</bad> but <good>keep your hands warm</good> if you're not holding anything.  Or you can just put stuff in them."
-  },
-  {
     "id": "cutwork_lace",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -815,5 +809,59 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "The hemline of this gear has been lowered.  It <good>protects your modesty and keeps you warm</good> but <bad>is a little more encumbering</bad>."
+  },
+  {
+    "id": "tailored_earplugs",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This headgear has <info>makeshift hearing protection</info>.  Not as good as the real thing."
+  },
+  {
+    "id": "tailored_pockets",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has had pockets sewn in.  They're <bad>a little cumbersome</bad> but <good>keep your hands warm</good> if you're not holding anything.  Or you can just put stuff in them."
+  },
+  {
+    "id": "tailored_long_sleeves",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has had long sleeves sewn on.  They <bad>restrict your arms</bad> but <good>keep you warmer</good> in cold weather."
+  },
+  {
+    "id": "tailored_short_sleeves",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has had its sleeves shortened, keeping you <good>cooler</good> in warm weather."
+  },
+  {
+    "id": "tailored_fingerless",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "The fingers have been removed on these gloves, giving you <good>more flexibility</good> but <bad>less protection</bad>."
+  },
+  {
+    "id": "tailored_fur_collar",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "A standing fur collar has been attached to this gear.  It can <good>keep your mouth warm</good> if it is unencumbered."
+  },
+  {
+    "id": "tailored_faux_fur_collar",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "A standing faux fur collar has been attached to this gear.  It can <good>keep your mouth warm</good> if it is unencumbered."
+  },
+  {
+    "id": "tailored_padded_soles",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "Custom-fit sole padding has been added to this footwear, making it <good>much more comfortable</good> to wear."
+  },
+  {
+    "id": "tailored_thermometer_strap",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "A thermometer has been sewn on the strap.  It allows you to <good>read the air temperature</good>."
   }
 ]
