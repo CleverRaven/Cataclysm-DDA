@@ -4044,13 +4044,20 @@
   {
     "type": "profession",
     "ident": "frat",
-    "name": { "male": "Frat Boy", "female": "Sorority Girl" },
+    "name": {
+	"male": "Frat Boy", 
+	"female": "Sorority Girl"
+	},
     "description": "You were living the high life, spending your parents money without a care in the world.  You were at one of your usual crazy parties when the guests became hungry for more than your drugs.  You still have a chance to use the last symbol of your luxurious life - your sport car - and get far away.",
     "points": 2,
-    "skills": [ { "level": 1, "name": "speech" }, { "level": 2, "name": "driving" } ],
+    "skills": [ 
+	{ "level": 1, "name": "speech" }, 
+	{ "level": 2, "name": "driving" } 
+	],
     "vehicle": "car_sports",
     "items": {
-      "both": { "items": [ "gold_watch", "water_mineral", "smart_phone", "money_bundle", "cig", "ref_lighter" ] },
+      "both": { "items": [ "gold_watch", "water_mineral", "smart_phone", "money_bundle", "cig", 
+	  "ref_lighter" ] },
       "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],
       "female": [ "tank_top", "bra", "panties", "skirt", "heels", "jacket_leather", "stockings" ]
     }
