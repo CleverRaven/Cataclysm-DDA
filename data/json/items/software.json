@@ -112,7 +112,7 @@
     "copy-from": "mod_software",
     "type": "TOOLMOD",
     "flags": [ "SOFTWARE" ],
-    "name": { "str": "homebrew compiler", "str_pl": "homebrew compilers" },
+    "name": { "str": "homebrew compiler" },
     "description": "A competently written compiler for a homebrew programming language, along with documentation for the language itself and a few useful libraries. It doesn't do any fancy optimization and lacks cross-platform compatibility, but you can write real code with it - albeit with a very simplistic language.",
     "qualities": [ [ "SOFTWARE_COMPILER", 1 ] ]
   },
