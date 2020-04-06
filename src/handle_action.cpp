@@ -1689,6 +1689,11 @@ bool game::handle_action()
             case ACTION_TIMEOUT:
                 if( check_safe_mode_allowed( false ) ) {
                     u.pause();
+                    const bool realtime_turn_passed_message =
+                                    get_option<bool>( "REALTIME_TURN_PASSED_MESSAGE" );
+                    if( realtime_turn_passed_message ) {
+                        add_msg( m_info, _("input timeout.") );
+                    }
                 }
                 break;
 
@@ -2478,7 +2483,17 @@ bool game::handle_action()
         }
     }
     if( act != ACTION_TIMEOUT ) {
-        u.mod_moves( -current_turn.moves_elapsed() );
+        const bool realtime_turn_pause_in_inventory_is_off =
+                !get_option<bool>( "REALTIME_TURN_PAUSE_IN_INVENTORY" );
+        if( realtime_turn_pause_in_inventory_is_off ) {
+            int moves_elapsed = current_turn.moves_elapsed();
+            const bool realtime_turn_passed_message =
+                            get_option<bool>( "REALTIME_TURN_PASSED_MESSAGE" );
+            if( realtime_turn_passed_message && g->u.get_speed() * 2 < moves_elapsed) {
+                add_msg( m_info, _("you passed %.1f seconds."), moves_elapsed / 100.0 );
+            }
+            u.mod_moves( -moves_elapsed );
+        }
     }
     gamemode->post_action( act );
 

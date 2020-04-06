@@ -1224,6 +1224,15 @@ void options_manager::add_options_general()
          0.0, 10.0, 0.0, 0.05
        );
 
+    add( "REALTIME_TURN_PASSED_MESSAGE", "general", translate_marker( "Realtime turn passed message" ),
+         translate_marker( "If true, when player passed turn, game will show message about it." ),
+         false
+       );
+    add( "REALTIME_TURN_PAUSE_IN_INVENTORY", "general", translate_marker( "Realtime turn pause in inventory" ),
+         translate_marker( "If true, monsters will not take turn during opening inventory or other menu." ),
+         false
+       );
+
     add_empty_line();
 
     add( "AUTOSAVE", "general", translate_marker( "Autosave" ),
