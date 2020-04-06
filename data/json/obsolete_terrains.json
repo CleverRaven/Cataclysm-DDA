@@ -305,7 +305,12 @@
       "house_north",
       "house_south",
       "house_east",
-      "house_west"
+      "house_west",
+      "rural_house",
+      "rural_house_north",
+      "rural_house_south",
+      "rural_house_east",
+      "rural_house_west"
     ]
   }
 ]
