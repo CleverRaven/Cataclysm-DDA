@@ -1,0 +1,10 @@
+[
+  {
+    "id": "emit_heater_vehicle_strong",
+    "type": "emit",
+    "field": "fd_hot_air_vehicle_heater",
+    "intensity": 3,
+    "qty": 3,
+    "chance": 100
+  }
+]

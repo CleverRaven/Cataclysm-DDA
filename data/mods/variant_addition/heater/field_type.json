@@ -1,0 +1,18 @@
+[
+  {
+    "id": "fd_hot_air_vehicle_heater",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "hot air (vehicle heater)", "sym": "&", "convection_temperature_mod": 30 },
+      { "color": "yellow", "convection_temperature_mod": 40 },
+      { "color": "red", "convection_temperature_mod": 50 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 100,
+    "outdoor_age_speedup": "100 minutes",
+    "priority": -1,
+    "half_life": "10 minutes",
+    "phase": "gas",
+    "display_field": true
+  }
+]

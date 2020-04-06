@@ -1,0 +1,57 @@
+[
+
+  {
+    "type": "GENERIC",
+    "id": "mountable_heater_strong",
+    "name": "strong vehicle heater",
+    "name_plural": "vehicle heaters",
+    "description": "A strongen vehicle-mounted area heater.",
+    "weight": "25000 g",
+    "to_hit": -4,
+    "color": "red",
+    "symbol": ";",
+    "material": [ "steel" ],
+    "volume": "15000 ml",
+    "bashing": 12,
+    "category": "veh_parts",
+    "price": 40000
+  },
+  
+  {
+    "result": "mountable_heater_strong",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 4 ],
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "large_space_heater", 2 ] ], [ [ "wire", 4 ] ] ]
+  },
+  {
+    "id": "mountable_heater_strong",
+    "type": "vehicle_part",
+    "name": "strong vehicle-mountable heater",
+    "item": "mountable_heater_strong",
+    "location": "center",
+    "symbol": ";",
+    "broken_symbol": ":",
+    "color": "red",
+    "durability": 400,
+    "//": "twice than normal heater",
+    "epower": -1400,
+    "bonus": 10,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ], [ "electronics", 2 ] ], "time": "2 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "1 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "EMITTER" ],
+    "emissions": [ "emit_heater_vehicle_strong" ],
+    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
+    "damage_reduction": { "all": 15 }
+  }
+]
