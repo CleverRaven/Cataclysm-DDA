@@ -121,7 +121,7 @@
     "special_attacks": [ [ "BOOMER_GLOW", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "BOOMER_GLOW", "NORMAL" ],
-    "upgrades": { "half_life": 17, "into": "dks_mon_crystal_hive" },
+    "upgrades": { "half_life": 19, "into": "dks_mon_crystal_hive" },
     "flags": [
       "SEES",
       "HEARS",
@@ -276,7 +276,7 @@
     "path_settings": { "max_dist": 2 },
     "special_attacks": [ { "id": "slam", "damage_max_instance": [ { "damage_type": "bash", "amount": 12, "armor_multiplier": 0.8 } ] } ],
     "death_drops": "mon_zombie_hulk_death_drops",
-    "upgrades": { "half_life": 17, "into": "dks_mon_stray_titan" },
+    "upgrades": { "half_life": 21, "into": "dks_mon_stray_titan" },
     "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
