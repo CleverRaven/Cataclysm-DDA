@@ -79,7 +79,7 @@
       { "item": "spike", "prob": 40, "count": [ 5, 10 ] },
       { "item": "nail", "prob": 60, "count": [ 5, 20 ] },
       { "item": "hinge", "prob": 60, "count": [ 5, 10 ] },
-      { "item": "tempered_glass_sheet", "prob": 30, "count": [ 5, 20] },
+      { "item": "tempered_glass_sheet", "prob": 30, "count": [ 5, 20 ] },
       { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] }
     ]
   },
@@ -236,7 +236,7 @@
       [ "denat_alcohol", 5 ],
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
-      [ "tempered_glass_sheet", 25],
+      [ "tempered_glass_sheet", 25 ],
       [ "rigid_plastic_sheet", 30 ]
     ]
   },
