@@ -439,6 +439,7 @@
     "default_faction": "stray",
     "looks_like": "mon_zombie_child_scorched",
     "bodytype": "human",
+    "categories": [ "ALIEN" ],
     "species": [ "BIOCRYSTAL", "HUMAN" ],
     "volume": "30000 ml",
     "weight": "40750 g",
