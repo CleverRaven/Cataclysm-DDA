@@ -2,12 +2,6 @@
 
 import json
 import argparse
-import os
-import copy
-import math
-import string
-from operator import itemgetter, attrgetter
-
 
 IGNORE_MISMATCH = ["id", "abstract"]
 

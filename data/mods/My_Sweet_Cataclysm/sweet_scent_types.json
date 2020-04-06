@@ -2,6 +2,6 @@
   {
     "type": "scent_type",
     "id": "sc_sugar",
-    "receptive_species": [ "MAMMAL", "INSECT", "FUNGUS" ]
+    "receptive_species": [ "MAMMAL", "INSECT", "FUNGUS", "MARSHMALLOW", "GUMMY", "CRACKER", "COOKIE", "CHEWGUM" ]
   }
 ]

@@ -19,7 +19,7 @@
     "time": "1 m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "soap", 1 ], [ "detergent", 1 ] ] ]
+    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -340,7 +340,7 @@
         [ "tobacco_raw", 50 ],
         [ "nicotine_liquid", 50 ]
       ],
-      [ [ "lye", 50 ] ]
+      [ [ "lye", 2 ], [ "lye_powder", 50 ] ]
     ]
   },
   {
@@ -753,18 +753,6 @@
   },
   {
     "type": "recipe",
-    "result": "soap_flakes",
-    "id_suffix": "fast_cut",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "cooking",
-    "time": "10 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "soap", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "poppysyrup",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -1035,7 +1023,7 @@
     "time": "3 h",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 5 ], [ "textbook_chemistry", 7 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "chem_ammonium_nitrate", 90 ] ], [ [ "diesel", 500 ], [ "gasoline", 500 ] ] ]
+    "components": [ [ [ "chem_ammonium_nitrate", 90 ] ], [ [ "diesel", 500 ], [ "biodiesel", 500 ], [ "gasoline", 500 ] ] ]
   },
   {
     "type": "recipe",

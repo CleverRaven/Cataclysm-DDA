@@ -23,8 +23,8 @@
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
+#include "magic_enchantment.h"
 #include "optional.h"
-#include "relic.h"
 #include "requirements.h"
 #include "safe_reference.h"
 #include "string_id.h"
@@ -32,18 +32,11 @@
 #include "units.h"
 #include "visitable.h"
 #include "gun_mode.h"
-#include "point.h"
 
 class item;
 class material_type;
 struct mtype;
 class faction;
-
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 class nc_color;
 class JsonIn;
 class JsonOut;
@@ -56,6 +49,8 @@ class gunmod_location;
 class Character;
 class player;
 class recipe;
+class relic;
+struct tripoint;
 struct itype;
 struct islot_comestible;
 
@@ -134,13 +129,17 @@ struct iteminfo {
         /** Whether to print a sign on positive values */
         bool bShowPlus;
 
+        /** Flag indicating decimal with three points of precision.  */
+        bool three_decimal;
+
         enum flags {
             no_flags = 0,
             is_decimal = 1 << 0, ///< Print as decimal rather than integer
-            no_newline = 1 << 1, ///< Do not follow with a newline
-            lower_is_better = 1 << 2, ///< Lower values are better for this stat
-            no_name = 1 << 3, ///< Do not print the name
-            show_plus = 1 << 4, ///< Use a + sign for positive values
+            is_three_decimal = 1 << 1, ///< Print as decimal with three points of precision
+            no_newline = 1 << 2, ///< Do not follow with a newline
+            lower_is_better = 1 << 3, ///< Lower values are better for this stat
+            no_name = 1 << 4, ///< Do not print the name
+            show_plus = 1 << 5, ///< Use a + sign for positive values
         };
 
         /**
@@ -173,10 +172,10 @@ class item : public visitable<item>
     public:
         item();
 
-        item( item && ) = default;
-        item( const item & ) = default;
-        item &operator=( item && ) = default;
-        item &operator=( const item & ) = default;
+        item( item && );
+        item( const item & );
+        item &operator=( item && );
+        item &operator=( const item & );
 
         explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
         explicit item( const itype *type, time_point turn = calendar::turn, int qty = -1 );
@@ -193,6 +192,8 @@ class item : public visitable<item>
 
         /** For constructing in-progress crafts */
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
+
+        ~item();
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
@@ -328,7 +329,7 @@ class item : public visitable<item>
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
                            unsigned int truncate = 0 ) const;
         std::string display_money( unsigned int quantity, unsigned int total,
-                                   cata::optional<unsigned int> selected = cata::nullopt ) const;
+                                   const cata::optional<unsigned int> &selected = cata::nullopt ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
@@ -397,8 +398,14 @@ class item : public visitable<item>
                        bool debug ) const;
         void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
+        void armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                    bool debug ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
+        void animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                bool debug ) const;
+        void armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
         void book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                         bool debug ) const;
         void battery_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -409,10 +416,18 @@ class item : public visitable<item>
                         bool debug ) const;
         void component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                              bool debug ) const;
+        void repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                          bool debug ) const;
         void disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                                bool debug ) const;
         void qualities_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                              bool debug ) const;
+        void bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                          bool debug ) const;
+        void combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                          bool debug ) const;
+        void contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                            bool debug ) const;
         void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
 
@@ -717,6 +732,13 @@ class item : public visitable<item>
          * @param mod How many charges should be removed.
          */
         void mod_charges( int mod );
+        /**
+         * Whether the item has to be removed as it has rotten away completely. May change the item as it calls process_temperature_rot()
+         * @param pnt The *absolute* position of the item in the world (see @ref map::getabs),
+         * used for rot calculation.
+         * @return true if the item has rotten away and should be removed, false otherwise.
+         */
+        bool has_rotten_away( const tripoint &pnt );
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -765,6 +787,9 @@ class item : public visitable<item>
 
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
+
+        /** whether an item is perishable (can rot), even if it is currently in a preserving container */
+        bool goes_bad_after_opening() const;
 
         /** Get the shelf life of the item*/
         time_duration get_shelf_life() const;
@@ -1133,7 +1158,7 @@ class item : public visitable<item>
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
-        float get_freeze_point() const; // Farenheit
+        float get_freeze_point() const; // Fahrenheit
 
         // If this is food, returns itself.  If it contains food, return that
         // contents.  Otherwise, returns nullptr.
@@ -1203,7 +1228,7 @@ class item : public visitable<item>
          * Set the snippet text (description) of this specific item, using the snippet library.
          * @see snippet_library.
          */
-        void set_snippet( const std::string &id );
+        void set_snippet( const snippet_id &id );
 
         bool operator<( const item &other ) const;
         /** List of all @ref components in printable form, empty if this item has
@@ -1367,7 +1392,7 @@ class item : public visitable<item>
         /*@}*/
 
         /**Does this item have the specified fault*/
-        bool has_fault( fault_id fault ) const;
+        bool has_fault( const fault_id &fault ) const;
 
         /**
          * @name Item properties
@@ -1953,21 +1978,23 @@ class item : public visitable<item>
 
         time_duration age() const;
         void set_age( const time_duration &age );
+        void legacy_fast_forward_time();
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
         int get_gun_ups_drain() const;
-        inline void set_old_owner( const faction_id temp_owner ) {
+        void validate_ownership() const;
+        inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;
         }
-        inline void remove_old_owner() {
+        inline void remove_old_owner() const {
             old_owner = faction_id::NULL_ID();
         }
-        inline void set_owner( const faction_id new_owner ) {
+        inline void set_owner( const faction_id &new_owner ) {
             owner = new_owner;
         }
         void set_owner( const Character &c );
-        inline void remove_owner() {
+        inline void remove_owner() const {
             owner = faction_id::NULL_ID();
         }
         faction_id get_owner() const;
@@ -2022,14 +2049,14 @@ class item : public visitable<item>
          *
          * @param parent Item to inherit from
          */
-        void inherit_flags( const item &parent );
+        void inherit_flags( const item &parent, const recipe &making );
 
         /**
          * @brief Inherit applicable flags from the given list of parent items.
          *
          * @param parents Items to inherit from
          */
-        void inherit_flags( const std::list<item> &parents );
+        void inherit_flags( const std::list<item> &parents, const recipe &making );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
@@ -2134,7 +2161,7 @@ class item : public visitable<item>
         cata::value_ptr<craft_data> craft_data_;
 
         // any relic data specific to this item
-        cata::optional<relic> relic_data;
+        cata::value_ptr<relic> relic_data;
     public:
         int charges;
         units::energy energy;      // Amount of energy currently stored in a battery
@@ -2143,7 +2170,7 @@ class item : public visitable<item>
         int burnt = 0;             // How badly we're burnt
         int poison = 0;            // How badly poisoned is it?
         int frequency = 0;         // Radio frequency
-        cata::optional<std::string> snippet_id; // Associated dynamic text snippet id.
+        snippet_id snip_id = snippet_id::NULL_ID(); // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
@@ -2177,9 +2204,9 @@ class item : public visitable<item>
          */
         phase_id current_phase = static_cast<phase_id>( 0 );
         // The faction that owns this item.
-        faction_id owner = faction_id::NULL_ID();
+        mutable faction_id owner = faction_id::NULL_ID();
         // The faction that previously owned this item
-        faction_id old_owner = faction_id::NULL_ID();
+        mutable faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
         light_emission light = nolight;
 

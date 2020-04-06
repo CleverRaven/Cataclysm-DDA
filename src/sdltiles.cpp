@@ -57,13 +57,14 @@
 #include "json.h"
 #include "optional.h"
 #include "point.h"
+#include "ui_manager.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
 #endif
 
 #if defined(_WIN32)
-#   if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
+#   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
 #       include "platform_win.h"
 #   endif
 #   include <shlwapi.h>
@@ -207,8 +208,8 @@ class FontFallbackList : public Font
 };
 
 static std::unique_ptr<FontFallbackList> font;
-static std::unique_ptr<Font> map_font;
-static std::unique_ptr<Font> overmap_font;
+static std::unique_ptr<FontFallbackList> map_font;
+static std::unique_ptr<FontFallbackList> overmap_font;
 
 static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
@@ -379,6 +380,8 @@ static void WinCreate()
 #if !defined(__ANDROID__)
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
+        fullscreen = true;
+        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "windowedbl" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         fullscreen = true;
@@ -388,7 +391,7 @@ static void WinCreate()
     }
 #endif
 
-    int display = get_option<int>( "DISPLAY" );
+    int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
     if( display < 0 || display >= SDL_GetNumVideoDisplays() ) {
         display = 0;
     }
@@ -399,6 +402,12 @@ static void WinCreate()
     SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
     SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 6 );
     SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
+
+    // Fix Back button crash on Android 9
+#if defined(SDL_HINT_ANDROID_TRAP_BACK_BUTTON )
+    const bool trap_back_button = get_option<bool>( "ANDROID_TRAP_BACK_BUTTON" );
+    SDL_SetHint( SDL_HINT_ANDROID_TRAP_BACK_BUTTON, trap_back_button ? "1" : "0" );
+#endif
 
     // Prevent mouse|touch input confusion
 #if defined(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH)
@@ -422,7 +431,8 @@ static void WinCreate()
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.
-    if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP ) {
+    if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP
+        || window_flags & SDL_WINDOW_MAXIMIZED ) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
         // Ignore previous values, use the whole window, but nothing more.
         TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
@@ -502,7 +512,8 @@ static void WinCreate()
 
 #if defined(__ANDROID__)
     // TODO: Not too sure why this works to make fullscreen on Android behave. :/
-    if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP ) {
+    if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP
+        || window_flags & SDL_WINDOW_MAXIMIZED ) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
     }
 
@@ -919,23 +930,6 @@ static void try_sdl_update()
 void set_displaybuffer_rendertarget()
 {
     SetRenderTarget( renderer, display_buffer );
-}
-
-// Populate a map with the available video displays and their name
-static void find_videodisplays()
-{
-    std::vector< std::tuple<int, std::string> > displays;
-
-    int numdisplays = SDL_GetNumVideoDisplays();
-    for( int i = 0 ; i < numdisplays ; i++ ) {
-        displays.push_back( std::make_tuple( i, std::string( SDL_GetDisplayName( i ) ) ) );
-    }
-
-    int current_display = get_option<int>( "DISPLAY" );
-    get_options().add( "DISPLAY", "graphics", translate_marker( "Display" ),
-                       translate_marker( "Sets which video display will be used to show the game.  Requires restart." ),
-                       displays, current_display, 0, options_manager::COPT_CURSES_HIDE, true
-                     );
 }
 
 // line_id is one of the LINE_*_C constants
@@ -1769,7 +1763,7 @@ bool handle_resize( int w, int h )
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
         SetupRenderTarget();
         game_ui::init_ui();
-
+        ui_manager::screen_resized();
         return true;
     }
     return false;
@@ -2831,6 +2825,9 @@ static void CheckMessages()
 #endif
 
     last_input = input_event();
+
+    bool need_redraw = false;
+
     while( SDL_PollEvent( &ev ) ) {
         switch( ev.type ) {
             case SDL_WINDOWEVENT:
@@ -2861,9 +2858,14 @@ static void CheckMessages()
                         break;
 #endif
                     case SDL_WINDOWEVENT_SHOWN:
+                    case SDL_WINDOWEVENT_MINIMIZED:
+                    case SDL_WINDOWEVENT_FOCUS_GAINED:
+                        break;
                     case SDL_WINDOWEVENT_EXPOSED:
-                    case SDL_WINDOWEVENT_RESTORED:
+                        need_redraw = true;
                         needupdate = true;
+                        break;
+                    case SDL_WINDOWEVENT_RESTORED:
 #if defined(__ANDROID__)
                         needs_sdl_surface_visibility_refresh = true;
                         if( android_is_hardware_keyboard_available() ) {
@@ -2878,6 +2880,10 @@ static void CheckMessages()
                     default:
                         break;
                 }
+                break;
+            case SDL_RENDER_TARGETS_RESET:
+                need_redraw = true;
+                needupdate = true;
                 break;
             case SDL_KEYDOWN: {
 #if defined(__ANDROID__)
@@ -3203,6 +3209,16 @@ static void CheckMessages()
             break;
         }
     }
+    if( need_redraw ) {
+        // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
+        // when restoring the window after system sleep, rather than immediately
+        // on focus gain. This seems to mess up the first redraw and
+        // causes black screen that lasts ~0.5 seconds before the screen
+        // contents are redrawn in the following code.
+        window_dimensions dim = get_window_dimensions( catacurses::stdscr );
+        ui_manager::invalidate( rectangle( point_zero, dim.window_size_pixel ) );
+        ui_manager::redraw();
+    }
     if( needupdate ) {
         try_sdl_update();
     }
@@ -3293,6 +3309,7 @@ static void save_font_list()
     try {
         std::set<std::string> bitmap_fonts;
         write_to_file( PATH_INFO::fontlist(), [&]( std::ostream & fout ) {
+            font_folder_list( fout, PATH_INFO::user_font(), bitmap_fonts );
             font_folder_list( fout, PATH_INFO::fontdir(), bitmap_fonts );
 
 #if defined(_WIN32)
@@ -3413,7 +3430,7 @@ static void init_term_size_and_scaling_factor()
 
         int max_width, max_height;
 
-        int current_display_id = get_option<int>( "DISPLAY" );
+        int current_display_id = std::stoi( get_option<std::string>( "DISPLAY" ) );
         SDL_DisplayMode current_display;
 
         if( SDL_GetDesktopDisplayMode( current_display_id, &current_display ) == 0 ) {
@@ -3499,6 +3516,11 @@ void catacurses::init_interface()
     last_input = input_event();
     inputdelay = -1;
 
+    InitSDL();
+
+    get_options().init();
+    get_options().load();
+
     font_loader fl;
     fl.load();
     fl.fontwidth = get_option<int>( "FONT_WIDTH" );
@@ -3513,10 +3535,6 @@ void catacurses::init_interface()
     fl.overmap_fontheight = get_option<int>( "OVERMAP_FONT_HEIGHT" );
     ::fontwidth = fl.fontwidth;
     ::fontheight = fl.fontheight;
-
-    InitSDL();
-
-    find_videodisplays();
 
     init_term_size_and_scaling_factor();
 
@@ -3543,10 +3561,10 @@ void catacurses::init_interface()
     // Reset the font pointer
     font = std::make_unique<FontFallbackList>( fl.fontwidth, fl.fontheight,
             fl.typeface, fl.fontsize, fl.fontblending );
-    map_font = Font::load_font( fl.map_typeface, fl.map_fontsize, fl.map_fontwidth, fl.map_fontheight,
-                                fl.fontblending );
-    overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
-                                    fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
+    map_font = std::make_unique<FontFallbackList>( fl.map_fontwidth, fl.map_fontheight,
+               fl.map_typeface, fl.map_fontsize, fl.fontblending );
+    overmap_font = std::make_unique<FontFallbackList>( fl.overmap_fontwidth, fl.overmap_fontheight,
+                   fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
@@ -3572,13 +3590,18 @@ std::unique_ptr<Font> Font::load_font( const std::string &typeface, int fontsize
 {
     if( ends_with( typeface, ".bmp" ) || ends_with( typeface, ".png" ) ) {
         // Seems to be an image file, not a font.
-        // Try to load as bitmap font.
+        // Try to load as bitmap font from user font dir, then from font dir.
         try {
             return std::unique_ptr<Font>( std::make_unique<BitmapFont>( fontwidth, fontheight,
-                                          PATH_INFO::fontdir() + typeface ) );
+                                          PATH_INFO::user_font() + typeface ) );
         } catch( std::exception &err ) {
-            dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
-            // Continue to load as truetype font
+            try {
+                return std::unique_ptr<Font>( std::make_unique<BitmapFont>( fontwidth, fontheight,
+                                              PATH_INFO::fontdir() + typeface ) );
+            } catch( std::exception &err ) {
+                dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
+                // Continue to load as truetype font
+            }
         }
     }
     // Not loaded as bitmap font (or it failed), try to load as truetype
@@ -3685,45 +3708,60 @@ void rescale_tileset( int size )
     game_ui::init_ui();
 }
 
+window_dimensions get_window_dimensions( const catacurses::window &win )
+{
+    cata_cursesport::WINDOW *const pwin = win.get<cata_cursesport::WINDOW>();
+
+    window_dimensions dim;
+    if( use_tiles && g && win == g->w_terrain ) {
+        // tiles might have different dimensions than standard font
+        dim.scaled_font_size.x = tilecontext->get_tile_width();
+        dim.scaled_font_size.y = tilecontext->get_tile_height();
+    } else if( map_font && g && win == g->w_terrain ) {
+        // map font (if any) might differ from standard font
+        dim.scaled_font_size.x = map_font->fontwidth;
+        dim.scaled_font_size.y = map_font->fontheight;
+    } else if( overmap_font && g && win == g->w_overmap ) {
+        dim.scaled_font_size.x = overmap_font->fontwidth;
+        dim.scaled_font_size.y = overmap_font->fontheight;
+    } else {
+        dim.scaled_font_size.x = fontwidth;
+        dim.scaled_font_size.y = fontheight;
+    }
+
+    // multiplied by the user's specified scaling factor regardless of whether tiles are in use
+    dim.scaled_font_size *= get_scaling_factor();
+
+    dim.window_pos_cell = pwin->pos;
+    dim.window_size_cell.x = pwin->width;
+    dim.window_size_cell.y = pwin->height;
+
+    // the window position is *always* in standard font dimensions!
+    dim.window_pos_pixel = point( dim.window_pos_cell.x * fontwidth,
+                                  dim.window_pos_cell.y * fontheight );
+    // But the size of the window is in the font dimensions of the window.
+    dim.window_size_pixel.x = dim.window_size_cell.x * dim.scaled_font_size.x;
+    dim.window_size_pixel.y = dim.window_size_cell.y * dim.scaled_font_size.y;
+
+    return dim;
+}
+
 cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
 {
     if( !coordinate_input_received ) {
         return cata::nullopt;
     }
 
-    cata_cursesport::WINDOW *const capture_win = ( capture_win_.get() ? capture_win_ :
-            g->w_terrain ).get<cata_cursesport::WINDOW>();
+    const catacurses::window &capture_win = capture_win_ ? capture_win_ : g->w_terrain;
+    const window_dimensions dim = get_window_dimensions( capture_win );
 
-    // this contains the font dimensions of the capture_win,
-    // not necessarily the global standard font dimensions.
-    int fw = fontwidth;
-    int fh = fontheight;
-    // tiles might have different dimensions than standard font
-    if( use_tiles && capture_win == g->w_terrain ) {
-        fw = tilecontext->get_tile_width();
-        fh = tilecontext->get_tile_height();
-        // add_msg( m_info, "tile map fw %d fh %d", fw, fh);
-    } else if( map_font && capture_win == g->w_terrain ) {
-        // map font (if any) might differ from standard font
-        fw = map_font->fontwidth;
-        fh = map_font->fontheight;
-    } else if( overmap_font && capture_win == g->w_overmap ) {
-        fw = overmap_font->fontwidth;
-        fh = overmap_font->fontheight;
-    }
-
-    // multiplied by the user's specified scaling factor regardless of whether tiles are in use
-    fw = fw * get_scaling_factor();
-    fh = fh * get_scaling_factor();
-
-    // Translate mouse coordinates to map coordinates based on tile size,
-    // the window position is *always* in standard font dimensions!
-    const point win_min( capture_win->pos.x * fontwidth, capture_win->pos.y * fontheight );
-    // But the size of the window is in the font dimensions of the window.
-    const point win_size( capture_win->width * fw, capture_win->height * fh );
+    const int &fw = dim.scaled_font_size.x;
+    const int &fh = dim.scaled_font_size.y;
+    const point &win_min = dim.window_pos_pixel;
+    const point &win_size = dim.window_size_pixel;
     const point win_max = win_min + win_size;
-    // add_msg( m_info, "win_ left %d top %d right %d bottom %d", win_left,win_top,win_right,win_bottom);
-    // add_msg( m_info, "coordinate_ x %d y %d", coordinate_x, coordinate_y);
+
+    // Translate mouse coordinates to map coordinates based on tile size
     // Check if click is within bounds of the window we care about
     const rectangle win_bounds( win_min, win_max );
     if( !win_bounds.contains_inclusive( coordinate ) ) {
@@ -3746,7 +3784,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         p = view_offset + selected;
     } else {
         const point selected( screen_pos.x / fw, screen_pos.y / fh );
-        p = view_offset + selected - point( capture_win->width / 2, capture_win->height / 2 );
+        p = view_offset + selected - dim.window_size_cell / 2;
     }
 
     return tripoint( p, g->get_levz() );
@@ -3770,7 +3808,7 @@ int get_scaling_factor()
 BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface_path )
     : Font( w, h )
 {
-    dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "]." ;
+    dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "].";
     SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
     assert( asciiload );
     if( asciiload->w * asciiload->h < ( fontwidth * fontheight * 256 ) ) {
@@ -3866,24 +3904,30 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     : Font( w, h )
     , fontblending( fontblending )
 {
+    const std::string original_typeface = typeface;
     int faceIndex = 0;
     if( const cata::optional<std::string> sysfnt = find_system_font( typeface, faceIndex ) ) {
         typeface = *sysfnt;
-        dbg( D_INFO ) << "Using font [" + typeface + "]." ;
+        dbg( D_INFO ) << "Using font [" + typeface + "] found in the system.";
+    }
+    if( !file_exist( typeface ) ) {
+        faceIndex = 0;
+        typeface = PATH_INFO::user_font() + original_typeface + ".ttf";
+        dbg( D_INFO ) << "Using compatible font [" + typeface + "] found in user font dir.";
     }
     //make fontdata compatible with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + typeface + ".ttf";
-        dbg( D_INFO ) << "Using compatible font [" + typeface + "]." ;
+        typeface = PATH_INFO::fontdir() + original_typeface + ".ttf";
+        dbg( D_INFO ) << "Using compatible font [" + typeface + "] found in font dir.";
     }
     //different default font with wincurse
     if( !file_exist( typeface ) ) {
         faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + "fixedsys.ttf";
-        dbg( D_INFO ) << "Using fallback font [" + typeface + "]." ;
+        typeface = PATH_INFO::fontdir() + "unifont.ttf";
+        dbg( D_INFO ) << "Using fallback font [" + typeface + "] found in font dir.";
     }
-    dbg( D_INFO ) << "Loading truetype font [" + typeface + "]." ;
+    dbg( D_INFO ) << "Loading truetype font [" + typeface + "].";
     if( fontsize <= 0 ) {
         fontsize = fontheight - 1;
     }

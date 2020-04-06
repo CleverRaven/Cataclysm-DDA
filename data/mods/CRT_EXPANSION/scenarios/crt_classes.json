@@ -289,7 +289,7 @@
     "type": "profession",
     "ident": "crt_guard",
     "name": "CRIT Enforcer",
-    "description": "STR 10 recommended.  You were a granted the authority of a U.S Marshal.  As a guard, others joked that you were nothing more than a mall cop with a fancy badge.  Knowingly, you laughed it off as the you donned on your equipment and deployed.  While you mainly spent time at base, you honed your skills and recieved special implants to do your job easier at the low low cost of serving as a \"guard\" forever.  Time to do your job, mission parameters look like they've expanded quite a bit though.",
+    "description": "STR 10 recommended.  You were a granted the authority of a U.S Marshal.  As a guard, others joked that you were nothing more than a mall cop with a fancy badge.  Knowingly, you laughed it off as the you donned on your equipment and deployed.  While you mainly spent time at base, you honed your skills and received special implants to do your job easier at the low low cost of serving as a \"guard\" forever.  Time to do your job, mission parameters look like they've expanded quite a bit though.",
     "traits": [ "MARTIAL_CRT", "PROF_FED" ],
     "CBMs": [ "bio_razors", "bio_sunglasses", "bio_ears", "bio_speed", "bio_str_enhancer" ],
     "points": 12,

@@ -10,13 +10,33 @@
     "id": "avatar_kills",
     "type": "event_transformation",
     "event_type": "character_kills_monster",
-    "value_constraints": { "killer": { "equals_statistic": "avatar_id" } }
+    "value_constraints": { "killer": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "killer" ]
+  },
+  {
+    "id": "avatar_species_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_kills",
+    "new_fields": { "species": { "species_of_monster": "victim_type" } },
+    "drop_fields": [ "victim_type" ]
+  },
+  {
+    "id": "avatar_zombie_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": "ZOMBIE" } }
   },
   {
     "id": "num_avatar_kills",
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_kills"
+  },
+  {
+    "id": "num_avatar_zombie_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_zombie_kills"
   },
   {
     "id": "score_kills",

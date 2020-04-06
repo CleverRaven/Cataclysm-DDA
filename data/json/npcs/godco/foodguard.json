@@ -13,7 +13,7 @@
   {
     "type": "npc_class",
     "id": "NC_godco_food_guard",
-    "name": "food guard",
+    "name": { "str": "food guard" },
     "job_description": "I'm guarding the food.",
     "common": false,
     "bonus_str": { "rng": [ -1, 2 ] },
@@ -228,7 +228,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_food_guard_books",
-    "dynamic_line": "It doesn't matter, I can read anything.  But mystery books were almost my favourite.  I wish I had more of them.",
+    "dynamic_line": "It doesn't matter, I can read anything.  But mystery books were almost my favorite.  I wish I had more of them.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_food_guard_1" },
       { "text": "I can get you some mystery novels.", "topic": "TALK_MISSION_LIST" }
@@ -243,7 +243,7 @@
   {
     "id": "MISSION_GODCO_FOOD_GUARD_BOOK",
     "type": "mission_definition",
-    "name": "Busy While Work",
+    "name": { "str": "Busy While Work" },
     "description": "Find 3 mystery novels.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,

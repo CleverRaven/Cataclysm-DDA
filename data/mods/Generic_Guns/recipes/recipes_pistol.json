@@ -1,0 +1,113 @@
+[
+  {
+    "result": "reloaded_tiny_pistol_jhp",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "gun", 1 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_pistol", 2 ], [ "recipe_bullets", 3 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "req_pistol_tiny", 1 ], [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [ [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ], [ "gunpowder_shotgun", 2 ] ] ]
+  },
+  {
+    "result": "bp_tiny_pistol_jhp",
+    "type": "recipe",
+    "copy-from": "reloaded_tiny_pistol_jhp",
+    "components": [ [ [ "chem_black_powder", 2 ] ] ]
+  },
+  {
+    "result": "reloaded_tiny_pistol_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_tiny_pistol_jhp",
+    "using": [ [ "req_pistol_tiny", 1 ], [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [ [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ] ], [ [ "copper", 1 ] ] ]
+  },
+  {
+    "result": "bp_tiny_pistol_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_tiny_pistol_ball",
+    "components": [ [ [ "chem_black_powder", 2 ] ], [ [ "copper", 1 ] ] ]
+  },
+  {
+    "result": "reloaded_pistol_jhp",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_pistol", 2 ], [ "recipe_bullets", 3 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "req_pistol", 1 ], [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [ [ [ "gunpowder", 4 ], [ "gunpowder_pistol", 4 ], [ "gunpowder_shotgun", 4 ] ] ]
+  },
+  {
+    "result": "bp_pistol_jhp",
+    "type": "recipe",
+    "copy-from": "reloaded_pistol_jhp",
+    "components": [ [ [ "chem_black_powder", 4 ] ] ]
+  },
+  {
+    "result": "reloaded_pistol_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_pistol_jhp",
+    "using": [ [ "req_pistol", 1 ], [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "gunpowder", 4 ], [ "gunpowder_pistol", 4 ], [ "gunpowder_shotgun", 4 ] ],
+      [ [ "copper", 1 ], [ "pistol_tiny_casing", 1 ] ]
+    ]
+  },
+  {
+    "result": "bp_pistol_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_pistol_ball",
+    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ], [ "pistol_tiny_casing", 1 ] ] ]
+  },
+  {
+    "result": "reloaded_pistol_magnum_jhp",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 3 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "req_pistol_magnum", 1 ], [ "bullet_forming", 5 ], [ "ammo_bullet", 5 ] ],
+    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_rifle", 6 ], [ "gunpowder_magnum_pistol", 6 ] ] ]
+  },
+  {
+    "result": "bp_pistol_magnum_jhp",
+    "type": "recipe",
+    "copy-from": "reloaded_pistol_magnum_jhp",
+    "components": [ [ [ "chem_black_powder", 6 ] ] ]
+  },
+  {
+    "result": "reloaded_pistol_magnum_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_pistol_magnum_jhp",
+    "using": [ [ "req_pistol_magnum", 1 ], [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
+    "components": [
+      [ [ "gunpowder", 6 ], [ "gunpowder_rifle", 6 ], [ "gunpowder_magnum_pistol", 6 ] ],
+      [ [ "copper", 2 ], [ "pistol_magnum_casing", 1 ] ]
+    ]
+  },
+  {
+    "result": "bp_pistol_magnum_ball",
+    "type": "recipe",
+    "copy-from": "reloaded_pistol_magnum_ball",
+    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "copper", 2 ], [ "pistol_magnum_casing", 1 ] ] ]
+  }
+]

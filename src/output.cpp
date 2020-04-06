@@ -32,6 +32,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "point.h"
 #include "wcwidth.h"
@@ -210,6 +211,12 @@ void print_colored_text( const catacurses::window &w, const point &p, nc_color &
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      nc_color base_color, const std::string &text )
 {
+    std::string sText = trim_by_length( text, width );
+    print_colored_text( w, begin, base_color, base_color, sText );
+}
+
+std::string trim_by_length( const std::string  &text, int width )
+{
     std::string sText;
     if( utf8_width( remove_color_tags( text ) ) > width ) {
 
@@ -251,8 +258,7 @@ void trim_and_print( const catacurses::window &w, const point &begin, int width,
     } else {
         sText = text;
     }
-
-    print_colored_text( w, begin, base_color, base_color, sText );
+    return sText;
 }
 
 int print_scrollable( const catacurses::window &w, int begin_line, const std::string &text,
@@ -332,44 +338,93 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
     return textformatted.size();
 }
 
-void multipage( const catacurses::window &w, const std::vector<std::string> &text,
-                const std::string &caption, int begin_y )
+void scrollable_text( const catacurses::window &w, const std::string &title,
+                      const std::string &text )
 {
-    int height = getmaxy( w );
-    int width = getmaxx( w );
+    scrollable_text( [&w]() {
+        return w;
+    }, title, text );
+}
 
-    //Do not erase the current screen if it's not first line of the text
-    if( begin_y == 0 ) {
+void scrollable_text( const std::function<catacurses::window()> &init_window,
+                      const std::string &title, const std::string &text )
+{
+    constexpr int text_x = 1;
+    constexpr int text_y = 1;
+
+    input_context ctxt( "SCROLLABLE_TEXT" );
+    ctxt.register_action( "UP" );
+    ctxt.register_action( "DOWN" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    catacurses::window w;
+    int width = 0;
+    int height = 0;
+    int text_w = 0;
+    int text_h = 0;
+    std::vector<std::string> lines;
+    int beg_line = 0;
+    int max_beg_line = 0;
+
+    ui_adaptor ui;
+    const auto screen_resize_cb = [&]( ui_adaptor & ui ) {
+        w = init_window();
+
+        width = getmaxx( w );
+        height = getmaxy( w );
+        text_w = std::max( 0, width - 2 );
+        text_h = std::max( 0, height - 2 );
+
+        lines = foldstring( text, text_w );
+        max_beg_line = std::max( 0, static_cast<int>( lines.size() ) - text_h );
+
+        ui.position_from_window( w );
+    };
+    screen_resize_cb( ui );
+    ui.on_screen_resize( screen_resize_cb );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-    }
+        draw_border( w, BORDER_COLOR, title, c_black_white );
+        for( int line = beg_line, pos_y = text_y; line < std::min<int>( beg_line + text_h, lines.size() );
+             ++line, ++pos_y ) {
+            nc_color dummy = c_white;
+            print_colored_text( w, point( text_x, pos_y ), dummy, dummy, lines[line] );
+        }
+        scrollbar().offset_x( width - 1 ).offset_y( text_y ).content_size( lines.size() )
+        .viewport_pos( std::min( beg_line, max_beg_line ) ).viewport_size( text_h ).apply( w );
+        wrefresh( w );
+    } );
 
-    /* TODO:
-        issue:     # of lines in the paragraph > height -> inf. loop;
-        solution:  split this paragraph in two pieces;
-    */
-    for( int i = 0; i < static_cast<int>( text.size() ); i++ ) {
-        if( begin_y == 0 && !caption.empty() ) {
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            begin_y = fold_and_print( w, point( 1, 0 ), width - 2, c_white, caption ) + 1;
+    std::string action;
+    do {
+        ui_manager::redraw();
+
+        action = ctxt.handle_input();
+        if( action == "UP" ) {
+            if( beg_line > 0 ) {
+                --beg_line;
+            }
+        } else if( action == "DOWN" ) {
+            if( beg_line < max_beg_line ) {
+                ++beg_line;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( beg_line > text_h ) {
+                beg_line -= text_h;
+            } else {
+                beg_line = 0;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            // always scroll an entire page's length
+            if( beg_line < max_beg_line ) {
+                beg_line += text_h;
+            }
         }
-        std::vector<std::string> next_paragraph = foldstring( text[i], width - 2 );
-        if( begin_y + static_cast<int>( next_paragraph.size() ) > height - ( ( i + 1 ) < static_cast<int>
-                ( text.size() ) ? 1 : 0 ) ) {
-            // Next page
-            i--;
-            center_print( w, height - 1, c_light_gray, _( "Press any key for more…" ) );
-            wrefresh( w );
-            catacurses::refresh();
-            inp_mngr.wait_for_any_key();
-            werase( w );
-            begin_y = 0;
-        } else {
-            begin_y += fold_and_print( w, point( 1, begin_y ), width - 2, c_white, text[i] ) + 1;
-        }
-    }
-    wrefresh( w );
-    catacurses::refresh();
-    inp_mngr.wait_for_any_key();
+    } while( action != "CONFIRM" && action != "QUIT" );
 }
 
 // returns single string with left aligned name and right aligned value
@@ -544,12 +599,8 @@ void draw_border_below_tabs( const catacurses::window &w, nc_color border_color 
 bool query_yn( const std::string &text )
 {
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-
-    const auto allow_key = [force_uc]( const input_event & evt ) {
-        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
-               // std::lower is undefined outside unsigned char range
-               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
-    };
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+                            : input_context::allow_all_keys;
 
     return query_popup()
            .context( "YESNO" )
@@ -612,29 +663,13 @@ int popup( const std::string &text, PopupFlags flags )
         pop.on_top( true );
     }
 
-    if( flags & PF_NO_WAIT ) {
-        pop.show();
-        return UNKNOWN_UNICODE;
+    pop.context( "POPUP_WAIT" );
+    const auto &res = pop.query();
+    if( res.evt.type == CATA_INPUT_KEYBOARD ) {
+        return res.evt.get_first_input();
     } else {
-        pop.context( "POPUP_WAIT" );
-        const auto &res = pop.query();
-        if( res.evt.type == CATA_INPUT_KEYBOARD ) {
-            return res.evt.get_first_input();
-        } else {
-            return UNKNOWN_UNICODE;
-        }
+        return UNKNOWN_UNICODE;
     }
-}
-
-void popup_status( const char *const title, const std::string &mes )
-{
-    std::string text;
-    if( !test_mode && title != nullptr ) {
-        text += title;
-        text += "\n";
-    }
-
-    popup( text + mes, PF_NO_WAIT );
 }
 
 //note that passing in iteminfo instances with sType == "DESCRIPTION" does special things
@@ -720,21 +755,23 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
                               // NOLINTNEXTLINE(cata-text-style): literal comma
-                              _( "Separate multiple items with ," ) );
+                              _( "Separate multiple items with [<color_yellow>,</color>]." ) );
     starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
                                   //~ An example of how to separate multiple items with a comma when filtering items.
                                   _( "Example: back,flash,aid, ,band" ) ); // NOLINT(cata-text-style): literal comma
 
     if( type == item_filter_type::FILTER ) {
         starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                                  _( "To exclude items, place - in front." ) );
+                                  _( "To exclude items, place [<color_yellow>-</color>] in front." ) );
         starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
                                       //~ An example of how to exclude items with - when filtering items.
                                       _( "Example: -pipe,-chunk,-steel" ) );
     }
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                              _( "Search [c]ategory, [m]aterial, [q]uality, [n]otes or [d]isassembled components:" ) );
+                              _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
+                                 "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes or "
+                                 "[<color_yellow>d</color>]isassembled components." ) );
     fold_and_print( win, point( 1, starty ), len, c_white,
                     //~ An example of how to filter items based on category or material.
                     _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
@@ -817,12 +854,22 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
 input_event draw_item_info( const catacurses::window &win, item_info_data &data )
 {
+    return draw_item_info( [&]() -> catacurses::window {
+        return win;
+    }, data );
+}
+
+input_event draw_item_info( const std::function<catacurses::window()> &init_window,
+                            item_info_data &data )
+{
     std::string buffer;
     int line_num = data.use_full_win || data.without_border ? 0 : 1;
     if( !data.get_item_name().empty() ) {
         buffer += data.get_item_name() + "\n";
     }
-    if( data.get_item_name() != data.get_type_name() && !data.get_type_name().empty() ) {
+    // If type name is set, and not already contained in item name, output it too
+    if( !data.get_type_name().empty() &&
+        data.get_item_name().find( data.get_type_name() ) == std::string::npos ) {
         buffer += data.get_type_name() + "\n";
     }
     for( unsigned int i = 0; i < data.padding; i++ ) {
@@ -832,62 +879,92 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
     buffer += format_item_info( data.get_item_display(), data.get_item_compare() );
 
     const int b = data.use_full_win ? 0 : ( data.without_border ? 1 : 2 );
-    const int width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
-    const int height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
 
-    input_event result;
-    while( true ) {
-        int iLines = 0;
-        if( !buffer.empty() ) {
-            const auto vFolded = foldstring( buffer, width - 1 );
-            iLines = vFolded.size();
+    catacurses::window win;
+    int width = 0;
+    int height = 0;
+    std::vector<std::string> folded;
 
-            if( *data.ptr_selected < 0 ) {
-                *data.ptr_selected = 0;
-            } else if( iLines < height ) {
-                *data.ptr_selected = 0;
-            } else if( *data.ptr_selected >= iLines - height ) {
-                *data.ptr_selected = iLines - height;
-            }
-
-            fold_and_print_from( win, point( b, line_num ), width - 1, *data.ptr_selected, c_light_gray,
-                                 buffer );
-
-            draw_scrollbar( win, *data.ptr_selected, height, iLines,
-                            point( data.scrollbar_left ? 0 : getmaxx( win ) - 1,
-                                   ( data.without_border && data.use_full_win ? 0 : 1 ) ), BORDER_COLOR, true );
+    const auto init = [&]() {
+        win = init_window();
+        width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
+        height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
+        folded = foldstring( buffer, width - 1 );
+        if( *data.ptr_selected < 0 ) {
+            *data.ptr_selected = 0;
+        } else if( height < 0 || folded.size() < static_cast<size_t>( height ) ) {
+            *data.ptr_selected = 0;
+        } else if( static_cast<size_t>( *data.ptr_selected + height ) >= folded.size() ) {
+            *data.ptr_selected = static_cast<int>( folded.size() ) - height;
         }
+    };
 
+    const auto redraw = [&]() {
+        werase( win );
+        for( int line = 0; line < height; ++line ) {
+            const int idx = *data.ptr_selected + line;
+            if( idx >= 0 && static_cast<size_t>( idx ) < folded.size() ) {
+                if( folded[idx] == "--" ) {
+                    for( int x = 0; x < width; x++ ) {
+                        mvwputch( win, point( b + x, line_num + line ), c_dark_gray, LINE_OXOX );
+                    }
+                } else {
+                    trim_and_print( win, point( b, line_num + line ), width - 1, c_light_gray, folded[idx] );
+                }
+            }
+        }
+        draw_scrollbar( win, *data.ptr_selected, height, folded.size(),
+                        point( data.scrollbar_left ? 0 : getmaxx( win ) - 1,
+                               ( data.without_border && data.use_full_win ? 0 : 1 ) ), BORDER_COLOR, true );
         if( !data.without_border ) {
             draw_custom_border( win, buffer.empty() );
-            wrefresh( win );
         }
+        wrefresh( win );
+    };
 
-        if( data.without_getch ) {
-            break;
-        }
-
-        // TODO: use input context
-        result = inp_mngr.get_input_event();
-        const int ch = static_cast<int>( result.get_first_input() );
-        if( data.handle_scrolling && ch == KEY_PPAGE ) {
-            ( *data.ptr_selected )--;
-            werase( win );
-        } else if( data.handle_scrolling && ch == KEY_NPAGE ) {
-            ( *data.ptr_selected )++;
-            werase( win );
-        } else if( *data.ptr_selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
-            result = input_event( static_cast<int>( '\n' ), CATA_INPUT_KEYBOARD );
-            break;
-        } else if( *data.ptr_selected == KEY_LEFT ) {
-            result = input_event( static_cast<int>( ' ' ), CATA_INPUT_KEYBOARD );
-            break;
-        } else {
-            break;
-        }
+    if( data.without_getch ) {
+        init();
+        redraw();
+        return input_event();
     }
 
-    return result;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        init();
+        ui.position_from_window( win );
+    } );
+    ui.mark_resize();
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        redraw();
+    } );
+
+    input_context ctxt;
+    if( data.handle_scrolling ) {
+        ctxt.register_action( "PAGE_UP" );
+        ctxt.register_action( "PAGE_DOWN" );
+    }
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "ANY_INPUT" );
+
+    std::string action;
+    do {
+        ui_manager::redraw();
+        action = ctxt.handle_input();
+        if( data.handle_scrolling && action == "PAGE_UP" ) {
+            if( *data.ptr_selected > 0 ) {
+                --*data.ptr_selected;
+            }
+        } else if( data.handle_scrolling && action == "PAGE_DOWN" ) {
+            if( *data.ptr_selected < 0 ||
+                ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
+                ++*data.ptr_selected;
+            }
+        }
+    } while( action != "QUIT" && action != "CONFIRM" && action != "ANY_INPUT" );
+
+    return ctxt.get_raw_input();
 }
 
 char rand_char()
@@ -1585,6 +1662,10 @@ void replace_name_tags( std::string &input )
         replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
                            false );
     }
+    while( input.find( "<town_name>" ) != std::string::npos ) {
+        replace_substring( input, "<town_name>", Name::get( nameIsTownName ),
+                           false );
+    }
 }
 
 void replace_city_tag( std::string &input, const std::string &name )
@@ -1618,7 +1699,7 @@ std::string &capitalize_letter( std::string &str, size_t n )
     return str;
 }
 
-//remove prefix of a strng, between c1 and c2, ie, "<prefix>remove it"
+//remove prefix of a string, between c1 and c2, i.e., "<prefix>remove it"
 std::string rm_prefix( std::string str, char c1, char c2 )
 {
     if( !str.empty() && str[0] == c1 ) {
@@ -1755,6 +1836,9 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     const int rows = getmaxy( w ) - 2 - 1; // -2 for border, -1 for title
     const int col_width = width / columns;
     int offset = 0;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
 #if defined(__ANDROID__)
     // no bindings, but give it its own input context so stale buttons don't hang around.

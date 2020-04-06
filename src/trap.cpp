@@ -22,6 +22,13 @@
 #include "creature.h"
 #include "point.h"
 
+static const skill_id skill_traps( "traps" );
+
+static const efftype_id effect_lack_sleep( "lack_sleep" );
+
+static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
+static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
+
 namespace
 {
 
@@ -79,10 +86,6 @@ bool string_id<trap>::is_valid() const
 
 static std::vector<const trap *> funnel_traps;
 
-static const skill_id skill_traps( "traps" );
-
-static const efftype_id effect_lack_sleep( "lack_sleep" );
-
 const std::vector<const trap *> &trap::get_funnels()
 {
     return funnel_traps;
@@ -119,8 +122,9 @@ void trap::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "spell_data", spell_data );
     assign( jo, "trigger_weight", trigger_weight );
-    for( const JsonValue &entry : jo.get_array( "drops" ) ) {
+    for( const JsonValue entry : jo.get_array( "drops" ) ) {
         std::string item_type;
         int quantity = 0;
         int charges = 0;
@@ -152,7 +156,7 @@ void trap::load( const JsonObject &jo, const std::string & )
         vehicle_data.sound_variant = jv.get_string( "sound_variant", "" );
         vehicle_data.spawn_items.clear();
         if( jv.has_array( "spawn_items" ) ) {
-            for( const JsonValue &entry : jv.get_array( "spawn_items" ) ) {
+            for( const JsonValue entry : jv.get_array( "spawn_items" ) ) {
                 if( entry.test_object() ) {
                     JsonObject joitm = entry.get_object();
                     vehicle_data.spawn_items.emplace_back( joitm.get_string( "id" ), joitm.get_float( "chance" ) );
@@ -207,8 +211,8 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
            // ...malus farther we are from trap...
            rl_dist( p.pos(), pos ) +
            // Police are trained to notice Something Wrong.
-           ( p.has_trait( trait_id( "PROF_POLICE" ) ) ? 1 : 0 ) +
-           ( p.has_trait( trait_id( "PROF_PD_DET" ) ) ? 2 : 0 ) >
+           ( p.has_trait( trait_PROF_POLICE ) ? 1 : 0 ) +
+           ( p.has_trait( trait_PROF_PD_DET ) ? 2 : 0 ) >
            // ...must all be greater than the trap visibility.
            visibility;
 }

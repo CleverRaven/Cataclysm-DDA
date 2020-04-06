@@ -60,9 +60,17 @@ class recipe
         int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
 
-        /** Fetch combined requirement data (inline and via "using" syntax) */
-        const requirement_data &requirements() const {
+        /** Fetch combined requirement data (inline and via "using" syntax).
+         *
+         * Use simple_requirements() for player display or when you just want to
+         * know the requirements as listed in the json files.  Use
+         * deduped_requirements() to calculate actual craftability of a recipe. */
+        const requirement_data &simple_requirements() const {
             return requirements_;
+        }
+
+        const deduped_requirement_data &deduped_requirements() const {
+            return deduped_requirements_;
         }
 
         const recipe_id &ident() const {
@@ -85,7 +93,11 @@ class recipe
 
         /** If recipe can be used for disassembly fetch the combined requirements */
         requirement_data disassembly_requirements() const {
-            return reversible ? requirements().disassembly_requirements() : requirement_data();
+            if( reversible ) {
+                return simple_requirements().disassembly_requirements();
+            } else {
+                return {};
+            }
         }
 
         /// @returns The name (@ref item::nname) of the resulting item (@ref result).
@@ -145,11 +157,13 @@ class recipe
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
         const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
         const std::vector<std::pair<std::string, int>> &blueprint_excludes() const;
-        /** Retrieves a map of changed ter_id/furn_id to the number of tiles changed, then
-         *  converts that to requirement_ids and counts.  The requirements later need to be
-         *  consolidated and duplicate tools/qualities eliminated.
+        /**
+         * Calculate blueprint requirements according to changed terrain and furniture
+         * tiles, then check the calculated requirements against blueprint requirements
+         * specified in JSON.  If there's any inconsistency, it issues a debug message.
+         * This is only used in unit tests so as to speed up data loading in gameplay.
          */
-        void add_bp_autocalc_requirements();
+        void check_blueprint_requirements();
 
         bool hot_result() const;
 
@@ -183,6 +197,9 @@ class recipe
         /** Combined requirements cached when recipe finalized */
         requirement_data requirements_;
 
+        /** Deduped version constructed from the above requirements_ */
+        deduped_requirement_data deduped_requirements_;
+
         std::set<std::string> flags;
 
         /** If set (zero or positive) set charges of output result for items counted by charges */
@@ -199,7 +216,13 @@ class recipe
         std::vector<std::pair<std::string, int>> bp_provides;
         std::vector<std::pair<std::string, int>> bp_requires;
         std::vector<std::pair<std::string, int>> bp_excludes;
-        bool bp_autocalc = false;
+
+        /** Blueprint requirements to be checked in unit test */
+        bool has_blueprint_needs = false;
+        bool check_blueprint_needs = false;
+        int time_blueprint = 0;
+        std::map<skill_id, int> skills_blueprint;
+        std::vector<std::pair<requirement_id, int>> reqs_blueprint;
 };
 
 #endif // RECIPE_H

@@ -83,7 +83,7 @@
     "type": "furniture",
     "id": "f_alien_scar",
     "name": "scarred lump",
-    "description": "This is a pile of undentified twitching alien flesh, belching strange gases out of injured vessels.",
+    "description": "This is a pile of unidentified twitching alien flesh, belching strange gases out of injured vessels.",
     "symbol": "{",
     "color": "green",
     "move_cost_mod": 6,

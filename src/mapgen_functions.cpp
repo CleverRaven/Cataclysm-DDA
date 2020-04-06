@@ -37,10 +37,6 @@
 #include "int_id.h"
 #include "enums.h"
 
-class npc_template;
-
-#define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
-
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );
 static const mtype_id mon_bat( "mon_bat" );
@@ -49,6 +45,11 @@ static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_rat_king( "mon_rat_king" );
 static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+
+static const mongroup_id GROUP_CAVE( "GROUP_CAVE" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+
+class npc_template;
 
 tripoint rotate_point( const tripoint &p, int rotations )
 {
@@ -180,9 +181,6 @@ void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
     const auto dir = terrain_type->get_dir();
     m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
 }
-
-#define autorotate(x) mapgen_rotate(m, terrain_type, x)
-#define autorotate_down() mapgen_rotate(m, terrain_type, true)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ///// builtin terrain-specific mapgen functions. big multi-overmap-tile terrains are located in
@@ -764,7 +762,7 @@ void mapgen_road( mapgendata &dat )
                     int y2 = SEEY - 1 + dead_end_extension;
                     coord_rotate_cw( x1, y1, dir );
                     coord_rotate_cw( x2, y2, dir );
-                    square( m, t_sidewalk, x1, y1, x2, y2 );
+                    square( m, t_sidewalk, point( x1, y1 ), point( x2, y2 ) );
                 }
                 // sidewalk east of north road, etc
                 if( sidewalks_neswx[( dir + 1 ) % 4 ] ||   // has_sidewalk east?
@@ -776,14 +774,15 @@ void mapgen_road( mapgendata &dat )
                     int y2 = SEEY - 1 + dead_end_extension;
                     coord_rotate_cw( x1, y1, dir );
                     coord_rotate_cw( x2, y2, dir );
-                    square( m, t_sidewalk, x1, y1, x2, y2 );
+                    square( m, t_sidewalk, point( x1, y1 ), point( x2, y2 ) );
                 }
             }
         }
 
         //draw dead end sidewalk
         if( dead_end_extension > 0 && sidewalks_neswx[ 2 ] ) {
-            square( m, t_sidewalk, 0, SEEY + dead_end_extension, SEEX * 2 - 1, SEEY + dead_end_extension + 4 );
+            square( m, t_sidewalk, point( 0, SEEY + dead_end_extension ), point( SEEX * 2 - 1,
+                    SEEY + dead_end_extension + 4 ) );
         }
 
         // draw 16-wide pavement from the middle to the edge in each road direction
@@ -796,7 +795,7 @@ void mapgen_road( mapgendata &dat )
                 int y2 = SEEY - 1 + dead_end_extension;
                 coord_rotate_cw( x1, y1, dir );
                 coord_rotate_cw( x2, y2, dir );
-                square( m, t_pavement, x1, y1, x2, y2 );
+                square( m, t_pavement, point( x1, y1 ), point( x2, y2 ) );
                 if( curvedir_nesw[dir] != 0 ) {
                     for( int x = 1; x < 4; x++ ) {
                         for( int y = 0; y < x; y++ ) {
@@ -843,25 +842,25 @@ void mapgen_road( mapgendata &dat )
                 // TODO: something interesting here
             } else if( plaza_dir < 4 ) {
                 // plaza side
-                square( m, t_pavement, 0, SEEY - 10, SEEX * 2 - 1, SEEY - 1 );
-                square( m, t_sidewalk, 0, SEEY - 2, SEEX * 2 - 1, SEEY * 2 - 1 );
+                square( m, t_pavement, point( 0, SEEY - 10 ), point( SEEX * 2 - 1, SEEY - 1 ) );
+                square( m, t_sidewalk, point( 0, SEEY - 2 ), point( SEEX * 2 - 1, SEEY * 2 - 1 ) );
                 if( one_in( 3 ) ) {
-                    line( m, t_tree_young, 1, SEEY, SEEX * 2 - 2, SEEY );
+                    line( m, t_tree_young, point( 1, SEEY ), point( SEEX * 2 - 2, SEEY ) );
                 }
                 if( one_in( 3 ) ) {
-                    line_furn( m, f_bench, 2, SEEY + 2, 5, SEEY + 2 );
-                    line_furn( m, f_bench, 10, SEEY + 2, 13, SEEY + 2 );
-                    line_furn( m, f_bench, 18, SEEY + 2, 21, SEEY + 2 );
+                    line_furn( m, f_bench, point( 2, SEEY + 2 ), point( 5, SEEY + 2 ) );
+                    line_furn( m, f_bench, point( 10, SEEY + 2 ), point( 13, SEEY + 2 ) );
+                    line_furn( m, f_bench, point( 18, SEEY + 2 ), point( 21, SEEY + 2 ) );
                 }
             } else { // plaza corner
-                circle( m, t_pavement, 0, SEEY * 2 - 1, 21 );
-                circle( m, t_sidewalk, 0, SEEY * 2 - 1, 13 );
+                circle( m, t_pavement, point( 0, SEEY * 2 - 1 ), 21 );
+                circle( m, t_sidewalk, point( 0, SEEY * 2 - 1 ), 13 );
                 if( one_in( 3 ) ) {
-                    circle( m, t_tree_young, 0, SEEY * 2 - 1, 11 );
-                    circle( m, t_sidewalk,   0, SEEY * 2 - 1, 10 );
+                    circle( m, t_tree_young, point( 0, SEEY * 2 - 1 ), 11 );
+                    circle( m, t_sidewalk,   point( 0, SEEY * 2 - 1 ), 10 );
                 }
                 if( one_in( 3 ) ) {
-                    circle( m, t_water_sh, 4, SEEY * 2 - 5, 3 );
+                    circle( m, t_water_sh, point( 4, SEEY * 2 - 5 ), 3 );
                 }
             }
         }
@@ -881,7 +880,7 @@ void mapgen_road( mapgendata &dat )
 
     // spawn some monsters
     if( neighbor_sidewalks ) {
-        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
+        m->place_spawns( GROUP_ZOMBIE, 2, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
                          dat.monster_density() );
         // 1 per 10 overmaps
         if( one_in( 10000 ) ) {
@@ -1822,11 +1821,11 @@ void mapgen_river_straight( mapgendata &dat )
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
-        line( m, grass_or_dirt(), x, 0, x, ground_edge );
+        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
         if( one_in( 25 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
-        line( m, t_water_moving_sh, x, ++ground_edge, x, shallow_edge );
+        line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
     }
 
     if( dat.terrain_type() == "river_east" ) {
@@ -1848,20 +1847,20 @@ void mapgen_river_curved( mapgendata &dat )
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
-        line( m, grass_or_dirt(), x, 0, x, ground_edge );
+        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
         if( one_in( 25 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
-        line( m, t_water_moving_sh, x, ++ground_edge, x, shallow_edge );
+        line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
     }
     for( int y = 0; y < SEEY * 2; y++ ) {
         int ground_edge = rng( 19, 21 );
         int shallow_edge = rng( 16, 18 );
-        line( m, grass_or_dirt(), ground_edge, y, SEEX * 2 - 1, y );
+        line( m, grass_or_dirt(), point( ground_edge, y ), point( SEEX * 2 - 1, y ) );
         if( one_in( 25 ) ) {
             m->ter_set( point( --ground_edge, y ), clay_or_sand() );
         }
-        line( m, t_water_moving_sh, shallow_edge, y, --ground_edge, y );
+        line( m, t_water_moving_sh, point( shallow_edge, y ), point( --ground_edge, y ) );
     }
 
     if( dat.terrain_type() == "river_se" ) {
@@ -1919,7 +1918,7 @@ void mapgen_cave( mapgendata &dat )
                 }
             }
         }
-        square( m, t_slope_up, SEEX - 1, SEEY - 1, SEEX, SEEY );
+        square( m, t_slope_up, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEY ) );
         switch( rng( 1, 10 ) ) {
             case 1:
                 // natural refuse, chance of minerals
@@ -1980,13 +1979,13 @@ void mapgen_cave( mapgendata &dat )
                                 dat.when() );
                 break;
         }
-        m->place_spawns( mongroup_id( "GROUP_CAVE" ), 2, point( 6, 6 ), point( 18, 18 ), 1.0 );
+        m->place_spawns( GROUP_CAVE, 2, point( 6, 6 ), point( 18, 18 ), 1.0 );
     } else { // We're above ground!
         // First, draw a forest
         mapgendata forest_mapgen_dat( dat, oter_str_id( "forest" ).id() );
         mapgen_forest( forest_mapgen_dat );
         // Clear the center with some rocks
-        square( m, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5 );
+        square( m, t_rock, point( SEEX - 6, SEEY - 6 ), point( SEEX + 5, SEEY + 5 ) );
         int pathx = 0;
         int pathy = 0;
         if( one_in( 2 ) ) {
@@ -1998,13 +1997,13 @@ void mapgen_cave( mapgendata &dat )
         }
         std::vector<point> pathline = line_to( point( pathx, pathy ), point( SEEX - 1, SEEY - 1 ), 0 );
         for( auto &ii : pathline ) {
-            square( m, t_dirt, ii.x, ii.y,
-                    ii.x + 1, ii.y + 1 );
+            square( m, t_dirt, ii,
+                    ii + point_south_east );
         }
         while( !one_in( 8 ) ) {
             m->ter_set( point( rng( SEEX - 6, SEEX + 5 ), rng( SEEY - 6, SEEY + 5 ) ), t_dirt );
         }
-        square( m, t_slope_down, SEEX - 1, SEEY - 1, SEEX, SEEY );
+        square( m, t_slope_down, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEY ) );
     }
 
 }
@@ -2017,9 +2016,9 @@ void mapgen_cave_rat( mapgendata &dat )
 
     if( dat.above() == "cave_rat" ) {
         // Finale
-        rough_circle( m, t_rock_floor, SEEX, SEEY, 8 );
-        square( m, t_rock_floor, SEEX - 1, SEEY, SEEX, SEEY * 2 - 2 );
-        line( m, t_slope_up, SEEX - 1, SEEY * 2 - 3, SEEX, SEEY * 2 - 2 );
+        rough_circle( m, t_rock_floor, point( SEEX, SEEY ), 8 );
+        square( m, t_rock_floor, point( SEEX - 1, SEEY ), point( SEEX, SEEY * 2 - 2 ) );
+        line( m, t_slope_up, point( SEEX - 1, SEEY * 2 - 3 ), point( SEEX, SEEY * 2 - 2 ) );
         for( int i = SEEX - 4; i <= SEEX + 4; i++ ) {
             for( int j = SEEY - 4; j <= SEEY + 4; j++ ) {
                 if( ( i <= SEEX - 2 || i >= SEEX + 2 ) && ( j <= SEEY - 2 || j >= SEEY + 2 ) ) {
@@ -2683,6 +2682,7 @@ void mapgen_tutorial( mapgendata &dat )
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 5 ), "bubblewrap" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 6 ), "grenade" );
         m->spawn_item( point( SEEX * 2 - 3, SEEY + 6 ), "flashlight" );
+        m->spawn_item( point( SEEX * 2 - 3, SEEY + 6 ), "light_disposable_cell" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 7 ), "cig" );
         m->spawn_item( point( SEEX * 2 - 2, SEEY + 7 ), "codeine" );
         m->spawn_item( point( SEEX * 2 - 3, SEEY + 7 ), "water" );
@@ -3439,8 +3439,7 @@ void mapgen_lake_shore( mapgendata &dat )
     const auto draw_shallow_water = [&]( const point & from, const point & to ) {
         std::vector<point> points = line_to( from, to );
         for( auto &p : points ) {
-            std::vector<point> buffered_points = closest_points_first( 1, p );
-            for( const point &bp : buffered_points ) {
+            for( const point &bp : closest_points_first( p, 1 ) ) {
                 if( !map_boundaries.contains_inclusive( bp ) ) {
                     continue;
                 }
@@ -3535,134 +3534,6 @@ void madd_field( map *m, int x, int y, field_type_id type, int intensity )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
     m->add_field( actual_location, type, intensity, 0_turns );
-}
-
-static bool is_suitable_for_stairs( const map *const m, const tripoint &p )
-{
-    const ter_t &p_ter = m->ter( p ).obj();
-
-    return
-        p_ter.has_flag( "INDOORS" ) &&
-        p_ter.has_flag( "FLAT" ) &&
-        m->furn( p ) == f_null;
-}
-
-static void stairs_debug_log( const map *const m, const std::string &msg, const tripoint &p,
-                              DebugLevel level = D_INFO )
-{
-    const ter_t &p_ter = m->ter( p ).obj();
-
-    dbg( level )
-            << msg
-            << " tripoint: " << p
-            << " terrain: " << p_ter.name()
-            << " movecost: " << p_ter.movecost
-            << " furniture: " << m->furn( p )
-            << " indoors: " << p_ter.has_flag( "INDOORS" )
-            << " flat: " << p_ter.has_flag( "FLAT" )
-            ;
-}
-
-void place_stairs( mapgendata &dat )
-{
-    if( !dat.has_basement() ) {
-        return;
-    }
-
-    map *const m = &dat.m;
-    const bool force = get_option<bool>( "ALIGN_STAIRS" );
-
-    const tripoint abs_sub_here = m->get_abs_sub();
-
-    tinymap basement;
-    basement.load( tripoint( abs_sub_here.xy(), abs_sub_here.z - 1 ), false );
-
-    const tripoint from( 0, 0, abs_sub_here.z );
-    const tripoint to( SEEX * 2, SEEY * 2, abs_sub_here.z );
-    tripoint_range tr = m->points_in_rectangle( from, to );
-    std::vector<tripoint> stairs;
-    std::vector<tripoint> tripoints;
-
-    // Find the basement's stairs first.
-    for( auto &&p : tr ) { // *NOPAD*
-        if( basement.has_flag( TFLAG_GOES_UP, p + tripoint_below ) ) {
-            const tripoint rotated = om_direction::rotate( p, dat.terrain_type()->get_dir() );
-            stairs.emplace_back( rotated );
-            stairs_debug_log( m, "basement stairs:", rotated );
-        }
-
-        if( is_suitable_for_stairs( m, p ) ) {
-            tripoints.emplace_back( p );
-        }
-    }
-
-    if( stairs.empty() ) {
-        dbg( D_INFO ) << "no stairs found downstairs";
-        return;
-    }
-
-    // Shuffle tripoints so that the stairs are not always similarly placed.
-    std::shuffle( std::begin( tripoints ), std::end( tripoints ), rng_get_engine() );
-
-    bool all_can_be_placed = false;
-    tripoint shift;
-    int match_count = 0;
-
-    // Find a tripoint where all the underground tripoints for stairs are on
-    // suitable locations aboveground.
-    for( auto &&p : tripoints ) { // *NOPAD*
-        int count = 1;
-        all_can_be_placed = true;
-        stairs_debug_log( m, "ok first:", p );
-
-        // First element can be ignored as p is already ok.
-        for( auto it = stairs.begin() + 1; it != stairs.end(); ++it ) {
-            // Align tripoint with the first underground tripoint.
-            const tripoint &stair = *it - stairs.front() + p;
-
-            if( !is_suitable_for_stairs( m, stair ) ) {
-                stairs_debug_log( m, "not ok:", stair );
-                all_can_be_placed = false;
-
-                if( match_count < count ) {
-                    match_count = count;
-                    shift = p - stairs.front();
-                    dbg( D_INFO ) << "partial match shift tripoint: " << shift;
-                }
-
-                break;
-            }
-
-            stairs_debug_log( m, "ok:", stair );
-            ++count;
-        }
-
-        if( all_can_be_placed ) {
-            shift = p - stairs.front();
-            dbg( D_INFO ) << "full match shift tripoint: " << shift;
-            break;
-        }
-    }
-
-    if( !( all_can_be_placed || force ) ) {
-        dbg( D_WARNING ) << "no stairs were placed";
-        return;
-    }
-
-    if( !all_can_be_placed ) {
-        dbg( D_WARNING ) << "Some stairs can be placed to suitable locations "
-                         << "and the rest may end up in odd locations.";
-    }
-
-    for( auto &&p : stairs ) { // *NOPAD*
-        tripoint stair = p + shift;
-
-        if( m->ter_set( stair, t_stairs_down ) ) {
-            stairs_debug_log( m, "stairs placed:", stair );
-        } else {
-            stairs_debug_log( m, "stairs not placed:", stair, D_WARNING );
-        }
-    }
 }
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )

@@ -239,7 +239,7 @@ class inventory : public visitable<inventory>
 
         invstack items;
 
-        mutable bool binned;
+        mutable bool binned = false;
         /**
          * Items binned by their type.
          * That is, item_bin["carrot"] is a list of pointers to all carrots in inventory.

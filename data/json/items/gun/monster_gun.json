@@ -4,7 +4,7 @@
     "type": "GUN",
     "symbol": "%",
     "color": "red",
-    "name": "barb launching organ",
+    "name": { "str": "barb launching organ" },
     "description": "A mutated organ capable of launching bony barbs at great speed.",
     "material": [ "hflesh" ],
     "flags": [
@@ -35,7 +35,7 @@
     "type": "GUN",
     "symbol": "%",
     "color": "red",
-    "name": "electric alien frond",
+    "name": { "str": "electric alien frond" },
     "description": "Electricity unnaturally arcs from the tips of this alien frond.",
     "material": [ "hflesh" ],
     "flags": [

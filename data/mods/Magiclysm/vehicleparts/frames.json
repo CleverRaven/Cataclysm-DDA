@@ -1,0 +1,99 @@
+[
+  {
+    "id": "folding_orichalcum_frame",
+    "type": "vehicle_part",
+    "name": "foldable orichalcum frame",
+    "item": "fold_orichalcum_frame",
+    "location": "structure",
+    "symbol": "h",
+    "durability": 250,
+    "description": "A light metal framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
+    "folded_volume": "5 L",
+    "breaks_into": [ { "item": "orichalcum_lump", "count": [ 0, 2 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ], [ "spellcraft", 1 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
+    "damage_reduction": { "all": 12 }
+  },
+  {
+    "abstract": "orichalcum_frame",
+    "type": "vehicle_part",
+    "name": "orichalcum frame",
+    "item": "orichalcum_frame",
+    "location": "structure",
+    "durability": 2000,
+    "description": "An expensive magical metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "breaks_into": "orichalcum_frame_break",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "MOUNTABLE" ],
+    "damage_reduction": { "all": 78 }
+  },
+  {
+    "id": "frame_orichalcum_cover",
+    "copy-from": "orichalcum_frame",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "frame_orichalcum_cross",
+    "copy-from": "orichalcum_frame",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "frame_orichalcum_horizontal",
+    "copy-from": "orichalcum_frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_orichalcum_horizontal_2",
+    "copy-from": "orichalcum_frame",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_orichalcum_ne",
+    "copy-from": "orichalcum_frame",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "frame_orichalcum_nw",
+    "copy-from": "orichalcum_frame",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "frame_orichalcum_se",
+    "copy-from": "orichalcum_frame",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "frame_orichalcum_sw",
+    "copy-from": "orichalcum_frame",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "frame_orichalcum_vertical",
+    "copy-from": "orichalcum_frame",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "frame_orichalcum_vertical_2",
+    "copy-from": "orichalcum_frame",
+    "type": "vehicle_part",
+    "symbol": "H"
+  }
+]

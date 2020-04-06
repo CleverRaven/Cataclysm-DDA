@@ -277,7 +277,7 @@ class Creature
 
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
-        virtual bool is_underwater() const = 0;
+        virtual bool is_underwater() const;
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool in_species( const species_id & ) const;
 
@@ -299,7 +299,7 @@ class Creature
         /** Returns true if we are immune to the field type with the given fid. Does not
          *  handle intensity, so this function should only be called through is_dangerous_field().
          */
-        virtual bool is_immune_field( const field_type_id ) const {
+        virtual bool is_immune_field( const field_type_id & ) const {
             return false;
         }
 
@@ -333,7 +333,7 @@ class Creature
         void add_effect( const effect &eff, bool force = false, bool deferred = false );
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
-        virtual void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
+        virtual void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
                                  bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
@@ -531,9 +531,10 @@ class Creature
 
         // Message related stuff
         virtual void add_msg_if_player( const std::string &/*msg*/ ) const {}
-        virtual void add_msg_if_player( game_message_type /*type*/, const std::string &/*msg*/ ) const {}
+        virtual void add_msg_if_player( const game_message_params &/*params*/,
+                                        const std::string &/*msg*/ ) const {}
         void add_msg_if_player( const translation &/*msg*/ ) const;
-        void add_msg_if_player( game_message_type /*type*/, const translation &/*msg*/ ) const;
+        void add_msg_if_player( const game_message_params &/*params*/, const translation &/*msg*/ ) const;
         template<typename ...Args>
         void add_msg_if_player( const char *const msg, Args &&... args ) const {
             return add_msg_if_player( string_format( msg, std::forward<Args>( args )... ) );
@@ -547,34 +548,35 @@ class Creature
             return add_msg_if_player( string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_if_player( const game_message_type type, const char *const msg,
+        void add_msg_if_player( const game_message_params &params, const char *const msg,
                                 Args &&... args ) const {
-            if( type == m_debug && !debug_mode ) {
+            if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_player( params, string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_if_player( game_message_type type, const std::string &msg,
+        void add_msg_if_player( const game_message_params &params, const std::string &msg,
                                 Args &&... args ) const {
-            if( type == m_debug && !debug_mode ) {
+            if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_player( params, string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_if_player( game_message_type type, const translation &msg,
+        void add_msg_if_player( const game_message_params &params, const translation &msg,
                                 Args &&... args ) const {
-            if( type == m_debug && !debug_mode ) {
+            if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_player( params, string_format( msg, std::forward<Args>( args )... ) );
         }
 
         virtual void add_msg_if_npc( const std::string &/*msg*/ ) const {}
-        virtual void add_msg_if_npc( game_message_type /*type*/, const std::string &/*msg*/ ) const {}
+        virtual void add_msg_if_npc( const game_message_params &/*params*/,
+                                     const std::string &/*msg*/ ) const {}
         void add_msg_if_npc( const translation &/*msg*/ ) const;
-        void add_msg_if_npc( game_message_type /*type*/, const translation &/*msg*/ ) const;
+        void add_msg_if_npc( const game_message_params &/*params*/, const translation &/*msg*/ ) const;
         template<typename ...Args>
         void add_msg_if_npc( const char *const msg, Args &&... args ) const {
             return add_msg_if_npc( string_format( msg, std::forward<Args>( args )... ) );
@@ -588,34 +590,39 @@ class Creature
             return add_msg_if_npc( string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_if_npc( const game_message_type type, const char *const msg, Args &&... args ) const {
-            if( type == m_debug && !debug_mode ) {
+        void add_msg_if_npc( const game_message_params &params, const char *const msg,
+                             Args &&... args ) const {
+            if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_npc( params, string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_if_npc( game_message_type type, const std::string &msg, Args &&... args ) const {
-            if( type == m_debug && !debug_mode ) {
+        void add_msg_if_npc( const game_message_params &params, const std::string &msg,
+                             Args &&... args ) const {
+            if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_npc( params, string_format( msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_if_npc( game_message_type type, const translation &msg, Args &&... args ) const {
-            if( type == m_debug && !debug_mode ) {
+        void add_msg_if_npc( const game_message_params &params, const translation &msg,
+                             Args &&... args ) const {
+            if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
+            return add_msg_if_npc( params, string_format( msg, std::forward<Args>( args )... ) );
         }
 
         virtual void add_msg_player_or_npc( const std::string &/*player_msg*/,
                                             const std::string &/*npc_msg*/ ) const {}
-        virtual void add_msg_player_or_npc( game_message_type /*type*/, const std::string &/*player_msg*/,
+        virtual void add_msg_player_or_npc( const game_message_params &/*params*/,
+                                            const std::string &/*player_msg*/,
                                             const std::string &/*npc_msg*/ ) const {}
         void add_msg_player_or_npc( const translation &/*player_msg*/,
                                     const translation &/*npc_msg*/ ) const;
-        void add_msg_player_or_npc( game_message_type /*type*/, const translation &/*player_msg*/,
+        void add_msg_player_or_npc( const game_message_params &/*params*/,
+                                    const translation &/*player_msg*/,
                                     const translation &/*npc_msg*/ ) const;
         template<typename ...Args>
         void add_msg_player_or_npc( const char *const player_msg, const char *const npc_msg,
@@ -636,40 +643,42 @@ class Creature
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_player_or_npc( const game_message_type type, const char *const player_msg,
+        void add_msg_player_or_npc( const game_message_params &params, const char *const player_msg,
                                     const char *const npc_msg, Args &&... args ) const {
-            if( type == m_debug && !debug_mode ) {
+            if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_npc( type, string_format( player_msg, std::forward<Args>( args )... ),
+            return add_msg_player_or_npc( params, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg, Args &&... args ) const {
-            if( type == m_debug && !debug_mode ) {
+            if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_npc( type, string_format( player_msg, std::forward<Args>( args )... ),
+            return add_msg_player_or_npc( params, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_player_or_npc( game_message_type type, const translation &player_msg,
+        void add_msg_player_or_npc( const game_message_params &params, const translation &player_msg,
                                     const translation &npc_msg, Args &&... args ) const {
-            if( type == m_debug && !debug_mode ) {
+            if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_npc( type, string_format( player_msg, std::forward<Args>( args )... ),
+            return add_msg_player_or_npc( params, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
 
         virtual void add_msg_player_or_say( const std::string &/*player_msg*/,
                                             const std::string &/*npc_speech*/ ) const {}
-        virtual void add_msg_player_or_say( game_message_type /*type*/, const std::string &/*player_msg*/,
+        virtual void add_msg_player_or_say( const game_message_params &/*params*/,
+                                            const std::string &/*player_msg*/,
                                             const std::string &/*npc_speech*/ ) const {}
         void add_msg_player_or_say( const translation &/*player_msg*/,
                                     const translation &/*npc_speech*/ ) const;
-        void add_msg_player_or_say( game_message_type /*type*/, const translation &/*player_msg*/,
+        void add_msg_player_or_say( const game_message_params &/*params*/,
+                                    const translation &/*player_msg*/,
                                     const translation &/*npc_speech*/ ) const;
         template<typename ...Args>
         void add_msg_player_or_say( const char *const player_msg, const char *const npc_speech,
@@ -690,30 +699,30 @@ class Creature
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_player_or_say( const game_message_type type, const char *const player_msg,
+        void add_msg_player_or_say( const game_message_params &params, const char *const player_msg,
                                     const char *const npc_speech, Args &&... args ) const {
-            if( type == m_debug && !debug_mode ) {
+            if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_say( type, string_format( player_msg, std::forward<Args>( args )... ),
+            return add_msg_player_or_say( params, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_speech, Args &&... args ) const {
-            if( type == m_debug && !debug_mode ) {
+            if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_say( type, string_format( player_msg, std::forward<Args>( args )... ),
+            return add_msg_player_or_say( params, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
         template<typename ...Args>
-        void add_msg_player_or_say( game_message_type type, const translation &player_msg,
+        void add_msg_player_or_say( const game_message_params &params, const translation &player_msg,
                                     const translation &npc_speech, Args &&... args ) const {
-            if( type == m_debug && !debug_mode ) {
+            if( params.type == m_debug && !debug_mode ) {
                 return;
             }
-            return add_msg_player_or_say( type, string_format( player_msg, std::forward<Args>( args )... ),
+            return add_msg_player_or_say( params, string_format( player_msg, std::forward<Args>( args )... ),
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
 

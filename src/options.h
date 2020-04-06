@@ -2,6 +2,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
+#include <functional>
 #include <map>
 #include <string>
 #include <unordered_map>
@@ -28,6 +29,7 @@ class options_manager
                     : std::pair<std::string, translation>( first, second ) {
                 }
         };
+        static std::vector<id_and_option> lang_options;
     private:
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();
@@ -50,6 +52,8 @@ class options_manager
         friend options_manager &get_options();
         options_manager();
 
+        void addOptionToPage( const std::string &name, const std::string &page );
+
     public:
         enum copt_hide_t {
             /** Don't hide this option */
@@ -71,11 +75,6 @@ class options_manager
                 friend class options_manager;
             public:
                 cOpt();
-
-                void setSortPos( const std::string &sPageIn );
-
-                //helper functions
-                int getSortPos() const;
 
                 /**
                  * Option should be hidden in current build.
@@ -150,7 +149,7 @@ class options_manager
                 // The *untranslated* displayed option tool tip ( longer string ).
                 std::string sTooltip;
                 std::string sType;
-                bool verbose;
+                bool verbose = false;
 
                 std::string format;
 
@@ -158,7 +157,6 @@ class options_manager
                 std::vector<std::string> sPrerequisiteAllowedValues;
 
                 copt_hide_t hide;
-                int iSortPos;
 
                 COPT_VALUE_TYPE eType;
 
@@ -168,25 +166,25 @@ class options_manager
                 std::vector<id_and_option> vItems;
                 std::string sDefault;
 
-                int iMaxLength;
+                int iMaxLength = 0;
 
                 //sType == "bool"
-                bool bSet;
-                bool bDefault;
+                bool bSet = false;
+                bool bDefault = false;
 
                 //sType == "int"
-                int iSet;
-                int iMin;
-                int iMax;
-                int iDefault;
+                int iSet = 0;
+                int iMin = 0;
+                int iMax = 0;
+                int iDefault = 0;
                 std::vector< std::tuple<int, std::string> > mIntValues;
 
                 //sType == "float"
-                float fSet;
-                float fMin;
-                float fMax;
-                float fDefault;
-                float fStep;
+                float fSet = 0.0f;
+                float fMin = 0.0f;
+                float fMax = 0.0f;
+                float fDefault = 0.0f;
+                float fStep = 0.0f;
         };
 
         using options_container = std::unordered_map<std::string, cOpt>;
@@ -200,7 +198,8 @@ class options_manager
         void add_options_android();
         void load();
         bool save();
-        std::string show( bool ingame = false, bool world_options_only = false );
+        std::string show( bool ingame = false, bool world_options_only = false,
+                          const std::function<bool()> &on_quit = nullptr );
 
         void add_value( const std::string &lvar, const std::string &lval,
                         const translation &lvalname );
@@ -216,7 +215,6 @@ class options_manager
          * current value, which acts as the default for new worlds.
          */
         options_container get_world_defaults() const;
-        std::vector<std::string> getWorldOptPageItems() const;
 
         void set_world_options( options_container *options );
 
@@ -272,10 +270,36 @@ class options_manager
     private:
         options_container options;
         cata::optional<options_container *> world_options;
-        // first is page id, second is untranslated page name
-        std::vector<std::pair<std::string, std::string>> vPages;
-        std::map<int, std::vector<std::string>> mPageItems;
-        int iWorldOptPage;
+
+        /**
+         * A page (or tab) to be displayed in the options UI.
+         * It contains a @ref id that is used to detect what options should go into this
+         * page (see @ref cOpt::getPage).
+         * It also has a name that will be translated and displayed.
+         * And it has items, each item is either nothing (will be represented as empty line
+         * in the UI) or the name of an option.
+         */
+        class Page
+        {
+            public:
+                std::string id_;
+                translation name_;
+
+                std::vector<cata::optional<std::string>> items_;
+
+                void removeRepeatedEmptyLines();
+
+                Page( const std::string &id, const translation &name ) : id_( id ), name_( name ) { }
+        };
+
+        Page general_page_;
+        Page interface_page_;
+        Page graphics_page_;
+        Page debug_page_;
+        Page world_default_page_;
+        Page android_page_;
+
+        std::vector<std::reference_wrapper<Page>> pages_;
 };
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small

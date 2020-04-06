@@ -1,11 +1,10 @@
-#!/bin/python
+#!/usr/bin/env python
 
 # decompose.py
 # Split a gfx tile_config.json into 1000s of little directories, each with their own config
 # file and tile image.
 
 import argparse
-import copy
 import json
 import math
 import os

@@ -135,6 +135,17 @@ class basecamp
         inline const std::string &camp_name() const {
             return name;
         }
+        tripoint get_bb_pos() const {
+            return bb_pos;
+        }
+        void validate_bb_pos( const tripoint &new_abs_pos ) {
+            if( bb_pos == tripoint_zero ) {
+                bb_pos = new_abs_pos;
+            }
+        }
+        void set_bb_pos( const tripoint &new_abs_pos ) {
+            bb_pos = new_abs_pos;
+        }
         void set_by_radio( bool access_by_radio );
 
         std::string board_name() const;
@@ -153,10 +164,9 @@ class basecamp
         void define_camp( const tripoint &p, const std::string &camp_type = "default" );
 
         std::string expansion_tab( const point &dir ) const;
-
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
-        bool has_provides( const std::string &req, cata::optional<point> dir = cata::nullopt,
+        bool has_provides( const std::string &req, const cata::optional<point> &dir = cata::nullopt,
                            int level = 0 ) const;
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );
@@ -247,7 +257,7 @@ class basecamp
         void reset_camp_workers();
         comp_list get_mission_workers( const std::string &mission_id, bool contains = false );
         // main mission start/return dispatch function
-        bool handle_mission( const std::string &miss_id, cata::optional<point> opt_miss_dir );
+        bool handle_mission( const std::string &miss_id, const cata::optional<point> &opt_miss_dir );
 
         // mission start functions
         /// generic mission start function that wraps individual mission
@@ -262,6 +272,7 @@ class basecamp
         void start_upgrade( const std::string &bldg, const point &dir, const std::string &key );
         std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
         void start_menial_labor();
+        void worker_assignment_ui();
         void job_assignment_ui();
         void start_crafting( const std::string &cur_id, const point &cur_dir,
                              const std::string &type, const std::string &miss_id );
@@ -318,6 +329,8 @@ class basecamp
 
         void combat_mission_return( const std::string &miss );
         void validate_assignees();
+        void add_assignee( character_id id );
+        void remove_assignee( character_id id );
         std::vector<npc_ptr> get_npcs_assigned();
         // Save/load
         void serialize( JsonOut &json ) const;
@@ -335,7 +348,7 @@ class basecamp
         // omt pos
         tripoint omt_pos;
         std::vector<npc_ptr> assigned_npcs;
-        // location of associated bulletin board
+        // location of associated bulletin board in abs coords
         tripoint bb_pos;
         std::map<point, expansion_data> expansions;
         comp_list camp_workers;
@@ -345,7 +358,7 @@ class basecamp
         std::vector<basecamp_fuel> fuels;
         std::vector<basecamp_resource> resources;
         inventory _inv;
-        bool by_radio;
+        bool by_radio = false;
 };
 
 class basecamp_action_components

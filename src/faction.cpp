@@ -1,5 +1,6 @@
 #include "faction.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cstdlib>
 #include <bitset>
@@ -25,6 +26,8 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "text_snippets.h"
+#include "ui_manager.h"
 #include "item.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -62,6 +65,17 @@ void faction_template::load( const JsonObject &jsobj )
     npc_factions::all_templates.emplace_back( fac );
 }
 
+void faction_template::check_consistency()
+{
+    for( const faction_template &fac : npc_factions::all_templates ) {
+        for( const auto &epi : fac.epilogue_data ) {
+            if( !std::get<2>( epi ).is_valid() ) {
+                debugmsg( "There's no snippet with id %s", std::get<2>( epi ).str() );
+            }
+        }
+    }
+}
+
 void faction_template::reset()
 {
     npc_factions::all_templates.clear();
@@ -69,7 +83,7 @@ void faction_template::reset()
 
 void faction_template::load_relations( const JsonObject &jsobj )
 {
-    for( const JsonMember &fac : jsobj.get_object( "relations" ) ) {
+    for( const JsonMember fac : jsobj.get_object( "relations" ) ) {
         JsonObject rel_jo = fac.get_object();
         std::bitset<npc_factions::rel_types> fac_relation( 0 );
         for( const auto &rel_flag : npc_factions::relation_strs ) {
@@ -99,6 +113,11 @@ faction_template::faction_template( const JsonObject &jsobj )
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
     mon_faction = jsobj.get_string( "mon_faction", "human" );
+    for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
+        epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
+                               jao.get_int( "power_max", std::numeric_limits<int>::max() ),
+                               snippet_id( jao.get_string( "id", "epilogue_faction_default" ) ) );
+    }
 }
 
 std::string faction::describe() const
@@ -107,7 +126,18 @@ std::string faction::describe() const
     return ret;
 }
 
-void faction::add_to_membership( const character_id &guy_id, const std::string guy_name,
+std::vector<std::string> faction::epilogue() const
+{
+    std::vector<std::string> ret;
+    for( const std::tuple<int, int, snippet_id> &epilogue_entry : epilogue_data ) {
+        if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
+            ret.emplace_back( std::get<2>( epilogue_entry )->translated() );
+        }
+    }
+    return ret;
+}
+
+void faction::add_to_membership( const character_id &guy_id, const std::string &guy_name,
                                  const bool known )
 {
     members[guy_id] = std::make_pair( guy_name, known );
@@ -124,7 +154,7 @@ void faction::remove_member( const character_id &guy_id )
     }
     if( members.empty() ) {
         for( const faction_template &elem : npc_factions::all_templates ) {
-            // This is a templated base faction - dont delete it, just leave it as zero members for now.
+            // This is a templated base faction - don't delete it, just leave it as zero members for now.
             // Only want to delete dynamically created factions.
             if( elem.id == id ) {
                 return;
@@ -297,7 +327,7 @@ nc_color faction::food_supply_color()
 
 bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
 {
-    for( const auto rel_data : relations ) {
+    for( const auto &rel_data : relations ) {
         if( rel_data.first == guy_id.c_str() ) {
             return rel_data.second.test( flag );
         }
@@ -398,6 +428,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                         elem.second.name = fac_temp.name;
                         elem.second.desc = fac_temp.desc;
                         elem.second.mon_faction = fac_temp.mon_faction;
+                        elem.second.epilogue_data = fac_temp.epilogue_data;
                         for( const auto &rel_data : fac_temp.relations ) {
                             if( elem.second.relations.find( rel_data.first ) == elem.second.relations.end() ) {
                                 elem.second.relations[rel_data.first] = rel_data.second;
@@ -412,7 +443,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
         }
     }
     for( const faction_template &elem : npc_factions::all_templates ) {
-        // id isnt already in factions map, so load in the template.
+        // id isn't already in factions map, so load in the template.
         if( elem.id == id ) {
             factions[elem.id] = elem;
             if( !factions.empty() ) {
@@ -491,15 +522,14 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
     tripoint guy_abspos = global_omt_location();
-    basecamp *stationed_at;
-    bool is_stationed = false;
-    cata::optional<basecamp *> p = overmap_buffer.find_camp( guy_abspos.xy() );
-    if( p ) {
-        is_stationed = true;
-        stationed_at = *p;
-    } else {
-        stationed_at = nullptr;
+    basecamp *temp_camp = nullptr;
+    if( assigned_camp ) {
+        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        if( bcp ) {
+            temp_camp = *bcp;
+        }
     }
+    const bool is_stationed = assigned_camp && temp_camp;
     std::string direction = direction_name( direction_from( player_abspos, guy_abspos ) );
     if( direction != "center" ) {
         mvwprintz( fac_w, point( width, ++y ), col, _( "Direction: to the " ) + direction );
@@ -508,7 +538,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     if( is_stationed ) {
         mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d), at camp: %s" ), guy_abspos.x,
-                   guy_abspos.y, stationed_at->camp_name() );
+                   guy_abspos.y, temp_camp->camp_name() );
     } else {
         mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d)" ), guy_abspos.x,
                    guy_abspos.y );
@@ -517,7 +547,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     nc_color see_color;
     bool u_has_radio = g->u.has_item_with_flag( "TWO_WAY_RADIO", true );
     bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
-    // TODO NPCS on mission contactable same as travelling
+    // TODO: NPCS on mission contactable same as travelling
     if( has_companion_mission() && mission != NPC_MISSION_TRAVELLING ) {
         can_see = _( "Not interactable while on a mission" );
         see_color = c_light_red;
@@ -531,7 +561,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             max_range *= ( 1 + ( pos().z * 0.1 ) );
             if( is_stationed ) {
                 // if camp that NPC is at, has a radio tower
-                if( stationed_at->has_provides( "radio_tower" ) ) {
+                if( temp_camp->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
                 }
             }
@@ -586,10 +616,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         current_status += _( "Guarding" );
     }
     mvwprintz( fac_w, point( width, ++y ), status_col, current_status );
-    if( is_stationed ) {
-        std::string current_job = _( "Basecamp job: " );
-        current_job += npc_job_name( job );
-        mvwprintz( fac_w, point( width, ++y ), col, current_job );
+    if( is_stationed && has_job() ) {
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Working at camp" ) );
+    } else if( is_stationed ) {
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Idling at camp" ) );
     }
 
     const std::pair <std::string, nc_color> condition = hp_description();
@@ -662,6 +692,10 @@ void faction_manager::display() const
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     while( true ) {
         werase( w_missions );
         // create a list of NPCs, visible and the ones on overmapbuffer

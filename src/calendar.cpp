@@ -118,7 +118,7 @@ time_point night_time( const time_point &p )
 
 time_point daylight_time( const time_point &p )
 {
-    // @TODO: Actual dailight should start 18 degrees before sunrise
+    // TODO: Actual daylight should start 18 degrees before sunrise
     return sunrise( p ) + 15_minutes;
 }
 
