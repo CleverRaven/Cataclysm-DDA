@@ -96,7 +96,7 @@ static const bionic_id bio_remote( "bio_remote" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_HELI_PILOT( "PROF_HELI_PILOT" );
-static const trait_id trait_PROF_MILI_Pilot( "MILI_PILOT" );
+static const trait_id trait_PROF_MILI_PILOT( "MILI_PILOT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
