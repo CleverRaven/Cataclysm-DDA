@@ -1,5 +1,5 @@
 
-# Cataclysm-DDA-variant-jp
+# Cataclysm-DDA_variant_jp
 
 I am so bad at english, maybe reading japanese version with google translation is better than this.
 
