@@ -374,6 +374,8 @@ struct furn_t : map_data_common_t {
 
     cata::value_ptr<plant_data> plant;
 
+    cata::value_ptr<float> surgery_skill_multiplier;
+
     // May return NULL
     const itype *crafting_pseudo_item_type() const;
     // May return NULL

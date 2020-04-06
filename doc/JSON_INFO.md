@@ -2494,6 +2494,11 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 (Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag.
 
+#### `surgery_skill_multiplier`
+
+(Optional) Surgery skill multiplier (float) applied by this furniture to survivor standing next to it for the purpose of surgery.
+
+
 ### Terrain
 
 ```C++

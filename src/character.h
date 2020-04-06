@@ -934,6 +934,8 @@ class Character : public Creature, public visitable<Character>
         void remove_bionic( const bionic_id &b );
         /** Adds a bionic to my_bionics[] */
         void add_bionic( const bionic_id &b );
+        /**Calculate skill bonus from tiles in radius*/
+        float env_surgery_bonus( int radius );
         /** Calculate skill for (un)installing bionics */
         float bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &important_skill,
@@ -972,7 +974,7 @@ class Character : public Creature, public visitable<Character>
 
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
-                               float adjusted_skill, bool autodoc = false );
+                               float adjusted_skill );
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
