@@ -34,6 +34,7 @@
 #include "item.h"
 #include "recipe.h"
 #include "type_id.h"
+#include "options.h"
 
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
@@ -293,7 +294,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( batch ) {
                 current.clear();
-                for( int i = 1; i <= 20; i++ ) {
+                for( int i = 1; i <= get_option<int>( "MAX_CRAFT_BATCH_SIZE" ); i++ ) {
                     current.push_back( chosen );
                     available.push_back( availability( chosen, i ) );
                 }

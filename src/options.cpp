@@ -2117,6 +2117,11 @@ void options_manager::add_options_world_default()
          0, 100, 20
        );
 
+    add( "MAX_CRAFT_BATCH_SIZE", "world_default", translate_marker( "Maximum craft batch size" ),
+         translate_marker( "Set maximum batch size of crafting." ),
+         20, 1000, 20
+       );
+
     add_empty_line();
 
     add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
