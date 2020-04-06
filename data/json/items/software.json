@@ -93,7 +93,7 @@
     "abstract": "mod_software",
     "type": "TOOLMOD",
     "container": "usb_drive",
-    "name": { "str": "USB with usable software" },
+    "name": { "str": "USB with usable software", "str_pl": "USBs with usable software" },
     "material": [ "plastic" ],
     "color": "dark_gray",
     "symbol": ","
