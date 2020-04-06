@@ -130,7 +130,7 @@
     "copy-from": "mod_software",
     "type": "TOOLMOD",
     "flags": [ "SOFTWARE" ],
-    "name": { "str": "professional compiler", "str_pl": "professional compilers" },
+    "name": { "str": "professional compiler" },
     "description": "A suite of professional software development tools, including an IDE, compiler, build system, and an archive of useful software libraries with offline documentation.  You could install it in a computer and write some code.",
     "qualities": [ [ "SOFTWARE_COMPILER", 3 ] ]
   },
