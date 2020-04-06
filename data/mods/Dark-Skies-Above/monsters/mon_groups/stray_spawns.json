@@ -24,9 +24,9 @@
     "name": "GROUP_ZOMBIE",
     "default": "dks_mon_stray_burnt",
     "monsters": [
-      { "monster": "dks_mon_stray_burnt", "freq": 1, "cost_multiplier": 7, "pack_size": [ 10, 25 ] },
-      { "monster": "dks_mon_stray_burnt", "freq": 1, "cost_multiplier": 13, "pack_size": [ 20, 45 ] },
-      { "monster": "dks_mon_stray_burnt", "freq": 1, "cost_multiplier": 20, "pack_size": [ 30, 65 ] },
+      { "monster": "dks_mon_stray_burnt", "freq": 1, "cost_multiplier": 7, "pack_size": [ 15, 25 ] },
+      { "monster": "dks_mon_stray_burnt", "freq": 1, "cost_multiplier": 13, "pack_size": [ 25, 45 ] },
+      { "monster": "dks_mon_stray_burnt", "freq": 1, "cost_multiplier": 20, "pack_size": [ 35, 65 ] },
       { "monster": "dks_mon_stray_burnt", "freq": 75, "cost_multiplier": 0 },
       { "monster": "dks_mon_stray_child_burnt", "freq": 75, "cost_multiplier": 1 },
       { "monster": "dks_mon_stray_child_burnt", "freq": 20, "cost_multiplier": 4, "pack_size": [ 5, 15 ] },
