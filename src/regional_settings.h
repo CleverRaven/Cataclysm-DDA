@@ -193,6 +193,7 @@ struct shore_extendable_overmap_terrain_alias {
 struct overmap_lake_settings {
     double noise_threshold_lake = 0.25;
     int lake_size_min = 20;
+    int lake_depth = -5;
     std::vector<std::string> unfinalized_shore_extendable_overmap_terrain;
     std::vector<oter_id> shore_extendable_overmap_terrain;
     std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;
