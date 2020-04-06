@@ -926,6 +926,7 @@ static void wait()
         }
 
         player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) - 1 ), 0 );
+        u.start_time = std::chrono::system_clock::now();
 
         u.assign_activity( new_act, false );
     }

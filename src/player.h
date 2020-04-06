@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <chrono>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -1037,6 +1038,11 @@ class player : public Character
         void disarm( npc &target );
 
         std::set<tripoint> camps;
+
+        /**
+         * use for measure waiting time
+         */
+        std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
 
     protected:
 

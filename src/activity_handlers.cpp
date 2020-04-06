@@ -14,6 +14,7 @@
 #include <stdexcept>
 #include <string>
 #include <utility>
+#include <chrono>
 
 #include "action.h"
 #include "advanced_inv.h"
@@ -3227,6 +3228,14 @@ void activity_handlers::read_finish( player_activity *act, player *p )
 void activity_handlers::wait_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You finish waiting." ) );
+
+    std::chrono::system_clock::time_point end_time = std::chrono::system_clock::now();
+
+      double elapsed_seconds =
+              static_cast<double>(
+                      std::chrono::duration_cast<std::chrono::milliseconds>(end_time - p->start_time).count() / 1000.0);
+    p->add_msg_if_player( _( "Time elapsed: %.2fsec" ), elapsed_seconds );
+
     act->set_to_null();
 }
 
