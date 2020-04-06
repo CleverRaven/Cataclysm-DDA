@@ -53,7 +53,12 @@ int advanced_inv_area::get_item_count() const
     } else if( id == AIM_DRAGGED ) {
         return can_store_in_vehicle() ? veh->get_items( vstor ).size() : 0;
     } else {
-        return g->m.i_at( pos ).size();
+        // FIXME if vehicle part there, always show item in vehicle count
+        if( can_store_in_vehicle() ) {
+            return veh->get_items( vstor ).size();
+        } else {
+            return g->m.i_at( pos ).size();
+        }
     }
 }
 
