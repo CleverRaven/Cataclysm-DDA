@@ -203,7 +203,15 @@
       "item": { "*": { "item": "talking_doll", "chance": 100 } },
       "place_vehicles": [
         { "vehicle": "miniature_train_loco", "x": 50, "y": 45, "chance": 100, "fuel": 20, "status": 25, "rotation": 180 },
-        { "vehicle": "miniature_train_loco", "x": 30, "y": 14, "chance": 100, "fuel": 5, "status": 15, "rotation": 270 }
+        {
+          "vehicle": "miniature_train_loco",
+          "x": 30,
+          "y": 14,
+          "chance": 100,
+          "fuel": 5,
+          "status": 15,
+          "rotation": 270
+        }
       ],
       "palettes": [ "miniature_railway_palette" ]
     }
