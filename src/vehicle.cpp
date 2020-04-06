@@ -90,6 +90,8 @@ static const std::string flag_PERPETUAL( "PERPETUAL" );
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
+static const itype_id fuel_type_mana( "mana" );
+
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
 
@@ -633,19 +635,34 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     invalidate_mass();
 }
 
+void vehicle::activate_magical_follow()
+{
+    for( size_t e = 0; e < parts.size(); e++ ) {
+        vehicle_part &vp = parts[ e ];
+        if( vp.info().fuel_type == fuel_type_mana ) {
+            vp.enabled = true;
+            is_following = true;
+            engine_on = true;
+        } else {
+            vp.enabled = true;
+        }
+    }
+    refresh();
+}
+
 void vehicle::activate_animal_follow()
 {
     for( size_t e = 0; e < parts.size(); e++ ) {
-        const vehicle_part &vp = parts[ e ];
+        vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
             monster *mon = get_pet( e );
             if( mon && mon->has_effect( effect_harnessed ) ) {
-                parts[ e ].enabled = true;
+                vp.enabled = true;
                 is_following = true;
                 engine_on = true;
             }
         } else {
-            parts[ e ].enabled = false;
+            vp.enabled = true;
         }
     }
     refresh();
@@ -874,7 +891,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             accel_y = 1;
         }
         if( ( velocity < std::min( safe_velocity(), safe_player_follow_speed ) && turn_x == 0 &&
-              rl_dist( vehpos, g->m.getabs( g->u.pos() ) ) > 10 + ( ( mount_max.y * 3 ) + 4 ) ) ||
+              rl_dist( vehpos, g->m.getabs( g->u.pos() ) ) > 8 + ( ( mount_max.y * 3 ) + 4 ) ) ||
             velocity < 100 ) {
             accel_y = -1;
         }
@@ -1872,7 +1889,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     const std::string & child_flag ) {
         if( part_flag( p, parent_flag ) ) {
             int dep = part_with_feature( p, child_flag, false );
-            if( dep >= 0 ) {
+            if( dep >= 0 && !magic ) {
                 handler.add_item_or_charges( part_loc, parts[dep].properties_to_item() );
                 remove_part( dep, handler );
                 return true;
@@ -1942,7 +1959,9 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         // Note: this can spawn items on the other side of the wall!
         // TODO: fix this ^^
         tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
-        handler.add_item_or_charges( dest, i );
+        if( !magic ) {
+            handler.add_item_or_charges( dest, i );
+        }
     }
     refresh();
     coeff_air_changed = true;
@@ -4965,7 +4984,7 @@ void vehicle::idle( bool on_map )
     } else {
         if( engine_on && g->u.sees( global_pos3() ) &&
             ( has_engine_type_not( fuel_type_muscle, true ) && has_engine_type_not( fuel_type_animal, true ) &&
-              has_engine_type_not( fuel_type_wind, true ) ) ) {
+              has_engine_type_not( fuel_type_wind, true ) && has_engine_type_not( fuel_type_mana, true ) ) ) {
             add_msg( _( "The %s's engine dies!" ), name );
         }
         engine_on = false;
@@ -5293,7 +5312,6 @@ void vehicle::gain_moves()
         of_turn = .001;
     }
     of_turn_carry = 0;
-
     // cruise control TODO: enable for NPC?
     if( ( pl_control || is_following || is_patrolling ) && cruise_on && cruise_velocity != velocity ) {
         thrust( ( cruise_velocity ) > velocity ? 1 : -1 );
@@ -5322,6 +5340,36 @@ void vehicle::gain_moves()
     if( velocity < 0 ) {
         beeper_sound();
     }
+}
+
+void vehicle::dump_items_from_part( const size_t index )
+{
+    vehicle_part &vp = parts[ index ];
+    for( item &e : vp.items ) {
+        g->m.add_item_or_charges( global_part_pos3( vp ), e );
+    }
+    vp.items.clear();
+}
+
+bool vehicle::decrement_summon_timer()
+{
+    if( !summon_time_limit ) {
+        return false;
+    }
+    if( *summon_time_limit <= 0_turns ) {
+        for( const vpart_reference &vp : get_all_parts() ) {
+            const size_t p = vp.part_index();
+            dump_items_from_part( p );
+        }
+        if( g->u.sees( global_pos3() ) ) {
+            add_msg( m_info, _( "Your %s winks out of existence." ), name );
+        }
+        g->m.destroy_vehicle( this );
+        return true;
+    } else {
+        *summon_time_limit -= 1_turns;
+    }
+    return false;
 }
 
 void vehicle::suspend_refresh()
@@ -5967,7 +6015,9 @@ void vehicle::shed_loose_parts()
         }
         auto part = &parts[elem];
         item drop = part->properties_to_item();
-        g->m.add_item_or_charges( global_part_pos3( *part ), drop );
+        if( !magic ) {
+            g->m.add_item_or_charges( global_part_pos3( *part ), drop );
+        }
 
         remove_part( elem );
     }
@@ -6233,7 +6283,9 @@ int vehicle::break_off( int p, int dmg )
             // TODO: balance audit, ensure that less pieces are generated than one would need
             // to build the component (smash a vehicle box that took 10 lumps of steel,
             // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
-            g->m.add_item_or_charges( where, piece );
+            if( !magic ) {
+                g->m.add_item_or_charges( where, piece );
+            }
         }
     };
     if( part_info( p ).location == part_location_structure ) {
@@ -6259,7 +6311,9 @@ int vehicle::break_off( int p, int dmg )
                              parts[ parts_in_square[ index ] ].name() );
                 }
                 item part_as_item = parts[parts_in_square[index]].properties_to_item();
-                g->m.add_item_or_charges( pos, part_as_item );
+                if( !magic ) {
+                    g->m.add_item_or_charges( pos, part_as_item );
+                }
             }
             remove_part( parts_in_square[index] );
         }

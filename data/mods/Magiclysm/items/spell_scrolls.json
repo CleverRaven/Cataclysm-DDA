@@ -103,6 +103,14 @@
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_floating_disk",
+    "name": { "str": "Scroll of Summon Floating Disk", "str_pl": "Scrolls of Summon Floating Disk" },
+    "description": "Summons a floating disk that is sworn to carry your burdens.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_floating_disk" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_decayed_pouncer",
     "//": "Animist spell",
     "name": { "str": "Scroll of Summon Decayed Pouncer", "str_pl": "Scrolls of Summon Decayed Pouncer" },

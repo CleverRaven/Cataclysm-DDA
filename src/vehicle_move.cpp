@@ -912,14 +912,14 @@ bool vehicle::has_harnessed_animal() const
 
 void vehicle::autodrive( int x, int y )
 {
-    // for now, autodriving is only possible when pulled by an animal
-    if( !is_towed() ) {
+    if( !is_towed() && !magic ) {
         for( size_t e = 0; e < parts.size(); e++ ) {
             const vehicle_part &vp = parts[ e ];
             if( vp.info().fuel_type == fuel_type_animal ) {
                 monster *mon = get_pet( e );
                 if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
                     is_following = false;
+                    return;
                 }
             }
         }
@@ -940,7 +940,6 @@ void vehicle::autodrive( int x, int y )
             return;
         }
         turn( turn_delta );
-
     }
     if( y != 0 ) {
         int thr_amount = 100 * ( abs( velocity ) < 2000 ? 4 : 5 );
@@ -1395,7 +1394,9 @@ vehicle *vehicle::act_on_map()
         is_falling = false;
         return this;
     }
-
+    if( decrement_summon_timer() ) {
+        return nullptr;
+    }
     const bool pl_ctrl = player_in_control( g->u );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( is_floating && !can_float() ) {

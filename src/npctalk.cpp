@@ -57,6 +57,8 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "veh_type.h"
+#include "vpart_range.h"
 #include "auto_pickup.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -206,7 +208,9 @@ enum npc_chat_menu {
     NPC_CHAT_FORBID_ENGAGE,
     NPC_CHAT_CLEAR_OVERRIDES,
     NPC_CHAT_ANIMAL_VEHICLE_FOLLOW,
-    NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW
+    NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW,
+    NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW,
+    NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW
 };
 
 // given a vector of NPCs, presents a menu to allow a player to pick one.
@@ -335,8 +339,8 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 static void tell_veh_stop_following()
 {
-    for( auto &veh : g->m.get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->is_following = false;
             v->engine_on = false;
@@ -346,10 +350,43 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
-    for( auto &veh : g->m.get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->activate_animal_follow();
+        }
+    }
+}
+
+static void tell_magic_veh_to_follow()
+{
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        vehicle *v = veh.v;
+        if( v->magic ) {
+            for( const vpart_reference &vp : v->get_all_parts() ) {
+                const vpart_info &vpi = vp.info();
+                if( vpi.has_flag( "MAGIC_FOLLOW" ) && v->is_owned_by( g->u ) ) {
+                    v->activate_magical_follow();
+                    break;
+                }
+            }
+        }
+    }
+}
+
+static void tell_magic_veh_stop_following()
+{
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        vehicle *v = veh.v;
+        if( v->magic ) {
+            for( const vpart_reference &vp : v->get_all_parts() ) {
+                const vpart_info &vpi = vp.info();
+                if( vpi.has_flag( "MAGIC_FOLLOW" ) ) {
+                    v->is_following = false;
+                    v->engine_on = false;
+                    break;
+                }
+            }
         }
     }
 }
@@ -382,12 +419,26 @@ void game::chat()
     }
     std::vector<vehicle *> animal_vehicles;
     std::vector<vehicle *> following_vehicles;
+    std::vector<vehicle *> magic_vehicles;
+    std::vector<vehicle *> magic_following_vehicles;
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             animal_vehicles.push_back( v );
             if( v->is_following ) {
                 following_vehicles.push_back( v );
+            }
+        }
+        if( v->magic ) {
+            for( const vpart_reference &vp : v->get_all_parts() ) {
+                const vpart_info &vpi = vp.info();
+                if( vpi.has_flag( "MAGIC_FOLLOW" ) ) {
+                    magic_vehicles.push_back( v );
+                    if( v->is_following ) {
+                        magic_following_vehicles.push_back( v );
+                    }
+                    break;
+                }
             }
         }
     }
@@ -406,6 +457,14 @@ void game::chat()
     if( !animal_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_FOLLOW, true, 'F',
                         _( "Whistle at your animals pulling vehicles to follow you." ) );
+    }
+    if( !magic_vehicles.empty() ) {
+        nmenu.addentry( NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW, true, 'Q',
+                        _( "Utter a magical command that will order your magical vehicles to follow you." ) );
+    }
+    if( !magic_following_vehicles.empty() ) {
+        nmenu.addentry( NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW, true, 'q',
+                        _( "Utter a magical command that will order your magical vehicles to stop following you." ) );
     }
     if( !following_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW, true, 'S',
@@ -542,6 +601,12 @@ void game::chat()
             break;
         case NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW:
             tell_veh_stop_following();
+            break;
+        case NPC_CHAT_COMMAND_MAGIC_VEHICLE_FOLLOW:
+            tell_magic_veh_to_follow();
+            break;
+        case NPC_CHAT_COMMAND_MAGIC_VEHICLE_STOP_FOLLOW:
+            tell_magic_veh_stop_following();
             break;
         default:
             return;

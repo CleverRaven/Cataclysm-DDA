@@ -2738,6 +2738,8 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "is_following", is_following );
     data.read( "is_patrolling", is_patrolling );
     data.read( "autodrive_local_target", autodrive_local_target );
+    data.read( "summon_time_limit", summon_time_limit );
+    data.read( "magic", magic );
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
@@ -2898,6 +2900,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "is_following", is_following );
     json.member( "is_patrolling", is_patrolling );
     json.member( "autodrive_local_target", autodrive_local_target );
+    json.member( "summon_time_limit", summon_time_limit );
+    json.member( "magic", magic );
     json.end_object();
 }
 
