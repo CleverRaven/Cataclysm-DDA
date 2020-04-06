@@ -210,8 +210,8 @@ void map::build_sunlight_cache( int zlev )
     // Grab illumination at ground level.
     const float outside_light_level = g->natural_light_level( 0 );
     // TODO: if zlev < 0 is open to sunlight, this won't calculate correct light, but neither does g->natural_light_level()
-    const float inside_light_level = ( zlev >= 0 && outside_light_level > LIGHT_SOURCE_BRIGHT ) ?
-                                     LIGHT_AMBIENT_DIM * 0.8 : LIGHT_AMBIENT_LOW;
+    const float inside_light_level = LIGHT_AMBIENT_LOW;
+
     // Handling when z-levels are disabled is based on whether a tile is considered "outside".
     if( !zlevels ) {
         const auto &outside_cache = map_cache.outside_cache;
