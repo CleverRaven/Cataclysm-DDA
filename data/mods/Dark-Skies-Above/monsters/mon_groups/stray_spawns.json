@@ -2,10 +2,21 @@
   {
     "type": "monstergroup",
     "name": "DKS_GROUP_STRAY_UPGRADE",
-    "default": "dks_mon_stray_fast",
+    "default": "dks_mon_stray_heavy",
     "monsters": [
       { "monster": "dks_mon_stray_eater", "freq": 150, "cost_multiplier": 10 },
-      { "monster": "dks_mon_stray_heavy", "freq": 100, "cost_multiplier": 10 }
+      { "monster": "dks_mon_stray_fast", "freq": 100, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "MON_CRYSTAL_UPGRADE",
+    "default": "dks_mon_crystal_wall",
+    "monsters": [
+      { "monster": "dks_mon_crystal_shriek", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "dks_mon_crystal_whip", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "dks_mon_crystal_zap", "freq": 15, "cost_multiplier": 7 },
+      { "monster": "dks_mon_crystal_hive", "freq": 10, "cost_multiplier": 10 }
     ]
   },
   {
@@ -16,13 +27,15 @@
       { "monster": "dks_mon_stray_burnt", "freq": 1, "cost_multiplier": 7, "pack_size": [ 10, 25 ] },
       { "monster": "dks_mon_stray_burnt", "freq": 1, "cost_multiplier": 13, "pack_size": [ 20, 45 ] },
       { "monster": "dks_mon_stray_burnt", "freq": 1, "cost_multiplier": 20, "pack_size": [ 30, 65 ] },
-      { "monster": "dks_mon_stray_burnt", "freq": 75, "cost_multiplier": 0, "ends": 288 },
+      { "monster": "dks_mon_stray_burnt", "freq": 75, "cost_multiplier": 0 },
       { "monster": "dks_mon_stray_child_burnt", "freq": 75, "cost_multiplier": 1 },
       { "monster": "dks_mon_stray_child_burnt", "freq": 20, "cost_multiplier": 4, "pack_size": [ 5, 15 ] },
-      { "monster": "dks_mon_stray_wretch_burnt", "freq": 20, "cost_multiplier": 2, "ends": 288 },
+      { "monster": "dks_mon_stray_wretch_burnt", "freq": 20, "cost_multiplier": 2 },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 4, "pack_size": [ 3, 5 ] },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 16, "pack_size": [ 2, 5 ] },
-      { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 24, "pack_size": [ 5, 9 ] }
+      { "monster": "dks_mon_stray_wretch_burnt", "freq": 1, "cost_multiplier": 24, "pack_size": [ 5, 9 ] },
+      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 7, "pack_size": [ 4, 6 ], "starts": 2160 },
+      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 13, "pack_size": [ 7, 9 ], "starts": 2160 }
     ]
   },
   {
@@ -61,14 +74,19 @@
     "default": "dks_mon_stray_burnt",
     "monsters": [
       { "monster": "dks_mon_stray_child_burnt", "freq": 150, "cost_multiplier": 2 },
-      { "monster": "dks_mon_stray_wretch_burnt", "freq": 40, "cost_multiplier": 2 }
+      { "monster": "dks_mon_stray_wretch_burnt", "freq": 40, "cost_multiplier": 2 },
+      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 10 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_PREPPER_HOUSE",
-    "default": "dks_mon_stray_burnt",
-    "monsters": [ { "monster": "dks_mon_stray_wretch_burnt", "freq": 180, "cost_multiplier": 0 } ]
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "dks_mon_stray_burnt", "freq": 125, "cost_multiplier": 1 },
+      { "monster": "dks_mon_stray_burnt", "freq": 125, "cost_multiplier": 4, "pack_size": [ 2, 3 ] },
+      { "monster": "dks_mon_stray_wretch_burnt", "freq": 180, "cost_multiplier": 0 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -76,7 +94,8 @@
     "default": "dks_mon_stray_burnt",
     "monsters": [
       { "monster": "dks_mon_stray_child_burnt", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "dks_mon_stray_wretch_burnt", "freq": 50, "cost_multiplier": 0 }
+      { "monster": "dks_mon_stray_wretch_burnt", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 10 }
     ]
   },
   {
@@ -110,8 +129,11 @@
   {
     "type": "monstergroup",
     "name": "GROUP_PUBLICWORKERS",
-    "default": "dks_mon_stray_burnt",
-    "monsters": [ { "monster": "dks_mon_stray_wretch_burnt", "freq": 4, "cost_multiplier": 5 } ]
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "dks_mon_stray_burnt", "freq": 125, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "dks_mon_stray_wretch_burnt", "freq": 4, "cost_multiplier": 5 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -127,7 +149,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SCHOOL",
-    "default": "mon_null",
+    "default": "dks_mon_stray_child_burnt",
     "//": "School monster spawns.",
     "monsters": [
       { "monster": "dks_mon_stray_child_burnt", "freq": 650, "cost_multiplier": 1 },
@@ -162,7 +184,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_HOSPITAL",
-    "default": "mon_null",
+    "default": "dks_mon_stray_burnt",
     "monsters": [
       { "monster": "dks_mon_stray_burnt", "freq": 5, "cost_multiplier": 7, "pack_size": [ 5, 10 ] },
       { "monster": "dks_mon_stray_burnt", "freq": 5, "cost_multiplier": 15, "pack_size": [ 15, 20 ] },
@@ -187,7 +209,9 @@
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 5, "cost_multiplier": 10, "pack_size": [ 5, 15 ] },
       { "monster": "dks_mon_stray_wretch_burnt", "freq": 10, "cost_multiplier": 5, "pack_size": [ 1, 10 ] },
       { "monster": "dks_mon_stray_child_burnt", "freq": 70, "cost_multiplier": 5, "pack_size": [ 1, 6 ] },
-      { "monster": "dks_mon_stray_child_burnt", "freq": 40, "cost_multiplier": 5, "pack_size": [ 2, 8 ] }
+      { "monster": "dks_mon_stray_child_burnt", "freq": 40, "cost_multiplier": 5, "pack_size": [ 2, 8 ] },
+      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 7, "pack_size": [ 4, 6 ], "starts": 2160 },
+      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 13, "pack_size": [ 7, 9 ], "starts": 2160 }
     ]
   },
   {
@@ -199,7 +223,9 @@
       { "monster": "dks_mon_stray_burnt", "freq": 5, "cost_multiplier": 15, "pack_size": [ 15, 20 ] },
       { "monster": "dks_mon_stray_burnt", "freq": 5, "cost_multiplier": 20, "pack_size": [ 25, 30 ] },
       { "monster": "dks_mon_stray_child_burnt", "freq": 70, "cost_multiplier": 5, "pack_size": [ 1, 6 ] },
-      { "monster": "dks_mon_stray_child_burnt", "freq": 40, "cost_multiplier": 5, "pack_size": [ 2, 8 ] }
+      { "monster": "dks_mon_stray_child_burnt", "freq": 40, "cost_multiplier": 5, "pack_size": [ 2, 8 ] },
+      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 7, "pack_size": [ 4, 6 ], "starts": 2160 },
+      { "monster": "dks_mon_crystal_mite", "freq": 1, "cost_multiplier": 13, "pack_size": [ 7, 9 ], "starts": 2160 }
     ]
   },
   {
