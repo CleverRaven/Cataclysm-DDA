@@ -321,7 +321,7 @@
     "melee_cut": 3,
     "armor_bash": 5,
     "armor_cut": 25,
-    "armor_cut": 30,
+    "armor_stab": 30,
     "harvest": "zombie",
     "path_settings": { "max_dist": 2 },
     "special_attacks": [
