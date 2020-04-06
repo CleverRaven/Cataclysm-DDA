@@ -2115,7 +2115,7 @@ float Character::env_surgery_bonus( int radius )
     float bonus = 1.0;
     for( const tripoint &cell : g->m.points_in_radius( pos(), radius ) ) {
         if( g->m.furn( cell )->surgery_skill_multiplier ) {
-            bonus = std::max( bonus, g->m.furn( cell )->surgery_skill_multiplier );
+            bonus = std::max( bonus, *g->m.furn( cell )->surgery_skill_multiplier );
         }
     }
     return bonus;
