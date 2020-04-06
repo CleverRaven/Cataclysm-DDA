@@ -370,6 +370,7 @@ activity_handlers::do_turn_functions = {
     { ACT_LITTLEMAID_PETTING, littlemaid_petting_do_turn },
     { ACT_LITTLEMAID_SERVICE, littlemaid_service_do_turn },
     { ACT_LITTLEMAID_SPECIAL, littlemaid_special_do_turn },
+    { ACT_TAKE_WASHLET, take_washlet_do_turn },
     { ACT_EXCRETE, excrete_do_turn }
 };
 
@@ -448,6 +449,7 @@ activity_handlers::finish_functions = {
     { ACT_LITTLEMAID_PETTING, littlemaid_petting_finish },
     { ACT_LITTLEMAID_SERVICE, littlemaid_service_finish },
     { ACT_LITTLEMAID_SPECIAL, littlemaid_special_finish },
+    { ACT_TAKE_WASHLET, take_washlet_finish },
     { ACT_EXCRETE, excrete_finish }
 };
 
