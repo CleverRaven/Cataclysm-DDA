@@ -139,7 +139,7 @@
     "copy-from": "mod_software",
     "type": "TOOLMOD",
     "flags": [ "SOFTWARE" ],
-    "name": { "str": "makeshift AI SDK", "str_pl": "makeshift AI SDK" },
+    "name": { "str": "makeshift AI SDK" },
     "description": "A hacky AI SDK reverse-engineered from firmware dumps of AI cores.  It's jank AF, but you could probably program some simple AI modules using it if you're brave enough.",
     "qualities": [ [ "SOFTWARE_AI_SDK", 1 ] ]
   },
