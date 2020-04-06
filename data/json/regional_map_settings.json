@@ -641,6 +641,8 @@
         "house_dogs": 50,
         "house_gardener": 50,
         "house_inner_garden": 50,
+        "urban_1_house": 50,
+        "urban_2_house": 50,
         "emptyresidentiallot": 20,
         "house_vacant": 20,
         "house_vacant2": 20,
