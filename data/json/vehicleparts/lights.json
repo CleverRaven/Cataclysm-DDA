@@ -226,7 +226,7 @@
     "symbol": "=",
     "broken_symbol": "#",
     "color": "white",
-    "durability": 400,
+    "durability": 300,
     "epower": -10,
     "bonus": 30,
     "breaks_into": [
@@ -241,7 +241,8 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "AISLE", "BOARDABLE", "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "AISLE", "BOARDABLE", "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "damage_reduction": { "all": 33 }
   },
   {
     "id": "lit_aisle_vertical",

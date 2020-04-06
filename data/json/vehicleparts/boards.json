@@ -5,7 +5,7 @@
     "name": { "str": "board" },
     "item": "sheet_metal",
     "location": "center",
-    "durability": 120,
+    "durability": 300,
     "description": "A metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_sheet_metal",
     "flags": [ "OPAQUE", "OBSTACLE", "FULL_BOARD", "NO_ROOF_NEEDED" ],
@@ -14,7 +14,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "damage_reduction": { "all": 28 }
+    "damage_reduction": { "all": 33 }
   },
   {
     "abstract": "clothboard",
@@ -52,8 +52,7 @@
     "description": "A half-height metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] },
-    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] },
-    "damage_reduction": { "all": 28 }
+    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
   },
   {
     "abstract": "stowboard",
@@ -64,7 +63,7 @@
     "color": "white",
     "broken_symbol": "#",
     "broken_color": "light_gray",
-    "durability": 80,
+    "durability": 150,
     "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "size": 250,
     "requirements": {
@@ -73,19 +72,18 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "NO_ROOF_NEEDED", "LOCKABLE_CARGO" ],
-    "damage_reduction": { "all": 28 }
+    "damage_reduction": { "all": 25 }
   },
   {
     "abstract": "hdstowboard",
-    "copy-from": "stowboard",
     "type": "vehicle_part",
+    "copy-from": "stowboard",
     "name": { "str": "heavy duty stow board" },
-    "item": "steel_plate",
     "color": "brown",
     "broken_color": "dark_gray",
-    "proportional": { "durability": 4.15, "size": 0.76 },
-    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "NO_ROOF_NEEDED", "LOCKABLE_CARGO" ],
-    "damage_reduction": { "all": 72, "cut": 80, "stab": 80 }
+    "item": "steel_plate",
+    "proportional": { "durability": 1.25 },
+    "damage_reduction": { "all": 75 }
   },
   {
     "abstract": "hdboard",
@@ -94,7 +92,7 @@
     "item": "steel_plate",
     "location": "center",
     "color": "dark_gray",
-    "durability": 450,
+    "durability": 375,
     "description": "A strong metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_steel_plate",
     "requirements": {
@@ -103,7 +101,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "OPAQUE", "OBSTACLE", "FULL_BOARD", "NO_ROOF_NEEDED" ],
-    "damage_reduction": { "all": 75, "cut": 80, "stab": 80 }
+    "damage_reduction": { "all": 90 }
   },
   {
     "abstract": "hdhalfboard",
@@ -113,8 +111,7 @@
     "description": "A half-height strong metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] },
-    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] },
-    "damage_reduction": { "all": 75, "cut": 80, "stab": 80 }
+    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
   },
   {
     "abstract": "woodboard",
@@ -143,8 +140,7 @@
     "description": "A half-height wooden wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "proportional": { "durability": 0.8 },
     "extend": { "flags": [ "HALF_BOARD" ] },
-    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] },
-    "damage_reduction": { "all": 16, "cut": 8, "stab": 8 }
+    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
   },
   {
     "abstract": "xlhalfboard",
@@ -161,8 +157,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "OBSTACLE", "HALF_BOARD", "NO_ROOF_NEEDED" ],
-    "damage_reduction": { "all": 8 }
+    "flags": [ "OBSTACLE", "HALF_BOARD", "NO_ROOF_NEEDED" ]
   },
   {
     "id": "halfboard_cover",
