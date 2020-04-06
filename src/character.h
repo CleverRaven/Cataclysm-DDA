@@ -1840,6 +1840,8 @@ class Character : public Creature, public visitable<Character>
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         void check_and_recover_morale();
 
+        void apply_fragrant_morale();
+
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;
 

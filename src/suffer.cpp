@@ -1735,6 +1735,18 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         if( body_wetness[bp] < wetness_max ) {
             body_wetness[bp] = std::min( wetness_max, body_wetness[bp] + wetness_increment );
         }
+
+        // get wet will lost fragrant
+        bool lost_fragrant = false;
+        for( auto& armor : worn ) {
+            if( armor.covers(bp) ){
+                static const std::string fragrant( "FRAGRANT" );
+                lost_fragrant |= armor.item_tags.erase( fragrant );
+            }
+        }
+        if( lost_fragrant ) {
+            apply_fragrant_morale();
+        }
     }
 
     if( body_wetness[bp_torso] >= drench_capacity[bp_torso] / 2.0 &&

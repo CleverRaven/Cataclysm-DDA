@@ -123,5 +123,6 @@ extern const morale_type MORALE_TAKE_WASHLET;
 extern const morale_type MORALE_USE_TOILETPAPER;
 extern const morale_type MORALE_EXCRETE;
 extern const morale_type MORALE_INCONTINENT;
+extern const morale_type MORALE_PERM_FRAGRANT;
 
 #endif

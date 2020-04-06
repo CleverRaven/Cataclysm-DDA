@@ -7877,6 +7877,12 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
     // TODO: add some check for power armor
     armor.mitigate_damage( du );
 
+    // attacked armor lose fragrant
+    static const std::string fragrant( "FRAGRANT" );
+    if(armor.item_tags.erase( fragrant )){
+        apply_fragrant_morale();
+    }
+
     // We want armor's own resistance to this type, not the resistance it grants
     const int armors_own_resist = armor.damage_resist( du.type, true );
     if( armors_own_resist > 1000 ) {
@@ -8460,7 +8466,53 @@ void Character::apply_persistent_morale()
             rem_morale( MORALE_PERM_FPMODE_ON );
         }
     }
+
+    apply_fragrant_morale();
+
 }
+
+void Character::apply_fragrant_morale()
+{
+    int bonus = 0;
+    static const std::string fragrant( "FRAGRANT" );
+    for( const auto armor : worn ){
+        if( armor.item_tags.count( fragrant ) ){
+            bonus += 1;
+            if( armor.covers( bp_head ) ){
+                bonus += 1;
+            }
+            if( armor.covers( bp_eyes ) ){
+                bonus += 1;
+            }
+            if( armor.covers( bp_mouth ) ){
+                bonus += 4;
+            }
+            if( armor.covers( bp_torso ) ){
+                bonus += 2;
+            }
+            if( armor.covers( bp_arm_l ) ){
+                bonus += 1;
+            }
+            if( armor.covers( bp_arm_r ) ){
+                bonus += 1;
+            }
+            if( armor.covers( bp_hand_l ) ){
+                bonus += 1;
+            }
+            if( armor.covers( bp_hand_r ) ){
+                bonus += 1;
+            }
+        }
+    }
+    bonus = std::min(bonus / 2, 20);
+
+    if( 0 < bonus ) {
+        add_morale( MORALE_PERM_FRAGRANT, bonus, bonus, 1_minutes, 1_minutes, true );
+    } else {
+        rem_morale( MORALE_PERM_FRAGRANT );
+    }
+}
+
 
 int Character::get_morale_level() const
 {

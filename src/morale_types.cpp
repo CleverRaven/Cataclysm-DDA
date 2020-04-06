@@ -202,6 +202,7 @@ const morale_type MORALE_PLAY_WITH_LITTLEMAID( "morale_play_with_littlemaid" );
 const morale_type MORALE_ECSTASY( "morale_ecstasy" );
 const morale_type MORALE_EXCRETE( "morale_excrete" );
 const morale_type MORALE_INCONTINENT( "morale_incontinent" );
+const morale_type MORALE_PERM_FRAGRANT( "morale_perm_fragrant" );
 
 namespace
 {
