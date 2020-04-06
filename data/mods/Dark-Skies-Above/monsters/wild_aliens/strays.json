@@ -339,6 +339,7 @@
       "STUMBLES",
       "WARM",
       "BASHES",
+      "DESTROYS",
       "GROUP_BASH",
       "POISON",
       "PUSH_MON",
@@ -361,7 +362,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 40,
-    "speed": 60,
+    "speed": 65,
     "material": [ "flesh" ],
     "symbol": "S",
     "color": "i_white",
@@ -379,7 +380,7 @@
     "death_function": [ "NORMAL" ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "upgrades": { "half_life": 2, "into": "dks_mon_stray" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "HUMAN", "POISON", "BLEED", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "STUMBLES", "HUMAN", "WARM", "POISON", "BLEED", "FILTHY" ]
   },
   {
     "id": "dks_mon_stray_child",
@@ -394,7 +395,7 @@
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 35,
-    "speed": 65,
+    "speed": 60,
     "material": [ "flesh" ],
     "symbol": "s",
     "color": "white",
@@ -414,7 +415,21 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_hulk_death_drops", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 12, "into": "dks_mon_stray_wretch" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "HUMAN", "WARM", "BLEED", "GUILT", "POISON", "FILTHY", "PATH_AVOID_FIRE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "BASHES",
+      "GROUP_BASH",
+      "STUMBLES",
+      "HUMAN",
+      "WARM",
+      "BLEED",
+      "GUILT",
+      "POISON",
+      "FILTHY",
+      "PATH_AVOID_FIRE"
+    ]
   },
   {
     "id": "dks_mon_stray_child_burnt",
@@ -445,7 +460,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_hulk_death_drops", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 2, "into": "dks_mon_stray_child" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "POISON", "GUILT", "HUMAN", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "STUMBLES", "POISON", "GUILT", "HUMAN", "WARM", "FILTHY" ]
   },
   {
     "id": "dks_mon_stray_wretch_burnt",
@@ -483,7 +498,9 @@
       "HEARS",
       "SMELLS",
       "KEENNOSE",
+      "BASHES",
       "BLEED",
+      "WARM",
       "HARDTOSHOOT",
       "POISON",
       "CLIMBS",
@@ -538,6 +555,7 @@
       "KEENNOSE",
       "BLEED",
       "HARDTOSHOOT",
+      "WARM",
       "POISON",
       "CLIMBS",
       "FILTHY",
