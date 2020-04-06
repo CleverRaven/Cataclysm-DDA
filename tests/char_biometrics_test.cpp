@@ -64,10 +64,9 @@ static float metabolic_rate_with_mutation( player &dummy, std::string trait_name
     return dummy.metabolic_rate_base();
 }
 
-// Return player `get_bmr` (basal metabolic rate) with the given BMI and activity level.
-static int bmr_at_bmi_act_level( player &dummy, float bmi, float activity_level )
+// Return player `get_bmr` (basal metabolic rate) at the given activity level.
+static int bmr_at_act_level( player &dummy, float activity_level )
 {
-    set_player_bmi( dummy, bmi );
     dummy.reset_activity_level();
     dummy.increase_activity_level( activity_level );
 
@@ -388,7 +387,7 @@ TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabo
     CHECK( metabolic_rate_with_mutation( dummy, "COLDBLOOD4" ) == Approx( 0.5f ) );
 }
 
-TEST_CASE( "basal metabolic rate with various metabolism", "[biometrics][bmr]" )
+TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics][bmr]" )
 {
     avatar dummy;
 
@@ -396,9 +395,12 @@ TEST_CASE( "basal metabolic rate with various metabolism", "[biometrics][bmr]" )
     // scaled by metabolic base rate. Assume default metabolic rate.
     REQUIRE( dummy.metabolic_rate_base() == 1.0f );
 
+    // To keep things simple, use normal BMI for al tests
+    set_player_bmi( dummy, 25.0f );
+    REQUIRE( dummy.get_bmi() == Approx( 25.0f ).margin( 0.001f ) );
+
     // Tests cover:
     // - normal, very fast, and cold-blooded metabolisms for normal body size
-    // - BMI from 16.0 (Emaciated/Underweight) to 35.0 (Obese/Very Obese)
     // - three different levels of exercise (none, moderate, extra)
 
     // CHECK expressions have expected value on the left hand side for better readability.
@@ -407,51 +409,27 @@ TEST_CASE( "basal metabolic rate with various metabolism", "[biometrics][bmr]" )
         REQUIRE( dummy.get_size() == MS_MEDIUM );
 
         SECTION( "normal metabolism" ) {
-            CHECK( 1757 == bmr_at_bmi_act_level( dummy, 16.0, NO_EXERCISE ) );
-            CHECK( 2087 == bmr_at_bmi_act_level( dummy, 25.0, NO_EXERCISE ) );
-            CHECK( 2454 == bmr_at_bmi_act_level( dummy, 35.0, NO_EXERCISE ) );
-
-            CHECK( 2269 == bmr_at_bmi_act_level( dummy, 16.0, MODERATE_EXERCISE ) );
-            CHECK( 2696 == bmr_at_bmi_act_level( dummy, 25.0, MODERATE_EXERCISE ) );
-            CHECK( 3170 == bmr_at_bmi_act_level( dummy, 35.0, MODERATE_EXERCISE ) );
-
-            CHECK( 2782 == bmr_at_bmi_act_level( dummy, 16.0, EXTRA_EXERCISE ) );
-            CHECK( 3304 == bmr_at_bmi_act_level( dummy, 25.0, EXTRA_EXERCISE ) );
-            CHECK( 3886 == bmr_at_bmi_act_level( dummy, 35.0, EXTRA_EXERCISE ) );
+            CHECK( 2087 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 2696 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 3304 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
 
         SECTION( "very fast metabolism" ) {
             set_single_trait( dummy, "HUNGER2" );
             REQUIRE( dummy.metabolic_rate_base() == 2.0f );
 
-            CHECK( 3514 == bmr_at_bmi_act_level( dummy, 16.0, NO_EXERCISE ) );
-            CHECK( 4174 == bmr_at_bmi_act_level( dummy, 25.0, NO_EXERCISE ) );
-            CHECK( 4908 == bmr_at_bmi_act_level( dummy, 35.0, NO_EXERCISE ) );
-
-            CHECK( 4538 == bmr_at_bmi_act_level( dummy, 16.0, MODERATE_EXERCISE ) );
-            CHECK( 5391 == bmr_at_bmi_act_level( dummy, 25.0, MODERATE_EXERCISE ) );
-            CHECK( 6339 == bmr_at_bmi_act_level( dummy, 35.0, MODERATE_EXERCISE ) );
-
-            CHECK( 5563 == bmr_at_bmi_act_level( dummy, 16.0, EXTRA_EXERCISE ) );
-            CHECK( 6608 == bmr_at_bmi_act_level( dummy, 25.0, EXTRA_EXERCISE ) );
-            CHECK( 7771 == bmr_at_bmi_act_level( dummy, 35.0, EXTRA_EXERCISE ) );
+            CHECK( 4174 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 5391 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 6608 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
 
         SECTION( "very slow (cold-blooded) metabolism" ) {
             set_single_trait( dummy, "COLDBLOOD3" );
             REQUIRE( dummy.metabolic_rate_base() == 0.5f );
 
-            CHECK( 879 == bmr_at_bmi_act_level( dummy, 16.0, NO_EXERCISE ) );
-            CHECK( 1044 == bmr_at_bmi_act_level( dummy, 25.0, NO_EXERCISE ) );
-            CHECK( 1227 == bmr_at_bmi_act_level( dummy, 35.0, NO_EXERCISE ) );
-
-            CHECK( 1135 == bmr_at_bmi_act_level( dummy, 16.0, MODERATE_EXERCISE ) );
-            CHECK( 1348 == bmr_at_bmi_act_level( dummy, 25.0, MODERATE_EXERCISE ) );
-            CHECK( 1585 == bmr_at_bmi_act_level( dummy, 35.0, MODERATE_EXERCISE ) );
-
-            CHECK( 1391 == bmr_at_bmi_act_level( dummy, 16.0, EXTRA_EXERCISE ) );
-            CHECK( 1652 == bmr_at_bmi_act_level( dummy, 25.0, EXTRA_EXERCISE ) );
-            CHECK( 1943 == bmr_at_bmi_act_level( dummy, 35.0, EXTRA_EXERCISE ) );
+            CHECK( 1044 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 1348 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 1652 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
     }
 
@@ -459,34 +437,18 @@ TEST_CASE( "basal metabolic rate with various metabolism", "[biometrics][bmr]" )
         set_single_trait( dummy, "SMALL" );
         REQUIRE( dummy.get_size() == MS_SMALL );
 
-        CHECK( 1094 == bmr_at_bmi_act_level( dummy, 16.0, NO_EXERCISE ) );
-        CHECK( 1262 == bmr_at_bmi_act_level( dummy, 25.0, NO_EXERCISE ) );
-        CHECK( 1449 == bmr_at_bmi_act_level( dummy, 35.0, NO_EXERCISE ) );
-
-        CHECK( 1413 == bmr_at_bmi_act_level( dummy, 16.0, MODERATE_EXERCISE ) );
-        CHECK( 1630 == bmr_at_bmi_act_level( dummy, 25.0, MODERATE_EXERCISE ) );
-        CHECK( 1872 == bmr_at_bmi_act_level( dummy, 35.0, MODERATE_EXERCISE ) );
-
-        CHECK( 1732 == bmr_at_bmi_act_level( dummy, 16.0, EXTRA_EXERCISE ) );
-        CHECK( 1998 == bmr_at_bmi_act_level( dummy, 25.0, EXTRA_EXERCISE ) );
-        CHECK( 2294 == bmr_at_bmi_act_level( dummy, 35.0, EXTRA_EXERCISE ) );
+        CHECK( 1262 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+        CHECK( 1630 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+        CHECK( 1998 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
     }
 
     SECTION( "large body size" ) {
         set_single_trait( dummy, "LARGE" );
         REQUIRE( dummy.get_size() == MS_LARGE );
 
-        CHECK( 2516 == bmr_at_bmi_act_level( dummy, 16.0, NO_EXERCISE ) );
-        CHECK( 3062 == bmr_at_bmi_act_level( dummy, 25.0, NO_EXERCISE ) );
-        CHECK( 3669 == bmr_at_bmi_act_level( dummy, 35.0, NO_EXERCISE ) );
-
-        CHECK( 3250 == bmr_at_bmi_act_level( dummy, 16.0, MODERATE_EXERCISE ) );
-        CHECK( 3955 == bmr_at_bmi_act_level( dummy, 25.0, MODERATE_EXERCISE ) );
-        CHECK( 4739 == bmr_at_bmi_act_level( dummy, 35.0, MODERATE_EXERCISE ) );
-
-        CHECK( 3983 == bmr_at_bmi_act_level( dummy, 16.0, EXTRA_EXERCISE ) );
-        CHECK( 4848 == bmr_at_bmi_act_level( dummy, 25.0, EXTRA_EXERCISE ) );
-        CHECK( 5809 == bmr_at_bmi_act_level( dummy, 35.0, EXTRA_EXERCISE ) );
+        CHECK( 3062 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+        CHECK( 3955 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+        CHECK( 4848 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
     }
 }
 
