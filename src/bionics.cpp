@@ -2118,11 +2118,20 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
 
 float Character::env_surgery_bonus( int radius )
 {
-    float bonus = 1.0;
+    float bonus = 0.0;
+    std::vector<float> bonus_all;
     for( const tripoint &cell : g->m.points_in_radius( pos(), radius ) ) {
         if( g->m.furn( cell )->surgery_skill_multiplier ) {
-            bonus *= *g->m.furn( cell )->surgery_skill_multiplier;
+            bonus_all.emplace_back( *g->m.furn( cell )->surgery_skill_multiplier );
         }
+    }
+    for( const float bn : bonus_all ) {
+        if( bn > bonus ) {
+            bonus = bn;
+        }
+    }
+    if( bonus_all.empty() ) {
+        bonus = 1.0;
     }
     return bonus;
 }
