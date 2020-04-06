@@ -1,101 +1,146 @@
-# Catalcysm: Dark Days Ahead
 
-Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have...
+# Cataclysm-DDA_variant_jp
 
-<a href="https://repology.org/project/cataclysm-dda/versions">
-    <img src="https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg" alt="Packaging Status" align="right">
-</a>
+English version (broken english warning!!)
 
-[![Build Status](https://travis-ci.org/CleverRaven/Cataclysm-DDA.svg?branch=master)](https://travis-ci.org/CleverRaven/Cataclysm-DDA)
-[![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
-[![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
-[![Commit Activity](https://img.shields.io/github/commit-activity/m/CleverRaven/Cataclysm-DDA)](https://github.com/CleverRaven/Cataclysm-DDA/graphs/contributors)
-[![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)
+[https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/README_en.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/README_en.md)
 
-## Downloads
 
-**Releases** - [Stable](https://cataclysmdda.org/releases/) | [Experimental](https://cataclysmdda.org/experimental/)
+## これはなに？
 
-**Source** - The source can be downloaded as a [.zip archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or cloned from our [GitHub repo](https://github.com/CleverRaven/Cataclysm-DDA/).
+Cataclysm DDAを独自改造したバージョン、いわゆるヴァリアントになります。
+安定板0.E(#10478)がベースです。
 
-### Packaging status
+## 注意
 
-#### Arch Linux
+- 人によって好みが分かれる要素がありますが、なるべくオプションから無効にできるようにしてます。
+  - おとなしめな排泄要素。
+  - 異界のメイドさんとの*Lovely Activity*。
 
-Ncurses and tiles version available in [community repo](https://www.archlinux.org/packages/?q=cataclysm-dda).
 
-`sudo pacman -S cataclysm-dda`
+## ダウンロードと遊び方
 
-#### Fedora
+- ヴァリアント本体に同梱されているもの
+	- ヴァリアント本体
+		- [https://ux.getuploader.com/cdda_vibrator/](https://ux.getuploader.com/cdda_vibrator/)
+		- こちらのアップローダーで配布しています。
+		- だいたい、一番上のが最新版です。
+	- 追加翻訳ファイル
+	- 追加Modファイル
+	- 追加タイル
+	- Battle Maid Mod(最新版対応済み)
+		- 改変、再配布は大丈夫との事だそうなので、これも同梱させて頂いています。
+		- アドオンとしても常識の範囲をはみ出してるのは自覚してますが、あくまでアドオンなのでで通りますでしょうか...？
 
-Ncurses and tiles version available in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda).
+- 各自ご用意いただきたい物
+	- UnDeadPeopleタイルセット
+		- なくてもプレイにそこまで支障はないですが、タイルはこれのみ対応なので是非。
 
-`sudo dnf install cataclysm-dda`
+- 言語について
+	- 日本語_variantという言語を同梱し、オプションから選べるようにしています。
+	- 新要素の翻訳はこちらにしか入っていないので、オプションから言語の変更をお願いします。
 
-#### Debian / Ubuntu
+- 同梱modについて
+  - コア - Variant Addition
+    - ヴァリアントに必須のファイルです。
+	- コア - LittleMaid
+		- 愛玩用リトルメイド(搾乳可能)から召喚可能なリトルメイドをクラフトできるようにします。
+		- ショゴスのメイドさんに対してヴァリアントの機能を使えるようにします。
+		- メイド要素がいらない人は、Battle Maidともども入れなくても通常のプレイには問題ないはずです。
+	- アイテム追加/Vibrator Junkyard
+		- こまごまとした様々なアイテムを追加します。ほとんどが名前の通りJunkでヴァリアントとはあまり関係ないオマケアイテムです。
+		- 一部のアイテムがヴァリアントの追加機能を使っています。詳しくはmodファイル内を見てみてください。
 
-Ncurses and tiles version available in [official repos](https://tracker.debian.org/pkg/cataclysm-dda).
+## 新要素
 
-`sudo apt install cataclysm-dda-curses cataclysm-dda-sdl`
+新要素の詳細は以下のファイルにまとめました。
 
-## Compile
+[https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/doc/VARIANT_SCA_FEATURE.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/doc/VARIANT_SCA_FEATURE.md)
 
-Please read [COMPILING.md](doc/COMPILING/COMPILING.md) - it covers general information and more specific recipes for Linux, OS X, Windows and BSD. See [COMPILER_SUPPORT.md](doc/COMPILING/COMPILER_SUPPORT.md) for details on which compilers we support. And you can always dig for more information in [doc/](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc).
+代表的な新要素の簡単な紹介です。
 
-We also have the following build guides:
-* Building on Windows with `MSYS2` at [COMPILING-MSYS.md](doc/COMPILING/COMPILING-MSYS.md)
-* Building on Windows with `vcpkg` at [COMPILING-VS-VCPKG.md](doc/COMPILING/COMPILING-VS-VCPKG.md)
-* Building with `cmake` at [COMPILING-CMAKE.md](doc/COMPILING/COMPILING-CMAKE.md)  (*unofficial guide*)
+### うんちを出そう
 
-## Contribute
+@さんが食事を消化するにしたがって、腸内に何かがたまってきます。
 
-Cataclysm: Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
-Some code distributed with the project is not part of the project and is released under different software licenses, the files covered by different software licenses have their own license notices.
+もよおしてきたら、ちょっとゾンビに邪魔されない所でかがんで、出すものを出しましょう。
 
-[<img src="https://www.bountysource.com/badge/tracker?tracker_id=146201" alt="Bountysource" align="right">](https://www.bountysource.com/trackers/146201-clever-raven-cataclysm-dda?utm_source=146201&utm_medium=shield&utm_campaign=TRACKER_BADGE)
+出すべきところで出せば、さらなる意欲アップにつながります。
 
-Please see [CONTRIBUTING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/.github/CONTRIBUTING.md) for details.
+人によってはいらないジャマな要素になるので、世界設定のオプションからオフにもできます。
 
-## Community
+### シャワーを浴びよう
 
-Forums:
-https://discourse.cataclysmdda.org
+車載シャワーブースを作って車に搭載すれば、いつでもシャワーを浴びられます。
 
-Wiki:
-http://cddawiki.chezzo.com/cdda_wiki/index.php
+シャワーを浴びるためには車載タンクの綺麗な水30リットルと自動車用バッテリー1個分の電気をを消費します。
 
-GitHub repo:
-https://github.com/CleverRaven/Cataclysm-DDA
+### メイドともっと楽しもう
 
-IRC:
-`irc.freenode.net` ; `#CataclysmDDA`
-http://webchat.freenode.net/?channels=#CataclysmDDA
+Battle Maid Mod内ではアイテムだけの存在だった愛玩用リトルメイドを、友好モンスターとして召喚したり逆に片付けたりできます。
 
-Official Discord:
-https://discord.gg/jFEc7Yp
+また、ショゴスのメイドさんや愛玩用リトルメイドに対して待機命令を出したり、一緒に遊んだりできます。
 
-## Frequently Asked Questions
+### 酸性雨には気を付けよう
 
-#### Is there a tutorial?
+デフォルトの設定だと、まれに酸性雨が降ります。世界設定のオプションから調整できます。
 
-Yes, you can find the tutorial in the **Special** menu at the main menu (be aware that due to many code changes the tutorial may not function). You can also access documentation in-game via the `?` key.
+酸性雨を浴びると多大な苦痛と少量のダメージを受けます。レインコートを着たり、傘を構えることで被害を大幅、あるいは完全に軽減できます。
 
-#### How can I change the key bindings?
+まれに、非常に強力な酸性嵐 [Acid Storm] に発展します。もはや傘では防げないレベルなので、屋根のあるところに避難しましょう。
 
-Press the `?` key, followed by the `1` key to see the full list of key commands. Press the `+` key to add a key binding, select which action with the corresponding letter key `a-w`, and then the key you wish to assign to that action.
+冬には、酸性雨と小酸性雨のかわりに、酸性雪と小酸性雪が降ります。効果はほぼ同じです。
 
-#### How can I start a new world?
+### 洗濯をしよう
 
-**World** on the main menu will generate a fresh world for you. Select **Create World**.
+車載洗濯機を使って衣類・防具類を洗濯すると、いい香りになります。（手洗いではダメ）
 
-#### I've found a bug. What should I do?
+いい香りの衣類を着ていると、意欲が上がります。
 
-Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [bug report template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=bug_report.md). If you're not able to, send an email to `kevin.granade@gmail.com`.
+衣類の香りは時間経過などでは消えませんが、雨や浅水域などの濡れ判定か、敵からの攻撃判定を受けるとすぐに消えます。
 
-#### I would like to make a suggestion. What should I do?
+### NPCの食事を準備しよう
 
-Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [feature request template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=feature_request.md).
+車載パーツの「食糧庫タグ」を車両のカーゴに付けると、
 
-You can also submit your suggestions or vote for existing suggestions on [our FeatHub page](https://feathub.com/CleverRaven/Cataclysm-DDA). Most voted suggestions are:
+味方NPCは一緒に車両に乗っている時、お腹が空くと勝手にタグの付いたカーゴから食料を食べるようになります。
 
-[![Feature Requests](https://feathub.com/CleverRaven/Cataclysm-DDA?format=svg)](https://feathub.com/CleverRaven/Cataclysm-DDA)
+ちょっと不具合が心配な試験的機能なので気を付けて使ってください。
+
+味方NPC1人の状態のテストは大方大丈夫みたいですが、味方NPCが2人以上いる場合の動作確認をほとんどしてないです。
+
+### etc...
+
+ここでは紹介しきれない様々な微調整もあります。
+
+こちらで全要素を紹介しています。
+
+[https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/doc/VARIANT_SCA_FEATURE.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/doc/VARIANT_SCA_FEATURE.md)
+
+
+## 謝辞（謝罪）
+
+- Kevin Granadeさま、ならびにCDDAコントリビューターの皆さま
+- Battle Maid Modの作者さま
+- UnDeadPeopleタイルセットに入ってるメイド関連のチップの作者さま
+
+以上の皆様に感謝とともに非礼をお詫びいたします。
+
+こんなヴァリアントつくってすみません。でも作りたかったんです。
+
+## ライセンスについて
+
+クリエイティブコモンズの 表示 - 継承 3.0 非移植 ライセンスとします。
+
+詳しくは以下のファイルを見てください。
+
+https://github.com/roloa/Cataclysm-DDA/blob/variant_sca/LICENSE.txt
+
+## Discord
+
+[https://discord.gg/kGNU8Jg](https://discord.gg/kGNU8Jg)
+
+サーバー参加時のランダムメッセージは切ってあるのでご気軽にご参加して、こっそり脱退してみてください。
+
+不具合報告や、要望、ご意見、ご感想などお待ちしております。
+
