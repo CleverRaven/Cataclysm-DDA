@@ -1,0 +1,11 @@
+[
+  {
+    "id": "emit_shower_vehicle",
+    "type": "emit",
+    "//": "this depends heater hot air",
+    "field": "fd_hot_air_vehicle_heater",
+    "intensity": 2,
+    "qty": 3,
+    "chance": 100
+  }
+]

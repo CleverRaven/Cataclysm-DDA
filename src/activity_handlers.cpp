@@ -205,6 +205,7 @@ static const activity_id ACT_LITTLEMAID_SERVICE("ACT_LITTLEMAID_SERVICE");
 static const activity_id ACT_LITTLEMAID_SPECIAL("ACT_LITTLEMAID_SPECIAL");
 static const activity_id ACT_TAKE_WASHLET("ACT_TAKE_WASHLET");
 static const activity_id ACT_EXCRETE("ACT_EXCRETE");
+static const activity_id ACT_TAKE_SHOWER("ACT_TAKE_SHOWER");
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
@@ -371,9 +372,12 @@ activity_handlers::do_turn_functions = {
     { ACT_LITTLEMAID_PETTING, littlemaid_petting_do_turn },
     { ACT_LITTLEMAID_SERVICE, littlemaid_service_do_turn },
     { ACT_LITTLEMAID_SPECIAL, littlemaid_special_do_turn },
+    { ACT_TAKE_SHOWER, take_shower_do_turn },
     { ACT_TAKE_WASHLET, take_washlet_do_turn },
     { ACT_EXCRETE, excrete_do_turn }
 };
+
+
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
 activity_handlers::finish_functions = {
@@ -450,6 +454,7 @@ activity_handlers::finish_functions = {
     { ACT_LITTLEMAID_PETTING, littlemaid_petting_finish },
     { ACT_LITTLEMAID_SERVICE, littlemaid_service_finish },
     { ACT_LITTLEMAID_SPECIAL, littlemaid_special_finish },
+    { ACT_TAKE_SHOWER, take_shower_finish },
     { ACT_TAKE_WASHLET, take_washlet_finish },
     { ACT_EXCRETE, excrete_finish }
 };
@@ -5347,4 +5352,34 @@ void activity_handlers::littlemaid_special_finish( player_activity *act, player 
     littlemaid_ecstasy_check(p, maid);
     act->set_to_null();
 }
+
+void activity_handlers::take_shower_do_turn( player_activity *act, player *p ){
+    if( calendar::once_every( 1_minutes ) ) {
+        body_part_set drenched_parts;
+        if( !act->str_values.empty() && act->str_values[0] == "hands" ){
+            drenched_parts = { { bp_hand_l, bp_hand_r } };
+        } else {
+            drenched_parts = { { bp_torso, bp_head, bp_arm_l, bp_arm_r, bp_hand_l, bp_hand_r, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r } };
+        }
+        p->drench( 50, drenched_parts, true );
+    }
+    if( !act->str_values.empty() && act->str_values[0] == "hot" ) {
+        g->m.emit_field( p->pos(), emit_id( "emit_shower_vehicle" ) , 1.0f );
+    }
+}
+
+void activity_handlers::take_shower_finish( player_activity *act, player *p ){
+    if( !act->str_values.empty() && act->str_values[0] == "hands" ){
+        p->add_msg_if_player( m_good, _( "You finished washing hands." ) );
+        p->add_morale( MORALE_TAKE_SHOWER, 5, 10, 180_minutes, 120_minutes );
+    } else if( !act->str_values.empty() && act->str_values[0] == "hot" ){
+        p->add_msg_if_player( m_good, _( "You finished taking a hot shower." ) );
+        p->add_morale( MORALE_TAKE_SHOWER, 20, 40, 180_minutes, 120_minutes );
+    } else {
+        p->add_msg_if_player( m_good, _( "You finished taking a shower." ) );
+        p->add_morale( MORALE_TAKE_SHOWER, 15, 30, 180_minutes, 120_minutes );
+    }
+    act->set_to_null();
+}
+
 

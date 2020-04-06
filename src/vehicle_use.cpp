@@ -1859,6 +1859,68 @@ void vehicle::use_bike_rack( int part )
     }
 }
 
+
+void vehicle::use_shower( int p , const std::string &mode ) {
+    (void)p;
+
+    int consume_water = 120;
+    int consume_battery = 2000;
+    int time_to_take = to_moves<int>( 10_minutes );
+    std::string message = _("Take a shower?");
+    if( mode == "hands" ){
+        consume_water = 20;
+        consume_battery = 200;
+        time_to_take = to_moves<int>( 1_minutes );
+        message = _("Wash hands?");
+    } else if( mode == "hot" ){
+        consume_battery = 5000;
+    }
+
+    if( fuel_left( "water_clean" ) < consume_water ) {
+        int litter = consume_water / 4;
+        add_msg( m_bad, _( "You need %d charges (%d litter) of clean water for take a shower." ),
+                consume_water, litter);
+        return;
+    }
+    if( fuel_left( "battery", true ) < consume_battery ) {
+        add_msg( m_bad, _( "You need %d charges of battery for take a shower." ),
+                consume_battery);
+        return;
+    }
+    bool wearing_not_water_friendly = false;
+    for( auto cloth : g->u.worn ){
+
+        if( mode == "hands"){
+            if( !cloth.has_flag("WATER_FRIENDLY") &&
+                    (cloth.covers( bp_hand_l ) || cloth.covers( bp_hand_r )) ){
+                wearing_not_water_friendly = true;
+                break;
+            }
+        } else if( !cloth.has_flag("WATER_FRIENDLY") ){
+            wearing_not_water_friendly = true;
+            break;
+        }
+    }
+    if( wearing_not_water_friendly ) {
+        if( mode == "hands" ) {
+            add_msg( m_bad,
+                     _( "You must take off all not water friendly gloves to wash hands." ) );
+        } else {
+            add_msg( m_bad,
+                     _( "You must take off all not water friendly clothes to take a shower." ) );
+        }
+        return;
+    }
+    if( query_yn( _( "%s This takes %s clean water and %s battery charge."),
+            message, consume_water, consume_battery) ) {
+        drain( "water_clean", consume_water );
+        discharge_battery( consume_battery );
+        g->u.assign_activity(player_activity(activity_id( "ACT_TAKE_SHOWER" ),
+                time_to_take , -1, 0, "taking shower" ));
+        g->u.activity.str_values.push_back( mode );
+    }
+}
+
 void vehicle::use_toilet( int p ) {
 
     auto items = get_items( p );
@@ -1952,6 +2014,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const int workbench_part = avail_part_with_feature( interact_part, "WORKBENCH", true );
     const bool has_workbench = workbench_part >= 0;
 
+    const int shower_part = avail_part_with_feature( interact_part, "SHOWER", true );
+    const bool has_shower = shower_part >= 0;
+
     const int toilet_part = avail_part_with_feature( interact_part, "TOILET", true );
     const bool has_toilet = toilet_part >= 0;
 
@@ -1959,6 +2024,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         EXAMINE, TRACK, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE, USE_DISHWASHER,
         USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, USE_TOWEL, PEEK_CURTAIN,
+        SHOWER_HAND, SHOWER, SHOWER_HOT,
         TOILET,
         LIGHTMODE_CARGO, LIGHTMODE_TURRET,
 
@@ -2048,6 +2114,11 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_workbench ) {
         selectmenu.addentry( WORKBENCH, true, '&', string_format( _( "Craft at the %s" ),
                              parts[workbench_part].name() ) );
+    }
+    if( has_shower ) {
+        selectmenu.addentry( SHOWER_HAND, true, 'W', _( "Wash hands" ) );
+        selectmenu.addentry( SHOWER, true, 'S', _( "Take a shower" ) );
+        selectmenu.addentry( SHOWER_HOT, true, 'H', _( "Take a hot shower" ) );
     }
     if( has_toilet ) {
         selectmenu.addentry( TOILET, true, 'F', string_format( _( "Flush toilet" ) ) );
@@ -2222,6 +2293,18 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case WORKBENCH: {
             iexamine::workbench_internal( g->u, pos, vpart_reference( *this, workbench_part ) );
+            return;
+        }
+        case SHOWER_HAND: {
+            use_shower( shower_part , "hands");
+            return;
+        }
+        case SHOWER: {
+            use_shower( shower_part , "normal");
+            return;
+        }
+        case SHOWER_HOT: {
+            use_shower( shower_part , "hot");
             return;
         }
         case TOILET: {

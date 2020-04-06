@@ -1,0 +1,61 @@
+[
+
+  {
+    "type": "GENERIC",
+    "id": "vehicle_shower",
+    "name": "vehicle shower booth",
+    "description": "vehicle mountable shower booth.",
+    "price": 50000,
+    "weight": "50000 g",
+    "to_hit": -2,
+    "color": "white",
+    "symbol": "&",
+    "material": ["steel", "plastic"],
+    "volume": "80 L",
+    "bashing": 8,
+    "category": "veh_parts"
+  },
+  {
+    "type": "recipe",
+    "result": "vehicle_shower",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "120 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 20 ], [ "steel_tiny", 4 ] ],
+    "tools": [],
+    "qualities": [],
+    "components": [
+        [ [ "plastic_chunk", 24 ] ],
+        [ [ "glass_sheet", 4 ] ],
+        [ [ "sheet", 1 ] ],
+        [ [ "metal_tank_little", 2 ] ],
+        [ [ "element", 8 ] ],
+        [ [ "hose", 2 ] ],
+        [ [ "water_faucet", 2 ] ] ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "vehicle_part_shower",
+    "name": "vehicle shower booth",
+    "symbol": "&",
+    "color": "white",
+    "broken_symbol": "&",
+    "broken_color": "white",
+    "damage_modifier": 60,
+    "durability": 95,
+    "description": "A small but comfortable shower booth.",
+    "item": "vehicle_shower",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "SHOWER", "WASHLET", "BOARDABLE", "MOUNTABLE" ],
+    "breaks_into": [ {"item": "vehicle_shower"} ],
+    "damage_reduction": { "all": 3 }
+  }
+]
