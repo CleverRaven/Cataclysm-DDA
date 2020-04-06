@@ -439,7 +439,7 @@ class map
         */
         int combined_movecost( const tripoint &from, const tripoint &to,
                                const vehicle *ignored_vehicle = nullptr,
-                               int modifier = 0, bool flying = false ) const;
+                               int modifier = 0, bool flying = false, bool via_ramp = false ) const;
 
         /**
          * Returns true if a creature could walk from `from` to `to` in one step.
@@ -447,7 +447,7 @@ class map
          * by stairs or (in case of flying monsters) open air with no floors.
          */
         bool valid_move( const tripoint &from, const tripoint &to,
-                         bool bash = false, bool flying = false ) const;
+                         bool bash = false, bool flying = false, bool via_ramp = false ) const;
 
         /**
          * Size of map objects at `p` for purposes of ranged combat.
@@ -543,6 +543,7 @@ class map
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );
+        void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
         void update_vehicle_cache( vehicle *, int old_zlevel );
         void reset_vehicle_cache( int zlev );
         void clear_vehicle_cache( int zlev );

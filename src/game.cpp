@@ -9277,7 +9277,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     return harmful_stuff;
 }
 
-bool game::walk_move( const tripoint &dest_loc )
+bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 {
     if( m.has_flag_ter( TFLAG_SMALL_PASSAGE, dest_loc ) ) {
         if( u.get_size() > creature_size::medium ) {
@@ -9420,7 +9420,8 @@ bool game::walk_move( const tripoint &dest_loc )
         multiplier *= 3;
     }
 
-    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier ) * multiplier;
+    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier,
+                                           via_ramp ) * multiplier;
     if( grabbed_move( dest_loc - u.pos() ) ) {
         return true;
     } else if( mcost == 0 ) {
@@ -9968,14 +9969,14 @@ void game::place_player_overmap( const tripoint &om_dest )
     place_player( player_pos );
 }
 
-bool game::phasing_move( const tripoint &dest_loc )
+bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 {
     if( !u.has_active_bionic( bionic_id( "bio_probability_travel" ) ) ||
         u.get_power_level() < 250_kJ ) {
         return false;
     }
 
-    if( dest_loc.z != u.posz() ) {
+    if( dest_loc.z != u.posz() && !via_ramp ) {
         // No vertical phasing yet
         return false;
     }

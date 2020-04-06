@@ -1692,7 +1692,7 @@ class vehicle
          * This should be called only when the vehicle has actually been moved, not when
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
-        void set_submap_moved( const point &p );
+        void set_submap_moved( const tripoint &p );
         void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
@@ -1744,7 +1744,8 @@ class vehicle
         void force_erase_part( int part_num );
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()
-        void advance_precalc_mounts( const point &new_pos, int submap_z );
+        std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,
+                                              const tripoint &dp, int ramp_offset );
 
         std::vector<tripoint> omt_path; // route for overmap-scale auto-driving
         std::vector<int> alternators;      // List of alternator indices
