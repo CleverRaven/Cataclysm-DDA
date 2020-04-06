@@ -48,7 +48,7 @@
     "id": "dks_mon_stray_eater",
     "type": "MONSTER",
     "name": { "str": "stray rockfeeder" },
-    "description": "A swollen and mishappen body pieced from the inside by growths of rocks, the lower half of its face nothing a distended jaw full of gnashing, crystalline teeth.  It lets out bloodcurdling howls of pain and constantly drips a foul smelling slurry of rocky sludge and bile.",
+    "description": "A swollen and mishappen body pierced from the inside by growths of rocks, the lower half of its face nothing a distended jaw full of gnashing, crystalline teeth.  It lets out bloodcurdling howls of pain and constantly drips a foul smelling slurry of rocky sludge and bile.",
     "looks_like": "mon_boomer",
     "default_faction": "stray",
     "bodytype": "human",
