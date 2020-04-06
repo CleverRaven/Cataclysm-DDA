@@ -749,7 +749,7 @@
     "melee_cut": 1,
     "dodge": 4,
     "harvest": "exempt",
-    "upgrades": { "half_life": 15, "into": "dks_mon_crystal_mite_fat" },
+    "upgrades": { "half_life": 5, "into": "dks_mon_crystal_mite_fat" },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "DISINTEGRATE" ],
     "flags": [
