@@ -2364,6 +2364,8 @@ void overmap::place_lakes()
 
     const oter_id lake_surface( "lake_surface" );
     const oter_id lake_shore( "lake_shore" );
+    const oter_id lake_water_cube( "lake_water_cube" );
+    const oter_id lake_bed( "lake_bed" );
 
     // We'll keep track of our visited lake points so we don't repeat the work.
     std::unordered_set<point> visited;
@@ -2433,6 +2435,14 @@ void overmap::place_lakes()
                 }
 
                 ter_set( tripoint( p, 0 ), shore ? lake_shore : lake_surface );
+
+                // If this is not a shore, we'll make our subsurface lake cubes and beds.
+                if( !shore ) {
+                    for( int z = -1; z > settings.overmap_lake.lake_depth; z-- ) {
+                        ter_set( tripoint( p, z ), lake_water_cube );
+                    }
+                    ter_set( tripoint( p, settings.overmap_lake.lake_depth ), lake_bed );
+                }
             }
 
             // We're going to attempt to connect some points on this lake to the nearest river.

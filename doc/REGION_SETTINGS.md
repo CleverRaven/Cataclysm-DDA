@@ -137,6 +137,7 @@ are interpreted.
 | ------------------------------------------ | --------------------------------------------------------------------------- |
 | `noise_threshold_lake`                     | [0, 1], x > value spawns a `lake_surface` or `lake_shore`.                  |
 | `lake_size_min`                            | Minimum size of the lake in overmap terrains for it to actually spawn.      |
+| `lake_depth`                               | Depth of lakes, expressed in Z-levels (e.g. -1 to -10).                     |
 | `shore_extendable_overmap_terrain`         | List of overmap terrains that can be extended to the shore if adjacent.     |
 | `shore_extendable_overmap_terrain_aliases` | Overmap terrains to treat as different overmap terrain for extending shore. |
 
@@ -147,6 +148,7 @@ are interpreted.
 	"overmap_lake_settings": {
 		"noise_threshold_lake": 0.25,
 		"lake_size_min": 20,
+		"lake_depth": -5,
 		"shore_extendable_overmap_terrain": ["forest_thick", "forest_water", "field"],
 		"shore_extendable_overmap_terrain_aliases": [
 			{ "om_terrain": "forest", "om_terrain_match_type": "TYPE", "alias": "forest_thick" }

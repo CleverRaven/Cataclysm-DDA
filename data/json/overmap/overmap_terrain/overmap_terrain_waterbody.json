@@ -19,5 +19,25 @@
     "color": "blue",
     "see_cost": 1,
     "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_water_cube",
+    "copy-from": "generic_water",
+    "name": "lake (submerged)",
+    "sym": "#",
+    "color": "blue",
+    "see_cost": 1,
+    "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_bed",
+    "copy-from": "generic_water",
+    "name": "lake bed (submerged)",
+    "sym": "#",
+    "color": "blue",
+    "see_cost": 1,
+    "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK" ]
   }
 ]
