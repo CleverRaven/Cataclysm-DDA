@@ -474,7 +474,6 @@ static void pldrive( int x, int y, int z = 0 )
         return;
         }
         u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
-        return;
     }
     if( z != 0 && !g->m.has_zlevels() ) {
         u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
