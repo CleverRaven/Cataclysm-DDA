@@ -1025,7 +1025,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         if( roll < pct_af ) {
             double dist =  damage_size == 0.0f ? 1.0f :
                            clamp( 1.0f - trig_dist( damage_origin, part.precalc[0].xy() ) /
-                                  damage_size, 0.0, 1.0 );
+                                  damage_size, 0.0f, 1.0f );
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
             if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
                                                hp_percent_loss_max * dist ) *
@@ -1992,12 +1992,15 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 void vehicle::part_removal_cleanup()
 {
     bool changed = false;
+    map &here = get_map();
     for( std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); /* noop */ ) {
         if( it->removed ) {
             auto items = get_items( std::distance( parts.begin(), it ) );
             while( !items.empty() ) {
                 items.erase( items.begin() );
             }
+            const tripoint &pt = global_part_pos3( *it );
+            here.clear_vehicle_point_from_cache( this, pt );
             it = parts.erase( it );
             changed = true;
         } else {
@@ -2008,10 +2011,10 @@ void vehicle::part_removal_cleanup()
     if( changed || parts.empty() ) {
         refresh();
         if( parts.empty() ) {
-            g->m.destroy_vehicle( this );
+            here.destroy_vehicle( this );
             return;
         } else {
-            g->m.update_vehicle_cache( this, sm_pos.z );
+            here.add_vehicle_to_cache( this );
         }
     }
     shift_if_needed();
@@ -3154,11 +3157,10 @@ tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
     return global_pos3() + pt.precalc[ 0 ];
 }
 
-void vehicle::set_submap_moved( const point &p )
+void vehicle::set_submap_moved( const tripoint &p )
 {
     const point old_msp = g->m.getabs( global_pos3().xy() );
-    sm_pos.x = p.x;
-    sm_pos.y = p.y;
+    sm_pos = p;
     if( !tracking_on ) {
         return;
     }
@@ -6882,18 +6884,50 @@ void vehicle::force_erase_part( int part_num )
     parts.erase( parts.begin() + part_num );
 }
 
-void vehicle::advance_precalc_mounts( const point &new_pos, int submap_z )
+std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripoint &src,
+        const tripoint &dp, int ramp_offset )
 {
-    for( vehicle_part &pt : parts ) {
-        pt.precalc[0] = pt.precalc[1];
+    map &here = get_map();
+    std::set<int> smzs;
+    // when a vehicle part enters the low end of a down ramp, or the high end of an up ramp,
+    // it immediately translates down or up a z-level, respectively, ending up on the low
+    // end of an up ramp or high end of a down ramp, respectively.  The two ends are set
+    // past each other, like so:
+    // (side view)  z+1   Rdh RDl
+    //              z+0   RUh Rul
+    // A vehicle moving left to right on z+1 drives down to z+0 by entering the ramp down low end.
+    // A vehicle moving right to left on z+0 drives up to z+1 by entering the ramp up high end.
+    // A vehicle moving left to right on z+0 should ideally collide into a wall before entering
+    //   the ramp up high end, but even if it does, it briefly transitions to z+1 before returning
+    //   to z0 by entering the ramp down low end.
+    // A vehicle moving right to left on z+1 drives down to z+0 by entering the ramp down low end,
+    //   then immediately returns to z+1 by entering the ramp up high end.
+    // When a vehicle's pivot point transitions a z-level via a ramp, all other pre-calc points
+    // make the opposite transition, so that points that were above an ascending pivot point are
+    // now level with it, and parts that were level with an ascending pivot point are now below
+    // it.
+    // parts that enter the translation portion of a ramp on the same displacement as the
+    // pivot point stay at the same relative z to the pivot point, as the ramp_offset adjustments
+    // cancel out.
+    for( vehicle_part &prt : parts ) {
+        here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
+        prt.precalc[0] = prt.precalc[1];
+        if( here.has_flag( TFLAG_RAMP_UP, src + dp + prt.precalc[0] ) ) {
+            prt.precalc[0].z += 1;
+        } else if( here.has_flag( TFLAG_RAMP_DOWN, src + dp + prt.precalc[0] ) ) {
+            prt.precalc[0].z -= 1;
+        }
+        prt.precalc[0].z -= ramp_offset;
+        prt.precalc[1].z = prt.precalc[0].z;
+        smzs.insert( prt.precalc[0].z );
     }
     pivot_anchor[0] = pivot_anchor[1];
     pivot_rotation[0] = pivot_rotation[1];
 
     pos = new_pos;
-    sm_pos.z = submap_z;
     // Invalidate vehicle's point cache
     occupied_cache_time = calendar::before_time_starts;
+    return smzs;
 }
 
 bool vehicle::refresh_zones()
