@@ -75,7 +75,7 @@
     "special_attacks": [ [ "BOOMER", 20 ], { "type": "bite", "cooldown": 2, "accuracy": 3, "no_infection_chance": 10 }, [ "SHRIEK", 10 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "BOOMER", "NORMAL" ],
-    "upgrades": { "half_life": 15, "into": "dks_mon_stray_tender" },
+    "upgrades": { "half_life": 17, "into": "dks_mon_stray_tender" },
     "flags": [
       "SEES",
       "HEARS",
@@ -121,7 +121,7 @@
     "special_attacks": [ [ "BOOMER_GLOW", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "BOOMER_GLOW", "NORMAL" ],
-    "upgrades": { "half_life": 15, "into": "dks_mon_crystal_hive" },
+    "upgrades": { "half_life": 17, "into": "dks_mon_crystal_hive" },
     "flags": [
       "SEES",
       "HEARS",
@@ -174,7 +174,7 @@
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 15, "into": "dks_mon_stray_predator" },
+    "upgrades": { "half_life": 17, "into": "dks_mon_stray_predator" },
     "flags": [
       "SEES",
       "HEARS",
@@ -228,7 +228,7 @@
       [ "LUNGE", 20 ]
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
-    "upgrades": { "half_life": 15, "into": "dks_mon_crystal_whip" },
+    "upgrades": { "half_life": 17, "into": "dks_mon_crystal_whip" },
     "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
@@ -276,7 +276,7 @@
     "path_settings": { "max_dist": 2 },
     "special_attacks": [ { "id": "slam", "damage_max_instance": [ { "damage_type": "bash", "amount": 12, "armor_multiplier": 0.8 } ] } ],
     "death_drops": "mon_zombie_hulk_death_drops",
-    "upgrades": { "half_life": 15, "into": "dks_mon_stray_titan" },
+    "upgrades": { "half_life": 17, "into": "dks_mon_stray_titan" },
     "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
@@ -330,7 +330,7 @@
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 15, "into": "dks_mon_crystal_wall" },
+    "upgrades": { "half_life": 17, "into": "dks_mon_crystal_wall" },
     "flags": [
       "SEES",
       "HEARS",
@@ -547,7 +547,7 @@
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "child_items", 5 ] ] },
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 15, "into": "dks_mon_crystal_baby" },
+    "upgrades": { "half_life": 17, "into": "dks_mon_crystal_baby" },
     "flags": [
       "SEES",
       "HEARS",
