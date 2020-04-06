@@ -1960,13 +1960,20 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE, USE_DISHWASHER,
         USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, USE_TOWEL, PEEK_CURTAIN,
         TOILET,
+        LIGHTMODE_CARGO, LIGHTMODE_TURRET,
+
     };
     uilist selectmenu;
 
     selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
-    selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
     if( has_controls ) {
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
+        selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
+
+        selectmenu.addentry( LIGHTMODE_CARGO  , true, 'C',
+                lightmode_cargo  ? _("Toggle Lightmode cargo : ON") : _("Toggle Lightmode cargo : OFF"));
+        selectmenu.addentry( LIGHTMODE_TURRET  , true, 'T',
+                lightmode_turret ? _("Toggle Lightmode turret: ON") : _("Toggle Lightmode turret: OFF"));
     }
     if( has_electronics ) {
         selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
@@ -2221,6 +2228,15 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             use_toilet( toilet_part );
             return;
         }
+        case LIGHTMODE_CARGO: {
+            lightmode_cargo = !lightmode_cargo;
+            return;
+        }
+        case LIGHTMODE_TURRET: {
+            lightmode_turret = !lightmode_turret;
+            return;
+        }
+
     }
     return;
 }

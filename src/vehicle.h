@@ -1827,6 +1827,9 @@ class vehicle
 
         // current noise of vehicle (engine working, etc.)
         unsigned char vehicle_noise = 0;
+
+        bool lightmode_cargo  = false;
+        bool lightmode_turret = false;
 };
 
 #endif

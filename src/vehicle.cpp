@@ -5331,9 +5331,13 @@ void vehicle::gain_moves()
 
     // turrets which are enabled will try to reload and then automatically fire
     // Turrets which are disabled but have targets set are a special case
-    for( auto e : turrets() ) {
-        if( e->enabled || e->target.second != e->target.first ) {
-            automatic_fire_turret( *e );
+    if ( lightmode_turret && !calendar::once_every( 1_minutes ) ) {
+        // skip turret process
+    } else {
+        for( auto e : turrets() ) {
+            if( e->enabled || e->target.second != e->target.first ) {
+                automatic_fire_turret( *e );
+            }
         }
     }
 
