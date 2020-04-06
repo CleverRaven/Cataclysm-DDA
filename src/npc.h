@@ -1310,6 +1310,8 @@ class npc : public player
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint no_goal_point = tripoint_min;
 
+        time_point next_food_storage_visit_time;
+
         time_point last_updated;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.

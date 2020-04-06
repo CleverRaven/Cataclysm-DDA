@@ -1,0 +1,54 @@
+[
+
+  {
+    "type": "GENERIC",
+    "id": "food_storage_tag",
+    "name": "Food storage tag",
+    "description": "Tag for food storage on vehicle.",
+    "weight": "100 g",
+    "color": "white",
+    "symbol": "-",
+    "material": [ "steel" ],
+    "volume": "250 ml",
+    "category": "veh_parts",
+    "price": 10
+  },
+  {
+    "type": "recipe",
+    "result": "food_storage_tag",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "time": "1 m",
+    "book_learn": [ [ "textbook_mechanics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ], [ "textbook_robots", 5 ] ],
+    "components": [ [ [ "scrap", 5 ] ] ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "food_storage_tag",
+    "name": "Food storage tag",
+    "symbol": "o",
+    "color": "white",
+    "broken_symbol": "#",
+    "broken_color": "white",
+    "damage_modifier": 5,
+    "durability": 100,
+    "description": "Tag for food storage. your allies can take food here freely.",
+    "item": "food_storage_tag",
+    "location": "on_cargo",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "INTERNAL", "SHARED_FOOD_STORAGE", "FOLDABLE" ],
+    "folded_volume": 1,
+    "breaks_into": [
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "damage_reduction": { "all": 10 }
+  }
+
+]

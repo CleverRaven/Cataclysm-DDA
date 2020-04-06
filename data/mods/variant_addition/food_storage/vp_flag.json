@@ -1,0 +1,8 @@
+[
+  {
+    "id": "SHARED_FOOD_STORAGE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Your allies can take food from here even forbid pickup items."
+  }
+]

@@ -62,6 +62,7 @@
 #include "enums.h"
 #include "overmap.h"
 #include "stomach.h"
+#include "vehicle_selector.h"
 
 static const activity_id ACT_PULP( "ACT_PULP" );
 
@@ -911,6 +912,94 @@ void npc::move()
     execute_action( action );
 }
 
+// move from bottom to use in execute_action() variant change
+// We want our food to:
+// Provide enough nutrition and quench
+// Not provide too much of either (don't waste food)
+// Not be unhealthy
+// Not have side effects
+// Be eaten before it rots (favor soon-to-rot perishables)
+static float rate_food( const item &it, int want_nutr, int want_quench )
+{
+    const auto &food = it.get_comestible();
+    if( !food ) {
+        return 0.0f;
+    }
+
+    if( food->parasites && !it.has_flag( "NO_PARASITES" ) ) {
+        return 0.0;
+    }
+
+    int nutr = food->get_default_nutr();
+    int quench = food->quench;
+
+    if( nutr <= 0 && quench <= 0 ) {
+        // Not food - may be salt, drugs etc.
+        return 0.0f;
+    }
+
+    if( !it.type->use_methods.empty() ) {
+        // TODO: Get a good method of telling apart:
+        // raw meat (parasites - don't eat unless mutant)
+        // zed meat (poison - don't eat unless mutant)
+        // alcohol (debuffs, health drop - supplement diet but don't bulk-consume)
+        // caffeine (fine to consume, but expensive and prevents sleep)
+        // hallucination mushrooms (NPCs don't hallucinate, so don't eat those)
+        // honeycomb (harmless iuse)
+        // royal jelly (way too expensive to eat as food)
+        // mutagenic crap (don't eat, we want player to micromanage muties)
+        // marloss (NPCs don't turn fungal)
+        // weed brownies (small debuff)
+        // seeds (too expensive)
+
+        // For now skip all of those
+        return 0.0f;
+    }
+
+    double relative_rot = it.get_relative_rot();
+    if( relative_rot >= 1.0f ) {
+        // TODO: Allow sapro mutants to eat it anyway and make them prefer it
+        return 0.0f;
+    }
+
+    float weight = std::max( 1.0, 10.0 * relative_rot );
+    if( it.get_comestible_fun() < 0 ) {
+        // This helps to avoid eating stuff like flour
+        weight /= ( -it.get_comestible_fun() ) + 1;
+    }
+
+    if( food->healthy < 0 ) {
+        weight /= ( -food->healthy ) + 1;
+    }
+
+    // Avoid wasting quench values unless it's about to rot away
+    if( relative_rot < 0.9f && quench > want_quench ) {
+        weight -= ( 1.0f - relative_rot ) * ( quench - want_quench );
+    }
+
+    if( quench < 0 && want_quench > 0 && want_nutr < want_quench ) {
+        // Avoid stuff that makes us thirsty when we're more thirsty than hungry
+        weight = weight * want_nutr / want_quench;
+    }
+
+    if( nutr > want_nutr ) {
+        // TODO: Allow overeating in some cases
+        if( nutr >= 5 ) {
+            return 0.0f;
+        }
+
+        if( relative_rot < 0.9f ) {
+            weight /= nutr - want_nutr;
+        }
+    }
+
+    if( it.poison > 0 ) {
+        weight -= it.poison;
+    }
+
+    return weight;
+}
+
 void npc::execute_action( npc_action action )
 {
     int oldmoves = moves;
@@ -1125,6 +1214,141 @@ void npc::execute_action( npc_action action )
             if( !path.empty() && veh_pointer_or_null( g->m.veh_at( path[path.size() - 1] ) ) == veh ) {
                 last_dest = vp->mount();
             }
+
+            // npc auto eat in vehicle on variant
+            // TODO SO written plainly, functionize or something
+            if( to_turn<int>(next_food_storage_visit_time) < to_turn<int>(calendar::turn) ) {
+                const bool can_eat = 20 < get_hunger();
+                const bool is_thirsty = 60 < get_thirst();
+                const bool is_hungry = get_stored_kcal() < get_healthy_kcal() * 0.93;
+                if( can_eat && ( is_thirsty || is_hungry ) ) {
+                    // search nearest food storage
+                    int best_food_storage_index = -1;
+                    int nearest_food_storage_distance = INT_MAX;
+                    for( const vpart_reference &vp : veh->get_avail_parts( VPFLAG_SHARED_FOOD_STORAGE ) ) {
+                        tripoint part_pos = veh->global_part_pos3( vp.part_index() );
+                        std::vector<vehicle_part *> parts = veh->get_parts_at( part_pos, "CARGO", part_status_flag::any );
+                        vehicle_part* cargo = parts.front();
+                        int cargo_index = veh->index_of_part(cargo);
+                        if( cargo_index != -1 ) {
+                            // search nearest cargo
+                            int distance = rl_dist( pos(), part_pos );
+                            // if cargo dont have edible food, ignore it
+                            vehicle_stack cargo_stack = veh->get_items( cargo_index );
+                            bool there_is_edible_food = false;
+                            int want_hunger = std::max( 0, get_hunger() );
+                            int want_quench = std::max( 0, get_thirst() );
+                            for( item &it : cargo_stack ) {
+                                const item *food_item = it.get_food();
+                                if( food_item != nullptr ) {
+                                    float cur_weight = rate_food( *food_item, want_hunger, want_quench );
+                                    if( 0 < cur_weight && will_eat( *food_item ).success() ) {
+                                        there_is_edible_food = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if( there_is_edible_food && distance < nearest_food_storage_distance){
+                                nearest_food_storage_distance = distance;
+                                best_food_storage_index = cargo_index;
+                            }
+                        }
+                    }
+
+                    if( best_food_storage_index != -1 ) {
+                        // check am I adjacent at food storage
+                        tripoint food_storage_position = veh->global_part_pos3( best_food_storage_index );
+                        const int distance_to_food_storage = rl_dist( pos(), food_storage_position );
+                        // if player is near food_storage, dont touch storage
+                        // for prevent cause error from touch items in same time
+                        const int distance_storage_to_player = rl_dist( g->u.pos(), food_storage_position );
+                        if( distance_to_food_storage <= 1 && 2 <= distance_storage_to_player){
+                            // i'm adjacent at storage
+                            // select best food from storage
+                            // XXX almost copy and pesta from npc::consume_food()
+                            float best_weight = 0.0f;
+                            int want_hunger = std::max( 0, get_hunger() );
+                            int want_quench = std::max( 0, get_thirst() );
+
+                            vehicle_stack storage_stack = veh->get_items( best_food_storage_index );
+                            item* best_food = nullptr;
+
+                            for( item &it : storage_stack ) {
+                                const item *food_item = it.get_food();
+                                if( food_item != nullptr ) {
+                                    float cur_weight = rate_food( *food_item, want_hunger, want_quench );
+
+                                    // Note: will_eat is expensive, avoid calling it if possible
+                                    if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
+                                        best_weight = cur_weight;
+                                        best_food = &it;
+                                    }
+                                }
+                            }
+
+                            if( best_food != nullptr ) {
+                                bool consumed_completely = consume_item( *best_food );
+                                if( consumed_completely ){
+                                    if( best_food->is_food_container() || !can_consume_as_is( *best_food ) ) {
+                                        best_food->contents.erase( best_food->contents.begin() );
+                                    } else {
+                                        vehicle_cursor veh_cursor = vehicle_cursor( *veh, best_food_storage_index);
+                                        item_location loc = item_location( veh_cursor, best_food);
+                                        loc.remove_item();
+                                    }
+                                }
+                                move_pause();
+                                break;
+                            } else {
+                                // storage is out of food
+                                if( is_thirsty && is_hungry ){
+                                    say("Can you put some food and drink on storage? I'm hungry and thirsty.");
+                                } else if ( is_hungry ) {
+                                    say("Can you put some food on storage? I'm hungry.");
+                                } else {
+                                    say("Can you put some drink on storage? I'm thirsty.");
+                                }
+                                next_food_storage_visit_time = calendar::turn + time_duration( 15_minutes );
+                                move_pause();
+                                break;
+                            }
+                        } else {
+                            // make path to food storage
+                            update_path( food_storage_position, true );
+
+                            // walk to food storage
+                            if( !path.empty() ) {
+                                // All is fine
+                                move_to_next();
+                                break;
+                            }
+                            // try adjacent on up, right, down. left
+                            update_path( food_storage_position + tripoint(0, -1, 0), true);
+                            if( !path.empty() ) {
+                                move_to_next();
+                                break;
+                            }
+                            update_path( food_storage_position + tripoint(1, 0, 0), true);
+                            if( !path.empty() ) {
+                                move_to_next();
+                                break;
+                            }
+                            update_path( food_storage_position + tripoint(0, 1, 0), true);
+                            if( !path.empty() ) {
+                                move_to_next();
+                                break;
+                            }
+                            update_path( food_storage_position + tripoint(-1, 0, 0), true);
+                            if( !path.empty() ) {
+                                move_to_next();
+                                break;
+                            }
+
+                        }
+                    }
+                }
+            }
+            // npc auto eat in vehicle on variant end
 
             // Prioritize last found path, then seats
             // Don't change spots if ours is nice
@@ -3585,93 +3809,6 @@ void npc::use_painkiller()
         consume( loc );
         moves = 0;
     }
-}
-
-// We want our food to:
-// Provide enough nutrition and quench
-// Not provide too much of either (don't waste food)
-// Not be unhealthy
-// Not have side effects
-// Be eaten before it rots (favor soon-to-rot perishables)
-static float rate_food( const item &it, int want_nutr, int want_quench )
-{
-    const auto &food = it.get_comestible();
-    if( !food ) {
-        return 0.0f;
-    }
-
-    if( food->parasites && !it.has_flag( "NO_PARASITES" ) ) {
-        return 0.0;
-    }
-
-    int nutr = food->get_default_nutr();
-    int quench = food->quench;
-
-    if( nutr <= 0 && quench <= 0 ) {
-        // Not food - may be salt, drugs etc.
-        return 0.0f;
-    }
-
-    if( !it.type->use_methods.empty() ) {
-        // TODO: Get a good method of telling apart:
-        // raw meat (parasites - don't eat unless mutant)
-        // zed meat (poison - don't eat unless mutant)
-        // alcohol (debuffs, health drop - supplement diet but don't bulk-consume)
-        // caffeine (fine to consume, but expensive and prevents sleep)
-        // hallucination mushrooms (NPCs don't hallucinate, so don't eat those)
-        // honeycomb (harmless iuse)
-        // royal jelly (way too expensive to eat as food)
-        // mutagenic crap (don't eat, we want player to micromanage muties)
-        // marloss (NPCs don't turn fungal)
-        // weed brownies (small debuff)
-        // seeds (too expensive)
-
-        // For now skip all of those
-        return 0.0f;
-    }
-
-    double relative_rot = it.get_relative_rot();
-    if( relative_rot >= 1.0f ) {
-        // TODO: Allow sapro mutants to eat it anyway and make them prefer it
-        return 0.0f;
-    }
-
-    float weight = std::max( 1.0, 10.0 * relative_rot );
-    if( it.get_comestible_fun() < 0 ) {
-        // This helps to avoid eating stuff like flour
-        weight /= ( -it.get_comestible_fun() ) + 1;
-    }
-
-    if( food->healthy < 0 ) {
-        weight /= ( -food->healthy ) + 1;
-    }
-
-    // Avoid wasting quench values unless it's about to rot away
-    if( relative_rot < 0.9f && quench > want_quench ) {
-        weight -= ( 1.0f - relative_rot ) * ( quench - want_quench );
-    }
-
-    if( quench < 0 && want_quench > 0 && want_nutr < want_quench ) {
-        // Avoid stuff that makes us thirsty when we're more thirsty than hungry
-        weight = weight * want_nutr / want_quench;
-    }
-
-    if( nutr > want_nutr ) {
-        // TODO: Allow overeating in some cases
-        if( nutr >= 5 ) {
-            return 0.0f;
-        }
-
-        if( relative_rot < 0.9f ) {
-            weight /= nutr - want_nutr;
-        }
-    }
-
-    if( it.poison > 0 ) {
-        weight -= it.poison;
-    }
-
-    return weight;
 }
 
 bool npc::consume_food_from_camp()
