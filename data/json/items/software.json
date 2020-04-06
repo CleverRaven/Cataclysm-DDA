@@ -121,7 +121,7 @@
     "copy-from": "mod_software",
     "type": "TOOLMOD",
     "flags": [ "SOFTWARE" ],
-    "name": { "str": "decompiler", "str_pl": "decompilers" },
+    "name": { "str": "decompiler" },
     "description": "A hex editor, decompiler and some associated analytic software. If you were in an apocalyptic scenario and had with no access to code documentation, you might use it to gain some insight into the operation and APIs of some compiled code. It would be a huge mind-numbing pain, but it would be possible.",
     "qualities": [ [ "SOFTWARE_DECOMPILER", 1 ] ]
   },
