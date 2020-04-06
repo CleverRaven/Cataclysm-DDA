@@ -114,6 +114,7 @@ bool dodge_check( monster *z, Creature *target );
 
 bool littlemaid_action( monster *maid );
 bool shoggothmaid_action( monster *maid );
+bool melee_bot( monster *bot );
 
 } //namespace mattack
 

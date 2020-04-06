@@ -592,6 +592,8 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
     add_hardcoded_attack( "LITTLEMAID_ACTION", mattack::littlemaid_action );
     add_hardcoded_attack( "SHOGGOTHMAID_ACTION", mattack::shoggothmaid_action );
+    add_hardcoded_attack( "MELEE_BOT", mattack::melee_bot );
+
 }
 
 void MonsterGenerator::init_defense()

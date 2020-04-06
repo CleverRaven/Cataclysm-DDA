@@ -5826,6 +5826,68 @@ bool mattack::shoggothmaid_action( monster *maid )
     return false;
 }
 
+bool mattack::melee_bot( monster *bot )
+{
+    if( !bot->can_act() ) {
+        return false;
+    }
 
+    Creature *target = bot->attack_target();
+    if( target == nullptr || 3 < rl_dist( bot->pos(), target->pos() ) || !bot->sees( *target ) ) {
+        return false;
+    }
+
+    bot->moves -= 10;
+
+    bool uncanny = target->uncanny_dodge();
+    if( uncanny || dodge_check( bot, target ) ) {
+        bot->moves -= 10;
+        auto msg_type = target == &g->u ? m_warning : m_info;
+        target->add_msg_player_or_npc( msg_type,
+                _( "The %s attacks you, but you dodged it!" ),
+                _( "The %s attacks <npcname>, but they dodged it!" ),
+                bot->name() );
+        if( !uncanny ) {
+            target->on_dodge( bot, bot->type->melee_skill * 2 );
+        }
+        return true;
+    }
+
+    damage_type attack_type = DT_BASH;
+    std::string attack_name = _("bash attack");
+    if( one_in( 2 ) ) {
+         attack_type = DT_CUT;
+         attack_name = _("slash attack");
+    }
+    if( one_in( 7 ) ) {
+         attack_type = DT_ELECTRIC;
+         attack_name = _("shock attack");
+    }
+    int dam = rng( 10, 20 );
+
+    body_part hit = target->get_random_body_part();
+    dam = target->deal_damage( bot, hit, damage_instance( attack_type, dam ) ).total_damage();
+
+    if( dam > 0 ) {
+        auto msg_type = target == &g->u ? m_bad : m_info;
+        target->add_msg_player_or_npc( msg_type,
+                                       _( "The %1$s's %3$s hit your %2$s!" ),
+                                       _( "The %1$s's %3$s hit <npcname>'s %2$s!" ),
+                                       bot->name(),
+                                       body_part_name_accusative( hit ),
+                                       attack_name
+                                       );
+    } else {
+        target->add_msg_player_or_npc( _( "The %1$s's %3$s hit your %2$s, but it doesn't affect." ),
+                                       _( "The %1$s's %3$s hit <npcname>'s %2$s, but it doesn't affect." ),
+                                       bot->name(),
+                                       body_part_name_accusative( hit ),
+                                       attack_name
+                                       );
+    }
+    target->on_hit( bot, hit,  bot->type->melee_skill );
+
+    return true;
+}
 
 
