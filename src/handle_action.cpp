@@ -473,7 +473,6 @@ static void pldrive( int x, int y, int z = 0 )
         u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
         return;
         }
-    if( !remote && z != 0 && !u.has_trait( trait_MILI_PILOT ) ) {
         u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
         return;
     }
