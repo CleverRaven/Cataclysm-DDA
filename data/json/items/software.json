@@ -103,7 +103,7 @@
     "copy-from": "mod_software",
     "type": "TOOLMOD",
     "flags": [ "SOFTWARE" ],
-    "name": { "str": "bootstrap compiler", "str_pl": "bootstrap compilers" },
+    "name": { "str": "bootstrap compiler" },
     "description": "A very basic compiler written directly in binary machine code by some mad genius. It's not much good for anything besides compiling a better compiler on a machine that has no development tools, but you could install it on a computer.",
     "qualities": [ [ "SOFTWARE_COMPILER", 1 ] ]
   },
