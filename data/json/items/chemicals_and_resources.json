@@ -703,14 +703,32 @@
     "name": { "str": "ammonium nitrate", "str_pl": "ammonium nitrate" },
     "symbol": "=",
     "color": "white",
-    "description": "A handful of ammonium nitrate.  This white, crystalline powder is commonly used as a component of fertilizers and explosives.  Could also be dissolved in water to sharply lower its temperature, but is there any use for this quality in this new world?",
+    "description": "Some ammonium nitrate.  This white, crystalline powder is commonly used as a component of fertilizers and explosives.  Could also be dissolved in water to sharply lower its temperature, but is there any use for this quality in this new world?",
     "material": "powder_nonflam",
-    "volume": "250 ml",
-    "weight": "8600 mg",
+    "volume": "290 ml",
+    "weight": "1 g",
     "bashing": 1,
     "ammo_type": "components",
     "container": "bag_canvas",
-    "count": 50
+    "count": 500
+  },
+  {
+    "type": "AMMO",
+    "id": "chem_ammonium_nitrate_pellets",
+    "looks_like": "fertilizer_commercial",
+    "category": "chems",
+    "price": 100,
+    "name": { "str": "ammonium nitrate pellets", "str_pl": "ammonium nitrate pellets" },
+    "symbol": "=",
+    "color": "white",
+    "description": "Some ammonium nitrate pellets.  These pellets are commonly used as a component of fertilizers and explosives.  Could also be dissolved in water to sharply lower its temperature, but is there any use for this quality in this new world?",
+    "material": "powder_nonflam",
+    "volume": "303 ml",
+    "weight": "1 g",
+    "bashing": 1,
+    "ammo_type": "components",
+    "container": "bag_canvas",
+    "count": 500
   },
   {
     "type": "AMMO",
@@ -821,12 +839,12 @@
     "color": "red",
     "description": "Several brownish pellets that were made by absorbing organic fuel on ammonium nitrate.  This ammonium nitrate-fuel oil or ANFO, as it is called, mixture is a common industrial explosive due to its stability and low price.  Burns fast, but needs an explosive primer to detonate.",
     "material": "powder",
-    "volume": "250 ml",
-    "weight": "90 g",
+    "volume": "294 ml",
+    "weight": "1 g",
     "bashing": 1,
     "ammo_type": "components",
     "container": "bag_canvas",
-    "count": 5
+    "count": 500
   },
   {
     "type": "AMMO",
