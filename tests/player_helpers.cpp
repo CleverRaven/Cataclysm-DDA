@@ -72,10 +72,14 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.clear_effects();
 
     // Make stats nominal.
-    dummy.str_cur = 8;
-    dummy.dex_cur = 8;
-    dummy.int_cur = 8;
-    dummy.per_cur = 8;
+    dummy.str_max = 8;
+    dummy.dex_max = 8;
+    dummy.int_max = 8;
+    dummy.per_max = 8;
+    dummy.set_str_bonus( 0 );
+    dummy.set_dex_bonus( 0 );
+    dummy.set_int_bonus( 0 );
+    dummy.set_per_bonus( 0 );
 
     const tripoint spot( 60, 60, 0 );
     g->place_player( spot );
