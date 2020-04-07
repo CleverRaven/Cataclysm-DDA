@@ -6123,7 +6123,7 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         }
     }
 
-    int target_part = random_entry( pl );
+    int target_part = part_info( p ).rotor_diameter() ? p : random_entry( pl );
 
     // door motor mechanism is protected by closed doors
     if( part_flag( target_part, "DOOR_MOTOR" ) ) {
