@@ -140,7 +140,7 @@
       "<ill_die> if I don't drink something.",
       "Water…  Is there an oasis nearby?",
       "Did you know that lack of water kills faster than lack of rest?",
-      "I can't remember the last time I was this thirsty.", 
+      "I can't remember the last time I was this thirsty.",
       "I'd kill for a sip of water right now."
     ]
   },
@@ -1099,12 +1099,7 @@
     "type": "snippet",
     "category": "<crack_smoke>",
     "//": "Complaint when the NPC is near the avatar who is smoking crack.",
-    "text": [
-      "Ew, smells like burning rubber!",
-      "Ugh, that smells rancid!",
-      "Why are you smoking crack cocaine?",
-      "<meth_smoke>"
-    ]
+    "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "Why are you smoking crack cocaine?", "<meth_smoke>" ]
   },
   {
     "type": "snippet",
@@ -1229,17 +1224,7 @@
   {
     "type": "snippet",
     "category": "<dumb>",
-    "text": [ 
-      "stupid", 
-      "idiotic", 
-      "dumb", 
-      "dumb-ass",
-      "moronic", 
-      "mickey mouse", 
-      "shit-for-brains", 
-      "brain-dead",
-      "imbecilic" 
-    ]
+    "text": [ "stupid", "idiotic", "dumb", "dumb-ass", "moronic", "mickey mouse", "shit-for-brains", "brain-dead", "imbecilic" ]
   },
   {
     "type": "snippet",
@@ -1260,18 +1245,7 @@
   {
     "type": "snippet",
     "category": "<zombies>",
-    "text": [ 
-      "zombies", 
-      "Z", 
-      "Z's", 
-      "undead",
-      "<swear> <zombies>",
-      "living dead", 
-      "shamblers",
-      "walkers",
-      "goo-pukers",
-      "zeds"
-    ]
+    "text": [ "zombies", "Z", "Z's", "undead", "<swear> <zombies>", "living dead", "shamblers", "walkers", "goo-pukers", "zeds" ]
   },
   {
     "type": "snippet",
