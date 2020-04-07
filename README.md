@@ -3,8 +3,7 @@
 
 English version (broken english warning!!)
 
-[https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/README_en.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/README_en.md)
-
+[https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_jp/README_en.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_jp/README_en.md)
 
 ## これはなに？
 
@@ -55,7 +54,7 @@ Cataclysm DDAを独自改造したバージョン、いわゆるヴァリアン�
 
 新要素の詳細は以下のファイルにまとめました。
 
-[https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/doc/VARIANT_SCA_FEATURE.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/doc/VARIANT_SCA_FEATURE.md)
+[https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_jp/doc/VARIANT_FEATURE.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_jp/doc/VARIANT_FEATURE.md)
 
 代表的な新要素の簡単な紹介です。
 
@@ -115,7 +114,7 @@ Battle Maid Mod内ではアイテムだけの存在だった愛玩用リトル�
 
 こちらで全要素を紹介しています。
 
-[https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/doc/VARIANT_SCA_FEATURE.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/doc/VARIANT_SCA_FEATURE.md)
+[https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_jp/doc/VARIANT_FEATURE.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_jp/doc/VARIANT_FEATURE.md)
 
 
 ## 謝辞（謝罪）
