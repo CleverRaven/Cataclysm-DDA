@@ -6450,6 +6450,30 @@
   },
   {
     "type": "overmap_special",
+    "id": "Luna Park",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "luna_park_0_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "luna_park_1_0_0_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "luna_park_2_0_0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "luna_park_0_0_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "luna_park_1_0_1_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "luna_park_2_0_1_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "luna_park_0_1_0_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "luna_park_1_1_0_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "luna_park_2_1_0_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "luna_park_0_1_1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "luna_park_1_1_1_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "luna_park_2_1_1_north" }
+    ],
+    "locations": [ "wilderness", "land" ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 1, 0 ] } ],
+    "city_distance": [ 1, 10 ],
+    "city_sizes": [ 3, 12 ],
+    "occurrences": [ 1, 1 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "private_resort",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "p_resort_1nw_north" },
