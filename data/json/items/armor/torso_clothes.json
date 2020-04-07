@@ -469,7 +469,7 @@
     "weight": "250 g",
     "volume": "750 ml",
     "price": 1100,
-	"price_postapoc": 50,
+    "price_postapoc": 50,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "dress_shirt",
