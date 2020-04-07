@@ -2526,7 +2526,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             select_location.query();
             if( select_location.ret == RANDOM_START_LOC_ENTRY ) {
                 you.random_start_location = true;
-            } else if( select_location.ret >= 1 ) {
+            } else if( select_location.ret >= 0 ) {
                 for( const auto &loc : start_locations::get_all() ) {
                     if( loc.id.get_cid().to_i() == select_location.ret ) {
                         you.random_start_location = false;
