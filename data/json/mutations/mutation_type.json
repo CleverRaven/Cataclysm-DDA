@@ -69,6 +69,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "BEAUTY"
+  },
+  {
+    "type": "mutation_type",
     "id": "skin_tone"
   },
   {

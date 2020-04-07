@@ -462,7 +462,7 @@
   {
     "type": "mutation",
     "id": "ANIMALEMPATH3",
-    "name": "Animal Harmony",
+    "name": { "str": "Animal Harmony" },
     "purifiable": false,
     "points": 4,
     "description": "You live in harmony with animals.  They will no longer attack you unless provoked.  This only applies to natural animals such as woodland creatures.",
@@ -745,7 +745,7 @@
     "description": "You are a sight to behold.  People who care about such things will react more kindly to you.",
     "starting_trait": true,
     "category": [ "ALPHA", "FELINE", "LUPINE" ],
-    "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
+    "types": [ "BEAUTY" ],
     "changes_to": [ "BEAUTIFUL" ]
   },
   {
@@ -1283,7 +1283,7 @@
     "ugliness": 2,
     "description": "You're not much to look at.  People who care about such things will react poorly to you.",
     "starting_trait": true,
-    "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
+    "types": [ "BEAUTY" ],
     "changes_to": [ "DEFORMED" ],
     "category": [ "RAPTOR", "FELINE", "LUPINE" ]
   },
@@ -4431,7 +4431,7 @@
     "visibility": 4,
     "ugliness": 4,
     "description": "You're slightly deformed.  Some people will react badly to your appearance.",
-    "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
+    "types": [ "BEAUTY" ],
     "prereqs": [ "UGLY" ],
     "changes_to": [ "DEFORMED2" ],
     "category": [ "FISH", "CATTLE", "INSECT", "CEPHALOPOD", "FELINE", "LUPINE" ]
@@ -4444,7 +4444,7 @@
     "visibility": 7,
     "ugliness": 7,
     "description": "You're hideously deformed.  Some people will have a strong negative reaction to your appearance.",
-    "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
+    "types": [ "BEAUTY" ],
     "prereqs": [ "DEFORMED" ],
     "changes_to": [ "DEFORMED3" ],
     "category": [ "BEAST", "URSINE", "PLANT" ]
@@ -4457,7 +4457,7 @@
     "visibility": 10,
     "ugliness": 10,
     "description": "Your visage is disgusting and liable to induce vomiting.  People will not want to interact with you unless they have a very good reason to.",
-    "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
+    "types": [ "BEAUTY" ],
     "prereqs": [ "DEFORMED2" ],
     "category": [ "SLIME", "RAT", "CHIMERA" ]
   },
@@ -4468,8 +4468,8 @@
     "points": 2,
     "visibility": 4,
     "ugliness": -4,
-    "description": "You're a real head-turner.  Some people will react well to your appearance, and most people have an easier time trusting you.",
-    "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
+    "description": "You're a real head-turner.  A few people will react well to your looks, and most people have an easier time trusting you.",
+    "types": [ "BEAUTY" ],
     "prereqs": [ "PRETTY" ],
     "changes_to": [ "BEAUTIFUL2" ]
   },
@@ -4480,20 +4480,20 @@
     "points": 3,
     "visibility": 7,
     "ugliness": -7,
-    "description": "You are a true beauty.  Many people will react well to your looks, and some people will trust you immediately.",
-    "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
+    "description": "You are a true beauty.  Some people will react well to your looks, and some people will trust you immediately.",
+    "types": [ "BEAUTY" ],
     "prereqs": [ "BEAUTIFUL" ],
     "changes_to": [ "BEAUTIFUL3" ]
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL3",
-    "name": "Extremely Beautiful",
+    "name": { "str": "Extremely Beautiful" },
     "points": 4,
     "visibility": 10,
     "ugliness": -10,
-    "description": "You are incredibly beautiful.  Most people will react well to your looks, and will do what they can to please you.",
-    "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
+    "description": "You are incredibly beautiful.  Many people will react well to your looks, and will do what they can to please you.",
+    "types": [ "BEAUTY" ],
     "prereqs": [ "BEAUTIFUL2" ],
     "changes_to": [ "GLORIOUS" ],
     "category": [ "ELFA" ]
@@ -4501,12 +4501,12 @@
   {
     "type": "mutation",
     "id": "GLORIOUS",
-    "name": "Glorious",
+    "name": { "str": "Glorious" },
     "points": 5,
     "visibility": 15,
     "ugliness": -15,
-    "description": "You are beautiful beyond measure; some might say you are the pinnacle of beauty.  Almost anyone will react well to your looks, and will do whatever they can to please you.",
-    "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
+    "description": "You are beautiful beyond measure; some might say you are the pinnacle of beauty.  Most people will react well to your looks, and will do whatever they can to please you.",
+    "types": [ "BEAUTY" ],
     "prereqs": [ "BEAUTIFUL3" ],
     "threshreq": [ "THRESH_ELFA" ],
     "category": [ "ELFA" ]
@@ -5427,21 +5427,20 @@
   {
     "type": "mutation",
     "id": "GRUFF",
-    "name": "Gruff Voice",
-    "points": 1,
+    "name": { "str": "Gruff Voice" },
+    "points": 0,
     "description": "You have a gruff voice.  Persuading NPCs will be a little harder, but threatening them will be easier.",
-    "changes_to": [ "PLEASANT", "GROWL", "HISS" ],
+    "changes_to": [ "GROWL", "HISS" ],
     "types": [ "VOICE" ],
-    "category": [ "ELFA", "RAT", "URSINE", "LUPINE", "LIZARD", "RAPTOR" ],
+    "category": [ "RAT", "URSINE", "LUPINE", "LIZARD", "RAPTOR" ],
     "social_modifiers": { "persuade": -5, "lie": -5, "intimidate": 10 }
   },
   {
     "type": "mutation",
     "id": "PLEASANT",
-    "name": "Pleasant Voice",
+    "name": { "str": "Pleasant Voice" },
     "points": 2,
     "description": "You have a pleasant lilt to your voice.  Persuading NPCs will be easier, but threatening them will be difficult.",
-    "prereqs": [ "GRUFF" ],
     "changes_to": [ "MELODY" ],
     "types": [ "VOICE" ],
     "category": [ "ELFA", "BIRD" ],
@@ -5450,7 +5449,7 @@
   {
     "type": "mutation",
     "id": "MELODY",
-    "name": "Melodic Voice",
+    "name": { "str": "Melodic Voice" },
     "points": 3,
     "valid": false,
     "description": "Your voice almost sounds like a song.  Persuading NPCs will be much easier, but threatening them will be very difficult.",
