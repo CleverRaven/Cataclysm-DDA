@@ -404,6 +404,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     }
 
     const int velocity_before = coll_velocity;
+    int lowest_velocity = coll_velocity;
     const int sign_before = sgn( velocity_before );
     bool empty = true;
     for( int p = 0; static_cast<size_t>( p ) < parts.size(); p++ ) {
@@ -430,10 +431,22 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         // A hack for falling vehicles: restore the velocity so that it hits at full force everywhere
         // TODO: Make this more elegant
         if( vertical ) {
+            if( velocity_before < 0 ) {
+                lowest_velocity = std::max( lowest_velocity, coll_velocity );
+            } else {
+                lowest_velocity = std::min( lowest_velocity, coll_velocity );
+            }
             vertical_velocity = velocity_before;
         } else if( sgn( velocity_after ) != sign_before ) {
             // Sign of velocity inverted, collisions would be in wrong direction
             break;
+        }
+    }
+
+    if( vertical ) {
+        vertical_velocity = lowest_velocity;
+        if( vertical_velocity == 0 ) {
+            is_falling = false;
         }
     }
 
