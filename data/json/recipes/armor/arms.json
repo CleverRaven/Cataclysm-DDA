@@ -99,8 +99,9 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ] ],
-    "using": [ [ "cordage", 1 ], [ "sheet_metal_small", 4 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ]
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 4 ] ] ]
   },
   {
     "result": "armguard_paper",
