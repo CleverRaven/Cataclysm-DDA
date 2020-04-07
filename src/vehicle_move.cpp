@@ -701,7 +701,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             int dam = obj_dmg * dmg_mod / 100;
 
             // No blood from hallucinations
-            if( critter != nullptr && !critter->is_hallucination() ) {
+            if( !critter->is_hallucination() ) {
                 if( part_flag( ret.part, "SHARP" ) ) {
                     parts[ret.part].blood += ( 20 + dam ) * 5;
                 } else if( dam > rng( 10, 30 ) ) {
