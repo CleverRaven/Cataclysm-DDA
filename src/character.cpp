@@ -4744,21 +4744,27 @@ void Character::check_needs_extremes()
         if( PATIENTING < get_excrete_need() ){
             if( calendar::once_every( 30_minutes ) ) {
                 if( INCONTINENTED < get_excrete_need()) {
-                    add_msg_if_player( m_bad,
-                            _( "You could not in time." ) );
                     g->m.spawn_item( pos(), "feces_human", 1, get_excrete_amount() / 125, calendar::turn , 0);
                     set_excrete_need( 0 );
                     set_excrete_amount( 0 );
-                    moves -= 1000;
+
+                    bool is_any_gear_be_filthy = false;
 
                     for( auto &i : worn ) {
                         if( i.covers( bp_leg_l ) || i.covers( bp_leg_r ) ) {
                             i.item_tags.insert( "FILTHY" );
                             morale->on_worn_item_be_filthy(i);
+                            is_any_gear_be_filthy = true;
                         }
                     }
 
-                    add_morale( MORALE_INCONTINENT, -30, -60 );
+                    if( is_any_gear_be_filthy ) {
+                        add_msg_if_player( m_bad, _( "You could not in time." ) );
+                        add_morale( MORALE_INCONTINENT, -20, -40 );
+                    } else {
+                        add_msg_if_player( m_good, _( "You could not in time, but you did not wearing any pants, so It feeling good!" ) );
+                        add_morale( MORALE_INCONTINENT, 20, 40 );
+                    }
                 } else if( INCONTINENTING < get_excrete_need()) {
                     add_msg_if_player( m_warning,
                             _( "You need take a crap immidiately." ) );
