@@ -60,7 +60,7 @@ If someday some english speaker requests transration, I may transrate it,
 All of new feature explanation is there. 
 (sorry, written japanese at all, please google translate it)
 
-[https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/doc/VARIANT_SCA_FEATURE.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_sca/doc/VARIANT_SCA_FEATURE.md)
+[https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_jp/doc/VARIANT_FEATURE.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_jp/doc/VARIANT_FEATURE.md)
 
 Describe some main feature here.
 
