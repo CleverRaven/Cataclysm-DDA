@@ -637,8 +637,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 
 void vehicle::activate_magical_follow()
 {
-    for( size_t e = 0; e < parts.size(); e++ ) {
-        vehicle_part &vp = parts[ e ];
+    for( vehicle_part &vp : parts ) {
         if( vp.info().fuel_type == fuel_type_mana ) {
             vp.enabled = true;
             is_following = true;
