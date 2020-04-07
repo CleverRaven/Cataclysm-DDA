@@ -1974,6 +1974,15 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
     print_mana( u, w, " %s: %s %s : %s", -5, -5, 13, -5 );
 }
 
+static void draw_bowel( const player &u, const catacurses::window &w )
+{
+    std::pair<std::string, nc_color> excrete_pair = u.get_excrete_description();
+    werase( w );
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Bowel :" ) );
+    mvwprintz( w, point( 8, 0 ), excrete_pair.second, excrete_pair.first );
+    wrefresh( w );
+}
+
 // ============
 // INITIALIZERS
 // ============
@@ -2013,6 +2022,7 @@ static std::vector<window_panel> initialize_default_classic_panels()
                                     default_render, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 44, false ) );
+    ret.emplace_back( window_panel( draw_bowel, translate_marker("Excrement Needs"), 1, 44, true ) );
     return ret;
 }
 
@@ -2037,6 +2047,7 @@ static std::vector<window_panel> initialize_default_compact_panels()
                                     default_render, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
+    ret.emplace_back( window_panel( draw_bowel, translate_marker("Excrement Needs"), 1, 32, true ) );
 
     return ret;
 }
@@ -2067,6 +2078,7 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
                                     default_render, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
+    ret.emplace_back( window_panel( draw_bowel, translate_marker("Excrement Needs"), 1, 32, true ) );
 
     return ret;
 }
@@ -2098,6 +2110,7 @@ static std::vector<window_panel> initialize_default_label_panels()
                                     default_render, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 44, false ) );
+    ret.emplace_back( window_panel( draw_bowel, translate_marker("Excrement Needs"), 1, 44, true ) );
 
     return ret;
 }
