@@ -1137,7 +1137,7 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
     std::vector<point> locations;
     std::vector<point> overmap_checked;
 
-    const int radius = OMAPX / 2; // arbitrary
+    const int radius = OMAPX; // arbitrary
     for( const tripoint &p : points_in_radius( curs, radius ) ) {
         overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
 
