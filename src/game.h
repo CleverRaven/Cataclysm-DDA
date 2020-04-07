@@ -382,13 +382,13 @@ class game
         class monster_range : public non_dead_range<monster>
         {
             public:
-                monster_range( game &g );
+                monster_range( game &game_ref );
         };
 
         class npc_range : public non_dead_range<npc>
         {
             public:
-                npc_range( game &g );
+                npc_range( game &game_ref );
         };
 
         class Creature_range : public non_dead_range<Creature>
@@ -397,7 +397,7 @@ class game
                 shared_ptr_fast<player> u;
 
             public:
-                Creature_range( game &g );
+                Creature_range( game &game_ref );
         };
 
     public:
