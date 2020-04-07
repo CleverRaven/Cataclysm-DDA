@@ -616,7 +616,7 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
 
 void activity_on_turn_wear( player_activity &act, player &p )
 {
-    // ACT_WEAR has item_location targets, and int quatities
+    // ACT_WEAR has item_location targets, and int quantities
     while( p.moves > 0 && !act.targets.empty() ) {
         item_location target = std::move( act.targets.back() );
         int quantity = act.values.back();
@@ -799,7 +799,7 @@ static int move_cost_inv( const item &it, const tripoint &src, const tripoint &d
     const int MAX_COST = 500;
 
     // it seems that pickup cost is flat 100
-    // in function pick_one_up, varible moves_taken has initial value of 100
+    // in function pick_one_up, variable moves_taken has initial value of 100
     // and never changes until it is finally used in function
     // remove_from_map_or_vehicle
     const int pickup_cost = 100;
@@ -1976,7 +1976,7 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
         item &it = *item_iter;
         for( auto elem : mental_map_2 ) {
             if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
-                // construction/crafting tasks want the requred item moved near the work spot.
+                // construction/crafting tasks want the required item moved near the work spot.
                 if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
                     move_item( p, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
                                g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
@@ -2170,8 +2170,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                     route = g->m.route( p.pos(), src_loc, p.get_pathfinding_settings(),
                                         p.get_path_avoid() );
                 } else {
-                    // immpassable source tile (locker etc.),
-                    // get route to nerest adjacent tile instead
+                    // impassable source tile (locker etc.),
+                    // get route to nearest adjacent tile instead
                     route = route_adjacent( p, src_loc );
                     adjacent = true;
                 }
@@ -3128,7 +3128,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         }
     }
 
-    // Special case: fire containers allow burning logs, so use them as fuel iif fire is contained
+    // Special case: fire containers allow burning logs, so use them as fuel if fire is contained
     bool contained = g->m.has_flag_furn( TFLAG_FIRE_CONTAINER, *best_fire );
     fire_data fd( 1, contained );
     time_duration fire_age = g->m.get_field_age( *best_fire, fd_fire );
