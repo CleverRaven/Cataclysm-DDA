@@ -14,7 +14,7 @@
     "color": "green",
     "intelligence": 7,
     "skill": "archery",
-    "time": "20"
+    "time": "20 m"
   },
   {
     "id": "book_archery",

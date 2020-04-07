@@ -14,7 +14,7 @@
     "color": "light_cyan",
     "flags": [ "TINDER", "FLAMMABLE" ],
     "intelligence": 4,
-    "time": 15,
+    "time": "15 m",
     "chapters": 16,
     "fun": 2
   },
@@ -27,7 +27,7 @@
     "symbol": "?",
     "looks_like": "story_book",
     "color": "light_blue",
-    "time": 20
+    "time": "20 m"
   },
   {
     "abstract": "book_nonf_hard_tpl",
@@ -81,7 +81,7 @@
     "color": "dark_gray",
     "flags": [ "TINDER", "FLAMMABLE" ],
     "intelligence": 6,
-    "time": 35,
+    "time": "35 m",
     "chapters": 30,
     "//": "TODO for this item fun should be conditional",
     "fun": 1
@@ -95,7 +95,7 @@
     "weight": "200 g",
     "volume": "400 ml",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price": -351, "price_post": -800, "time": -4, "chapters": -8, "intelligence": -1 }
+    "relative": { "price": -351, "price_post": -800, "time": "-4 m", "chapters": -8, "intelligence": -1 }
   },
   {
     "abstract": "paperback_romance_lnl",
@@ -143,7 +143,7 @@
     "name": "Satire Template",
     "description": "template for mass produced satirical fiction",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "intelligence": 3, "price": 249, "time": 5 }
+    "relative": { "intelligence": 3, "price": 249, "time": "5 m" }
   },
   {
     "abstract": "book_nonf_zine",
@@ -158,7 +158,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "time": 7,
+    "time": "7 m",
     "fun": 1
   },
   {
@@ -167,7 +167,7 @@
     "name": "News Magazine Template",
     "description": "template for news magazine",
     "copy-from": "book_nonf_zine",
-    "relative": { "intelligence": 1, "time": 1 }
+    "relative": { "intelligence": 1, "time": "1 m" }
   },
   {
     "id": "ZSG",
@@ -567,7 +567,7 @@
     "name": { "str": "Midnight Cop", "str_pl": "copies of Midnight Cop" },
     "description": "In this bare-knuckled potboiler, a ruthless police detective schemes to shut down local crime lords by pitting them against each other.  When long-simmering resentments finally flare the city learns why they call it \"the dead of night.\"",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "time": 5, "chapters": -8 }
+    "relative": { "time": "5 m", "chapters": -8 }
   },
   {
     "id": "novel_drama",
@@ -681,7 +681,7 @@
     "name": "Love and Circuses",
     "description": "The passionate saga of two Boston politicians fiercely battling each other for the mayor's office, and for Lydia's hand in marriage.",
     "copy-from": "paperback_romance_spb",
-    "relative": { "chapters": 2, "time": 3, "weight": 111 }
+    "relative": { "chapters": 2, "time": "3 m", "weight": 111 }
   },
   {
     "id": "paperback_romance_cloven",
@@ -813,7 +813,7 @@
     "description": "A paperback edition of Kurt Vonnegut's fourth novel, in which the threat of nuclear destruction isn't much of an influence on human nature.",
     "weight": "360 g",
     "copy-from": "book_fict_soft_satire_tpl",
-    "relative": { "chapters": 111, "fun": -1, "time": -19 }
+    "relative": { "chapters": 111, "fun": -1, "time": "-19 m" }
   },
   {
     "id": "novel_scifi",

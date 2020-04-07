@@ -15,7 +15,7 @@
     "flags": [ "TINDER", "FLAMMABLE" ],
     "skill": "dodge",
     "intelligence": 4,
-    "time": 10,
+    "time": "10 m",
     "fun": -1
   },
   {
