@@ -1362,7 +1362,7 @@ Vehicle components when installed on a vehicle.
 ### Part Resistance
 
 ```C++
-"all" : 0.0f,        // Initial value of all resistances, overriden by more specific types
+"all" : 0.0f,        // Initial value of all resistances, overridden by more specific types
 "physical" : 10,     // Initial value for bash, cut and stab
 "non_physical" : 10, // Initial value for acid, heat, cold, electricity and biological
 "biological" : 0.2f, // Resistances to specific types. Those override the general ones.

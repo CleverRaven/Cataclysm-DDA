@@ -156,7 +156,7 @@ void uilist::init()
     disabled_color = c_dark_gray; // disabled menu entry
     allow_disabled = false;  // disallow selecting disabled options
     allow_anykey = false;    // do not return on unbound keys
-    allow_cancel = true;     // allow cancelling with "QUIT" action
+    allow_cancel = true;     // allow canceling with "QUIT" action
     allow_additional = false; // do not return on unhandled additional actions
     hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =

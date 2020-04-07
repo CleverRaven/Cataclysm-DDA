@@ -2577,13 +2577,13 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     //
     // A shallow pit gets used to do things like build an improvised shelter or start
     // the foundation for a wall, and is ostensibly a relatively quick effort: a
-    // survior might get a crude digging implement (e.g. digging stick) and attempt to
+    // survivor might get a crude digging implement (e.g. digging stick) and attempt to
     // dig out the start of an improvised shelter, or they might have a proper shovel
     // and be digging a foundation footing. Referencing the 2018 IBC
     // https://codes.iccsafe.org/content/IRC2018/chapter-4-foundations we can see in
     // R403.1.4 the requirement that "exterior footings shall be placed not less than
     // 12 inches (305 mm) below the undisturbed ground surface. You'd need even more
-    // space for the actual footing, but that's close enough. I don't think surviviors
+    // space for the actual footing, but that's close enough. I don't think survivors
     // care about building to code, but let's call it 12 inches (0.3048 meters) at the
     // maximum for a shallow pit depth.
     //
@@ -2613,9 +2613,9 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     // requiring saws to remove tree roots), using an appropriate (but manual)
     // implement designed for the task (e.g. a shovel). The Canadian Centre for
     // Occupational Health and Safety has some interesting recommendations on the rate
-    // of shovelling, weight of the load, and throw distance at
+    // of shoveling, weight of the load, and throw distance at
     // https://www.ccohs.ca/oshanswers/ergonomics/shovel.html. Of particular interest
-    // is the table of "recommended workload for continuous shovelling", which gives a
+    // is the table of "recommended workload for continuous shoveling", which gives a
     // weight per minute and a total weight per 15 minutes, as well as a description of
     // the conditions. It also discusses the need to take breaks, for example
     // alternating 15 minutes of shoveling and 15 minutes of rest in extreme

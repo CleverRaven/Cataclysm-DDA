@@ -2777,7 +2777,7 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
 }
 
 // another NPC probably removed a part in the time it took to walk here and start the activity.
-// as the part index was first "chosen" before the NPC started travelling here.
+// as the part index was first "chosen" before the NPC started traveling here.
 // therefore the part index is now invalid shifted by one or two ( depending on how many other NPCs working on this vehicle )
 // so loop over the part indexes in reverse order to get the next one down that matches the part type we wanted to remove
 int vehicle::get_next_shifted_index( int original_index, player &p )

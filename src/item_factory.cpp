@@ -1885,7 +1885,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
             is_not_boring = is_not_boring || m == "junk";
         }
     }
-    // Junk food never gets old by default, but this can still be overriden.
+    // Junk food never gets old by default, but this can still be overridden.
     if( is_not_boring ) {
         slot.monotony_penalty = 0;
     }

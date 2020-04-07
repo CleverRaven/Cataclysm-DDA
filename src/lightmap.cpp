@@ -1014,7 +1014,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         float away = start - ( -distance + 0.5f ) / ( -distance -
                      0.5f ); //The distance between our first leadingEdge and start
 
-        //We initialise delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
+        //We initialize delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
         delta.x = -distance + std::max( static_cast<int>( std::ceil( away * ( -distance - 0.5f ) ) ), 0 );
 
         for( ; delta.x <= 0; delta.x++ ) {

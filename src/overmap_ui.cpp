@@ -606,7 +606,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
-        // get all travelling NPCs for the debug menu to show pathfinding routes.
+        // get all traveling NPCs for the debug menu to show pathfinding routes.
         for( auto &elem : overmap_buffer.get_npcs_near_player( 200 ) ) {
             if( !elem ) {
                 continue;

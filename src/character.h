@@ -907,7 +907,7 @@ class Character : public Creature, public visitable<Character>
         void update_fuel_storage( const itype_id &fuel );
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const Character::stat &Stat ) const;
-        // route for overmap-scale travelling
+        // route for overmap-scale traveling
         std::vector<tripoint> omt_path;
 
         /** Handles bionic effects over time of the entered bionic */

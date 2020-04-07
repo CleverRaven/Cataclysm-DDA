@@ -2905,7 +2905,7 @@ void npc::pick_up_item()
     }
 
     if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
-        add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name );
+        add_msg( m_debug, "%s::pick_up_item(); Canceling on player's request", name );
         fetching_item = false;
         moves -= 1;
         return;

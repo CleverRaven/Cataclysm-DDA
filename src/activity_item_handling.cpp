@@ -742,7 +742,7 @@ void activity_on_turn_pickup()
     if( !g->u.activity.coords.empty() && g->u.activity.coords.at( 0 ) != g->u.pos() ) {
         g->u.cancel_activity();
         if( g->u.is_player() ) {
-            g->u.add_msg_if_player( _( "Moving cancelled auto-pickup." ) );
+            g->u.add_msg_if_player( _( "Moving canceled auto-pickup." ) );
         }
         return;
     }
@@ -1623,7 +1623,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         }
     }
     add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_spots, combined_spots );
-    // if the requirements arent available, then stop.
+    // if the requirements aren't available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
                                   activity_to_restore, pickup_task, src_loc ) ) {
         return requirement_map;
@@ -2698,7 +2698,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                            reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING ||
                            reason == NEEDS_TREE_CHOPPING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ||
                            reason == NEEDS_MINING;
-        // is it even worth fetching anything if there isnt enough nearby?
+        // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
                                       act_id, tool_pickup, src_loc ) ) {
             p.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
@@ -2867,7 +2867,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
     std::unordered_set<tripoint> src_set = generic_multi_activity_locations( p, activity_to_restore );
     // now we have our final set of points
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-    // now loop through the work-spot tiles and judge whether its worth travelling to it yet
+    // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
     for( const tripoint &src : src_sorted ) {
         const tripoint &src_loc = g->m.getlocal( src );
