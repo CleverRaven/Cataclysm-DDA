@@ -86,7 +86,6 @@ static const trait_id trait_XXXL( "XXXL" );
 #define COL_TR_NEUT_ON_PAS  c_brown     // A toggled-on neutral trait
 #define COL_SKILL_USED      c_green   // A skill with at least one point
 #define COL_HEADER          c_white   // Captions, like "Profession items"
-#define COL_NOTE_MAJOR      c_green   // Important note
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
 #define HIGH_STAT 12 // The point after which stats cost double
@@ -635,7 +634,8 @@ void draw_sorting_indicator( const catacurses::window &w_sorting, const input_co
 {
     const auto sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
     const auto sort_text = string_format(
-                               _( "<color_white>Sort by: </color>%1$s (Press <color_light_green>%2$s</color> to change)" ),
+                               _( "<color_white>Sort by:</color> %1$s "
+                                  "(Press <color_light_green>%2$s</color> to change sorting.)" ),
                                sort_order, ctxt.get_desc( "SORT" ) );
     fold_and_print( w_sorting, point_zero, ( TERMX / 2 ), c_light_gray, sort_text );
 }
@@ -784,17 +784,15 @@ tab_direction set_stats( avatar &u, points_left &points )
         fold_and_print( w, point( 2, 16 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
                         _( "    <color_light_green>%s</color> / <color_light_green>%s</color> to select a statistic.\n"
                            "    <color_light_green>%s</color> to increase the statistic.\n"
-                           "    <color_light_green>%s</color> to decrease the statistic." ),
+                           "    <color_light_green>%s</color> to decrease the statistic.\n"
+                           "\n"
+                           "    <color_light_green>%s</color> lets you view and alter keybindings.\n"
+                           "    <color_light_green>%s</color> takes you to the next tab.\n"
+                           "    <color_light_green>%s</color> returns you to the main menu." ),
                         ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                        ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" )
+                        ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
+                        ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" )
                       );
-
-        mvwprintz( w, point( 2, TERMY - 4 ), COL_NOTE_MAJOR,
-                   _( "%s lets you view and alter keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-        mvwprintz( w, point( 2, TERMY - 3 ), COL_NOTE_MAJOR, _( "%s takes you to the next tab." ),
-                   ctxt.get_desc( "NEXT_TAB" ) );
-        mvwprintz( w, point( 2, TERMY - 2 ), COL_NOTE_MAJOR, _( "%s returns you to the main menu." ),
-                   ctxt.get_desc( "PREV_TAB" ) );
 
         // This is description line, meaning its length excludes first column and border
         const std::string clear_line( getmaxx( w ) - iSecondColumn - 1, ' ' );
@@ -1536,11 +1534,14 @@ tab_direction set_profession( avatar &u, points_left &points,
 
         werase( w_genderswap );
         //~ Gender switch message. 1s - change key name, 2s - profession name.
-        std::string g_switch_msg = u.male ? _( "Press %1$s to switch to %2$s( female )." ) :
-                                   _( "Press %1$s to switch to %2$s(male)." );
-        mvwprintz( w_genderswap, point_zero, c_magenta, g_switch_msg.c_str(),
-                   ctxt.get_desc( "CHANGE_GENDER" ),
-                   sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
+        std::string g_switch_msg = u.male ?
+                                   _( "Press <color_light_green>%1$s</color> to switch "
+                                      "to <color_magenta>%2$s</color> (<color_magenta>female</color>)." ) :
+                                   _( "Press <color_light_green>%1$s</color> to switch "
+                                      "to <color_magenta>%2$s</color> (<color_magenta>male</color>)." );
+        fold_and_print( w_genderswap, point_zero, ( TERMX / 2 ), c_light_gray, g_switch_msg.c_str(),
+                        ctxt.get_desc( "CHANGE_GENDER" ),
+                        sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
 
         draw_scrollbar( w, cur_id, iContentHeight, profs_length, point( 0, 5 ) );
 
@@ -2384,10 +2385,11 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         }
         wrefresh( w_skills );
 
-        mvwprintz( w_guide, point( 0, getmaxy( w_guide ) - 1 ), c_green,
-                   _( "Press %s to finish character creation or %s to go back." ),
-                   ctxt.get_desc( "NEXT_TAB" ),
-                   ctxt.get_desc( "PREV_TAB" ) );
+        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), ( TERMX / 2 ), c_light_gray,
+                        _( "Press <color_light_green>%s</color> to finish character creation "
+                        "or <color_light_green>%s</color> to go back." ),
+                        ctxt.get_desc( "NEXT_TAB" ),
+                        ctxt.get_desc( "PREV_TAB" ) );
         if( allow_reroll ) {
             mvwprintz( w_guide, point( 0, getmaxy( w_guide ) - 2 ), c_green,
                        _( "Press %s to save character template, %s to re-roll or %s for random scenario." ),
@@ -2395,9 +2397,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                        ctxt.get_desc( "REROLL_CHARACTER" ),
                        ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
         } else {
-            mvwprintz( w_guide, point( 0, getmaxy( w_guide ) - 2 ), c_green,
-                       _( "Press %s to save a template of this character." ),
-                       ctxt.get_desc( "SAVE_TEMPLATE" ) );
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), ( TERMX / 2 ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> to save a template of this character." ),
+                            ctxt.get_desc( "SAVE_TEMPLATE" ) );
         }
         wrefresh( w_guide );
 
@@ -2413,8 +2415,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         if( !MAP_SHARING::isSharing() ) { // no random names when sharing maps
             // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( w_name, point( 0, 1 ), c_light_gray, _( "Press %s to pick a random name." ),
-                       ctxt.get_desc( "PICK_RANDOM_NAME" ) );
+            fold_and_print( w_name, point( 0, 1 ), ( TERMX / 2 ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> to pick a random name." ),
+                           ctxt.get_desc( "PICK_RANDOM_NAME" ) );
         }
         wrefresh( w_name );
 
@@ -2423,19 +2426,21 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         mvwprintz( w_gender, point( female_pos, 0 ), ( you.male ? c_light_gray : c_light_red ),
                    _( "Female" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( w_gender, point( 0, 1 ), c_light_gray, _( "Press %s to switch gender" ),
-                   ctxt.get_desc( "CHANGE_GENDER" ) );
+        fold_and_print( w_gender, point( 0, 1 ), ( TERMX / 2 ), c_light_gray,
+                        _( "Press <color_light_green>%s</color> to switch gender" ),
+                        ctxt.get_desc( "CHANGE_GENDER" ) );
         wrefresh( w_gender );
 
-        const std::string location_prompt = string_format( _( "Press %s to select location." ),
+        const std::string location_prompt = string_format( _( "Press <color_light_green>%s</color> "
+                                                              "to select location." ),
                                             ctxt.get_desc( "CHOOSE_LOCATION" ) );
         const int prompt_offset = utf8_width( location_prompt );
         werase( w_location );
-        mvwprintz( w_location, point_zero, c_light_gray, location_prompt );
-        mvwprintz( w_location, point( prompt_offset + 1, 0 ), c_light_gray, _( "Starting location:" ) );
+        fold_and_print( w_location, point( 0, 1 ), ( TERMX / 2 ), c_light_gray, location_prompt );
+        mvwprintz( w_location, point( prompt_offset - 10, 0 ), c_light_gray, _( "Starting location:" ) );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
-        mvwprintz( w_location, point( prompt_offset + utf8_width( _( "Starting location:" ) ) + 2, 0 ),
-                   you.random_start_location ? c_red : c_light_gray,
+        mvwprintz( w_location, point( prompt_offset + utf8_width( _( "Starting location:" ) ) - 9, 0 ),
+                   you.random_start_location ? c_red : c_light_green,
                    you.random_start_location ? RANDOM_START_LOC_TEXT : you.start_location.obj().name() );
         wrefresh( w_location );
 
