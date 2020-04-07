@@ -2170,7 +2170,7 @@
       [ "textbook_armwest", 5 ]
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 2 }, ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ] ]
   },
   {
