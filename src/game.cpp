@@ -11944,23 +11944,23 @@ bool game::non_dead_range<Creature>::iterator::valid()
     return true; // must be g->u
 }
 
-game::monster_range::monster_range( game &g )
+game::monster_range::monster_range( game &game_ref )
 {
-    const auto &monsters = g.critter_tracker->get_monsters_list();
+    const auto &monsters = game_ref.critter_tracker->get_monsters_list();
     items.insert( items.end(), monsters.begin(), monsters.end() );
 }
 
-game::Creature_range::Creature_range( game &g ) : u( &g.u, []( player * ) { } )
+game::Creature_range::Creature_range( game &game_ref ) : u( &game_ref.u, []( player * ) { } )
 {
-    const auto &monsters = g.critter_tracker->get_monsters_list();
+    const auto &monsters = game_ref.critter_tracker->get_monsters_list();
     items.insert( items.end(), monsters.begin(), monsters.end() );
-    items.insert( items.end(), g.active_npc.begin(), g.active_npc.end() );
+    items.insert( items.end(), game_ref.active_npc.begin(), game_ref.active_npc.end() );
     items.push_back( u );
 }
 
-game::npc_range::npc_range( game &g )
+game::npc_range::npc_range( game &game_ref )
 {
-    items.insert( items.end(), g.active_npc.begin(), g.active_npc.end() );
+    items.insert( items.end(), game_ref.active_npc.begin(), game_ref.active_npc.end() );
 }
 
 game::Creature_range game::all_creatures()
