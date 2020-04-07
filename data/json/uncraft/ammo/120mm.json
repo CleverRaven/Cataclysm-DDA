@@ -1,18 +1,17 @@
 [
   {
-    "result": "atgm_heat",
+    "result": "120mm_HEAT",
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "1 h",
+    "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "atgm_spent", 1 ] ],
-      [ [ "copper", 2004 ] ],
-      [ [ "chem_compositionb", 4500 ] ],
+      [ [ "copper", 2500 ] ],
+      [ [ "chem_compositionb", 6000 ] ],
+      [ [ "gunpowder_artillery", 8000 ] ],
       [ [ "impact_fuze", 1 ] ],
-      [ [ "scrap", 20 ] ],
-      [ [ "e_scrap", 3 ] ]
+      [ [ "scrap", 25 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
