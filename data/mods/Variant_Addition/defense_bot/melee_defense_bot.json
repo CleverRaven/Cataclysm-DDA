@@ -1,0 +1,108 @@
+[
+  {
+    "id": "bot_melee_defence_bot",
+    "type": "TOOL",
+    "name": "近接防衛ボット(停止)",
+    "description": "閉所における侵入者を撃退するための設置型ロボットです。設置することで、半径数メートルに近づいた侵入者を攻撃します。",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": 600000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_melee_defence_bot",
+      "difficulty": 0,
+      "moves": 100,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+
+  {
+    "id": "broken_melee_defence_bot",
+    "type": "TOOL",
+    "name": "壊れた近接防衛ボット",
+    "description": "壊れた近接防衛ボットです。残念ながら再利用はできません。",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": 600000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "yellow"
+  },
+
+  {
+    "id": "mon_melee_defence_bot",
+    "type": "MONSTER",
+    "name": "近接防衛ボット",
+    "description": "閉所における侵入者を撃退するための設置型ロボットです。半径数メートルに近づいた侵入者を攻撃します。",
+    "default_faction": "player",
+    "species": [ "ROBOT" ],
+    "diff": 2,
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "hp": 100,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "2",
+    "color": "yellow",
+    "aggression": 100,
+    "morale": 100,
+    "armor_bash": 14,
+    "armor_cut": 16,
+    "melee_skill": 3,
+    "melee_dice": 4,
+    "melee_dice_sides": 4,
+    "vision_day": 6,
+    "vision_night": 4,
+    "revert_to_itype": "bot_melee_defence_bot",
+    "special_attacks": [
+      [ "MELEE_BOT", 1 ]
+    ],
+    "death_drops": {  },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+  },
+
+  {
+    "type": "recipe",
+    "result": "bot_melee_defence_bot",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 8 ], [ "computer", 5 ] ],
+    "difficulty": 8,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 9,
+    "book_learn": [ [ "recipe_lab_elec", 8 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ],
+      [ [ "steel_plate", 1 ] ],
+      [ [ "hammer", 1 ] ],
+      [ [ "blade", 1 ] ],
+      [ [ "tazer", 1 ] ]
+    ]
+  }
+
+]
