@@ -2711,10 +2711,10 @@ static void mx_grave( map &m, const tripoint &abs_sub )
     if( !one_in( 20 ) ) {
         const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
         m.ter_set( corpse_location, t_grave_new );
-        m.furn_set( point( corpse_location.x, corpse_location.y - 1 ), f_sign );
+        m.furn_set( corpse_location + point_north, f_sign );
         const std::string text = SNIPPET.random_from_category( "grave_label" ).value_or(
                                      translation() ).translated();
-        m.set_signage( corpse_location + point( 0, -1 ), text );
+        m.set_signage( corpse_location + point_north, text );
         //Human corpses
         if( one_in( 2 ) ) {
             m.put_items_from_loc( "everyday_corpse", corpse_location );
