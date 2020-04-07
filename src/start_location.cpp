@@ -50,6 +50,11 @@ std::string start_location::name() const
     return _name.translated();
 }
 
+int start_location::targets_count() const
+{
+    return _omt_types.size();
+}
+
 std::pair<std::string, ot_match_type> start_location::random_target() const
 {
     return random_entry( _omt_types );
