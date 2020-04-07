@@ -5107,6 +5107,18 @@ static void littlemaid_ecstasy_check( player *p, shared_ptr_fast<monster> maid){
                            false, "speech", maid->type->id.str() );
         }
 
+        if( maid->has_flag( MF_SHOGGOTH_MAID ) && one_in( 5 ) ) {
+            // lay egg
+            const SpeechBubble &speech = get_speech( "mon_shoggoth_maid_lay_egg" );
+            sounds::sound( maid->pos(), speech.volume, sounds::sound_t::speech, speech.text.translated(),
+                           false, "speech", maid->type->id.str() );
+
+            p->add_msg_if_player( m_good, _( "Shoggoth maid laid egg!" ), mp_amount );
+            item shoggoth_egg( "egg_shoggoth", calendar::turn );
+            shoggoth_egg.charges = 1;
+            p->i_add_or_drop(shoggoth_egg);
+        }
+
     } else if(player_ecstacy) {
         p->add_msg_if_player( m_good, _( "You raised up ecstacy!" ) );
         p->remove_effect(effect_comfortness,  num_bp);
