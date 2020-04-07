@@ -539,10 +539,14 @@ struct event_statistic_unique_value : event_statistic::impl {
 
     struct state : stats_tracker_state, event_multiset_watcher {
         state( const event_statistic_unique_value *s, stats_tracker &stats ) :
-            stat( s ),
-            count( stats.get_events( s->type_ ).count() ),
-            value( s->value( stats ) ) {
+            stat( s ) {
+            init( stats );
             stats.add_watcher( stat->type_, this );
+        }
+
+        void init( stats_tracker &stats ) {
+            count = stats.get_events( stat->type_ ).count();
+            value = stat->value( stats );
         }
 
         void event_added( const cata::event &e, stats_tracker &stats ) override {
@@ -558,7 +562,7 @@ struct event_statistic_unique_value : event_statistic::impl {
         }
 
         void events_reset( const event_multiset &, stats_tracker &stats ) override {
-            *this = state( stat, stats );
+            init( stats );
             stats.stat_value_changed( stat->id_, value );
         }
 

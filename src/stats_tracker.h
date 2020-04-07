@@ -62,17 +62,30 @@ class event_multiset
         counts_type counts_;
 };
 
-class stat_watcher
+class base_watcher
 {
     public:
-        virtual ~stat_watcher() = 0;
+        base_watcher() = default;
+        base_watcher( const base_watcher & ) = delete;
+        base_watcher &operator=( const base_watcher & ) = delete;
+    protected:
+        virtual ~base_watcher();
+    private:
+        friend class stats_tracker;
+        void on_subscribe( stats_tracker * );
+        void on_unsubscribe( stats_tracker * );
+        stats_tracker *subscribed_to = nullptr;
+};
+
+class stat_watcher : public base_watcher
+{
+    public:
         virtual void new_value( const cata_variant &, stats_tracker & ) = 0;
 };
 
-class event_multiset_watcher
+class event_multiset_watcher : public base_watcher
 {
     public:
-        virtual ~event_multiset_watcher() = 0;
         virtual void event_added( const cata::event &, stats_tracker & ) = 0;
         virtual void events_reset( const event_multiset &, stats_tracker & ) = 0;
 };
@@ -86,6 +99,8 @@ class stats_tracker_state
 class stats_tracker : public event_subscriber
 {
     public:
+        ~stats_tracker();
+
         event_multiset &get_events( event_type );
         event_multiset get_events( const string_id<event_transformation> & );
 
@@ -94,6 +109,8 @@ class stats_tracker : public event_subscriber
         void add_watcher( event_type, event_multiset_watcher * );
         void add_watcher( const string_id<event_transformation> &, event_multiset_watcher * );
         void add_watcher( const string_id<event_statistic> &, stat_watcher * );
+
+        void unwatch( base_watcher * );
 
         void transformed_set_changed( const string_id<event_transformation> &,
                                       const cata::event &new_element );
@@ -111,6 +128,8 @@ class stats_tracker : public event_subscriber
         void serialize( JsonOut & ) const;
         void deserialize( JsonIn & );
     private:
+        void unwatch_all();
+
         std::unordered_map<event_type, event_multiset> data;
 
         std::unordered_map<event_type, std::vector<event_multiset_watcher *>> event_type_watchers;
