@@ -108,6 +108,8 @@ static const std::string flag_REACH3( "REACH3" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
 
+static const std::string flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
+
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 #if defined(__ANDROID__)
@@ -977,21 +979,22 @@ static void sleep()
     uilist as_m;
     as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
     // (Y)es/(S)ave before sleeping/(N)o
-    as_m.entries.emplace_back( 2, true,
-                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
-                               _( "No." ) );
-    as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
-                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
-                               _( "Yes, and save game before sleeping." ) );
     as_m.entries.emplace_back( 0, true,
                                get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
                                _( "Yes." ) );
+    as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
+                               _( "Yes, and save game before sleeping." ) );
+    as_m.entries.emplace_back( 2, true,
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
+                               _( "No." ) );
 
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
         if( it->has_flag( flag_LITCIG ) ||
-            ( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() ) ) {
+            ( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() &&
+              !it->has_flag( flag_SLEEP_IGNORE ) ) ) {
             active.push_back( it->tname() );
         }
     }
@@ -1032,8 +1035,9 @@ static void sleep()
     // ask for deactivation
     std::stringstream data;
     if( !active.empty() ) {
+        as_m.selected = 2;
         data << as_m.text << std::endl;
-        data << _( "You may want to turn off:" ) << std::endl;
+        data << _( "You may want to extinguish or turn off:" ) << std::endl;
         data << " " << std::endl;
         for( auto &a : active ) {
             data << "<color_red>" << a << "</color>" << std::endl;
