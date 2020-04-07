@@ -3102,7 +3102,7 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
                                    "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
                                    "Press [<color_yellow>%s</color>] for more info.\n" ),
                                 you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
-                                ctxt.get_desc( "SHOW_DESCRIPTION" ));
+                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
     kmenu.input_category = "MELEE_STYLE_PICKER";
