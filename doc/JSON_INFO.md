@@ -17,6 +17,7 @@ Use the `Home` key to return to the top.
     + [Other formatting](#other-formatting)
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
   * [`data/json/` JSONs](#datajson-jsons)
+    + [Body_parts](#body_parts)
     + [Bionics](#bionics)
     + [Dreams](#dreams)
     + [Disease](#disease_type)
@@ -370,6 +371,52 @@ This section describes each json file and their contents. Each json has their ow
 
 
 ## `data/json/` JSONs
+
+### Body_parts
+
+| Identifier        | Description
+|---                |---
+| id                | Unique ID. Must be one continuous word, use underscores if necessary.
+| name              | In-game name displayed.
+| accusative        | Accusative form for this bodypart.
+| heading           | How it's displayed in headings.
+| heading_multiple  | Plural form of heading.
+| hp_bar_ui_text    | How it's displayed next to the hp bar in the panel.
+| main_part         | What is the main part this one is attached to. (If this is a main part it's attached to itself)
+| opposite_part     | What is the opposite part ot this one in case of a pair.
+| hit_size          | Size of the body part when doing an unweighted selection.
+| hit_size_relative | Hit sizes for attackers who are smaller, equal in size, and bigger.
+| hit_difficulty    | How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
+| stylish_bonus     | Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
+| hot_morale_mod    | Mood effect of being too hot on this part. (default: `0`)
+| cold_morale_mod   | Mood effect of being too cold on this part. (default: `0`)
+| squeamish_penalty | Mood effect of wearing filthy clothing on this part. (default: `0`)
+| bionic_slots      | How many bionic slots does this part have.
+
+```C++
+  {
+    "id": "torso",
+    "type": "body_part",
+    "name": "torso",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "torso" },
+    "heading": "Torso",
+    "heading_multiple": "Torso",
+    "hp_bar_ui_text": "TORSO",
+    "encumbrance_text": "Dodging and melee is hampered.",
+    "main_part": "torso",
+    "opposite_part": "torso",
+    "hit_size": 45,
+    "hit_size_relative": [ 20, 33.33, 36.57 ],
+    "hit_difficulty": 1,
+    "side": "both",
+    "legacy_id": "TORSO",
+    "stylish_bonus": 6,
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
+    "squeamish_penalty": 6,
+    "bionic_slots": 80
+  }
+```
 
 ### Bionics
 

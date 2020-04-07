@@ -173,7 +173,7 @@ class player_morale
                 hot( 0 ),
                 cold( 0 ) {}
         };
-        std::array<body_part_data, num_bp> body_parts;
+        std::map<bodypart_id, body_part_data> body_parts;
         body_part_data no_body_part;
 
         using mutation_handler = std::function<void ( player_morale * )>;

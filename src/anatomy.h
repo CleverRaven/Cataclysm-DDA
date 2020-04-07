@@ -41,6 +41,7 @@ class anatomy
         /** Returns a random body part dependent on attacker's relative size and hit roll. */
         bodypart_id select_body_part( int size_diff, int hit_roll ) const;
 
+        std::vector<bodypart_id> get_bodyparts() const;
         void add_body_part( const bodypart_str_id &new_bp );
         // TODO: remove_body_part
 

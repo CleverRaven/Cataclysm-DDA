@@ -488,7 +488,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     if( source == nullptr || source->is_hallucination() ) {
-        dealt_dam.bp_hit = get_random_body_part();
+        dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part()->token;
         return;
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
@@ -1385,6 +1385,38 @@ float Creature::get_dodge() const
 float Creature::get_hit() const
 {
     return get_hit_base() + get_hit_bonus();
+}
+
+anatomy_id Creature::get_anatomy() const
+{
+    return creature_anatomy;
+}
+
+void Creature::set_anatomy( anatomy_id anat )
+{
+    creature_anatomy = anat;
+}
+
+bodypart_id Creature::get_random_body_part( bool main ) const
+{
+    // TODO: Refuse broken limbs, adjust for mutations
+    const bodypart_id &part = get_anatomy()->random_body_part();
+    return main ? part->main_part.id() : part;
+}
+
+std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
+{
+    // TODO: Remove broken parts, parts removed by mutations etc.
+
+    const std::vector<bodypart_id> all_bps = get_anatomy()->get_bodyparts();
+    std::vector<bodypart_id> main_bps;
+
+    for( const bodypart_id bp : all_bps ) {
+        if( bp->main_part.id() == bp ) {
+            main_bps.emplace_back( bp );
+        }
+    }
+    return only_main ? main_bps : all_bps;
 }
 
 int Creature::get_speed_base() const

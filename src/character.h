@@ -506,11 +506,6 @@ class Character : public Creature, public visitable<Character>
         /** Handles stat and bonus reset. */
         void reset() override;
 
-        /** Picks a random body part, adjusting for mutations, broken body parts etc. */
-        body_part get_random_body_part( bool main ) const override;
-        /** Returns all body parts this character has, in order they should be displayed. */
-        std::vector<body_part> get_all_body_parts( bool only_main = false ) const override;
-
         /** Recalculates encumbrance cache. */
         void reset_encumbrance();
         /** Returns ENC provided by armor, etc. */

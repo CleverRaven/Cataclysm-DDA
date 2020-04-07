@@ -383,10 +383,6 @@ class monster : public Creature
         // Something hit us (possibly null source)
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-        // Get torso - monsters don't have body parts (yet?)
-        body_part get_random_body_part( bool main ) const override;
-        /** Returns vector containing all body parts this monster has. That is, { bp_torso } */
-        std::vector<body_part> get_all_body_parts( bool only_main = false ) const override;
 
         /** Resets a given special to its monster type cooldown value */
         void reset_special( const std::string &special_name );

@@ -627,7 +627,7 @@ bool mattack::acid_barf( monster *z )
         return true;
     }
 
-    body_part hit = target->get_random_body_part();
+    body_part hit = target->get_random_body_part()->token;
     int dam = rng( 5, 12 );
     dam = target->deal_damage( z, hit, damage_instance( DT_ACID, dam ) ).total_damage();
     target->add_env_effect( effect_corroding, hit, 5, time_duration::from_turns( dam / 2 + 5 ), hit );
@@ -1505,7 +1505,7 @@ bool mattack::vine( monster *z )
                 return true;
             }
 
-            body_part bphit = critter->get_random_body_part();
+            body_part bphit = critter->get_random_body_part()->token;
             critter->add_msg_player_or_npc( m_bad,
                                             //~ 1$s monster name(vine), 2$s bodypart in accusative
                                             _( "The %1$s lashes your %2$s!" ),
@@ -1797,7 +1797,7 @@ bool mattack::fungus_inject( monster *z )
         return true;
     }
 
-    body_part hit = target->get_random_body_part();
+    body_part hit = target->get_random_body_part()->token;
     int dam = rng( 5, 11 );
     dam = g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
 
@@ -1852,7 +1852,7 @@ bool mattack::fungus_bristle( monster *z )
         return true;
     }
 
-    body_part hit = target->get_random_body_part();
+    body_part hit = target->get_random_body_part()->token;
     int dam = rng( 7, 16 );
     dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
 
@@ -2023,7 +2023,7 @@ bool mattack::fungus_fortify( monster *z )
     }
 
     // TODO: 21 damage with no chance to critical isn't scary
-    body_part hit = target->get_random_body_part();
+    body_part hit = target->get_random_body_part()->token;
     int dam = rng( 15, 21 );
     dam = g->u.deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
 
@@ -2163,7 +2163,7 @@ bool mattack::dermatik( monster *z )
     }
 
     // Can the bug penetrate our armor?
-    body_part targeted = target->get_random_body_part();
+    body_part targeted = target->get_random_body_part()->token;
     if( 4 < g->u.get_armor_cut( targeted ) / 3 ) {
         //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
         target->add_msg_if_player( _( "The %1$s lands on your %2$s, but can't penetrate your armor." ),
@@ -2535,7 +2535,7 @@ bool mattack::tentacle( monster *z )
         return true;
     }
 
-    body_part hit = target->get_random_body_part();
+    body_part hit = target->get_random_body_part()->token;
     int dam = rng( 10, 20 );
     //~ 1$s is bodypart name, 2$d is damage value.
     add_msg( m_bad, _( "Your %1$s is hit for %2$d damage!" ), body_part_name( hit ), dam );
@@ -4071,7 +4071,7 @@ bool mattack::stretch_bite( monster *z )
         return true;
     }
 
-    body_part hit = target->get_random_body_part();
+    body_part hit = target->get_random_body_part()->token;
     // More damage due to the speed of the moving head
     int dam = rng( 5, 15 );
     dam = target->deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
@@ -4171,7 +4171,7 @@ bool mattack::flesh_golem( monster *z )
         target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
-    body_part hit = target->get_random_body_part();
+    body_part hit = target->get_random_body_part()->token;
     // TODO: 10 bashing damage doesn't sound like a "massive claw" but a mediocre punch
     int dam = rng( 5, 10 );
     target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
@@ -4291,7 +4291,7 @@ bool mattack::lunge( monster *z )
         target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
-    body_part hit = target->get_random_body_part();
+    body_part hit = target->get_random_body_part()->token;
     int dam = rng( 3, 7 );
     dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
     if( dam > 0 ) {
@@ -4359,7 +4359,7 @@ bool mattack::longswipe( monster *z )
                 target->on_dodge( z, z->type->melee_skill * 2 );
                 return true;
             }
-            body_part hit = target->get_random_body_part();
+            body_part hit = target->get_random_body_part()->token;
             int dam = rng( 3, 7 );
             dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
             if( dam > 0 ) {
@@ -5485,7 +5485,7 @@ bool mattack::stretch_attack( monster *z )
         return true;
     }
 
-    body_part hit = target->get_random_body_part();
+    body_part hit = target->get_random_body_part()->token;
     dam = target->deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
 
     if( dam > 0 ) {
