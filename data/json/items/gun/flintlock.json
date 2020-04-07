@@ -111,21 +111,23 @@
     "id": "longrifle_flintlock_revolver",
     "copy-from": "longrifle_flintlock",
     "type": "GUN",
-    "name": "flintlock rifle",
+    "name": "long flintlock rifle revolver",
     "description": "A homemade version of Elisha Collier's 19th century revolver. This one has a long, rifled barrel.",
-    "relative": { "weight": 100, },
+    "relative": { "weight": 100, "volume": 1 },
 	"clip_size": 5,
-    "proportional": { "reload": 0.2 }
+    "proportional": { "reload": 0.25 },
+	"extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
     "id": "carbine_flintlock_revolver",
     "copy-from": "carbine_flintlock",
     "type": "GUN",
-    "name": "flintlock rifle",
+    "name": "flintlock carbine revolver",
     "description": "A homemade version of Elisha Collier's 19th century revolver. This one has a short, rifled barrel.",
-    "relative": { "weight": 100, },
+    "relative": { "weight": 100, "volume": 1 },
 	"clip_size": 5,
-    "proportional": { "reload": 0.2 }
+    "proportional": { "reload": 0.23 },
+	"extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
     "id": "flintlock_revolver",
@@ -133,8 +135,9 @@
     "type": "GUN",
     "name": "flintlock revolver",
     "description": "A homemade version of Elisha Collier's 19th century revolver.",
-    "relative": { "weight": 100, },
+    "relative": { "weight": 100, "volume": 1 },
 	"clip_size": 5,
-    "proportional": { "reload": 0.2 }
+    "proportional": { "reload": 0.18 },
+	"extend": { "flags": [ "RELOAD_ONE" ] }
   }
 ]
