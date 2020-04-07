@@ -219,7 +219,7 @@
     ],
     "using": [ [ "forging_standard", 6 ], [ "steel_standard", 3 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "rifling_button", -1 ] ] ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
     "type": "recipe",
