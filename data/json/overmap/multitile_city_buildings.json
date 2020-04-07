@@ -1,6 +1,37 @@
 [
   {
     "type": "city_building",
+    "id": "urban_1_house",
+    "overmaps": [
+      { "point": [ 1, 0, 0 ], "overmap": "urban_1_1_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "urban_1_2_south" },
+      { "point": [ 1, 0, -1 ], "overmap": "urban_1_1_basement_south" },
+      { "point": [ 0, 0, -1 ], "overmap": "urban_1_2_basement_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "urban_1_3_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "urban_1_4_south" },
+      { "point": [ 0, 0, 2 ], "overmap": "urban_1_6_south" }
+    ],
+    "locations": [ "land" ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "city_building",
+    "id": "urban_2_house",
+    "overmaps": [
+      { "point": [ 1, 0, 0 ], "overmap": "urban_2_1_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "urban_2_2_south" },
+      { "point": [ 1, 0, -1 ], "overmap": "urban_2_1_basement_south" },
+      { "point": [ 0, 0, -1 ], "overmap": "urban_2_2_basement_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "urban_2_3_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "urban_2_4_south" },
+      { "point": [ 1, 0, 2 ], "overmap": "urban_2_5_south" },
+      { "point": [ 0, 0, 2 ], "overmap": "urban_2_6_south" }
+    ],
+    "locations": [ "land" ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "city_building",
     "id": "house_wooded",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "house_wooded_north" }, { "point": [ 0, 0, 1 ], "overmap": "house_roof_north" } ]

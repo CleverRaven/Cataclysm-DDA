@@ -53,7 +53,8 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary
 {
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_CATEGORY, iteminfo_parts::BASE_MATERIAL,
                                 iteminfo_parts::BASE_VOLUME, iteminfo_parts::BASE_WEIGHT,
-                                iteminfo_parts::DESCRIPTION } );
+                                iteminfo_parts::DESCRIPTION
+                              } );
 
     override_option opt( "USE_METRIC_WEIGHTS", "lbs" );
     SECTION( "volume, weight, category, material, description" ) {
@@ -138,7 +139,8 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
 TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_DAMAGE, iteminfo_parts::BASE_TOHIT,
-                                iteminfo_parts::BASE_MOVES } );
+                                iteminfo_parts::BASE_MOVES
+                              } );
 
     SECTION( "bash damage" ) {
         test_info_equals(
@@ -194,7 +196,8 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
 {
     iteminfo_query q = q_vec( { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,
                                 iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH,
-                                iteminfo_parts::ARMOR_ENCUMBRANCE, iteminfo_parts::ARMOR_PROTECTION } );
+                                iteminfo_parts::ARMOR_ENCUMBRANCE, iteminfo_parts::ARMOR_PROTECTION
+                              } );
 
     SECTION( "shows coverage, encumbrance, and protection for armor with coverage" ) {
         test_info_equals(
@@ -249,7 +252,8 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
 
     SECTION( "weapon damage including floating-point multiplier" ) {
         iteminfo_query q = q_vec( { iteminfo_parts::GUN_DAMAGE, iteminfo_parts::GUN_DAMAGE_AMMOPROP,
-                                    iteminfo_parts::GUN_DAMAGE_TOTAL, iteminfo_parts::GUN_ARMORPIERCE } );
+                                    iteminfo_parts::GUN_DAMAGE_TOTAL, iteminfo_parts::GUN_ARMORPIERCE
+                                  } );
         test_info_equals(
             item( "test_compbow" ), q,
             "--\n"
@@ -298,7 +302,8 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
     iteminfo_query q = q_vec( { iteminfo_parts::AMMO_REMAINING_OR_TYPES, iteminfo_parts::AMMO_DAMAGE_VALUE,
                                 iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL, iteminfo_parts::AMMO_DAMAGE_AP,
                                 iteminfo_parts::AMMO_DAMAGE_RANGE, iteminfo_parts::AMMO_DAMAGE_DISPERSION,
-                                iteminfo_parts::AMMO_DAMAGE_RECOIL } );
+                                iteminfo_parts::AMMO_DAMAGE_RECOIL
+                              } );
 
     SECTION( "simple item with ammo damage" ) {
         test_info_equals(
@@ -314,7 +319,8 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
 TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
 {
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_VITAMINS,
-                                iteminfo_parts::FOOD_QUENCH } );
+                                iteminfo_parts::FOOD_QUENCH
+                              } );
     SECTION( "fixed nutrient values in regular item" ) {
         item i( "icecream" );
         test_info_equals(
