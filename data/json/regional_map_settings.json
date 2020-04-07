@@ -473,7 +473,8 @@
           "mx_casings": 20,
           "mx_corpses": 3,
           "mx_nest_wasp": 2,
-          "mx_mass_grave": 5
+          "mx_mass_grave": 5,
+          "mx_grave": 5
         }
       },
       "road": {

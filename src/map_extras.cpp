@@ -38,6 +38,7 @@
 #include "line.h"
 #include "optional.h"
 #include "string_id.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
 #include "coordinate_conversions.h"
@@ -77,6 +78,7 @@ static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
 static const mongroup_id GROUP_MI_GO_CAMP_OM( "GROUP_MI-GO_CAMP_OM" );
 static const mongroup_id GROUP_NETHER_CAPTURED( "GROUP_NETHER_CAPTURED" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
+static const mongroup_id GROUP_PETS( "GROUP_PETS" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 
 static const mtype_id mon_dispatch( "mon_dispatch" );
@@ -2703,6 +2705,112 @@ static void mx_corpses( map &m, const tripoint &abs_sub )
     }
 }
 
+static void mx_grave( map &m, const tripoint &abs_sub )
+{
+    //95% chance to spawn a grave with common people/pets
+    if( !one_in( 20 ) ) {
+        const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
+        m.ter_set( corpse_location, t_grave_new );
+        m.furn_set( corpse_location + point_north, f_sign );
+        const std::string text = SNIPPET.random_from_category( "grave_label" ).value_or(
+                                     translation() ).translated();
+        m.set_signage( corpse_location + point_north, text );
+        //Human corpses
+        if( one_in( 2 ) ) {
+            m.put_items_from_loc( "everyday_corpse", corpse_location );
+        } else {
+            //Pets' corpses
+            const std::vector<mtype_id> pets = MonsterGroupManager::GetMonstersFromGroup( GROUP_PETS );
+            const mtype_id &pet = random_entry_ref( pets );
+            item body = item::make_corpse( pet, calendar::start_of_cataclysm );
+            m.add_item_or_charges( corpse_location, body );
+        }
+        //5% chance to spawn easter egg grave(s)
+    } else {
+        switch( rng( 1, 7 ) ) {
+            //Pair of TWD protagonists
+            case 1: {
+                m.ter_set( point( SEEX, SEEY ), t_grave_new );
+                m.spawn_item( point( SEEX, SEEY ),
+                              "sw_619" ); //TODO: Replace this with Colt Python if we ever have it in game
+                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
+                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ), pgettext( "R as a letter", "R." ) );
+
+                m.ter_set( point( SEEX + 1, SEEY ), t_grave_new );
+                m.spawn_item( point( SEEX + 1, SEEY ), "katana" );
+                m.furn_set( point( SEEX + 1, SEEY - 1 ), f_sign );
+                m.set_signage( tripoint( SEEX + 1, SEEY - 1, abs_sub.z ), pgettext( "M as a letter", "M." ) );
+                break;
+            }
+            //HL2 protagonist
+            case 2: {
+                m.ter_set( point( SEEX, SEEY ), t_grave_new );
+                m.spawn_item( point( SEEX, SEEY ), "glasses_eye" );
+                m.spawn_item( point( SEEX, SEEY ), "anbc_suit" );
+                m.spawn_item( point( SEEX, SEEY ), "crowbar" );
+                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
+                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ),
+                               _( "- Man of few words, aren't you?\n- …" ) );
+                break;
+            }
+            //Famous archeologist
+            case 3: {
+                m.ter_set( point( SEEX, SEEY ), t_grave_new );
+                m.spawn_item( point( SEEX, SEEY ), "cowboy_hat" );
+                m.spawn_item( point( SEEX, SEEY ), "jacket_leather" );
+                m.spawn_item( point( SEEX, SEEY ), "bullwhip" );
+                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
+                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ),
+                               _( "Fortune and glory, kid.  Fortune and glory." ) );
+                break;
+            }
+            //Outcast's friend
+            case 4: {
+                m.ter_set( point( SEEX, SEEY ), t_grave_new );
+                m.spawn_item( point( SEEX, SEEY ), "indoor_volleyball" );
+                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
+                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ), _( "Wilson" ) );
+                break;
+            }
+            //One religious blind man
+            case 5: {
+                m.ter_set( point( SEEX, SEEY ), t_grave_new );
+                m.spawn_item( point( SEEX, SEEY ), "machete" );
+                m.spawn_item( point( SEEX, SEEY ),
+                              "usp_45" ); //TODO: Replace this with HK45 if we ever have it in game
+                m.spawn_item( point( SEEX, SEEY ), "remington_870_breacher" );
+                m.spawn_item( point( SEEX, SEEY ), "holybook_bible1" );
+                m.spawn_item( point( SEEX, SEEY ), "sunglasses" );
+                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
+                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ), _( "I walk by faith, not by sight." ) );
+                break;
+            }
+            //Post-apocalyptic Buddy
+            case 6: {
+                m.ter_set( point( SEEX, SEEY ), t_grave_new );
+                m.spawn_item( point( SEEX, SEEY ), "glasses_eye" );
+                m.spawn_item( point( SEEX, SEEY ), "katana" );
+                m.spawn_item( point( SEEX, SEEY ), "acoustic_guitar" );
+                m.spawn_item( point( SEEX, SEEY ), "umbrella" );
+                m.spawn_item( point( SEEX, SEEY ), "tux" );
+                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
+                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ),
+                               _( "Float away, little butterfly.  Just flutter away.  I got a gig in Vegas.  And the wastelands ain't no place for kids." ) );
+                break;
+            }
+            //The Bride
+            case 7: {
+                m.ter_set( point( SEEX, SEEY ), t_grave_new );
+                m.spawn_item( point( SEEX, SEEY ), "touring_suit" );
+                m.spawn_item( point( SEEX, SEEY ), "katana" );
+                m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
+                m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ), _( "Wiggle your big toe." ) );
+                break;
+            }
+        }
+    }
+}
+
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
@@ -2738,7 +2846,8 @@ FunctionMap builtin_functions = {
     { "mx_marloss_pilgrimage", mx_marloss_pilgrimage },
     { "mx_casings", mx_casings },
     { "mx_looters", mx_looters },
-    { "mx_corpses", mx_corpses }
+    { "mx_corpses", mx_corpses },
+    { "mx_grave", mx_grave }
 };
 
 map_extra_pointer get_function( const std::string &name )

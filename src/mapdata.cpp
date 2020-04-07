@@ -965,7 +965,8 @@ furn_id f_null,
         f_brazier,
         f_firering,
         f_tourist_table,
-        f_camp_chair;
+        f_camp_chair,
+        f_sign;
 
 void set_furn_ids()
 {
@@ -1080,6 +1081,7 @@ void set_furn_ids()
     f_firering = furn_id( "f_firering" );
     f_tourist_table = furn_id( "f_tourist_table" );
     f_camp_chair = furn_id( "f_camp_chair" );
+    f_sign = furn_id( "f_sign" );
 }
 
 size_t ter_t::count()
