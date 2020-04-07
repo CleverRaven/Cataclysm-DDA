@@ -7341,9 +7341,12 @@ void item::gun_cycle_mode()
 
 const use_function *item::get_use( const std::string &use_name ) const
 {
-    const use_function *fun;
+    const use_function *fun = nullptr;
     visit_items(
-    [&fun, &use_name]( const item * it, const item * ) {
+    [&fun, &use_name]( const item * it ) {
+        if( it == nullptr ) {
+            return VisitResponse::SKIP;
+        }
         fun = it->get_use_internal( use_name );
         if( fun != nullptr ) {
             return VisitResponse::ABORT;
@@ -7368,7 +7371,7 @@ item *item::get_usable_item( const std::string &use_name )
         return this;
     }
 
-    item *ret;
+    item *ret = nullptr;
     contents.visit_contents(
     [&ret, &use_name]( item * it, item * ) {
         if( it->get_use( use_name ) != nullptr ) {
