@@ -453,9 +453,9 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
  * Damage-related functions
  */
 
-static int size_melee_penalty( m_size target_size )
+int Creature::size_melee_penalty() const
 {
-    switch( target_size ) {
+    switch( get_size() ) {
         case MS_TINY:
             return 30;
         case MS_SMALL:
@@ -468,13 +468,13 @@ static int size_melee_penalty( m_size target_size )
             return -20;
     }
 
-    debugmsg( "Invalid target size %d", target_size );
+    debugmsg( "Invalid target size %d", get_size() );
     return 0;
 }
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
-    int hit_spread = hitroll - dodge_roll() - size_melee_penalty( get_size() );
+    int hit_spread = hitroll - dodge_roll() - size_melee_penalty();
 
     // If attacker missed call targets on_dodge event
     if( hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {

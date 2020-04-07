@@ -9,6 +9,7 @@
 #include "item.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "player_helpers.h"
 #include "options_helpers.h"
 #include "recipe_dictionary.h"
 
@@ -138,6 +139,10 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
 
 TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
+    // new DPS calculations depend on the avatar's stats, so make sure they're consistent
+    clear_avatar();
+    REQUIRE( g->u.get_str() == 8 );
+    REQUIRE( g->u.get_dex() == 8 );
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_DAMAGE, iteminfo_parts::BASE_TOHIT,
                                 iteminfo_parts::BASE_MOVES
                               } );
@@ -149,7 +154,10 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>7</color>"
             "  To-hit bonus: <color_c_yellow>-2</color>\n"
             "Moves per attack: <color_c_yellow>79</color>\n"
-            "Damage per second: <color_c_yellow>8.86</color>\n" );
+            "Typical damage per second:\n"
+            "  Best: <color_c_yellow>8.84</color>"
+            "  Vs. Agile: <color_c_yellow>4.62</color>"
+            "  Vs. Armored: <color_c_yellow>1.35</color>" );
     }
 
     SECTION( "bash and cut damage" ) {
@@ -160,7 +168,10 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  Cut: <color_c_yellow>5</color>"
             "  To-hit bonus: <color_c_yellow>+2</color>\n"
             "Moves per attack: <color_c_yellow>145</color>\n"
-            "Damage per second: <color_c_yellow>17.24</color>\n" );
+            "Typical damage per second:\n"
+            "  Best: <color_c_yellow>11.64</color>"
+            "  Vs. Agile: <color_c_yellow>6.08</color>"
+            "  Vs. Armored: <color_c_yellow>4.45</color>" );
     }
 
     SECTION( "bash and pierce damage" ) {
@@ -171,7 +182,10 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  Pierce: <color_c_yellow>8</color>"
             "  To-hit bonus: <color_c_yellow>+1</color>\n"
             "Moves per attack: <color_c_yellow>100</color>\n"
-            "Damage per second: <color_c_yellow>12.00</color>\n" );
+            "Typical damage per second:\n"
+            "  Best: <color_c_yellow>11.33</color>"
+            "  Vs. Agile: <color_c_yellow>5.93</color>"
+            "  Vs. Armored: <color_c_yellow>1.24</color>" );
     }
 
     SECTION( "no damage" ) {
