@@ -215,7 +215,6 @@
     "volume": 0,
     "price": 190000,
     "price_postapoc": 100,
-    "price_postapoc": 1700,
     "material": [ "gold" ],
     "symbol": "[",
     "looks_like": "ring_engagement",
