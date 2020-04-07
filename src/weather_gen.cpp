@@ -219,11 +219,50 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
         }
     }
 
-    if( r == WEATHER_DRIZZLE && w.acidic ) {
-        r = WEATHER_ACID_DRIZZLE;
-    }
-    if( r > WEATHER_DRIZZLE && w.acidic ) {
-        r = WEATHER_ACID_RAIN;
+
+    if( w.acidic ){
+        switch( r ) {
+            case WEATHER_DRIZZLE:
+                r = WEATHER_ACID_DRIZZLE;
+                break;
+            case WEATHER_RAINY:
+                r = WEATHER_ACID_RAIN;
+                break;
+            case WEATHER_FLURRIES:
+                r = WEATHER_ACID_FLURRIES;
+                break;
+            case WEATHER_SNOW:
+                r = WEATHER_ACID_SNOW;
+                break;
+            case WEATHER_THUNDER:
+            case WEATHER_LIGHTNING:
+            case WEATHER_SNOWSTORM:
+                r = WEATHER_ACID_STORM;
+                break;
+            default:
+                break;
+        }
+    } else if( w.acidic_weak ) {
+        switch( r ) {
+            case WEATHER_DRIZZLE:
+            case WEATHER_RAINY:
+                r = WEATHER_ACID_DRIZZLE;
+                break;
+            case WEATHER_SNOW:
+                r = WEATHER_ACID_FLURRIES;
+                break;
+            case WEATHER_SNOWSTORM:
+                r = WEATHER_ACID_SNOW;
+                break;
+            case WEATHER_THUNDER:
+                r = WEATHER_ACID_RAIN;
+                break;
+            case WEATHER_LIGHTNING:
+                r = WEATHER_ACID_STORM;
+                break;
+            default:
+                break;
+        }
     }
     return r;
 }
