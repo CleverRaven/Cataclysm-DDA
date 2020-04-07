@@ -2750,7 +2750,7 @@ static void mx_grave( map &m, const tripoint &abs_sub )
                 m.spawn_item( point( SEEX, SEEY ), "crowbar" );
                 m.furn_set( point( SEEX, SEEY - 1 ), f_sign );
                 m.set_signage( tripoint( SEEX, SEEY - 1, abs_sub.z ),
-                               _( "- Man of few words, aren't you?\n- ..." ) );
+                               _( "- Man of few words, aren't you?\n- …" ) );
                 break;
             }
             //Famous archeologist
