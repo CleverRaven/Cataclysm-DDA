@@ -383,7 +383,8 @@
       { "group": "SUS_book_nonf_soft_psych", "prob": 6 },
       { "item": "book_nonf_soft_wedding_coolring", "prob": 2 },
       { "item": "book_nonf_soft_parent_howtogen", "prob": 2 },
-      { "item": "book_nonf_soft_safety_radiaea", "prob": 1 }
+      { "item": "book_nonf_soft_safety_radiaea", "prob": 1 },
+      { "item": "book_nonf_soft_speech_naillaw", "prob": 1 }
     ]
   },
   {

@@ -129,17 +129,19 @@
     "subtype": "distribution",
     "entries": [
       { "item": "manual_mechanics", "prob": 35 },
-      { "item": "manual_carpentry", "prob": 10 },
-      { "item": "carpentry_book", "prob": 5 },
-      { "item": "manual_fabrication", "prob": 20 },
+      { "item": "mag_mechanics", "prob": 35 },
       { "item": "mag_carpentry", "prob": 30 },
       { "item": "101_carpentry", "prob": 20 },
-      { "item": "mag_mechanics", "prob": 35 },
+      { "item": "manual_fabrication", "prob": 20 },
+      { "item": "book_nonf_hard_homemk_outkitchn", "prob": 20 },
+      { "item": "book_nonf_hard_homemk_plantshome", "prob": 20 },
       { "item": "mag_fabrication", "prob": 12 },
       { "item": "textbook_mechanics", "prob": 12 },
+      { "item": "textbook_fabrication", "prob": 12 },
       { "item": "textbook_biodiesel", "prob": 10 },
+      { "item": "manual_carpentry", "prob": 10 },
       { "item": "book_icef", "prob": 8 },
-      { "item": "textbook_fabrication", "prob": 12 }
+      { "item": "carpentry_book", "prob": 5 }
     ]
   },
   {
@@ -222,11 +224,12 @@
     "entries": [
       { "item": "tall_tales", "prob": 10 },
       { "item": "story_book", "prob": 4 },
-      { "item": "fairy_tales", "prob": 10 },
+      { "item": "fairy_tales", "prob": 20 },
       { "item": "novel_coa", "prob": 10 },
       { "item": "novel_coa2", "prob": 10 },
       { "item": "child_book", "prob": 50 },
       { "item": "manual_dodge_kid", "prob": 20 },
+      { "item": "book_nonf_soft_wedding_coolring", "prob": 1 },
       { "item": "mag_comic", "prob": 20 }
     ]
   },
@@ -240,6 +243,7 @@
       { "group": "SUS_book_fict_soft_ya", "prob": 50 },
       { "group": "literature", "prob": 30 },
       { "group": "SUS_book_nonf_hard_homemk", "prob": 26 },
+      { "group": "SUS_book_nonf_soft", "prob": 20 },
       { "item": "cookbook_human", "prob": 1 },
       { "item": "jewelry_book", "prob": 4 },
       { "item": "phonebook", "prob": 8 },
@@ -457,11 +461,13 @@
       { "item": "preserving_juice", "prob": 16 },
       { "group": "novels", "prob": 370 },
       { "group": "literature", "prob": 100 },
+      { "group": "SUS_book_nonf_hard_homemk", "prob": 40 },
       { "item": "photo_album", "prob": 30 },
       { "item": "textbook_robots", "prob": 2 },
       { "item": "collector_book", "prob": 30 },
       { "item": "carpentry_book", "prob": 5 },
       { "item": "jewelry_book", "prob": 5 },
+      { "item": "book_nonf_soft_speech_naillaw", "prob": 5 },
       { "group": "religious_books", "prob": 40 }
     ]
   },
@@ -564,6 +570,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
+      { "group": "SUS_book_nonf_hard_psych", "prob": 160 },
       { "item": "mag_firstaid", "prob": 50 },
       { "item": "textbook_firstaid", "prob": 200 },
       { "item": "manual_swimming", "prob": 50 },
