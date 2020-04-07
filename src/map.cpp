@@ -517,16 +517,21 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             if( coll.type == veh_coll_veh ) {
                 continue;
             }
-            if( static_cast<size_t>( coll.part ) > veh.parts.size() ) {
+            if( static_cast<size_t>( coll.part ) > veh.parts.size() ||
+                veh.parts[coll.part].removed ) {
                 continue;
             }
 
             const point &collision_point = veh.parts[coll.part].mount;
             const int coll_dmg = coll.imp;
-            impulse += coll_dmg;
-            // Shock damage
-            veh.damage( coll.part, coll_dmg, DT_BASH );
-            veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
+            // Shock damage, if the target part is a rotor treat as an aimed hit.
+            if( veh.part_info( coll.part ).rotor_diameter() > 0 ) {
+                veh.damage( coll.part, coll_dmg, DT_BASH, true );
+            } else {
+                impulse += coll_dmg;
+                veh.damage( coll.part, coll_dmg, DT_BASH );
+                veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
+            }
         }
     } while( collision_attempts-- > 0 && coll_velocity != 0 &&
              sgn( coll_velocity ) == sgn( velocity_before ) &&
