@@ -2269,26 +2269,22 @@
   {
     "id": "urban_3_1_basement",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_house_basement",
-    "mondensity": 2
+    "copy-from": "generic_city_house_basement"
   },
   {
     "id": "urban_3_2_basement",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_house_basement",
-    "mondensity": 2
+    "copy-from": "generic_city_house_basement"
   },
   {
     "id": "urban_4_1",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_house_basement",
-    "mondensity": 2
+    "copy-from": "generic_city_house_basement"
   },
   {
     "id": "urban_4_2",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_house_basement",
-    "mondensity": 2
+    "copy-from": "generic_city_house_basement"
   },
   {
     "id": "urban_4_3",
