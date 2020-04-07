@@ -239,6 +239,21 @@
     "flags": [ "DURABLE_MELEE" ]
   },
   {
+    "id": "rifling_button",
+    "type": "TOOL",
+    "name": { "str": "rifling button" },
+    "description": "This is a metal cylinder with grooves carved along the sides. It can be used to add riflings to a barrel.",
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price": 4000,
+    "to_hit": 1,
+    "bashing": 1,
+    "material": "steel",
+    "symbol": ";",
+    "color": "light_gray",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
     "id": "tongs",
     "type": "TOOL",
     "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
