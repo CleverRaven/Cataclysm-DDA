@@ -21,9 +21,11 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "popup.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "creature.h"
@@ -1030,35 +1032,38 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     ctxt.register_directions();
     ctxt.register_action( "pause" );
     ctxt.register_action( "QUIT" );
-    // why not?
     ctxt.register_action( "HELP_KEYBINDINGS" );
     if( allow_vertical ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
 
-    //~ appended to "Close where?" "Pry where?" etc.
-    const std::string query_text = message + _( " (Direction button)" );
-    popup( query_text, PF_NO_WAIT_ON_TOP );
+    static_popup popup;
+    //~ %s: "Close where?" "Pry where?" etc.
+    popup.message( _( "%s (Direction button)" ), message ).on_top( true );
 
-    const std::string action = ctxt.handle_input();
-    if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-        // Make player's sprite face left/right if interacting with something to the left or right
-        if( vec->x > 0 ) {
-            g->u.facing = FD_RIGHT;
-        } else if( vec->x < 0 ) {
-            g->u.facing = FD_LEFT;
+    std::string action;
+    do {
+        ui_manager::redraw();
+        action = ctxt.handle_input();
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            // Make player's sprite face left/right if interacting with something to the left or right
+            if( vec->x > 0 ) {
+                g->u.facing = FD_RIGHT;
+            } else if( vec->x < 0 ) {
+                g->u.facing = FD_LEFT;
+            }
+            return vec;
+        } else if( action == "pause" ) {
+            return tripoint_zero;
+        } else if( action == "LEVEL_UP" ) {
+            return tripoint_above;
+        } else if( action == "LEVEL_DOWN" ) {
+            return tripoint_below;
         }
-        return vec;
-    } else if( action == "pause" ) {
-        return tripoint_zero;
-    } else if( action == "LEVEL_UP" ) {
-        return tripoint_above;
-    } else if( action == "LEVEL_DOWN" ) {
-        return tripoint_below;
-    }
+    } while( action != "QUIT" );
 
-    add_msg( _( "Invalid direction." ) );
+    add_msg( _( "Never mind." ) );
     return cata::nullopt;
 }
 

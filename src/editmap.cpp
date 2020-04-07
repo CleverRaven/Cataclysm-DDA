@@ -37,6 +37,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -315,6 +316,9 @@ cata::optional<tripoint> editmap::edit()
     infoHeight = 20;
     blink = true;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     w_info = catacurses::newwin( infoHeight, width, point( offsetX, TERMY - infoHeight ) );
     do {
         if( target_list.empty() ) {
@@ -521,7 +525,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         }
     }
 
-    // custom hilight.
+    // custom highlight.
     // TODO: optimize
     for( auto &elem : hilights ) {
         if( !elem.second.points.empty() ) {
@@ -1368,7 +1372,7 @@ void editmap::recalc_target( shapetype shape )
 }
 
 /*
- * Shift 'var' (ie, part of a coordinate plane) by 'shift'.
+ * Shift 'var' (i.e., part of a coordinate plane) by 'shift'.
  * If the result is not >= min and < 'max', constrain the result and adjust 'shift',
  * so it can adjust subsequent points of a set consistently.
  */
@@ -1439,6 +1443,9 @@ int editmap::select_shape( shapetype shape, int mode )
         moveall = mode != 0;
     }
     altblink = moveall;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         if( moveall ) {
@@ -1840,6 +1847,9 @@ void editmap::mapgen_retarget()
     ctxt.register_action( "ANY_INPUT" );
     std::string action;
     tripoint origm = target;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     blink = true;
     do {

@@ -32,6 +32,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "point.h"
 #include "wcwidth.h"
@@ -340,16 +341,16 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
 void scrollable_text( const catacurses::window &w, const std::string &title,
                       const std::string &text )
 {
-    const int width = getmaxx( w );
-    const int height = getmaxy( w );
+    scrollable_text( [&w]() {
+        return w;
+    }, title, text );
+}
+
+void scrollable_text( const std::function<catacurses::window()> &init_window,
+                      const std::string &title, const std::string &text )
+{
     constexpr int text_x = 1;
     constexpr int text_y = 1;
-    const int text_w = width - 2;
-    const int text_h = height - 2;
-    if( text_w <= 0 || text_h <= 0 ) {
-        debugmsg( "Oops, the window is too small to display anything!" );
-        return;
-    }
 
     input_context ctxt( "SCROLLABLE_TEXT" );
     ctxt.register_action( "UP" );
@@ -360,12 +361,32 @@ void scrollable_text( const catacurses::window &w, const std::string &title,
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    const std::vector<std::string> lines = foldstring( text, text_w );
+    catacurses::window w;
+    int width = 0;
+    int height = 0;
+    int text_w = 0;
+    int text_h = 0;
+    std::vector<std::string> lines;
     int beg_line = 0;
-    const int max_beg_line = std::max( 0, static_cast<int>( lines.size() ) - text_h );
+    int max_beg_line = 0;
 
-    std::string action;
-    do {
+    ui_adaptor ui;
+    const auto screen_resize_cb = [&]( ui_adaptor & ui ) {
+        w = init_window();
+
+        width = getmaxx( w );
+        height = getmaxy( w );
+        text_w = std::max( 0, width - 2 );
+        text_h = std::max( 0, height - 2 );
+
+        lines = foldstring( text, text_w );
+        max_beg_line = std::max( 0, static_cast<int>( lines.size() ) - text_h );
+
+        ui.position_from_window( w );
+    };
+    screen_resize_cb( ui );
+    ui.on_screen_resize( screen_resize_cb );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         draw_border( w, BORDER_COLOR, title, c_black_white );
         for( int line = beg_line, pos_y = text_y; line < std::min<int>( beg_line + text_h, lines.size() );
@@ -376,6 +397,11 @@ void scrollable_text( const catacurses::window &w, const std::string &title,
         scrollbar().offset_x( width - 1 ).offset_y( text_y ).content_size( lines.size() )
         .viewport_pos( std::min( beg_line, max_beg_line ) ).viewport_size( text_h ).apply( w );
         wrefresh( w );
+    } );
+
+    std::string action;
+    do {
+        ui_manager::redraw();
 
         action = ctxt.handle_input();
         if( action == "UP" ) {
@@ -637,29 +663,13 @@ int popup( const std::string &text, PopupFlags flags )
         pop.on_top( true );
     }
 
-    if( flags & PF_NO_WAIT ) {
-        pop.show();
-        return UNKNOWN_UNICODE;
+    pop.context( "POPUP_WAIT" );
+    const auto &res = pop.query();
+    if( res.evt.type == CATA_INPUT_KEYBOARD ) {
+        return res.evt.get_first_input();
     } else {
-        pop.context( "POPUP_WAIT" );
-        const auto &res = pop.query();
-        if( res.evt.type == CATA_INPUT_KEYBOARD ) {
-            return res.evt.get_first_input();
-        } else {
-            return UNKNOWN_UNICODE;
-        }
+        return UNKNOWN_UNICODE;
     }
-}
-
-void popup_status( const char *const title, const std::string &mes )
-{
-    std::string text;
-    if( !test_mode && title != nullptr ) {
-        text += title;
-        text += "\n";
-    }
-
-    popup( text + mes, PF_NO_WAIT );
 }
 
 //note that passing in iteminfo instances with sType == "DESCRIPTION" does special things
@@ -745,21 +755,23 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
                               // NOLINTNEXTLINE(cata-text-style): literal comma
-                              _( "Separate multiple items with ," ) );
+                              _( "Separate multiple items with [<color_yellow>,</color>]." ) );
     starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
                                   //~ An example of how to separate multiple items with a comma when filtering items.
                                   _( "Example: back,flash,aid, ,band" ) ); // NOLINT(cata-text-style): literal comma
 
     if( type == item_filter_type::FILTER ) {
         starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                                  _( "To exclude items, place - in front." ) );
+                                  _( "To exclude items, place [<color_yellow>-</color>] in front." ) );
         starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
                                       //~ An example of how to exclude items with - when filtering items.
                                       _( "Example: -pipe,-chunk,-steel" ) );
     }
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                              _( "Search [c]ategory, [m]aterial, [q]uality, [n]otes or [d]isassembled components:" ) );
+                              _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
+                                 "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes or "
+                                 "[<color_yellow>d</color>]isassembled components." ) );
     fold_and_print( win, point( 1, starty ), len, c_white,
                     //~ An example of how to filter items based on category or material.
                     _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe" ) );
@@ -861,6 +873,9 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
     const int b = data.use_full_win ? 0 : ( data.without_border ? 1 : 2 );
     const int width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
     const int height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     input_event result;
     while( true ) {
@@ -1649,7 +1664,7 @@ std::string &capitalize_letter( std::string &str, size_t n )
     return str;
 }
 
-//remove prefix of a strng, between c1 and c2, ie, "<prefix>remove it"
+//remove prefix of a string, between c1 and c2, i.e., "<prefix>remove it"
 std::string rm_prefix( std::string str, char c1, char c2 )
 {
     if( !str.empty() && str[0] == c1 ) {
@@ -1786,6 +1801,9 @@ void display_table( const catacurses::window &w, const std::string &title, int c
     const int rows = getmaxy( w ) - 2 - 1; // -2 for border, -1 for title
     const int col_width = width / columns;
     int offset = 0;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
 #if defined(__ANDROID__)
     // no bindings, but give it its own input context so stale buttons don't hang around.

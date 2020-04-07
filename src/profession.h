@@ -13,6 +13,7 @@
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
+#include "veh_type.h"
 
 template<typename T>
 class generic_factory;
@@ -68,7 +69,9 @@ class profession
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
         std::vector<trait_id> _starting_traits;
+        std::set<trait_id> _forbidden_traits;
         std::vector<mtype_id> _starting_pets;
+        vproto_id _starting_vehicle = vproto_id::NULL_ID();
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;
         std::set<std::string> flags; // flags for some special properties of the profession
@@ -103,6 +106,7 @@ class profession
         signed int point_cost() const;
         std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
+        vproto_id vehicle() const;
         std::vector<mtype_id> pets() const;
         std::vector<bionic_id> CBMs() const;
         StartingSkillList skills() const;
@@ -125,7 +129,9 @@ class profession
          */
         bool can_pick( const player &u, int points ) const;
         bool is_locked_trait( const trait_id &trait ) const;
+        bool is_forbidden_trait( const trait_id &trait ) const;
         std::vector<trait_id> get_locked_traits() const;
+        std::set<trait_id> get_forbidden_traits() const;
 };
 
 #endif

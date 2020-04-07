@@ -1157,7 +1157,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     const furn_t &the_furn = furn_type.obj();
     const std::string furn_name = the_furn.name();
 
-    if( the_furn.workbench.has_value() ) {
+    if( the_furn.workbench ) {
         can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
     }
     if( the_furn.has_flag( "BUTCHER_EQ" ) ) {
@@ -1424,7 +1424,7 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     }
 
     tripoint pos = spos;
-    float light = light_mod( pos );
+    float light = light_mod( p.pos() );
     if( !prep_firestarter_use( p, pos ) ) {
         return 0;
     }
@@ -1963,14 +1963,15 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    auto items = g->m.i_at( point( p.posx(), p.posy() ) );
+    map_stack items = g->m.i_at( point( p.posx(), p.posy() ) );
     std::vector<const item *> corpses;
 
-    for( auto &it : items ) {
-        const auto mt = it.get_mtype();
-        if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
-            mt->in_species( HUMAN ) && it.active && !it.has_var( "zlave" ) ) {
-            corpses.push_back( &it );
+    for( item &corpse_candidate : items ) {
+        const mtype *mt = corpse_candidate.get_mtype();
+        if( corpse_candidate.is_corpse() && mt->in_species( ZOMBIE ) &&
+            mt->made_of( material_id( "flesh" ) ) &&
+            mt->in_species( HUMAN ) && corpse_candidate.active && !corpse_candidate.has_var( "zlave" ) ) {
+            corpses.push_back( &corpse_candidate );
         }
     }
 
@@ -2494,7 +2495,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     study_spell.moves_left = study_spell.moves_total;
     if( study_spell.moves_total == 10100 ) {
         study_spell.str_values[0] = "gain_level";
-        study_spell.values[0]; // reserved for xp
+        study_spell.values[0] = 0; // reserved for xp
         study_spell.values[1] = p.magic.get_spell( spell_id( spells[action] ) ).get_level() + 1;
     }
     study_spell.name = spells[action];
@@ -2716,7 +2717,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
 
-        store( p, it, p.i_at( loc.obtain( p ) ) );
+        store( p, it, *loc.obtain( p ) );
     }
 
     return 0;
@@ -3078,7 +3079,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     // Round up if checking, but roll if actually consuming
     // TODO: should 250_ml be part of the cost_scaling?
     const int items_needed = std::max<int>( 1, just_check ?
-                                            ceil( fix.volume() / 250_ml * cost_scaling ) :
+                                            std::ceil( fix.volume() / 250_ml * cost_scaling ) :
                                             roll_remainder( fix.volume() / 250_ml * cost_scaling ) );
 
     std::function<bool( const item & )> filter;
@@ -3460,7 +3461,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( action == RT_DOWNSIZING ) {
-        //We dont need to check for smallness or undersize because DOWNSIZING already guarantees that
+        //We don't need to check for smallness or undersize because DOWNSIZING already guarantees that
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
                                   fix->tname().c_str() );
@@ -3472,7 +3473,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( action == RT_UPSIZING ) {
-        //We dont need to check for smallness or undersize because UPSIZING already guarantees that
+        //We don't need to check for smallness or undersize because UPSIZING already guarantees that
         if( roll == SUCCESS ) {
             pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
                                   fix->tname().c_str() );
@@ -4186,7 +4187,7 @@ int saw_barrel_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return 0;
     }
 
-    item &obj = p.i_at( loc.obtain( p ) );
+    item &obj = *loc.obtain( p );
     p.add_msg_if_player( _( "You saw down the barrel of your %s." ), obj.tname() );
     obj.contents.emplace_back( "barrel_small", calendar::turn );
 

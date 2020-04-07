@@ -24,7 +24,7 @@ class vpart_info;
 enum task_reason {
     UNKNOWN_TASK = -1, //No such task
     CAN_DO, //Task can be done
-    INVALID_TARGET, //No valid target ie can't "change tire" if no tire present
+    INVALID_TARGET, //No valid target i.e. can't "change tire" if no tire present
     LACK_TOOLS, //Player doesn't have all the tools they need
     NOT_FREE, //Part is attached to something else and can't be unmounted
     LACK_SKILL, //Player doesn't have high enough mechanics skill

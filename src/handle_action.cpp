@@ -74,6 +74,7 @@ static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
+static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
@@ -712,12 +713,28 @@ static void smash()
             crit->use_mech_power( -3 );
         }
     }
-    if( m.get_field( smashp, fd_web ) != nullptr ) {
-        m.remove_field( smashp, fd_web );
-        sounds::sound( smashp, 2, sounds::sound_t::combat, _( "hsh!" ), true, "smash", "web" );
-        add_msg( m_info, _( "You brush aside some webs." ) );
-        u.moves -= 100;
-        return;
+    for( std::pair<const field_type_id, field_entry> &fd_to_smsh : m.field_at( smashp ) ) {
+        const map_bash_info &bash_info = fd_to_smsh.first->bash_info;
+        if( bash_info.str_min == -1 ) {
+            continue;
+        }
+        if( smashskill < bash_info.str_min && one_in( 10 ) ) {
+            add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
+            return;
+        } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
+            sounds::sound( smashp, bash_info.sound_vol, sounds::sound_t::combat, bash_info.sound, true, "smash",
+                           "field" );
+            m.remove_field( smashp, fd_to_smsh.first );
+            m.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
+            u.mod_moves( - bash_info.fd_bash_move_cost );
+            add_msg( m_info, bash_info.field_bash_msg_success.translated() );
+            return;
+        } else {
+            sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
+                           true, "smash",
+                           "field" );
+            return;
+        }
     }
 
     for( const auto &maybe_corpse : m.i_at( smashp ) ) {
@@ -1065,7 +1082,8 @@ static void loot()
         Multichopplanks = 512,
         Multideconvehicle = 1024,
         Multirepairvehicle = 2048,
-        MultiButchery = 4096
+        MultiButchery = 4096,
+        MultiMining = 8192
     };
 
     player &u = g->u;
@@ -1092,6 +1110,7 @@ static void loot()
                                  u.pos() ) ? Multideconvehicle : 0;
     flags |= g->check_near_zone( zone_type_id( "VEHICLE_REPAIR" ), u.pos() ) ? Multirepairvehicle : 0;
     flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ), u.pos() ) ? MultiButchery : 0;
+    flags |= g->check_near_zone( zone_type_id( "MINING" ), u.pos() ) ? MultiMining : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1143,6 +1162,10 @@ static void loot()
         menu.addentry_desc( MultiButchery, true, 'B', _( "Butcher corpses" ),
                             _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) );
     }
+    if( flags & MultiMining ) {
+        menu.addentry_desc( MultiMining, true, 'M', _( "Mine Area" ),
+                            _( "Auto-mine anything in mining zone - auto-fetch tools." ) );
+    }
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1178,6 +1201,9 @@ static void loot()
         case MultiButchery:
             u.assign_activity( ACT_MULTIPLE_BUTCHER );
             break;
+        case MultiMining:
+            u.assign_activity( ACT_MULTIPLE_MINE );
+            break;
         default:
             debugmsg( "Unsupported flag" );
             break;
@@ -1190,7 +1216,7 @@ static void wear()
     item_location loc = game_menus::inv::wear( u );
 
     if( loc ) {
-        u.wear( u.i_at( loc.obtain( u ) ) );
+        u.wear( *loc.obtain( u ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1202,7 +1228,7 @@ static void takeoff()
     item_location loc = game_menus::inv::take_off( u );
 
     if( loc ) {
-        u.takeoff( u.i_at( loc.obtain( u ) ) );
+        u.takeoff( *loc.obtain( u ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1219,9 +1245,7 @@ static void read()
             item spell_book = *loc.get_item();
             spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
         } else {
-            // calling obtain() invalidates the item pointer
-            // TODO: find a way to do this without an int index
-            u.read( u.i_at( loc.obtain( u ) ) );
+            u.read( *loc.obtain( u ) );
         }
     } else {
         add_msg( _( "Never mind." ) );

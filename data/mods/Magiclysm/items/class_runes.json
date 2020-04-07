@@ -16,12 +16,12 @@
     "type": "TOOL",
     "symbol": "=",
     "color": "blue",
-    "name": "Technomancer rune",
+    "name": { "str": "Technomancer rune" },
     "description": "This magical pebble has an insignia of clockwork and gears on it.  It is necessary for Technomancers to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": "TRADER_AVOID"
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "rune_magus",
@@ -40,48 +40,48 @@
     "type": "TOOL",
     "symbol": "=",
     "color": "green",
-    "name": "Earthshaper rune",
+    "name": { "str": "Earthshaper rune" },
     "description": "This magical pebble has an insignia of steel and rocks on it.  It is necessary for Earthshapers to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": "TRADER_AVOID"
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "rune_kelvinist",
     "type": "TOOL",
     "symbol": "=",
     "color": "red",
-    "name": "Kelvinist rune",
+    "name": { "str": "Kelvinist rune" },
     "description": "This magical pebble has an insignia of ice and flames on it.  It is necessary for Kelvinists to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": "TRADER_AVOID"
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "rune_stormshaper",
     "type": "TOOL",
     "symbol": "=",
     "color": "yellow",
-    "name": "Stormshaper rune",
+    "name": { "str": "Stormshaper rune" },
     "description": "This magical pebble has an insignia of lightning and storm clouds on it.  It is necessary for Stormshapers to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": "TRADER_AVOID"
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "rune_druid",
     "type": "TOOL",
     "symbol": "=",
     "color": "brown",
-    "name": "Druid rune",
+    "name": { "str": "Druid rune" },
     "description": "This magical pebble has an insignia of nature and trees on it.  It is necessary for Druids to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": "TRADER_AVOID"
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "rune_animist",
@@ -100,11 +100,11 @@
     "type": "TOOL",
     "symbol": "=",
     "color": "black",
-    "name": "alchemist rune",
+    "name": { "str": "alchemist rune" },
     "description": "This magical pebble has an insignia of alchemy and potions on it.  While versatile in use, the lack of attunement to any school prevents creation of more advanced recipes.",
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": "TRADER_AVOID"
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

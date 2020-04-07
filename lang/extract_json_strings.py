@@ -154,7 +154,6 @@ automatically_convertible = {
     "TOOLMOD",
     "TOOL_ARMOR",
     "tool_quality",
-    "tutorial_messages",
     "vehicle",
     "vehicle_part",
     "vitamin",
@@ -475,7 +474,6 @@ def extract_mapgen(item):
                     if speckey == "signage":
                         writestr(outfile, specval, comment="Sign")
         elif objkey == "signs":
-            obj = objval
             for (k, v) in sorted(objval.items(), key=lambda x: x[0]):
                 sign = v.get("signage", None)
                 writestr(outfile, sign, comment="Sign")

@@ -27,6 +27,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "input.h"
 #include "loading_ui.h"
 #include "main_menu.h"
 #include "mapsharing.h"
@@ -35,8 +36,8 @@
 #include "path_info.h"
 #include "rng.h"
 #include "translations.h"
-#include "input.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -688,6 +689,14 @@ int main( int argc, char *argv[] )
             }
         }
 
+        ui_adaptor main_ui;
+        main_ui.position_from_window( catacurses::stdscr );
+        main_ui.on_redraw( []( const ui_adaptor & ) {
+            g->draw();
+        } );
+        main_ui.on_screen_resize( []( ui_adaptor & ui ) {
+            ui.position_from_window( catacurses::stdscr );
+        } );
         while( !g->do_turn() );
     }
 
