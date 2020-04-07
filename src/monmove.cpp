@@ -390,6 +390,7 @@ void monster::plan()
         }
         // Switch targets if closer and hostile or scarier than current target
         if( ( rating < dist && fleeing ) ||
+            ( faction_att == MFA_HATE ) ||
             ( rating < dist && attitude( &who ) == MATT_ATTACK ) ||
             ( !fleeing && fleeing_from ) ) {
             target = &who;
@@ -1784,7 +1785,6 @@ void monster::stumble()
 
     if( g->m.has_zlevels() ) {
         tripoint below( posx(), posy(), posz() - 1 );
-        tripoint above( posx(), posy(), posz() + 1 );
         if( g->m.valid_move( pos(), below, false, true ) ) {
             valid_stumbles.push_back( below );
         }

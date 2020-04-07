@@ -2061,8 +2061,8 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
-         translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
-         0, 999, 60
+         translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+         -1, 999, 60
        );
 
     add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
@@ -2129,13 +2129,6 @@ void options_manager::add_options_world_default()
     add( "ZLEVELS", "world_default", translate_marker( "Experimental z-levels" ),
          translate_marker( "If true, experimental z-level maps will be enabled.  Turn this off if you experience excessive slowdown." ),
          true
-       );
-
-    add_empty_line();
-
-    add( "ALIGN_STAIRS", "world_default", translate_marker( "Align up and down stairs" ),
-         translate_marker( "If true, downstairs will be placed directly above upstairs, even if this results in uglier maps." ),
-         false
        );
 
     add_empty_line();
@@ -2526,7 +2519,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 WOPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
             }
         }
-
 
         iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;

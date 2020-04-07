@@ -22,6 +22,7 @@
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "disease.h"
 #include "effect.h"
 #include "emit.h"
 #include "event_statistics.h"
@@ -72,7 +73,6 @@
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "trap.h"
-#include "gamemode_tutorial.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
@@ -222,6 +222,7 @@ void DynamicDataLoader::initialize()
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
     add( "scent_type", &scent_type::load_scent_type );
+    add( "disease_type", &disease_type::load_disease_type );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
@@ -330,7 +331,6 @@ void DynamicDataLoader::initialize()
     add( "technique", &load_technique );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
-    add( "tutorial_messages", &load_tutorial_messages );
     add( "obsolete_terrain", &overmap::load_obsolete_terrains );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
@@ -497,7 +497,6 @@ void DynamicDataLoader::unload_data()
     mutation_branch::reset_all();
     spell_type::reset_all();
     reset_bionics();
-    clear_tutorial_messages();
     reset_furn_ter();
     MonsterGroupManager::ClearMonsterGroups();
     SNIPPET.clear_snippets();
@@ -699,6 +698,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },
             { _( "Scores" ), &score::check_consistency },
+            { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
         }
     };

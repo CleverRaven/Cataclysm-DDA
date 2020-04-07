@@ -75,6 +75,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "FISHING_SPOT" ),
                    zone_type( translate_marker( "Fishing Spot" ),
                               translate_marker( "Designate an area to fish from." ) ) );
+    types.emplace( zone_type_id( "MINING" ),
+                   zone_type( translate_marker( "Mine Terrain" ),
+                              translate_marker( "Designate an area to mine." ) ) );
     types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
                    zone_type( translate_marker( "Vehicle Deconstruct Zone" ),
                               translate_marker( "Any vehicles in this area are marked for deconstruction." ) ) );
@@ -90,6 +93,12 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "CAMP_FOOD" ),
                    zone_type( translate_marker( "Basecamp: Food" ),
                               translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
+    types.emplace( zone_type_id( "AUTO_EAT" ),
+                   zone_type( translate_marker( "Auto Eat" ),
+                              translate_marker( "Items in this zone will be automatically eaten during a long activity if you get hungry." ) ) );
+    types.emplace( zone_type_id( "AUTO_DRINK" ),
+                   zone_type( translate_marker( "Auto Drink" ),
+                              translate_marker( "Items in this zone will be automatically consumed during a long activity if you get thirsty." ) ) );
 
 }
 

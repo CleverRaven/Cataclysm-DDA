@@ -181,5 +181,17 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [ [ "afs_titanium_tooth", 25 ] ]
+  },
+  {
+    "id": "science",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "solar_panel_v3", 1 ] ]
+  },
+  {
+    "id": "crate_sports",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "q_solarpack", 1 ] ]
   }
 ]

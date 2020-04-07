@@ -498,6 +498,9 @@ input_event draw_item_info( const catacurses::window &win, item_info_data &data 
 
 input_event draw_item_info( int iLeft, int iWidth, int iTop, int iHeight, item_info_data &data );
 
+input_event draw_item_info( const std::function<catacurses::window()> &init_window,
+                            item_info_data &data );
+
 enum class item_filter_type : int {
     FIRST = 1, // used for indexing into tables
     FILTER = 1,

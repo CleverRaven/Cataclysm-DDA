@@ -72,6 +72,19 @@
     ]
   },
   {
+    "result": "hd_tow_cable",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "480 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "welding_standard", 8 ] ],
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "grip_hook", 1 ] ], [ [ "chain", 8 ] ], [ [ "cable", 10 ] ] ]
+  },
+  {
     "result": "bike_rack",
     "type": "recipe",
     "category": "CC_OTHER",

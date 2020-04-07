@@ -189,7 +189,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     }
 
     prof = g->scen->weighted_random_profession();
-    start_location = g->scen->random_start_location();
+    random_start_location = true;
 
     str_max = rng( 6, HIGH_STAT - 2 );
     dex_max = rng( 6, HIGH_STAT - 2 );
@@ -1200,6 +1200,10 @@ tab_direction set_traits( avatar &u, points_left &points )
             int inc_type = 0;
             const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
             const mutation_branch &mdata = cur_trait.obj();
+
+            // Look through the profession bionics, and see if any of them conflict with this trait
+            std::vector<bionic_id> cbms_blocking_trait = bionics_cancelling_trait( u.prof->CBMs(), cur_trait );
+
             if( u.has_trait( cur_trait ) ) {
 
                 inc_type = -1;
@@ -1220,6 +1224,15 @@ tab_direction set_traits( avatar &u, points_left &points )
             } else if( u.prof->is_forbidden_trait( cur_trait ) ) {
                 popup( _( "Your profession of %s prevents you from taking this trait." ),
                        u.prof->gender_appropriate_name( u.male ) );
+            } else if( !cbms_blocking_trait.empty() ) {
+                // Grab a list of the names of the bionics that block this trait
+                // So that the player know what is preventing them from taking it
+                std::vector<std::string> conflict_names;
+                for( const bionic_id &conflict : cbms_blocking_trait ) {
+                    conflict_names.emplace_back( conflict->name.translated() );
+                }
+                popup( _( "The following bionics prevent you from taking this trait: %s." ),
+                       enumerate_as_string( conflict_names ) );
             } else if( iCurWorkingPage == 0 && num_good + mdata.points >
                        max_trait_points && !points.is_freeform() ) {
                 popup( ngettext( "Sorry, but you can only take %d point of advantages.",
@@ -1596,11 +1609,11 @@ tab_direction set_profession( avatar &u, points_left &points,
             for( const trait_id &old_trait : u.prof->get_locked_traits() ) {
                 u.toggle_trait( old_trait );
             }
+            const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
             u.prof = &sorted_profs[cur_id].obj();
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
             u.add_traits( points );
-            const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
             points.skill_points -= netPointCost;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
@@ -2198,6 +2211,10 @@ tab_direction set_scenario( avatar &u, points_left &points,
 tab_direction set_description( avatar &you, const bool allow_reroll,
                                points_left &points )
 {
+
+    static constexpr int RANDOM_START_LOC_ENTRY = INT_MIN;
+    const std::string RANDOM_START_LOC_TEXT = _( "* Random location *" );
+
     ui_adaptor ui;
     catacurses::window w;
     catacurses::window w_name;
@@ -2244,18 +2261,25 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
     uilist select_location;
     select_location.text = _( "Select a starting location." );
-    int offset = 0;
+    int offset = 1;
+    uilist_entry entry_random_start_location( RANDOM_START_LOC_ENTRY, true, -1, RANDOM_START_LOC_TEXT );
+    entry_random_start_location.text_color = c_red;
+    select_location.entries.emplace_back( entry_random_start_location );
     for( const auto &loc : start_location::get_all() ) {
         if( g->scen->allowed_start( loc.ident() ) ) {
             uilist_entry entry( loc.ident().get_cid().to_i(), true, -1, loc.name() );
 
             select_location.entries.emplace_back( entry );
 
-            if( loc.ident().get_cid() == you.start_location.get_cid() ) {
+            if( !you.random_start_location &&
+                loc.ident().get_cid() == you.start_location.get_cid() ) {
                 select_location.selected = offset;
             }
             offset++;
         }
+    }
+    if( you.random_start_location ) {
+        select_location.selected = 0;
     }
     select_location.setup();
     if( MAP_SHARING::isSharing() ) {
@@ -2408,7 +2432,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         mvwprintz( w_location, point( prompt_offset + 1, 0 ), c_light_gray, _( "Starting location:" ) );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, point( prompt_offset + utf8_width( _( "Starting location:" ) ) + 2, 0 ),
-                   c_light_gray, you.start_location.obj().name() );
+                   you.random_start_location ? c_red : c_light_gray,
+                   you.random_start_location ? RANDOM_START_LOC_TEXT : you.start_location.obj().name() );
         wrefresh( w_location );
 
         werase( w_scenario );
@@ -2480,9 +2505,12 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             you.male = !you.male;
         } else if( action == "CHOOSE_LOCATION" ) {
             select_location.query();
-            if( select_location.ret >= 0 ) {
+            if( select_location.ret == RANDOM_START_LOC_ENTRY ) {
+                you.random_start_location = true;
+            } else if( select_location.ret >= 1 ) {
                 for( const auto &loc : start_location::get_all() ) {
                     if( loc.ident().get_cid().to_i() == select_location.ret ) {
+                        you.random_start_location = false;
                         you.start_location = loc.ident();
                         break;
                     }
@@ -2656,7 +2684,10 @@ void avatar::save_template( const std::string &name, const points_left &points )
         jsout.member( "trait_points", points.trait_points );
         jsout.member( "skill_points", points.skill_points );
         jsout.member( "limit", points.limit );
-        jsout.member( "start_location", start_location );
+        jsout.member( "random_start_location", random_start_location );
+        if( !random_start_location ) {
+            jsout.member( "start_location", start_location );
+        }
         jsout.end_object();
 
         serialize( jsout );
@@ -2685,11 +2716,13 @@ bool avatar::load_template( const std::string &template_name, points_left &point
             points.skill_points = jobj.get_int( "skill_points" );
             points.limit = static_cast<points_left::point_limit>( jobj.get_int( "limit" ) );
 
+            random_start_location = jobj.get_bool( "random_start_location", true );
             const std::string jobj_start_location = jobj.get_string( "start_location", "" );
 
             // g->scen->allowed_start( loc.ident() ) is checked once scenario loads in avatar::load()
             for( const auto &loc : start_location::get_all() ) {
                 if( loc.ident().str() == jobj_start_location ) {
+                    random_start_location = false;
                     this->start_location = loc.ident();
                     break;
                 }
@@ -2720,7 +2753,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     const auto permitted = scen->permitted_professions();
     const auto default_prof = *std::min_element( permitted.begin(), permitted.end(), psorter );
 
-    u.start_location = scen->start_location();
+    u.random_start_location = true;
     u.str_max = 8;
     u.dex_max = 8;
     u.int_max = 8;

@@ -74,6 +74,7 @@ static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
+static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
@@ -94,6 +95,7 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
+static const trait_id trait_PROF_HELI_PILOT( "PROF_HELI_PILOT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
@@ -423,7 +425,7 @@ inline static void rcdrive( point d )
     return rcdrive( d.x, d.y );
 }
 
-static void pldrive( int x, int y )
+static void pldrive( int x, int y, int z = 0 )
 {
     if( !g->check_safe_mode_allowed() ) {
         return;
@@ -466,8 +468,28 @@ static void pldrive( int x, int y )
             return;
         }
     }
-
-    veh->pldrive( point( x, y ) );
+    if( z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
+        u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
+        return;
+    }
+    if( z != 0 && !g->m.has_zlevels() ) {
+        u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
+        return;
+    }
+    if( z == -1 ) {
+        if( veh->check_heli_descend( u ) ) {
+            u.add_msg_if_player( m_info, _( "You steer the vehicle into a descent." ) );
+        } else {
+            return;
+        }
+    } else if( z == 1 ) {
+        if( veh->check_heli_ascend( u ) ) {
+            u.add_msg_if_player( m_info, _( "You steer the vehicle into an ascent." ) );
+        } else {
+            return;
+        }
+    }
+    veh->pldrive( point( x, y ), z );
 }
 
 inline static void pldrive( point d )
@@ -1081,7 +1103,8 @@ static void loot()
         Multichopplanks = 512,
         Multideconvehicle = 1024,
         Multirepairvehicle = 2048,
-        MultiButchery = 4096
+        MultiButchery = 4096,
+        MultiMining = 8192
     };
 
     player &u = g->u;
@@ -1108,6 +1131,7 @@ static void loot()
                                  u.pos() ) ? Multideconvehicle : 0;
     flags |= g->check_near_zone( zone_type_id( "VEHICLE_REPAIR" ), u.pos() ) ? Multirepairvehicle : 0;
     flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ), u.pos() ) ? MultiButchery : 0;
+    flags |= g->check_near_zone( zone_type_id( "MINING" ), u.pos() ) ? MultiMining : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1159,6 +1183,10 @@ static void loot()
         menu.addentry_desc( MultiButchery, true, 'B', _( "Butcher corpses" ),
                             _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) );
     }
+    if( flags & MultiMining ) {
+        menu.addentry_desc( MultiMining, true, 'M', _( "Mine Area" ),
+                            _( "Auto-mine anything in mining zone - auto-fetch tools." ) );
+    }
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1194,6 +1222,9 @@ static void loot()
         case MultiButchery:
             u.assign_activity( ACT_MULTIPLE_BUTCHER );
             break;
+        case MultiMining:
+            u.assign_activity( ACT_MULTIPLE_MINE );
+            break;
         default:
             debugmsg( "Unsupported flag" );
             break;
@@ -1206,7 +1237,7 @@ static void wear()
     item_location loc = game_menus::inv::wear( u );
 
     if( loc ) {
-        u.wear( u.i_at( loc.obtain( u ) ) );
+        u.wear( *loc.obtain( u ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1218,7 +1249,7 @@ static void takeoff()
     item_location loc = game_menus::inv::take_off( u );
 
     if( loc ) {
-        u.takeoff( u.i_at( loc.obtain( u ) ) );
+        u.takeoff( *loc.obtain( u ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1235,9 +1266,7 @@ static void read()
             item spell_book = *loc.get_item();
             spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
         } else {
-            // calling obtain() invalidates the item pointer
-            // TODO: find a way to do this without an int index
-            u.read( u.i_at( loc.obtain( u ) ) );
+            u.read( *loc.obtain( u ) );
         }
     } else {
         add_msg( _( "Never mind." ) );
@@ -1356,7 +1385,6 @@ static void open_movement_mode_menu()
     as_m.entries.emplace_back( CMM_COUNT, true, '"', _( "Cycle move mode (run/walk/crouch)" ) );
     as_m.selected = 1;
     as_m.query();
-
 
     if( as_m.ret != UILIST_CANCEL ) {
         if( as_m.ret == CMM_COUNT ) {
@@ -1777,6 +1805,8 @@ bool game::handle_action()
                 }
                 if( !u.in_vehicle ) {
                     vertical_move( -1, false );
+                } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
+                    pldrive( 0, 0, -1 );
                 }
                 break;
 
@@ -1790,6 +1820,8 @@ bool game::handle_action()
                 }
                 if( !u.in_vehicle ) {
                     vertical_move( 1, false );
+                } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
+                    pldrive( 0, 0, 1 );
                 }
                 break;
 

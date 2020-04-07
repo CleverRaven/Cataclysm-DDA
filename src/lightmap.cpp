@@ -391,7 +391,7 @@ void map::generate_lightmap( const int zlev )
                 apply_light_source( mp, 8 );
             }
             // TODO: [lightmap] Attach natural light brightness to creatures
-            // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
+            // TODO: [lightmap] Allow creatures to have light attacks (i.e.: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
             if( critter.type->luminance > 0 ) {
                 apply_light_source( mp, critter.type->luminance );
@@ -1015,8 +1015,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                      0.5f ); //The distance between our first leadingEdge and start
 
         //We initialise delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
-        delta.x = -distance + std::max( static_cast<int>( ceil( away * ( -distance - 0.5f ) ) ),
-                                        0 );
+        delta.x = -distance + std::max( static_cast<int>( std::ceil( away * ( -distance - 0.5f ) ) ), 0 );
 
         for( ; delta.x <= 0; delta.x++ ) {
             int currentX = offset.x + delta.x * xx + delta.y * xy;

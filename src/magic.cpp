@@ -212,6 +212,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         { "spawn_item", spell_effect::spawn_ethereal_item },
         { "recover_energy", spell_effect::recover_energy },
         { "summon", spell_effect::spawn_summoned_monster },
+        { "summon_vehicle", spell_effect::spawn_summoned_vehicle },
         { "translocate", spell_effect::translocate },
         { "area_pull", spell_effect::area_pull },
         { "area_push", spell_effect::area_push },
@@ -345,8 +346,8 @@ static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const s
         unique_spell_list.emplace( fake_sp.id );
     }
 
-    for( const spell_id &sp : unique_spell_list ) {
-        if( spell_infinite_loop_check( spell_effects, sp ) ) {
+    for( const spell_id &other_sp : unique_spell_list ) {
+        if( spell_infinite_loop_check( spell_effects, other_sp ) ) {
             return true;
         }
     }
@@ -387,6 +388,12 @@ void spell_type::check_consistency()
         if( sp_t.casting_time_increment > 0.0f && sp_t.base_casting_time > sp_t.final_casting_time ) {
             debugmsg( "ERROR: %s has positive increment and base_casting_time > final_casting_time",
                       sp_t.id.c_str() );
+        }
+        if( sp_t.effect_name == "summon_vehicle" ) {
+            if( !sp_t.effect_str.empty() && !vproto_id( sp_t.effect_str ).is_valid() ) {
+                debugmsg( "ERROR %s specifies a vehicle to summon, but vehicle %s is not valid", sp_t.id.c_str(),
+                          sp_t.effect_str );
+            }
         }
         std::set<spell_id> spell_effect_list;
         if( spell_infinite_loop_check( spell_effect_list, sp_t.id ) ) {
@@ -456,13 +463,13 @@ skill_id spell::skill() const
 int spell::field_intensity() const
 {
     return std::min( type->max_field_intensity,
-                     static_cast<int>( type->min_field_intensity + round( get_level() *
+                     static_cast<int>( type->min_field_intensity + std::round( get_level() *
                                        type->field_intensity_increment ) ) );
 }
 
 int spell::min_leveled_damage() const
 {
-    return type->min_damage + round( get_level() * type->damage_increment );
+    return type->min_damage + std::round( get_level() * type->damage_increment );
 }
 
 int spell::damage() const
@@ -497,7 +504,7 @@ std::string spell::damage_string() const
 
 int spell::min_leveled_aoe() const
 {
-    return type->min_aoe + round( get_level() * type->aoe_increment );
+    return type->min_aoe + std::round( get_level() * type->aoe_increment );
 }
 
 int spell::aoe() const
@@ -535,7 +542,7 @@ std::string spell::aoe_string() const
 
 int spell::range() const
 {
-    const int leveled_range = type->min_range + round( get_level() * type->range_increment );
+    const int leveled_range = type->min_range + std::round( get_level() * type->range_increment );
     if( type->max_range >= type->min_range ) {
         return std::min( leveled_range, type->max_range );
     } else {
@@ -545,7 +552,7 @@ int spell::range() const
 
 int spell::min_leveled_duration() const
 {
-    return type->min_duration + round( get_level() * type->duration_increment );
+    return type->min_duration + std::round( get_level() * type->duration_increment );
 }
 
 int spell::duration() const
@@ -905,6 +912,11 @@ energy_type spell::energy_source() const
     return type->energy_source;
 }
 
+bool spell::is_target_in_range( const Creature &caster, const tripoint &p ) const
+{
+    return rl_dist( caster.pos(), p ) <= range();
+}
+
 bool spell::is_valid_target( valid_target t ) const
 {
     return type->valid_targets[t];
@@ -1108,6 +1120,11 @@ dealt_damage_instance spell::get_dealt_damage_instance() const
 std::string spell::effect_data() const
 {
     return type->effect_str;
+}
+
+vproto_id spell::summon_vehicle_id() const
+{
+    return vproto_id( type->effect_str );
 }
 
 int spell::heal( const tripoint &target ) const
@@ -1391,8 +1408,8 @@ void known_magic::update_mana( const player &p, float turns )
     // mana should replenish in 8 hours.
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
-    mod_mana( p, floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
-                        p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
+    mod_mana( p, std::floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
+                             p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -1947,6 +1964,10 @@ void fake_spell::load( const JsonObject &jo )
     mandatory( jo, false, "id", temp_id );
     id = spell_id( temp_id );
     optional( jo, false, "hit_self", self, false );
+
+    optional( jo, false, "once_in", trigger_once_in, 1 );
+    optional( jo, false, "message", trigger_message );
+    optional( jo, false, "npc_message", npc_trigger_message );
     int max_level_int;
     optional( jo, false, "max_level", max_level_int, -1 );
     if( max_level_int == -1 ) {
@@ -1965,6 +1986,8 @@ void fake_spell::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "id", id );
     json.member( "hit_self", self );
+    json.member( "once_in", trigger_once_in );
+
     if( !max_level ) {
         json.member( "max_level", -1 );
     } else {

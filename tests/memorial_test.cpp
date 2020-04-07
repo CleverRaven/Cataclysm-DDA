@@ -92,7 +92,7 @@ TEST_CASE( "memorials" )
         "afterwards.", ch, ch2, "victim_name" );
 
     check_memorial<event_type::character_kills_monster>(
-        m, b, "Killed a kevlar hulk.", ch, mon );
+        m, b, "Killed a Kevlar hulk.", ch, mon );
 
     check_memorial<event_type::character_loses_effect>(
         m, b, "Put out the fire.", ch, eff );
@@ -101,7 +101,7 @@ TEST_CASE( "memorials" )
         m, b, "Fell in a pit.", ch, trap_str_id( "tr_pit" ) );
 
     check_memorial<event_type::consumes_marloss_item>(
-        m, b, "Consumed a marloss seed.", ch, it );
+        m, b, "Consumed a Marloss seed.", ch, it );
 
     check_memorial<event_type::crosses_marloss_threshold>(
         m, b, "Opened the Marloss Gateway.", ch );

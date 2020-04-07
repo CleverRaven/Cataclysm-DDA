@@ -25,6 +25,7 @@
 #include <vector>
 #include <bitset>
 
+#include "activity_actor.h"
 #include "auto_pickup.h"
 #include "assign.h"
 #include "avatar.h"
@@ -241,6 +242,7 @@ void player_activity::serialize( JsonOut &json ) const
     json.member( "type", type );
 
     if( !type.is_null() ) {
+        json.member( "actor", actor );
         json.member( "moves_left", moves_left );
         json.member( "index", index );
         json.member( "position", position );
@@ -274,10 +276,21 @@ void player_activity::deserialize( JsonIn &jsin )
         return;
     }
 
+    const bool has_actor = activity_actors::deserialize_functions.find( type ) !=
+                           activity_actors::deserialize_functions.end();
+
+    // Handle migration of pre-activity_actor activities
+    // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
+    // this may cause inconvenience but should avoid any lasting damage to npcs
+    if( has_actor && !data.has_member( "actor" ) ) {
+        type = activity_id( "ACT_MIGRATION_CANCEL" );
+    }
+
     if( !data.read( "position", tmppos ) ) {
         tmppos = INT_MIN;  // If loading a save before position existed, hope.
     }
 
+    data.read( "actor", actor );
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;
@@ -1110,7 +1123,7 @@ void avatar::load( const JsonObject &data )
         g->scen = &string_id<scenario>( scen_ident ).obj();
 
         if( !g->scen->allowed_start( start_location ) ) {
-            start_location = g->scen->start_location();
+            start_location = g->scen->random_start_location();
         }
     } else {
         const scenario *generic_scenario = scenario::generic();
@@ -1458,6 +1471,20 @@ void npc_favor::serialize( JsonOut &json ) const
     json.end_object();
 }
 
+void job_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "task_priorities", task_priorities );
+    json.end_object();
+}
+void job_data::deserialize( JsonIn &jsin )
+{
+    if( jsin.test_object() ) {
+        JsonObject jo = jsin.get_object();
+        jo.read( "task_priorities", task_priorities );
+    }
+}
+
 /*
  * load npc
  */
@@ -1474,7 +1501,6 @@ void npc::load( const JsonObject &data )
     int misstmp = 0;
     int classtmp = 0;
     int atttmp = 0;
-    int jobtmp = 0;
     std::string facID;
     std::string comp_miss_id;
     std::string comp_miss_role;
@@ -1557,7 +1583,10 @@ void npc::load( const JsonObject &data )
     } else {
         data.read( "pulp_location", pulp_location );
     }
-
+    data.read( "assigned_camp", assigned_camp );
+    data.read( "chair_pos", chair_pos );
+    data.read( "wander_pos", wander_pos );
+    data.read( "job", job );
     if( data.read( "mission", misstmp ) ) {
         mission = static_cast<npc_mission>( misstmp );
         static const std::set<npc_mission> legacy_missions = {{
@@ -1601,9 +1630,6 @@ void npc::load( const JsonObject &data )
         if( legacy_attitudes.count( attitude ) > 0 ) {
             attitude = NPCATT_NULL;
         }
-    }
-    if( data.read( "job", jobtmp ) ) {
-        job = static_cast<npc_job>( jobtmp );
     }
     if( data.read( "previous_attitude", atttmp ) ) {
         previous_attitude = static_cast<npc_attitude>( atttmp );
@@ -1723,9 +1749,12 @@ void npc::store( JsonOut &json ) const
     json.member( "guardz", guard_pos.z );
     json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
+    json.member( "assigned_camp", assigned_camp );
+    json.member( "chair_pos", chair_pos );
+    json.member( "wander_pos", wander_pos );
+    json.member( "job", job );
     // TODO: stringid
     json.member( "mission", mission );
-    json.member( "job", static_cast<int>( job ) );
     json.member( "previous_mission", previous_mission );
     json.member( "faction_api_ver", faction_api_version );
     if( !fac_id.str().empty() ) { // set in constructor
@@ -2662,6 +2691,7 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "velocity", velocity );
     data.read( "falling", is_falling );
     data.read( "floating", is_floating );
+    data.read( "flying", is_flying );
     data.read( "cruise_velocity", cruise_velocity );
     data.read( "vertical_velocity", vertical_velocity );
     data.read( "cruise_on", cruise_on );
@@ -2697,7 +2727,6 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "theft_time", theft_time );
 
     data.read( "parts", parts );
-
     // we persist the pivot anchor so that if the rules for finding
     // the pivot change, existing vehicles do not shift around.
     // Loading vehicles that predate the pivot logic is a special
@@ -2709,6 +2738,8 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "is_following", is_following );
     data.read( "is_patrolling", is_patrolling );
     data.read( "autodrive_local_target", autodrive_local_target );
+    data.read( "summon_time_limit", summon_time_limit );
+    data.read( "magic", magic );
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
@@ -2779,7 +2810,7 @@ void vehicle::deserialize( JsonIn &jsin )
         sdata.read( "zone", zd );
         loot_zones.emplace( p, zd );
     }
-
+    data.read( "other_tow_point", tow_data.other_towing_point );
     // Note that it's possible for a vehicle to be loaded midway
     // through a turn if the player is driving REALLY fast and their
     // own vehicle motion takes them in range. An undefined value for
@@ -2803,6 +2834,7 @@ void vehicle::deserialize( JsonIn &jsin )
             }
         }
     };
+
     set_legacy_state( "stereo_on", "STEREO" );
     set_legacy_state( "chimes_on", "CHIMES" );
     set_legacy_state( "fridge_on", "FRIDGE" );
@@ -2827,6 +2859,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "velocity", velocity );
     json.member( "falling", is_falling );
     json.member( "floating", is_floating );
+    json.member( "flying", is_flying );
     json.member( "cruise_velocity", cruise_velocity );
     json.member( "vertical_velocity", vertical_velocity );
     json.member( "cruise_on", cruise_on );
@@ -2850,6 +2883,15 @@ void vehicle::serialize( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+    tripoint other_tow_temp_point;
+    if( is_towed() ) {
+        vehicle *tower = tow_data.get_towed_by();
+        if( tower ) {
+            other_tow_temp_point = tower->global_part_pos3( tower->get_tow_part() );
+        }
+    }
+    json.member( "other_tow_point", other_tow_temp_point );
+
     json.member( "is_locked", is_locked );
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );
@@ -2858,6 +2900,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "is_following", is_following );
     json.member( "is_patrolling", is_patrolling );
     json.member( "autodrive_local_target", autodrive_local_target );
+    json.member( "summon_time_limit", summon_time_limit );
+    json.member( "magic", magic );
     json.end_object();
 }
 

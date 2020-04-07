@@ -68,7 +68,7 @@ struct targeting_data {
     static targeting_data use_wielded();
 
     /** Use fake gun provided by a bionic */
-    static targeting_data use_bionic( const item &fake_gun, units::energy cost_per_shot );
+    static targeting_data use_bionic( const item &fake_gun, const units::energy &cost_per_shot );
 
     /** Use fake gun provided by a mutation */
     static targeting_data use_mutation( const item &fake_gun );

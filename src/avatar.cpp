@@ -1193,7 +1193,7 @@ void avatar::reset_stats()
     // Starvation
     const float bmi = get_bmi();
     if( bmi < character_weight_category::underweight ) {
-        const int str_penalty = floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
+        const int str_penalty = std::floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
         mod_str_bonus( -str_penalty );
@@ -1427,7 +1427,7 @@ void avatar::set_movement_mode( character_movemode new_mode )
                 }
             } else {
                 if( is_mounted() ) {
-                    // mounts dont currently have stamina, but may do in future.
+                    // mounts don't currently have stamina, but may do in future.
                     add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
                 } else if( get_working_leg_count() < 2 ) {
                     add_msg( m_bad, _( "You need two functional legs to run." ) );

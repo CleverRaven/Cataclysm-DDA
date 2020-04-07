@@ -178,9 +178,14 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         check_item( item_location( seller, &seller.weapon ), 1 );
     }
 
-    for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
-        buy_helper( cursor, check_item );
+    //nearby items owned by the NPC will only show up in
+    //the trade window if the NPC is also a shopkeeper
+    if( np.mission == NPC_MISSION_SHOPKEEP ) {
+        for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
+            buy_helper( cursor, check_item );
+        }
     }
+
     for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
         buy_helper( cursor, check_item );
     }
@@ -334,10 +339,12 @@ void trading_window::update_win( npc &np, const std::string &deal )
                 const int &owner_sells = they ? ip.u_has : ip.npc_has;
                 const int &owner_sells_charge = they ? ip.u_charges : ip.npc_charges;
                 std::string itname = it->display_name();
-                if( ip.loc.where() != item_location::type::character ) {
-                    itname = itname + " " + ip.loc.describe( &g->u );
+
+                if( np.will_exchange_items_freely() && ip.loc.where() != item_location::type::character ) {
+                    itname = itname + " (" + ip.loc.describe( &g->u ) + ")";
                     color = c_light_blue;
                 }
+
                 if( ip.charges > 0 && owner_sells_charge > 0 ) {
                     itname += string_format( _( ": trading %d" ), owner_sells_charge );
                 } else {
@@ -666,5 +673,5 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 // Will the NPC accept the trade that's currently on offer?
 bool trading_window::npc_will_accept_trade( const npc &np ) const
 {
-    return np.is_player_ally() || your_balance + np.max_credit_extended() > 0;
+    return np.will_exchange_items_freely() || your_balance + np.max_credit_extended() > 0;
 }

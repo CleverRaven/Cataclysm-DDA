@@ -118,7 +118,8 @@ tripoint relative_view_pos( const game &g, const tripoint &p ) noexcept
     return p - g.ter_view_p + point( POSX, POSY );
 }
 
-void draw_explosion_curses( game &g, const tripoint &center, const int r, const nc_color &col )
+void draw_explosion_curses( const game &g, const tripoint &center, const int r,
+                            const nc_color &col )
 {
     if( !is_radius_visible( center, r ) ) {
         return;
@@ -167,7 +168,7 @@ constexpr explosion_neighbors operator ^ ( explosion_neighbors lhs, explosion_ne
     return static_cast<explosion_neighbors>( static_cast< int >( lhs ) ^ static_cast< int >( rhs ) );
 }
 
-void draw_custom_explosion_curses( game &g,
+void draw_custom_explosion_curses( const game &g,
                                    const std::list< std::map<tripoint, explosion_tile> > &layers )
 {
     // calculate screen offset relative to player + view offset position
@@ -710,7 +711,7 @@ void game::draw_weather( const weather_printable &w )
 
 namespace
 {
-void draw_sct_curses( game &g )
+void draw_sct_curses( const game &g )
 {
     const tripoint off = relative_view_pos( g.u, tripoint_zero );
 

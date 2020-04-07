@@ -3713,15 +3713,15 @@ window_dimensions get_window_dimensions( const catacurses::window &win )
     cata_cursesport::WINDOW *const pwin = win.get<cata_cursesport::WINDOW>();
 
     window_dimensions dim;
-    if( use_tiles && win == g->w_terrain ) {
+    if( use_tiles && g && win == g->w_terrain ) {
         // tiles might have different dimensions than standard font
         dim.scaled_font_size.x = tilecontext->get_tile_width();
         dim.scaled_font_size.y = tilecontext->get_tile_height();
-    } else if( map_font && win == g->w_terrain ) {
+    } else if( map_font && g && win == g->w_terrain ) {
         // map font (if any) might differ from standard font
         dim.scaled_font_size.x = map_font->fontwidth;
         dim.scaled_font_size.y = map_font->fontheight;
-    } else if( overmap_font && win == g->w_overmap ) {
+    } else if( overmap_font && g && win == g->w_overmap ) {
         dim.scaled_font_size.x = overmap_font->fontwidth;
         dim.scaled_font_size.y = overmap_font->fontheight;
     } else {

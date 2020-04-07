@@ -5,7 +5,6 @@
 # file and tile image.
 
 import argparse
-import copy
 import json
 import math
 import os

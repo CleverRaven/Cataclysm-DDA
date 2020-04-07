@@ -64,6 +64,8 @@ struct bionic;
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
+#define MAX_CLAIRVOYANCE 40
+
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
@@ -416,6 +418,29 @@ class Character : public Creature, public visitable<Character>
         float get_dodge_base() const override;
         float get_hit_base() const override;
 
+        const tripoint &pos() const override;
+        /** Returns the player's sight range */
+        int sight_range( int light_level ) const override;
+        /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
+        int  unimpaired_range() const;
+        /** Returns true if overmap tile is within player line-of-sight */
+        bool overmap_los( const tripoint &omt, int sight_points );
+        /** Returns the distance the player can see on the overmap */
+        int  overmap_sight_range( int light_level ) const;
+        /** Returns the distance the player can see through walls */
+        int  clairvoyance() const;
+        /** Returns true if the player has some form of impaired sight */
+        bool sight_impaired() const;
+        /** Returns true if the player or their vehicle has an alarm clock */
+        bool has_alarm_clock() const;
+        /** Returns true if the player or their vehicle has a watch */
+        bool has_watch() const;
+        /** Called after every action, invalidates player caches */
+        void action_taken();
+        /** Returns true if the player is knocked over or has broken legs */
+        bool is_on_ground() const override;
+        /** Returns the player's speed for swimming across water tiles */
+        int  swim_speed() const;
         /**
          * Adds a reason for why the player would miss a melee attack.
          *
@@ -439,7 +464,8 @@ class Character : public Creature, public visitable<Character>
         // called once per 24 hours to enforce the minimum of 1 hp healed per day
         // TODO: Move to Character once heal() is moved
         void enforce_minimum_healing();
-
+        /** get best quality item that this character has */
+        item *best_quality_item( const quality_id &qual );
         /** Handles health fluctuations over time */
         virtual void update_health( int external_modifiers = 0 );
         /** Updates all "biology" by one turn. Should be called once every turn. */
@@ -539,6 +565,9 @@ class Character : public Creature, public visitable<Character>
         void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
+
+        /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
+        void expose_to_disease( diseasetype_id dis_type );
         /**
          * Handles end-of-turn processing.
          */
@@ -898,13 +927,15 @@ class Character : public Creature, public visitable<Character>
 
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype *cbm, player &patient );
-        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
+        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic_id &b );
         /** Adds a bionic to my_bionics[] */
         void add_bionic( const bionic_id &b );
+        /**Calculate skill bonus from tiles in radius*/
+        float env_surgery_bonus( int radius );
         /** Calculate skill for (un)installing bionics */
         float bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &important_skill,
@@ -943,7 +974,7 @@ class Character : public Creature, public visitable<Character>
 
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
-                               float adjusted_skill, bool autodoc = false );
+                               float adjusted_skill );
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
@@ -1502,7 +1533,10 @@ class Character : public Creature, public visitable<Character>
         void use_fire( int quantity );
         void assign_stashed_activity();
         bool check_outbounds_activity( const player_activity &act, bool check_only = false );
-        /** Legacy activity assignment, should not be used where resuming is important. */
+        /** Legacy activity assignment, does not work for any activites using
+         * the new activity_actor class and may cause issues with resuming.
+         * TODO: delete this once migration of activites to the activity_actor system is complete
+         */
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
                               const std::string &name = "" );

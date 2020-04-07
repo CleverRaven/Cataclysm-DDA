@@ -96,6 +96,12 @@ struct fake_spell {
     int level = 0;
     // target tripoint is source (true) or target (false)
     bool self = false;
+    // a chance to trigger the enchantment spells
+    int trigger_once_in = 1;
+    // a message when the enchantment is triggered
+    translation trigger_message;
+    // a message when the enchantment is triggered and is on npc
+    translation npc_trigger_message;
 
     fake_spell() = default;
     fake_spell( const spell_id &sp_id, bool hit_self = false,
@@ -229,6 +235,8 @@ class spell_type
 
         // base amount of time to cast the spell in moves
         int base_casting_time = 0;
+        // If spell is to summon a vehicle, the vproto_id of the vehicle
+        std::string vehicle_id;
         // increment of casting time per level
         float casting_time_increment = 0.0f;
         // max or min casting time
@@ -362,6 +370,8 @@ class spell
         std::string effect() const;
         // get spell effect_str data
         std::string effect_data() const;
+        // get spell summon vehicle id
+        vproto_id summon_vehicle_id() const;
         // name of spell (translated)
         std::string name() const;
         // description of spell (translated)
@@ -407,6 +417,9 @@ class spell
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
+
+        // checks if a target point is in spell range
+        bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
@@ -514,6 +527,7 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
 void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
 void recover_energy( const spell &sp, Creature &, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint &target );
+void spawn_summoned_vehicle( const spell &sp, Creature &caster, const tripoint &target );
 void translocate( const spell &sp, Creature &caster, const tripoint &target );
 // adds a timed event to the caster only
 void timed_event( const spell &sp, Creature &caster, const tripoint & );
