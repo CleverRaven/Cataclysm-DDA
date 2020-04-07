@@ -4305,13 +4305,12 @@ void activity_handlers::unload_mag_finish( player_activity *act, player *p )
     item &it = *act->targets[ 0 ];
 
     std::vector<item *> remove_contained;
-    it.visit_items( [&]( item * contained ) {
+    for( item *contained : it.contents.all_items_top() ) {
         if( p->add_or_drop_with_msg( *contained, true ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
         }
-        return VisitResponse::NEXT;
-    } );
+    }
     // remove the ammo leads in the belt
     for( item *remove : remove_contained ) {
         it.remove_item( *remove );
