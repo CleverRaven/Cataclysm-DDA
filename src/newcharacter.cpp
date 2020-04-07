@@ -2437,7 +2437,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         mvwprintz( w_location, point( prompt_offset - 10, 0 ), c_light_gray, _( "Starting location:" ) );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, point( prompt_offset + utf8_width( _( "Starting location:" ) ) - 9, 0 ),
-                   you.random_start_location ? c_red : c_light_red,
+                   you.random_start_location ? c_red : c_light_green,
                    you.random_start_location ? RANDOM_START_LOC_TEXT : you.start_location.obj().name() );
         wrefresh( w_location );
 
