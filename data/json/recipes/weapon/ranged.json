@@ -164,7 +164,6 @@
     "skills_required": [ "rifle", 5 ],
     "difficulty": 10,
     "time": "560 m",
-    "autolearn": true,
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
@@ -186,7 +185,6 @@
     "skills_required": [ "rifle", 5 ],
     "difficulty": 10,
     "time": "560 m",
-    "autolearn": true,
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
@@ -208,7 +206,6 @@
     "skills_required": [ "pistol", 5 ],
     "difficulty": 10,
     "time": "550 m",
-    "autolearn": true,
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 3 },
