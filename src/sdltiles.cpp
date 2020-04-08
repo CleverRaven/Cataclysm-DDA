@@ -478,6 +478,9 @@ static void WinCreate()
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
 #endif
 
+#if defined(SDL_HINT_RENDER_BATCHING)
+    SDL_SetHint( SDL_HINT_RENDER_BATCHING, get_option<bool>( "RENDER_BATCHING" ) ? "1" : "0" );
+#endif
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
