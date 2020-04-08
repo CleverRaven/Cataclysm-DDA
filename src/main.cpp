@@ -689,14 +689,7 @@ int main( int argc, char *argv[] )
             }
         }
 
-        ui_adaptor main_ui;
-        main_ui.position_from_window( catacurses::stdscr );
-        main_ui.on_redraw( []( const ui_adaptor & ) {
-            g->draw();
-        } );
-        main_ui.on_screen_resize( []( ui_adaptor & ui ) {
-            ui.position_from_window( catacurses::stdscr );
-        } );
+        shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
         while( !g->do_turn() );
     }
 
