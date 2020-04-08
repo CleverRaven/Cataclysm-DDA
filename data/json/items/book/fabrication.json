@@ -483,7 +483,7 @@
     "id": "concrete_book",
     "type": "BOOK",
     "name": { "str": "Concrete Constructions", "str_pl": "copies of Concrete Constructions" },
-    "description": "A collection of notable uses of concrete. Contains detailed directions on how to mix and use cement to form useful aggregates.",
+    "description": "A collection of notable uses of concrete.  Contains detailed directions on how to mix and use cement to form useful aggregates.",
     "weight": "600 g",
     "volume": "1250 ml",
     "price": 4000,
