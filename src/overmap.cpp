@@ -1081,22 +1081,22 @@ void overmap::select_region_settings( const point &p )
 
     //Get all adjacent overmaps
     std::vector<std::string> adjacent_biomes;
-    overmap *north = overmap_buffer.get_existing( point( p.x, p.y + 1 ) );
-    overmap *south = overmap_buffer.get_existing( point( p.x, p.y - 1 ) );
-    overmap *east = overmap_buffer.get_existing( point( p.x + 1, p.y ) );
-    overmap *west = overmap_buffer.get_existing( point( p.x - 1, p.y ) );
+    overmap *north = overmap_buffer.get_existing( p + point_north ) );
+    overmap *south = overmap_buffer.get_existing( p + point_south );
+    overmap *east = overmap_buffer.get_existing( p + point_east );
+    overmap *west = overmap_buffer.get_existing( p + point_west );
 
     //Get neighbours
-    if( north != NULL ) {
+    if( north ) {
         adjacent_biomes.push_back( north->settings.biome );
     }
-    if( south != NULL ) {
+    if( south ) {
         adjacent_biomes.push_back( south->settings.biome );
     }
-    if( east != NULL ) {
+    if( east ) {
         adjacent_biomes.push_back( east->settings.biome );
     }
-    if( west != NULL ) {
+    if( west ) {
         adjacent_biomes.push_back( west->settings.biome );
     }
 
