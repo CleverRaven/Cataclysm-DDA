@@ -1,6 +1,7 @@
 #include "debug_menu.h"
 
-#include <cxxabi.h>
+// IWYU pragma: no_include <cxxabi.h>
+
 #include <algorithm>
 #include <array>
 #include <chrono>
