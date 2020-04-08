@@ -261,5 +261,18 @@
     "type": "tool_quality",
     "id": "PRESSURIZATION",
     "name": { "str": "pressurizing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SOFTWARE_COMPILER",
+    "name": { "str": "compiler" },
+    "//": "a general compiler and linker - required for programming tasks",
+    "//": "quality level could represent ease of use - e.g. a full IDE vs. CLI"
+  },
+  {
+    "type": "tool_quality",
+    "id": "KEYBOARD",
+    "name": { "str": "keyboard" },
+    "//": "tool has a keyboard - required for some computer tasks"
   }
 ]

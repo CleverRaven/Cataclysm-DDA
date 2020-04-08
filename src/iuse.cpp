@@ -9853,6 +9853,46 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+int iuse::install_software( player *p, item *it, bool, const tripoint & )
+{
+    if( !it ) {
+        debugmsg( "tried to install software with non-item" );
+        return 0;
+    }
+
+    if( !it->has_flag( "ACCEPTS_SOFTWARE" ) ) {
+        // toaster = class of all items that do not need or want software
+        debugmsg( "tried to install software on a toaster" );
+        return 0;
+    }
+
+    if( !p ) {
+        return 0;
+    }
+
+    auto filter = [it]( const item & e ) {
+        item contained = e.get_contained();
+        return it != &e && !contained.is_null() && contained.has_flag( "SOFTWARE" ) &&
+               !it->toolmod_find( contained.typeId() );
+    };
+
+    auto loc = g->inv_map_splice( filter,
+                                  _( "What software would you like to install?" ),
+                                  1,
+                                  _( "You don't have any new software to install." ) );
+    if( !loc ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return 0;
+    }
+
+    p->assign_activity( player_activity( install_software_activity_actor(
+            item_location( *p, it ),
+            loc,
+            to_moves<int>( 5_minutes ) // hard coded for now, find a way to make this variable
+                                         ) ) );
+    return 0;
+}
+
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const
 {
     if( actor != nullptr ) {

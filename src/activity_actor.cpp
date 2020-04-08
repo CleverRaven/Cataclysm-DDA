@@ -9,6 +9,7 @@
 #include "npc.h"
 #include "pickup.h"
 #include "point.h"
+#include "translations.h"
 
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 {
@@ -132,6 +133,76 @@ std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( Js
     return migration_cancel_activity_actor().clone();
 }
 
+void install_software_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( who.moves > 0 && install_time_left > 0 ) {
+        if( !software_source || software_source->get_contained().is_null() ) {
+            act.set_to_null();
+            debugmsg( "lost track of software during ACT_INSTALL_SOFTWARE" );
+        }
+        if( !computer ) {
+            act.set_to_null();
+            debugmsg( "lost track of computer during ACT_INSTALL_SOFTWARE" );
+        }
+        // TODO deal with suspend/cancel - here?
+        int progress = std::min( who.moves, install_time_left );
+        who.mod_moves( -progress );
+        install_time_left -= progress;
+
+        if( install_time_left == 0 ) {
+            act.set_to_null();
+        }
+    }
+}
+
+void install_software_activity_actor::finish( player_activity &, Character &who )
+{
+    // move the original copy to the computer
+    // this expects the software_source to only have one contained item
+    // TODO make this smarter
+    item installed_software = software_source->get_contained();
+    software_source->remove_item( installed_software );
+    //if( software->has_flag( "DRM" ) ) {
+    who.add_msg_if_player( m_good,
+                           _( "You successfully installed the %1$s on your %2$s.  It securely wipes itself from the installation media." ),
+                           installed_software.tname(),
+                           computer->tname() );
+    computer->contents.push_back( installed_software );
+    /*} else {
+        // it's open source, just make a copy
+        // is this the right way to clone an item? O.o
+        item the_copy = * software;
+        who.add_msg_if_player( m_good,
+                               _( "You successfully installed a copy of the %1$s on your %2$s." ),
+                               the_copy.tname(),
+                               ( *computer ).tname() );
+        computer->contents.push_back( the_copy );
+    }*/
+}
+
+void install_software_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "computer", computer );
+    jsout.member( "software_source", software_source );
+    jsout.member( "install_time_left", install_time_left );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> install_software_activity_actor::deserialize( JsonIn &jsin )
+{
+    install_software_activity_actor actor( item_location::nowhere, item_location::nowhere, 0 );
+
+    JsonObject data = jsin.get_object();
+    data.read( "computer", actor.computer );
+    data.read( "software_source", actor.software_source );
+    data.read( "install_time_left", actor.install_time_left );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -139,6 +210,7 @@ const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( Json
 deserialize_functions = {
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
+    { activity_id( "ACT_INSTALL_SOFTWARE" ), &install_software_activity_actor::deserialize }
 };
 
 } // namespace activity_actors

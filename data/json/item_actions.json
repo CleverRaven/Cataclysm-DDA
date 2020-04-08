@@ -1113,5 +1113,10 @@
     "type": "item_action",
     "id": "CRAFT",
     "name": { "str": "Work on craft" }
+  },
+  {
+    "type": "item_action",
+    "id": "INSTALL_SOFTWARE",
+    "name": { "str": "Install software" }
   }
 ]

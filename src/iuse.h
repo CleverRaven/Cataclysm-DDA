@@ -237,6 +237,9 @@ class iuse
         static int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
                                            const tripoint &where );
 
+	// software stuff
+	int install_software( player *, item *, bool, const tripoint & );
+
 };
 
 void remove_radio_mod( item &it, player &p );

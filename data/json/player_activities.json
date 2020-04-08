@@ -856,5 +856,12 @@
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
+  },
+  {
+    "id": "ACT_INSTALL_SOFTWARE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "install software",
+    "based_on": "time"
   }
 ]
