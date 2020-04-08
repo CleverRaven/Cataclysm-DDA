@@ -1533,10 +1533,11 @@ tab_direction set_profession( avatar &u, points_left &points,
         draw_sorting_indicator( w_sorting, ctxt, profession_sorter );
 
         werase( w_genderswap );
-        //~ Gender switch message. 1s - change key name, 2s - profession name.
         std::string g_switch_msg = u.male ?
+                                   //~ Gender switch message. 1s - change key name, 2s - profession name.
                                    _( "Press <color_light_green>%1$s</color> to switch "
                                       "to <color_magenta>%2$s</color> (<color_magenta>female</color>)." ) :
+                                   //~ Gender switch message. 1s - change key name, 2s - profession name.
                                    _( "Press <color_light_green>%1$s</color> to switch "
                                       "to <color_magenta>%2$s</color> (<color_magenta>male</color>)." );
         fold_and_print( w_genderswap, point_zero, ( TERMX / 2 ), c_light_gray, g_switch_msg.c_str(),
@@ -2444,6 +2445,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                                                 ctxt.get_desc( "CHOOSE_LOCATION" ) );
         const int prompt_offset = utf8_width( location_prompt );
         werase( w_location );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_location, point( 0, 1 ), ( TERMX / 2 ), c_light_gray, location_prompt );
         mvwprintz( w_location, point( prompt_offset - 10, 0 ), c_light_gray, _( "Starting location:" ) );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
