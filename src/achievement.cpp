@@ -64,7 +64,7 @@ std::string enum_to_string<achievement_comparison>( achievement_comparison data 
     abort();
 }
 
-}
+} // namespace io
 
 template<>
 struct enum_traits<achievement_comparison> {
@@ -227,7 +227,7 @@ std::string enum_to_string<achievement_completion>( achievement_completion data 
     abort();
 }
 
-}
+} // namespace io
 
 void achievement_state::serialize( JsonOut &jsout ) const
 {

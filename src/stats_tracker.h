@@ -99,7 +99,7 @@ class stats_tracker_state
 class stats_tracker : public event_subscriber
 {
     public:
-        ~stats_tracker();
+        ~stats_tracker() override;
 
         event_multiset &get_events( event_type );
         event_multiset get_events( const string_id<event_transformation> & );
