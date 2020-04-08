@@ -1053,7 +1053,7 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
   }
 ```
 
-### Scores
+### Scores and achievements
 
 Scores are defined in two or three steps based on *events*.  To see what events
 exist and what data they contain, read [`event.h`](../src/event.h).
@@ -1197,6 +1197,28 @@ Note that even though most statistics yield an integer, you should still use
 "type": "score",
 "description": "Headshots: %s",
 "statistic": "avatar_num_headshots"
+```
+
+#### `achievement`
+
+Achievements are goals for the player to aspire to, in the usual sense of the
+term as popularised in other games.
+
+An achievement is specified via requirements, each of which is a constraint on
+an `event_statistic`.  For example:
+
+```C++
+{
+  "id": "achievement_kill_zombie",
+  "type": "achievement",
+  // The achievement description is used for the UI.
+  "description": "One down, billions to go\u2026",
+  "requirements": [
+    // Each requirement must specify the statistic being constrained, and the
+    // constraint in terms of a comparison against some target value.
+    { "event_statistic": "num_avatar_zombie_kills", "is": ">=", "target": 1 }
+  ]
+},
 ```
 
 ### Skills
