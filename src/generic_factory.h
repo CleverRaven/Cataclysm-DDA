@@ -170,7 +170,7 @@ class generic_factory
          * @param id_member_name The name of the JSON member that contains the id of the
          * loaded object.
          * @param alias_member_name Alternate names of the JSON member that contains the id of the
-         * loaded object.
+         * loaded object alias(es).
          */
         generic_factory( const std::string &type_name, const std::string &id_member_name = "id",
                          const std::string &alias_member_name = "alias" )
@@ -191,9 +191,10 @@ class generic_factory
         * @throws JsonError If `jo` is both abstract and real. (contains "abstract" and "id" members)
         */
         bool handle_inheritance( T &def, const JsonObject &jo, const std::string &src ) {
-            static const std::string copy_from( "copy-from" );
-            if( jo.has_string( copy_from ) ) {
-                const std::string source = jo.get_string( copy_from );
+            static const std::string copy_from_member_name( "copy-from" );
+            static const std::string abstract_member_name( "abstract" );
+            if( jo.has_string( copy_from_member_name ) ) {
+                const std::string source = jo.get_string( copy_from_member_name );
                 auto base = map.find( string_id<T>( source ) );
 
                 if( base != map.end() ) {
@@ -212,12 +213,13 @@ class generic_factory
                 def.was_loaded = true;
             }
 
-            if( jo.has_string( "abstract" ) ) {
-                if( jo.has_string( "id" ) ) {
-                    jo.throw_error( "cannot specify both 'abstract' and 'id'" );
+            if( jo.has_string( abstract_member_name ) ) {
+                if( jo.has_string( id_member_name ) ) {
+                    jo.throw_error( string_format( "cannot specify both '%s' and '%s'",
+                                                   abstract_member_name, id_member_name ) );
                 }
                 def.load( jo, src );
-                abstracts[jo.get_string( "abstract" )] = def;
+                abstracts[jo.get_string( abstract_member_name )] = def;
             }
             return true;
         }
