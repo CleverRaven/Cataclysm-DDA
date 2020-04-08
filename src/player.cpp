@@ -3547,16 +3547,16 @@ bool player::unload( item &it )
         }
 
         bool changed = false;
-        it.visit_items( [this, &changed]( item * e ) {
-            int old_charges = e->charges;
-            const bool consumed = this->add_or_drop_with_msg( *e, true );
-            changed = changed || consumed || e->charges != old_charges;
+        for( item *contained : it.contents.all_items_top() ) {
+            int old_charges = contained->charges;
+            const bool consumed = this->add_or_drop_with_msg( *contained, true );
+            changed = changed || consumed || contained->charges != old_charges;
             if( consumed ) {
-                this->mod_moves( -this->item_handling_cost( *e ) );
-                this->remove_item( *e );
+                this->mod_moves( -this->item_handling_cost( *contained ) );
+                this->remove_item( *contained );
             }
-            return VisitResponse::NEXT;
-        } );
+        }
+
         if( changed ) {
             it.on_contents_changed();
         }
