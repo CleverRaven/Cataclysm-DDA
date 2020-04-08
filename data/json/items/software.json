@@ -80,5 +80,50 @@
     "name": { "str": "integrated circuit datasheet archives", "str_pl": "misc software" },
     "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
     "price": 40000
+  },
+  {
+    "abstract": "software_tool",
+    "type": "TOOLMOD",
+    "flags": [ "SOFTWARE" ],
+    "container": "usb_drive",
+    "//": "note: str_pl = str because otherwise you get 'USB drives with productivity softwares'",
+    "//": "- account for this on all software items because that's how they'll be found in the wild",
+    "name": { "str": "usable software", "str_pl": "usable software" },
+    "material": [ "plastic" ],
+    "color": "dark_gray",
+    "symbol": ","
+  },
+  {
+    "id": "software_compiler_professional",
+    "copy-from": "software_tool",
+    "type": "TOOLMOD",
+    "flags": [ "SOFTWARE" ],
+    "name": { "str": "professional compiler" },
+    "description": "A suite of professional software development tools, including an IDE, compiler, build system, and an archive of useful software libraries with offline documentation.  You could install it in a computer and write some code.",
+    "qualities": [ [ "SOFTWARE_COMPILER", 3 ] ]
+  },
+  {
+    "id": "software_office",
+    "copy-from": "software_tool",
+    "type": "TOOLMOD",
+    "name": { "str": "productivity software", "str_pl": "productivity software" },
+    "description": "A basic suite of productivity software, including an image and document viewer.  You could use it to view files on SD cards.",
+    "use_action": [ "EINKTABLETPC" ]
+  },
+  {
+    "id": "software_music",
+    "copy-from": "software_tool",
+    "type": "TOOLMOD",
+    "name": { "str": "music player software", "str_pl": "music player software" },
+    "description": "A simple music app.  You could use it to listen to mp3s.",
+    "use_action": [ "MP3", "MP3_ON" ]
+  },
+  {
+    "id": "software_emulator",
+    "copy-from": "software_tool",
+    "type": "TOOLMOD",
+    "name": { "str": "game emulator" },
+    "description": "An emulator for a mobile game device and a collection of ROMs.",
+    "use_action": [ "PORTABLE_GAME" ]
   }
 ]

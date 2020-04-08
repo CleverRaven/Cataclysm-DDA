@@ -102,6 +102,36 @@ class migration_cancel_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+/**
+ * Actor for installing software on a computer.
+ */
+class install_software_activity_actor : public activity_actor
+{
+	private:
+		item_location computer;
+		item_location software_source;
+		int time_remaining;
+
+
+	public:
+		install_software_activity_actor( item_location comp, item_location soft, time_duration time ) :
+	      computer( comp ), software_source( soft ), time_remaining( to_moves<int> ( time ) ) {} 
+
+		activity_id get_type() const override {
+			return activity_id( "ACT_INSTALL_SOFTWARE" );
+		}
+
+		void do_turn( player_activity &act, Character &who ) override;
+		void finish( player_activity &act, Character &who ) override;
+
+		std::unique_ptr<activity_actor> clone() const override {
+				return std::make_unique<install_software_activity_actor>( *this );
+		}
+
+		void serialize( JsonOut &jsout ) const override;
+		static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 namespace activity_actors
 {
 

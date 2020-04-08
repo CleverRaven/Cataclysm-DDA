@@ -9,6 +9,7 @@
 #include "npc.h"
 #include "pickup.h"
 #include "point.h"
+#include "translations.h"
 
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 {
@@ -132,6 +133,70 @@ std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( Js
     return migration_cancel_activity_actor().clone();
 }
 
+void install_software_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // make sure activity is still sane
+    if( !software_source || software_source->get_contained().is_null() ) {
+        act.set_to_null();
+        debugmsg( "lost track of software during ACT_INSTALL_SOFTWARE" );
+    }
+    if( !computer ) {
+        act.set_to_null();
+        debugmsg( "lost track of computer during ACT_INSTALL_SOFTWARE" );
+    }
+    if( who.moves > 0 && time_remaining > 0 ) {
+        int progress = std::min( who.moves, time_remaining );
+        who.mod_moves( -progress );
+        time_remaining -= progress;
+    } else if( time_remaining <= 0 ) {
+        act.set_to_null();
+        // move the original copy to the computer
+        // TODO make this smarter:
+        // this expects the software_source to only have one contained item
+        // which should be the case if found on a USB, but who knows what else
+        // people might make
+        // otherwise who knows which software package we just removed...
+        item installed_software = software_source->contents.front();
+        // something is broken/unexpected about just using remove_item...
+        computer->put_in( software_source->remove_items_with( [&]( const item & e ) {
+            return e.has_flag( "SOFTWARE" ) && e.is_toolmod();
+        }, 1 ).front() );
+        installed_software.item_tags.insert( "SOFTWARE_INSTALLED" );
+        who.add_msg_if_player( m_good,
+                               _( "You successfully installed the %1$s on your %2$s.  It securely wipes itself from the installation media." ),
+                               installed_software.tname(),
+                               computer->tname() );
+    }
+}
+
+void install_software_activity_actor::finish( player_activity &, Character & )
+{
+    // no cleanup left to do
+}
+
+void install_software_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "computer", computer );
+    jsout.member( "software_source", software_source );
+    jsout.member( "time_remaining", time_remaining );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> install_software_activity_actor::deserialize( JsonIn &jsin )
+{
+    install_software_activity_actor actor( item_location::nowhere, item_location::nowhere, 0_minutes );
+
+    JsonObject data = jsin.get_object();
+    data.read( "computer", actor.computer );
+    data.read( "software_source", actor.software_source );
+    data.read( "time_remaining", actor.time_remaining );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -139,6 +204,7 @@ const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( Json
 deserialize_functions = {
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
+    { activity_id( "ACT_INSTALL_SOFTWARE" ), &install_software_activity_actor::deserialize }
 };
 
 } // namespace activity_actors
