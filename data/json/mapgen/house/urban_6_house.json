@@ -196,7 +196,7 @@
         "                                                "
       ],
       "palettes": [ "basement_empty" ],
-      "terrain": { "v": "t_dirtfloor" }
+      "terrain": { "v": "t_dirtfloor", "~": "t_dirtfloor" }
     }
   }
 ]
