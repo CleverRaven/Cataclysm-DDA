@@ -23,6 +23,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "options.h"
 #include "recipe.h"

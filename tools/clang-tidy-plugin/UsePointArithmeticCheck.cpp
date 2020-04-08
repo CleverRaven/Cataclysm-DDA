@@ -1,7 +1,5 @@
 #include "UsePointArithmeticCheck.h"
 
-#include <algorithm>
-#include <cassert>
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclCXX.h>
@@ -18,6 +16,8 @@
 #include <clang/Lex/Lexer.h>
 #include <llvm/ADT/APInt.h>
 #include <llvm/Support/Casting.h>
+#include <algorithm>
+#include <cassert>
 #include <map>
 #include <memory>
 #include <set>
@@ -28,7 +28,6 @@
 #include <vector>
 
 #include "Utils.h"
-#include "clang/AST/ASTFwd.h"
 #include "clang/AST/OperationKinds.h"
 #include "clang/Basic/OperatorKinds.h"
 

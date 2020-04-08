@@ -11,14 +11,13 @@
 
 #include "dialogue_win.h"
 #include "json.h"
-#include "material.h"
 #include "npc.h"
+#include "player.h"
 #include "translations.h"
 #include "type_id.h"
 
 class martialart;
 class mission;
-class player;
 struct dialogue;
 
 enum talk_trial_type : unsigned char {

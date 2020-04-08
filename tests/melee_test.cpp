@@ -6,7 +6,6 @@
 #include "creature.h"
 #include "game_constants.h"
 #include "item.h"
-#include "material.h"
 #include "monattack.h"
 #include "monster.h"
 #include "npc.h"

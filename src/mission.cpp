@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <iosfwd>
 #include <istream>
 #include <iterator>
 #include <list>

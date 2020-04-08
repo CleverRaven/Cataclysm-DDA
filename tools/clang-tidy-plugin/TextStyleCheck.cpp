@@ -1,7 +1,6 @@
 #include "TextStyleCheck.h"
 
 #include <ClangTidy.h>
-#include <ClangTidyDiagnosticConsumer.h>
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/Expr.h>
 #include <clang/AST/ExprCXX.h>

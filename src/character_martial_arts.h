@@ -2,6 +2,7 @@
 #ifndef CHARACTER_MARTIAL_ARTS_H
 #define CHARACTER_MARTIAL_ARTS_H
 
+#include <algorithm>
 #include <string>
 #include <vector>
 

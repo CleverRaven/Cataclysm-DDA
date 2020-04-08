@@ -11,7 +11,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "catch/catch.hpp"

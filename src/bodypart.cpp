@@ -12,6 +12,7 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "pldata.h"
+#include "type_id.h"
 
 side opposite_side( side s )
 {

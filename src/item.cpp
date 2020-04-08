@@ -26,7 +26,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clothing_mod.h"
-#include "clzones.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"

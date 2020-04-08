@@ -22,7 +22,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
-#include "clzones.h"
 #include "debug.h"
 #include "enums.h"
 #include "faction.h"

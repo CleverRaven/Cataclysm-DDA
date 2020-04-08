@@ -9,12 +9,14 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <type_traits>
 
 #include "action.h"
 #include "assign.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "ballistics.h"
+#include "basecamp.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -45,7 +47,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "material.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"

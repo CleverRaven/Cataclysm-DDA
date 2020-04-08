@@ -38,7 +38,6 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
-#include "material.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monattack.h"

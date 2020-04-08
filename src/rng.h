@@ -5,6 +5,7 @@
 #include <array>
 #include <functional>
 #include <iosfwd>
+#include <iterator>
 #include <random>
 #include <type_traits>
 

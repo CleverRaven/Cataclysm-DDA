@@ -15,7 +15,6 @@
 #include <stdexcept>
 #include <unordered_map>
 
-#include "basecamp.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -46,7 +45,6 @@
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "mapgenformat.h"
-#include "material.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"

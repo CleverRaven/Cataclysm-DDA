@@ -20,7 +20,6 @@
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
-#include "mapdata.h"
 #include "output.h"
 #include "player.h"
 #include "requirements.h"

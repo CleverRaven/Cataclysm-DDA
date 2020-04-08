@@ -11,6 +11,7 @@
 #include "mtype.h"
 #include "player.h"
 #include "point.h"
+#include "string_id.h"
 #include "type_id.h"
 
 static player &get_sanitized_player( )

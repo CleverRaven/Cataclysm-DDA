@@ -13,6 +13,8 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+class player;
+
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );

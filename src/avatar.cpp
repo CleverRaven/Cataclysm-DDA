@@ -19,7 +19,6 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "clzones.h"
 #include "color.h"
 #include "compatibility.h"
 #include "debug.h"

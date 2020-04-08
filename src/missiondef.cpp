@@ -13,6 +13,7 @@
 #include "init.h"
 #include "item.h"
 #include "json.h"
+#include "npc.h"
 #include "rng.h"
 
 enum legacy_mission_type_id {

@@ -2,6 +2,7 @@
 #ifndef MAGIC_ENCHANTMENT_H
 #define MAGIC_ENCHANTMENT_H
 
+#include <algorithm>
 #include <map>
 #include <string>
 #include <utility>

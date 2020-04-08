@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <cassert>
-#include <cstring>
 #include <list>
 #include <memory>
 #include <string>

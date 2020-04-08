@@ -2,6 +2,7 @@
 #ifndef PROFESSION_H
 #define PROFESSION_H
 
+#include <algorithm>
 #include <list>
 #include <map>
 #include <set>

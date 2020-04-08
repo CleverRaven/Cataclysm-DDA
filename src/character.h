@@ -36,6 +36,7 @@
 #include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "monster.h"
+#include "mtype.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"

@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <fstream>
-#include <map>
 #include <stdexcept>
 
 #include "cata_utility.h"

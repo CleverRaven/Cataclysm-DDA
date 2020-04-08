@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "ballistics.h"
-#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -21,7 +20,6 @@
 #include "item_location.h"
 #include "json.h"
 #include "map_helpers.h"
-#include "material.h"
 #include "npc.h"
 #include "player.h"
 #include "point.h"

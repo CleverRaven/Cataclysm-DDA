@@ -22,7 +22,6 @@
 #include "cata_utility.h"
 #include "colony.h"
 #include "enums.h"
-#include "faction.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"

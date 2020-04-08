@@ -2,18 +2,18 @@
 #ifndef MISSION_H
 #define MISSION_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "basecamp.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "item_group.h"
-#include "mtype.h"
 #include "npc_favor.h"
 #include "omdata.h"
 #include "optional.h"

@@ -28,7 +28,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "material.h"
 #include "mattack_common.h"
 #include "melee.h"
 #include "messages.h"

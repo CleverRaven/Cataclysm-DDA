@@ -5,7 +5,6 @@
 #include <bitset>
 #include <cmath>
 #include <cstdlib>
-#include <iosfwd>
 #include <iterator>
 #include <limits>
 #include <map>
@@ -23,7 +22,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_martial_arts.h"
-#include "clzones.h"
 #include "craft_command.h"
 #include "cursesdef.h"
 #include "debug.h"

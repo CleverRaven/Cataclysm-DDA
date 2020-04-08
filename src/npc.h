@@ -30,7 +30,6 @@
 #include "item_location.h"
 #include "line.h"
 #include "lru_cache.h"
-#include "material.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "pimpl.h"

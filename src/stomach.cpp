@@ -10,7 +10,6 @@
 #include "player.h"
 #include "rng.h"
 #include "stomach.h"
-#include "string_id.h"
 #include "units.h"
 #include "vitamin.h"
 

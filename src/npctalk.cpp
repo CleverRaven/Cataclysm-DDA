@@ -47,7 +47,6 @@
 #include "map.h"
 #include "mapgen_functions.h"
 #include "martialarts.h"
-#include "material.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"

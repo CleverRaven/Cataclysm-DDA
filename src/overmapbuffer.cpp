@@ -6,7 +6,6 @@
 #include <iterator>
 #include <list>
 #include <map>
-#include <type_traits>
 
 #include "avatar.h"
 #include "basecamp.h"

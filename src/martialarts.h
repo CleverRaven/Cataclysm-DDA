@@ -2,6 +2,7 @@
 #ifndef MARTIALARTS_H
 #define MARTIALARTS_H
 
+#include <algorithm>
 #include <cstddef>
 #include <set>
 #include <string>
