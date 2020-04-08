@@ -4090,7 +4090,7 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
 int iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
     // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
-    if( !it->units_sufficient( *p ) ) {
+    if( !it->has_flag( "SOFTWARE" ) && it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( "mp3_on" ) || p->has_active_item( "smartphone_music" ) ||
                p->has_active_item( "afs_atomic_smartphone_music" ) ||
@@ -4109,7 +4109,7 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
         }
         p->mod_moves( -200 );
     }
-    return it->type->charges_to_use();
+    return it->has_flag( "SOFTWARE" ) ? 0 : it->type->charges_to_use();
 }
 
 static std::string get_music_description()
@@ -4349,6 +4349,8 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::portable_game( player *p, item *it, bool, const tripoint & )
 {
+    // TODO move out functionality to a sharable function and only do
+    // handheld game housekeeping here -- to get rid of has_flag( "SOFTWARE" ) checks
     if( p->is_npc() ) {
         // Long action
         return 0;
@@ -4364,7 +4366,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You're illiterate!" ) );
         return 0;
-    } else if( it->ammo_remaining() < 15 ) {
+    } else if( it->ammo_remaining() < 15 && !it->has_flag( "SOFTWARE" ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     } else {
@@ -4411,7 +4413,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         if( loaded_software == "null" ) {
             p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
                                 p->get_item_position( it ), "gaming" );
-            return it->type->charges_to_use();
+            return it->has_flag( "SOFTWARE" ) ? 0 : it->type->charges_to_use();
         }
         p->assign_activity( ACT_GAME, moves, -1, p->get_item_position( it ), "gaming" );
         std::map<std::string, std::string> game_data;
@@ -4436,7 +4438,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         }
 
     }
-    return it->type->charges_to_use();
+    return it->has_flag( "SOFTWARE" ) ? 0 : it->type->charges_to_use();
 }
 
 int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
@@ -6441,7 +6443,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         } else {
             it->active = false;
             it->erase_var( "EIPC_MUSIC_ON" );
-            p->add_msg_if_player( m_info, _( "Tablet's batteries are dead." ) );
+            p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         }
 
         return 0;
@@ -9860,7 +9862,8 @@ int iuse::install_software( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    if( !it->has_flag( "ACCEPTS_SOFTWARE" ) ) {
+    // no processor = not a computer or it isn't on
+    if( !it->has_quality( quality_id( "PROCESSOR" ), 0 ) ) {
         // toaster = class of all items that do not need or want software
         debugmsg( "tried to install software on a toaster" );
         return 0;

@@ -607,7 +607,7 @@
   {
     "type": "item_action",
     "id": "PLAY_GAME",
-    "name": { "str": "Play" }
+    "name": { "str": "Play game" }
   },
   {
     "type": "item_action",

@@ -274,5 +274,14 @@
     "id": "KEYBOARD",
     "name": { "str": "keyboard" },
     "//": "tool has a keyboard - required for some computer tasks"
+  },
+  {
+    "type": "tool_quality",
+    "id": "PROCESSOR",
+    "name": { "str": "processor" },
+    "//": "computers should gain this quality only when turned on. It enables install/use software at level 0",
+    "//": "higher levels represent faster processors, may be needed in advanced computing tasks",
+    "//": "0 = any basic computing device, 1 = consumer/commodity PC, 2 = professional, 3 = high-end/workstation, 4+ = server/cluster",
+    "//": "should not be placed on an item that can't do arbitrary computation *AND* install/sideload software, e.g. mp3 players, cloud devices or phones"
   }
 ]

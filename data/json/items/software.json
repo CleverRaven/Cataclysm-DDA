@@ -91,14 +91,14 @@
     "name": { "str": "usable software", "str_pl": "usable software" },
     "material": [ "plastic" ],
     "color": "dark_gray",
-    "symbol": ","
+    "symbol": "#"
   },
   {
     "id": "software_compiler_professional",
     "copy-from": "software_tool",
     "type": "TOOLMOD",
     "flags": [ "SOFTWARE" ],
-    "name": { "str": "professional compiler" },
+    "name": { "str": "developer software" },
     "description": "A suite of professional software development tools, including an IDE, compiler, build system, and an archive of useful software libraries with offline documentation.  You could install it in a computer and write some code.",
     "qualities": [ [ "SOFTWARE_COMPILER", 3 ] ]
   },
