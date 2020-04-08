@@ -2387,7 +2387,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), ( TERMX / 2 ), c_light_gray,
                         _( "Press <color_light_green>%s</color> to finish character creation "
-                        "or <color_light_green>%s</color> to go back." ),
+                           "or <color_light_green>%s</color> to go back." ),
                         ctxt.get_desc( "NEXT_TAB" ),
                         ctxt.get_desc( "PREV_TAB" ) );
         if( allow_reroll ) {
@@ -2417,7 +2417,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             fold_and_print( w_name, point( 0, 1 ), ( TERMX / 2 ), c_light_gray,
                             _( "Press <color_light_green>%s</color> to pick a random name." ),
-                           ctxt.get_desc( "PICK_RANDOM_NAME" ) );
+                            ctxt.get_desc( "PICK_RANDOM_NAME" ) );
         }
         wrefresh( w_name );
 
@@ -2431,9 +2431,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                         ctxt.get_desc( "CHANGE_GENDER" ) );
         wrefresh( w_gender );
 
-        const std::string location_prompt = string_format( _( "Press <color_light_green>%s</color> "
-                                                              "to select location." ),
-                                            ctxt.get_desc( "CHOOSE_LOCATION" ) );
+        const std::string location_prompt = string_format(
+                                                _( "Press <color_light_green>%s</color> to select location." ),
+                                                ctxt.get_desc( "CHOOSE_LOCATION" ) );
         const int prompt_offset = utf8_width( location_prompt );
         werase( w_location );
         fold_and_print( w_location, point( 0, 1 ), ( TERMX / 2 ), c_light_gray, location_prompt );
