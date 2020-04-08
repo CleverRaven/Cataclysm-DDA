@@ -417,7 +417,7 @@
     "price": 80,
     "material": "veggy",
     "volume": "400 ml",
-    "fun": -8,
+    "fun": -12,
     "flags": [ "FREEZERBURN", "RAW" ],
     "vitamins": [ [ "vitC", 41 ], [ "calcium", 6 ], [ "iron", 5 ] ]
   },
