@@ -857,7 +857,7 @@
     "id": "bootleg_grenade_act",
     "copy-from": "primitive_grenade",
     "type": "TOOL",
-    "name": { "str": "active improvised grenade" },
+    "name": { "str": "active bootleg grenade" },
     "description": "This is an active grenade, and will explode any second now.  Better throw it!",
     "price": 0,
     "initial_charges": 5,
