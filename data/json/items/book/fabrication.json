@@ -480,7 +480,7 @@
     "fun": -2
   },
   {
-    "id": "concrete_book",
+    "id": "recipe_concrete",
     "type": "BOOK",
     "name": { "str": "Concrete Constructions", "str_pl": "copies of Concrete Constructions"},
     "description": "A collection of notable uses of concrete. Contains detailed directions on how to mix and use cement to form useful aggregates.",
