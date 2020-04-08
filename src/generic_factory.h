@@ -167,9 +167,9 @@ class generic_factory
         /**
          * @param type_name A string used in debug messages as the name of `T`,
          * for example "vehicle type".
-         * @param id_member_name The name of the JSON member that contains the id of the
-         * loaded object.
-         * @param alias_member_name Alternate names of the JSON member that contains the id of the
+         * @param id_member_name The name of the JSON member that contains the id(s) of the
+         * loaded object(s).
+         * @param alias_member_name Alternate names of the JSON member that contains the id(s) of the
          * loaded object alias(es).
          */
         generic_factory( const std::string &type_name, const std::string &id_member_name = "id",
@@ -256,6 +256,21 @@ class generic_factory
                     for( const auto &e : aliases ) {
                         map[e] = ref;
                     }
+                }
+
+            } else  if( jo.has_array( id_member_name ) ) {
+                for( const auto &e : jo.get_array( id_member_name ) ) {
+                    T def;
+                    if( !handle_inheritance( def, jo, src ) ) {
+                        break;
+                    }
+                    def.id = string_id<T>( e );
+                    def.load( jo, src );
+                    insert( def );
+                }
+                if( jo.has_member( alias_member_name ) ) {
+                    jo.throw_error( string_format( "can not specify '%s' when '%s' is array",
+                                                   alias_member_name, id_member_name ) );
                 }
 
             } else if( !jo.has_string( abstract_member_name ) ) {
