@@ -319,11 +319,11 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( isWide ) {
             if( !filterstring.empty() ) {
                 fold_and_print( w_data, point( 5, dataLines + 1 ), 0, c_white,
-                                 _( "Press [<color_yellow>ENTER</color>] to attempt to craft object.  "
-                                    "D[<color_yellow>e</color>]scribe, [<color_yellow>F</color>]ind, "
-                                    "[<color_red>R</color>]eset, [<color_yellow>m</color>]ode, "
-                                    "[<color_yellow>s</color>]how/hide, Re[<color_yellow>L</color>]ated, "
-                                    "[<color_yellow>*</color>]Favorite, %s, [<color_yellow>?</color>]keybindings" ),
+                                _( "Press [<color_yellow>ENTER</color>] to attempt to craft object.  "
+                                   "D[<color_yellow>e</color>]scribe, [<color_yellow>F</color>]ind, "
+                                   "[<color_red>R</color>]eset, [<color_yellow>m</color>]ode, "
+                                   "[<color_yellow>s</color>]how/hide, Re[<color_yellow>L</color>]ated, "
+                                   "[<color_yellow>*</color>]Favorite, %s, [<color_yellow>?</color>]keybindings" ),
                                 ( batch ) ? _( "<color_red>cancel</color> "
                                                "[<color_yellow>b</color>]atch" ) : _( "[<color_yellow>b</color>]atch" ) );
             } else {
