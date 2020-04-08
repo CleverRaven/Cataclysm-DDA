@@ -236,6 +236,8 @@ class generic_factory
         void load( const JsonObject &jo, const std::string &src ) {
             bool strict = src == "dda";
 
+            static const std::string abstract_member_name( "abstract" );
+
             T def;
 
             if( !handle_inheritance( def, jo, src ) ) {
@@ -256,8 +258,9 @@ class generic_factory
                     }
                 }
 
-            } else if( !jo.has_string( "abstract" ) ) {
-                jo.throw_error( "must specify either id or abstract" );
+            } else if( !jo.has_string( abstract_member_name ) ) {
+                jo.throw_error( string_format( "must specify either '%s' or '%s'",
+                                               abstract_member_name, id_member_name ) );
             }
         }
         /**
