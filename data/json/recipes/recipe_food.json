@@ -1294,11 +1294,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [
-      [ [ "kernels", 1 ] ],
-      [ [ "ghee", 1 ] ],
-      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
-    ]
+    "components": [ [ [ "kernels", 1 ] ], [ [ "ghee", 1 ] ], [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
   },
   {
     "type": "recipe",
