@@ -94,6 +94,7 @@ enum target_mode : int;
 struct special_game;
 
 using itype_id = std::string;
+class achievements_tracker;
 class avatar;
 class event_bus;
 class kill_tracker;
@@ -926,6 +927,7 @@ class game
         pimpl<timed_event_manager> timed_event_manager_ptr;
         pimpl<event_bus> event_bus_ptr;
         pimpl<stats_tracker> stats_tracker_ptr;
+        pimpl<achievements_tracker> achievements_tracker_ptr;
         pimpl<kill_tracker> kill_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;

@@ -604,6 +604,8 @@ void event_statistic::load( const JsonObject &jo, const std::string & )
     std::string type;
     mandatory( jo, was_loaded, "stat_type", type );
 
+    optional( jo, was_loaded, "description", description_ );
+
     if( type == "count" ) {
         impl_ = std::make_unique<event_statistic_count>( id, event_source( jo ) );
     } else if( type == "total" ) {

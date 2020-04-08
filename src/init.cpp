@@ -11,6 +11,7 @@
 #include <memory>
 #include <stdexcept>
 
+#include "achievement.h"
 #include "activity_type.h"
 #include "ammo.h"
 #include "anatomy.h"
@@ -392,6 +393,7 @@ void DynamicDataLoader::initialize()
     add( "event_transformation", &event_transformation::load_transformation );
     add( "event_statistic", &event_statistic::load_statistic );
     add( "score", &score::load_score );
+    add( "achievement", &achievement::load_achievement );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -540,6 +542,7 @@ void DynamicDataLoader::unload_data()
     event_transformation::reset();
     event_statistic::reset();
     score::reset();
+    achievement::reset();
     scent_type::reset();
 
     // TODO:
@@ -700,6 +703,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },
             { _( "Scores" ), &score::check_consistency },
+            { _( "Achivements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
         }

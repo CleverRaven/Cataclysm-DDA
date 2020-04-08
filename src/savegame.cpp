@@ -11,6 +11,7 @@
 #include <utility>
 #include <unordered_map>
 
+#include "achievement.h"
 #include "avatar.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
@@ -101,6 +102,7 @@ void game::serialize( std::ostream &fout )
     // save stats.
     json.member( "kill_tracker", *kill_tracker_ptr );
     json.member( "stats_tracker", *stats_tracker_ptr );
+    json.member( "achievements_tracker", *achievements_tracker_ptr );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -234,6 +236,7 @@ void game::unserialize( std::istream &fin )
 
         data.read( "player", u );
         data.read( "stats_tracker", *stats_tracker_ptr );
+        data.read( "achievements_tracker", *achievements_tracker_ptr );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {

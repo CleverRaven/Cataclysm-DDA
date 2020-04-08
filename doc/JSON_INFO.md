@@ -1178,6 +1178,11 @@ given field for that unique event:
 "field": "avatar_id"
 ```
 
+Regardless of `stat_type`, each `event_statistic` can also have:
+```C++
+"description": "Number of things" // Intended for use in describing achievement requirements.
+```
+
 #### `score`
 
 Scores simply associate a description to an event for formatting in tabulations
