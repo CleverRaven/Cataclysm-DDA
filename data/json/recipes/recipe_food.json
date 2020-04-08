@@ -6470,7 +6470,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "30 m",
-    "charges": 12,
+    "charges": 8,
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
