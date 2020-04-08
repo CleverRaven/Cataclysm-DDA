@@ -3218,7 +3218,7 @@
     "difficulty": 3,
     "time": "1 h",
     "batch_time_factors": [ 75, 4 ],
-    "autolearn": true,
+    "autolearn": false,
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_limestone", 50 ] ] ]
   },
