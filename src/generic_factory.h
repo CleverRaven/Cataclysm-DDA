@@ -45,7 +45,7 @@ can be by it to implement its interface.
 
   `T::load` should load all the members of `T`, except `id` and `was_loaded` (they are
   set by the `generic_factory` before calling `load`). Failures should be reported by
-  trowing an exception (e.g. via `JsonObject::throw_error`).
+  throwing an exception (e.g. via `JsonObject::throw_error`).
 
 ----
 
