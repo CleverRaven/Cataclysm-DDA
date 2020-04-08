@@ -3,14 +3,15 @@
 #include <vector>
 
 #include "avatar.h"
-#include "calendar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "options_helpers.h"
-#include "recipe_dictionary.h"
+#include "recipe.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 static void test_info_equals( const item &i, const iteminfo_query &q,
                               const std::string &reference )

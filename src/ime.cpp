@@ -1,13 +1,9 @@
 #include "ime.h"
 
-#include "options.h"
-#include "platform_win.h"
-#include "sdltiles.h"
-
 #ifdef _WIN32
 
-#include <windows.h>
 #include <imm.h>
+#include <windows.h>
 
 class imm_wrapper
 {

@@ -1,52 +1,56 @@
 #include "game_inventory.h"
 
-#include <cmath>
+#include <algorithm>
+#include <bitset>
 #include <climits>
 #include <cstddef>
 #include <functional>
-#include <bitset>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 #include "avatar.h"
-#include "game.h"
 #include "bionics.h"
-#include "inventory_ui.h"
-#include "item.h"
-#include "itype.h"
-#include "iuse_actor.h"
-#include "map.h"
-#include "options.h"
-#include "output.h"
-#include "player.h"
-#include "recipe_dictionary.h"
-#include "skill.h"
-#include "string_formatter.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "color.h"
 #include "compatibility.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "game.h"
 #include "input.h"
 #include "inventory.h"
+#include "inventory_ui.h"
+#include "item.h"
 #include "item_location.h"
+#include "itype.h"
 #include "iuse.h"
+#include "iuse_actor.h"
+#include "map.h"
 #include "optional.h"
+#include "options.h"
+#include "output.h"
+#include "player.h"
 #include "player_activity.h"
+#include "point.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "skill.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "type_id.h"
-#include "point.h"
+#include "value_ptr.h"
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -78,8 +82,6 @@ static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
 static const std::string flag_NO_PACKED( "NO_PACKED" );
 static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
-
-class Character;
 
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;

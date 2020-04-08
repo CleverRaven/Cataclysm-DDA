@@ -2,24 +2,22 @@
 #define RANGED_H
 
 #include <vector>
+
+#include "memory_fast.h"
 #include "type_id.h"
 #include "units.h"
-#include "memory_fast.h"
 
+class JsonIn;
+class JsonOut;
 class item;
 class player;
-class avatar;
 class spell;
 class turret_data;
 class vehicle;
 struct itype;
 struct tripoint;
 struct vehicle_part;
-
 template<typename T> struct enum_traits;
-
-class JsonIn;
-class JsonOut;
 
 enum target_mode : int {
     TARGET_MODE_FIRE,

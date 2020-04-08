@@ -1,10 +1,14 @@
+#include <memory>
+#include <set>
+
+#include "calendar.h"
 #include "catch/catch.hpp"
-#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "submap.h"
+#include "point.h"
 
 TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
 {

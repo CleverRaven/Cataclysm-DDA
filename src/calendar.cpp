@@ -1,9 +1,11 @@
 #include "calendar.h"
 
+#include <assert.h>
+#include <stddef.h>
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <limits>
-#include <algorithm>
 
 #include "debug.h"
 #include "options.h"

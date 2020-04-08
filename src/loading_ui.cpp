@@ -1,12 +1,12 @@
 #include "loading_ui.h"
 
 #include <memory>
+#include <vector>
 
 #include "color.h"
 #include "output.h"
-#include "ui.h"
-#include "cursesdef.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 #if defined(TILES)

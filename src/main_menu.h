@@ -8,6 +8,7 @@
 
 #include "cursesdef.h"
 #include "input.h"
+#include "point.h"
 #include "worldfactory.h"
 
 class main_menu

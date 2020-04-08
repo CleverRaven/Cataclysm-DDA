@@ -1,11 +1,12 @@
 #include "emit.h"
 
-#include <map>
 #include <algorithm>
+#include <map>
 #include <utility>
 
 #include "debug.h"
 #include "json.h"
+#include "string_id.h"
 
 static std::map<emit_id, emit> emits_all;
 

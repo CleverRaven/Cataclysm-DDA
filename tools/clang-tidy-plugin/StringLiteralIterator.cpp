@@ -1,7 +1,15 @@
 #include "StringLiteralIterator.h"
 
+#include <clang/AST/Expr.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <algorithm>
+
 namespace clang
 {
+class LangOptions;
+class SourceManager;
+
 namespace tidy
 {
 namespace cata

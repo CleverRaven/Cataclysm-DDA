@@ -1,23 +1,25 @@
 #include "iuse_software_minesweeper.h"
 
-#include <string>
-#include <vector>
+#include <algorithm>
 #include <array>
 #include <functional>
+#include <string>
+#include <vector>
 
 #include "catacharset.h"
+#include "color.h"
+#include "compatibility.h"
+#include "cursesdef.h"
 #include "input.h"
+#include "optional.h"
 #include "output.h"
+#include "point.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "compatibility.h"
-#include "cursesdef.h"
-#include "optional.h"
-#include "point.h"
 
 minesweeper_game::minesweeper_game()
 {

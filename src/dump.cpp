@@ -1,35 +1,37 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+#include <exception>
 #include <iostream>
 #include <iterator>
-#include <exception>
 #include <set>
 #include <utility>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "damage.h"
+#include "flat_set.h"
 #include "init.h"
+#include "item.h"
 #include "item_factory.h"
+#include "itype.h"
 #include "loading_ui.h"
+#include "material.h"
 #include "npc.h"
+#include "output.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
+#include "ret_val.h"
 #include "skill.h"
+#include "stomach.h"
+#include "translations.h"
+#include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
-#include "bodypart.h"
-#include "damage.h"
-#include "itype.h"
-#include "recipe.h"
-#include "ret_val.h"
-#include "translations.h"
-#include "units.h"
-#include "material.h"
-#include "output.h"
-#include "flat_set.h"
-#include "item.h"
 
 static const std::string flag_VARSIZE( "VARSIZE" );
 

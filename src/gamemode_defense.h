@@ -2,12 +2,15 @@
 #ifndef GAMEMODE_DEFENSE_H
 #define GAMEMODE_DEFENSE_H
 
+#include <string>
 #include <vector>
 
-#include "gamemode.h"
 #include "calendar.h"
-#include "point.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "gamemode.h"
 #include "omdata.h"
+#include "point.h"
 #include "type_id.h"
 
 enum action_id : int;

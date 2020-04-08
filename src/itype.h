@@ -2,11 +2,12 @@
 #ifndef ITYPE_H
 #define ITYPE_H
 
+#include <array>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <vector>
-#include <array>
 
 #include "bodypart.h" // body_part::num_bp
 #include "calendar.h"
@@ -25,12 +26,11 @@
 #include "units.h"
 #include "value_ptr.h"
 
-// see item.h
-class item_category;
 class Item_factory;
-class player;
 class item;
+class player;
 struct tripoint;
+template <typename E> struct enum_traits;
 
 enum art_effect_active : int;
 enum art_charge : int;

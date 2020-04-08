@@ -13,15 +13,14 @@
 #endif // _GLIBCXX_DEBUG
 
 #define CATCH_CONFIG_RUNNER
+#include <algorithm>
 #include <cassert>
+#include <chrono>
 #include <cstdio>
 #include <cstdlib>
-#include <algorithm>
 #include <cstring>
-#include <chrono>
 #include <ctime>
 #include <exception>
-#include <map>
 #include <memory>
 #include <ostream>
 #include <string>
@@ -29,24 +28,26 @@
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "catch/catch.hpp"
+#include "color.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
 #include "loading_ui.h"
 #include "map.h"
+#include "options.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "worldfactory.h"
-#include "color.h"
-#include "options.h"
-#include "output.h"
 #include "pldata.h"
+#include "point.h"
 #include "rng.h"
 #include "type_id.h"
-#include "cata_utility.h"
-#include "calendar.h"
+#include "weather.h"
+#include "worldfactory.h"
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;

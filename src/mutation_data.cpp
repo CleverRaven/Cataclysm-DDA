@@ -1,20 +1,21 @@
 #include "mutation.h" // IWYU pragma: associated
 
+#include <array>
 #include <map>
 #include <memory>
 #include <set>
-#include <vector>
-#include <array>
 #include <stdexcept>
+#include <vector>
 
 #include "bodypart.h"
 #include "color.h"
 #include "debug.h"
-#include "json.h"
-#include "trait_group.h"
-#include "string_formatter.h"
-#include "translations.h"
 #include "generic_factory.h"
+#include "json.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "trait_group.h"
+#include "translations.h"
 
 using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;

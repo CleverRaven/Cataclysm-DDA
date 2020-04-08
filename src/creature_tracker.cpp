@@ -1,5 +1,6 @@
 #include "creature_tracker.h"
 
+#include <assert.h>
 #include <algorithm>
 #include <ostream>
 #include <string>
