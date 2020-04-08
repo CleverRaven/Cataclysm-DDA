@@ -395,7 +395,6 @@
     "description": "This is a dull, cheaply made replica of an ancient Chinese doubled-edged straight sword, with an ornate guard.",
     "price": 10000,
     "price_postapoc": 500,
-    "price_postapoc": 0,
     "material": "aluminum",
     "flags": [ "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2" ],
