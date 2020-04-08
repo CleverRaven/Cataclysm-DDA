@@ -1,8 +1,8 @@
 #include "crafting_gui.h"
 
-#include <string.h>
 #include <algorithm>
 #include <cstddef>
+#include <cstring>
 #include <iterator>
 #include <map>
 #include <memory>

@@ -1,8 +1,8 @@
 #include "translations.h"
 
-#include <stdlib.h>
 #include <array>
 #include <clocale>
+#include <cstdlib>
 #include <functional>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)

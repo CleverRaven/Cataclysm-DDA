@@ -1,6 +1,6 @@
 #include "stats_tracker.h"
 
-#include <assert.h>
+#include <cassert>
 #include <map>
 #include <utility>
 

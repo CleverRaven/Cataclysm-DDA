@@ -2,12 +2,12 @@
 #include "vpart_position.h" // IWYU pragma: associated
 #include "vpart_range.h" // IWYU pragma: associated
 
-#include <stdint.h>
 #include <algorithm>
 #include <array>
 #include <cassert>
 #include <cmath>
 #include <complex>
+#include <cstdint>
 #include <cstdlib>
 #include <list>
 #include <memory>

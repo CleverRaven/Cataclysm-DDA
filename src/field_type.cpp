@@ -1,6 +1,6 @@
 #include "field_type.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "bodypart.h"
 #include "debug.h"

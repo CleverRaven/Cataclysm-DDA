@@ -2,7 +2,7 @@
 #ifndef AMMO_EFFECT_H
 #define AMMO_EFFECT_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 #include <vector>
 

@@ -1,7 +1,7 @@
 #include "condition.h"
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <memory>

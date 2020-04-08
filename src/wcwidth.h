@@ -2,7 +2,7 @@
 #ifndef WCWIDTH_H
 #define WCWIDTH_H
 
-#include <stdint.h>
+#include <cstdint>
 
 /* Get character width in columns.  See wcwidth.cpp for details.
  */

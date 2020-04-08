@@ -2,8 +2,8 @@
 #ifndef ADVANCED_INV_PANE_H
 #define ADVANCED_INV_PANE_H
 
-#include <stddef.h>
 #include <array>
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <string>

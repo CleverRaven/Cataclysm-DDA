@@ -1,6 +1,6 @@
 #include "UseNamedPointConstantsCheck.h"
 
-#include <assert.h>
+#include <cassert>
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclCXX.h>
 #include <clang/AST/Expr.h>

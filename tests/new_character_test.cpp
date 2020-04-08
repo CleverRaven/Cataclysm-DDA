@@ -1,5 +1,5 @@
-#include <stddef.h>
 #include <array>
+#include <cstddef>
 #include <functional>
 #include <list>
 #include <memory>

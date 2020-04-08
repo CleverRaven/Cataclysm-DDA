@@ -1,6 +1,6 @@
 #include "player_helpers.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <list>
 #include <memory>
 #include <vector>

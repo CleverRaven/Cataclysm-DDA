@@ -2,10 +2,10 @@
 #ifndef JSON_H
 #define JSON_H
 
-#include <stdint.h>
 #include <array>
 #include <bitset>
 #include <cstddef>
+#include <cstdint>
 #include <iostream>
 #include <map>
 #include <set>

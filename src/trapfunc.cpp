@@ -1,7 +1,7 @@
 #include "trap.h" // IWYU pragma: associated
 
-#include <assert.h>
 #include <algorithm>
+#include <cassert>
 #include <memory>
 #include <unordered_map>
 #include <utility>

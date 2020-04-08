@@ -1,6 +1,6 @@
 #include "itype.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <utility>
 
 #include "debug.h"

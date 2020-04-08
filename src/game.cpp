@@ -1,12 +1,12 @@
 #include "game.h"
 
-#include <stdint.h>
 #include <algorithm>
 #include <bitset>
 #include <cassert>
 #include <chrono>
 #include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>

@@ -5,13 +5,13 @@
 #include "npc_favor.h" // IWYU pragma: associated
 #include "pldata.h" // IWYU pragma: associated
 
-#include <stdint.h>
-#include <stdlib.h>
 #include <algorithm>
 #include <array>
 #include <bitset>
 #include <climits>
 #include <cstddef>
+#include <cstdint>
+#include <cstdlib>
 #include <iterator>
 #include <limits>
 #include <list>

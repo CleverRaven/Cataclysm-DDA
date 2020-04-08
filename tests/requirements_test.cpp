@@ -1,7 +1,7 @@
 #include "requirements.h"
 
-#include <stddef.h>
 #include <algorithm>
+#include <cstddef>
 #include <memory>
 
 #include "catch/catch.hpp"

@@ -2,9 +2,9 @@
 #ifndef CATA_EVENT_H
 #define CATA_EVENT_H
 
-#include <stdlib.h>
 #include <array>
 #include <cstddef>
+#include <cstdlib>
 #include <functional>
 #include <map>
 #include <string>

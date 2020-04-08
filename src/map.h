@@ -2,9 +2,9 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include <limits.h>
 #include <array>
 #include <bitset>
+#include <climits>
 #include <cstddef>
 #include <cstdint>
 #include <functional>

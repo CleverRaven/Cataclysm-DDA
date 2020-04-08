@@ -1,6 +1,6 @@
 #include "teleport.h"
 
-#include <math.h>
+#include <cmath>
 #include <memory>
 
 #include "avatar.h"

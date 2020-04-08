@@ -1,7 +1,7 @@
 #include "requirements.h"
 
-#include <assert.h>
 #include <algorithm>
+#include <cassert>
 #include <climits>
 #include <cstdlib>
 #include <iterator>

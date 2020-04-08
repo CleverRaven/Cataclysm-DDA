@@ -1,10 +1,10 @@
 #include "main_menu.h"
 
-#include <stdint.h>
-#include <string.h>
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <cstdio>
+#include <cstring>
 #include <exception>
 #include <functional>
 #include <istream>

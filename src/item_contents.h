@@ -2,7 +2,7 @@
 #ifndef ITEM_CONTENTS_H
 #define ITEM_CONTENTS_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <list>
 #include <set>

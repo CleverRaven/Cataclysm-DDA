@@ -1,5 +1,6 @@
 #include "UsePointApisCheck.h"
 
+#include <algorithm>
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/Decl.h>
 #include <clang/AST/DeclBase.h>
@@ -15,10 +16,9 @@
 #include <clang/Basic/LLVM.h>
 #include <clang/Basic/SourceLocation.h>
 #include <clang/Lex/Lexer.h>
-#include <limits.h>
+#include <climits>
 #include <llvm/ADT/Twine.h>
 #include <llvm/Support/Casting.h>
-#include <algorithm>
 #include <string>
 
 #include "Utils.h"

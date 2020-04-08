@@ -2,10 +2,10 @@
 #ifndef UNITS_H
 #define UNITS_H
 
-#include <ctype.h>
-#include <stdint.h>
 #include <algorithm>
+#include <cctype>
 #include <cstddef>
+#include <cstdint>
 #include <limits>
 #include <map>
 #include <ostream>

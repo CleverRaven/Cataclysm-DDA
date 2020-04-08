@@ -1,7 +1,7 @@
 #include "mapdata.h"
 
-#include <stdlib.h>
 #include <algorithm>
+#include <cstdlib>
 #include <iterator>
 #include <map>
 #include <memory>

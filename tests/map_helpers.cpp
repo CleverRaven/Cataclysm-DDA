@@ -1,6 +1,6 @@
 #include "map_helpers.h"
 
-#include <assert.h>
+#include <cassert>
 #include <memory>
 #include <string>
 #include <utility>

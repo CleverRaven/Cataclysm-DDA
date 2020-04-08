@@ -10,7 +10,7 @@
 #include <clang/Basic/Diagnostic.h>
 #include <clang/Basic/SourceLocation.h>
 #include <clang/Basic/SourceManager.h>
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 
 #include "../../src/text_style_check.h"

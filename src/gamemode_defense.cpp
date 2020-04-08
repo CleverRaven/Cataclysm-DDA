@@ -1,7 +1,7 @@
 #include "gamemode_defense.h" // IWYU pragma: associated
 
-#include <assert.h>
-#include <stddef.h>
+#include <cassert>
+#include <cstddef>
 #include <memory>
 #include <ostream>
 #include <set>

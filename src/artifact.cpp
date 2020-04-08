@@ -1,8 +1,8 @@
 #include "artifact.h"
 
-#include <stdint.h>
 #include <algorithm>
 #include <array>
+#include <cstdint>
 #include <cstdlib>
 #include <iosfwd>
 #include <map>

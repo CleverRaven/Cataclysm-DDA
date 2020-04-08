@@ -1,7 +1,7 @@
 #include "mission.h"
 
-#include <stdlib.h>
 #include <algorithm>
+#include <cstdlib>
 #include <iosfwd>
 #include <istream>
 #include <iterator>

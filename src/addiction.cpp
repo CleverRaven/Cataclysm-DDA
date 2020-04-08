@@ -1,7 +1,7 @@
 #include "addiction.h"
 
-#include <stdlib.h>
 #include <algorithm>
+#include <cstdlib>
 #include <map>
 #include <utility>
 

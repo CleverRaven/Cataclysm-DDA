@@ -1,9 +1,9 @@
 #include "StringLiteralIterator.h"
 
-#include <clang/AST/Expr.h>
-#include <stddef.h>
-#include <stdint.h>
 #include <algorithm>
+#include <clang/AST/Expr.h>
+#include <cstddef>
+#include <cstdint>
 
 namespace clang
 {

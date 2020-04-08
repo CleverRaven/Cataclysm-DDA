@@ -1,5 +1,5 @@
-#include <math.h>
 #include <algorithm>
+#include <cmath>
 #include <string>
 #include <utility>
 

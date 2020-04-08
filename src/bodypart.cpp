@@ -1,6 +1,6 @@
 #include "bodypart.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <set>
 #include <unordered_map>
 #include <utility>

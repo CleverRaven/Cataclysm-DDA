@@ -1,8 +1,8 @@
 #include "mutation.h"
 
-#include <stdlib.h>
 #include <algorithm>
 #include <cstddef>
+#include <cstdlib>
 #include <memory>
 #include <unordered_set>
 

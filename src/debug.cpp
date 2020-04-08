@@ -1,10 +1,9 @@
 #include "debug.h"
 
-#include <errno.h>
-#include <sys/stat.h>
 #include <algorithm>
 #include <cassert>
 #include <cctype>
+#include <cerrno>
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
@@ -19,6 +18,7 @@
 #include <memory>
 #include <set>
 #include <sstream>
+#include <sys/stat.h>
 #include <type_traits>
 #include <utility>
 #include <vector>

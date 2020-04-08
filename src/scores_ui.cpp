@@ -1,6 +1,6 @@
 #include "scores_ui.h"
 
-#include <assert.h>
+#include <cassert>
 #include <string>
 #include <utility>
 #include <vector>

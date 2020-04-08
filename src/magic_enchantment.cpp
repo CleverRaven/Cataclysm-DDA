@@ -1,6 +1,6 @@
 #include "magic_enchantment.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <memory>
 #include <set>
 

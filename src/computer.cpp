@@ -1,7 +1,7 @@
 #include "computer.h"
 
-#include <stdlib.h>
 #include <algorithm>
+#include <cstdlib>
 #include <locale>
 #include <sstream>
 

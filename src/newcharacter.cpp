@@ -1,8 +1,8 @@
 #include "avatar.h" // IWYU pragma: associated
 
-#include <limits.h>
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <cstdlib>
 #include <functional>
 #include <iosfwd>

@@ -1,9 +1,9 @@
 #include "activity_handlers.h" // IWYU pragma: associated
 
-#include <assert.h>
-#include <stdlib.h>
 #include <algorithm>
+#include <cassert>
 #include <cmath>
+#include <cstdlib>
 #include <iterator>
 #include <list>
 #include <memory>
