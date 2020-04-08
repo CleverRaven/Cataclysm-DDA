@@ -173,7 +173,7 @@ class generic_factory
          * loaded object.
          */
         generic_factory( const std::string &type_name, const std::string &id_member_name = "id",
-                         const std::string &alias_member_name = "" )
+                         const std::string &alias_member_name = "alias" )
             : type_name( type_name ),
               id_member_name( id_member_name ),
               alias_member_name( alias_member_name ),
@@ -244,7 +244,7 @@ class generic_factory
                 def.load( jo, src );
                 insert( def );
 
-                if( !alias_member_name.empty() && jo.has_member( alias_member_name ) ) {
+                if( jo.has_member( alias_member_name ) ) {
                     std::set<string_id<T>> aliases;
                     assign( jo, alias_member_name, aliases, strict );
 
