@@ -481,7 +481,6 @@
       { "item": "textbook_armschina", "prob": 15 },
       { "item": "textbook_gaswarfare", "prob": 15 },
       { "item": "glassblowing_book", "prob": 12 },
-      { "item": "concrete_book", "prob": 12 },
       { "item": "cookbook_human", "prob": 10 },
       { "item": "collector_book", "prob": 10 },
       { "item": "brewing_cookbook", "prob": 24 },
