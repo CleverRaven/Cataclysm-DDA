@@ -1767,6 +1767,10 @@ class item : public visitable<item>
         item *gunmod_find( const itype_id &mod );
         const item *gunmod_find( const itype_id &mod ) const;
 
+        /** Get first attached toolmod matching type or nullptr if no such mod */
+        item *toolmod_find( const itype_id &mod );
+        const item *toolmod_find( const itype_id &mod ) const;
+
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
          * @param msg message describing reason for any incompatibility

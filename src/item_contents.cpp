@@ -160,6 +160,28 @@ std::vector<const item *> item_contents::gunmods() const
     return res;
 }
 
+std::vector<item *> item_contents::toolmods()
+{
+    std::vector<item *> res;
+    for( item &e : items ) {
+        if( e.is_toolmod() ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
+std::vector<const item *> item_contents::toolmods() const
+{
+    std::vector<const item *> res;
+    for( const item &e : items ) {
+        if( e.is_toolmod() ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
 item &item_contents::front()
 {
     return items.front();

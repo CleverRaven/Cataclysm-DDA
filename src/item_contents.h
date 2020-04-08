@@ -34,6 +34,11 @@ class item_contents
         /** gets all gunmods in the item */
         std::vector<const item *> gunmods() const;
 
+        /** gets all toolmods in the item */
+        std::vector<item *> toolmods();
+        /** gets all toolmods in the item */
+        std::vector<const item *> toolmods() const;
+
         /**
          * this is an artifact of the previous code using
          * front() everywhere for contents. this is to aid

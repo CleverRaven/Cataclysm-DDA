@@ -7165,6 +7165,20 @@ const item *item::gunmod_find( const itype_id &mod ) const
     return const_cast<item *>( this )->gunmod_find( mod );
 }
 
+item *item::toolmod_find( const itype_id &mod )
+{
+    std::vector<item *> mods = toolmods();
+    auto it = std::find_if( mods.begin(), mods.end(), [&mod]( item * e ) {
+        return e->typeId() == mod;
+    } );
+    return it != mods.end() ? *it : nullptr;
+}
+
+const item *item::toolmod_find( const itype_id &mod ) const
+{
+    return const_cast<item *>( this )->toolmod_find( mod );
+}
+
 ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
 {
     if( !mod.is_gunmod() ) {
