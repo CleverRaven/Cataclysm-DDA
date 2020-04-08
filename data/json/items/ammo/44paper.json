@@ -7,7 +7,7 @@
     "weight": "7 g",
     "volume": "250 ml",
     "price": 350,
-    "price_postapoc": 5000,
+    "price_postapoc": 1000,
     "material": [ "paper", "powder", "lead" ],
     "symbol": "=",
     "color": "white",
