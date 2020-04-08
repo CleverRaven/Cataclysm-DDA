@@ -3535,22 +3535,21 @@ template<typename Iter, typename Func>
 void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY category,
                              const std::string &prefix )
 {
-    int missing = 0;
-    int present = 0;
     std::string missing_list;
+    std::string missing_with_looks_like_list;
     for( ; begin != end; ++begin ) {
         const std::string id_string = id_func( begin );
 
         std::string mutable_id_string = id_string;
 
         if( !tileset_ptr->find_tile_type( prefix + id_string ) && !find_tile_looks_like( mutable_id_string, category) ) {
-            missing++;
             missing_list.append( id_string + " " );
-        } else {
-            present++;
+        } else if( !tileset_ptr->find_tile_type( prefix + id_string ) ) {
+            missing_with_looks_like_list.append( id_string + " " );
         }
     }
     DebugLog( D_INFO, DC_ALL ) << "Missing " << TILE_CATEGORY_IDS[category] << ": " << missing_list;
+    DebugLog( D_INFO, DC_ALL ) << "Missing " << TILE_CATEGORY_IDS[category] << " (but looks_like tile exists): " << missing_with_looks_like_list;
 }
 
 template <typename maptype>
