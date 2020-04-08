@@ -647,6 +647,8 @@
         "urban_2_house": 50,
         "urban_3_house": 50,
         "urban_4_house_basement": 50,
+        "urban_5_house": 50,
+        "urban_6_house": 50,
         "emptyresidentiallot": 20,
         "house_vacant": 20,
         "house_vacant2": 20,
