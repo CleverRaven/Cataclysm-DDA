@@ -76,6 +76,8 @@ class scenario
         start_location_id start_location() const;
         start_location_id random_start_location() const;
         std::string start_name() const;
+        int start_location_count() const;
+        int start_location_targets_count() const;
 
         const profession *weighted_random_profession() const;
         std::vector<string_id<profession>> permitted_professions() const;

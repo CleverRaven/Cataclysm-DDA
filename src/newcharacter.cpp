@@ -2067,7 +2067,11 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
         mvwprintz( w_location, point_zero, COL_HEADER, _( "Scenario Location:" ) );
         wprintz( w_location, c_light_gray, ( "\n" ) );
-        wprintz( w_location, c_light_gray, sorted_scens[cur_id]->start_name() );
+        wprintz( w_location, c_light_gray,
+                 string_format( _( "%s (%d locations, %d variants)" ),
+                                sorted_scens[cur_id]->start_name(),
+                                sorted_scens[cur_id]->start_location_count(),
+                                sorted_scens[cur_id]->start_location_targets_count() ) );
 
         mvwprintz( w_flags, point_zero, COL_HEADER, _( "Scenario Flags:" ) );
         wprintz( w_flags, c_light_gray, ( "\n" ) );
@@ -2215,9 +2219,10 @@ tab_direction set_scenario( avatar &u, points_left &points,
 tab_direction set_description( avatar &you, const bool allow_reroll,
                                points_left &points )
 {
-
     static constexpr int RANDOM_START_LOC_ENTRY = INT_MIN;
-    const std::string RANDOM_START_LOC_TEXT = _( "* Random location *" );
+    const std::string RANDOM_START_LOC_TEXT_TEMPLATE =
+        _( "<color_red>* Random location *</color> (<color_white>%d</color> variants)" );
+    const std::string START_LOC_TEXT_TEMPLATE = _( "%s (<color_white>%d</color> variants)" );
 
     ui_adaptor ui;
     catacurses::window w;
@@ -2266,12 +2271,15 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     uilist select_location;
     select_location.text = _( "Select a starting location." );
     int offset = 1;
-    uilist_entry entry_random_start_location( RANDOM_START_LOC_ENTRY, true, -1, RANDOM_START_LOC_TEXT );
-    entry_random_start_location.text_color = c_red;
+    const std::string random_start_location_text = string_format( RANDOM_START_LOC_TEXT_TEMPLATE,
+            g->scen->start_location_targets_count() );
+    uilist_entry entry_random_start_location( RANDOM_START_LOC_ENTRY, true, -1,
+            random_start_location_text );
     select_location.entries.emplace_back( entry_random_start_location );
     for( const auto &loc : start_locations::get_all() ) {
         if( g->scen->allowed_start( loc.id ) ) {
-            uilist_entry entry( loc.id.get_cid().to_i(), true, -1, loc.name() );
+            uilist_entry entry( loc.id.get_cid().to_i(), true, -1,
+                                string_format( START_LOC_TEXT_TEMPLATE, loc.name(), loc.targets_count() ) );
 
             select_location.entries.emplace_back( entry );
 
@@ -2441,7 +2449,10 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, point( prompt_offset + utf8_width( _( "Starting location:" ) ) - 9, 0 ),
                    you.random_start_location ? c_red : c_light_green,
-                   you.random_start_location ? RANDOM_START_LOC_TEXT : you.start_location.obj().name() );
+                   you.random_start_location ? remove_color_tags( random_start_location_text ) :
+                   string_format( remove_color_tags( START_LOC_TEXT_TEMPLATE ),
+                                  you.start_location.obj().name(),
+                                  you.start_location.obj().targets_count() ) );
         wrefresh( w_location );
 
         werase( w_scenario );
@@ -2515,7 +2526,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             select_location.query();
             if( select_location.ret == RANDOM_START_LOC_ENTRY ) {
                 you.random_start_location = true;
-            } else if( select_location.ret >= 1 ) {
+            } else if( select_location.ret >= 0 ) {
                 for( const auto &loc : start_locations::get_all() ) {
                     if( loc.id.get_cid().to_i() == select_location.ret ) {
                         you.random_start_location = false;

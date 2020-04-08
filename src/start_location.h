@@ -26,6 +26,7 @@ class start_location
         void check() const;
 
         std::string name() const;
+        int targets_count() const;
         std::pair<std::string, ot_match_type> random_target() const;
         const std::set<std::string> &flags() const;
 
