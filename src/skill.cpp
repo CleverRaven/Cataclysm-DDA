@@ -197,28 +197,52 @@ bool Skill::is_contextual_skill() const
     return _tags.count( contextual_skill ) > 0;
 }
 
-void SkillLevel::train( int amount, bool skip_scaling )
+void SkillLevel::train( int amount, skill_exercise_type type, bool skip_scaling )
 {
     // Working off rust to regain levels goes twice as fast as reaching levels in the first place
     if( _level < _highestLevel ) {
         amount *= 2;
     }
 
-    if( skip_scaling ) {
-        _exercise += amount;
-    } else {
+    int gained = amount;
+
+    if( !skip_scaling ) {
         const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
         if( scaling > 0.0 ) {
-            _exercise += roll_remainder( amount * scaling );
+            gained = roll_remainder( amount * scaling );
         }
     }
 
-    if( _exercise >= 100 * ( _level + 1 ) * ( _level + 1 ) ) {
-        _exercise = 0;
+    if( type == PRACTICE ) {
+        _practice += gained;
+    } else {
+        _knowledge += gained;
+    }
+
+    if( _knowledge + _practice >= 100 * ( _level + 1 ) * ( _level + 1 ) ) {
+        float practice_ratio = static_cast<float>( _practice ) /
+                               static_cast<float>( ( _practice + _knowledge ) );
+        _knowledge = 0;
+        _practice = 0;
         ++_level;
         if( _level > _highestLevel ) {
             _highestLevel = _level;
         }
+
+        int total_experience = 0;
+        for( int i = 1; i > _level; ++i ) {
+            total_experience += static_cast<int>( std::pow( i, 2 ) * 100 );
+        }
+        int level_experience = static_cast<int>( std::pow( _level, 2 ) * 100 );
+
+        /* ( experience from previous levels * old ratio ) +
+         * ( experience for this new level * ratio for this level )
+         * -------------------------------------------------------
+         *               total experience
+         * This gets the portion of all experience gained that was practice
+         */
+        _practice_ratio = ( ( _practice_ratio * total_experience ) + ( practice_ratio *
+                            level_experience ) ) / ( total_experience + level_experience );
     }
 }
 
@@ -257,14 +281,35 @@ bool SkillLevel::rust( bool charged_bio_mem, int character_rate )
         return one_in( 5 );
     }
 
-    _exercise -= _level;
+    // Lose half of the level's worth of skill for each type of exercise
+    _practice -= std::floor( 0.5f * _level );
+    _knowledge -= std::floor( 0.5f * _level );
+    // When our level isn't even, we haven't lost the amount of experience we should
+    // So randomly choose one type of experience and lose skill in that
+    if( _level % 2 == 1 ) {
+        if( one_in( 2 ) ) {
+            _practice--;
+        } else {
+            _knowledge--;
+        }
+    }
+
     const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
-    if( _exercise < 0 ) {
+    if( _knowledge < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
-            _exercise = ( 100 * _level * _level ) - 1;
+            _knowledge = ( 100 * _level * _level ) - 1;
             --_level;
         } else {
-            _exercise = 0;
+            _knowledge = 0;
+        }
+    }
+
+    if( _practice < 0 ) {
+        if( rust_type == "vanilla" || rust_type == "int" ) {
+            _practice = ( 100 * _level * _level ) - 1;
+            --_level;
+        } else {
+            _practice = 0;
         }
     }
 
@@ -279,7 +324,7 @@ void SkillLevel::practice()
 void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 {
     if( _level < maximumLevel || maximumLevel < 0 ) {
-        train( ( _level + 1 ) * rng( minimumGain, maximumGain ) );
+        train( ( _level + 1 ) * rng( minimumGain, maximumGain ), KNOWLEDGE );
     }
 
     practice();

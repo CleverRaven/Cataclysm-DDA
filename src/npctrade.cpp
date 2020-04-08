@@ -696,7 +696,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts
         if( !np.will_exchange_items_freely() ) {
             trade_win.update_npc_owed( np );
-            g->u.practice( skill_barter, practice / 10000 );
+            g->u.practice( skill_barter, PRACTICE, practice / 10000 );
         }
     }
     g->refresh_all();

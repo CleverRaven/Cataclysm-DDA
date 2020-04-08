@@ -56,6 +56,7 @@ static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz"
 
 class recipe_subset;
 
+enum skill_exercise_type : int;
 enum action_id : int;
 class JsonIn;
 class JsonObject;
@@ -510,7 +511,8 @@ class player : public Character
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** This handles giving xp for a skill */
-        void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
+        void practice( const skill_id &id, skill_exercise_type train_type, int amount, int cap = 99,
+                       bool suppress_warning = false );
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
 

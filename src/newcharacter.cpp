@@ -1907,6 +1907,9 @@ tab_direction set_skills( avatar &u, points_left &points )
                 points.skill_points -= skill_increment_cost( u, currentSkill->ident() );
                 // For balance reasons, increasing a skill from level 0 gives 1 extra level for free
                 u.mod_skill_level( currentSkill->ident(), level == 0 ? +2 : +1 );
+                // Treat levels earned through chargen as 50% practice, 50% knowledge
+                // This is so that there is some benefit for taking non-intelligence skills with STS
+                u.set_skill_practice_ratio( currentSkill->ident(), 0.5f );
             }
         } else if( action == "SCROLL_DOWN" ) {
             selected++;

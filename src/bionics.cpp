@@ -65,6 +65,7 @@
 #include "projectile.h"
 #include "requirements.h"
 #include "rng.h"
+#include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -2375,9 +2376,12 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
-        installer.practice( skill_electronics, static_cast<int>( ( 100 - chance_of_success ) * 1.5 ) );
-        installer.practice( skill_firstaid, static_cast<int>( ( 100 - chance_of_success ) * 1.0 ) );
-        installer.practice( skill_mechanics, static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
+        installer.practice( skill_electronics, PRACTICE,
+                            static_cast<int>( ( 100 - chance_of_success ) * 1.5 ) );
+        installer.practice( skill_firstaid, PRACTICE,
+                            static_cast<int>( ( 100 - chance_of_success ) * 1.0 ) );
+        installer.practice( skill_mechanics, PRACTICE,
+                            static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
     }
 
     int success = chance_of_success - rng( 0, 99 );

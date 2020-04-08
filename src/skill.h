@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "debug.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -19,6 +20,11 @@ class JsonOut;
 class item;
 class recipe;
 template <typename T> class string_id;
+
+enum skill_exercise_type : int {
+    PRACTICE,
+    KNOWLEDGE
+};
 
 struct time_info_t {
     // Absolute floor on the time taken to attack.
@@ -109,7 +115,13 @@ class Skill
 class SkillLevel
 {
         int _level = 0;
-        int _exercise = 0;
+        // Practical experience from doing
+        int _practice = 0;
+        // Knowledge from reading or otherwise being taught
+        int _knowledge = 0;
+        // The ratio of practice to knowledge
+        // Multiplying this times the total experience will give the amount of experience earned through practice
+        float _practice_ratio = 0.0f;
         time_point _lastPracticed = calendar::turn;
         bool _isTraining = true;
         int _highestLevel = 0;
@@ -140,15 +152,36 @@ class SkillLevel
             return _highestLevel;
         }
 
+        int practice_level() const {
+            return _practice;
+        }
+
+        int knowledge_level() const {
+            return _knowledge;
+        }
+
         int exercise( bool raw = false ) const {
-            return raw ? _exercise : _exercise / ( ( _level + 1 ) * ( _level + 1 ) );
+            return raw ? _practice + _knowledge : ( _practice + _knowledge ) / ( ( _level + 1 ) *
+                    ( _level + 1 ) );
         }
 
         int exercised_level() const {
             return level() * level() * 100 + exercise();
         }
 
-        void train( int amount, bool skip_scaling = false );
+        float practice_ratio() const {
+            return _practice_ratio;
+        }
+
+        void set_practice_ratio( const float ratio ) {
+            if( ratio > 1.0f || ratio < 0.0f ) {
+                debugmsg( "Tried to set invalid skill practice ratio of %f", ratio );
+                return;
+            }
+            _practice_ratio = ratio;
+        }
+
+        void train( int amount, skill_exercise_type type, bool skip_scaling = false );
         bool isRusting() const;
         bool rust( bool charged_bio_mem, int character_rate );
         void practice();
@@ -157,13 +190,15 @@ class SkillLevel
         void readBook( int minimumGain, int maximumGain, int maximumLevel = -1 );
 
         bool operator==( const SkillLevel &b ) const {
-            return this->_level == b._level && this->_exercise == b._exercise;
+            return _level == b._level && _knowledge == b._knowledge && _practice == b._practice;
         }
         bool operator< ( const SkillLevel &b ) const {
-            return this->_level < b._level || ( this->_level == b._level && this->_exercise < b._exercise );
+            return _level < b._level || ( _level == b._level &&
+                                          ( _knowledge + _practice ) < ( b._knowledge + b._practice ) );
         }
         bool operator> ( const SkillLevel &b ) const {
-            return this->_level > b._level || ( this->_level == b._level && this->_exercise > b._exercise );
+            return _level > b._level || ( _level == b._level &&
+                                          ( _knowledge + _practice ) > ( b._knowledge + b._practice ) );
         }
 
         bool operator==( const int &b ) const {

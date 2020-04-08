@@ -45,6 +45,7 @@
 #include "player.h"
 #include "point.h"
 #include "rng.h"
+#include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -225,7 +226,7 @@ bool computer_session::hack_attempt( player &p, int Security )
 
     ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
     bool successful_attempt = ( dice( player_roll, 6 ) >= dice( Security, 6 ) );
-    p.practice( skill_computer, successful_attempt ? ( 15 + Security * 3 ) : 7 );
+    p.practice( skill_computer, PRACTICE, successful_attempt ? ( 15 + Security * 3 ) : 7 );
     return successful_attempt;
 }
 

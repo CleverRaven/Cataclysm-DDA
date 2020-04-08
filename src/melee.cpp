@@ -52,6 +52,7 @@
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
+#include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -365,7 +366,7 @@ void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
 static void melee_train( Character &p, int lo, int hi, const item &weap )
 {
     player &u = *p.as_player();
-    u.practice( skill_melee, std::ceil( rng( lo, hi ) / 2.0 ), hi );
+    u.practice( skill_melee, skill_exercise_type::PRACTICE std::ceil( rng( lo, hi ) / 2.0 ), hi );
 
     // allocate XP proportional to damage stats
     // Pure unarmed needs a special case because it has 0 weapon damage
@@ -377,11 +378,11 @@ static void melee_train( Character &p, int lo, int hi, const item &weap )
 
     // Unarmed may deal cut, stab, and bash damage depending on the weapon
     if( weap.is_unarmed_weapon() ) {
-        u.practice( skill_unarmed, std::ceil( 1 * rng( lo, hi ) ), hi );
+        u.practice( skill_unarmed, skill_exercise_type::PRACTICE, std::ceil( 1 * rng( lo, hi ) ), hi );
     } else {
-        u.practice( skill_cutting,  std::ceil( cut  / total * rng( lo, hi ) ), hi );
-        u.practice( skill_stabbing, std::ceil( stab / total * rng( lo, hi ) ), hi );
-        u.practice( skill_bashing, std::ceil( bash / total * rng( lo, hi ) ), hi );
+        u.practice( skill_cutting, skill_exercise_type::PRACTICE, std::ceil( cut  / total * rng( lo, hi ) ), hi );
+        u.practice( skill_stabbing, skill_exercise_type::PRACTICE, std::ceil( stab / total * rng( lo, hi ) ), hi );
+        u.practice( skill_bashing, skill_exercise_type::PRACTICE, std::ceil( bash / total * rng( lo, hi ) ), hi );
     }
 }
 
@@ -1798,7 +1799,7 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
             if( !practiced ) {
                 // Practice unarmed, at most once per combo
                 practiced = true;
-                as_player()->practice( skill_unarmed, rng( 0, 10 ) );
+                as_player()->practice( skill_unarmed, skill_exercise_type::PRACTICE, rng( 0, 10 ) );
             }
         }
         int dam = dealt_dam.total_damage();

@@ -76,6 +76,7 @@
 #include "recipe.h"
 #include "requirements.h"
 #include "rng.h"
+#include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -3013,7 +3014,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             }
 
             p.moves -= to_moves<int>( 5_seconds );
-            p.practice( skill_cooking, std::min( to_minutes<int>( brew_time ) / 10, 100 ) );
+            p.practice( skill_cooking, PRACTICE, std::min( to_minutes<int>( brew_time ) / 10, 100 ) );
         }
 
         return;
@@ -3275,7 +3276,7 @@ static void pick_plant( player &p, const tripoint &examp,
     }
 
     const int survival = p.get_skill_level( skill_survival );
-    p.practice( skill_survival, 6 );
+    p.practice( skill_survival, PRACTICE, 6 );
 
     int plantBase = rng( 2, 5 );
     ///\EFFECT_SURVIVAL increases number of plants harvested
@@ -5914,5 +5915,5 @@ void iexamine::practice_survival_while_foraging( player *p )
     ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
     const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
     // Award experience for foraging attempt regardless of success
-    p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
+    p->practice( skill_survival, PRACTICE, rng( 1, max_exp ), max_forage_skill );
 }

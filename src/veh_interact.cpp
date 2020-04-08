@@ -3014,7 +3014,7 @@ void veh_interact::complete_vehicle( player &p )
                                  veh->name );
 
             for( const auto &sk : vpinfo.install_skills ) {
-                p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first ) );
+                p.practice( sk.first, PRACTICE, veh_utils::calc_xp_gain( vpinfo, sk.first ) );
             }
 
             break;
@@ -3130,7 +3130,7 @@ void veh_interact::complete_vehicle( player &p )
                 resulting_items.push_back( veh->parts[vehicle_part].properties_to_item() );
                 for( const auto &sk : vpinfo.install_skills ) {
                     // removal is half as educational as installation
-                    p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first ) / 2 );
+                    p.practice( sk.first, PRACTICE, veh_utils::calc_xp_gain( vpinfo, sk.first ) / 2 );
                 }
 
             } else {

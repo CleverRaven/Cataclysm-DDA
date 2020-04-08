@@ -1531,7 +1531,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // Time based on number of components.
     p.moves -= moves_per_part * count;
     // Not much practice, and you won't get very far ripping things up.
-    p.practice( skill_fabrication, rng( 0, 5 ), 1 );
+    p.practice( skill_fabrication, PRACTICE, rng( 0, 5 ), 1 );
 
     // Higher fabrication, less chance of entropy, but still a chance.
     if( rng( 1, 10 ) <= entropy_threshold ) {
@@ -2963,7 +2963,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     if( current_skill_level > trains_skill_to ) {
         practice_amount = 0;
     }
-    pl.practice( used_skill, practice_amount, trains_skill_to );
+    pl.practice( used_skill, PRACTICE, practice_amount, trains_skill_to );
 
     if( roll == FAILURE ) {
         return damage_item( pl, fix ) ? AS_DESTROYED : AS_FAILURE;
@@ -3339,7 +3339,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     }
     practice_amount = std::max( 9.0f, practice_amount );
 
-    healer.practice( skill_firstaid, static_cast<int>( practice_amount ) );
+    healer.practice( skill_firstaid, PRACTICE, static_cast<int>( practice_amount ) );
     return it.type->charges_to_use();
 }
 
@@ -3672,7 +3672,7 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     const auto &data = bury ? buried_data : unburied_data;
 
     p.add_msg_if_player( m_info, _( data.done_message ), distance_to_trap_center );
-    p.practice( skill_id( "traps" ), data.practice );
+    p.practice( skill_id( "traps" ), PRACTICE, data.practice );
     p.mod_moves( -data.moves );
 
     place_and_add_as_known( p, pos, data.trap );
@@ -4350,7 +4350,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     std::vector<item_comp> comps;
     comps.push_back( item_comp( repair_item, items_needed ) );
     p.moves -= to_moves<int>( 30_seconds * p.fine_detail_vision_mod() );
-    p.practice( used_skill, items_needed * 3 + 3 );
+    p.practice( used_skill, PRACTICE, items_needed * 3 + 3 );
     /** @EFFECT_TAILOR randomly improves clothing modification efforts */
     int rn = dice( 3, 2 + p.get_skill_level( used_skill ) ); // Skill
     /** @EFFECT_DEX randomly improves clothing modification efforts */

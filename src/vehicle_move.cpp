@@ -20,6 +20,7 @@
 #include "material.h"
 #include "messages.h"
 #include "options.h"
+#include "skill.h"
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
@@ -1155,7 +1156,7 @@ void vehicle::pldrive( const point &p, int z )
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
         if( handling_diff * rng( 1, 10 ) < u.dex_cur + u.get_skill_level( skill_driving ) * 2 ) {
             add_msg( _( "You regain control of the %s." ), name );
-            u.practice( skill_driving, velocity / 5 );
+            u.practice( skill_driving, PRACTICE, velocity / 5 );
             velocity = static_cast<int>( forward_velocity() );
             skidding = false;
             move.init( turn_dir );
@@ -1525,7 +1526,7 @@ vehicle *vehicle::act_on_map()
                 controlled = true;
                 player *passenger = get_passenger( boarded );
                 if( passenger != nullptr ) {
-                    passenger->practice( skill_driving, 1 );
+                    passenger->practice( skill_driving, PRACTICE, 1 );
                 }
             }
         }

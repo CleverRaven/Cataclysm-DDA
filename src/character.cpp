@@ -3262,6 +3262,11 @@ void Character::set_skill_level( const skill_id &ident, const int level )
     get_skill_level_object( ident ).level( level );
 }
 
+void Character::set_skill_practice_ratio( const skill_id &ident, const float ratio )
+{
+    get_skill_level_object( ident ).set_practice_ratio( ratio );
+}
+
 void Character::mod_skill_level( const skill_id &ident, const int delta )
 {
     _skills->mod_skill_level( ident, delta );

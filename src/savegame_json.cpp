@@ -345,9 +345,11 @@ void SkillLevel::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "level", level() );
-    json.member( "exercise", exercise( true ) );
+    json.member( "practice", practice_level() );
+    json.member( "knowledge", knowledge_level() );
     json.member( "istraining", isTraining() );
     json.member( "lastpracticed", _lastPracticed );
+    json.member( "practice_ratio", practice_ratio() );
     json.member( "highestlevel", highestLevel() );
     json.end_object();
 }
@@ -356,11 +358,20 @@ void SkillLevel::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.read( "level", _level );
-    data.read( "exercise", _exercise );
+    // Legacy: Remove after 0.F
+    if( data.has_member( "exercise" ) ) {
+        data.read( "exercise", _practice );
+    } else {
+        data.read( "knowledege", _knowledge );
+        data.read( "practice", _practice );
+    }
     data.read( "istraining", _isTraining );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
         _lastPracticed = calendar::start_of_cataclysm + time_duration::from_hours(
                              get_option<int>( "INITIAL_TIME" ) );
+    }
+    if( !data.read( "practice_ratio", _practice_ratio ) ) {
+        _practice_ratio = 1.0f;
     }
     data.read( "highestlevel", _highestLevel );
     if( _highestLevel < _level ) {

@@ -64,6 +64,7 @@
 #include "rng.h"
 #include "safemode_ui.h"
 #include "scores_ui.h"
+#include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -798,7 +799,7 @@ static void smash()
             u.mod_stamina( mod_sta );
 
             if( u.get_skill_level( skill_melee ) == 0 ) {
-                u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
+                u.practice( skill_melee, PRACTICE, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             const int vol = u.weapon.volume() / units::legacy_volume_factor;
             if( u.weapon.made_of( material_id( "glass" ) ) &&

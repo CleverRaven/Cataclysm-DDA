@@ -837,10 +837,10 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     moves -= time_to_attack( *this, *gun.type );
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
-    practice( skill_gun, ( hits + 1 ) * 5 );
+    practice( skill_gun, PRACTICE, ( hits + 1 ) * 5 );
     // launchers train weapon skill for both hits and misses.
     int practice_units = gun.gun_skill() == skill_launcher ? curshot : hits;
-    practice( gun.gun_skill(), ( practice_units + 1 ) * 5 );
+    practice( gun.gun_skill(), PRACTICE, ( practice_units + 1 ) * 5 );
 
     return curshot;
 }
@@ -1082,14 +1082,14 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     const double missed_by = dealt_attack.missed_by;
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
-        practice( skill_used, final_xp_mult, MAX_SKILL );
+        practice( skill_used, PRACTICE, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
         g->events().send<event_type::character_gets_headshot>( getID() );
     } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
-        practice( skill_used, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
+        practice( skill_used, PRACTICE, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
         // Pure grindy practice - cap gain at lvl 2
-        practice( skill_used, 5, 2 );
+        practice( skill_used, PRACTICE, 5, 2 );
     }
     // Reset last target pos
     last_target_pos = cata::nullopt;

@@ -1531,6 +1531,7 @@ class Character : public Creature, public visitable<Character>
         SkillLevel &get_skill_level_object( const skill_id &ident );
         const SkillLevel &get_skill_level_object( const skill_id &ident ) const;
 
+        void set_skill_practice_ratio( const skill_id &ident, float ratio );
         void set_skill_level( const skill_id &ident, int level );
         void mod_skill_level( const skill_id &ident, int delta );
         /** Checks whether the character's skills meet the required */

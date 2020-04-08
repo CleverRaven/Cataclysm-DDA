@@ -61,6 +61,7 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
@@ -855,13 +856,13 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
         const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
                                   20.0 ) * multiplier;
         const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
-        practice( making.skill_used, base_practice, skill_cap, true );
+        practice( making.skill_used, PRACTICE, base_practice, skill_cap, true );
 
         // NPCs assisting or watching should gain experience...
         for( auto &helper : helpers ) {
             //If the NPC can understand what you are doing, they gain more exp
             if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
-                helper->practice( making.skill_used, roll_remainder( base_practice / 2.0 ),
+                helper->practice( making.skill_used, PRACTICE, roll_remainder( base_practice / 2.0 ),
                                   skill_cap );
                 if( batch_size > 1 && one_in( 3 ) ) {
                     add_msg( m_info, _( "%s assists with crafting…" ), helper->name );
@@ -871,7 +872,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
                 }
                 // NPCs around you understand the skill used better
             } else {
-                helper->practice( making.skill_used, roll_remainder( base_practice / 10.0 ),
+                helper->practice( making.skill_used, PRACTICE, roll_remainder( base_practice / 10.0 ),
                                   skill_cap );
                 if( one_in( 3 ) ) {
                     add_msg( m_info, _( "%s watches you craft…" ), helper->name );
@@ -2196,7 +2197,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
 
     // disassembly only nets a bit of practice
     if( dis.skill_used ) {
-        practice( dis.skill_used, ( dis.difficulty ) * 2, dis.difficulty );
+        practice( dis.skill_used, PRACTICE, ( dis.difficulty ) * 2, dis.difficulty );
     }
 
     // If the components aren't empty, we want items exactly identical to them
