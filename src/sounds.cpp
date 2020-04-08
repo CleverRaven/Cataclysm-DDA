@@ -192,8 +192,12 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     // so we cluster sounds and apply the centroids of the sounds to the monster AI
     // to fight the combinatorial explosion.
     std::vector<centroid> sound_clusters;
-    const int num_seed_clusters = std::max( std::min( recent_sounds.size(), static_cast<size_t>( 10 ) ),
-                                            static_cast<size_t>( log( recent_sounds.size() ) ) );
+    if( recent_sounds.empty() ) {
+        return sound_clusters;
+    }
+    const int num_seed_clusters =
+        std::max( std::min( recent_sounds.size(), static_cast<size_t>( 10 ) ),
+                  static_cast<size_t>( log( recent_sounds.size() ) ) );
     const size_t stopping_point = recent_sounds.size() - num_seed_clusters;
     const size_t max_map_distance = rl_dist( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );
     // Randomly choose cluster seeds.
