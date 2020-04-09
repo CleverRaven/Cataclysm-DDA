@@ -4454,17 +4454,6 @@ float player::fine_detail_vision_mod( const tripoint &p ) const
     return std::min( own_light, ambient_light );
 }
 
-bool player::natural_attack_restricted_on( body_part bp ) const
-{
-    for( auto &i : worn ) {
-        if( i.covers( bp ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) && !i.has_flag( "SEMITANGIBLE" ) &&
-            !i.has_flag( "PERSONAL" ) && !i.has_flag( "AURA" ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 int player::adjust_for_focus( int amount ) const
 {
     int effective_focus = focus_pool;
