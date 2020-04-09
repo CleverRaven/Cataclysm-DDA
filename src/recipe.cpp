@@ -70,8 +70,20 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
     //Assistants can decrease the time for production but never less than that of one unit
     if( assistants == 1 ) {
         total_time = total_time * .75;
-    } else if( assistants >= 2 ) {
+    } else if( assistants == 2 ) {
         total_time = total_time * .60;
+    } else if( assistants == 3 ) {
+        total_time = total_time * .50;
+    } else if( assistants == 4 ) {
+        total_time = total_time * .40;
+    } else if( assistants == 5 ) {
+        total_time = total_time * .35;
+    } else if( assistants == 6 ) {
+        total_time = total_time * .30;
+    } else if( assistants == 7 ) {
+        total_time = total_time * .25;
+    } else if( assistants >= 8 ) {
+        total_time = total_time * .20;
     }
     if( total_time < local_time ) {
         total_time = local_time;

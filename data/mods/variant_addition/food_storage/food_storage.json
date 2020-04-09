@@ -35,7 +35,7 @@
     "broken_color": "white",
     "damage_modifier": 5,
     "durability": 100,
-    "description": "Tag for food storage. your allies can take food here freely.",
+    "description": "Tag for food storage. your allies can take food here freely. (this is experimantal function at now, so please read new feature description in github before using, and use with your own risk.)",
     "item": "food_storage_tag",
     "location": "on_cargo",
     "requirements": {

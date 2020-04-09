@@ -1,0 +1,165 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "toilet_wood_plank",
+    "symbol": ";",
+    "color": "yellow",
+    "name": "尻拭き用ヘラ",
+    "category": "tools",
+    "description": "大昔のトイレでは木の薄いヘラで拭いていたらしいので、わざわざ紙を使う必要はありません。",
+    "//" : "96日目の>>549がそう言ってた",
+    "toiletpaper_message": "木べらでおしりを拭くのはちょっと痛いです。",
+    "toiletpaper_morale": -10,
+    "price": 100,
+    "material": "wood",
+    "weight": "100 g",
+    "volume": "50 ml",
+    "flags": [ "TOILETPAPER" ]
+  },
+  
+  {
+    "result": "toilet_wood_plank",
+    "type": "recipe",
+    "result_mult": 10,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "1 m",
+    "autolearn": true,
+    "qualities":[{ "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 1 ] ]
+    ]
+  },
+
+  {
+    "type": "GENERIC",
+    "id": "toilet_sand_for_human",
+    "symbol": ";",
+    "color": "yellow",
+    "name": "トイレ用砂",
+    "category": "tools",
+    "description": "いくらでもある砂で拭きましょう。",
+    "//" : "96日目の>>554が言ってた",
+    "toiletpaper_message": "おしりが砂だらけになりました...",
+    "toiletpaper_morale": -25,
+    "price": 10,
+    "material": "powder_nonflam",
+    "weight": "8 g",
+    "volume": "200 ml",
+    "flags": [ "TOILETPAPER" ]
+  },
+  
+  {
+    "result": "toilet_sand_for_human",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "1 m",
+    "autolearn": true,
+    "components": [
+      [ [ "material_sand", 40 ] ]
+    ]
+  },
+
+  {
+    "type": "GENERIC",
+    "id": "toilet_straw_pile",
+    "symbol": ";",
+    "color": "yellow",
+    "name": "トイレ用藁束",
+    "category": "tools",
+    "description": "昔は藁とかでお尻拭いていたというのを聞いたことがあります。",
+    "//" : "96日目の>>556より",
+    "//" : "これを書いてるときに、藁束はもともと紙製で0.25Lなのでそのまま使えそうな事に気づいた",
+    "toiletpaper_message": "藁でおしりを拭くのは、思ったより悪くはありません。",
+    "toiletpaper_morale": 0,
+    "price": 10,
+    "material": "paper",
+    "weight": "8 g",
+    "volume": "250 ml",
+    "flags": [ "TOILETPAPER" ]
+  },
+  
+  {
+    "result": "toilet_straw_pile",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "1 m",
+    "autolearn": true,
+    "components": [
+      [ [ "straw_pile", 1 ] ]
+    ]
+  },
+
+  {
+    "type" : "recipe",
+    "result": "makeshift_toiletpaper",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 100,
+    "autolearn": true,
+    "components": [
+      [ [ "paper", 20 ]]
+    ]
+  },
+  {
+    "id": "makeshift_toiletpaper",
+    "type": "GENERIC",
+    "name": "簡易トイレットペーパー",
+    "description": "使うために取り分けておいた紙束です。",
+    "weight": 10,
+    "volume": "100 ml",
+    "price": 10,
+    "material": "paper",
+    "symbol": "~",
+    "color": "white"
+  },
+
+  
+  {
+    "type": "GENERIC",
+    "id": "money_bundle",
+    "name": "money bundle",
+    "copy-from": "money_bundle",
+    "//": "札束にメッセージと意欲バフを追加するサンプルです。おしりを拭いたときの意欲は10+99で合計109上昇するはずです",
+    "toiletpaper_message": "今ならケツを拭く紙ぐらいにゃなる！！！",
+    "toiletpaper_morale": 99
+  },
+
+  {
+    "type": "GENERIC",
+    "id": "toilet_paper",
+    "name": "toilet paper",
+    "copy-from": "toilet_paper",
+    "toiletpaper_message": "トイレットペーパーを贅沢に使って、あの懐かしい文明を思い出しました...",
+    "toiletpaper_morale": 10
+  },
+
+  {
+    "type": "AMMO",
+    "id": "44army",
+    "//": "スタック数が括弧で表されるようなアイテムは、容積が0.1Lから0.5Lの間になるようスタックすれば使えます。",
+    "name": ".44 paper cartridge",
+    "copy-from": "44army",
+    "toiletpaper_message": "紙の弾薬で汚れた尻をなすりました。こんな事をしても銃の威力は上がりませんよ。"
+  },
+
+  {
+    "type": "AMMO",
+    "id": "flintlock_ammo",
+    "name": "paper cartridge",
+    "copy-from": "flintlock_ammo",
+    "toiletpaper_message": "紙の弾薬で汚れた尻をなすりました。この弾で撃たれたら病気になりそうです。",
+    "toiletpaper_morale": 0
+  }
+
+]

@@ -1,0 +1,48 @@
+{
+  "type": "mod_tileset",
+  "compatibility": [ "MSX++DEAD_PEOPLE", "UNDEAD_PEOPLE", "Custom Tileset", "MshockXottoplus" ],
+  "tile_info": [
+    {
+      "height": 32,
+      "width": 32
+    }
+  ],
+  "tiles-new": [
+    {
+      "file": "tile/0_variant_32x32.png",
+      "tiles": [
+        {
+          "id": "bot_melee_defence_bot",
+          "fg": 9,
+          "rotates": false
+        },
+        {
+          "id": "mon_melee_defence_bot",
+          "fg": 9,
+          "rotates": false
+        },
+        {
+          "id": "vp_vehicle_part_toilet",
+          "fg": 4,
+          "bg": 1,
+          "rotates": false
+        },
+        {
+          "id": "vp_vehicle_part_toilet_washlet",
+          "fg": 4,
+          "bg": 1,
+          "rotates": false
+        },
+        {
+          "id": "vp_vehicle_part_shower",
+          "fg": 3,
+          "bg": 1,
+          "rotates": false
+        }
+      ]
+    }
+
+
+
+  ]
+}

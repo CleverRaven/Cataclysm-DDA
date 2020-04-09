@@ -10,11 +10,6 @@
     "text": "Incontinented"
   },
   {
-    "id": "morale_take_bath",
-    "type": "morale_type",
-    "text": "Took a bath"
-  },
-  {
     "id": "morale_take_washlet",
     "type": "morale_type",
     "text": "Took a washlet"

@@ -2112,10 +2112,19 @@ void options_manager::add_options_world_default()
          true
        );
 
+    add_empty_line();
+
     add( "ACID_RAIN", "world_default", translate_marker( "Acid rain" ),
          translate_marker( "set acid rain frequency." ),
          0, 100, 20
        );
+
+    add( "VARIANT_WEATHER_PATTERN", "world_default", translate_marker( "Variant weather pattern" ),
+         translate_marker( "If true, apply variant modded weather pattern. It generally increases rainstorm." ),
+         false
+       );
+
+    add_empty_line();
 
     add( "MAX_CRAFT_BATCH_SIZE", "world_default", translate_marker( "Maximum craft batch size" ),
          translate_marker( "Set maximum batch size of crafting." ),
