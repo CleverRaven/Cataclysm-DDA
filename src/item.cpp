@@ -1509,7 +1509,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           to_turns<int>( food->get_shelf_life() ) ) );
                 info.push_back( iteminfo( "BASE", _( "last rot: " ),
                                           "", iteminfo::lower_is_better,
-                                          to_turn<int>( food->last_rot_check ) ) );  
+                                          to_turn<int>( food->last_rot_check ) ) );
             }
             if( food && food->has_temperature() ) {
                 info.push_back( iteminfo( "BASE", _( "last temp: " ),
@@ -5212,6 +5212,12 @@ void item::calc_rot( time_point time, int temp )
         last_rot_check = time;
         return;
     }
+
+    const bool preserved = type->container && type->container->preserves;
+    if( preserved ) {
+        last_rot_check = time;
+    }
+
     // rot modifier
     float factor = 1.0;
     if( is_corpse() && has_flag( flag_FIELD_DRESS ) ) {
@@ -8605,7 +8611,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( now - last_temp_check < smallest_interval && specific_energy > 0 ) {
         return;
     }
-	
+
     int temp = g->weather.get_temperature( pos );
 
     switch( flag ) {
@@ -8634,7 +8640,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
         insulation *= 1.5;
         temp += 5;
     }
-	
+
     time_point time;
     item_internal::scoped_goes_bad_cache _( this );
     if( goes_bad() ) {
@@ -8642,9 +8648,6 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     } else {
         time = last_temp_check;
     }
-	
-	const bool preserved = type->container && type->container->preserves;
-	const bool process_rot = goes_bad() && !preserved;
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
@@ -8713,7 +8716,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             }
 
             // Calculate item rot from item temperature
-            if( process_rot && time - last_rot_check > smallest_interval ) {
+            if( time - last_rot_check > smallest_interval ) {
                 calc_rot( time, env_temperature );
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
@@ -8728,9 +8731,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     // and items that are held near the player
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
-		if( process_rot ){
-			calc_rot( now, temp );
-		}
+        calc_rot( now, temp );
         return;
     }
 
