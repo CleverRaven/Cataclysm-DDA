@@ -175,6 +175,10 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     } else {
         name = MAP_SHARING::getUsername();
     }
+    // if adjusting min and max age from 16 and 55, make sure to see set_description()
+    init_age = rng( 16, 55 );
+    // if adjusting min and max height from 145 and 200, make sure to see set_description()
+    init_height = rng( 145, 200 );
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
