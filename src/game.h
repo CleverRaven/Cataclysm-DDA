@@ -32,6 +32,7 @@
 #include "type_id.h"
 #include "weather.h"
 
+class Creature_tracker;
 class item;
 class spell_events;
 
