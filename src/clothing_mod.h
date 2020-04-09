@@ -84,10 +84,10 @@ struct clothing_mod {
      *
      * Flags are incompatible if an item has one of the flags this mod applies,
      * or if this mod excludes one of its flags.
-         *
-         * Body parts are compatible if the item covers at least one of the valid_parts
-         * and does not cover any of the invalid_parts.
-         *
+     *
+     * Body parts are compatible if the item covers at least one of the valid_parts
+     * and does not cover any of the invalid_parts.
+     *
      * @param it an item
      * @return bool true if the mod is compatible, else false
      */
