@@ -440,7 +440,11 @@
     "price_postapoc": 750,
     "coverage": 95,
     "proportional": { "weight": 1.2, "volume": 1.2, "price": 2, "encumbrance": 2 },
-    "use_action": { "type": "holster", "max_volume": "250 ml", "max_weight": 600, "draw_cost": 80, "multi": 2, "skills": [ "pistol" ] },
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 }
+    ],
+    "use_action": { "type": "holster", "skills": [ "pistol" ] },
     "extend": { "flags": [ "FANCY" ] }
   },
   {

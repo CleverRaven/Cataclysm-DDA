@@ -57,7 +57,12 @@
     "coverage": 10,
     "encumbrance": 4,
     "weight_capacity_bonus": "5 kg",
-    "storage": "10 L"
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 }
+    ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -68,7 +73,12 @@
     "coverage": 10,
     "encumbrance": 6,
     "weight_capacity_bonus": "10 kg",
-    "storage": "15 L"
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 }
+    ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -114,7 +124,7 @@
     "weight": "2000 g",
     "color": "brown",
     "covers": [ "TORSO" ],
-    "storage": "1 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
     "symbol": "[",
     "description": "A custom-built leather utility belt that instantly creates any tool that you reach for.  Activate to sheathe/draw a weapon.",
     "price": 500000,

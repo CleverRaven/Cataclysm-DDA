@@ -1843,7 +1843,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
-    "magazine_well": 1,
     "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON-FOULING" ]

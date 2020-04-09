@@ -294,7 +294,6 @@
     "ammo": "308",
     "ranged_damage": { "damage_type": "stab", "amount": -3 },
     "min_cycle_recoil": 2700,
-    "magazine_well": 1,
     "magazines": [ [ "308", [ "scarhmag", "scarhbigmag", "scarhmag_30rd", "scarh_makeshiftmag" ] ] ]
   },
   {

@@ -36,7 +36,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 2,
     "magazines": [ [ "45", [ "tdi_mag" ] ] ]
   },
   {
@@ -101,7 +100,6 @@
     "durability": 7,
     "min_cycle_recoil": 540,
     "blackpowder_tolerance": 48,
-    "magazine_well": 1,
     "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ] ]
   },
   {
@@ -156,7 +154,6 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
     "magazines": [ [ "45", [ "mac10mag", "smg_45_mag" ] ] ]
   },
   {
@@ -345,7 +342,6 @@
     "ammo": "45",
     "dispersion": 480,
     "durability": 9,
-    "magazine_well": 1,
     "magazines": [ [ "45", [ "ppq45mag" ] ] ]
   },
   {
@@ -366,7 +362,6 @@
     "ammo": "45",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
     "magazines": [ [ "45", [ "hptjhpmag" ] ] ]
   }
 ]

@@ -197,6 +197,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 30 } } ],
     "ammo_type": "9mm",
     "capacity": 30,
     "reliability": 9,

@@ -37,8 +37,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "afs_energy_saber_on",
@@ -64,8 +63,7 @@
       "type": "transform",
       "target": "afs_energy_saber_off",
       "msg": "The blade dissipates into particles."
-    },
-    "magazine_well": 1
+    }
   },
   {
     "id": "afs_hardlight_longbow",
