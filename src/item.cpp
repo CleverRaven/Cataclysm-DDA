@@ -9399,6 +9399,7 @@ bool item::process_blackpowder_fouling( player *carrier )
 bool item::process( player *carrier, const tripoint &pos, bool activate, float insulation,
                     temperature_flag flag )
 {
+    const bool preserves = type->container && type->container->preserves;
     std::vector<item *> removed_items;
     visit_items( [&]( item * it ) {
         if( preserves ) {
