@@ -5,7 +5,7 @@
     "name": "Evacuee",
     "points": 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
-    "allowed_locs": [ "sloc_shelter" ],
+    "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ]
   },
