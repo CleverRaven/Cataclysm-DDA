@@ -9401,7 +9401,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
 {
     std::vector<item *> removed_items;
     visit_items( [&]( item * it ) {
-		        if( preserves ) {
+        if( preserves ) {
             // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
             // is not changed, the item is still fresh.
             it->last_rot_check = calendar::turn;
