@@ -16,10 +16,6 @@
 
 #include <memory>
 
-#include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_ttf.h"
-
 struct SDL_Renderer_deleter {
     void operator()( SDL_Renderer *const renderer ) {
         SDL_DestroyRenderer( renderer );
