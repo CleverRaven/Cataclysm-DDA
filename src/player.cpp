@@ -2773,14 +2773,9 @@ item::reload_option player::select_ammo( const item &base,
             const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.front().ammo_data() :
                                 sel.ammo->ammo_data();
             if( ammo ) {
-                if( ammo->ammo->prop_damage ) {
-                    row += string_format( "| *%-6.2f | %-7d", static_cast<float>( *ammo->ammo->prop_damage ),
-                                          ammo->ammo->legacy_pierce );
-                } else {
-                    const damage_instance &dam = ammo->ammo->damage;
-                    row += string_format( "| %-7d | %-7d", static_cast<int>( dam.total_damage() ),
-                                          static_cast<int>( dam.empty() ? 0.0f : ( *dam.begin() ).res_pen ) );
-                }
+                const damage_instance &dam = ammo->ammo->damage;
+                row += string_format( "| %-7d | %-7d", static_cast<int>( dam.total_damage() ),
+                                      static_cast<int>( dam.empty() ? 0.0f : ( *dam.begin() ).res_pen ) );
             } else {
                 row += "|         |         ";
             }

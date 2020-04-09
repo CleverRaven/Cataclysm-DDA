@@ -1036,12 +1036,9 @@ void item::clear_vars()
 static int get_ranged_pierce( const common_ranged_data &ranged )
 {
     if( ranged.damage.empty() ) {
-        if( ranged.legacy_pierce ) {
-            return ranged.legacy_pierce;
-        } else {
-            return 0;
-        }
+        return 0;
     }
+
     return ranged.damage.damage_units.front().res_pen;
 }
 
@@ -1677,21 +1674,18 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     const islot_ammo &ammo = *ammo_data()->ammo;
-    if( !ammo.damage.empty() || ammo.prop_damage || ammo.force_stat_display ) {
-        if( !ammo.damage.empty() ) {
+    if( !ammo.damage.empty() || ammo.force_stat_display ) {
+        if( !ammo.damage.empty() && ammo.damage.damage_units.front().amount > 0 ) {
             if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
                 info.emplace_back( "AMMO", _( "Damage: " ), "",
                                    iteminfo::no_newline, ammo.damage.total_damage() );
             }
-        } else if( ammo.prop_damage ) {
+        } else {
             if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
                 info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
                                    iteminfo::no_newline | iteminfo::is_decimal,
-                                   *ammo.prop_damage );
+                                   ammo.damage.damage_units.front().unconditional_damage_mult );
             }
-        } else {
-            info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
-                               iteminfo::no_newline | iteminfo::is_decimal, 1.0 );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
             info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );
@@ -1770,12 +1764,14 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->ammo_required() ) {
         // ammo_damage, sum_of_damage, and ammo_mult not shown so don't need to translate.
-        if( curammo->ammo->prop_damage ) {
+        float dmg_mult = 1.0f;
+        for( const damage_unit &dmg : curammo->ammo->damage.damage_units ) {
+            dmg_mult *= dmg.unconditional_damage_mult;
+        }
+        if( dmg_mult != 1.0f ) {
             if( parts->test( iteminfo_parts::GUN_DAMAGE_AMMOPROP ) ) {
-                info.push_back(
-                    iteminfo( "GUN", "ammo_mult", "*",
-                              iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
-                              *curammo->ammo->prop_damage ) );
+                info.push_back( iteminfo( "GUN", "ammo_mult", "*",
+                                          iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal, dmg_mult ) );
             }
         } else {
             if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
@@ -6690,16 +6686,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
     }
 
     if( with_ammo && ammo_data() ) {
-        if( ammo_data()->ammo->prop_damage ) {
-            for( damage_unit &elem : ret.damage_units ) {
-                if( elem.type == DT_STAB ) {
-                    elem.amount *= *ammo_data()->ammo->prop_damage;
-                    elem.res_pen = ammo_data()->ammo->legacy_pierce;
-                }
-            }
-        } else {
-            ret.add( ammo_data()->ammo->damage );
-        }
+        ret.add( ammo_data()->ammo->damage );
     }
 
     int item_damage = damage_level( 4 );
