@@ -89,9 +89,6 @@ template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, INEDIBLE> {};
 
-// The maximum level recoil will ever reach.
-// This corresponds to the level of accuracy of a "snap" or "hip" shot.
-extern const double MAX_RECOIL;
 
 struct stat_mod {
     int strength = 0;
@@ -367,14 +364,6 @@ class player : public Character
          * @returns true if given damage can not reduce hp of given body part
          */
         bool immune_to( body_part bp, damage_unit dam ) const;
-        /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
-        dealt_damage_instance deal_damage( Creature *source, body_part bp,
-                                           const damage_instance &d ) override;
-        /** Reduce healing effect intensity, return initial intensity of the effect */
-        int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
-        /** Actually hurt the player, hurts a body_part directly, no armor reduction */
-        void apply_damage( Creature *source, body_part hurt, int dam,
-                           bool bypass_med = false ) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
@@ -831,7 +820,6 @@ class player : public Character
         bool random_start_location;
         start_location_id start_location;
 
-        double recoil = MAX_RECOIL;
         weak_ptr_fast<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
         // Save favorite ammo location

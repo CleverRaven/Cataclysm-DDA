@@ -607,6 +607,8 @@ class Character : public Creature, public visitable<Character>
         int blocks_left;
         int dodges_left;
 
+        double recoil = MAX_RECOIL;
+
         /** Returns true if the player is able to use a miss recovery technique */
         bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has quiet melee attacks */
@@ -683,6 +685,15 @@ class Character : public Creature, public visitable<Character>
                      float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
         // any side effects that might happen when the Character hits a Creature
         void did_hit( Creature &target );
+
+        /** Actually hurt the player, hurts a body_part directly, no armor reduction */
+        void apply_damage( Creature *source, body_part hurt, int dam,
+                           bool bypass_med = false ) override;
+        /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
+        dealt_damage_instance deal_damage( Creature *source, body_part bp,
+                                           const damage_instance &d ) override;
+        /** Reduce healing effect intensity, return initial intensity of the effect */
+        int reduce_healing_effect( const efftype_id &eff_id, int remove_med, body_part hurt );
 
         void cough( bool harmful = false, int loudness = 4 );
         /**
