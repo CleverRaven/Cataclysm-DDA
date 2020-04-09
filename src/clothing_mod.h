@@ -70,7 +70,7 @@ struct clothing_mod {
      *
      * @return bool true if the mod applies flags
      */
-    bool applies_flags( ) const;
+    bool applies_flags() const;
 
     /**
      * Whether the mod suppresses any flags when used.
