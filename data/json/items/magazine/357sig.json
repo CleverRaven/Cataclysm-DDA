@@ -17,11 +17,11 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
-    "id": "p320mag_14rd_357sig",
+    "id": "p320mag_13rd_357sig",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "P320 .357 SIG magazine" },
-    "description": "A 14 round double stack box magazine for the SIG Sauer P320.",
+    "description": "A 13 round double stack box magazine for the SIG Sauer P320.",
     "weight": "105 g",
     "volume": "250 ml",
     "price": 2900,
@@ -29,7 +29,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "357sig",
-    "capacity": 14,
+    "capacity": 13,
     "reliability": 7,
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ]

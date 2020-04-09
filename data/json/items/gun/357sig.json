@@ -52,6 +52,6 @@
     "dispersion": 480,
     "durability": 6,
     "magazine_well": 1,
-    "magazines": [ [ "357sig", [ "p320mag_14rd_357sig" ] ] ]
+    "magazines": [ [ "357sig", [ "p320mag_13rd_357sig" ] ] ]
   }
 ]

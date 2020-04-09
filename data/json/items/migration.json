@@ -1168,5 +1168,10 @@
     "id": "bio_solar",
     "type": "MIGRATION",
     "replace": "potato"
+  },
+  {
+    "id": "p320mag_14rd_357sig",
+    "type": "MIGRATION",
+    "replace": "p320mag_13rd_357sig"
   }
 ]
