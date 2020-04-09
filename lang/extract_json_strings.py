@@ -112,6 +112,7 @@ ignorable = {
 #   "sound" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
+    "achievement",
     "activity_type",
     "AMMO",
     "ammunition_type",
@@ -125,6 +126,7 @@ automatically_convertible = {
     "CONTAINER",
     "dream",
     "ENGINE",
+    "event_statistic",
     "faction",
     "furniture",
     "GENERIC",

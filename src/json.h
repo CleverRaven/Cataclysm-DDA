@@ -720,6 +720,10 @@ class JsonOut
             member( name );
             write( value );
         }
+        template <typename T> void member_as_string( const std::string &name, const T &value ) {
+            member( name );
+            write_as_string( value );
+        }
 };
 
 /* JsonObject
