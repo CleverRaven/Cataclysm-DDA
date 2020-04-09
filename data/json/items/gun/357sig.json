@@ -19,7 +19,7 @@
     "dispersion": 480,
     "durability": 7,
     "magazine_well": 1,
-    "magazines": [ [ "357sig", [ "p226mag_15rd_357sig" ] ] ]
+    "magazines": [ [ "357sig", [ "p226mag_12rd_357sig" ] ] ]
   },
   {
     "id": "glock_31",

@@ -1173,5 +1173,10 @@
     "id": "p320mag_14rd_357sig",
     "type": "MIGRATION",
     "replace": "p320mag_13rd_357sig"
+  },
+  {
+    "id": "p226mag_15rd_357sig",
+    "type": "MIGRATION",
+    "replace": "p226mag_12rd_357sig"
   }
 ]
