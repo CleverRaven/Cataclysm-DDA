@@ -387,7 +387,7 @@
     "components": [ [ [ "jug_plastic", 1 ] ], [ [ "scrap", 20 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
-    "result": "tool_small_makeshift_fragmentation_device",
+    "result": "tool_small_primitive_fragmentation_device",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
