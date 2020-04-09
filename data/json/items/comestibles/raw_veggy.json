@@ -571,7 +571,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
-    "calories": 14,
+    "calories": 16,
     "description": "Leaves of a horseradish plant with a sharp, bitter and peppery taste.  They're edible, but not commonly eaten.",
     "price": 80,
     "material": "veggy",
@@ -579,7 +579,7 @@
     "fun": -2,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 136 ], [ "vitC", 34 ], [ "calcium", 4 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitA", 7 ], [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
