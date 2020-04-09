@@ -1763,8 +1763,8 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
-    p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
-                        p->get_item_position( it ), it->tname() );
+    p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.coord_set = g->get_fishable_locations( 60, *found );
     return 0;
 }
@@ -3314,7 +3314,8 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
         break;
     }
 
-    p->assign_activity( ACT_PICKAXE, moves, -1, p->get_item_position( it ) );
+    p->assign_activity( ACT_PICKAXE, moves, -1 );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = g->m.getabs( pnt );
     p->add_msg_if_player( _( "You strike the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
@@ -4413,7 +4414,8 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
                                 p->get_item_position( it ), "gaming" );
             return it->type->charges_to_use();
         }
-        p->assign_activity( ACT_GAME, moves, -1, p->get_item_position( it ), "gaming" );
+        p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );
+        p->activity.targets.push_back( item_location( *p, it ) );
         std::map<std::string, std::string> game_data;
         game_data.clear();
         int game_score = 0;
@@ -4461,8 +4463,8 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
         if( it->ammo_capacity() > it->ammo_remaining() ) {
             p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
                                   it->magazine_current()->tname() );
-            p->assign_activity( ACT_HAND_CRANK, moves, -1, p->get_item_position( it ),
-                                "hand-cranking" );
+            p->assign_activity( ACT_HAND_CRANK, moves, -1, 0, "hand-cranking" );
+            p->activity.targets.push_back( item_location( *p, it ) );
         } else {
             p->add_msg_if_player( _( "You could use the %s to charge its %s, but it's already charged." ),
                                   it->tname(), magazine->tname() );
@@ -4506,8 +4508,8 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
                                   it->tname() );
         }
-        p->assign_activity( ACT_VIBE, moves, -1, p->get_item_position( it ),
-                            "de-stressing" );
+        p->assign_activity( ACT_VIBE, moves, -1, 0, "de-stressing" );
+        p->activity.targets.push_back( item_location( *p, it ) );
     }
     return it->type->charges_to_use();
 }
@@ -4924,8 +4926,8 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     }
 
     // placing ter here makes resuming tasks work better
-    p->assign_activity( ACT_OXYTORCH, moves, static_cast<int>( ter ),
-                        p->get_item_position( it ) );
+    p->assign_activity( ACT_OXYTORCH, moves, static_cast<int>( ter ) );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = pnt;
     p->activity.values.push_back( charges );
 
