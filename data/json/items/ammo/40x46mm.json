@@ -5,7 +5,7 @@
     "name": { "str": "40x46mm grenade" },
     "price": 10000,
     "price_postapoc": 6000,
-	"flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
