@@ -7367,14 +7367,13 @@ const use_function *item::get_use_internal( const std::string &use_name ) const
 
 item *item::get_usable_item( const std::string &use_name )
 {
-    if( type != nullptr && type->get_use( use_name ) != nullptr ) {
-        return this;
-    }
-
     item *ret = nullptr;
-    contents.visit_contents(
-    [&ret, &use_name]( item * it, item * ) {
-        if( it->get_use( use_name ) != nullptr ) {
+    visit_items(
+    [&ret, &use_name]( item * it ) {
+        if( it == nullptr ) {
+            return VisitResponse::SKIP;
+        }
+        if( it->get_use_internal( use_name ) ) {
             ret = it;
             return VisitResponse::ABORT;
         }
