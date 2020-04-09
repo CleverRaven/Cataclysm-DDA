@@ -1289,7 +1289,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // therefore operations on this activities targets and values may be invalidated.
     // reveal hidden items / hidden content
     if( action != F_DRESS && action != SKIN ) {
-        corpse_item.visit_items( [&]( item * content ) {
+        for( item *content : corpse_item.contents.all_items_top() ) {
             if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
                 p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
@@ -1298,8 +1298,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             } else if( content->is_bionic() ) {
                 g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, calendar::turn );
             }
-            return VisitResponse::NEXT;
-        } );
+        }
     }
 
     //end messages and effects
