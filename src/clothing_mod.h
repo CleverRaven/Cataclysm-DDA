@@ -84,10 +84,10 @@ struct clothing_mod {
      *
      * Flags are incompatible if an item has one of the flags this mod applies,
      * or if this mod excludes one of its flags.
-		 *
-		 * Body parts are compatible if the item covers at least one of the valid_parts
-		 * and does not cover any of the invalid_parts.
-		 *
+         *
+         * Body parts are compatible if the item covers at least one of the valid_parts
+         * and does not cover any of the invalid_parts.
+         *
      * @param it an item
      * @return bool true if the mod is compatible, else false
      */
@@ -116,17 +116,17 @@ struct clothing_mod {
     std::vector< body_part > valid_parts;
     /** (optional) body parts the mod cannot be applied to - none of the locations in the list may be covered **/
     std::vector< body_part > invalid_parts;
-		/** a list of statistics the clothing mod effects, can be bash, cut, fire, environment, coverage, storage @see mod_value **/
+    /** a list of statistics the clothing mod effects, can be bash, cut, fire, environment, coverage, storage @see mod_value **/
     std::vector< mod_value > mod_values;
     /** (optional) if set, the mod requires the item to have this coverage level at minimum to be applied **/
     int min_coverage = 0;
     /** (optional) if set, the mod requires the item to have this coverage level at maximum to be applied **/
     int max_coverage = 100;
-		/** (optional) if true, the mod will not scale the required item amount **/
-		bool no_material_scaling = false;
-		/** (optional) input material quantity for the mod **/
-		int item_quantity = 1;
-		/** (optional) must the target item opt-in to using this mod in its valid_mods property **/
+    /** (optional) if true, the mod will not scale the required item amount **/
+    bool no_material_scaling = false;
+    /** (optional) input material quantity for the mod **/
+    int item_quantity = 1;
+    /** (optional) must the target item opt-in to using this mod in its valid_mods property **/
     bool restricted = false;
 
     static size_t count();
