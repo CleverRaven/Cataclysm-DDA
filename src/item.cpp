@@ -5213,11 +5213,6 @@ void item::calc_rot( time_point time, int temp )
         return;
     }
 
-    const bool preserved = type->container && type->container->preserves;
-    if( preserved ) {
-        last_rot_check = time;
-    }
-
     // rot modifier
     float factor = 1.0;
     if( is_corpse() && has_flag( flag_FIELD_DRESS ) ) {
@@ -8642,9 +8637,15 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     time_point time;
-    item_internal::scoped_goes_bad_cache _( this );
-    if( goes_bad() ) {
+	const bool preserved = type->container && type->container->preserves;
+	item_internal::scoped_goes_bad_cache _( this );
+	const bool process_rot = goes_bad() && !preserved;
+    
+    if( process_rot ) {
         time = std::min( last_rot_check, last_temp_check );
+		if ( preserved ){
+			last_rot_check = now;
+		}
     } else {
         time = last_temp_check;
     }
@@ -8731,7 +8732,9 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     // and items that are held near the player
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
-        calc_rot( now, temp );
+		if( process_rot ){
+			calc_rot( now, temp );
+		}
         return;
     }
 
