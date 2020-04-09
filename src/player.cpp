@@ -3893,9 +3893,19 @@ void player::reassign_item( item &it, int invlet )
     }
 }
 
+static bool has_mod( const item &gun, const item &mod )
+{
+    for( const item *toolmod : gun.gunmods() ) {
+        if( &mod == toolmod ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool player::gunmod_remove( item &gun, item &mod )
 {
-    if( !gun.has_item( mod ) ) {
+    if( !has_mod( gun, mod ) ) {
         debugmsg( "Cannot remove non-existent gunmod" );
         return false;
     }
