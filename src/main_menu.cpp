@@ -740,8 +740,8 @@ bool main_menu::new_character_tab()
                 mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -4 ),
                            c_red, "%s", _( "No templates found!" ) );
             } else {
-                mvwprintz( w_open, menu_offset + point( 20 + extra_w / 2, -2 ),
-                           c_white, "%s", _( "Press 'd' to delete a preset." ) );
+                fold_and_print( w_open, menu_offset + point( 20 + extra_w / 2, -2 ), 0,
+                                c_light_gray, "%s", _( "Press [<color_white>d</color>] to delete a preset." ) );
                 for( int i = 0; i < static_cast<int>( templates.size() ); i++ ) {
                     int line = menu_offset.y - 4 - i;
                     mvwprintz( w_open, point( 20 + menu_offset.x + extra_w / 2, line ),

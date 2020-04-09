@@ -2440,11 +2440,12 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                         ctxt.get_desc( "NEXT_TAB" ),
                         ctxt.get_desc( "PREV_TAB" ) );
         if( allow_reroll ) {
-            mvwprintz( w_guide, point( 0, getmaxy( w_guide ) - 2 ), c_green,
-                       _( "Press %s to save character template, %s to re-roll or %s for random scenario." ),
-                       ctxt.get_desc( "SAVE_TEMPLATE" ),
-                       ctxt.get_desc( "REROLL_CHARACTER" ),
-                       ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), ( TERMX / 2 ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> to save character template, "
+                               "<color_light_green>%s</color> to re-roll or <color_light_green>%s</color> for random scenario." ),
+                            ctxt.get_desc( "SAVE_TEMPLATE" ),
+                            ctxt.get_desc( "REROLL_CHARACTER" ),
+                            ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
         } else {
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), ( TERMX / 2 ), c_light_gray,
                             _( "Press <color_light_green>%s</color> to save a template of this character." ),
