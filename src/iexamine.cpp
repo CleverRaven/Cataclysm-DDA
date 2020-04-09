@@ -110,6 +110,7 @@ static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
@@ -1310,20 +1311,21 @@ void iexamine::gunsafe_ml( player &p, const tripoint &examp )
         return;
     }
 
-    p.practice( skill_mechanics, 1 );
+    p.practice( skill_lockpick, 1 );
 
     ///\EFFECT_DEX speeds up lock picking gun safe
     ///\EFFECT_MECHANICS speeds up lock picking gun safe
     p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
-                         - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
+                         - ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 5 );
 
     ///\EFFECT_DEX increases chance of lock picking gun safe
     ///\EFFECT_MECHANICS increases chance of lock picking gun safe
-    int pick_roll = ( dice( 2, p.get_skill_level( skill_mechanics ) ) + dice( 2,
-                      p.dex_cur ) ) * pick_quality;
+    int pick_roll = std::pow( 1.5, p.get_skill_level( skill_lockpick ) ) *
+                    ( std::pow( 1.3, p.get_skill_level( skill_mechanics ) ) + pick_quality ) +
+                    p.dex_cur / 4;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
-        p.practice( skill_mechanics, 1 );
+        p.practice( skill_lockpick, 1 );
         add_msg( _( "You successfully unlock the gun safe." ) );
         g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
     } else if( door_roll > ( 3 * pick_roll ) ) {

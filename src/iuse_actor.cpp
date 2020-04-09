@@ -103,6 +103,7 @@ static const bionic_id bio_syringe( "bio_syringe" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
@@ -1105,22 +1106,24 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     } else {
         return 0;
     }
-    p.practice( skill_mechanics, 1 );
+    p.practice( skill_lockpick, 1 );
 
     /** @EFFECT_DEX speeds up door lock picking */
     /** @EFFECT_MECHANICS speeds up door lock picking */
     p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
-                         - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
+                         - ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 5 );
 
     bool destroy = false;
 
     /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = ( dice( 2, p.get_skill_level( skill_mechanics ) ) + dice( 2,
-                      p.dex_cur ) - it.damage_level( 4 ) / 2 ) * pick_quality;
+    int pick_roll = std::pow( 1.5, p.get_skill_level( skill_lockpick ) ) *
+                    ( std::pow( 1.3, p.get_skill_level( skill_mechanics ) ) +
+                      pick_quality - it.damage() / 2 ) +
+                    p.dex_cur / 4;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
-        p.practice( skill_mechanics, 1 );
+        p.practice( skill_lockpick, 1 );
         p.add_msg_if_player( m_good, open_message );
         g->m.ter_set( pnt, new_type );
     } else if( door_roll > ( 1.5 * pick_roll ) ) {
