@@ -30,7 +30,8 @@
 #include "output.h"
 #include "flat_set.h"
 #include "item.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_VARSIZE( "VARSIZE" );
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -67,7 +68,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( "9mm" );
     test_items[ "G3" ] = item( "ar15" ).ammo_set( "223" );
     test_items[ "G4" ] = item( "remington_700" ).ammo_set( "270" );
-    test_items[ "G4" ].emplace_back( "rifle_scope" );
+    test_items[ "G4" ].put_in( item( "rifle_scope" ) );
 
     if( what == "AMMO" ) {
         header = {
@@ -87,7 +88,6 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             damage_instance damage = obj.type->ammo->damage;
             r.push_back( to_string( damage.total_damage() ) );
             r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
-            r.push_back( obj.type->ammo->prop_damage ? to_string( *obj.type->ammo->prop_damage ) : "---" );
             rows.push_back( r );
         };
         for( const itype *e : item_controller->all() ) {
@@ -212,14 +212,14 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( e->gun ) {
                 item gun( e );
                 if( !gun.magazine_integral() ) {
-                    gun.emplace_back( gun.magazine_default() );
+                    gun.put_in( item( gun.magazine_default() ) );
                 }
                 gun.ammo_set( gun.ammo_default( false ), gun.ammo_capacity() );
 
                 dump( test_npcs[ "S1" ], gun );
 
                 if( gun.type->gun->barrel_length > 0_ml ) {
-                    gun.emplace_back( "barrel_small" );
+                    gun.put_in( item( "barrel_small" ) );
                     dump( test_npcs[ "S1" ], gun );
                 }
             }

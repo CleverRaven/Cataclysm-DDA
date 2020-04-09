@@ -19,7 +19,11 @@
 #include "profession.h"
 #include "skill.h"
 #include "stats_tracker.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_jetinjector( "jetinjector" );
 
 static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
 static const trap_str_id tr_glass( "tr_glass" );
@@ -50,6 +54,10 @@ static const trap_str_id tr_shadow( "tr_shadow" );
 static const trap_str_id tr_drain( "tr_drain" );
 static const trap_str_id tr_snake( "tr_snake" );
 static const trap_str_id tr_glass_pit( "tr_glass_pit" );
+
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 
 void memorial_logger::clear()
 {
@@ -290,7 +298,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
+        } else if( next_item.contents.num_item_stacks() == 1 && next_item.contents.front().charges > 0 ) {
             file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;
@@ -310,7 +318,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         }
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
+        } else if( next_item.contents.num_item_stacks() == 1 && next_item.contents.front().charges > 0 ) {
             file << " (" << next_item.contents.front().charges << ")";
         }
         file << eol;

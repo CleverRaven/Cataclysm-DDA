@@ -36,12 +36,18 @@
 #include "player_activity.h"
 #include "regional_settings.h"
 
+static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
+
+static const bionic_id bio_sunglasses( "bio_sunglasses" );
+
 static const efftype_id effect_glare( "glare" );
-static const efftype_id effect_snow_glare( "snow_glare" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_snow_glare( "snow_glare" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
+
+static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -65,8 +71,8 @@ void weather_effect::glare( sun_intensity intensity )
 {
     //General prepequisites for glare
     if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
-        g->u.worn_with_flag( "SUN_GLASSES" ) ||
-        g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ||
+        g->u.worn_with_flag( flag_SUN_GLASSES ) ||
+        g->u.has_bionic( bio_sunglasses ) ||
         g->u.is_blind() ) {
         return;
     }
@@ -158,7 +164,8 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
 
         weather_type wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
-        data.wind_amount += get_local_windpower( g->weather.windspeed, overmap_buffer.ter( location ),
+        data.wind_amount += get_local_windpower( g->weather.windspeed,
+                            overmap_buffer.ter( ms_to_omt_copy( location ) ),
                             location,
                             g->weather.winddirection, false ) * to_turns<int>( tick_size );
     }
@@ -637,7 +644,7 @@ std::string weather_forecast( const point &abs_sm_pos )
             day = _( "Today" );
             started_at_night = false;
         }
-        if( d > 0 && started_at_night != d % 2 ) {
+        if( d > 0 && static_cast<int>( started_at_night ) != d % 2 ) {
             day = string_format( pgettext( "Mon Night", "%s Night" ), to_string( day_of_week( c ) ) );
         } else {
             day = to_string( day_of_week( c ) );
@@ -769,19 +776,19 @@ std::string get_shortdirstring( int angle )
     int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
         dirstring = _( "N" );
-    } else if( dirangle <= 68 && dirangle > 23 ) {
+    } else if( dirangle <= 68 ) {
         dirstring = _( "NE" );
-    } else if( dirangle <= 113 && dirangle > 68 ) {
+    } else if( dirangle <= 113 ) {
         dirstring = _( "E" );
-    } else if( dirangle <= 158 && dirangle > 113 ) {
+    } else if( dirangle <= 158 ) {
         dirstring = _( "SE" );
-    } else if( dirangle <= 203 && dirangle > 158 ) {
+    } else if( dirangle <= 203 ) {
         dirstring = _( "S" );
-    } else if( dirangle <= 248 && dirangle > 203 ) {
+    } else if( dirangle <= 248 ) {
         dirstring = _( "SW" );
-    } else if( dirangle <= 293 && dirangle > 248 ) {
+    } else if( dirangle <= 293 ) {
         dirstring = _( "W" );
-    } else if( dirangle <= 338 && dirangle > 293 ) {
+    } else {
         dirstring = _( "NW" );
     }
     return dirstring;
@@ -794,19 +801,19 @@ std::string get_dirstring( int angle )
     int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
         dirstring = _( "North" );
-    } else if( dirangle <= 68 && dirangle > 23 ) {
+    } else if( dirangle <= 68 ) {
         dirstring = _( "North-East" );
-    } else if( dirangle <= 113 && dirangle > 68 ) {
+    } else if( dirangle <= 113 ) {
         dirstring = _( "East" );
-    } else if( dirangle <= 158 && dirangle > 113 ) {
+    } else if( dirangle <= 158 ) {
         dirstring = _( "South-East" );
-    } else if( dirangle <= 203 && dirangle > 158 ) {
+    } else if( dirangle <= 203 ) {
         dirstring = _( "South" );
-    } else if( dirangle <= 248 && dirangle > 203 ) {
+    } else if( dirangle <= 248 ) {
         dirstring = _( "South-West" );
-    } else if( dirangle <= 293 && dirangle > 248 ) {
+    } else if( dirangle <= 293 ) {
         dirstring = _( "West" );
-    } else if( dirangle <= 338 && dirangle > 293 ) {
+    } else {
         dirstring = _( "North-West" );
     }
     return dirstring;
@@ -815,24 +822,24 @@ std::string get_dirstring( int angle )
 std::string get_wind_arrow( int dirangle )
 {
     std::string wind_arrow;
-    if( ( dirangle <= 23 && dirangle >= 0 ) || ( dirangle > 338 && dirangle < 360 ) ) {
-        wind_arrow = "\u21D3";
-    } else if( dirangle <= 68 && dirangle > 23 ) {
-        wind_arrow = "\u21D9";
-    } else if( dirangle <= 113 && dirangle > 68 ) {
-        wind_arrow = "\u21D0";
-    } else if( dirangle <= 158 && dirangle > 113 ) {
-        wind_arrow = "\u21D6";
-    } else if( dirangle <= 203 && dirangle > 158 ) {
-        wind_arrow = "\u21D1";
-    } else if( dirangle <= 248 && dirangle > 203 ) {
-        wind_arrow = "\u21D7";
-    } else if( dirangle <= 293 && dirangle > 248 ) {
-        wind_arrow = "\u21D2";
-    } else if( dirangle <= 338 && dirangle > 293 ) {
-        wind_arrow = "\u21D8";
-    } else {
+    if( dirangle < 0 || dirangle >= 360 ) {
         wind_arrow.clear();
+    } else if( dirangle <= 23 || dirangle > 338 ) {
+        wind_arrow = "\u21D3";
+    } else if( dirangle <= 68 ) {
+        wind_arrow = "\u21D9";
+    } else if( dirangle <= 113 ) {
+        wind_arrow = "\u21D0";
+    } else if( dirangle <= 158 ) {
+        wind_arrow = "\u21D6";
+    } else if( dirangle <= 203 ) {
+        wind_arrow = "\u21D1";
+    } else if( dirangle <= 248 ) {
+        wind_arrow = "\u21D7";
+    } else if( dirangle <= 293 ) {
+        wind_arrow = "\u21D2";
+    } else {
+        wind_arrow = "\u21D8";
     }
     return wind_arrow;
 }
@@ -948,7 +955,6 @@ bool warm_enough_to_plant( const tripoint &pos )
 
 weather_manager::weather_manager()
 {
-
     lightning_active = false;
     weather_override = WEATHER_NULL;
     nextweather = calendar::before_time_starts;
@@ -990,13 +996,13 @@ void weather_manager::update_weather()
         const weather_datum wdata = weather_data( weather );
         if( weather != old_weather && wdata.dangerous &&
             g->get_levz() >= 0 && g->m.is_outside( g->u.pos() )
-            && !g->u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
+            && !g->u.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                                 string_format( _( "The weather changed to %s!" ), wdata.name ) );
         }
 
-        if( weather != old_weather && g->u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
-            g->u.assign_activity( activity_id( "ACT_WAIT_WEATHER" ), 0, 0 );
+        if( weather != old_weather && g->u.has_activity( ACT_WAIT_WEATHER ) ) {
+            g->u.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
         }
 
         if( wdata.sight_penalty !=

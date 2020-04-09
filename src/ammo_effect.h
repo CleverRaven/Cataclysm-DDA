@@ -7,7 +7,6 @@
 
 #include "explosion.h"
 #include "field_type.h"
-#include "type_id.h"
 
 class JsonObject;
 
@@ -25,7 +24,7 @@ struct ammo_effect {
         int aoe_intensity_max = 0;
         int aoe_radius = 1;
         int aoe_radius_z = 0;
-        int aoe_chance = 1;
+        int aoe_chance = 100;
         int aoe_size = 0;
         explosion_data aoe_explosion_data;
         bool aoe_check_passable = false;
@@ -34,6 +33,13 @@ struct ammo_effect {
         int aoe_check_sees_radius = 0;
         bool do_flashbang = false;
         bool do_emp_blast = false;
+
+        field_type_id trail_field_type = fd_null;
+        /** used during JSON loading only */
+        std::string trail_field_type_name = "fd_null";
+        int trail_intensity_min = 0;
+        int trail_intensity_max = 0;
+        int trail_chance = 100;
 
     public:
         // Used by generic_factory

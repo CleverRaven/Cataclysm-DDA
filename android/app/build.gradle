@@ -35,24 +35,83 @@ if (keystorePropertiesFile.exists()) {
 }
 
 def njobs = getProperty("j")
+if (localProperties.getProperty('j') != null) {
+    njobs = localProperties.getProperty("j")
+}
 
 def localize = getProperty("localize").toBoolean()
-def abi_arm_32 = getProperty("abi_arm_32").toBoolean()
-def abi_arm_64 = getProperty("abi_arm_64").toBoolean()
-def abi_x86_32 = getProperty("abi_x86_32").toBoolean()
-def abi_x86_64 = getProperty("abi_x86_64").toBoolean()
-def deps = getProperty("deps")
-def override_version = getProperty("override_version")
-def version_header_path = getProperty("version_header_path")
-def override_compileSdkVersion = getProperty("override_compileSdkVersion").toInteger()
-def override_minSdkVersion = getProperty("override_minSdkVersion").toInteger()
-def override_targetSdkVersion = getProperty("override_targetSdkVersion").toInteger()
-def override_ndkBuildAppPlatform = getProperty("override_ndkBuildAppPlatform")
+if (localProperties.getProperty('localize') != null) {
+    localize = localProperties.getProperty("localize").toBoolean()
+}
 
-println("Using compileSdkVersion: $override_compileSdkVersion")
-println("Using minSdkVersion: $override_minSdkVersion")
-println("Using targetSdkVersion: $override_targetSdkVersion")
-println("Using ndkBuildAppPlatform: $override_ndkBuildAppPlatform")
+def abi_arm_32 = getProperty("abi_arm_32").toBoolean()
+if (localProperties.getProperty('abi_arm_32') != null) {
+    abi_arm_32 = localProperties.getProperty("abi_arm_32").toBoolean()
+}
+
+def abi_arm_64 = getProperty("abi_arm_64").toBoolean()
+if (localProperties.getProperty('abi_arm_64') != null) {
+    abi_arm_64 = localProperties.getProperty("abi_arm_64").toBoolean()
+}
+
+def abi_x86_32 = getProperty("abi_x86_32").toBoolean()
+if (localProperties.getProperty('abi_x86_32') != null) {
+    abi_x86_32 = localProperties.getProperty("abi_x86_32").toBoolean()
+}
+
+def abi_x86_64 = getProperty("abi_x86_64").toBoolean()
+if (localProperties.getProperty('abi_x86_64') != null) {
+    abi_x86_64 = localProperties.getProperty("abi_x86_64").toBoolean()
+}
+
+def deps = getProperty("deps")
+if (localProperties.getProperty('deps') != null) {
+    deps = localProperties.getProperty("deps")
+}
+
+def override_version = getProperty("override_version")
+if (localProperties.getProperty('override_version') != null) {
+    override_version = localProperties.getProperty("override_version")
+}
+
+def version_header_path = getProperty("version_header_path")
+if (localProperties.getProperty('version_header_path') != null) {
+    version_header_path = localProperties.getProperty("version_header_path")
+}
+
+def override_compileSdkVersion = getProperty("override_compileSdkVersion").toInteger()
+if (localProperties.getProperty('override_compileSdkVersion') != null) {
+    override_compileSdkVersion = localProperties.getProperty("override_compileSdkVersion").toInteger()
+}
+
+def override_minSdkVersion = getProperty("override_minSdkVersion").toInteger()
+if (localProperties.getProperty('override_minSdkVersion') != null) {
+    override_minSdkVersion = localProperties.getProperty("override_minSdkVersion").toInteger()
+}
+
+def override_targetSdkVersion = getProperty("override_targetSdkVersion").toInteger()
+if (localProperties.getProperty('override_targetSdkVersion') != null) {
+    override_targetSdkVersion = localProperties.getProperty("override_targetSdkVersion").toInteger()
+}
+
+def override_ndkBuildAppPlatform = getProperty("override_ndkBuildAppPlatform")
+if (localProperties.getProperty('override_ndkBuildAppPlatform') != null) {
+    override_ndkBuildAppPlatform = localProperties.getProperty("override_ndkBuildAppPlatform")
+}
+
+println("Using [              njobs]: $njobs")
+println("Using [           localize]: $localize")
+println("Using [               deps]: $deps")
+println("Using [   override_version]: $override_version")
+println("Using [version_header_path]: $version_header_path")
+println("Using [  compileSdkVersion]: $override_compileSdkVersion")
+println("Using [      minSdkVersion]: $override_minSdkVersion")
+println("Using [   targetSdkVersion]: $override_targetSdkVersion")
+println("Using [ndkBuildAppPlatform]: $override_ndkBuildAppPlatform")
+println("Using [         abi_arm_32]: $abi_arm_32")
+println("Using [         abi_arm_64]: $abi_arm_64")
+println("Using [         abi_x86_32]: $abi_x86_32")
+println("Using [         abi_x86_64]: $abi_x86_64")
 
 if (!abi_arm_32 && !abi_arm_64 && !abi_x86_32 && !abi_x86_64) {
     throw new GradleException("All supported ABI properties are set to false!")
@@ -184,6 +243,10 @@ android {
     flavorDimensions "version"
 
     productFlavors {
+        stable {
+            dimension "version"
+            resValue "string", "app_name", "Cataclysm DDA"
+        }
         experimental {
             dimension "version"
             applicationIdSuffix ".experimental"
@@ -204,6 +267,18 @@ android {
                 throw new GradleException("Keystore file " + keystoreProperties.getProperty("storeFile") + " was not found.\n")
             }
         }
+        if (keystoreProperties.getProperty('debug_storeFile') != null) {
+            if (file(keystoreProperties.getProperty('debug_storeFile')).exists()) {
+                debug {
+                    storeFile file(keystoreProperties.getProperty("debug_storeFile"))
+                    storePassword keystoreProperties.getProperty("debug_storePassword")
+                    keyAlias keystoreProperties.getProperty("debug_seyAlias")
+                    keyPassword keystoreProperties.getProperty("debug_keyPassword")
+                }
+            } else {
+                throw new GradleException("Keystore file " + keystoreProperties.getProperty("debug_storeFile") + " was not found.\n")
+            }
+        }
     }
     buildTypes {
         release {
@@ -222,7 +297,9 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
+            if (signingConfigs.hasProperty("debug")) {
+                signingConfig signingConfigs.debug
+            }
             externalNativeBuild {
                 ndkBuild {
 
@@ -266,6 +343,8 @@ sourceSets {
         resources {
             srcDirs = ['src/main/res']
         }
+    }
+    stable {
     }
     experimental {
         resources {

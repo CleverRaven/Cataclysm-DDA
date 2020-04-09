@@ -24,6 +24,7 @@
 #include "mutation.h"
 #include "output.h"
 #include "player.h"
+#include "skill.h"
 #include "sounds.h"
 #include "translations.h"
 #include "ui.h"
@@ -40,7 +41,8 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "line.h"
-#include "cata_string_consts.h"
+
+static const trait_id trait_NONE( "NONE" );
 
 namespace io
 {
@@ -210,6 +212,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         { "spawn_item", spell_effect::spawn_ethereal_item },
         { "recover_energy", spell_effect::recover_energy },
         { "summon", spell_effect::spawn_summoned_monster },
+        { "summon_vehicle", spell_effect::spawn_summoned_vehicle },
         { "translocate", spell_effect::translocate },
         { "area_pull", spell_effect::area_pull },
         { "area_push", spell_effect::area_push },
@@ -231,6 +234,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "skill", skill, skill_id( "spellcraft" ) );
     optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
     optional( jo, was_loaded, "sound_description", sound_description,
               to_translation( "an explosion" ) );
@@ -342,8 +346,8 @@ static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const s
         unique_spell_list.emplace( fake_sp.id );
     }
 
-    for( const spell_id &sp : unique_spell_list ) {
-        if( spell_infinite_loop_check( spell_effects, sp ) ) {
+    for( const spell_id &other_sp : unique_spell_list ) {
+        if( spell_infinite_loop_check( spell_effects, other_sp ) ) {
             return true;
         }
     }
@@ -384,6 +388,12 @@ void spell_type::check_consistency()
         if( sp_t.casting_time_increment > 0.0f && sp_t.base_casting_time > sp_t.final_casting_time ) {
             debugmsg( "ERROR: %s has positive increment and base_casting_time > final_casting_time",
                       sp_t.id.c_str() );
+        }
+        if( sp_t.effect_name == "summon_vehicle" ) {
+            if( !sp_t.effect_str.empty() && !vproto_id( sp_t.effect_str ).is_valid() ) {
+                debugmsg( "ERROR %s specifies a vehicle to summon, but vehicle %s is not valid", sp_t.id.c_str(),
+                          sp_t.effect_str );
+            }
         }
         std::set<spell_id> spell_effect_list;
         if( spell_infinite_loop_check( spell_effect_list, sp_t.id ) ) {
@@ -430,10 +440,10 @@ spell::spell( spell_id sp, int xp ) :
     experience( xp )
 {}
 
-spell::spell( spell_id sp, const translation &alt_msg ) :
-    type( sp ),
-    alt_message( alt_msg )
-{}
+void spell::set_message( const translation &msg )
+{
+    alt_message = msg;
+}
 
 spell_id spell::id() const
 {
@@ -445,16 +455,21 @@ trait_id spell::spell_class() const
     return type->spell_class;
 }
 
+skill_id spell::skill() const
+{
+    return type->skill;
+}
+
 int spell::field_intensity() const
 {
     return std::min( type->max_field_intensity,
-                     static_cast<int>( type->min_field_intensity + round( get_level() *
+                     static_cast<int>( type->min_field_intensity + std::round( get_level() *
                                        type->field_intensity_increment ) ) );
 }
 
 int spell::min_leveled_damage() const
 {
-    return type->min_damage + round( get_level() * type->damage_increment );
+    return type->min_damage + std::round( get_level() * type->damage_increment );
 }
 
 int spell::damage() const
@@ -489,7 +504,7 @@ std::string spell::damage_string() const
 
 int spell::min_leveled_aoe() const
 {
-    return type->min_aoe + round( get_level() * type->aoe_increment );
+    return type->min_aoe + std::round( get_level() * type->aoe_increment );
 }
 
 int spell::aoe() const
@@ -527,7 +542,7 @@ std::string spell::aoe_string() const
 
 int spell::range() const
 {
-    const int leveled_range = type->min_range + round( get_level() * type->range_increment );
+    const int leveled_range = type->min_range + std::round( get_level() * type->range_increment );
     if( type->max_range >= type->min_range ) {
         return std::min( leveled_range, type->max_range );
     } else {
@@ -537,7 +552,7 @@ int spell::range() const
 
 int spell::min_leveled_duration() const
 {
-    return type->min_duration + round( get_level() * type->duration_increment );
+    return type->min_duration + std::round( get_level() * type->duration_increment );
 }
 
 int spell::duration() const
@@ -706,7 +721,7 @@ float spell::spell_fail( const player &p ) const
     // effective skill of 8 (8 int, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
     // effective skill of 30 is 0% failure
     const float effective_skill = 2 * ( get_level() - get_difficulty() ) + p.get_int() +
-                                  p.get_skill_level( skill_id( "spellcraft" ) );
+                                  p.get_skill_level( skill() );
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
         return 0.0f;
@@ -714,13 +729,13 @@ float spell::spell_fail( const player &p ) const
         return 1.0f;
     }
     float fail_chance = pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    if( has_flag( spell_flag::SOMATIC ) ) {
+    if( has_flag( spell_flag::SOMATIC ) && !p.has_trait_flag( "SUBTLE_SPELL" ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0, p.encumb( bp_arm_l ) + p.encumb( bp_arm_r ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
-    if( has_flag( spell_flag::VERBAL ) ) {
+    if( has_flag( spell_flag::VERBAL ) && !p.has_trait_flag( "SILENT_SPELL" ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
         const int mouth_encumb = std::max( 0, p.encumb( bp_mouth ) - 5 );
         fail_chance += mouth_encumb / 100.0f;
@@ -897,6 +912,11 @@ energy_type spell::energy_source() const
     return type->energy_source;
 }
 
+bool spell::is_target_in_range( const Creature &caster, const tripoint &p ) const
+{
+    return rl_dist( caster.pos(), p ) <= range();
+}
+
 bool spell::is_valid_target( valid_target t ) const
 {
     return type->valid_targets[t];
@@ -1022,7 +1042,7 @@ float spell::exp_modifier( const player &p ) const
 {
     const float int_modifier = ( p.get_int() - 8.0f ) / 8.0f;
     const float difficulty_modifier = get_difficulty() / 20.0f;
-    const float spellcraft_modifier = p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0f;
+    const float spellcraft_modifier = p.get_skill_level( skill() ) / 10.0f;
 
     return ( int_modifier + difficulty_modifier + spellcraft_modifier ) / 5.0f + 1.0f;
 }
@@ -1100,6 +1120,11 @@ dealt_damage_instance spell::get_dealt_damage_instance() const
 std::string spell::effect_data() const
 {
     return type->effect_str;
+}
+
+vproto_id spell::summon_vehicle_id() const
+{
+    return vproto_id( type->effect_str );
 }
 
 int spell::heal( const tripoint &target ) const
@@ -1383,8 +1408,8 @@ void known_magic::update_mana( const player &p, float turns )
     // mana should replenish in 8 hours.
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
-    mod_mana( p, floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
-                        p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
+    mod_mana( p, std::floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
+                             p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -1431,8 +1456,8 @@ int known_magic::time_to_learn_spell( const player &p, const std::string &str ) 
 int known_magic::time_to_learn_spell( const player &p, const spell_id &sp ) const
 {
     const int base_time = to_moves<int>( 30_minutes );
-    return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
-                         ( p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0 ) );
+    return base_time * ( 1.0 + sp->difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
+                         ( p.get_skill_level( sp->skill ) / 10.0 ) );
 }
 
 int known_magic::get_spellname_max_width()
@@ -1902,7 +1927,8 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     }
 
     if( sp.min_duration != 0 && sp.max_duration != 0 ) {
-        rows.emplace_back( _( "Duration" ), sp.min_duration, sp.duration_increment, sp.max_duration );
+        rows.emplace_back( _( "Duration" ), sp.min_duration, static_cast<float>( sp.duration_increment ),
+                           sp.max_duration );
     }
 
     rows.emplace_back( _( "Cast Cost" ), sp.base_energy_cost, sp.energy_increment,
@@ -1938,6 +1964,10 @@ void fake_spell::load( const JsonObject &jo )
     mandatory( jo, false, "id", temp_id );
     id = spell_id( temp_id );
     optional( jo, false, "hit_self", self, false );
+
+    optional( jo, false, "once_in", trigger_once_in, 1 );
+    optional( jo, false, "message", trigger_message );
+    optional( jo, false, "npc_message", npc_trigger_message );
     int max_level_int;
     optional( jo, false, "max_level", max_level_int, -1 );
     if( max_level_int == -1 ) {
@@ -1956,6 +1986,8 @@ void fake_spell::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "id", id );
     json.member( "hit_self", self );
+    json.member( "once_in", trigger_once_in );
+
     if( !max_level ) {
         json.member( "max_level", -1 );
     } else {
@@ -1971,19 +2003,25 @@ void fake_spell::deserialize( JsonIn &jsin )
     load( data );
 }
 
-spell fake_spell::get_spell( int input_level ) const
+spell fake_spell::get_spell( int min_level_override ) const
 {
     spell sp( id );
-    int lvl = std::min( input_level, sp.get_max_level() );
-    if( max_level ) {
-        lvl = std::min( lvl, *max_level );
+    // the max level this spell will be. can be optionally limited
+    int spell_limiter = max_level ? std::min( *max_level, sp.get_max_level() ) : sp.get_max_level();
+    // level is the minimum level the fake_spell will output
+    min_level_override = std::max( min_level_override, level );
+    if( min_level_override > spell_limiter ) {
+        // this override is for min level, and does not override max level
+        min_level_override = spell_limiter;
     }
-    if( level > lvl ) {
+    // the "level" of the fake spell is the goal, but needs to be clamped to min and max
+    int level_of_spell = clamp( level, min_level_override,  std::min( sp.get_max_level(),
+                                spell_limiter ) );
+    if( level > spell_limiter ) {
         debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
         return sp;
     }
-    lvl = clamp( std::max( lvl, level ), level, lvl );
-    while( sp.get_level() < lvl ) {
+    while( sp.get_level() < level_of_spell ) {
         sp.gain_level();
     }
     return sp;

@@ -116,14 +116,14 @@ class player_morale
                 morale_type type;
                 const itype *item_type;
 
-                int bonus;
-                time_duration duration;   // Zero duration == infinity
-                time_duration decay_start;
-                time_duration age;
+                int bonus = 0;
+                time_duration duration = 0_turns;   // Zero duration == infinity
+                time_duration decay_start = 0_turns;
+                time_duration age = 0_turns;
                 /**
                  *this point's percent contribution to the total positive or total negative morale effect
                  */
-                double percent_contribution;
+                double percent_contribution = 0;
 
                 /**
                  * Returns either new_time or remaining time (which one is greater).
@@ -173,7 +173,7 @@ class player_morale
                 hot( 0 ),
                 cold( 0 ) {}
         };
-        std::array<body_part_data, num_bp> body_parts;
+        std::map<bodypart_id, body_part_data> body_parts;
         body_part_data no_body_part;
 
         using mutation_handler = std::function<void ( player_morale * )>;

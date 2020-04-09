@@ -11,16 +11,19 @@
 #include <memory>
 #include <stdexcept>
 
+#include "achievement.h"
 #include "activity_type.h"
 #include "ammo.h"
 #include "anatomy.h"
 #include "behavior.h"
 #include "bionics.h"
+#include "clzones.h"
 #include "construction.h"
 #include "crafting_gui.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "disease.h"
 #include "effect.h"
 #include "emit.h"
 #include "event_statistics.h"
@@ -71,7 +74,6 @@
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "trap.h"
-#include "gamemode_tutorial.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
@@ -181,6 +183,8 @@ void DynamicDataLoader::add( const std::string &type, std::function<void( const 
     }
 }
 
+void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
+
 void DynamicDataLoader::initialize()
 {
     // all of the applicable types that can be loaded, along with their loading functions
@@ -212,12 +216,14 @@ void DynamicDataLoader::initialize()
     add( "MONSTER_WHITELIST", &MonsterGroupManager::LoadMonsterWhitelist );
     add( "speech", &load_speech );
     add( "ammunition_type", &ammunition_type::load_ammunition_type );
+    add( "start_location", &start_locations::load );
     add( "scenario", &scenario::load_scenario );
-    add( "start_location", &start_location::load_location );
+    add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
     add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
     add( "scent_type", &scent_type::load_scent_type );
+    add( "disease_type", &disease_type::load_disease_type );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
@@ -306,6 +312,8 @@ void DynamicDataLoader::initialize()
         item_controller->load_migration( jo );
     } );
 
+    add( "charge_removal_blacklist", load_charge_removal_blacklist );
+
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
     } );
@@ -324,7 +332,6 @@ void DynamicDataLoader::initialize()
     add( "technique", &load_technique );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
-    add( "tutorial_messages", &load_tutorial_messages );
     add( "obsolete_terrain", &overmap::load_obsolete_terrains );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
@@ -377,7 +384,7 @@ void DynamicDataLoader::initialize()
     } );
     add( "palette", mapgen_palette::load );
     add( "rotatable_symbol", &rotatable_symbols::load );
-    add( "body_part", &body_part_struct::load_bp );
+    add( "body_part", &body_part_type::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
@@ -386,6 +393,7 @@ void DynamicDataLoader::initialize()
     add( "event_transformation", &event_transformation::load_transformation );
     add( "event_statistic", &event_statistic::load_statistic );
     add( "score", &score::load_score );
+    add( "achievement", &achievement::load_achievement );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -491,7 +499,6 @@ void DynamicDataLoader::unload_data()
     mutation_branch::reset_all();
     spell_type::reset_all();
     reset_bionics();
-    clear_tutorial_messages();
     reset_furn_ter();
     MonsterGroupManager::ClearMonsterGroups();
     SNIPPET.clear_snippets();
@@ -511,6 +518,7 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
+    reset_scenarios_blacklist();
     overmap_land_use_codes::reset();
     overmap_connections::reset();
     overmap_locations::reset();
@@ -518,13 +526,13 @@ void DynamicDataLoader::unload_data()
     ammunition_type::reset();
     unload_talk_topics();
     behavior::reset();
-    start_location::reset();
+    start_locations::reset();
     scenario::reset();
     gates::reset();
     reset_overlay_ordering();
     npc_class::reset_npc_classes();
     rotatable_symbols::reset();
-    body_part_struct::reset();
+    body_part_type::reset();
     npc_template::reset();
     anatomy::reset();
     reset_mod_tileset();
@@ -534,6 +542,8 @@ void DynamicDataLoader::unload_data()
     event_transformation::reset();
     event_statistic::reset();
     score::reset();
+    achievement::reset();
+    scent_type::reset();
 
     // TODO:
     //    Name::clear();
@@ -554,7 +564,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
-            { _( "Body parts" ), &body_part_struct::finalize_all },
+            { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
@@ -580,6 +590,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
             { _( "Overmap locations" ), &overmap_locations::finalize },
+            { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             {
@@ -591,10 +602,10 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
             { _( "Monster factions" ), &monfactions::finalize },
             { _( "Factions" ), &npc_factions::finalize },
+            { _( "Constructions" ), &finalize_constructions },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finialize_martial_arts },
-            { _( "Constructions" ), &finalize_constructions },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },
             { _( "Behaviors" ), &behavior::finalize },
@@ -669,6 +680,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Overmap locations" ), &overmap_locations::check_consistency },
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
             { _( "Map extras" ), &MapExtras::check_consistency },
+            { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
             { _( "Bionics" ), &check_bionics },
@@ -684,13 +696,15 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Harvest lists" ), &harvest_list::check_consistency },
             { _( "NPC templates" ), &npc_template::check_consistency },
-            { _( "Body parts" ), &body_part_struct::check_consistency },
+            { _( "Body parts" ), &body_part_type::check_consistency },
             { _( "Anatomies" ), &anatomy::check_consistency },
             { _( "Spells" ), &spell_type::check_consistency },
             { _( "Transformations" ), &event_transformation::check_consistency },
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },
             { _( "Scores" ), &score::check_consistency },
+            { _( "Achivements" ), &achievement::check_consistency },
+            { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
         }
     };
@@ -704,4 +718,6 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
         e.second();
         ui.proceed();
     }
+    catacurses::erase();
+    catacurses::refresh();
 }

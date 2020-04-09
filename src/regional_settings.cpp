@@ -306,6 +306,8 @@ static void load_overmap_lake_settings( const JsonObject &jo,
                                        overmap_lake_settings.noise_threshold_lake, !overlay );
         read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_size_min",
                                     overmap_lake_settings.lake_size_min, !overlay );
+        read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_depth",
+                                    overmap_lake_settings.lake_depth, !overlay );
 
         if( !overmap_lake_settings_jo.has_array( "shore_extendable_overmap_terrain" ) ) {
             if( !overlay ) {
@@ -517,9 +519,6 @@ void load_region_settings( const JsonObject &jo )
         if( !cjo.read( "park_sigma", new_region.city_spec.park_sigma ) && strict ) {
             jo.throw_error( "city: park_sigma required for default" );
         }
-        if( !cjo.read( "house_basement_chance", new_region.city_spec.house_basement_chance ) && strict ) {
-            jo.throw_error( "city: house_basement_chance required for default" );
-        }
         const auto load_building_types = [&jo, &cjo, strict]( const std::string & type,
         building_bin & dest ) {
             if( !cjo.has_object( type ) && strict ) {
@@ -534,7 +533,6 @@ void load_region_settings( const JsonObject &jo )
             }
         };
         load_building_types( "houses", new_region.city_spec.houses );
-        load_building_types( "basements", new_region.city_spec.basements );
         load_building_types( "shops", new_region.city_spec.shops );
         load_building_types( "parks", new_region.city_spec.parks );
     }
@@ -685,7 +683,6 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     cityjo.read( "shop_sigma", region.city_spec.shop_sigma );
     cityjo.read( "park_radius", region.city_spec.park_radius );
     cityjo.read( "park_sigma", region.city_spec.park_sigma );
-    cityjo.read( "house_basement_chance", region.city_spec.house_basement_chance );
 
     const auto load_building_types = [&cityjo]( const std::string & type, building_bin & dest ) {
         for( const JsonMember member : cityjo.get_object( type ) ) {
@@ -696,7 +693,6 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
         }
     };
     load_building_types( "houses", region.city_spec.houses );
-    load_building_types( "basements", region.city_spec.basements );
     load_building_types( "shops", region.city_spec.shops );
     load_building_types( "parks", region.city_spec.parks );
 
@@ -1001,7 +997,6 @@ void regional_settings::finalize()
 void city_settings::finalize()
 {
     houses.finalize();
-    basements.finalize();
     shops.finalize();
     parks.finalize();
 }

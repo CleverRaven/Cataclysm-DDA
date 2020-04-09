@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_ISHERWOOD_EDDIE",
-    "name": "Eddie Isherwood",
+    "name": { "str": "Eddie Isherwood" },
     "job_description": "I'm a dairy farmer, part of the Isherwood family",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
@@ -40,12 +40,13 @@
   {
     "type": "item_group",
     "id": "NC_ISHERWOOD_EDDIE_misc",
-    "items": [
-      [ "cheese_hard", 55 ],
-      [ "cheese", 55 ],
-      [ "butter", 55 ],
-      [ "meat_smoked", 45 ],
-      [ "fish_smoked", 25 ],
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cheese_hard", "prob": 55 },
+      { "item": "cheese", "prob": 55 },
+      { "item": "butter", "prob": 55 },
+      { "item": "meat_smoked", "prob": 45 },
+      { "item": "fish_smoked", "prob": 25 },
       { "item": "milk", "prob": 70, "charges": 12, "container-item": "jar_3l_glass_sealed" }
     ]
   },
@@ -164,8 +165,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_EDDIE_CARLOS",
-    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forage set up.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_forage", "type": "general", "context": "meeting", "value": "yes" } },
+    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forge set up.",
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_forge", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -193,7 +194,7 @@
   {
     "id": "MISSION_ISHERWOOD_EDDIE_1",
     "type": "mission_definition",
-    "name": "Gather 120 Stones",
+    "name": { "str": "Gather 120 Rocks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -205,7 +206,7 @@
     "dialogue": {
       "describe": "We need to build some kilns.",
       "offer": "I could use 120 rocks to construct some kilns.",
-      "accepted": "You can break up some larger rocks, or gather them up from the fields.",
+      "accepted": "You can break up some larger stones, or gather them up from the fields.",
       "rejected": "Thanks anyway, we'll find the time to get them ourselves.",
       "advice": "Mining would always be an option if you had the resources.",
       "inquire": "Do you have the stone?",
@@ -235,7 +236,7 @@
   {
     "id": "MISSION_ISHERWOOD_EDDIE_2",
     "type": "mission_definition",
-    "name": "Gather 2000 units of sand",
+    "name": { "str": "Gather 2000 units of sand" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
@@ -263,7 +264,7 @@
   {
     "id": "MISSION_ISHERWOOD_EDDIE_3",
     "type": "mission_definition",
-    "name": "Gather 1000 units of clay",
+    "name": { "str": "Gather 1000 units of clay" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,

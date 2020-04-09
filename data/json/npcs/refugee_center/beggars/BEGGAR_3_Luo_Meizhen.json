@@ -21,7 +21,7 @@
   {
     "type": "npc_class",
     "id": "NC_BEGGAR_3",
-    "name": "Beggar",
+    "name": { "str": "Beggar" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
@@ -448,6 +448,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_RECRUITED1",
     "dynamic_line": "Aw damn, I was worried you'd say that.  Okay, listen: you've got yourself a deal.  I'll come to your base, but you've gotta get me hooked up with a microscope as soon as you can.  This could be the beginning of something really cool.  Oh, and it should go without saying that I'm not coming unless you can find a place for my friends here in your base.  I'm sure you anticipated that.  Talk them into going and I'm in.  It should be easy, they're a bunch of sweet hearted saps.",
+    "speaker_effect": [ { "effect": { "u_add_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
     "responses": [
       {
         "condition": {

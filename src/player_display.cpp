@@ -17,6 +17,7 @@
 #include "profession.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "weather.h"
 #include "catacharset.h"
@@ -314,7 +315,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                             string_format( _( "Crafting bonus: <color_white>%d%%</color>" ), you.get_int() ) );
         if( you.rust_rate() ) {
             print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
-                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate( false ) ) );
+                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate() ) );
         }
     } else if( line == 3 ) {
         // Display information on player perception in appropriate window
@@ -503,7 +504,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     center_print( w_bionics, 0, h_light_gray, _( title_BIONICS ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
+                                      " / <color_light_blue>%2$d</color>" ),
                                    units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
 
     const size_t useful_y = bionics_win_size_y - 1;
@@ -550,7 +552,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
         center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                        string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                        string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
+                                          " / <color_light_blue>%2$d</color>" ),
                                        units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
         for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
             mvwprintz( w_bionics, point( 1, static_cast<int>( i + 2 ) ), c_black, "                         " );
@@ -973,7 +976,8 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
+                                      " / <color_light_blue>%2$d</color>" ),
                                    units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
         trim_and_print( w_bionics, point( 1, static_cast<int>( i ) + 2 ), getmaxx( w_bionics ) - 1, c_white,
@@ -1287,31 +1291,33 @@ void player::disp_info()
                 break;
             }
         }
-        //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
-                   male ? _( "Male" ) : _( "Female" ), race );
+        //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name, 4s age (years), 5s height
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s | %4$s | %5$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ), race, age_string(), height_string() );
     } else if( prof == nullptr || prof == profession::generic() ) {
         // Regular person. Nothing interesting.
-        //~ player info window: 1s - name, 2s - gender, '|' - field separator.
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s" ), name, male ? _( "Male" ) : _( "Female" ) );
+        //~ player info window: 1s - name, 2s - gender, 3s - age, 4s - height '|' - field separator.
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s | %4$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ),
+                   age_string(), height_string() );
     } else {
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
-                   male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ) );
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s | %4$s | %5$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ),
+                   age_string(), height_string() );
     }
 
     input_context ctxt( "PLAYER_INFO" );
     ctxt.register_updown();
-    ctxt.register_action( "NEXT_TAB", translate_marker( "Cycle to next category" ) );
-    ctxt.register_action( "PREV_TAB", translate_marker( "Cycle to previous category" ) );
+    ctxt.register_action( "NEXT_TAB", to_translation( "Cycle to next category" ) );
+    ctxt.register_action( "PREV_TAB", to_translation( "Cycle to previous category" ) );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "CONFIRM", translate_marker( "Toggle skill training" ) );
+    ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     std::string action;
 
-    std::string help_msg = string_format( _( "Press %s for help." ),
-                                          ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-    mvwprintz( w_tip, point( FULL_SCREEN_WIDTH - utf8_width( help_msg ), 0 ), c_light_red, help_msg );
-    help_msg.clear();
+    right_print( w_tip, 0, +4, c_white, string_format(
+                     _( "< [<color_yellow>%s</color>] keybindings >" ),
+                     ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
     wrefresh( w_tip );
 
     draw_initial_windows( w_stats, w_encumb, w_traits, w_bionics, w_effects, w_skills, w_speed, *this,
@@ -1345,6 +1351,9 @@ void player::disp_info()
     int curtab = 1;
     line = 0;
     bool done = false;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     // Initial printing is DONE.  Now we give the player a chance to scroll around
     // and "hover" over different items for more info.

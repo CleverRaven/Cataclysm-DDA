@@ -96,7 +96,7 @@ struct less<failure> {
 // size of 20, 70% of the time is due to the call to Character::set_mutation in try_set_traits.
 // When the mutation stuff isn't commented out, the test takes 110 minutes (not a typo)!
 
-TEST_CASE( "starting_items" )
+TEST_CASE( "starting_items", "[slow]" )
 {
     // Every starting trait that interferes with food/clothing
     const std::vector<trait_id> mutations = {
@@ -145,7 +145,10 @@ TEST_CASE( "starting_items" )
                     g->u.male = i == 0;
                     std::list<item> items = prof->items( g->u.male, traits );
                     for( const item &it : items ) {
-                        items.insert( items.begin(), it.contents.begin(), it.contents.end() );
+                        const std::list<const item *> it_contents = it.contents.all_items_top();
+                        for( const item *top_content_item : it_contents ) {
+                            items.push_back( *top_content_item );
+                        }
                     }
 
                     for( const item &it : items ) {
@@ -178,4 +181,3 @@ TEST_CASE( "starting_items" )
     INFO( failure_messages.str() );
     REQUIRE( failures.empty() );
 }
-

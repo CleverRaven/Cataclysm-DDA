@@ -324,6 +324,9 @@ issues reported by the `translation` class.
 | Inscribe use action verbs/gerunds
 | Monster names (plural supported) and descriptions
 | Snippets
+| Bodypart names
+| Keybinding action names
+| Field level names
 
 ### Recommendations
 

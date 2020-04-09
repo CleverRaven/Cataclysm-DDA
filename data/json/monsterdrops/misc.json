@@ -1,0 +1,25 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "jackson_drops",
+    "entries": [
+      { "item": "jacket_leather_red", "prob": 100 },
+      { "item": "jeans_red", "prob": 100 },
+      { "item": "socks", "prob": 100 },
+      { "item": "dance_shoes", "prob": 100 },
+      { "item": "glove_jackson", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_dragon_dummy_drops",
+    "entries": [
+      { "item": "paper", "charges-min": 100, "charges-max": 300 },
+      { "item": "stick", "count": [ 5, 8 ] },
+      { "item": "cable", "charges-min": 20, "charges-max": 50 },
+      { "item": "amplifier", "count": [ 0, 3 ] }
+    ]
+  }
+]

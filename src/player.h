@@ -78,7 +78,6 @@ struct item_comp;
 struct tool_comp;
 class vehicle;
 struct w_point;
-struct targeting_data;
 
 /** @relates ret_val */
 template<>
@@ -109,10 +108,10 @@ struct stat_mod {
 };
 
 struct needs_rates {
-    float thirst;
-    float hunger;
-    float fatigue;
-    float recovery;
+    float thirst = 0.0f;
+    float hunger = 0.0f;
+    float fatigue = 0.0f;
+    float recovery = 0.0f;
     float kcal = 0.0f;
 };
 
@@ -180,15 +179,11 @@ class player : public Character
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
-        /** Called after every action, invalidates player caches */
-        void action_taken();
 
         /** Define color for displaying the body temperature */
         nc_color bodytemp_color( int bp ) const;
         /** Returns the player's modified base movement cost */
         int  run_cost( int base_cost, bool diag = false ) const;
-        /** Returns the player's speed for swimming across water tiles */
-        int  swim_speed() const;
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
 
@@ -228,28 +223,10 @@ class player : public Character
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet( int ch );
 
-        const tripoint &pos() const override;
-        /** Returns the player's sight range */
-        int sight_range( int light_level ) const override;
-        /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
-        int  unimpaired_range() const;
-        /** Returns true if overmap tile is within player line-of-sight */
-        bool overmap_los( const tripoint &omt, int sight_points );
-        /** Returns the distance the player can see on the overmap */
-        int  overmap_sight_range( int light_level ) const;
-        /** Returns the distance the player can see through walls */
-        int  clairvoyance() const;
-        /** Returns true if the player has some form of impaired sight */
-        bool sight_impaired() const;
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
         bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
-
-        /** Returns true if the player or their vehicle has an alarm clock */
-        bool has_alarm_clock() const;
-        /** Returns true if the player or their vehicle has a watch */
-        bool has_watch() const;
 
         // see Creature::sees
         bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
@@ -297,10 +274,6 @@ class player : public Character
         bool is_stealthy() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
-        /** Always returns false, since players can't dig currently */
-        bool digging() const override;
-        /** Returns true if the player is knocked over or has broken legs */
-        bool is_on_ground() const override;
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
 
@@ -442,8 +415,6 @@ class player : public Character
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
         // Mental skills and stats
-        /** Returns the player's reading speed */
-        int read_speed( bool return_stat_effect = true ) const;
         /** Returns a value used when attempting to convince NPC's of something */
         int talk_skill() const;
         /** Returns a value used when attempting to intimidate NPC's */
@@ -511,10 +482,6 @@ class player : public Character
         bool eat( item &food, bool force = false );
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
-
-        std::pair<std::string, nc_color> get_hunger_description() const override;
-
-        std::pair<std::string, nc_color> get_pain_description() const override;
 
         int get_lift_assist() const;
 
@@ -605,7 +572,7 @@ class player : public Character
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
          * @param container Container containing the item to be wielded
-         * @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
+         * @param internal_item reference to contained item to wield.
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
@@ -928,6 +895,7 @@ class player : public Character
         int volume;
         const profession *prof;
 
+        bool random_start_location;
         start_location_id start_location;
 
         double recoil = MAX_RECOIL;
@@ -945,7 +913,7 @@ class player : public Character
 
         bool reach_attacking = false;
         bool manual_examine = false;
-
+        vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
@@ -959,7 +927,6 @@ class player : public Character
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
 
-        bool is_underwater() const override;
         void set_underwater( bool );
         bool is_hallucination() const override;
         void environmental_revert_effect();
@@ -969,7 +936,6 @@ class player : public Character
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
 
-        m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
         int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;
@@ -978,16 +944,16 @@ class player : public Character
         //message related stuff
         using Character::add_msg_if_player;
         void add_msg_if_player( const std::string &msg ) const override;
-        void add_msg_if_player( game_message_type type, const std::string &msg ) const override;
+        void add_msg_if_player( const game_message_params &params, const std::string &msg ) const override;
         using Character::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_str ) const override;
-        void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         using Character::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
-        void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
+        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
 
         using trap_map = std::map<tripoint, std::string>;
@@ -1042,18 +1008,6 @@ class player : public Character
          */
         void disarm( npc &target );
 
-        /**
-         * Accessor method for weapon targeting data, used for interactive weapon aiming.
-         * @return a reference to the data pointed by player's tdata member.
-         */
-        const targeting_data &get_targeting_data();
-
-        /**
-         * Mutator method for weapon targeting data.
-         * @param td targeting data to be set.
-         */
-        void set_targeting_data( const targeting_data &td );
-
         std::set<tripoint> camps;
 
     protected:
@@ -1092,12 +1046,8 @@ class player : public Character
         std::vector<tripoint> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course
         cata::optional<tripoint> next_expected_position;
-        /** warnings from a faction about bad behaviour */
+        /** warnings from a faction about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
-
-    private:
-        /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
-        shared_ptr_fast<targeting_data> tdata;
 
     protected:
 

@@ -33,7 +33,11 @@
 #include "colony.h"
 #include "flat_set.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
+static const std::string flag_LEAK_DAM( "LEAK_DAM" );
+static const std::string flag_WATERPROOF( "WATERPROOF" );
+static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 
 struct itype;
 
@@ -446,8 +450,8 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         if( m.accessible_items( p ) ) {
             for( auto &i : m.i_at( p ) ) {
-                // if its *the* player requesting this from from map inventory
-                // then dont allow items owned by another faction to be factored into recipe components etc.
+                // if it's *the* player requesting this from from map inventory
+                // then don't allow items owned by another faction to be factored into recipe components etc.
                 if( pl && !i.is_owned_by( *pl, true ) ) {
                     continue;
                 }

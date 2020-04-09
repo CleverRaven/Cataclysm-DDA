@@ -44,6 +44,8 @@
 #include "translations.h"
 #include "timed_event.h"
 #include "teleport.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 namespace spell_detail
 {
@@ -398,7 +400,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     }
 }
 
-static void damage_targets( const spell &sp, const Creature &caster,
+static void damage_targets( const spell &sp, Creature &caster,
                             const std::set<tripoint> &targets )
 {
     for( const tripoint &target : targets ) {
@@ -426,7 +428,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
             add_effect_to_target( target, sp );
         }
         if( sp.damage() > 0 ) {
-            cr->deal_projectile_attack( &g->u, atk, true );
+            cr->deal_projectile_attack( &caster, atk, true );
         } else if( sp.damage() < 0 ) {
             sp.heal( target );
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
@@ -801,6 +803,25 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
         }
         // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
         area.erase( iter );
+    }
+}
+
+void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
+        const tripoint &target )
+{
+    if( g->m.veh_at( target ) ) {
+        caster.add_msg_if_player( m_bad, _( "There is already a vehicle there." ) );
+        return;
+    }
+    if( vehicle *veh = g->m.add_vehicle( sp.summon_vehicle_id(), target, -90, 100, 0 ) ) {
+        veh->magic = true;
+        const time_duration summon_time = sp.duration_turns();
+        if( !sp.has_flag( spell_flag::PERMANENT ) ) {
+            veh->summon_time_limit = summon_time;
+        }
+        if( caster.as_character() ) {
+            veh->set_owner( *caster.as_character() );
+        }
     }
 }
 

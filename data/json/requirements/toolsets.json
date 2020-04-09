@@ -105,9 +105,16 @@
         [ "boltcutters", -1 ],
         [ "toolset", -1 ],
         [ "toolbox", -1 ],
-        [ "survivor_belt", -1 ]
+        [ "survivor_belt", -1 ],
+        [ "toolbox_workshop", -1 ]
       ]
     ]
+  },
+  {
+    "id": "mining_standard",
+    "type": "requirement",
+    "//": "mining",
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 10 ], [ "elec_jackhammer", 3500 ] ] ]
   },
   {
     "id": "bronzesmithing_tools",

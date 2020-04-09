@@ -37,6 +37,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -222,7 +223,7 @@ void editmap_hilight::draw( editmap &em, bool update )
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
 
-                if( g->m.furn( p ) > 0 ) {
+                if( g->m.furn( p ).to_i() > 0 ) {
                     const furn_t &furniture_type = g->m.furn( p ).obj();
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
@@ -314,6 +315,9 @@ cata::optional<tripoint> editmap::edit()
     uberdraw = uistate.editmap_nsa_viewmode;
     infoHeight = 20;
     blink = true;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     w_info = catacurses::newwin( infoHeight, width, point( offsetX, TERMY - infoHeight ) );
     do {
@@ -485,7 +489,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
 #ifdef TILES
             if( use_tiles ) {
                 if( draw_target_override ) {
-                    draw_target_override.value()( p );
+                    draw_target_override( p );
                 } else {
                     g->draw_highlight( p );
                 }
@@ -521,7 +525,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         }
     }
 
-    // custom hilight.
+    // custom highlight.
     // TODO: optimize
     for( auto &elem : hilights ) {
         if( !elem.second.points.empty() ) {
@@ -568,7 +572,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                terrain_type.movecost
              );
     off++; // 2
-    if( g->m.furn( target ) > 0 ) {
+    if( g->m.furn( target ).to_i() > 0 ) {
         mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
         mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d movestr %d" ),
                    g->m.furn( target ).to_i(),
@@ -920,11 +924,11 @@ void editmap::edit_feature()
     emenu.desc_enabled = true;
     emenu.input_category = "EDITMAP_FEATURE";
     emenu.additional_actions = {
-        { "CONFIRM_QUIT", "" },
-        { "EDITMAP_SHOW_ALL", "" },
-        { "EDITMAP_TAB", "" },
-        { "EDITMAP_MOVE", "" },
-        { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+        { "CONFIRM_QUIT", translation() },
+        { "EDITMAP_SHOW_ALL", translation() },
+        { "EDITMAP_TAB", translation() },
+        { "EDITMAP_MOVE", translation() },
+        { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     emenu.allow_additional = true;
 
@@ -959,7 +963,7 @@ void editmap::edit_feature()
                 draw_override( p, override );
             };
         } else {
-            draw_target_override = cata::nullopt;
+            draw_target_override = nullptr;
         }
         input_context ctxt( emenu.input_category );
         update_view_with_help( string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
@@ -997,7 +1001,7 @@ void editmap::edit_feature()
         blink = emenu.ret == UILIST_TIMEOUT ? !blink : true;
     } while( !quit );
     blink = false;
-    draw_target_override = cata::nullopt;
+    draw_target_override = nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1011,13 +1015,13 @@ void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_
     if( fld != nullptr ) {
         field_intensity = fld->get_field_intensity();
     }
-    fmenu.entries[idx].txt = ftype.get_name( field_intensity - 1 );
+    fmenu.entries[idx.to_i()].txt = ftype.get_name( field_intensity - 1 );
     if( fld != nullptr ) {
-        fmenu.entries[idx].txt += " " + std::string( field_intensity, '*' );
+        fmenu.entries[idx.to_i()].txt += " " + std::string( field_intensity, '*' );
     }
-    fmenu.entries[idx].text_color = fld != nullptr ? c_cyan : fmenu.text_color;
-    fmenu.entries[idx].extratxt.color = ftype.get_color( field_intensity - 1 );
-    fmenu.entries[idx].extratxt.txt = ftype.get_symbol( field_intensity - 1 );
+    fmenu.entries[idx.to_i()].text_color = fld != nullptr ? c_cyan : fmenu.text_color;
+    fmenu.entries[idx.to_i()].extratxt.color = ftype.get_color( field_intensity - 1 );
+    fmenu.entries[idx.to_i()].extratxt.txt = ftype.get_symbol( field_intensity - 1 );
 }
 
 void editmap::setup_fmenu( uilist &fmenu )
@@ -1025,8 +1029,8 @@ void editmap::setup_fmenu( uilist &fmenu )
     fmenu.entries.clear();
     for( int i = 0; i < static_cast<int>( field_type::count() ); i++ ) {
         const field_type_id fid = static_cast<field_type_id>( i );
-        fmenu.addentry( fid, true, -2, "" );
-        fmenu.entries[fid].extratxt.left = 1;
+        fmenu.addentry( fid.to_i(), true, -2, "" );
+        fmenu.entries[fid.to_i()].extratxt.left = 1;
         update_fmenu_entry( fmenu, g->m.get_field( target ), fid );
     }
     if( sel_field >= 0 ) {
@@ -1044,12 +1048,12 @@ void editmap::edit_fld()
     setup_fmenu( fmenu );
     fmenu.input_category = "EDIT_FIELDS";
     fmenu.additional_actions = {
-        { "EDITMAP_TAB", "" },
-        { "EDITMAP_MOVE", "" },
-        { "LEFT", "" },
-        { "RIGHT", "" },
-        { "EDITMAP_SHOW_ALL", "" },
-        { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+        { "EDITMAP_TAB", translation() },
+        { "EDITMAP_MOVE", translation() },
+        { "LEFT", translation() },
+        { "RIGHT", translation() },
+        { "EDITMAP_SHOW_ALL", translation() },
+        { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     fmenu.allow_additional = true;
 
@@ -1061,7 +1065,7 @@ void editmap::edit_fld()
                 g->draw_field_override( p, override );
             };
         } else {
-            draw_target_override = cata::nullopt;
+            draw_target_override = nullptr;
         }
         input_context ctxt( fmenu.input_category );
         // \u00A0 is the non-breaking space
@@ -1100,7 +1104,7 @@ void editmap::edit_fld()
                 int i = 0;
                 for( const auto &intensity_level : ftype.intensity_levels ) {
                     i++;
-                    femenu.addentry( string_format( "%d: %s", i, _( intensity_level.name ) ) );
+                    femenu.addentry( string_format( _( "%d: %s" ), i, intensity_level.name.translated() ) );
                 }
                 femenu.entries[field_intensity].text_color = c_cyan;
                 femenu.selected = sel_field_intensity > 0 ? sel_field_intensity : field_intensity;
@@ -1175,7 +1179,7 @@ void editmap::edit_fld()
         blink = fmenu.ret == UILIST_TIMEOUT ? !blink : true;
     } while( fmenu.ret != UILIST_CANCEL );
     blink = false;
-    draw_target_override = cata::nullopt;
+    draw_target_override = nullptr;
 }
 
 /*
@@ -1204,7 +1208,7 @@ void editmap::edit_itm()
     ilmenu.addentry( items.size(), true, 'a', _( "Add item" ) );
     ilmenu.input_category = "EDIT_ITEMS";
     ilmenu.additional_actions = {
-        { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+        { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     ilmenu.allow_additional = true;
 
@@ -1230,7 +1234,7 @@ void editmap::edit_itm()
                             "savetest" ) );
             imenu.input_category = "EDIT_ITEMS";
             imenu.additional_actions = {
-                { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+                { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
             };
             imenu.allow_additional = true;
 
@@ -1368,7 +1372,7 @@ void editmap::recalc_target( shapetype shape )
 }
 
 /*
- * Shift 'var' (ie, part of a coordinate plane) by 'shift'.
+ * Shift 'var' (i.e., part of a coordinate plane) by 'shift'.
  * If the result is not >= min and < 'max', constrain the result and adjust 'shift',
  * so it can adjust subsequent points of a set consistently.
  */
@@ -1440,6 +1444,9 @@ int editmap::select_shape( shapetype shape, int mode )
     }
     altblink = moveall;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         if( moveall ) {
             update_view_with_help( string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
@@ -1475,7 +1482,7 @@ int editmap::select_shape( shapetype shape, int mode )
                 smenu.addentry( -2, true, 'p', pgettext( "shape", "Point" ) );
                 smenu.selected = static_cast<int>( editshape );
                 smenu.additional_actions = {
-                    { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+                    { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
                 };
                 smenu.allow_additional = true;
                 do {
@@ -1581,9 +1588,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     gpmenu.input_category = "MAPGEN_PREVIEW";
     gpmenu.additional_actions = {
-        { "LEFT", "" },
-        { "RIGHT", "" },
-        { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+        { "LEFT", translation() },
+        { "RIGHT", translation() },
+        { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     gpmenu.allow_additional = true;
 
@@ -1841,6 +1848,9 @@ void editmap::mapgen_retarget()
     std::string action;
     tripoint origm = target;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     blink = true;
     do {
         update_view_with_help( string_format( pgettext( "keybinding descriptions", "%s, %s" ),
@@ -1886,8 +1896,8 @@ void editmap::edit_mapgen()
     gmenu.w_x = offsetX;
     gmenu.input_category = "EDIT_MAPGEN";
     gmenu.additional_actions = {
-        { "EDITMAP_MOVE", "" },
-        { "HELP_KEYBINDINGS", "" } // to refresh the view after exiting from keybindings
+        { "EDITMAP_MOVE", translation() },
+        { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     gmenu.allow_additional = true;
 

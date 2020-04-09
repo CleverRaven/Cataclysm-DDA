@@ -97,12 +97,8 @@
     "autolearn": true,
     "book_learn": [ [ "adv_chemistry", 2 ], [ "textbook_chemistry", 2 ], [ "recipe_labchem", 3 ], [ "atomic_survival", 2 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [
-      [ [ "jug_plastic", 1 ], [ "jar_3l_glass", 1 ] ],
-      [ [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ],
-      [ [ "gasoline", 400 ], [ "diesel", 400 ], [ "biodiesel", 400 ], [ "sugar", 100 ] ],
-      [ [ "string_6", 1 ], [ "rag", 1 ] ]
-    ]
+    "using": [ [ "volatile_explosive", 1 ], [ "stable_explosive", 17 ] ],
+    "components": [ [ [ "jug_plastic", 1 ], [ "jar_3l_glass", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
     "result": "flashbang",
@@ -196,20 +192,12 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "volatile_explosive", 18 ] ],
     "components": [
       [ [ "pilot_light", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "bb", 100 ], [ "nail", 30 ] ],
-      [
-        [ "gunpowder", 216 ],
-        [ "chem_black_powder", 324 ],
-        [ "shot_he", 9 ],
-        [ "shot_flechette", 36 ],
-        [ "shot_00", 36 ],
-        [ "shot_slug", 36 ],
-        [ "shot_bird", 72 ]
-      ]
+      [ [ "bb", 100 ], [ "nail", 30 ] ]
     ]
   },
   {
@@ -248,21 +236,12 @@
     "time": "8 m",
     "reversible": true,
     "autolearn": true,
+    "using": [ [ "volatile_explosive", 18 ] ],
     "components": [
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
       [ [ "nail", 40 ] ],
       [ [ "fuse", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [
-        [ "gunpowder", 216 ],
-        [ "chem_black_powder", 324 ],
-        [ "chem_match_head_powder", 350 ],
-        [ "shot_he", 9 ],
-        [ "shot_flechette", 36 ],
-        [ "shot_00", 36 ],
-        [ "shot_slug", 36 ],
-        [ "shot_bird", 72 ]
-      ]
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ]
     ]
   },
   {
@@ -277,21 +256,12 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "volatile_explosive", 18 ] ],
     "components": [
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
       [ [ "nail", 50 ], [ "scrap", 4 ] ],
       [ [ "fuse", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [
-        [ "gunpowder", 216 ],
-        [ "chem_black_powder", 324 ],
-        [ "chem_match_head_powder", 350 ],
-        [ "shot_he", 9 ],
-        [ "shot_flechette", 36 ],
-        [ "shot_00", 36 ],
-        [ "shot_slug", 36 ],
-        [ "shot_bird", 72 ]
-      ]
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ]
     ]
   },
   {
@@ -320,20 +290,8 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "fuse", 1 ] ],
-      [
-        [ "gunpowder", 216 ],
-        [ "chem_black_powder", 324 ],
-        [ "chem_match_head_powder", 350 ],
-        [ "shot_he", 9 ],
-        [ "shot_flechette", 36 ],
-        [ "shot_00", 36 ],
-        [ "shot_slug", 36 ],
-        [ "shot_bird", 72 ]
-      ]
-    ]
+    "using": [ [ "volatile_explosive", 18 ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
     "result": "smokebomb",
@@ -365,7 +323,7 @@
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "soldering_iron", 30 ] ] ],
-    "components": [ [ [ "keg", 1 ], [ "keg_steel", 1 ] ], [ [ "chem_anfo", 70 ] ], [ [ "dynamite", 2 ] ] ]
+    "components": [ [ [ "keg", 1 ], [ "keg_steel", 1 ] ], [ [ "chem_anfo", 6300 ] ], [ [ "dynamite", 2 ] ] ]
   },
   {
     "result": "can_bomb",
@@ -376,10 +334,28 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
+    "using": [ [ "volatile_explosive", 23 ] ],
+    "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "result": "pipebomb",
+    "type": "recipe",
+    "id_suffix": "stable",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "skills_required": [ "cooking", 5 ],
+    "difficulty": 5,
+    "time": "15 m",
+    "reversible": true,
+    "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
+    "using": [ [ "explosives_casting_standard", 1 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "can_food_unsealed", 1 ] ],
+      [ [ "pipe", 1 ] ],
       [ [ "fuse", 1 ] ],
-      [ [ "chem_black_powder", 412 ], [ "chem_match_head_powder", 440 ], [ "gunpowder", 275 ] ]
+      [ [ "chem_compositionb", 225 ] ],
+      [ [ "chem_black_powder", 10 ], [ "chem_match_head_powder", 10 ], [ "gunpowder", 5 ] ]
     ]
   },
   {

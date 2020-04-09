@@ -1,14 +1,12 @@
-#!/bin/python
+#!/usr/bin/env python
 
 # compose.py
 # Split a gfx directory made of 1000s of little images and files into a set of tilesheets
 # and a tile_config.json
 
 import argparse
-import copy
 import json
 import os
-import string
 import subprocess
 
 try:
@@ -159,7 +157,7 @@ class PngRefs(object):
         else:
             try:
                 del tile_entry["bg"]
-            except:
+            except Exception:
                 print("Cannot find bg for tile with id {}".format(tile_id))
 
         add_tile_entrys = tile_entry.get("additional_tiles", [])
@@ -236,6 +234,12 @@ class TilesheetData(object):
                 try:
                     if not vips_image.hasalpha():
                         vips_image = vips_image.addalpha()
+                except Vips.Error:
+                    pass
+
+                try:
+                    if vips_image.get_typeof("icc-profile-data") != 0:
+                        vips_image = vips_image.icc_transform("srgb")
                 except Vips.Error:
                     pass
 

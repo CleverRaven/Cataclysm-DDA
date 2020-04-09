@@ -33,12 +33,15 @@
 #include "units.h"
 #include "type_id.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_bounced( "bounced" );
+
+static const std::string flag_LIQUID( "LIQUID" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
     const auto &proj = attack.proj;
-    const auto &drop_item = proj.get_drop();
+    const item &drop_item = proj.get_drop();
     const auto &effects = proj.proj_effects;
     if( drop_item.is_null() ) {
         return;
@@ -52,9 +55,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             add_msg( _( "The %s shatters!" ), drop_item.tname() );
         }
 
-        for( const item &i : drop_item.contents ) {
-            g->m.add_item_or_charges( pt, i );
-        }
+        drop_item.visit_items( [&pt]( const item * it ) {
+            g->m.add_item_or_charges( pt, *it );
+            return VisitResponse::NEXT;
+        } );
+
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
         sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
@@ -68,9 +73,8 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             add_msg( _( "The %s bursts!" ), drop_item.tname() );
         }
 
-        for( const item &i : drop_item.contents ) {
-            g->m.add_item_or_charges( pt, i );
-        }
+        // copies the drop item to spill the contents
+        item( drop_item ).spill_contents( pt );
 
         // TODO: Sound
         return;
@@ -109,7 +113,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         bool do_drop = true;
         // monsters that are able to be tied up will store the item another way
         // see monexamine.cpp tie_or_untie()
-        // if they arent friendly they will try and break out of the net/bolas/lassoo
+        // if they aren't friendly they will try and break out of the net/bolas/lasso
         // players and NPCs just get the downed effect, and item is dropped.
         // TODO: storing the item on player until they recover from downed
         if( effects.count( "TANGLE" ) && mon_there ) {
