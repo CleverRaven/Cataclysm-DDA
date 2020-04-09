@@ -221,6 +221,7 @@ void auto_note_manager_gui::show()
         ctx.register_action( "QUIT" );
         ctx.register_action( "ENABLE_MAPEXTRA_NOTE" );
         ctx.register_action( "DISABLE_MAPEXTRA_NOTE" );
+        ctx.register_action( "CHANGE_MAPEXTRA_CHARACTER" );
     }
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
@@ -239,7 +240,7 @@ void auto_note_manager_gui::show()
 
         // Draw horizontal line and corner pieces of the table
         for( int x = 0; x < 78; x++ ) {
-            if( x == 60 ) {
+            if( x == 51 || x == 60) {
                 mvwputch( w_header, point( x, 1 ), c_light_gray, LINE_OXXX );
                 mvwputch( w_header, point( x, 2 ), c_light_gray, LINE_XOXO );
             } else {
@@ -248,6 +249,7 @@ void auto_note_manager_gui::show()
         }
 
         mvwprintz( w_header, point( 1, 2 ), c_white, _( "Map Extra" ) );
+        mvwprintz( w_header, point( 53, 2), c_white, _( "Symbol" ) );
         mvwprintz( w_header, point( 62, 2 ), c_white, _( "Enabled" ) );
 
         wrefresh( w_header );
@@ -265,8 +267,8 @@ void auto_note_manager_gui::show()
         // Clear table
         for( int y = 0; y < iContentHeight; y++ ) {
             for( int x = 0; x < 79; x++ ) {
-                // The middle beam needs special treatment
-                if( x == 60 ) {
+                // The middle beams needs special treatment
+                if( x == 51 || x == 60) {
                     mvwputch( w, point( x, y ), c_light_gray, LINE_XOXO );
                 } else {
                     mvwputch( w, point( x, y ), c_black, ' ' );
@@ -291,6 +293,8 @@ void auto_note_manager_gui::show()
                 const auto lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
                 const auto statusColor = cacheEntry.second ? c_green : c_red;
                 const auto statusString = cacheEntry.second ? _( "yes" ) : _( "no" );
+                const auto charColor = cacheEntry.first.color;
+                const auto displayChar = cacheEntry.first.get_symbol();
 
                 mvwprintz( w, point( 1, i - startPosition ), lineColor, "" );
 
@@ -301,7 +305,9 @@ void auto_note_manager_gui::show()
                 }
 
                 wprintz( w, lineColor, "%s", _( cacheEntry.first.name ) );
-
+                
+                // Print the character this map extra is indicated by on the map
+                mvwprintz( w, point( 55, i - startPosition ), charColor, "%s", displayChar );
                 // Since yes is longer than no, we need to clear the space for the status string before
                 // displaying the current text. Otherwise artifacts might occur.
                 mvwprintz( w, point( 64, i - startPosition ), statusColor, "     " );
