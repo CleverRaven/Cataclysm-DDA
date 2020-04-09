@@ -2453,13 +2453,11 @@
   {
     "id": "urban_13_1",
     "type": "overmap_terrain",
-    "name": "basement",
     "copy-from": "generic_city_house_basement"
   },
   {
     "id": "urban_13_2",
     "type": "overmap_terrain",
-    "name": "basement",
     "copy-from": "generic_city_house_basement"
   },
   {
