@@ -16,3 +16,9 @@ const char *getVersionString()
 {
     return VERSION;
 }
+
+
+const char *getVariantVersionString()
+{
+    return "Variant_JP_7.1 (#10478)";
+}
