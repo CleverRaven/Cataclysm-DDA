@@ -84,26 +84,6 @@
   },
   {
     "type": "city_building",
-    "id": "urban_13_dense_house_apt_house",
-    "overmaps": [
-      { "point": [ 0, 0, -1 ], "overmap": "urban_13_1_south" },
-      { "point": [ 1, 0, -1 ], "overmap": "urban_13_2_south" },
-      { "point": [ 1, 0, 0 ], "overmap": "urban_13_3_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "urban_13_4_south" },
-      { "point": [ 1, 0, 1 ], "overmap": "urban_13_5_south" },
-      { "point": [ 0, 0, 1 ], "overmap": "urban_13_6_south" },
-      { "point": [ 1, 0, 2 ], "overmap": "urban_13_7_south" },
-      { "point": [ 0, 0, 2 ], "overmap": "urban_13_8_south" },
-      { "point": [ 1, 0, 3 ], "overmap": "urban_13_9_south" },
-      { "point": [ 0, 0, 3 ], "overmap": "urban_13_10_south" },
-      { "point": [ 1, 0, 4 ], "overmap": "urban_13_11_south" },
-      { "point": [ 0, 0, 4 ], "overmap": "urban_13_12_south" }
-    ],
-    "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
-  },
-  {
-    "type": "city_building",
     "id": "urban_14_dense_house_mart_food",
     "overmaps": [
       { "point": [ 1, 0, -1 ], "overmap": "urban_14_1_south" },
