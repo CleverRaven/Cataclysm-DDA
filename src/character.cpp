@@ -2181,6 +2181,31 @@ std::list<item> Character::remove_worn_items_with( std::function<bool( item & )>
     return result;
 }
 
+item *Character::invlet_to_item( const int linvlet )
+{
+    // Invlets may come from curses, which may also return any kind of key codes, those being
+    // of type int and they can become valid, but different characters when casted to char.
+    // Example: KEY_NPAGE (returned when the player presses the page-down key) is 0x152,
+    // casted to char would yield 0x52, which happens to be 'R', a valid invlet.
+    if( linvlet > std::numeric_limits<char>::max() || linvlet < std::numeric_limits<char>::min() ) {
+        return nullptr;
+    }
+    const char invlet = static_cast<char>( linvlet );
+    if( is_npc() ) {
+        DebugLog( D_WARNING, D_GAME ) << "Why do you need to call Character::invlet_to_position on npc " <<
+                                      name;
+    }
+    item *invlet_item = nullptr;
+    visit_items( [&invlet, &invlet_item]( item * it ) {
+        if( it->invlet == invlet ) {
+            invlet_item = it;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return invlet_item;
+}
+
 // Negative positions indicate weapon/clothing, 0 & positive indicate inventory
 const item &Character::i_at( int position ) const
 {

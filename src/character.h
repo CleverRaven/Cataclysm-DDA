@@ -1108,6 +1108,11 @@ class Character : public Creature, public visitable<Character>
          */
         std::list<item> remove_worn_items_with( std::function<bool( item & )> filter );
 
+        /** Return the item pointer of the item with given invlet, return nullptr if
+         * the player does not have such an item with that invlet. Don't use this on npcs.
+         * Only use the invlet in the user interface, otherwise always use the item position. */
+        item *invlet_to_item( int invlet );
+
         // Returns the item with a given inventory position.
         item &i_at( int position );
         const item &i_at( int position ) const;
