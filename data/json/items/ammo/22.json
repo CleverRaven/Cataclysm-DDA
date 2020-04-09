@@ -6,7 +6,8 @@
     "name": { "str": ".22 CB" },
     "description": "The .22 Conical Ball is a variety of .22 ammunition that propels its bullet using a primer instead of gunpowder.  The end result is a subsonic round that is so weak as to be nearly useless given your predicament.",
     "price": 100,
-    "price_postapoc": 1800,
+    "price_postapoc": 1000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 100,
     "stack_size": 150,
     "recoil": 39,
@@ -29,7 +30,8 @@
     "weight": "3 g",
     "volume": "250 ml",
     "price": 150,
-    "price_postapoc": 2500,
+    "price_postapoc": 800,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -50,6 +52,7 @@
     "name": { "str": ".22 rat-shot" },
     "description": "A .22 caliber cartridge loaded with very small pieces of shot contained within a fragmenting plastic capsule.  It has an extremely short range and penetration ability, but it can hit targets with greater ease.",
     "count": 100,
+    "price_postapoc": 400,
     "dispersion": 0,
     "proportional": { "range": 0.6, "damage": 0.5, "recoil": 0.5 },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
@@ -61,7 +64,7 @@
     "name": { "str": ".22 LR FMJ, black powder" },
     "proportional": { "price": 0.3, "damage": 0.57, "recoil": 0.57, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_22_lr",
@@ -70,7 +73,7 @@
     "name": { "str": ".22 LR, black powder" },
     "proportional": { "price": 0.3, "damage": 0.57, "recoil": 0.57, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_22_lr",
@@ -79,7 +82,7 @@
     "name": { "str": ".22 LR, reloaded" },
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_22_fmj",
@@ -88,6 +91,6 @@
     "name": { "str": ".22 FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

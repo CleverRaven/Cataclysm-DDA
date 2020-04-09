@@ -7,7 +7,6 @@
     "weight": "8 g",
     "volume": "250 ml",
     "price": 1125,
-    "price_postapoc": 7625,
     "material": [ "plastic", "powder", "steel" ],
     "symbol": "=",
     "color": "green",
@@ -20,6 +19,8 @@
     "pierce": 30,
     "dispersion": 60,
     "recoil": 400,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "price_postapoc": 1800,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
@@ -30,7 +31,7 @@
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm RA119 penetrator round features a biodegradable sabot and a single, fin-stabilized tungsten alloy projectile.",
     "weight": "9 g",
     "price": 1688,
-    "price_postapoc": 8188,
+    "price_postapoc": 2400,
     "relative": { "range": -10, "damage": 5, "pierce": 20, "dispersion": 20 },
     "proportional": { "recoil": 1.1 }
   },
@@ -39,6 +40,7 @@
     "copy-from": "5x50dart",
     "type": "AMMO",
     "name": { "str": "5x50mm flechette, reloaded" },
+    "price_postapoc": 1200,
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator.  This one has been hand-reloaded.",
     "effects": [ "COOKOFF", "RECYCLED" ],
     "relative": { "range": -15, "dispersion": 40 },
