@@ -1046,9 +1046,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
-                }
-                if( obj.goes_bad() ) {
-                    obj.set_rot( corpse_item->get_rot() );
+                    if( obj.goes_bad() ) {
+                        obj.set_rot( corpse_item->get_rot() );
+                    }
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -1066,9 +1066,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
-                }
-                if( obj.goes_bad() ) {
-                    obj.set_rot( corpse_item->get_rot() );
+                    if( obj.goes_bad() ) {
+                        obj.set_rot( corpse_item->get_rot() );
+                    }
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -1085,9 +1085,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 obj.set_mtype( &mt );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
-                }
-                if( obj.goes_bad() ) {
-                    obj.set_rot( corpse_item->get_rot() );
+                    if( obj.goes_bad() ) {
+                        obj.set_rot( corpse_item->get_rot() );
+                    }
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
