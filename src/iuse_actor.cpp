@@ -1119,7 +1119,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
     int pick_roll = std::pow( 1.5, p.get_skill_level( skill_lockpick ) ) *
                     ( std::pow( 1.3, p.get_skill_level( skill_mechanics ) ) +
-                      pick_quality - it.damage() / 2 ) +
+                      pick_quality - it.damage() / 2000 ) +
                     p.dex_cur / 4;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
