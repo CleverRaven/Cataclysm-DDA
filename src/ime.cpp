@@ -1,9 +1,16 @@
 #include "ime.h"
 
+#ifdef __ANDROID__
+#include "options.h"
+#include "sdltiles.h"
+#endif
+
 #ifdef _WIN32
 
+#if 1 // Prevent IWYU reordering this below <imm.h>
+#include "platform_win.h"
+#endif
 #include <imm.h>
-#include <windows.h>
 
 class imm_wrapper
 {
