@@ -546,7 +546,7 @@ void game::draw_hit_player( const Character &p, const int dam )
     bullet_animation().progress();
 }
 #else
-void game::draw_hit_player( const player &p, const int dam )
+void game::draw_hit_player( const Character &p, const int dam )
 {
     draw_hit_player_curses( *this, p, dam );
 }
