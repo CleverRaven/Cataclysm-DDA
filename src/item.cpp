@@ -5196,9 +5196,6 @@ int get_hourly_rotpoints_at_temp( const int temp )
 
 void item::calc_rot( time_point time, int temp )
 {
-    if( !goes_bad() ) {
-        return;
-    }
     // Avoid needlessly calculating already rotten things.  Corpses should
     // always rot away and food rots away at twice the shelf life.  If the food
     // is in a sealed container they won't rot away, this avoids needlessly
