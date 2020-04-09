@@ -732,7 +732,7 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
         windchill_f = windchill_c * 9 / 5;
     }
 
-    return windchill_f;
+    return std::floor( windchill_f );
 }
 
 nc_color get_wind_color( double windpower )
