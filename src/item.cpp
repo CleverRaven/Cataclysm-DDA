@@ -8634,13 +8634,8 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     time_point time;
-    const bool preserved = type->container && type->container->preserves;
     item_internal::scoped_goes_bad_cache _( this );
-    const bool process_rot = goes_bad() && !preserved;
-
-    if( preserved && goes_bad() ) {
-        last_rot_check = now;
-    }
+    const bool process_rot = goes_bad();
 
     if( process_rot ) {
         time = std::min( last_rot_check, last_temp_check );
@@ -9406,6 +9401,11 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, float i
 {
     std::vector<item *> removed_items;
     visit_items( [&]( item * it ) {
+		        if( preserves ) {
+            // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
+            // is not changed, the item is still fresh.
+            it->last_rot_check = calendar::turn;
+        }
         if( it->process_internal( carrier, pos, activate, type->insulation_factor * insulation, flag ) ) {
             removed_items.push_back( it );
         }
