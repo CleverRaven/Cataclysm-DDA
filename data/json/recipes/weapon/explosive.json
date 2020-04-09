@@ -382,7 +382,7 @@
     "time": "5 m",
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
-    "using": [ [ "stable_explosive", 250 ] ],
+    "using": [ [ "stable_explosive", 245 ], [ "volatile_explosive", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "jug_plastic", 1 ] ], [ [ "scrap", 20 ] ], [ [ "fuse", 1 ] ] ]
   },
