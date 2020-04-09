@@ -213,7 +213,7 @@ void SkillLevel::train( int amount, skill_exercise_type type, bool skip_scaling 
         }
     }
 
-    if( type == PRACTICE ) {
+    if( type == skill_exercise_type::PRACTICE ) {
         _practice += gained;
     } else {
         _knowledge += gained;
@@ -244,6 +244,24 @@ void SkillLevel::train( int amount, skill_exercise_type type, bool skip_scaling 
         _practice_ratio = ( ( _practice_ratio * total_experience ) + ( practice_ratio *
                             level_experience ) ) / ( total_experience + level_experience );
     }
+}
+
+int SkillLevel::total_exercise( skill_exercise_type type ) const
+{
+    int all_exercise = 0;
+    for( int i = 1; i <= _level; ++i ) {
+        all_exercise += static_cast<int>( std::pow( i, 2 ) * 100 );
+    }
+
+    switch( type ) {
+        case skill_exercise_type::PRACTICE:
+            return _practice + static_cast<int>( _practice_ratio * all_exercise );
+        case skill_exercise_type::KNOWLEDGE:
+            return _knowledge + static_cast<int>( ( 1 - _practice_ratio ) * all_exercise );
+        case skill_exercise_type::NUM_SKILL_EXERCISE_TYPE:
+            return _practice + _knowledge + all_exercise;
+    }
+    return 0;
 }
 
 namespace
@@ -324,7 +342,7 @@ void SkillLevel::practice()
 void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 {
     if( _level < maximumLevel || maximumLevel < 0 ) {
-        train( ( _level + 1 ) * rng( minimumGain, maximumGain ), KNOWLEDGE );
+        train( ( _level + 1 ) * rng( minimumGain, maximumGain ), skill_exercise_type::KNOWLEDGE );
     }
 
     practice();
@@ -455,3 +473,4 @@ double price_adjustment( int barter_skill )
             return 1.0;
     }
 }
+

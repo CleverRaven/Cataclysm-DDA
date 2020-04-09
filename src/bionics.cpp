@@ -2376,11 +2376,11 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
-        installer.practice( skill_electronics, PRACTICE,
+        installer.practice( skill_electronics, skill_exercise_type::PRACTICE,
                             static_cast<int>( ( 100 - chance_of_success ) * 1.5 ) );
-        installer.practice( skill_firstaid, PRACTICE,
+        installer.practice( skill_firstaid, skill_exercise_type::PRACTICE,
                             static_cast<int>( ( 100 - chance_of_success ) * 1.0 ) );
-        installer.practice( skill_mechanics, PRACTICE,
+        installer.practice( skill_mechanics, skill_exercise_type::PRACTICE,
                             static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
     }
 

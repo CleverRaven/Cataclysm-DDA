@@ -754,7 +754,7 @@ void player::pause()
     // Train swimming if underwater
     if( !in_vehicle ) {
         if( underwater ) {
-            practice( skill_swimming, PRACTICE, 1 );
+            practice( skill_swimming, skill_exercise_type::PRACTICE, 1 );
             drench( 100, { {
                     bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
                     bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
@@ -762,7 +762,7 @@ void player::pause()
                 }
             }, true );
         } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
-            practice( skill_swimming, PRACTICE, 1 );
+            practice( skill_swimming, skill_exercise_type::PRACTICE, 1 );
             // Same as above, except no head/eyes/mouth
             drench( 100, { {
                     bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
@@ -829,7 +829,7 @@ void player::pause()
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;
                 }
-                practice( skill_id( "driving" ), PRACTICE, experience );
+                practice( skill_id( "driving" ), skill_exercise_type::PRACTICE, experience );
                 break;
             }
         }
@@ -901,7 +901,7 @@ void player::on_dodge( Creature *source, float difficulty )
 
     // Even if we are not to train still call practice to prevent skill rust
     difficulty = std::max( difficulty, 0.0f );
-    practice( skill_dodge, PRACTICE, difficulty * 2, difficulty );
+    practice( skill_dodge, skill_exercise_type::PRACTICE, difficulty * 2, difficulty );
 
     martial_arts_data.ma_ondodge_effects( *this );
 

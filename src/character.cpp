@@ -1638,11 +1638,18 @@ void Character::recalc_hp()
     int str_boost_val = 0;
     cata::optional<skill_boost> str_boost = skill_boost::get( "str" );
     if( str_boost ) {
-        int skill_total = 0;
-        for( const std::string &skill_str : str_boost->skills() ) {
-            skill_total += get_skill_level( skill_id( skill_str ) );
+        int exercise_total = 0;
+        for( const std::string &skill_str : str_boost->skills_practice() ) {
+            const SkillLevel &lvl = get_skill_level_object( skill_id( skill_str ) );
+            exercise_total += lvl.total_exercise( skill_exercise_type::PRACTICE );
         }
-        str_boost_val = str_boost->calc_bonus( skill_total );
+
+        for( const std::string &skill_str : str_boost->skills_knowledge() ) {
+            const SkillLevel &lvl = get_skill_level_object( skill_id( skill_str ) );
+            exercise_total += lvl.total_exercise( skill_exercise_type::KNOWLEDGE );
+        }
+
+        str_boost_val = str_boost->calc_bonus( std::floor( exercise_total / 1000 ) );
     }
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
@@ -3414,11 +3421,18 @@ void Character::die( Creature *nkiller )
 void Character::apply_skill_boost()
 {
     for( const skill_boost &boost : skill_boost::get_all() ) {
-        int skill_total = 0;
-        for( const std::string &skill_str : boost.skills() ) {
-            skill_total += get_skill_level( skill_id( skill_str ) );
+        int experience_total = 0;
+        for( const std::string &skill_str : boost.skills_practice() ) {
+            const SkillLevel &lvl = get_skill_level_object( skill_id( skill_str ) );
+            experience_total += lvl.total_exercise( skill_exercise_type::PRACTICE );
         }
-        mod_stat( boost.stat(), boost.calc_bonus( skill_total ) );
+
+        for( const std::string &skill_str : boost.skills_knowledge() ) {
+            const SkillLevel &lvl = get_skill_level_object( skill_id( skill_str ) );
+            experience_total += lvl.total_exercise( skill_exercise_type::KNOWLEDGE );
+        }
+
+        mod_stat( boost.stat(), boost.calc_bonus( std::floor( experience_total / 1000 ) ) );
         if( boost.stat() == "str" ) {
             recalc_hp();
         }

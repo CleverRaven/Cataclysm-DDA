@@ -366,7 +366,7 @@ void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
 static void melee_train( Character &p, int lo, int hi, const item &weap )
 {
     player &u = *p.as_player();
-    u.practice( skill_melee, skill_exercise_type::PRACTICE std::ceil( rng( lo, hi ) / 2.0 ), hi );
+    u.practice( skill_melee, skill_exercise_type::PRACTICE, std::ceil( rng( lo, hi ) / 2.0 ), hi );
 
     // allocate XP proportional to damage stats
     // Pure unarmed needs a special case because it has 0 weapon damage
@@ -380,9 +380,12 @@ static void melee_train( Character &p, int lo, int hi, const item &weap )
     if( weap.is_unarmed_weapon() ) {
         u.practice( skill_unarmed, skill_exercise_type::PRACTICE, std::ceil( 1 * rng( lo, hi ) ), hi );
     } else {
-        u.practice( skill_cutting, skill_exercise_type::PRACTICE, std::ceil( cut  / total * rng( lo, hi ) ), hi );
-        u.practice( skill_stabbing, skill_exercise_type::PRACTICE, std::ceil( stab / total * rng( lo, hi ) ), hi );
-        u.practice( skill_bashing, skill_exercise_type::PRACTICE, std::ceil( bash / total * rng( lo, hi ) ), hi );
+        u.practice( skill_cutting, skill_exercise_type::PRACTICE, std::ceil( cut  / total * rng( lo, hi ) ),
+                    hi );
+        u.practice( skill_stabbing, skill_exercise_type::PRACTICE, std::ceil( stab / total * rng( lo,
+                    hi ) ), hi );
+        u.practice( skill_bashing, skill_exercise_type::PRACTICE, std::ceil( bash / total * rng( lo, hi ) ),
+                    hi );
     }
 }
 

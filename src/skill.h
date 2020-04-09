@@ -21,9 +21,10 @@ class item;
 class recipe;
 template <typename T> class string_id;
 
-enum skill_exercise_type : int {
+enum class skill_exercise_type {
     PRACTICE,
-    KNOWLEDGE
+    KNOWLEDGE,
+    NUM_SKILL_EXERCISE_TYPE
 };
 
 struct time_info_t {
@@ -188,6 +189,8 @@ class SkillLevel
         bool can_train() const;
 
         void readBook( int minimumGain, int maximumGain, int maximumLevel = -1 );
+
+        int total_exercise( skill_exercise_type type = skill_exercise_type::NUM_SKILL_EXERCISE_TYPE ) const;
 
         bool operator==( const SkillLevel &b ) const {
             return _level == b._level && _knowledge == b._knowledge && _practice == b._practice;

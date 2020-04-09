@@ -153,7 +153,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     who.invalidate_crafting_inventory();
 
     for( const auto &sk : pt.is_broken() ? vp.install_skills : vp.repair_skills ) {
-        who.practice( sk.first, PRACTICE, calc_xp_gain( vp, sk.first ) );
+        who.practice( sk.first, skill_exercise_type::PRACTICE, calc_xp_gain( vp, sk.first ) );
     }
 
     // If part is broken, it will be destroyed and references invalidated

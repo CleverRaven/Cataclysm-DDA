@@ -29,6 +29,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "ranged.h"
+#include "skill.h"
 #include "timed_event.h"
 #include "uistate.h"
 #include "vehicle.h"
@@ -551,7 +552,7 @@ static hack_result hack_attempt( Character &who )
     // TODO: Remove this once player -> Character migration is complete
     {
         player *p = dynamic_cast<player *>( &who );
-        p->practice( skill_computer, 20 );
+        p->practice( skill_computer, skill_exercise_type::PRACTICE, 20 );
     }
     if( using_fingerhack ) {
         who.mod_power_level( -25_kJ );
@@ -982,7 +983,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             // You don't gain much skill since the bionic does all the hard work for you
             xp_gain += std::pow( 2, you->get_skill_level( skill_lockpick ) ) + 1;
         }
-        you->practice( skill_lockpick, xp_gain );
+        you->practice( skill_lockpick, skill_exercise_type::PRACTICE, xp_gain );
     }
 
     if( ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {

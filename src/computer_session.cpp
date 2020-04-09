@@ -226,7 +226,8 @@ bool computer_session::hack_attempt( player &p, int Security )
 
     ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
     bool successful_attempt = ( dice( player_roll, 6 ) >= dice( Security, 6 ) );
-    p.practice( skill_computer, PRACTICE, successful_attempt ? ( 15 + Security * 3 ) : 7 );
+    p.practice( skill_computer, skill_exercise_type::PRACTICE,
+                successful_attempt ? ( 15 + Security * 3 ) : 7 );
     return successful_attempt;
 }
 

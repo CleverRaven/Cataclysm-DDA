@@ -1339,7 +1339,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             SkillLevel skill_level_obj = g->u.get_skill_level_object( trained );
             const int cur_level = skill_level_obj.level();
             const int cur_level_exercise = skill_level_obj.exercise();
-            skill_level_obj.train( 100, KNOWLEDGE );
+            skill_level_obj.train( 100, skill_exercise_type::KNOWLEDGE );
             const int next_level = skill_level_obj.level();
             const int next_level_exercise = skill_level_obj.exercise();
 
@@ -1482,9 +1482,9 @@ bool talk_trial::roll( dialogue &d ) const
     const int chance = calc_chance( d );
     const bool success = rng( 0, 99 ) < chance;
     if( success ) {
-        u.practice( skill_speech, PRACTICE, ( 100 - chance ) / 10 );
+        u.practice( skill_speech, skill_exercise_type::PRACTICE, ( 100 - chance ) / 10 );
     } else {
-        u.practice( skill_speech, PRACTICE, ( 100 - chance ) / 7 );
+        u.practice( skill_speech, skill_exercise_type::PRACTICE, ( 100 - chance ) / 7 );
     }
     return success;
 }

@@ -56,7 +56,7 @@ static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz"
 
 class recipe_subset;
 
-enum skill_exercise_type : int;
+enum class skill_exercise_type;
 enum action_id : int;
 class JsonIn;
 class JsonObject;

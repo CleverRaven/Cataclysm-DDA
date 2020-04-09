@@ -1948,7 +1948,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
 
             if( fishes == 0 ) {
                 it->charges = 0;
-                p->practice( skill_survival, PRACTICE, rng( 5, 15 ) );
+                p->practice( skill_survival, skill_exercise_type::PRACTICE, rng( 5, 15 ) );
 
                 return 0;
             }
@@ -1957,7 +1957,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
             std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
             for( int i = 0; i < fishes; i++ ) {
-                p->practice( skill_survival, PRACTICE, rng( 3, 10 ) );
+                p->practice( skill_survival, skill_exercise_type::PRACTICE, rng( 3, 10 ) );
                 if( !fishables.empty() ) {
                     monster *chosen_fish = random_entry( fishables );
                     // reduce the abstract fish_population marker of that fish
@@ -6091,14 +6091,14 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
     if( fix.damage() <= 0 ) {
         sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
         p->moves -= to_moves<int>( 20_seconds * p->fine_detail_vision_mod() );
-        p->practice( skill_mechanics, PRACTICE, 10 );
+        p->practice( skill_mechanics, skill_exercise_type::PRACTICE, 10 );
         fix.mod_damage( -itype::damage_scale );
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname( 1, false ) );
 
     } else if( fix.damage() > itype::damage_scale ) {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
         p->moves -= to_moves<int>( 10_seconds * p->fine_detail_vision_mod() );
-        p->practice( skill_mechanics, PRACTICE, 10 );
+        p->practice( skill_mechanics, skill_exercise_type::PRACTICE, 10 );
         fix.mod_damage( -itype::damage_scale );
         resultdurability = fix.durability_indicator( true );
         p->add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix.tname( 1, false ),
@@ -6107,7 +6107,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
     } else {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
         p->moves -= to_moves<int>( 5_seconds * p->fine_detail_vision_mod() );
-        p->practice( skill_mechanics, PRACTICE, 10 );
+        p->practice( skill_mechanics, skill_exercise_type::PRACTICE, 10 );
         fix.set_damage( 0 );
         resultdurability = fix.durability_indicator( true );
         p->add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ),
@@ -6876,7 +6876,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 return it->type->charges_to_use();
             }
 
-            p->practice( skill_computer, PRACTICE, rng( 2, 5 ) );
+            p->practice( skill_computer, skill_exercise_type::PRACTICE, rng( 2, 5 ) );
 
             /** @EFFECT_INT increases chance of safely decrypting memory card */
 
@@ -6885,7 +6885,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                                 p->get_skill_level( skill_computer ) ) *
                                 rng( 1, p->int_cur ) - rng( 30, 80 );
             if( success > 0 ) {
-                p->practice( skill_computer, PRACTICE, rng( 5, 10 ) );
+                p->practice( skill_computer, skill_exercise_type::PRACTICE, rng( 5, 10 ) );
                 p->add_msg_if_player( m_good, _( "You successfully decrypted content on %s!" ),
                                       mc.tname() );
                 einkpc_download_memory_card( *p, *it, mc );
@@ -8369,7 +8369,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
         return false;
     }
 
-    p.practice( skill_computer, PRACTICE, advanced ? 10 : 3 );
+    p.practice( skill_computer, skill_exercise_type::PRACTICE, advanced ? 10 : 3 );
     if( roll < -10 ) {
         effort = rng( 4, 8 );
         p.add_msg_if_player( m_bad, _( "You waste some time, but fail to affect the security system." ) );
@@ -8893,7 +8893,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 it->convert( itype_multi_cooker_filled ).active = true;
                 it->ammo_consume( charges_to_start, pos );
 
-                p->practice( skill_cooking, PRACTICE, meal->difficulty * 3 ); //little bonus
+                p->practice( skill_cooking, skill_exercise_type::PRACTICE, meal->difficulty * 3 ); //little bonus
 
                 return 0;
             }
@@ -8927,8 +8927,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 return 0;
             }
 
-            p->practice( skill_electronics, PRACTICE, rng( 5, 10 ) );
-            p->practice( skill_fabrication, PRACTICE, rng( 5, 10 ) );
+            p->practice( skill_electronics, skill_exercise_type::PRACTICE, rng( 5, 10 ) );
+            p->practice( skill_fabrication, skill_exercise_type::PRACTICE, rng( 5, 10 ) );
 
             p->moves -= to_moves<int>( 7_seconds );
 
@@ -8940,8 +8940,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             if( p->get_skill_level( skill_electronics ) + p->get_skill_level( skill_fabrication ) + p->int_cur >
                 rng( 20, 35 ) ) {
 
-                p->practice( skill_electronics, PRACTICE, rng( 5, 20 ) );
-                p->practice( skill_fabrication, PRACTICE, rng( 5, 20 ) );
+                p->practice( skill_electronics, skill_exercise_type::PRACTICE, rng( 5, 20 ) );
+                p->practice( skill_fabrication, skill_exercise_type::PRACTICE, rng( 5, 20 ) );
 
                 p->add_msg_if_player( m_good,
                                       _( "You've successfully upgraded the multi-cooker, master tinkerer!  Now it cooks faster!" ) );

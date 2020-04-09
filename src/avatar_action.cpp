@@ -529,7 +529,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         you.remove_effect( effect_glowing );
     }
     int movecost = you.swim_speed();
-    you.practice( skill_swimming, PRACTICE, you.is_underwater() ? 2 : 1 );
+    you.practice( skill_swimming, skill_exercise_type::PRACTICE, you.is_underwater() ? 2 : 1 );
     if( movecost >= 500 ) {
         if( !you.is_underwater() &&
             !( you.shoe_type_count( itype_swim_fins ) == 2 ||

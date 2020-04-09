@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "ident": "StatsThroughSkills",
     "name": "Stats Through Skills",
-    "authors": [ "Ryan \"DeNarr\" Saige", "Kevin Granade" ],
+    "authors": [ "Ryan \"DeNarr\" Saige", "Kevin Granade", "anothersimulacrum" ],
     "description": "Allows stats to raise via skill progression.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
@@ -11,29 +11,41 @@
   {
     "type": "skill_boost",
     "stat": "str",
-    "skills": [ "mechanics", "swimming", "bashing", "cutting", "melee", "throw" ],
-    "skill_offset": -3,
-    "scaling_power": 0.4
+    "skills_practice": [ "mechanics", "swimming", "bashing", "cutting", "melee", "throw" ],
+    "skills_knowledge": [  ],
+    "skill_offset": -0.5,
+    "scaling_power": 0.33,
+    "coefficient": 0.9,
+    "max_stat": 5
   },
   {
     "type": "skill_boost",
     "stat": "dex",
-    "skills": [ "driving", "survival", "tailor", "traps", "dodge", "stabbing", "unarmed" ],
-    "skill_offset": -3,
-    "scaling_power": 0.4
+    "skills_practice": [ "driving", "survival", "tailor", "traps", "dodge", "stabbing", "unarmed" ],
+    "skills_knowledge": [  ],
+    "skill_offset": -0.5,
+    "scaling_power": 0.33,
+    "coefficient": 0.9,
+    "max_stat": 5
   },
   {
     "type": "skill_boost",
     "stat": "int",
-    "skills": [ "barter", "computer", "cooking", "electronics", "fabrication", "firstaid", "speech" ],
-    "skill_offset": -3,
-    "scaling_power": 0.4
+    "skills_practice": [ "barter", "computer", "cooking", "electronics", "fabrication", "firstaid", "speech" ],
+    "skills_knowledge": [ "barter", "computer", "cooking", "electronics", "fabrication", "firstaid", "speech" ],
+    "skill_offset": -0.5,
+    "scaling_power": 0.33,
+    "coefficient": 0.9,
+    "max_stat": 5
   },
   {
     "type": "skill_boost",
     "stat": "per",
-    "skills": [ "archery", "gun", "launcher", "pistol", "rifle", "shotgun", "smg" ],
-    "skill_offset": -3,
-    "scaling_power": 0.4
+    "skills_practice": [ "archery", "gun", "launcher", "pistol", "rifle", "shotgun", "smg" ],
+    "skills_knowledge": [  ],
+    "skill_offset": -0.5,
+    "scaling_power": 0.33,
+    "coefficient": 0.9,
+    "max_stat": 5
   }
 ]

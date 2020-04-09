@@ -34,9 +34,12 @@ void skill_boost::load_boost( const JsonObject &jo, const std::string &src )
 
 void skill_boost::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "skills", _skills );
+    mandatory( jo, was_loaded, "skills_practice", _skills_practice );
+    mandatory( jo, was_loaded, "skills_knowledge", _skills_knowledge );
+    mandatory( jo, was_loaded, "coefficient", _coefficient );
     mandatory( jo, was_loaded, "skill_offset", _offset );
     mandatory( jo, was_loaded, "scaling_power", _power );
+    mandatory( jo, was_loaded, "max_stat", _max_stat );
 }
 
 void skill_boost::reset()
@@ -49,15 +52,21 @@ std::string skill_boost::stat() const
     return id.str();
 }
 
-const std::vector<std::string> &skill_boost::skills() const
+const std::vector<std::string> &skill_boost::skills_practice() const
 {
-    return _skills;
+    return _skills_practice;
 }
 
-float skill_boost::calc_bonus( int skill_total ) const
+const std::vector<std::string> &skill_boost::skills_knowledge() const
 {
-    if( skill_total + _offset <= 0 ) {
+    return _skills_knowledge;
+}
+
+float skill_boost::calc_bonus( int exp_total ) const
+{
+    if( ( _coefficient * exp_total ) + _offset <= 0 ) {
         return 0.0;
     }
-    return std::max( 0.0, std::floor( std::pow( skill_total + _offset, _power ) ) );
+    return clamp( std::floor( std::pow( ( _coefficient * exp_total ) + _offset, _power ) ), 0.0f,
+                  _max_stat );
 }

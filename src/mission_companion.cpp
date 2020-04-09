@@ -1709,13 +1709,13 @@ void talk_function::companion_skill_trainer( npc &comp, const std::string &skill
         skill_practice.add( sk.ident(), sk.get_companion_skill_practice( skill_tested ) );
     }
     if( skill_practice.empty() ) {
-        comp.practice( skill_id( skill_tested ), KNOWLEDGE,
+        comp.practice( skill_id( skill_tested ), skill_exercise_type::KNOWLEDGE,
                        difficulty * to_minutes<int>( time_worked ) / 10 );
     } else {
         for( int i = 0; i < checks; i++ ) {
             skill_id *ident = skill_practice.pick();
             if( ident ) {
-                comp.practice( *ident, KNOWLEDGE, difficulty );
+                comp.practice( *ident, skill_exercise_type::KNOWLEDGE, difficulty );
             }
         }
     }
@@ -1725,7 +1725,8 @@ void talk_function::companion_skill_trainer( npc &comp, const skill_id &skill_te
         time_duration time_worked, int difficulty )
 {
     difficulty = std::max( 1, difficulty );
-    comp.practice( skill_tested, KNOWLEDGE, difficulty * to_minutes<int>( time_worked ) / 10 );
+    comp.practice( skill_tested, skill_exercise_type::KNOWLEDGE,
+                   difficulty * to_minutes<int>( time_worked ) / 10 );
 }
 
 void talk_function::companion_return( npc &comp )

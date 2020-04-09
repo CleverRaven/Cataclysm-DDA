@@ -19,8 +19,9 @@ class skill_boost
         skill_boost() = default;
 
         std::string stat() const;
-        const std::vector<std::string> &skills() const;
-        float calc_bonus( int skill_total ) const;
+        const std::vector<std::string> &skills_practice() const;
+        const std::vector<std::string> &skills_knowledge() const;
+        float calc_bonus( int exp_total ) const;
 
         static void load_boost( const JsonObject &jo, const std::string &src );
         static void reset();
@@ -32,9 +33,12 @@ class skill_boost
         friend class generic_factory<skill_boost>;
         string_id<skill_boost> id;
         bool was_loaded = false;
-        std::vector<std::string> _skills;
-        int _offset = 0;
+        std::vector<std::string> _skills_practice;
+        std::vector<std::string> _skills_knowledge;
+        float _coefficient = 0.0f;
+        float _offset = 0.0f;
         float _power = 0.0f;
+        float _max_stat = 0.0f;
 
         void load( const JsonObject &jo, const std::string &src );
 };

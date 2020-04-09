@@ -1156,9 +1156,11 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     }
 
     if( action == butcher_type::DISSECT ) {
-        p.practice( skill_firstaid, skill_exercise_type::PRACTICE, std::max( 0, practice ), std::max( mt.size - creature_size::medium, 0 ) + 4 );
+        p.practice( skill_firstaid, skill_exercise_type::PRACTICE, std::max( 0, practice ),
+                    std::max( mt.size - creature_size::medium, 0 ) + 4 );
     } else {
-        p.practice( skill_survival, skill_exercise_type::PRACTICE, std::max( 0, practice ), std::max( mt.size - creature_size::medium, 0 ) + 4 );
+        p.practice( skill_survival, skill_exercise_type::PRACTICE, std::max( 0, practice ),
+                    std::max( mt.size - creature_size::medium, 0 ) + 4 );
     }
 }
 
@@ -1962,7 +1964,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
-                p->practice( skill_survival, PRACTICE, 2, 2 );
+                p->practice( skill_survival, skill_exercise_type::PRACTICE, 2, 2 );
             }
 
             float stamina_ratio = static_cast<float>( p->get_stamina() ) / p->get_stamina_max();
@@ -2089,7 +2091,7 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
     if( it.type->can_have_charges() ) {
         p->consume_charges( it, it.type->charges_to_use() );
     }
-    p->practice( skill_survival, PRACTICE, act->index, 5 );
+    p->practice( skill_survival, skill_exercise_type::PRACTICE, act->index, 5 );
 
     firestarter_actor::resolve_firestarter_use( *p, act->placement );
     act->set_to_null();
@@ -2168,7 +2170,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         const Skill &skill = sk.obj();
         std::string skill_name = skill.name();
         int old_skill_level = p->get_skill_level( sk );
-        p->practice( sk, KNOWLEDGE, 100, old_skill_level + 2 );
+        p->practice( sk, skill_exercise_type::KNOWLEDGE, 100, old_skill_level + 2 );
         int new_skill_level = p->get_skill_level( sk );
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
@@ -3050,7 +3052,7 @@ void activity_handlers::fish_do_turn( player_activity *act, player *p )
         rod_fish( p, fishables );
     }
     if( calendar::once_every( 60_minutes ) ) {
-        p->practice( skill_survival, PRACTICE, rng( 1, 3 ) );
+        p->practice( skill_survival, skill_exercise_type::PRACTICE, rng( 1, 3 ) );
     }
 
 }
@@ -3818,7 +3820,7 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
         }
         p->add_msg_if_player( _( "You pry the boards from the door." ) );
     }
-    p->practice( skill_fabrication, PRACTICE, 1, 1 );
+    p->practice( skill_fabrication, skill_exercise_type::PRACTICE, 1, 1 );
     g->m.spawn_item( p->pos(), itype_nail, 0, nails );
     g->m.spawn_item( p->pos(), itype_2x4, boards );
     g->m.ter_set( pnt, newter );
@@ -4259,7 +4261,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
         //damage it a little
         z->apply_damage( p, bodypart_id( "torso" ), rng( 1, 10 ) );
         if( z->is_dead() ) {
-            p->practice( skill_id( "computer" ), PRACTICE, 10 );
+            p->practice( skill_id( "computer" ), skill_exercise_type::PRACTICE, 10 );
             // Do not do the other effects if the robot died
             return;
         }
@@ -4277,7 +4279,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
     } else {
         p->add_msg_if_player( _( "…but the robot refuses to acknowledge you as an ally!" ) );
     }
-    p->practice( skill_computer, PRACTICE, 10 );
+    p->practice( skill_computer, skill_exercise_type::PRACTICE, 10 );
 }
 
 void activity_handlers::tree_communion_do_turn( player_activity *act, player *p )
@@ -4516,7 +4518,7 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
                               total_exp_gained );
         const spell &sp = p->magic.get_spell( spell_id( act->name ) );
-        p->practice( sp.skill(), PRACTICE, total_exp_gained, sp.get_difficulty() );
+        p->practice( sp.skill(), skill_exercise_type::PRACTICE, total_exp_gained, sp.get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
         p->magic.learn_spell( act->name, *p );
     }

@@ -973,7 +973,7 @@ void complete_construction( player *p )
     const construction &built = pc->id.obj();
     const auto award_xp = [&]( player & c ) {
         for( const auto &pr : built.required_skills ) {
-            c.practice( pr.first, PRACTICE,
+            c.practice( pr.first, skill_exercise_type::PRACTICE,
                         static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 180000.0 ) ),
                         static_cast<int>( pr.second * 1.25 ) );
         }
@@ -1243,12 +1243,12 @@ void construct::done_deconstruct( const tripoint &p )
         }
         if( t.id.id() == t_console_broken )  {
             if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
-                g->u.practice( skill_electronics, PRACTICE, 20, 4 );
+                g->u.practice( skill_electronics, skill_exercise_type::PRACTICE, 20, 4 );
             }
         }
         if( t.id.id() == t_console )  {
             if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
-                g->u.practice( skill_electronics, PRACTICE, 40, 8 );
+                g->u.practice( skill_electronics, skill_exercise_type::PRACTICE, 40, 8 );
             }
         }
         g->m.ter_set( p, t.deconstruct.ter_set );
