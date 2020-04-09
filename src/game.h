@@ -94,6 +94,7 @@ enum target_mode : int;
 struct special_game;
 
 using itype_id = std::string;
+class achievements_tracker;
 class avatar;
 class event_bus;
 class kill_tracker;
@@ -119,6 +120,8 @@ class live_view;
 struct visibility_variables;
 class scent_map;
 class loading_ui;
+
+class ui_adaptor;
 
 using item_filter = std::function<bool ( const item & )>;
 
@@ -221,6 +224,8 @@ class game
         void start_calendar();
         /** MAIN GAME LOOP. Returns true if game is over (death, saved, quit, etc.). */
         bool do_turn();
+        shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
+        void invalidate_main_ui_adaptor() const;
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
@@ -926,6 +931,7 @@ class game
         pimpl<timed_event_manager> timed_event_manager_ptr;
         pimpl<event_bus> event_bus_ptr;
         pimpl<stats_tracker> stats_tracker_ptr;
+        pimpl<achievements_tracker> achievements_tracker_ptr;
         pimpl<kill_tracker> kill_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
@@ -1047,6 +1053,8 @@ class game
         tripoint last_mouse_edge_scroll_vector_overmap;
         std::pair<tripoint, tripoint> mouse_edge_scrolling( input_context &ctxt, int speed,
                 const tripoint &last, bool iso );
+
+        weak_ptr_fast<ui_adaptor> main_ui_adaptor;
     public:
         /** Used to implement mouse "edge scrolling". Returns a
          *  tripoint which is a vector of the resulting "move", i.e.

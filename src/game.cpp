@@ -26,6 +26,7 @@
 #include <utility>
 #include <unordered_map>
 
+#include "achievement.h"
 #include "action.h"
 #include "activity_handlers.h"
 #include "artifact.h"
@@ -245,10 +246,17 @@ bool is_valid_in_w_terrain( const point &p )
     return p.x >= 0 && p.x < TERRAIN_WINDOW_WIDTH && p.y >= 0 && p.y < TERRAIN_WINDOW_HEIGHT;
 }
 
+static void achievement_attained( const achievement *a )
+{
+    g->u.add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
+                            a->description() );
+}
+
 // This is the main game set-up process.
 game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
+    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained ),
     m( *map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
@@ -273,6 +281,7 @@ game::game() :
     events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*kill_tracker_ptr );
     events().subscribe( &*memorial_logger_ptr );
+    events().subscribe( &*achievements_tracker_ptr );
     events().subscribe( &*spell_events_ptr );
     world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -662,6 +671,7 @@ void game::setup()
     stats().clear();
     // reset kill counts
     kill_tracker_ptr->clear();
+    achievements_tracker_ptr->clear();
     // reset follower list
     follower_ids.clear();
     scent.reset();
@@ -3188,6 +3198,30 @@ static void draw_footsteps( const catacurses::window &window, const tripoint &of
         }
 
         mvwputch( window, footstep.xy() + offset.xy(), c_yellow, glyph );
+    }
+}
+
+shared_ptr_fast<ui_adaptor> game::create_or_get_main_ui_adaptor()
+{
+    shared_ptr_fast<ui_adaptor> ui = main_ui_adaptor.lock();
+    if( !ui ) {
+        main_ui_adaptor = ui = make_shared_fast<ui_adaptor>();
+        ui->position_from_window( catacurses::stdscr );
+        ui->on_redraw( []( const ui_adaptor & ) {
+            g->draw();
+        } );
+        ui->on_screen_resize( []( ui_adaptor & ui ) {
+            ui.position_from_window( catacurses::stdscr );
+        } );
+    }
+    return ui;
+}
+
+void game::invalidate_main_ui_adaptor() const
+{
+    shared_ptr_fast<ui_adaptor> ui = main_ui_adaptor.lock();
+    if( ui ) {
+        ui->invalidate_ui();
     }
 }
 

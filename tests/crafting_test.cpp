@@ -494,13 +494,13 @@ static void verify_inventory( const std::vector<std::string> &has,
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
-        const bool has = player_has_item_of_type( i ) || g->u.weapon.type->get_id() == i;
-        REQUIRE( has );
+        const bool has_item = player_has_item_of_type( i ) || g->u.weapon.type->get_id() == i;
+        REQUIRE( has_item );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
-        const bool has = !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == i );
-        REQUIRE( has );
+        const bool hasnt_item = !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == i );
+        REQUIRE( hasnt_item );
     }
 }
 

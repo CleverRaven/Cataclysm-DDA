@@ -88,7 +88,6 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             damage_instance damage = obj.type->ammo->damage;
             r.push_back( to_string( damage.total_damage() ) );
             r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
-            r.push_back( obj.type->ammo->prop_damage ? to_string( *obj.type->ammo->prop_damage ) : "---" );
             rows.push_back( r );
         };
         for( const itype *e : item_controller->all() ) {

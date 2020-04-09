@@ -7,7 +7,8 @@
     "weight": "8 g",
     "volume": "250 ml",
     "price": 100,
-    "price_postapoc": 2600,
+    "price_postapoc": 1000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -29,7 +30,8 @@
     "name": { "str": "9x18mm SP-7" },
     "description": "9x18mm Makarov SP-7 ammunition.  The 9x18mm round was very common in the Eastern Bloc during the 20th century and remained in Russian military service into the 21st century.",
     "price": 150,
-    "price_postapoc": 2900,
+    "price_postapoc": 1000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 25,
     "relative": { "range": 2, "damage": 4, "dispersion": -10 },
     "proportional": { "recoil": 1.1 }
@@ -51,7 +53,7 @@
     "name": { "str": "9x18mm, black powder" },
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_9x18mmfmj",
@@ -60,7 +62,7 @@
     "name": { "str": "9x18mm FMJ, black powder" },
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_9x18mm",
@@ -70,7 +72,7 @@
     "description": "9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the Makarov PM.  As the designation implies, it is a bit shorter in case length compared to 9mm Parabellum.  This one has been hand-reloaded.",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_9x18mmP2",
@@ -81,7 +83,7 @@
     "description": "9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the Makarov PM.  This one has been hand-reloaded to generate higher internal pressure, boosting flight stability and damage.",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_9x18mmfmj",
@@ -91,6 +93,6 @@
     "description": "9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the Makarov PM.  This brass-jacketed round increases penetration slightly, at the cost of reduced expansion.  This one has been hand-reloaded.",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

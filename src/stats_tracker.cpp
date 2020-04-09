@@ -1,5 +1,7 @@
 #include "stats_tracker.h"
 
+#include <algorithm>
+
 #include "event_statistics.h"
 
 static bool event_data_matches( const cata::event::data_type &data,
@@ -66,13 +68,40 @@ void event_multiset::add( const cata::event &e )
     counts_[e.data()]++;
 }
 
-stat_watcher::~stat_watcher() = default;
-event_multiset_watcher::~event_multiset_watcher() = default;
-stats_tracker_state::~stats_tracker_state() = default;
-
 void event_multiset::add( const counts_type::value_type &e )
 {
     counts_[e.first] += e.second;
+}
+
+base_watcher::~base_watcher()
+{
+    if( subscribed_to ) {
+        subscribed_to->unwatch( this );
+    }
+}
+
+void base_watcher::on_subscribe( stats_tracker *s )
+{
+    if( subscribed_to ) {
+        debugmsg( "Subscribing a single base_watcher multiple times is not supported" );
+    }
+    subscribed_to = s;
+}
+
+void base_watcher::on_unsubscribe( stats_tracker *s )
+{
+    if( subscribed_to != s ) {
+        debugmsg( "Unexpected notification of unsubscription from wrong stats_tracker" );
+    } else {
+        subscribed_to = nullptr;
+    }
+}
+
+stats_tracker_state::~stats_tracker_state() = default;
+
+stats_tracker::~stats_tracker()
+{
+    unwatch_all();
 }
 
 event_multiset &stats_tracker::get_events( event_type type )
@@ -94,12 +123,14 @@ cata_variant stats_tracker::value_of( const string_id<event_statistic> &stat )
 void stats_tracker::add_watcher( event_type type, event_multiset_watcher *watcher )
 {
     event_type_watchers[type].push_back( watcher );
+    watcher->on_subscribe( this );
 }
 
 void stats_tracker::add_watcher( const string_id<event_transformation> &id,
                                  event_multiset_watcher *watcher )
 {
     event_transformation_watchers[id].push_back( watcher );
+    watcher->on_subscribe( this );
     std::unique_ptr<stats_tracker_state> &state = event_transformation_states[ id ];
     if( !state ) {
         state = id->watch( *this );
@@ -109,10 +140,36 @@ void stats_tracker::add_watcher( const string_id<event_transformation> &id,
 void stats_tracker::add_watcher( const string_id<event_statistic> &id, stat_watcher *watcher )
 {
     stat_watchers[id].push_back( watcher );
+    watcher->on_subscribe( this );
     std::unique_ptr<stats_tracker_state> &state = stat_states[ id ];
     if( !state ) {
         state = id->watch( *this );
     }
+}
+
+void stats_tracker::unwatch( base_watcher *watcher )
+{
+    // Use a slow O(n) approach for now; if it proves problematic we can build
+    // an index, but that seems over-complex.
+    auto erase_from = [watcher]( auto & map_of_vectors ) {
+        for( auto &p : map_of_vectors ) {
+            auto &vector = p.second;
+            auto it = std::find( vector.begin(), vector.end(), watcher );
+            if( it != vector.end() ) {
+                vector.erase( it );
+                return true;
+            }
+        }
+        return false;
+    };
+
+
+    if( erase_from( event_type_watchers ) ||
+        erase_from( event_transformation_watchers ) ||
+        erase_from( stat_watchers ) ) {
+        return;
+    }
+    debugmsg( "unwatch for a watcher not found" );
 }
 
 void stats_tracker::transformed_set_changed( const string_id<event_transformation> &id,
@@ -161,7 +218,27 @@ std::vector<const score *> stats_tracker::valid_scores() const
 
 void stats_tracker::clear()
 {
+    unwatch_all();
     data.clear();
+    event_transformation_states.clear();
+    stat_states.clear();
+    initial_scores.clear();
+}
+
+void stats_tracker::unwatch_all()
+{
+    auto unsub_all = [&]( auto & map_of_vectors ) {
+        for( auto const &p : map_of_vectors ) {
+            const auto &vector = p.second;
+            for( base_watcher *watcher : vector ) {
+                watcher->on_unsubscribe( this );
+            }
+        }
+        map_of_vectors.clear();
+    };
+    unsub_all( event_type_watchers );
+    unsub_all( event_transformation_watchers );
+    unsub_all( stat_watchers );
 }
 
 void stats_tracker::notify( const cata::event &e )
@@ -177,6 +254,7 @@ void stats_tracker::notify( const cata::event &e )
     }
 
     if( e.type() == event_type::game_start ) {
+        assert( initial_scores.empty() );
         for( const score &scr : score::get_all() ) {
             initial_scores.insert( scr.id );
         }

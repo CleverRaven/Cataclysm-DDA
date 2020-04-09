@@ -1356,6 +1356,10 @@ void options_manager::add_options_interface()
     { { "c", translate_marker( "Cup" ) }, { "l", translate_marker( "Liter" ) }, { "qt", translate_marker( "Quart" ) } },
     "l"
        );
+    add( "DISTANCE_UNITS", "interface", translate_marker( "Distance units" ),
+         translate_marker( "Metric or Imperial" ),
+    { { "metric", translate_marker( "Metric" ) }, { "imperial", translate_marker( "Imperial" ) } },
+    "imperial" );
 
     add( "24_HOUR", "interface", translate_marker( "Time format" ),
          translate_marker( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
@@ -1861,6 +1865,12 @@ void options_manager::add_options_graphics()
        );
 #endif
 
+#if defined(SDL_HINT_RENDER_BATCHING)
+    add( "RENDER_BATCHING", "graphics", translate_marker( "Allow render batching" ),
+         translate_marker( "Use render batching for 2D render API to make it more efficient.  Requires restart." ),
+         true, COPT_CURSES_HIDE
+       );
+#endif
     add( "FRAMEBUFFER_ACCEL", "graphics", translate_marker( "Software framebuffer acceleration" ),
          translate_marker( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
          false, COPT_CURSES_HIDE

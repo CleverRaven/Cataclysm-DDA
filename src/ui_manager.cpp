@@ -6,7 +6,9 @@
 #include "point.h"
 #include "sdltiles.h"
 
-static std::vector<std::reference_wrapper<ui_adaptor>> ui_stack;
+using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
+
+static ui_stack_t ui_stack;
 
 ui_adaptor::ui_adaptor() : disabling_uis_below( false ), invalidated( false ),
     deferred_resize( false )
@@ -79,18 +81,17 @@ static bool overlap( const rectangle &lhs, const rectangle &rhs )
            rhs.p_min.x < lhs.p_max.x && rhs.p_min.y < lhs.p_max.y;
 }
 
-void ui_adaptor::invalidate( const rectangle &rect )
+// This function does two things:
+// 1. Ensure that any UI that would be overwritten by redrawing a lower invalidated
+//    UI also gets redrawn.
+// 2. Optimize the invalidated flag so completely occluded UIs will not be redrawn.
+//
+// The current implementation may still invalidate UIs that in fact do not need to
+// be redrawn, but all UIs that need to be redrawn are guaranteed be invalidated.
+void ui_adaptor::invalidation_consistency_and_optimization()
 {
-    if( rect.p_min.x >= rect.p_max.x || rect.p_min.y >= rect.p_max.y ) {
-        return;
-    }
-    // TODO avoid invalidating portions that do not need to be redrawn
     for( auto it_upper = ui_stack.cbegin(); it_upper < ui_stack.cend(); ++it_upper ) {
         const ui_adaptor &ui_upper = it_upper->get();
-        if( !ui_upper.invalidated && overlap( ui_upper.dimensions, rect ) ) {
-            // invalidated by `rect`
-            ui_upper.invalidated = true;
-        }
         for( auto it_lower = ui_stack.cbegin(); it_lower < it_upper; ++it_lower ) {
             const ui_adaptor &ui_lower = it_lower->get();
             if( !ui_upper.invalidated && ui_lower.invalidated &&
@@ -111,6 +112,45 @@ void ui_adaptor::invalidate( const rectangle &rect )
             }
         }
     }
+}
+
+void ui_adaptor::invalidate_ui() const
+{
+    if( invalidated ) {
+        return;
+    }
+    auto it = ui_stack.cbegin();
+    for( ; it < ui_stack.cend(); ++it ) {
+        if( &it->get() == this ) {
+            break;
+        }
+    }
+    if( it == ui_stack.end() ) {
+        return;
+    }
+    // If an upper UI occludes this UI then nothing gets redrawn
+    for( auto it_upper = std::next( it ); it_upper < ui_stack.cend(); ++it_upper ) {
+        if( contains( it_upper->get().dimensions, dimensions ) ) {
+            return;
+        }
+    }
+    invalidated = true;
+    invalidation_consistency_and_optimization();
+}
+
+void ui_adaptor::invalidate( const rectangle &rect )
+{
+    if( rect.p_min.x >= rect.p_max.x || rect.p_min.y >= rect.p_max.y ) {
+        return;
+    }
+    for( auto it_upper = ui_stack.cbegin(); it_upper < ui_stack.cend(); ++it_upper ) {
+        const ui_adaptor &ui_upper = it_upper->get();
+        if( !ui_upper.invalidated && overlap( ui_upper.dimensions, rect ) ) {
+            // invalidated by `rect`
+            ui_upper.invalidated = true;
+        }
+    }
+    invalidation_consistency_and_optimization();
 }
 
 void ui_adaptor::redraw()

@@ -7,7 +7,7 @@
     "description": "Bootleg duplicates of Rivtech 8x40mm caseless rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "8mm_caseless",
@@ -18,7 +18,8 @@
     "weight": "12 g",
     "volume": "250 ml",
     "price": 225,
-    "price_postapoc": 12500,
+    "price_postapoc": 8000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "plastic", "powder" ],
     "symbol": "=",
     "color": "pink",
@@ -39,7 +40,7 @@
     "name": { "str": "8x40mm sporting" },
     "description": "8x40mm caseless rounds, light sporting load sold for civilian use.  Proprietary ammunition for Rivtech firearms.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "proportional": { "price": 0.8, "damage": 0.5, "dispersion": 1.2, "recoil": 0.5 },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "8mm_fmj",

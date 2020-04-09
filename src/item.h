@@ -562,6 +562,17 @@ class item : public visitable<item>
         damage_instance base_damage_thrown() const;
 
         /**
+        * Calculate the item's effective damage per second past armor when wielded by a
+         * character against a monster.
+         */
+        double effective_dps( const player &guy, monster &mon ) const;
+        /**
+         * calculate effective dps against a stock set of monsters.  by default, assume g->u
+         * is wielding
+         */
+        std::map<std::string, double> dps( const player &guy ) const;
+        std::map<std::string, double> dps() const;
+        /**
          * Whether the character needs both hands to wield this item.
          */
         bool is_two_handed( const Character &guy ) const;

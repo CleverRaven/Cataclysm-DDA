@@ -2773,14 +2773,9 @@ item::reload_option player::select_ammo( const item &base,
             const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.front().ammo_data() :
                                 sel.ammo->ammo_data();
             if( ammo ) {
-                if( ammo->ammo->prop_damage ) {
-                    row += string_format( "| *%-6.2f | %-7d", static_cast<float>( *ammo->ammo->prop_damage ),
-                                          ammo->ammo->legacy_pierce );
-                } else {
-                    const damage_instance &dam = ammo->ammo->damage;
-                    row += string_format( "| %-7d | %-7d", static_cast<int>( dam.total_damage() ),
-                                          static_cast<int>( dam.empty() ? 0.0f : ( *dam.begin() ).res_pen ) );
-                }
+                const damage_instance &dam = ammo->ammo->damage;
+                row += string_format( "| %-7d | %-7d", static_cast<int>( dam.total_damage() ),
+                                      static_cast<int>( dam.empty() ? 0.0f : ( *dam.begin() ).res_pen ) );
             } else {
                 row += "|         |         ";
             }
@@ -3893,9 +3888,19 @@ void player::reassign_item( item &it, int invlet )
     }
 }
 
+static bool has_mod( const item &gun, const item &mod )
+{
+    for( const item *toolmod : gun.gunmods() ) {
+        if( &mod == toolmod ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool player::gunmod_remove( item &gun, item &mod )
 {
-    if( !gun.has_item( mod ) ) {
+    if( !has_mod( gun, mod ) ) {
         debugmsg( "Cannot remove non-existent gunmod" );
         return false;
     }
@@ -4051,8 +4056,10 @@ void player::gunmod_add( item &gun, item &mod )
 
     const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
-    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, get_item_position( &gun ), tool );
-    activity.values.push_back( get_item_position( &mod ) );
+    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, 0, tool );
+    activity.targets.push_back( item_location( *this, &gun ) );
+    activity.targets.push_back( item_location( *this, &mod ) );
+    activity.values.push_back( 0 ); // dummy value
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
     activity.values.push_back( qty ); // tool charges
