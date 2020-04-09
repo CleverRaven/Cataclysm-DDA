@@ -157,7 +157,7 @@ void reset();
  * @param jo a json array containing body parts
  * @returns vector of body_part tokens
  */
-const std::vector<body_part> parse_json_body_parts( const JsonArray &jo );
+std::vector<body_part> parse_json_body_parts( const JsonArray &jo );
 const std::vector<clothing_mod> &get_all();
 const std::vector<clothing_mod> &get_all_with( clothing_mod_type type );
 

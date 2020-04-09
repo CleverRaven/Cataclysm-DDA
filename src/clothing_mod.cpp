@@ -145,20 +145,12 @@ bool clothing_mod::has_mod_type( const clothing_mod_type &type ) const
 
 bool clothing_mod::applies_flag( const std::string &f ) const
 {
-    if( std::find( apply_flags.begin(), apply_flags.end(), f ) != apply_flags.end() ) {
-        return true;
-    }
-
-    return false;
+    return std::find( apply_flags.begin(), apply_flags.end(), f ) != apply_flags.end();
 }
 
 bool clothing_mod::suppresses_flag( const std::string &f ) const
 {
-    if( std::find( suppress_flags.begin(), suppress_flags.end(), f ) != suppress_flags.end() ) {
-        return true;
-    }
-
-    return false;
+    return std::find( suppress_flags.begin(), suppress_flags.end(), f ) != suppress_flags.end();
 }
 
 bool clothing_mod::applies_flags() const
@@ -181,8 +173,8 @@ bool clothing_mod::is_compatible( const item &it ) const
              it.get_coverage() <= max_coverage &&
              it.get_coverage() > min_coverage &&
              !( restricted && std::find( valid_mods.begin(), valid_mods.end(), flag ) == valid_mods.end() ) &&
-             ( valid_parts.size() == 0 || it.covers_any( valid_parts ) ) &&
-             ( invalid_parts.size() == 0 || !it.covers_any( invalid_parts ) ) );
+             ( valid_parts.empty() || it.covers_any( valid_parts ) ) &&
+             ( invalid_parts.empty() || !it.covers_any( invalid_parts ) ) );
 }
 
 size_t clothing_mod::count()
@@ -229,7 +221,7 @@ std::string clothing_mods::string_from_clothing_mod_type( clothing_mod_type type
     return io::enum_to_string<clothing_mod_type>( type );
 }
 
-const std::vector<body_part> clothing_mods::parse_json_body_parts( const JsonArray &jo )
+std::vector<body_part> clothing_mods::parse_json_body_parts( const JsonArray &jo )
 {
     std::vector<body_part> parts;
     for( std::string val : jo ) {

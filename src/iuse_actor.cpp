@@ -4780,8 +4780,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
             } else {
                 // Modification is possible
                 enab = true;
-                //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
                 if( items_needed > 0 ) {
+                    //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
                     prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), tolower( obj.implement_prompt ),
                                             items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
                 } else {
@@ -4863,7 +4863,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                         tmp_string += format_flag( e );
                     }
                 }
-                if( tmp_string.size() ) {
+                if( !tmp_string.empty() ) {
                     desc += replace_colors( "\n<good>Properties gained:</good>\n" );
                     desc += tmp_string;
                 }
@@ -4873,7 +4873,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                         tmp_string += format_flag( e );
                     }
                 }
-                if( tmp_string.size() ) {
+                if( !tmp_string.empty() ) {
                     desc += replace_colors( "\n<bad>Properties lost:</bad>\n" );
                     desc += tmp_string;
                 }
