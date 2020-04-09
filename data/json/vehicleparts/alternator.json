@@ -137,7 +137,7 @@
     "//": "3.0A @12VDC ~ 0.1HP drain @ 48% efficiency",
     "item": "hand_crank_charger",
     "looks_like": "hand_crank_charger",
-    "description": "A small crank charger attached as an alternator. You can use it to charge batteries.",
+    "description": "A small crank charger attached as an alternator.  You can use it to charge batteries.",
     "size": 5,
     "durability": 20,
     "power": -75,
