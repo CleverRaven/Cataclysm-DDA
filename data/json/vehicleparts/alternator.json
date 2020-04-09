@@ -128,5 +128,31 @@
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "damage_reduction": { "all": 25 }
+  },
+  {
+    "id": "alternator_handcrank",
+    "copy-from": "alternator_bicycle",
+    "type": "vehicle_part",
+    "name": { "str": "handcrank alternator" },
+    "//": "3.0A @12VDC ~ 0.1HP drain @ 48% efficiency",
+    "item": "hand_crank_charger",
+    "looks_like": "hand_crank_charger",
+    "description": "A small crank charger attached as an alternator. You can use it to charge batteries.",
+    "size": 5,
+    "durability": 20,
+    "power": -75,
+    "damage_modifier": 10,
+    "folded_volume": 7,
+    "breaks_into": [
+      { "item": "steel_chunk", "count": [ 0, 1 ] },
+      { "item": "scrap", "count": [ 2, 4 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "extend": { "flags": [ "CARGO", "RECHARGE", "FOLDABLE", "ALTERNATOR_RECHARGE" ] },
+    "damage_reduction": { "all": 10 }
   }
 ]

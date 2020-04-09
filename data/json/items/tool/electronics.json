@@ -293,7 +293,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "hand-crank charger" },
-    "description": "This is a hand-powered battery charger.  It has an adjustable receptacle designed to accept a wide variety of rechargeable battery cells.",
+    "description": "This is a hand-powered battery charger.  It has an adjustable receptacle designed to accept a wide variety of rechargeable battery cells.  You could attach to an engine to avoid cranking it by hand.",
     "weight": "2000 g",
     "volume": "500 ml",
     "price": 1000,
