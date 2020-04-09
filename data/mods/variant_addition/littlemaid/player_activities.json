@@ -3,28 +3,28 @@
     "id": "ACT_LITTLEMAID_KISS",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
-    "verb": "have fun with littlemaid",
+    "verb": "have fun with maid",
     "based_on": "time"
   },
   {
     "id": "ACT_LITTLEMAID_PETTING",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
-    "verb": "have fun with littlemaid",
+    "verb": "have fun with maid",
     "based_on": "time"
   },
   {
     "id": "ACT_LITTLEMAID_SERVICE",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
-    "verb": "have fun with littlemaid",
+    "verb": "have fun with maid",
     "based_on": "time"
   },
   {
     "id": "ACT_LITTLEMAID_SPECIAL",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
-    "verb": "have fun with littlemaid",
+    "verb": "have fun with maid",
     "based_on": "time"
   }
 
