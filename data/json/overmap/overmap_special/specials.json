@@ -1126,7 +1126,7 @@
     "type": "overmap_special",
     "id": "Evac Shelter Vandalized",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "shelter_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_vandal_north" },
       { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
       { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_north" }
     ],
@@ -1141,7 +1141,7 @@
     "type": "overmap_special",
     "id": "Evac Shelter Vandalized 2",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "shelter_1_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_1_vandal_north" },
       { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
       { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_1_north" }
     ],
@@ -1156,7 +1156,7 @@
     "type": "overmap_special",
     "id": "Evac Shelter Vandalized 3",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "shelter_2_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "shelter_2_vandal_north" },
       { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
       { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_2_north" }
     ],
