@@ -4926,7 +4926,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     // it's easier to do easy mods first, then hard mods; it would be nicer
     // if the complexity of preexisting mods factored into the difficulty roll
     std::vector<item_comp> comps;
-    int skill_level = p.get_skill_level( used_skill );
+    const int skill_level = p.get_skill_level( used_skill );
     if( items_needed > 0 ) {
         comps.push_back( item_comp( repair_item, items_needed ) );
     }
