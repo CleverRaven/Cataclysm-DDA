@@ -169,7 +169,7 @@ bool clothing_mod::is_compatible( const item &it ) const
 
     return ( !it.has_any_flag( exclude_flags ) &&
              !it.has_any_flag( apply_flags ) &&
-             ( require_flags.size() == 0  || it.has_any_flag( require_flags ) ) &&
+             ( require_flags.empty() || it.has_any_flag( require_flags ) ) &&
              it.get_coverage() <= max_coverage &&
              it.get_coverage() > min_coverage &&
              !( restricted && std::find( valid_mods.begin(), valid_mods.end(), flag ) == valid_mods.end() ) &&
