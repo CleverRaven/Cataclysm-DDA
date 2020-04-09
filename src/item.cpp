@@ -8634,15 +8634,16 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     time_point time;
-	const bool preserved = type->container && type->container->preserves;
-	item_internal::scoped_goes_bad_cache _( this );
-	const bool process_rot = goes_bad() && !preserved;
-    
+    const bool preserved = type->container && type->container->preserves;
+    item_internal::scoped_goes_bad_cache _( this );
+    const bool process_rot = goes_bad() && !preserved;
+
+    if( preserved && goes_bad() ) {
+        last_rot_check = now;
+    }
+
     if( process_rot ) {
         time = std::min( last_rot_check, last_temp_check );
-		if ( preserved ){
-			last_rot_check = now;
-		}
     } else {
         time = last_temp_check;
     }
@@ -8713,8 +8714,8 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
                 calc_temp( env_temperature, insulation, time );
             }
 
-            // Calculate item rot from item temperature
-            if( time - last_rot_check > smallest_interval ) {
+            // Calculate item rot
+            if( process_rot && time - last_rot_check > smallest_interval ) {
                 calc_rot( time, env_temperature );
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
@@ -8729,9 +8730,9 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     // and items that are held near the player
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
-		if( process_rot ){
-			calc_rot( now, temp );
-		}
+        if( process_rot ) {
+            calc_rot( now, temp );
+        }
         return;
     }
 
