@@ -381,6 +381,10 @@ void Character::load( const JsonObject &data )
     data.read( "per_bonus", per_bonus );
     data.read( "int_bonus", int_bonus );
     data.read( "omt_path", omt_path );
+
+    data.read( "base_age", init_age );
+    data.read( "base_height", init_height );
+
     // needs
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
@@ -636,6 +640,9 @@ void Character::store( JsonOut &json ) const
     json.member( "dex_bonus", dex_bonus );
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
+
+    json.member( "base_age", init_age );
+    json.member( "base_height", init_height );
 
     // health
     json.member( "healthy", healthy );

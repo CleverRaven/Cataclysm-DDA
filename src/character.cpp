@@ -6835,6 +6835,55 @@ units::mass Character::bionics_weight() const
     return bio_weight;
 }
 
+int Character::base_age() const
+{
+    return init_age;
+}
+
+void Character::mod_base_age( int mod )
+{
+    init_age += mod;
+}
+
+int Character::age() const
+{
+    int years_since_cataclysm = to_turns<int>( calendar::turn - calendar::turn_zero ) /
+                                to_turns<int>( calendar::year_length() );
+    return init_age + years_since_cataclysm;
+}
+
+std::string Character::age_string() const
+{
+    //~ how old the character is in years. try to limit number of characters to fit on the screen
+    std::string unformatted = _( "aged %d" );
+    return string_format( unformatted, age() );
+}
+
+int Character::base_height() const
+{
+    return init_height;
+}
+
+void Character::mod_base_height( int mod )
+{
+    init_height += mod;
+}
+
+std::string Character::height_string() const
+{
+    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+
+    if( metric ) {
+        std::string metric_string = _( "%d cm" );
+        return string_format( metric_string, height() );
+    }
+
+    int total_inches = std::round( height() / 2.54 );
+    int feet = std::floor( total_inches / 12 );
+    int remainder_inches = total_inches % 12;
+    return string_format( "%d\'%d\"", feet, remainder_inches );
+}
+
 int Character::height() const
 {
     int height = init_height;
@@ -6866,11 +6915,10 @@ int Character::get_bmr() const
     /**
     Values are for males, and average!
     */
-    const int age = 25;
     const int equation_constant = 5;
     return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>
                  ( bodyweight() / 100.0 ) +
-                 ( 6.25 * height() ) - ( 5 * age ) + equation_constant ) );
+                 ( 6.25 * height() ) - ( 5 * age() ) + equation_constant ) );
 }
 
 void Character::increase_activity_level( float new_level )

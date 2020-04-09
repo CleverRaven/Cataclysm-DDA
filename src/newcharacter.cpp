@@ -175,6 +175,10 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     } else {
         name = MAP_SHARING::getUsername();
     }
+    // if adjusting min and max age from 16 and 55, make sure to see set_description()
+    init_age = rng( 16, 55 );
+    // if adjusting min and max height from 145 and 200, make sure to see set_description()
+    init_height = rng( 145, 200 );
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
@@ -2217,6 +2221,35 @@ tab_direction set_scenario( avatar &u, points_left &points,
     return retval;
 }
 
+namespace char_creation
+{
+enum description_selector {
+    NAME,
+    HEIGHT,
+    AGE
+};
+
+static void draw_height( const catacurses::window &w_height, const avatar &you,
+                         const bool highlight )
+{
+    werase( w_height );
+    mvwprintz( w_height, point_zero, highlight ? h_light_gray : c_light_gray, _( "Height:" ) );
+    unsigned height_pos = 1 + utf8_width( _( "Height:" ) );
+    mvwprintz( w_height, point( height_pos, 0 ), c_light_green, string_format( "%d cm",
+               you.base_height() ) );
+    wrefresh( w_height );
+}
+
+static void draw_age( const catacurses::window &w_age, const avatar &you, const bool highlight )
+{
+    werase( w_age );
+    mvwprintz( w_age, point_zero, highlight ? h_light_gray : c_light_gray, _( "Age:" ) );
+    unsigned age_pos = 1 + utf8_width( _( "Age:" ) );
+    mvwprintz( w_age, point( age_pos, 0 ), c_light_green, string_format( "%d", you.base_age() ) );
+    wrefresh( w_age );
+}
+} // namespace char_creation
+
 tab_direction set_description( avatar &you, const bool allow_reroll,
                                points_left &points )
 {
@@ -2236,6 +2269,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     catacurses::window w_profession;
     catacurses::window w_skills;
     catacurses::window w_guide;
+    catacurses::window w_height;
+    catacurses::window w_age;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_name = catacurses::newwin( 2, 42, point( 2, 5 ) );
@@ -2247,6 +2282,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         w_profession = catacurses::newwin( 1, TERMX - 47, point( 46, 10 ) );
         w_skills = catacurses::newwin( TERMY - 12, 33, point( 46, 11 ) );
         w_guide = catacurses::newwin( 4, TERMX - 3, point( 2, TERMY - 5 ) );
+        w_height = catacurses::newwin( 1, 20, point( 80, 5 ) );
+        w_age = catacurses::newwin( 1, 10, point( 80, 6 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -2257,6 +2294,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     unsigned female_pos = 2 + male_pos + utf8_width( _( "Male" ) );
 
     input_context ctxt( "NEW_CHAR_DESCRIPTION" );
+    ctxt.register_cardinal();
     ctxt.register_action( "SAVE_TEMPLATE" );
     ctxt.register_action( "PICK_RANDOM_NAME" );
     ctxt.register_action( "CHANGE_GENDER" );
@@ -2300,6 +2338,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     } else if( !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
         you.name = get_option<std::string>( "DEF_CHAR_NAME" );
     }
+
+    char_creation::description_selector current_selector = char_creation::NAME;
 
     bool no_name_entered = false;
     ui.on_redraw( [&]( const ui_adaptor & ) {
@@ -2413,7 +2453,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         wrefresh( w_guide );
 
         //We draw this stuff every loop because this is user-editable
-        mvwprintz( w_name, point_zero, c_light_gray, _( "Name:" ) );
+        mvwprintz( w_name, point_zero,
+                   current_selector == char_creation::NAME ? h_light_gray : c_light_gray, _( "Name:" ) );
         if( no_name_entered ) {
             mvwprintz( w_name, point( namebar_pos, 0 ), h_light_gray, _( "_______NO NAME ENTERED!_______" ) );
         } else {
@@ -2439,6 +2480,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                         _( "Press <color_light_green>%s</color> to switch gender" ),
                         ctxt.get_desc( "CHANGE_GENDER" ) );
         wrefresh( w_gender );
+
+        char_creation::draw_age( w_age, you, current_selector == char_creation::AGE );
+        char_creation::draw_height( w_height, you, current_selector == char_creation::HEIGHT );
 
         const std::string location_prompt = string_format(
                                                 _( "Press <color_light_green>%s</color> to select location." ),
@@ -2470,6 +2514,13 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
     // do not switch IME mode now, but restore previous mode on return
     ime_sentry sentry( ime_sentry::keep );
+
+    int min_allowed_age = 16;
+    int max_allowed_age = 55;
+    // in centimeters. 2 std. deviations below average female height
+    int min_allowed_height = 145;
+    int max_allowed_height = 200;
+
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
@@ -2504,6 +2555,60 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             }
         } else if( action == "PREV_TAB" ) {
             return tab_direction::BACKWARD;
+        } else if( action == "RIGHT" ) {
+            switch( current_selector ) {
+                case char_creation::NAME:
+                    current_selector = char_creation::HEIGHT;
+                    break;
+                case char_creation::HEIGHT:
+                    current_selector = char_creation::AGE;
+                    break;
+                case char_creation::AGE:
+                    current_selector = char_creation::NAME;
+                    break;
+            }
+        } else if( action == "LEFT" ) {
+            switch( current_selector ) {
+                case char_creation::NAME:
+                    current_selector = char_creation::AGE;
+                    break;
+                case char_creation::HEIGHT:
+                    current_selector = char_creation::NAME;
+                    break;
+                case char_creation::AGE:
+                    current_selector = char_creation::HEIGHT;
+                    break;
+            }
+        } else if( action == "UP" ) {
+            switch( current_selector ) {
+                case char_creation::HEIGHT:
+                    if( you.base_height() < max_allowed_height ) {
+                        you.mod_base_height( 1 );
+                    }
+                    break;
+                case char_creation::AGE:
+                    if( you.base_age() < max_allowed_age ) {
+                        you.mod_base_age( 1 );
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } else if( action == "DOWN" ) {
+            switch( current_selector ) {
+                case char_creation::HEIGHT:
+                    if( you.base_height() > min_allowed_height ) {
+                        you.mod_base_height( -1 );
+                    }
+                    break;
+                case char_creation::AGE:
+                    if( you.base_age() > min_allowed_age ) {
+                        you.mod_base_age( -1 );
+                    }
+                    break;
+                default:
+                    break;
+            }
         } else if( action == "REROLL_CHARACTER" && allow_reroll ) {
             points.init_from_options();
             you.randomize( false, points );
@@ -2538,7 +2643,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 }
             }
         } else if( action == "ANY_INPUT" &&
-                   !MAP_SHARING::isSharing() ) { // Don't edit names when sharing maps
+                   // Don't edit names when sharing maps
+                   !MAP_SHARING::isSharing() && current_selector == char_creation::NAME ) {
             const int ch = ctxt.get_raw_input().get_first_input();
             utf8_wrapper wrap( you.name );
             if( ch == KEY_BACKSPACE ) {

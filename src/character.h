@@ -1564,6 +1564,16 @@ class Character : public Creature, public visitable<Character>
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
+        // age in years, determined at character creation
+        int base_age() const;
+        void mod_base_age( int mod );
+        // age in years
+        int age() const;
+        std::string age_string() const;
+        // returns the height in cm
+        int base_height() const;
+        void mod_base_height( int mod );
+        std::string height_string() const;
         // returns the height of the player character in cm
         int height() const;
         // returns bodyweight of the Character
@@ -1905,6 +1915,8 @@ class Character : public Creature, public visitable<Character>
         int healthy;
         int healthy_mod;
 
+        /** age in years at character creation */
+        int init_age = 25;
         /**height at character creation*/
         int init_height = 175;
         /** Size class of character. */
