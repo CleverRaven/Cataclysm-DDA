@@ -695,6 +695,7 @@
       "shops": {
         "bus_station": 200,
         "city_block_2": 300,
+        "urban_13_dense_house_apt_house": 300,
         "town_hall": 150,
         "craft_shop": 200,
         "craft_shop_1": 200,
