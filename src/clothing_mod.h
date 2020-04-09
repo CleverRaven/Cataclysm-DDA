@@ -77,7 +77,7 @@ struct clothing_mod {
      *
      * @return bool true if the mod applies flags
      */
-    bool suppresses_flags( ) const;
+    bool suppresses_flags() const;
 
     /**
      * Checks if the mod is compatible with an item.
