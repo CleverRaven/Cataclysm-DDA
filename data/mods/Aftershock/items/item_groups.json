@@ -204,6 +204,5 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [ [ "q_solarpack", 1 ] ]
-
   }
 ]
