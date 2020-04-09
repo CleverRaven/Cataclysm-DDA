@@ -2248,7 +2248,7 @@ static void draw_age( const catacurses::window &w_age, const avatar &you, const 
     mvwprintz( w_age, point( age_pos, 0 ), c_light_green, string_format( "%d", you.base_age() ) );
     wrefresh( w_age );
 }
-} // char_creation
+} // namespace char_creation
 
 tab_direction set_description( avatar &you, const bool allow_reroll,
                                points_left &points )
