@@ -1194,7 +1194,6 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 //
                 // Temperature is not functional for non-foods
                 food_contained.set_item_temperature( 293.15 );
-                food_contained.reset_temp_check();
             }
         }
 
@@ -1224,7 +1223,6 @@ void player::complete_craft( item &craft, const tripoint &loc )
                     bp.heat_up();
                 } else {
                     bp.set_item_temperature( 293.15 );
-                    bp.reset_temp_check();
                 }
             }
             bp.set_owner( get_faction()->id );
