@@ -187,14 +187,9 @@
     "//2": "This group is for a set of novels.",
     "subtype": "collection",
     "entries": [
-      { "group": "SUS_book_fict_soft_romc", "count": [ 1, 5 ], "prob": 80 },
-      { "group": "SUS_book_fict_soft_west", "count": [ 1, 5 ], "prob": 80 },
-      { "group": "SUS_book_fict_soft_ya", "count": [ 1, 5 ], "prob": 80 },
-      { "group": "SUS_book_fict_soft_satire", "count": [ 1, 5 ], "prob": 80 },
-      { "group": "SUS_book_fict_soft_spy", "count": [ 1, 5 ], "prob": 80 },
+      { "group": "SUS_book_fict", "count": [ 1, 7 ], "prob": 100 },
       { "item": "novel_sports", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_samurai", "count": [ 1, 5 ], "prob": 80 },
-      { "item": "novel_swash", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_war", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_adventure", "count": [ 1, 5 ], "prob": 80 },
       { "item": "novel_experimental", "count": [ 1, 5 ], "prob": 80 },
@@ -261,6 +256,7 @@
       { "group": "SUS_book_fict_soft_ya", "prob": 1 },
       { "group": "SUS_book_fict_soft_west", "prob": 1 },
       { "group": "SUS_book_fict_soft_satire", "prob": 1 },
+      { "group": "SUS_book_fict_soft_swash", "prob": 1 },
       { "group": "SUS_book_fict_soft_spy", "prob": 1 }
     ]
   },
@@ -282,13 +278,27 @@
     ]
   },
   {
+    "id": "SUS_book_fict_soft_swash",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This returns a single paperback swashbuckling book.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "novel_swash", "prob": 1 },
+      { "item": "book_fict_soft_swash_blkfreight", "prob": 1 },
+      { "item": "book_fict_soft_swash_searovers", "prob": 1 },
+      { "item": "book_fict_soft_swash_buccaneer", "prob": 1 }
+    ]
+  },
+  {
     "id": "SUS_book_fict_soft_romc",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for a single paperback book of the romance genre.",
+    "//3": "This id is book singular.  Not to be confused w plural SUS_books_fict_soft_romc",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_romance", "prob": 2 },
+      { "item": "novel_romance", "prob": 1 },
       { "item": "paperback_romance_circuses", "prob": 1 },
       { "item": "paperback_romance_cloven", "prob": 1 },
       { "item": "paperback_romance_conq", "prob": 1 },
@@ -437,7 +447,7 @@
       { "item": "news_regional", "prob": 10 },
       { "item": "mag_cooking", "prob": 10 },
       { "item": "mag_cutting", "prob": 6 },
-      { "item": "news_cars", "prob": 10 },
+      { "item": "mag_cars", "prob": 10 },
       { "item": "mag_guns", "prob": 10 },
       { "item": "mag_glam", "prob": 10 }
     ]

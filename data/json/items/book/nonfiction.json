@@ -74,7 +74,7 @@
     "//": "This book belongs to two genres: wedding and kids",
     "description": "This book is for the delightful little ring bearer in your wedding.  The author depicts the responsibility and the honor in being a ring bearer your little angel will cherish.",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": -17, "intelligence": -2, "time": "-5 m" }
+    "relative": { "chapters": -17, "intelligence": -2, "time": -5 }
   },
   {
     "id": "book_nonf_soft_parent_howtogen",
@@ -82,7 +82,7 @@
     "name": "How to Raise a Gentleman: A Civilized Guide to Parenting",
     "description": "A revised edition for parents who hope their little boy children will grow up to be the kind of men who know which fork to use, how to treat others, and generally make their parents proud.",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": -4, "time": "-5 m" }
+    "relative": { "chapters": -4, "time": -5 }
   },
   {
     "id": "book_nonf_soft_safety_radiaea",
@@ -90,7 +90,7 @@
     "name": "International Approaches to Securing Radioactive Sources Against Terrorism",
     "description": "This book presents how to enhance cooperation and assistance between countries in support of International Atomic Energy Agency efforts to secure radioactive sources against the threat of terrorism.",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": 31, "time": "-12 m" }
+    "relative": { "chapters": 31, "time": -12 }
   },
   {
     "id": "book_nonf_hard_psych_forpsych",
@@ -101,7 +101,7 @@
     "volume": "3673 ml",
     "fun": -2,
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": -9, "intelligence": 2, "time": "2 m" }
+    "relative": { "chapters": -9, "intelligence": 2, "time": 2 }
   },
   {
     "id": "book_nonf_hard_psych_grconres",
@@ -111,7 +111,7 @@
     "weight": "494 g",
     "volume": "761 ml",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": -6, "fun": -1, "intelligence": 3, "time": "5 m" }
+    "relative": { "chapters": -6, "fun": -1, "intelligence": 3, "time": 5 }
   },
   {
     "id": "book_nonf_hard_psych_moodalm",
@@ -121,7 +121,7 @@
     "weight": "1152 g",
     "volume": "1647 ml",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": 6, "fun": -1, "intelligence": 4, "time": "20 m" }
+    "relative": { "chapters": 6, "fun": -1, "intelligence": 4, "time": 20 }
   },
   {
     "id": "book_nonf_hard_psych_phonodis",
@@ -131,7 +131,7 @@
     "weight": "730 g",
     "volume": "1038 ml",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": -7, "fun": -2, "intelligence": 5, "time": "10 m" }
+    "relative": { "chapters": -7, "fun": -2, "intelligence": 5, "time": 10 }
   },
   {
     "id": "book_nonf_hard_psych_thergar",
@@ -142,7 +142,7 @@
     "weight": "1043 g",
     "volume": "1110 ml",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": -6, "fun": -1, "intelligence": 3, "time": "-2 m" }
+    "relative": { "chapters": -6, "fun": -1, "intelligence": 3, "time": -2 }
   },
   {
     "id": "book_nonf_soft_psych_adrugds",
@@ -152,7 +152,7 @@
     "weight": "773 g",
     "volume": "964 ml",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": 2, "fun": -1, "intelligence": 5, "time": "10 m" }
+    "relative": { "chapters": 2, "fun": -1, "intelligence": 5, "time": 10 }
   },
   {
     "id": "book_nonf_soft_psych_arteatds",
@@ -172,7 +172,7 @@
     "weight": "295 g",
     "volume": "442 ml",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": -3, "fun": -2, "intelligence": 2, "time": "10 m" }
+    "relative": { "chapters": -3, "fun": -2, "intelligence": 2, "time": 10 }
   },
   {
     "id": "book_nonf_soft_psych_paranoia",
@@ -182,7 +182,7 @@
     "weight": "522 g",
     "volume": "759 ml",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": -6, "fun": -1, "intelligence": 3, "time": "5 m" }
+    "relative": { "chapters": -6, "fun": -1, "intelligence": 3, "time": 5 }
   },
   {
     "id": "book_nonf_soft_psych_psycolo",
@@ -192,16 +192,16 @@
     "weight": "454 g",
     "volume": "734 ml",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "fun": -1, "intelligence": 3, "time": "10 m" }
+    "relative": { "fun": -1, "intelligence": 3, "time": 10 }
   },
   {
     "id": "book_nonf_soft_psych_psycstlk",
     "type": "BOOK",
     "name": "The Psychology of Stalking",
     "description": "This book explores stalking from social, psychiatric, psychological and behavioral perspectives.  Topics include psychiatric diagnoses, offender-victim typologies, cyberstalking, false victimization syndrome, erotomania, domestic violence, the stalking of public figures, and many other aspects of stalking.",
-    "weight": "460 g",
+    "weight": "400 g",
     "volume": "521 ml",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": 3, "intelligence": 2, "time": "-2 m" }
+    "relative": { "chapters": 3, "intelligence": 2, "time": -2 }
   }
 ]
