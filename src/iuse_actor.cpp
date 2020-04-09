@@ -3553,7 +3553,8 @@ void heal_actor::load( const JsonObject &obj )
     torso_power = obj.get_float( "torso_power", 1.5f * limb_power );
 
     limb_scaling = obj.get_float( "limb_scaling", 0.25f * limb_power );
-    float scaling_ratio = limb_power < 0.0001f ? 0.0f : limb_scaling / limb_power;
+    double scaling_ratio = limb_power < 0.0001f ? 0.0 :
+                           static_cast<double>( limb_scaling / limb_power );
     head_scaling = obj.get_float( "head_scaling", scaling_ratio * head_power );
     torso_scaling = obj.get_float( "torso_scaling", scaling_ratio * torso_power );
 
