@@ -21,6 +21,8 @@ using itype_id = std::string;
 struct tripoint;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
+// the bool parameter (3rd) indicates the use_action is on a tool and being run automatically on a tick;
+// check for it and return 0 if you don't want your action to run automatically
 class iuse
 {
     public:

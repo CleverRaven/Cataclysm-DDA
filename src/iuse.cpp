@@ -9855,8 +9855,12 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
-int iuse::install_software( player *p, item *it, bool, const tripoint & )
+int iuse::install_software( player *p, item *it, bool mysterious, const tripoint & )
 {
+    if( mysterious ) {
+        return 0;
+    }
+
     if( !it ) {
         debugmsg( "tried to install software with non-item" );
         return 0;

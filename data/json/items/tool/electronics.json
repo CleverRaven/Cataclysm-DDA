@@ -221,7 +221,7 @@
       "target": "laptop_developer_on",
       "msg": "You turn the developer laptop on.",
       "active": true,
-      "need_charges": 4,
+      "need_charges": 1,
       "need_charges_msg": "It barely POSTS before powering off. Batteries must be dead.",
       "type": "transform"
     }
@@ -232,8 +232,9 @@
     "name": { "str": "developer laptop (on)", "str_pl": "developer laptops (on)" },
     "copy-from": "laptop_developer",
     "description": "A sleek portable workstation for software developers.  It is currently turned on and ready for you to write some code.",
-    "power_draw": 7500000,
+    "power_draw": 75000,
     "color": "light_blue_white",
+    "revert_to": "laptop_developer",
     "use_action": [
       "INSTALL_SOFTWARE",
       {
