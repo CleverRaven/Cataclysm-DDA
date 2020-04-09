@@ -11,6 +11,10 @@
 #include <unistd.h>
 #endif // __linux__
 
+#if defined(_WIN32)
+#include "platform_win.h"
+#endif
+
 bool MAP_SHARING::sharing;
 bool MAP_SHARING::competitive;
 bool MAP_SHARING::worldmenu;
