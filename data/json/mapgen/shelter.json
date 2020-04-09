@@ -157,7 +157,7 @@
       "palettes": [ "shelter" ],
       "place_nested": [
         {
-          "chunks": [ [ "shelter_1_nest_base", 25 ], [ "shelter_1_nest_used", 45 ], [ "shelter_1_vandal", 30 ] ],
+          "chunks": [ [ "shelter_1_nest_base", 50 ], [ "shelter_1_nest_used", 50 ] ],
           "x": 0,
           "y": 0
         }
@@ -247,7 +247,7 @@
       "palettes": [ "shelter" ],
       "place_nested": [
         {
-          "chunks": [ [ "shelter_2_nest_base", 25 ], [ "shelter_2_nest_used", 45 ], [ "shelter_2_vandal", 30 ] ],
+          "chunks": [ [ "shelter_2_nest_base", 50 ], [ "shelter_2_nest_used", 50 ] ],
           "x": 0,
           "y": 0
         }
