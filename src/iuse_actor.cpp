@@ -4840,7 +4840,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         static const auto format_flag = []( const std::string & e ) {
             const json_flag &f = json_flag::get( e );
             if( !f.info().empty() ) {
-                return replace_colors( string_format( "* %s\n", _( f.info() ) ) );
+                return replace_colors( string_format( "* %s\n", f.info() ) );
             }
             return std::string();
         };
