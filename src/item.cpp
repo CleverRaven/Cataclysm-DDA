@@ -8605,7 +8605,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( now - last_temp_check < smallest_interval && specific_energy > 0 ) {
         return;
     }
-
+	
     int temp = g->weather.get_temperature( pos );
 
     switch( flag ) {
@@ -8634,7 +8634,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
         insulation *= 1.5;
         temp += 5;
     }
-
+	
     time_point time;
     item_internal::scoped_goes_bad_cache _( this );
     if( goes_bad() ) {
@@ -8642,6 +8642,9 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     } else {
         time = last_temp_check;
     }
+	
+	const bool preserved = type->container && type->container->preserves;
+	const bool process_rot = goes_bad() && !preserved;
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
@@ -8665,7 +8668,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
         }
 
         // Process the past of this item since the last time it was processed
-        while( time < now - 1_hours ) {
+        while( now - time > 1_hours ) {
             // Get the environment temperature
             time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
             time += time_delta;
@@ -8710,7 +8713,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             }
 
             // Calculate item rot from item temperature
-            if( time - last_rot_check > smallest_interval ) {
+            if( process_rot && time - last_rot_check > smallest_interval ) {
                 calc_rot( time, env_temperature );
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
@@ -8725,7 +8728,9 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     // and items that are held near the player
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
-        calc_rot( now, temp );
+		if( process_rot ){
+			calc_rot( now, temp );
+		}
         return;
     }
 
@@ -9397,14 +9402,8 @@ bool item::process_blackpowder_fouling( player *carrier )
 bool item::process( player *carrier, const tripoint &pos, bool activate, float insulation,
                     temperature_flag flag )
 {
-    const bool preserves = type->container && type->container->preserves;
     std::vector<item *> removed_items;
     visit_items( [&]( item * it ) {
-        if( preserves ) {
-            // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
-            // is not changed, the item is still fresh.
-            it->last_rot_check = calendar::turn;
-        }
         if( it->process_internal( carrier, pos, activate, type->insulation_factor * insulation, flag ) ) {
             removed_items.push_back( it );
         }
