@@ -450,6 +450,11 @@
     "obsolete": true
   },
   {
+    "result": "tool_black_powder_charge",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
     "id": "tool_black_powder_charge",
     "type": "TOOL",
     "category": "weapons",
@@ -498,11 +503,7 @@
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - run!",
       "explosion": { "power": 2250, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } }
-    },
-  {
-    "result": "tool_black_powder_charge",
-    "type": "recipe",
-    "obsolete": true
+    }
   },
   {
     "id": "bio_scent_vision",
