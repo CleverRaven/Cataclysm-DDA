@@ -865,8 +865,6 @@
     "turns_per_charge": 1,
     "use_action": {
       "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already pulled the %s's pin; try throwing it instead.",
       "explosion": { "power": 240, "shrapnel": { "casing_mass": 162, "fragment_mass": 0.4 } }
     },
@@ -910,7 +908,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "Tick.",
+      "sound_msg": "sssssh.",
       "no_deactivate_msg": "You've already lit the %s's fuse; try throwing it instead.",
       "explosion": { "power": 240, "shrapnel": { "casing_mass": 162, "fragment_mass": 0.4 } }
     },
@@ -954,7 +952,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "Tick.",
+      "sound_msg": "sssh.",
       "no_deactivate_msg": "You've already lit the %s's fuse; try throwing it instead.",
       "explosion": { "power": 240, "shrapnel": { "casing_mass": 162, "fragment_mass": 0.4 } }
     },
