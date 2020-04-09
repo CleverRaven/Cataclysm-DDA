@@ -88,7 +88,7 @@
       [ "matches", 60 ],
       [ "claw_bar", 3 ],
       [ "crowbar", 18 ],
-      [ "pipebomb", 4 ],
+      [ "improvised_pipebomb", 4 ],
       [ "grenade", 3 ],
       [ "grenade_inc", 1 ],
       [ "mininuke", 1 ],
