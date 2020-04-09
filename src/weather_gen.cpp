@@ -184,6 +184,10 @@ weather_type weather_generator::get_weather_conditions( const tripoint &location
 
 weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 {
+    if( get_option<bool>( "VARIANT_WEATHER_PATTERN" )){
+        return get_variant_modded_weather_conditions( w );
+    }
+
     weather_type r( WEATHER_CLEAR );
     if( w.pressure > 1020 && w.humidity < 70 ) {
         r = WEATHER_SUNNY;
@@ -204,6 +208,93 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
         r = WEATHER_THUNDER;
     }
     if( r == WEATHER_THUNDER && w.pressure < 990 ) {
+        r = WEATHER_LIGHTNING;
+    }
+
+    if( w.temperature <= 32 ) {
+        if( r == WEATHER_DRIZZLE ) {
+            r = WEATHER_FLURRIES;
+        } else if( r > WEATHER_DRIZZLE ) {
+            if( r >= WEATHER_THUNDER && w.windpower > 15 ) {
+                r = WEATHER_SNOWSTORM;
+            } else {
+                r = WEATHER_SNOW;
+            }
+        }
+    }
+
+
+    if( w.acidic ){
+        switch( r ) {
+            case WEATHER_DRIZZLE:
+                r = WEATHER_ACID_DRIZZLE;
+                break;
+            case WEATHER_RAINY:
+                r = WEATHER_ACID_RAIN;
+                break;
+            case WEATHER_FLURRIES:
+                r = WEATHER_ACID_FLURRIES;
+                break;
+            case WEATHER_SNOW:
+                r = WEATHER_ACID_SNOW;
+                break;
+            case WEATHER_THUNDER:
+            case WEATHER_LIGHTNING:
+            case WEATHER_SNOWSTORM:
+                r = WEATHER_ACID_STORM;
+                break;
+            default:
+                break;
+        }
+    } else if( w.acidic_weak ) {
+        switch( r ) {
+            case WEATHER_DRIZZLE:
+            case WEATHER_RAINY:
+                r = WEATHER_ACID_DRIZZLE;
+                break;
+            case WEATHER_SNOW:
+                r = WEATHER_ACID_FLURRIES;
+                break;
+            case WEATHER_SNOWSTORM:
+                r = WEATHER_ACID_SNOW;
+                break;
+            case WEATHER_THUNDER:
+                r = WEATHER_ACID_RAIN;
+                break;
+            case WEATHER_LIGHTNING:
+                r = WEATHER_ACID_STORM;
+                break;
+            default:
+                break;
+        }
+    }
+    return r;
+}
+
+weather_type weather_generator::get_variant_modded_weather_conditions( const w_point &w ) const
+{
+
+    weather_type r( WEATHER_CLEAR );
+
+    if( 1020 < w.pressure && w.humidity < 70 ) {
+        r = WEATHER_SUNNY;
+    }
+    if( 75 < w.humidity && ( w.pressure < 1014 || 94 < w.humidity ) ) {
+        r = WEATHER_CLOUDY;
+    }
+    if( 97 < w.humidity ) {
+        r = WEATHER_LIGHT_DRIZZLE;
+    }
+    if( 80 < w.humidity && w.pressure < 1012 ) {
+        r = WEATHER_DRIZZLE;
+    }
+    if( 85 < w.humidity && w.pressure < 1010 ) {
+        r = WEATHER_RAINY;
+    }
+    if( 99 < w.humidity && w.pressure < 1009) {
+        r = WEATHER_THUNDER;
+    }
+    if( 90 < w.humidity && w.pressure < 1003) {
         r = WEATHER_LIGHTNING;
     }
 

@@ -2119,6 +2119,10 @@ void options_manager::add_options_world_default()
          0, 100, 20
        );
 
+    add( "VARIANT_WEATHER_PATTERN", "world_default", translate_marker( "Variant weather pattern" ),
+         translate_marker( "If true, apply variant modded weather pattern. It generally increases rainstorm." ),
+         false
+       );
 
     add_empty_line();
 
