@@ -273,7 +273,11 @@ void game::item_action_menu()
         }
 
         const auto method = elem.second->get_use( elem.first );
-        return std::make_tuple( method->get_type(), method->get_name(), ss );
+        if( method ) {
+            return std::make_tuple( method->get_type(), method->get_name(), ss );
+        } else {
+            return std::make_tuple( errstring, std::string( "NO USE FUNCTION" ), ss );
+        }
     } );
     // Sort mapped actions.
     sort_menu( menu_items.begin(), menu_items.end() );
