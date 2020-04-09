@@ -15,7 +15,8 @@
     "weight": "10 g",
     "volume": "250 ml",
     "price": 180,
-    "price_postapoc": 2000,
+    "price_postapoc": 600,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -37,7 +38,8 @@
     "name": { "str": ".45 ACP +P" },
     "description": "Overpressure .45 ACP ammunition with 200gr JHP bullets.  This +P ammunition has higher muzzle energy than typical loads leading to greater damage, accuracy and recoil.",
     "price": 210,
-    "price_postapoc": 2800,
+    "price_postapoc": 600,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "relative": { "damage": 4, "pierce": 4, "dispersion": -10, "recoil": 60 }
   },
@@ -48,7 +50,7 @@
     "name": { "str": ".45 ACP FMJ, black powder" },
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_45_jhp",
@@ -57,7 +59,7 @@
     "name": { "str": ".45 ACP JHP, black powder" },
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_45_acp",
@@ -66,7 +68,7 @@
     "name": { "str": ".45 FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_45_jhp",
@@ -75,7 +77,7 @@
     "name": { "str": ".45 ACP JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "reloaded_45_super",
@@ -84,6 +86,6 @@
     "name": { "str": ".45 ACP +P, reloaded" },
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

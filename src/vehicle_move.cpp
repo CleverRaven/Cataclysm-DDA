@@ -733,6 +733,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         } else if( ret.type == veh_coll_body ) {
             int dam = obj_dmg * dmg_mod / 100;
 
+            // We know critter is set for this type.  Assert to inform static
+            // analysis.
+            assert( critter );
+
             // No blood from hallucinations
             if( !critter->is_hallucination() ) {
                 if( part_flag( ret.part, "SHARP" ) ) {

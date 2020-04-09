@@ -2333,5 +2333,186 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "color": "light_green",
     "see_cost": 10
+  },
+  {
+    "id": "urban_5_1",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_5_2",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_5_3",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_5_4",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_5_5",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_5_6",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_5_1_basement",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "id": "urban_5_2_basement",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "id": "urban_6_1",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_6_2",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_6_3",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_6_4",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_6_5",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_6_6",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_6_1_basement",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "id": "urban_6_2_basement",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "id": "urban_13_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "id": "urban_13_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "id": "urban_13_3",
+    "type": "overmap_terrain",
+    "name": "dense urban",
+    "sym": "v",
+    "color": "i_white",
+    "see_cost": 40,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_13_4",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_13_5",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_13_6",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_13_7",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_13_8",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_13_9",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_13_10",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_13_11",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_13_12",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
   }
 ]

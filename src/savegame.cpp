@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "achievement.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "cata_io.h"
@@ -52,7 +53,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 27;
+const int savegame_version = 28;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -102,6 +103,7 @@ void game::serialize( std::ostream &fout )
     // save stats.
     json.member( "kill_tracker", *kill_tracker_ptr );
     json.member( "stats_tracker", *stats_tracker_ptr );
+    json.member( "achievements_tracker", *achievements_tracker_ptr );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -235,6 +237,7 @@ void game::unserialize( std::istream &fin )
 
         data.read( "player", u );
         data.read( "stats_tracker", *stats_tracker_ptr );
+        data.read( "achievements_tracker", *achievements_tracker_ptr );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {

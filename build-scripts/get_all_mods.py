@@ -12,7 +12,7 @@ mods_to_keep = []
 
 def add_mods(mods):
     for mod in mods:
-        if not mod in all_mod_dependecies:
+        if not mod in all_mod_dependencies:
             # Either an invalid mod id, or blacklisted.
             return False
     for mod in mods:
@@ -20,7 +20,7 @@ def add_mods(mods):
             mods_to_keep.append(mod)
     return True
 
-all_mod_dependecies = {}
+all_mod_dependencies = {}
 
 for info in glob.glob('data/mods/*/modinfo.json'):
     mod_info = json.load(open(info))
@@ -28,11 +28,11 @@ for info in glob.glob('data/mods/*/modinfo.json'):
         if e["type"] == "MOD_INFO":
             ident = e["ident"]
             if not ident in blacklist:
-                all_mod_dependecies[ident] = e.get("dependencies", [])
+                all_mod_dependencies[ident] = e.get("dependencies", [])
 
-for mod in all_mod_dependecies:
+for mod in all_mod_dependencies:
     if not mod in mods_to_keep:
-        if add_mods(all_mod_dependecies[mod]):
+        if add_mods(all_mod_dependencies[mod]):
             mods_to_keep.append(mod)
 
 print(','.join(mods_to_keep))

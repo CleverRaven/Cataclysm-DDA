@@ -395,6 +395,10 @@ void Character::load( const JsonObject &data )
     data.read( "per_bonus", per_bonus );
     data.read( "int_bonus", int_bonus );
     data.read( "omt_path", omt_path );
+
+    data.read( "base_age", init_age );
+    data.read( "base_height", init_height );
+
     // needs
     data.read( "thirst", thirst );
     data.read( "hunger", hunger );
@@ -549,6 +553,14 @@ void Character::load( const JsonObject &data )
         JsonIn *invin = data.get_raw( "inv" );
         inv.json_load_items( *invin );
     }
+    // this is after inventory is loaded to make it more obvious that
+    // it needs to be changed again when Character::i_at is removed for nested containers
+    if( savegame_loading_version < 28 ) {
+        activity.migrate_item_position( *this );
+        destination_activity.migrate_item_position( *this );
+        stashed_outbounds_activity.migrate_item_position( *this );
+        stashed_outbounds_backlog.migrate_item_position( *this );
+    }
 
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
@@ -642,6 +654,9 @@ void Character::store( JsonOut &json ) const
     json.member( "dex_bonus", dex_bonus );
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
+
+    json.member( "base_age", init_age );
+    json.member( "base_height", init_height );
 
     // health
     json.member( "healthy", healthy );
@@ -2281,11 +2296,6 @@ void item::io( Archive &archive )
         gun_set_mode( gun_mode_id( mode ) );
     }
 
-    // Sealed item migration: items with "unseals_into" set should always have contents
-    if( contents.empty() && is_non_resealable_container() ) {
-        convert( type->container->unseals_into );
-    }
-
     // Books without any chapters don't need to store a remaining-chapters
     // counter, it will always be 0 and it prevents proper stacking.
     if( get_chapters() == 0 ) {
@@ -2338,6 +2348,11 @@ void item::deserialize( JsonIn &jsin )
         contents = item_contents( items );
     } else {
         data.read( "contents", contents );
+    }
+
+    // Sealed item migration: items with "unseals_into" set should always have contents
+    if( contents.empty() && is_non_resealable_container() ) {
+        convert( type->container->unseals_into );
     }
 }
 
