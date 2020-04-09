@@ -1992,7 +1992,7 @@ bool cata_tiles::draw_sprite_at(
             case 1:
                 // 90 degrees (and 270, with just two sprites)
 #if defined(_WIN32)
-                destination.y -= 1;
+                // destination.y -= 1;
 #endif
                 if( !tile_iso ) {
                     // never rotate isometric tiles
@@ -2014,7 +2014,7 @@ bool cata_tiles::draw_sprite_at(
             case 3:
                 // 270 degrees
 #if defined(_WIN32)
-                destination.x -= 1;
+                // destination.x -= 1;
 #endif
                 if( !tile_iso ) {
                     // never rotate isometric tiles
