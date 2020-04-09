@@ -2333,5 +2333,121 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "color": "light_green",
     "see_cost": 10
+  },
+  {
+    "id": "urban_5_1",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_5_2",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_5_3",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_5_4",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_5_5",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_5_6",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_5_1_basement",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "id": "urban_5_2_basement",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "id": "urban_6_1",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_6_2",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_6_3",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_6_4",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_6_5",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_6_6",
+    "type": "overmap_terrain",
+    "name": "house",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_green",
+    "see_cost": 10
+  },
+  {
+    "id": "urban_6_1_basement",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "id": "urban_6_2_basement",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_house_basement"
   }
 ]

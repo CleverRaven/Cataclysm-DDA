@@ -4,8 +4,6 @@
     "regions": [ "all" ],
     "city": {
       "houses": {
-        "urban_5_house": 30,
-        "urban_6_house": 30,
         "urban_7_house_garden": 30,
         "urban_8_house_brick_garden": 30,
         "urban_9_house_garage_loft": 30,
