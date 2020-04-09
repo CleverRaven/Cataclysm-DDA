@@ -187,7 +187,7 @@
     "id": "book_fict_soft_ya_sumv",
     "type": "BOOK",
     "name": "Summer Variables",
-    "description": "In this work of young adult fiction, a woman's modest summer internship results in an incredible discovery that attracts the attention of unsavory elements.",
+    "description": "In this book written primarily for young adults, a woman's modest summer internship results in an incredible discovery that attracts the attention of unsavory elements.",
     "copy-from": "book_fict_soft_ya_vanilla"
   }
 ]
