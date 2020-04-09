@@ -2821,16 +2821,6 @@ void monster::on_hit( Creature *source, body_part,
     // TODO: Faction relations
 }
 
-body_part monster::get_random_body_part( bool ) const
-{
-    return bp_torso;
-}
-
-std::vector<body_part> monster::get_all_body_parts( bool ) const
-{
-    return std::vector<body_part>( 1, bp_torso );
-}
-
 int monster::get_hp_max( hp_part ) const
 {
     return type->hp;

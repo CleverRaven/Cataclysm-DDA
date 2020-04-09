@@ -9,6 +9,7 @@
     "weight": "35200 g",
     "volume": "4 L",
     "price": 1650000,
+    "price_postapoc": 5000,
     "to_hit": -1,
     "bashing": 14,
     "material": "steel",

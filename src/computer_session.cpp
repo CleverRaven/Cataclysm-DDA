@@ -701,7 +701,7 @@ void computer_session::action_download_software()
         g->u.moves -= 30;
         item software( miss->get_item_id(), 0 );
         software.mission_id = comp.mission_id;
-        usb->contents.clear();
+        usb->contents.clear_items();
         usb->put_in( software );
         print_line( _( "Software downloaded." ) );
     } else {
@@ -739,7 +739,7 @@ void computer_session::action_blood_anal()
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
                             item software( "software_blood_data", 0 );
-                            usb->contents.clear();
+                            usb->contents.clear_items();
                             usb->put_in( software );
                             print_line( _( "Software downloaded." ) );
                         } else {

@@ -390,7 +390,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_max;
 
         item result_it = rec->create_result();
-        if( result_it.contents.size() == 1 ) {
+        if( result_it.contents.num_item_stacks() == 1 ) {
             const item alt_result = result_it.contents.front();
             if( alt_result.typeId() == comest_it.typeId() ) {
                 result_it = alt_result;

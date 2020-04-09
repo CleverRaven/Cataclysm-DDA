@@ -54,7 +54,7 @@ branches:
 
 jobs:
   include:
-    # Initial test stage, if this fails everything else is cancelled.
+    # Initial test stage, if this fails everything else is canceled.
     - stage: Test
       # Clang is consistently the fastest to build, so use it for the initial test.
       env: CLANG=clang++-3.8 MODS=--mods=RL_Classes TEST_STAGE=1 CXXFLAGS="-Wno-error=unused-command-line-argument -D__extern_always_inline='extern __always_inline'"

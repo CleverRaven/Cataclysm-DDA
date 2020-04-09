@@ -2566,7 +2566,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
     if( cleared_destination ) {
         // Produce no-op if auto-move had just been cleared on this action
         // e.g. from a previous single left mouse click. This has the effect
-        // of right-click cancelling an auto-move before it is initiated.
+        // of right-click canceling an auto-move before it is initiated.
         return false;
     }
 
@@ -4956,7 +4956,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         difficulty += dmg_lvl;
     }
 
-    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, true, difficulty );
+    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, difficulty );
     int success = chance_of_success - rng( 1, 100 );
 
     if( !g->u.query_yn(
@@ -5013,6 +5013,10 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
 void game::exam_vehicle( vehicle &veh, const point &c )
 {
+    if( veh.magic ) {
+        add_msg( m_info, _( "This is your %s" ), veh.name );
+        return;
+    }
     auto act = veh_interact::run( veh, c );
     if( act ) {
         u.moves = 0;
@@ -11940,23 +11944,23 @@ bool game::non_dead_range<Creature>::iterator::valid()
     return true; // must be g->u
 }
 
-game::monster_range::monster_range( game &g )
+game::monster_range::monster_range( game &game_ref )
 {
-    const auto &monsters = g.critter_tracker->get_monsters_list();
+    const auto &monsters = game_ref.critter_tracker->get_monsters_list();
     items.insert( items.end(), monsters.begin(), monsters.end() );
 }
 
-game::Creature_range::Creature_range( game &g ) : u( &g.u, []( player * ) { } )
+game::Creature_range::Creature_range( game &game_ref ) : u( &game_ref.u, []( player * ) { } )
 {
-    const auto &monsters = g.critter_tracker->get_monsters_list();
+    const auto &monsters = game_ref.critter_tracker->get_monsters_list();
     items.insert( items.end(), monsters.begin(), monsters.end() );
-    items.insert( items.end(), g.active_npc.begin(), g.active_npc.end() );
+    items.insert( items.end(), game_ref.active_npc.begin(), game_ref.active_npc.end() );
     items.push_back( u );
 }
 
-game::npc_range::npc_range( game &g )
+game::npc_range::npc_range( game &game_ref )
 {
-    items.insert( items.end(), g.active_npc.begin(), g.active_npc.end() );
+    items.insert( items.end(), game_ref.active_npc.begin(), game_ref.active_npc.end() );
 }
 
 game::Creature_range game::all_creatures()

@@ -243,10 +243,10 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 
     // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
     if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {
-        base.contents.clear();
+        base.contents.clear_items();
         const auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
         const int limit = units::from_milliliter( ammo_capacity() ) / stack;
-        base.emplace_back( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit );
+        base.put_in( item( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit ) );
         return qty;
     }
 
@@ -265,7 +265,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 void vehicle_part::ammo_unset()
 {
     if( is_tank() ) {
-        base.contents.clear();
+        base.contents.clear_items();
     } else if( is_fuel_store() ) {
         base.ammo_unset();
     }
@@ -278,7 +278,7 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
         item &liquid = base.contents.back();
         liquid.charges -= res;
         if( liquid.charges == 0 ) {
-            base.contents.clear();
+            base.contents.clear_items();
         }
         return res;
     }
@@ -304,7 +304,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
         }
         if( charges_to_use > fuel.charges ) {
             charges_to_use = fuel.charges;
-            base.contents.clear();
+            base.contents.clear_items();
         } else {
             fuel.charges -= charges_to_use;
         }

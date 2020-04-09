@@ -149,7 +149,7 @@ struct miss_data {
 recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_options,
                               const std::string &option );
 
-// enventually this will move to JSON
+// eventually this will move to JSON
 std::map<std::string, miss_data> miss_info = {{
         {
             "_faction_upgrade_camp", {
@@ -173,10 +173,10 @@ std::map<std::string, miss_data> miss_info = {{
             }
         },
         {
-            "travelling", {
-                "Travelling", to_translation( "Travelling" ),
-                to_translation( "Busy travelling!\n" ),
-                "Recall ally from travelling", to_translation( "Recall ally from travelling" )
+            "traveling", {
+                "Traveling", to_translation( "Traveling" ),
+                to_translation( "Busy traveling!\n" ),
+                "Recall ally from traveling", to_translation( "Recall ally from traveling" )
             }
         },
         {
@@ -3873,7 +3873,7 @@ bool basecamp::distribute_food()
         for( item &i : initial_items ) {
             if( i.is_container() && i.get_contained().is_food() ) {
                 auto comest = i.get_contained();
-                i.contents.clear();
+                i.contents.clear_items();
                 //NPCs are lazy bastards who leave empties all around the camp fire
                 tripoint litter_spread = p_litter;
                 litter_spread.x += rng( -3, 3 );

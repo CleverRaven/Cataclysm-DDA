@@ -306,6 +306,8 @@ static void load_overmap_lake_settings( const JsonObject &jo,
                                        overmap_lake_settings.noise_threshold_lake, !overlay );
         read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_size_min",
                                     overmap_lake_settings.lake_size_min, !overlay );
+        read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_depth",
+                                    overmap_lake_settings.lake_depth, !overlay );
 
         if( !overmap_lake_settings_jo.has_array( "shore_extendable_overmap_terrain" ) ) {
             if( !overlay ) {

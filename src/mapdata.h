@@ -374,6 +374,8 @@ struct furn_t : map_data_common_t {
 
     cata::value_ptr<plant_data> plant;
 
+    cata::value_ptr<float> surgery_skill_multiplier;
+
     // May return NULL
     const itype *crafting_pseudo_item_type() const;
     // May return NULL
@@ -562,7 +564,8 @@ extern furn_id f_null,
        f_brazier,
        f_firering,
        f_tourist_table,
-       f_camp_chair;
+       f_camp_chair,
+       f_sign;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

@@ -4398,12 +4398,12 @@ static player &best_installer( player &p, player &null_player, int difficulty )
     const std::pair<float, int> &rhs ) {
         return rhs.first < lhs.first;
     } );
-    int player_cos = bionic_manip_cos( player_skill, true, difficulty );
+    int player_cos = bionic_manip_cos( player_skill, difficulty );
     for( size_t i = 0; i < g->allies().size() ; i ++ ) {
         if( ally_skills[ i ].first > player_skill ) {
             const npc *e = g->allies()[ ally_skills[ i ].second ];
             player &ally = *g->critter_by_id<player>( e->getID() );
-            int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
+            int ally_cos = bionic_manip_cos( ally_skills[ i ].first, difficulty );
             if( e->has_effect( effect_sleep ) ) {
                 if( !g->u.query_yn(
                         //~ %1$s is the name of the ally

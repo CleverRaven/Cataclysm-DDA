@@ -1,0 +1,80 @@
+[
+  {
+    "id": "floating_disk",
+    "type": "vehicle",
+    "name": "Floating disk",
+    "blueprint": [ "o" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "mana_frame" ] } ]
+  },
+  {
+    "id": "mana_wheel",
+    "category": "veh_parts",
+    "type": "WHEEL",
+    "name": "mana wheel",
+    "description": "A column of mana energy that enables a floating disk to move.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 1,
+    "bashing": 8,
+    "to_hit": -4,
+    "material": [ "steel" ],
+    "symbol": "]",
+    "color": "light_gray",
+    "diameter": 20,
+    "width": 10
+  },
+  {
+    "type": "vehicle_part",
+    "id": "mana_frame",
+    "name": "mana frame",
+    "symbol": "O",
+    "color": "magenta",
+    "broken_symbol": "M",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "noise_factor": 1,
+    "fuel_type": "mana",
+    "durability": 20,
+    "item": "mana_wheel",
+    "m2c": 90,
+    "rolling_resistance": 0.45,
+    "wheel_type": "standard",
+    "contact_area": 20,
+    "description": "A shape of pure mana that can float and carry items.",
+    "size": 150,
+    "power": 200,
+    "location": "structure",
+    "//": "This should not be interactable nor visible as a vehicle part, its part of a summoned magic 'vehicle'",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 20 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 20 ], [ "spellcraft", 1 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 20 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "INITIAL_PART", "ENGINE", "STABLE", "E_STARTS_INSTANTLY", "STEERABLE", "WHEEL", "OBSTACLE", "CARGO", "MAGIC_FOLLOW" ],
+    "damage_reduction": { "all": 12 }
+  },
+  {
+    "id": "mana",
+    "name": "mana energy",
+    "default": "mana",
+    "type": "ammunition_type"
+  },
+  {
+    "id": "mana",
+    "type": "AMMO",
+    "category": "chems",
+    "name": "mana core power",
+    "description": "Seeing this is a bug.",
+    "weight": "10 g",
+    "volume": "10 ml",
+    "bashing": 1,
+    "phase": "solid",
+    "material": "flesh",
+    "flags": [ "PSEUDO", "PERPETUAL" ],
+    "fuel": { "energy": 500 },
+    "symbol": "?",
+    "color": "magenta",
+    "count": 1,
+    "ammo_type": "mana"
+  }
+]

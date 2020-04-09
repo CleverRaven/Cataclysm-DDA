@@ -1701,21 +1701,16 @@ class bionic_install_preset: public inventory_selector_preset
             const int difficulty = loc.get_item()->type->bionic->difficulty;
             int chance_of_failure = 100;
             player &installer = p;
-            const int assist_bonus = installer.get_effect_int( effect_assisted );
 
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
                                        skill_electronics,
                                        -1 );
 
-            if( ( get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
-                                                   ( 4.0 * difficulty ) );
-                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
@@ -1801,7 +1796,6 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             const int difficulty = loc.get_item()->type->bionic->difficulty;
             int chance_of_failure = 100;
             player &installer = p;
-            const int assist_bonus = installer.get_effect_int( effect_assisted );
 
             // Override player's skills with surgeon skill
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
@@ -1809,14 +1803,10 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                                        skill_electronics,
                                        20 );
 
-            if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
-                                                   ( 4.0 * difficulty ) );
-                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
@@ -1893,21 +1883,16 @@ class bionic_uninstall_preset : public inventory_selector_preset
             const int difficulty = loc.get_item()->type->bionic->difficulty + 2;
             int chance_of_failure = 100;
             player &installer = p;
-            const int assist_bonus = installer.get_effect_int( effect_assisted );
 
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
                                        skill_electronics,
                                        -1 );
 
-            if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
-                                                   ( 4.0 * difficulty ) );
-                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );

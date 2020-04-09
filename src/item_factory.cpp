@@ -1885,7 +1885,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
             is_not_boring = is_not_boring || m == "junk";
         }
     }
-    // Junk food never gets old by default, but this can still be overriden.
+    // Junk food never gets old by default, but this can still be overridden.
     if( is_not_boring ) {
         slot.monotony_penalty = 0;
     }
@@ -2472,13 +2472,7 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
             obj.charges = iter->second.charges;
         }
 
-        for( const auto &c : iter->second.contents ) {
-            if( std::none_of( obj.contents.begin(), obj.contents.end(), [&]( const item & e ) {
-            return e.typeId() == c;
-            } ) ) {
-                obj.emplace_back( c, obj.birthday() );
-            }
-        }
+        obj.contents.migrate_item( obj, iter->second.contents );
 
         // check contents of migrated containers do not exceed capacity
         if( obj.is_container() && !obj.contents.empty() ) {

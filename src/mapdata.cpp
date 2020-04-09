@@ -965,7 +965,8 @@ furn_id f_null,
         f_brazier,
         f_firering,
         f_tourist_table,
-        f_camp_chair;
+        f_camp_chair,
+        f_sign;
 
 void set_furn_ids()
 {
@@ -1080,6 +1081,7 @@ void set_furn_ids()
     f_firering = furn_id( "f_firering" );
     f_tourist_table = furn_id( "f_tourist_table" );
     f_camp_chair = furn_id( "f_camp_chair" );
+    f_sign = furn_id( "f_sign" );
 }
 
 size_t ter_t::count()
@@ -1289,6 +1291,9 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     if( jo.has_object( "plant_data" ) ) {
         plant = cata::make_value<plant_data>();
         plant->load( jo, "plant_data" );
+    }
+    if( jo.has_float( "surgery_skill_multiplier" ) ) {
+        surgery_skill_multiplier = cata::make_value<float>( jo.get_float( "surgery_skill_multiplier" ) );
     }
 }
 

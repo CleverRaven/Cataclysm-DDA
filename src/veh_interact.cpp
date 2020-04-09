@@ -2329,8 +2329,7 @@ void veh_interact::display_stats() const
                         velocity_units( VU_VEHICLE ) );
         i += 1;
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        //~ /t means per turn
-                        _( "Air Acceleration: <color_light_blue>%3d</color> %s/t" ),
+                        _( "Air Acceleration: <color_light_blue>%3d</color> %s/s" ),
                         vel_to_int( veh->rotor_acceleration( false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
@@ -2345,7 +2344,7 @@ void veh_interact::display_stats() const
             // TODO: extract accelerations units to its own function
             fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                             //~ /t means per turn
-                            _( "Acceleration: <color_light_blue>%3d</color> %s/t" ),
+                            _( "Acceleration: <color_light_blue>%3d</color> %s/s" ),
                             vel_to_int( veh->ground_acceleration( false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
@@ -2362,7 +2361,7 @@ void veh_interact::display_stats() const
             // TODO: extract accelerations units to its own function
             fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                             //~ /t means per turn
-                            _( "Water Acceleration: <color_light_blue>%3d</color> %s/t" ),
+                            _( "Water Acceleration: <color_light_blue>%3d</color> %s/s" ),
                             vel_to_int( veh->water_acceleration( false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
@@ -3017,10 +3016,9 @@ void veh_interact::complete_vehicle( player &p )
 
             auto &src = p.activity.targets.front();
             struct vehicle_part &pt = veh->parts[ vehicle_part ];
-            std::list<item> &contents = src->contents;
-            if( pt.is_tank() && src->is_container() && !contents.empty() ) {
+            if( pt.is_tank() && src->is_container() && !src->contents.empty() ) {
 
-                pt.base.fill_with( contents.front() );
+                pt.base.fill_with( src->contents.front() );
                 src->on_contents_changed();
 
                 if( pt.ammo_remaining() != pt.ammo_capacity() ) {
@@ -3031,8 +3029,8 @@ void veh_interact::complete_vehicle( player &p )
                     p.add_msg_if_player( m_good, _( "You completely refill the %1$s's %2$s." ), veh->name, pt.name() );
                 }
 
-                if( contents.front().charges == 0 ) {
-                    contents.erase( contents.begin() );
+                if( src->contents.front().charges == 0 ) {
+                    src->remove_item( src->contents.front() );
                 } else {
                     p.add_msg_if_player( m_good, _( "There's some left over!" ) );
                 }

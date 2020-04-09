@@ -215,9 +215,9 @@ void DynamicDataLoader::initialize()
     add( "MONSTER_WHITELIST", &MonsterGroupManager::LoadMonsterWhitelist );
     add( "speech", &load_speech );
     add( "ammunition_type", &ammunition_type::load_ammunition_type );
+    add( "start_location", &start_locations::load );
     add( "scenario", &scenario::load_scenario );
     add( "SCENARIO_BLACKLIST", &scen_blacklist::load_scen_blacklist );
-    add( "start_location", &start_location::load_location );
     add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
     add( "hit_range", &Creature::load_hit_range );
@@ -524,7 +524,7 @@ void DynamicDataLoader::unload_data()
     ammunition_type::reset();
     unload_talk_topics();
     behavior::reset();
-    start_location::reset();
+    start_locations::reset();
     scenario::reset();
     gates::reset();
     reset_overlay_ordering();
@@ -587,6 +587,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
             { _( "Overmap locations" ), &overmap_locations::finalize },
+            { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             {
@@ -676,6 +677,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Overmap locations" ), &overmap_locations::check_consistency },
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
             { _( "Map extras" ), &MapExtras::check_consistency },
+            { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
             { _( "Bionics" ), &check_bionics },

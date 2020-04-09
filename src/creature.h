@@ -10,6 +10,7 @@
 #include <string>
 #include <utility>
 
+#include "anatomy.h"
 #include "bodypart.h"
 #include "pimpl.h"
 #include "string_formatter.h"
@@ -443,12 +444,16 @@ class Creature
             return false;
         }
 
-        virtual body_part get_random_body_part( bool main = false ) const = 0;
+        anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
+        anatomy_id get_anatomy() const;
+        void set_anatomy( anatomy_id anat );
+
+        bodypart_id get_random_body_part( bool main = false ) const;
         /**
          * Returns body parts in order in which they should be displayed.
          * @param only_main If true, only displays parts that can have hit points
          */
-        virtual std::vector<body_part> get_all_body_parts( bool only_main = false ) const = 0;
+        std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;

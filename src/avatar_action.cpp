@@ -1083,7 +1083,7 @@ void avatar_action::eat( avatar &you, item_location loc )
 
     } else if( you.consume_item( *it ) ) {
         if( it->is_food_container() || !you.can_consume_as_is( *it ) ) {
-            it->contents.erase( it->contents.begin() );
+            it->remove_item( it->contents.front() );
             add_msg( _( "You leave the empty %s." ), it->tname() );
         } else {
             loc.remove_item();

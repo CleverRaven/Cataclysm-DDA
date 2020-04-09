@@ -62,7 +62,8 @@
       [ "glass_plate", 20 ],
       [ "glass_sheet", 5 ],
       [ "jar_3l_glass", 15 ],
-      [ "magnifying_glass", 5 ]
+      [ "magnifying_glass", 5 ],
+      [ "tempered_glass_sheet", 5 ]
     ]
   },
   {

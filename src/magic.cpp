@@ -212,6 +212,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         { "spawn_item", spell_effect::spawn_ethereal_item },
         { "recover_energy", spell_effect::recover_energy },
         { "summon", spell_effect::spawn_summoned_monster },
+        { "summon_vehicle", spell_effect::spawn_summoned_vehicle },
         { "translocate", spell_effect::translocate },
         { "area_pull", spell_effect::area_pull },
         { "area_push", spell_effect::area_push },
@@ -387,6 +388,12 @@ void spell_type::check_consistency()
         if( sp_t.casting_time_increment > 0.0f && sp_t.base_casting_time > sp_t.final_casting_time ) {
             debugmsg( "ERROR: %s has positive increment and base_casting_time > final_casting_time",
                       sp_t.id.c_str() );
+        }
+        if( sp_t.effect_name == "summon_vehicle" ) {
+            if( !sp_t.effect_str.empty() && !vproto_id( sp_t.effect_str ).is_valid() ) {
+                debugmsg( "ERROR %s specifies a vehicle to summon, but vehicle %s is not valid", sp_t.id.c_str(),
+                          sp_t.effect_str );
+            }
         }
         std::set<spell_id> spell_effect_list;
         if( spell_infinite_loop_check( spell_effect_list, sp_t.id ) ) {
@@ -1113,6 +1120,11 @@ dealt_damage_instance spell::get_dealt_damage_instance() const
 std::string spell::effect_data() const
 {
     return type->effect_str;
+}
+
+vproto_id spell::summon_vehicle_id() const
+{
+    return vproto_id( type->effect_str );
 }
 
 int spell::heal( const tripoint &target ) const

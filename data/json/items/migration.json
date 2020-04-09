@@ -1150,6 +1150,21 @@
     "replace": "m1911mag"
   },
   {
+    "id": "solar_panel_v3",
+    "type": "MIGRATION",
+    "replace": "solar_panel_v2"
+  },
+  {
+    "id": "q_solarpack",
+    "type": "MIGRATION",
+    "replace": "solarpack"
+  },
+  {
+    "id": "q_solarpack_on",
+    "type": "MIGRATION",
+    "replace": "solarpack_on"
+  },
+  {
     "id": "bio_solar",
     "type": "MIGRATION",
     "replace": "potato"

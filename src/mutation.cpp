@@ -274,9 +274,7 @@ void Character::mutation_effect( const trait_id &mut )
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
                                    armor.tname() );
-            for( item &remain : armor.contents ) {
-                g->m.add_item_or_charges( pos(), remain );
-            }
+            armor.contents.spill_contents( pos() );
         } else {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is pushed off!" ),
