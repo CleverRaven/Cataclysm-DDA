@@ -4372,7 +4372,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You're illiterate!" ) );
         return 0;
-    } else if( it->ammo_remaining() < 15 ) {
+    } else if( !it->has_flag( "SOFTWARE" ) && it->ammo_remaining() < 15 ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     } else {

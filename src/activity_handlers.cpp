@@ -1794,7 +1794,7 @@ void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
     item &game_item = p->i_at( act->position );
 
     if( calendar::once_every( 1_minutes ) ) {
-        if( !game_item.active ) { // active items consume their own power at a fixed rate
+        if( !game_item.has_flag( "SOFTWARE" ) ) { // PCs consume their own power at a fixed rate
             // but some single-purpose devices just draw power while used
             // FIXME this will need to be changed when batteries use kJ units like other power sources
             game_item.ammo_consume( game_item.type->power_draw_as_battery_charge( 1_minutes ), p->pos() );
@@ -1813,7 +1813,7 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 
     // Figure out charges to consume
     if( calendar::once_every( 1_minutes ) ) {
-        if( !game_item.active ) { // active items consume their own power at a fixed rate
+        if( !game_item.has_flag( "SOFTWARE" ) ) { // PCs consume their own power at a fixed rate
             // but some single-purpose devices just draw power while used
             // FIXME this will need to be changed when batteries use kJ units like other power sources
             game_item.ammo_consume( game_item.type->power_draw_as_battery_charge( 1_minutes ), p->pos() );
