@@ -1315,8 +1315,8 @@ void player::disp_info()
     ctxt.register_action( "HELP_KEYBINDINGS" );
     std::string action;
 
-    right_print( w_tip, 0, +2, c_white, string_format(
-                     _( "[<color_yellow>%s</color>] keybindings" ),
+    right_print( w_tip, 0, +1, c_white, string_format(
+                     _( "[<color_yellow>%s</color>] keys" ),
                      ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
     wrefresh( w_tip );
 
