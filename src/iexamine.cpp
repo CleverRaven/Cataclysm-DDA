@@ -1314,12 +1314,13 @@ void iexamine::gunsafe_ml( player &p, const tripoint &examp )
     p.practice( skill_lockpick, 1 );
 
     ///\EFFECT_DEX speeds up lock picking gun safe
-    ///\EFFECT_MECHANICS speeds up lock picking gun safe
+    ///\EFFECT_LOCKPICK speeds up lock picking gun safe
     p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
                          - ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 5 );
 
     ///\EFFECT_DEX increases chance of lock picking gun safe
     ///\EFFECT_MECHANICS increases chance of lock picking gun safe
+    ///\EFFECT_LOCKPICK greatly increases chance of lock picking gun safe
     int pick_roll = std::pow( 1.5, p.get_skill_level( skill_lockpick ) ) *
                     ( std::pow( 1.3, p.get_skill_level( skill_mechanics ) ) + pick_quality ) +
                     p.dex_cur / 4;

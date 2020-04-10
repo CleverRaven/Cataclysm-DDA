@@ -1109,7 +1109,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     p.practice( skill_lockpick, 1 );
 
     /** @EFFECT_DEX speeds up door lock picking */
-    /** @EFFECT_MECHANICS speeds up door lock picking */
+    /** @EFFECT_LOCKPICK speeds up door lock picking */
     p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
                          - ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 5 );
 
@@ -1117,6 +1117,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
     int pick_roll = std::pow( 1.5, p.get_skill_level( skill_lockpick ) ) *
                     ( std::pow( 1.3, p.get_skill_level( skill_mechanics ) ) +
                       pick_quality - it.damage() / 2000 ) +
