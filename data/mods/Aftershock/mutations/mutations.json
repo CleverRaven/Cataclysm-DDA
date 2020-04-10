@@ -279,4 +279,5 @@
     "id": "SHOUT1",
     "copy-from": "SHOUT1",
     "extend": { "category": [ "MIGO" ] }
+  }
 ]
