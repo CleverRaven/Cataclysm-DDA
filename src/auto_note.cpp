@@ -240,7 +240,7 @@ void auto_note_manager_gui::show()
 
         // Draw horizontal line and corner pieces of the table
         for( int x = 0; x < 78; x++ ) {
-            if( x == 51 || x == 60) {
+            if( x == 51 || x == 60 ) {
                 mvwputch( w_header, point( x, 1 ), c_light_gray, LINE_OXXX );
                 mvwputch( w_header, point( x, 2 ), c_light_gray, LINE_XOXO );
             } else {
@@ -268,7 +268,7 @@ void auto_note_manager_gui::show()
         for( int y = 0; y < iContentHeight; y++ ) {
             for( int x = 0; x < 79; x++ ) {
                 // The middle beams needs special treatment
-                if( x == 51 || x == 60) {
+                if( x == 51 || x == 60 ) {
                     mvwputch( w, point( x, y ), c_light_gray, LINE_XOXO );
                 } else {
                     mvwputch( w, point( x, y ), c_black, ' ' );
