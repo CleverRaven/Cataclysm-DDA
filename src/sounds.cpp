@@ -881,6 +881,7 @@ void sfx::do_ambient()
             case WEATHER_ACID_DRIZZLE:
             case WEATHER_DRIZZLE:
             case WEATHER_LIGHT_DRIZZLE:
+            case WEATHER_RAINBOW:
                 play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume,
                                             channel::outdoors_drizzle_env,
                                             1000 );
@@ -900,6 +901,7 @@ void sfx::do_ambient()
                 break;
             case WEATHER_FLURRIES:
             case WEATHER_ACID_FLURRIES:
+            case WEATHER_DIAMONDDUST:
                 play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", heard_volume,
                                             channel::outdoors_flurry_env,
                                             1000 );

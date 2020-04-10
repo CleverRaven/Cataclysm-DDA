@@ -695,6 +695,7 @@ void game::draw_weather( const weather_printable &w )
         case WEATHER_SNOWSTORM:
         case WEATHER_ACID_FLURRIES:
         case WEATHER_ACID_SNOW:
+        case WEATHER_DIAMONDDUST:
             weather_name = weather_snowflake;
             break;
         default:

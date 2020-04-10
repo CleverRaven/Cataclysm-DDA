@@ -35,6 +35,7 @@
 #include "colony.h"
 #include "player_activity.h"
 #include "regional_settings.h"
+#include "morale_types.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
@@ -601,6 +602,26 @@ void weather_effect::acid_storm()
         g->u.mod_pain( rng( 2, 7 ) );
         if( one_in( 5 ) ) {
             g->u.hurtall( 2, nullptr );
+        }
+    }
+}
+
+void weather_effect::rainbow()
+{
+    if( calendar::once_every( 60_turns ) && is_player_outside() ) {
+        g->u.add_morale( MORALE_SAW_RAINBOW, 2, 20, 60_minutes, 30_minutes );
+        if( one_in( 5 ) ) {
+            add_msg( _( "Beautiful rainbow is coming out." ) );
+        }
+    }
+}
+
+void weather_effect::diamond_dust()
+{
+    if( calendar::once_every( 60_turns ) && is_player_outside() ) {
+        g->u.add_morale( MORALE_SAW_DIAMONDDUST, 2, 30, 60_minutes, 30_minutes );
+        if( one_in( 5 ) ) {
+            add_msg( _( "Beautiful Diamond dust is falling." ) );
         }
     }
 }

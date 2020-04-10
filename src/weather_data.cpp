@@ -25,6 +25,7 @@ weather_animation_t get_weather_animation( weather_type const type )
         {WEATHER_THUNDER,      weather_animation_t {0.02f, c_light_blue,  '.'}},
         {WEATHER_LIGHTNING,    weather_animation_t {0.04f, c_light_blue,  ','}},
         {WEATHER_FLURRIES,     weather_animation_t {0.01f, c_white,   '.'}},
+        {WEATHER_DIAMONDDUST,  weather_animation_t {0.01f, c_white,   '.'}},
         {WEATHER_SNOW,         weather_animation_t {0.02f, c_white,   ','}},
         {WEATHER_SNOWSTORM,    weather_animation_t {0.04f, c_white,   '*'}},
         {WEATHER_ACID_FLURRIES,weather_animation_t {0.02f, c_light_green,'.'}},
@@ -68,6 +69,14 @@ static weather_result weather_data_internal( weather_type const type )
             weather_datum {
                 translate_marker( "Cloudy" ), c_light_gray, c_dark_gray_white, '~', 0, 1.0f, -20, 0, false,
                 PRECIP_NONE, false, false, &weather_effect::none
+            },
+            weather_datum {
+                translate_marker( "Rainbow" ), c_pink, c_pink_cyan, '=', 0, 1.01f, 0, 0, false,
+                PRECIP_VERY_LIGHT, true, false, &weather_effect::rainbow
+            },
+            weather_datum {
+                translate_marker( "Diamond Dust" ), c_white, c_white_cyan, '.', 2, 1.12f, -15, 2, false,
+                PRECIP_LIGHT, false, false, &weather_effect::diamond_dust
             },
             weather_datum {
                 translate_marker( "Light Drizzle" ), c_light_blue, h_light_blue, '.', 0, 1.01f, -10, 0, false,

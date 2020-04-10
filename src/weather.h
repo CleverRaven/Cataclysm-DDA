@@ -45,6 +45,8 @@ enum weather_type : int {
     WEATHER_CLEAR,        //!< No effects
     WEATHER_SUNNY,        //!< Glare if no eye protection
     WEATHER_CLOUDY,       //!< No effects
+    WEATHER_RAINBOW,      //!< gain morale
+    WEATHER_DIAMONDDUST,  //!< more gain morale than rainbow
     WEATHER_LIGHT_DRIZZLE,//!< very Light rain
     WEATHER_DRIZZLE,      //!< Light rain
     WEATHER_RAINY,        //!< Lots of rain, sight penalties
@@ -121,6 +123,8 @@ void lightning();
 void light_acid();
 void acid();
 void acid_storm();
+void rainbow();
+void diamond_dust();
 //!< Currently flurries have no additional effects.
 void flurry();
 void snow();

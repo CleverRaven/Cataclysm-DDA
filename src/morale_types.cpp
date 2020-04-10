@@ -204,6 +204,8 @@ const morale_type MORALE_EXCRETE( "morale_excrete" );
 const morale_type MORALE_INCONTINENT( "morale_incontinent" );
 const morale_type MORALE_PERM_FRAGRANT( "morale_perm_fragrant" );
 const morale_type MORALE_TAKE_SHOWER( "morale_take_shower" );
+const morale_type MORALE_SAW_RAINBOW( "morale_saw_rainbow" );
+const morale_type MORALE_SAW_DIAMONDDUST( "morale_saw_diamonddust" );
 
 namespace
 {

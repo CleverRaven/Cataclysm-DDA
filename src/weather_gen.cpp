@@ -279,11 +279,14 @@ weather_type weather_generator::get_variant_modded_weather_conditions( const w_p
     if( 1020 < w.pressure && w.humidity < 70 ) {
         r = WEATHER_SUNNY;
     }
-    if( 75 < w.humidity && ( w.pressure < 1014 || 94 < w.humidity ) ) {
+    if( 75 < w.humidity && w.pressure < 1020 && ( w.pressure < 1015 || 94 < w.humidity ) ) {
         r = WEATHER_CLOUDY;
     }
     if( 97 < w.humidity ) {
         r = WEATHER_LIGHT_DRIZZLE;
+    }
+    if( 97 < w.humidity && w.humidity < 98 && 1020 < w.pressure && w.pressure < 1021 ) {
+        r = WEATHER_RAINBOW;
     }
     if( 80 < w.humidity && w.pressure < 1012 ) {
         r = WEATHER_DRIZZLE;
@@ -297,10 +300,16 @@ weather_type weather_generator::get_variant_modded_weather_conditions( const w_p
     if( 90 < w.humidity && w.pressure < 1003) {
         r = WEATHER_LIGHTNING;
     }
+    if( 99 < w.humidity && w.pressure < 1003) {
+        // eye of the storm ;)
+        r = WEATHER_SUNNY;
+    }
 
     if( w.temperature <= 32 ) {
         if( r == WEATHER_DRIZZLE ) {
             r = WEATHER_FLURRIES;
+        } else if (r == WEATHER_RAINBOW ) {
+            r = WEATHER_DIAMONDDUST;
         } else if( r > WEATHER_DRIZZLE ) {
             if( r >= WEATHER_THUNDER && w.windpower > 15 ) {
                 r = WEATHER_SNOWSTORM;
