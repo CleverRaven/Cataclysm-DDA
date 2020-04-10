@@ -1141,7 +1141,7 @@
     "name": { "str": "Prey Animal" },
     "points": -3,
     "description": "Natural animals like dogs and wolves see you as prey, and are liable to attack you on sight.",
-    "cancels": [ "ANIMALEMPATH", "ANIMALEMPATH2"  ],
+    "cancels": [ "ANIMALEMPATH", "ANIMALEMPATH2" ],
     "prereqs": [ "ANIMALDISCORD" ],
     "category": [ "MOUSE" ]
   },
