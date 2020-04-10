@@ -110,3 +110,141 @@ TEST_CASE( "weather realism" )
         CHECK( heavy_precip <= .02 );
     }
 }
+
+TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
+{
+    // `get_local_windchill` returns degrees F offset from current temperature,
+    // representing the amount of temperature difference from wind chill alone.
+    //
+    // It uses one of two formulas or models depending on the current temperature;
+    // below 50F, the North American / UK wind chill index is used. At 50F or above, the
+    // Australian apparent temperature is used.
+    //
+    // All "quoted text" below is paraphrased from the Wikipedia article:
+    // https://en.wikipedia.org/wiki/Wind_chill
+
+    double wind_mph;
+    double temp_f;
+
+    SECTION( "below 50F - North American and UK wind chill index" ) {
+        // "Windchill temperature is defined only for temperatures at or below 10C (50F) and wind
+        // speeds above 4.8 kilometres per hour (3.0 mph)."
+
+        WHEN( "wind speed is less than 3 mph" ) {
+            THEN( "windchill is undefined and effectively 0" ) {
+                CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 2.9f ) );
+                CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 2.0f ) );
+                CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 1.0f ) );
+                CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 0.0f ) );
+            }
+        }
+
+
+        // "As the air temperature falls, the chilling effect of any wind that is present increases.
+        // For example, a 16 km/h (9.9 mph) wind will lower the apparent temperature by a wider
+        // margin at an air temperature of −20C (−4F), than a wind of the same speed would if
+        // the air temperature were −10C (14F)."
+
+        GIVEN( "constant wind of 10mph" ) {
+            wind_mph = 10.0f;
+
+            WHEN( "temperature is -10C (14F)" ) {
+                temp_f = 14.0f;
+
+                THEN( "the wind chill effect is -12F" ) {
+                    CHECK( -12 == get_local_windchill( temp_f, 0.0f, wind_mph ) );
+                }
+            }
+
+            WHEN( "temperature is -20C (-4F)" ) {
+                temp_f = -4.0f;
+
+                THEN( "there is more wind chill, an effect of -16F" ) {
+                    CHECK( -16 == get_local_windchill( temp_f, 0.0f, wind_mph ) );
+                }
+            }
+        }
+
+        // More generally:
+
+        WHEN( "wind speed is at least 3 mph" ) {
+            THEN( "windchill gets colder as temperature decreases" ) {
+                CHECK( -8 == get_local_windchill( 40.0f, 0.0f, 15.0f ) );
+                CHECK( -10 == get_local_windchill( 30.0f, 0.0f, 15.0f ) );
+                CHECK( -13 == get_local_windchill( 20.0f, 0.0f, 15.0f ) );
+                CHECK( -16 == get_local_windchill( 10.0f, 0.0f, 15.0f ) );
+                CHECK( -19 == get_local_windchill( 0.0f, 0.0f, 15.0f ) );
+                CHECK( -22 == get_local_windchill( -10.0f, 0.0f, 15.0f ) );
+                CHECK( -25 == get_local_windchill( -20.0f, 0.0f, 15.0f ) );
+                CHECK( -27 == get_local_windchill( -30.0f, 0.0f, 15.0f ) );
+                CHECK( -30 == get_local_windchill( -40.0f, 0.0f, 15.0f ) );
+            }
+        }
+
+        // "When the temperature is −20C (−4F) and the wind speed is 5 km/h (3.1 mph),
+        // the wind chill index is −24C. If the temperature remains at −20C and the wind
+        // speed increases to 30 km/h (19 mph), the wind chill index falls to −33C."
+
+        GIVEN( "constant temperature of -20C (-4F)" ) {
+            temp_f = -4.0f;
+
+            WHEN( "wind speed is 3.1mph" ) {
+                wind_mph = 3.1f;
+
+                THEN( "wind chill is -24C (-11.2F)" ) {
+                    // -4C offset from -20C =~ -7.2F offset from -4F
+                    CHECK( -7 == get_local_windchill( temp_f, 0.0f, wind_mph ) );
+                }
+            }
+            WHEN( "wind speed increases to 19mph" ) {
+                wind_mph = 19.0f;
+
+                THEN( "wind chill is -33C (-27.4F)" ) {
+                    // -13C offset from -20C =~ -23.4F offset from -4F
+                    // NOTE: This should be -23, but we can forgive an off-by-one
+                    CHECK( -22 == get_local_windchill( temp_f, 0.0f, wind_mph ) );
+                }
+            }
+        }
+
+        // Or more generally:
+
+        WHEN( "wind speed is at least 3 mph" ) {
+            THEN( "windchill gets colder as wind increases" ) {
+                CHECK( -2 == get_local_windchill( 30.0f, 0.0f, 3.0f ) );
+                CHECK( -4 == get_local_windchill( 30.0f, 0.0f, 4.0f ) );
+                CHECK( -5 == get_local_windchill( 30.0f, 0.0f, 5.0f ) );
+                CHECK( -8 == get_local_windchill( 30.0f, 0.0f, 10.0f ) );
+                CHECK( -10 == get_local_windchill( 30.0f, 0.0f, 15.0f ) );
+                CHECK( -12 == get_local_windchill( 30.0f, 0.0f, 20.0f ) );
+                CHECK( -15 == get_local_windchill( 30.0f, 0.0f, 30.0f ) );
+                CHECK( -16 == get_local_windchill( 30.0f, 0.0f, 40.0f ) );
+                CHECK( -18 == get_local_windchill( 30.0f, 0.0f, 50.0f ) );
+            }
+        }
+
+        // Incidentally, the function accepts a humidity argument,
+        // but this model does not use it:
+
+        THEN( "wind chill index is unaffected by humidity" ) {
+            CHECK( -6 == get_local_windchill( 40.0f, 0.0f, 10.0f ) );
+            CHECK( -6 == get_local_windchill( 40.0f, 50.0f, 10.0f ) );
+            CHECK( -6 == get_local_windchill( 40.0f, 100.0f, 10.0f ) );
+
+            CHECK( -22 == get_local_windchill( 10.0f, 0.0f, 30.0f ) );
+            CHECK( -22 == get_local_windchill( 10.0f, 50.0f, 30.0f ) );
+            CHECK( -22 == get_local_windchill( 10.0f, 100.0f, 30.0f ) );
+
+            CHECK( -33 == get_local_windchill( -20.0f, 0.0f, 30.0f ) );
+            CHECK( -33 == get_local_windchill( -20.0f, 50.0f, 30.0f ) );
+            CHECK( -33 == get_local_windchill( -20.0f, 100.0f, 30.0f ) );
+        }
+    }
+
+    SECTION( "50F and above - Australian apparent temperature" ) {
+        CHECK( -12 == get_local_windchill( 50.0f, 0.0f, 10.0f ) );
+        CHECK( -18 == get_local_windchill( 50.0f, 0.0f, 20.0f ) );
+        CHECK( -24 == get_local_windchill( 50.0f, 0.0f, 30.0f ) );
+    }
+}
+
