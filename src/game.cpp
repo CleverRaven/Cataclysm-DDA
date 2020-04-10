@@ -1,55 +1,70 @@
 #include "game.h"
 
-#include <cwctype>
-#include <cassert>
-#include <cstdio>
 #include <algorithm>
+#include <bitset>
+#include <cassert>
 #include <chrono>
+#include <climits>
 #include <cmath>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <ctime>
+#include <cwctype>
+#include <exception>
+#include <iostream>
 #include <iterator>
+#include <limits>
 #include <locale>
 #include <map>
 #include <memory>
+#include <numeric>
 #include <queue>
 #include <set>
 #include <sstream>
 #include <string>
-#include <vector>
-#include <cstdlib>
-#include <exception>
-#include <iostream>
-#include <limits>
 #include <tuple>
 #include <type_traits>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
-#include <unordered_map>
+#include <vector>
 
+#include "achievement.h"
 #include "action.h"
+#include "activity_actor.h"
 #include "activity_handlers.h"
 #include "artifact.h"
+#include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
-#include "auto_note.h"
 #include "catacharset.h"
+#include "character.h"
+#include "character_martial_arts.h"
 #include "clzones.h"
-#include "computer.h"
+#include "colony.h"
+#include "color.h"
 #include "computer_session.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesport.h"
+#include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
 #include "editmap.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
 #include "faction.h"
+#include "field.h"
+#include "field_type.h"
 #include "filesystem.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -61,8 +76,14 @@
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
+#include "int_id.h"
+#include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_stack.h"
+#include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
 #include "kill_tracker.h"
@@ -70,10 +91,11 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "magic_enchantment.h"
+#include "magic.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapsharing.h"
@@ -97,8 +119,12 @@
 #include "panels.h"
 #include "path_info.h"
 #include "pickup.h"
+#include "player.h"
+#include "player_activity.h"
 #include "popup.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "safemode_ui.h"
 #include "scenario.h"
@@ -109,42 +135,28 @@
 #include "start_location.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
+#include "tileray.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "wcwidth.h"
 #include "weather.h"
 #include "worldfactory.h"
-#include "map_selector.h"
-#include "basecamp.h"
-#include "character.h"
-#include "color.h"
-#include "damage.h"
-#include "field.h"
-#include "item_stack.h"
-#include "itype.h"
-#include "iuse.h"
-#include "player.h"
-#include "player_activity.h"
-#include "recipe.h"
-#include "ret_val.h"
-#include "tileray.h"
-#include "ui.h"
-#include "ui_manager.h"
-#include "units.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "colony.h"
-#include "item.h"
 
+class computer;
 class inventory;
 
 #if defined(TILES)
@@ -245,10 +257,17 @@ bool is_valid_in_w_terrain( const point &p )
     return p.x >= 0 && p.x < TERRAIN_WINDOW_WIDTH && p.y >= 0 && p.y < TERRAIN_WINDOW_HEIGHT;
 }
 
+static void achievement_attained( const achievement *a )
+{
+    g->u.add_msg_if_player( m_good, _( "You completed the achievement \"%s\"." ),
+                            a->description() );
+}
+
 // This is the main game set-up process.
 game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
+    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained ),
     m( *map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
@@ -273,6 +292,7 @@ game::game() :
     events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*kill_tracker_ptr );
     events().subscribe( &*memorial_logger_ptr );
+    events().subscribe( &*achievements_tracker_ptr );
     events().subscribe( &*spell_events_ptr );
     world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -662,6 +682,7 @@ void game::setup()
     stats().clear();
     // reset kill counts
     kill_tracker_ptr->clear();
+    achievements_tracker_ptr->clear();
     // reset follower list
     follower_ids.clear();
     scent.reset();
@@ -3188,6 +3209,30 @@ static void draw_footsteps( const catacurses::window &window, const tripoint &of
         }
 
         mvwputch( window, footstep.xy() + offset.xy(), c_yellow, glyph );
+    }
+}
+
+shared_ptr_fast<ui_adaptor> game::create_or_get_main_ui_adaptor()
+{
+    shared_ptr_fast<ui_adaptor> ui = main_ui_adaptor.lock();
+    if( !ui ) {
+        main_ui_adaptor = ui = make_shared_fast<ui_adaptor>();
+        ui->position_from_window( catacurses::stdscr );
+        ui->on_redraw( []( const ui_adaptor & ) {
+            g->draw();
+        } );
+        ui->on_screen_resize( []( ui_adaptor & ui ) {
+            ui.position_from_window( catacurses::stdscr );
+        } );
+    }
+    return ui;
+}
+
+void game::invalidate_main_ui_adaptor() const
+{
+    shared_ptr_fast<ui_adaptor> ui = main_ui_adaptor.lock();
+    if( ui ) {
+        ui->invalidate_ui();
     }
 }
 

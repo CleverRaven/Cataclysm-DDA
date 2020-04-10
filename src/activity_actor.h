@@ -2,13 +2,20 @@
 #ifndef ACTIVITY_ACTOR_H
 #define ACTIVITY_ACTOR_H
 
+#include <algorithm>
+#include <memory>
+#include <unordered_map>
 #include <vector>
 
+#include "calendar.h"
 #include "clone_ptr.h"
 #include "item_location.h"
 #include "point.h"
 #include "type_id.h"
 
+class Character;
+class JsonIn;
+class JsonOut;
 class player_activity;
 
 class activity_actor

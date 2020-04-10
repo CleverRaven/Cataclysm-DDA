@@ -1,20 +1,22 @@
 #include "activity_type.h"
 
+#include <algorithm>
+#include <functional>
 #include <map>
 #include <unordered_map>
-#include <functional>
 #include <utility>
 
 #include "activity_actor.h"
 #include "activity_handlers.h"
 #include "assign.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "json.h"
-#include "sounds.h"
-#include "translations.h"
 #include "player.h"
-#include "player_activity.h"
+#include "sounds.h"
 #include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
 
 // activity_type functions
 static std::map< activity_id, activity_type > activity_type_all;

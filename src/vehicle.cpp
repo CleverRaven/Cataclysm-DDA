@@ -5,29 +5,37 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
-#include <complex>
 #include <cmath>
+#include <complex>
+#include <cstdint>
 #include <cstdlib>
+#include <list>
+#include <memory>
 #include <numeric>
 #include <queue>
 #include <set>
 #include <sstream>
 #include <unordered_map>
-#include <memory>
-#include <list>
+#include <unordered_set>
 
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "clzones.h"
-#include "flag.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "faction.h"
+#include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
@@ -35,29 +43,26 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
+#include "math_defines.h"
 #include "messages.h"
+#include "monster.h"
 #include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
+#include "string_id.h"
 #include "submap.h"
 #include "translations.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
 #include "weather.h"
-#include "field.h"
-#include "math_defines.h"
-#include "pimpl.h"
-#include "player.h"
-#include "player_activity.h"
-#include "pldata.h"
-#include "rng.h"
 #include "weather_gen.h"
-#include "options.h"
-#include "enums.h"
-#include "monster.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -1008,8 +1013,8 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         int roll = dice( 1, 1000 );
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
-            float dist =  damage_size == 0.0f ? 1.0f :
-                          clamp( 1.0f - trig_dist( damage_origin, part.precalc[0] ) / damage_size, 0.0f, 1.0f );
+            double dist = damage_size == 0.0 ? 1.0 :
+                          clamp( 1.0 - trig_dist( damage_origin, part.precalc[0] ) / damage_size, 0.0, 1.0 );
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
             if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
                                                hp_percent_loss_max * dist ) * part.info().durability ), DT_BASH ) ) {

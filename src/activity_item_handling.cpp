@@ -1,55 +1,70 @@
 #include "activity_handlers.h" // IWYU pragma: associated
 
-#include <climits>
 #include <algorithm>
-#include <list>
-#include <iostream>
-#include <vector>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
 #include <iterator>
+#include <list>
 #include <memory>
+#include <set>
 #include <string>
+#include <tuple>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "avatar_action.h"
-#include "construction.h"
+#include "calendar.h"
+#include "character.h"
 #include "clzones.h"
+#include "colony.h"
+#include "construction.h"
+#include "creature.h"
 #include "debug.h"
 #include "enums.h"
 #include "field.h"
+#include "field_type.h"
 #include "fire.h"
+#include "flat_set.h"
 #include "game.h"
-#include "iuse.h"
+#include "game_constants.h"
 #include "iexamine.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_location.h"
+#include "itype.h"
+#include "iuse.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
+#include "point.h"
 #include "requirements.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
+#include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "calendar.h"
-#include "character.h"
-#include "game_constants.h"
-#include "inventory.h"
-#include "line.h"
-#include "units.h"
-#include "flat_set.h"
-#include "int_id.h"
-#include "item_location.h"
-#include "point.h"
-#include "string_id.h"
+#include "weather.h"
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
@@ -113,8 +128,6 @@ static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_POWERED( "POWERED" );
 static const std::string flag_TREE( "TREE" );
-
-struct construction_category;
 
 void cancel_aim_processing();
 //Generic activity: maximum search distance for zones, constructions, etc.
@@ -2828,7 +2841,8 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         p.activity = player_activity();
         item *best_rod = p.best_quality_item( qual_FISHING );
         p.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
-                           p.get_item_position( best_rod ), best_rod->tname() );
+                           0, best_rod->tname() );
+        p.activity.targets.push_back( item_location( p, best_rod ) );
         p.activity.coord_set = g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );
         return false;
     } else if( reason == NEEDS_MINING ) {

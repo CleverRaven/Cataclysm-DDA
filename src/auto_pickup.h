@@ -2,7 +2,6 @@
 #ifndef AUTO_PICKUP_H
 #define AUTO_PICKUP_H
 
-#include <array>
 #include <functional>
 #include <iosfwd>
 #include <string>
@@ -11,8 +10,8 @@
 
 #include "enums.h"
 
-class JsonOut;
 class JsonIn;
+class JsonOut;
 class item;
 struct itype;
 

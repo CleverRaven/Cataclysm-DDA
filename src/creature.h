@@ -227,6 +227,7 @@ class Creature
         void knock_back_from( const tripoint &p );
         virtual void knock_back_to( const tripoint &to ) = 0;
 
+        int size_melee_penalty() const;
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
         virtual int deal_melee_attack( Creature *source, int hitroll );

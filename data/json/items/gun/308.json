@@ -304,8 +304,8 @@
     "type": "GUN",
     "name": { "str": "M24", "str_pl": "M24" },
     "description": "The M24 Sniper is the military and police version of the Remington Model 700 rifle, M24 being the model name assigned by the United States Army after adoption as their standard sniper rifle in 1988.  The M24 is referred to as a 'weapon system' because it consists of not only a rifle, but also a detachable telescopic sight and other accessories.",
-    "weight": "5000 g",
-    "volume": "2750 ml",
+    "weight": "4990 g",
+    "volume": "4084 ml",
     "price": 350000,
     "price_postapoc": 4500,
     "to_hit": -1,
@@ -318,8 +318,8 @@
     "durability": 9,
     "min_cycle_recoil": 2700,
     "barrel_length": "500 ml",
-    "default_mods": [ "rifle_scope", "cheek_pad" ],
-    "magazines": [ [ "308", [ "m14mag", "m14smallmag", "m14_makeshiftmag" ] ] ],
+    "default_mods": [ "rifle_scope", "bipod" ],
+    "clip_size": 5,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -327,14 +327,14 @@
       [ "brass catcher", 1 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   },
   {
     "id": "hk417_13",

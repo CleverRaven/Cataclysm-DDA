@@ -1,11 +1,17 @@
 #include "item_contents.h"
 
+#include <algorithm>
+#include <memory>
+
 #include "character.h"
+#include "enums.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+
+struct tripoint;
 
 bool item_contents::empty() const
 {

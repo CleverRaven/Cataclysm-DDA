@@ -1,24 +1,49 @@
 #include "memorial_logger.h"
 
+#include <istream>
+#include <list>
+#include <map>
+#include <memory>
+#include <tuple>
+#include <utility>
+
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_variant.h"
+#include "character_id.h"
+#include "debug.h"
 #include "effect.h"
+#include "event.h"
 #include "event_statistics.h"
 #include "filesystem.h"
 #include "game.h"
 #include "get_version.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "kill_tracker.h"
+#include "magic.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "monstergenerator.h"
+#include "mtype.h"
 #include "mutation.h"
+#include "omdata.h"
+#include "output.h"
 #include "overmapbuffer.h"
+#include "pldata.h"
 #include "profession.h"
 #include "skill.h"
 #include "stats_tracker.h"
+#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units.h"
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );

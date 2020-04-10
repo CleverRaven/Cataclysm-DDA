@@ -1,40 +1,58 @@
 ﻿#include "iuse.h"
 
-#include <climits>
 #include <algorithm>
+#include <array>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
-#include <set>
-#include <sstream>
-#include <vector>
-#include <array>
 #include <exception>
 #include <functional>
 #include <iterator>
 #include <list>
 #include <map>
-#include <utility>
+#include <set>
+#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "action.h"
 #include "artifact.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "character_martial_arts.h"
+#include "colony.h"
+#include "color.h"
 #include "coordinate_conversions.h"
+#include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "timed_event.h"
 #include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "iexamine.h"
+#include "int_id.h"
 #include "inventory.h"
+#include "inventory_ui.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "iteminfo_query.h"
+#include "itype.h"
 #include "iuse_actor.h" // For firestarter
 #include "json.h"
 #include "line.h"
@@ -43,63 +61,52 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "memorial_logger.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monattack.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "omdata.h"
+#include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "point.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "speech.h"
+#include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
+#include "teleport.h"
 #include "text_snippets.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "ui.h"
+#include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "veh_type.h"
 #include "weather.h"
-#include "bodypart.h"
-#include "character.h"
-#include "color.h"
-#include "creature.h"
-#include "damage.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "inventory_ui.h"
-#include "item.h"
-#include "item_location.h"
-#include "itype.h"
-#include "monster.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player_activity.h"
-#include "pldata.h"
-#include "recipe.h"
-#include "ret_val.h"
-#include "stomach.h"
-#include "string_id.h"
 #include "weather_gen.h"
-#include "type_id.h"
-#include "options.h"
-#include "flat_set.h"
-#include "handle_liquid.h"
-#include "item_group.h"
-#include "omdata.h"
-#include "point.h"
-#include "teleport.h"
 
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
@@ -1763,8 +1770,8 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
-    p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
-                        p->get_item_position( it ), it->tname() );
+    p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.coord_set = g->get_fishable_locations( 60, *found );
     return 0;
 }
@@ -3314,7 +3321,8 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
         break;
     }
 
-    p->assign_activity( ACT_PICKAXE, moves, -1, p->get_item_position( it ) );
+    p->assign_activity( ACT_PICKAXE, moves, -1 );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = g->m.getabs( pnt );
     p->add_msg_if_player( _( "You strike the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
@@ -4090,8 +4098,7 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
 int iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
     // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
-    // TODO: music playback on a software player doesn't actually do anything yet - SOFTWARE stuff is stub
-    if( !it->units_sufficient( *p ) && !it->has_flag( "SOFTWARE" ) ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( "mp3_on" ) || p->has_active_item( "smartphone_music" ) ||
                p->has_active_item( "afs_atomic_smartphone_music" ) ||
@@ -4110,7 +4117,7 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
         }
         p->mod_moves( -200 );
     }
-    return it->has_flag( "SOFTWARE" ) ? 0 : it->type->charges_to_use();
+    return it->type->charges_to_use();
 }
 
 static std::string get_music_description()
@@ -4350,8 +4357,6 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::portable_game( player *p, item *it, bool, const tripoint & )
 {
-    // TODO move out functionality to a sharable function and only do
-    // handheld game housekeeping here -- to get rid of has_flag( "SOFTWARE" ) checks
     if( p->is_npc() ) {
         // Long action
         return 0;
@@ -4367,7 +4372,7 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You're illiterate!" ) );
         return 0;
-    } else if( it->ammo_remaining() < 15 && !it->has_flag( "SOFTWARE" ) ) {
+    } else if( it->ammo_remaining() < 15 ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     } else {
@@ -4406,7 +4411,6 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
                 //Cancel
                 return 0;
         }
-
         p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
         if( loaded_software == "null" ) {
             // player made no game selection, play any old game for an hour
@@ -4414,8 +4418,8 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
                                 p->get_item_position( it ), "gaming" );
         } else {
             // play selected game in 15-minute chunks
-            p->assign_activity( ACT_GAME, to_moves<int>( 15_minutes ), -1, p->get_item_position( it ),
-                                "gaming" );
+            p->assign_activity( ACT_GAME, to_moves<int>( 15_minutes ), -1, 0, "gaming" );
+            p->activity.targets.push_back( item_location( *p, it ) );
             std::map<std::string, std::string> game_data;
             game_data.clear();
             int game_score = 0;
@@ -4465,8 +4469,8 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
         if( it->ammo_capacity() > it->ammo_remaining() ) {
             p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
                                   it->magazine_current()->tname() );
-            p->assign_activity( ACT_HAND_CRANK, moves, -1, p->get_item_position( it ),
-                                "hand-cranking" );
+            p->assign_activity( ACT_HAND_CRANK, moves, -1, 0, "hand-cranking" );
+            p->activity.targets.push_back( item_location( *p, it ) );
         } else {
             p->add_msg_if_player( _( "You could use the %s to charge its %s, but it's already charged." ),
                                   it->tname(), magazine->tname() );
@@ -4510,8 +4514,8 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( _( "You whip out your %s and start getting the tension out." ),
                                   it->tname() );
         }
-        p->assign_activity( ACT_VIBE, moves, -1, p->get_item_position( it ),
-                            "de-stressing" );
+        p->assign_activity( ACT_VIBE, moves, -1, 0, "de-stressing" );
+        p->activity.targets.push_back( item_location( *p, it ) );
     }
     return it->type->charges_to_use();
 }
@@ -4928,8 +4932,8 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     }
 
     // placing ter here makes resuming tasks work better
-    p->assign_activity( ACT_OXYTORCH, moves, static_cast<int>( ter ),
-                        p->get_item_position( it ) );
+    p->assign_activity( ACT_OXYTORCH, moves, static_cast<int>( ter ) );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = pnt;
     p->activity.values.push_back( charges );
 

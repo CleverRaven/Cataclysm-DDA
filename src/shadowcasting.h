@@ -2,16 +2,16 @@
 #ifndef SHADOWCASTING_H
 #define SHADOWCASTING_H
 
-#include <array>
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <functional>
 #include <string>
 
 #include "game_constants.h"
 #include "lightmap.h"
-#include "point.h"
 
+struct point;
 struct tripoint;
 
 // For light we store four values, depending on the direction that the light
@@ -81,7 +81,7 @@ struct four_quadrants {
 // We merge all of the absorption values by taking their cumulative average.
 inline float sight_calc( const float &numerator, const float &transparency, const int &distance )
 {
-    return numerator / static_cast<float>( exp( transparency * distance ) );
+    return numerator / std::exp( transparency * distance );
 }
 inline bool sight_check( const float &transparency, const float &/*intensity*/ )
 {

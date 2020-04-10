@@ -1,26 +1,29 @@
 #include "morale.h"
 
-#include <cstdlib>
 #include <algorithm>
-#include <set>
+#include <array>
 #include <cmath>
+#include <cstdlib>
 #include <memory>
+#include <set>
 #include <utility>
 
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "enums.h"
 #include "input.h"
+#include "int_id.h"
 #include "item.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
+#include "point.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "enums.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );

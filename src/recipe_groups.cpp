@@ -1,15 +1,16 @@
 #include "recipe_groups.h"
 
-#include <string>
-#include <vector>
 #include <set>
+#include <string>
 #include <utility>
+#include <vector>
 
+#include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "debug.h"
 #include "overmap.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 // recipe_groups namespace

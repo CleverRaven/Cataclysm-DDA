@@ -2,26 +2,28 @@
 #ifndef REQUIREMENTS_H
 #define REQUIREMENTS_H
 
+#include <algorithm>
 #include <functional>
 #include <list>
 #include <map>
-#include <vector>
 #include <string>
+#include <tuple>
 #include <utility>
+#include <vector>
 
 #include "crafting.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
-class nc_color;
-class JsonValue;
-class JsonObject;
 class JsonArray;
 class JsonIn;
+class JsonObject;
 class JsonOut;
+class JsonValue;
 class inventory;
 class item;
+class nc_color;
+class player;
 
 // Denotes the id of an item type
 using itype_id = std::string;

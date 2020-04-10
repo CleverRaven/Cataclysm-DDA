@@ -3,16 +3,18 @@
 #define ACTIVITY_HANDLERS_H
 
 #include <functional>
+#include <list>
 #include <map>
 #include <unordered_set>
 #include <vector>
-#include <list>
 
-#include "player_activity.h"
+#include "optional.h"
+#include "type_id.h"
 
-class player;
 class Character;
 class item;
+class player;
+class player_activity;
 struct tripoint;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,

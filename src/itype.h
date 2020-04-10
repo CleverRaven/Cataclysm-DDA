@@ -2,11 +2,12 @@
 #ifndef ITYPE_H
 #define ITYPE_H
 
+#include <array>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <vector>
-#include <array>
 
 #include "bodypart.h" // body_part::num_bp
 #include "calendar.h"
@@ -25,12 +26,11 @@
 #include "units.h"
 #include "value_ptr.h"
 
-// see item.h
-class item_category;
 class Item_factory;
-class player;
 class item;
+class player;
 struct tripoint;
+template <typename E> struct enum_traits;
 
 enum art_effect_active : int;
 enum art_charge : int;
@@ -422,12 +422,6 @@ struct common_ranged_data {
      * Dispersion "bonus" from gun.
      */
     int dispersion = 0;
-    /**
-     * Legacy pierce and damage values, used if @ref damage isn't set.
-    *@{*/
-    int legacy_pierce = 0;
-    int legacy_damage = 0;
-    /*@}*/
 };
 
 struct islot_engine {
@@ -715,12 +709,6 @@ struct islot_ammo : common_ranged_data {
      * @warning It is not read from the json directly.
      * */
     bool special_cookoff = false;
-
-    /**
-     * If set, ammo does not give a flat damage, instead it multiplies the base
-     * damage of the gun by this value.
-     */
-    cata::optional<float> prop_damage;
 
     /**
      * Some combat ammo might not have a damage or prop_damage value

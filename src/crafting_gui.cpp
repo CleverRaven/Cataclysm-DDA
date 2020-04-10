@@ -1,40 +1,42 @@
 #include "crafting_gui.h"
 
-#include <cstddef>
 #include <algorithm>
-#include <map>
-#include <string>
-#include <vector>
+#include <cstddef>
+#include <cstring>
 #include <iterator>
-#include <list>
+#include <map>
 #include <memory>
 #include <set>
+#include <string>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "crafting.h"
+#include "cursesdef.h"
 #include "game.h"
 #include "input.h"
+#include "item.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
+#include "point.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
-#include "calendar.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "item.h"
-#include "recipe.h"
-#include "type_id.h"
 
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
@@ -317,28 +319,35 @@ const recipe *select_crafting_recipe( int &batch_size )
         werase( w_data );
 
         if( isWide ) {
-            mvwprintz( w_data, point( 5, dataLines + 1 ), c_white,
-                       _( "Press <ENTER> to attempt to craft object." ) );
-            wprintz( w_data, c_white, "  " );
             if( !filterstring.empty() ) {
-                wprintz( w_data, c_white,
-                         _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, %s [?] keybindings" ),
-                         ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
+                fold_and_print( w_data, point( 5, dataLines + 1 ), 0, c_white,
+                                _( "Press [<color_yellow>ENTER</color>] to attempt to craft object.  "
+                                   "D[<color_yellow>e</color>]scribe, [<color_yellow>F</color>]ind, "
+                                   "[<color_red>R</color>]eset, [<color_yellow>m</color>]ode, "
+                                   "[<color_yellow>s</color>]how/hide, Re[<color_yellow>L</color>]ated, "
+                                   "[<color_yellow>*</color>]Favorite, %s, [<color_yellow>?</color>]keybindings" ),
+                                ( batch ) ? _( "<color_red>cancel</color> "
+                                               "[<color_yellow>b</color>]atch" ) : _( "[<color_yellow>b</color>]atch" ) );
             } else {
-                wprintz( w_data, c_white,
-                         _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, %s [?] keybindings" ),
-                         ( batch ) ? _( "cancel [b]atch" ) : _( "[b]atch" ) );
+                fold_and_print( w_data, point( 5, dataLines + 1 ), 0, c_white,
+                                _( "Press [<color_yellow>ENTER</color>] to attempt to craft object.  "
+                                   "D[<color_yellow>e</color>]scribe, [<color_yellow>F</color>]ind, "
+                                   "[<color_yellow>m</color>]ode, [<color_yellow>s</color>]how/hide, "
+                                   "Re[<color_yellow>L</color>]ated, [<color_yellow>*</color>]Favorite, "
+                                   "%s, [<color_yellow>?</color>]keybindings" ),
+                                ( batch ) ? _( "<color_red>cancel</color> "
+                                               "[<color_yellow>b</color>]atch" ) : _( "[<color_yellow>b</color>]atch" ) );
             }
         } else {
             if( !filterstring.empty() ) {
-                mvwprintz( w_data, point( 5, dataLines + 1 ), c_white,
-                           _( "[E]: Describe, [F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, [b]atch [?] keybindings" ) );
+                mvwprintz( w_data, point( 2, dataLines + 2 ), c_white,
+                           _( "[F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Fav, [b]atch." ) );
             } else {
-                mvwprintz( w_data, point( 5, dataLines + 1 ), c_white,
-                           _( "[E]: Describe, [F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Favorite, [b]atch [?] keybindings" ) );
+                mvwprintz( w_data, point( 2, dataLines + 2 ), c_white,
+                           _( "[F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Fav, [b]atch." ) );
             }
-            mvwprintz( w_data, point( 5, dataLines + 2 ), c_white,
-                       _( "Press <ENTER> to attempt to craft object." ) );
+            mvwprintz( w_data, point( 2, dataLines + 1 ), c_white,
+                       _( "Press [ENTER] to attempt to craft object.  D[e]scribe, [?]keybindings," ) );
         }
         // Draw borders
         for( int i = 1; i < width - 1; ++i ) { // -

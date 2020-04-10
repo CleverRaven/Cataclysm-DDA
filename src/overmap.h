@@ -2,40 +2,41 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include <cstdlib>
 #include <algorithm>
 #include <array>
 #include <climits>
+#include <cstdlib>
 #include <functional>
 #include <iosfwd>
+#include <iterator>
 #include <map>
-#include <memory>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <iterator>
 #include <utility>
+#include <vector>
 
 #include "basecamp.h"
-#include "game_constants.h"
-#include "omdata.h"
-#include "overmap_types.h" // IWYU pragma: keep
-#include "regional_settings.h"
 #include "enums.h"
+#include "game_constants.h"
+#include "memory_fast.h"
 #include "mongroup.h"
+#include "monster.h"
+#include "omdata.h"
 #include "optional.h"
-#include "type_id.h"
+#include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
+#include "regional_settings.h"
 #include "rng.h"
 #include "string_id.h"
+#include "type_id.h"
 
+class JsonIn;
+class JsonObject;
+class JsonOut;
+class character_id;
+class map_extra;
 class npc;
 class overmap_connection;
-class JsonIn;
-class JsonOut;
-class monster;
-class JsonObject;
-class map_extra;
 
 namespace pf
 {

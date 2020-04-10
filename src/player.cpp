@@ -1,102 +1,89 @@
 #include "player.h"
 
-#include <cctype>
 #include <algorithm>
+#include <array>
+#include <bitset>
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
-#include <map>
-#include <string>
 #include <limits>
-#include <bitset>
-#include <exception>
-#include <tuple>
+#include <map>
+#include <memory>
+#include <ostream>
+#include <string>
+#include <unordered_map>
 
 #include "action.h"
 #include "activity_handlers.h"
-#include "addiction.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "coordinate_conversions.h"
+#include "character_martial_arts.h"
 #include "craft_command.h"
-#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "fault.h"
-#include "filesystem.h"
-#include "fungal_effects.h"
+#include "field_type.h"
 #include "game.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
 #include "input.h"
+#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
-#include "iuse_actor.h"
+#include "lightmap.h"
+#include "line.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
-#include "material.h"
-#include "memorial_logger.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "name.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "profession.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
+#include "rng.h"
 #include "skill.h"
-#include "sounds.h"
+#include "stomach.h"
 #include "string_formatter.h"
-#include "submap.h"
-#include "text_snippets.h"
+#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
 #include "uistate.h"
+#include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
-#include "vpart_range.h"
 #include "weather.h"
 #include "weather_gen.h"
-#include "field.h"
-#include "fire.h"
-#include "int_id.h"
-#include "iuse.h"
-#include "lightmap.h"
-#include "line.h"
-#include "math_defines.h"
-#include "omdata.h"
-#include "overmap_types.h"
-#include "recipe.h"
-#include "rng.h"
-#include "units.h"
-#include "visitable.h"
-#include "string_id.h"
-#include "colony.h"
-#include "enums.h"
-#include "flat_set.h"
-#include "stomach.h"
-#include "teleport.h"
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bandaged( "bandaged" );
@@ -2396,32 +2383,6 @@ item player::reduce_charges( item *it, int quantity )
     return result;
 }
 
-int player::invlet_to_position( const int linvlet ) const
-{
-    // Invlets may come from curses, which may also return any kind of key codes, those being
-    // of type int and they can become valid, but different characters when casted to char.
-    // Example: KEY_NPAGE (returned when the player presses the page-down key) is 0x152,
-    // casted to char would yield 0x52, which happens to be 'R', a valid invlet.
-    if( linvlet > std::numeric_limits<char>::max() || linvlet < std::numeric_limits<char>::min() ) {
-        return INT_MIN;
-    }
-    const char invlet = static_cast<char>( linvlet );
-    if( is_npc() ) {
-        DebugLog( D_WARNING,  D_GAME ) << "Why do you need to call player::invlet_to_position on npc " <<
-                                       name;
-    }
-    if( weapon.invlet == invlet ) {
-        return -1;
-    }
-    auto iter = worn.begin();
-    for( size_t i = 0; i < worn.size(); i++, iter++ ) {
-        if( iter->invlet == invlet ) {
-            return worn_position_to_index( i );
-        }
-    }
-    return inv.invlet_to_position( invlet );
-}
-
 bool player::can_interface_armor() const
 {
     bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
@@ -2773,14 +2734,9 @@ item::reload_option player::select_ammo( const item &base,
             const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.front().ammo_data() :
                                 sel.ammo->ammo_data();
             if( ammo ) {
-                if( ammo->ammo->prop_damage ) {
-                    row += string_format( "| *%-6.2f | %-7d", static_cast<float>( *ammo->ammo->prop_damage ),
-                                          ammo->ammo->legacy_pierce );
-                } else {
-                    const damage_instance &dam = ammo->ammo->damage;
-                    row += string_format( "| %-7d | %-7d", static_cast<int>( dam.total_damage() ),
-                                          static_cast<int>( dam.empty() ? 0.0f : ( *dam.begin() ).res_pen ) );
-                }
+                const damage_instance &dam = ammo->ammo->damage;
+                row += string_format( "| %-7d | %-7d", static_cast<int>( dam.total_damage() ),
+                                      static_cast<int>( dam.empty() ? 0.0f : ( *dam.begin() ).res_pen ) );
             } else {
                 row += "|         |         ";
             }
@@ -3547,16 +3503,16 @@ bool player::unload( item &it )
         }
 
         bool changed = false;
-        it.visit_items( [this, &changed]( item * e ) {
-            int old_charges = e->charges;
-            const bool consumed = this->add_or_drop_with_msg( *e, true );
-            changed = changed || consumed || e->charges != old_charges;
+        for( item *contained : it.contents.all_items_top() ) {
+            int old_charges = contained->charges;
+            const bool consumed = this->add_or_drop_with_msg( *contained, true );
+            changed = changed || consumed || contained->charges != old_charges;
             if( consumed ) {
-                this->mod_moves( -this->item_handling_cost( *e ) );
-                this->remove_item( *e );
+                this->mod_moves( -this->item_handling_cost( *contained ) );
+                this->remove_item( *contained );
             }
-            return VisitResponse::NEXT;
-        } );
+        }
+
         if( changed ) {
             it.on_contents_changed();
         }
@@ -3873,10 +3829,10 @@ void player::reassign_item( item &it, int invlet )
 {
     bool remove_old = true;
     if( invlet ) {
-        item &prev = i_at( invlet_to_position( invlet ) );
-        if( !prev.is_null() ) {
-            remove_old = it.typeId() != prev.typeId();
-            inv.reassign_item( prev, it.invlet, remove_old );
+        item *prev = invlet_to_item( invlet );
+        if( prev != nullptr ) {
+            remove_old = it.typeId() != prev->typeId();
+            inv.reassign_item( *prev, it.invlet, remove_old );
         }
     }
 
@@ -3893,9 +3849,19 @@ void player::reassign_item( item &it, int invlet )
     }
 }
 
+static bool has_mod( const item &gun, const item &mod )
+{
+    for( const item *toolmod : gun.gunmods() ) {
+        if( &mod == toolmod ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool player::gunmod_remove( item &gun, item &mod )
 {
-    if( !gun.has_item( mod ) ) {
+    if( !has_mod( gun, mod ) ) {
         debugmsg( "Cannot remove non-existent gunmod" );
         return false;
     }
@@ -4051,8 +4017,10 @@ void player::gunmod_add( item &gun, item &mod )
 
     const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
-    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, get_item_position( &gun ), tool );
-    activity.values.push_back( get_item_position( &mod ) );
+    assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, 0, tool );
+    activity.targets.push_back( item_location( *this, &gun ) );
+    activity.targets.push_back( item_location( *this, &mod ) );
+    activity.values.push_back( 0 ); // dummy value
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
     activity.values.push_back( qty ); // tool charges

@@ -3,7 +3,8 @@
 #define PLAYER_HELPERS_H
 
 #include <string>
-#include "bionics.h"
+
+#include "type_id.h"
 
 class npc;
 class player;

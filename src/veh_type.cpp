@@ -1,36 +1,35 @@
 #include "veh_type.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cstddef>
 #include <memory>
 #include <numeric>
 #include <unordered_map>
 #include <unordered_set>
-#include <algorithm>
 
 #include "ammo.h"
-#include "avatar.h"
-#include "character.h"
+#include "assign.h"
+#include "cata_utility.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
-#include "game.h"
+#include "game_constants.h"
 #include "init.h"
+#include "item.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
+#include "player.h"
 #include "requirements.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
-#include "assign.h"
-#include "cata_utility.h"
-#include "game_constants.h"
-#include "item.h"
-#include "mapdata.h"
 
 class npc;
 

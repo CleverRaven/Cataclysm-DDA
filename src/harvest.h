@@ -2,6 +2,7 @@
 #ifndef HARVEST_H
 #define HARVEST_H
 
+#include <algorithm>
 #include <list>
 #include <map>
 #include <set>
@@ -9,7 +10,6 @@
 #include <utility>
 #include <vector>
 
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 

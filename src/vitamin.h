@@ -3,17 +3,17 @@
 #define VITAMIN_H
 
 #include <map>
-#include <utility>
-#include <vector>
 #include <set>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
+template <typename T> struct enum_traits;
 
 enum vitamin_type {
     VITAMIN,

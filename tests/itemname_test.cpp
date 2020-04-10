@@ -3,9 +3,10 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
+#include "flat_set.h"
 #include "game.h"
 #include "item.h"
-#include "flat_set.h"
+#include "type_id.h"
 
 TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 {

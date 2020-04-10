@@ -1,25 +1,27 @@
+#include <array>
+#include <cstddef>
+#include <functional>
+#include <list>
+#include <memory>
 #include <set>
 #include <sstream>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <array>
-#include <functional>
-#include <list>
-#include <memory>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "itype.h"
-#include "profession.h"
-#include "scenario.h"
-#include "string_id.h"
 #include "optional.h"
 #include "pldata.h"
+#include "profession.h"
 #include "ret_val.h"
+#include "scenario.h"
+#include "string_id.h"
 #include "type_id.h"
 
 static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )

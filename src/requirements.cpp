@@ -1,32 +1,35 @@
 #include "requirements.h"
 
+#include <algorithm>
+#include <cassert>
 #include <climits>
 #include <cstdlib>
-#include <algorithm>
-#include <limits>
 #include <iterator>
+#include <limits>
 #include <list>
 #include <memory>
 #include <set>
 #include <stack>
-#include <unordered_map>
+#include <unordered_set>
 
 #include "avatar.h"
 #include "cata_utility.h"
+#include "color.h"
 #include "debug.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "inventory.h"
+#include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "color.h"
-#include "item.h"
-#include "visitable.h"
+#include "player.h"
 #include "point.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
