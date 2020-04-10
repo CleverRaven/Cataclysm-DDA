@@ -202,6 +202,6 @@
     "weight": "400 g",
     "volume": "521 ml",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": 3, "intelligence": 2, "time": -2 }
+    "relative": { "chapters": 3, "intelligence": 2, "time": "-2 m" }
   }
 ]
