@@ -4414,12 +4414,13 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
         if( loaded_software == "null" ) {
             // player made no game selection, play any old game for an hour
-            p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
-                                p->get_item_position( it ), "gaming" );
+            p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1, p->get_item_position( it ),
+                                "gaming" );
         } else {
             // play selected game in 15-minute chunks
-            p->assign_activity( ACT_GAME, to_moves<int>( 15_minutes ), -1, 0, "gaming" );
-            p->activity.targets.push_back( item_location( *p, it ) );
+            p->assign_activity( ACT_GAME, to_moves<int>( 15_minutes ), -1, p->get_item_position( it ),
+                                "gaming" );
+
             std::map<std::string, std::string> game_data;
             game_data.clear();
             int game_score = 0;

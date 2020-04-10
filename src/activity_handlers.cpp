@@ -1809,7 +1809,7 @@ void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
 
 void activity_handlers::game_do_turn( player_activity *act, player *p )
 {
-    item &game_item = *act->targets.front();
+    item &game_item = p->i_at( act->position );
 
     // Figure out charges to consume
     if( calendar::once_every( 1_minutes ) ) {
