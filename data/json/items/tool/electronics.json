@@ -185,7 +185,9 @@
     "name": { "str": "gaming laptop (on)", "str_pl": "gaming laptops (on)" },
     "copy-from": "laptop_gaming",
     "type": "TOOL",
-    "power_draw": 250000,
+    "//": "this should be closer to 120W, but a compromise to give expected battery life with a heavy battery",
+    "//": "(avoid proliferation of batteries -- at least for now)",
+    "power_draw": 40000,
     "color": "light_gray_green",
     "use_action": [
       "EINKTABLETPC",
@@ -215,7 +217,7 @@
     "symbol": "╘",
     "color": "dark_gray",
     "ammo": "battery",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell" ] ] ],
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ],
     "magazine_well": 1,
     "use_action": {
       "target": "laptop_developer_on",
@@ -232,7 +234,9 @@
     "name": { "str": "developer laptop (on)", "str_pl": "developer laptops (on)" },
     "copy-from": "laptop_developer",
     "description": "A sleek portable workstation for software developers.  It is currently turned on and ready for you to write some code.",
-    "power_draw": 75000,
+    "//": "this should be closer to 30W, but a compromise to give expected battery life with a heavy battery",
+    "//": "(avoid proliferation of batteries -- at least for now)",
+    "power_draw": 12000,
     "color": "light_blue_white",
     "revert_to": "laptop_developer",
     "use_action": [
