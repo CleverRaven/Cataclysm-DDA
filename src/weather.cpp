@@ -519,10 +519,12 @@ void weather_effect::light_acid()
             }
             return;
         }
-
-        add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now…" ) );
-        if( one_in( 10 ) && ( g->u.get_pain() < 10 ) ) {
-            g->u.mod_pain(1);
+        if( one_in( 10 )) {
+            add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now…" ) );
+        }
+        // sightly pain, mostly harmless
+        if( one_in( 20 ) && ( g->u.get_pain() < 10 ) ) {
+            g->u.mod_pain( rng( 1, 5 ) );
         }
     }
 
@@ -558,14 +560,20 @@ void weather_effect::acid()
             }
             return;
         }
-
-        add_msg( m_bad, _( "The acid rain burns!" ) );
-
-        if( one_in( 2 ) && ( g->u.get_pain() < 100 ) ) {
+        if( one_in( 10 )) {
+            add_msg( m_bad, _( "The acid rain burns!" ) );
+        }
+        // pretty big pain ( up to about pain description color become light red )
+        // and slowly loses all body HP
+        if( one_in( 10 ) && ( g->u.get_pain() < 40 ) ) {
             g->u.mod_pain( rng( 1, 5 ) );
         }
-        if( one_in( 10 ) ) {
+        if( one_in( 20 ) ) {
             g->u.hurtall( 1, nullptr );
+            // XXX Hackey :(
+            // hurtall causes pain as same amount damage
+            // so i hope cancel it
+            g->u.mod_pain( -1 );
         }
     }
 }
@@ -596,13 +604,19 @@ void weather_effect::acid_storm()
             }
             return;
         }
-
-        add_msg( m_bad, _( "The acid rain burns!" ) );
-
-        g->u.mod_pain( rng( 2, 7 ) );
-        if( one_in( 5 ) ) {
-            g->u.hurtall( 2, nullptr );
+        if( one_in( 10 )) {
+            add_msg( m_bad, _( "The acid storm burns!" ) );
         }
+        // about 10 times stronger than normal acid rain! RUN!
+        if( one_in( 3 ) && ( g->u.get_pain() < 100 ) ) {
+            g->u.mod_pain( rng( 5, 10 ) );
+        }
+        if( one_in( 5 ) ) {
+            g->u.hurtall( 1, nullptr );
+            // XXX Hackey :(
+            g->u.mod_pain( -1 );
+        }
+
     }
 }
 
