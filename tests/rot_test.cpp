@@ -32,6 +32,7 @@ TEST_CASE( "Rate of rotting" )
         // At 65 F (18,3 C) item rots at rate of 1h/1h
         // So the level of rot should be about same as the item age
         // In preserving containers and in freezer the item should not rot at all
+        // Item in freezer should not be frozen.
 
         item normal_item( "meat_cooked" );
 
@@ -44,7 +45,7 @@ TEST_CASE( "Rate of rotting" )
 
         normal_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_NORMAL );
         sealed_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_NORMAL );
-        freeze_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_FREEZER );
+        freeze_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_NORMAL );
 
         // Item should exist with no rot when it is brand new
         CHECK( to_turns<int>( normal_item.get_rot() ) == 0 );
@@ -69,5 +70,8 @@ TEST_CASE( "Rate of rotting" )
         // In freezer and in preserving container still should be no rot
         CHECK( to_turns<int>( sealed_item.get_rot() ) == 0 );
         CHECK( to_turns<int>( freeze_item.get_rot() ) == 0 );
+
+        // The item in freezer should still not be frozen
+        CHECK( !freeze_item.item_tags.count( "FROZEN" ) );
     }
 }
