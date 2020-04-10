@@ -12,16 +12,6 @@
       "file": "tile/0_variant_32x32.png",
       "tiles": [
         {
-          "id": "bot_melee_defence_bot",
-          "fg": 9,
-          "rotates": false
-        },
-        {
-          "id": "mon_melee_defence_bot",
-          "fg": 9,
-          "rotates": false
-        },
-        {
           "id": "vp_vehicle_part_toilet",
           "fg": 4,
           "bg": 1,
