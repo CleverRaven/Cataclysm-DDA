@@ -14,7 +14,7 @@
     "color": "light_cyan",
     "flags": [ "TINDER", "FLAMMABLE" ],
     "intelligence": 4,
-    "time": 15,
+    "time": "15 m",
     "chapters": 16,
     "fun": 2
   },
