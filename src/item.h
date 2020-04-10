@@ -33,6 +33,7 @@
 #include "units.h"
 #include "visitable.h"
 #include "gun_mode.h"
+#include "rng.h"
 
 class item;
 class material_type;
@@ -2118,6 +2119,14 @@ class item : public visitable<item>
         bool process_cable( player *carrier, const tripoint &pos );
         bool process_UPS( player *carrier, const tripoint &pos );
         bool process_blackpowder_fouling( player *carrier );
+				/**
+				 * Per-turn tool processing.
+				 *
+				 * Handles consuming energy for tools with power_draw, or deducting
+				 * charges_per_use (there's some indirection and shenanigans involved).
+				 * Reverts the tool to its OFF state if batteries are dead and it had
+				 * a revert_to.
+				 */
         bool process_tool( player *carrier, const tripoint &pos );
 
     public:

@@ -1055,12 +1055,26 @@ struct itype {
             return count_by_charges() ? 1 : 0;
         }
 
+				// determines charges per use for a tool
+				// called during a tick while tool is active, or manual iuse
+				// non-tools that call this always use one charge
         int charges_to_use() const {
             if( tool ) {
                 return static_cast<int>( tool->charges_per_use );
             }
             return 1;
         }
+				/**
+				 * determines battery charges to use by power_draw given a time_duration
+				 *
+				 * Battery charges seem to be a 'gamey' value with no RL relationship. This
+				 * lets them interoperate with power_draw (rated in mW).
+				 *
+				 * TODO / note: This method might be better positioned with unit conversion stuff in units.cpp
+				 * but will hopefully be obsoleted when converting batteries to the BATTERY type
+				 * is done. If that doesn't happen for some reason, consider moving it.
+				 */
+				int power_draw_as_battery_charge( time_duration time ) const;
 
         // for tools that sub another tool, but use a different ratio of charges
         int charge_factor() const {
@@ -1088,6 +1102,7 @@ struct itype {
         // Here "invoke" means "actively use". "Tick" means "active item working"
         int invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
         int invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
+				// this method probably does not do what anybody expects it to, see notes in implementation
         int tick( player &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;

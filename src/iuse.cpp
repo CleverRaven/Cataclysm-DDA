@@ -4407,39 +4407,40 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
                 return 0;
         }
 
-        //Play in 15-minute chunks
-        const int moves = to_moves<int>( 15_minutes );
-
         p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
         if( loaded_software == "null" ) {
+            // player made no game selection, play any old game for an hour
             p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
                                 p->get_item_position( it ), "gaming" );
-            return it->has_flag( "SOFTWARE" ) ? 0 : it->type->charges_to_use();
-        }
-        p->assign_activity( ACT_GAME, moves, -1, p->get_item_position( it ), "gaming" );
-        std::map<std::string, std::string> game_data;
-        game_data.clear();
-        int game_score = 0;
+        } else {
+            // play selected game in 15-minute chunks
+            p->assign_activity( ACT_GAME, to_moves<int>( 15_minutes ), -1, p->get_item_position( it ),
+                                "gaming" );
+            std::map<std::string, std::string> game_data;
+            game_data.clear();
+            int game_score = 0;
 
-        play_videogame( loaded_software, game_data, game_score );
+            play_videogame( loaded_software, game_data, game_score );
 
-        if( game_data.find( "end_message" ) != game_data.end() ) {
-            p->add_msg_if_player( game_data["end_message"] );
-        }
+            if( game_data.find( "end_message" ) != game_data.end() ) {
+                p->add_msg_if_player( game_data["end_message"] );
+            }
 
-        if( game_score != 0 ) {
-            if( game_data.find( "moraletype" ) != game_data.end() ) {
-                std::string moraletype = game_data.find( "moraletype" )->second;
-                if( moraletype == "MORALE_GAME_FOUND_KITTEN" ) {
-                    p->add_morale( MORALE_GAME_FOUND_KITTEN, game_score, 110 );
-                } /*else if ( ...*/
-            } else {
-                p->add_morale( MORALE_GAME, game_score, 110 );
+            if( game_score != 0 ) {
+                if( game_data.find( "moraletype" ) != game_data.end() ) {
+                    std::string moraletype = game_data.find( "moraletype" )->second;
+                    if( moraletype == "MORALE_GAME_FOUND_KITTEN" ) {
+                        p->add_morale( MORALE_GAME_FOUND_KITTEN, game_score, 110 );
+                    } /*else if ( ...*/
+                } else {
+                    p->add_morale( MORALE_GAME, game_score, 110 );
+                }
             }
         }
 
+        // power draw is handled in generic_game_do_turn / game_do_turn activity handlers
+        return 0;
     }
-    return it->has_flag( "SOFTWARE" ) ? 0 : it->type->charges_to_use();
 }
 
 int iuse::hand_crank( player *p, item *it, bool, const tripoint & )

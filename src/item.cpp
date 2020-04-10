@@ -9260,10 +9260,13 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         energy = std::max( ammo_required(), 1 );
 
     } else if( type->tool->power_draw > 0 ) {
+        energy = type->power_draw_as_battery_charge( 1_turns );
+        /* moved & recalculated
         // power_draw in mW / 1000000 to give kJ (battery unit) per second
         energy = type->tool->power_draw / 1000000;
         // energy_bat remainder results in chance at additional charge/discharge
         energy += x_in_y( type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
+        */
     }
     energy -= ammo_consume( energy, pos );
 
@@ -9280,9 +9283,14 @@ bool item::process_tool( player *carrier, const tripoint &pos )
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
 
-        // invoking the object can convert the item to another type
+        // tools that are turned on/off using transform functions should specify a revert_to
+        // to deal with what happens when their batteries die
+        // TODO audit that all of them actually have that
         const bool had_revert_to = type->tool->revert_to.has_value();
-        // FIXME nope? type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
+        // invoking the object can convert the item to another type
+        // note: this is superseded by the revert_to property and now removed
+        // TODO ensure that no items rely on a transform use_method for housekeeping
+        // type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
         if( had_revert_to ) {
             deactivate( carrier );
             return false;

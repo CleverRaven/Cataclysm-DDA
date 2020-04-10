@@ -1785,10 +1785,21 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
+void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
 {
+    item &game_item = p->i_at( act->position );
+
     if( calendar::once_every( 1_minutes ) ) {
+        if( !game_item.active ) { // active items consume their own power at a fixed rate
+            // but some single-purpose devices just draw power while used
+            // FIXME this will need to be changed when batteries use kJ units like other power sources
+            game_item.ammo_consume( game_item.type->power_draw_as_battery_charge( 1_minutes ), p->pos() );
+        }
         p->add_morale( MORALE_GAME, 4, 60 );
+    }
+    if( game_item.ammo_remaining() == 0 ) {
+        act->moves_left = 0;
+        add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
     }
 }
 
@@ -1796,9 +1807,13 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 {
     item &game_item = p->i_at( act->position );
 
-    //Deduct 1 battery charge for every minute spent playing
+    // Figure out charges to consume
     if( calendar::once_every( 1_minutes ) ) {
-        game_item.ammo_consume( 1, p->pos() );
+        if( !game_item.active ) { // active items consume their own power at a fixed rate
+            // but some single-purpose devices just draw power while used
+            // FIXME this will need to be changed when batteries use kJ units like other power sources
+            game_item.ammo_consume( game_item.type->power_draw_as_battery_charge( 1_minutes ), p->pos() );
+        }
         //1 points/min, almost 2 hours to fill
         p->add_morale( MORALE_GAME, 1, 100 );
     }
