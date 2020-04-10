@@ -117,7 +117,7 @@
       {
         "attack_text_u": "You ravage %s with your arms",
         "attack_text_npc": "%1$s ravages %2$s with their arm spurs",
-        "body_part": "arm_r",
+        "body_part": "ARM_R",
         "chance": 10,
         "base_damage": { "damage_type": "stab", "amount": 2 },
         "strength_damage": { "damage_type": "biological", "amount": 0.25 }
