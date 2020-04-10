@@ -148,7 +148,6 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```laser_capacitor``` Charge
 - ```m235``` M235 TPA (66mm Incendiary Rocket)
 - ```metal_rail``` Rebar Rail
-- ```mininuke_mod``` Mininuke
 - ```money``` Cents
 - ```muscle``` Muscle
 - ```nail``` Nail
