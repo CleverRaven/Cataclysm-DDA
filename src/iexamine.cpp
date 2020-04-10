@@ -1296,9 +1296,14 @@ void iexamine::gunsafe_ml( player &p, const tripoint &examp )
 {
     int pick_quality = 0;
 
-    if( p.has_amount( "picklocks", 1 ) || p.has_bionic( bio_lockpick ) ) {
+    //TODO: Get rid of hardcoded ids and read data from jsons
+    if( p.has_bionic( bio_lockpick ) ) {
+        pick_quality = 40;
+    } else if( p.has_amount( "picklocks", 1 ) ) {
         pick_quality = 5;
-    } else if( p.has_amount( "crude_picklock", 1 ) || p.has_amount( "hairpin", 1 ) ) {
+    } else if( p.has_amount( "crude_picklock", 1 ) || p.has_amount( "hairpin", 1 ) ||
+               p.has_amount( "copper_hairpin", 1 ) || p.has_amount( "gold_hairpin", 1 ) ||
+               p.has_amount( "silver_hairpin", 1 ) || p.has_amount( "platinum_hairpin", 1 ) ) {
         pick_quality = 3;
     } else if( p.has_amount( "fc_hairpin", 1 ) ) {
         pick_quality = 1;
