@@ -172,7 +172,7 @@
     "weight": "295 g",
     "volume": "442 ml",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": -3, "fun": -2, "intelligence": 2, "time": 10 }
+    "relative": { "chapters": -3, "fun": -2, "intelligence": 2, "time": "10 m" }
   },
   {
     "id": "book_nonf_soft_psych_paranoia",
