@@ -566,9 +566,11 @@ void weather_effect::acid()
         // pretty big pain ( up to about pain description color become light red )
         // and slowly loses all body HP
         if( one_in( 10 ) && ( g->u.get_pain() < 40 ) ) {
+            // 1 per about 33 turn
             g->u.mod_pain( rng( 1, 5 ) );
         }
-        if( one_in( 20 ) ) {
+        if( one_in( 30 ) ) {
+            // 1 per about 300 turn
             g->u.hurtall( 1, nullptr );
             // XXX Hackey :(
             // hurtall causes pain as same amount damage
@@ -609,9 +611,11 @@ void weather_effect::acid_storm()
         }
         // about 10 times stronger than normal acid rain! RUN!
         if( one_in( 3 ) && ( g->u.get_pain() < 100 ) ) {
+            // 1 per about 4 turn
             g->u.mod_pain( rng( 5, 10 ) );
         }
-        if( one_in( 5 ) ) {
+        if( one_in( 3 ) ) {
+            // 1 per about 30 turn
             g->u.hurtall( 1, nullptr );
             // XXX Hackey :(
             g->u.mod_pain( -1 );
