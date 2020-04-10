@@ -273,6 +273,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
 
     if( line == 0 ) {
         // Display information on player strength in appropriate window
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_stats, point( 1, 1 ), h_light_gray, _( "Strength:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
@@ -345,7 +346,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                    you.height_string() );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
-                                          _( "Your height. Simply how tall you are." ) );
+                                          _( "Your height.  Simply how tall you are." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.height_string() );
     } else if( line == 6 ) {
@@ -385,6 +386,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                you.is_player() ) {
         g->u.upgrade_stat_prompt( static_cast<Character::stat>( line ) );
     }
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w_stats, point( 1, 1 ), c_light_gray, _( "Strength:" ) );
     mvwprintz( w_stats, point( 1, 2 ), c_light_gray, _( "Dexterity:" ) );
     mvwprintz( w_stats, point( 1, 3 ), c_light_gray, _( "Intelligence:" ) );
