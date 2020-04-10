@@ -3542,14 +3542,16 @@ void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY c
 
         std::string mutable_id_string = id_string;
 
-        if( !tileset_ptr->find_tile_type( prefix + id_string ) && !find_tile_looks_like( mutable_id_string, category) ) {
+        if( !tileset_ptr->find_tile_type( prefix + id_string ) &&
+            !find_tile_looks_like( mutable_id_string, category) ) {
             missing_list.append( id_string + " " );
         } else if( !tileset_ptr->find_tile_type( prefix + id_string ) ) {
             missing_with_looks_like_list.append( id_string + " " );
         }
     }
     DebugLog( D_INFO, DC_ALL ) << "Missing " << TILE_CATEGORY_IDS[category] << ": " << missing_list;
-    DebugLog( D_INFO, DC_ALL ) << "Missing " << TILE_CATEGORY_IDS[category] << " (but looks_like tile exists): " << missing_with_looks_like_list;
+    DebugLog( D_INFO, DC_ALL ) << "Missing " << TILE_CATEGORY_IDS[category] <<
+        " (but looks_like tile exists): " << missing_with_looks_like_list;
 }
 
 template <typename maptype>
