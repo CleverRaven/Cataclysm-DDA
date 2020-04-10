@@ -5,6 +5,9 @@
   "description": "contains all the mods recommended by the developers",
   "dependencies": [
     "dda",
-    "no_npc_food"
+    "no_npc_food",
+    "variant_addition",
+    "battle_maid",
+    "littlemaid_for_variant"
   ]
 }
