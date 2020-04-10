@@ -2,20 +2,20 @@
 
 #include <algorithm>
 #include <cassert>
-#include <list>
 #include <set>
 
+#include "calendar.h"
+#include "compatibility.h"
 #include "debug.h"
+#include "enums.h"
+#include "flat_set.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "rng.h"
-#include "calendar.h"
-#include "compatibility.h"
-#include "enums.h"
 #include "type_id.h"
-#include "flat_set.h"
+#include "value_ptr.h"
 
 static const std::string null_item_id( "null" );
 

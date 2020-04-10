@@ -8,7 +8,6 @@
 
 namespace clang
 {
-class CompilerInstance;
 
 namespace tidy
 {

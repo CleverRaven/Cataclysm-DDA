@@ -3,80 +3,76 @@
 #define PLAYER_H
 
 #include <climits>
-#include <array>
-#include <memory>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <set>
 #include <string>
 #include <type_traits>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
+#include "color.h"
+#include "craft_command.h"
+#include "creature.h"
+#include "cursesdef.h"
 #include "damage.h"
+#include "enums.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_location.h"
+#include "memory_fast.h"
+#include "monster.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "ret_val.h"
-#include "weighted_list.h"
-#include "bodypart.h"
-#include "color.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "inventory.h"
-#include "item_location.h"
 #include "pldata.h"
-#include "type_id.h"
-#include "magic.h"
-#include "monster.h"
-#include "craft_command.h"
 #include "point.h"
-#include "memory_fast.h"
+#include "ret_val.h"
+#include "string_id.h"
+#include "type_id.h"
 
 class basecamp;
 class effect;
 class faction;
+class inventory;
 class map;
 class npc;
-struct pathfinding_settings;
 class recipe;
+struct pathfinding_settings;
+struct requirement_data;
+
 enum class recipe_filter_flags : int;
-struct islot_comestible;
 struct itype;
-class monster;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
 class recipe_subset;
 
 enum action_id : int;
-struct bionic;
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
-struct dealt_projectile_attack;
 class dispersion_sources;
+struct bionic;
+struct dealt_projectile_attack;
 
 using itype_id = std::string;
 using faction_id = string_id<faction>;
-struct trap;
 class profession;
+struct trap;
 
 nc_color encumb_color( int level );
 enum game_message_type : int;
 class ma_technique;
-class martialart;
+class vehicle;
 struct item_comp;
 struct tool_comp;
-class vehicle;
 struct w_point;
 
 /** @relates ret_val */

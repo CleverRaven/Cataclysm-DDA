@@ -2,16 +2,16 @@
 #ifndef SHADOWCASTING_H
 #define SHADOWCASTING_H
 
-#include <array>
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <functional>
 #include <string>
 
 #include "game_constants.h"
 #include "lightmap.h"
-#include "point.h"
 
+struct point;
 struct tripoint;
 
 // For light we store four values, depending on the direction that the light

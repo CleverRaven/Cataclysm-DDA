@@ -1,14 +1,18 @@
 #include "player.h" // IWYU pragma: associated
 
+#include <array>
 #include <cmath>
 #include <cstdlib>
+#include <memory>
 
-#include "avatar.h"
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "effect.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
-#include "fungal_effects.h"
 #include "field_type.h"
+#include "fungal_effects.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -17,15 +21,14 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "sounds.h"
-#include "weather.h"
 #include "rng.h"
+#include "sounds.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "teleport.h"
 #include "translations.h"
 #include "units.h"
-#include "enums.h"
-#include "mtype.h"
-#include "stomach.h"
-#include "teleport.h"
+#include "weather.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -35,8 +38,8 @@
 #   endif
 #endif // TILES
 
-#include <functional>
 #include <algorithm>
+#include <functional>
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 

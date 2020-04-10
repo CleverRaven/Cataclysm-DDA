@@ -2,19 +2,19 @@
 #ifndef CRAFT_COMMAND_H
 #define CRAFT_COMMAND_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "point.h"
 #include "recipe.h"
 #include "requirements.h"
+#include "type_id.h"
 
+class JsonIn;
+class JsonOut;
 class inventory;
 class item;
 class player;
-class recipe;
-class JsonIn;
-class JsonOut;
 template<typename T> struct enum_traits;
 
 /**

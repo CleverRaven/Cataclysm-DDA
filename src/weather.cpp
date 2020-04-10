@@ -1,40 +1,38 @@
 #include "weather.h"
 
+#include <algorithm>
 #include <array>
 #include <cmath>
+#include <memory>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <list>
-#include <memory>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "colony.h"
 #include "coordinate_conversions.h"
+#include "enums.h"
 #include "game.h"
 #include "game_constants.h"
+#include "item.h"
+#include "item_contents.h"
 #include "line.h"
 #include "map.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "regional_settings.h"
+#include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
-#include "weather_gen.h"
-#include "bodypart.h"
-#include "enums.h"
-#include "item.h"
-#include "math_defines.h"
-#include "rng.h"
-#include "string_id.h"
 #include "units.h"
-#include "colony.h"
-#include "player_activity.h"
-#include "regional_settings.h"
+#include "weather_gen.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 

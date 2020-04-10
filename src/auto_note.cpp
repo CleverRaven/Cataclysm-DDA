@@ -1,22 +1,21 @@
 #include "auto_note.h"
 
 #include <iostream>
+#include <memory>
 
-#include "game.h"
-#include "json.h"
-#include "string_formatter.h"
+#include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
-#include "options.h"
-#include "cata_utility.h"
-#include "output.h"
-#include "debug.h"
 #include "filesystem.h"
-#include "translations.h"
-#include "avatar.h"
-#include "map_extras.h"
+#include "game.h"
 #include "generic_factory.h"
+#include "input.h"
+#include "json.h"
+#include "map_extras.h"
+#include "options.h"
+#include "output.h"
+#include "point.h"
+#include "translations.h"
 #include "ui_manager.h"
 
 namespace auto_notes

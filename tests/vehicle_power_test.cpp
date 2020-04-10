@@ -1,19 +1,18 @@
+#include <cstdlib>
 #include <memory>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
-#include "map_iterator.h"
-#include "vehicle.h"
-#include "calendar.h"
-#include "weather.h"
-#include "game_constants.h"
-#include "mapdata.h"
-#include "type_id.h"
-#include "point.h"
 #include "map_helpers.h"
+#include "point.h"
+#include "type_id.h"
+#include "vehicle.h"
+#include "weather.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );

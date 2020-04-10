@@ -1,6 +1,9 @@
 #include "stats_tracker.h"
 
 #include <algorithm>
+#include <cassert>
+#include <map>
+#include <utility>
 
 #include "event_statistics.h"
 

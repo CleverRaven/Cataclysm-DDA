@@ -6,8 +6,8 @@
 #include <bitset>
 #include <map>
 #include <memory>
-#include <string>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -15,17 +15,17 @@
 #include "color.h"
 #include "damage.h"
 #include "optional.h"
-#include "string_id.h"
+#include "point.h"
+#include "requirements.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "requirements.h"
-#include "point.h"
-#include "translations.h"
+
+class player;
 
 using itype_id = std::string;
 
 class JsonObject;
-class Character;
 class vehicle;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that

@@ -1,16 +1,15 @@
-#include <ctime>
+#include <algorithm>
 #include <chrono>
 #include <cstdio>
-#include <algorithm>
 #include <cstdlib>
+#include <ctime>
 #include <memory>
-#include <type_traits>
 #include <vector>
 
 #include "catch/catch.hpp"
 #include "line.h"
-#include "rng.h"
 #include "point.h"
+#include "rng.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 // Compare all future line_to implementations to the canonical one.

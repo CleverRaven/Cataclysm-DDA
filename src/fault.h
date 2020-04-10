@@ -7,12 +7,11 @@
 #include <string>
 
 #include "calendar.h"
-#include "string_id.h"
+#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
-struct requirement_data;
 
 struct mending_method {
     std::string id;

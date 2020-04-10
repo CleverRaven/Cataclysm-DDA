@@ -1,34 +1,34 @@
 #include <cstdio>
-#include <string>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "basecamp.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
+#include "character.h"
+#include "character_id.h"
 #include "coordinate_conversions.h"
 #include "dialogue.h"
 #include "effect.h"
 #include "faction.h"
 #include "game.h"
-#include "item_category.h"
-#include "map.h"
-#include "mission.h"
-#include "npc.h"
-#include "overmapbuffer.h"
-#include "player.h"
-#include "player_helpers.h"
-#include "character.h"
 #include "inventory.h"
 #include "item.h"
-#include "pimpl.h"
-#include "string_id.h"
-#include "npctalk.h"
-#include "mapdata.h"
-#include "material.h"
-#include "type_id.h"
-#include "point.h"
+#include "item_category.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "mission.h"
+#include "npc.h"
+#include "npctalk.h"
+#include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "string_id.h"
+#include "type_id.h"
 
 static const efftype_id effect_gave_quest_item( "gave_quest_item" );
 static const efftype_id effect_currently_busy( "currently_busy" );

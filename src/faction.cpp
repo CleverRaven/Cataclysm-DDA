@@ -1,13 +1,12 @@
 #include "faction.h"
 
-#include <algorithm>
-#include <cassert>
-#include <cstdlib>
 #include <bitset>
+#include <cstdlib>
+#include <limits>
 #include <map>
-#include <string>
 #include <memory>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
@@ -18,21 +17,22 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
+#include "item.h"
 #include "json.h"
 #include "line.h"
+#include "memory_fast.h"
 #include "npc.h"
+#include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
+#include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "text_snippets.h"
-#include "ui_manager.h"
-#include "item.h"
-#include "optional.h"
-#include "pimpl.h"
 #include "type_id.h"
-#include "point.h"
+#include "ui_manager.h"
 
 namespace npc_factions
 {

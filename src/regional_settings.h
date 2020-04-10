@@ -3,21 +3,19 @@
 #define REGIONAL_SETTINGS_H
 
 #include <map>
-#include <memory>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <set>
 
 #include "enums.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "omdata.h"
-#include "weather_gen.h"
-#include "weighted_list.h"
-#include "int_id.h"
 #include "string_id.h"
 #include "type_id.h"
-#include "memory_fast.h"
+#include "weather_gen.h"
+#include "weighted_list.h"
 
 class JsonObject;
 

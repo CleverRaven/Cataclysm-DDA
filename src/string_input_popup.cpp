@@ -8,6 +8,7 @@
 #include "input.h"
 #include "optional.h"
 #include "output.h"
+#include "point.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -19,8 +20,8 @@
 #include "options.h"
 #endif
 
-#include <cstdlib>
 #include <algorithm>
+#include <cstdlib>
 #include <memory>
 #include <vector>
 

@@ -3,6 +3,8 @@
 #define COMPUTER_SESSION_H
 
 #include <map>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "computer.h"

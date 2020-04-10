@@ -1,5 +1,8 @@
 #include "ui_manager.h"
 
+#include <algorithm>
+#include <iterator>
+#include <memory>
 #include <vector>
 
 #include "cursesdef.h"

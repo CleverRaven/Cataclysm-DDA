@@ -1,10 +1,11 @@
 #include "handle_liquid.h"
 
+#include <algorithm>
 #include <climits>
 #include <cstddef>
-#include <algorithm>
 #include <functional>
 #include <iterator>
+#include <list>
 #include <memory>
 #include <ostream>
 #include <set>
@@ -13,26 +14,28 @@
 
 #include "action.h"
 #include "avatar.h"
-#include "game.h"
-#include "game_inventory.h"
-#include "iexamine.h"
-#include "item.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "messages.h"
-#include "monster.h"
-#include "translations.h"
-#include "ui.h"
-#include "vehicle.h"
-#include "vpart_position.h"
 #include "cata_utility.h"
 #include "colony.h"
 #include "debug.h"
 #include "enums.h"
+#include "game.h"
+#include "game_inventory.h"
+#include "iexamine.h"
+#include "item.h"
+#include "item_contents.h"
 #include "line.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "messages.h"
+#include "monster.h"
 #include "optional.h"
 #include "player_activity.h"
 #include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
+#include "ui.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
