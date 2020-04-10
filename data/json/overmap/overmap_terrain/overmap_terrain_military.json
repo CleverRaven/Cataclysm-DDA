@@ -163,19 +163,16 @@
   {
     "type": "overmap_terrain",
     "id": "shelter_vandal",
-    "name": "evac shelter",
     "copy-from": "shelter"
   },
   {
     "type": "overmap_terrain",
     "id": "shelter_1_vandal",
-    "name": "evac shelter",
     "copy-from": "shelter_1"
   },
   {
     "type": "overmap_terrain",
     "id": "shelter_2_vandal",
-    "name": "evac shelter",
     "copy-from": "shelter_2"
   },
   {
