@@ -49,7 +49,9 @@ static bool sanity_checked_genders = false;
 #include "options.h"
 #include "ui.h"
 #if defined(_WIN32)
+#if 1 // Prevent IWYU reordering platform_win.h below mmsystem.h
 #   include "platform_win.h"
+#endif
 #   include "mmsystem.h"
 #endif
 
