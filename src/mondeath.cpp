@@ -360,7 +360,7 @@ void mdeath::fungus( monster &z )
     sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
 
     fungal_effects fe( *g, g->m );
-    for( auto &&sporep : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
+    for( const tripoint &sporep : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
         if( g->m.impassable( sporep ) ) {
             continue;
         }
