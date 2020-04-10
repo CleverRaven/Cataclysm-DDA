@@ -19,7 +19,7 @@ Main feature of this variant is offensive content for some people.
 
 I am using japanese file uploader for distribute.
 
-[https://ux.getuploader.com/cdda_vibrator/](https://ux.getuploader.com/cdda_vibrator/)
+[https://ux.getuploader.com/cdda_variant_jp/](https://ux.getuploader.com/cdda_variant_jp/)
 
 usually top one is latest one.
 

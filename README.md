@@ -21,7 +21,7 @@ Cataclysm DDAを独自改造したバージョン、いわゆるヴァリアン�
 
 - ヴァリアント本体に同梱されているもの
 	- ヴァリアント本体
-		- [https://ux.getuploader.com/cdda_vibrator/](https://ux.getuploader.com/cdda_vibrator/)
+		- [https://ux.getuploader.com/cdda_variant_jp/](https://ux.getuploader.com/cdda_variant_jp/)
 		- こちらのアップローダーで配布しています。
 		- だいたい、一番上のが最新版です。
 	- Battle Maid Mod(現バージョン対応済み)
