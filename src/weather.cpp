@@ -708,8 +708,8 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
         // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
         windchill_f = 35.74 + 0.6215 * temperature_f - 35.75 * pow( wind_mph,
                       0.16 ) + 0.4275 * temperature_f * pow( wind_mph, 0.16 ) - temperature_f;
-        if( wind_mph < 4 ) {
-            // This model fails when there is 0 wind.
+        if( wind_mph < 3 ) {
+            // This model fails when wind is less than 3 mph
             windchill_f = 0;
         }
     } else {
