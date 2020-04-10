@@ -9282,7 +9282,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 
         // invoking the object can convert the item to another type
         const bool had_revert_to = type->tool->revert_to.has_value();
-        type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
+        // FIXME nope? type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
         if( had_revert_to ) {
             deactivate( carrier );
             return false;

@@ -4090,7 +4090,8 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
 int iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
     // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
-    if( !it->has_flag( "SOFTWARE" ) && it->units_sufficient( *p ) ) {
+    // TODO: music playback on a software player doesn't actually do anything yet - SOFTWARE stuff is stub
+    if( !it->units_sufficient( *p ) && !it->has_flag( "SOFTWARE" ) ) {
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( "mp3_on" ) || p->has_active_item( "smartphone_music" ) ||
                p->has_active_item( "afs_atomic_smartphone_music" ) ||
