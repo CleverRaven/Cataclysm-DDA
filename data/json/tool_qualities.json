@@ -261,5 +261,10 @@
     "type": "tool_quality",
     "id": "PRESSURIZATION",
     "name": { "str": "pressurizing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "LOCKPICK",
+    "name": { "str": "lockpicking" }
   }
 ]
