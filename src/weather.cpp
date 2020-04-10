@@ -60,6 +60,11 @@ static bool is_player_outside()
     return g->m.is_outside( point( g->u.posx(), g->u.posy() ) ) && g->get_levz() >= 0;
 }
 
+static bool is_creature_outside(const Creature *z)
+{
+    return g->m.is_outside( point( z->posx(), z->posy() ) ) && g->get_levz() >= 0;
+}
+
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
 
@@ -536,6 +541,17 @@ void weather_effect::light_acid()
  */
 void weather_effect::acid()
 {
+    // effect for monster
+    if( calendar::once_every( 59_turns ) ){
+        for( monster &critter : g->all_monsters() ) {
+            if( one_in( 10 ) && is_creature_outside( &critter ) ) {
+                // 1 per about 590 turn
+                critter.apply_damage( nullptr, bp_torso, 1 );
+            }
+        }
+    }
+
+    // effect for player
     if( calendar::once_every( 10_turns ) && is_player_outside() ) {
 
         // wielding unbrella does completely protects from normal acid rain
@@ -582,6 +598,16 @@ void weather_effect::acid()
 
 void weather_effect::acid_storm()
 {
+    // effect for monster
+    if( calendar::once_every( 59_turns ) ){
+        for( monster &critter : g->all_monsters() ) {
+            if( one_in( 10 ) && is_creature_outside( &critter ) ) {
+                // 1 per about 66 turn
+                critter.apply_damage( nullptr, bp_torso, 9 );
+            }
+        }
+    }
+
     if( calendar::once_every( 10_turns ) && is_player_outside() ) {
 
         // wielding unbrella blocks 90% of acid storm
