@@ -248,7 +248,7 @@ void auto_note_manager_gui::show()
         }
 
         mvwprintz( w_header, point( 1, 2 ), c_white, _( "Map Extra" ) );
-        mvwprintz( w_header, point( 53, 2), c_white, _( "Symbol" ) );
+        mvwprintz( w_header, point( 53, 2 ), c_white, _( "Symbol" ) );
         mvwprintz( w_header, point( 62, 2 ), c_white, _( "Enabled" ) );
 
         wrefresh( w_header );
