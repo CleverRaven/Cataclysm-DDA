@@ -162,7 +162,7 @@
       ],
       "palettes": [ "cabin_palette" ],
       "place_loot": [ { "group": "guns_rifle_common", "x": 9, "y": 15, "chance": 50, "ammo": 50, "magazine": 100 } ],
-      "place_npcs": [ { "class": "hunter_cabin", "x": [ 4, 17 ], "y": [ 4, 17 ] } ]
+      "place_npcs": [ { "class": "NC_HUNTER", "x": [ 4, 17 ], "y": [ 4, 17 ] } ]
     }
   },
   {
