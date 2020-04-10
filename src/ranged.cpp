@@ -2652,7 +2652,7 @@ double player::gun_value( const item &weap, int ammo ) const
     float capacity = gun.clip > 0 ? std::min<float>( gun.clip, ammo ) : ammo;
     // How much until dry and a new weapon is needed
     capacity += std::min<float>( 1.0, ammo / 20.0 );
-    float capacity_factor = multi_lerp( capacity_thresholds, capacity );
+    double capacity_factor = multi_lerp( capacity_thresholds, capacity );
 
     double gun_value = damage_and_accuracy * capacity_factor;
 
