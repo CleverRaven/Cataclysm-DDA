@@ -96,7 +96,7 @@ static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
 static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
 static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
-static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH3" );
+static const trait_id trait_ANIMALEMPATH3( "ANIMALEMPATH3" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_KILLER( "KILLER" );
@@ -1094,12 +1094,14 @@ monster_attitude monster::attitude( const Character *u ) const
                 }
             } else if( u->has_trait( trait_ANIMALEMPATH2 ) ) {
                 effective_anger -= 20;
-                if( effective_anger < 20 ) {
+                if( effective_anger < 10 ) {
                     effective_morale += 80;
                 }
             } else if( u->has_trait( trait_ANIMALEMPATH3 ) ) {
-                effective_anger = -20;
-                effective_morale += 90;
+                if( !has_effect( effect_hit_by_player ) ) {
+                    effective_anger = -100;
+                    return MATT_IGNORE;
+                }
             } else if( u->has_trait( trait_ANIMALDISCORD ) ) {
                 if( effective_anger >= 10 ) {
                     effective_anger += 10;
@@ -1354,12 +1356,6 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( this == &target ) {
         // This happens sometimes
         return;
-    }
-
-    if( target.is_player() ||
-        ( target.is_npc() && g->u.attitude_to( target ) == A_FRIENDLY ) ) {
-        // Make us a valid target for a few turns
-        add_effect( effect_hit_by_player, 3_turns );
     }
 
     if( has_flag( MF_HIT_AND_RUN ) ) {
