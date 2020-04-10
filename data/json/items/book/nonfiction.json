@@ -192,7 +192,7 @@
     "weight": "454 g",
     "volume": "734 ml",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "fun": -1, "intelligence": 3, "time": 10 }
+    "relative": { "fun": -1, "intelligence": 3, "time": "10 m" }
   },
   {
     "id": "book_nonf_soft_psych_psycstlk",
