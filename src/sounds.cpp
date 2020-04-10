@@ -1,21 +1,26 @@
 #include "sounds.h"
 
-#include <cstdlib>
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <cstdlib>
 #include <memory>
 #include <ostream>
 #include <set>
+#include <system_error>
 #include <type_traits>
 #include <unordered_map>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "coordinate_conversions.h"
+#include "creature.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "item.h"
 #include "itype.h"
 #include "line.h"
@@ -24,26 +29,23 @@
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
+#include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "weather.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "creature.h"
-#include "game_constants.h"
-#include "optional.h"
 #include "player_activity.h"
+#include "point.h"
 #include "rng.h"
+#include "safemode_ui.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "veh_type.h"
-#include "type_id.h"
-#include "point.h"
-#include "string_id.h"
-#include "safemode_ui.h"
+#include "weather.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -192,8 +194,12 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     // so we cluster sounds and apply the centroids of the sounds to the monster AI
     // to fight the combinatorial explosion.
     std::vector<centroid> sound_clusters;
-    const int num_seed_clusters = std::max( std::min( recent_sounds.size(), static_cast<size_t>( 10 ) ),
-                                            static_cast<size_t>( log( recent_sounds.size() ) ) );
+    if( recent_sounds.empty() ) {
+        return sound_clusters;
+    }
+    const int num_seed_clusters =
+        std::max( std::min( recent_sounds.size(), static_cast<size_t>( 10 ) ),
+                  static_cast<size_t>( log( recent_sounds.size() ) ) );
     const size_t stopping_point = recent_sounds.size() - num_seed_clusters;
     const size_t max_map_distance = rl_dist( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );
     // Randomly choose cluster seeds.
@@ -1000,8 +1006,19 @@ void sfx::generate_melee_sound( const tripoint &source, const tripoint &target, 
     // If creating a new thread for each invocation is to much, we have to consider a thread
     // pool or maybe a single thread that works continuously, but that requires a queue or similar
     // to coordinate its work.
-    std::thread the_thread( sound_thread( source, target, hit, targ_mon, material ) );
-    the_thread.detach();
+    try {
+        std::thread the_thread( sound_thread( source, target, hit, targ_mon, material ) );
+        try {
+            if( the_thread.joinable() ) {
+                the_thread.detach();
+            }
+        } catch( std::system_error &err ) {
+            dbg( D_ERROR ) << "Failed to detach melee sound thread: std::system_error: " << err.what();
+        }
+    } catch( std::system_error &err ) {
+        // not a big deal, just skip playing the sound.
+        dbg( D_ERROR ) << "Failed to create melee sound thread: std::system_error: " << err.what();
+    }
 }
 
 sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target, const bool hit,

@@ -1,8 +1,9 @@
 #include "avatar_action.h"
 
-#include <cstdlib>
 #include <algorithm>
-#include <functional>
+#include <climits>
+#include <cstdlib>
+#include <map>
 #include <memory>
 #include <ostream>
 #include <set>
@@ -12,49 +13,80 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
 #include "creature.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
-#include "input.h"
+#include "gun_mode.h"
+#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_iterator.h"
+#include "mapdata.h"
+#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "player_activity.h"
 #include "projectile.h"
 #include "ranged.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "bodypart.h"
-#include "cursesdef.h"
-#include "debug.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "gun_mode.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item_location.h"
-#include "mtype.h"
-#include "player_activity.h"
-#include "ret_val.h"
-#include "rng.h"
-#include "cata_string_consts.h"
+
+class player;
 
 static const activity_id ACT_AIM( "ACT_AIM" );
+
+static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_relax_gas( "relax_gas" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_stunned( "stunned" );
 
 static const skill_id skill_swimming( "swimming" );
 
 static const bionic_id bio_ups( "bio_ups" );
+
+static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_GRAZER( "GRAZER" );
+static const trait_id trait_RUMINANT( "RUMINANT" );
+static const trait_id trait_SHELL2( "SHELL2" );
+
+static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
+static const std::string flag_DIG_TOOL( "DIG_TOOL" );
+static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
+static const std::string flag_MOUNTABLE( "MOUNTABLE" );
+static const std::string flag_MOUNTED_GUN( "MOUNTED_GUN" );
+static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
+static const std::string flag_RAMP_END( "RAMP_END" );
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
+static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -66,7 +98,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         }
         return false;
     }
-
+    const bool is_riding = you.is_mounted();
     tripoint dest_loc;
     if( dz == 0 && you.has_effect( effect_stunned ) ) {
         dest_loc.x = rng( you.posx() - 1, you.posx() + 1 );
@@ -86,7 +118,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
-        !you.is_mounted() ) {
+        !is_riding ) {
         if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
@@ -110,12 +142,14 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     }
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
-    if( you.movement_mode_is( CMM_WALK ) ) {
-        you.increase_activity_level( LIGHT_EXERCISE );
-    } else if( you.movement_mode_is( CMM_CROUCH ) ) {
-        you.increase_activity_level( MODERATE_EXERCISE );
-    } else {
-        you.increase_activity_level( ACTIVE_EXERCISE );
+    if( !is_riding ) {
+        if( you.movement_mode_is( CMM_WALK ) ) {
+            you.increase_activity_level( LIGHT_EXERCISE );
+        } else if( you.movement_mode_is( CMM_CROUCH ) ) {
+            you.increase_activity_level( MODERATE_EXERCISE );
+        } else {
+            you.increase_activity_level( ACTIVE_EXERCISE );
+        }
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
@@ -125,12 +159,12 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     if( !tile_iso ) {
         if( new_dx > 0 ) {
             you.facing = FD_RIGHT;
-            if( you.is_mounted() ) {
+            if( is_riding ) {
                 you.mounted_creature->facing = FD_RIGHT;
             }
         } else if( new_dx < 0 ) {
             you.facing = FD_LEFT;
-            if( you.is_mounted() ) {
+            if( is_riding ) {
                 you.mounted_creature->facing = FD_LEFT;
             }
         }
@@ -167,14 +201,14 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         //
         if( new_dx >= 0 && new_dy >= 0 ) {
             you.facing = FD_RIGHT;
-            if( you.is_mounted() ) {
+            if( is_riding ) {
                 auto mons = you.mounted_creature.get();
                 mons->facing = FD_RIGHT;
             }
         }
         if( new_dy <= 0 && new_dx <= 0 ) {
             you.facing = FD_LEFT;
-            if( you.is_mounted() ) {
+            if( is_riding ) {
                 auto mons = you.mounted_creature.get();
                 mons->facing = FD_LEFT;
             }
@@ -315,18 +349,25 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
             return false;
         }
     }
-
     bool toSwimmable = m.has_flag( flag_SWIMMABLE, dest_loc );
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
     bool fromBoat = veh0 != nullptr && veh0->is_in_water();
     bool toBoat = veh1 != nullptr && veh1->is_in_water();
-
+    if( is_riding ) {
+        if( !you.check_mount_will_move( dest_loc ) ) {
+            if( you.is_auto_moving() ) {
+                you.clear_destination();
+            }
+            you.moves -= 20;
+            return false;
+        }
+    }
     // Dive into water!
     if( toSwimmable && toDeepWater && !toBoat ) {
         // Requires confirmation if we were on dry land previously
-        if( you.is_mounted() ) {
+        if( is_riding ) {
             auto mon = you.mounted_creature.get();
             if( !mon->swims() || mon->get_size() < you.get_size() + 2 ) {
                 add_msg( m_warning, _( "The %s cannot swim while it is carrying you!" ), mon->get_name() );
@@ -558,6 +599,12 @@ void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach );
+    critters.erase( std::remove_if( critters.begin(), critters.end(), []( const Creature * c ) {
+        if( !c->is_npc() ) {
+            return false;
+        }
+        return !dynamic_cast<const npc *>( c )->is_enemy();
+    } ), critters.end() );
     if( critters.empty() ) {
         add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
         if( g->check_safe_mode_allowed() ) {
@@ -720,7 +767,7 @@ static bool can_fire_weapon( avatar &you, const map &m, const item &weapon )
 
 /**
  * Checks if the turret is valid and if the player meets certain conditions for manually firing it.
- * @param tdata Turret to check.
+ * @param turret Turret to check.
  * @return True if all conditions are true, otherwise false.
  */
 static bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
@@ -1044,7 +1091,7 @@ void avatar_action::eat( avatar &you, item_location loc )
 
     } else if( you.consume_item( *it ) ) {
         if( it->is_food_container() || !you.can_consume_as_is( *it ) ) {
-            it->contents.erase( it->contents.begin() );
+            it->remove_item( it->contents.front() );
             add_msg( _( "You leave the empty %s." ), it->tname() );
         } else {
             loc.remove_item();
@@ -1213,12 +1260,11 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             use_in_place = true;
         } else {
             const int obtain_cost = loc.obtain_cost( you );
-            item &target = you.i_at( loc.obtain( you ) );
-            if( target.is_null() ) {
+            loc = loc.obtain( you );
+            if( !loc ) {
                 debugmsg( "Failed to obtain target item" );
                 return;
             }
-            loc = item_location( you, &target );
 
             // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
             // This method only handles items in the inventory, so refund the obtain cost.
@@ -1256,7 +1302,7 @@ void avatar_action::unload( avatar &you )
 
     item *it = loc.get_item();
     if( loc.where() != item_location::type::character ) {
-        it = &you.i_at( loc.obtain( you ) );
+        it = loc.obtain( you ).get_item();
     }
     if( you.unload( *it ) ) {
         if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {

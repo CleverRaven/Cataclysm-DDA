@@ -87,6 +87,9 @@ Thumbs.db
 cscope.*
 tags
 
+# Generated translation source
+/lang/po/en.po
+
 # Compiled binary translations
 /lang/mo/
 
@@ -151,6 +154,7 @@ cataclysm.a
 
 # clang tooling
 compile_commands.json
+.clangd
 
 # IDA database
 Cataclysm.i64

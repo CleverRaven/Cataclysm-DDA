@@ -1,0 +1,20 @@
+[
+  {
+    "type": "recipe",
+    "result": "mutagen_raptor",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "cooking",
+    "skills_required": [ "firstaid", 1 ],
+    "difficulty": 9,
+    "time": 10000,
+    "book_learn": [ [ "recipe_raptor", 9 ] ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "egg_dino", 1 ], [ "egg_velociraptor", 1 ], [ "egg_deinonychus", 1 ], [ "egg_utahraptor", 1 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ]
+  }
+]

@@ -1,26 +1,34 @@
 #include "monster.h"
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 #include <memory>
 #include <tuple>
 #include <unordered_map>
 
 #include "avatar.h"
+#include "character.h"
+#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "item.h"
+#include "item_group.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mattack_common.h"
 #include "melee.h"
 #include "messages.h"
 #include "mission.h"
@@ -29,31 +37,53 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "morale_types.h"
-#include "mutation.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
-#include "character.h"
-#include "compatibility.h"
-#include "game_constants.h"
-#include "mattack_common.h"
-#include "pimpl.h"
-#include "player.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "flat_set.h"
 #include "weather.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_badpoison( "badpoison" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_emp( "emp" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_run( "run" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_supercharged( "supercharged" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_webbed( "webbed" );
 
 static const species_id FISH( "FISH" );
 static const species_id FUNGUS( "FUNGUS" );
@@ -63,6 +93,20 @@ static const species_id MOLLUSK( "MOLLUSK" );
 static const species_id ROBOT( "ROBOT" );
 static const species_id SPIDER( "SPIDER" );
 static const species_id ZOMBIE( "ZOMBIE" );
+
+static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
+static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
+static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
+static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
+static const trait_id trait_BEE( "BEE" );
+static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_KILLER( "KILLER" );
+static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
+static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
+static const trait_id trait_TERRIFYING( "TERRIFYING" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static const mtype_id mon_ant( "mon_ant" );
 static const mtype_id mon_ant_fungus( "mon_ant_fungus" );
@@ -468,7 +512,7 @@ void monster::try_biosignature()
     }
     int counter = 0;
     while( true ) {
-        // dont catch up too much, otherwise on some scenarios,
+        // don't catch up too much, otherwise on some scenarios,
         // we could have years worth of poop just deposited on the floor.
         if( *biosig_timer > calendar::turn || counter > 50 ) {
             return;
@@ -598,8 +642,8 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
 
-    mvwprintz( w, point( column, vStart ), c_white, "%s ", name() );
-
+    mvwprintz( w, point( column, vStart ), basic_symbol_color(), name() );
+    wprintw( w, " " );
     const auto att = get_attitude();
     wprintz( w, att.second, att.first );
 
@@ -958,6 +1002,9 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
             return A_FRIENDLY;
+        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
+            // Stuff that hates a specific faction will always attack that faction
+            return A_HOSTILE;
         } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
                    morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
@@ -1025,7 +1072,7 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        if( type->in_species( FUNGUS ) && ( u->has_trait( trait_MYCUS_THRESH ) ||
+        if( type->in_species( FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
                                             u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
         }
@@ -1598,7 +1645,7 @@ bool monster::move_effects( bool )
             return false;
         }
         // non-friendly monster will struggle to get free occasionally.
-        // some monsters cant be tangled up with a net/bolas/lassoo etc.
+        // some monsters can't be tangled up with a net/bolas/lasso etc.
         bool immediate_break = type->in_species( FISH ) || type->in_species( MOLLUSK ) ||
                                type->in_species( ROBOT ) || type->bodytype == "snake" || type->bodytype == "blob";
         if( !immediate_break && rng( 0, 900 ) > type->melee_dice * type->melee_sides * 1.5 ) {
@@ -2397,7 +2444,7 @@ void monster::process_effects()
             healing_format_string = _( "The %s is visibly regenerating!" );
         } else if( healed_amount >= 10 ) {
             healing_format_string = _( "The %s seems a little healthier." );
-        } else if( healed_amount >= 1 ) {
+        } else {
             healing_format_string = _( "The %s is healing slowly." );
         }
         add_msg( m_warning, healing_format_string, name() );
@@ -2611,18 +2658,18 @@ void monster::add_msg_player_or_npc( const std::string &/*player_msg*/,
     }
 }
 
-void monster::add_msg_if_npc( const game_message_type type, const std::string &msg ) const
+void monster::add_msg_if_npc( const game_message_params &params, const std::string &msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( type, replace_with_npc_name( msg ) );
+        add_msg( params, replace_with_npc_name( msg ) );
     }
 }
 
-void monster::add_msg_player_or_npc( const game_message_type type,
+void monster::add_msg_player_or_npc( const game_message_params &params,
                                      const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
     if( g->u.sees( *this ) ) {
-        add_msg( type, replace_with_npc_name( npc_msg ) );
+        add_msg( params, replace_with_npc_name( npc_msg ) );
     }
 }
 
@@ -2774,16 +2821,6 @@ void monster::on_hit( Creature *source, body_part,
 
     check_dead_state();
     // TODO: Faction relations
-}
-
-body_part monster::get_random_body_part( bool ) const
-{
-    return bp_torso;
-}
-
-std::vector<body_part> monster::get_all_body_parts( bool ) const
-{
-    return std::vector<body_part>( 1, bp_torso );
 }
 
 int monster::get_hp_max( hp_part ) const

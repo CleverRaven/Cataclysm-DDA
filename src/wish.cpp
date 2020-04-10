@@ -1,39 +1,40 @@
 #include "debug_menu.h" // IWYU pragma: associated
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
 #include <vector>
 
+#include "calendar.h"
+#include "catacharset.h"
+#include "color.h"
+#include "cursesdef.h"
 #include "debug.h"
+#include "flat_set.h"
 #include "game.h"
 #include "input.h"
+#include "item.h"
 #include "item_factory.h"
+#include "itype.h"
 #include "map.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "optional.h"
 #include "output.h"
 #include "player.h"
+#include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "uistate.h"
-#include "calendar.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "item.h"
-#include "itype.h"
-#include "optional.h"
-#include "type_id.h"
-#include "flat_set.h"
-#include "point.h"
 
 class wish_mutate_callback: public uilist_callback
 {
@@ -439,11 +440,12 @@ class wish_item_callback: public uilist_callback
     public:
         bool incontainer;
         bool has_flag;
+        bool spawn_everything;
         std::string msg;
         std::string flag;
         const std::vector<const itype *> &standard_itype_ids;
         wish_item_callback( const std::vector<const itype *> &ids ) :
-            incontainer( false ), has_flag( false ), standard_itype_ids( ids ) {
+            incontainer( false ), has_flag( false ), spawn_everything( false ), standard_itype_ids( ids ) {
         }
         bool key( const input_context &, const input_event &event, int /*entnum*/,
                   uilist * /*menu*/ ) override {
@@ -458,6 +460,10 @@ class wish_item_callback: public uilist_callback
                 if( !flag.empty() ) {
                     has_flag = true;
                 }
+                return true;
+            }
+            if( event.get_first_input() == 'E' ) {
+                spawn_everything = !spawn_everything;
                 return true;
             }
             return false;
@@ -484,10 +490,9 @@ class wish_item_callback: public uilist_callback
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.erase();
-
             input_context ctxt( menu->input_category );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
-                       _( "[%s] find, [f] container, [F] flag, [%s] quit" ),
+                       _( "[%s] find, [f] container, [F] flag, [E] everything, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
         }
 };
@@ -519,10 +524,13 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
         entry_extra_text.color = ity.color();
         entry_extra_text.left = 1;
     }
-
     do {
         wmenu.query();
-        if( wmenu.ret >= 0 ) {
+        if( cb.spawn_everything ) {
+            wmenu.ret = opts.size() - 1;
+        }
+        bool did_amount_prompt = false;
+        while( wmenu.ret >= 0 ) {
             item granted( opts[wmenu.ret] );
             if( cb.incontainer ) {
                 granted = granted.in_its_container();
@@ -538,7 +546,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
             granted.set_birthday( calendar::turn );
             prev_amount = amount;
             bool canceled = false;
-            if( p != nullptr ) {
+            if( p != nullptr && !did_amount_prompt ) {
                 string_input_popup popup;
                 popup
                 .title( _( "How many?" ) )
@@ -548,6 +556,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                 canceled = popup.canceled();
             }
             if( !canceled ) {
+                did_amount_prompt = true;
                 if( p != nullptr ) {
                     if( granted.count_by_charges() ) {
                         if( amount > 0 ) {
@@ -573,6 +582,11 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
             uistate.wishitem_selected = wmenu.selected;
             if( canceled || amount <= 0 ) {
                 amount = prev_amount;
+            }
+            if( cb.spawn_everything ) {
+                wmenu.ret--;
+            } else {
+                break;
             }
         }
     } while( wmenu.ret >= 0 );

@@ -3,30 +3,31 @@
 #define CATA_TILES_H
 
 #include <cstddef>
-#include <memory>
 #include <map>
+#include <memory>
 #include <string>
-#include <vector>
+#include <tuple>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
-#include "sdl_wrappers.h"
 #include "animation.h"
 #include "creature.h"
+#include "enums.h"
 #include "lightmap.h"
 #include "line.h"
 #include "map_memory.h"
 #include "options.h"
-#include "weather.h"
-#include "enums.h"
-#include "weighted_list.h"
-#include "point.h"
 #include "pimpl.h"
+#include "point.h"
+#include "sdl_wrappers.h"
+#include "type_id.h"
+#include "weather.h"
+#include "weighted_list.h"
 
-class Creature;
-class player;
-class pixel_minimap;
+class Character;
 class JsonObject;
+class pixel_minimap;
 
 using itype_id = std::string;
 

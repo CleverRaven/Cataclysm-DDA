@@ -4,12 +4,10 @@
 
 #include <string>
 
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
-
 struct itype;
 
 class morale_type_data

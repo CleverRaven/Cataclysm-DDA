@@ -2,7 +2,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Draco",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Draco is a middle-aged musician, and generally a pretty nice guy.  He's always been a wanderer and this isn't his first time living basically homeless.",
@@ -432,7 +432,7 @@
   {
     "id": "MISSION_REFUGEE_Draco_GET_GUITAR",
     "type": "mission_definition",
-    "name": "Bring an acoustic guitar",
+    "name": { "str": "Bring an acoustic guitar" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",

@@ -111,6 +111,12 @@
     ]
   },
   {
+    "id": "mining_standard",
+    "type": "requirement",
+    "//": "mining",
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 10 ], [ "elec_jackhammer", 3500 ] ] ]
+  },
+  {
     "id": "bronzesmithing_tools",
     "type": "requirement",
     "//": "Tools for casting and work hardening items made from bronze",

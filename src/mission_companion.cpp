@@ -1,63 +1,68 @@
 #include "mission_companion.h"
 
-#include <cstdlib>
 #include <algorithm>
-#include <cassert>
-#include <vector>
 #include <array>
+#include <cassert>
+#include <cstdlib>
 #include <list>
 #include <map>
+#include <memory>
+#include <set>
 #include <unordered_map>
 #include <utility>
-#include <set>
+#include <vector>
 
 #include "avatar.h"
+#include "basecamp.h"
 #include "calendar.h"
+#include "catacharset.h"
+#include "colony.h"
+#include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
-#include "faction_camp.h"
-#include "input.h"
-#include "item_group.h"
-#include "itype.h"
-#include "line.h"
-#include "mapbuffer.h"
-#include "mapdata.h"
-#include "messages.h"
-#include "mtype.h"
-#include "map_iterator.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
-#include "rng.h"
-#include "translations.h"
-#include "basecamp.h"
-#include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "enums.h"
 #include "faction.h"
+#include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
+#include "input.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_stack.h"
+#include "itype.h"
+#include "line.h"
 #include "map.h"
+#include "map_iterator.h"
+#include "mapbuffer.h"
+#include "mapdata.h"
+#include "material.h"
+#include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
-#include "pimpl.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "pldata.h"
+#include "point.h"
+#include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "translations.h"
 #include "ui.h"
-#include "weighted_list.h"
-#include "material.h"
-#include "colony.h"
-#include "point.h"
+#include "ui_manager.h"
+#include "value_ptr.h"
 #include "weather.h"
-#include "cata_string_consts.h"
+#include "weighted_list.h"
+
+static const efftype_id effect_riding( "riding" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
@@ -68,6 +73,11 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_unarmed( "unarmed" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
+static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
+static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 
 struct comp_rank {
     int industry;
@@ -429,6 +439,9 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     g->draw_ter();
     wrefresh( g->w_terrain );
     g->draw_panels();
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     while( true ) {
         mission_key.cur_key = cur_key_list[sel];

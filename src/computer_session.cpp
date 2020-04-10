@@ -1,30 +1,34 @@
 #include "computer_session.h"
 
 #include <algorithm>
-#include <climits>
 #include <cstdlib>
+#include <functional>
+#include <memory>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "calendar.h"
+#include "character_id.h"
 #include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -33,11 +37,10 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "omdata.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "point.h"
@@ -50,7 +53,10 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
+#include "ui.h"
+#include "ui_manager.h"
+
+static const efftype_id effect_amigara( "amigara" );
 
 static const skill_id skill_computer( "computer" );
 
@@ -59,6 +65,8 @@ static const species_id ZOMBIE( "ZOMBIE" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
+
+static const std::string flag_CONSOLE( "CONSOLE" );
 
 static catacurses::window init_window()
 {
@@ -697,7 +705,7 @@ void computer_session::action_download_software()
         g->u.moves -= 30;
         item software( miss->get_item_id(), 0 );
         software.mission_id = comp.mission_id;
-        usb->contents.clear();
+        usb->contents.clear_items();
         usb->put_in( software );
         print_line( _( "Software downloaded." ) );
     } else {
@@ -735,7 +743,7 @@ void computer_session::action_blood_anal()
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
                             item software( "software_blood_data", 0 );
-                            usb->contents.clear();
+                            usb->contents.clear_items();
                             usb->put_in( software );
                             print_line( _( "Software downloaded." ) );
                         } else {
@@ -1434,6 +1442,10 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
                          ctxt.describe_key_and_name( "YES", allow_key ),
                          ctxt.describe_key_and_name( "NO", allow_key ),
                          ctxt.describe_key_and_name( "QUIT", allow_key ) );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         const std::string action = ctxt.handle_input();
         if( allow_key( ctxt.get_raw_input() ) ) {

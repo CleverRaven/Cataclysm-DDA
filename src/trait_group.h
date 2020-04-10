@@ -3,16 +3,15 @@
 #define TRAIT_GROUP_H
 
 #include <memory>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;
-class JsonIn;
-class Trait_group;
 class JsonValue;
+class Trait_group;
 
 namespace trait_group
 {

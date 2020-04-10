@@ -6,10 +6,10 @@
 #include <string>
 #include <utility>
 
-#include "point.h"
 #include "string_formatter.h"
 
 class nc_color;
+struct point;
 
 /**
  * Contains the curses interface used by the whole game.

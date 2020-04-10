@@ -1,70 +1,76 @@
 #if defined(TILES)
 #include "cata_tiles.h"
 
-#include <cmath>
-#include <cstdint>
 #include <algorithm>
 #include <array>
-#include <cassert>
-#include <fstream>
 #include <bitset>
+#include <cassert>
+#include <cmath>
+#include <cstdint>
+#include <fstream>
 #include <iterator>
+#include <set>
 #include <stdexcept>
 #include <tuple>
-#include <set>
+#include <unordered_set>
 
+#include "action.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
+#include "character_id.h"
 #include "clzones.h"
+#include "color.h"
+#include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
 #include "field.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
+#include "map_memory.h"
 #include "mapdata.h"
 #include "mod_tileset.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "npc.h"
+#include "optional.h"
 #include "output.h"
 #include "overlay_ordering.h"
 #include "path_info.h"
-#include "player.h"
 #include "pixel_minimap.h"
+#include "player.h"
 #include "rect_range.h"
+#include "scent_map.h"
 #include "sdl_utils.h"
 #include "sdl_wrappers.h"
-#include "scent_map.h"
+#include "sdltiles.h"
 #include "sounds.h"
+#include "string_formatter.h"
+#include "string_id.h"
 #include "submap.h"
+#include "tileray.h"
+#include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weighted_list.h"
-#include "calendar.h"
-#include "character.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "int_id.h"
-#include "map_memory.h"
-#include "optional.h"
-#include "sdltiles.h"
-#include "string_id.h"
-#include "tileray.h"
-#include "translations.h"
-#include "type_id.h"
-#include "game_constants.h"
-#include "cata_string_consts.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+
+static const efftype_id effect_ridden( "ridden" );
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
@@ -1266,9 +1272,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
         const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
                 &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap,
-                &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
-                &cata_tiles::draw_vpart_below, &cata_tiles::draw_critter_at_below,
-                &cata_tiles::draw_terrain_below, &cata_tiles::draw_critter_at,
+                &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart_below,
+                &cata_tiles::draw_critter_at_below, &cata_tiles::draw_terrain_below,
+                &cata_tiles::draw_vpart, &cata_tiles::draw_critter_at,
                 &cata_tiles::draw_zone_mark, &cata_tiles::draw_zombie_revival_indicators
             }
         };
@@ -3585,17 +3591,12 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
 {
     std::vector<options_manager::id_and_option> renderer_names;
     std::vector<options_manager::id_and_option> default_renderer_names = {
-#if defined(TILES)
 #   if defined(_WIN32)
         { "direct3d", translate_marker( "direct3d" ) },
 #   endif
         { "software", translate_marker( "software" ) },
         { "opengl", translate_marker( "opengl" ) },
         { "opengles2", translate_marker( "opengles2" ) },
-#else
-        { "software", translate_marker( "software" ) }
-#endif
-
     };
     int numRenderDrivers = SDL_GetNumRenderDrivers();
     DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;

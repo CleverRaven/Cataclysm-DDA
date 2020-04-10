@@ -297,7 +297,7 @@
     "id": "watercannon",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "water cannon",
+    "name": { "str": "water cannon" },
     "item": "watercannon",
     "default_ammo": "water",
     "color": "blue",

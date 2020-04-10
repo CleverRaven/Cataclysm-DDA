@@ -2,19 +2,17 @@
 #ifndef MAPGEN_FUNCTIONS_H
 #define MAPGEN_FUNCTIONS_H
 
+#include <functional>
 #include <map>
 #include <string>
-#include <functional>
 #include <utility>
 
 #include "type_id.h"
 
-struct tripoint;
-struct point;
-class time_point;
 class map;
 class mapgendata;
 class mission;
+struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint &map_pos3, mission *miss )>;
 class JsonObject;
@@ -80,8 +78,6 @@ void mapgen_lake_shore( mapgendata &dat );
 void mremove_trap( map *m, int x, int y );
 void mtrap_set( map *m, int x, int y, trap_id type );
 void madd_field( map *m, int x, int y, field_type_id type, int intensity );
-
-void place_stairs( mapgendata &dat );
 
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
 bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,

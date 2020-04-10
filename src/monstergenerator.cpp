@@ -2,12 +2,19 @@
 #include "monstergenerator.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cstdlib>
 #include <set>
 #include <utility>
 
+#include "assign.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "creature.h"
+#include "damage.h"
 #include "debug.h"
+#include "enum_conversions.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
@@ -17,15 +24,13 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
+#include "optional.h"
 #include "options.h"
-#include "rng.h"
-#include "assign.h"
-#include "bodypart.h"
-#include "damage.h"
-#include "game.h"
 #include "pathfinding.h"
-#include "units.h"
+#include "rng.h"
+#include "string_id.h"
 #include "translations.h"
+#include "units.h"
 
 namespace io
 {
@@ -162,6 +167,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_PET_HARNESSABLE: return "PET_HARNESSABLE";
         case MF_DOGFOOD: return "DOGFOOD";
         case MF_MILKABLE: return "MILKABLE";
+        case MF_SHEARABLE: return "SHEARABLE";
         case MF_NO_BREED: return "NO_BREED";
         case MF_PET_WONT_FOLLOW: return "PET_WONT_FOLLOW";
         case MF_DRIPS_NAPALM: return "DRIPS_NAPALM";

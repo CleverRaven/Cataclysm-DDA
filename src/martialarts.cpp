@@ -1,41 +1,47 @@
 #include "martialarts.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <map>
-#include <string>
-#include <array>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
+#include "character.h"
+#include "character_martial_arts.h"
+#include "color.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "enums.h"
 #include "game.h"
-#include "map.h"
 #include "generic_factory.h"
 #include "input.h"
+#include "item.h"
 #include "itype.h"
 #include "json.h"
+#include "map.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "item.h"
-#include "pimpl.h"
-#include "pldata.h"
-#include "enums.h"
-#include "optional.h"
-#include "cata_string_consts.h"
+#include "ui_manager.h"
+#include "value_ptr.h"
 
 static const skill_id skill_unarmed( "unarmed" );
 
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
+
+static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
 namespace
 {
@@ -1476,6 +1482,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         ict.register_action( "UP" );
         ict.register_action( "DOWN" );
         ict.register_action( "QUIT" );
+
+        // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+        ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
         do {
             if( selected < 0 ) {

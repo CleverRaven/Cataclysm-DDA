@@ -4,7 +4,7 @@
     "copy-from": "compositebow",
     "type": "GUN",
     "color": "yellow",
-    "name": "Druid composite bow",
+    "name": { "str": "Druid composite bow" },
     "//": "Equivalent to composite bow for dispersion/reload/weight/range/encumb/bash, with two mod slots added equivalent to other weapons getting techniques",
     "description": "A bow made of multiple materials to maximize energy efficiency.  There are two Druid runes embedded at the tips.",
     "price": 32000,

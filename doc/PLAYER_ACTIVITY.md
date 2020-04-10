@@ -20,7 +20,9 @@ Activities are long term actions, that can be interrupted and (optionally) conti
 	* speed: `player_activity::moves_left` may be decremented faster or slower, depending on the character's speed.
 	* neither: `moves_left` will not be decremented. Thus you must define a do_turn function; otherwise the activity will never end!
 * no_resume (false): Rather than resuming, you must always restart the activity from scratch.
-* multi_activity(false): This activity will repeat until it cannot do any more work, used for NPC and player zone activities.
+* multi_activity(false): This activity will repeat until it cannot do any more work, used for NPC and player zone 		  activities.
+* refuel_fires( false ): If true, the player will automatically refuel fires during the long activity.
+* auto_needs( false ) : If true, the player will automatically eat and drink from specific auto_consume zones during long activities.
 
 ## Termination
 

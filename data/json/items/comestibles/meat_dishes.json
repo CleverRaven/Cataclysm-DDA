@@ -28,9 +28,9 @@
   {
     "type": "COMESTIBLE",
     "id": "sausage",
-    "name": "sausage",
+    "name": "smoked sausage",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "Mannwurst" },
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "smoked Mannwurst" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "sinister %s", "str_pl": "sinister %s" } }
     ],
     "copy-from": "sausage_raw",

@@ -2,34 +2,37 @@
 #ifndef MAGIC_H
 #define MAGIC_H
 
-#include <cstddef>
+#include <functional>
 #include <map>
+#include <memory>
+#include <queue>
 #include <set>
 #include <string>
 #include <vector>
-#include <queue>
 
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
+#include "event_bus.h"
+#include "optional.h"
+#include "point.h"
+#include "sounds.h"
+#include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "string_id.h"
-#include "translations.h"
-#include "event_bus.h"
-#include "sounds.h"
 
-struct tripoint;
 class Creature;
-class player;
-class spell;
+class JsonIn;
 class JsonObject;
 class JsonOut;
-class JsonIn;
-class spell;
-class teleporter_list;
-class time_duration;
 class nc_color;
+class player;
+class spell;
+class time_duration;
+namespace cata
+{
+class event;
+}  // namespace cata
 template <typename E> struct enum_traits;
 
 enum spell_flag {
@@ -96,6 +99,12 @@ struct fake_spell {
     int level = 0;
     // target tripoint is source (true) or target (false)
     bool self = false;
+    // a chance to trigger the enchantment spells
+    int trigger_once_in = 1;
+    // a message when the enchantment is triggered
+    translation trigger_message;
+    // a message when the enchantment is triggered and is on npc
+    translation npc_trigger_message;
 
     fake_spell() = default;
     fake_spell( const spell_id &sp_id, bool hit_self = false,
@@ -133,6 +142,7 @@ class spell_type
         translation message;
         // spell sound effect
         translation sound_description;
+        skill_id skill;
         sounds::sound_t sound_type = sounds::sound_t::_LAST;
         bool sound_ambient = false;
         std::string sound_id;
@@ -228,6 +238,8 @@ class spell_type
 
         // base amount of time to cast the spell in moves
         int base_casting_time = 0;
+        // If spell is to summon a vehicle, the vproto_id of the vehicle
+        std::string vehicle_id;
         // increment of casting time per level
         float casting_time_increment = 0.0f;
         // max or min casting time
@@ -355,10 +367,14 @@ class spell
         spell_id id() const;
         // get spell class (from type)
         trait_id spell_class() const;
+        // get skill id
+        skill_id skill() const;
         // get spell effect string (from type)
         std::string effect() const;
         // get spell effect_str data
         std::string effect_data() const;
+        // get spell summon vehicle id
+        vproto_id summon_vehicle_id() const;
         // name of spell (translated)
         std::string name() const;
         // description of spell (translated)
@@ -404,6 +420,9 @@ class spell
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
+
+        // checks if a target point is in spell range
+        bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
@@ -511,6 +530,7 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
 void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
 void recover_energy( const spell &sp, Creature &, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint &target );
+void spawn_summoned_vehicle( const spell &sp, Creature &caster, const tripoint &target );
 void translocate( const spell &sp, Creature &caster, const tripoint &target );
 // adds a timed event to the caster only
 void timed_event( const spell &sp, Creature &caster, const tripoint & );

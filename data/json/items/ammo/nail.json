@@ -19,7 +19,7 @@
     "weight": "4 g",
     "volume": "250 ml",
     "price": 1000,
-    "price_postapoc": 6000,
+    "price_postapoc": 250,
     "material": "iron",
     "symbol": "=",
     "color": "cyan",

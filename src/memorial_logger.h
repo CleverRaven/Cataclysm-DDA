@@ -2,11 +2,17 @@
 #ifndef CATA_MEMORIAL_LOGGER_H
 #define CATA_MEMORIAL_LOGGER_H
 
-#include <map>
+#include <iosfwd>
 #include <string>
 #include <vector>
 
 #include "event_bus.h"
+#include "string_formatter.h"
+
+namespace cata
+{
+class event;
+}  // namespace cata
 
 class memorial_logger : public event_subscriber
 {

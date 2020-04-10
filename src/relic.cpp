@@ -1,13 +1,14 @@
 #include "relic.h"
 
-#include "creature.h"
-#include "magic_enchantment.h"
-#include "json.h"
-#include "point.h"
-#include "magic.h"
-#include "translations.h"
-
+#include <algorithm>
 #include <cmath>
+
+#include "creature.h"
+#include "json.h"
+#include "magic.h"
+#include "magic_enchantment.h"
+#include "translations.h"
+#include "type_id.h"
 
 void relic::add_active_effect( const fake_spell &sp )
 {
@@ -37,6 +38,9 @@ void relic::load( const JsonObject &jo )
         for( JsonObject jobj : jo.get_array( "passive_effects" ) ) {
             enchantment ench;
             ench.load( jobj );
+            if( !ench.id.is_empty() ) {
+                ench = ench.id.obj();
+            }
             add_passive_effect( ench );
         }
     }

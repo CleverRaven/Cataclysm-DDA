@@ -97,7 +97,7 @@
     "material": "wheat",
     "looks_like": "bread",
     "volume": "750 ml",
-    "charges": 8,
+    "charges": 4,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2
   },
