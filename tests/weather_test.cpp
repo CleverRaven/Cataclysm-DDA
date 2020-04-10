@@ -116,19 +116,23 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
     // `get_local_windchill` returns degrees F offset from current temperature,
     // representing the amount of temperature difference from wind chill alone.
     //
-    // It uses one of two formulas or models depending on the current temperature;
-    // below 50F, the North American / UK wind chill index is used. At 50F or above, the
-    // Australian apparent temperature is used.
+    // It uses one of two formulas or models depending on the current temperature.
+    // Below 50F, the North American / UK "wind chill index" is used. At 50F or above,
+    // the Australian "apparent temperature" is used.
     //
     // All "quoted text" below is paraphrased from the Wikipedia article:
     // https://en.wikipedia.org/wiki/Wind_chill
 
-    double wind_mph;
+    // CHECK expressions have the expected result on the left for readability.
+
     double temp_f;
+    double humidity;
+    double wind_mph;
 
     SECTION( "below 50F - North American and UK wind chill index" ) {
-        // "Windchill temperature is defined only for temperatures at or below 10C (50F) and wind
-        // speeds above 4.8 kilometres per hour (3.0 mph)."
+
+        // "Windchill temperature is defined only for temperatures at or below 10C (50F)
+        // and wind speeds above 4.8 kilometres per hour (3.0 mph)."
 
         WHEN( "wind speed is less than 3 mph" ) {
             THEN( "windchill is undefined and effectively 0" ) {
@@ -138,7 +142,6 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
                 CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 0.0f ) );
             }
         }
-
 
         // "As the air temperature falls, the chilling effect of any wind that is present increases.
         // For example, a 16 km/h (9.9 mph) wind will lower the apparent temperature by a wider
@@ -211,20 +214,32 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
         WHEN( "wind speed is at least 3 mph" ) {
             THEN( "windchill gets colder as wind increases" ) {
+                // Just below freezing
                 CHECK( -2 == get_local_windchill( 30.0f, 0.0f, 3.0f ) );
                 CHECK( -4 == get_local_windchill( 30.0f, 0.0f, 4.0f ) );
                 CHECK( -5 == get_local_windchill( 30.0f, 0.0f, 5.0f ) );
                 CHECK( -8 == get_local_windchill( 30.0f, 0.0f, 10.0f ) );
-                CHECK( -10 == get_local_windchill( 30.0f, 0.0f, 15.0f ) );
                 CHECK( -12 == get_local_windchill( 30.0f, 0.0f, 20.0f ) );
                 CHECK( -15 == get_local_windchill( 30.0f, 0.0f, 30.0f ) );
                 CHECK( -16 == get_local_windchill( 30.0f, 0.0f, 40.0f ) );
                 CHECK( -18 == get_local_windchill( 30.0f, 0.0f, 50.0f ) );
+
+                // Well below zero
+                CHECK( -10 == get_local_windchill( -30.0f, 0.0f, 3.0f ) );
+                CHECK( -13 == get_local_windchill( -30.0f, 0.0f, 4.0f ) );
+                CHECK( -15 == get_local_windchill( -30.0f, 0.0f, 5.0f ) );
+                CHECK( -23 == get_local_windchill( -30.0f, 0.0f, 10.0f ) );
+                CHECK( -31 == get_local_windchill( -30.0f, 0.0f, 20.0f ) );
+                CHECK( -36 == get_local_windchill( -30.0f, 0.0f, 30.0f ) );
+                CHECK( -40 == get_local_windchill( -30.0f, 0.0f, 40.0f ) );
+                CHECK( -43 == get_local_windchill( -30.0f, 0.0f, 50.0f ) );
             }
         }
 
-        // Incidentally, the function accepts a humidity argument,
-        // but this model does not use it:
+        // The function accepts a humidity argument, but this model does not use it.
+        //
+        // "The North American formula was designed to be applied at low temperatures
+        // (as low as −46C or −50F) when humidity levels are also low."
 
         THEN( "wind chill index is unaffected by humidity" ) {
             CHECK( -6 == get_local_windchill( 40.0f, 0.0f, 10.0f ) );
@@ -242,9 +257,81 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
     }
 
     SECTION( "50F and above - Australian apparent temperature" ) {
-        CHECK( -12 == get_local_windchill( 50.0f, 0.0f, 10.0f ) );
-        CHECK( -18 == get_local_windchill( 50.0f, 0.0f, 20.0f ) );
-        CHECK( -24 == get_local_windchill( 50.0f, 0.0f, 30.0f ) );
+        GIVEN( "constant temperature of 50F" ) {
+            temp_f = 50.0f;
+
+            WHEN( "wind is steady at 10mph" ) {
+                wind_mph = 10.0f;
+
+                THEN( "apparent temp increases as humidity increases" ) {
+                    CHECK( -12 == get_local_windchill( temp_f, 0.0f, wind_mph ) );
+                    CHECK( -11 == get_local_windchill( temp_f, 20.0f, wind_mph ) );
+                    CHECK( -9 == get_local_windchill( temp_f, 40.0f, wind_mph ) );
+                    CHECK( -8 == get_local_windchill( temp_f, 60.0f, wind_mph ) );
+                    CHECK( -7 == get_local_windchill( temp_f, 80.0f, wind_mph ) );
+                    CHECK( -5 == get_local_windchill( temp_f, 100.0f, wind_mph ) );
+                }
+            }
+
+            WHEN( "humidity is steady at 90%%" ) {
+                humidity = 90.0f;
+
+                THEN( "apparent temp decreases as wind increases" ) {
+                    CHECK( 0 == get_local_windchill( temp_f, humidity, 0.0f ) );
+                    CHECK( -6 == get_local_windchill( temp_f, humidity, 10.0f ) );
+                    CHECK( -11 == get_local_windchill( temp_f, humidity, 20.0f ) );
+                    CHECK( -17 == get_local_windchill( temp_f, humidity, 30.0f ) );
+                    CHECK( -23 == get_local_windchill( temp_f, humidity, 40.0f ) );
+                    CHECK( -28 == get_local_windchill( temp_f, humidity, 50.0f ) );
+                }
+            }
+        }
+
+        GIVEN( "humidity is zero" ) {
+            humidity = 0.0f;
+
+            THEN( "apparent temp offset is only influenced by wind speed" ) {
+                // No wind still gets -7 for some reason
+                CHECK( -7 == get_local_windchill( 50.0f, humidity, 0.0f ) );
+                CHECK( -7 == get_local_windchill( 70.0f, humidity, 0.0f ) );
+                CHECK( -7 == get_local_windchill( 90.0f, humidity, 0.0f ) );
+
+                // 25mph wind == -21F to temperature
+                CHECK( -21 == get_local_windchill( 50.0f, humidity, 25.0f ) );
+                CHECK( -21 == get_local_windchill( 70.0f, humidity, 25.0f ) );
+                CHECK( -21 == get_local_windchill( 90.0f, humidity, 25.0f ) );
+            }
+        }
+
+        GIVEN( "humidity is 50 percent" ) {
+            humidity = 50.0f;
+
+            WHEN( "there is no wind" ) {
+                wind_mph = 0.0f;
+
+                THEN( "apparent temp increases more as it gets hotter" ) {
+                    CHECK( -3 == get_local_windchill( 50.0f, humidity, wind_mph ) );
+                    CHECK( -1 == get_local_windchill( 60.0f, humidity, wind_mph ) );
+                    CHECK( 1 == get_local_windchill( 70.0f, humidity, wind_mph ) );
+                    CHECK( 4 == get_local_windchill( 80.0f, humidity, wind_mph ) );
+                    CHECK( 8 == get_local_windchill( 90.0f, humidity, wind_mph ) );
+                    CHECK( 13 == get_local_windchill( 100.0f, humidity, wind_mph ) );
+                }
+            }
+
+            WHEN( "wind is steady at 10mph" ) {
+                wind_mph = 10.0f;
+
+                THEN( "apparent temp is less but still increases more as it gets hotter" ) {
+                    CHECK( -9 == get_local_windchill( 50.0f, humidity, wind_mph ) );
+                    CHECK( -7 == get_local_windchill( 60.0f, humidity, wind_mph ) );
+                    CHECK( -5 == get_local_windchill( 70.0f, humidity, wind_mph ) );
+                    CHECK( -2 == get_local_windchill( 80.0f, humidity, wind_mph ) );
+                    CHECK( 2 == get_local_windchill( 90.0f, humidity, wind_mph ) );
+                    CHECK( 7 == get_local_windchill( 100.0f, humidity, wind_mph ) );
+                }
+            }
+        }
     }
 }
 
