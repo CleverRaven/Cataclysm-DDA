@@ -495,7 +495,7 @@
   {
     "type": "MONSTER",
     "id": "mon_dimorphodon",
-    "name": "Dimorphodon",
+    "name": { "str": "Dimorphodon", "str_pl": "Dimorphodon" },
     "species": "DINOSAUR",
     "default_faction": "dimorphodon",
     "symbol": "D",
