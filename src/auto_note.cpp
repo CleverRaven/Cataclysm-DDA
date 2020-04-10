@@ -305,7 +305,7 @@ void auto_note_manager_gui::show()
                 }
 
                 wprintz( w, lineColor, "%s", _( cacheEntry.first.name ) );
-                
+
                 // Print the character this map extra is indicated by on the map
                 mvwprintz( w, point( 55, i - startPosition ), charColor, "%s", displayChar );
                 // Since yes is longer than no, we need to clear the space for the status string before
