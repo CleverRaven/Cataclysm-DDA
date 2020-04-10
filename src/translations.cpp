@@ -49,8 +49,8 @@ static bool sanity_checked_genders = false;
 #include "options.h"
 #include "ui.h"
 #if defined(_WIN32)
-#   include "mmsystem.h"
 #   include "platform_win.h"
+#   include "mmsystem.h"
 #endif
 
 #if defined(MACOSX)
