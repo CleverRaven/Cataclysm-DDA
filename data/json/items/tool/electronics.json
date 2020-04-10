@@ -200,7 +200,7 @@
       }
     ],
     "revert_to": "laptop_gaming",
-    "qualities": [ [ "KEYBOARD", 1 ], [ "PROCESSOR", 3 ] ],
+    "qualities": [ [ "KEYBOARD", 1 ], [ "PROCESSOR", 4 ] ],
     "flags": [ "WATCH", "ALARMCLOCK", "TRADER_AVOID" ]
   },
   {
@@ -248,7 +248,7 @@
         "type": "transform"
       }
     ],
-    "qualities": [ [ "KEYBOARD", 1 ], [ "PROCESSOR", 2 ], [ "SOFTWARE_COMPILER", 3 ] ],
+    "qualities": [ [ "KEYBOARD", 1 ], [ "PROCESSOR", 3 ], [ "SOFTWARE_COMPILER", 3 ] ],
     "flags": [ "WATCH", "ALARMCLOCK", "TRADER_AVOID" ]
   },
   {

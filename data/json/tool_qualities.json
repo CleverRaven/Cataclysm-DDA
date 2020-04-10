@@ -279,9 +279,9 @@
     "type": "tool_quality",
     "id": "PROCESSOR",
     "name": { "str": "processor" },
-    "//": "computers should gain this quality only when turned on. It enables install/use software at level 0",
+    "//": "computers should gain this quality only when turned on. It enables install/use software at level 1",
     "//": "higher levels represent faster processors, may be needed in advanced computing tasks",
-    "//": "0 = any basic computing device, 1 = consumer/commodity PC, 2 = professional, 3 = high-end/workstation, 4+ = server/cluster",
+    "//": "1 = any basic computing device, 2 = consumer/commodity PC, 3 = professional, 4 = high-end/workstation, 5+ = server/cluster",
     "//": "should not be placed on an item that can't do arbitrary computation *AND* install/sideload software, e.g. mp3 players, cloud devices or phones"
   }
 ]
