@@ -267,6 +267,8 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     mvwprintz( w_stats, point_zero, h_light_gray, header_spaces );
     center_print( w_stats, 0, h_light_gray, _( title_STATS ) );
 
+    // Clear bonus/penalty menu.
+    mvwprintz( w_stats, point( 0, 8 ), c_light_gray, std::string( 26, ' ' ) );
     nc_color col_temp = c_light_gray;
 
     if( line == 0 ) {
@@ -355,15 +357,6 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                                           _( "This is how old you are." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.age_string() );
-    } else if( line == 7 ) {
-        mvwprintz( w_stats, point( 1, 8 ), h_light_gray, _( "Gender:" ) );
-        mvwprintz( w_stats, point( 25 - utf8_width( you.male ? _( "Male" ) : _( "Female" ) ), 8 ), h_light_gray,
-                   you.male ? _( "Male" ) : _( "Female" ) );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
-                                          _( "Your gender. Most characters are either male or female." ) );
-        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        you.male ? _( "Male" ) : _( "Female" ) );
     }
     wrefresh( w_stats );
     wrefresh( w_info );
@@ -371,12 +364,12 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     action = ctxt.handle_input();
     if( action == "DOWN" ) {
         line++;
-        if( line == 8 ) {
+        if( line == 7 ) {
             line = 0;
         }
     } else if( action == "UP" ) {
         if( line == 0 ) {
-            line = 7;
+            line = 6;
         } else {
             line--;
         }
@@ -405,9 +398,6 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     mvwprintz( w_stats, point( 1, 7 ), c_light_gray, _( "Age:" ) );
     mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), c_light_gray,
                you.age_string() );
-    mvwprintz( w_stats, point( 1, 8 ), c_light_gray, _( "Gender:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.male ? _( "Male" ) : _( "Female" ) ), 8 ), c_light_gray,
-               you.male ? _( "Male" ) : _( "Female" ) );
     wrefresh( w_stats );
 }
 
@@ -991,9 +981,6 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     mvwprintz( w_stats, point( 1, 7 ), c_light_gray, _( "Age:" ) );
     mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), c_light_gray,
                you.age_string() );
-    mvwprintz( w_stats, point( 1, 8 ), c_light_gray, _( "Gender:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.male ? _( "Male" ) : _( "Female" ) ), 8 ), c_light_gray,
-               you.male ? _( "Male" ) : _( "Female" ) );
 
     wrefresh( w_stats );
 
@@ -1332,15 +1319,17 @@ void player::disp_info()
                 break;
             }
         }
-        //~ player info window: 1s - name, 2s - Prof or Mutation name
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s" ), name, race );
+        //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ), race );
     } else if( prof == nullptr || prof == profession::generic() ) {
         // Regular person. Nothing interesting.
-        //~ player info window: 1s - name, 2s '|' - field separator.
-        mvwprintw( w_tip, point_zero, _( "%1$s" ), name );
-    } else {
+        //~ player info window: 1s - name, 2s - gender '|' - field separator.
         mvwprintw( w_tip, point_zero, _( "%1$s | %2$s" ), name,
-                   prof->gender_appropriate_name( male ) );
+                   male ? _( "Male" ) : _( "Female" ) );
+    } else {
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ) );
     }
 
     input_context ctxt( "PLAYER_INFO" );
