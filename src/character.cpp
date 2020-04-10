@@ -6855,7 +6855,7 @@ int Character::age() const
 std::string Character::age_string() const
 {
     //~ how old the character is in years. try to limit number of characters to fit on the screen
-    std::string unformatted = _( "aged %d" );
+    std::string unformatted = _( "%d years" );
     return string_format( unformatted, age() );
 }
 
