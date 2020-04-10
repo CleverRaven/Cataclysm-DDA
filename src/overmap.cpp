@@ -3104,14 +3104,14 @@ bool overmap::build_lab( const tripoint &p, int s, std::vector<point> *lab_train
         std::shuffle( generated_lab.begin(), generated_lab.end(), rng_get_engine() );
 
         // we want a spot where labs are above, but we'll settle for the last element if necessary.
-        tripoint p;
-        for( auto elem : generated_lab ) {
-            p = elem;
-            if( ter( p + tripoint_above ) == labt ) {
+        tripoint lab_pos;
+        for( tripoint elem : generated_lab ) {
+            lab_pos = elem;
+            if( ter( lab_pos + tripoint_above ) == labt ) {
                 break;
             }
         }
-        ter_set( p + tripoint_above, labt_stairs );
+        ter_set( lab_pos + tripoint_above, labt_stairs );
     }
 
     ter_set( p, labt_core );
@@ -3242,9 +3242,9 @@ void overmap::build_anthill( const tripoint &p, int s )
             }
             if( root_id == ter( root )->id ) {
                 const oter_id &oter = ter( root );
-                for( auto dir : om_direction::all ) {
-                    const tripoint p = root + om_direction::displace( dir );
-                    if( check_ot( "ants", ot_match_type::prefix, p ) ) {
+                for( om_direction::type dir : om_direction::all ) {
+                    const tripoint neighbor = root + om_direction::displace( dir );
+                    if( check_ot( "ants", ot_match_type::prefix, neighbor ) ) {
                         size_t line = oter->get_line();
                         line = om_lines::set_segment( line, dir );
                         if( line != oter->get_line() ) {
@@ -3964,12 +3964,12 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         if( blob ) {
             for( int x = -2; x <= 2; x++ ) {
                 for( int y = -2; y <= 2; y++ ) {
-                    const tripoint p = location + point( x, y );
-                    if( !inbounds( p ) ) {
+                    const tripoint nearby_pos = location + point( x, y );
+                    if( !inbounds( nearby_pos ) ) {
                         continue;
                     }
-                    if( one_in( 1 + abs( x ) + abs( y ) ) && elem.can_be_placed_on( ter( p ) ) ) {
-                        ter_set( p, tid );
+                    if( one_in( 1 + abs( x ) + abs( y ) ) && elem.can_be_placed_on( ter( nearby_pos ) ) ) {
+                        ter_set( nearby_pos, tid );
                     }
                 }
             }

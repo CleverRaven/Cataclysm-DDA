@@ -478,14 +478,14 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
 }
 
 void explosion( const tripoint &p, float power, float factor, bool fire,
-                int casing_mass, float fragment_mass )
+                int casing_mass, float frag_mass )
 {
     explosion_data data;
     data.power = power;
     data.distance_factor = factor;
     data.fire = fire;
     data.shrapnel.casing_mass = casing_mass;
-    data.shrapnel.fragment_mass = fragment_mass;
+    data.shrapnel.fragment_mass = frag_mass;
     explosion( p, data );
 }
 
