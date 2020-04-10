@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef CATA_SRC_PLAYER_H
+#define CATA_SRC_PLAYER_H
 
 #include <climits>
 #include <functional>
@@ -1050,4 +1050,4 @@ class player : public Character
         mutable decltype( _skills ) valid_autolearn_skills;
 };
 
-#endif
+#endif // CATA_SRC_PLAYER_H

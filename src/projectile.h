@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PROJECTILE_H
-#define PROJECTILE_H
+#ifndef CATA_SRC_PROJECTILE_H
+#define CATA_SRC_PROJECTILE_H
 
 #include <memory>
 #include <set>
@@ -61,4 +61,4 @@ struct dealt_projectile_attack {
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects );
 int max_aoe_size( const std::set<std::string> &tags );
 
-#endif
+#endif // CATA_SRC_PROJECTILE_H

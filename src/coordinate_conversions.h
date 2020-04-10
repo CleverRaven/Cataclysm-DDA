@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COORDINATE_CONVERSIONS_H
-#define COORDINATE_CONVERSIONS_H
+#ifndef CATA_SRC_COORDINATE_CONVERSIONS_H
+#define CATA_SRC_COORDINATE_CONVERSIONS_H
 
 #include "point.h"
 
@@ -225,4 +225,4 @@ inline point ms_to_omt_remain( point &p )
 // overmap terrain to map segment.
 tripoint omt_to_seg_copy( const tripoint &p );
 
-#endif
+#endif // CATA_SRC_COORDINATE_CONVERSIONS_H

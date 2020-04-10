@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DIALOGUE_WIN_H
-#define DIALOGUE_WIN_H
+#ifndef CATA_SRC_DIALOGUE_WIN_H
+#define CATA_SRC_DIALOGUE_WIN_H
 
 #include <cstddef>
 #include <vector>
@@ -50,5 +50,5 @@ class dialogue_window
 
         std::string npc_name;
 };
-#endif
+#endif // CATA_SRC_DIALOGUE_WIN_H
 

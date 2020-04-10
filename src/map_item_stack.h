@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAP_ITEM_STACK_H
-#define MAP_ITEM_STACK_H
+#ifndef CATA_SRC_MAP_ITEM_STACK_H
+#define CATA_SRC_MAP_ITEM_STACK_H
 
 #include <algorithm>
 #include <string>
@@ -47,4 +47,4 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::st
 int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
                               const std::string &priorities );
 
-#endif
+#endif // CATA_SRC_MAP_ITEM_STACK_H

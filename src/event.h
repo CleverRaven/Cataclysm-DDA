@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_EVENT_H
-#define CATA_EVENT_H
+#ifndef CATA_SRC_EVENT_H
+#define CATA_SRC_EVENT_H
 
 #include <array>
 #include <cstddef>
@@ -620,4 +620,4 @@ struct make_event_helper<Type, std::index_sequence<I...>> {
 
 } // namespace cata
 
-#endif // CATA_EVENT_H
+#endif // CATA_SRC_EVENT_H

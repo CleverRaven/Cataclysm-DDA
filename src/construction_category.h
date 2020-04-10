@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CONSTRUCTION_CATEGORY_H
-#define CONSTRUCTION_CATEGORY_H
+#ifndef CATA_SRC_CONSTRUCTION_CATEGORY_H
+#define CATA_SRC_CONSTRUCTION_CATEGORY_H
 
 #include <cstddef>
 #include <string>
@@ -36,4 +36,4 @@ const std::vector<construction_category> &get_all();
 
 } // namespace construction_categories
 
-#endif
+#endif // CATA_SRC_CONSTRUCTION_CATEGORY_H

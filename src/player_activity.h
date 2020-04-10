@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PLAYER_ACTIVITY_H
-#define PLAYER_ACTIVITY_H
+#ifndef CATA_SRC_PLAYER_ACTIVITY_H
+#define CATA_SRC_PLAYER_ACTIVITY_H
 
 #include <climits>
 #include <cstddef>
@@ -141,4 +141,4 @@ class player_activity
         void inherit_distractions( const player_activity & );
 };
 
-#endif
+#endif // CATA_SRC_PLAYER_ACTIVITY_H

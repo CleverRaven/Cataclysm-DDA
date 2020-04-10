@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CURSESDEF_H
-#define CURSESDEF_H
+#ifndef CATA_SRC_CURSESDEF_H
+#define CATA_SRC_CURSESDEF_H
 
 #include <memory>
 #include <string>
@@ -135,4 +135,4 @@ int getcurx( const window &win );
 int getcury( const window &win );
 } // namespace catacurses
 
-#endif
+#endif // CATA_SRC_CURSESDEF_H

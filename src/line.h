@@ -1,6 +1,6 @@
 #pragma once
-#ifndef LINE_H
-#define LINE_H
+#ifndef CATA_SRC_LINE_H
+#define CATA_SRC_LINE_H
 
 #include <cmath>
 #include <functional>
@@ -282,4 +282,4 @@ struct rl_vec3d {
     rl_vec3d operator+ ( const rl_vec3d &rhs ) const;
 };
 
-#endif
+#endif // CATA_SRC_LINE_H

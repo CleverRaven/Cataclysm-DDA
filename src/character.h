@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef CATA_SRC_CHARACTER_H
+#define CATA_SRC_CHARACTER_H
 
 #include <array>
 #include <bitset>
@@ -2075,4 +2075,4 @@ struct enum_traits<Character::stat> {
 };
 /**Get translated name of a stat*/
 std::string get_stat_name( Character::stat Stat );
-#endif
+#endif // CATA_SRC_CHARACTER_H
