@@ -131,7 +131,7 @@
     "weight": "730 g",
     "volume": "1038 ml",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": -7, "fun": -2, "intelligence": 5, "time": 10 }
+    "relative": { "chapters": -7, "fun": -2, "intelligence": 5, "time": "10 m" }
   },
   {
     "id": "book_nonf_hard_psych_thergar",
