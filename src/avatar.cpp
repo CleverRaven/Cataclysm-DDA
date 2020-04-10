@@ -1571,7 +1571,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     if( used->is_tool() && !used->contents.empty() ) {
         for( item *e : used->contents.all_items_top() ) {
             // PROCESSOR is the quality of being able to process (PCs should not have it while turned off)
-            if( e->has_flag( "SOFTWARE" ) && used->has_quality( quality_id( "PROCESSOR" ), 0 ) ) {
+            if( e->has_flag( "SOFTWARE" ) && used->has_quality( quality_id( "PROCESSOR" ), 1 ) ) {
                 for( std::pair<std::string, use_function> m : e->type->use_methods ) {
                     if( m.first != "TOOLMOD_ATTACH" ) {
                         use_methods.insert( m );
