@@ -1095,7 +1095,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     p.assign_activity( activity_id( "ACT_LOCKPICK" ), duration, -1, p.get_item_position( &it ) );
     p.activity.targets.push_back( item_location( p, &it ) );
-    p.activity.placement = g->m.getabs( pnt );
+    p.activity.placement = pnt;
 
     add_msg( _( "You start picking the lock." ) );
 
