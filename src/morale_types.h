@@ -124,5 +124,7 @@ extern const morale_type MORALE_USE_TOILETPAPER;
 extern const morale_type MORALE_EXCRETE;
 extern const morale_type MORALE_INCONTINENT;
 extern const morale_type MORALE_PERM_FRAGRANT;
+extern const morale_type MORALE_SAW_RAINBOW;
+extern const morale_type MORALE_SAW_DIAMONDDUST;
 
 #endif

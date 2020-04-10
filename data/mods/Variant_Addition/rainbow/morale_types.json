@@ -1,0 +1,12 @@
+[
+  {
+    "id": "morale_saw_rainbow",
+    "type": "morale_type",
+    "text": "Saw rainbow"
+  },
+  {
+    "id": "morale_saw_diamonddust",
+    "type": "morale_type",
+    "text": "Saw diamond dust"
+  }
+]
