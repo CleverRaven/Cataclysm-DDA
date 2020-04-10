@@ -273,5 +273,10 @@
     "description": "You can now breathe the gasses the mi-go thrive in.",
     "starting_trait": false,
     "category": [ "MIGO" ]
-  }
+  },
+  {
+    "type": "mutation",
+    "id": "SHOUT1",
+    "copy-from": "SHOUT1",
+    "extend": { "category": [ "MIGO" ] }
 ]
