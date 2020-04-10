@@ -126,6 +126,8 @@ static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SMALL2( "SMALL2" );
 
+static const quality_id LOCKPICK( "LOCKPICK" );
+
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
@@ -1084,73 +1086,17 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    ter_id new_type;
-    std::string open_message;
-    if( type == t_chaingate_l ) {
-        new_type = t_chaingate_c;
-        open_message = _( "With a satisfying click, the chain-link gate opens." );
-    } else if( type == t_door_locked || type == t_door_locked_alarm ||
-               type == t_door_locked_interior ) {
-        new_type = t_door_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( type == t_door_locked_peep ) {
-        new_type = t_door_c_peep;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( type == t_door_metal_pickable ) {
-        new_type = t_door_metal_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( type == t_door_bar_locked ) {
-        new_type = t_door_bar_o;
-        //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open…" );
-    } else {
-        return 0;
-    }
+    const int duration = std::max( 0,
+                                   to_moves<int>( 10_minutes - time_duration::from_minutes( it.get_quality( LOCKPICK ) ) ) -
+                                   ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 5 );
     p.practice( skill_lockpick, 1 );
 
-    /** @EFFECT_DEX speeds up door lock picking */
-    /** @EFFECT_LOCKPICK speeds up door lock picking */
-    p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
-                         - ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 5 );
+    p.assign_activity( activity_id( "ACT_LOCKPICK" ), duration, -1, p.get_item_position( &it ) );
+    p.activity.targets.push_back( item_location( p, &it ) );
+    p.activity.placement = g->m.getabs( pnt );
 
-    bool destroy = false;
+    add_msg( _( "You start picking the lock." ) );
 
-    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = std::pow( 1.5, p.get_skill_level( skill_lockpick ) ) *
-                    ( std::pow( 1.3, p.get_skill_level( skill_mechanics ) ) +
-                      pick_quality - it.damage() / 2000 ) +
-                    p.dex_cur / 4;
-    int door_roll = dice( 4, 30 );
-    if( pick_roll >= door_roll ) {
-        p.practice( skill_lockpick, 1 );
-        p.add_msg_if_player( m_good, open_message );
-        g->m.ter_set( pnt, new_type );
-    } else if( door_roll > ( 1.5 * pick_roll ) ) {
-        if( it.inc_damage() ) {
-            p.add_msg_if_player( m_bad,
-                                 _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
-            destroy = true;
-        } else {
-            p.add_msg_if_player( m_bad,
-                                 _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
-        }
-    } else {
-        p.add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
-    }
-    if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
-        sounds::sound( p.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
-                       "alarm" );
-        if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
-                                 p.global_sm_location() );
-        }
-    }
-    if( destroy ) {
-        p.i_rem( &it );
-        return 0;
-    }
     return it.type->charges_to_use();
 }
 
