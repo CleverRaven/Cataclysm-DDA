@@ -2575,9 +2575,9 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
                     ( std::pow( 1.3, p->get_skill_level( skill_mechanics ) ) +
                       it->get_quality( LOCKPICK ) - it->damage() / 2000 ) +
                     p->dex_cur / 4;
-    int door_roll = dice( 4, 30 );
+    int door_roll = rng( 1, 120 );
     if( pick_roll >= door_roll ) {
-        p->practice( skill_lockpick, 1 );
+        p->practice( skill_lockpick, door_roll );
         g->m.ter_set( act->placement, new_type );
         p->add_msg_if_player( m_good, open_message );
     } else if( door_roll > ( 1.5 * pick_roll ) ) {

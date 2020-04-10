@@ -1091,7 +1091,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     const int duration = std::max( 0,
                                    to_moves<int>( 10_minutes - time_duration::from_minutes( it.get_quality( LOCKPICK ) ) ) -
                                    ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 2300 );
-    p.practice( skill_lockpick, 1 );
+    p.practice( skill_lockpick, std::pow( 2, p.get_skill_level( skill_lockpick ) ) + 1 );
 
     p.assign_activity( activity_id( "ACT_LOCKPICK" ), duration, -1, p.get_item_position( &it ) );
     p.activity.targets.push_back( item_location( p, &it ) );
