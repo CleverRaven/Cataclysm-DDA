@@ -12,8 +12,7 @@
     "weight": "3 g",
     "bashing": 1,
     "ammo_type": "blunderbuss",
-    "damage": 60,
-    "pierce": 8,
+    "damage": { "damage_type": "stab", "amount": 60, "armor_penetration": 8 },
     "range": 12,
     "dispersion": 60,
     "recoil": 840,
@@ -32,7 +31,7 @@
     "weight": "2 g",
     "bashing": 1,
     "ammo_type": "blunderbuss",
-    "damage": 60,
+    "damage": { "damage_type": "stab", "amount": 60 },
     "range": 6,
     "recoil": 780,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]
@@ -50,8 +49,7 @@
     "weight": "3 g",
     "bashing": 1,
     "ammo_type": "blunderbuss",
-    "damage": 53,
-    "pierce": 12,
+    "damage": { "damage_type": "stab", "amount": 53, "armor_penetration": 12 },
     "range": 10,
     "recoil": 840,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]
