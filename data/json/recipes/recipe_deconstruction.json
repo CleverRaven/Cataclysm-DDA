@@ -3393,23 +3393,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "premium_survival_kit",
-    "type": "uncraft",
-    "time": "6 s",
-    "components": [
-      [ [ "knife_folding", 1 ] ],
-      [ [ "flint_steel", 1 ] ],
-      [ [ "whistle_multitool", 1 ] ],
-      [ [ "bottle_folding", 1 ] ],
-      [ { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" } ],
-      [ [ "picklocks", 1 ] ],
-      [ [ "lifestraw", 1 ] ],
-      [ [ "pocket_survival", 1 ] ],
-      [ [ "solarpack", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "garlic",
     "type": "uncraft",
     "time": "6 s",

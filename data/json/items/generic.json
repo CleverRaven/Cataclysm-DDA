@@ -2848,7 +2848,7 @@
     "material": "aluminum",
     "symbol": "!",
     "color": "green",
-    "use_action": "DISASSEMBLE",
+    "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
     "flags": [ "NO_REPAIR" ]
   },
   {

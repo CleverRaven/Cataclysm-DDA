@@ -144,6 +144,23 @@
     ]
   },
   {
+    "id": "premium_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Items generated from a premium survival kit",
+    "items": [
+      [ [ "knife_folding", 1 ] ],
+      [ [ "flint_steel", 1 ] ],
+      [ [ "whistle_multitool", 1 ] ],
+      [ [ "bottle_folding", 1 ] ],
+      [ { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" } ],
+      [ [ "picklocks", 1 ] ],
+      [ [ "lifestraw", 1 ] ],
+      [ [ "pocket_survival", 1 ] ],
+      [ [ "solarpack", 1 ] ]
+    ],
+  },
+  {
     "id": "horse_gear",
     "type": "item_group",
     "//": "Horse vehicle items",
