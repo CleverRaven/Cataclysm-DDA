@@ -1059,7 +1059,7 @@
     "type": "keybinding",
     "id": "RANDOMIZE_CHAR_DESCRIPTION",
     "category": "NEW_CHAR_DESCRIPTION",
-    "name": "Pick random character name",
+    "name": "Pick random character description",
     "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
