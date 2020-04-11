@@ -2379,4 +2379,10 @@
     "result": "q_solarpack_on",
     "obsolete": true
   }
+ {
+  "type": "recipe",
+  "result": "plastic_chunk",
+  "id_suffix": "from_cash_cards",
+  "obsolete": true
+ }
 ]
