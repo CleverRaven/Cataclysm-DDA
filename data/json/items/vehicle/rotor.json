@@ -10,7 +10,7 @@
     "weight": "452000 g",
     "volume": "452000 ml",
     "looks_like": "xl_wind_turbine",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "X",
     "color": "dark_gray"
   },
@@ -25,7 +25,7 @@
     "weight": "251000 g",
     "volume": "251000 ml",
     "looks_like": "xl_wind_turbine",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "X",
     "color": "blue"
   }

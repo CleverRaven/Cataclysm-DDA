@@ -970,7 +970,7 @@
     "material": [ "gold" ],
     "symbol": ",",
     "color": "yellow",
-    "use_action": "MEDITATE",
+    "use_action": [ "MEDITATE" ],
     "flags": [ "FANCY" ]
   },
   {

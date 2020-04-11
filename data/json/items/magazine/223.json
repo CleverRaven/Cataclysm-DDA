@@ -20,7 +20,7 @@
     "weight": "340 g",
     "volume": "480 ml",
     "price": 115000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "223",

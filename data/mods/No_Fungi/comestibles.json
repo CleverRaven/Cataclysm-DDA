@@ -20,7 +20,7 @@
     "name": { "str": "seed-shaped anomaly", "str_pl": "seed-shaped anomalies" },
     "weight": "177 g",
     "color": "cyan",
-    "use_action": "BLECH",
+    "use_action": [ "BLECH" ],
     "comestible_type": "FOOD",
     "symbol": ".",
     "description": "If we left this as it should be, one could just walk into the Garden uncontested and partake of the Seed.  We can't have that, can we?",

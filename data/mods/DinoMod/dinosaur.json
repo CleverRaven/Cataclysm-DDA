@@ -502,7 +502,7 @@
     "color": "light_gray_yellow",
     "volume": "30000 ml",
     "weight": "40750 g",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "aggression": -80,
     "morale": -8,
     "speed": 110,

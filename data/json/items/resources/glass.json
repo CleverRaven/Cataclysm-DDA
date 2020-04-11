@@ -82,7 +82,7 @@
     "description": "A large, durable sheet of tempered glass, approximately six millimeters thick.  A common type of safety glass with the curious property of breaking into small, non-lethal pieces upon shattering.",
     "category": "spare_parts",
     "price": 10000,
-    "material": "glass",
+    "material": [ "glass" ],
     "weight": "22700 g",
     "volume": "22700 ml",
     "bashing": 6,

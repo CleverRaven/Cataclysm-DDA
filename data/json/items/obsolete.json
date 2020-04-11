@@ -1315,7 +1315,7 @@
     "ammo": "gasoline",
     "charges_per_use": 1,
     "max_charges": 50,
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "firemachete_on",
@@ -1444,7 +1444,7 @@
     "ammo": "gasoline",
     "charges_per_use": 1,
     "max_charges": 50,
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "broadfire_on",
