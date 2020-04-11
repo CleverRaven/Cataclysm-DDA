@@ -1640,39 +1640,39 @@ void basecamp::abandon_camp()
 
 void basecamp::worker_assignment_ui()
 {
-    int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-    int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    int entries_per_page = 0;
+    catacurses::window w_followers;
 
-    catacurses::window w_followers = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                     point( term_y, term_x ) );
-    const int entries_per_page = FULL_SCREEN_HEIGHT - 4;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+
+        w_followers = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                          point( term_y, term_x ) );
+        entries_per_page = FULL_SCREEN_HEIGHT - 4;
+
+        ui.position_from_window( w_followers );
+    } );
+    ui.mark_resize();
+
     size_t selection = 0;
     input_context ctxt( "FACTION MANAGER" );
-    ctxt.register_cardinal();
     ctxt.register_updown();
-    ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
     validate_assignees();
     g->validate_npc_followers();
-    while( true ) {
+
+    std::vector<npc *> followers;
+    npc *cur_npc = nullptr;
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_followers );
-        // create a list of npcs stationed at this camp
-        std::vector<npc *> followers;
-        for( const character_id &elem : g->get_follower_list() ) {
-            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-            if( !npc_to_get || !npc_to_get->is_following() ) {
-                continue;
-            }
-            npc *npc_to_add = npc_to_get.get();
-            followers.push_back( npc_to_add );
-        }
-        npc *cur_npc = nullptr;
+
         // entries_per_page * page number
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
-        if( !followers.empty() ) {
-            cur_npc = followers[selection];
-        }
 
         for( int i = 0; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
             mvwputch( w_followers, point( 45, i ), BORDER_COLOR, LINE_XOXO );
@@ -1694,6 +1694,25 @@ void basecamp::worker_assignment_ui()
         mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to assign this follower to this camp." ), ctxt.get_desc( "CONFIRM" ) );
         wrefresh( w_followers );
+    } );
+
+    while( true ) {
+        // create a list of npcs stationed at this camp
+        followers.clear();
+        for( const character_id &elem : g->get_follower_list() ) {
+            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get || !npc_to_get->is_following() ) {
+                continue;
+            }
+            npc *npc_to_add = npc_to_get.get();
+            followers.push_back( npc_to_add );
+        }
+        cur_npc = nullptr;
+        if( !followers.empty() ) {
+            cur_npc = followers[selection];
+        }
+
+        ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             selection++;
@@ -1714,8 +1733,6 @@ void basecamp::worker_assignment_ui()
             break;
         }
     }
-
-    g->refresh_all();
 }
 
 void basecamp::job_assignment_ui()
