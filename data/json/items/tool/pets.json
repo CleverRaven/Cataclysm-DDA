@@ -109,5 +109,19 @@
     "symbol": "#",
     "color": "brown",
     "looks_like": "pet_carrier"
-  }
+  },
+  {
+    "id": "dog_whistle_wood",
+    "type": "TOOL",
+    "name": { "str": "wooden dog whistle" },
+    "description": "This is a whistle carved out of hardwood.  When used, it produces a high tone that causes nearby friendly dogs to either follow you closely and stop attacking, or start attacking enemies if they are currently docile.",
+    "weight": "50 g",
+    "volume": "20 ml",
+    "price": 800,
+    "material": "wood",
+    "symbol": ";",
+    "color": "yellow",
+	"looks_like": "dog_whistle",
+    "use_action": "DOG_WHISTLE"
+  }  
 ]
