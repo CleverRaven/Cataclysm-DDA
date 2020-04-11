@@ -649,11 +649,11 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-	"skills_required": [ "survival", 2 ],
+    "skills_required": [ "survival", 2 ],
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 }],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 1] ] ]
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   }
 ]

@@ -1,3 +1,8 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
 [
   {
     "id": "chicken_cage",
@@ -121,7 +126,7 @@
     "material": "wood",
     "symbol": ";",
     "color": "yellow",
-	"looks_like": "dog_whistle",
+    "looks_like": "dog_whistle",
     "use_action": "DOG_WHISTLE"
-  }  
+  }
 ]
