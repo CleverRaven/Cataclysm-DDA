@@ -1,0 +1,32 @@
+[
+  {
+    "result": "84x246mm_he",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "10 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "chem_compositionb", 500 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 3 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "84x246mm_hedp",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "10 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "chem_compositionb", 600 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 3 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "84x246mm_smoke",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "10 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "impact_fuze", 1 ] ], [ [ "scrap", 2 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  }
+]

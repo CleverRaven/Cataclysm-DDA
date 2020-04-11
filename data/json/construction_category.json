@@ -46,6 +46,11 @@
     "name": "Others"
   },
   {
+    "type": "construction_category",
+    "id": "WINDOWS",
+    "name": "Windows"
+  },
+  {
     "//": "Should be last in the list",
     "type": "construction_category",
     "id": "FILTER",

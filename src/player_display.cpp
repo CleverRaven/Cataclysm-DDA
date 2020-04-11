@@ -1,13 +1,18 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <cstdlib>
 #include <algorithm>
+#include <array>
 #include <cstddef>
+#include <cstdlib>
+#include <memory>
+#include <unordered_map>
 
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "debug.h"
 #include "effect.h"
 #include "game.h"
 #include "input.h"
@@ -17,13 +22,11 @@
 #include "profession.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "weather.h"
-#include "catacharset.h"
-#include "translations.h"
-#include "string_id.h"
-#include "enums.h"
 
 static const skill_id skill_swimming( "swimming" );
 
@@ -1291,16 +1294,19 @@ void player::disp_info()
                 break;
             }
         }
-        //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
-                   male ? _( "Male" ) : _( "Female" ), race );
+        //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name, 4s age (years), 5s height
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s | %4$s | %5$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ), race, age_string(), height_string() );
     } else if( prof == nullptr || prof == profession::generic() ) {
         // Regular person. Nothing interesting.
-        //~ player info window: 1s - name, 2s - gender, '|' - field separator.
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s" ), name, male ? _( "Male" ) : _( "Female" ) );
+        //~ player info window: 1s - name, 2s - gender, 3s - age, 4s - height '|' - field separator.
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s | %4$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ),
+                   age_string(), height_string() );
     } else {
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s" ), name,
-                   male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ) );
+        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s | %4$s | %5$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ),
+                   age_string(), height_string() );
     }
 
     input_context ctxt( "PLAYER_INFO" );

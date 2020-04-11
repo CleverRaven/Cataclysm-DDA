@@ -112,7 +112,7 @@
     "weight": "340 g",
     "volume": "1500 ml",
     "bashing": 6,
-    "ranged_damage": 3,
+    "ranged_damage": { "damage_type": "stab", "amount": 3 },
     "range": 5,
     "dispersion": 210,
     "durability": 6,

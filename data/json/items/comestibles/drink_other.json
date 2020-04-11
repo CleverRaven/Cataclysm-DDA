@@ -99,7 +99,7 @@
     "comestible_type": "DRINK",
     "container": "condiment_bottle_unsealed",
     "fun": -1,
-    "calories": 5,
+    "calories": 10,
     "spoils_in": 600,
     "charges": 48,
     "phase": "liquid",

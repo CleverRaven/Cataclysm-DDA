@@ -4,28 +4,30 @@
 
 #include <map>
 #include <set>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
-#include <memory>
-#include <string>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
-#include "string_id.h"
 #include "hash_utils.h"
+#include "memory_fast.h"
+#include "optional.h"
+#include "point.h"
 #include "translations.h"
 #include "type_id.h"
-#include "point.h"
 
-class nc_color;
 class JsonObject;
-class player;
-struct dream;
 class Trait_group;
 class item;
+class nc_color;
+class player;
+struct dream;
+template <typename E> struct enum_traits;
+template <typename T> class string_id;
 
 using itype_id = std::string;
 class JsonArray;

@@ -1,14 +1,24 @@
 #include "magic_enchantment.h"
 
+#include <cstdlib>
+#include <memory>
+#include <set>
+
 #include "character.h"
-#include "emit.h"
+#include "creature.h"
+#include "debug.h"
 #include "enum_conversions.h"
+#include "enums.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "item.h"
 #include "json.h"
 #include "map.h"
+#include "point.h"
+#include "rng.h"
+#include "string_id.h"
 #include "units.h"
+
+template <typename E> struct enum_traits;
 
 template<>
 struct enum_traits<enchantment::has> {

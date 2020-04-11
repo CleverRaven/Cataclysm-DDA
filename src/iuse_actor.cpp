@@ -1,45 +1,56 @@
 #include "iuse_actor.h"
 
-#include <cctype>
-#include <cstddef>
 #include <algorithm>
-#include <sstream>
 #include <array>
+#include <cctype>
 #include <cmath>
+#include <cstddef>
 #include <functional>
 #include <iterator>
 #include <list>
 #include <memory>
+#include <sstream>
 
 #include "action.h"
 #include "activity_handlers.h"
-#include "avatar.h"
 #include "ammo.h"
 #include "assign.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
+#include "clothing_mod.h"
 #include "crafting.h"
 #include "creature.h"
 #include "debug.h"
-#include "vpart_position.h"
 #include "effect.h"
-#include "timed_event.h"
+#include "enum_conversions.h"
+#include "enums.h"
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
+#include "item_group.h"
+#include "item_location.h"
 #include "itype.h"
+#include "json.h"
+#include "line.h"
 #include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "material.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -49,32 +60,28 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "player_activity.h"
 #include "pldata.h"
+#include "point.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
+#include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vitamin.h"
+#include "vpart_position.h"
 #include "weather.h"
-#include "enums.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item_location.h"
-#include "json.h"
-#include "line.h"
-#include "player_activity.h"
-#include "recipe.h"
-#include "rng.h"
-#include "flat_set.h"
-#include "point.h"
-#include "clothing_mod.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
@@ -236,6 +243,8 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
 
     item obj_copy( it );
     item *obj;
+    // defined here to allow making a new item assigned to the pointer
+    item obj_it;
     if( container.empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
@@ -256,7 +265,9 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         }
     } else {
         it.convert( container );
-        obj = &it.emplace_back( target, calendar::turn, std::max( ammo_qty, 1 ) );
+        obj_it = item( target, calendar::turn, std::max( ammo_qty, 1 ) );
+        obj = &obj_it;
+        it.put_in( *obj );
     }
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
@@ -563,11 +574,11 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
         return;
     }
 
-    dump.emplace_back( "TOOL", _( "Power at <bold>epicenter</bold>: " ), explosion.power );
+    dump.emplace_back( "TOOL", _( "Power at epicenter: " ), explosion.power );
     const auto &sd = explosion.shrapnel;
     if( sd.casing_mass > 0 ) {
-        dump.emplace_back( "TOOL", _( "Casing <bold>mass</bold>: " ), sd.casing_mass );
-        dump.emplace_back( "TOOL", _( "Fragment <bold>mass</bold>: " ), string_format( "%.2f",
+        dump.emplace_back( "TOOL", _( "Casing mass: " ), sd.casing_mass );
+        dump.emplace_back( "TOOL", _( "Fragment mass: " ), string_format( "%.2f",
                            sd.fragment_mass ) );
     }
 }
@@ -1454,8 +1465,8 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     const int potential_skill_gain =
         moves_modifier + moves_cost_fast / 100.0 + 2;
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
-                       p.get_item_position( &it ),
-                       it.tname() );
+                       0, it.tname() );
+    p.activity.targets.push_back( item_location( p, &it ) );
     p.activity.values.push_back( g->natural_light_level( pos.z ) );
     p.activity.placement = pos;
     // charges to use are handled by the activity
@@ -2668,15 +2679,16 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     int pos = 0;
     std::vector<std::string> opts;
 
-    if( static_cast<int>( it.contents.size() ) < multi ) {
+    if( static_cast<int>( it.contents.num_item_stacks() ) < multi ) {
         std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt );
         opts.push_back( prompt );
         pos = -1;
     }
 
-    std::transform( it.contents.begin(), it.contents.end(), std::back_inserter( opts ),
-    []( const item & elem ) {
-        return string_format( _( "Draw %s" ), elem.display_name() );
+    std::list<item *> top_contents{ it.contents.all_items_top() };
+    std::transform( top_contents.begin(), top_contents.end(), std::back_inserter( opts ),
+    []( const item * elem ) {
+        return string_format( _( "Draw %s" ), elem->display_name() );
     } );
 
     item *internal_item = nullptr;
@@ -2686,11 +2698,11 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             pos = -2;
         } else {
             pos += ret;
-            if( opts.size() != it.contents.size() ) {
+            if( opts.size() != it.contents.num_item_stacks() ) {
                 ret--;
             }
-            auto iter = std::next( it.contents.begin(), ret );
-            internal_item = &*iter;
+            auto iter = std::next( top_contents.begin(), ret );
+            internal_item = *iter;
         }
     } else {
         internal_item = &it.contents.front();
@@ -2880,7 +2892,7 @@ int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
     actions.emplace_back( [&] {
         if( p.i_add_or_drop( it.contents.front() ) )
         {
-            it.contents.erase( it.contents.begin() );
+            it.remove_item( it.contents.front() );
         } else
         {
             p.add_msg_if_player( _( "Never mind." ) );
@@ -3368,7 +3380,9 @@ static bool damage_item( player &pl, item_location &fix )
         if( fix.where() == item_location::type::character ) {
             pl.i_rem_keep_contents( pl.get_item_position( fix.get_item() ) );
         } else {
-            put_into_vehicle_or_drop( pl, item_drop_reason::deliberate, fix->contents, fix.position() );
+            for( const item *it : fix->contents.all_items_top() ) {
+                put_into_vehicle_or_drop( pl, item_drop_reason::deliberate, { *it }, fix.position() );
+            }
             fix.remove_item();
         }
 
@@ -3546,7 +3560,8 @@ void heal_actor::load( const JsonObject &obj )
     torso_power = obj.get_float( "torso_power", 1.5f * limb_power );
 
     limb_scaling = obj.get_float( "limb_scaling", 0.25f * limb_power );
-    float scaling_ratio = limb_power < 0.0001f ? 0.0f : limb_scaling / limb_power;
+    double scaling_ratio = limb_power < 0.0001f ? 0.0 :
+                           static_cast<double>( limb_scaling / limb_power );
     head_scaling = obj.get_float( "head_scaling", scaling_ratio * head_power );
     torso_scaling = obj.get_float( "torso_scaling", scaling_ratio * torso_power );
 
@@ -3621,7 +3636,8 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
     if( long_action && &patient == &p && !p.is_npc() ) {
         // Assign first aid long action.
         /** @EFFECT_FIRSTAID speeds up firstaid activity */
-        p.assign_activity( ACT_FIRSTAID, cost, 0, p.get_item_position( &it ), it.tname() );
+        p.assign_activity( ACT_FIRSTAID, cost, 0, 0, it.tname() );
+        p.activity.targets.push_back( item_location( p, &it ) );
         p.activity.values.push_back( hpp );
         p.moves = 0;
         return 0;
@@ -3921,13 +3937,18 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
 
 void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
+    if( head_power > 0 || torso_power > 0 || limb_power > 0 || bandages_power > 0 ||
+        disinfectant_power > 0 || bleed > 0.0f || bite > 0.0f || infect > 0.0f ) {
+        dump.emplace_back( "HEAL", _( "<bold>Healing effects</bold> " ) );
+    }
+
     if( head_power > 0 || torso_power > 0 || limb_power > 0 ) {
-        dump.emplace_back( "HEAL", _( "<bold>Base healing:</bold> " ) );
+        dump.emplace_back( "HEAL", _( "Base healing: " ) );
         dump.emplace_back( "HEAL_BASE", _( "Head: " ), "", iteminfo::no_newline, head_power );
         dump.emplace_back( "HEAL_BASE", _( "  Torso: " ), "", iteminfo::no_newline, torso_power );
         dump.emplace_back( "HEAL_BASE", _( "  Limbs: " ), limb_power );
         if( g != nullptr ) {
-            dump.emplace_back( "HEAL", _( "<bold>Actual healing:</bold> " ) );
+            dump.emplace_back( "HEAL", _( "Actual healing: " ) );
             dump.emplace_back( "HEAL_ACT", _( "Head: " ), "", iteminfo::no_newline,
                                get_heal_value( g->u, hp_head ) );
             dump.emplace_back( "HEAL_ACT", _( "  Torso: " ), "", iteminfo::no_newline,
@@ -3937,25 +3958,25 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     if( bandages_power > 0 ) {
-        dump.emplace_back( "HEAL", _( "<bold>Base bandaging quality:</bold> " ),
+        dump.emplace_back( "HEAL", _( "Base bandaging quality: " ),
                            texitify_base_healing_power( static_cast<int>( bandages_power ) ) );
         if( g != nullptr ) {
-            dump.emplace_back( "HEAL", _( "<bold>Actual bandaging quality:</bold> " ),
+            dump.emplace_back( "HEAL", _( "Actual bandaging quality: " ),
                                texitify_healing_power( get_bandaged_level( g->u ) ) );
         }
     }
 
     if( disinfectant_power > 0 ) {
-        dump.emplace_back( "HEAL", _( "<bold>Base disinfecting quality:</bold> " ),
+        dump.emplace_back( "HEAL", _( "Base disinfecting quality: " ),
                            texitify_base_healing_power( static_cast<int>( disinfectant_power ) ) );
         if( g != nullptr ) {
-            dump.emplace_back( "HEAL", _( "<bold>Actual disinfecting quality:</bold> " ),
+            dump.emplace_back( "HEAL", _( "Actual disinfecting quality: " ),
                                texitify_healing_power( get_disinfected_level( g->u ) ) );
         }
     }
 
     if( bleed > 0.0f || bite > 0.0f || infect > 0.0f ) {
-        dump.emplace_back( "HEAL", _( "<bold>Chance to heal (percent):</bold> " ) );
+        dump.emplace_back( "HEAL", _( "Chance to heal (percent): " ) );
         if( bleed > 0.0f ) {
             dump.emplace_back( "HEAL", _( "* Bleeding: " ),
                                static_cast<int>( bleed * 100 ) );
@@ -3970,7 +3991,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
         }
     }
 
-    dump.emplace_back( "HEAL", _( "<bold>Moves to use</bold>: " ), move_cost );
+    dump.emplace_back( "HEAL", _( "Moves to use: " ), move_cost );
 }
 
 place_trap_actor::place_trap_actor( const std::string &type ) :
@@ -4189,7 +4210,7 @@ int saw_barrel_actor::use( player &p, item &it, bool t, const tripoint & ) const
 
     item &obj = *loc.obtain( p );
     p.add_msg_if_player( _( "You saw down the barrel of your %s." ), obj.tname() );
-    obj.contents.emplace_back( "barrel_small", calendar::turn );
+    obj.put_in( item( "barrel_small", calendar::turn ) );
 
     return 0;
 }

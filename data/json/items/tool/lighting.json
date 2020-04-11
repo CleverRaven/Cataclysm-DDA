@@ -320,7 +320,7 @@
     "turns_per_charge": 30,
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out.",
-    "flags": [ "LIGHT_8", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_8", "TRADER_AVOID", "SLEEP_IGNORE" ]
   },
   {
     "id": "handflare",

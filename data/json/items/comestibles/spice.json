@@ -141,5 +141,13 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "price": 0
+  },
+  {
+    "id": "mustard_powder",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str": "mustard powder", "str_pl": "mustard powder" },
+    "description": "A fragnant yellow powder.  Not edible in this form.",
+    "color": "red"
   }
 ]

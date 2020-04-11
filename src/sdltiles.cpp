@@ -1,33 +1,29 @@
 #if defined(TILES)
 
-#include "sdltiles.h" // IWYU pragma: associated
 #include "cursesdef.h" // IWYU pragma: associated
+#include "sdltiles.h" // IWYU pragma: associated
 
-#include <cstdint>
-#include <climits>
 #include <algorithm>
-#include <cassert>
-#include <cstring>
-#include <fstream>
-#include <limits>
-#include <memory>
-#include <stdexcept>
-#include <vector>
 #include <array>
+#include <cassert>
+#include <climits>
 #include <cmath>
+#include <cstdint>
+#include <cstring>
 #include <exception>
+#include <fstream>
 #include <iterator>
+#include <limits>
 #include <map>
+#include <memory>
 #include <set>
+#include <stdexcept>
 #include <type_traits>
-#include <tuple>
-
-#include "platform_win.h"
+#include <vector>
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_syswm.h>
 #else
-#   include <SDL_image.h>
 #ifdef _WIN32
 #   include <SDL_syswm.h>
 #endif
@@ -35,6 +31,7 @@
 
 #include "avatar.h"
 #include "cata_tiles.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
@@ -46,18 +43,17 @@
 #include "game_ui.h"
 #include "get_version.h"
 #include "input.h"
+#include "json.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "sdlsound.h"
-#include "sdl_wrappers.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "wcwidth.h"
-#include "json.h"
-#include "optional.h"
 #include "point.h"
+#include "sdl_wrappers.h"
+#include "sdlsound.h"
+#include "string_formatter.h"
 #include "ui_manager.h"
+#include "wcwidth.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
@@ -78,12 +74,12 @@
 #if defined(__ANDROID__)
 #include <jni.h>
 
-#include "worldfactory.h"
 #include "action.h"
+#include "inventory.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "inventory.h"
+#include "worldfactory.h"
 #endif
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -478,6 +474,9 @@ static void WinCreate()
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
 #endif
 
+#if defined(SDL_HINT_RENDER_BATCHING)
+    SDL_SetHint( SDL_HINT_RENDER_BATCHING, get_option<bool>( "RENDER_BATCHING" ) ? "1" : "0" );
+#endif
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
@@ -3713,15 +3712,15 @@ window_dimensions get_window_dimensions( const catacurses::window &win )
     cata_cursesport::WINDOW *const pwin = win.get<cata_cursesport::WINDOW>();
 
     window_dimensions dim;
-    if( use_tiles && win == g->w_terrain ) {
+    if( use_tiles && g && win == g->w_terrain ) {
         // tiles might have different dimensions than standard font
         dim.scaled_font_size.x = tilecontext->get_tile_width();
         dim.scaled_font_size.y = tilecontext->get_tile_height();
-    } else if( map_font && win == g->w_terrain ) {
+    } else if( map_font && g && win == g->w_terrain ) {
         // map font (if any) might differ from standard font
         dim.scaled_font_size.x = map_font->fontwidth;
         dim.scaled_font_size.y = map_font->fontheight;
-    } else if( overmap_font && win == g->w_overmap ) {
+    } else if( overmap_font && g && win == g->w_overmap ) {
         dim.scaled_font_size.x = overmap_font->fontwidth;
         dim.scaled_font_size.y = overmap_font->fontheight;
     } else {

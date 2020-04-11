@@ -50,7 +50,8 @@
     "fun": 10,
     "addiction_potential": 10,
     "addiction_type": "amphetamine",
-    "flags": [ "NPC_SAFE" ]
+    "flags": [ "NPC_SAFE" ],
+    "use_action": { "type": "consume_drug", "activation_message": "You take some adderall." }
   },
   {
     "id": "adrenaline_injector",

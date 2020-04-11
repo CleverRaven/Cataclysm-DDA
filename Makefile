@@ -175,10 +175,12 @@ ifdef MSYSTEM
 endif
 
 # Determine JSON formatter binary name
+JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
 ifeq ($(MSYS2), 1)
   JSON_FORMATTER_BIN=tools/format/json_formatter.exe
-else
-  JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
+endif
+ifneq (,$(findstring mingw32,$(CROSS)))
+  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
 endif
 
 # Enable backtrace by default
@@ -528,7 +530,6 @@ ifeq ($(shell git rev-parse --is-inside-work-tree),true)
 endif
 
 PKG_CONFIG = $(CROSS)pkg-config
-SDL2_CONFIG = $(CROSS)sdl2-config
 
 ifeq ($(SOUND), 1)
   ifneq ($(TILES),1)
@@ -595,14 +596,14 @@ ifdef TILES
       endif
     endif
   else # not osx
-    CXXFLAGS += $(shell $(SDL2_CONFIG) --cflags)
+    CXXFLAGS += $(shell $(PKG_CONFIG) sdl2 --cflags)
     CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_image --cflags)
     CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --cflags)
 
     ifdef STATIC
-      LDFLAGS += $(shell $(SDL2_CONFIG) --static-libs)
+      LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --static --libs)
     else
-      LDFLAGS += $(shell $(SDL2_CONFIG) --libs)
+      LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --libs)
     endif
 
     LDFLAGS += -lSDL2_ttf -lSDL2_image
@@ -663,8 +664,8 @@ else
 
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(HAVE_PKGCONFIG),1)
-    CXXFLAGS += $(shell pkg-config --cflags $(NCURSES_PREFIX))
-    LDFLAGS += $(shell pkg-config --libs $(NCURSES_PREFIX))
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags $(NCURSES_PREFIX))
+    LDFLAGS += $(shell $(PKG_CONFIG) --libs $(NCURSES_PREFIX))
   else
     ifeq ($(HAVE_NCURSES5CONFIG),1)
       CXXFLAGS += $(shell $(NCURSES_PREFIX)5-config --cflags)

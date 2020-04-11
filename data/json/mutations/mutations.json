@@ -605,7 +605,7 @@
     "starting_trait": true,
     "valid": false,
     "social_modifiers": { "intimidate": 5 },
-    "cancels": [ "PACIFIST" ],
+    "cancels": [ "KILLER", "PACIFIST" ],
     "flags": [ "CANNIBAL" ]
   },
   {
@@ -6088,6 +6088,16 @@
     "name": { "str": "Police Officer" },
     "points": 0,
     "description": "You are a duly sworn law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_HELI_PILOT",
+    "name": "Helicopter Pilot",
+    "points": 0,
+    "description": "You are a commercial helicopter pilot, there are no paying passengers anymore, yet still you dream of taking your bird for a spin.",
     "valid": false,
     "purifiable": false,
     "profession": true

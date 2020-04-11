@@ -1,34 +1,50 @@
 #include "character.h"
 
+#include <algorithm>
 #include <cctype>
 #include <climits>
-#include <cstdlib>
-#include <algorithm>
-#include <numeric>
 #include <cmath>
+#include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <numeric>
+#include <type_traits>
 
+#include "action.h"
 #include "activity_handlers.h"
+#include "anatomy.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "colony.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "disease.h"
 #include "effect.h"
+#include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "field.h"
+#include "field_type.h"
+#include "fire.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
+#include "int_id.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
-#include "npc.h"
-#include "material.h"
+#include "lightmap.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
+#include "mapdata.h"
+#include "material.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
@@ -37,36 +53,40 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "npc.h"
+#include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overlay_ordering.h"
+#include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
 #include "ret_val.h"
+#include "rng.h"
 #include "scent_map.h"
-#include "submap.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
+#include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "submap.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
-#include "veh_interact.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
-#include "catacharset.h"
-#include "game_constants.h"
-#include "item_location.h"
-#include "lightmap.h"
-#include "rng.h"
-#include "stomach.h"
-#include "text_snippets.h"
 #include "ui.h"
+#include "value_ptr.h"
+#include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather.h"
+#include "weather_gen.h"
+
+struct dealt_projectile_attack;
 
 static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
@@ -268,7 +288,6 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
 static const std::string flag_ACTIVE_CLOAKING( "ACTIVE_CLOAKING" );
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
@@ -340,6 +359,7 @@ Character::Character() :
     slow_rad = 0;
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
+    set_anatomy( anatomy_id("human_anatomy") );
     update_type_of_scent( true );
     pkill = 0;
     // 45 days to starve to death
@@ -642,6 +662,9 @@ const tripoint &Character::pos() const
 
 int Character::sight_range( int light_level ) const
 {
+    if( light_level == 0 ) {
+        return 1;
+    }
     /* Via Beer-Lambert we have:
      * light_level * (1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance) ) <= LIGHT_AMBIENT_LOW
      * Solving for distance:
@@ -716,7 +739,7 @@ int Character::overmap_sight_range( int light_level ) const
         multiplier += 1;
     }
 
-    sight = round( sight * multiplier );
+    sight = std::round( sight * multiplier );
     return std::max( sight, 3 );
 }
 
@@ -1482,6 +1505,25 @@ void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, 
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
 }
 
+void Character::expose_to_disease( const diseasetype_id dis_type )
+{
+    const cata::optional<int> &healt_thresh = dis_type->health_threshold;
+    if( healt_thresh && healt_thresh.value() < get_healthy() ) {
+        return;
+    }
+    const std::set<body_part> &bps = dis_type->affected_bodyparts;
+    if( !bps.empty() ) {
+        for( const body_part &bp : bps ) {
+            add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), bp, false,
+                        rng( dis_type->min_intensity, dis_type->max_intensity ) );
+        }
+    } else {
+        add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), num_bp,
+                    false,
+                    rng( dis_type->min_intensity, dis_type->max_intensity ) );
+    }
+}
+
 void Character::process_turn()
 {
     for( bionic &i : *my_bionics ) {
@@ -2139,6 +2181,31 @@ std::list<item> Character::remove_worn_items_with( std::function<bool( item & )>
     return result;
 }
 
+item *Character::invlet_to_item( const int linvlet )
+{
+    // Invlets may come from curses, which may also return any kind of key codes, those being
+    // of type int and they can become valid, but different characters when casted to char.
+    // Example: KEY_NPAGE (returned when the player presses the page-down key) is 0x152,
+    // casted to char would yield 0x52, which happens to be 'R', a valid invlet.
+    if( linvlet > std::numeric_limits<char>::max() || linvlet < std::numeric_limits<char>::min() ) {
+        return nullptr;
+    }
+    const char invlet = static_cast<char>( linvlet );
+    if( is_npc() ) {
+        DebugLog( D_WARNING, D_GAME ) << "Why do you need to call Character::invlet_to_position on npc " <<
+                                      name;
+    }
+    item *invlet_item = nullptr;
+    visit_items( [&invlet, &invlet_item]( item * it ) {
+        if( it->invlet == invlet ) {
+            invlet_item = it;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return invlet_item;
+}
+
 // Negative positions indicate weapon/clothing, 0 & positive indicate inventory
 const item &Character::i_at( int position ) const
 {
@@ -2209,11 +2276,9 @@ item Character::i_rem( const item *it )
     return tmp.front();
 }
 
-void Character::i_rem_keep_contents( const int pos )
+void Character::i_rem_keep_contents( const int idx )
 {
-    for( auto &content : i_rem( pos ).contents ) {
-        i_add_or_drop( content );
-    }
+    i_rem( idx ).spill_contents( pos() );
 }
 
 bool Character::i_add_or_drop( item &it, int qty )
@@ -3976,7 +4041,7 @@ void Character::mod_stored_kcal( int nkcal )
 void Character::mod_stored_nutr( int nnutr )
 {
     // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_stored_kcal( -1 * round( nnutr * 2500.0f / ( 12 * 24 ) ) );
+    mod_stored_kcal( -1 * std::round( nnutr * 2500.0f / ( 12 * 24 ) ) );
 }
 
 void Character::set_stored_kcal( int kcal )
@@ -4028,7 +4093,7 @@ int Character::get_starvation() const
         }
     };
     if( get_kcal_percent() < 0.95f ) {
-        return round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
+        return std::round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
     }
     return 0;
 }
@@ -4278,8 +4343,8 @@ void Character::reset_bonuses()
 int Character::get_max_healthy() const
 {
     const float bmi = get_bmi();
-    return clamp( static_cast<int>( round( -3 * ( bmi - character_weight_category::normal ) *
-                                           ( bmi - character_weight_category::overweight ) + 200 ) ), -200, 200 );
+    return clamp( static_cast<int>( std::round( -3 * ( bmi - character_weight_category::normal ) *
+                                    ( bmi - character_weight_category::overweight ) + 200 ) ), -200, 200 );
 }
 
 void Character::regen( int rate_multiplier )
@@ -4384,7 +4449,7 @@ void Character::update_health( int external_modifiers )
 
     // And healthy_mod decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
-    set_healthy_mod( round( get_healthy_mod() * 0.95f ) );
+    set_healthy_mod( std::round( get_healthy_mod() * 0.95f ) );
 
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
@@ -6479,44 +6544,6 @@ body_part Character::hp_to_bp( const hp_part hpart )
     }
 }
 
-body_part Character::get_random_body_part( bool main ) const
-{
-    // TODO: Refuse broken limbs, adjust for mutations
-    return random_body_part( main );
-}
-
-std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
-{
-    // TODO: Remove broken parts, parts removed by mutations etc.
-    static const std::vector<body_part> all_bps = {{
-            bp_head,
-            bp_eyes,
-            bp_mouth,
-            bp_torso,
-            bp_arm_l,
-            bp_arm_r,
-            bp_hand_l,
-            bp_hand_r,
-            bp_leg_l,
-            bp_leg_r,
-            bp_foot_l,
-            bp_foot_r,
-        }
-    };
-
-    static const std::vector<body_part> main_bps = {{
-            bp_head,
-            bp_torso,
-            bp_arm_l,
-            bp_arm_r,
-            bp_leg_l,
-            bp_leg_r,
-        }
-    };
-
-    return only_main ? main_bps : all_bps;
-}
-
 std::string Character::extended_description() const
 {
     std::string ss;
@@ -6529,23 +6556,23 @@ std::string Character::extended_description() const
 
     ss += "\n--\n";
 
-    const auto &bps = get_all_body_parts( true );
+    const std::vector<bodypart_id> &bps = get_all_body_parts( true );
     // Find length of bp names, to align
     // accumulate looks weird here, any better function?
     int longest = std::accumulate( bps.begin(), bps.end(), 0,
-    []( int m, body_part bp ) {
-        return std::max( m, utf8_width( body_part_name_as_heading( bp, 1 ) ) );
+    []( int m, bodypart_id bp ) {
+        return std::max( m, utf8_width( body_part_name_as_heading( bp->token, 1 ) ) );
     } );
 
     // This is a stripped-down version of the body_window function
     // This should be extracted into a separate function later on
-    for( body_part bp : bps ) {
-        const std::string &bp_heading = body_part_name_as_heading( bp, 1 );
-        hp_part hp = bp_to_hp( bp );
+    for( const bodypart_id bp : bps ) {
+        const std::string &bp_heading = body_part_name_as_heading( bp->token, 1 );
+        hp_part hp = bp_to_hp( bp->token );
 
         const int maximal_hp = hp_max[hp];
         const int current_hp = hp_cur[hp];
-        const nc_color state_col = limb_color( bp, true, true, true );
+        const nc_color state_col = limb_color( bp->token, true, true, true );
         nc_color name_color = state_col;
         auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
 
@@ -6852,6 +6879,55 @@ units::mass Character::bionics_weight() const
     return bio_weight;
 }
 
+int Character::base_age() const
+{
+    return init_age;
+}
+
+void Character::mod_base_age( int mod )
+{
+    init_age += mod;
+}
+
+int Character::age() const
+{
+    int years_since_cataclysm = to_turns<int>( calendar::turn - calendar::turn_zero ) /
+                                to_turns<int>( calendar::year_length() );
+    return init_age + years_since_cataclysm;
+}
+
+std::string Character::age_string() const
+{
+    //~ how old the character is in years. try to limit number of characters to fit on the screen
+    std::string unformatted = _( "aged %d" );
+    return string_format( unformatted, age() );
+}
+
+int Character::base_height() const
+{
+    return init_height;
+}
+
+void Character::mod_base_height( int mod )
+{
+    init_height += mod;
+}
+
+std::string Character::height_string() const
+{
+    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+
+    if( metric ) {
+        std::string metric_string = _( "%d cm" );
+        return string_format( metric_string, height() );
+    }
+
+    int total_inches = std::round( height() / 2.54 );
+    int feet = std::floor( total_inches / 12 );
+    int remainder_inches = total_inches % 12;
+    return string_format( "%d\'%d\"", feet, remainder_inches );
+}
+
 int Character::height() const
 {
     int height = init_height;
@@ -6883,11 +6959,10 @@ int Character::get_bmr() const
     /**
     Values are for males, and average!
     */
-    const int age = 25;
     const int equation_constant = 5;
     return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>
                  ( bodyweight() / 100.0 ) +
-                 ( 6.25 * height() ) - ( 5 * age ) + equation_constant ) );
+                 ( 6.25 * height() ) - ( 5 * age() ) + equation_constant ) );
 }
 
 void Character::increase_activity_level( float new_level )
@@ -7860,7 +7935,7 @@ double Character::calculate_by_enchantment( double modify, enchantment::mod valu
     modify += enchantment_cache.get_value_add( value );
     modify *= 1.0 + enchantment_cache.get_value_multiply( value );
     if( round_output ) {
-        modify = round( modify );
+        modify = std::round( modify );
     }
     return modify;
 }
@@ -8037,7 +8112,9 @@ void Character::absorb_hit( body_part bp, damage_instance &dam )
                 destroyed_armor_msg( *this, pre_damage_name );
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
-                worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
+                for( const item *it : armor.contents.all_items_top() ) {
+                    worn_remains.push_back( *it );
+                }
                 // decltype is the type name of the iterator, note that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
                 // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator

@@ -1,24 +1,28 @@
 #include "player_helpers.h"
 
+#include <cstddef>
 #include <list>
 #include <memory>
 #include <vector>
 
 #include "avatar.h"
 #include "bionics.h"
+#include "catch/catch.hpp"
 #include "character.h"
+#include "character_id.h"
 #include "game.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
-#include "player.h"
-#include "inventory.h"
 #include "map.h"
+#include "material.h"
 #include "npc.h"
+#include "pimpl.h"
+#include "player.h"
 #include "player_activity.h"
-#include "type_id.h"
 #include "point.h"
-
-#include "catch/catch.hpp"
+#include "string_id.h"
+#include "type_id.h"
 
 int get_remaining_charges( const std::string &tool_id )
 {
@@ -51,9 +55,7 @@ void clear_character( player &dummy, bool debug_storage )
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
     dummy.inv.clear();
     dummy.remove_weapon();
-    for( const trait_id &tr : dummy.get_mutations() ) {
-        dummy.unset_mutation( tr );
-    }
+    dummy.empty_traits();
 
     // Prevent spilling, but don't cause encumbrance
     if( debug_storage && !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
@@ -64,6 +66,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.clear_morale();
     dummy.clear_bionics();
     dummy.activity.set_to_null();
+    dummy.set_pain( 0 );
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
@@ -73,10 +76,14 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.clear_effects();
 
     // Make stats nominal.
-    dummy.str_cur = 8;
-    dummy.dex_cur = 8;
-    dummy.int_cur = 8;
-    dummy.per_cur = 8;
+    dummy.str_max = 8;
+    dummy.dex_max = 8;
+    dummy.int_max = 8;
+    dummy.per_max = 8;
+    dummy.set_str_bonus( 0 );
+    dummy.set_dex_bonus( 0 );
+    dummy.set_int_bonus( 0 );
+    dummy.set_per_bonus( 0 );
 
     const tripoint spot( 60, 60, 0 );
     g->place_player( spot );
@@ -145,4 +152,3 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
         }
     }
 }
-

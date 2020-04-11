@@ -478,5 +478,24 @@
     "intelligence": 4,
     "time": "30 m",
     "fun": -2
+  },
+  {
+    "id": "concrete_book",
+    "type": "BOOK",
+    "name": { "str": "Concrete Constructions", "str_pl": "copies of Concrete Constructions" },
+    "description": "A collection of notable uses of concrete.  Contains detailed directions on how to mix and use cement to form useful aggregates.",
+    "weight": "600 g",
+    "volume": "1250 ml",
+    "price": 4000,
+    "price_postapoc": 24000,
+    "bashing": 4,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "fabrication",
+    "required_level": 3,
+    "max_level": 4,
+    "intelligence": 9,
+    "time": "30 m"
   }
 ]

@@ -1,15 +1,14 @@
 #include "activity_handlers.h"
 
-#include <climits>
-#include <cstddef>
 #include <algorithm>
-#include <cmath>
-#include <queue>
 #include <array>
+#include <climits>
+#include <cmath>
+#include <cstddef>
 #include <iterator>
 #include <memory>
-
 #include <ostream>
+#include <queue>
 #include <set>
 #include <stdexcept>
 #include <string>
@@ -19,82 +18,88 @@
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "basecamp.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "character_martial_arts.h"
 #include "clzones.h"
+#include "colony.h"
+#include "color.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
+#include "creature.h"
+#include "damage.h"
 #include "debug.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "fault.h"
-#include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "gates.h"
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_group.h"
+#include "item_location.h"
+#include "item_stack.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
+#include "line.h"
 #include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "npctalk.h"
+#include "omdata.h"
+#include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "point.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "text_snippets.h"
+#include "timed_event.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "uistate.h"
+#include "units.h"
+#include "value_ptr.h"
 #include "veh_interact.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
-#include "map_selector.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "cata_utility.h"
-#include "character.h"
-#include "creature.h"
-#include "damage.h"
-#include "enums.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item.h"
-#include "item_group.h"
-#include "item_location.h"
-#include "item_stack.h"
-#include "iuse.h"
-#include "line.h"
-#include "monster.h"
-#include "omdata.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "pldata.h"
-#include "ret_val.h"
-#include "string_id.h"
-#include "units.h"
-#include "type_id.h"
-#include "timed_event.h"
-#include "options.h"
-#include "colony.h"
-#include "color.h"
-#include "flat_set.h"
-#include "game_constants.h"
-#include "point.h"
 #include "weather.h"
 
 static const efftype_id effect_sheared( "sheared" );
@@ -152,7 +157,6 @@ static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
-static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
@@ -306,7 +310,6 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
-    { ACT_MOVE_ITEMS, move_items_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
@@ -602,6 +605,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
         const bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) ||
+                              u.has_amount( "hd_tow_cable", 1 ) ||
                               u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
         const bool big_corpse = corpse.size >= MS_MEDIUM;
 
@@ -879,7 +883,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) );
         } else if( entry.type != "bionic" && entry.type != "bionic_group" ) {
-            roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
+            roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             // will not give less than min_num defined in the JSON
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) ),
                                   entry.base_num.first );
@@ -1047,9 +1051,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
-                }
-                if( obj.goes_bad() ) {
-                    obj.set_rot( corpse_item->get_rot() );
+                    if( obj.goes_bad() ) {
+                        obj.set_rot( corpse_item->get_rot() );
+                    }
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -1067,9 +1071,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
-                }
-                if( obj.goes_bad() ) {
-                    obj.set_rot( corpse_item->get_rot() );
+                    if( obj.goes_bad() ) {
+                        obj.set_rot( corpse_item->get_rot() );
+                    }
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -1086,9 +1090,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 obj.set_mtype( &mt );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
-                }
-                if( obj.goes_bad() ) {
-                    obj.set_rot( corpse_item->get_rot() );
+                    if( obj.goes_bad() ) {
+                        obj.set_rot( corpse_item->get_rot() );
+                    }
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -1150,7 +1154,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     }
 }
 
-static void butchery_quarter( item *corpse_item, player &p )
+static void butchery_quarter( item *corpse_item, const player &p )
 {
     corpse_item->set_flag( flag_QUARTERED );
     p.add_msg_if_player( m_good,
@@ -1204,7 +1208,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     item &corpse_item = *target;
-    std::list<item> contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
     const field_type_id type_blood = corpse->bloodType();
     const field_type_id type_gib = corpse->gibType();
@@ -1291,13 +1294,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // therefore operations on this activities targets and values may be invalidated.
     // reveal hidden items / hidden content
     if( action != F_DRESS && action != SKIN ) {
-        for( auto &content : contents ) {
+        for( item *content : corpse_item.contents.all_items_top() ) {
             if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
-                p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname(),
+                p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
                                       corpse->nname() );
-                g->m.add_item_or_charges( p->pos(), content );
-            } else if( content.is_bionic() ) {
+                g->m.add_item_or_charges( p->pos(), *content );
+            } else if( content->is_bionic() ) {
                 g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, calendar::turn );
             }
         }
@@ -1677,7 +1680,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
     static const std::string iuse_name_string( "heal" );
 
-    item &it = p->i_at( act->position );
+    item &it = *act->targets.front();
     item *used_tool = it.get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for healing" );
@@ -1795,7 +1798,7 @@ void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player 
 
 void activity_handlers::game_do_turn( player_activity *act, player *p )
 {
-    item &game_item = p->i_at( act->position );
+    item &game_item = *act->targets.front();
 
     //Deduct 1 battery charge for every minute spent playing
     if( calendar::once_every( 1_minutes ) ) {
@@ -1953,7 +1956,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
 void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 {
     const tripoint pos( g->m.getlocal( act->placement ) );
-    item &it = p->i_at( act->position );
+    item &it = *act->targets.front();
     // Invalidate the activity early to prevent a query from mod_pain()
     act->set_to_null();
     if( p->is_avatar() ) {
@@ -2154,7 +2157,7 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
     static const std::string iuse_name_string( "firestarter" );
 
-    item &it = p->i_at( act->position );
+    item &it = *act->targets.front();
     item *used_tool = it.get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for starting fire" );
@@ -2190,7 +2193,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
         }
     }
 
-    item &firestarter = p->i_at( act->position );
+    item &firestarter = *act->targets.front();
     if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
         if( !g->m.tinder_at( act->placement ) ) {
             p->add_msg_if_player( m_info, _( "This item requires tinder to light." ) );
@@ -2327,7 +2330,7 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
     // to 10 watt (suspicious claims from some manufacturers) sustained output.
     // It takes 2.4 minutes to produce 1kj at just slightly under 7 watts (25 kj per hour)
     // time-based instead of speed based because it's a sustained activity
-    item &hand_crank_item = p ->i_at( act->position );
+    item &hand_crank_item = *act->targets.front();
 
     if( calendar::once_every( 144_seconds ) ) {
         p->mod_fatigue( 1 );
@@ -2350,7 +2353,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     //Using a vibrator takes time (10 minutes), not speed
     //Linear increase in morale during action with a small boost at end
     //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
-    item &vibrator_item = p->i_at( act->position );
+    item &vibrator_item = *act->targets.front();
 
     if( ( p->is_wearing( "rebreather" ) ) || ( p->is_wearing( "rebreather_xl" ) ) ||
         ( p->is_wearing( "mask_h20survivor" ) ) ) {
@@ -2457,7 +2460,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
         return;
     }
 
-    item &it = p->i_at( act->position );
+    item &it = *act->targets.front();
     // act->values[0] is the number of charges yet to be consumed
     const int charges_used = std::min( act->values[0], it.ammo_required() );
 
@@ -2477,7 +2480,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     const ter_id ter = g->m.ter( pos );
 
     // fast players might still have some charges left to be consumed
-    p->i_at( act->position ).ammo_consume( act->values[0], p->pos() );
+    act->targets.front()->ammo_consume( act->values[0], p->pos() );
 
     if( g->m.furn( pos ) == f_rack ) {
         g->m.furn_set( pos, f_null );
@@ -2875,8 +2878,8 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
         return;
     }
 
-    item &gun = p->i_at( act->position );
-    item &mod = p->i_at( act->values[0] );
+    item &gun = *act->targets.at( 0 );
+    item &mod = *act->targets.at( 1 );
 
     // chance of success (%)
     const int roll = act->values[1];
@@ -2899,7 +2902,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     if( rng( 0, 100 ) <= roll ) {
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
-        gun.contents.push_back( p->i_rem( &mod ) );
+        gun.put_in( p->i_rem( &mod ) );
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
@@ -2934,7 +2937,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
     mod.item_tags.insert( "IRREMOVABLE" );
-    tool.contents.push_back( mod );
+    tool.put_in( mod );
     act->targets[1].remove_item();
 }
 
@@ -2993,11 +2996,6 @@ void activity_handlers::consume_drink_menu_do_turn( player_activity *, player * 
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 {
     avatar_action::eat( g->u, game_menus::inv::consume_meds( g->u ) );
-}
-
-void activity_handlers::move_items_do_turn( player_activity *act, player *p )
-{
-    activity_on_turn_move_items( *act, *p );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
@@ -3092,7 +3090,7 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 }
 
 // fish-with-rod fish catching function.
-static void rod_fish( player *p, std::vector<monster *> &fishables )
+static void rod_fish( player *p, const std::vector<monster *> &fishables )
 {
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
@@ -3123,7 +3121,7 @@ static void rod_fish( player *p, std::vector<monster *> &fishables )
 
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
-    item &it = p->i_at( act->position );
+    item &it = *act->targets.front();
     int fish_chance = 1;
     int survival_skill = p->get_skill_level( skill_survival );
     if( it.has_flag( flag_FISH_POOR ) ) {
@@ -3698,7 +3696,6 @@ void activity_handlers::multiple_mine_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
 }
-
 
 void activity_handlers::multiple_chop_planks_do_turn( player_activity *act, player *p )
 {
@@ -4311,15 +4308,17 @@ void activity_handlers::unload_mag_finish( player_activity *act, player *p )
     int qty = 0;
     item &it = *act->targets[ 0 ];
 
-    // remove the ammo leads in the belt
-    it.contents.erase( std::remove_if( it.contents.begin(),
-    it.contents.end(), [&]( item & e ) {
-        if( !p->add_or_drop_with_msg( e, true ) ) {
-            return false;
+    std::vector<item *> remove_contained;
+    for( item *contained : it.contents.all_items_top() ) {
+        if( p->add_or_drop_with_msg( *contained, true ) ) {
+            qty += contained->charges;
+            remove_contained.push_back( contained );
         }
-        qty += e.charges;
-        return true;
-    } ), it.contents.end() );
+    }
+    // remove the ammo leads in the belt
+    for( item *remove : remove_contained ) {
+        it.remove_item( *remove );
+    }
 
     // remove the belt linkage
     if( it.is_ammo_belt() ) {
@@ -4755,27 +4754,23 @@ static void blood_magic( player *p, int cost )
     p->mod_pain( std::max( 1, cost / 3 ) );
 }
 
-static void player_or_item_spell( player *p, const spell_id &sp, int level, spell &casting )
-{
-    // if level is -1 then we know it is a player spell
-    if( level == -1 ) {
-        casting = p->magic.get_spell( sp );
-        // so we return early
-        return;
-    }
-    // otherwise we build the spell from the id and level
-    casting = spell( sp );
-    while( casting.get_level() < level && !casting.is_max_level() ) {
-        casting.gain_level();
-    }
-}
-
 void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     const int level_override = act->get_value( 0 );
-    spell spell_being_cast;
-    player_or_item_spell( p, spell_id( act->name ), level_override, spell_being_cast );
+    spell_id sp( act->name );
+
+    // if level is -1 then we know it's a player spell, otherwise we build it from the ground up
+    spell temp_spell( sp );
+    spell &spell_being_cast = ( level_override == -1 ) ? p->magic.get_spell( sp ) : temp_spell;
+
+    // if level != 1 then we need to set the spell's level
+    if( level_override != -1 ) {
+        while( spell_being_cast.get_level() < level_override && !spell_being_cast.is_max_level() ) {
+            spell_being_cast.gain_level();
+        }
+    }
+
     const bool no_fail = act->get_value( 1 ) == 1;
     const bool no_mana = act->get_value( 2 ) == 0;
 
@@ -4934,6 +4929,6 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     item &data_card = *act->targets[0];
     p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
-    data_card.contents.clear();
+    data_card.contents.clear_items();
     data_card.put_in( item( "mind_scan_robofac" ) );
 }
