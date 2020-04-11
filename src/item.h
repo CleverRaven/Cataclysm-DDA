@@ -32,7 +32,6 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "rng.h"
 
 class Character;
 class JsonIn;
