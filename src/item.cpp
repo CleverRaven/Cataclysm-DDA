@@ -8425,13 +8425,20 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
 
     return false;
 }
+bool item::has_rotten_away() const
+{
+    if( !goes_bad() ) {
+        return false;
+    } else if( is_corpse() && !can_revive() ) {
+        return get_rot() > 10_days;
+    } else {
+        return is_food() && get_relative_rot() > 2.0;
+    }
+}
 
 bool item::has_rotten_away( const tripoint &pnt )
 {
-    if( is_corpse() && goes_bad() ) {
-        process_temperature_rot( 1, pnt, nullptr );
-        return get_rot() > 10_days && !can_revive();
-    } else if( goes_bad() ) {
+    if( goes_bad() ) {
         process_temperature_rot( 1, pnt, nullptr );
         return has_rotten_away();
     } else if( type->container && type->container->preserves ) {
@@ -8586,7 +8593,7 @@ void item::apply_freezerburn()
     }
 }
 
-void item::process_temperature_rot( float insulation, const tripoint &pos,
+bool item::process_temperature_rot( float insulation, const tripoint &pos,
                                     player *carrier, const temperature_flag flag )
 {
     const time_point now = calendar::turn;
@@ -8596,14 +8603,14 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( now - last_temp_check < 0_turns ) {
         reset_temp_check();
         last_rot_check = now;
-        return;
+        return false;
     }
 
     // process temperature and rot at most once every 100_turns (10 min)
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 10_minutes;
     if( now - last_temp_check < smallest_interval && specific_energy > 0 ) {
-        return;
+        return false;
     }
 
     int temp = g->weather.get_temperature( pos );
@@ -8713,9 +8720,12 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
             if( time - last_rot_check > smallest_interval ) {
                 calc_rot( time, env_temperature );
 
-                if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
+                if( has_rotten_away() && carrier == nullptr ) {
                     // No need to track item that will be gone
-                    return;
+                    if( is_comestible() ) {
+                        g->m.rotten_item_spawn( *this, pos );
+                    }
+                    return true;
                 }
             }
         }
@@ -8726,13 +8736,20 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
         calc_rot( now, temp );
-        return;
+
+        if( has_rotten_away() && carrier == nullptr ) {
+            if( is_comestible() ) {
+                g->m.rotten_item_spawn( *this, pos );
+            }
+            return true;
+        }
     }
 
     // Just now created items will get here.
     if( specific_energy < 0 ) {
         set_item_temperature( temp_to_kelvin( temp ) );
     }
+    return false;
 }
 
 void item::calc_temp( const int temp, const float insulation, const time_point &time )
@@ -9499,7 +9516,7 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
     }
     // All foods that go bad have temperature
     if( has_temperature() ) {
-        process_temperature_rot( insulation, pos, carrier, flag );
+        return process_temperature_rot( insulation, pos, carrier, flag );
     }
 
     return false;
