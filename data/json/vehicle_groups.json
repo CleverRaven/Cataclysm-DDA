@@ -137,6 +137,7 @@
       [ "meth_lab", 300 ],
       [ "armored_car", 300 ],
       [ "superbike", 50 ],
+      [ "surv_car", 2 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 300 ],
       [ "4x4_car", 400 ]
