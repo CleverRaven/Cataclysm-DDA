@@ -4618,8 +4618,6 @@ void game::use_computer( const tripoint &p )
     }
 
     computer_session( *used ).use();
-
-    refresh_all();
 }
 
 template<typename T>

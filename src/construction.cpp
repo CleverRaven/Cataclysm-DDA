@@ -283,26 +283,19 @@ construction_id construction_menu( const bool blueprint )
         return construction_id( -1 );
     }
 
-    int w_height = TERMY;
-    if( static_cast<int>( available.size() ) + 2 < w_height ) {
-        w_height = available.size() + 2;
-    }
-    if( w_height < FULL_SCREEN_HEIGHT ) {
-        w_height = FULL_SCREEN_HEIGHT;
-    }
+    int w_height = 0;
+    int w_width = 0;
+    catacurses::window w_con;
 
-    const int w_width = std::max( FULL_SCREEN_WIDTH, TERMX * 2 / 3 );
-    const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
-    const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
-    catacurses::window w_con = catacurses::newwin( w_height, w_width, point( w_x0, w_y0 ) );
-
-    const int w_list_width = static_cast<int>( .375 * w_width );
-    const int w_list_height = w_height - 4;
+    int w_list_width = 0;
+    int w_list_height = 0;
     const int w_list_x0 = 1;
-    catacurses::window w_list = catacurses::newwin( w_list_height, w_list_width,
-                                point( w_x0 + w_list_x0, w_y0 + 3 ) );
+    catacurses::window w_list;
 
-    draw_grid( w_con, w_list_width + w_list_x0 );
+    std::vector<std::string> notes;
+    int pos_x = 0;
+    int available_window_width = 0;
+    int available_buffer_height = 0;
 
     construction_id ret( -1 );
 
@@ -321,11 +314,6 @@ construction_id construction_menu( const bool blueprint )
     std::vector<int> construct_buffer_breakpoints;
     int total_project_breakpoints = 0;
     int current_construct_breakpoint = 0;
-    bool previous_hide_unconstructable = false;
-    //track the cursor to determine when to refresh the list of construction recipes
-    int previous_tabindex = -1;
-    int previous_select = -1;
-
     const inventory &total_inv = g->u.crafting_inventory();
 
     input_context ctxt( "CONSTRUCTION" );
@@ -345,46 +333,204 @@ construction_id construction_menu( const bool blueprint )
     const std::vector<construction_category> &construct_cat = construction_categories::get_all();
     const int tabcount = static_cast<int>( construction_category::count() );
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
     std::string filter;
-    do {
-        if( update_cat ) {
-            update_cat = false;
-            cata::optional<std::string> last_construction;
-            if( isnew ) {
-                filter = uistate.construction_filter;
-                tabindex = uistate.construction_tab.is_valid()
-                           ? uistate.construction_tab.id().to_i() : 0;
-                last_construction = uistate.last_construction;
-            } else if( select >= 0 && static_cast<size_t>( select ) < constructs.size() ) {
-                last_construction = constructs[select];
+
+    const nc_color color_stage = c_white;
+    ui_adaptor ui;
+
+    const auto recalc_buffer = [&]() {
+        //leave room for top and bottom UI text
+        available_buffer_height = w_height - 3 - 3 - static_cast<int>( notes.size() );
+
+        if( !constructs.empty() ) {
+            if( select >= static_cast<int>( constructs.size() ) ) {
+                select = 0;
             }
-            category_id = construct_cat[tabindex].id;
-            if( category_id == "ALL" ) {
-                constructs = available;
-            } else if( category_id == "FILTER" ) {
-                constructs.clear();
-                previous_select = -1;
-                std::copy_if( available.begin(), available.end(),
-                              std::back_inserter( constructs ),
-                [&]( const std::string & a ) {
-                    return lcmatch( _( a ), filter );
-                } );
-            } else {
-                constructs = cat_available[category_id];
+            std::string current_desc = constructs[select];
+
+            //construct the project list buffer
+
+            // Print stages and their requirement.
+            std::vector<construction *> options = constructions_by_desc( current_desc );
+
+            construct_buffers.clear();
+            current_construct_breakpoint = 0;
+            construct_buffer_breakpoints.clear();
+            full_construct_buffer.clear();
+            int stage_counter = 0;
+            for( std::vector<construction *>::iterator it = options.begin();
+                 it != options.end(); ++it ) {
+                stage_counter++;
+                construction *current_con = *it;
+                if( hide_unconstructable && !can_construct( *current_con ) ) {
+                    continue;
+                }
+                // Update the cached availability of components and tools in the requirement object
+                current_con->requirements->can_make_with_inventory( total_inv, is_crafting_component );
+
+                std::vector<std::string> current_buffer;
+
+                const auto add_folded = [&]( const std::vector<std::string> &folded ) {
+                    current_buffer.insert( current_buffer.end(), folded.begin(), folded.end() );
+                };
+                const auto add_line = [&]( const std::string & line ) {
+                    add_folded( foldstring( line, available_window_width ) );
+                };
+
+                // display final product name only if more than one step.
+                // Assume single stage constructions should be clear
+                // in their title what their result is.
+                if( !current_con->post_terrain.empty() && options.size() > 1 ) {
+                    //also print out stage number when multiple stages are available
+                    std::string current_line = string_format( _( "Stage/Variant #%d: " ), stage_counter );
+
+                    // print name of the result of each stage
+                    std::string result_string;
+                    if( current_con->post_is_furniture ) {
+                        result_string = furn_str_id( current_con->post_terrain ).obj().name();
+                    } else {
+                        result_string = ter_str_id( current_con->post_terrain ).obj().name();
+                    }
+                    current_line += colorize( result_string, color_title );
+                    add_line( current_line );
+
+                    // display description of the result for multi-stages
+                    current_line = _( "Result: " );
+                    if( current_con->post_is_furniture ) {
+                        current_line += colorize(
+                                            furn_str_id( current_con->post_terrain ).obj().description,
+                                            color_data
+                                        );
+                    } else {
+                        current_line += colorize(
+                                            ter_str_id( current_con->post_terrain ).obj().description,
+                                            color_data
+                                        );
+                    }
+                    add_line( current_line );
+
+                    // display description of the result for single stages
+                } else if( !current_con->post_terrain.empty() ) {
+                    std::string current_line = _( "Result: " );
+                    if( current_con->post_is_furniture ) {
+                        current_line += colorize(
+                                            furn_str_id( current_con->post_terrain ).obj().description,
+                                            color_data
+                                        );
+                    } else {
+                        current_line += colorize(
+                                            ter_str_id( current_con->post_terrain ).obj().description,
+                                            color_data
+                                        );
+                    }
+                    add_line( current_line );
+                }
+
+                // display required skill and difficulty
+                if( current_con->required_skills.empty() ) {
+                    add_line( _( "N/A" ) );
+                } else {
+                    std::string current_line = _( "Required skills: " ) + enumerate_as_string(
+                                                   current_con->required_skills.begin(), current_con->required_skills.end(),
+                    []( const std::pair<skill_id, int> &skill ) {
+                        nc_color col;
+                        int s_lvl = g->u.get_skill_level( skill.first );
+                        if( s_lvl < skill.second ) {
+                            col = c_red;
+                        } else if( s_lvl < skill.second * 1.25 ) {
+                            col = c_light_blue;
+                        } else {
+                            col = c_green;
+                        }
+
+                        return colorize( string_format( "%s (%d)", skill.first.obj().name(), skill.second ), col );
+                    }, enumeration_conjunction::none );
+                    add_line( current_line );
+                }
+
+                // TODO: Textify pre_flags to provide a bit more information.
+                // Example: First step of dig pit could say something about
+                // requiring diggable ground.
+                if( !current_con->pre_terrain.empty() ) {
+                    std::string require_string;
+                    if( current_con->pre_is_furniture ) {
+                        require_string = furn_str_id( current_con->pre_terrain )->name();
+                    } else {
+                        require_string = ter_str_id( current_con->pre_terrain )->name();
+                    }
+                    nc_color pre_color = has_pre_terrain( *current_con ) ? c_green : c_red;
+                    add_line( _( "Requires: " ) + colorize( require_string, pre_color ) );
+                }
+                if( !current_con->pre_note.empty() ) {
+                    add_line( _( "Annotation: " ) + colorize( _( current_con->pre_note ), color_data ) );
+                }
+                // get pre-folded versions of the rest of the construction project to be displayed later
+
+                // get time needed
+                add_folded( current_con->get_folded_time_string( available_window_width ) );
+
+                add_folded( current_con->requirements->get_folded_tools_list( available_window_width, color_stage,
+                            total_inv ) );
+
+                add_folded( current_con->requirements->get_folded_components_list( available_window_width,
+                            color_stage, total_inv, is_crafting_component ) );
+
+                construct_buffers.push_back( current_buffer );
             }
-            select = 0;
-            if( last_construction ) {
-                const auto it = std::find( constructs.begin(), constructs.end(),
-                                           *last_construction );
-                if( it != constructs.end() ) {
-                    select = std::distance( constructs.begin(), it );
+
+            //determine where the printing starts for each project, so it can be scrolled to those points
+            size_t current_buffer_location = 0;
+            for( size_t i = 0; i < construct_buffers.size(); i++ ) {
+                construct_buffer_breakpoints.push_back( static_cast<int>( current_buffer_location ) );
+                full_construct_buffer.insert( full_construct_buffer.end(), construct_buffers[i].begin(),
+                                              construct_buffers[i].end() );
+
+                //handle text too large for one screen
+                if( construct_buffers[i].size() > static_cast<size_t>( available_buffer_height ) ) {
+                    construct_buffer_breakpoints.push_back( static_cast<int>( current_buffer_location +
+                                                            static_cast<size_t>( available_buffer_height ) ) );
+                }
+                current_buffer_location += construct_buffers[i].size();
+                if( i < construct_buffers.size() - 1 ) {
+                    full_construct_buffer.push_back( std::string() );
+                    current_buffer_location++;
                 }
             }
+            total_project_breakpoints = static_cast<int>( construct_buffer_breakpoints.size() );
         }
-        isnew = false;
+    };
+
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        w_height = TERMY;
+        if( static_cast<int>( available.size() ) + 2 < w_height ) {
+            w_height = available.size() + 2;
+        }
+        if( w_height < FULL_SCREEN_HEIGHT ) {
+            w_height = FULL_SCREEN_HEIGHT;
+        }
+
+        w_width = std::max( FULL_SCREEN_WIDTH, TERMX * 2 / 3 );
+        const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
+        const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
+        w_con = catacurses::newwin( w_height, w_width, point( w_x0, w_y0 ) );
+
+        w_list_width = static_cast<int>( .375 * w_width );
+        w_list_height = w_height - 4;
+        w_list = catacurses::newwin( w_list_height, w_list_width,
+                                     point( w_x0 + w_list_x0, w_y0 + 3 ) );
+
+        pos_x = w_list_width + w_list_x0 + 2;
+        available_window_width = w_width - pos_x - 1;
+
+        recalc_buffer();
+
+        ui.position_from_window( w_con );
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_grid( w_con, w_list_width + w_list_x0 );
+
         // Erase existing tab selection & list of constructions
         mvwhline( w_con, point_south_east, ' ', w_list_width );
         werase( w_list );
@@ -404,16 +550,99 @@ construction_id construction_menu( const bool blueprint )
                             construction_color( con_name, highlight ), _( con_name ) );
         }
 
+        // Clear out lines for tools & materials
+        for( int i = 1; i < w_height - 1; i++ ) {
+            mvwhline( w_con, point( pos_x, i ), ' ', available_window_width );
+        }
+
+        // print the hotkeys regardless of if there are constructions
+        for( size_t i = 0; i < notes.size(); ++i ) {
+            trim_and_print( w_con, point( pos_x,
+                                          w_height - 1 - static_cast<int>( notes.size() ) + static_cast<int>( i ) ),
+                            available_window_width, c_white, notes[i] );
+        }
+
+        if( !constructs.empty() ) {
+            if( select >= static_cast<int>( constructs.size() ) ) {
+                select = 0;
+            }
+            std::string current_desc = constructs[select];
+            // Print construction name
+            trim_and_print( w_con, point( pos_x, 1 ), available_window_width, c_white, _( current_desc ) );
+
+            if( current_construct_breakpoint > 0 ) {
+                // Print previous stage indicator if breakpoint is past the beginning
+                trim_and_print( w_con, point( pos_x, 2 ), available_window_width, c_white,
+                                _( "Press %s to show previous stage(s)." ),
+                                ctxt.get_desc( "PAGE_UP" ) );
+            }
+            if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
+                                     available_buffer_height ) < full_construct_buffer.size() ) {
+                // Print next stage indicator if more breakpoints are remaining after screen height
+                trim_and_print( w_con, point( pos_x, w_height - 2 - static_cast<int>( notes.size() ) ),
+                                available_window_width,
+                                c_white, _( "Press %s to show next stage(s)." ),
+                                ctxt.get_desc( "PAGE_DOWN" ) );
+            }
+            // Leave room for above/below indicators
+            int ypos = 3;
+            nc_color stored_color = color_stage;
+            for( size_t i = static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] );
+                 i < full_construct_buffer.size(); i++ ) {
+                //the value of 3 is from leaving room at the top of window
+                if( ypos > available_buffer_height + 3 ) {
+                    break;
+                }
+                print_colored_text( w_con, point( w_list_width + w_list_x0 + 2, ypos++ ), stored_color, color_stage,
+                                    full_construct_buffer[i] );
+            }
+        }
+
+        draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
+        wrefresh( w_con );
+        wrefresh( w_list );
+    } );
+
+    do {
+        if( update_cat ) {
+            update_cat = false;
+            cata::optional<std::string> last_construction;
+            if( isnew ) {
+                filter = uistate.construction_filter;
+                tabindex = uistate.construction_tab.is_valid()
+                           ? uistate.construction_tab.id().to_i() : 0;
+                last_construction = uistate.last_construction;
+            } else if( select >= 0 && static_cast<size_t>( select ) < constructs.size() ) {
+                last_construction = constructs[select];
+            }
+            category_id = construct_cat[tabindex].id;
+            if( category_id == "ALL" ) {
+                constructs = available;
+            } else if( category_id == "FILTER" ) {
+                constructs.clear();
+                std::copy_if( available.begin(), available.end(),
+                              std::back_inserter( constructs ),
+                [&]( const std::string & a ) {
+                    return lcmatch( _( a ), filter );
+                } );
+            } else {
+                constructs = cat_available[category_id];
+            }
+            select = 0;
+            if( last_construction ) {
+                const auto it = std::find( constructs.begin(), constructs.end(),
+                                           *last_construction );
+                if( it != constructs.end() ) {
+                    select = std::distance( constructs.begin(), it );
+                }
+            }
+        }
+        isnew = false;
+
         if( update_info ) {
             update_info = false;
-            // Clear out lines for tools & materials
-            const int pos_x = w_list_width + w_list_x0 + 2;
-            const int available_window_width = w_width - pos_x - 1;
-            for( int i = 1; i < w_height - 1; i++ ) {
-                mvwhline( w_con, point( pos_x, i ), ' ', available_window_width );
-            }
 
-            std::vector<std::string> notes;
+            notes.clear();
             if( tabindex == tabcount - 1 && !filter.empty() ) {
                 notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] to clear filter" ),
                                                 ctxt.get_desc( "RESET_FILTER" ) ) );
@@ -430,214 +659,10 @@ construction_id construction_menu( const bool blueprint )
                                                "to view and edit keybindings." ),
                                             ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
-            //leave room for top and bottom UI text
-            const int available_buffer_height = w_height - 3 - 3 - static_cast<int>( notes.size() );
-
-            // print the hotkeys regardless of if there are constructions
-            for( size_t i = 0; i < notes.size(); ++i ) {
-                trim_and_print( w_con, point( pos_x,
-                                              w_height - 1 - static_cast<int>( notes.size() ) + static_cast<int>( i ) ),
-                                available_window_width, c_white, notes[i] );
-            }
-
-            if( !constructs.empty() ) {
-                nc_color color_stage = c_white;
-                if( select >= static_cast<int>( constructs.size() ) ) {
-                    select = 0;
-                }
-                std::string current_desc = constructs[select];
-                // Print construction name
-                trim_and_print( w_con, point( pos_x, 1 ), available_window_width, c_white, _( current_desc ) );
-
-                //only reconstruct the project list when moving away from the current item, or when changing the display mode
-                if( previous_select != select || previous_tabindex != tabindex ||
-                    previous_hide_unconstructable != hide_unconstructable ) {
-                    previous_select = select;
-                    previous_tabindex = tabindex;
-                    previous_hide_unconstructable = hide_unconstructable;
-
-                    //construct the project list buffer
-
-                    // Print stages and their requirement.
-                    std::vector<construction *> options = constructions_by_desc( current_desc );
-
-                    construct_buffers.clear();
-                    current_construct_breakpoint = 0;
-                    construct_buffer_breakpoints.clear();
-                    full_construct_buffer.clear();
-                    int stage_counter = 0;
-                    for( std::vector<construction *>::iterator it = options.begin();
-                         it != options.end(); ++it ) {
-                        stage_counter++;
-                        construction *current_con = *it;
-                        if( hide_unconstructable && !can_construct( *current_con ) ) {
-                            continue;
-                        }
-                        // Update the cached availability of components and tools in the requirement object
-                        current_con->requirements->can_make_with_inventory( total_inv, is_crafting_component );
-
-                        std::vector<std::string> current_buffer;
-
-                        const auto add_folded = [&]( const std::vector<std::string> &folded ) {
-                            current_buffer.insert( current_buffer.end(), folded.begin(), folded.end() );
-                        };
-                        const auto add_line = [&]( const std::string & line ) {
-                            add_folded( foldstring( line, available_window_width ) );
-                        };
-
-                        // display final product name only if more than one step.
-                        // Assume single stage constructions should be clear
-                        // in their title what their result is.
-                        if( !current_con->post_terrain.empty() && options.size() > 1 ) {
-                            //also print out stage number when multiple stages are available
-                            std::string current_line = string_format( _( "Stage/Variant #%d: " ), stage_counter );
-
-                            // print name of the result of each stage
-                            std::string result_string;
-                            if( current_con->post_is_furniture ) {
-                                result_string = furn_str_id( current_con->post_terrain ).obj().name();
-                            } else {
-                                result_string = ter_str_id( current_con->post_terrain ).obj().name();
-                            }
-                            current_line += colorize( result_string, color_title );
-                            add_line( current_line );
-
-                            // display description of the result for multi-stages
-                            current_line = _( "Result: " );
-                            if( current_con->post_is_furniture ) {
-                                current_line += colorize(
-                                                    furn_str_id( current_con->post_terrain ).obj().description,
-                                                    color_data
-                                                );
-                            } else {
-                                current_line += colorize(
-                                                    ter_str_id( current_con->post_terrain ).obj().description,
-                                                    color_data
-                                                );
-                            }
-                            add_line( current_line );
-
-                            // display description of the result for single stages
-                        } else if( !current_con->post_terrain.empty() ) {
-                            std::string current_line = _( "Result: " );
-                            if( current_con->post_is_furniture ) {
-                                current_line += colorize(
-                                                    furn_str_id( current_con->post_terrain ).obj().description,
-                                                    color_data
-                                                );
-                            } else {
-                                current_line += colorize(
-                                                    ter_str_id( current_con->post_terrain ).obj().description,
-                                                    color_data
-                                                );
-                            }
-                            add_line( current_line );
-                        }
-
-                        // display required skill and difficulty
-                        if( current_con->required_skills.empty() ) {
-                            add_line( _( "N/A" ) );
-                        } else {
-                            std::string current_line = _( "Required skills: " ) + enumerate_as_string(
-                                                           current_con->required_skills.begin(), current_con->required_skills.end(),
-                            []( const std::pair<skill_id, int> &skill ) {
-                                nc_color col;
-                                int s_lvl = g->u.get_skill_level( skill.first );
-                                if( s_lvl < skill.second ) {
-                                    col = c_red;
-                                } else if( s_lvl < skill.second * 1.25 ) {
-                                    col = c_light_blue;
-                                } else {
-                                    col = c_green;
-                                }
-
-                                return colorize( string_format( "%s (%d)", skill.first.obj().name(), skill.second ), col );
-                            }, enumeration_conjunction::none );
-                            add_line( current_line );
-                        }
-
-                        // TODO: Textify pre_flags to provide a bit more information.
-                        // Example: First step of dig pit could say something about
-                        // requiring diggable ground.
-                        if( !current_con->pre_terrain.empty() ) {
-                            std::string require_string;
-                            if( current_con->pre_is_furniture ) {
-                                require_string = furn_str_id( current_con->pre_terrain )->name();
-                            } else {
-                                require_string = ter_str_id( current_con->pre_terrain )->name();
-                            }
-                            nc_color pre_color = has_pre_terrain( *current_con ) ? c_green : c_red;
-                            add_line( _( "Requires: " ) + colorize( require_string, pre_color ) );
-                        }
-                        if( !current_con->pre_note.empty() ) {
-                            add_line( _( "Annotation: " ) + colorize( _( current_con->pre_note ), color_data ) );
-                        }
-                        // get pre-folded versions of the rest of the construction project to be displayed later
-
-                        // get time needed
-                        add_folded( current_con->get_folded_time_string( available_window_width ) );
-
-                        add_folded( current_con->requirements->get_folded_tools_list( available_window_width, color_stage,
-                                    total_inv ) );
-
-                        add_folded( current_con->requirements->get_folded_components_list( available_window_width,
-                                    color_stage, total_inv, is_crafting_component ) );
-
-                        construct_buffers.push_back( current_buffer );
-                    }
-
-                    //determine where the printing starts for each project, so it can be scrolled to those points
-                    size_t current_buffer_location = 0;
-                    for( size_t i = 0; i < construct_buffers.size(); i++ ) {
-                        construct_buffer_breakpoints.push_back( static_cast<int>( current_buffer_location ) );
-                        full_construct_buffer.insert( full_construct_buffer.end(), construct_buffers[i].begin(),
-                                                      construct_buffers[i].end() );
-
-                        //handle text too large for one screen
-                        if( construct_buffers[i].size() > static_cast<size_t>( available_buffer_height ) ) {
-                            construct_buffer_breakpoints.push_back( static_cast<int>( current_buffer_location +
-                                                                    static_cast<size_t>( available_buffer_height ) ) );
-                        }
-                        current_buffer_location += construct_buffers[i].size();
-                        if( i < construct_buffers.size() - 1 ) {
-                            full_construct_buffer.push_back( std::string() );
-                            current_buffer_location++;
-                        }
-                    }
-                    total_project_breakpoints = static_cast<int>( construct_buffer_breakpoints.size() );
-                }
-                if( current_construct_breakpoint > 0 ) {
-                    // Print previous stage indicator if breakpoint is past the beginning
-                    trim_and_print( w_con, point( pos_x, 2 ), available_window_width, c_white,
-                                    _( "Press %s to show previous stage(s)." ),
-                                    ctxt.get_desc( "PAGE_UP" ) );
-                }
-                if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
-                                         available_buffer_height ) < full_construct_buffer.size() ) {
-                    // Print next stage indicator if more breakpoints are remaining after screen height
-                    trim_and_print( w_con, point( pos_x, w_height - 2 - static_cast<int>( notes.size() ) ),
-                                    available_window_width,
-                                    c_white, _( "Press %s to show next stage(s)." ),
-                                    ctxt.get_desc( "PAGE_DOWN" ) );
-                }
-                // Leave room for above/below indicators
-                int ypos = 3;
-                nc_color stored_color = color_stage;
-                for( size_t i = static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] );
-                     i < full_construct_buffer.size(); i++ ) {
-                    //the value of 3 is from leaving room at the top of window
-                    if( ypos > available_buffer_height + 3 ) {
-                        break;
-                    }
-                    print_colored_text( w_con, point( w_list_width + w_list_x0 + 2, ypos++ ), stored_color, color_stage,
-                                        full_construct_buffer[i] );
-                }
-            }
+            recalc_buffer();
         } // Finished updating
 
-        draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
-        wrefresh( w_con );
-        wrefresh( w_list );
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
         if( action == "FILTER" ) {
@@ -689,7 +714,6 @@ construction_id construction_menu( const bool blueprint )
             update_cat = true;
             tabindex = ( tabindex + 1 ) % tabcount;
         } else if( action == "PAGE_UP" ) {
-            update_info = true;
             if( current_construct_breakpoint > 0 ) {
                 current_construct_breakpoint--;
             }
@@ -697,7 +721,6 @@ construction_id construction_menu( const bool blueprint )
                 current_construct_breakpoint = 0;
             }
         } else if( action == "PAGE_DOWN" ) {
-            update_info = true;
             if( current_construct_breakpoint < total_project_breakpoints - 1 ) {
                 current_construct_breakpoint++;
             }
@@ -706,8 +729,6 @@ construction_id construction_menu( const bool blueprint )
             }
         } else if( action == "QUIT" ) {
             exit = true;
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            draw_grid( w_con, w_list_width + w_list_x0 );
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {
             update_info = true;
             update_cat = true;
@@ -730,7 +751,6 @@ construction_id construction_menu( const bool blueprint )
                     exit = true;
                 } else {
                     popup( _( "You can't build that!" ) );
-                    draw_grid( w_con, w_list_width + w_list_x0 );
                     update_info = true;
                 }
             } else {
@@ -749,9 +769,6 @@ construction_id construction_menu( const bool blueprint )
 
     uistate.construction_tab = int_id<construction_category>( tabindex ).id();
 
-    w_list = catacurses::window();
-    w_con = catacurses::window();
-    g->refresh_all();
     return ret;
 }
 
