@@ -1030,7 +1030,7 @@ static bool query_is_yes( const std::string &query )
 static void draw_hidden_amount( const catacurses::window &w, const int margin_y, int amount )
 {
     if( amount > 0 ) {
-        right_print( w, margin_y, 14, c_light_gray, string_format( _( "%s hidden" ), amount ) );
+        right_print( w, margin_y, 14, c_red, string_format( _( "%s hidden" ), amount ) );
     }
 }
 // Anchors top-right
