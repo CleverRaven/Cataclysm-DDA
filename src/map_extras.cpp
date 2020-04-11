@@ -3006,8 +3006,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
                 string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
                                extra.get_symbol(),
                                get_note_string_from_color( extra.color ),
-                               _( extra.name ),
-                               _( extra.description ) );
+                               extra.name(),
+                               extra.description() );
             overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
         }
     }
@@ -3084,8 +3084,8 @@ void debug_spawn_test()
 
 void map_extra::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", name );
-    mandatory( jo, was_loaded, "description", description );
+    mandatory( jo, was_loaded, "name", _name );
+    mandatory( jo, was_loaded, "description", _description );
     if( jo.has_object( "generator" ) ) {
         JsonObject jg = jo.get_object( "generator" );
         generator_method = jg.get_enum_value<map_extra_method>( "generator_method",
