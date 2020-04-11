@@ -1,56 +1,70 @@
 #include "game.h"
 
-#include <cwctype>
-#include <cassert>
-#include <cstdio>
 #include <algorithm>
+#include <bitset>
+#include <cassert>
 #include <chrono>
+#include <climits>
 #include <cmath>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <ctime>
+#include <cwctype>
+#include <exception>
+#include <iostream>
 #include <iterator>
+#include <limits>
 #include <locale>
 #include <map>
 #include <memory>
+#include <numeric>
 #include <queue>
 #include <set>
 #include <sstream>
 #include <string>
-#include <vector>
-#include <cstdlib>
-#include <exception>
-#include <iostream>
-#include <limits>
 #include <tuple>
 #include <type_traits>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
-#include <unordered_map>
+#include <vector>
 
 #include "achievement.h"
 #include "action.h"
+#include "activity_actor.h"
 #include "activity_handlers.h"
 #include "artifact.h"
+#include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
-#include "auto_note.h"
 #include "catacharset.h"
+#include "character.h"
+#include "character_martial_arts.h"
 #include "clzones.h"
-#include "computer.h"
+#include "colony.h"
+#include "color.h"
 #include "computer_session.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesport.h"
+#include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
 #include "editmap.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
 #include "faction.h"
+#include "field.h"
+#include "field_type.h"
 #include "filesystem.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -62,8 +76,14 @@
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
+#include "int_id.h"
+#include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_stack.h"
+#include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
 #include "kill_tracker.h"
@@ -71,10 +91,11 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "magic_enchantment.h"
+#include "magic.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapsharing.h"
@@ -98,8 +119,12 @@
 #include "panels.h"
 #include "path_info.h"
 #include "pickup.h"
+#include "player.h"
+#include "player_activity.h"
 #include "popup.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "safemode_ui.h"
 #include "scenario.h"
@@ -110,42 +135,28 @@
 #include "start_location.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
+#include "tileray.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "wcwidth.h"
 #include "weather.h"
 #include "worldfactory.h"
-#include "map_selector.h"
-#include "basecamp.h"
-#include "character.h"
-#include "color.h"
-#include "damage.h"
-#include "field.h"
-#include "item_stack.h"
-#include "itype.h"
-#include "iuse.h"
-#include "player.h"
-#include "player_activity.h"
-#include "recipe.h"
-#include "ret_val.h"
-#include "tileray.h"
-#include "ui.h"
-#include "ui_manager.h"
-#include "units.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "colony.h"
-#include "item.h"
 
+class computer;
 class inventory;
 
 #if defined(TILES)
@@ -2142,8 +2153,10 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
         do {
             item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
             data.without_getch = true;
+            const int iHeight = TERMY - VIEW_OFFSET_Y * 2;
+            const int iScrollHeight = iHeight - 2;
 
-            draw_item_info( iStartX, iWidth, VIEW_OFFSET_X, TERMY - VIEW_OFFSET_Y * 2, data );
+            draw_item_info( iStartX, iWidth, VIEW_OFFSET_X, iHeight, data );
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
             if( action_menu.ret >= 0 ) {
@@ -2213,10 +2226,10 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
                     game_menus::inv::reassign_letter( u, oThisItem );
                     break;
                 case KEY_PPAGE:
-                    iScrollPos--;
+                    iScrollPos -= iScrollHeight;
                     break;
                 case KEY_NPAGE:
-                    iScrollPos++;
+                    iScrollPos += iScrollHeight;
                     break;
                 case '+':
                     if( !bHPR ) {
@@ -4607,8 +4620,6 @@ void game::use_computer( const tripoint &p )
     }
 
     computer_session( *used ).use();
-
-    refresh_all();
 }
 
 template<typename T>
@@ -6628,6 +6639,14 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
         int la_y = 0;
         int la_x = TERMX - panel_width;
+        std::string position = get_option<std::string>( "LOOKAROUND_POSITION" );
+        if( position == "left" ) {
+            if( get_option<std::string>( "SIDEBAR_POSITION" ) == "right" ) {
+                la_x = panel_manager::get_manager().get_width_left();
+            } else {
+                la_x = panel_manager::get_manager().get_width_left() - panel_width;
+            }
+        }
         int la_h = height;
         int la_w = panel_width;
         w_info = catacurses::newwin( la_h, la_w, point( la_x, la_y ) );
@@ -6763,7 +6782,16 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
             int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
             int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
-            w_info = catacurses::newwin( height, panel_width, point( TERMX - panel_width, 0 ) );
+            int la_x = TERMX - panel_width;
+            std::string position = get_option<std::string>( "LOOKAROUND_POSITION" );
+            if( position == "left" ) {
+                if( get_option<std::string>( "SIDEBAR_POSITION" ) == "right" ) {
+                    la_x = panel_manager::get_manager().get_width_left();
+                } else {
+                    la_x = panel_manager::get_manager().get_width_left() - panel_width;
+                }
+            }
+            w_info = catacurses::newwin( height, panel_width, point( la_x, 0 ) );
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
             if( !allow_zlev_move ) {
                 continue;

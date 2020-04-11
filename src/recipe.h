@@ -3,19 +3,20 @@
 #define RECIPE_H
 
 #include <cstddef>
+#include <functional>
 #include <map>
 #include <set>
-#include <vector>
-#include <functional>
 #include <string>
 #include <utility>
+#include <vector>
 
+#include "optional.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
 
-class item;
 class JsonObject;
+class item;
 class time_duration;
 
 using itype_id = std::string; // From itype.h

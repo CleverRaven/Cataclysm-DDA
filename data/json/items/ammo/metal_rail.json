@@ -17,8 +17,7 @@
     "count": 10,
     "ammo_type": "metal_rail",
     "range": 40,
-    "damage": 70,
-    "pierce": 25,
+    "damage": { "damage_type": "stab", "amount": 70, "armor_penetration": 25 },
     "dispersion": 150,
     "effects": [ "RECYCLED", "NON-FOULING" ]
   },
@@ -37,6 +36,6 @@
     "color": "light_gray",
     "dispersion": 0,
     "effects": [ "NEVER_MISFIRES", "NON-FOULING" ],
-    "relative": { "range": 10, "damage": -5, "pierce": 15 }
+    "relative": { "range": 10, "damage": { "damage_type": "stab", "amount": -5, "armor_penetration": 15 } }
   }
 ]

@@ -9,6 +9,13 @@
 #include "event_bus.h"
 #include "type_id.h"
 
+class JsonIn;
+class JsonOut;
+namespace cata
+{
+class event;
+}  // namespace cata
+
 class kill_tracker : public event_subscriber
 {
     public:

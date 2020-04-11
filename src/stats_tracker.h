@@ -2,11 +2,19 @@
 #define CATA_STATS_TRACKER_H
 
 #include <memory>
+#include <string>
+#include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
+#include "cata_variant.h"
+#include "event.h"
 #include "event_bus.h"
 #include "hash_utils.h"
+#include "string_id.h"
 
+class JsonIn;
+class JsonOut;
 class event_statistic;
 class event_transformation;
 class score;

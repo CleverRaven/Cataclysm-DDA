@@ -2,27 +2,29 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
+#include <algorithm>
+#include <cassert>
 #include <cstddef>
 #include <cstdint>
-#include <string>
-#include <vector>
-#include <algorithm>
+#include <functional>
 #include <iterator>
 #include <locale>
+#include <string>
+#include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "catacharset.h"
 #include "color.h"
+#include "debug.h"
 #include "enums.h"
 #include "item.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
-#include "debug.h"
 
 struct input_event;
-struct iteminfo;
 
 enum direction : unsigned;
 namespace catacurses

@@ -1,18 +1,19 @@
 #include "item.h"
 
-#include <cctype>
-#include <cstdlib>
 #include <algorithm>
 #include <array>
 #include <cassert>
+#include <cctype>
+#include <cmath>
+#include <cstdlib>
 #include <iomanip>
 #include <iterator>
-#include <set>
-#include <sstream>
-#include <bitset>
-#include <cmath>
 #include <limits>
 #include <locale>
+#include <memory>
+#include <set>
+#include <sstream>
+#include <tuple>
 
 #include "advanced_inv.h"
 #include "ammo.h"
@@ -20,6 +21,12 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "character.h"
+#include "character_id.h"
+#include "character_martial_arts.h"
+#include "clothing_mod.h"
+#include "color.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "damage.h"
@@ -28,37 +35,51 @@
 #include "effect.h" // for weed_msg
 #include "enums.h"
 #include "explosion.h"
+#include "faction.h"
 #include "fault.h"
-#include "field.h"
+#include "field_type.h"
 #include "fire.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gun_mode.h"
-#include "handle_liquid.h"
 #include "iexamine.h"
+#include "int_id.h"
+#include "inventory.h"
 #include "item_category.h"
 #include "item_factory.h"
+#include "item_group.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
+#include "line.h"
+#include "magic.h"
 #include "map.h"
 #include "martialarts.h"
 #include "material.h"
 #include "messages.h"
 #include "mtype.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "overmapbuffer.h"
 #include "overmap.h"
+#include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
 #include "projectile.h"
 #include "ranged.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
+#include "relic.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "rng.h"
 #include "skill.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
@@ -68,23 +89,7 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "catacharset.h"
-#include "character.h"
-#include "color.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item_group.h"
-#include "iuse.h"
-#include "line.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "recipe.h"
-#include "rng.h"
 #include "weather_gen.h"
-#include "clzones.h"
-#include "faction.h"
-#include "magic.h"
-#include "clothing_mod.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
@@ -1510,11 +1515,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.push_back( iteminfo( "BASE", _( "last rot: " ),
                                           "", iteminfo::lower_is_better,
                                           to_turn<int>( food->last_rot_check ) ) );
+            }
+            if( food && food->has_temperature() ) {
                 info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                           "", iteminfo::lower_is_better,
                                           to_turn<int>( food->last_temp_check ) ) );
-            }
-            if( food && food->has_temperature() ) {
                 info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
                                           food->temperature ) );
                 info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "",
@@ -5196,9 +5201,6 @@ int get_hourly_rotpoints_at_temp( const int temp )
 
 void item::calc_rot( time_point time, int temp )
 {
-    if( !goes_bad() ) {
-        return;
-    }
     // Avoid needlessly calculating already rotten things.  Corpses should
     // always rot away and food rots away at twice the shelf life.  If the food
     // is in a sealed container they won't rot away, this avoids needlessly
@@ -5212,6 +5214,7 @@ void item::calc_rot( time_point time, int temp )
         last_rot_check = time;
         return;
     }
+
     // rot modifier
     float factor = 1.0;
     if( is_corpse() && has_flag( flag_FIELD_DRESS ) ) {
@@ -7469,14 +7472,13 @@ const use_function *item::get_use_internal( const std::string &use_name ) const
 
 item *item::get_usable_item( const std::string &use_name )
 {
-    if( type != nullptr && type->get_use( use_name ) != nullptr ) {
-        return this;
-    }
-
     item *ret = nullptr;
-    contents.visit_contents(
-    [&ret, &use_name]( item * it, item * ) {
-        if( it->get_use( use_name ) != nullptr ) {
+    visit_items(
+    [&ret, &use_name]( item * it ) {
+        if( it == nullptr ) {
+            return VisitResponse::SKIP;
+        }
+        if( it->get_use_internal( use_name ) ) {
             ret = it;
             return VisitResponse::ABORT;
         }
@@ -8644,7 +8646,9 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
 
     time_point time;
     item_internal::scoped_goes_bad_cache _( this );
-    if( goes_bad() ) {
+    const bool process_rot = goes_bad();
+
+    if( process_rot ) {
         time = std::min( last_rot_check, last_temp_check );
     } else {
         time = last_temp_check;
@@ -8672,7 +8676,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
         }
 
         // Process the past of this item since the last time it was processed
-        while( time < now - 1_hours ) {
+        while( now - time > 1_hours ) {
             // Get the environment temperature
             time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
             time += time_delta;
@@ -8716,8 +8720,8 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
                 calc_temp( env_temperature, insulation, time );
             }
 
-            // Calculate item rot from item temperature
-            if( time - last_rot_check > smallest_interval ) {
+            // Calculate item rot
+            if( process_rot && time - last_rot_check > smallest_interval ) {
                 calc_rot( time, env_temperature );
 
                 if( has_rotten_away() && carrier == nullptr ) {
@@ -8735,14 +8739,17 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
     // and items that are held near the player
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
-        calc_rot( now, temp );
+        if( process_rot ) {
+            calc_rot( now, temp );
 
-        if( has_rotten_away() && carrier == nullptr ) {
-            if( is_comestible() ) {
-                g->m.rotten_item_spawn( *this, pos );
+            if( has_rotten_away() && carrier == nullptr ) {
+                if( is_comestible() ) {
+                    g->m.rotten_item_spawn( *this, pos );
+                }
+                return true;
             }
-            return true;
         }
+        return false;
     }
 
     // Just now created items will get here.

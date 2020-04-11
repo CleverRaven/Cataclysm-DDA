@@ -1,31 +1,36 @@
 #include "mutation.h"
 
-#include <cstddef>
 #include <algorithm>
-#include <list>
+#include <cstdlib>
+#include <memory>
 #include <unordered_set>
 
 #include "avatar_action.h"
+#include "bionics.h"
+#include "creature.h"
+#include "debug.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "memorial_logger.h"
 #include "monster.h"
+#include "omdata.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "translations.h"
-#include "omdata.h"
 #include "player_activity.h"
 #include "rng.h"
 #include "string_id.h"
-#include "enums.h"
-#include "bionics.h"
+#include "translations.h"
+#include "units.h"
 
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 

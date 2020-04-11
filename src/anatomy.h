@@ -2,14 +2,15 @@
 #ifndef ANATOMY_H
 #define ANATOMY_H
 
-#include <vector>
+#include <algorithm>
 #include <string>
+#include <vector>
 
 #include "bodypart.h"
 #include "string_id.h"
 
-class anatomy;
 class JsonObject;
+class anatomy;
 
 using anatomy_id = string_id<anatomy>;
 

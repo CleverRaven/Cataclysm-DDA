@@ -2,23 +2,22 @@
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
-#include <cstddef>
+#include <algorithm>
 #include <functional>
 #include <list>
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
 #include <utility>
+#include <vector>
 
-#include "int_id.h"
 #include "item.h"
 #include "optional.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class inventory;
 class player;
+struct construction;
 
 namespace catacurses
 {

@@ -1,8 +1,13 @@
+#include <string>
+
 #include "avatar.h"
+#include "catch/catch.hpp"
+#include "creature.h"
 #include "game_constants.h"
 #include "options.h"
-
-#include "catch/catch.hpp"
+#include "player.h"
+#include "type_id.h"
+#include "units.h"
 
 // Return the `kcal_ratio` needed to reach the given `bmi`
 //   BMI = 13 + (12 * kcal_ratio)

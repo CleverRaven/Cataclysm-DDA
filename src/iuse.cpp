@@ -1,40 +1,58 @@
 ﻿#include "iuse.h"
 
-#include <climits>
 #include <algorithm>
+#include <array>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
-#include <set>
-#include <sstream>
-#include <vector>
-#include <array>
 #include <exception>
 #include <functional>
 #include <iterator>
 #include <list>
 #include <map>
-#include <utility>
+#include <set>
+#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "action.h"
 #include "artifact.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "character_martial_arts.h"
+#include "colony.h"
+#include "color.h"
 #include "coordinate_conversions.h"
+#include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "timed_event.h"
 #include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "iexamine.h"
+#include "int_id.h"
 #include "inventory.h"
+#include "inventory_ui.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "iteminfo_query.h"
+#include "itype.h"
 #include "iuse_actor.h" // For firestarter
 #include "json.h"
 #include "line.h"
@@ -43,63 +61,52 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "memorial_logger.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monattack.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "omdata.h"
+#include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "point.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "speech.h"
+#include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
+#include "teleport.h"
 #include "text_snippets.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "ui.h"
+#include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "veh_type.h"
 #include "weather.h"
-#include "bodypart.h"
-#include "character.h"
-#include "color.h"
-#include "creature.h"
-#include "damage.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "inventory_ui.h"
-#include "item.h"
-#include "item_location.h"
-#include "itype.h"
-#include "monster.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player_activity.h"
-#include "pldata.h"
-#include "recipe.h"
-#include "ret_val.h"
-#include "stomach.h"
-#include "string_id.h"
 #include "weather_gen.h"
-#include "type_id.h"
-#include "options.h"
-#include "flat_set.h"
-#include "handle_liquid.h"
-#include "item_group.h"
-#include "omdata.h"
-#include "point.h"
-#include "teleport.h"
 
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
@@ -1474,8 +1481,8 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->add_msg_if_player( m_good,
                               _( "As, in time, shall we adapt to better welcome those who have not received us." ) );*/
         fungal_effects fe( *g, g->m );
-        for( const tripoint &pos : g->m.points_in_radius( p->pos(), 3 ) ) {
-            fe.marlossify( pos );
+        for( const tripoint &nearby_pos : g->m.points_in_radius( p->pos(), 3 ) ) {
+            fe.marlossify( nearby_pos );
         }
         p->rem_addiction( ADD_MARLOSS_R );
         p->rem_addiction( ADD_MARLOSS_B );
@@ -8540,7 +8547,6 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             } else {
                 meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
                                            g->weather.get_temperature( pos ) ) ) );
-                meal.reset_temp_check();
             }
 
             it->active = false;
@@ -8733,8 +8739,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     return 0;
                 }
 
-                for( auto it : reqs->get_components() ) {
-                    p->consume_items( it, 1, filter );
+                for( auto component : reqs->get_components() ) {
+                    p->consume_items( component, 1, filter );
                 }
 
                 it->set_var( "RECIPE", meal->ident().str() );

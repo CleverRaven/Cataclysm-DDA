@@ -2,16 +2,17 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
+#include <algorithm>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
-class profession;
 class JsonObject;
+class profession;
 
 enum add_type : int;
 template<typename T>

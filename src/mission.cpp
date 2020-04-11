@@ -1,34 +1,35 @@
 #include "mission.h"
 
 #include <algorithm>
-#include <memory>
-#include <unordered_map>
-#include <numeric>
+#include <cstdlib>
 #include <istream>
 #include <iterator>
 #include <list>
+#include <memory>
+#include <numeric>
+#include <unordered_map>
 #include <utility>
 
 #include "avatar.h"
+#include "creature.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "game.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_group.h"
 #include "kill_tracker.h"
 #include "line.h"
+#include "material.h"
+#include "monster.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "requirements.h"
-#include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "item_group.h"
-#include "creature.h"
-#include "inventory.h"
-#include "item.h"
-#include "json.h"
-#include "monster.h"
-#include "material.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

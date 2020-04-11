@@ -1,11 +1,14 @@
 #include "options.h"
 
-#include <climits>
-#include <type_traits>
 #include <cfloat>
+#include <climits>
+#include <iterator>
+#include <stdexcept>
 
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
@@ -17,6 +20,7 @@
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
 #include "sdlsound.h"
 #include "sdltiles.h"
@@ -26,7 +30,6 @@
 #include "translations.h"
 #include "ui_manager.h"
 #include "worldfactory.h"
-#include "color.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -38,11 +41,11 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <exception>
 #include <locale>
 #include <memory>
 #include <sstream>
 #include <string>
-#include <exception>
 
 bool trigdist;
 bool use_tiles;
@@ -1515,6 +1518,12 @@ void options_manager::add_options_interface()
          translate_marker( "Suppress \"unknown command\" messages" ),
          translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
          false
+       );
+
+    add( "LOOKAROUND_POSITION", "interface", translate_marker( "Look around position" ),
+         translate_marker( "Switch between look around panel being left or right." ),
+    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } },
+    "right"
        );
 
     add( "PICKUP_POSITION", "interface", translate_marker( "Pickup position" ),

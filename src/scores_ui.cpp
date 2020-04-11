@@ -1,11 +1,20 @@
 #include "scores_ui.h"
 
+#include <cassert>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "color.h"
 #include "cursesdef.h"
-#include "kill_tracker.h"
-#include "input.h"
-#include "output.h"
 #include "event_statistics.h"
+#include "input.h"
+#include "kill_tracker.h"
+#include "output.h"
+#include "point.h"
 #include "stats_tracker.h"
+#include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 static std::string get_scores_text( stats_tracker &stats )

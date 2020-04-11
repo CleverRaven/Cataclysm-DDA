@@ -1,24 +1,29 @@
 #include "mapdata.h"
 
-#include <unordered_map>
 #include <algorithm>
+#include <cstdlib>
 #include <iterator>
 #include <map>
+#include <memory>
+#include <unordered_map>
 #include <utility>
 
+#include "assign.h"
 #include "calendar.h"
 #include "color.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "int_id.h"
 #include "item_group.h"
+#include "json.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
-#include "assign.h"
-#include "json.h"
 
 static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_TRANSPARENT( "TRANSPARENT" );
@@ -28,8 +33,8 @@ namespace
 
 const units::volume DEFAULT_MAX_VOLUME_IN_SQUARE = units::from_liter( 1000 );
 
-generic_factory<ter_t> terrain_data( "terrain", "id", "aliases" );
-generic_factory<furn_t> furniture_data( "furniture", "id", "aliases" );
+generic_factory<ter_t> terrain_data( "terrain" );
+generic_factory<furn_t> furniture_data( "furniture" );
 
 } // namespace
 

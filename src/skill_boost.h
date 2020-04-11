@@ -2,15 +2,16 @@
 #ifndef SKILL_BOOST_H
 #define SKILL_BOOST_H
 
-#include <vector>
+#include <algorithm>
 #include <string>
+#include <vector>
 
 #include "optional.h"
 #include "string_id.h"
 
+class JsonObject;
 template<typename T>
 class generic_factory;
-class JsonObject;
 
 class skill_boost
 {

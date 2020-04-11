@@ -17,8 +17,7 @@
     "ammo_type": "454",
     "casing": "454_casing",
     "range": 16,
-    "damage": 48,
-    "pierce": 8,
+    "damage": { "damage_type": "stab", "amount": 48, "armor_penetration": 8 },
     "dispersion": 30,
     "recoil": 2500,
     "effects": [ "COOKOFF" ]
@@ -28,7 +27,7 @@
     "copy-from": "454_Casull",
     "type": "AMMO",
     "name": { "str": ".454 Casull, reloaded" },
-    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -37,7 +36,12 @@
     "copy-from": "454_Casull",
     "type": "AMMO",
     "name": { "str": ".454 Casull, black powder" },
-    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

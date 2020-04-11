@@ -16,7 +16,7 @@
     "ammo_type": "shotcanister",
     "looks_like": "shot_scrap",
     "range": 1,
-    "damage": 10,
+    "damage": { "damage_type": "stab", "amount": 10 },
     "dispersion": 250,
     "loudness": 0,
     "count": 10
@@ -38,8 +38,7 @@
     "ammo_type": "shotcanister",
     "looks_like": "shot_scrap",
     "range": 2,
-    "pierce": 1,
-    "damage": 7,
+    "damage": { "damage_type": "stab", "amount": 7, "armor_penetration": 1 },
     "dispersion": 80,
     "loudness": 0,
     "count": 10
@@ -61,8 +60,7 @@
     "ammo_type": "shotcanister",
     "looks_like": "shot_scrap",
     "range": 3,
-    "damage": 13,
-    "pierce": 7,
+    "damage": { "damage_type": "stab", "amount": 13, "armor_penetration": 7 },
     "dispersion": 50,
     "loudness": 0,
     "count": 10
@@ -84,8 +82,7 @@
     "ammo_type": "shotcanister",
     "looks_like": "shot_scrap",
     "range": 2,
-    "damage": 12,
-    "pierce": 2,
+    "damage": { "damage_type": "stab", "amount": 12, "armor_penetration": 2 },
     "dispersion": 100,
     "loudness": 0,
     "count": 10

@@ -431,8 +431,7 @@
     "color": "magenta",
     "skill": "pistol",
     "range": 30,
-    "ranged_damage": 10,
-    "pierce": 6,
+    "ranged_damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 6 },
     "dispersion": 180,
     "durability": 4,
     "loudness": 7,
@@ -961,7 +960,7 @@
     "type": "AMMO",
     "name": { "str": "40mm slug" },
     "description": "A 40mm shell loaded with a massive bullet.  Say goodbye to your shoulder, I guess.",
-    "damage": 130,
+    "damage": { "damage_type": "stab", "amount": 130 },
     "recoil": 875,
     "extend": { "effects": [ "LARGE_BEANBAG" ] }
   },

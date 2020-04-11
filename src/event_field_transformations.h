@@ -2,8 +2,9 @@
 #ifndef CATA_EVENT_FIELD_TRANSFORMATIONS_H
 #define CATA_EVENT_FIELD_TRANSFORMATIONS_H
 
-#include <vector>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "cata_variant.h"
 

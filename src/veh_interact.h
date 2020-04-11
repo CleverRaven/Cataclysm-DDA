@@ -3,22 +3,23 @@
 #define VEH_INTERACT_H
 
 #include <cstddef>
-#include <map>
-#include <vector>
 #include <functional>
+#include <map>
 #include <string>
+#include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
 #include "inventory.h"
-#include "player_activity.h"
 #include "item_location.h"
+#include "player_activity.h"
+#include "point.h"
 #include "type_id.h"
 
-struct requirement_data;
-struct tripoint;
+class player;
 class vpart_info;
+struct requirement_data;
 
 /** Represents possible return values from the cant_do function. */
 enum task_reason {

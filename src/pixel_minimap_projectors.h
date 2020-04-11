@@ -2,7 +2,6 @@
 #ifndef PIXEL_MINIMAP_PROJECTORS_H
 #define PIXEL_MINIMAP_PROJECTORS_H
 
-#include "enums.h"
 #include "point.h"
 #include "sdl_wrappers.h"
 

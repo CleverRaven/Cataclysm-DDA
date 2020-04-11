@@ -1,5 +1,9 @@
 #include "gamemode_defense.h" // IWYU pragma: associated
 
+#include <cassert>
+#include <cstddef>
+#include <memory>
+#include <ostream>
 #include <set>
 
 #include "action.h"
@@ -7,33 +11,31 @@
 #include "color.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
+#include "item.h"
 #include "item_group.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "messages.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
 #include "popup.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "cursesdef.h"
-#include "game_constants.h"
-#include "item.h"
-#include "monster.h"
-#include "pldata.h"
-#include "mapdata.h"
-#include "string_id.h"
-#include "point.h"
 #include "weather.h"
 
 static const skill_id skill_barter( "barter" );

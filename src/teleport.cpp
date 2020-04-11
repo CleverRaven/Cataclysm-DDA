@@ -1,13 +1,24 @@
 #include "teleport.h"
 
-#include "character.h"
+#include <cmath>
+#include <memory>
+
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "creature.h"
-#include "player.h"
+#include "debug.h"
+#include "enums.h"
+#include "event.h"
+#include "event_bus.h"
 #include "game.h"
 #include "map.h"
 #include "messages.h"
+#include "player.h"
 #include "point.h"
+#include "rng.h"
+#include "translations.h"
+#include "type_id.h"
 
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );

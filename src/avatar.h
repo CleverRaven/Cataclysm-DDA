@@ -7,11 +7,17 @@
 #include <unordered_set>
 #include <vector>
 
-#include "player.h"
-#include "magic_teleporter_list.h"
 #include "calendar.h"
+#include "character.h"
+#include "enums.h"
+#include "item.h"
+#include "magic_teleporter_list.h"
 #include "map_memory.h"
+#include "memory_fast.h"
+#include "player.h"
 #include "point.h"
+
+class faction;
 
 enum character_type : int;
 
@@ -19,14 +25,15 @@ class JsonIn;
 class JsonObject;
 class JsonOut;
 class mission;
-class npc;
 class monster;
+class npc;
+
 namespace debug_menu
 {
 class mission_debug;
 }  // namespace debug_menu
-struct points_left;
 struct mtype;
+struct points_left;
 struct targeting_data;
 
 // Monster visible in different directions (safe mode & compass)

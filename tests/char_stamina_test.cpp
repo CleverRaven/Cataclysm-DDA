@@ -1,11 +1,17 @@
+#include <memory>
+
 #include "avatar.h"
 #include "bodypart.h"
+#include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "game.h"
+#include "item.h"
 #include "options.h"
-
-#include "catch/catch.hpp"
+#include "player.h"
 #include "player_helpers.h"
+#include "type_id.h"
+#include "units.h"
 
 static const efftype_id effect_winded( "winded" );
 

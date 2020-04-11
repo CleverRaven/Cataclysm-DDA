@@ -3,24 +3,22 @@
 #define MISSION_COMPANION_H
 
 #include <map>
-#include <memory>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
-#include "memory_fast.h"
 
-class npc;
 class item;
-struct tripoint;
-struct comp_rank;
+class monster;
+class npc;
 class npc_template;
+struct comp_rank;
 template<typename T>
 class string_id;
-class monster;
 
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;

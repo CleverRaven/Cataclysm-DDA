@@ -5,16 +5,18 @@
 #include <cassert>
 #include <cmath>
 #include <cstring>
+#include <exception>
+#include <memory>
 #include <numeric>
 #include <ostream>
-#include <queue>
-#include <vector>
-#include <exception>
-#include <unordered_set>
 #include <set>
+#include <unordered_set>
+#include <vector>
 
-#include "catacharset.h"
+#include "assign.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "character_id.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "flood_fill.h"
@@ -26,9 +28,10 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
-#include "mapgen_functions.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
@@ -36,19 +39,16 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_connection.h"
-#include "overmap_noise.h"
 #include "overmap_location.h"
+#include "overmap_noise.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
-#include "translations.h"
-#include "assign.h"
-#include "math_defines.h"
-#include "monster.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 static const efftype_id effect_pet( "pet" );
 
@@ -600,7 +600,7 @@ void oter_type_t::finalize()
     directional_peers.clear();  // In case of a second finalization.
 
     if( is_rotatable() ) {
-        for( auto dir : om_direction::all ) {
+        for( om_direction::type dir : om_direction::all ) {
             register_terrain( oter_t( *this, dir ), static_cast<size_t>( dir ), om_direction::size );
         }
     } else if( has_flag( line_drawing ) ) {
@@ -3094,7 +3094,7 @@ bool overmap::build_lab( const tripoint &p, int s, std::vector<point> *lab_train
     }
 
     bool generate_stairs = true;
-    for( auto &elem : generated_lab ) {
+    for( tripoint &elem : generated_lab ) {
         // Use a check for "_stairs" to catch the hidden_lab_stairs tiles.
         if( is_ot_match( "_stairs", ter( elem + tripoint_above ), ot_match_type::contains ) ) {
             generate_stairs = false;
@@ -3104,14 +3104,14 @@ bool overmap::build_lab( const tripoint &p, int s, std::vector<point> *lab_train
         std::shuffle( generated_lab.begin(), generated_lab.end(), rng_get_engine() );
 
         // we want a spot where labs are above, but we'll settle for the last element if necessary.
-        tripoint p;
-        for( auto elem : generated_lab ) {
-            p = elem;
-            if( ter( p + tripoint_above ) == labt ) {
+        tripoint lab_pos;
+        for( tripoint elem : generated_lab ) {
+            lab_pos = elem;
+            if( ter( lab_pos + tripoint_above ) == labt ) {
                 break;
             }
         }
-        ter_set( p + tripoint_above, labt_stairs );
+        ter_set( lab_pos + tripoint_above, labt_stairs );
     }
 
     ter_set( p, labt_core );
@@ -3211,7 +3211,7 @@ bool overmap::build_lab( const tripoint &p, int s, std::vector<point> *lab_train
 
 void overmap::build_anthill( const tripoint &p, int s )
 {
-    for( auto dir : om_direction::all ) {
+    for( om_direction::type dir : om_direction::all ) {
         build_tunnel( p, s - rng( 0, 3 ), dir );
     }
 
@@ -3242,9 +3242,9 @@ void overmap::build_anthill( const tripoint &p, int s )
             }
             if( root_id == ter( root )->id ) {
                 const oter_id &oter = ter( root );
-                for( auto dir : om_direction::all ) {
-                    const tripoint p = root + om_direction::displace( dir );
-                    if( check_ot( "ants", ot_match_type::prefix, p ) ) {
+                for( om_direction::type dir : om_direction::all ) {
+                    const tripoint neighbor = root + om_direction::displace( dir );
+                    if( check_ot( "ants", ot_match_type::prefix, neighbor ) ) {
                         size_t line = oter->get_line();
                         line = om_lines::set_segment( line, dir );
                         if( line != oter->get_line() ) {
@@ -3280,7 +3280,7 @@ void overmap::build_tunnel( const tripoint &p, int s, om_direction::type dir )
 
     std::vector<om_direction::type> valid;
     valid.reserve( om_direction::size );
-    for( auto r : om_direction::all ) {
+    for( om_direction::type r : om_direction::all ) {
         const tripoint cand = p + om_direction::displace( r );
         if( !check_ot( "ants", ot_match_type::type, cand ) &&
             is_ot_match( "empty_rock", ter( cand ), ot_match_type::type ) ) {
@@ -3517,7 +3517,7 @@ void overmap::build_connection( const overmap_connection &connection, const pf::
                 new_line = om_lines::set_segment( new_line, om_direction::opposite( prev_dir ) );
             }
 
-            for( const auto dir : om_direction::all ) {
+            for( const om_direction::type dir : om_direction::all ) {
                 const tripoint np( pos + om_direction::displace( dir ) );
 
                 if( inbounds( np ) ) {
@@ -3861,7 +3861,7 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
 
     int top_score = 0; // Maximal number of existing connections (roads).
     // Try to find the most suitable rotation: satisfy as many connections as possible with the existing terrain.
-    for( auto r : om_direction::all ) {
+    for( om_direction::type r : om_direction::all ) {
         int score = 0; // Number of existing connections when rotated by 'r'.
         bool valid = true;
 
@@ -3964,12 +3964,12 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         if( blob ) {
             for( int x = -2; x <= 2; x++ ) {
                 for( int y = -2; y <= 2; y++ ) {
-                    const tripoint p = location + point( x, y );
-                    if( !inbounds( p ) ) {
+                    const tripoint nearby_pos = location + point( x, y );
+                    if( !inbounds( nearby_pos ) ) {
                         continue;
                     }
-                    if( one_in( 1 + abs( x ) + abs( y ) ) && elem.can_be_placed_on( ter( p ) ) ) {
-                        ter_set( p, tid );
+                    if( one_in( 1 + abs( x ) + abs( y ) ) && elem.can_be_placed_on( ter( nearby_pos ) ) ) {
+                        ter_set( nearby_pos, tid );
                     }
                 }
             }
