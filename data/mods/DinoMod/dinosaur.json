@@ -494,6 +494,38 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_dimorphodon",
+    "name": { "str": "Dimorphodon", "str_pl": "Dimorphodon" },
+    "species": "DINOSAUR",
+    "default_faction": "dimorphodon",
+    "symbol": "D",
+    "color": "light_gray_yellow",
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "material": "flesh",
+    "aggression": -80,
+    "morale": -8,
+    "speed": 110,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_cut": 0,
+    "dodge": 3,
+    "armor_bash": 3,
+    "armor_cut": 1,
+    "luminance": 0,
+    "vision_day": 50,
+    "hp": 30,
+    "death_function": [ "NORMAL" ],
+    "description": "A small flying reptile, circling overhead looking for prey.",
+    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "BLEED" ],
+    "harvest": "animal_noskin",
+    "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "FRIEND_DIED" ],
+    "placate_triggers": [ "MEAT" ],
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_dilophosaurus",
     "name": { "str": "Dilophosaurus", "str_pl": "Dilophosaurus" },
     "species": "DINOSAUR",
@@ -665,6 +697,7 @@
       { "monster": "mon_deinonychus", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
       { "monster": "mon_utahraptor", "freq": 5, "cost_multiplier": 30 },
       { "monster": "mon_parasaurolophus", "freq": 3, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_dilophosaurus", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
     ]
   },
@@ -689,6 +722,12 @@
       { "monster": "mon_utahraptor", "freq": 5, "cost_multiplier": 30 },
       { "monster": "mon_dilophosaurus", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_FLY",
+    "default": "mon_null",
+    "monsters": [ { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] } ]
   },
   {
     "type": "monstergroup",
@@ -817,6 +856,7 @@
       { "monster": "mon_deinonychus", "freq": 100, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
       { "monster": "mon_utahraptor", "freq": 100, "cost_multiplier": 30 },
       { "monster": "mon_parasaurolophus", "freq": 80, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_dimorphodon", "freq": 500, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_dilophosaurus", "freq": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
     ]
   }
