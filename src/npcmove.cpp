@@ -1,68 +1,73 @@
 #include "npc.h" // IWYU pragma: associated
 
-#include <climits>
-#include <cstdlib>
 #include <algorithm>
+#include <cfloat>
+#include <climits>
+#include <cmath>
+#include <cstdlib>
+#include <iterator>
 #include <memory>
 #include <numeric>
-#include <iterator>
+#include <ostream>
 #include <tuple>
-#include <cmath>
-#include <type_traits>
-#include <cfloat>
 
+#include "active_item_cache.h"
 #include "activity_handlers.h"
 #include "avatar.h"
-#include "activity_handlers.h"
+#include "basecamp.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "cata_algo.h"
+#include "character.h"
+#include "character_id.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
+#include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h"
+#include "enums.h"
+#include "explosion.h"
 #include "field.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
 #include "gates.h"
 #include "gun_mode.h"
+#include "item.h"
+#include "item_contents.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npctalk.h"
 #include "options.h"
+#include "overmap.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
+#include "player_activity.h"
+#include "pldata.h"
 #include "projectile.h"
 #include "ranged.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
+#include "stomach.h"
 #include "translations.h"
+#include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "bodypart.h"
-#include "character.h"
-#include "damage.h"
-#include "explosion.h"
-#include "game_constants.h"
-#include "item.h"
-#include "iuse.h"
-#include "mapdata.h"
-#include "player_activity.h"
-#include "ret_val.h"
-#include "units.h"
-#include "pldata.h"
-#include "enums.h"
-#include "overmap.h"
-#include "stomach.h"
 
 static const activity_id ACT_PULP( "ACT_PULP" );
 
@@ -2905,7 +2910,7 @@ void npc::pick_up_item()
     }
 
     if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
-        add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name );
+        add_msg( m_debug, "%s::pick_up_item(); Canceling on player's request", name );
         fetching_item = false;
         moves -= 1;
         return;

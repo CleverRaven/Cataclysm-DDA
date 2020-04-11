@@ -4,12 +4,13 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "calendar.h"
 #include "color.h"
+#include "enums.h"
 #include "field_type.h"
-
-class effect;
+#include "type_id.h"
 
 /**
  * An active or passive effect existing on a tile.

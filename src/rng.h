@@ -4,9 +4,9 @@
 
 #include <array>
 #include <functional>
-#include <random>
 #include <iosfwd>
 #include <iterator>
+#include <random>
 #include <type_traits>
 
 #include "optional.h"
@@ -160,8 +160,8 @@ inline V random_entry_removed( C &container )
     return result;
 }
 class map;
-struct tripoint;
 class tripoint_range;
+struct tripoint;
 
 /// Returns a range enclosing all valid points of the map.
 tripoint_range points_in_range( const map &m );

@@ -2,7 +2,6 @@
 
 import json
 import argparse
-import os
 import copy
 
 def hash_key(key):

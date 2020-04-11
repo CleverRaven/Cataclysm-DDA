@@ -770,6 +770,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "awl_steel", "prob": 5 },
+      { "item": "loom_frame", "prob": 1 },
+      { "item": "shed_stick", "prob": 1 },
       { "item": "inhaler", "prob": 14 },
       { "item": "eyedrops", "prob": 25 },
       { "item": "television", "prob": 10 },

@@ -5,10 +5,10 @@
 #include <string>
 
 #include "calendar.h"
-#include "enum_traits.h"
 
 class JsonIn;
 class JsonOut;
+template <typename E> struct enum_traits;
 
 using dis_type = std::string;
 

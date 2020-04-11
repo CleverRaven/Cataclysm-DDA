@@ -192,6 +192,23 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
+    "id": "px4mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Px4 magazine" },
+    "description": "The standard magazine for the Beretta Px4, in 9x19mm.",
+    "weight": "135 g",
+    "volume": "250 ml",
+    "price": 3600,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "9mm",
+    "capacity": 17,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
     "id": "stenmag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",

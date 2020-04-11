@@ -2,24 +2,24 @@
 #ifndef MARTIALARTS_H
 #define MARTIALARTS_H
 
+#include <algorithm>
 #include <cstddef>
-#include <map>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "bonuses.h"
 #include "calendar.h"
-#include "string_id.h"
+#include "input.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "input.h"
 
 enum damage_type : int;
+class Character;
 class JsonObject;
 class effect;
-class Character;
 class item;
 struct itype;
 

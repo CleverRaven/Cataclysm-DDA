@@ -1,8 +1,9 @@
 #include <clocale>
 #include <string>
+#include <vector>
 
-#include "catch/catch.hpp"
 #include "catacharset.h"
+#include "catch/catch.hpp"
 
 TEST_CASE( "utf8_width", "[catacharset]" )
 {

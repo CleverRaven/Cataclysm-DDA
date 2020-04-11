@@ -2,16 +2,18 @@
 #ifndef CHARACTER_MARTIAL_ARTS_H
 #define CHARACTER_MARTIAL_ARTS_H
 
-#include "type_id.h"
-
+#include <algorithm>
+#include <string>
 #include <vector>
 
-class avatar;
+#include "martialarts.h"
+#include "type_id.h"
+
 class Character;
-class effects_map;
-class item;
-class JsonOut;
 class JsonIn;
+class JsonOut;
+class avatar;
+class item;
 
 using itype_id = std::string;
 

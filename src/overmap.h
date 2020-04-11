@@ -2,40 +2,41 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include <cstdlib>
 #include <algorithm>
 #include <array>
 #include <climits>
+#include <cstdlib>
 #include <functional>
 #include <iosfwd>
+#include <iterator>
 #include <map>
-#include <memory>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <iterator>
 #include <utility>
+#include <vector>
 
 #include "basecamp.h"
-#include "game_constants.h"
-#include "omdata.h"
-#include "overmap_types.h" // IWYU pragma: keep
-#include "regional_settings.h"
 #include "enums.h"
+#include "game_constants.h"
+#include "memory_fast.h"
 #include "mongroup.h"
+#include "monster.h"
+#include "omdata.h"
 #include "optional.h"
-#include "type_id.h"
+#include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
+#include "regional_settings.h"
 #include "rng.h"
 #include "string_id.h"
+#include "type_id.h"
 
+class JsonIn;
+class JsonObject;
+class JsonOut;
+class character_id;
+class map_extra;
 class npc;
 class overmap_connection;
-class JsonIn;
-class JsonOut;
-class monster;
-class JsonObject;
-class map_extra;
 
 namespace pf
 {
@@ -218,7 +219,11 @@ class overmap
          * chosen place on the overmap with the specific overmap terrain.
          * Returns @ref invalid_tripoint if no suitable place has been found.
          */
-        tripoint find_random_omt( const std::string &omt_base_type ) const;
+        tripoint find_random_omt( const std::pair<std::string, ot_match_type> &target ) const;
+        tripoint find_random_omt( const std::string &omt_base_type,
+                                  ot_match_type match_type = ot_match_type::type ) const {
+            return find_random_omt( std::make_pair( omt_base_type, match_type ) );
+        };
         /**
          * Return a vector containing the absolute coordinates of
          * every matching terrain on the current z level of the current overmap.
@@ -515,7 +520,7 @@ std::string oter_no_dir( const oter_id &oter );
 
 /**
 * Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east
-* Return 0 if there's' no suffix
+* Return 0 if there's no suffix
 */
 int oter_get_rotation( const oter_id &oter );
 

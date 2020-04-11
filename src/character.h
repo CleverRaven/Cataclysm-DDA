@@ -2,64 +2,74 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <cstddef>
-#include <bitset>
-#include <map>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
 #include <array>
+#include <bitset>
+#include <climits>
+#include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <limits>
 #include <list>
+#include <map>
 #include <set>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "creature.h"
-#include "game_constants.h"
-#include "inventory.h"
-#include "pimpl.h"
-#include "pldata.h"
-#include "visitable.h"
 #include "color.h"
+#include "creature.h"
 #include "damage.h"
 #include "enums.h"
+#include "flat_set.h"
+#include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
-#include "optional.h"
-#include "overmapbuffer.h"
-#include "player_activity.h"
-#include "stomach.h"
-#include "string_formatter.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "units.h"
-#include "weighted_list.h"
-#include "point.h"
+#include "item_location.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "memory_fast.h"
+#include "monster.h"
+#include "mtype.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "point.h"
+#include "ret_val.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "type_id.h"
+#include "units.h"
+#include "visitable.h"
+#include "weighted_list.h"
 
-struct pathfinding_settings;
-class item_location;
+class JsonIn;
+class JsonObject;
+class JsonOut;
 class SkillLevel;
 class SkillLevelMap;
-
-class JsonObject;
-class JsonIn;
-class JsonOut;
-class vehicle;
-struct mutation_branch;
 class bionic_collection;
-class player_morale;
-struct points_left;
 class faction;
-struct construction;
-
+class player;
+class player_morale;
+class vehicle;
 struct bionic;
+struct construction;
+struct dealt_projectile_attack;
+struct islot_comestible;
+struct itype;
+struct mutation_branch;
+struct needs_rates;
+struct pathfinding_settings;
+struct points_left;
+template <typename E> struct enum_traits;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -506,11 +516,6 @@ class Character : public Creature, public visitable<Character>
         /** Handles stat and bonus reset. */
         void reset() override;
 
-        /** Picks a random body part, adjusting for mutations, broken body parts etc. */
-        body_part get_random_body_part( bool main ) const override;
-        /** Returns all body parts this character has, in order they should be displayed. */
-        std::vector<body_part> get_all_body_parts( bool only_main = false ) const override;
-
         /** Recalculates encumbrance cache. */
         void reset_encumbrance();
         /** Returns ENC provided by armor, etc. */
@@ -565,6 +570,9 @@ class Character : public Creature, public visitable<Character>
         void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
+
+        /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
+        void expose_to_disease( diseasetype_id dis_type );
         /**
          * Handles end-of-turn processing.
          */
@@ -909,7 +917,7 @@ class Character : public Creature, public visitable<Character>
         void update_fuel_storage( const itype_id &fuel );
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const Character::stat &Stat ) const;
-        // route for overmap-scale travelling
+        // route for overmap-scale traveling
         std::vector<tripoint> omt_path;
 
         /** Handles bionic effects over time of the entered bionic */
@@ -924,13 +932,15 @@ class Character : public Creature, public visitable<Character>
 
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype *cbm, player &patient );
-        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
+        /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic_id &b );
         /** Adds a bionic to my_bionics[] */
         void add_bionic( const bionic_id &b );
+        /**Calculate skill bonus from tiles in radius*/
+        float env_surgery_bonus( int radius );
         /** Calculate skill for (un)installing bionics */
         float bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &important_skill,
@@ -969,7 +979,7 @@ class Character : public Creature, public visitable<Character>
 
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
-                               float adjusted_skill, bool autodoc = false );
+                               float adjusted_skill );
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
@@ -1098,6 +1108,11 @@ class Character : public Creature, public visitable<Character>
          */
         std::list<item> remove_worn_items_with( std::function<bool( item & )> filter );
 
+        /** Return the item pointer of the item with given invlet, return nullptr if
+         * the player does not have such an item with that invlet. Don't use this on npcs.
+         * Only use the invlet in the user interface, otherwise always use the item position. */
+        item *invlet_to_item( int invlet );
+
         // Returns the item with a given inventory position.
         item &i_at( int position );
         const item &i_at( int position ) const;
@@ -1157,7 +1172,7 @@ class Character : public Creature, public visitable<Character>
          * @return A copy of the removed item.
          */
         item i_rem( const item *it );
-        void i_rem_keep_contents( int pos );
+        void i_rem_keep_contents( int idx );
         /** Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
          *  An optional qty can be provided (and will perform better than separate calls). */
         bool i_add_or_drop( item &it, int qty = 1 );
@@ -1528,7 +1543,10 @@ class Character : public Creature, public visitable<Character>
         void use_fire( int quantity );
         void assign_stashed_activity();
         bool check_outbounds_activity( const player_activity &act, bool check_only = false );
-        /** Legacy activity assignment, should not be used where resuming is important. */
+        /** Legacy activity assignment, does not work for any activites using
+         * the new activity_actor class and may cause issues with resuming.
+         * TODO: delete this once migration of activites to the activity_actor system is complete
+         */
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
                               const std::string &name = "" );
@@ -1561,6 +1579,16 @@ class Character : public Creature, public visitable<Character>
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
+        // age in years, determined at character creation
+        int base_age() const;
+        void mod_base_age( int mod );
+        // age in years
+        int age() const;
+        std::string age_string() const;
+        // returns the height in cm
+        int base_height() const;
+        void mod_base_height( int mod );
+        std::string height_string() const;
         // returns the height of the player character in cm
         int height() const;
         // returns bodyweight of the Character
@@ -1902,6 +1930,8 @@ class Character : public Creature, public visitable<Character>
         int healthy;
         int healthy_mod;
 
+        /** age in years at character creation */
+        int init_age = 25;
         /**height at character creation*/
         int init_height = 175;
         /** Size class of character. */

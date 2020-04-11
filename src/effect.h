@@ -2,26 +2,24 @@
 #ifndef EFFECT_H
 #define EFFECT_H
 
-#include <cstddef>
-#include <unordered_map>
-#include <tuple>
-#include <vector>
-#include <string>
-#include <utility>
 #include <set>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "string_id.h"
-#include "translations.h"
 #include "hash_utils.h"
+#include "translations.h"
 #include "type_id.h"
 
 class player;
 
 enum game_message_type : int;
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
 
 /** Handles the large variety of weed messages. */

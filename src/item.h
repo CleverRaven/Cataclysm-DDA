@@ -2,26 +2,26 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include <cstdint>
+#include <algorithm>
 #include <climits>
+#include <cstdint>
+#include <functional>
 #include <list>
 #include <map>
 #include <set>
 #include <string>
-#include <vector>
-#include <functional>
-#include <memory>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "calendar.h"
-#include "value_ptr.h"
 #include "cata_utility.h"
 #include "craft_command.h"
-#include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "gun_mode.h"
 #include "io_tags.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "magic_enchantment.h"
 #include "optional.h"
@@ -30,35 +30,35 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "visitable.h"
-#include "gun_mode.h"
 
-class item;
-class material_type;
-struct mtype;
-class faction;
-class nc_color;
+class Character;
 class JsonIn;
-class JsonOut;
 class JsonObject;
-class iteminfo_query;
-template<typename T>
-class ret_val;
+class JsonOut;
+class faction;
 class gun_type_type;
 class gunmod_location;
-class Character;
+class item;
+class iteminfo_query;
+class material_type;
+class nc_color;
 class player;
 class recipe;
 class relic;
-struct tripoint;
-struct itype;
 struct islot_comestible;
+struct itype;
+struct mtype;
+struct tripoint;
+template<typename T>
+class ret_val;
 
 using bodytype_id = std::string;
 using faction_id = string_id<faction>;
+class item_category;
 struct islot_armor;
 struct use_function;
-class item_category;
 
 enum art_effect_passive : int;
 enum phase_id : int;
@@ -68,10 +68,10 @@ enum class side : int;
 class body_part_set;
 
 using itype_id = std::string;
-struct fire_data;
+class map;
 struct damage_instance;
 struct damage_unit;
-class map;
+struct fire_data;
 
 enum damage_type : int;
 enum clothing_mod_type : int;
@@ -398,10 +398,14 @@ class item : public visitable<item>
                        bool debug ) const;
         void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
+        void armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                                    bool debug ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
         void animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                                 bool debug ) const;
+        void armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                             bool debug ) const;
         void book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                         bool debug ) const;
         void battery_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -412,10 +416,18 @@ class item : public visitable<item>
                         bool debug ) const;
         void component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                              bool debug ) const;
+        void repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                          bool debug ) const;
         void disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                                bool debug ) const;
         void qualities_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                              bool debug ) const;
+        void bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                          bool debug ) const;
+        void combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                          bool debug ) const;
+        void contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                            bool debug ) const;
         void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
 
@@ -549,6 +561,17 @@ class item : public visitable<item>
         damage_instance base_damage_thrown() const;
 
         /**
+        * Calculate the item's effective damage per second past armor when wielded by a
+         * character against a monster.
+         */
+        double effective_dps( const player &guy, monster &mon ) const;
+        /**
+         * calculate effective dps against a stock set of monsters.  by default, assume g->u
+         * is wielding
+         */
+        std::map<std::string, double> dps( const player &guy ) const;
+        std::map<std::string, double> dps() const;
+        /**
          * Whether the character needs both hands to wield this item.
          */
         bool is_two_handed( const Character &guy ) const;
@@ -678,16 +701,6 @@ class item : public visitable<item>
          */
         void put_in( const item &payload );
 
-        /** Stores a newly constructed item at the end of this item's contents */
-        template<typename ... Args>
-        item &emplace_back( Args &&... args ) {
-            contents.emplace_back( std::forward<Args>( args )... );
-            if( contents.back().is_null() ) {
-                debugmsg( "Tried to emplace null item" );
-            }
-            return contents.back();
-        }
-
         /**
          * Returns this item into its default container. If it does not have a default container,
          * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
@@ -695,6 +708,8 @@ class item : public visitable<item>
         item in_its_container() const;
         item in_container( const itype_id &container_type ) const;
         /*@}*/
+
+        bool item_has_uses_recursive() const;
 
         /*@{*/
         /**
@@ -1754,10 +1769,6 @@ class item : public visitable<item>
         item *magazine_current();
         const item *magazine_current() const;
 
-        /** Normalizes an item to use the new magazine system. Idempotent if item already converted.
-         *  @return items that were created as a result of the conversion (excess ammo or magazines) */
-        std::vector<item> magazine_convert();
-
         /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
         std::vector<item *> gunmods();
         std::vector<const item *> gunmods() const;
@@ -2059,6 +2070,11 @@ class item : public visitable<item>
                                                bool round_value = false ) const;
 
     private:
+        bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
+                                  const std::function<bool( const item & )> &filter = return_true<item> );
+        const use_function *get_use_internal( const std::string &use_name ) const;
+        bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+                               temperature_flag flag = temperature_flag::TEMP_NORMAL );
         /**
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
@@ -2114,7 +2130,7 @@ class item : public visitable<item>
         static const int INFINITE_CHARGES;
 
         const itype *type;
-        std::list<item> contents;
+        item_contents contents;
         std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;

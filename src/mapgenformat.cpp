@@ -1,11 +1,12 @@
 #include "mapgenformat.h"
 
-#include <cctype>
 #include <algorithm>
+#include <cctype>
 #include <string>
 
 #include "map.h"
 #include "mapdata.h"
+#include "point.h"
 
 namespace mapf
 {

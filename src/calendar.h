@@ -3,14 +3,13 @@
 #define CALENDAR_H
 
 #include <string>
-#include <iosfwd>
 #include <utility>
 #include <vector>
 
+class JsonIn;
+class JsonOut;
 class time_duration;
 class time_point;
-class JsonOut;
-class JsonIn;
 template<typename T> struct enum_traits;
 
 /** Real world seasons */

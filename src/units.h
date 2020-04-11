@@ -2,12 +2,19 @@
 #ifndef UNITS_H
 #define UNITS_H
 
+#include <algorithm>
+#include <cctype>
 #include <cstddef>
+#include <cstdint>
 #include <limits>
+#include <map>
 #include <ostream>
+#include <string>
+#include <type_traits>
 #include <utility>
+#include <vector>
 
-#include "calendar.h"
+#include "compatibility.h"
 #include "json.h"
 #include "translations.h"
 

@@ -1,8 +1,8 @@
 #include "iexamine.h"
 
+#include <algorithm>
 #include <climits>
 #include <cmath>
-#include <algorithm>
 #include <cstdlib>
 #include <iterator>
 #include <map>
@@ -15,78 +15,82 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
+#include "colony.h"
+#include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
-#include "timed_event.h"
-#include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "input.h"
+#include "int_id.h"
 #include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
+#include "item_stack.h"
+#include "iuse.h"
+#include "iuse_actor.h"
 #include "line.h"
+#include "magic_teleporter_list.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
 #include "mission_companion.h"
 #include "monster.h"
 #include "mtype.h"
-#include "iuse_actor.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
+#include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "point.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "bodypart.h"
-#include "color.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "damage.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "item.h"
-#include "item_location.h"
-#include "item_stack.h"
-#include "iuse.h"
-#include "map_selector.h"
-#include "pimpl.h"
-#include "player_activity.h"
-#include "pldata.h"
-#include "string_id.h"
-#include "colony.h"
-#include "flat_set.h"
-#include "magic_teleporter_list.h"
-#include "point.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
@@ -149,7 +153,6 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
-static const std::string flag_ANESTHESIA( "ANESTHESIA" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
@@ -553,7 +556,7 @@ class atm_menu
             item *dst;
             if( u.activity.id() == ACT_ATM ) {
                 u.activity.set_to_null(); // stop for now, if required, it will be created again.
-                dst = &u.i_at( u.activity.position );
+                dst = u.activity.targets.front().get_item();
                 if( dst->is_null() || dst->typeId() != "cash_card" ) {
                     return false;
                 }
@@ -574,7 +577,8 @@ class atm_menu
                     // Money from `*i` could be transferred, but we're out of moves, schedule it for
                     // the next turn. Putting this here makes sure there will be something to be
                     // done next turn.
-                    u.assign_activity( ACT_ATM, 0, transfer_all_money, u.get_item_position( dst ) );
+                    u.assign_activity( ACT_ATM, 0, transfer_all_money );
+                    u.activity.targets.push_back( item_location( u, dst ) );
                     break;
                 }
 
@@ -1930,10 +1934,10 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     g->m.furn_set( examp, f_egg_sacke );
     int monster_count = 0;
     if( one_in( 2 ) ) {
-        for( const tripoint &p : closest_tripoints_first( examp, 1 ) ) {
+        for( const tripoint &nearby_pos : closest_tripoints_first( examp, 1 ) ) {
             if( !one_in( 3 ) ) {
                 continue;
-            } else if( g->place_critter_at( montype, p ) ) {
+            } else if( g->place_critter_at( montype, nearby_pos ) ) {
                 monster_count++;
             }
         }
@@ -4399,12 +4403,12 @@ static player &best_installer( player &p, player &null_player, int difficulty )
     const std::pair<float, int> &rhs ) {
         return rhs.first < lhs.first;
     } );
-    int player_cos = bionic_manip_cos( player_skill, true, difficulty );
+    int player_cos = bionic_manip_cos( player_skill, difficulty );
     for( size_t i = 0; i < g->allies().size() ; i ++ ) {
         if( ally_skills[ i ].first > player_skill ) {
             const npc *e = g->allies()[ ally_skills[ i ].second ];
             player &ally = *g->critter_by_id<player>( e->getID() );
-            int ally_cos = bionic_manip_cos( ally_skills[ i ].first, true, difficulty );
+            int ally_cos = bionic_manip_cos( ally_skills[ i ].first, difficulty );
             if( e->has_effect( effect_sleep ) ) {
                 if( !g->u.query_yn(
                         //~ %1$s is the name of the ally
@@ -4529,8 +4533,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.query();
 
     bool needs_anesthesia = true;
-    // Legacy
-    std::vector<item_comp> acomps;
     std::vector<tool_comp> anesth_kit;
     int drug_count = 0;
 
@@ -4542,17 +4544,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( qual_ANESTHESIA );
         } );
-        std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
-            return it.has_flag( flag_ANESTHESIA ); // legacy
-        } );
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining() >= 1 ) {
                 anesth_kit.push_back( tool_comp( anesthesia_item->typeId(), 1 ) );
                 drug_count += anesthesia_item->ammo_remaining();
             }
-        }
-        for( const item *anesthesia_item : b_filter ) {
-            acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) ); // legacy
         }
     }
 
@@ -4581,20 +4577,13 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 bionic.remove_item();
                 if( needs_anesthesia ) {
-                    // Consume obsolete anesthesia first
-                    if( acomps.empty() ) {
-                        for( const auto &e : req_anesth.get_components() ) {
-                            p.consume_items( e, 1, is_crafting_component );
-                        }
-                        for( const auto &e : req_anesth.get_tools() ) {
-                            p.consume_tools( e );
-                        }
-                        p.invalidate_crafting_inventory();
-                    } else {
-                        // Legacy
-                        p.consume_items( acomps, 1, is_crafting_component );
+                    for( const auto &e : req_anesth.get_components() ) {
+                        p.consume_items( e, 1, is_crafting_component );
                     }
-
+                    for( const auto &e : req_anesth.get_tools() ) {
+                        p.consume_tools( e );
+                    }
+                    p.invalidate_crafting_inventory();
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
                 patient.install_bionics( ( *itemtype ), installer, true );
@@ -4651,13 +4640,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 const time_duration duration = difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
-                    if( acomps.empty() ) {
-                        // consume obsolete anesthesia first
-                        p.consume_tools( anesth_kit, volume_anesth );
-                    } else {
-                        p.consume_items( acomps, 1, is_crafting_component ); // legacy
-                    }
-
+                    p.consume_tools( anesth_kit, volume_anesth );
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
                 patient.uninstall_bionic( bid, installer, true );

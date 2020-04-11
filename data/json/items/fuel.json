@@ -58,13 +58,70 @@
     "symbol": "=",
     "color": "green",
     "ammo_type": "diesel",
+    "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 4 },
+    "range": 4,
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+    "fuel": {
+      "energy": 35.8,
+      "pump_terrain": "t_diesel_pump",
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
+    "id": "jp8",
+    "type": "AMMO",
+    "name": "JP8 fuel",
+    "name_plural": "JP8 fuel",
+    "description": "A kerosene-based fuel used mainly by US military vehicles as a replacement for diesel and jet fuel, to simplify logistics.",
+    "category": "fuel",
+    "weight": "1 g",
+    "volume": "200ml",
+    "price": 50,
+    "price_postapoc": 2000,
+    "looks_like": "diesel",
+    "count": 250,
+    "stack_size": 200,
+    "phase": "liquid",
+    "container": "jerrycan",
+    "material": "hydrocarbons",
+    "symbol": "=",
+    "color": "green",
+    "ammo_type": "jp8",
     "damage": 5,
     "range": 4,
     "pierce": 5,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
-      "energy": 35.8,
-      "pump_terrain": "t_diesel_pump",
+      "energy": 34.7,
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
+    "id": "avgas",
+    "type": "AMMO",
+    "name": "avgas fuel",
+    "name_plural": "avgas fuel",
+    "description": "A specialized type of petroleum-based fuel used to power aircraft.",
+    "category": "fuel",
+    "weight": "1 g",
+    "volume": "200ml",
+    "price": 50,
+    "price_postapoc": 2000,
+    "count": 250,
+    "stack_size": 200,
+    "phase": "liquid",
+    "looks_like": "diesel",
+    "container": "jerrycan",
+    "material": "hydrocarbons",
+    "symbol": "=",
+    "color": "green",
+    "ammo_type": "avgas",
+    "damage": 5,
+    "range": 4,
+    "pierce": 5,
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+    "fuel": {
+      "energy": 45.8,
       "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
     }
   },
@@ -99,9 +156,8 @@
     "symbol": "=",
     "color": "light_red",
     "ammo_type": "gasoline",
-    "damage": 5,
+    "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "pierce": 5,
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
     "fuel": {
       "energy": 34.2,
@@ -133,8 +189,7 @@
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
     },
     "range": 6,
-    "damage": 2,
-    "pierce": 2,
+    "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]
   },
   {
@@ -161,8 +216,7 @@
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
     },
     "range": 6,
-    "damage": 2,
-    "pierce": 2,
+    "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]
   },
   {
@@ -182,9 +236,8 @@
     "symbol": "=",
     "color": "light_red",
     "ammo_type": "flammable",
-    "damage": 15,
+    "damage": { "damage_type": "stab", "amount": 15, "armor_penetration": 30 },
     "range": 6,
-    "pierce": 30,
     "effects": [ "FLAME", "STREAM_BIG", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
@@ -195,9 +248,8 @@
     "description": "A flammable gel composed of gasoline and dissolved shavings of polystyrene, roughly similar in properties to napalm b.  It's meant to be used with a flamethrower.",
     "price": 400,
     "ammo_type": "flammable",
-    "damage": 10,
-    "range": 3,
-    "pierce": 10
+    "damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 10 },
+    "range": 3
   },
   {
     "id": "flamethrower_fuel",

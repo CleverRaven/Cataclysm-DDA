@@ -5,29 +5,37 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
-#include <complex>
 #include <cmath>
+#include <complex>
+#include <cstdint>
 #include <cstdlib>
+#include <list>
+#include <memory>
 #include <numeric>
 #include <queue>
 #include <set>
 #include <sstream>
 #include <unordered_map>
-#include <memory>
-#include <list>
+#include <unordered_set>
 
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "clzones.h"
-#include "flag.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "faction.h"
+#include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
@@ -35,29 +43,26 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
+#include "math_defines.h"
 #include "messages.h"
+#include "monster.h"
 #include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
+#include "string_id.h"
 #include "submap.h"
 #include "translations.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
 #include "weather.h"
-#include "field.h"
-#include "math_defines.h"
-#include "pimpl.h"
-#include "player.h"
-#include "player_activity.h"
-#include "pldata.h"
-#include "rng.h"
 #include "weather_gen.h"
-#include "options.h"
-#include "enums.h"
-#include "monster.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -89,6 +94,8 @@ static const std::string flag_PERPETUAL( "PERPETUAL" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
+
+static const itype_id fuel_type_mana( "mana" );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
@@ -633,19 +640,33 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     invalidate_mass();
 }
 
+void vehicle::activate_magical_follow()
+{
+    for( vehicle_part &vp : parts ) {
+        if( vp.info().fuel_type == fuel_type_mana ) {
+            vp.enabled = true;
+            is_following = true;
+            engine_on = true;
+        } else {
+            vp.enabled = true;
+        }
+    }
+    refresh();
+}
+
 void vehicle::activate_animal_follow()
 {
     for( size_t e = 0; e < parts.size(); e++ ) {
-        const vehicle_part &vp = parts[ e ];
+        vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
             monster *mon = get_pet( e );
             if( mon && mon->has_effect( effect_harnessed ) ) {
-                parts[ e ].enabled = true;
+                vp.enabled = true;
                 is_following = true;
                 engine_on = true;
             }
         } else {
-            parts[ e ].enabled = false;
+            vp.enabled = true;
         }
     }
     refresh();
@@ -746,6 +767,29 @@ std::set<point> vehicle::immediate_path( int rotate )
     return points_to_check;
 }
 
+static int get_turn_from_angle( const double angle, const tripoint &vehpos, const tripoint &target,
+                                bool reverse = false )
+{
+    if( angle > 10.0 && angle <= 45.0 ) {
+        return reverse ? 4 : 1;
+    } else if( angle > 45.0 && angle <= 90.0 ) {
+        return 3;
+    } else if( angle > 90.0 && angle < 180.0 ) {
+        return reverse ? 1 : 4;
+    } else if( angle < -10.0 && angle >= -45.0 ) {
+        return reverse ? -4 : -1;
+    } else if( angle < -45.0 && angle >= -90.0 ) {
+        return -3;
+    } else if( angle < -90.0 && angle > -180.0 ) {
+        return reverse ? -1 : -4;
+        // edge case of being exactly on the button for the target.
+        // just keep driving, the next path point will be picked up.
+    } else if( ( angle == 180 || angle == -180 ) && vehpos == target ) {
+        return 0;
+    }
+    return 0;
+}
+
 void vehicle::stop_autodriving()
 {
     if( !is_autodriving && !is_patrolling && !is_following ) {
@@ -779,7 +823,6 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
     bool stop = false;
-
     for( const point &pt_elem : points_to_check ) {
         point elem = g->m.getlocal( pt_elem );
         if( stop ) {
@@ -832,29 +875,14 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         stop_autodriving();
         return;
     }
-    int turn_x = 0;
-    if( angle > 10.0 && angle <= 45.0 ) {
-        turn_x = 1;
-    } else if( angle > 45.0 && angle <= 90.0 ) {
-        turn_x = 3;
-    } else if( angle > 90.0 && angle < 180.0 ) {
-        turn_x = 4;
-    } else if( angle < -10.0 && angle >= -45.0 ) {
-        turn_x = -1;
-    } else if( angle < -45.0 && angle >= -90.0 ) {
-        turn_x = -3;
-    } else if( angle < -90.0 && angle > -180.0 ) {
-        turn_x = -4;
-        // edge case of being exactly on the button for the target.
-        // just keep driving, the next path point will be picked up.
-    } else if( ( angle == 180 || angle == -180 ) && vehpos == target ) {
-        turn_x = 0;
-    }
+    int turn_x = get_turn_from_angle( angle, vehpos, target );
     int accel_y = 0;
     // best to cruise around at a safe velocity or 40mph, whichever is lowest
     // accelerate when it dosnt need to turn.
     // when following player, take distance to player into account.
     // we really want to avoid running the player over.
+    // If its a helicopter, we dont need to worry about airborne obstacles so much
+    // And fuel efficiency is terrible at low speeds.
     int safe_player_follow_speed = 400;
     if( g->u.movement_mode_is( CMM_RUN ) ) {
         safe_player_follow_speed = 800;
@@ -867,7 +895,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             accel_y = 1;
         }
         if( ( velocity < std::min( safe_velocity(), safe_player_follow_speed ) && turn_x == 0 &&
-              rl_dist( vehpos, g->m.getabs( g->u.pos() ) ) > 10 + ( ( mount_max.y * 3 ) + 4 ) ) ||
+              rl_dist( vehpos, g->m.getabs( g->u.pos() ) ) > 8 + ( ( mount_max.y * 3 ) + 4 ) ) ||
             velocity < 100 ) {
             accel_y = -1;
         }
@@ -875,7 +903,8 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
             accel_y = 1;
         }
-        if( ( velocity < std::min( safe_velocity(), 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
+        if( ( velocity < std::min( safe_velocity(), is_rotorcraft() &&
+                                   is_flying_in_air() ? 12000 : 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
             accel_y = -1;
         }
         if( is_patrolling && velocity > 400 ) {
@@ -984,8 +1013,8 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         int roll = dice( 1, 1000 );
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
-            float dist =  damage_size == 0.0f ? 1.0f :
-                          clamp( 1.0f - trig_dist( damage_origin, part.precalc[0] ) / damage_size, 0.0f, 1.0f );
+            double dist = damage_size == 0.0 ? 1.0 :
+                          clamp( 1.0 - trig_dist( damage_origin, part.precalc[0] ) / damage_size, 0.0, 1.0 );
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
             if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
                                                hp_percent_loss_max * dist ) * part.info().durability ), DT_BASH ) ) {
@@ -1686,7 +1715,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         // the mount point on the old vehicle (carry_veh) that will be destroyed
         point old_mount;
     };
-
+    invalidate_towing( true );
     // By structs, we mean all the parts of the carry vehicle that are at the structure location
     // of the vehicle (i.e. frames)
     std::vector<int> carry_veh_structs = carry_veh->all_parts_at_location( part_location_structure );
@@ -1864,7 +1893,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     const std::string & child_flag ) {
         if( part_flag( p, parent_flag ) ) {
             int dep = part_with_feature( p, child_flag, false );
-            if( dep >= 0 ) {
+            if( dep >= 0 && !magic ) {
                 handler.add_item_or_charges( part_loc, parts[dep].properties_to_item() );
                 remove_part( dep, handler );
                 return true;
@@ -1919,7 +1948,6 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         loot_zones.erase( parts[p].mount );
         zones_dirty = true;
     }
-
     parts[p].removed = true;
     removed_part_count++;
 
@@ -1935,7 +1963,9 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         // Note: this can spawn items on the other side of the wall!
         // TODO: fix this ^^
         tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
-        handler.add_item_or_charges( dest, i );
+        if( !magic ) {
+            handler.add_item_or_charges( dest, i );
+        }
     }
     refresh();
     coeff_air_changed = true;
@@ -2292,6 +2322,16 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 passenger = get_passenger( mov_part );
                 if( passenger ) {
                     passengers.push_back( passenger );
+                }
+            }
+            // if this part is a towing part, transfer the tow_data to the new vehicle.
+            if( part_flag( mov_part, "TOW_CABLE" ) ) {
+                if( is_towed() ) {
+                    tow_data.get_towed_by()->tow_data.set_towing( tow_data.get_towed_by(), new_vehicle );
+                    tow_data.clear_towing();
+                } else if( is_towing() ) {
+                    tow_data.get_towed()->tow_data.set_towing( new_vehicle, tow_data.get_towed() );
+                    tow_data.clear_towing();
                 }
             }
             // transfer the vehicle_part to the new vehicle
@@ -2742,7 +2782,7 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
 }
 
 // another NPC probably removed a part in the time it took to walk here and start the activity.
-// as the part index was first "chosen" before the NPC started travelling here.
+// as the part index was first "chosen" before the NPC started traveling here.
 // therefore the part index is now invalid shifted by one or two ( depending on how many other NPCs working on this vehicle )
 // so loop over the part indexes in reverse order to get the next one down that matches the part type we wanted to remove
 int vehicle::get_next_shifted_index( int original_index, player &p )
@@ -3410,10 +3450,27 @@ int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
     }
     int target_vmiph = std::max( at_vel_in_vmi, std::max( 1000, max_velocity( fueled ) / 4 ) );
     int cmps = vmiph_to_cmps( target_vmiph );
-    int engine_power_ratio = total_power_w( fueled ) / to_kilogram( total_mass() );
+    double weight = to_kilogram( total_mass() );
+    if( is_towing() ) {
+        vehicle *other_veh = tow_data.get_towed();
+        if( other_veh ) {
+            weight = weight + to_kilogram( other_veh->total_mass() );
+        }
+    }
+    int engine_power_ratio = total_power_w( fueled ) / weight;
     int accel_at_vel = 100 * 100 * engine_power_ratio / cmps;
     add_msg( m_debug, "%s: accel at %d vimph is %d", name, target_vmiph,
              cmps_to_vmiph( accel_at_vel ) );
+    return cmps_to_vmiph( accel_at_vel );
+}
+
+int vehicle::rotor_acceleration( const bool fueled, int at_vel_in_vmi ) const
+{
+    ( void )at_vel_in_vmi;
+    if( !( engine_on || is_flying ) ) {
+        return 0;
+    }
+    const int accel_at_vel = 100 * lift_thrust_of_rotorcraft( fueled ) / to_kilogram( total_mass() );
     return cmps_to_vmiph( accel_at_vel );
 }
 
@@ -3425,7 +3482,14 @@ int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi ) const
     int target_vmiph = std::max( at_vel_in_vmi, std::max( 1000,
                                  max_water_velocity( fueled ) / 4 ) );
     int cmps = vmiph_to_cmps( target_vmiph );
-    int engine_power_ratio = total_power_w( fueled ) / to_kilogram( total_mass() );
+    double weight = to_kilogram( total_mass() );
+    if( is_towing() ) {
+        vehicle *other_veh = tow_data.get_towed();
+        if( other_veh ) {
+            weight = weight + to_kilogram( other_veh->total_mass() );
+        }
+    }
+    int engine_power_ratio = total_power_w( fueled ) / weight;
     int accel_at_vel = 100 * 100 * engine_power_ratio / cmps;
     add_msg( m_debug, "%s: water accel at %d vimph is %d", name, target_vmiph,
              cmps_to_vmiph( accel_at_vel ) );
@@ -3470,6 +3534,8 @@ int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
     if( is_watercraft() ) {
         return water_acceleration( fueled, at_vel_in_vmi );
+    } else if( is_rotorcraft() && is_flying ) {
+        return rotor_acceleration( fueled, at_vel_in_vmi );
     }
     return ground_acceleration( fueled, at_vel_in_vmi );
 }
@@ -3536,9 +3602,24 @@ int vehicle::max_water_velocity( const bool fueled ) const
     return mps_to_vmiph( max_in_mps );
 }
 
+int vehicle::max_rotor_velocity( const bool fueled ) const
+{
+    const double max_air_mps = std::sqrt( lift_thrust_of_rotorcraft( fueled ) / coeff_air_drag() );
+    // helicopters just cannot go over 250mph at very maximum
+    // weird things start happening to their rotors if they do.
+    // due to the rotor tips going supersonic.
+    return std::min( 25501, mps_to_vmiph( max_air_mps ) );
+}
+
 int vehicle::max_velocity( const bool fueled ) const
 {
-    return is_watercraft() ? max_water_velocity( fueled ) : max_ground_velocity( fueled );
+    if( is_flying && is_rotorcraft() ) {
+        return max_rotor_velocity( fueled );
+    } else if( is_watercraft() ) {
+        return max_water_velocity( fueled );
+    } else {
+        return max_ground_velocity( fueled );
+    }
 }
 
 int vehicle::max_reverse_velocity( const bool fueled ) const
@@ -3564,6 +3645,13 @@ int vehicle::safe_ground_velocity( const bool fueled ) const
     return mps_to_vmiph( safe_in_mps );
 }
 
+int vehicle::safe_rotor_velocity( const bool fueled ) const
+{
+    const double max_air_mps = std::sqrt( lift_thrust_of_rotorcraft( fueled,
+                                          true ) / coeff_air_drag() );
+    return std::min( 22501, mps_to_vmiph( max_air_mps ) );
+}
+
 // the same physics as max_water_velocity, but with a smaller engine power
 int vehicle::safe_water_velocity( const bool fueled ) const
 {
@@ -3575,7 +3663,13 @@ int vehicle::safe_water_velocity( const bool fueled ) const
 
 int vehicle::safe_velocity( const bool fueled ) const
 {
-    return is_watercraft() ? safe_water_velocity( fueled ) : safe_ground_velocity( fueled );
+    if( is_flying && is_rotorcraft() ) {
+        return safe_rotor_velocity( fueled );
+    } else if( is_watercraft() ) {
+        return safe_water_velocity( fueled );
+    } else {
+        return safe_ground_velocity( fueled );
+    }
 }
 
 bool vehicle::do_environmental_effects()
@@ -3626,6 +3720,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             { translate_marker( "BRRROARRR!" ), 180 }, { translate_marker( "BRUMBRUMBRUMBRUM!" ), INT_MAX }
         }
     };
+    const std::string heli_noise = translate_marker( "WUMPWUMPWUMP!" );
     double noise = 0.0;
     double mufflesmoke = 0.0;
     double muffle = 1.0;
@@ -3690,6 +3785,9 @@ void vehicle::noise_and_smoke( int load, time_duration time )
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
                     bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
+    if( is_rotorcraft() ) {
+        noise *= 2;
+    }
     // Cap engine noise to avoid deafening.
     noise = std::min( noise, 100.0 );
     // Even a vehicle with engines off will make noise traveling at high speeds
@@ -3702,7 +3800,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
     add_msg( m_debug, "VEH NOISE final: %d", static_cast<int>( noise ) );
     vehicle_noise = static_cast<unsigned char>( noise );
-    sounds::sound( global_pos3(), noise, sounds::sound_t::movement, _( sounds[lvl].first ), true );
+    sounds::sound( global_pos3(), noise, sounds::sound_t::movement,
+                   _( is_rotorcraft() ? heli_noise : sounds[lvl].first ), true );
 }
 
 int vehicle::wheel_area() const
@@ -3753,6 +3852,7 @@ struct drag_column {
     int panel = minrow;
     int windmill = minrow;
     int sail = minrow;
+    int rotor = minrow;
     int last = maxrow;
 };
 
@@ -3769,6 +3869,7 @@ double vehicle::coeff_air_drag() const
     constexpr double roof_height = 0.1;
     constexpr double windmill_height = 0.7;
     constexpr double sail_height = 0.8;
+    constexpr double rotor_height = 0.6;
 
     std::vector<int> structure_indices = all_parts_at_location( part_location_structure );
     int width = mount_max.y - mount_min.y + 1;
@@ -3823,6 +3924,7 @@ double vehicle::coeff_air_drag() const
             d_check_max( drag[ col ].roof, pa, pa.info().has_flag( "ROOF" ) );
             d_check_max( drag[ col ].panel, pa, pa.info().has_flag( "SOLAR_PANEL" ) );
             d_check_max( drag[ col ].windmill, pa, pa.info().has_flag( "WIND_TURBINE" ) );
+            d_check_max( drag[ col ].rotor, pa, pa.info().has_flag( "ROTOR" ) );
             d_check_max( drag[ col ].sail, pa, pa.info().has_flag( "WIND_POWERED" ) );
             d_check_max( drag[ col ].exposed, pa, d_exposed( pa ) );
             d_check_min( drag[ col ].last, pa, pa.info().has_flag( "LOW_FINAL_AIR_DRAG" ) ||
@@ -3855,6 +3957,8 @@ double vehicle::coeff_air_drag() const
         c_air_drag_c += ( dc.turret > minrow ) ? 3 * c_air_mod : 0;
         // having a windmill is terrible for your drag
         c_air_drag_c += ( dc.windmill > minrow ) ? 5 * c_air_mod : 0;
+        // rotors are not great for drag!
+        c_air_drag_c += ( dc.rotor > minrow ) ? 6 * c_air_mod : 0;
         // having a sail is terrible for your drag
         c_air_drag_c += ( dc.sail > minrow ) ? 7 * c_air_mod : 0;
         c_air_drag += c_air_drag_c;
@@ -3872,6 +3976,7 @@ double vehicle::coeff_air_drag() const
         c_height += ( dc.panel > minrow ) ? roof_height : 0;
         // windmills are tall, too
         c_height += ( dc.windmill > minrow ) ? windmill_height : 0;
+        c_height += ( dc.rotor > minrow ) ? rotor_height : 0;
         // sails are tall, too
         c_height += ( dc.sail > minrow ) ? sail_height : 0;
         height += c_height;
@@ -3945,6 +4050,60 @@ bool vehicle::can_float() const
     return draft_m < hull_height;
 }
 
+// apologies for the imperial measurements, theyll get converted before used finally in the vehicle speed at the end of the function.
+// sources for the equations to calculate rotor lift thrust were only available in imperial, and the constants used are designed for that.
+// r= radius or d = diameter of rotor blades.
+// area A [ft^2] = Pi * r^2 -or- A [ft^2] = (Pi/4) * D^2
+// Power loading [hp/ft^2] = power( in hp ) / A
+// thrust loading [lb/hp]= 8.6859 * Power loading^(-0.3107)
+// Lift = Thrust loading * power >>>[lb] = [lb/hp] * [hp]
+
+double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
+{
+    int total_diameter = 0;
+    for( const int rotor : rotors ) {
+        total_diameter += parts[ rotor ].info().rotor_diameter();
+    }
+    int total_engine_w = total_power_w( fuelled, safe );
+    // take off 15 % due to the imaginary tail rotor power.
+    double engine_power_in_hp = total_engine_w * 0.00134102;
+    int rotor_area_in_feet = ( M_PI / 4 ) * std::pow( total_diameter * 3.28084, 2 );
+    // lift_thrust in lbthrust
+    double lift_thrust = ( 8.8658 * std::pow( engine_power_in_hp / rotor_area_in_feet,
+                           -0.3107 ) ) * engine_power_in_hp;
+    add_msg( m_debug,
+             "lift thrust in lbs of %s = %f, rotor area in feet : %d, engine power in hp %f, thrust in newtons : %f",
+             name, lift_thrust, rotor_area_in_feet, engine_power_in_hp, engine_power_in_hp * 4.45 );
+    // convert to newtons.
+    return lift_thrust * 4.45;
+}
+
+bool vehicle::has_sufficient_rotorlift() const
+{
+    // comparison of newton to newton - convert kg to newton.
+    return lift_thrust_of_rotorcraft( true ) > to_kilogram( total_mass() ) * 9.8;
+}
+
+bool vehicle::is_rotorcraft() const
+{
+    return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( g->u );
+}
+
+int vehicle::get_z_change() const
+{
+    return requested_z_change;
+}
+
+bool vehicle::is_flying_in_air() const
+{
+    return is_flying;
+}
+
+void vehicle::set_flying( bool new_flying_value )
+{
+    is_flying = new_flying_value;
+}
+
 bool vehicle::is_watercraft() const
 {
     return is_floating || ( in_water && wheelcache.empty() );
@@ -4009,6 +4168,9 @@ float vehicle::k_traction( float wheel_traction_area ) const
 {
     if( is_floating ) {
         return can_float() ? 1.0f : -1.0f;
+    }
+    if( is_flying ) {
+        return is_rotorcraft() ? 1.0f : -1.0f;
     }
     if( is_watercraft() && can_float() ) {
         return 1.0f;
@@ -4194,6 +4356,10 @@ float vehicle::steering_effectiveness() const
     if( is_floating ) {
         // I'M ON A BOAT
         return can_float() ? 1.0f : 0.0f;
+    }
+    if( is_flying ) {
+        // I'M IN THE AIR
+        return is_rotorcraft() ? 1.0f : 0.0f;
     }
     // irksome special case for boats in shallow water
     if( is_watercraft() && can_float() ) {
@@ -4807,6 +4973,11 @@ void vehicle::idle( bool on_map )
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
+        // helicopters use basicaly nearly all of their power just to hover.
+        // it becomes more efficient the closer they reach their safe cruise speed.
+        if( is_rotorcraft() && is_flying_in_air() ) {
+            idle_rate = 1000;
+        }
         if( has_engine_type_not( fuel_type_muscle, true ) ) {
             consume_fuel( idle_rate, to_turns<int>( 1_turns ), true );
         }
@@ -4817,7 +4988,7 @@ void vehicle::idle( bool on_map )
     } else {
         if( engine_on && g->u.sees( global_pos3() ) &&
             ( has_engine_type_not( fuel_type_muscle, true ) && has_engine_type_not( fuel_type_animal, true ) &&
-              has_engine_type_not( fuel_type_wind, true ) ) ) {
+              has_engine_type_not( fuel_type_wind, true ) && has_engine_type_not( fuel_type_mana, true ) ) ) {
             add_msg( _( "The %s's engine dies!" ), name );
         }
         engine_on = false;
@@ -5002,11 +5173,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
     item itm_copy = itm;
 
     if( itm_copy.is_bucket_nonempty() ) {
-        for( auto &elem : itm_copy.contents ) {
-            g->m.add_item_or_charges( global_part_pos3( part ), elem );
-        }
-
-        itm_copy.contents.clear();
+        itm_copy.contents.spill_contents( global_part_pos3( part ) );
     }
 
     const vehicle_stack::iterator new_pos = p.items.insert( itm_copy );
@@ -5106,7 +5273,7 @@ void vehicle::place_spawn_items()
                                           !e.magazine_current();
 
                         if( spawn_mag ) {
-                            e.contents.emplace_back( e.magazine_default(), e.birthday() );
+                            e.put_in( item( e.magazine_default(), e.birthday() ) );
                         }
                         if( spawn_ammo ) {
                             e.ammo_set( e.ammo_default() );
@@ -5145,7 +5312,6 @@ void vehicle::gain_moves()
         of_turn = .001;
     }
     of_turn_carry = 0;
-
     // cruise control TODO: enable for NPC?
     if( ( pl_control || is_following || is_patrolling ) && cruise_on && cruise_velocity != velocity ) {
         thrust( ( cruise_velocity ) > velocity ? 1 : -1 );
@@ -5174,6 +5340,36 @@ void vehicle::gain_moves()
     if( velocity < 0 ) {
         beeper_sound();
     }
+}
+
+void vehicle::dump_items_from_part( const size_t index )
+{
+    vehicle_part &vp = parts[ index ];
+    for( item &e : vp.items ) {
+        g->m.add_item_or_charges( global_part_pos3( vp ), e );
+    }
+    vp.items.clear();
+}
+
+bool vehicle::decrement_summon_timer()
+{
+    if( !summon_time_limit ) {
+        return false;
+    }
+    if( *summon_time_limit <= 0_turns ) {
+        for( const vpart_reference &vp : get_all_parts() ) {
+            const size_t p = vp.part_index();
+            dump_items_from_part( p );
+        }
+        if( g->u.sees( global_pos3() ) ) {
+            add_msg( m_info, _( "Your %s winks out of existence." ), name );
+        }
+        g->m.destroy_vehicle( this );
+        return true;
+    } else {
+        *summon_time_limit -= 1_turns;
+    }
+    return false;
 }
 
 void vehicle::suspend_refresh()
@@ -5226,6 +5422,7 @@ void vehicle::refresh()
     loose_parts.clear();
     wheelcache.clear();
     rail_wheelcache.clear();
+    rotors.clear();
     steering.clear();
     speciality.clear();
     floating.clear();
@@ -5294,6 +5491,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( VPFLAG_SOLAR_PANEL ) ) {
             solar_panels.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_ROTOR ) ) {
+            rotors.push_back( p );
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
             wind_turbines.push_back( p );
@@ -5487,6 +5687,294 @@ void vehicle::refresh_pivot() const
     }
 }
 
+void vehicle::do_towing_move()
+{
+    if( !no_towing_slack() || velocity <= 0 ) {
+        return;
+    }
+    bool invalidate = false;
+    if( !tow_data.get_towed() ) {
+        debugmsg( "tried to do towing move, but no towed vehicle!" );
+        invalidate = true;
+    }
+    const int tow_index = get_tow_part();
+    if( tow_index == -1 ) {
+        debugmsg( "tried to do towing move, but no tow part" );
+        invalidate = true;
+    }
+    vehicle *towed_veh = tow_data.get_towed();
+    if( !towed_veh ) {
+        debugmsg( "tried to do towing move, but towed vehicle dosnt exist." );
+        invalidate_towing();
+        return;
+    }
+    const int other_tow_index = towed_veh->get_tow_part();
+    if( other_tow_index == -1 ) {
+        debugmsg( "tried to do towing move but towed vehicle has no towing part" );
+        invalidate = true;
+    }
+    if( towed_veh->global_pos3().z != global_pos3().z ) {
+        // how the hellicopter did this happen?
+        invalidate = true;
+    }
+    if( invalidate ) {
+        invalidate_towing();
+        return;
+    }
+    const tripoint tower_tow_point = g->m.getabs( global_part_pos3( tow_index ) );
+    const tripoint towed_tow_point = g->m.getabs( towed_veh->global_part_pos3( other_tow_index ) );
+    // same as above, but where the pulling vehicle is pulling from
+    double towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
+    const bool reverse = towed_veh->tow_data.tow_direction == TOW_BACK;
+    int accel_y = 0;
+    tripoint vehpos = g->m.getabs( towed_veh->global_pos3() );
+    int turn_x = get_turn_from_angle( towing_veh_angle, vehpos, tower_tow_point, reverse );
+    if( rl_dist( towed_tow_point, tower_tow_point ) < 6 ) {
+        accel_y = reverse ? -1 : 1;
+    }
+    if( towed_veh->velocity <= velocity && rl_dist( towed_tow_point, tower_tow_point ) >= 7 ) {
+        accel_y = reverse ? 1 : -1;
+    }
+    if( rl_dist( towed_tow_point, tower_tow_point ) >= 12 ) {
+        towed_veh->velocity = velocity * 1.8;
+        if( reverse ) {
+            towed_veh->velocity = -towed_veh->velocity;
+        }
+    } else {
+        towed_veh->velocity = reverse ? -velocity : velocity;
+    }
+    if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
+        towed_veh->autodrive( turn_x, accel_y );
+    } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
+        accel_y = 10;
+        towed_veh->autodrive( turn_x, accel_y );
+    } else {
+        towed_veh->skidding = true;
+        std::vector<tripoint> lineto = line_to( g->m.getlocal( towed_tow_point ),
+                                                g->m.getlocal( tower_tow_point ) );
+        tripoint nearby_destination;
+        if( lineto.size() >= 2 ) {
+            nearby_destination = lineto[1];
+        } else {
+            nearby_destination = tower_tow_point;
+        }
+        const int destination_delta_x = g->m.getlocal( tower_tow_point ).x - nearby_destination.x;
+        const int destination_delta_y = g->m.getlocal( tower_tow_point ).y - nearby_destination.y;
+        const int destination_delta_z = towed_veh->global_pos3().z;
+        const tripoint move_destination( clamp( destination_delta_x, -1, 1 ),
+                                         clamp( destination_delta_y, -1, 1 ),
+                                         clamp( destination_delta_z, -1, 1 ) );
+        g->m.move_vehicle( *towed_veh, move_destination, towed_veh->face );
+        towed_veh->move = tileray( point( destination_delta_x, destination_delta_y ) );
+    }
+
+}
+
+bool vehicle::is_external_part( const tripoint &part_pt ) const
+{
+    for( const tripoint &elem : g->m.points_in_radius( part_pt, 1 ) ) {
+        const optional_vpart_position vp = g->m.veh_at( elem );
+        if( !vp ) {
+            return true;
+        }
+        if( vp && &vp->vehicle() != this ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool vehicle::is_towing() const
+{
+    bool ret = false;
+    if( !tow_data.get_towed() ) {
+        return ret;
+    } else {
+        if( !tow_data.get_towed()->tow_data.get_towed_by() ) {
+            debugmsg( "vehicle %s is towing, but the towed vehicle has no tower defined", name );
+            return ret;
+        }
+        ret = true;
+    }
+    return ret;
+}
+
+bool vehicle::is_towed() const
+{
+    bool ret = false;
+    if( !tow_data.get_towed_by() ) {
+        return ret;
+    } else {
+        if( !tow_data.get_towed_by()->tow_data.get_towed() ) {
+            debugmsg( "vehicle %s is marked as towed, but the tower vehicle has no towed defined", name );
+            return ret;
+        }
+        ret = true;
+    }
+    return ret;
+}
+
+int vehicle::get_tow_part() const
+{
+    for( const vpart_reference &vp : get_all_parts() ) {
+        const size_t p = vp.part_index();
+        if( vp.part().removed ) {
+            continue;
+        }
+
+        if( part_with_feature( p, "TOW_CABLE", true ) >= 0 && vp.part().is_available() ) {
+            return p;
+        }
+    }
+    return -1;
+}
+
+bool vehicle::has_tow_attached() const
+{
+    bool ret = false;
+    for( const vpart_reference &vp : get_all_parts() ) {
+        const size_t p = vp.part_index();
+        if( vp.part().removed ) {
+            continue;
+        }
+
+        if( part_with_feature( p, "TOW_CABLE", true ) >= 0 && vp.part().is_available() ) {
+            ret = true;
+            break;
+        }
+    }
+    return ret;
+}
+
+void vehicle::set_tow_directions()
+{
+    const int length = mount_max.x - mount_min.x + 1;
+    const point mount_of_tow = parts[get_tow_part()].mount;
+    const point normalized_tow_mount = point( abs( mount_of_tow.x - mount_min.x ),
+                                       abs( mount_of_tow.y - mount_min.y ) );
+    if( length >= 3 ) {
+        const int trisect = length / 3;
+        if( normalized_tow_mount.x <= trisect ) {
+            tow_data.tow_direction = TOW_BACK;
+        } else if( normalized_tow_mount.x > trisect && normalized_tow_mount.x <= trisect * 2 ) {
+            tow_data.tow_direction = TOW_SIDE;
+        } else {
+            tow_data.tow_direction = TOW_FRONT;
+        }
+    } else {
+        // its a small vehicle, no danger if it flips around.
+        tow_data.tow_direction = TOW_FRONT;
+    }
+}
+
+bool towing_data::set_towing( vehicle *tower_veh, vehicle *towed_veh )
+{
+    if( !towed_veh || !tower_veh ) {
+        return false;
+    }
+    towed_veh->tow_data.towed_by = tower_veh;
+    tower_veh->tow_data.towing = towed_veh;
+    tower_veh->set_tow_directions();
+    towed_veh->set_tow_directions();
+    return true;
+}
+
+void vehicle::invalidate_towing( bool first_vehicle )
+{
+    if( !is_towing() && !is_towed() ) {
+        return;
+    }
+    vehicle *other_veh = nullptr;
+    if( is_towing() ) {
+        other_veh = tow_data.get_towed();
+    } else if( is_towed() ) {
+        other_veh = tow_data.get_towed_by();
+    }
+    if( other_veh && first_vehicle ) {
+        other_veh->invalidate_towing();
+    }
+    for( const vpart_reference &vp : get_all_parts() ) {
+        const size_t p = vp.part_index();
+        if( vp.part().removed ) {
+            continue;
+        }
+
+        if( part_with_feature( p, "TOW_CABLE", true ) >= 0 ) {
+            if( first_vehicle ) {
+                vehicle_part *part = &parts[part_with_feature( p, "TOW_CABLE", true )];
+                item drop = part->properties_to_item();
+                g->m.add_item_or_charges( global_part_pos3( *part ), drop );
+            }
+            remove_part( part_with_feature( p, "TOW_CABLE", true ) );
+            break;
+        }
+    }
+    tow_data.clear_towing();
+}
+
+// to be called on the towed vehicle
+bool vehicle::tow_cable_too_far() const
+{
+    if( !tow_data.get_towed_by() ) {
+        debugmsg( "checking tow cable length on a vehicle that has no towing vehicle" );
+        return false;
+    }
+    int index = get_tow_part();
+    if( index == -1 ) {
+        debugmsg( "towing data exists but no towing part" );
+        return false;
+    }
+    tripoint towing_point = g->m.getabs( global_part_pos3( index ) );
+    if( !tow_data.get_towed_by()->tow_data.get_towed() ) {
+        debugmsg( "vehicle %s has data for a towing vehicle, but that towing vehicle does not have %s listed as towed",
+                  disp_name(), disp_name() );
+        return false;
+    }
+    int other_index = tow_data.get_towed_by()->get_tow_part();
+    if( other_index == -1 ) {
+        debugmsg( "towing data exists but no towing part" );
+        return false;
+    }
+    tripoint towed_point = g->m.getabs( tow_data.get_towed_by()->global_part_pos3( other_index ) );
+    if( towing_point == tripoint_zero || towed_point == tripoint_zero ) {
+        debugmsg( "towing data exists but no towing part" );
+        return false;
+    }
+    return rl_dist( towing_point, towed_point ) >= 25;
+}
+
+// the towing cable only starts pulling at a certain distance between the vehicles
+// to be called on the towing vehicle
+bool vehicle::no_towing_slack() const
+{
+    if( !tow_data.get_towed() ) {
+        return false;
+    }
+    int index = get_tow_part();
+    if( index == -1 ) {
+        debugmsg( "towing data exists but no towing part" );
+        return false;
+    }
+    tripoint towing_point = g->m.getabs( global_part_pos3( index ) );
+    if( !tow_data.get_towed()->tow_data.get_towed_by() ) {
+        debugmsg( "vehicle %s has data for a towed vehicle, but that towed vehicle does not have %s listed as tower",
+                  disp_name(), disp_name() );
+        return false;
+    }
+    int other_index = tow_data.get_towed()->get_tow_part();
+    if( other_index == -1 ) {
+        debugmsg( "towing data exists but no towing part" );
+        return false;
+    }
+    tripoint towed_point = g->m.getabs( tow_data.get_towed()->global_part_pos3( other_index ) );
+    if( towing_point == tripoint_zero || towed_point == tripoint_zero ) {
+        debugmsg( "towing data exists but no towing part" );
+        return false;
+    }
+    return rl_dist( towing_point, towed_point ) >= 8;
+
+}
+
 void vehicle::remove_remote_part( int part_num )
 {
     auto veh = find_vehicle( parts[part_num].target.second );
@@ -5516,10 +6004,20 @@ void vehicle::shed_loose_parts()
         if( part_flag( elem, "POWER_TRANSFER" ) ) {
             remove_remote_part( elem );
         }
-
+        if( is_towing() || is_towed() ) {
+            vehicle *other_veh = is_towing() ? tow_data.get_towed() : tow_data.get_towed_by();
+            if( other_veh ) {
+                other_veh->remove_part( other_veh->part_with_feature( other_veh->get_tow_part(), "TOW_CABLE",
+                                        true ) );
+                other_veh->tow_data.clear_towing();
+            }
+            tow_data.clear_towing();
+        }
         auto part = &parts[elem];
         item drop = part->properties_to_item();
-        g->m.add_item_or_charges( global_part_pos3( *part ), drop );
+        if( !magic ) {
+            g->m.add_item_or_charges( global_part_pos3( *part ), drop );
+        }
 
         remove_part( elem );
     }
@@ -5630,7 +6128,7 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         }
     }
 
-    int target_part = random_entry( pl );
+    int target_part = part_info( p ).rotor_diameter() ? p : random_entry( pl );
 
     // door motor mechanism is protected by closed doors
     if( part_flag( target_part, "DOOR_MOTOR" ) ) {
@@ -5785,7 +6283,9 @@ int vehicle::break_off( int p, int dmg )
             // TODO: balance audit, ensure that less pieces are generated than one would need
             // to build the component (smash a vehicle box that took 10 lumps of steel,
             // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
-            g->m.add_item_or_charges( where, piece );
+            if( !magic ) {
+                g->m.add_item_or_charges( where, piece );
+            }
         }
     };
     if( part_info( p ).location == part_location_structure ) {
@@ -5811,7 +6311,9 @@ int vehicle::break_off( int p, int dmg )
                              parts[ parts_in_square[ index ] ].name() );
                 }
                 item part_as_item = parts[parts_in_square[index]].properties_to_item();
-                g->m.add_item_or_charges( pos, part_as_item );
+                if( !magic ) {
+                    g->m.add_item_or_charges( pos, part_as_item );
+                }
             }
             remove_part( parts_in_square[index] );
         }
@@ -5916,7 +6418,11 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             mon->remove_effect( effect_harnessed );
         }
-        remove_part( p );
+        if( part_flag( p, "TOW_CABLE" ) ) {
+            invalidate_towing();
+        } else {
+            remove_part( p );
+        }
     }
 
     return std::max( dres, 0 );

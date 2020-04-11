@@ -1,45 +1,50 @@
 #include "creature.h"
 
-#include <cstdlib>
 #include <algorithm>
-#include <map>
 #include <array>
+#include <cstdlib>
+#include <map>
 #include <memory>
 
 #include "anatomy.h"
 #include "avatar.h"
-#include "debug.h"
-#include "effect.h"
-#include "event_bus.h"
-#include "field.h"
-#include "game.h"
-#include "json.h"
-#include "map.h"
-#include "messages.h"
-#include "monster.h"
-#include "mtype.h"
-#include "map_iterator.h"
-#include "npc.h"
-#include "output.h"
-#include "projectile.h"
-#include "rng.h"
-#include "translations.h"
-#include "vehicle.h"
-#include "vpart_position.h"
 #include "calendar.h"
+#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "damage.h"
+#include "debug.h"
+#include "effect.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
+#include "field.h"
+#include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
+#include "item.h"
+#include "json.h"
 #include "lightmap.h"
 #include "line.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "mapdata.h"
+#include "messages.h"
+#include "monster.h"
+#include "mtype.h"
+#include "npc.h"
 #include "optional.h"
+#include "output.h"
 #include "player.h"
-#include "string_id.h"
+#include "pldata.h"
 #include "point.h"
+#include "projectile.h"
+#include "rng.h"
+#include "string_id.h"
+#include "translations.h"
+#include "value_ptr.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
@@ -271,7 +276,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
           g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) ) {
         int range = 0;
         if( g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) {
-            range = wanted_range;
+            range = MAX_VIEW_DISTANCE;
         } else {
             range = range_min;
         }
@@ -453,9 +458,9 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
  * Damage-related functions
  */
 
-static int size_melee_penalty( m_size target_size )
+int Creature::size_melee_penalty() const
 {
-    switch( target_size ) {
+    switch( get_size() ) {
         case MS_TINY:
             return 30;
         case MS_SMALL:
@@ -468,13 +473,13 @@ static int size_melee_penalty( m_size target_size )
             return -20;
     }
 
-    debugmsg( "Invalid target size %d", target_size );
+    debugmsg( "Invalid target size %d", get_size() );
     return 0;
 }
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
-    int hit_spread = hitroll - dodge_roll() - size_melee_penalty( get_size() );
+    int hit_spread = hitroll - dodge_roll() - size_melee_penalty();
 
     // If attacker missed call targets on_dodge event
     if( hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
@@ -488,7 +493,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     if( source == nullptr || source->is_hallucination() ) {
-        dealt_dam.bp_hit = get_random_body_part();
+        dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part()->token;
         return;
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
@@ -849,7 +854,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int
     }
 
     // Apply damage multiplier from skill, critical hits or grazes after all other modifications.
-    const int adjusted_damage = du.amount * du.damage_multiplier;
+    const int adjusted_damage = du.amount * du.damage_multiplier * du.unconditional_damage_mult;
     if( adjusted_damage <= 0 ) {
         return;
     }
@@ -1385,6 +1390,38 @@ float Creature::get_dodge() const
 float Creature::get_hit() const
 {
     return get_hit_base() + get_hit_bonus();
+}
+
+anatomy_id Creature::get_anatomy() const
+{
+    return creature_anatomy;
+}
+
+void Creature::set_anatomy( anatomy_id anat )
+{
+    creature_anatomy = anat;
+}
+
+bodypart_id Creature::get_random_body_part( bool main ) const
+{
+    // TODO: Refuse broken limbs, adjust for mutations
+    const bodypart_id &part = get_anatomy()->random_body_part();
+    return main ? part->main_part.id() : part;
+}
+
+std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
+{
+    // TODO: Remove broken parts, parts removed by mutations etc.
+
+    const std::vector<bodypart_id> all_bps = get_anatomy()->get_bodyparts();
+    std::vector<bodypart_id> main_bps;
+
+    for( const bodypart_id bp : all_bps ) {
+        if( bp->main_part.id() == bp ) {
+            main_bps.emplace_back( bp );
+        }
+    }
+    return only_main ? main_bps : all_bps;
 }
 
 int Creature::get_speed_base() const

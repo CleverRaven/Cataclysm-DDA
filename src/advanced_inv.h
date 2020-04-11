@@ -2,21 +2,17 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
-#include <cctype>
-#include <cstddef>
 #include <array>
+#include <cctype>
 #include <functional>
 #include <string>
 
-#include "cursesdef.h"
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
+#include "cursesdef.h"
 
-class uilist;
-class vehicle;
 class item;
-
 struct advanced_inv_save_state;
 
 struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
