@@ -2649,6 +2649,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         } else if( action == "RANDOMIZE_CHAR_DESCRIPTION" ) {
             if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
                 you.pick_name();
+                no_name_entered = you.name.empty();
             }
             you.set_base_age( rng( 16, 55 ) );
             you.set_base_height( rng( 145, 200 ) );
