@@ -89,6 +89,11 @@ then
 
         "$CATA_CLANG_TIDY" --version
 
+        # Show compiler C++ header search path
+        ${COMPILER:-clang++} -v -x c++ /dev/null -c
+        # And the same for clang-tidy
+        "$CATA_CLANG_TIDY" ../src/version.cpp -- -v
+
         # Run clang-tidy analysis instead of regular build & test
         # We could use CMake to create compile_commands.json, but that's super
         # slow, so use compiledb <https://github.com/nickdiego/compiledb>
