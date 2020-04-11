@@ -831,9 +831,9 @@ class item : public visitable<item>
             return get_relative_rot() > 1.0;
         }
 
-        /** at twice regular shelf life perishable foods rot away completely. Corpses last 10 days */
         /**
          * Whether the item has enough rot that it should get removed.
+         * Regular shelf life perishable foods rot away completely at 2x shelf life. Corpses last 10 days
          * @return true if the item has enough rot and should be removed, false otherwise.
          */
         bool has_rotten_away() const;

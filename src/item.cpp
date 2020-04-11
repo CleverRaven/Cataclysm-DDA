@@ -9522,8 +9522,8 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
         return process_tool( carrier, pos );
     }
     // All foods that go bad have temperature
-    if( has_temperature() ) {
-        return process_temperature_rot( insulation, pos, carrier, flag );
+    if( has_temperature() && process_temperature_rot( insulation, pos, carrier, flag ) ) {
+        return true
     }
 
     return false;
