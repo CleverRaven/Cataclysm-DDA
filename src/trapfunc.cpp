@@ -1,59 +1,63 @@
 #include "trap.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cassert>
 #include <memory>
 #include <unordered_map>
 #include <utility>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
+#include "creature.h"
+#include "damage.h"
 #include "debug.h"
+#include "enums.h"
 #include "explosion.h"
-#include "timed_event.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
 #include "map.h"
-#include "mapgen_functions.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mapgen_functions.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h"
 #include "output.h"
-#include "overmapbuffer.h"
+#include "player.h"
+#include "point.h"
 #include "rng.h"
 #include "sounds.h"
-#include "translations.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "creature.h"
-#include "damage.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "item.h"
-#include "player.h"
-#include "int_id.h"
-#include "point.h"
 #include "teleport.h"
+#include "timed_event.h"
+#include "translations.h"
 
-static const mtype_id mon_blob( "mon_blob" );
-static const mtype_id mon_shadow( "mon_shadow" );
-static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+static const skill_id skill_throw( "throw" );
 
 static const species_id ROBOT( "ROBOT" );
 
-static const skill_id skill_throw( "throw" );
+static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
 
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_tetanus( "tetanus" );
-static const efftype_id effect_ridden( "ridden" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_shadow( "mon_shadow" );
+static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
@@ -727,21 +731,20 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
 
     //~ the sound of a dissector dissecting
     sounds::sound( p, 10, sounds::sound_t::combat, _( "BRZZZAP!" ), false, "trap", "dissector" );
-    if( c != nullptr ) {
-        if( g->u.sees( p ) ) {
-            add_msg( m_bad, _( "Electrical beams emit from the floor and slice the %s!" ), c->get_name() );
-        }
-        c->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
-        c->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
-        c->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
-        c->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
-        c->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
-        c->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
-        c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-        c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-        c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
-        c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
+    if( g->u.sees( p ) ) {
+        add_msg( m_bad, _( "Electrical beams emit from the floor and slice the %s!" ), c->get_name() );
     }
+    c->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
+    c->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
+    c->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
+    c->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
+    c->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
+    c->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
+    c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+    c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+    c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
+    c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
+
     c->check_dead_state();
     return true;
 }
@@ -764,7 +767,7 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
         if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
                 ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
-        } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+        } else if( n->has_active_bionic( bio_shock_absorber ) ) {
             n->add_msg_if_player( m_info,
                                   _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
         } else {
@@ -813,7 +816,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
         if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
                 ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
-        } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+        } else if( n->has_active_bionic( bio_shock_absorber ) ) {
             n->add_msg_if_player( m_info,
                                   _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
             ///\EFFECT_DODGE reduces chance of landing on spikes in spiked pit
@@ -896,7 +899,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
         if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
                 ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
-        } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+        } else if( n->has_active_bionic( bio_shock_absorber ) ) {
             n->add_msg_if_player( m_info,
                                   _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
             ///\EFFECT_DODGE reduces chance of landing on glass in glass pit
@@ -1065,20 +1068,19 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
 
 bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
 {
+    // tiny creatures don't trigger the sinkhole to collapse
+    if( c == nullptr || c->get_size() == MS_TINY ) {
+        return false;
+    }
     monster *z = dynamic_cast<monster *>( c );
     player *pl = dynamic_cast<player *>( c );
-    // tiny creatures don't trigger the sinkhole to collapse
-    if( c != nullptr && c->get_size() == MS_TINY ) {
-        return false;
-    } else if( z != nullptr ) {
+    if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {
             add_msg( m_bad, _( "Your %s falls into a sinkhole!" ), z->get_name() );
             g->u.forced_dismount();
         }
-
-    }
-    bool success = false;
-    if( pl != nullptr ) {
+    } else if( pl != nullptr ) {
+        bool success = false;
         if( query_for_item( pl, "grapnel",
                             _( "You step into a sinkhole!  Throw your grappling hook out to try to catch something?" ) ) ) {
             success = sinkhole_safety_roll( pl, "grapnel", 6 );
@@ -1096,17 +1098,16 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
             g->m.remove_trap( p );
             g->m.ter_set( p, t_pit );
             return true;
-        } else {
-            pl->add_msg_player_or_npc( m_bad, _( "You fall into the sinkhole!" ),
-                                       _( "<npcname> falls into a sinkhole!" ) );
         }
+        pl->add_msg_player_or_npc( m_bad, _( "You fall into the sinkhole!" ),
+                                   _( "<npcname> falls into a sinkhole!" ) );
+    } else {
+        return false;
     }
-    if( z != nullptr || pl != nullptr ) {
-        g->m.remove_trap( p );
-        g->m.ter_set( p, t_pit );
-        c->moves -= 100;
-        pit( p, c, i );
-    }
+    g->m.remove_trap( p );
+    g->m.ter_set( p, t_pit );
+    c->moves -= 100;
+    pit( p, c, i );
     return true;
 }
 
@@ -1126,7 +1127,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
             if( g->u.has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
                     g->u.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
                 add_msg( _( "You flap your wings and flutter down gracefully." ) );
-            } else if( g->u.has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+            } else if( g->u.has_active_bionic( bio_shock_absorber ) ) {
                 add_msg( m_info,
                          _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
             } else {
@@ -1207,7 +1208,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
             pl->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
         pl->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                    _( "<npcname> flaps their wings and flutters down gracefully." ) );
-    } else if( pl->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
+    } else if( pl->has_active_bionic( bio_shock_absorber ) ) {
         pl->add_msg_if_player( m_info,
                                _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
     } else {
@@ -1399,6 +1400,19 @@ bool trapfunc::drain( const tripoint &, Creature *c, item * )
     return false;
 }
 
+bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
+{
+    if( critter == nullptr ) {
+        return false;
+    }
+    const spell trap_spell = g->m.tr_at( p ).spell_data.get_spell( 0 );
+    npc dummy;
+    trap_spell.cast_all_effects( dummy, critter->pos() );
+    trap_spell.make_sound( p, 20 );
+    g->m.remove_trap( p );
+    return true;
+}
+
 bool trapfunc::snake( const tripoint &p, Creature *, item * )
 {
     //~ the sound a snake makes
@@ -1472,6 +1486,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "shadow", trapfunc::shadow },
             { "map_regen", trapfunc::map_regen },
             { "drain", trapfunc::drain },
+            { "spell", trapfunc::cast_spell },
             { "snake", trapfunc::snake }
         }
     };

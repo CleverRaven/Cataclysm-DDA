@@ -2,13 +2,20 @@
 #ifndef CATA_EVENT_H
 #define CATA_EVENT_H
 
+#include <array>
+#include <cstddef>
+#include <cstdlib>
+#include <functional>
 #include <map>
+#include <string>
+#include <type_traits>
 #include <utility>
 
 #include "calendar.h"
 #include "cata_variant.h"
-#include "enum_conversions.h"
-#include "type_id.h"
+#include "debug.h"
+
+template <typename E> struct enum_traits;
 
 using itype_id = std::string;
 
@@ -109,8 +116,6 @@ struct hash<event_type> {
 
 namespace cata
 {
-
-class event;
 
 namespace event_detail
 {

@@ -24,6 +24,7 @@
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
+      "lake_depth": -5,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [  ]
     },
@@ -110,9 +111,7 @@
       "shop_sigma": 50,
       "park_radius": 20,
       "park_sigma": 80,
-      "house_basement_chance": 1,
-      "houses": { "house": 1, "house_base": 1 },
-      "basements": { "basement": 1 },
+      "houses": { "house_w_1": 1, "duplex": 1 },
       "parks": { "park": 2, "pool": 1 },
       "shops": {
         "s_gas": 5,

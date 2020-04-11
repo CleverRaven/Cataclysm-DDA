@@ -4,7 +4,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "CRIT gasmask (off)", "str_pl": "CRIT gasmasks (off)" },
-    "description": "This is the C.R.I.T Spec Ops modified gasmask, fitted with top-of-the-line electronics and lined with kevlar for extra protection in order to keep one's head where it should be.  Various filters and other high tech wizardry allow for enhanced oxygen intake and safety even under bombardment.  It has an integrated HUD and the option to turn it on for more features.",
+    "description": "This is the C.R.I.T Spec Ops modified gasmask, fitted with top-of-the-line electronics and lined with Kevlar for extra protection in order to keep one's head where it should be.  Various filters and other high tech wizardry allow for enhanced oxygen intake and safety even under bombardment.  It has an integrated HUD and the option to turn it on for more features.",
     "weight": "5 kg",
     "volume": "1 L",
     "price": 2500000,
@@ -29,7 +29,17 @@
     "material_thickness": 3,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES", "VARSIZE", "GAS_PROOF", "USE_UPS", "NO_UNLOAD" ]
+    "flags": [
+      "WATERPROOF",
+      "STURDY",
+      "PARTIAL_DEAF",
+      "SUN_GLASSES",
+      "VARSIZE",
+      "GAS_PROOF",
+      "USE_UPS",
+      "NO_UNLOAD",
+      "SLEEP_IGNORE"
+    ]
   },
   {
     "id": "crt_gasmask_on",
@@ -70,7 +80,8 @@
       "TRADER_AVOID",
       "GAS_PROOF",
       "USE_UPS",
-      "NO_UNLOAD"
+      "NO_UNLOAD",
+      "SLEEP_IGNORE"
     ]
   },
   {
@@ -181,7 +192,7 @@
     "copy-from": "helmet_army",
     "type": "TOOL_ARMOR",
     "name": { "str": "CRIT helmet (on)", "str_pl": "CRIT helmets (on)" },
-    "description": "C.R.I.T standard-issue helmet.  Protects the noggin and has a stretch of insulated steel mesh for neck warmth and protection.  A tactically dim flashlight is attatched to the side.  This light is currently on and drawing power.",
+    "description": "C.R.I.T standard-issue helmet.  Protects the noggin and has a stretch of insulated steel mesh for neck warmth and protection.  A tactically dim flashlight is attached to the side.  This light is currently on and drawing power.",
     "color": "light_gray",
     "material": [ "kevlar", "hardsteel" ],
     "flags": [

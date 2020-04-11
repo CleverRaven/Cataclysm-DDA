@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "test_data",
+    "name": "TESTING DATA",
+    "description": "Adds mockup items, recipes, and other content for use by automated tests.",
+    "category": "content",
+    "//": "Not really obsolete! Marked as such to prevent it from showing in the main list",
+    "obsolete": true,
+    "dependencies": [ "dda" ]
+  }
+]

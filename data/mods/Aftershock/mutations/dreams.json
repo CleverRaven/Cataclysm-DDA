@@ -1,0 +1,35 @@
+[
+  {
+    "type": "dream",
+    "messages": [ "You dream of warm, alien winds.", "You dream of landscapes lit by the light of alien moons." ],
+    "category": "MIGO",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You stand at the edge of a fissure into strange earth.  Mustard brown gasses caress and lift your fronds",
+      "You dream of being vivsected by humans.  One asks if the other thinks you can feel pain."
+    ],
+    "category": "MIGO",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Trapped in a cage, you mimic the sounds of your guard's spawn.  He threatens you and enters the cage.  He screams, you recall.",
+      "It's your birthday.  But everyone has given you these hideous metal and plastic objects."
+    ],
+    "category": "MIGO",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "The stars await you, your chariot of fire is ready.  The holds are full of slaves.",
+      "You have transitioned from a dying race to a glorious future."
+    ],
+    "category": "MIGO",
+    "strength": 4
+  }
+]

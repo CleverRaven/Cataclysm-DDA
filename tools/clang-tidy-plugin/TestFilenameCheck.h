@@ -1,12 +1,18 @@
 #ifndef CATA_TOOLS_CLANG_TIDY_TESTFILENAMECHECK_H
 #define CATA_TOOLS_CLANG_TIDY_TESTFILENAMECHECK_H
 
+#include <llvm/ADT/StringRef.h>
+
 #include "ClangTidy.h"
 
 namespace clang
 {
+class CompilerInstance;
+
 namespace tidy
 {
+class ClangTidyContext;
+
 namespace cata
 {
 

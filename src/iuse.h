@@ -4,18 +4,19 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "clone_ptr.h"
 #include "units.h"
 
 class Character;
-class item;
-class player;
 class JsonObject;
+class item;
 class monster;
-template<typename T> class ret_val;
+class player;
 struct iteminfo;
+template<typename T> class ret_val;
 
 using itype_id = std::string;
 struct tripoint;
@@ -28,8 +29,6 @@ class iuse
         int sewage( player *, item *, bool, const tripoint & );
         int honeycomb( player *, item *, bool, const tripoint & );
         int royal_jelly( player *, item *, bool, const tripoint & );
-        int caff( player *, item *, bool, const tripoint & );
-        int atomic_caff( player *, item *, bool, const tripoint & );
         int alcohol_weak( player *, item *, bool, const tripoint & );
         int alcohol_medium( player *, item *, bool, const tripoint & );
         int alcohol_strong( player *, item *, bool, const tripoint & );
@@ -188,6 +187,7 @@ class iuse
         int camera( player *, item *, bool, const tripoint & );
         int ehandcuffs( player *, item *, bool, const tripoint & );
         int foodperson( player *, item *, bool, const tripoint & );
+        int tow_attach( player *, item *, bool, const tripoint & );
         int cable_attach( player *, item *, bool, const tripoint & );
         int shavekit( player *, item *, bool, const tripoint & );
         int hairkit( player *, item *, bool, const tripoint & );
@@ -207,8 +207,6 @@ class iuse
         int coin_flip( player *, item *, bool, const tripoint & );
         int play_game( player *, item *, bool, const tripoint & );
         int magic_8_ball( player *, item *, bool, const tripoint & );
-        int gobag_normal( player *, item *, bool, const tripoint & );
-        int gobag_personal( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 

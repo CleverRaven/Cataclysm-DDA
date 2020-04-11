@@ -3,32 +3,38 @@
 #define AVATAR_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
-#include "enums.h"
-#include "player.h"
-#include "magic_teleporter_list.h"
 #include "calendar.h"
+#include "character.h"
+#include "enums.h"
 #include "item.h"
+#include "magic_teleporter_list.h"
 #include "map_memory.h"
-#include "pldata.h"
+#include "memory_fast.h"
+#include "player.h"
 #include "point.h"
+
+class faction;
+
+enum character_type : int;
 
 class JsonIn;
 class JsonObject;
 class JsonOut;
 class mission;
-class npc;
 class monster;
+class npc;
+
 namespace debug_menu
 {
 class mission_debug;
 }  // namespace debug_menu
-struct points_left;
 struct mtype;
+struct points_left;
+struct targeting_data;
 
 // Monster visible in different directions (safe mode & compass)
 struct monster_visible_info {
@@ -248,6 +254,16 @@ class avatar : public player
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
+
+        /** Targeting data used for aiming the player's weapon across turns. */
+        shared_ptr_fast<targeting_data> tdata;
+
+    public:
+        /** Accessor method for weapon targeting data. */
+        targeting_data &get_targeting_data();
+
+        /** Mutator method for weapon targeting data. */
+        void set_targeting_data( const targeting_data &td );
 };
 
 struct points_left {

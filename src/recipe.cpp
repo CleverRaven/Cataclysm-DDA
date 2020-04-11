@@ -3,29 +3,31 @@
 #include <algorithm>
 #include <cmath>
 #include <numeric>
+#include <sstream>
 
-#include "calendar.h"
-#include "debug.h"
-#include "game_constants.h"
-#include "item.h"
-#include "itype.h"
-#include "output.h"
-#include "skill.h"
-#include "uistate.h"
-#include "string_formatter.h"
 #include "assign.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "construction.h"
+#include "debug.h"
+#include "flat_set.h"
+#include "game_constants.h"
+#include "item.h"
+#include "itype.h"
 #include "json.h"
 #include "mapgen_functions.h"
 #include "optional.h"
+#include "output.h"
 #include "player.h"
+#include "skill.h"
+#include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "string_id.h"
-#include "flat_set.h"
+#include "uistate.h"
 #include "units.h"
+#include "value_ptr.h"
 
 extern bool test_mode;
 
@@ -561,7 +563,7 @@ std::function<bool( const item & )> recipe::get_component_filter(
     const bool recipe_forbids_rotten =
         result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" );
     const bool flags_forbid_rotten =
-        static_cast<bool>( flags & recipe_filter_flags::no_rotten ) && result.goes_bad();
+        static_cast<bool>( flags & recipe_filter_flags::no_rotten ) && result.goes_bad_after_opening();
     std::function<bool( const item & )> rotten_filter = return_true<item>;
     if( recipe_forbids_rotten || flags_forbid_rotten ) {
         rotten_filter = []( const item & component ) {

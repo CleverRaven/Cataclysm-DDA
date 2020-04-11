@@ -2,17 +2,16 @@
 #ifndef AUTO_PICKUP_H
 #define AUTO_PICKUP_H
 
-#include <array>
+#include <functional>
 #include <iosfwd>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "enums.h"
-#include "type_id.h"
 
-class JsonOut;
 class JsonIn;
+class JsonOut;
 class item;
 struct itype;
 

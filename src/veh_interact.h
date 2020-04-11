@@ -3,28 +3,29 @@
 #define VEH_INTERACT_H
 
 #include <cstddef>
-#include <map>
-#include <vector>
 #include <functional>
+#include <map>
 #include <string>
+#include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
 #include "inventory.h"
-#include "player_activity.h"
 #include "item_location.h"
+#include "player_activity.h"
+#include "point.h"
 #include "type_id.h"
 
-struct requirement_data;
-struct tripoint;
+class player;
 class vpart_info;
+struct requirement_data;
 
 /** Represents possible return values from the cant_do function. */
 enum task_reason {
     UNKNOWN_TASK = -1, //No such task
     CAN_DO, //Task can be done
-    INVALID_TARGET, //No valid target ie can't "change tire" if no tire present
+    INVALID_TARGET, //No valid target i.e. can't "change tire" if no tire present
     LACK_TOOLS, //Player doesn't have all the tools they need
     NOT_FREE, //Part is attached to something else and can't be unmounted
     LACK_SKILL, //Player doesn't have high enough mechanics skill

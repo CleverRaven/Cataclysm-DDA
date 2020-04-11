@@ -1,17 +1,23 @@
 #include "addiction.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <map>
 #include <utility>
 
-#include "morale_types.h"
+#include "calendar.h"
 #include "character.h"
+#include "debug.h"
+#include "enums.h"
+#include "morale_types.h"
 #include "pldata.h"
 #include "rng.h"
 #include "translations.h"
-#include "calendar.h"
-#include "enums.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_shakes( "shakes" );
+
+static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 
 namespace io
 {

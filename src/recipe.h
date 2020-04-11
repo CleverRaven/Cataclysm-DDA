@@ -3,19 +3,20 @@
 #define RECIPE_H
 
 #include <cstddef>
+#include <functional>
 #include <map>
 #include <set>
-#include <vector>
-#include <functional>
 #include <string>
 #include <utility>
+#include <vector>
 
+#include "optional.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
 
-class item;
 class JsonObject;
+class item;
 class time_duration;
 
 using itype_id = std::string; // From itype.h
@@ -220,7 +221,7 @@ class recipe
         /** Blueprint requirements to be checked in unit test */
         bool has_blueprint_needs = false;
         bool check_blueprint_needs = false;
-        int time_blueprint;
+        int time_blueprint = 0;
         std::map<skill_id, int> skills_blueprint;
         std::vector<std::pair<requirement_id, int>> reqs_blueprint;
 };

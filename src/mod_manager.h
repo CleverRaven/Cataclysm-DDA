@@ -6,18 +6,17 @@
 #include <map>
 #include <set>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "pimpl.h"
-#include "string_id.h"
 #include "type_id.h"
 
 struct WORLD;
 
 using WORLDPTR = WORLD *;
-class dependency_tree;
 class JsonObject;
+class dependency_tree;
 class mod_manager;
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();

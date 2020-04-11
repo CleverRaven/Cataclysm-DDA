@@ -1,53 +1,86 @@
 #include "mondeath.h"
 
-#include <cstdlib>
 #include <algorithm>
-#include <cmath>
-#include <vector>
 #include <array>
+#include <cmath>
+#include <cstdlib>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "colony.h"
+#include "creature.h"
+#include "enums.h"
 #include "explosion.h"
-#include "timed_event.h"
-#include "field.h"
+#include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
+#include "item.h"
+#include "item_stack.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "kill_tracker.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mattack_actors.h"
+#include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "timed_event.h"
 #include "translations.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "creature.h"
-#include "enums.h"
-#include "item.h"
-#include "item_stack.h"
-#include "iuse.h"
-#include "pldata.h"
-#include "units.h"
-#include "weighted_list.h"
 #include "type_id.h"
-#include "colony.h"
-#include "point.h"
-#include "mattack_actors.h"
-#include "cata_string_consts.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "weighted_list.h"
+
+static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_no_ammo( "no_ammo" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_rat( "rat" );
+
+static const species_id species_BLOB( "BLOB" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const mtype_id mon_blob( "mon_blob" );
+static const mtype_id mon_blob_brain( "mon_blob_brain" );
+static const mtype_id mon_blob_small( "mon_blob_small" );
+static const mtype_id mon_breather( "mon_breather" );
+static const mtype_id mon_breather_hub( "mon_breather_hub" );
+static const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+static const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+static const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
+static const mtype_id mon_halfworm( "mon_halfworm" );
+static const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+static const mtype_id mon_thing( "mon_thing" );
+static const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+
+static const trait_id trait_KILLER( "KILLER" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
 void mdeath::normal( monster &z )
 {
@@ -245,7 +278,7 @@ void mdeath::boomer_glow( monster &z )
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
                 body_part bp = random_body_part();
                 critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
-                if( critter != nullptr && critter->has_effect( effect_glowing ) ) {
+                if( critter->has_effect( effect_glowing ) ) {
                     break;
                 }
             }
@@ -466,7 +499,7 @@ void mdeath::blobsplit( monster &z )
 void mdeath::brainblob( monster &z )
 {
     for( monster &critter : g->all_monsters() ) {
-        if( critter.type->in_species( BLOB ) && critter.type->id != mon_blob_brain ) {
+        if( critter.type->in_species( species_BLOB ) && critter.type->id != mon_blob_brain ) {
             critter.remove_effect( effect_controlled );
         }
     }
@@ -722,9 +755,8 @@ void mdeath::gameover( monster &z )
     g->u.hp_cur[hp_torso] = 0;
 }
 
-void mdeath::kill_breathers( monster &z )
+void mdeath::kill_breathers( monster &/*z*/ )
 {
-    ( void )z; //unused
     for( monster &critter : g->all_monsters() ) {
         const mtype_id &monID = critter.type->id;
         if( monID == mon_breather_hub || monID == mon_breather ) {

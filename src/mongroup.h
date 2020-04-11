@@ -4,21 +4,20 @@
 
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "calendar.h"
 #include "io_tags.h"
 #include "monster.h"
-#include "string_id.h"
-#include "type_id.h"
 #include "point.h"
+#include "type_id.h"
 
+class JsonIn;
+class JsonObject;
+class JsonOut;
 // from overmap.h
 class overmap;
-class JsonObject;
-class JsonIn;
-class JsonOut;
 struct MonsterGroupEntry;
 
 using FreqDef = std::vector<MonsterGroupEntry>;
@@ -66,14 +65,14 @@ struct MonsterGroup {
     mtype_id defaultMonster;
     FreqDef  monsters;
     bool IsMonsterInGroup( const mtype_id &id ) const;
-    bool is_animal;
+    bool is_animal = false;
     // replaces this group after a period of
     // time when exploring an unexplored portion of the map
-    bool replace_monster_group;
+    bool replace_monster_group = false;
     mongroup_id new_monster_group;
     time_duration monster_group_time = 0_turns;
-    bool is_safe; /// Used for @ref mongroup::is_safe()
-    int freq_total; // Default 1000 unless specified - max number to roll for spawns
+    bool is_safe = false; /// Used for @ref mongroup::is_safe()
+    int freq_total = 0; // Default 1000 unless specified - max number to roll for spawns
 };
 
 struct mongroup {

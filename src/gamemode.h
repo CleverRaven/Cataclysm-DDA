@@ -8,11 +8,6 @@
 #include "enums.h"
 
 enum action_id : int;
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-
 struct special_game;
 
 std::string special_game_name( special_game_id id );

@@ -78,7 +78,9 @@
       { "item": "screen_mesh", "prob": 40, "count": [ 5, 10 ] },
       { "item": "spike", "prob": 40, "count": [ 5, 10 ] },
       { "item": "nail", "prob": 60, "count": [ 5, 20 ] },
-      { "item": "hinge", "prob": 60, "count": [ 5, 10 ] }
+      { "item": "hinge", "prob": 60, "count": [ 5, 10 ] },
+      { "item": "tempered_glass_sheet", "prob": 30, "count": [ 5, 20 ] },
+      { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] }
     ]
   },
   {
@@ -153,6 +155,7 @@
         ],
         "prob": 100
       },
+      [ "rigid_plastic_sheet", 50 ],
       [ "plastic_sheet", 50 ],
       [ "pine_bough", 10 ]
     ]
@@ -175,6 +178,7 @@
         ],
         "prob": 100
       },
+      [ "rigid_plastic_sheet", 5 ],
       [ "plastic_sheet", 5 ],
       [ "pine_bough", 3 ]
     ]
@@ -231,7 +235,9 @@
       { "item": "chem_zinc_powder", "prob": 5, "charges-min": 100 },
       [ "denat_alcohol", 5 ],
       [ "recharge_station", 10 ],
-      [ "tarp", 15 ]
+      [ "tarp", 15 ],
+      [ "tempered_glass_sheet", 25 ],
+      [ "rigid_plastic_sheet", 30 ]
     ]
   },
   {
@@ -358,6 +364,7 @@
       [ "jumper_cable_heavy", 5 ],
       [ "stereo", 25 ],
       [ "frame", 20 ],
+      [ "hd_tow_cable", 5 ],
       [ "hdframe", 10 ],
       [ "motor", 2 ],
       [ "wheel", 10 ],
@@ -395,6 +402,7 @@
       [ "alternator_car", 6 ],
       [ "alternator_truck", 6 ],
       [ "alternator_bicycle", 4 ],
+      [ "hd_tow_cable", 1 ],
       [ "generator_7500w", 3 ],
       [ "storage_battery", 6 ],
       [ "motor_oil", 100 ],
@@ -484,6 +492,7 @@
     "type": "item_group",
     "items": [
       [ "basketball", 100 ],
+      [ "indoor_volleyball", 50 ],
       [ "baseball", 100 ],
       [ "hat_ball", 10 ],
       [ "helmet_ball", 20 ],

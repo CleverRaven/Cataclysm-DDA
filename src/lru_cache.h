@@ -7,6 +7,9 @@
 #include <utility>
 
 #include "enums.h" // IWYU pragma: keep
+#include "point.h"
+
+struct memorized_terrain_tile;
 
 template<typename Key, typename Value>
 class lru_cache

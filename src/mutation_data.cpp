@@ -1,20 +1,21 @@
 #include "mutation.h" // IWYU pragma: associated
 
+#include <array>
 #include <map>
 #include <memory>
 #include <set>
-#include <vector>
-#include <array>
 #include <stdexcept>
+#include <vector>
 
 #include "bodypart.h"
 #include "color.h"
 #include "debug.h"
-#include "json.h"
-#include "trait_group.h"
-#include "string_formatter.h"
-#include "translations.h"
 #include "generic_factory.h"
+#include "json.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "trait_group.h"
+#include "translations.h"
 
 using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
@@ -323,6 +324,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "healing_awake", healing_awake, 0.0f );
     optional( jo, was_loaded, "healing_resting", healing_resting, 0.0f );
+    optional( jo, was_loaded, "mending_modifier", mending_modifier, 1.0f );
     optional( jo, was_loaded, "hp_modifier", hp_modifier, 0.0f );
     optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, 0.0f );
     optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
@@ -400,6 +402,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "leads_to", additions, trait_reader{} );
     optional( jo, was_loaded, "flags", flags, string_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
+    optional( jo, was_loaded, "enchantments", enchantments );
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( get_body_part_token( s ) );
@@ -423,7 +426,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     for( JsonArray ja : jo.get_array( "lumination" ) ) {
         const body_part bp = get_body_part_token( ja.next_string() );
-        lumination.emplace( bp, ja.next_float() );
+        lumination.emplace( bp, static_cast<float>( ja.next_float() ) );
     }
 
     for( JsonArray ja : jo.get_array( "anger_relations" ) ) {

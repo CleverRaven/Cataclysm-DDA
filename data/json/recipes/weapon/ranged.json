@@ -135,6 +135,28 @@
   },
   {
     "type": "recipe",
+    "result": "longrifle_flintlock",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ "rifle", 4 ],
+    "difficulty": 9,
+    "time": "360 m",
+    "autolearn": true,
+    "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "using": [ [ "forging_standard", 6 ], [ "steel_standard", 3 ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "carbine_flintlock",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",

@@ -1,14 +1,12 @@
 #include <cstdlib>
 #include <memory>
-#include <string>
 
-#include "catch/catch.hpp"
 #include "calendar.h"
-#include "item.h"
-#include "cata_utility.h"
+#include "catch/catch.hpp"
 #include "game.h"
-#include "flat_set.h"
+#include "item.h"
 #include "point.h"
+#include "weather.h"
 
 static bool is_nearly( float value, float expected )
 {

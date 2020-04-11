@@ -8,10 +8,12 @@
 
 #include <array>
 #include <cassert>
-#include <cstddef>
 #include <climits>
+#include <cstdint>
+#include <cstdlib>
 #include <functional>
 #include <ostream>
+#include <string>
 #include <vector>
 
 #else
@@ -26,8 +28,8 @@ class ostream;
 
 #endif // CATA_NO_STL
 
-class JsonOut;
 class JsonIn;
+class JsonOut;
 
 // NOLINTNEXTLINE(cata-xy)
 struct point {
@@ -308,7 +310,6 @@ std::vector<tripoint> closest_tripoints_first( const tripoint &center, int min_d
 
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
-
 
 inline point abs( const point &p )
 {
