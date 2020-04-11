@@ -25,7 +25,7 @@
     "id": "toastem2",
     "name": "toast-em",
     "copy-from": "toastem",
-    "description": "Dry toaster pastries, usually coated with solid frosting, these are blueberry flavored!",
+    "description": "Dry toaster pastries, usually coated with solid frosting.  These are blueberry flavored!",
     "fun": 15
   },
   {
@@ -471,7 +471,7 @@
     "color": "brown",
     "spoils_in": "360 days",
     "addiction_type": "caffeine",
-    "use_action": "CAFF",
+    "fatigue_mod": 30,
     "stim": 10,
     "container": "bag_plastic",
     "comestible_type": "FOOD",

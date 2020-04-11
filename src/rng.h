@@ -4,9 +4,9 @@
 
 #include <array>
 #include <functional>
-#include <random>
 #include <iosfwd>
 #include <iterator>
+#include <random>
 #include <type_traits>
 
 #include "optional.h"
@@ -32,6 +32,10 @@ int dice( int number, int sides );
 
 // Returns x + x_in_y( x-int(x), 1 )
 int roll_remainder( double value );
+inline int roll_remainder( float value )
+{
+    return roll_remainder( static_cast<double>( value ) );
+}
 
 int djb2_hash( const unsigned char *input );
 
@@ -156,8 +160,8 @@ inline V random_entry_removed( C &container )
     return result;
 }
 class map;
-struct tripoint;
 class tripoint_range;
+struct tripoint;
 
 /// Returns a range enclosing all valid points of the map.
 tripoint_range points_in_range( const map &m );

@@ -1,21 +1,23 @@
 #include "map_helpers.h"
 
+#include <cassert>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
-#include "game.h"
-#include "map.h"
-#include "mapdata.h"
-#include "monster.h"
-#include "npc.h"
 #include "field.h"
+#include "game.h"
 #include "game_constants.h"
-#include "pimpl.h"
-#include "type_id.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "npc.h"
 #include "point.h"
+#include "type_id.h"
+
+class vehicle;
 
 void wipe_map_terrain()
 {
@@ -95,3 +97,29 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint &st
     return *added;
 }
 
+// Remove all vehicles from the map
+void clear_vehicles()
+{
+    VehicleList vehs = g->m.get_vehicles();
+    vehicle *veh_ptr;
+    for( auto &vehs_v : vehs ) {
+        veh_ptr = vehs_v.v;
+        g->m.destroy_vehicle( veh_ptr );
+    }
+}
+
+// Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given
+// terrain, and no furniture, traps, or items.
+void build_test_map( const ter_id &terrain )
+{
+    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
+            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+        g->m.furn_set( p, furn_id( "f_null" ) );
+        g->m.ter_set( p, terrain );
+        g->m.trap_set( p, trap_id( "tr_null" ) );
+        g->m.i_clear( p );
+    }
+
+    g->m.invalidate_map_cache( 0 );
+    g->m.build_map_cache( 0, true );
+}

@@ -1,92 +1,103 @@
 #include "debug_menu.h"
 
 // IWYU pragma: no_include <cxxabi.h>
-#include <climits>
-#include <cstdint>
+
 #include <algorithm>
-#include <chrono>
-#include <vector>
 #include <array>
+#include <chrono>
+#include <csignal>
+#include <cstdint>
+#include <cstdlib>
+#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <iterator>
+#include <limits>
 #include <list>
 #include <map>
 #include <memory>
 #include <sstream>
 #include <string>
-#include <type_traits>
-#include <utility>
-#include <cstdlib>
-#include <ctime>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "action.h"
+#include "artifact.h"
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "character_id.h"
+#include "character_martial_arts.h"
+#include "color.h"
+#include "compatibility.h"
 #include "coordinate_conversions.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "enum_conversions.h"
+#include "enums.h"
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
+#include "input.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_group.h"
+#include "item_location.h"
+#include "magic.h"
+#include "map.h"
 #include "map_extras.h"
+#include "mapgen.h"
+#include "mapgendata.h"
+#include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
+#include "monster.h"
+#include "monstergenerator.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "omdata.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
-#include "string_formatter.h"
-#include "string_input_popup.h"
-#include "ui.h"
-#include "vitamin.h"
-#include "color.h"
-#include "debug.h"
-#include "enums.h"
-#include "faction.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item.h"
-#include "omdata.h"
-#include "optional.h"
 #include "pldata.h"
+#include "point.h"
+#include "recipe_dictionary.h"
+#include "rng.h"
+#include "sounds.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "string_input_popup.h"
+#include "trait_group.h"
 #include "translations.h"
 #include "type_id.h"
-#include "map.h"
-#include "veh_type.h"
-#include "weather.h"
-#include "recipe_dictionary.h"
-#include "martialarts.h"
-#include "sounds.h"
-#include "trait_group.h"
-#include "artifact.h"
-#include "vpart_position.h"
-#include "rng.h"
-#include <csignal>
-#include "magic.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "cata_utility.h"
-#include "clzones.h"
-#include "compatibility.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "input.h"
-#include "item_group.h"
-#include "monster.h"
-#include "point.h"
-#include "stomach.h"
-#include "string_id.h"
+#include "ui.h"
 #include "units.h"
+#include "veh_type.h"
+#include "vitamin.h"
+#include "vpart_position.h"
+#include "weather.h"
 #include "weather_gen.h"
-#include "monstergenerator.h"
-#include "cata_string_consts.h"
-#include "mapgendata.h"
+
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_flu( "flu" );
+
+static const mtype_id mon_generator( "mon_generator" );
+
+static const trait_id trait_ASTHMA( "ASTHMA" );
 
 class vehicle;
 
@@ -480,7 +491,7 @@ void character_edit_menu()
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU, D_ASTHMA
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -499,6 +510,7 @@ void character_edit_menu()
     nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
     nmenu.addentry( D_FLU, true, 'f', "%s", _( "Give the [f]lu" ) );
+    nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
@@ -870,6 +882,12 @@ void character_edit_menu()
         break;
         case D_FLU: {
             p.add_effect( effect_flu, 1000_minutes );
+            break;
+        }
+        break;
+        case D_ASTHMA: {
+            p.set_mutation( trait_ASTHMA );
+            p.add_effect( effect_asthma, 10_minutes );
             break;
         }
     }

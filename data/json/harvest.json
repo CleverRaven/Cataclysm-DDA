@@ -524,7 +524,7 @@
   },
   {
     "id": "zombie_kevlar",
-    "//": "zombies with kevlar infused into their skin",
+    "//": "zombies with Kevlar infused into their skin",
     "type": "harvest",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },

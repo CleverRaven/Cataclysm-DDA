@@ -4,10 +4,11 @@
 
 #include <climits>
 #include <map>
+#include <memory>
 #include <set>
-#include <vector>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "color.h"
@@ -15,16 +16,16 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h"
-class npc_template;
+#include "optional.h"
 #include "ret_val.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "optional.h"
 
 class Character;
 class item;
+class npc_template;
 class player;
 struct iteminfo;
 struct tripoint;
@@ -34,9 +35,9 @@ enum body_part : int;
 class JsonObject;
 
 using itype_id = std::string;
+class item_location;
 struct furn_t;
 struct itype;
-class item_location;
 
 /**
  * Transform an item into a specific type.
@@ -111,6 +112,30 @@ class iuse_transform : public iuse_actor
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+};
+
+class unpack_actor : public iuse_actor
+{
+    public:
+        /** The itemgroup from which we unpack items from */
+        std::string unpack_group;
+
+        /** Whether or not the items from the group should spawn fitting */
+        bool items_fit = false;
+
+        /**
+         *  If the item is filthy, at what volume (held) threshold should the
+         *   items unpacked be made filthy
+         */
+        units::volume filthy_vol_threshold = 0_ml;
+
+        unpack_actor( const std::string &type = "unpack" ) : iuse_actor( type ) {}
+
+        ~unpack_actor() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &p, item &it, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        void info( const item &, std::vector<iteminfo> &dump ) const override;
 };
 
 class countdown_actor : public iuse_actor

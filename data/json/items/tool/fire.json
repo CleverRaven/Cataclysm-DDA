@@ -187,7 +187,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "FIRESTARTER", "LIGHT_8", "FLAMING", "REFILLABLE_LIGHTER", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
     "id": "tinderbox",

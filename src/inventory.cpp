@@ -33,7 +33,11 @@
 #include "colony.h"
 #include "flat_set.h"
 #include "point.h"
-#include "cata_string_consts.h"
+
+static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
+static const std::string flag_LEAK_DAM( "LEAK_DAM" );
+static const std::string flag_WATERPROOF( "WATERPROOF" );
+static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 
 struct itype;
 
@@ -255,7 +259,7 @@ char inventory::find_usable_cached_invlet( const std::string &item_type )
             continue;
         }
         // Check if anything is using this invlet.
-        if( g->u.invlet_to_position( invlet ) != INT_MIN ) {
+        if( g->u.invlet_to_item( invlet ) != nullptr ) {
             continue;
         }
         return invlet;
@@ -334,8 +338,9 @@ void inventory::restack( player &p )
         std::list<item> &stack = *iter;
         item &topmost = stack.front();
 
-        const int ipos = p.invlet_to_position( topmost.invlet );
-        if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
+        const item *invlet_item = p.invlet_to_item( topmost.invlet );
+        if( !inv_chars.valid( topmost.invlet ) || ( invlet_item != nullptr &&
+                position_by_item( invlet_item ) != idx ) ) {
             assign_empty_invlet( topmost, p );
             for( auto &stack_iter : stack ) {
                 stack_iter.invlet = topmost.invlet;
@@ -446,8 +451,8 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         if( m.accessible_items( p ) ) {
             for( auto &i : m.i_at( p ) ) {
-                // if its *the* player requesting this from from map inventory
-                // then dont allow items owned by another faction to be factored into recipe components etc.
+                // if it's *the* player requesting this from from map inventory
+                // then don't allow items owned by another faction to be factored into recipe components etc.
                 if( pl && !i.is_owned_by( *pl, true ) ) {
                     continue;
                 }
@@ -1089,7 +1094,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
     if( newit.invlet ) {
         char tmp_invlet = newit.invlet;
         newit.invlet = '\0';
-        if( g->u.invlet_to_position( tmp_invlet ) == INT_MIN ) {
+        if( g->u.invlet_to_item( tmp_invlet ) == nullptr ) {
             newit.invlet = tmp_invlet;
         }
     }

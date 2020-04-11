@@ -3,15 +3,21 @@
 #define CATA_VARIANT_H
 
 #include <array>
-#include <cassert>
+#include <cstddef>
+#include <functional>
+#include <string>
+#include <type_traits>
 #include <utility>
 
 #include "character_id.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "enum_traits.h"
 #include "hash_utils.h"
 #include "type_id.h"
+
+class JsonIn;
+class JsonOut;
+template <typename E> struct enum_traits;
 
 enum add_type : int;
 enum body_part : int;
@@ -40,6 +46,7 @@ enum class cata_variant_type : int {
     mutation_category_id,
     oter_id,
     skill_id,
+    species_id,
     spell_id,
     string,
     trait_id,
@@ -146,7 +153,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 20,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 21,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -223,6 +230,9 @@ struct convert<cata_variant_type::oter_id> : convert_int_id<oter_id> {};
 
 template<>
 struct convert<cata_variant_type::skill_id> : convert_string_id<skill_id> {};
+
+template<>
+struct convert<cata_variant_type::species_id> : convert_string_id<species_id> {};
 
 template<>
 struct convert<cata_variant_type::spell_id> : convert_string_id<spell_id> {};

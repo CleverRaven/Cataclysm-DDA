@@ -1,20 +1,22 @@
 #include "behavior_oracle.h"
 
-#include <functional>
 #include <array>
+#include <functional>
 #include <list>
+#include <memory>
 
 #include "behavior.h"
 #include "bodypart.h"
-#include "itype.h"
-#include "player.h"
-#include "weather.h"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
-#include "optional.h"
+#include "itype.h"
+#include "player.h"
 #include "ret_val.h"
-#include "cata_string_consts.h"
+#include "value_ptr.h"
+#include "weather.h"
+
+static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 
 namespace behavior
 {

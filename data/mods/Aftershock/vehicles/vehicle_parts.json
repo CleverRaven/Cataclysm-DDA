@@ -3,7 +3,7 @@
     "type": "vehicle_part",
     "id": "afs_cargo_trough",
     "copy-from": "trunk",
-    "name": "cargo trough",
+    "name": { "str": "cargo trough" },
     "color": "light_gray",
     "broken_color": "light_gray",
     "looks_like": "trunk",
@@ -17,7 +17,7 @@
     "type": "vehicle_part",
     "id": "afs_hauling_space",
     "copy-from": "cargo_space",
-    "name": "hauling space",
+    "name": { "str": "hauling space" },
     "looks_like": "cargo_space",
     "item": "afs_hauling_space",
     "location": "center",
@@ -30,7 +30,7 @@
   {
     "type": "vehicle_part",
     "id": "afs_crude_plating",
-    "name": "crude plating",
+    "name": { "str": "crude plating" },
     "description": "A piece of sheet metal welded onto a vehicle as armor.  Thin, and not as protective as proper armor, but it'll do if there's nothing else available.",
     "symbol": ")",
     "looks_like": "steel_plate",
@@ -53,7 +53,7 @@
     "id": "laser_cannon",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted laser cannon",
+    "name": { "str": "mounted laser cannon" },
     "item": "laser_cannon",
     "color": "magenta",
     "broken_color": "magenta",
@@ -68,7 +68,7 @@
     "type": "vehicle_part",
     "id": "afs_fridge",
     "copy-from": "minifridge",
-    "name": "refrigerator",
+    "name": { "str": "refrigerator" },
     "symbol": "{",
     "color": "white",
     "broken_color": "white",
@@ -83,7 +83,7 @@
     "type": "vehicle_part",
     "id": "afs_freezer",
     "copy-from": "minifreezer",
-    "name": "freezer",
+    "name": { "str": "freezer" },
     "symbol": "{",
     "color": "light_blue",
     "broken_color": "light_blue",
@@ -97,7 +97,7 @@
   {
     "type": "vehicle_part",
     "id": "afs_metal_rig",
-    "name": "MetalMaster forge buddy",
+    "name": { "str": "MetalMaster forge buddy" },
     "symbol": "&",
     "color": "red",
     "broken_symbol": "x",
@@ -127,7 +127,7 @@
   {
     "type": "vehicle_part",
     "id": "afs_cooking_rig",
-    "name": "cooking rig",
+    "name": { "str": "cooking rig" },
     "symbol": "&",
     "color": "blue",
     "broken_symbol": "x",
@@ -158,7 +158,7 @@
   {
     "type": "vehicle_part",
     "id": "afs_kitchen_rig",
-    "name": "KitchenMaster cooking buddy",
+    "name": { "str": "KitchenMaster cooking buddy" },
     "symbol": "&",
     "color": "yellow",
     "broken_symbol": "x",
@@ -194,7 +194,7 @@
   {
     "type": "vehicle_part",
     "id": "afs_control_station",
-    "name": "control station",
+    "name": { "str": "control station" },
     "symbol": "$",
     "looks_like": "vehicle_dashboard",
     "color": "red",
@@ -232,20 +232,10 @@
     ]
   },
   {
-    "id": "afs_roof_external_tank",
-    "copy-from": "external_tank_small",
-    "type": "vehicle_part",
-    "name": "roof-mounted external tank (200L)",
-    "item": "55gal_drum",
-    "location": "on_roof",
-    "extend": { "flags": [ "ON_ROOF" ] },
-    "size": 200000
-  },
-  {
     "id": "afs_mounted_external_tank",
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
-    "name": "mounted external tank (200L)",
+    "name": { "str": "mounted external tank (200L)" },
     "item": "55gal_drum",
     "location": "center",
     "size": 200000
@@ -253,7 +243,7 @@
   {
     "abstract": "afs_lightweight_frame",
     "type": "vehicle_part",
-    "name": "ultralight frame",
+    "name": { "str": "ultralight frame" },
     "item": "afs_titanium_frame",
     "location": "structure",
     "color": "light_gray",
@@ -327,5 +317,27 @@
     "copy-from": "afs_lightweight_frame",
     "type": "vehicle_part",
     "symbol": "H"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "solar_panel_v3",
+    "copy-from": "solar_panel",
+    "name": "quantum solar panel",
+    "looks_like": "solar_panel_v2",
+    "proportional": { "epower": 6.0 },
+    "item": "solar_panel_v3",
+    "durability": 40,
+    "description": "An extremely high performance solar panel.  Will recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed.  Extremely fragile and cannot be armored.",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] }
+    },
+    "extend": { "flags": [ "NO_REPAIR" ] },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 4 ] },
+      { "item": "steel_chunk", "count": [ 4, 4 ] },
+      { "item": "scrap", "count": [ 4, 4 ] },
+      { "item": "solar_cell", "count": [ 2, 8 ] }
+    ]
   }
 ]

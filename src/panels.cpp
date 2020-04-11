@@ -1,56 +1,58 @@
 #include "panels.h"
 
-#include <cstdlib>
-#include <cmath>
-#include <string>
 #include <array>
+#include <cmath>
+#include <cstdlib>
 #include <iosfwd>
 #include <iterator>
 #include <list>
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "action.h"
 #include "avatar.h"
 #include "behavior.h"
 #include "behavior_oracle.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "character.h"
+#include "character_martial_arts.h"
 #include "color.h"
+#include "compatibility.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "effect.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_ui.h"
 #include "input.h"
 #include "item.h"
 #include "json.h"
+#include "magic.h"
 #include "map.h"
-#include "martialarts.h"
-#include "options.h"
 #include "messages.h"
+#include "omdata.h"
+#include "options.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "output.h"
 #include "path_info.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "tileray.h"
 #include "translations.h"
+#include "type_id.h"
+#include "ui_manager.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "catacharset.h"
-#include "compatibility.h"
-#include "debug.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "omdata.h"
-#include "pldata.h"
-#include "string_formatter.h"
-#include "tileray.h"
-#include "type_id.h"
-#include "magic.h"
-#include "point.h"
-#include "string_id.h"
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
@@ -2257,6 +2259,9 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     ctxt.register_action( "RIGHT" );
     ctxt.register_action( "MOVE_PANEL" );
     ctxt.register_action( "TOGGLE_PANEL" );
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     const std::vector<int> column_widths = { 17, 37, 17 };
     size_t max_index = 0;

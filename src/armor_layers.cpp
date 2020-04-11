@@ -1,25 +1,48 @@
 #include "player.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <array>
+#include <cstddef>
+#include <iterator>
+#include <memory>
 #include <string>
 #include <vector>
-#include <iterator>
-#include <cstddef>
 
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
+#include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "input.h"
+#include "inventory.h"
 #include "item.h"
 #include "line.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "debug.h"
-#include "enums.h"
-#include "cata_string_consts.h"
+#include "ui_manager.h"
+
+static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
+
+static const std::string flag_AURA( "AURA" );
+static const std::string flag_BELTED( "BELTED" );
+static const std::string flag_FANCY( "FANCY" );
+static const std::string flag_FIT( "FIT" );
+static const std::string flag_FLOTATION( "FLOTATION" );
+static const std::string flag_HOOD( "HOOD" );
+static const std::string flag_OUTER( "OUTER" );
+static const std::string flag_OVERSIZE( "OVERSIZE" );
+static const std::string flag_PERSONAL( "PERSONAL" );
+static const std::string flag_POCKETS( "POCKETS" );
+static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
+static const std::string flag_SKINTIGHT( "SKINTIGHT" );
+static const std::string flag_SUPER_FANCY( "SUPER_FANCY" );
+static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
+static const std::string flag_WAIST( "WAIST" );
+static const std::string flag_WATER_FRIENDLY( "WATER_FRIENDLY" );
+static const std::string flag_WATERPROOF( "WATERPROOF" );
 
 namespace
 {
@@ -497,6 +520,9 @@ void player::sort_armor()
         g->u.activity.moves_left = INT_MAX;
     };
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     bool exit = false;
     while( !exit ) {
         if( is_player() ) {
@@ -526,7 +552,8 @@ void player::sort_armor()
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex] );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
-                         _( "Press %s for help.  Press %s to change keybindings." ),
+                         _( "Press [<color_yellow>%s</color>] for help.  "
+                            "Press [<color_yellow>%s</color>] to change keybindings." ),
                          ctxt.get_desc( "USAGE_HELP" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
@@ -750,7 +777,7 @@ void player::sort_armor()
             if( loc ) {
                 // wear the item
                 cata::optional<std::list<item>::iterator> new_equip_it =
-                    wear( this->i_at( loc.obtain( *this ) ) );
+                    wear( *loc.obtain( *this ) );
                 if( new_equip_it ) {
                     body_part bp = static_cast<body_part>( tabindex );
                     if( tabindex == num_bp || ( **new_equip_it ).covers( bp ) ) {
@@ -778,7 +805,7 @@ void player::sort_armor()
             if( loc ) {
                 // wear the item
                 if( cata::optional<std::list<item>::iterator> new_equip_it =
-                        wear( this->i_at( loc.obtain( *this ) ) ) ) {
+                        wear( *loc.obtain( *this ) ) ) {
                     // save iterator to cursor's position
                     std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
                     // reorder `worn` vector to place new item at cursor
@@ -818,7 +845,7 @@ void player::sort_armor()
                     item &w = *witer;
                     if( invlet == w.invlet ) {
                         ++witer;
-                    } else if( invlet_to_position( invlet ) != INT_MIN ) {
+                    } else if( invlet_to_item( invlet ) != nullptr ) {
                         ++iiter;
                     } else {
                         inv.reassign_item( w, invlet );
@@ -828,32 +855,36 @@ void player::sort_armor()
                 }
             }
         } else if( action == "USAGE_HELP" ) {
-            popup_getkey( _( "Use the arrow- or keypad keys to navigate the left list.\n"
-                             "[%s] to select highlighted armor for reordering.\n"
-                             "[%s] / [%s] to scroll the right list.\n"
-                             "[%s] to assign special inventory letters to clothing.\n"
-                             "[%s] to change the side on which item is worn.\n"
-                             "[%s] to sort armor into natural layer order.\n"
-                             "[%s] to equip a new item.\n"
-                             "[%s] to equip a new item at the currently selected position.\n"
-                             "[%s] to remove selected armor from oneself.\n"
-                             "\n"
-                             "[Encumbrance and Warmth] explanation:\n"
-                             "The first number is the summed encumbrance from all clothing on that bodypart.\n"
-                             "The second number is an additional encumbrance penalty caused by wearing multiple items "
-                             "on one of the bodypart's layers or wearing items outside of other items they would "
-                             "normally be work beneath (e.g. a shirt over a backpack).\n"
-                             "The sum of these values is the effective encumbrance value your character has for that bodypart." ),
-                          ctxt.get_desc( "MOVE_ARMOR" ),
-                          ctxt.get_desc( "PREV_TAB" ),
-                          ctxt.get_desc( "NEXT_TAB" ),
-                          ctxt.get_desc( "ASSIGN_INVLETS" ),
-                          ctxt.get_desc( "CHANGE_SIDE" ),
-                          ctxt.get_desc( "SORT_ARMOR" ),
-                          ctxt.get_desc( "EQUIP_ARMOR" ),
-                          ctxt.get_desc( "EQUIP_ARMOR_HERE" ),
-                          ctxt.get_desc( "REMOVE_ARMOR" )
-                        );
+            popup_getkey(
+                _( "Use the [<color_yellow>arrow- or keypad keys</color>] to navigate the left list.\n"
+                   "[<color_yellow>%s</color>] to select highlighted armor for reordering.\n"
+                   "[<color_yellow>%s</color>] / [<color_yellow>%s</color>] to scroll the right list.\n"
+                   "[<color_yellow>%s</color>] to assign special inventory letters to clothing.\n"
+                   "[<color_yellow>%s</color>] to change the side on which item is worn.\n"
+                   "[<color_yellow>%s</color>] to sort armor into natural layer order.\n"
+                   "[<color_yellow>%s</color>] to equip a new item.\n"
+                   "[<color_yellow>%s</color>] to equip a new item at the currently selected position.\n"
+                   "[<color_yellow>%s</color>] to remove selected armor from oneself.\n"
+                   "\n"
+                   "\n"
+                   "Encumbrance explanation:\n"
+                   "\n"
+                   "<color_light_gray>The first number is the summed encumbrance from all clothing "
+                   "on that bodypart.  The second number is an additional encumbrance penalty "
+                   "caused by wearing either multiple items on one of the bodypart's layers or "
+                   "wearing items the wrong way (e.g. a shirt over a backpack).  "
+                   "The sum of these values is the effective encumbrance value "
+                   "your character has for that bodypart.</color>" ),
+                ctxt.get_desc( "MOVE_ARMOR" ),
+                ctxt.get_desc( "PREV_TAB" ),
+                ctxt.get_desc( "NEXT_TAB" ),
+                ctxt.get_desc( "ASSIGN_INVLETS" ),
+                ctxt.get_desc( "CHANGE_SIDE" ),
+                ctxt.get_desc( "SORT_ARMOR" ),
+                ctxt.get_desc( "EQUIP_ARMOR" ),
+                ctxt.get_desc( "EQUIP_ARMOR_HERE" ),
+                ctxt.get_desc( "REMOVE_ARMOR" )
+            );
             draw_grid( w_sort_armor, left_w, middle_w );
         } else if( action == "HELP_KEYBINDINGS" ) {
             draw_grid( w_sort_armor, left_w, middle_w );

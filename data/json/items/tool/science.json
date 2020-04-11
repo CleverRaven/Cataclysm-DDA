@@ -663,7 +663,7 @@
     "id": "rack_test_tube",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "test tube rack",
+    "name": { "str": "test tube rack" },
     "description": "A plastic box with holes in it.  Not that exciting, unless you're desperate for a place to store a test tube.  Then it's great.",
     "weight": "90 g",
     "volume": "250ml",

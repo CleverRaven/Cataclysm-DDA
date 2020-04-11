@@ -2,6 +2,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
+#include <functional>
 #include <map>
 #include <string>
 #include <unordered_map>
@@ -28,6 +29,7 @@ class options_manager
                     : std::pair<std::string, translation>( first, second ) {
                 }
         };
+        static std::vector<id_and_option> lang_options;
     private:
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();
@@ -196,7 +198,8 @@ class options_manager
         void add_options_android();
         void load();
         bool save();
-        std::string show( bool ingame = false, bool world_options_only = false );
+        std::string show( bool ingame = false, bool world_options_only = false,
+                          const std::function<bool()> &on_quit = nullptr );
 
         void add_value( const std::string &lvar, const std::string &lval,
                         const translation &lvalname );

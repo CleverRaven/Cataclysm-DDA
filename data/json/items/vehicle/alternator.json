@@ -2,7 +2,7 @@
   {
     "abstract": "vehicle_alternator",
     "type": "GENERIC",
-    "name": "vehicle alternator",
+    "name": { "str": "vehicle alternator" },
     "category": "veh_parts",
     "material": [ "steel", "copper" ],
     "symbol": ",",
@@ -42,7 +42,7 @@
     "id": "alternator_truck",
     "copy-from": "vehicle_alternator",
     "type": "GENERIC",
-    "name": "truck alternator",
+    "name": { "str": "truck alternator" },
     "description": "A larger and more powerful alternator used to power vehicle electrical systems.",
     "weight": "5800 g",
     "volume": "3 L",

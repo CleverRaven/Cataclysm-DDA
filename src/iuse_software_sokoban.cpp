@@ -7,15 +7,15 @@
 
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "optional.h"
 #include "output.h"
 #include "path_info.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "color.h"
-#include "optional.h"
 #include "point.h"
+#include "translations.h"
+#include "ui_manager.h"
 
 sokoban_game::sokoban_game() = default;
 
@@ -268,6 +268,9 @@ int sokoban_game::start_game()
 
     int iPlayerY = 0;
     int iPlayerX = 0;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     bool bNewLevel = true;
     bool bMoved = false;

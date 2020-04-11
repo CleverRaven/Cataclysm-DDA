@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "basket",
-    "name": "wire basket",
+    "name": { "str": "wire basket" },
     "description": "A large wire basket from a shopping cart.",
     "weight": "6000 g",
     "to_hit": -5,

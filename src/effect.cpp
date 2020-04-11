@@ -1,21 +1,36 @@
 #include "effect.h"
 
-#include <map>
 #include <algorithm>
+#include <cstddef>
+#include <map>
 #include <memory>
 #include <unordered_set>
 
+#include "color.h"
 #include "debug.h"
+#include "enums.h"
 #include "json.h"
 #include "messages.h"
 #include "output.h"
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "color.h"
-#include "enums.h"
+#include "string_id.h"
 #include "units.h"
-#include "cata_string_consts.h"
+
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_weed_high( "weed_high" );
+
+static const trait_id trait_LACTOSE( "LACTOSE" );
+static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
 namespace
 {
