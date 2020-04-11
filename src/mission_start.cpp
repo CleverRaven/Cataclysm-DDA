@@ -1,12 +1,16 @@
 #include "mission.h" // IWYU pragma: associated
 
-#include <vector>
+#include <algorithm>
 #include <memory>
+#include <vector>
 
 #include "avatar.h"
 #include "computer.h"
 #include "debug.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -16,15 +20,12 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
+#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "item.h"
-#include "optional.h"
-#include "rng.h"
 
 static const mtype_id mon_dog( "mon_dog" );
 

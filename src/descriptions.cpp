@@ -6,15 +6,16 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "color.h"
 #include "harvest.h"
 #include "input.h"
 #include "map.h"
 #include "mapdata.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "color.h"
-#include "translations.h"
 #include "string_id.h"
+#include "translations.h"
+#include "ui_manager.h"
 
 static const skill_id skill_survival( "survival" );
 
@@ -65,6 +66,10 @@ void game::extended_description( const tripoint &p )
         cur_target = description_target::furniture;
     }
     int ch = 'c';
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     do {
         std::string desc;
         // Allow looking at invisible tiles - player may want to examine hallucinations etc.

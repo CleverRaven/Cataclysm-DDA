@@ -2,20 +2,18 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
-#include <cctype>
-#include <cstddef>
 #include <array>
+#include <cctype>
 #include <functional>
 #include <string>
 
-#include "cursesdef.h"
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
+#include "cursesdef.h"
 
-class uilist;
-class vehicle;
 class item;
+struct advanced_inv_save_state;
 
 struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
     bool operator()( char x, char y ) const {
@@ -108,11 +106,10 @@ class advanced_inventory
         std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
 
         catacurses::window head;
-        catacurses::window left_window;
-        catacurses::window right_window;
 
         bool exit = false;
 
+        advanced_inv_save_state *save_state;
         // store/load settings (such as index, filter, etc)
         void save_settings( bool only_panes );
         void load_settings();

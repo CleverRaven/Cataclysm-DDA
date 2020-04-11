@@ -6,7 +6,6 @@
 
 class item;
 class player;
-class recipe;
 
 enum class craft_flags : int {
     none = 0,

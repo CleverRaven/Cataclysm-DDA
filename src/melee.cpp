@@ -1,61 +1,66 @@
 #include "melee.h"
 
-#include <climits>
 #include <algorithm>
-#include <cstdlib>
 #include <array>
+#include <climits>
+#include <cmath>
+#include <cstdlib>
 #include <limits>
 #include <list>
+#include <map>
 #include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
-#include <cmath>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "character_martial_arts.h"
+#include "creature.h"
+#include "damage.h"
 #include "debug.h"
+#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "itype.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monattack.h"
 #include "monster.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "optional.h"
 #include "output.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
+#include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "translations.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "character.h"
-#include "creature.h"
-#include "damage.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "item.h"
-#include "item_location.h"
-#include "optional.h"
-#include "pldata.h"
 #include "string_id.h"
-#include "units.h"
-#include "weighted_list.h"
-#include "material.h"
+#include "translations.h"
 #include "type_id.h"
-#include "point.h"
-#include "projectile.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "mapdata.h"
+#include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -230,12 +235,10 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         }
     }
 
-    for( auto &elem : shield.contents ) {
-        g->m.add_item_or_charges( pos(), elem );
-    }
-
     // Preserve item temporarily for component breakdown
     item temp = shield;
+
+    shield.contents.spill_contents( pos() );
 
     remove_item( shield );
 
@@ -366,11 +369,11 @@ static void melee_train( player &p, int lo, int hi, const item &weap )
 
     // Unarmed may deal cut, stab, and bash damage depending on the weapon
     if( weap.is_unarmed_weapon() ) {
-        p.practice( skill_unarmed, ceil( 1 * rng( lo, hi ) ), hi );
+        p.practice( skill_unarmed, std::ceil( 1 * rng( lo, hi ) ), hi );
     } else {
-        p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ), hi );
-        p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
-        p.practice( skill_bashing, ceil( bash / total * rng( lo, hi ) ), hi );
+        p.practice( skill_cutting,  std::ceil( cut  / total * rng( lo, hi ) ), hi );
+        p.practice( skill_stabbing, std::ceil( stab / total * rng( lo, hi ) ), hi );
+        p.practice( skill_bashing, std::ceil( bash / total * rng( lo, hi ) ), hi );
     }
 }
 
@@ -611,9 +614,9 @@ void player::reach_attack( const tripoint &p )
     int t = 0;
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
     path.pop_back(); // Last point is our critter
-    for( const tripoint &p : path ) {
+    for( const tripoint &path_point : path ) {
         // Possibly hit some unintended target instead
-        Creature *inter = g->critter_at( p );
+        Creature *inter = g->critter_at( path_point );
         /** @EFFECT_STABBING decreases chance of hitting intervening target on reach attack */
         if( inter != nullptr &&
             !x_in_y( ( target_size * target_size + 1 ) * skill,
@@ -622,13 +625,13 @@ void player::reach_attack( const tripoint &p )
             critter = inter;
             break;
             /** @EFFECT_STABBING increases ability to reach attack through fences */
-        } else if( g->m.impassable( p ) &&
+        } else if( g->m.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( "SPEAR" ) &&
-                      g->m.has_flag( "THIN_OBSTACLE", p ) &&
+                      g->m.has_flag( "THIN_OBSTACLE", path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
-            g->m.bash( p, str_cur + weapon.damage_melee( DT_BASH ) );
+            g->m.bash( path_point, str_cur + weapon.damage_melee( DT_BASH ) );
             handle_melee_wear( weapon );
             mod_moves( -move_cost );
             return;
@@ -1783,9 +1786,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
         sounds::sound( pos(), 16, sounds::sound_t::combat, "Crack!", true, "smash_success",
                        "smash_glass_contents" );
         // Dump its contents on the ground
-        for( auto &elem : weap.contents ) {
-            g->m.add_item_or_charges( pos(), elem );
-        }
+        weap.contents.spill_contents( pos() );
         // Take damage
         deal_damage( nullptr, bp_arm_r, damage_instance::physical( 0, rng( 0, vol * 2 ), 0 ) );
         if( weap.is_two_handed( *this ) ) { // Hurt left arm too, if it was big

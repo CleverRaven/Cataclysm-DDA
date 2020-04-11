@@ -2,32 +2,31 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include <cstddef>
 #include <array>
+#include <bitset>
+#include <cstddef>
+#include <functional>
+#include <limits>
 #include <list>
+#include <map>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <bitset>
 #include <utility>
 #include <vector>
-#include <set>
-#include <limits>
-#include <functional>
-#include <map>
 
 #include "cata_utility.h"
 #include "item.h"
 #include "item_stack.h"
 #include "magic_enchantment.h"
-#include "visitable.h"
 #include "units.h"
+#include "visitable.h"
 
-class map;
-class npc;
 class Character;
 class JsonIn;
 class JsonOut;
+class map;
+class npc;
 class player;
 struct tripoint;
 

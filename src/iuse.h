@@ -4,18 +4,19 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "clone_ptr.h"
 #include "units.h"
 
 class Character;
-class item;
-class player;
 class JsonObject;
+class item;
 class monster;
-template<typename T> class ret_val;
+class player;
 struct iteminfo;
+template<typename T> class ret_val;
 
 using itype_id = std::string;
 struct tripoint;
@@ -186,6 +187,7 @@ class iuse
         int camera( player *, item *, bool, const tripoint & );
         int ehandcuffs( player *, item *, bool, const tripoint & );
         int foodperson( player *, item *, bool, const tripoint & );
+        int tow_attach( player *, item *, bool, const tripoint & );
         int cable_attach( player *, item *, bool, const tripoint & );
         int shavekit( player *, item *, bool, const tripoint & );
         int hairkit( player *, item *, bool, const tripoint & );

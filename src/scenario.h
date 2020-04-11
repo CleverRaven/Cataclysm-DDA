@@ -2,16 +2,17 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
+#include <algorithm>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
-class profession;
 class JsonObject;
+class profession;
 
 enum add_type : int;
 template<typename T>
@@ -50,6 +51,7 @@ class scenario
         std::vector<mission_type_id> _missions;
 
         void load( const JsonObject &jo, const std::string &src );
+        bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
@@ -75,6 +77,8 @@ class scenario
         start_location_id start_location() const;
         start_location_id random_start_location() const;
         std::string start_name() const;
+        int start_location_count() const;
+        int start_location_targets_count() const;
 
         const profession *weighted_random_profession() const;
         std::vector<string_id<profession>> permitted_professions() const;

@@ -1,20 +1,19 @@
 #include "material.h"
 
-#include <map>
-#include <string>
 #include <algorithm>
 #include <iterator>
+#include <map>
 #include <set>
+#include <string>
 
 #include "assign.h"
-#include "damage.h" // damage_type
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
+#include "mapdata.h"
+#include "string_id.h"
 #include "translations.h"
-#include "player.h"
-#include "field.h"
 
 namespace
 {

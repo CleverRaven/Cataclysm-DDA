@@ -1,31 +1,36 @@
 #include "mutation.h"
 
-#include <cstddef>
 #include <algorithm>
-#include <list>
+#include <cstdlib>
+#include <memory>
 #include <unordered_set>
 
 #include "avatar_action.h"
+#include "bionics.h"
+#include "creature.h"
+#include "debug.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "memorial_logger.h"
 #include "monster.h"
+#include "omdata.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "translations.h"
-#include "omdata.h"
 #include "player_activity.h"
 #include "rng.h"
 #include "string_id.h"
-#include "enums.h"
-#include "bionics.h"
+#include "translations.h"
+#include "units.h"
 
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
@@ -274,9 +279,7 @@ void Character::mutation_effect( const trait_id &mut )
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
                                    armor.tname() );
-            for( item &remain : armor.contents ) {
-                g->m.add_item_or_charges( pos(), remain );
-            }
+            armor.contents.spill_contents( pos() );
         } else {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is pushed off!" ),
@@ -1443,4 +1446,35 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
         guy.add_msg_if_player( m_bad, _( "Images of your past life flash before you." ) );
         guy.add_effect( effect_stunned, rng( 2_turns, 3_turns ) );
     }
+}
+
+bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return ( are_opposite_traits( trait_a, trait_b ) || b_is_lower_trait_of_a( trait_a, trait_b )
+             || b_is_higher_trait_of_a( trait_a, trait_b ) || are_same_type_traits( trait_a, trait_b ) );
+}
+
+bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return contains_trait( trait_a->cancels, trait_b );
+}
+
+bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return contains_trait( trait_a->prereqs, trait_b );
+}
+
+bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return contains_trait( trait_a->replacements, trait_b );
+}
+
+bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b )
+{
+    return contains_trait( get_mutations_in_types( trait_a->types ), trait_b );
+}
+
+bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait )
+{
+    return std::find( traits.begin(), traits.end(), trait ) != traits.end();
 }

@@ -69,14 +69,14 @@
   {
     "type": "terrain",
     "id": "t_fungus_wall",
-    "aliases": [ "t_fungus_wall_h", "t_fungus_wall_v" ],
+    "alias": [ "t_fungus_wall_h", "t_fungus_wall_v" ],
     "name": "fungal wall",
     "description": "Several thick, large tendrils of fungus perforate the wall here, piercing straight through it from the outside.  Despite the apparent damage, the wall is still structurally sound.",
     "symbol": "O",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "MINEABLE" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "REDUCE_SCENT", "MINEABLE" ],
     "bash": { "str_min": 30, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
   },
   {
@@ -88,7 +88,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE" ],
     "bash": { "str_min": 30, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
   },
   {

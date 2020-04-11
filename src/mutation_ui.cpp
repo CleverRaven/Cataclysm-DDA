@@ -2,15 +2,19 @@
 
 #include <algorithm> //std::min
 #include <cstddef>
+#include <memory>
+#include <unordered_map>
 
-#include "mutation.h"
+#include "enums.h"
 #include "game.h"
 #include "input.h"
+#include "inventory.h"
+#include "mutation.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "translations.h"
 #include "string_id.h"
-#include "enums.h"
+#include "translations.h"
+#include "ui_manager.h"
 
 // '!' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -141,6 +145,9 @@ void player::power_mutations()
 
     bool redraw = true;
     std::string menu_mode = "activating";
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     while( true ) {
         // offset for display: mutation with index i is drawn at y=list_start_y+i

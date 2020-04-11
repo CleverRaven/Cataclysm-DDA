@@ -2,13 +2,14 @@
 
 #include <map>
 
+#include "calendar.h"
 #include "type_id.h"
 #include "units.h"
 
-struct needs_rates;
+class Character;
 class JsonIn;
 class JsonOut;
-class item;
+struct needs_rates;
 
 // Separate struct for nutrients so that we can easily perform arithmetic on
 // them

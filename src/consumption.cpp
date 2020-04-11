@@ -1,11 +1,11 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <cstdlib>
 #include <algorithm>
+#include <array>
+#include <cstdlib>
+#include <memory>
 #include <string>
-#include <limits>
 #include <tuple>
-#include <cmath>
 
 #include "addiction.h"
 #include "avatar.h"
@@ -13,29 +13,30 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "enums.h"
+#include "flat_set.h"
 #include "game.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "options.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
+#include "rng.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vitamin.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "rng.h"
-#include "string_id.h"
-#include "enums.h"
-#include "flat_set.h"
 
 static const std::string comesttype_DRINK( "DRINK" );
 static const std::string comesttype_FOOD( "FOOD" );
@@ -389,7 +390,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_max;
 
         item result_it = rec->create_result();
-        if( result_it.contents.size() == 1 ) {
+        if( result_it.contents.num_item_stacks() == 1 ) {
             const item alt_result = result_it.contents.front();
             if( alt_result.typeId() == comest_it.typeId() ) {
                 result_it = alt_result;
@@ -1001,11 +1002,9 @@ bool player::eat( item &food, bool force )
         }
     }
 
-    // Chance to get food poisoning from bacterial contamination
-    if( !will_vomit && !has_bionic( bio_digestion ) ) {
-        const int contamination = food.get_comestible()->contamination;
-        if( rng( 1, 100 ) <= contamination ) {
-            add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
+    for( const std::pair<diseasetype_id, int> &elem : food.get_comestible()->contamination ) {
+        if( rng( 1, 100 ) <= elem.second ) {
+            expose_to_disease( elem.first );
         }
     }
 

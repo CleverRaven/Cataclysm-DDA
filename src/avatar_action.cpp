@@ -1,8 +1,9 @@
 #include "avatar_action.h"
 
-#include <cstdlib>
 #include <algorithm>
-#include <functional>
+#include <climits>
+#include <cstdlib>
+#include <map>
 #include <memory>
 #include <ostream>
 #include <set>
@@ -12,42 +13,49 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
 #include "creature.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
-#include "input.h"
+#include "gun_mode.h"
+#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_iterator.h"
+#include "mapdata.h"
+#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "player_activity.h"
 #include "projectile.h"
 #include "ranged.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "bodypart.h"
-#include "cursesdef.h"
-#include "debug.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "gun_mode.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item_location.h"
-#include "mtype.h"
-#include "player_activity.h"
-#include "ret_val.h"
-#include "rng.h"
+
+class player;
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 
@@ -759,7 +767,7 @@ static bool can_fire_weapon( avatar &you, const map &m, const item &weapon )
 
 /**
  * Checks if the turret is valid and if the player meets certain conditions for manually firing it.
- * @param tdata Turret to check.
+ * @param turret Turret to check.
  * @return True if all conditions are true, otherwise false.
  */
 static bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
@@ -1083,7 +1091,7 @@ void avatar_action::eat( avatar &you, item_location loc )
 
     } else if( you.consume_item( *it ) ) {
         if( it->is_food_container() || !you.can_consume_as_is( *it ) ) {
-            it->contents.erase( it->contents.begin() );
+            it->remove_item( it->contents.front() );
             add_msg( _( "You leave the empty %s." ), it->tname() );
         } else {
             loc.remove_item();
@@ -1252,12 +1260,11 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             use_in_place = true;
         } else {
             const int obtain_cost = loc.obtain_cost( you );
-            item &target = you.i_at( loc.obtain( you ) );
-            if( target.is_null() ) {
+            loc = loc.obtain( you );
+            if( !loc ) {
                 debugmsg( "Failed to obtain target item" );
                 return;
             }
-            loc = item_location( you, &target );
 
             // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
             // This method only handles items in the inventory, so refund the obtain cost.
@@ -1295,7 +1302,7 @@ void avatar_action::unload( avatar &you )
 
     item *it = loc.get_item();
     if( loc.where() != item_location::type::character ) {
-        it = &you.i_at( loc.obtain( you ) );
+        it = loc.obtain( you ).get_item();
     }
     if( you.unload( *it ) ) {
         if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {

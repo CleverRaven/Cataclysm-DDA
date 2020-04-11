@@ -1,55 +1,59 @@
 #include "editmap.h"
 
-#include <algorithm>
 #include <cstdlib>
 #include <cstring>
-#include <map>
-#include <string>
-#include <vector>
-#include <array>
 #include <exception>
+#include <iosfwd>
+#include <map>
 #include <memory>
 #include <set>
+#include <string>
 #include <tuple>
-#include <utility>
 #include <typeinfo>
+#include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_utility.h"
+#include "colony.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature.h"
+#include "debug.h"
 #include "debug_menu.h"
 #include "field.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
+#include "int_id.h"
+#include "item.h"
 #include "line.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
+#include "omdata.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "scent_map.h"
+#include "shadowcasting.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
+#include "tileray.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "cata_utility.h"
-#include "map_iterator.h"
-#include "creature.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "item.h"
-#include "omdata.h"
-#include "shadowcasting.h"
-#include "string_id.h"
-#include "colony.h"
 
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
 static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
@@ -315,6 +319,9 @@ cata::optional<tripoint> editmap::edit()
     infoHeight = 20;
     blink = true;
 
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     w_info = catacurses::newwin( infoHeight, width, point( offsetX, TERMY - infoHeight ) );
     do {
         if( target_list.empty() ) {
@@ -521,7 +528,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         }
     }
 
-    // custom hilight.
+    // custom highlight.
     // TODO: optimize
     for( auto &elem : hilights ) {
         if( !elem.second.points.empty() ) {
@@ -1368,7 +1375,7 @@ void editmap::recalc_target( shapetype shape )
 }
 
 /*
- * Shift 'var' (ie, part of a coordinate plane) by 'shift'.
+ * Shift 'var' (i.e., part of a coordinate plane) by 'shift'.
  * If the result is not >= min and < 'max', constrain the result and adjust 'shift',
  * so it can adjust subsequent points of a set consistently.
  */
@@ -1439,6 +1446,9 @@ int editmap::select_shape( shapetype shape, int mode )
         moveall = mode != 0;
     }
     altblink = moveall;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     do {
         if( moveall ) {
@@ -1840,6 +1850,9 @@ void editmap::mapgen_retarget()
     ctxt.register_action( "ANY_INPUT" );
     std::string action;
     tripoint origm = target;
+
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
 
     blink = true;
     do {
