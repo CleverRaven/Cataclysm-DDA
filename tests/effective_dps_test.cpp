@@ -15,30 +15,33 @@
 // and return the average damage done per second.
 static double weapon_dps_trials( avatar &attacker, monster &defender, item &weapon )
 {
-    constexpr int trials = 1000;
+    constexpr int trials = 10000;
 
     int total_damage = 0;
     int total_moves = 0;
 
     clear_character( attacker );
     REQUIRE( attacker.can_wield( weapon ).success() );
-    REQUIRE( attacker.wield( weapon ) );
 
     // FIXME: This is_wielding check always fails
     //REQUIRE( attacker.is_wielding( weapon ) );
 
     for( int i = 0; i < trials; i++ ) {
-        // Keep track of attacker's moves and defender's HP
-        const int before_moves = attacker.get_moves();
-        const int starting_hp = defender.get_hp();
+        // Reset and re-wield weapon before each attack to prevent skill-up during trials
+        clear_character( attacker );
+        attacker.wield( weapon );
+        int before_moves = attacker.get_moves();
+
+        // Keep the defender at maximum health
+        const int starting_hp = defender.get_hp_max();
+        defender.set_hp( starting_hp );
+
         // Attack once
         attacker.melee_attack( defender, false );
+
         // Tally total damage and moves
         total_damage += std::max( 0, starting_hp - defender.get_hp() );
         total_moves += std::abs( attacker.get_moves() - before_moves );
-        // Reset for the next attack
-        attacker.empty_skills();        // Don't learn
-        defender.set_hp( starting_hp ); // Don't die
     }
 
     // Scale damage-per-move to damage-per-second
@@ -46,6 +49,7 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
     return 100.0f * total_damage / total_moves;
 }
 
+// Compare actual DPS with estimated effective DPS for an attacker/defender/weapon combo.
 static void check_actual_dps( avatar &attacker, monster &defender, item &weapon )
 {
     clear_character( attacker );
