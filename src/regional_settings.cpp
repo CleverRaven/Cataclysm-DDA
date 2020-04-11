@@ -329,13 +329,12 @@ static void load_overmap_lake_settings( const JsonObject &jo,
                 overmap_lake_settings_jo.throw_error( "shore_extendable_overmap_terrain_aliases required" );
             }
         } else {
-            oter_str_id alias;
-            for( JsonObject jo :
+            for( JsonObject alias_entry :
                  overmap_lake_settings_jo.get_array( "shore_extendable_overmap_terrain_aliases" ) ) {
                 shore_extendable_overmap_terrain_alias alias;
-                jo.read( "om_terrain", alias.overmap_terrain );
-                jo.read( "alias", alias.alias );
-                alias.match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                alias_entry.read( "om_terrain", alias.overmap_terrain );
+                alias_entry.read( "alias", alias.alias );
+                alias.match_type = alias_entry.get_enum_value<ot_match_type>( "om_terrain_match_type",
                                    ot_match_type::contains );
                 overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back( alias );
             }

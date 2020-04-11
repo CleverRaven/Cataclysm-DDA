@@ -1527,8 +1527,8 @@ bool mattack::vine( monster *z )
             return true;
         }
 
-        if( monster *const z = g->critter_at<monster>( dest ) ) {
-            if( z->type->id == mon_creeper_vine ) {
+        if( monster *const neighbor = g->critter_at<monster>( dest ) ) {
+            if( neighbor->type->id == mon_creeper_vine ) {
                 vine_neighbors++;
             }
         }

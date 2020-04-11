@@ -59,7 +59,7 @@ namespace explosion_handler
     If factor <= 0, no blast is produced */
 void explosion(
     const tripoint &p, float power, float factor = 0.8f,
-    bool fire = false, int casing_mass = 0, float fragment_mass = 0.05
+    bool fire = false, int casing_mass = 0, float frag_mass = 0.05
 );
 
 void explosion( const tripoint &p, const explosion_data &ex );
