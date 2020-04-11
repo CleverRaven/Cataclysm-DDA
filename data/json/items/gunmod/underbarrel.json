@@ -131,6 +131,30 @@
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
   },
   {
+    "id": "ksg25_aux_shotgun",
+    "type": "GUNMOD",
+    "name": { "str": "KSG-25 second magazine" },
+    "description": "The integrated second shotgun magazine of the Kel-Tec KSG-25 which holds 12 shots.  It's irremovable.",
+    "weight": "1550 g",
+    "volume": "1750 ml",
+    "price": 0,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "shotgun" ],
+    "gun_data": {
+      "ammo": "shot",
+      "skill": "shotgun",
+      "ranged_damage": 5,
+      "dispersion": 425,
+      "durability": 7,
+      "clip_size": 12,
+      "reload": 120
+    },
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+  },
+  {
     "id": "ts12_aux_shotgun",
     "type": "GUNMOD",
     "name": { "str": "TS12 second magazine" },
