@@ -1,5 +1,5 @@
-#ifndef CATA_TOOLS_CLANG_TIDY_NOLONGCHECK_H
-#define CATA_TOOLS_CLANG_TIDY_NOLONGCHECK_H
+#ifndef CATA_TOOLS_CLANG_TIDY_PLUGIN_NOLONGCHECK_H
+#define CATA_TOOLS_CLANG_TIDY_PLUGIN_NOLONGCHECK_H
 
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <llvm/ADT/StringRef.h>
@@ -31,4 +31,4 @@ class NoLongCheck : public ClangTidyCheck
 } // namespace tidy
 } // namespace clang
 
-#endif // CATA_TOOLS_CLANG_TIDY_NOLONGCHECK_H
+#endif // CATA_TOOLS_CLANG_TIDY_PLUGIN_NOLONGCHECK_H
