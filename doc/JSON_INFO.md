@@ -1861,24 +1861,29 @@ CBMs can be defined like this:
 
 ### Containers
 
+Any Item can be a container. To add the ability to contain things to an item, you need to add pocket_data. The below example is a typical container (shown with optional default values, or mandatory if the value is mandatory)
+
 ```C++
-"type": "CONTAINER",  // Defines this as a container
-...                   // same data as for the generic item (see above).
-"contains": 200,      // How much volume this container can hold
-"seals": false,       // Can be resealed, this is a required for it to be used for liquids. (optional, default: false)
-"watertight": false,  // Can hold liquids, this is a required for it to be used for liquids. (optional, default: false)
-"preserves": false,   // Contents do not spoil. (optional, default: false)
+"pocket_type": [ 
+  {
+    "pocket_type": "CONTAINER",               // the typical container pocket. pockets can also be MAGAZINE
+    "min_item_volume": "0 ml",                // the minimum volume of item that can be placed into this pocket
+    "max_contains_volume": mandatory,         // the maximum volume this pocket can hold, totaled among all contained items
+    "max_contains_weight": mandatory,         // the maximum weight this pocket can hold, totaled among all container items
+    "spoil_multiplier": 1.0,                  // how putting an item in this pocket affects spoilage. less than 1.0 and the item will be preserved longer.
+    "weight_multiplier": 1.0,                 // the items in this pocket magically weigh less inside than outside
+    "magazine_well": "0 ml",                  // only works if rigid = false, this is the amount of space you can put items in the pocket before it starts expanding
+    "moves": 100,                             // the number of moves it takes to remove an item from this pocket, in best conditions
+    "fire_protection": false,                 // if the pocket protects the contained items from exploding in a fire or not
+    "watertight": false,                      // can contain liquid
+    "gastight": false,                        // can contain gas
+    "open_container": false,                  // the contents of this pocket will spill if this item is placed into another item.
+    "flag_restriction": [ "FLAG1", "FLAG2" ], // items can only be placed into this pocket if they have a flag that matches one of these flags.
+    "rigid": false,                           // this pocket's contents do not contribute to this item's size
+    "resealable": false,                      // this pocket can be resealed. a sealed pocket's contents do not spoil.
+  }
+]
 ```
-Alternately, every item can be used as container:
-```C++
-"type": "ARMOR",      // Any type is allowed here
-...                   // same data as for the type
-"container_data" : {  // The container specific data goes here.
-    "contains": 200,
-}
-```
-This defines a armor (you need to add all the armor specific entries), but makes it usable as container.
-It could also be written as a generic item ("type": "GENERIC") with "armor_data" and "container_data" entries.
 
 ### Melee
 
