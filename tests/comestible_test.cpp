@@ -108,7 +108,7 @@ static all_stats run_stats( const std::vector<std::vector<item_comp>> &permutati
 
 static item food_or_food_container( const item &it )
 {
-    return it.is_food_container() ? it.contents.front() : it;
+    return it.is_food_container() ? it.contents.legacy_front() : it;
 }
 
 TEST_CASE( "recipe_permutations", "[recipe]" )

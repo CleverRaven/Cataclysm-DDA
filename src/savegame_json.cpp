@@ -166,10 +166,10 @@ static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 
 void item_contents::serialize( JsonOut &json ) const
 {
-    if( !items.empty() ) {
+    if( !contents.empty() ) {
         json.start_object();
 
-        json.member( "items", items );
+        json.member( "contents", contents );
 
         json.end_object();
     }
@@ -178,7 +178,38 @@ void item_contents::serialize( JsonOut &json ) const
 void item_contents::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    data.read( "items", items );
+    data.read( "contents", contents );
+}
+
+void item_pocket::serialize( JsonOut &json ) const
+{
+    if( !contents.empty() ) {
+        json.start_object();
+        json.member( "pocket_type", data->type );
+        json.member( "contents", contents );
+        json.end_object();
+    }
+}
+
+void item_pocket::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "contents", contents );
+    int saved_type_int;
+    data.read( "pocket_type", saved_type_int );
+    _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
+}
+
+void pocket_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
+}
+
+void resealable_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2337,14 +2368,23 @@ void item::deserialize( JsonIn &jsin )
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
         data.read( "contents", items );
-        contents = item_contents( items );
+        const bool corpse{ is_corpse() };
+        for( const item &it : items ) {
+            if( corpse ) {
+                contents.insert_item( it, item_pocket::pocket_type::CORPSE );
+            } else if( it.is_ammo() || it.is_magazine() ) {
+                contents.insert_item( it, item_pocket::pocket_type::MAGAZINE );
+            } else if( it.is_gunmod() || it.is_toolmod() ) {
+                contents.insert_item( it, item_pocket::pocket_type::MOD );
+            } else {
+                contents.insert_item( it, item_pocket::pocket_type::CONTAINER );
+            }
+        }
     } else {
-        data.read( "contents", contents );
-    }
-
-    // Sealed item migration: items with "unseals_into" set should always have contents
-    if( contents.empty() && is_non_resealable_container() ) {
-        convert( type->container->unseals_into );
+        item_contents read_contents;
+        data.read( "contents", read_contents );
+        contents = item_contents( type->pockets );
+        contents.combine( read_contents );
     }
 }
 

@@ -164,9 +164,9 @@ TEST_CASE( "starting_items", "[slow]" )
 
                         const bool is_holster = it.is_armor() && it.type->get_use( "holster" );
                         if( is_holster ) {
-                            const item &holstered_it = it.get_contained();
-                            const bool empty_holster = holstered_it.is_null();
-                            if( !empty_holster && !it.can_holster( holstered_it, true ) ) {
+                            const item *holstered_it = it.contents.all_items_top( item_pocket::pocket_type::CONTAINER ).front();
+                            const bool empty_holster = it.contents.empty();
+                            if( !empty_holster && !it.can_holster( *holstered_it, true ) ) {
                                 failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), "Couldn't put item back to holster" } );
                             }
                         }

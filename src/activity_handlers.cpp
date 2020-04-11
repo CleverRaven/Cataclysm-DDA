@@ -1587,7 +1587,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 }
                 break;
             case LTT_CONTAINER:
-                p->pour_into( p->i_at( act_ref.values.at( 3 ) ), liquid );
+                p->pour_into( *act_ref.targets.at( 0 ), liquid );
                 break;
             case LTT_MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
@@ -2981,7 +2981,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     if( rng( 0, 100 ) <= roll ) {
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
-        gun.put_in( p->i_rem( &mod ) );
+        gun.put_in( p->i_rem( &mod ), item_pocket::pocket_type::MOD );
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
@@ -3016,7 +3016,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
     mod.item_tags.insert( "IRREMOVABLE" );
-    tool.put_in( mod );
+    tool.put_in( mod, item_pocket::pocket_type::MOD );
     act->targets[1].remove_item();
 }
 
@@ -4859,5 +4859,5 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
     data_card.contents.clear_items();
-    data_card.put_in( item( "mind_scan_robofac" ) );
+    data_card.put_in( item( "mind_scan_robofac" ), item_pocket::pocket_type::SOFTWARE );
 }

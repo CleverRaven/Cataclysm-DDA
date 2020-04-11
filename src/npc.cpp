@@ -596,7 +596,7 @@ void starting_inv( npc &who, const npc_class_id &type )
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
-            container.put_in( ammo );
+            container.put_in( ammo, item_pocket::pocket_type::CONTAINER );
             ammo = container;
         }
 
@@ -2741,7 +2741,7 @@ bool npc::dispose_item( item_location &&obj, const std::string & )
         if( e.can_holster( *obj ) ) {
             auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option {
-                item_store_cost( *obj, e, false, ptr->draw_cost ),
+                item_store_cost( *obj, e, false, e.contents.obtain_cost( *obj ) ),
                 [this, ptr, &e, &obj]{ ptr->store( *this, e, *obj ); }
             } );
         }
@@ -2871,8 +2871,7 @@ bool npc::will_accept_from_player( const item &it ) const
         return false;
     }
 
-    const auto &comest = it.is_container() ? it.get_contained() : it;
-    if( comest.is_comestible() ) {
+    if( it.is_comestible() ) {
         if( it.get_comestible_fun() < 0 || it.poison > 0 ) {
             return false;
         }

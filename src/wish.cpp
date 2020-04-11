@@ -549,6 +549,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
             }
 
             granted.set_birthday( calendar::turn );
+            granted.seal();
             prev_amount = amount;
             bool canceled = false;
             if( p != nullptr && !did_amount_prompt ) {

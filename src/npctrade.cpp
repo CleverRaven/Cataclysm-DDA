@@ -422,12 +422,9 @@ int trading_window::get_var_trade( const item &it, int total_count )
 {
     string_input_popup popup_input;
     int how_many = total_count;
-    const bool contained = it.is_container() && !it.contents.empty();
 
-    const std::string title = contained ?
-                              string_format( _( "Trade how many containers with %s [MAX: %d]: " ),
-                                      it.get_contained().type_name( how_many ), total_count ) :
-                              string_format( _( "Trade how many %s [MAX: %d]: " ), it.type_name( how_many ), total_count );
+    const std::string title = string_format( _( "Trade how many %s [MAX: %d]: " ), it.tname( how_many ),
+                              total_count );
     popup_input.title( title ).edit( how_many );
     if( popup_input.canceled() || how_many <= 0 ) {
         return -1;
@@ -439,7 +436,6 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
 {
     size_t ch;
 
-    volume_left = np.volume_capacity() - np.volume_carried();
     weight_left = np.weight_capacity() - np.weight_carried();
 
     // Shopkeeps are happy to have large inventories.

@@ -154,6 +154,11 @@ struct iteminfo {
         iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
 
+iteminfo vol_to_info( const std::string &type, const std::string &left,
+                      const units::volume &vol );
+iteminfo weight_to_info( const std::string &type, const std::string &left,
+                         const units::mass &weight );
+
 inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
 {
     using I = std::underlying_type<iteminfo::flags>::type;
@@ -410,8 +415,6 @@ class item : public visitable<item>
                         bool debug ) const;
         void battery_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                            bool debug ) const;
-        void container_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                             bool debug ) const;
         void tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                         bool debug ) const;
         void component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -651,23 +654,18 @@ class item : public visitable<item>
         /** Permits filthy components, should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
 
-        /**
-         * @name Containers
-         *
-         * Containers come in two flavors:
-         * - suitable for liquids (@ref is_watertight_container),
-         * - and the remaining one (they are for currently only for flavor).
-         */
-        /*@{*/
+        // seal the item's pockets. used for crafting and spawning items.
+        bool seal();
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
+        // for pocket update stuff, which pocket is @contained in?
+        // returns a nullptr if the item is not contaiend, and prints a debug message
+        item_pocket *contained_where( const item &contained );
         /** Whether this is a container which can be used to store liquids. */
         bool is_watertight_container() const;
         /** Whether this item has no contents at all. */
         bool is_container_empty() const;
-        /** Whether removing this item's contents will permanently alter it. */
-        bool is_non_resealable_container() const;
         /**
          * Whether this item has no more free capacity for its current content.
          * @param allow_bucket Allow filling non-sealable containers
@@ -694,18 +692,19 @@ class item : public visitable<item>
         int get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                                std::string *err = nullptr ) const;
         /**
-         * It returns the total capacity (volume) of the container for liquids.
-         */
-        units::volume get_container_capacity() const;
-        /**
          * It returns the maximum volume of any contents, including liquids,
          * ammo, magazines, weapons, etc.
          */
         units::volume get_total_capacity() const;
+        // checks if the item can have things placed in it
+        bool has_pockets() const {
+            // what has it gots in them, precious
+            return contents.size() > 3;
+        }
         /**
          * Puts the given item into this one, no checks are performed.
          */
-        void put_in( const item &payload );
+        void put_in( const item &payload, item_pocket::pocket_type pk_type );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
@@ -744,10 +743,11 @@ class item : public visitable<item>
         /**
          * Whether the item has to be removed as it has rotten away completely. May change the item as it calls process_temperature_rot()
          * @param pnt The *absolute* position of the item in the world (see @ref map::getabs),
+         * @param spoil_multiplier the multiplier for spoilage rate, based on what this item is inside of.
          * used for rot calculation.
          * @return true if the item has rotten away and should be removed, false otherwise.
          */
-        bool has_rotten_away( const tripoint &pnt );
+        bool has_rotten_away( const tripoint &pnt, float spoil_multiplier = 1.0f );
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -756,7 +756,7 @@ class item : public visitable<item>
          * @param time Time point to which rot is calculated
          * @param temp Temperature at which the rot is calculated
          */
-        void calc_rot( time_point time, int temp );
+        void calc_rot( time_point time, int temp, const float spoli_modifier );
 
         /**
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
@@ -776,8 +776,8 @@ class item : public visitable<item>
          * @param flag to specify special temperature situations
          * @return true if the item is fully rotten and is ready to be removed
          */
-        bool process_temperature_rot( float insulation, bool seals, const tripoint &pos,
-                                      player *carrier, temperature_flag flag = temperature_flag::TEMP_NORMAL );
+        bool process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
+                                      temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_modifier = 1.0f );
 
         /** Set the item to HOT */
         void heat_up();
@@ -798,9 +798,6 @@ class item : public visitable<item>
 
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
-
-        /** whether an item is perishable (can rot), even if it is currently in a preserving container */
-        bool goes_bad_after_opening() const;
 
         /** Get the shelf life of the item*/
         time_duration get_shelf_life() const;
@@ -927,10 +924,6 @@ class item : public visitable<item>
          * in our set.)
          */
         bool made_of( const material_id &mat_ident ) const;
-        /**
-         * If contents nonempty, return true if item phase is same, else false
-         */
-        bool contents_made_of( phase_id phase ) const;
         /**
          * Are we solid, liquid, gas, plasma?
          */
@@ -1085,12 +1078,13 @@ class item : public visitable<item>
          * location of the carrier.
          * @param activate Whether the item should be activated (true), or
          * processed as an active item.
+         * @param spoil_multiplier_parent is the spoilage multiplier passed down from any parent item
          * @return true if the item has been destroyed by the processing. The caller
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
         bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                      temperature_flag flag = temperature_flag::TEMP_NORMAL );
+                      temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_multiplier_parent = 1.0f );
 
         /**
          * Gets the point (vehicle tile) the cable is connected to.
@@ -1125,14 +1119,12 @@ class item : public visitable<item>
         bool is_comestible() const;
         bool is_food() const;                // Ignoring the ability to eat batteries, etc.
         bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
-        bool is_med_container() const;
         bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
         bool is_medication() const;            // Is it a medication that only pretends to be food?
         bool is_bionic() const;
         bool is_magazine() const;
         bool is_battery() const;
         bool is_ammo_belt() const;
-        bool is_bandolier() const;
         bool is_holster() const;
         bool is_ammo() const;
         // is this armor for a pet creature?  if on_pet is true, returns false if a pet isn't
@@ -1149,7 +1141,6 @@ class item : public visitable<item>
         bool is_transformable() const;
         bool is_artifact() const;
         bool is_relic() const;
-        bool is_bucket() const;
         bool is_bucket_nonempty() const;
 
         bool is_brewable() const;
@@ -1178,6 +1169,8 @@ class item : public visitable<item>
         item *get_food();
         const item *get_food() const;
 
+        void set_last_rot_check( const time_point &pt );
+
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
@@ -1199,7 +1192,9 @@ class item : public visitable<item>
         /*@{*/
         bool can_contain( const item &it ) const;
         bool can_contain( const itype &tp ) const;
+        bool can_contain_partial( const item &it ) const;
         /*@}*/
+        item_pocket *best_pocket( const item &it );
 
         /**
          * Is it ever possible to reload this item?
@@ -1211,7 +1206,9 @@ class item : public visitable<item>
         bool can_reload_with( const itype_id &ammo ) const;
         /** Returns true if this item can be reloaded with specified ammo type at this moment. */
         bool is_reloadable_with( const itype_id &ammo ) const;
-        /** Returns true if not empty if it's liquid, it's not currently frozen in resealable container */
+        /**
+          * Returns true if any of the contents are not frozen or not empty if it's liquid
+          */
         bool can_unload_liquid() const;
 
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
@@ -1255,9 +1252,9 @@ class item : public visitable<item>
         itype_id typeId() const;
 
         /**
-         * Return a contained item (if any and only one).
-         */
-        const item &get_contained() const;
+          * if the item will spill if placed into a container
+          */
+        bool will_spill() const;
         /**
          * Unloads the item's contents.
          * @param c Character who receives the contents.
@@ -1555,12 +1552,6 @@ class item : public visitable<item>
          * Returns 0 if this is can not be worn at all.
          */
         int get_encumber( const Character & ) const;
-        /**
-         * Returns the storage amount (@ref islot_armor::storage) that this item provides when worn.
-         * For non-armor it returns 0. The storage amount increases the volume capacity of the
-         * character that wears the item.
-         */
-        units::volume get_storage() const;
         /**
          * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
          * For non-armor it returns 1. The modifier is multiplied with the weight capacity of the character that wears the item.
@@ -2014,6 +2005,12 @@ class item : public visitable<item>
         int get_min_str() const;
 
         const cata::value_ptr<islot_comestible> &get_comestible() const;
+        /**
+         * Returns a reference to the item itself (if it's consumable),
+         * the first of its contents (if it's consumable) or null item otherwise.
+         * WARNING: consumable does not necessarily guarantee the comestible type.
+         */
+        item &get_consumable_from( const Character &eater );
 
         /**
          * Get the stored recipe for in progress crafts.
@@ -2080,11 +2077,12 @@ class item : public visitable<item>
                                                bool round_value = false ) const;
 
     private:
+
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
         bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
-                               bool seals = false, temperature_flag flag = temperature_flag::TEMP_NORMAL );
+                               temperature_flag flag = temperature_flag::TEMP_NORMAL, float spoil_multiplier = 1.0f );
         /**
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings

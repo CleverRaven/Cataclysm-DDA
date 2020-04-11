@@ -124,7 +124,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         if( cont != nullptr ) {
             if( !cont->is_container_empty() ) {
                 // filtering does not make sense for liquid in container
-                item *it = &square.get_container( in_vehicle() )->contents.front();
+                item *it = &square.get_container( in_vehicle() )->contents.legacy_front();
                 advanced_inv_listitem ait( it, 0, 1, square.id, in_vehicle() );
                 square.volume += ait.volume;
                 square.weight += ait.weight;

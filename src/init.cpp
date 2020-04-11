@@ -284,9 +284,6 @@ void DynamicDataLoader::initialize()
     add( "COMESTIBLE", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_comestible( jo, src );
     } );
-    add( "CONTAINER", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_container( jo, src );
-    } );
     add( "ENGINE", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_engine( jo, src );
     } );

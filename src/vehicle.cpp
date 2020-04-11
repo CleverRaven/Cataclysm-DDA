@@ -3213,7 +3213,8 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
     int fl = std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
     const vehicle_part & rhs ) {
         // don't count frozen liquid
-        if( rhs.is_tank() && rhs.base.contents_made_of( SOLID ) ) {
+        if( rhs.is_tank() && !rhs.base.contents.empty() &&
+            rhs.base.contents.legacy_front().made_of( SOLID ) ) {
             return lhs;
         }
         return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_remaining() : 0 );
@@ -3281,10 +3282,10 @@ float vehicle::fuel_specific_energy( const itype_id &ftype ) const
     float total_energy = 0;
     float total_mass = 0;
     for( auto vehicle_part : parts ) {
-        if( vehicle_part.is_tank() && vehicle_part.ammo_current() == ftype  &&
-            vehicle_part.base.contents_made_of( LIQUID ) ) {
-            float energy = vehicle_part.base.contents.front().specific_energy;
-            float mass = to_gram( vehicle_part.base.contents.front().weight() );
+        if( vehicle_part.is_tank() && vehicle_part.ammo_current() == ftype &&
+            vehicle_part.base.contents.legacy_front().made_of( LIQUID ) ) {
+            float energy = vehicle_part.base.contents.legacy_front().specific_energy;
+            float mass = to_gram( vehicle_part.base.contents.legacy_front().weight() );
             total_energy += energy * mass;
             total_mass += mass;
         }
@@ -5180,6 +5181,8 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
     item itm_copy = itm;
 
     if( itm_copy.is_bucket_nonempty() ) {
+        // this is a vehicle, so there is only one pocket.
+        // so if it will spill, spill all of it
         itm_copy.contents.spill_contents( global_part_pos3( part ) );
     }
 
@@ -5280,7 +5283,7 @@ void vehicle::place_spawn_items()
                                           !e.magazine_current();
 
                         if( spawn_mag ) {
-                            e.put_in( item( e.magazine_default(), e.birthday() ) );
+                            e.put_in( item( e.magazine_default(), e.birthday() ), item_pocket::pocket_type::MAGAZINE );
                         }
                         if( spawn_ammo ) {
                             e.ammo_set( e.ammo_default() );

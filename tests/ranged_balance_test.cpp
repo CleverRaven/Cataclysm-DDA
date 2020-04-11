@@ -97,7 +97,7 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
         gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity() );
     }
     for( const auto &mod : mods ) {
-        gun.put_in( item( itype_id( mod ) ) );
+        gun.put_in( item( itype_id( mod ) ), item_pocket::pocket_type::MOD );
     }
     shooter.wield( gun );
 }

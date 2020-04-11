@@ -400,10 +400,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 
         WHEN( "UPS-modded tools have enough charges" ) {
             item hotplate( "hotplate", -1, 0 );
-            hotplate.put_in( item( "battery_ups" ) );
+            hotplate.put_in( item( "battery_ups" ), item_pocket::pocket_type::CONTAINER );
             tools.push_back( hotplate );
             item soldering_iron( "soldering_iron", -1, 0 );
-            soldering_iron.put_in( item( "battery_ups" ) );
+            soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::CONTAINER );
             tools.push_back( soldering_iron );
             tools.emplace_back( "UPS_off", -1, 500 );
 
@@ -417,10 +417,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 
         WHEN( "UPS-modded tools do not have enough charges" ) {
             item hotplate( "hotplate", -1, 0 );
-            hotplate.put_in( item( "battery_ups" ) );
+            hotplate.put_in( item( "battery_ups" ), item_pocket::pocket_type::CONTAINER );
             tools.push_back( hotplate );
             item soldering_iron( "soldering_iron", -1, 0 );
-            soldering_iron.put_in( item( "battery_ups" ) );
+            soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::CONTAINER );
             tools.push_back( soldering_iron );
             tools.emplace_back( "UPS_off", -1, 10 );
 
@@ -438,7 +438,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         std::vector<item> tools;
         tools.emplace_back( "hotplate", -1, 20 );
         item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.put_in( item( "water", -1, 2 ) );
+        plastic_bottle.put_in( item( "water", -1, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
         tools.emplace_back( "pot" );
 
@@ -449,12 +449,12 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         std::vector<item> tools;
         tools.emplace_back( "hotplate", -1, 20 );
         item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.put_in( item( "water", -1, 2 ) );
+        plastic_bottle.put_in( item( "water", -1, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
         item jar( "jar_glass" );
         // If it's not watertight the water will spill.
         REQUIRE( jar.is_watertight_container() );
-        jar.put_in( item( "water", -1, 2 ) );
+        jar.put_in( item( "water", -1, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( jar );
 
         prep_craft( recipe_id( "water_clean" ), tools, false );

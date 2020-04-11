@@ -2107,8 +2107,10 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    auto obj = g->inv_map_splice( []( const item & e ) {
-        return !e.contents.empty() && e.contents.front().typeId() == "water";
+    item_location obj = g->inv_map_splice( []( const item & e ) {
+        return !e.contents.empty() && e.has_item_with( []( const item & it ) {
+            return it.typeId() == "water";
+        } );
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
     if( !obj ) {
@@ -2116,16 +2118,24 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    item &liquid = obj->contents.front();
-    if( !it->units_sufficient( *p, liquid.charges ) ) {
+    const std::vector<item *> liquids = obj->items_with( []( const item & it ) {
+        return it.typeId() == "water";
+    } );
+    int charges_of_water = 0;
+    for( const item *water : liquids ) {
+        charges_of_water += water->charges;
+    }
+    if( !it->units_sufficient( *p, charges_of_water ) ) {
         p->add_msg_if_player( m_info, _( "That volume of water is too large to purify." ) );
         return 0;
     }
 
     p->moves -= to_moves<int>( 2_seconds );
 
-    liquid.convert( "water_clean" ).poison = 0;
-    return liquid.charges;
+    for( item *water : liquids ) {
+        water->convert( "water_clean" ).poison = 0;
+    }
+    return charges_of_water;
 }
 
 int iuse::radio_off( player *p, item *it, bool, const tripoint & )
@@ -4672,7 +4682,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 
     if( acid_blood ) {
         item acid( "acid", calendar::turn );
-        it->put_in( acid );
+        it->put_in( acid, item_pocket::pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
             if( it->inc_damage( DT_ACID ) ) {
                 p->add_msg_if_player( m_info, _( "…but acidic blood melts the %s, destroying it!" ),
@@ -4689,7 +4699,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         return it->type->charges_to_use();
     }
 
-    it->put_in( blood );
+    it->put_in( blood, item_pocket::pocket_type::CONTAINER );
     return it->type->charges_to_use();
 }
 
@@ -8053,7 +8063,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
                 p->moves -= to_moves<int>( 3_seconds );
                 p->add_msg_if_player( _( "You armed your RC car with %s." ),
                                       put.tname() );
-                it->put_in( p->i_rem( &put ) );
+                it->put_in( p->i_rem( &put ), item_pocket::pocket_type::CONTAINER );
             } else if( !put.has_flag( "RADIOCARITEM" ) ) {
                 p->add_msg_if_player( _( "RC car with %s?  How?" ),
                                       put.tname() );
@@ -8541,7 +8551,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
 
             if( empty ) {
                 const item *cbm = to_sterile.get_item();
-                it->put_in( *cbm );
+                it->put_in( *cbm, item_pocket::pocket_type::CONTAINER );
                 to_sterile.remove_item();
             }
 
@@ -8593,7 +8603,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             it->active = false;
             it->erase_var( "DISH" );
             it->erase_var( "COOKTIME" );
-            it->put_in( meal );
+            it->put_in( meal, item_pocket::pocket_type::CONTAINER );
 
             //~ sound of a multi-cooker finishing its cycle!
             sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
@@ -9615,7 +9625,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     const inventory &crafting_inv = p->crafting_inventory();
 
     auto is_liquid = []( const item & it ) {
-        return it.made_of( LIQUID ) || it.contents_made_of( LIQUID );
+        return it.made_of( LIQUID );
     };
     int available_water = std::max(
                               crafting_inv.charges_of( "water", INT_MAX, is_liquid ),

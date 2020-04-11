@@ -26,6 +26,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "memory_fast.h"
 #include "monster.h"
 #include "optional.h"
@@ -36,6 +37,7 @@
 #include "ret_val.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "weighted_list.h"
 
 class basecamp;
 class effect;
@@ -453,7 +455,8 @@ class player : public Character
          * @param base_cost Cost due to storage type.
          */
         void store( item &container, item &put, bool penalties = true,
-                    int base_cost = INVENTORY_HANDLING_PENALTY );
+                    int base_cost = INVENTORY_HANDLING_PENALTY,
+                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER );
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor();
         /** Uses a tool */

@@ -74,7 +74,7 @@ TEST_CASE( "item_in_container", "[item][item_location]" )
 
     REQUIRE( dummy.has_item( backpack ) );
 
-    backpack.put_in( jeans );
+    backpack.put_in( jeans, item_pocket::pocket_type::CONTAINER );
 
     item_location backpack_loc( dummy, & **dummy.wear( backpack ) );
 

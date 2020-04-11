@@ -1521,8 +1521,7 @@ bool avatar::wield( item &target )
     // Query whether to draw an item from a holster when attempting to wield the holster
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
         //~ %1$s: weapon name, %2$s: holster name
-        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
-                      target.tname() ) ) {
+        if( query_yn( pgettext( "holster", "Draw from %1$s?" ), target.tname() ) ) {
             invoke_item( &target );
             return false;
         }

@@ -468,12 +468,7 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 
         items.pop_front();
     }
-    // Avoid tumbling to the ground. Unload cleanly.
-    const units::volume excessive_volume = p.volume_carried() - p.volume_capacity();
-    if( excessive_volume > 0_ml ) {
-        const auto excess = p.inv.remove_randomly_by_volume( excessive_volume );
-        res.insert( res.begin(), excess.begin(), excess.end() );
-    }
+
     // Load anything that remains (if any) into the activity
     act.targets.clear();
     act.values.clear();

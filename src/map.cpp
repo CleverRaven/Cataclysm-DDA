@@ -6955,7 +6955,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
     // Is there a proper container?
     auto items = i_at( p );
     for( auto &it : items ) {
-        if( it.is_bucket() || it.is_watertight_container() ) {
+        if( it.will_spill() || it.is_watertight_container() ) {
             const int capacity = it.get_remaining_capacity_for_liquid( sap, true );
             if( capacity > 0 ) {
                 new_charges = std::min( new_charges, capacity );

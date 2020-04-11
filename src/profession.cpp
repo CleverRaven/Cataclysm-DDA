@@ -405,10 +405,10 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( item &it : result ) {
-        clear_faults( it );
-        if( it.is_holster() && it.contents.num_item_stacks() == 1 ) {
-            clear_faults( it.contents.front() );
-        }
+        it.visit_items( []( item * it ) {
+            clear_faults( *it );
+            return VisitResponse::NEXT;
+        } );
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
@@ -675,8 +675,19 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
             result.mod_charges( -result.charges + new_amt );
             while( result.charges > 0 ) {
                 const item pushed = result.in_its_container();
+                int charges = 0;
+                // get the first contained item (there's only one because of in_its_container())
+                pushed.visit_items( [&charges, &result]( const item * it ) {
+                    if( it == &result ) {
+                        return VisitResponse::NEXT;
+                    }
+                    charges = it->charges;
+                    return VisitResponse::ABORT;
+                } );
+
                 ret.push_back( pushed );
-                result.mod_charges( pushed.contents.empty() ? -pushed.charges : -pushed.contents.back().charges );
+                result.mod_charges( pushed.contents.empty() ? -pushed.charges :
+                                    -charges );
             }
         }
     }

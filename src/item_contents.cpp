@@ -59,14 +59,6 @@ void item_contents::combine( const item_contents &rhs )
     }
 }
 
-static std::vector<pocket_data> dynamically_loaded_pockets;
-
-void item_contents::add_pocket( const pocket_data &added_pocket )
-{
-    dynamically_loaded_pockets.push_back( pocket_data( added_pocket ) );
-    contents.push_back( item_pocket( &dynamically_loaded_pockets.back() ) );
-}
-
 ret_val<item_pocket *> item_contents::find_pocket_for( const item &it,
         item_pocket::pocket_type pk_type )
 {
@@ -194,6 +186,11 @@ item_pocket *item_contents::best_pocket( const item &it, bool nested )
         if( nested && !pocket.rigid() ) {
             continue;
         }
+        if( pocket.sealed() ) {
+            // we don't want to unseal a pocket to put something in it automatically
+            // that needs to be something a player explicitly does
+            continue;
+        }
         if( ret == nullptr ) {
             if( pocket.can_contain( it ).success() ) {
                 ret = &pocket;
@@ -209,6 +206,16 @@ item_pocket *item_contents::best_pocket( const item &it, bool nested )
         }
     }
     return ret;
+}
+
+item_pocket *item_contents::contained_where( const item &contained )
+{
+    for( item_pocket &pocket : contents ) {
+        if( pocket.has_item( contained ) ) {
+            return &pocket;
+        }
+    }
+    return nullptr;
 }
 
 ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
@@ -411,6 +418,15 @@ void item_contents::set_item_defaults()
         }
         pocket.set_item_defaults();
     }
+}
+
+bool item_contents::seal_all_pockets()
+{
+    bool any_sealed = false;
+    for( item_pocket &pocket : contents ) {
+        any_sealed = pocket.seal() || any_sealed;
+    }
+    return any_sealed;
 }
 
 void item_contents::migrate_item( item &obj, const std::set<itype_id> &migrations )
@@ -700,12 +716,12 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
 }
 
 void item_contents::process( player *carrier, const tripoint &pos, bool activate, float insulation,
-                             temperature_flag flag, float spoil_multiplier )
+                             temperature_flag flag, float spoil_multiplier_parent )
 {
     for( item_pocket &pocket : contents ) {
         // no reason to check mods, they won't rot
         if( !pocket.is_type( item_pocket::pocket_type::MOD ) ) {
-            pocket.process( carrier, pos, activate, insulation, flag, spoil_multiplier );
+            pocket.process( carrier, pos, activate, insulation, flag, spoil_multiplier_parent );
         }
     }
 }
