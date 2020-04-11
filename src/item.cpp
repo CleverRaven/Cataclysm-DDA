@@ -8429,9 +8429,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
 }
 bool item::has_rotten_away() const
 {
-    if( !goes_bad() ) {
-        return false;
-    } else if( is_corpse() && !can_revive() ) {
+    if( is_corpse() && !can_revive() ) {
         return get_rot() > 10_days;
     } else {
         return is_food() && get_relative_rot() > 2.0;
