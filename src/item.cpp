@@ -1515,11 +1515,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.push_back( iteminfo( "BASE", _( "last rot: " ),
                                           "", iteminfo::lower_is_better,
                                           to_turn<int>( food->last_rot_check ) ) );
+            }
+            if( food && food->has_temperature() ) {
                 info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                           "", iteminfo::lower_is_better,
                                           to_turn<int>( food->last_temp_check ) ) );
-            }
-            if( food && food->has_temperature() ) {
                 info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
                                           food->temperature ) );
                 info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "",
@@ -5201,9 +5201,6 @@ int get_hourly_rotpoints_at_temp( const int temp )
 
 void item::calc_rot( time_point time, int temp )
 {
-    if( !goes_bad() ) {
-        return;
-    }
     // Avoid needlessly calculating already rotten things.  Corpses should
     // always rot away and food rots away at twice the shelf life.  If the food
     // is in a sealed container they won't rot away, this avoids needlessly
@@ -5217,6 +5214,7 @@ void item::calc_rot( time_point time, int temp )
         last_rot_check = time;
         return;
     }
+
     // rot modifier
     float factor = 1.0;
     if( is_corpse() && has_flag( flag_FIELD_DRESS ) ) {
@@ -8641,7 +8639,9 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
 
     time_point time;
     item_internal::scoped_goes_bad_cache _( this );
-    if( goes_bad() ) {
+    const bool process_rot = goes_bad();
+
+    if( process_rot ) {
         time = std::min( last_rot_check, last_temp_check );
     } else {
         time = last_temp_check;
@@ -8669,7 +8669,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
         }
 
         // Process the past of this item since the last time it was processed
-        while( time < now - 1_hours ) {
+        while( now - time > 1_hours ) {
             // Get the environment temperature
             time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
             time += time_delta;
@@ -8713,8 +8713,8 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
                 calc_temp( env_temperature, insulation, time );
             }
 
-            // Calculate item rot from item temperature
-            if( time - last_rot_check > smallest_interval ) {
+            // Calculate item rot
+            if( process_rot && time - last_rot_check > smallest_interval ) {
                 calc_rot( time, env_temperature );
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
@@ -8729,7 +8729,9 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     // and items that are held near the player
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
-        calc_rot( now, temp );
+        if( process_rot ) {
+            calc_rot( now, temp );
+        }
         return;
     }
 
