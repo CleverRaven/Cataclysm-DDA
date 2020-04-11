@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "type_id.h"
+#include "translations.h"
 
 class JsonObject;
 
@@ -16,9 +17,13 @@ struct construction_category {
     construction_category_id id;
     bool was_loaded = false;
 
-    std::string name;
-
+    std::string name() const {
+        return _name.translated();
+    }
     static size_t count();
+
+  private:
+    translation _name;
 };
 
 namespace construction_categories
