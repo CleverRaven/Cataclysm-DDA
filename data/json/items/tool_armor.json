@@ -2937,6 +2937,7 @@
     "copy-from": "electric_blanket",
     "warmth": 90,
     "power_draw": 100000,
+    "revert_to": "electric_blanket",
     "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" },
     "magazine_well": 2
   },
