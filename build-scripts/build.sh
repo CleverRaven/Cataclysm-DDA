@@ -48,15 +48,23 @@ then
         build_type=Debug
     fi
 
-    cmake_extra_opts=
+    cmake_extra_opts=()
 
     if [ "$CATA_CLANG_TIDY" = "plugin" ]
     then
-        cmake_extra_opts="$cmake_extra_opts -DCATA_CLANG_TIDY_PLUGIN=ON"
+        cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
         # Need to specify the particular LLVM / Clang versions to use, lest it
         # use the llvm-7 that comes by default on the Travis Xenial image.
-        cmake_extra_opts="$cmake_extra_opts -DLLVM_DIR=/usr/lib/llvm-8/lib/cmake/llvm"
-        cmake_extra_opts="$cmake_extra_opts -DClang_DIR=/usr/lib/llvm-8/lib/cmake/clang"
+        cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-8/lib/cmake/llvm")
+        cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-8/lib/cmake/clang")
+    fi
+
+    if [ "$COMPILER" = "clang++-8" -a -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
+    then
+        # This is a hacky workaround for the fact that the custom clang-tidy we are
+        # using is built for Travis CI, so it's not using the correct include directories
+        # for GitHub workflows.
+        cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/8.0.0/include")
     fi
 
     mkdir build
@@ -68,7 +76,7 @@ then
         -DCMAKE_BUILD_TYPE="$build_type" \
         -DTILES=${TILES:-0} \
         -DSOUND=${SOUND:-0} \
-        $cmake_extra_opts \
+        "${cmake_extra_opts[@]}" \
         ..
     if [ -n "$CATA_CLANG_TIDY" ]
     then
