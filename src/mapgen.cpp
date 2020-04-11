@@ -1,41 +1,49 @@
 #include "mapgen.h"
 
-#include <cassert>
-#include <cstdlib>
 #include <algorithm>
-#include <list>
-#include <memory>
-#include <sstream>
 #include <array>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
 #include <functional>
 #include <iterator>
+#include <list>
+#include <map>
+#include <memory>
 #include <set>
+#include <sstream>
 #include <stdexcept>
 #include <unordered_map>
-#include <cmath>
 
+#include "calendar.h"
+#include "catacharset.h"
+#include "character_id.h"
 #include "clzones.h"
-#include "generic_factory.h"
+#include "common_types.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "drawing_primitives.h"
 #include "enums.h"
-#include "faction.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
+#include "generic_factory.h"
+#include "int_id.h"
+#include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
-#include "mapgendata.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
+#include "mapgendata.h"
 #include "mapgenformat.h"
 #include "mission.h"
 #include "mongroup.h"
@@ -46,28 +54,22 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "player.h"
+#include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "submap.h"
 #include "text_snippets.h"
+#include "tileray.h"
 #include "translations.h"
 #include "trap.h"
+#include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "calendar.h"
-#include "common_types.h"
-#include "field.h"
-#include "game_constants.h"
-#include "item.h"
-#include "string_id.h"
-#include "tileray.h"
 #include "weighted_list.h"
-#include "material.h"
-#include "int_id.h"
-#include "colony.h"
-#include "pimpl.h"
-#include "point.h"
 
 static const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
@@ -1529,14 +1531,14 @@ class jmapgen_make_rubble : public jmapgen_piece
 class jmapgen_computer : public jmapgen_piece
 {
     public:
-        std::string name;
+        translation name;
         translation access_denied;
         int security;
         std::vector<computer_option> options;
         std::vector<computer_failure> failures;
         bool target;
         jmapgen_computer( const JsonObject &jsi ) {
-            name = jsi.get_string( "name" );
+            jsi.read( "name", name );
             jsi.read( "access_denied", access_denied );
             security = jsi.get_int( "security", 0 );
             target = jsi.get_bool( "target", false );
@@ -1556,7 +1558,8 @@ class jmapgen_computer : public jmapgen_piece
             const int ry = y.get();
             dat.m.ter_set( point( rx, ry ), t_console );
             dat.m.furn_set( point( rx, ry ), f_null );
-            computer *cpu = dat.m.add_computer( tripoint( rx, ry, dat.m.get_abs_sub().z ), name, security );
+            computer *cpu = dat.m.add_computer( tripoint( rx, ry, dat.m.get_abs_sub().z ), name.translated(),
+                                                security );
             for( const auto &opt : options ) {
                 cpu->add_option( opt );
             }
@@ -4258,14 +4261,14 @@ void map::draw_lab( mapgendata &dat )
                             spawn_item( point( SEEX, SEEY ), "plasma_gun" );
                             spawn_item( point( SEEX, SEEY ), "plasma" );
                             spawn_item( point( SEEX - 1, SEEY ), "recipe_atomic_battery" );
-                            spawn_item( point( SEEX, SEEY  - 1 ), "solar_panel_v3" );
+                            spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
                         } else if( loot_variant < 89 ) {
                             spawn_item( point( SEEX - 1, SEEY - 1 ), "mininuke", dice( 3, 6 ) );
                             spawn_item( point( SEEX, SEEY - 1 ), "mininuke", dice( 3, 6 ) );
                             spawn_item( point( SEEX - 1, SEEY ), "mininuke", dice( 3, 6 ) );
                             spawn_item( point( SEEX, SEEY ), "mininuke", dice( 3, 6 ) );
                             spawn_item( point( SEEX, SEEY ), "recipe_atomic_battery" );
-                            spawn_item( point( SEEX, SEEY ), "solar_panel_v3" );
+                            spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
                         }  else { // loot_variant between 90 and 96.
                             spawn_item( point( SEEX - 1, SEEY - 1 ), "rm13_armor" );
                             spawn_item( point( SEEX, SEEY - 1 ), "plut_cell" );
@@ -4296,7 +4299,7 @@ void map::draw_lab( mapgendata &dat )
                                      point( SEEX + 1, SEEY - 1 ), false, calendar::start_of_cataclysm );
                         place_items( "guns_rare", 96, point( SEEX - 2, SEEY ), point( SEEX + 1, SEEY ), false,
                                      calendar::start_of_cataclysm );
-                        spawn_item( point( SEEX + 1, SEEY ), "solar_panel_v3" );
+                        spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 1, 10 ) );
                     }
                     break;
                 // Netherworld access
@@ -5983,7 +5986,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
     for( auto e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-                e->contents.emplace_back( e->magazine_default(), e->birthday() );
+                e->put_in( item( e->magazine_default(), e->birthday() ) );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default(), e->ammo_capacity() );

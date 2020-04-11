@@ -1,28 +1,29 @@
-#include <ostream>
-#include <vector>
 #include <algorithm>
 #include <list>
 #include <memory>
+#include <ostream>
 #include <string>
+#include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
+#include "damage.h"
 #include "game.h"
+#include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
 #include "line.h"
 #include "map_helpers.h"
+#include "material.h"
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "point.h"
 #include "projectile.h"
 #include "test_statistics.h"
-#include "damage.h"
-#include "game_constants.h"
-#include "inventory.h"
-#include "material.h"
 #include "type_id.h"
-#include "point.h"
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {

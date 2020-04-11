@@ -3,15 +3,21 @@
 #define CATA_VARIANT_H
 
 #include <array>
-#include <cassert>
+#include <cstddef>
+#include <functional>
+#include <string>
+#include <type_traits>
 #include <utility>
 
 #include "character_id.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "enum_traits.h"
 #include "hash_utils.h"
 #include "type_id.h"
+
+class JsonIn;
+class JsonOut;
+template <typename E> struct enum_traits;
 
 enum add_type : int;
 enum body_part : int;

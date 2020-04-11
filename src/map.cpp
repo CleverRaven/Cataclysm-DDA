@@ -1,88 +1,96 @@
 #include "map.h"
 
-#include <climits>
 #include <algorithm>
 #include <cassert>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <limits>
+#include <ostream>
 #include <queue>
+#include <type_traits>
 #include <unordered_map>
 
+#include "active_item_cache.h"
 #include "ammo.h"
 #include "ammo_effect.h"
 #include "artifact.h"
 #include "avatar.h"
+#include "basecamp.h"
+#include "bodypart.h"
 #include "calendar.h"
-#include "colony.h"
-#include "coordinate_conversions.h"
+#include "character.h"
+#include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
+#include "color.h"
+#include "construction.h"
+#include "coordinate_conversions.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
 #include "drawing_primitives.h"
-#include "emit.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "int_id.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "item_group.h"
+#include "item_location.h"
+#include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
 #include "map_iterator.h"
+#include "map_memory.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
+#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
+#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "safe_reference.h"
 #include "scent_map.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "submap.h"
+#include "tileray.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
-#include "active_item_cache.h"
-#include "basecamp.h"
-#include "bodypart.h"
-#include "character.h"
-#include "color.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "damage.h"
-#include "field.h"
-#include "item_location.h"
-#include "itype.h"
-#include "iuse.h"
-#include "map_memory.h"
-#include "math_defines.h"
-#include "optional.h"
-#include "tileray.h"
 #include "weighted_list.h"
-#include "enums.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "construction.h"
-#include "flat_set.h"
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
@@ -517,25 +525,25 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             if( coll.type == veh_coll_veh ) {
                 continue;
             }
-            if( static_cast<size_t>( coll.part ) > veh.parts.size() ) {
+            if( static_cast<size_t>( coll.part ) > veh.parts.size() ||
+                veh.parts[coll.part].removed ) {
                 continue;
             }
 
             const point &collision_point = veh.parts[coll.part].mount;
             const int coll_dmg = coll.imp;
-            impulse += coll_dmg;
-            // Shock damage
-            veh.damage( coll.part, coll_dmg, DT_BASH );
-            veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
+            // Shock damage, if the target part is a rotor treat as an aimed hit.
+            if( veh.part_info( coll.part ).rotor_diameter() > 0 ) {
+                veh.damage( coll.part, coll_dmg, DT_BASH, true );
+            } else {
+                impulse += coll_dmg;
+                veh.damage( coll.part, coll_dmg, DT_BASH );
+                veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
+            }
         }
-    } while( collision_attempts-- > 0 &&
+    } while( collision_attempts-- > 0 && coll_velocity != 0 &&
              sgn( coll_velocity ) == sgn( velocity_before ) &&
              !collisions.empty() && !veh_veh_coll_flag );
-
-    if( vertical && !collisions.empty() ) {
-        // A big hack, should be removed when possible
-        veh.vertical_velocity = 0;
-    }
 
     const int velocity_after = coll_velocity;
     bool can_move = velocity_after != 0 && sgn( velocity_after ) == sgn( velocity_before );
@@ -2872,9 +2880,9 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         // Remove them if they were damaged too much
         if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
             // But save the contents, except for irremovable gunmods
-            for( auto &elem : i->contents ) {
-                if( !elem.is_irremovable() ) {
-                    contents.push_back( elem );
+            for( item *elem : i->contents.all_items_top() ) {
+                if( !elem->is_irremovable() ) {
+                    contents.push_back( item( *elem ) );
                 }
             }
 
@@ -3286,8 +3294,8 @@ void map::bash_items( const tripoint &p, bash_params &params )
         if( bashed_item->made_of( material_id( "glass" ) ) && !bashed_item->active && one_in( 2 ) ) {
             params.did_bash = true;
             smashed_glass = true;
-            for( const item &bashed_content : bashed_item->contents ) {
-                smashed_contents.push_back( bashed_content );
+            for( const item *bashed_content : bashed_item->contents.all_items_top() ) {
+                smashed_contents.push_back( item( *bashed_content ) );
             }
             bashed_item = bashed_items.erase( bashed_item );
         } else {

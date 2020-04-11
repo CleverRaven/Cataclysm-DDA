@@ -1,26 +1,34 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <cstdlib>
 #include <chrono>
+#include <cstdlib>
+#include <initializer_list>
 #include <set>
 #include <sstream>
 #include <utility>
 
 #include "action.h"
 #include "advanced_inv.h"
-#include "auto_pickup.h"
 #include "auto_note.h"
+#include "auto_pickup.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "catacharset.h"
+#include "character.h"
+#include "character_martial_arts.h"
 #include "clzones.h"
+#include "color.h"
 #include "construction.h"
 #include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
 #include "faction.h"
 #include "field.h"
+#include "field_type.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
@@ -28,8 +36,14 @@
 #include "gun_mode.h"
 #include "help.h"
 #include "input.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_group.h"
 #include "itype.h"
-#include "kill_tracker.h"
+#include "iuse.h"
+#include "lightmap.h"
+#include "line.h"
 #include "magic.h"
 #include "map.h"
 #include "mapdata.h"
@@ -42,30 +56,24 @@
 #include "output.h"
 #include "overmap_ui.h"
 #include "player.h"
+#include "player_activity.h"
 #include "popup.h"
 #include "ranged.h"
+#include "rng.h"
 #include "safemode_ui.h"
 #include "scores_ui.h"
 #include "sounds.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "ui.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
 #include "worldfactory.h"
-#include "bodypart.h"
-#include "color.h"
-#include "damage.h"
-#include "lightmap.h"
-#include "line.h"
-#include "player_activity.h"
-#include "rng.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "ui.h"
-#include "units.h"
-#include "string_id.h"
-#include "item.h"
 
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -108,6 +116,8 @@ static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
 static const std::string flag_REACH3( "REACH3" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
+
+static const std::string flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -469,7 +479,7 @@ static void pldrive( int x, int y, int z = 0 )
             return;
         }
     }
-    if( !remote && z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
+    if( z != 0 && !u.has_trait( trait_PROF_HELI_PILOT ) ) {
         u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
         return;
         }
@@ -791,9 +801,7 @@ static void smash()
             if( u.weapon.made_of( material_id( "glass" ) ) &&
                 rng( 0, vol + 3 ) < vol ) {
                 add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
-                for( auto &elem : u.weapon.contents ) {
-                    m.add_item_or_charges( u.pos(), elem );
-                }
+                u.weapon.spill_contents( u.pos() );
                 sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
                 u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
                 if( vol > 20 ) {
@@ -982,21 +990,22 @@ static void sleep()
     uilist as_m;
     as_m.text = _( "<color_white>Are you sure you want to sleep?</color>" );
     // (Y)es/(S)ave before sleeping/(N)o
-    as_m.entries.emplace_back( 2, true,
-                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
-                               _( "No." ) );
-    as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
-                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
-                               _( "Yes, and save game before sleeping." ) );
     as_m.entries.emplace_back( 0, true,
                                get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y',
                                _( "Yes." ) );
+    as_m.entries.emplace_back( 1, g->get_moves_since_last_save(),
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's',
+                               _( "Yes, and save game before sleeping." ) );
+    as_m.entries.emplace_back( 2, true,
+                               get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
+                               _( "No." ) );
 
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
         if( it->has_flag( flag_LITCIG ) ||
-            ( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() ) ) {
+            ( it->active && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() &&
+              !it->has_flag( flag_SLEEP_IGNORE ) ) ) {
             active.push_back( it->tname() );
         }
     }
@@ -1037,8 +1046,9 @@ static void sleep()
     // ask for deactivation
     std::stringstream data;
     if( !active.empty() ) {
+        as_m.selected = 2;
         data << as_m.text << std::endl;
-        data << _( "You may want to turn off:" ) << std::endl;
+        data << _( "You may want to extinguish or turn off:" ) << std::endl;
         data << " " << std::endl;
         for( auto &a : active ) {
             data << "<color_red>" << a << "</color>" << std::endl;

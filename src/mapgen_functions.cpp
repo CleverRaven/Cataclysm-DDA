@@ -1,21 +1,23 @@
 #include "mapgen_functions.h"
 
-#include <cstdlib>
 #include <algorithm>
 #include <array>
-#include <iterator>
+#include <cstdlib>
 #include <initializer_list>
+#include <iterator>
 #include <map>
-#include <ostream>
-#include <queue>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "character_id.h"
 #include "debug.h"
-#include "field.h"
+#include "enums.h"
+#include "field_type.h"
 #include "flood_fill.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "item.h"
 #include "line.h"
 #include "map.h"
@@ -25,17 +27,14 @@
 #include "mapgendata.h"
 #include "mapgenformat.h"
 #include "omdata.h"
-#include "options.h"
 #include "overmap.h"
-#include "trap.h"
-#include "vehicle_group.h"
-#include "calendar.h"
-#include "game_constants.h"
+#include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "string_id.h"
-#include "int_id.h"
-#include "enums.h"
+#include "trap.h"
+#include "vehicle_group.h"
+#include "weighted_list.h"
 
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );

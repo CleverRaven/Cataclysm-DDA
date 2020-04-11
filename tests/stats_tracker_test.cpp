@@ -1,10 +1,17 @@
-#include "catch/catch.hpp"
+#include <memory>
 
+#include "achievement.h"
 #include "avatar.h"
+#include "cata_variant.h"
+#include "catch/catch.hpp"
+#include "character_id.h"
+#include "event.h"
+#include "event_bus.h"
 #include "event_statistics.h"
 #include "game.h"
 #include "stats_tracker.h"
-#include "stringmaker.h"
+#include "string_id.h"
+#include "type_id.h"
 
 TEST_CASE( "stats_tracker_count_events", "[stats]" )
 {
@@ -213,6 +220,31 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
         CHECK( damage_watcher.value == cata_variant( 0 ) );
         b.send( avatar_2_damage );
         CHECK( damage_watcher.value == cata_variant( 2 ) );
+    }
+}
+
+TEST_CASE( "achievments_tracker", "[stats]" )
+{
+    const achievement *achievement_completed = nullptr;
+    event_bus b;
+    stats_tracker s;
+    b.subscribe( &s );
+    achievements_tracker a( s, [&]( const achievement * a ) {
+        achievement_completed = a;
+    } );
+    b.subscribe( &a );
+
+    SECTION( "kills" ) {
+        const character_id u_id = g->u.getID();
+        const mtype_id mon_zombie( "mon_zombie" );
+        const cata::event avatar_zombie_kill =
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+
+        b.send<event_type::game_start>( u_id );
+        CHECK( achievement_completed == nullptr );
+        b.send( avatar_zombie_kill );
+        REQUIRE( achievement_completed != nullptr );
+        CHECK( achievement_completed->id.str() == "achievement_kill_zombie" );
     }
 }
 

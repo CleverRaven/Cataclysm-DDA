@@ -1,35 +1,50 @@
 #include "character.h"
 
+#include <algorithm>
 #include <cctype>
 #include <climits>
-#include <cstdlib>
-#include <algorithm>
-#include <numeric>
 #include <cmath>
+#include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <numeric>
+#include <type_traits>
 
+#include "action.h"
 #include "activity_handlers.h"
+#include "anatomy.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "colony.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "disease.h"
 #include "effect.h"
+#include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "field.h"
+#include "field_type.h"
+#include "fire.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
+#include "int_id.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
-#include "npc.h"
-#include "material.h"
+#include "lightmap.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
+#include "mapdata.h"
+#include "material.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
@@ -38,36 +53,40 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "npc.h"
+#include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overlay_ordering.h"
+#include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
 #include "ret_val.h"
+#include "rng.h"
 #include "scent_map.h"
-#include "submap.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
+#include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "submap.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
-#include "veh_interact.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
-#include "catacharset.h"
-#include "game_constants.h"
-#include "item_location.h"
-#include "lightmap.h"
-#include "rng.h"
-#include "stomach.h"
-#include "text_snippets.h"
 #include "ui.h"
+#include "value_ptr.h"
+#include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather.h"
+#include "weather_gen.h"
+
+struct dealt_projectile_attack;
 
 static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
@@ -340,6 +359,7 @@ Character::Character() :
     slow_rad = 0;
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
+    set_anatomy( anatomy_id("human_anatomy") );
     update_type_of_scent( true );
     pkill = 0;
     // 45 days to starve to death
@@ -2161,6 +2181,31 @@ std::list<item> Character::remove_worn_items_with( std::function<bool( item & )>
     return result;
 }
 
+item *Character::invlet_to_item( const int linvlet )
+{
+    // Invlets may come from curses, which may also return any kind of key codes, those being
+    // of type int and they can become valid, but different characters when casted to char.
+    // Example: KEY_NPAGE (returned when the player presses the page-down key) is 0x152,
+    // casted to char would yield 0x52, which happens to be 'R', a valid invlet.
+    if( linvlet > std::numeric_limits<char>::max() || linvlet < std::numeric_limits<char>::min() ) {
+        return nullptr;
+    }
+    const char invlet = static_cast<char>( linvlet );
+    if( is_npc() ) {
+        DebugLog( D_WARNING, D_GAME ) << "Why do you need to call Character::invlet_to_position on npc " <<
+                                      name;
+    }
+    item *invlet_item = nullptr;
+    visit_items( [&invlet, &invlet_item]( item * it ) {
+        if( it->invlet == invlet ) {
+            invlet_item = it;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return invlet_item;
+}
+
 // Negative positions indicate weapon/clothing, 0 & positive indicate inventory
 const item &Character::i_at( int position ) const
 {
@@ -2231,11 +2276,9 @@ item Character::i_rem( const item *it )
     return tmp.front();
 }
 
-void Character::i_rem_keep_contents( const int pos )
+void Character::i_rem_keep_contents( const int idx )
 {
-    for( auto &content : i_rem( pos ).contents ) {
-        i_add_or_drop( content );
-    }
+    i_rem( idx ).spill_contents( pos() );
 }
 
 bool Character::i_add_or_drop( item &it, int qty )
@@ -3658,7 +3701,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
             const_cast<Character *>( this )->position_to_wear_new_item( new_item );
     }
 
-    // Track highest layer observed so far so we can penalise out-of-order
+    // Track highest layer observed so far so we can penalize out-of-order
     // items
     std::array<layer_level, num_bp> highest_layer_so_far;
     std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
@@ -6501,44 +6544,6 @@ body_part Character::hp_to_bp( const hp_part hpart )
     }
 }
 
-body_part Character::get_random_body_part( bool main ) const
-{
-    // TODO: Refuse broken limbs, adjust for mutations
-    return random_body_part( main );
-}
-
-std::vector<body_part> Character::get_all_body_parts( bool only_main ) const
-{
-    // TODO: Remove broken parts, parts removed by mutations etc.
-    static const std::vector<body_part> all_bps = {{
-            bp_head,
-            bp_eyes,
-            bp_mouth,
-            bp_torso,
-            bp_arm_l,
-            bp_arm_r,
-            bp_hand_l,
-            bp_hand_r,
-            bp_leg_l,
-            bp_leg_r,
-            bp_foot_l,
-            bp_foot_r,
-        }
-    };
-
-    static const std::vector<body_part> main_bps = {{
-            bp_head,
-            bp_torso,
-            bp_arm_l,
-            bp_arm_r,
-            bp_leg_l,
-            bp_leg_r,
-        }
-    };
-
-    return only_main ? main_bps : all_bps;
-}
-
 std::string Character::extended_description() const
 {
     std::string ss;
@@ -6551,23 +6556,23 @@ std::string Character::extended_description() const
 
     ss += "\n--\n";
 
-    const auto &bps = get_all_body_parts( true );
+    const std::vector<bodypart_id> &bps = get_all_body_parts( true );
     // Find length of bp names, to align
     // accumulate looks weird here, any better function?
     int longest = std::accumulate( bps.begin(), bps.end(), 0,
-    []( int m, body_part bp ) {
-        return std::max( m, utf8_width( body_part_name_as_heading( bp, 1 ) ) );
+    []( int m, bodypart_id bp ) {
+        return std::max( m, utf8_width( body_part_name_as_heading( bp->token, 1 ) ) );
     } );
 
     // This is a stripped-down version of the body_window function
     // This should be extracted into a separate function later on
-    for( body_part bp : bps ) {
-        const std::string &bp_heading = body_part_name_as_heading( bp, 1 );
-        hp_part hp = bp_to_hp( bp );
+    for( const bodypart_id bp : bps ) {
+        const std::string &bp_heading = body_part_name_as_heading( bp->token, 1 );
+        hp_part hp = bp_to_hp( bp->token );
 
         const int maximal_hp = hp_max[hp];
         const int current_hp = hp_cur[hp];
-        const nc_color state_col = limb_color( bp, true, true, true );
+        const nc_color state_col = limb_color( bp->token, true, true, true );
         nc_color name_color = state_col;
         auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
 
@@ -6874,6 +6879,55 @@ units::mass Character::bionics_weight() const
     return bio_weight;
 }
 
+int Character::base_age() const
+{
+    return init_age;
+}
+
+void Character::mod_base_age( int mod )
+{
+    init_age += mod;
+}
+
+int Character::age() const
+{
+    int years_since_cataclysm = to_turns<int>( calendar::turn - calendar::turn_zero ) /
+                                to_turns<int>( calendar::year_length() );
+    return init_age + years_since_cataclysm;
+}
+
+std::string Character::age_string() const
+{
+    //~ how old the character is in years. try to limit number of characters to fit on the screen
+    std::string unformatted = _( "aged %d" );
+    return string_format( unformatted, age() );
+}
+
+int Character::base_height() const
+{
+    return init_height;
+}
+
+void Character::mod_base_height( int mod )
+{
+    init_height += mod;
+}
+
+std::string Character::height_string() const
+{
+    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+
+    if( metric ) {
+        std::string metric_string = _( "%d cm" );
+        return string_format( metric_string, height() );
+    }
+
+    int total_inches = std::round( height() / 2.54 );
+    int feet = std::floor( total_inches / 12 );
+    int remainder_inches = total_inches % 12;
+    return string_format( "%d\'%d\"", feet, remainder_inches );
+}
+
 int Character::height() const
 {
     int height = init_height;
@@ -6905,11 +6959,10 @@ int Character::get_bmr() const
     /**
     Values are for males, and average!
     */
-    const int age = 25;
     const int equation_constant = 5;
     return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>
                  ( bodyweight() / 100.0 ) +
-                 ( 6.25 * height() ) - ( 5 * age ) + equation_constant ) );
+                 ( 6.25 * height() ) - ( 5 * age() ) + equation_constant ) );
 }
 
 void Character::increase_activity_level( float new_level )
@@ -8059,7 +8112,9 @@ void Character::absorb_hit( body_part bp, damage_instance &dam )
                 destroyed_armor_msg( *this, pre_damage_name );
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
-                worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
+                for( const item *it : armor.contents.all_items_top() ) {
+                    worn_remains.push_back( *it );
+                }
                 // decltype is the type name of the iterator, note that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
                 // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator

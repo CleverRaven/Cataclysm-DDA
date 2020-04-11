@@ -1,8 +1,10 @@
-#include "avatar.h"
-#include "options.h"
-#include "type_id.h"
+#include <string>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
+#include "options.h"
+#include "player.h"
+#include "type_id.h"
 
 // Empty `dummy` of all traits, and give them a single trait with name `trait_name`
 static void give_one_trait( player &dummy, const std::string trait_name )

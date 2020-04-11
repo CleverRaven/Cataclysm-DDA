@@ -72,5 +72,20 @@
     "volume": "3 L",
     "bashing": 4,
     "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "tempered_glass_sheet",
+    "symbol": "]",
+    "color": "light_cyan",
+    "name": { "str": "sheet of tempered glass", "str_pl": "sheets of tempered glass" },
+    "description": "A large, durable sheet of tempered glass, approximately six millimeters thick.  A common type of safety glass with the curious property of breaking into small, non-lethal pieces upon shattering.",
+    "category": "spare_parts",
+    "price": 10000,
+    "material": "glass",
+    "weight": "22700 g",
+    "volume": "22700 ml",
+    "bashing": 6,
+    "to_hit": -5
   }
 ]

@@ -2,14 +2,12 @@
 #ifndef HANDLE_LIQUID_H
 #define HANDLE_LIQUID_H
 
-#include <list>
-
 #include "item_location.h"
-#include "map.h"
-#include "item.h"
 #include "item_stack.h"
+#include "map.h"
 #include "point.h"
 
+class item;
 class monster;
 class vehicle;
 
@@ -82,7 +80,7 @@ bool handle_liquid_from_ground( map_stack::iterator on_ground, const tripoint &p
  * The iterator is invalidated in that case. Otherwise the item remains but may have
  * fewer charges.
  */
-bool handle_liquid_from_container( std::list<item>::iterator in_container, item &container,
+bool handle_liquid_from_container( item *in_container, item &container,
                                    int radius = 0 );
 /**
  * Shortcut to the above: handles the first item in the container.

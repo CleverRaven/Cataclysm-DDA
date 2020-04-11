@@ -1,8 +1,13 @@
 #include "mapgendata.h"
 
-#include "regional_settings.h"
+#include "debug.h"
+#include "int_id.h"
 #include "map.h"
+#include "mapdata.h"
+#include "omdata.h"
 #include "overmapbuffer.h"
+#include "point.h"
+#include "regional_settings.h"
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,

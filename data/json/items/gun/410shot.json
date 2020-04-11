@@ -9,6 +9,7 @@
     "weight": "3400 g",
     "volume": "5762 ml",
     "price": 189000,
+    "price_postapoc": 7000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -29,6 +30,7 @@
     "description": "A single-shot break-action shotgun, chambered in .410 bore.  Designed as a lower-recoil alternative to 12 gauge shotguns, it is light and easy to manufacture.",
     "weight": "2948 g",
     "volume": "1748 ml",
+    "price_postapoc": 2000,
     "blackpowder_tolerance": 80,
     "ammo": "410shot"
   }

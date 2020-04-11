@@ -4,24 +4,23 @@
 
 #include <cstddef>
 #include <functional>
-#include <vector>
 #include <string>
 #include <tuple>
+#include <utility>
+#include <vector>
 
 #include "color.h"
-#include "int_id.h"
 #include "magic.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
 class Creature;
-class item;
-class player;
-class map;
-struct tripoint;
 class JsonObject;
+class item;
+class map;
+class player;
+struct tripoint;
 
 namespace trapfunc
 {

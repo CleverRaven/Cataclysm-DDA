@@ -1,64 +1,57 @@
 #include "advanced_inv.h"
 
+#include <algorithm>
+#include <cassert>
+#include <cstddef>
+#include <initializer_list>
+#include <list>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "activity_actor.h"
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
+#include "colony.h"
+#include "color.h"
 #include "debug.h"
-#include "field.h"
+#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "ime.h"
 #include "input.h"
+#include "inventory.h"
+#include "item.h"
 #include "item_category.h"
-#include "item_search.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "item_stack.h"
 #include "map.h"
-#include "mapdata.h"
+#include "map_selector.h"
 #include "messages.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
 #include "player.h"
 #include "player_activity.h"
+#include "point.h"
+#include "ret_val.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-#include "trap.h"
+#include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "vpart_position.h"
-#include "calendar.h"
-#include "color.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item.h"
-#include "optional.h"
-#include "ret_val.h"
-#include "type_id.h"
-#include "clzones.h"
-#include "colony.h"
-#include "enums.h"
-#include "faction.h"
-#include "item_location.h"
-#include "map_selector.h"
-#include "pimpl.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cstring>
-#include <map>
-#include <set>
-#include <string>
-#include <vector>
-#include <initializer_list>
-#include <iterator>
-#include <memory>
-#include <unordered_map>
-#include <utility>
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
@@ -1693,7 +1686,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     uistate.adv_inv_container_content_type = dest_container.contents.front().typeId();
     if( src_contents.charges <= 0 ) {
-        src_container.contents.clear();
+        src_container.contents.clear_items();
     }
 
     return true;

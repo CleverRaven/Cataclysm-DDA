@@ -6,7 +6,7 @@
     "ident": "scav",
     "points": 1,
     "start_name": "Scavenger Bunker",
-    "allowed_locs": [ "s_bunker_shop_g" ],
+    "allowed_locs": [ "sloc_scavenger_bunker" ],
     "flags": [ "SUM_START" ],
     "professions": [ "rookie", "novice" ]
   }

@@ -1,16 +1,18 @@
 #include "bodypart.h"
 
-#include <map>
-#include <unordered_map>
+#include <cstdlib>
 #include <set>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "anatomy.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "pldata.h"
+#include "type_id.h"
 
 side opposite_side( side s )
 {
@@ -218,6 +220,14 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "main_part", main_part );
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
+
+    optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
+    optional( jo, was_loaded, "cold_morale_mod", cold_morale_mod, 0.0 );
+
+    optional( jo, was_loaded, "stylish_bonus", stylish_bonus, 0 );
+    optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
+
+
 
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
 

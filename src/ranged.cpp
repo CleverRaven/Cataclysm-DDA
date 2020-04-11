@@ -1,69 +1,70 @@
 #include "ranged.h"
 
-#include <cstdio>
-#include <cstdlib>
 #include <algorithm>
 #include <cmath>
-#include <string>
-#include <vector>
-#include <array>
+#include <cstdio>
+#include <cstdlib>
 #include <iterator>
-#include <list>
-#include <map>
 #include <memory>
 #include <set>
+#include <string>
 #include <tuple>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "ballistics.h"
-#include "cata_utility.h"
-#include "debug.h"
-#include "dispersion.h"
-#include "event_bus.h"
-#include "game.h"
-#include "gun_mode.h"
-#include "input.h"
-#include "item.h"
-#include "itype.h"
-#include "line.h"
-#include "magic.h"
-#include "map.h"
-#include "messages.h"
-#include "monster.h"
-#include "morale_types.h"
-#include "mtype.h"
-#include "npc.h"
-#include "options.h"
-#include "output.h"
-#include "projectile.h"
-#include "rng.h"
-#include "sounds.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "ui_manager.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "trap.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
+#include "debug.h"
+#include "dispersion.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
+#include "game.h"
 #include "game_constants.h"
+#include "gun_mode.h"
+#include "input.h"
+#include "item.h"
+#include "item_location.h"
+#include "itype.h"
+#include "line.h"
+#include "magic.h"
+#include "map.h"
+#include "material.h"
+#include "math_defines.h"
+#include "messages.h"
+#include "monster.h"
+#include "morale_types.h"
+#include "mtype.h"
+#include "npc.h"
 #include "optional.h"
+#include "options.h"
+#include "output.h"
 #include "player.h"
 #include "player_activity.h"
-#include "string_id.h"
-#include "units.h"
-#include "material.h"
-#include "type_id.h"
 #include "point.h"
+#include "projectile.h"
+#include "rng.h"
 #include "skill.h"
+#include "sounds.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "trap.h"
+#include "type_id.h"
+#include "ui_manager.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 
@@ -2363,7 +2364,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
-            weap.contents.push_back( item( casing ).set_flag( "CASING" ) );
+            weap.put_in( item( casing ).set_flag( "CASING" ) );
         } else {
             if( cargo.empty() ) {
                 g->m.add_item_or_charges( eject, item( casing ) );
@@ -2382,7 +2383,7 @@ static void cycle_action( item &weap, const tripoint &pos )
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( "brass_catcher" ) ) {
             linkage.set_flag( "CASING" );
-            weap.contents.push_back( linkage );
+            weap.put_in( linkage );
         } else if( cargo.empty() ) {
             g->m.add_item_or_charges( eject, linkage );
         } else {
@@ -2652,7 +2653,7 @@ double player::gun_value( const item &weap, int ammo ) const
     float capacity = gun.clip > 0 ? std::min<float>( gun.clip, ammo ) : ammo;
     // How much until dry and a new weapon is needed
     capacity += std::min<float>( 1.0, ammo / 20.0 );
-    float capacity_factor = multi_lerp( capacity_thresholds, capacity );
+    double capacity_factor = multi_lerp( capacity_thresholds, capacity );
 
     double gun_value = damage_and_accuracy * capacity_factor;
 

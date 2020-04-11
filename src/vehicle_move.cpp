@@ -16,6 +16,7 @@
 #include "itype.h"
 #include "map.h"
 #include "mapdata.h"
+#include "map_iterator.h"
 #include "material.h"
 #include "messages.h"
 #include "options.h"
@@ -396,18 +397,19 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
 
     const bool vertical = bash_floor || dp.z != 0;
     const int &coll_velocity = vertical ? vertical_velocity : velocity;
-    if( !just_detect && coll_velocity == 0 ) {
-        if( is_rotorcraft() ) {
-            return false;
-        }
+    // Skip collisions when there is no apparent movement, except verticially moving rotorcraft.
+    if( coll_velocity == 0 && !is_rotorcraft() ) {
         just_detect = true;
     }
 
     const int velocity_before = coll_velocity;
+    int lowest_velocity = coll_velocity;
     const int sign_before = sgn( velocity_before );
     bool empty = true;
     for( int p = 0; static_cast<size_t>( p ) < parts.size(); p++ ) {
-        if( part_info( p ).location != part_location_structure || parts[ p ].removed ) {
+        const vpart_info &info = part_info( p );
+        if( ( info.location != part_location_structure && info.rotor_diameter() == 0 ) ||
+            parts[ p ].removed ) {
             continue;
         }
         empty = false;
@@ -415,6 +417,19 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         //  and turning (precalc[1])
         const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
+        if( coll.type == veh_coll_nothing && info.rotor_diameter() > 0 ) {
+            for( const tripoint &rotor_point : g->m.points_in_radius( dsp, info.rotor_diameter() ) ) {
+                veh_collision rotor_coll = part_collision( p, rotor_point, just_detect, false );
+                if( rotor_coll.type != veh_coll_nothing ) {
+                    coll = rotor_coll;
+                    if( just_detect ) {
+                        break;
+                    } else {
+                        colls.push_back( rotor_coll );
+                    }
+                }
+            }
+        }
         if( coll.type == veh_coll_nothing ) {
             continue;
         }
@@ -430,10 +445,22 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         // A hack for falling vehicles: restore the velocity so that it hits at full force everywhere
         // TODO: Make this more elegant
         if( vertical ) {
+            if( velocity_before < 0 ) {
+                lowest_velocity = std::max( lowest_velocity, coll_velocity );
+            } else {
+                lowest_velocity = std::min( lowest_velocity, coll_velocity );
+            }
             vertical_velocity = velocity_before;
         } else if( sgn( velocity_after ) != sign_before ) {
             // Sign of velocity inverted, collisions would be in wrong direction
             break;
+        }
+    }
+
+    if( vertical ) {
+        vertical_velocity = lowest_velocity;
+        if( vertical_velocity == 0 ) {
+            is_falling = false;
         }
     }
 
@@ -502,8 +529,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         return ret;
     }
 
+    // Typical rotor tip speed in MPH * 100.
+    int rotor_velocity = 45600;
     // Non-vehicle collisions can't happen when the vehicle is not moving
-    int &coll_velocity = vert_coll ? vertical_velocity : velocity;
+    int &coll_velocity = ( part_info( part ).rotor_diameter() == 0 ) ?
+                         ( vert_coll ? vertical_velocity : velocity ) :
+                         rotor_velocity;
     if( !just_detect && coll_velocity == 0 ) {
         return ret;
     }
@@ -590,7 +621,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     stop_autodriving();
     // Calculate mass AFTER checking for collision
     //  because it involves iterating over all cargo
-    const float mass = to_kilogram( total_mass() );
+    // Rotors only use rotor mass in calculation.
+    const float mass = ( part_info( part ).rotor_diameter() > 0 ) ?
+                       to_kilogram( parts[ part ].base.weight() ) : to_kilogram( total_mass() );
 
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).item );
@@ -700,8 +733,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         } else if( ret.type == veh_coll_body ) {
             int dam = obj_dmg * dmg_mod / 100;
 
+            // We know critter is set for this type.  Assert to inform static
+            // analysis.
+            assert( critter );
+
             // No blood from hallucinations
-            if( critter != nullptr && !critter->is_hallucination() ) {
+            if( !critter->is_hallucination() ) {
                 if( part_flag( ret.part, "SHARP" ) ) {
                     parts[ret.part].blood += ( 20 + dam ) * 5;
                 } else if( dam > rng( 10, 30 ) ) {
@@ -912,14 +949,14 @@ bool vehicle::has_harnessed_animal() const
 
 void vehicle::autodrive( int x, int y )
 {
-    // for now, autodriving is only possible when pulled by an animal
-    if( !is_towed() ) {
+    if( !is_towed() && !magic ) {
         for( size_t e = 0; e < parts.size(); e++ ) {
             const vehicle_part &vp = parts[ e ];
             if( vp.info().fuel_type == fuel_type_animal ) {
                 monster *mon = get_pet( e );
                 if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
                     is_following = false;
+                    return;
                 }
             }
         }
@@ -940,7 +977,6 @@ void vehicle::autodrive( int x, int y )
             return;
         }
         turn( turn_delta );
-
     }
     if( y != 0 ) {
         int thr_amount = 100 * ( abs( velocity ) < 2000 ? 4 : 5 );
@@ -980,6 +1016,8 @@ bool vehicle::check_heli_descend( player &p )
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }
+    int count = 0;
+    int air_count = 0;
     for( const tripoint &pt : get_points( true ) ) {
         tripoint below( pt.xy(), pt.z - 1 );
         if( g->m.has_zlevels() && ( pt.z < -OVERMAP_DEPTH ||
@@ -993,8 +1031,12 @@ bool vehicle::check_heli_descend( player &p )
                                  _( "It would be unsafe to try and land when there are obstacles below you." ) );
             return false;
         }
+        if( g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, below ) ) {
+            air_count++;
+        }
+        count++;
     }
-    if( velocity > 0 ) {
+    if( velocity > 0 && air_count != count ) {
         p.add_msg_if_player( m_bad, _( "It would be unsafe to try and land while you are moving." ) );
         return false;
     }
@@ -1011,6 +1053,16 @@ bool vehicle::check_heli_ascend( player &p )
     if( velocity > 0 && !is_flying_in_air() ) {
         p.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off while you are moving." ) );
         return false;
+    }
+    for( const tripoint &pt : get_points( true ) ) {
+        tripoint above( pt.xy(), pt.z + 1 );
+        const optional_vpart_position ovp = g->m.veh_at( above );
+        if( g->m.has_flag_ter_or_furn( TFLAG_INDOORS, pt ) || g->m.impassable_ter_furn( above ) || ovp ||
+            g->critter_at( above ) ) {
+            p.add_msg_if_player( m_bad,
+                                 _( "It would be unsafe to try and ascend when there are obstacles above you." ) );
+            return false;
+        }
     }
     return true;
 }
@@ -1379,7 +1431,9 @@ vehicle *vehicle::act_on_map()
         is_falling = false;
         return this;
     }
-
+    if( decrement_summon_timer() ) {
+        return nullptr;
+    }
     const bool pl_ctrl = player_in_control( g->u );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( is_floating && !can_float() ) {

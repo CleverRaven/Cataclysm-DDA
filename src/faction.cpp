@@ -1,13 +1,12 @@
 #include "faction.h"
 
-#include <algorithm>
-#include <cassert>
-#include <cstdlib>
 #include <bitset>
+#include <cstdlib>
+#include <limits>
 #include <map>
-#include <string>
 #include <memory>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
@@ -18,21 +17,22 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
+#include "item.h"
 #include "json.h"
 #include "line.h"
+#include "memory_fast.h"
 #include "npc.h"
+#include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
+#include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "text_snippets.h"
-#include "ui_manager.h"
-#include "item.h"
-#include "optional.h"
-#include "pimpl.h"
 #include "type_id.h"
-#include "point.h"
+#include "ui_manager.h"
 
 namespace npc_factions
 {
@@ -509,9 +509,9 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->xy() );
             if( temp_camp ) {
                 dest_camp = *temp_camp;
-                dest_string = _( "travelling to: " ) + dest_camp->camp_name();
+                dest_string = _( "traveling to: " ) + dest_camp->camp_name();
             } else {
-                dest_string = string_format( _( "travelling to: (%d, %d)" ), dest->x, dest->y );
+                dest_string = string_format( _( "traveling to: (%d, %d)" ), dest->x, dest->y );
             }
             mission_string = _( "Current Mission: " ) + dest_string;
         } else {
@@ -522,12 +522,14 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
     tripoint guy_abspos = global_omt_location();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
-    const bool is_stationed = assigned_camp && bcp;
     basecamp *temp_camp = nullptr;
-    if( bcp ) {
-        temp_camp = *bcp;
+    if( assigned_camp ) {
+        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        if( bcp ) {
+            temp_camp = *bcp;
+        }
     }
+    const bool is_stationed = assigned_camp && temp_camp;
     std::string direction = direction_name( direction_from( player_abspos, guy_abspos ) );
     if( direction != "center" ) {
         mvwprintz( fac_w, point( width, ++y ), col, _( "Direction: to the " ) + direction );
@@ -545,7 +547,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     nc_color see_color;
     bool u_has_radio = g->u.has_item_with_flag( "TWO_WAY_RADIO", true );
     bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
-    // TODO: NPCS on mission contactable same as travelling
+    // TODO: NPCS on mission contactable same as traveling
     if( has_companion_mission() && mission != NPC_MISSION_TRAVELLING ) {
         can_see = _( "Not interactable while on a mission" );
         see_color = c_light_red;

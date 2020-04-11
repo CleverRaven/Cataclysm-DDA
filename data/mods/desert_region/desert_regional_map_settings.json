@@ -123,6 +123,7 @@
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.5,
       "lake_size_min": 10,
+      "lake_depth": -5,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [  ]
     },

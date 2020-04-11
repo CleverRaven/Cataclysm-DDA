@@ -1310,13 +1310,14 @@
           "hat_ball",
           "badge_deputy",
           "wristwatch",
-          "powered_earmuffs"
+          "powered_earmuffs",
+          "tacvest"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
-          { "item": "m14mag", "ammo-item": "762_51", "charges": 20, "container-item": "tacvest" },
+          { "item": "762_51", "charges": 20 },
           { "item": "M24", "ammo-item": "762_51", "charges": 20, "container-item": "back_holster" }
         ]
       },

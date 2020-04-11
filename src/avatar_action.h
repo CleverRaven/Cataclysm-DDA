@@ -2,8 +2,6 @@
 #ifndef AVATAR_ACTION_H
 #define AVATAR_ACTION_H
 
-#include <climits>
-
 #include "optional.h"
 #include "point.h"
 #include "units.h"
@@ -13,7 +11,6 @@ class item;
 class item_location;
 class map;
 class turret_data;
-struct targeting_data;
 
 namespace avatar_action
 {

@@ -2,17 +2,21 @@
 #ifndef MAGIC_ENCHANTMENT_H
 #define MAGIC_ENCHANTMENT_H
 
+#include <algorithm>
 #include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
+#include "calendar.h"
+#include "json.h"
 #include "magic.h"
+#include "optional.h"
 #include "type_id.h"
 
 class Character;
+class Creature;
 class item;
-class JsonOut;
-class time_duration;
 
 // an "enchantment" is what passive artifact effects used to be:
 // under certain conditions, the effect persists upon the appropriate Character

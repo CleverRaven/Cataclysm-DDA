@@ -2,55 +2,52 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
+#include <array>
 #include <climits>
 #include <cstddef>
-#include <array>
-#include <map>
-#include <stack>
-#include <vector>
 #include <functional>
+#include <map>
 #include <set>
+#include <stack>
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "active_item_cache.h"
 #include "calendar.h"
 #include "character_id.h"
-#include "colony.h"
 #include "clzones.h"
+#include "colony.h"
 #include "damage.h"
 #include "game_constants.h"
-#include "faction.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
-#include "string_id.h"
-#include "tileray.h"
-#include "units.h"
-#include "item_location.h"
-#include "type_id.h"
 #include "optional.h"
 #include "point.h"
+#include "tileray.h"
+#include "type_id.h"
+#include "units.h"
 
-class monster;
-
+class Character;
 class Creature;
-class nc_color;
-class player;
-class npc;
-class map;
-class vehicle;
-class vehicle_part_range;
 class JsonIn;
 class JsonOut;
+class map;
+class monster;
+class nc_color;
+class npc;
+class player;
+class vehicle;
 class vehicle_cursor;
-class zone_data;
+class vehicle_part_range;
+class vpart_info;
 struct itype;
 struct uilist_entry;
 template <typename T> class visitable;
-class vpart_info;
 
 enum vpart_bitflags : int;
 enum ter_bitflags : int;
@@ -1408,7 +1405,7 @@ class vehicle
 
         // Process the trap beneath
         void handle_trap( const tripoint &p, int part );
-
+        void activate_magical_follow();
         void activate_animal_follow();
         /**
          * vehicle is driving itself
@@ -1459,11 +1456,15 @@ class vehicle
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );
+        void dump_items_from_part( size_t index );
 
         // Generates starting items in the car, should only be called when placed on the map
         void place_spawn_items();
 
         void gain_moves();
+
+        // if its a summoned vehicle - its gotta dissappear at some point, return true if destroyed
+        bool decrement_summon_timer();
 
         // reduces velocity to 0
         void stop( bool update_cache = true );
@@ -1758,6 +1759,10 @@ class vehicle
         std::map<itype_id, float> fuel_used_last_turn;
         std::unordered_multimap<point, zone_data> loot_zones;
         active_item_cache active_items;
+        // a magic vehicle, powered by magic.gif
+        bool magic = false;
+        // when does the magic vehicle disappear?
+        cata::optional<time_duration> summon_time_limit = cata::nullopt;
 
     private:
         mutable units::mass mass_cache;

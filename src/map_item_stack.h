@@ -2,6 +2,7 @@
 #ifndef MAP_ITEM_STACK_H
 #define MAP_ITEM_STACK_H
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
