@@ -637,7 +637,7 @@
     "name": "light green and yellow hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_gallimimus" }
   },
-    {
+  {
     "id": "mon_pachycephalosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -813,7 +813,7 @@
         "pack_size": [ 4, 8 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
-            {
+      {
         "monster": "mon_pachycephalosaurus",
         "freq": 10,
         "cost_multiplier": 0,
