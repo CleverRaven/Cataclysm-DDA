@@ -656,7 +656,7 @@
   },
   {
     "type": "recipe_group",
-    "name": "all_faction_base_types",
+    "id": "all_faction_base_types",
     "building_type": "NONE",
     "recipes": [
       { "id": "faction_base_modular_hub_field_0", "description": "Field Camp", "om_terrains": [ "field" ] },
