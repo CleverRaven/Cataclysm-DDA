@@ -14,6 +14,9 @@ function run_tests
 
 date +%s > build-start-time
 
+# We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
+export PATH=$HOME/.local/bin:$PATH
+
 if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
