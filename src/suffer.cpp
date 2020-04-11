@@ -1796,7 +1796,7 @@ void Character::apply_wetness_morale( int temperature )
         } else if( effective_drench < part_good ) {
             // Positive or 0
             // Won't go higher than part_good / 2
-            // Wet slime/scale doesn't feel as good when covered by wet rags/fur/kevlar
+            // Wet slime/scale doesn't feel as good when covered by wet rags/fur/Kevlar
             bp_morale = std::min( effective_drench, part_good - effective_drench );
         } else if( effective_drench > part_good + part_neutral ) {
             // This one will be negative

@@ -1622,7 +1622,6 @@ class SDLMain implements Runnable {
     }
 }
 
-
 /**
     SDLSurface. This is what we draw on, so we need to know when it's created
     in order to do anything useful.
@@ -2036,7 +2035,6 @@ class SDLSurface extends SurfaceView implements SurfaceHolder.Callback,
                                       y / SensorManager.GRAVITY_EARTH,
                                       event.values[2] / SensorManager.GRAVITY_EARTH);
 
-
         }
     }
 
@@ -2184,7 +2182,6 @@ class SDLInputConnection extends BaseInputConnection {
             }
         }
 
-
         return super.sendKeyEvent(event);
     }
 
@@ -2246,7 +2243,6 @@ interface SDLClipboardHandler {
     public void clipboardSetText(String string);
 
 }
-
 
 class SDLClipboardHandler_API11 implements
     SDLClipboardHandler,

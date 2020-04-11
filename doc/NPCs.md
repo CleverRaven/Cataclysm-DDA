@@ -12,7 +12,6 @@ Two topics are special:
 - `TALK_DONE` ends the dialogue immediately.
 - `TALK_NONE` goes to the previously talked about topic.
 
-
 ### Validating Dialogues
 Keeping track of talk topics and making sure that all the topics referenced in responses are
 defined, and all defined topics are referenced in a response or an NPC's chat, is very tricky.
@@ -453,7 +452,6 @@ Effect | Description
 `u_remove_item_with`, `npc_remove_item_with: item_string` | You or the NPC will delete any instances of item in inventory.<br/>This is an unconditional remove and will not fail if you or the NPC does not have the item.
 `u_buy_monster: monster_type_string`, (*optional* `cost: cost_num`, *optional* `count: count_num`, *optional* `name: name_string`, *optional* `pacified: pacified_bool`) | The NPC will give your character `count_num` (default 1) instances of the monster as pets and will subtract `cost_num` from `op_of_u.owed` if specified.  If the `op_o_u.owed` is less than `cost_num`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost_num` is satisfied.<br/>If cost isn't present, the NPC gives your character the item at no charge.<br/>If `name_string` is specified the monster(s) will have the specified name. If `pacified_bool` is set to true, the monster will have the pacified effect applied.
 
-
 #### Behavior / AI
 
 Effect | Description
@@ -624,7 +622,6 @@ Condition | Type | Description
 `"is_season"` | string | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
 `"is_day"` | simple string | `true` if it is currently daytime.
 `"is_outside"` | simple string | `true` if the NPC is on a tile without a roof.
-
 
 #### Sample responses with conditions and effects
 ```json

@@ -41,7 +41,6 @@ def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
         return True
     return False
 
-
 # convert one old tile definition to one new tile definition
 # recursive for additional-tiles
 def tile_convert(otile, main_id, new_tile_number):
@@ -148,7 +147,6 @@ def tile_convert(otile, main_id, new_tile_number):
 
     print "returning tile, next tile number now " + str(ntile['ntn'])
     return ntile
-
 
 #TODO: bail out if old tileset directory doesn't exist
 

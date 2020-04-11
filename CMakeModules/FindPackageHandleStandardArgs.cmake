@@ -141,7 +141,6 @@ macro(_FPHSA_FAILURE_MESSAGE _msg)
   endif ()
 endmacro()
 
-
 # internal helper macro to generate the failure message when used in CONFIG_MODE:
 macro(_FPHSA_HANDLE_FAILURE_CONFIG_MODE)
   # <name>_CONFIG is set, but FOUND is false, this means that some other of the REQUIRED_VARS was not found:
@@ -170,7 +169,6 @@ macro(_FPHSA_HANDLE_FAILURE_CONFIG_MODE)
     endif()
   endif()
 endmacro()
-
 
 function(FIND_PACKAGE_HANDLE_STANDARD_ARGS _NAME _FIRST_ARG)
 
@@ -327,7 +325,6 @@ function(FIND_PACKAGE_HANDLE_STANDARD_ARGS _NAME _FIRST_ARG)
   else()
     set(${_FOUND_VAR} FALSE)
   endif()
-
 
   # print the result:
   if (${_FOUND_VAR})

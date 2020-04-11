@@ -111,7 +111,7 @@ Professions are what the game calls the character classes you can choose from wh
 ````
 
 ### Adding an item
-Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, just because there's so much that you can do with them, and every category of item is a little bit different. 
+Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, just because there's so much that you can do with them, and every category of item is a little bit different.
 <!--I chose this one because it's about as basic an item as I could find. Everything else does something.-->
 ````json
 [

@@ -46,7 +46,6 @@ See the [JSON style guide](JSON_STYLE.md).
 
 In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http://ctags.sourceforge.net/), we provide `tools/json_tools/cddatags.py` to augment a `tags` file with locations of definitions taken from CDDA JSON data.  `cddatags.py` is designed to safely update a tags file containing source code tags, so if you want both types of tag in your `tags` file then you can run `ctags -R . && tools/json_tools/cddatags.py`.  Alternatively, there is a rule in the `Makefile` to do this for you; just run `make ctags` or `make etags`.
 
-
 ## clang-tidy
 
 Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have
@@ -213,7 +212,7 @@ index 553ef0ebe0..f591bc80d1 100644
 @@ -3,8 +3,8 @@ include(ExternalProject)
  find_package(LLVM REQUIRED CONFIG)
  find_package(Clang REQUIRED CONFIG)
- 
+
 -add_library(
 -    CataAnalyzerPlugin MODULE
 +add_executable(
@@ -224,7 +223,7 @@ index 553ef0ebe0..f591bc80d1 100644
 @@ -51,6 +51,11 @@ else()
          CataAnalyzerPlugin SYSTEM PRIVATE ${CATA_CLANG_TIDY_INCLUDE_DIR})
  endif()
- 
+
 +target_link_libraries(
 +    CataAnalyzerPlugin
 +    clangTidyMain
@@ -232,7 +231,7 @@ index 553ef0ebe0..f591bc80d1 100644
 +
  target_compile_definitions(
      CataAnalyzerPlugin PRIVATE ${LLVM_DEFINITIONS})
- 
+
 diff --git a/tools/clang-tidy-plugin/test/lit.cfg b/tools/clang-tidy-plugin/test/lit.cfg
 index 4ab6e913a7..d1a4418ba6 100644
 --- a/tools/clang-tidy-plugin/test/lit.cfg
@@ -240,13 +239,13 @@ index 4ab6e913a7..d1a4418ba6 100644
 @@ -17,11 +17,13 @@ else:
              config.plugin_build_root, 'clang-tidy-plugin-support', 'bin',
              'check_clang_tidy.py')
- 
+
 -cata_include = os.path.join( config.cata_source_dir, "src" )
 +cata_include = os.path.join( config.cata_source_dir, "./src" )
- 
+
  cata_plugin = os.path.join(
          config.plugin_build_root, 'libCataAnalyzerPlugin.so')
- 
+
 +cata_plugin = ''
 +
  config.substitutions.append(('%check_clang_tidy', check_clang_tidy))

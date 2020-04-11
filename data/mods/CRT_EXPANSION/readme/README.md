@@ -7,8 +7,6 @@ I tried to keep the professions revolving around slightly upgraded army gear and
 
 I can't fix some things like the toolmods attatching to the vest and gasmask, but that doesn't hurt the game (my mod already breaks it) and it's more of a cheap way to progress instead of getting a UPS, even though it still drinks a ton of power.
 
-
-
 # Extended Techniques
 More techniques, more play styles. Tries to open up melee and offer more than "does it have a reach attack?" or "does it have rapid strikes?" to make melee interesting.
 

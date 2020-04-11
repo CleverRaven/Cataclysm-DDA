@@ -1,11 +1,11 @@
-# - Try to find Iconv 
-# Once done this will define 
-# 
-#  ICONV_FOUND - system has Iconv 
-#  ICONV_INCLUDE_DIR - the Iconv include directory 
-#  ICONV_LIBRARIES - Link these to use Iconv 
+# - Try to find Iconv
+# Once done this will define
+#
+#  ICONV_FOUND - system has Iconv
+#  ICONV_INCLUDE_DIR - the Iconv include directory
+#  ICONV_LIBRARIES - Link these to use Iconv
 #  ICONV_SECOND_ARGUMENT_IS_CONST - the second argument for iconv() is const
-# 
+#
 include(CheckCXXSourceCompiles)
 
 IF (ICONV_INCLUDE_DIR AND ICONV_LIBRARIES)
@@ -13,10 +13,10 @@ IF (ICONV_INCLUDE_DIR AND ICONV_LIBRARIES)
 	SET(ICONV_FIND_QUIETLY TRUE)
 ENDIF (ICONV_INCLUDE_DIR AND ICONV_LIBRARIES)
 
-FIND_PATH(ICONV_INCLUDE_DIR iconv.h) 
- 
+FIND_PATH(ICONV_INCLUDE_DIR iconv.h)
+
 FIND_LIBRARY(ICONV_LIBRARIES NAMES iconv libiconv libiconv-2 c)
- 
+
 IF(ICONV_INCLUDE_DIR AND ICONV_LIBRARIES)
 	SET(ICONV_FOUND TRUE)
 ENDIF(ICONV_INCLUDE_DIR AND ICONV_LIBRARIES)
@@ -40,7 +40,7 @@ ENDIF(ICONV_FOUND)
 set(CMAKE_REQUIRED_INCLUDES)
 set(CMAKE_REQUIRED_LIBRARIES)
 
-# handle the QUIETLY and REQUIRED arguments and set CURSES_FOUND to TRUE if 
+# handle the QUIETLY and REQUIRED arguments and set CURSES_FOUND to TRUE if
 # all listed variables are TRUE
 INCLUDE(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(Iconv DEFAULT_MSG

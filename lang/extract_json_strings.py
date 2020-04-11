@@ -341,7 +341,6 @@ def extract_effect_type(item):
         writestr(outfile, msg, context="memorial_female",
           comment="Female memorial remove log for effect(s) '{}'.".format(', '.join(name)))
 
-
 def extract_gun(item):
     outfile = get_outfile("gun")
     if "name" in item:
@@ -377,7 +376,6 @@ def extract_gun(item):
         item_reload_noise = item.get("reload_noise")
         writestr(outfile, item_reload_noise)
 
-
 def extract_gunmod(item):
     outfile = get_outfile("gunmod")
     if "name" in item:
@@ -408,7 +406,6 @@ def extract_gunmod(item):
     if "mod_targets" in item:
         for target in item["mod_targets"]:
             writestr(outfile, target, context="gun_type_type")
-
 
 def extract_professions(item):
     outfile = get_outfile("professions")
@@ -499,7 +496,6 @@ def extract_monster_attack(item):
     if "no_dmg_msg_npc" in item:
         writestr(outfile, item.get("no_dmg_msg_npc"))
 
-
 def extract_recipes(item):
     outfile = get_outfile("recipe")
     if "book_learn" in item:
@@ -510,7 +506,6 @@ def extract_recipes(item):
         writestr(outfile, item["description"])
     if "blueprint_name" in item:
         writestr(outfile, item["blueprint_name"])
-
 
 def extract_recipe_group(item):
     outfile = get_outfile("recipe_group")
@@ -697,7 +692,6 @@ def extract_mutation_category(item):
     writestr(outfile, found, context="memorial_female",
              comment="Mutation class: {} Female memorial messsage".format(item_name))
 
-
 def extract_vehspawn(item):
     outfile = get_outfile("vehicle_spawn")
 
@@ -742,7 +736,7 @@ def extract_field_type(item):
     for fd in item.get("intensity_levels"):
        if "name" in fd:
            writestr(outfile,fd.get("name"))
-            
+
 def extract_ter_furn_transform_messages(item):
 	outfile = get_outfile("ter_furn_transform_messages")
 	writestr(outfile,item.get("fail_message"))

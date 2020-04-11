@@ -289,7 +289,6 @@ Standard components and tools for crafting
 | uncraft.json                 | common results of taking stuff apart
 | vehicle.json                 | tools to work on vehicles
 
-
 ## `data/json/vehicles/`
 
 Groups of vehicle definitions with self-explanatory names of files:
@@ -320,8 +319,6 @@ A few properties are applicable to most if not all json files and do not need to
 | [extends](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                  | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.
 | [delete](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                   | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.
 | [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'.
-
-
 
 ## Formatting
 When editing JSON files make sure you apply the correct formatting as shown below.
@@ -365,7 +362,6 @@ Currently, only some JSON values support this syntax (see [here](https://github.
 
 # Description and content of each JSON file
 This section describes each json file and their contents. Each json has their own unique properties that are not shared with other Json files (for example 'chapters' property used in books does not apply to armor). This will make sure properties are only described and used within the context of the appropriate JSON file.
-
 
 ## `data/json/` JSONs
 
@@ -1155,7 +1151,6 @@ Note that even though most statistics yield an integer, you should still use
 
 ### Vehicle Groups
 
-
 ```C++
 "id":"city_parked",            // Unique ID. Must be one continuous word, use underscores if necessary
 "vehicles":[                 // List of potential vehicle ID's. Chance of a vehicle spawning is X/T, where
@@ -1545,7 +1540,6 @@ So, in the above example, if the sausage is made from mutant humanoid meat, and 
 2. Next, it is replaced by "sinister %s", but %s is replaced with the name as it was before this step, resulting in "sinister Mannwurst" or "sinister Mannwursts".
 
 NB: If `"str_pl": "sinister %s"` wasn't specified, the plural form would be automatically created as "sinister %ss", which would become "sinister Mannwurstss" which is of course one S too far. Rule of thumb: If you are using %s in the name, always specify an identical plural form unless you know exactly what you're doing!
-
 
 #### Color Key
 
@@ -2336,7 +2330,6 @@ For every `type` other then `bionic` and `bionic_group` following entries scale 
     `max` upper limit after `bas_num` and `scale_num` are calculated using
     `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`
 
-
 For `type`s: `bionic` and `bionic_group` following enrties can scale the results:
     `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
 
@@ -2693,7 +2686,6 @@ Scenarios are specified as JSON object with `type` member set to `scenario`.
 The ident member should be the unique id of the scenario.
 
 The following properties (mandatory, except if noted otherwise) are supported:
-
 
 ## `description`
 (string)

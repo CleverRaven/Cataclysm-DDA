@@ -37,8 +37,6 @@
 # (To distribute this file outside of CMake, substitute the full
 #  License text for the above reference.)
 
-
-
 macro(CHECK_LIBRARY_EXISTS LIBRARY FUNCTION LOCATION VARIABLE)
   if(${VARIABLE} MATCHES "^${VARIABLE}$")
     set(MACRO_CHECK_LIBRARY_EXISTS_DEFINITION

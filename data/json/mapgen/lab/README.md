@@ -2,7 +2,6 @@
 
 Labs are heavily randomized but have very few actual overmap terrain tiles, meaning that variety in the maps gets almost entirely using JSON.  In particular, labs use place_nested extensively to randomly select submaps, such as new lab rooms.
 
-
 ## Quick Guide for new lab areas:
 
 In lab_floorplans.json add a new mapgen json with om_terrain of lab_4side.
@@ -11,13 +10,11 @@ Keep the middle 2 spaces of each border clear, because that's where doors open o
 
 To add a lab finale instead, use the om_terrain of lab_finale_1level and put your JSON in lab_floorplans_finale1level.json instead.
 
-
 ## Quick Guide for new lab dead-ends:
 
 In lab_floorplans_1side.json add a new mapgen json with om_terrain of lab_1side.
 
 Make the area facing north, keeping the 2 middle spaces of the northern border clear because that's where doors open out to.  If you want to have a locked area, set the floor to 't_strconc_floor' and stairs won't appear there (this floor is ',' in the lab_palette).  Use place_nested to place 'lab_1side_border_doors' at coords [0,0].  Do not allow rotation.
-
 
 ## Quick Guide for new lab rooms:
 
@@ -26,7 +23,6 @@ In lab_rooms.json add a new mapgen json with a nested_mapgen_id of lab_room_7x7 
 In some rare cases the first row or column of terrain may be replaced with a border wall, so prefer layouts that look intact even if that occurs.
 
 If your layout needs to know where the doors of the room will open up into, instead use a nested_mapgen_id of lab_room_7x7_crossdoors and lab_room_9x9_crossdoors which will ensure that doors only appear in the exact middle of a wall.
-
 
 # Lab JSON Full Guide
 
@@ -39,7 +35,6 @@ Lab terrain needs special treatment: stairs, border walls, dead-ends, and more, 
 * lab_1side - placed when exactly one lab is adjacent, maps should assume a north-facing entrance.  Do not allow rotation.
 * lab_finale_1level - placed at the bottom of a lab on terrain types.  Rotation optional.
 * lab_4side - all the other maps.  Rotation optional.
-
 
 ## Border walls
 
@@ -82,13 +77,11 @@ But if borders have not been managed (determined by checking for the presence of
 
 One middle-ground: If just part of the map needs to cares about where the border wall is to look correct, put a wall on the east-side of the map and only allow rotation of [0,1].  That will ensure the wall gets placed on the east or south side of the map in the final rotation.  See the "electricity room" floorplan for an example of this.
 
-
 ## Other hardcoded map generation
 
 Labs will have a small chance of randomly getting lights, the central & tower labs will always get them.  Stairs will be placed on any empty thconc_floor space if the overmap indicated stairs.  There's also a 10% chance of special effects like flooding, portals, radiation accidents, etc.  Ant-infested labs will get bashed in.
 
 None of these require json changes to enact, but JSON-ideas for lab special effects in rooms can be added to the spawn tables in lab_maybe_effects_7x7 and lab_maybe_effects_9x9.  Currently this just adds spider-infestations.
-
 
 ## Room generation
 
@@ -109,7 +102,6 @@ If your room is also amenable to having two of its walls redefined, you can also
 * lab_spawn_9x9_wall_sw
 
 Use the most specific spawn possible.
-
 
 ## Directory
 

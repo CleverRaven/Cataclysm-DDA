@@ -424,8 +424,6 @@ Whether the effect is permanent, in which case the "duration" will be ignored. T
 
 The chance of the effect getting applied.
 
-
-
 # Modding
 
 Monster types can be overridden or modified in mods. To do so, one has to add an "edit-mode" member, which can contain either:
@@ -456,8 +454,6 @@ Modifying a type overrides the properties with the new values, this example sets
 }
 ```
 Some properties allow adding and removing entries, as documented above, usually via members with the "add:"/"remove:" prefix.
-
-
 
 # Monster special attack types
 The listed attack types can be as monster special attacks (see "special_attacks").

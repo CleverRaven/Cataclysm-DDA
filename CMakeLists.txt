@@ -143,7 +143,6 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES Windows)
     ENDIF(NOT BIN_PREFIX)
 ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Windows)
 
-
 MESSAGE(STATUS "${PROJECT_NAME} build options --\n")
 
 # Preset variables
@@ -267,7 +266,7 @@ IF(TILES)
     FIND_PACKAGE(SDL2)
     IF(NOT SDL2_FOUND)
       MESSAGE(FATAL_ERROR
-          "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling 
+          "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling
            without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
       )
     ENDIF(NOT SDL2_FOUND)

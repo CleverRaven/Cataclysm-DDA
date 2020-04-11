@@ -8,7 +8,6 @@ Run `tests/cata_test --help` to see the available command-line options, and/or
 consult the [Catch2 tutorial](https://github.com/catchorg/Catch2/blob/master/docs/tutorial.md)
 for a more thorough introduction.
 
-
 ## Guidelines
 
 When creating tests, ensure that all objects used (directly or indirectly) are
@@ -21,7 +20,6 @@ When generating objects with json definitions, use REQUIRE statements to assert
 the properties of the objects that the test needs. This protects the test from
 shifting json definitions by making it apparent what about the object changed
 to cause the test to break.
-
 
 ## Writing test cases
 
@@ -139,7 +137,6 @@ have a sweet tooth, they should get a specific morale bonus known as
 This `CHECK` macro takes a boolean expression, failing the test if the
 expression is false. Likewise, you can use `CHECK_FALSE`, which will fail if
 the expression is true.
-
 
 ## Requiring or Checking
 

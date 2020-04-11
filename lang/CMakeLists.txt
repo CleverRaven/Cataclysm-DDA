@@ -84,7 +84,7 @@ foreach (LANG ${LANGUAGES})
     add_custom_command (
       TARGET translations_compile
       PRE_BUILD
-      COMMAND 
+      COMMAND
       ${GETTEXT_MSGFMT_EXECUTABLE} -f ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po
              -o ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-dda.mo
       WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}

@@ -10,7 +10,6 @@ A Distribution is a weighted list like the current system. Exactly one entry is 
 
 An example: Suppose item A has a probability of 30 and item B has a probability of 20. Then the probabilities of the 4 combinations of A and B are:
 
-
 | Combination     | Collection | Distribution |
 | ----------------|------------|------------- |
 | Neither A nor B | 56%        | 0%           |

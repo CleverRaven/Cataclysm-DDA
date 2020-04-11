@@ -331,7 +331,7 @@ ifdef RELEASE
 
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # OTHERS += -march=native # Uncomment this to build an optimized binary for your machine only
-  
+
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
@@ -383,7 +383,6 @@ BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = $(BUILD_PREFIX)cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
 W32BINDIST_CMD = cd $(BINDIST_DIR) && zip -r ../$(W32BINDIST) * && cd $(BUILD_DIR)
-
 
 # Check if called without a special build target
 ifeq ($(NATIVE),)
@@ -953,7 +952,6 @@ ifdef LANGUAGES
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh $(LANGUAGES)
 endif
 endif
-
 
 ifeq ($(NATIVE), osx)
 APPTARGETDIR=Cataclysm.app

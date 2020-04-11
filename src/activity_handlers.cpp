@@ -3699,7 +3699,6 @@ void activity_handlers::multiple_mine_do_turn( player_activity *act, player *p )
     generic_multi_activity_handler( *act, *p );
 }
 
-
 void activity_handlers::multiple_chop_planks_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );

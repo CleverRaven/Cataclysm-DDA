@@ -31,5 +31,4 @@ In the case of "how is a spell part of a class?" the spell's characteristics det
 - Biomancer: Flesh mage. Manipulating the caster's flesh is easier but higher tier spells can manipulate others' flesh. Features Acid.
 - Druid: Plant mage. Communes with nature. The typical "druid" of old is usually a combination of this class and Earthshaper. Has a slight secondary affinity with water.
 
-
 With the classes above listed, you might notice that there is some overlap. This overlap actually results in spells that are "classless," due to sharing one more traits with multiple classes that do not tip the scales in one direction or another. These spells are overwhelmingly weak spells, as stronger spells inevitably have characteristics that will tip the scales, whether they are obvious or not.

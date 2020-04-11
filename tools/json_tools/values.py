@@ -35,7 +35,6 @@ parser.add_argument("where",
         action=WhereAction, nargs='*', type=str,
         help="where exclusions of the form 'where_key=where_val', no quotes.")
 
-
 if __name__ == "__main__":
     args = parser.parse_args()
     search_key = args.key

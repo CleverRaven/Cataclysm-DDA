@@ -34,7 +34,7 @@ if your spell is an attack spell and it ignores yourself or allies, it is automa
 ## Tier Examples:
 
 ### Tier 0
-Any spell a novice mage would learn as he is learning magic. 
+Any spell a novice mage would learn as he is learning magic.
 Magic missile: low damage, caps out at 20. however, is force damage so ignores armor, and is target_attack so goes through walls. Has a respectable range and a quick casting time.
 Finger firelighter: Useful utility spell, but doesn't really do anything other than allow you to light a fire for the duration of the spell. Lights your square, but has a fairly short duration so does not allow you to read anything with it.
 Necrotic Gaze: Does bio damage, which zombies are immune to, and is fairly short range. however, has a fairly high damage at higher levels. Also uses hp to cast, and is fairly cheap.

@@ -43,7 +43,6 @@ or (if you want to build statically linked executable)
 vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
 ```
 
-
 #### install 32 bit dependencies:
 
 ```cmd

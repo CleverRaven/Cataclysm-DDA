@@ -18,12 +18,9 @@ import contextlib
 import xml.etree.ElementTree
 from datetime import time as dtime, date, datetime, timedelta
 
-
 log = logging.getLogger('generate_changelog')
 
-
 class MissingCommitException(Exception): pass
-
 
 class JenkinsBuild:
     """Representation of a Jenkins Build"""
@@ -44,7 +41,6 @@ class JenkinsBuild:
 
     def __str__(self):
         return f'{self.__class__.__name__}[{self.number} - {self.last_hash} - {self.build_dttm} - {self.build_result}]'
-
 
 class Commit(object):
     """Representation of a generic GitHub Commit"""
@@ -72,7 +68,6 @@ class Commit(object):
 
     def __str__(self):
         return f'{self.__class__.__name__}[{self.hash} - {self.commit_dttm} - {self.message} BY {self.author}]'
-
 
 class PullRequest(object):
     """Representation of a generic GitHub Pull Request"""
@@ -114,7 +109,6 @@ class PullRequest(object):
     def __str__(self):
         return f'{self.__class__.__name__}[{self.id} - {self.merge_dttm} - {self.title} BY {self.author}]'
 
-
 class SummaryType:
     """Different valid Summary Types. Intended to be used as a enum/constant class, no instantiation needed."""
 
@@ -129,7 +123,6 @@ class SummaryType:
     INFRASTRUCTURE = 'INFRASTRUCTURE'
     BUILD = 'BUILD'
     I18N = 'I18N'
-
 
 class CDDAPullRequest(PullRequest):
     """A Pull Request with logic specific to CDDA Repository and their "Summary" descriptions"""
@@ -198,7 +191,6 @@ class CDDAPullRequest(PullRequest):
             return (f'{self.__class__.__name__}'
                     f'[{self.id} - {self.merge_dttm} - {self.title} BY {self.author}]')
 
-
 class JenkinsBuildFactory:
     """Abstraction for instantiation of new Commit objects"""
 
@@ -212,7 +204,6 @@ class CommitFactory:
     def create(self, hash_id, message, commit_date, author, parents):
         return Commit(hash_id, message, commit_date, author, parents)
 
-
 class CDDAPullRequestFactory:
     """Abstraction for instantiation of new CDDAPullRequests objects"""
 
@@ -221,7 +212,6 @@ class CDDAPullRequestFactory:
 
     def create(self, pr_id, title, author, state, body, merge_hash, merge_dttm, update_dttm):
         return CDDAPullRequest(pr_id, title, author, state, body, merge_hash, merge_dttm, update_dttm, self.store_body)
-
 
 class CommitRepository:
     """Groups Commits for storage and common operations"""
@@ -304,7 +294,6 @@ class CommitRepository:
     def purge_references(self):
         self.ref_by_commit_hash.clear()
 
-
 class CDDAPullRequestRepository:
     """Groups Pull Requests for storage and common operations"""
 
@@ -345,7 +334,6 @@ class CDDAPullRequestRepository:
 
     def purge_references(self):
         self.ref_by_merge_hash.clear()
-
 
 class JenkinsBuildRepository:
     """Groups JenkinsBuilds for storage and common operations"""
@@ -389,7 +377,6 @@ class JenkinsBuildRepository:
 
     def purge_references(self):
         self.ref_by_build_number.clear()
-
 
 class JenkinsApi:
 
@@ -448,7 +435,6 @@ class JenkinsApi:
 
         return self.build_factory.create(jb_number, jb_last_hash, jb_branch, jb_build_dttm, jb_is_building,
                                          jb_build_result, jb_block_ms, jb_wait_ms, jb_build_ms)
-
 
 class CommitApi:
 
@@ -516,7 +502,6 @@ class CommitApi:
         commit_parents = tuple(p['sha'] for p in commit_data['parents'])
 
         return self.commit_factory.create(commit_sha, commit_message, commit_dttm, commit_author, commit_parents)
-
 
 class PullRequestApi:
 
@@ -621,7 +606,6 @@ class PullRequestApi:
         return self.pr_factory.create(pr_number, pr_title, pr_author, pr_state, pr_body,
                                       pr_merge_hash, pr_merge_dttm, pr_update_dttm)
 
-
 class MultiThreadedGitHubApi:
 
     def process_api_requests(self, request_generator, callback, max_threads=15):
@@ -656,7 +640,6 @@ class MultiThreadedGitHubApi:
             api_request = request_generator.generate()
         log.debug(f'No more requests left, killing Thread.')
 
-
 class GitHubApiRequestBuilder(object):
 
     def __init__(self, api_token, timezone='Etc/UTC'):
@@ -680,7 +663,6 @@ class GitHubApiRequestBuilder(object):
             api_request = urllib.request.Request(request_url, headers=api_headers)
 
         return api_request
-
 
 class CommitApiGenerator(GitHubApiRequestBuilder):
     """Generates multiple HTTP requests to get Commits, used from Threads to get data until a condition is met."""
@@ -735,7 +717,6 @@ class CommitApiGenerator(GitHubApiRequestBuilder):
 
         return super().create_request(self.GITHUB_API_LIST_COMMITS, params)
 
-
 class PullRequestApiGenerator(GitHubApiRequestBuilder):
     """Generates multiple HTTP requests to get Pull Requests, used from Threads to get data until a condition is met."""
 
@@ -787,7 +768,6 @@ class PullRequestApiGenerator(GitHubApiRequestBuilder):
         }
         return super().create_request(self.GITHUB_API_LIST_PR, params)
 
-
 def exit_on_exception(func):
     """Decorator to terminate the main script and all threads if a thread generates an Exception"""
     def exit_on_exception_closure(*args, **kwargs):
@@ -797,7 +777,6 @@ def exit_on_exception(func):
             log.exception(f'Unhandled Exception: {err}')
             os._exit(-10)
     return exit_on_exception_closure
-
 
 def do_github_request(api_request, retry_on_limit=3):
     """Do an HTTP request to GitHub and retries in case of hitting API limits"""
@@ -823,7 +802,6 @@ def do_github_request(api_request, retry_on_limit=3):
                 raise
     raise Exception(f'Retry limit reached')
 
-
 def read_personal_token(filename):
     """Return Personal Token from specified file, None if no file is provided or file doesn't exist.
 
@@ -843,7 +821,6 @@ def read_personal_token(filename):
 
     return None
 
-
 @contextlib.contextmanager
 def smart_open(filename=None, *args, **kwargs):
     if filename and (filename == '-' or filename == sys.stdout):
@@ -857,14 +834,12 @@ def smart_open(filename=None, *args, **kwargs):
         if fh is not sys.stdout:
             fh.close()
 
-
 def validate_file_for_writing(filepath):
     if (filepath is not None and
         filepath != sys.stdout and
             (not filepath.parent.exists()
              or not filepath.parent.is_dir())):
         return False
-
 
 def main_entry(argv):
     parser = argparse.ArgumentParser(description='''Generates Changelog from now until the specified data.\ngenerate_changelog.py -D changelog_2019_03 -t ../repo_token -f -e 2019-04-01 2019-03-01''', formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -947,7 +922,6 @@ def main_entry(argv):
     main_output(arguments.by_date, arguments.by_build, arguments.target_date, arguments.end_date,
                 personal_token, arguments.include_summary_none, arguments.flatten_output)
 
-
 def get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token):
 
     def load_github_repos():
@@ -964,7 +938,6 @@ def get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_to
 
     return github_thread
 
-
 def get_jenkins_api_data(build_repo):
 
     def load_jenkins_repo():
@@ -977,7 +950,6 @@ def get_jenkins_api_data(build_repo):
     jenkins_thread.start()
 
     return jenkins_thread
-
 
 def main_output(by_date, by_build, target_dttm, end_dttm, personal_token, include_summary_none, flatten):
     threads = []
@@ -1001,7 +973,6 @@ def main_output(by_date, by_build, target_dttm, end_dttm, personal_token, includ
     if by_build is not None:
         with smart_open(by_build, 'w', encoding='utf8') as output_file:
             build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include_summary_none)
-
 
 def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_file,
                          include_summary_none, flatten):
@@ -1071,7 +1042,6 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_fil
             print(file=output_file)
 
         print(file=output_file)
-
 
 def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include_summary_none):
     ### "ABORTED" builds have no "hash" and fucks up the logic here... but just to be sure, ignore builds without hash
@@ -1152,7 +1122,6 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include
             print(file=output_file)
 
         print(file=output_file)
-
 
 if __name__ == '__main__':
     main_entry(sys.argv)

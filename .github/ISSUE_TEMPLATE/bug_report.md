@@ -9,7 +9,6 @@ about: Create a report to help us improve
 
 <!-- A clear and concise description of what the bug is. -->
 
-
 # Steps To Reproduce
 
 <!-- Steps to reproduce the behavior:
@@ -17,12 +16,10 @@ about: Create a report to help us improve
 2. Try to aim at a wall.
 3. There's no way to increase aim level. -->
 
-
 # Expected behavior
 
 <!-- A clear and concise description of what you expected to happen.
 Ideally also describe *why* you expect it to happen. -->
-
 
 # Screenshots
 

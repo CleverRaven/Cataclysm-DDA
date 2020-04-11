@@ -95,12 +95,10 @@
 # (To distribute this file outside of CMake, substitute the full
 #  License text for the above reference.)
 
-
 if(__CMAKE_PARSE_ARGUMENTS_INCLUDED)
   return()
 endif()
 set(__CMAKE_PARSE_ARGUMENTS_INCLUDED TRUE)
-
 
 function(CMAKE_PARSE_ARGUMENTS prefix _optionNames _singleArgNames _multiArgNames)
   # first set all result variables to empty/FALSE

@@ -121,7 +121,7 @@ public class HIDDeviceManager {
                         // If our context is an activity, exit rather than crashing when we can't
                         // call our native functions.
                         Activity activity = (Activity)context;
-        
+
                         activity.finish();
                     }
                     catch (ClassCastException cce) {
@@ -133,7 +133,7 @@ public class HIDDeviceManager {
 
             return;
         }
-        
+
         HIDDeviceRegisterCallback();
 
         mSharedPreferences = mContext.getSharedPreferences("hidapi", Context.MODE_PRIVATE);
@@ -199,7 +199,7 @@ public class HIDDeviceManager {
                 Log.i(TAG,"  Interface protocol: " + mUsbInterface.getInterfaceProtocol());
                 Log.i(TAG,"  Endpoint count: " + mUsbInterface.getEndpointCount());
 
-                // Get endpoint details 
+                // Get endpoint details
                 for (int epi = 0; epi < mUsbInterface.getEndpointCount(); epi++)
                 {
                     UsbEndpoint mEndpoint = mUsbInterface.getEndpoint(epi);
@@ -540,7 +540,7 @@ public class HIDDeviceManager {
             for (HIDDevice device : mDevicesById.values()) {
                 device.setFrozen(frozen);
             }
-        }        
+        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -663,7 +663,6 @@ public class HIDDeviceManager {
             Log.e(TAG, "Got exception: " + Log.getStackTraceString(e));
         }
     }
-
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////// Native methods

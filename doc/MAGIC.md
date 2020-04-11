@@ -179,7 +179,6 @@ Currently there is only one way of learning spells that is implemented: learning
 ```
 You can study this spellbook for a rate of ~1 experience per turn depending on intelligence, spellcraft, and focus.
 
-
 #### Spells in professions and NPC classes
 
 You can add a "spell" member to professions or an NPC class definition like so:
@@ -187,7 +186,6 @@ You can add a "spell" member to professions or an NPC class definition like so:
 "spells": [ { "id": "summon_zombie", "level": 0 }, { "id": "magic_missile", "level": 10 } ]
 ```
 NOTE: This makes it possible to learn spells that conflict with a class. It also does not give the prompt to gain the class. Be judicious upon adding this to a profession!
-
 
 #### Monsters
 

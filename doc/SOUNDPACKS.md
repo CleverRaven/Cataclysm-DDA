@@ -200,7 +200,7 @@ Where id describes the id of the sound effect, and a list of variants separated 
 
     # speach, it is currently linked with either item or monster id, or is special `NPC` or `NPC_loud`
     # TODO: full vocalization of speech.json
-* `speech <item_id>` # examples: talking_doll, creepy_doll, Granade, 
+* `speech <item_id>` # examples: talking_doll, creepy_doll, Granade,
 * `speech <monster_id>` # examples: eyebot, minitank, mi-go, many robots
 * `speech NPC_m|NPC_f|NPC_m_loud|NPC_f_loud` # special for NPCs
 * `speech robot` # special for robotic voice from a machine etc.
@@ -238,7 +238,6 @@ Where id describes the id of the sound effect, and a list of variants separated 
     # gear shift is dependant on max safe speed, and works in assumption, that there are
     # 6 forward gears, gear 0 = neutral, and gear -1 = reverse
 * `vehicle gear_shift`
-
 
 * `vehicle engine_backfire|engine_bangs_start|fault_immobiliser_beep|engine_single_click_fail|engine_multi_click_fail|engine_stutter_fail|engine_clanking_fail`
 * `vehicle horn_loud|horn_medium|horn_low|rear_beeper|chimes|car_alarm`

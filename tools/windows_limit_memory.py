@@ -93,10 +93,8 @@ JOB_OBJECT_MSG_SILO_TERMINATED = 13
 # Windows Structures
 #
 
-
 class SECURITY_ATTRIBUTES(ctypes.Structure):
     _fields_ = [("nLength", DWORD), ("lpSecurityDescriptor", LPVOID), ("bInheritHandle", BOOL)]
-
 
 class STARTUPINFO(ctypes.Structure):
     _fields_ = [
@@ -120,10 +118,8 @@ class STARTUPINFO(ctypes.Structure):
         ("hStdError", HANDLE),
     ]
 
-
 class PROCESS_INFORMATION(ctypes.Structure):
     _fields_ = [("hProcess", HANDLE), ("hThread", HANDLE), ("dwProcessId", DWORD), ("dwThreadId", DWORD)]
-
 
 class IO_COUNTERS(ctypes.Structure):
     _fields_ = [
@@ -134,7 +130,6 @@ class IO_COUNTERS(ctypes.Structure):
         ('WriteTransferCount', ctypes.c_ulonglong),
         ('OtherTransferCount', ctypes.c_ulonglong),
     ]
-
 
 class JOBOBJECT_BASIC_LIMIT_INFORMATION(ctypes.Structure):
     _fields_ = [
@@ -149,7 +144,6 @@ class JOBOBJECT_BASIC_LIMIT_INFORMATION(ctypes.Structure):
         ('SchedulingClass', ctypes.c_uint32),
     ]
 
-
 class JOBOBJECT_EXTENDED_LIMIT_INFORMATION(ctypes.Structure):
     _fields_ = [
         ('BasicLimitInformation', JOBOBJECT_BASIC_LIMIT_INFORMATION),
@@ -160,20 +154,16 @@ class JOBOBJECT_EXTENDED_LIMIT_INFORMATION(ctypes.Structure):
         ('PeakJobMemoryUsed', ctypes.c_ulonglong),
     ]
 
-
 class JOBOBJECT_ASSOCIATE_COMPLETION_PORT(ctypes.Structure):
     _fields_ = [('CompletionKey', LPVOID), ('CompletionPort', HANDLE)]
 
-
 class OVERLAPPED(ctypes.Structure):
     _fields_ = [("Internal", ULONG_PTR), ("InternalHigh", ULONG_PTR), ("Pointer", LPVOID), ("hEvent", HANDLE)]
-
 
 LPSECURITY_ATTRIBUTES = ctypes.POINTER(SECURITY_ATTRIBUTES)
 LPSTARTUPINFO = ctypes.POINTER(STARTUPINFO)
 LPPROCESS_INFORMATION = ctypes.POINTER(PROCESS_INFORMATION)
 LPOVERLAPPED = ctypes.POINTER(OVERLAPPED)
-
 
 class Kernel32Wrapper:
     """A class used to encapsulate kernel32 library functions.
@@ -293,7 +283,6 @@ class Kernel32Wrapper:
         max_len = max(max_len_value, len(str_obj))
 
         return ctypes.create_unicode_buffer(str_obj, max_len)
-
 
 class ProcessLimiter:
     """A class used to limit a process memory using Windows Jobs.
@@ -632,7 +621,6 @@ class ProcessLimiter:
         logger.info("Job wait finished")
         return return_val
 
-
 def main(args: argparse.Namespace) -> int:
     # runs only on Windows
     if platform.system().lower() != "windows":
@@ -674,7 +662,6 @@ def main(args: argparse.Namespace) -> int:
 
     print("Script done.")
     return 0
-
 
 if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser(description="C:DDA Memory Limit test script.")

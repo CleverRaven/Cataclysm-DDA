@@ -32,7 +32,6 @@ Another exmple is:
 
 This is similar to the last example, except it is a more common phrase. It is used in the files action.cpp, defense.cpp (twice) and npcmove.cpp. The translation will replace every usage.
 
-
 ## Translation file header
 
 The header at the top of the ".po" file is the only part that differs from the comment/msgid/msgstr format.
@@ -67,7 +66,6 @@ The header will look something like:
 If you are starting a new translation, or you are in charge of the existing translation, it is helpful if you include your name and e-mail address so that you can be contacted with any questions or issues regarding the translation.
 
 The only important part that cannot be easily filled out manually is the `Plural-Forms` section. It determines how different numbers of things are handled in your language. More on that later.
-
 
 ## Format strings and newlines
 
@@ -107,7 +105,6 @@ For example:
 
 would be displayed in-game as `kcurt eht fo lortnoc sesol liagibA`, assuming `Abigail` was driving a `truck`.
 
-
 ## Special tags in strings
 
 Some strings in the translation may have special tags in front of or inside them. These tags should be left as-is, and only the rest of the string translated.
@@ -122,7 +119,6 @@ For example:
     msgstr "<name>liagibA"
 
 Names also have a comment above them, indicating what the name is used for in-game. In this case, `Abigail` is a possible first name for a female NPC.
-
 
 ## Plural forms
 

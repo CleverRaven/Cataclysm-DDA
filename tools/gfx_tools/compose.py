@@ -53,13 +53,11 @@ def write_to_json(pathname, data):
         cmd = [json_formatter, pathname]
         subprocess.call(cmd)
 
-
 def find_or_make_dir(pathname):
     try:
         os.stat(pathname)
     except OSError:
         os.mkdir(pathname)
-
 
 class PngRefs(object):
     def __init__(self, tileset_dirname):
@@ -178,7 +176,6 @@ class PngRefs(object):
                 print("image filename '{}' index '{}'".format(pngname, pngnum) +
                       " was not used in any tile_config.json entries")
 
-
 class TilesheetData(object):
     def __init__(self, subdir_index, refs):
         ts_all = refs.tileset_info[subdir_index]
@@ -225,7 +222,7 @@ class TilesheetData(object):
         refs.pngnum += spacer
 
         in_list = []
-        
+
         for png_pathname in self.row_pngs:
             if png_pathname == "null_image":
                 in_list.append(self.null_image)
@@ -345,7 +342,7 @@ for subdir_index in range(1, len(refs.tileset_info)):
 #print("pngnum to pngname {}".format(json.dumps(refs.pngnum_to_pngname, sort_keys=True, indent=2)))
 
 tiles_new = []
-    
+
 for ts_data in all_ts_data:
     if ts_data.fallback:
         fallback_name = ts_data.ts_name

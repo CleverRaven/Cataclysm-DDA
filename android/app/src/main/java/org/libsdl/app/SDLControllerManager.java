@@ -10,7 +10,6 @@ import android.os.*;
 import android.view.*;
 import android.util.Log;
 
-
 public class SDLControllerManager
 {
 
@@ -671,7 +670,6 @@ class SDLGenericMotionListener_API24 extends SDLGenericMotionListener_API12 {
         }
     }
 }
-
 
 class SDLGenericMotionListener_API26 extends SDLGenericMotionListener_API24 {
     // Generic Motion (mouse hover, joystick...) events go here

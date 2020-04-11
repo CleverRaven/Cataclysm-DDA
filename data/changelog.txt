@@ -3286,7 +3286,7 @@ Added skill support into professions.
 * Numerous bugfixes.
 
 ## Full list:
- 
+
 Matches usable anywhere lighters could be used previously.
 Draw lit areas outside of LOS and normal sight radius the same as unlit areas
 Tell the player when their gear is damaged in combat

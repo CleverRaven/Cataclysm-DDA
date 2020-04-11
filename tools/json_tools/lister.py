@@ -11,7 +11,6 @@ import json
 import sys
 from util import ui_values_to_columns
 
-
 parser = argparse.ArgumentParser(description="""Make a distinct list of keys from JSON input.
 Main purpose to take output from other scripts, which will be JSON dictionaries or lists
 of JSON dictionaries and get a distinct set of keys from all the items.
@@ -27,8 +26,6 @@ Example usages:
 parser.add_argument("--human",
         action="store_true",
         help="if set, makes output human readable. default is to return output in JSON.")
-
-
 
 if __name__ == "__main__":
     args = parser.parse_args()

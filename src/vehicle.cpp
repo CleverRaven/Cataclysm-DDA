@@ -1367,8 +1367,6 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         }
     }
 
-
-
     //Mirrors cannot be mounted on OPAQUE parts
     if( part.has_flag( "VISION" ) && !part.has_flag( "CAMERA" ) ) {
         for( const auto &elem : parts_in_square ) {

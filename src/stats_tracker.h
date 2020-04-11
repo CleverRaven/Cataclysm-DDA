@@ -10,13 +10,13 @@ class event_statistic;
 class event_transformation;
 class score;
 
-// The stats_tracker is intended to keep a summary of events that have occured.
+// The stats_tracker is intended to keep a summary of events that have occurred.
 // For each event_type it stores an event_multiset.
 // Within the event_tracker, counts are kept.  The events are partitioned
 // according to their data (an event::data_type object, which is a map of keys
 // to values).
 // The stats_tracker can be queried in various ways to get summary statistics
-// about events that have occured.
+// about events that have occurred.
 
 class event_multiset
 {
@@ -53,7 +53,7 @@ class stats_tracker : public event_subscriber
 {
     public:
         // count returns the number of events matching given criteria that have
-        // occured.
+        // occurred.
         // total returns the sum of some integer-valued field across every
         // event satisfying certain criteria.
         // For example, count might return the number of times the avatar has

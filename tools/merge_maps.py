@@ -8,7 +8,6 @@ import math
 import string
 from operator import itemgetter, attrgetter
 
-
 STRIDE_X = 3
 STRIDE_Y = 2
 MIN_X = 10000
@@ -25,10 +24,8 @@ MAP_ROTATE = [
     {"dir": "_north", "x": 0, "y": 0}
 ]
 
-
 def x_y_bucket(x, y):
     return "{}__{}".format(math.floor((x - MIN_X) / STRIDE_X), math.floor((y - MIN_Y) / STRIDE_Y))
-
 
 def x_y_sub(x, y, is_north):
     if is_north:
@@ -37,11 +34,8 @@ def x_y_sub(x, y, is_north):
         return "{}__{}".format((x - MIN_X - 1) % STRIDE_X,
                                (y - MIN_Y - 1) % STRIDE_Y)
 
-
-
 def x_y_simple(x, y):
     return "{}__{}".format(x, y)
-
 
 def get_data(argsDict, resource_name):
    resource = []
@@ -59,14 +53,12 @@ def get_data(argsDict, resource_name):
            print("Invalid filename {}".format(resource_filename))
    return resource
 
-
 def adjacent_to_set(x, y, coord_set):
     for coords in coord_set:
         if y == coords["y"] and abs(x - coords["x"]) == 1:
             return True
         if x == coords["x"] and abs(y - coords["y"]) == 1:
             return True
-
 
 def validate_keyed(key_term, old_obj, entry):
     new_keyset = entry["object"].get(term, {})
@@ -79,7 +71,6 @@ def validate_keyed(key_term, old_obj, entry):
     else:
         new_keyset = old_keyset
     return new_keyset
-
 
 # make sure that all keyed entries have the same key values and the maps have the same weight
 # and fill_ter.  Don't try to resolve them.
@@ -108,7 +99,7 @@ def validate_old_map(old_map, entry):
             keysets[key_term] = new_keyset
         elif new_keyset != {}:
             return False
-             
+
     if not entry["weight"]:
         entry["weight"] = old_map.get("weight", 0)
     if not entry["object"].get("fill_ter"):
@@ -119,7 +110,6 @@ def validate_old_map(old_map, entry):
         entry["object"]["palettes"] = new_palettes
 
     return True
-
 
 # adjust the X, Y co-ords of a place_ entry to match the new map
 def adjust_place(term, old_obj, offset_x, offset_y):
@@ -145,7 +135,6 @@ def adjust_place(term, old_obj, offset_x, offset_y):
             adjust_coord("y2", new_entry, old_entry, offset_y)
         results.append(new_entry)
     return results
-
 
 args = argparse.ArgumentParser(description="Merge individual OMT maps into blocks of maps.")
 args.add_argument("mapgen_sources", action="store", nargs="+",
@@ -262,7 +251,7 @@ for z, zlevel in merge_sets.items():
                     # check that this map's keyed terms match the other keyed terms in this chunk
                     if validate_old_map(old_map, chunk_data["entry"]):
                         chunk_data["maps"].append({"x": x, "y": y})
-                        validated = True                            
+                        validated = True
                 if not validated:
                     new_entry = copy.deepcopy(basic_entry)
                     chunks.append({ "maps": [{"x": x, "y": y}], "entry": new_entry })
@@ -280,7 +269,7 @@ for z, zlevel in merge_sets.items():
             min_x = maps[0]["x"]
             maps.sort(key=itemgetter("y"))
             max_y = maps[-1]["y"]
-            min_y = maps[0]["y"] 
+            min_y = maps[0]["y"]
             # if this is a line, square, or rectangle, it's continguous
             if len(maps) == ((max_x - min_x + 1) * (max_y - min_y + 1)):
                 final_chunks.append(chunk_data)
@@ -305,7 +294,7 @@ for z, zlevel in merge_sets.items():
             if not maps:
                 continue
             first_x = maps[0]["x"]
-            first_y = maps[0]["y"] 
+            first_y = maps[0]["y"]
             for coords in maps:
                 x = coords["x"]
                 y = coords["y"]

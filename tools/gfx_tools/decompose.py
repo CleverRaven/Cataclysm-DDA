@@ -32,13 +32,11 @@ def write_to_json(pathname, data, prettify=False):
         cmd = [json_formatter, pathname]
         subprocess.call(cmd)
 
-
 def find_or_make_dir(pathname):
     try:
         os.stat(pathname)
     except OSError:
         os.mkdir(pathname)
-
 
 class TileSheetData(object):
     def __init__(self, tilesheet_data, refs):
@@ -277,7 +275,6 @@ class ExtractionData(object):
         for pngnum in range(self.ts_data.pngnum_min, self.ts_data.pngnum_max + 1):
             out_data.extract_image(pngnum, refs)
 
-
 class PngRefs(object):
     def __init__(self):
         # dict of png absolute numbers to png names
@@ -331,7 +328,7 @@ class PngRefs(object):
                         self.delete_pngnums.append(i)
 
         with open(tileset_confname) as conf_file:
-            return(json.load(conf_file))       
+            return(json.load(conf_file))
 
     def add_pngnum_to_tsfilepath(self, pngnum):
         if not isinstance(pngnum, int):
@@ -393,7 +390,6 @@ class PngRefs(object):
         for pngnum in self.pngnum_to_pngname:
             if not self.extracted_pngnums.get(pngnum):
                 print("missing index {}, {}".format(pngnum, self.pngnum_to_pngname[pngnum]))
-
 
 args = argparse.ArgumentParser(description="Split a tileset's tile_config.json into a directory per tile containing the tile data and png.")
 args.add_argument("tileset_dir", action="store",

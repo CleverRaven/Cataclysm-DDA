@@ -53,7 +53,6 @@ if(CYGWIN)
   endif()
 endif()
 
-
 # Not sure the logic is correct here.
 # If NCurses is required, use the function wsyncup() to check if the library
 # has NCurses functionality (at least this is where it breaks on NetBSD).
@@ -79,7 +78,6 @@ if(CURSES_CURSES_LIBRARY  AND  CURSES_NEED_NCURSES)
   endif()
 
 endif()
-
 
 if(NOT CURSES_USE_NCURSES)
   find_file(CURSES_HAVE_CURSES_H curses.h )

@@ -19,7 +19,6 @@ _TEMPLATE_TYPE_CELL_NUM = "cell_num"
 _TEMPLATE_FUNC_OBJ_REPLACE = "object_replace"
 _TEMPLATE_FUNC_STR_FORMAT = "string_format"
 
-
 def division_split(div, single_list):
     '''Divides a list into a list of lists each containing div amount of
     elements.  The last list will contain less than the div amount if the
@@ -33,7 +32,6 @@ def division_split(div, single_list):
 
     return ret_list
 
-
 def internal_append(list_of_lists, appends):
     '''Returns the list created when each element of appends is put into its
     corresponding list in list_of_lists (Corresponding by index).  Stops when
@@ -41,7 +39,6 @@ def internal_append(list_of_lists, appends):
     '''
 
     return [l + [a] for l, a in zip(list_of_lists, appends)]
-
 
 def get_map_cells(infile, cell_size):
     '''Converts an ascii map file into a list of cells of size cell_size.
@@ -51,7 +48,7 @@ def get_map_cells(infile, cell_size):
     cells_per_line = None
     line_no = None
 
-    # all_cells holds completed cells.  cell_list holds incompleted cells.
+    # all_cells holds completed cells.  cell_list holds uncompleted cells.
     all_cells = []
     cell_list = [[]]
 
@@ -61,7 +58,7 @@ def get_map_cells(infile, cell_size):
 
         assert len(line) % cell_size == 0, \
             "Map {infile} does not have colums equal to a multiple of the " \
-            "map cell size. Error occured on line {line_no}.".format(
+            "map cell size. Error occurred on line {line_no}.".format(
                 infile=infile.name,
                 line_no=line_no)
 
@@ -72,7 +69,7 @@ def get_map_cells(infile, cell_size):
         else:
             assert cells_per_line == len(line) // cell_size, \
                 "Map {infile} starts new cells before finishing cells " \
-                "{cell_begin} to {cell_end}. Error occured on line " \
+                "{cell_begin} to {cell_end}. Error occurred on line " \
                 "{line_no}.".format(
                     infile=infile.name,
                     cell_begin=len(all_cells) + 1,
@@ -100,7 +97,6 @@ def get_map_cells(infile, cell_size):
 
     return all_cells
 
-
 def recursive_dict_update(info_dict, list_path, data):
     '''Recurses through the info_dict using the sequence in list_path until
     reaching the end, where data replaces whatever is currently in that part
@@ -115,7 +111,6 @@ def recursive_dict_update(info_dict, list_path, data):
             list_path[1:], data)
         return info_dict
 
-
 def is_list_of_lists(param):
     '''Returns true if x is a list of lists. False otherwise.  Assumes lists
     are homomorphic.
@@ -124,7 +119,6 @@ def is_list_of_lists(param):
     return (isinstance(param, list) and
             len(param) > 0 and
             isinstance(param[0], list))
-
 
 def template_function_exec(full_dict, settings, data):
     '''Modifies a dictionary based on the setting functions passed in,
@@ -158,7 +152,6 @@ def template_function_exec(full_dict, settings, data):
         else:
             recursive_dict_update(full_dict, paths, string % data)
 
-
 def complete_json_file(template_file, all_cells, remove_template=True):
     '''Combines json template with cell list and writes out results.
 
@@ -191,7 +184,6 @@ def complete_json_file(template_file, all_cells, remove_template=True):
               "w") as outfile:
         json.dump(json_output_list, outfile, indent=4, separators=(",", ": "),
                   sort_keys=True)
-
 
 def cli_interface():
     '''Sets up command-line parser, including user documentation and help.'''
@@ -242,7 +234,6 @@ def cli_interface():
              "format.")
 
     return parser
-
 
 def main(parser):
     '''Combines ascii map file with json template(s).

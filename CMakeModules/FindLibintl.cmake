@@ -9,7 +9,7 @@
 # present in libc. Must have more robust system for release, where Gettext
 # functionality can also reside in standalone Gettext library, or the one
 # embedded within kdelibs (cf. gettext.m4 from Gettext source).
- 
+
 # Copyright (c) 2006, Chusslove Illich, <caslav.ilic@gmx.net>
 # Copyright (c) 2007, Alexander Neundorf, <neundorf@kde.org>
 #
@@ -19,11 +19,11 @@
 if(LIBINTL_INCLUDE_DIR AND LIBINTL_LIB_FOUND)
 	set(Libintl_FIND_QUIETLY TRUE)
 endif(LIBINTL_INCLUDE_DIR AND LIBINTL_LIB_FOUND)
- 
+
 find_path(LIBINTL_INCLUDE_DIR libintl.h)
- 
+
 set(LIBINTL_LIB_FOUND FALSE)
- 
+
 if(LIBINTL_INCLUDE_DIR)
 	include(CheckFunctionExists)
 	check_function_exists(dgettext LIBINTL_LIBC_HAS_DGETTEXT)

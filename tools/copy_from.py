@@ -8,7 +8,6 @@ import math
 import string
 from operator import itemgetter, attrgetter
 
-
 IGNORE_MISMATCH = ["id", "abstract"]
 
 def get_data(argsDict, resource_name):
@@ -28,7 +27,6 @@ def get_data(argsDict, resource_name):
    if not resource:
         exit("Failed: {} was empty".format(resource_filename))
    return resource
-
 
 args = argparse.ArgumentParser(description="Make items use copy-from.")
 args.add_argument("item_source", action="store",

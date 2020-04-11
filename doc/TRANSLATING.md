@@ -371,7 +371,6 @@ If your system locale is different from the one you want to test, the easiest wa
 
 So for example if your local language is New Zealand English (en_NZ), and you want to test the Russian (ru) translation, the steps would be `lang/compile_mo.sh ru`, `mv lang/mo/ru lang/mo/en_NZ`, `./cataclysm`.
 
-
 [1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
 [2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion
 [3]: https://docs.transifex.com/

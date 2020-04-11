@@ -386,7 +386,6 @@ by the frequency assigned to the city building within the `region_settings`. Con
 | `id`       | Unique id.                                                                                      |
 | `subtypes` | List of entries used to determine valid locations, terrain cost, and resulting overmap terrain. |
 
-
 ### Example
 
 ```json
@@ -429,7 +428,6 @@ by the frequency assigned to the city building within the `region_settings`. Con
 | `type`     | Must be "overmap_location".                                             |
 | `id`       | Unique id.                                                              |
 | `terrains` | List of `overmap_terrain` that can be considered part of this location. |
-
 
 ### Example
 

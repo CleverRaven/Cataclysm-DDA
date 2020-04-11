@@ -42,7 +42,7 @@ under the rigor of guaranteeing balance and stability. In fact, nothing
 is guaranteed in the experimental builds.
 
 Q: Are experimental builds playable then?
-A: Yes. But while experimental builds overall are stable, it is also 
+A: Yes. But while experimental builds overall are stable, it is also
 not guaranteed as features may be introduced in an underdeveloped
 state, in parts; and may introduce bugs, including severe ones that may
 crash the game or corrupt savegames. It's rare, but due to the complexity
@@ -64,7 +64,7 @@ A: Yes. Remember that everything you see and are about to see is potentially
 subject to change. All features, including newly implemented, are a work in
 progress and may change in the course of game development.
 And, as said previously, nothing is guaranteed, including balance and
-stability. 
+stability.
 
 Q: What if I find the risk of playing experimental build unacceptable?
 A: If the risk is unacceptable - play the stable version. If you are willing

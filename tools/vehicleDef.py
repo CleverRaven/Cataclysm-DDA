@@ -15,12 +15,10 @@ args.add_argument(
     "vehicle", nargs="?", help="specify name of vehicle", default=None)
 argsDict = vars(args.parse_args())
 
-
 def writeVehicleTemplates(templates):
     with open("vehicles.json", "w") as vehicleDefJson:
         json.dump(templates, vehicleDefJson, indent=4)
         print("Vehicle defs written.")
-
 
 def getVehicleTemplates():
     vehicles = []
@@ -38,7 +36,6 @@ def getVehicleTemplates():
 
     return allTemplates
 
-
 def getVehicleInstances(mapPath):
     vehicles = []
     with open(mapPath) as mapFile:
@@ -54,7 +51,6 @@ def getVehicleInstances(mapPath):
                     print(f"Found \"{vehicle['name']}\"")
 
     return vehicles
-
 
 def buildVehicleDef(vehicle):
     partsDef = []
@@ -97,7 +93,6 @@ def buildVehicleDef(vehicle):
 
     return vehicleDef
 
-
 def sortFrames(frames):
     sortedFrames = []
     sortedFrames.append(frames.pop())
@@ -116,9 +111,7 @@ def sortFrames(frames):
 
     return sortedFrames
 
-
 def adjacent(frame1, frame2):
     return hypot(frame1["x"] - frame2["x"], frame1["y"] - frame2["y"]) == 1
-
 
 writeVehicleTemplates(getVehicleTemplates())

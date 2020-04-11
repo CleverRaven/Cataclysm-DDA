@@ -42,7 +42,6 @@ RUN apt-fast -qq install --no-install-recommends tree watch tmux fish colormake 
 #TODO: find a nice way of getting ssh keys into the image - by grabbing .pub keys from somewhere?
 RUN apt-fast -qq install --no-install-recommends openssh-server && mkdir -p /run/sshd
 
-
 # experimental: trying to get X11 forwarding or x2go to run; xauth seems to be required
 RUN apt-fast install -qq --no-install-recommends xauth
 
@@ -50,7 +49,6 @@ RUN apt-fast install -qq --no-install-recommends xauth
 # NOTE: we have to add `--privileged` to `docker run` to be able to debug inside the container, or else we get a pretty cryptic error once we `run` inside the debugger
 # NOTE: we can probably run an external debugger and attach it to the process inside the container somehow, to be able to debug inside the container using a full IDE on the host
 RUN apt-fast -qq install --no-install-recommends lldb-6.0
-
 
 # we prefer to build as a regular user (cdda) rather than root
 RUN mkdir /cdda
@@ -69,7 +67,6 @@ RUN mkdir cmake-build-debug cmake-build-debug-tiles
 
 WORKDIR /home/cdda/cmake-build-debug
 
-
 WORKDIR /home/cdda/cmake-build-debug
 
 RUN env CC=clang-6.0 CXX=clang++-6.0 cmake ..
@@ -81,7 +78,6 @@ WORKDIR /home/cdda/cmake-build-debug-tiles
 RUN env CC=clang-6.0 CXX=clang++-6.0 cmake -DTILES=ON ..
 
 RUN echo `pwd` configured for build; to actually build, run "make -j`nproc --all`" here
-
 
 ## ssh server stuff (experimental and not needed except for testing ssh stuff with CDDA! you don't need ssh to get a shell inside the container!)
 ## uncomment this to get ssh

@@ -33,7 +33,7 @@ map(
                 *
                 # add up the bash resists for the materials
                 ( .material | map($br[.]) | add )
-                / 
+                /
                 # divide by the number of non-null materials
                 ( .material | map(select(.!="null")) | length )
             ) |

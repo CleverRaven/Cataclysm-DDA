@@ -71,23 +71,19 @@
     - [Flags](#flags-13)
     - [Fuel types](#fuel-types)
 
-
 ## Notes
 
 - Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
 
-
 ## Inheritance
 
 When an item is crafted, it can inherit flags from the components that were used to craft it. This requires that the flag to be inherited has the `"craft_inherit": true` entry. If you don't want a particular item to inherit flags when crafted, specify the member delete_flags, which is an array of strings. Flags specified there will be removed from the resultant item upon crafting. This will override flag inheritance, but will not delete flags that are part of the item type itself.
-
 
 ## TODO
 
 - Descriptions for `Special attacks` under `Monsters` could stand to be more descriptive of exactly what the attack does.
 - `Ammo effects` under `Ammo` need more descriptive details, and some need to be double-checked for accuracy.
-
 
 ## Ammo
 
@@ -204,7 +200,6 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```TRAIL``` Creates a trail of smoke.
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 
-
 ## Armor
 
 ### Covers
@@ -283,7 +278,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
 - ```WATER_FRIENDLY``` Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.
 
-
 ## Bionics
 
 - ```BIONIC_ARMOR_INTERFACE``` This bionic can provide power to powered armor.
@@ -295,7 +289,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BIONIC_TOGGLED``` This bionic only has a function when activated, else it causes it's effect every turn.
 - ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
 - ```BIONIC_SHOCKPROOF``` This bionic can't be incapacitated by electrical attacks.
-
 
 ## Books
 
@@ -396,7 +389,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WASH_HARD_ITEMS``` Wash hard items with FILTHY flag.
 - ```WASH_SOFT_ITEMS``` Wash soft items with FILTHY flag.
 - ```WATER_PURIFIER``` Purify water.
-
 
 ## Comestibles
 
@@ -642,7 +634,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the ```autodoc``` examine action.
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`)
 
-
 ## Generic
 
 ### Flags
@@ -685,7 +676,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
 - ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
 - ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
-
 
 ## Guns
 
@@ -732,7 +722,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```turns_into``` Causes this fault to apply to the item just mended.
 - ```also_mends``` Causes this fault to be mended (in addition to fault selected) once that fault is mended.
 
-
 ## Magazines
 
 - ```MAG_BULKY``` Can be stashed in an appropriate oversize ammo pouch (intended for bulky or awkwardly shaped magazines)
@@ -740,7 +729,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```MAG_DESTROY``` Magazine is destroyed when the last round is consumed (intended for ammo belts). Has precedence over MAG_EJECT.
 - ```MAG_EJECT``` Magazine is ejected from the gun/tool when the last round is consumed
 - ```SPEEDLOADER``` Acts like a magazine, except it transfers rounds to the target gun instead of being inserted into it.
-
 
 ## MAP SPECIALS
 
@@ -773,7 +761,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```mx_spider``` ... A big spider web, complete with spiders and eggs.
 - ```mx_supplydrop``` ... Crates with some military items in it.
 
-
 ## Material Phases
 
 - ```GAS```
@@ -781,7 +768,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NULL```
 - ```PLASMA```
 - ```SOLID```
-
 
 ## Melee
 
@@ -799,7 +785,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SPEAR``` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```WHIP``` Has a chance of disarming the opponent.
-
 
 ## Monster Groups
 
@@ -822,7 +807,6 @@ Multiple time of day conditions will be combined together so that any of those c
 - ```DAY```
 - ```DUSK```
 - ```NIGHT```
-
 
 ## Monsters
 
@@ -1081,7 +1065,6 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```VINE``` Attacks with vine.
 - ```VORTEX``` Forms a vortex/tornado that causes damage and throws creatures around.
 
-
 ## Mutations
 
 #### Flags
@@ -1091,7 +1074,6 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
-
 
 ### Categories
 
@@ -1114,7 +1096,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```MUTCAT_SLIME``` "Your body loses all rigidity for a moment."
 - ```MUTCAT_SPIDER``` "You feel insidious."
 - ```MUTCAT_TROGLOBITE``` "You yearn for a cool, dark place to hide."
-
 
 ## Overmap
 
@@ -1196,7 +1177,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.  For deconstruction recipes, it will spawn a full magazine when deconstructed.
 
-
 ## Scenarios
 
 ### Flags
@@ -1221,7 +1201,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```SUM_START``` ... start in summer.
 - ```WIN_START``` ... start in winter.
 
-
 ## Skills
 
 ### Tags
@@ -1229,14 +1208,12 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```combat_skill``` The skill is considered a combat skill. It's affected by "PACIFIST", "PRED1", "PRED2", "PRED3", and "PRED4" traits.
 - ```contextual_skill``` The skill is abstract, it depends on context (an indirect item to which it's applied). Neither player nor NPCs can possess it.
 
-
 ## Techniques
 
 Techniques may be used by tools, armors, weapons and anything else that can be wielded.
 
 - See contents of `data/json/techniques.json`.
 - Techniques are also used with martial arts styles, see `data/json/martialarts.json`.
-
 
 ## Tools
 
@@ -1302,7 +1279,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
-
 
 ## Vehicle Parts
 
@@ -1435,8 +1411,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 ### Vehicle parts requiring other vehicle parts
 
-The requirement for other vehicle parts is defined for a json flag by setting ```requires_flag``` for the flag. ```requires_flag``` is the other flag that a part with this flag requires. 
-
+The requirement for other vehicle parts is defined for a json flag by setting ```requires_flag``` for the flag. ```requires_flag``` is the other flag that a part with this flag requires.
 
 ### Fuel types
 

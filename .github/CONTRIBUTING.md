@@ -138,7 +138,6 @@ For further details about commit message guidelines please visit:
         $ git push origin new_feature
         # origin was automatically set to point to your fork when you cloned it
 
-
 3. Once you're finished working on your branch, and have committed and pushed all your changes, submit a pull request from your `new_feature` branch to this repository's `master` branch.
 
  * Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
@@ -231,10 +230,10 @@ You can also set the tracking information at the same time as creating the branc
 
 ## Unit tests
 
-There is a suite of tests built into the source tree at tests/  
-You should run the test suite after ANY change to the game source.  
+There is a suite of tests built into the source tree at tests/
+You should run the test suite after ANY change to the game source.
 An ordinary invocation of ``make`` will build the test executable at tests/cata_test, and it can be invoked like any ordinary executable, or via `make check`.
-With no arguments it will run the entire test suite.  
+With no arguments it will run the entire test suite.
 With ``--help`` it will print a number of invocation options you can use to adjust its operation.
 
     $ make

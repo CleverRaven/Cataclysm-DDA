@@ -28,7 +28,6 @@ Note that for the default region, all attributes and sections are required.
 | `default_oter`          | Default overmap terrain for this region.                           |
 | `default_groundcover`   | List of terrain types and weights applied as default ground cover. |
 
-
 ### Example
 ```json
 {
@@ -84,7 +83,6 @@ regional entry to an actual entry.
 }
 ```
 
-
 ## Field Coverage
 
 The **field_coverage** section defines the furniture and terrain that make up the flora that
@@ -129,7 +127,7 @@ cover the `field` overmap terrain.
 The **overmap_lake_settings** section defines the attributes used in generating lakes on the
 overmap. The actual placement of these features is determined globally across all overmaps so that
 the edges of the features align, and these parameters are mostly about how those global features
-are interpreted. 
+are interpreted.
 
 ### Fields
 

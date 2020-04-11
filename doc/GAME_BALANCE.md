@@ -7,12 +7,10 @@ Very high stat: 14 (realistic world class human, maximum cost-effective in charg
 
 Maximal stat: 20 (higher may be achievable, but we're not worried about balancing at that point.)
 
-
 # Skill system scaling:
 Minimum skill: 0 (no training)
 
 Maximum skill: 10 (requires regular training to maintain, "professional" level)
-
 
 # Monster melee skill scaling:
 Minimum skill: 0 (no melee potential; turret, fungal wall)
@@ -25,10 +23,8 @@ Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 
 Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, gracken)
 
-
 # Speeds:
 Zombies are a bit faster than "shambling". Zombified versions of fast critters will remain fast, but in general the process slows the undead version. Further, under no circumstances should a zed be more than 50% faster than base character speed. Currently, this means "capped at 150".
-
 
 # Dodge System assumptions:
 Dodge chance is based on attacker's melee skill and target's dex stat and dodge skill.
@@ -49,7 +45,6 @@ The effect of increasing dodge skill has a growth rate with diminishing returns 
 The balance of melee versus dodge should favor dodge which, after all, isn't effective against a wide variety of other types of attacks.
 
 Even a world class dodger should not be able to dodge continuously when attacked many times a turn.
-
 
 # MELEE WEAPONS:
 ## To-Hit Bonuses
@@ -230,7 +225,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 5.45x39mm 7N22     | 57gr steel core FMJ bullet  | 1461      | 38  | 16.3in   |                              |
 .223 Remington     | 36gr JHP bullet             | 1524      | 39  | 20in     |Uses 5.56 NATO barrel baseline; damage increased by 5 |
 5.56x45mm M855A1   | 62gr copper core FMJBT bullet | 1843      | 43  | 20in     |                              |
-.300BLK supersonic | 125gr OTM                   | 1840      | 43  | 16in     | 
+.300BLK supersonic | 125gr OTM                   | 1840      | 43  | 16in     |
 ,300BLK subsonic   | 220gr OTM                   | 675       | 26  | 16in     |  subsonic
 7.62x54mmR         | 150gr FMJ bullet            | 3629      | 60  | 28in     |                              |
 .308 Winchester    | 168gr hollow point bullet   | 3570      | 60  | 24in     |                              |

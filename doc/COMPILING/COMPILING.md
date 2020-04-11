@@ -166,8 +166,6 @@ A more comprehensive alternative is:
 
 The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to have sound, those flags can also be omitted. The USE_HOME_DIR flag places the user files, like configurations and saves into the home folder, making It easier for backups, and can also be omitted.
 
-
-
 ## Cross-compiling to linux 32-bit from linux 64-bit
 
 Dependencies:
@@ -572,7 +570,6 @@ Workaround: install XCode 3 like that article describes, or disable localization
 ### ISSUE: Colors don't show up correctly
 
 Open Terminal's preferences, turn on "Use bright colors for bold text" in "Preferences -> Settings -> Text"
-
 
 # Windows
 

@@ -4060,7 +4060,7 @@ void npc::set_omt_destination()
 
     std::string dest_type;
     for( const auto &fulfill : needs ) {
-        // look for the closest occurence of any of that locations terrain types
+        // look for the closest occurrence of any of that locations terrain types
         std::vector<oter_type_id> loc_list = get_location_for( fulfill )->get_all_terrains();
         std::shuffle( loc_list.begin(), loc_list.end(), rng_get_engine() );
         omt_find_params find_params;

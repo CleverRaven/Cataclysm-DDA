@@ -9,7 +9,6 @@ OBSOLETE_TOPICS = [
     "TALK_DENY_GUARD", "TALK_FRIEND_UNCOMFORTABLE", "TALK_USE_ITEM", "TALK_GIVE_ITEM"
 ]
 
-
 args = argparse.ArgumentParser(description="Confirm that every talk topic in every response in a "
                                            "dialogue JSON is defined, and that every defined talk "
                                            "topic is referenced in at least one response.\n"
@@ -36,9 +35,8 @@ def get_dialogue_from_json():
                if path.endswith(".json"):
                    with open(path) as dialogue_file:
                        dialogue += json.load(dialogue_file)
- 
-    return dialogue
 
+    return dialogue
 
 def add_topic_by_chat(topics, topic_id, topic_branches=None, this_ids=None):
     topics.setdefault(topic_id, {})
@@ -47,7 +45,6 @@ def add_topic_by_chat(topics, topic_id, topic_branches=None, this_ids=None):
     if this_ids is not None:
         this_ids.append(topic_id)
     topics[topic_id]["in_response"] = True
-
 
 def add_topic_by_id(topics, topic_id, topic_branches=None, this_ids=None):
     if topic_id in OBSOLETE_TOPICS:
@@ -58,7 +55,6 @@ def add_topic_by_id(topics, topic_id, topic_branches=None, this_ids=None):
         this_ids.append(topic_id)
     topics.setdefault(topic_id, {})
     topics[topic_id]["valid"] = True
-
 
 def add_topic_by_response(topics, response, topic_branches=None, this_ids=None):
     topic_id = response.get("topic")
@@ -78,7 +74,6 @@ def add_topic_by_response(topics, response, topic_branches=None, this_ids=None):
         else:
             topic_branches[parent_id]["responses"].append(topic_id)
 
-
 def parse_response(topics, response, topic_branches=None, this_ids=None):
     if response.get("topic"):
         add_topic_by_response(topics, response, topic_branches, this_ids)
@@ -88,7 +83,6 @@ def parse_response(topics, response, topic_branches=None, this_ids=None):
         failure_r = response.get("failure", {})
         add_topic_by_response(topics, failure_r, topic_branches, this_ids)
 
-    
 def validate(dialogue):
     topics = {}
     topic_branches = {

@@ -3036,7 +3036,7 @@ class colony : private element_allocator_type
 
                 // Process initial group:
                 if( iterator1.group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
-                    // If no prior erasures have occured in this group we can do simple addition
+                    // If no prior erasures have occurred in this group we can do simple addition
                     distance += static_cast<diff_type>( iterator1.group_pointer->last_endpoint -
                                                         iterator1.element_pointer );
                 } else if( iterator1.element_pointer == iterator1.group_pointer->elements ) {

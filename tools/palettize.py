@@ -11,7 +11,6 @@ def hash_key(key):
     else:
         return key
 
-
 def parse_furnter(om_objs, palette, conflicts):
     for map_key, map_val in om_objs.items():
         if isinstance(map_val, list) and len(map_val) == 1:
@@ -28,7 +27,6 @@ def parse_furnter(om_objs, palette, conflicts):
             conflicts[map_key][map_hash]["count"] += 1
             conflicts[map_key][pal_hash]["count"] += 1
 
-
 def decide_conflicts(palette, conflicts):
     for con_key, conflict in conflicts.items():
         most_val = ""
@@ -38,7 +36,6 @@ def decide_conflicts(palette, conflicts):
                 most_count = data["count"]
                 most_val = data["val"]
         palette[con_key] = most_val
-
 
 def resolve_conflicts(om_objs, palette, conflicts):
     temp_objs = copy.deepcopy(om_objs)
@@ -50,7 +47,6 @@ def resolve_conflicts(om_objs, palette, conflicts):
         if pal_val == map_val:
             del temp_objs[map_key]
     return temp_objs
-
 
 args = argparse.ArgumentParser(description="Read all the terrain and furniture definitions from a "
                                            "mapgen .json file and move them into a palette file.  "
@@ -138,5 +134,4 @@ with open(palette_source, 'w') as palette_file:
 
 #print("furniture palette {}".format(json.dumps(furn_pal, indent=2)))
 #print("terrain palette {}".format(json.dumps(ter_pal, indent=2)))
-
 

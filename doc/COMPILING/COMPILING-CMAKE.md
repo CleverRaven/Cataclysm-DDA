@@ -5,7 +5,6 @@
 For official way to build CataclysmDDA See:
   * [COMPILING.md](COMPILING.md)
 
-
 #Contents
 
   1. Prerequisites
@@ -46,16 +45,13 @@ order to build CataclysmDDA:
    * `libintl`
    * `iconv`
 
-
 #2. Build Environment
 
 You can obtain the source code tarball for the latest version from [git](https://github.com/CleverRaven/Cataclysm-DDA).
 
-
 ## UNIX Environment
 
 Obtain packages specified above with your system package manager.
-
 
 ## Windows Environment (MSYS2)
 
@@ -86,7 +82,6 @@ Obtain packages specified above with your system package manager.
  **NOTE**: If you're trying to test with Jetbrains CLion, point to the cmake version in the
        msys32/mingw32 path instead of using the built in. This will let cmake detect the
        installed packages.
-
 
 # CMake Build
 
@@ -129,7 +124,6 @@ The above example creates a build directory inside the source directory, but tha
 	$ ccmake ..
 	$ cmake-gui ..
  ```
-
 
 ## CMake Build for MSYS2 (MinGW)
 
@@ -203,7 +197,6 @@ The above example creates a build directory inside the source directory, but tha
    * `smpeg2.dll`
    * `libvorbisfile-3.dll`
 
-
 ## CMake Build for Visual Studio / MSBuild
 
 CMake can generate  `.sln` and `.vcxproj` files used either by Visual Studio itself or by MSBuild command line compiler (if you don't want
@@ -244,7 +237,6 @@ Make a build directory and run cmake configuration step
   > cmake .. -DTILES=ON -DLOCALIZE=OFF -DBACKTRACE=OFF -DSOUND=ON
 ```
 
-
 Build!
 ```
   > cmake --build . -j 2 -- /p:Configuration=Release
@@ -260,7 +252,6 @@ The copying of dlls is a one-time task, but you'd need to move the binary out of
 
 Run the game. Should work.
 
-
 # Build Options
 
  A full list of options supported by CMake, you may either run the `ccmake`
@@ -270,7 +261,6 @@ Run the game. Should work.
  ```
 	$ cmake -DOPTION_NAME1=option_value1 [-DOPTION_NAME2=option_value2 [...]]
  ```
-
 
 ## CMake specific options
 
@@ -284,11 +274,9 @@ Run the game. Should work.
  **NOTE**: By default, CMake will produce `debug` builds unless a different
        configuration option is passed in the command line.
 
-
  * CMAKE_INSTALL_PREFIX=`<full path>`
 
  Installation prefix for binaries, resources, and documentation files.
-
 
 ## CataclysmDDA specific options
 
@@ -296,26 +284,21 @@ Run the game. Should work.
 
  Build curses version.
 
-
  * TILES=`<boolean>`
 
  Build graphical tileset version.
-
 
  * SOUND=`<boolean>`
 
  Support for in-game sounds & music.
 
-
  * USE_HOME_DIR=`<boolean>`
 
  Use user's home directory for save files.
 
-
  * LOCALIZE=`<boolean>`
 
  Support for language localizations. Also enable UTF support.
-
 
  * LANGUAGES=`<str>`
 
@@ -334,11 +317,9 @@ Run the game. Should work.
  If `-DLANGUAGES` is not specified, it also compiles a `.mo` file for English in addition
  to other languages.
 
-
  * DYNAMIC_LINKING=`<boolean>`
 
  Use dynamic linking. Or use static to remove MinGW dependency instead.
-
 
  * GIT_BINARY=`<str>`
 

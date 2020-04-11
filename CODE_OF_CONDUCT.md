@@ -19,7 +19,6 @@ In the interest of fostering an open and welcoming environment, we as contributo
 
 This Code of Conduct is adapted from the [Contributor Covenant][CoC homepage], version 1.4, available at [http://contributor-covenant.org/version/1/4][CoC version] and the [GNU Kind Communications Guidelines][GKCG homepage].
 
-
 [CoC homepage]: http://contributor-covenant.org
 [CoC version]: http://contributor-covenant.org/version/1/4/
 [GKCG homepage]: https://www.gnu.org/philosophy/kind-communication.html
