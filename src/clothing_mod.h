@@ -15,7 +15,6 @@
 class JsonArray;
 class JsonObject;
 class item;
-class player;
 
 template<typename T> struct enum_traits;
 
