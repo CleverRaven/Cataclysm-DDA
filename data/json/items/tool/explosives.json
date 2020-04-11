@@ -1226,7 +1226,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
   {
     "id": "tool_small_bootleg_fragmentation_device_act",
@@ -1276,7 +1276,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
   {
     "id": "tool_small_improvised_fragmentation_device_act",
@@ -1330,7 +1330,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
   {
     "id": "tool_small_primitive_fragmentation_device_act",
