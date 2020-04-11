@@ -8439,8 +8439,7 @@ bool item::has_rotten_away() const
 bool item::has_rotten_away( const tripoint &pnt )
 {
     if( goes_bad() ) {
-        process_temperature_rot( 1, pnt, nullptr );
-        return has_rotten_away();
+        return process_temperature_rot( 1, pnt, nullptr );
     } else if( type->container && type->container->preserves ) {
         // Containers like tin cans preserves all items inside, they do not rot at all.
         return false;
