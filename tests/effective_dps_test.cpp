@@ -13,15 +13,18 @@
 
 // Run a large number of trials of a player attacking a monster with a given weapon,
 // and return the average damage done per second.
-static double weapon_dps_trials( player &attacker, monster &defender, item &weapon )
+static double weapon_dps_trials( avatar &attacker, monster &defender, item &weapon )
 {
-    constexpr int trials = 10000;
+    constexpr int trials = 1000;
 
     int total_damage = 0;
     int total_moves = 0;
 
     clear_character( attacker );
-    attacker.wield( weapon );
+    REQUIRE( attacker.can_wield( weapon ).success() );
+    REQUIRE( attacker.wield( weapon ) );
+    attacker.weapon = weapon;
+    REQUIRE( attacker.is_wielding( weapon ) );
 
     for( int i = 0; i < trials; i++ ) {
         // Keep track of attacker's moves and defender's HP
@@ -42,7 +45,7 @@ static double weapon_dps_trials( player &attacker, monster &defender, item &weap
     return 100.0f * total_damage / total_moves;
 }
 
-static void check_actual_dps( player &attacker, monster &defender, item &weapon )
+static void check_actual_dps( avatar &attacker, monster &defender, item &weapon )
 {
     clear_character( attacker );
     double expect_dps = weapon.effective_dps( attacker, defender );
@@ -52,7 +55,7 @@ static void check_actual_dps( player &attacker, monster &defender, item &weapon 
 
 TEST_CASE( "effective damage per second", "[effective][dps]" )
 {
-    player &dummy = g->u;
+    avatar &dummy = g->u;
     clear_character( dummy );
 
     item rock( "test_rock" );
@@ -115,7 +118,7 @@ TEST_CASE( "effective damage per second", "[effective][dps]" )
 
 TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
 {
-    player &dummy = g->u;
+    avatar &dummy = g->u;
     clear_character( dummy );
 
     monster mummy( mtype_id( "debug_mon" ) );
