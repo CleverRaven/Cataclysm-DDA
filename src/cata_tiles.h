@@ -480,19 +480,19 @@ class cata_tiles
         static std::vector<options_manager::id_and_option> build_display_list();
     protected:
         template <typename maptype>
-        void tile_loading_report( const maptype &tiletypemap, const std::string &label,
+        void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,
                                   const std::string &prefix = "" );
         template <typename arraytype>
-        void tile_loading_report( const arraytype &array, int array_length, const std::string &label,
+        void tile_loading_report( const arraytype &array, int array_length, TILE_CATEGORY category,
                                   const std::string &prefix = "" );
         template <typename basetype>
-        void tile_loading_report( size_t count, const std::string &label, const std::string &prefix );
+        void tile_loading_report( size_t count, TILE_CATEGORY category, const std::string &prefix );
         /**
          * Generic tile_loading_report, begin and end are iterators, id_func translates the iterator
          * to an id string (result of id_func must be convertible to string).
          */
         template<typename Iter, typename Func>
-        void lr_generic( Iter begin, Iter end, Func id_func, const std::string &label,
+        void lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY category,
                          const std::string &prefix );
         /** Lighting */
         void init_light();
