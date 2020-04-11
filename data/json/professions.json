@@ -4045,67 +4045,56 @@
   {
     "type": "profession",
     "ident": "frat",
-    "name": {
-	"male": "Frat Boy", 
-	"female": "Sorority Girl"
-	},
+    "name": { "male": "Frat Boy", "female": "Sorority Girl" },
     "description": "You were living the high life, spending your parents money without a care in the world.  You were at one of your usual crazy parties when the guests became hungry for more than your drugs.  You still have a chance to use the last symbol of your luxurious life - your sport car - and get far away.",
     "points": 2,
-    "skills": [ 
-	{ "level": 1, "name": "speech" }, 
-	{ "level": 2, "name": "driving" } 
-	],
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 2, "name": "driving" } ],
     "vehicle": "car_sports",
     "items": {
-      "both": { "items": [ "gold_watch", "water_mineral", "smart_phone", "money_bundle", "cig", 
-	  "ref_lighter" ] },
+      "both": { "items": [ "gold_watch", "water_mineral", "smart_phone", "money_bundle", "cig", "ref_lighter" ] },
       "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],
       "female": [ "tank_top", "bra", "panties", "skirt", "heels", "jacket_leather", "stockings" ]
     }
   },
-{
-  "type": "profession",
-  "ident": "mili_pilot",
-  "name": "Military Pilot",
-  "description": "You got to see things fall apart from the sky, transporting soldiers and survivors from one holdout to the next.  You knew it was only a matter of time before the horrors patrolling the skies shot you down.",
-  "points": 5,
-  "skills": [
-    { "level": 4, "name": "driving" },
-    { "level": 3, "name": "pistol" },
-    { "level": 3, "name": "mechanics" },
-    { "level": 3, "name": "gun" }
-  ],
-  "traits": [
-    "MILI_PILOT"
-  ],
-  "items": {
-    "both": {
-      "items": [
-        "pants_army",
-        "socks",
-        "undershirt",
-        "boots_combat",
-        "wristwatch",
-        "fancy_sunglasses",
-        "gloves_tactical",
-        "helmet_army",
-        "jacket_army",
-        "webbing_belt",
-        "legpouch_large"
-      ],
-      "entries": [
-        { "group": "charged_two_way_radio" },
-        { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-        { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
-        { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
-        { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 }
-      ]
+  {
+    "type": "profession",
+    "ident": "mili_pilot",
+    "name": "Military Pilot",
+    "description": "You got to see things fall apart from the sky, transporting soldiers and survivors from one holdout to the next.  You knew it was only a matter of time before the horrors patrolling the skies shot you down.",
+    "points": 5,
+    "skills": [
+      { "level": 4, "name": "driving" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 3, "name": "gun" }
+    ],
+    "traits": [ "MILI_PILOT" ],
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "socks",
+          "undershirt",
+          "boots_combat",
+          "wristwatch",
+          "fancy_sunglasses",
+          "gloves_tactical",
+          "helmet_army",
+          "jacket_army",
+          "webbing_belt",
+          "legpouch_large"
+        ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
+          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boy_shorts" ]
     },
-    "male": [ "boxer_shorts" ],
-    "female": [ "sports_bra", "boy_shorts" ]
-  },
-  "flags": [
-    "SCEN_ONLY"
-  ]
-}
+    "flags": [ "SCEN_ONLY" ]
+  }
 ]
