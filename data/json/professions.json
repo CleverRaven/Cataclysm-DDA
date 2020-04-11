@@ -4068,7 +4068,7 @@
       { "level": 3, "name": "mechanics" },
       { "level": 3, "name": "gun" }
     ],
-    "traits": [ "MILI_PILOT" ],
+    "traits": [ "PROF_HELI_PILOT" ],
     "items": {
       "both": {
         "items": [
