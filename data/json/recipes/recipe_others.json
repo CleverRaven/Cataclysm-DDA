@@ -4161,14 +4161,15 @@
   {
     "type": "recipe",
     "result": "neoprene",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_OTHER",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "25 m",
     "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
+    "result_mult": 9,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "hotplate", 100 ], [ "toolset", 100 ] ] ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "sheet_metal", -1 ] ] ],
     "components": [
       [ [ "chem_ethanol", 50 ], [ "denat_alcohol", 50 ] ],
       [ [ "copper_scrap_equivalent", 2, "LIST" ] ],
