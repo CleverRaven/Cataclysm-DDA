@@ -31,12 +31,14 @@ fi
 set -x
 
 if [ -n "${CODE_COVERAGE}" ]; then
+  $travis_retry pip install --user wheel --upgrade
   $travis_retry pip install --user pyyaml cpp-coveralls
   export CXXFLAGS="$CXXFLAGS --coverage"
   export LDFLAGS="$LDFLAGS --coverage"
 fi
 
 if [ -n "$CATA_CLANG_TIDY" ]; then
+    $travis_retry pip install --user wheel --upgrade
     $travis_retry pip install --user compiledb lit
 fi
 
