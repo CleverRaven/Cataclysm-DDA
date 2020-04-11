@@ -6884,6 +6884,11 @@ int Character::base_age() const
     return init_age;
 }
 
+void Character::set_base_age( int age )
+{
+    init_age = age;
+}
+
 void Character::mod_base_age( int mod )
 {
     init_age += mod;
@@ -6906,6 +6911,11 @@ std::string Character::age_string() const
 int Character::base_height() const
 {
     return init_height;
+}
+
+void Character::set_base_height( int height )
+{
+    init_height = height;
 }
 
 void Character::mod_base_height( int mod )
