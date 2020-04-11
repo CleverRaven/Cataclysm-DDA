@@ -63,6 +63,7 @@ then
     cd build
     cmake \
         -DBACKTRACE=ON \
+        ${COMPILER:+-DCMAKE_CXX_COMPILER=$COMPILER} \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
         -DCMAKE_BUILD_TYPE="$build_type" \
         -DTILES=${TILES:-0} \
