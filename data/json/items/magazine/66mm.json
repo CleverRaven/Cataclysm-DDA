@@ -8,7 +8,7 @@
     "weight": "200 g",
     "volume": "500 ml",
     "price": 1000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "m235" ],

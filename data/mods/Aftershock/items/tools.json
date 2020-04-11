@@ -118,7 +118,7 @@
     "price_postapoc": 1200,
     "to_hit": 1,
     "bashing": 9,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ] ],

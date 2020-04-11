@@ -11,7 +11,7 @@
     "price": 1920000,
     "to_hit": -1,
     "bashing": 12,
-    "material": "steel",
+    "material": [ "steel" ],
     "ammo": "12mm",
     "skill": "rifle",
     "range": 60,

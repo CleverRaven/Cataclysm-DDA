@@ -8,7 +8,7 @@
     "weight": "300 g",
     "volume": "250 ml",
     "price": 1000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -21,7 +21,7 @@
     "weight": "20 g",
     "volume": "10 ml",
     "price": 25,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray"
   },

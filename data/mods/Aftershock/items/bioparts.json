@@ -10,7 +10,7 @@
     "price": 100,
     "to_hit": -1,
     "bashing": 5,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": ")",
     "color": "pink",
     "looks_like": "fluid_preserved_brain"
@@ -26,7 +26,7 @@
     "price": 100,
     "to_hit": -1,
     "bashing": 5,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "symbol": ")",
     "color": "pink",
     "looks_like": "jabberwock_heart"
@@ -42,7 +42,7 @@
     "price": 100,
     "to_hit": -1,
     "bashing": 1,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": ")",
     "color": "pink",
     "looks_like": "kidney"
@@ -58,7 +58,7 @@
     "price": 100,
     "to_hit": -3,
     "bashing": 7,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": ")",
     "color": "pink",
     "looks_like": "ruined_chunks"

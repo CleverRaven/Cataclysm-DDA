@@ -7,7 +7,7 @@
     "volume": 0,
     "price": 0,
     "rigid": false,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "ammo_grenade",

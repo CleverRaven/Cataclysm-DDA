@@ -93,7 +93,7 @@
     "weight": "200 g",
     "volume": "500 ml",
     "price": 50000,
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "spare_parts"
   },
   {
@@ -106,7 +106,7 @@
     "weight": "60000 g",
     "volume": "20 L",
     "price": 500000,
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "spare_parts"
   },
   {
@@ -119,7 +119,7 @@
     "weight": "10000 g",
     "volume": "10 L",
     "price": 100000,
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "spare_parts"
   },
   {

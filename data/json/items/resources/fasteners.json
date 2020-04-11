@@ -8,7 +8,7 @@
     "weight": "24 g",
     "volume": "5 ml",
     "price": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"
@@ -22,7 +22,7 @@
     "weight": "1 g",
     "volume": "20 ml",
     "price": 100,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 20,
@@ -36,7 +36,7 @@
     "description": "A steel button, usually found on clothing.",
     "weight": "8 g",
     "price": 300,
-    "material": "steel"
+    "material": [ "steel" ]
   },
   {
     "id": "button_wood",
@@ -44,7 +44,7 @@
     "type": "AMMO",
     "name": { "str": "wooden button" },
     "description": "A crude wooden button, usually found on very old clothing.",
-    "material": "wood"
+    "material": [ "wood" ]
   },
   {
     "id": "snapfastener_steel",
@@ -62,7 +62,7 @@
     "weight": "2 g",
     "volume": "2 ml",
     "price": 100,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"

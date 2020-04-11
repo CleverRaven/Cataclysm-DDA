@@ -609,7 +609,7 @@
     "volume": "25 L",
     "price": 22000,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "pot_helmet",
     "color": "light_gray",

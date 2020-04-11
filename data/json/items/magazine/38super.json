@@ -25,7 +25,7 @@
     "weight": "80 g",
     "volume": "250 ml",
     "price": 3400,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "38super",

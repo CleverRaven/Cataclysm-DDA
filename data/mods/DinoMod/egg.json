@@ -13,7 +13,7 @@
     "calories": 113,
     "description": "Pale, football-shaped egg laid by a dinosaur.",
     "price": 500,
-    "material": "egg",
+    "material": [ "egg" ],
     "volume": 1,
     "stack_size": 4,
     "fun": -6,

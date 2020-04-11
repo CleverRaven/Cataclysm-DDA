@@ -20,7 +20,7 @@
     "name": "dormant blob",
     "description": "Several chunks of blob scraps, stuffed with a control chip and sewn back together.  A light shock from the UPS started the chip, bringing the blob back to life.  Use this item to wake up the blob.",
     "price": 70000,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "weight": "1 kg",
     "volume": "250 ml",
     "use_action": {
@@ -44,7 +44,7 @@
     "//": "Weight and volume are low because items cannot be activated on the ground.",
     "description": "Your very own undead servant.  The blob controlling its body is in a state of coma, awaiting your orders.  Use this item to wake up the minion.",
     "price": 250000,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "weight": "10 kg",
     "volume": "200 L",
     "category": "tools",

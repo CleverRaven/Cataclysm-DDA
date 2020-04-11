@@ -37,7 +37,7 @@
     "volume": "250 ml",
     "price": 1000,
     "bashing": 5,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
     "qualities": [ [ "PULL", 2 ] ]

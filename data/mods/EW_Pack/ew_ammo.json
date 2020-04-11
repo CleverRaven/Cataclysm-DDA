@@ -45,7 +45,7 @@
     "copy-from": "casing",
     "name": "6.54x42mm casing",
     "description": "An empty casing from a 6.54x42 round.",
-    "material": "steel",
+    "material": [ "steel" ],
     "volume": "10ml",
     "weight": 5
   },
@@ -58,7 +58,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "These metal pellets are propelled with the help of electromagnets, therefore they do not produce sound, flash or heat signature.",
-    "material": "steel",
+    "material": [ "steel" ],
     "volume": "250 ml",
     "weight": "4 g",
     "bashing": 1,

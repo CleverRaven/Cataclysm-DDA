@@ -39,7 +39,7 @@
     "volume": "500 ml",
     "price": 5000,
     "bashing": 2,
-    "material": "bone",
+    "material": [ "bone" ],
     "symbol": "-",
     "color": "white",
     "initial_charges": 1,

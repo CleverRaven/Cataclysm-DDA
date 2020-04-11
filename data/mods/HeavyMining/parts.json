@@ -7,7 +7,7 @@
     "color": "dark_gray",
     "description": "A large and heavy jagged metalhead with a lot of spikes for destroying mine walls.",
     "weight": "6200000 g",
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "veh_parts",
     "price": 9500,
     "volume": "140000 ml"
@@ -20,7 +20,7 @@
     "color": "dark_gray",
     "description": "A large and heavy metal bar for balancing a vehicle.",
     "weight": "1000000 g",
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "veh_parts",
     "price": 9500,
     "volume": "140000 ml"

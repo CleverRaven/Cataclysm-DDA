@@ -78,7 +78,7 @@
     "volume": "250 ml",
     "integral_volume": "0 ml",
     "price": 2000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "accessories",

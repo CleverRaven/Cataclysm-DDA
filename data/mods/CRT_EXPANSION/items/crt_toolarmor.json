@@ -214,7 +214,7 @@
     "name": "CRIT canteen",
     "description": "A simple, durable steel canteen that can heat up food with built in plutonium heating elements.",
     "color": "dark_gray",
-    "material": "hardsteel",
+    "material": [ "hardsteel" ],
     "material_thickness": 1,
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE"

@@ -11,7 +11,7 @@
     "price": 8500000,
     "to_hit": -6,
     "bashing": 12,
-    "material": "steel",
+    "material": [ "steel" ],
     "ammo": "atgm",
     "skill": "launcher",
     "range": 15,

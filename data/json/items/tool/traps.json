@@ -10,7 +10,7 @@
     "to_hit": -2,
     "bashing": 9,
     "cutting": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": {
@@ -35,7 +35,7 @@
     "to_hit": -4,
     "bashing": 4,
     "cutting": 14,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": {
@@ -58,7 +58,7 @@
     "to_hit": -3,
     "bashing": 12,
     "cutting": 6,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
     "use_action": {
@@ -98,7 +98,7 @@
     "weight": "6 g",
     "volume": "250 ml",
     "price": 50,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_cyan",
     "use_action": {
@@ -121,7 +121,7 @@
     "to_hit": -4,
     "bashing": 1,
     "cutting": 8,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
@@ -142,7 +142,7 @@
     "price": 100,
     "to_hit": -4,
     "cutting": 6,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
@@ -184,7 +184,7 @@
     "price": 5000,
     "to_hit": -1,
     "bashing": 6,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "use_action": {
@@ -227,7 +227,7 @@
     "volume": "250 ml",
     "price": 300,
     "to_hit": -1,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": {

@@ -7,7 +7,7 @@
     "weight": "40000 g",
     "volume": "20 L",
     "price": 40000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "&",
     "color": "light_cyan"
   },

@@ -9,7 +9,7 @@
     "price": 600000,
     "to_hit": -3,
     "bashing": 8,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -189,7 +189,7 @@
     "price": 600000,
     "to_hit": -3,
     "bashing": 8,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": ";",
     "color": "green",
     "use_action": { "type": "place_monster", "monster_id": "afs_mon_sentinel_lx", "difficulty": 4, "moves": 100, "skill2": "computer" }

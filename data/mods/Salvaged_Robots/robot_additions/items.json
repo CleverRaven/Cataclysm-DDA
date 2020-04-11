@@ -25,7 +25,7 @@
     "symbol": "*",
     "color": "pink",
     "description": "A small plastic ball filled with glowing chemicals.",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "volume": "250 ml",
     "weight": "1 g",
     "to_hit": -3,

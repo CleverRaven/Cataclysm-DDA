@@ -50,7 +50,7 @@
     "price": 450000,
     "to_hit": -1,
     "bashing": 11,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "(",
     "color": "blue",
     "ammo": "762",

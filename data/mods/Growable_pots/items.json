@@ -7,7 +7,7 @@
     "name": "garden pot",
     "description": "A special pot for growing plants, maintaining them at comfortable conditions for maximum yield.  It can be crafted with various seeds to plant them.",
     "price": 600,
-    "material": "clay",
+    "material": [ "clay" ],
     "weight": "280 g",
     "volume": "2 L",
     "contains": "1250 ml",

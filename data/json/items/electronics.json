@@ -9,7 +9,7 @@
     "volume": "4 L",
     "price": 4000,
     "looks_like": "motor_small",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray"
   },
@@ -26,7 +26,7 @@
     "explosion": { "power": 600, "shrapnel": { "casing_mass": 3214, "fragment_mass": 0.5 } },
     "//": "uncraftable right now, needs fiberglass before it can be crafted",
     "looks_like": "cu_pipe",
-    "material": "copper",
+    "material": [ "copper" ],
     "symbol": "|",
     "color": "brown"
   }

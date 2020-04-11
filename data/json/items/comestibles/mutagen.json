@@ -19,7 +19,7 @@
     "addiction_type": "mutagen",
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "vitamins": [  ],
-    "material": "water",
+    "material": [ "water" ],
     "freezing_point": 17
   },
   {
@@ -463,7 +463,7 @@
     "weight": "12 g",
     "volume": "10ml",
     "price": 1200000,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "!",
     "color": "magenta",
     "healthy": -6,
@@ -487,7 +487,7 @@
     "calories": 156,
     "description": "A deformed human fetus.  Eating this would be the most vile thing you can think of, and just might cause you to mutate.",
     "price": 0,
-    "material": "hflesh",
+    "material": [ "hflesh" ],
     "volume": "250 ml",
     "fun": -60
   },
@@ -507,7 +507,7 @@
     "calories": 278,
     "description": "A misshapen human arm.  Eating this would be incredibly disgusting and probably cause you to mutate.",
     "price": 0,
-    "material": "hflesh",
+    "material": [ "hflesh" ],
     "volume": "2 L",
     "fun": -20
   },
@@ -527,7 +527,7 @@
     "calories": 399,
     "description": "A malformed human leg.  This would be gross to eat, and probably cause mutations.",
     "price": 0,
-    "material": "hflesh",
+    "material": [ "hflesh" ],
     "volume": "5 L",
     "fun": -20
   },

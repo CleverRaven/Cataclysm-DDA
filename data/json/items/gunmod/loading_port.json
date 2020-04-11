@@ -9,7 +9,7 @@
     "integral_volume": "149 ml",
     "price": 15700,
     "install_time": "8 m",
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ":",
     "color": "green",
     "location": "loading port",

@@ -41,7 +41,7 @@
     "volume": "2 L",
     "price": 1000,
     "price_postapoc": 1000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "looks_like": "power_supply",
     "color": "light_gray"
@@ -625,7 +625,7 @@
     "price": 1000,
     "to_hit": -3,
     "bashing": 1,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ";",
     "color": "white",
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],

@@ -8,7 +8,7 @@
     "description": "Replacing several key parts flaregun to convert it to a .40 firearm.  The conversion results in reduced accuracy and increased recoil.",
     "location": "accessories",
     "price": 48000,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "226 g",
     "volume": "250 ml",
     "bashing": 3,

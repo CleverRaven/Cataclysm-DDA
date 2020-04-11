@@ -196,7 +196,7 @@
     "//": "SilencerCo Omega 45K",
     "volume": "179 ml",
     "price": 78000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",

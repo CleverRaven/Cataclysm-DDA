@@ -11,7 +11,7 @@
     "price": 80000,
     "to_hit": -1,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "range": 6,
     "dispersion": 300,
     "durability": 8,

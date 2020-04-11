@@ -228,7 +228,7 @@
     "volume": "1250 ml",
     "price": 6400,
     "price_postapoc": 19000,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
     "skill": "fabrication",

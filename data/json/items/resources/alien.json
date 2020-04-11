@@ -8,7 +8,7 @@
     "weight": "70 g",
     "volume": "250 ml",
     "price": 0,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]
@@ -22,7 +22,7 @@
     "weight": "70000 g",
     "volume": "22000 ml",
     "price": 10000,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": "0",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]

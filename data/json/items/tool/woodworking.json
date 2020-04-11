@@ -187,7 +187,7 @@
     "to_hit": -1,
     "bashing": 5,
     "cutting": 3,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ], [ "SAW_W", 1 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
@@ -199,7 +199,7 @@
     "type": "TOOL",
     "name": { "str": "metal hand axe" },
     "description": "This is a chunk of steel with one edge hammered down to something resembling a cutting edge.  It works passably well as an axe but really can't compare to a proper axe.",
-    "material": "steel",
+    "material": [ "steel" ],
     "flags": [ "SHEATH_AXE" ]
   },
   {

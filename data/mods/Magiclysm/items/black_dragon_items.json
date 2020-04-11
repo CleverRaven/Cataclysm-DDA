@@ -7,7 +7,7 @@
     "color": "black_white",
     "name": "black dragon scale",
     "price": 2500,
-    "material": "black_dragon_hide",
+    "material": [ "black_dragon_hide" ],
     "weight": "380 g",
     "volume": "75 ml",
     "bashing": 0,

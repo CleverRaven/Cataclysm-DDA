@@ -26,7 +26,7 @@
     "weight": "300 g",
     "volume": "750 ml",
     "price": 8500,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "545x39",

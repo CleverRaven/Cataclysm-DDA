@@ -58,7 +58,7 @@
     "price": 5500000,
     "to_hit": -4,
     "bashing": 18,
-    "material": "hardsteel",
+    "material": [ "hardsteel" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "308",

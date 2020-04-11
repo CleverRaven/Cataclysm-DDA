@@ -8,7 +8,7 @@
     "volume": "250ml",
     "price": 0,
     "to_hit": 1,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ";",
     "color": "white",
     "use_action": {
@@ -30,7 +30,7 @@
     "price": 500,
     "to_hit": 1,
     "bashing": 4,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "use_action": {
@@ -51,7 +51,7 @@
     "volume": "250 ml",
     "price": 0,
     "to_hit": 1,
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": ";",
     "color": "brown",
     "use_action": {
@@ -72,7 +72,7 @@
     "volume": "250 ml",
     "price": 0,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "cyan",
     "use_action": {
@@ -94,7 +94,7 @@
     "price": 1500,
     "to_hit": 1,
     "bashing": 4,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "yellow",
     "use_action": {

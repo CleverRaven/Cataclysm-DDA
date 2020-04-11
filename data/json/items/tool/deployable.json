@@ -95,7 +95,7 @@
     "price": 35000,
     "to_hit": -5,
     "bashing": 10,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": "0",
     "color": "light_gray",
     "use_action": {
@@ -139,7 +139,7 @@
     "name": { "str": "inflatable boat" },
     "description": "This rubber rowboat (oars included) is deflated for storage.  Activate it (having an air pump in inventory) to inflate and launch.",
     "price": 350000,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "weight": "9071 g",
     "volume": "21500 ml",
     "bashing": 10,
@@ -240,7 +240,7 @@
     "price": 100000,
     "to_hit": -5,
     "bashing": 40,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "*",
     "color": "red",
     "flags": [ "DURABLE_MELEE" ]
@@ -255,7 +255,7 @@
     "price": 100000,
     "to_hit": -5,
     "bashing": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "T",
     "color": "red",
     "flags": [ "DURABLE_MELEE" ]
