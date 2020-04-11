@@ -1,27 +1,26 @@
 #include "profession.h"
 
+#include <algorithm>
 #include <cmath>
 #include <iterator>
 #include <map>
-#include <algorithm>
-#include <memory>
 
 #include "addiction.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "debug.h"
+#include "flat_set.h"
 #include "generic_factory.h"
+#include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
-#include "mtype.h"
+#include "magic.h"
 #include "options.h"
 #include "player.h"
 #include "pldata.h"
-#include "text_snippets.h"
 #include "translations.h"
-#include "calendar.h"
-#include "item.h"
-#include "flat_set.h"
 #include "type_id.h"
 
 namespace

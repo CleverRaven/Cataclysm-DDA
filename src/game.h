@@ -2,37 +2,39 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <climits>
 #include <array>
+#include <chrono>
+#include <ctime>
+#include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
 #include <set>
-#include <vector>
-#include <ctime>
-#include <functional>
-#include <iosfwd>
 #include <string>
-#include <chrono>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "action.h"
 #include "calendar.h"
 #include "character_id.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item_location.h"
+#include "memory_fast.h"
+#include "monster.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "creature.h"
-#include "type_id.h"
-#include "monster.h"
-#include "weather.h"
 #include "point.h"
-#include "memory_fast.h"
+#include "type_id.h"
+#include "weather.h"
 
+class Creature_tracker;
 class item;
+class spell_events;
 
 #define DEFAULT_TILESET_ZOOM 16
 
@@ -94,32 +96,31 @@ enum target_mode : int;
 struct special_game;
 
 using itype_id = std::string;
+
 class achievements_tracker;
 class avatar;
 class event_bus;
+class faction_manager;
 class kill_tracker;
 class map;
-class tripoint_range;
+class map_item_stack;
 class memorial_logger;
-class faction_manager;
 class npc;
 class player;
-class stats_tracker;
-class vehicle;
-class Creature_tracker;
-class scenario;
-class map_item_stack;
-struct WORLD;
 class save_t;
+class scenario;
+class stats_tracker;
+class tripoint_range;
+class vehicle;
+struct WORLD;
 
 using WORLDPTR = WORLD *;
-class overmap;
-class timed_event_manager;
-
 class live_view;
-struct visibility_variables;
-class scent_map;
 class loading_ui;
+class overmap;
+class scent_map;
+class timed_event_manager;
+struct visibility_variables;
 
 class ui_adaptor;
 

@@ -1,36 +1,34 @@
-#include <cstddef>
-#include <string>
 #include <memory>
 #include <set>
+#include <sstream>
+#include <string>
 #include <utility>
 #include <vector>
-#include <sstream>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"
 #include "field.h"
+#include "field_type.h"
 #include "game.h"
+#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "memory_fast.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "optional.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player_helpers.h"
+#include "point.h"
 #include "text_snippets.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "calendar.h"
-#include "line.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "point.h"
-#include "memory_fast.h"
-
-#include "player_helpers.h"
 
 class Creature;
 

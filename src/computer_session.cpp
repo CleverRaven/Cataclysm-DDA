@@ -1,30 +1,34 @@
 #include "computer_session.h"
 
 #include <algorithm>
-#include <climits>
 #include <cstdlib>
+#include <functional>
+#include <memory>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "calendar.h"
+#include "character_id.h"
 #include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -33,11 +37,10 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "omdata.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "point.h"
@@ -50,6 +53,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 static const efftype_id effect_amigara( "amigara" );

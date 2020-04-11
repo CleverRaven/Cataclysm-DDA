@@ -2,11 +2,14 @@
 
 #include <algorithm>
 #include <map>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <utility>
 
 #include "debug.h"
+#include "enum_conversions.h"
+#include "int_id.h"
 #include "json.h"
 #include "options.h"
 #include "rng.h"

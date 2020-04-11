@@ -2,29 +2,28 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
-#include <cstddef>
 #include <climits>
+#include <cstddef>
 #include <set>
-#include <vector>
-#include <memory>
 #include <string>
 #include <unordered_set>
+#include <vector>
 
 #include "activity_actor.h"
 #include "clone_ptr.h"
 #include "enums.h"
 #include "item_location.h"
-#include "point.h"
 #include "memory_fast.h"
+#include "optional.h"
+#include "point.h"
 #include "type_id.h"
 
-class avatar;
-class player;
 class Character;
 class JsonIn;
 class JsonOut;
-class activity_type;
+class avatar;
 class monster;
+class player;
 class translation;
 
 class player_activity

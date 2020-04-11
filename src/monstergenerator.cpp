@@ -2,12 +2,19 @@
 #include "monstergenerator.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cstdlib>
 #include <set>
 #include <utility>
 
+#include "assign.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "creature.h"
+#include "damage.h"
 #include "debug.h"
+#include "enum_conversions.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
@@ -17,15 +24,13 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
+#include "optional.h"
 #include "options.h"
-#include "rng.h"
-#include "assign.h"
-#include "bodypart.h"
-#include "damage.h"
-#include "game.h"
 #include "pathfinding.h"
-#include "units.h"
+#include "rng.h"
+#include "string_id.h"
 #include "translations.h"
+#include "units.h"
 
 namespace io
 {

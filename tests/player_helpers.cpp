@@ -1,24 +1,28 @@
 #include "player_helpers.h"
 
+#include <cstddef>
 #include <list>
 #include <memory>
 #include <vector>
 
 #include "avatar.h"
 #include "bionics.h"
+#include "catch/catch.hpp"
 #include "character.h"
+#include "character_id.h"
 #include "game.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
-#include "player.h"
-#include "inventory.h"
 #include "map.h"
+#include "material.h"
 #include "npc.h"
+#include "pimpl.h"
+#include "player.h"
 #include "player_activity.h"
-#include "type_id.h"
 #include "point.h"
-
-#include "catch/catch.hpp"
+#include "string_id.h"
+#include "type_id.h"
 
 int get_remaining_charges( const std::string &tool_id )
 {

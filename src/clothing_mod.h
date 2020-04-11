@@ -2,19 +2,20 @@
 #ifndef CLOTHING_MOD_H
 #define CLOTHING_MOD_H
 
+#include <algorithm>
+#include <array>
 #include <cstddef>
 #include <string>
 #include <vector>
-#include <array>
 
 #include "type_id.h"
 #include "calendar.h"
 #include "bodypart.h"
 
-class JsonObject;
 class JsonArray;
-class player;
+class JsonObject;
 class item;
+class player;
 
 template<typename T> struct enum_traits;
 

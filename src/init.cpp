@@ -1,26 +1,31 @@
 #include "init.h"
 
-#include <cstddef>
 #include <cassert>
-#include <fstream>
-#include <sstream> // for throwing errors
-#include <string>
-#include <vector>
+#include <cstddef>
 #include <exception>
+#include <fstream>
 #include <iterator>
 #include <memory>
+#include <sstream> // for throwing errors
 #include <stdexcept>
+#include <string>
+#include <vector>
 
 #include "achievement.h"
 #include "activity_type.h"
 #include "ammo.h"
+#include "ammo_effect.h"
 #include "anatomy.h"
 #include "behavior.h"
 #include "bionics.h"
+#include "bodypart.h"
+#include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
+#include "construction_category.h"
 #include "crafting_gui.h"
 #include "creature.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "disease.h"
@@ -29,22 +34,25 @@
 #include "event_statistics.h"
 #include "faction.h"
 #include "fault.h"
+#include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
 #include "gates.h"
 #include "harvest.h"
 #include "item_action.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "json.h"
 #include "loading_ui.h"
-#include "mapdata.h"
+#include "magic.h"
+#include "magic_enchantment.h"
+#include "magic_ter_furn_transform.h"
 #include "map_extras.h"
+#include "mapdata.h"
 #include "mapgen.h"
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
-#include "magic.h"
-#include "magic_ter_furn_transform.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -55,6 +63,7 @@
 #include "npc_class.h"
 #include "omdata.h"
 #include "overlay_ordering.h"
+#include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "profession.h"
@@ -64,27 +73,22 @@
 #include "requirements.h"
 #include "rotatable_symbols.h"
 #include "scenario.h"
+#include "scent_map.h"
 #include "sdltiles.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
-#include "scent_map.h"
 #include "start_location.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "worldfactory.h"
-#include "bodypart.h"
-#include "translations.h"
-#include "type_id.h"
-#include "construction_category.h"
-#include "overmap.h"
-#include "clothing_mod.h"
-#include "ammo_effect.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {

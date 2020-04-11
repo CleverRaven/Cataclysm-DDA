@@ -2,11 +2,13 @@
 #ifndef GAME_INVENTORY_H
 #define GAME_INVENTORY_H
 
-#include <list>
 #include <functional>
+#include <list>
+#include <string>
 #include <utility>
 
 #include "inventory_ui.h"
+#include "item_location.h"
 
 struct tripoint;
 
@@ -17,10 +19,9 @@ class optional;
 } // namespace cata
 class avatar;
 class item;
-class item_location;
 class player;
-class salvage_actor;
 class repair_item_actor;
+class salvage_actor;
 
 using item_filter = std::function<bool( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;

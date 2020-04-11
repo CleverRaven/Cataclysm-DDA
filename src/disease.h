@@ -2,10 +2,15 @@
 #ifndef DISEASE_H
 #define DISEASE_H
 
+#include <set>
+#include <string>
+#include <vector>
+
 #include "bodypart.h"
-#include "effect.h"
-#include "type_id.h"
+#include "calendar.h"
 #include "json.h"
+#include "optional.h"
+#include "type_id.h"
 
 class disease_type
 {

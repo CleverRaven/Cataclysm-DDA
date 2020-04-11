@@ -1,11 +1,17 @@
-#include "catch/catch.hpp"
+#include <memory>
 
 #include "achievement.h"
 #include "avatar.h"
+#include "cata_variant.h"
+#include "catch/catch.hpp"
+#include "character_id.h"
+#include "event.h"
+#include "event_bus.h"
 #include "event_statistics.h"
 #include "game.h"
 #include "stats_tracker.h"
-#include "stringmaker.h"
+#include "string_id.h"
+#include "type_id.h"
 
 TEST_CASE( "stats_tracker_count_events", "[stats]" )
 {

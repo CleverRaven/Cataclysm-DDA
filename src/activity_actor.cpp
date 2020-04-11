@@ -1,13 +1,20 @@
 #include "activity_actor.h"
 
+#include <list>
+#include <utility>
+
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "avatar.h"
 #include "character.h"
+#include "debug.h"
+#include "enums.h"
 #include "item.h"
 #include "item_location.h"
+#include "json.h"
 #include "line.h"
 #include "npc.h"
 #include "pickup.h"
+#include "player_activity.h"
 #include "point.h"
 
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )

@@ -1,13 +1,17 @@
 #include "computer.h"
 
-#include <sstream>
+#include <algorithm>
+#include <cstdlib>
 #include <locale>
-#include <map>
+#include <sstream>
 
 #include "debug.h"
+#include "enum_conversions.h"
 #include "json.h"
 #include "output.h"
 #include "translations.h"
+
+template <typename E> struct enum_traits;
 
 computer_option::computer_option()
     : name( "Unknown" ), action( COMPACT_NULL ), security( 0 )

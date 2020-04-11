@@ -2,36 +2,33 @@
 #ifndef OVERMAPBUFFER_H
 #define OVERMAPBUFFER_H
 
-#include <memory>
-#include <set>
-#include <unordered_map>
-#include <vector>
 #include <array>
 #include <functional>
+#include <memory>
+#include <set>
 #include <string>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "enums.h"
+#include "memory_fast.h"
 #include "omdata.h"
-#include "overmap_types.h"
 #include "optional.h"
-#include "type_id.h"
+#include "overmap.h"
+#include "overmap_types.h"
 #include "point.h"
 #include "string_id.h"
-#include "memory_fast.h"
+#include "type_id.h"
 
+class basecamp;
 class character_id;
-struct mongroup;
+class map_extra;
 class monster;
 class npc;
-struct om_vehicle;
-class overmap_special_batch;
-class overmap;
-struct radio_tower;
-struct regional_settings;
 class vehicle;
-class basecamp;
-class map_extra;
+struct mongroup;
+struct regional_settings;
 
 struct path_type {
     bool only_road = false;

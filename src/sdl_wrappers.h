@@ -5,12 +5,12 @@
 // IWYU pragma: begin_exports
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL.h>
-#   include <SDL2/SDL_ttf.h>
 #   include <SDL2/SDL_image.h>
+#   include <SDL2/SDL_ttf.h>
 #else
 #   include <SDL.h>
-#   include <SDL_ttf.h>
 #   include <SDL_image.h>
+#   include <SDL_ttf.h>
 #endif
 // IWYU pragma: end_exports
 

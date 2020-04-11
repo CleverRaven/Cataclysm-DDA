@@ -7,9 +7,6 @@ cache: ccache
 
 notifications:
   email: false
-  irc: "irc.freenode.org#Cataclysm-DDA"
-  use_notice: true
-  skip_join: true
 
 git:
   depth: 5

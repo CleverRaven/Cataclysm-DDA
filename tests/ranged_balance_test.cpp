@@ -1,31 +1,32 @@
+#include <algorithm>
 #include <array>
+#include <cstdlib>
 #include <list>
+#include <memory>
 #include <ostream>
 #include <string>
 #include <vector>
 
-#include "catch/catch.hpp"
-#include "cata_utility.h"
 #include "ballistics.h"
-#include "creature.h"
-#include "dispersion.h"
-#include "map_helpers.h"
-#include "npc.h"
-#include "test_statistics.h"
-#include "units.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
+#include "catch/catch.hpp"
+#include "creature.h"
+#include "dispersion.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "json.h"
+#include "map_helpers.h"
+#include "npc.h"
 #include "player.h"
-#include "player_helpers.h"
-#include "material.h"
-#include "skill.h"
-#include "type_id.h"
 #include "point.h"
+#include "test_statistics.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units.h"
 
 using firing_statistics = statistics<bool>;
 

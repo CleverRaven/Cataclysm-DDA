@@ -1,18 +1,23 @@
 #include "player.h" // IWYU pragma: associated
 
 #include <algorithm> //std::min
+#include <array>
 #include <cstddef>
+#include <memory>
 
 #include "bionics.h"
 #include "catacharset.h"
+#include "compatibility.h"
 #include "game.h"
 #include "input.h"
+#include "inventory.h"
+#include "options.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "options.h"
-#include "string_id.h"
+#include "units.h"
 
 static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );

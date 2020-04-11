@@ -2,11 +2,14 @@
 #ifndef AMMO_EFFECT_H
 #define AMMO_EFFECT_H
 
-#include <vector>
+#include <cstddef>
 #include <string>
+#include <vector>
 
 #include "explosion.h"
 #include "field_type.h"
+#include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
 

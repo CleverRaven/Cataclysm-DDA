@@ -1,8 +1,8 @@
 #include "iuse_software.h"
 
+#include <algorithm>
 #include <map>
 #include <string>
-#include <algorithm>
 
 #include "cursesdef.h"
 #include "iuse_software_kitten.h"
@@ -11,6 +11,7 @@
 #include "iuse_software_snake.h"
 #include "iuse_software_sokoban.h"
 #include "output.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
 

@@ -1,38 +1,39 @@
 #include "ballistics.h"
 
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
-#include <algorithm>
-#include <list>
 #include <memory>
 #include <set>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "creature.h"
+#include "damage.h"
+#include "debug.h"
 #include "dispersion.h"
+#include "enums.h"
 #include "explosion.h"
 #include "game.h"
+#include "item.h"
 #include "line.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
+#include "optional.h"
 #include "options.h"
+#include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
-#include "trap.h"
-#include "vpart_position.h"
-#include "calendar.h"
-#include "damage.h"
-#include "debug.h"
-#include "enums.h"
-#include "item.h"
-#include "optional.h"
 #include "translations.h"
-#include "units.h"
+#include "trap.h"
 #include "type_id.h"
-#include "point.h"
+#include "units.h"
+#include "visitable.h"
+#include "vpart_position.h"
 
 static const efftype_id effect_bounced( "bounced" );
 
