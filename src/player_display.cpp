@@ -198,7 +198,13 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
         case bp_torso: {
             const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
             s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
-            s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
+
+            if( p.has_trait( trait_id( "DEFT" ) ) ) {
+                s += dodge_skill_text( -( eff_encumbrance / 10.0 ) * ( 3.0 / 4.0 ) );
+            } else {
+                s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
+            }
+
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
                                      skill_swimming ) * 3 ) );
             s += melee_cost_text( eff_encumbrance );
@@ -236,7 +242,11 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
             s += run_cost_text( static_cast<int>( eff_encumbrance * 0.15 ) );
             s += swim_cost_text( ( eff_encumbrance / 10 ) * ( 50 - p.get_skill_level(
                                      skill_swimming ) * 2 ) / 2 );
-            s += dodge_skill_text( -eff_encumbrance / 10.0 / 4.0 );
+            if( p.has_trait( trait_id( "DEFT" ) ) ) {
+                s += dodge_skill_text( ( -eff_encumbrance / 10.0 / 4.0 ) * ( 3.0 / 4.0 ) );
+            } else {
+                s += dodge_skill_text( -eff_encumbrance / 10.0 / 4.0 );
+            }
             break;
         case bp_foot_l:
         case bp_foot_r:

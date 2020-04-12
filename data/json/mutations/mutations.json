@@ -371,7 +371,7 @@
     "id": "DEFT",
     "name": { "str": "Deft" },
     "points": 1,
-    "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
+    "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster. The effect of encumberance on your dodge skill is slightly reduced.",
     "starting_trait": true,
     "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE" ]
   },
