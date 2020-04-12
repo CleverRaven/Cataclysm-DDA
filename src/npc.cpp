@@ -3158,8 +3158,8 @@ void npc::set_attitude( npc_attitude new_attitude )
 
 npc_follower_rules::npc_follower_rules()
 {
-    engagement = ENGAGE_CLOSE;
-    aim = AIM_WHEN_CONVENIENT;
+    engagement = combat_engagement::CLOSE;
+    aim = aim_rule::WHEN_CONVENIENT;
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
 
