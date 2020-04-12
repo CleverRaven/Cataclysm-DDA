@@ -68,6 +68,7 @@
     "sym": "│",
     "color": "white",
     "see_cost": 2,
+    "extras": "bridge",
     "mapgen": [ { "method": "builtin", "name": "bridge" } ],
     "flags": [ "RIVER" ]
   },
