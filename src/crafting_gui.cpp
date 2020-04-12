@@ -310,9 +310,12 @@ const recipe *select_crafting_recipe( int &batch_size )
         const TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
         draw_recipe_tabs( w_head, tab.cur(), m );
         draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes, m );
-        draw_hidden_amount( w_head, num_hidden, num_recipe );
-        draw_can_craft_indicator( w_head, *current[line] );
-        wrefresh( w_head );
+
+        if( !show_hidden ) {
+            draw_hidden_amount( w_head, num_hidden, num_recipe );
+            draw_can_craft_indicator( w_head, *current[line] );
+            wrefresh( w_head );
+        }
 
         // Clear the screen of recipe data, and draw it anew
         werase( w_data );
@@ -412,7 +415,6 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             const auto &req = current[ line ]->simple_requirements();
 
-            draw_can_craft_indicator( w_head, *current[line] );
             wrefresh( w_head );
 
             int ypos = 0;
@@ -766,7 +768,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
         } else if( action == "HELP_RECIPE" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!" ) );
+                popup( _( "Nothing selected!  Press [ESC]!" ) );
                 recalc = true;
                 continue;
             }
@@ -846,7 +848,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             recalc = true;
         } else if( action == "CYCLE_BATCH" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!" ) );
+                popup( _( "Nothing selected!  Press [ESC]!" ) );
                 recalc = true;
                 continue;
             }
@@ -863,7 +865,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             keepline = true;
             recalc = true;
             if( current.empty() ) {
-                popup( _( "Nothing selected!" ) );
+                popup( _( "Nothing selected!  Press [ESC]!" ) );
                 continue;
             }
             if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
@@ -873,7 +875,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
         } else if( action == "HIDE_SHOW_RECIPE" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!" ) );
+                popup( _( "Nothing selected!  Press [ESC]!" ) );
                 recalc = true;
                 continue;
             }
@@ -886,7 +888,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             recalc = true;
         } else if( action == "RELATED_RECIPES" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!" ) );
+                popup( _( "Nothing selected!  Press [ESC]!" ) );
                 recalc = true;
                 continue;
             }
@@ -1037,6 +1039,7 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
         right_print( w, 1, 1, c_green, string_format( _( "* No hidden recipe - %s in category *" ), num_recipe ) );
     }
 }
+
 // Anchors top-right
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec )
 {
