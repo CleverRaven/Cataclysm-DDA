@@ -8,15 +8,6 @@
 #include "point.h"
 #include "weather.h"
 
-static bool is_nearly( float value, float expected )
-{
-    // Rounding errors make the values change around a bit
-    // Lets just check that they are within 1% of expected
-
-    bool ret_val = std::abs( value - expected ) / expected < 0.01;
-    return ret_val;
-}
-
 static void set_map_temperature( int new_temperature )
 {
     g->weather.temperature = new_temperature;
@@ -46,28 +37,31 @@ TEST_CASE( "Rate of rotting" )
         freeze_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_NORMAL );
 
         // Item should exist with no rot when it is brand new
-        CHECK( to_turns<int>( normal_item.get_rot() ) == 0 );
-        CHECK( to_turns<int>( sealed_item.get_rot() ) == 0 );
-        CHECK( to_turns<int>( freeze_item.get_rot() ) == 0 );
+        CHECK( normal_item.get_rot() == 0_turns );
+        CHECK( sealed_item.get_rot() == 0_turns );
+        CHECK( freeze_item.get_rot() == 0_turns );
 
-        calendar::turn = to_turn<int>( calendar::turn + 20_minutes );
+        INFO( "Initial turn: " << to_turn<int>( calendar::turn ) );
+
+        calendar::turn += 20_minutes;
         normal_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_NORMAL );
         sealed_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_NORMAL );
         freeze_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_FREEZER );
 
         // After 20 minutes the normal item should have 20 minutes of rot
-        CHECK( is_nearly( to_turns<int>( normal_item.get_rot() ), to_turns<int>( 20_minutes ) ) );
+        CHECK( to_turns<int>( normal_item.get_rot() )
+               == Approx( to_turns<int>( 20_minutes ) ).epsilon( 0.01 ) );
         // Item in freezer and in preserving container should have no rot
-        CHECK( to_turns<int>( sealed_item.get_rot() ) == 0 );
-        CHECK( to_turns<int>( freeze_item.get_rot() ) == 0 );
+        CHECK( sealed_item.get_rot() == 0_turns );
+        CHECK( freeze_item.get_rot() == 0_turns );
 
         // Move time 110 minutes
-        calendar::turn = to_turn<int>( calendar::turn + 110_minutes );
+        calendar::turn += 110_minutes;
         sealed_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_NORMAL );
         freeze_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_FREEZER );
         // In freezer and in preserving container still should be no rot
-        CHECK( to_turns<int>( sealed_item.get_rot() ) == 0 );
-        CHECK( to_turns<int>( freeze_item.get_rot() ) == 0 );
+        CHECK( sealed_item.get_rot() == 0_turns );
+        CHECK( freeze_item.get_rot() == 0_turns );
 
         // The item in freezer should still not be frozen
         CHECK( !freeze_item.item_tags.count( "FROZEN" ) );
