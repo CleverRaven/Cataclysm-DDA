@@ -143,5 +143,21 @@
     "cutting": 12,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
     "flags": [ "SHEATH_KNIFE" ]
+  },
+  {
+    "id": "knife_butchering_kit",
+    "name": { "str": "butchering kit", "str_pl": "butchering kits" },
+    "type": "TOOL",
+    "category": "weapons",
+    "description": "This is a kit with all the specialized knifes you would need for deboning, skinning and preparing the cuts of meat from an animal.",
+    "copy-from": "base_kitchen_knife",
+    "looks_like": "knife_butcher",
+    "weight": "1010 g",
+    "volume": "800 ml",
+    "price": 8000,
+    "price_postapoc": 150,
+    "bashing": 2,
+    "cutting": 12,
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 33 ] ]
   }
 ]

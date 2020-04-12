@@ -147,6 +147,17 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
+    "result": "knife_butchering_kit",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+	"reversible": true,
+    "time": "1 s",
+    "autolearn": true,
+    "components": [ [ [ "knife_butcher", 1 ] ], [ [ "knife_carving", 1 ] ], [ [ "knife_meat_cleaver", 1 ] ] ]
+  },
+  {
     "result": "knife_vegetable_cleaver",
     "type": "recipe",
     "category": "CC_OTHER",
