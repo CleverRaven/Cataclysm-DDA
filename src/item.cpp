@@ -1353,10 +1353,10 @@ struct dps_comp_data {
 };
 
 static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monsters = {
-    { to_translation( "Vs. Armored" ), { mtype_id( "mon_zombie_soldier" ), true, true } },
     { to_translation( "Best" ), { mtype_id( "debug_mon" ), true, false } },
+    { to_translation( "Vs. Agile" ), { mtype_id( "mon_zombie_smoker" ), true, true } },
+    { to_translation( "Vs. Armored" ), { mtype_id( "mon_zombie_soldier" ), true, true } },
     { to_translation( "Vs. Mixed" ), { mtype_id( "mon_zombie_survivor" ), false, true } },
-    { to_translation( "Vs. Agile" ), { mtype_id( "mon_zombie_smoker" ), true, true } }
 };
 
 std::map<std::string, double> item::dps( const player &guy ) const
