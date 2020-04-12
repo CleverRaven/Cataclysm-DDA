@@ -1040,7 +1040,7 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
 // Anchors top-right
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec )
 {
-    // Erase previous text and draw text
+    // Draw text
     if( g->u.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
     } else if( g->u.crafting_speed_multiplier( rec ) <= 0.0f ) {
