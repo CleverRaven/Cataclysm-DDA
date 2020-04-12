@@ -592,19 +592,8 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "components": [
-      [ [ "rag", 1 ] ],
-      [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ],
-      [
-        [ "lamp_oil", 50 ],
-        [ "motor_oil", 50 ],
-        [ "chem_ethanol", 100 ],
-        [ "denat_alcohol", 100 ],
-        [ "gasoline", 250 ],
-        [ "diesel", 250 ],
-        [ "biodiesel", 250 ]
-      ]
-    ],
+    "using": [ [ "flammable_liquid", 100 ] ],
+    "components": [ [ [ "rag", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
