@@ -1897,6 +1897,7 @@ class Character : public Creature, public visitable<Character>
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
         void apply_wetness_morale( int temperature );
+        int heartrate_bpm() const;
 
     protected:
         Character();

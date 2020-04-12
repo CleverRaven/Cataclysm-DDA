@@ -107,6 +107,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blisters( "blisters" );
 static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_common_cold( "common_cold" );
 static const efftype_id effect_contacts( "contacts" );
@@ -214,11 +215,17 @@ static const bionic_id str_bio_night( "bio_night" );
 // Aftershock stuff!
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
+static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
+static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_COLDBLOOD( "COLDBLOOD" );
+static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
+static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
+static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEAF( "DEAF" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
@@ -264,6 +271,7 @@ static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+static const trait_id trait_QUICK( "QUICK" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
@@ -274,6 +282,7 @@ static const trait_id trait_SHELL( "SHELL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
+static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
@@ -9404,4 +9413,112 @@ void Character::use_fire( const int quantity )
         mod_power_level( -quantity * 5_kJ );
         return;
     }
+}
+
+int Character::heartrate_bpm() const
+{
+    //Dead have no heartbeat usually and no heartbeat in omnicell
+    if( is_dead_state() || has_trait( trait_SLIMESPAWNER ) ) {
+        return 0;
+    }
+    //This function returns heartrate in BPM basing of health, physical state, tiredness,
+    //moral effects, stimulators and anything that should fit here.
+    //Some values are picked to make sense from math point of view
+    //and seem correct but effects may vary in real life.
+    //This needs more attention from experienced contributors to work more smooth.
+    //Average healthy bpm is 60-80. That's a simple imitation of normal distribution.
+    //Must a better way to do that. Possibly this value should be generated with player creation.
+    int average_heartbeat = 70 + rng( -5, 5 ) + rng( -5, 5 );
+    //Chemical imbalance makes this less predictable. It's possible this range needs tweaking
+    if( has_trait( trait_CHEMIMBALANCE ) ) {
+        average_heartbeat += rng( -15, 15 );
+    }
+    //Quick also raises basic BPM
+    if( has_trait( trait_QUICK ) ) {
+        average_heartbeat *= 1.1;
+    }
+    //Badtemper makes your BPM raise from anger
+    if( has_trait( trait_BADTEMPER ) ) {
+        average_heartbeat *= 1.1;
+    }
+    //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
+    const int player_local_temp = g->weather.get_temperature( pos() );
+    float temperature_modifier = 0;
+    if( has_trait( trait_COLDBLOOD ) ) {
+        temperature_modifier = 0.002;
+    }
+    if( has_trait( trait_COLDBLOOD2 ) ) {
+        temperature_modifier = 0.00333;
+    }
+    if( has_trait( trait_COLDBLOOD3 ) || has_trait( trait_COLDBLOOD4 ) ) {
+        temperature_modifier = 0.005;
+    }
+    average_heartbeat *= 1 + ( ( player_local_temp - 65 ) * temperature_modifier );
+    //Limit avg from below with 20, arbitary
+    average_heartbeat = std::max( 20, average_heartbeat );
+    const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
+    float stamina_effect = 0;
+    if( stamina_level >= 0.9 ) {
+        stamina_effect = 0;
+    } else if( stamina_level >= 0.8 ) {
+        stamina_effect = 0.2;
+    } else if( stamina_level >= 0.6 ) {
+        stamina_effect = 0.5;
+    } else if( stamina_level >= 0.4 ) {
+        stamina_effect = 1;
+    } else if( stamina_level >= 0.2 ) {
+        stamina_effect = 1.5;
+    } else {
+        stamina_effect = 2;
+    }
+    //can triple heartrate
+    int heartbeat = average_heartbeat * ( 1 + stamina_effect );
+    const int stim_level = get_stim();
+    int stim_modifer = 0;
+    if( stim_level > 0 ) {
+        //that's asymptotical function that is equal to 1 at around 30 stim level
+        //and slows down all the time almost reaching 2.
+        //Tweaking x*x multiplier will accordingly change effect accumulation
+        stim_modifer = 2 - 2 / ( 1 + 0.001 * stim_level * stim_level );
+    }
+    heartbeat += average_heartbeat * stim_modifer;
+    if( get_effect_dur( effect_cig ) > 0_turns ) {
+        //Nicotine-induced tachycardia
+        if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( ADD_CIG ) + 1 ) ) {
+            heartbeat += average_heartbeat * 0.4;
+        } else {
+            heartbeat += average_heartbeat * 0.1;
+        }
+    }
+    //health effect that can make things better or worse is applied in the end.
+    //Based on get_max_healthy that already has bmi factored
+    const int healthy = get_max_healthy();
+    //a bit arbitary formula that can use some love
+    float healthy_modifier = -0.05f * round( healthy / 20.0f );
+    heartbeat += average_heartbeat * healthy_modifier;
+    //Pain simply adds 2% per point after it reaches 5 (that's arbitary)
+    const int cur_pain = get_perceived_pain();
+    float pain_modifier = 0;
+    if( cur_pain > 5 ) {
+        pain_modifier = 0.02 * ( cur_pain - 5 );
+    }
+    heartbeat += average_heartbeat * pain_modifier;
+    //if BPM raised at least by 20% for a player with ADRENALINE, it adds 20% of avg to result
+    if( has_trait( trait_ADRENALINE ) && heartbeat > average_heartbeat * 1.2 ) {
+        heartbeat += average_heartbeat * 0.2;
+    }
+    //Happy get it bit faster and miserable some more.
+    //Morale effects might need more consideration
+    const int morale_level = get_morale_level();
+    if( morale_level >= 20 ) {
+        heartbeat += average_heartbeat * 0.1;
+    }
+    if( morale_level <= -20 ) {
+        heartbeat += average_heartbeat * 0.2;
+    }
+    //add fear?
+    //A single clamp in the end should be enough
+    const int max_heartbeat = average_heartbeat * 3.5;
+    heartbeat = clamp( heartbeat, average_heartbeat, max_heartbeat );
+    return heartbeat;
 }

@@ -20,7 +20,7 @@ definitional differences of these functions, we prefer to avoid use of the funct
 
 <p>Most current c++ standard libraries will allow invoking math functions in the global namespace</p>
 <sample language="cpp">
-#include \<cmath\>
+#include &lt;cmath&gt;
 
 float my_pow( float base, float exp ) {
     return pow( base, exp );
@@ -29,7 +29,7 @@ float my_pow( float base, float exp ) {
 
 <p>Prefer invoking the version in the std namespace.</p>
 <sample language="cpp">
-#include \<cmath\>
+#include &lt;cmath&gt;
 
 float my_pow( float base, float exp ) {
     return std::pow( base, exp );
