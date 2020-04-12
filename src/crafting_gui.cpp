@@ -313,9 +313,10 @@ const recipe *select_crafting_recipe( int &batch_size )
 
         if( !show_hidden ) {
             draw_hidden_amount( w_head, num_hidden, num_recipe );
-            draw_can_craft_indicator( w_head, *current[line] );
-            wrefresh( w_head );
         }
+
+        draw_can_craft_indicator( w_head, *current[line] );
+        wrefresh( w_head );
 
         // Clear the screen of recipe data, and draw it anew
         werase( w_data );
@@ -757,7 +758,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             line--;
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line].can_craft ) {
-                popup( _( "You can't do that!" ) );
+                popup( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );
             } else if( !g->u.check_eligible_containers_for_crafting( *current[line],
                        ( batch ) ? line + 1 : 1 ) ) {
                 // popup is already inside check
