@@ -800,7 +800,6 @@
     "description": "A small boiled stomach from an animal, nothing else.  It looks all but appetizing.",
     "price": 375,
     "price_postapoc": 10,
-    "price_postapoc": 25,
     "material": "flesh",
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
@@ -846,7 +845,6 @@
     "price_postapoc": 10,
     "description": "A carefully folded poisonous raw skin harvested from an unnatural creature.  You can cure it for storage and tanning.",
     "price": 0
-    "price_postapoc": 10,
   },
   {
     "type": "COMESTIBLE",
