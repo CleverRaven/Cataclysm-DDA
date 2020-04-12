@@ -87,29 +87,22 @@ static void eat_all_nutrients( player &p )
 // player does not thirst or tire or require vitamins
 TEST_CASE( "starve_test", "[starve][slow]" )
 {
-    // change this bool when editing the test
-    const bool print_tests = false;
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
-    if( print_tests ) {
-        printf( "\n\n" );
-    }
     constexpr int expected_day = 30;
     int day = 0;
+    std::vector<std::string> results;
+
     do {
-        if( print_tests ) {
-            printf( "day %d: %d\n", day, dummy.get_stored_kcal() );
-        }
+        results.push_back( string_format( "\nday %d: %d", day, dummy.get_stored_kcal() ) );
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );
         dummy.set_fatigue( 0 );
         set_all_vitamins( 0, dummy );
         day++;
     } while( dummy.get_stored_kcal() > 0 && day < expected_day * 2 );
-    if( print_tests ) {
-        printf( "\n\n" );
-    }
+    CAPTURE( results );
     CHECK( day == expected_day );
 }
 
