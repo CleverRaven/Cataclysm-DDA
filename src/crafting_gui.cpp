@@ -55,9 +55,8 @@ std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
 
 static bool query_is_yes( const std::string &query );
-static void draw_hidden_amount( const catacurses::window &w, int margin_y, int amount );
-static void draw_can_craft_indicator( const catacurses::window &w, int margin_y,
-                                      const recipe &rec );
+static void draw_hidden_amount( const catacurses::window &w, int amount );
+static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
                               TAB_MODE mode = NORMAL );
 static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
@@ -312,7 +311,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes, m );
 
         if( !show_hidden ) {
-            draw_hidden_amount( w_head, 0, num_hidden );
+            draw_hidden_amount( w_head, num_hidden );
         }
 
         // Clear the screen of recipe data, and draw it anew
@@ -413,7 +412,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             const auto &req = current[ line ]->simple_requirements();
 
-            draw_can_craft_indicator( w_head, 0, *current[line] );
+            draw_can_craft_indicator( w_head, *current[line] );
             wrefresh( w_head );
 
             int ypos = 0;
@@ -1027,31 +1026,28 @@ static bool query_is_yes( const std::string &query )
            subquery == _( "yes" );
 }
 
-static void draw_hidden_amount( const catacurses::window &w, const int margin_y, int amount )
+static void draw_hidden_amount( const catacurses::window &w, int amount )
 {
-    if( amount > 0 ) {
-        right_print( w, margin_y, 14, c_red, string_format( _( "%s hidden" ), amount ) );
+    if( amount == 1 ) {
+        right_print( w, 1, 1, c_red, string_format( _( "* %s hidden recipe *" ), amount ) );
+    } else if( amount >= 2 ) {
+        right_print( w, 1, 1, c_red, string_format( _( "* %s hidden recipes *" ), amount ) );
     }
 }
 // Anchors top-right
-static void draw_can_craft_indicator( const catacurses::window &w, const int margin_y,
-                                      const recipe &rec )
+static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec )
 {
-    // Erase previous text
-    // FIXME: replace this hack by proper solution (based on max width of possible content)
-    right_print( w, margin_y + 1, 1, c_black, "        " );
-    // Draw text
-    right_print( w, margin_y, 1, c_light_gray, _( "can craft:" ) );
+    // Erase previous text and draw text
     if( g->u.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
-        right_print( w, margin_y + 1, 1, i_red, _( "too dark" ) );
+        right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
     } else if( g->u.crafting_speed_multiplier( rec ) <= 0.0f ) {
         // Technically not always only too sad, but must be too sad
-        right_print( w, margin_y + 1, 1, i_red, _( "too sad" ) );
+        right_print( w, 0, 1, i_red, _( "too sad to craft" ) );
     } else if( g->u.crafting_speed_multiplier( rec ) < 1.0f ) {
-        right_print( w, margin_y + 1, 1, i_yellow, string_format( _( "slow %d%%" ),
+        right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
                      static_cast<int>( g->u.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else {
-        right_print( w, margin_y + 1, 1, i_green, _( "yes" ) );
+        right_print( w, 0, 1, i_green, _( "craftable" ) );
     }
 }
 
