@@ -10,12 +10,12 @@ class JsonIn;
 class JsonOut;
 template <typename E> struct enum_traits;
 
-enum character_type : int {
-    PLTYPE_CUSTOM,
-    PLTYPE_RANDOM,
-    PLTYPE_TEMPLATE,
-    PLTYPE_NOW,
-    PLTYPE_FULL_RANDOM,
+enum class character_type : int {
+    CUSTOM,
+    RANDOM,
+    TEMPLATE,
+    NOW,
+    FULL_RANDOM,
 };
 
 enum add_type : int {
