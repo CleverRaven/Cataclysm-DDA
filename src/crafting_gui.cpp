@@ -310,10 +310,9 @@ const recipe *select_crafting_recipe( int &batch_size )
         const TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
         draw_recipe_tabs( w_head, tab.cur(), m );
         draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes, m );
-
-        if( !show_hidden ) {
-            draw_hidden_amount( w_head, num_hidden, num_recipe );
-        }
+        draw_hidden_amount( w_head, num_hidden, num_recipe );
+        draw_can_craft_indicator( w_head, *current[line] );
+        wrefresh( w_head );
 
         // Clear the screen of recipe data, and draw it anew
         werase( w_data );
