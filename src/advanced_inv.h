@@ -12,6 +12,7 @@
 #include "advanced_inv_pane.h"
 #include "cursesdef.h"
 
+class input_context;
 class item;
 struct advanced_inv_save_state;
 
