@@ -956,6 +956,7 @@
     "copy-from": "corndogs_frozen",
     "spoils_in": "1 day",
     "healthy": -2,
+    "charges": 1,
     "description": "A homemade sausage, dipped in batter and deep fried.  Cooked, this corn dog now tastes much better, but will spoil.",
     "fun": 18
   },
