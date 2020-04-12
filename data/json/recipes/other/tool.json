@@ -152,7 +152,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-	  "reversible": true,
+	"reversible": true,
     "time": "1 s",
     "autolearn": true,
     "components": [ [ [ "knife_butcher", 1 ] ], [ [ "knife_carving", 1 ] ], [ [ "knife_meat_cleaver", 1 ] ] ]
