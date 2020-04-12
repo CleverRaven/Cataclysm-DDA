@@ -227,7 +227,7 @@ int city::get_distance_from( const tripoint &p ) const
 }
 
 std::map<enum radio_type, std::string> radio_type_names =
-{{ {MESSAGE_BROADCAST, "broadcast"}, {WEATHER_RADIO, "weather"} }};
+{{ {radio_type::MESSAGE_BROADCAST, "broadcast"}, {radio_type::WEATHER_RADIO, "weather"} }};
 
 /** @relates string_id */
 template<>
@@ -4310,7 +4310,7 @@ void overmap::place_radios()
                                                        _( "Head West.  All survivors, head West.  Help is waiting." ) ) );
                         break;
                     case 2:
-                        radios.push_back( radio_tower( pos_sm, strength(), "", WEATHER_RADIO ) );
+                        radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
                         break;
                 }
             } else if( ter( pos_omt ) == "lmoe" ) {

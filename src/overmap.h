@@ -74,7 +74,7 @@ struct om_vehicle {
     std::string name;
 };
 
-enum radio_type {
+enum class radio_type : int {
     MESSAGE_BROADCAST,
     WEATHER_RADIO
 };
@@ -92,7 +92,7 @@ struct radio_tower {
     std::string message;
     int frequency;
     radio_tower( const point &p, int S = -1, const std::string &M = "",
-                 radio_type T = MESSAGE_BROADCAST ) :
+                 radio_type T = radio_type::MESSAGE_BROADCAST ) :
         pos( p ), strength( S ), type( T ), message( M ) {
         frequency = rng( 0, INT_MAX );
     }

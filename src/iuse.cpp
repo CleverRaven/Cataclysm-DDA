@@ -2171,9 +2171,9 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
         const auto tref = overmap_buffer.find_radio_station( it->frequency );
         if( tref ) {
             const auto selected_tower = tref.tower;
-            if( selected_tower->type == MESSAGE_BROADCAST ) {
+            if( selected_tower->type == radio_type::MESSAGE_BROADCAST ) {
                 message = selected_tower->message;
-            } else if( selected_tower->type == WEATHER_RADIO ) {
+            } else if( selected_tower->type == radio_type::WEATHER_RADIO ) {
                 message = weather_forecast( tref.abs_sm_pos );
             }
 
