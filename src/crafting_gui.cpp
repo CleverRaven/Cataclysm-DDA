@@ -55,7 +55,7 @@ std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
 
 static bool query_is_yes( const std::string &query );
-static void draw_hidden_amount( const catacurses::window &w, int amount );
+static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
                               TAB_MODE mode = NORMAL );
@@ -276,6 +276,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     bool batch = false;
     bool show_hidden = false;
     size_t num_hidden = 0;
+    int num_recipe = 0;
     int batch_line = 0;
     int display_mode = 0;
     const recipe *chosen = nullptr;
@@ -311,7 +312,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes, m );
 
         if( !show_hidden ) {
-            draw_hidden_amount( w_head, num_hidden );
+            draw_hidden_amount( w_head, num_hidden, num_recipe );
         }
 
         // Clear the screen of recipe data, and draw it anew
@@ -676,6 +677,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                         }
                     }
                     num_hidden = picking.size() - current.size();
+                    num_recipe = picking.size();
                 }
 
                 available.reserve( current.size() );
@@ -1026,12 +1028,14 @@ static bool query_is_yes( const std::string &query )
            subquery == _( "yes" );
 }
 
-static void draw_hidden_amount( const catacurses::window &w, int amount )
+static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe )
 {
     if( amount == 1 ) {
         right_print( w, 1, 1, c_red, string_format( _( "* %s hidden recipe *" ), amount ) );
     } else if( amount >= 2 ) {
         right_print( w, 1, 1, c_red, string_format( _( "* %s hidden recipes *" ), amount ) );
+    } else if( amount == 0 ) {
+        right_print( w, 1, 1, c_green, string_format( _( "* No hidden recipe - %s in category *" ), num_recipe ) );
     }
 }
 // Anchors top-right
