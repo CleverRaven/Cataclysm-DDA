@@ -31,7 +31,8 @@
       [ "seed_flower", 60 ],
       [ "seed_beans", 60 ],
       [ "seed_chili_pepper", 60 ],
-      [ "seed_tomato", 60 ]
+      [ "seed_tomato", 60 ],
+      [ "seed_mustard", 10 ]
     ]
   },
   {
@@ -69,6 +70,11 @@
       [ "v_reaper_item_advanced", 8 ],
       [ "v_planter_item_advanced", 8 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "fertilizers",
+    "items": [ [ "fertilizer_liquid", 90 ], [ "fertilizer_commercial", 60 ] ]
   },
   {
     "type": "item_group",
@@ -112,6 +118,8 @@
       [ "seed_lentils", 1 ],
       [ "seed_chili_pepper", 1 ],
       [ "seed_garlic", 1 ],
+      [ "seed_mustard", 1 ],
+      [ "seed_oats", 1 ],
       [ "tomato", 9 ],
       [ "pumpkin", 6 ],
       [ "broccoli", 9 ],

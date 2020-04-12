@@ -2,16 +2,15 @@
 #ifndef BODYPART_H
 #define BODYPART_H
 
-#include <cstddef>
 #include <array>
 #include <bitset>
+#include <cstddef>
 #include <initializer_list>
 #include <string>
 
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
-#include "type_id.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;
@@ -61,6 +60,11 @@ constexpr std::array<body_part, 12> all_body_parts = {{
     }
 };
 
+struct body_part_type;
+
+using bodypart_str_id = string_id<body_part_type>;
+using bodypart_id = int_id<body_part_type>;
+
 struct body_part_type {
     public:
         bodypart_str_id id;
@@ -97,6 +101,14 @@ struct body_part_type {
         bodypart_str_id opposite_part;
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
+
+        //Morale parameters
+        float hot_morale_mod = 0;
+        float cold_morale_mod = 0;
+
+        float stylish_bonus = 0;
+
+        int squeamish_penalty = 0;
 
         void load( const JsonObject &jo, const std::string &src );
         void finalize();

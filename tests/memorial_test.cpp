@@ -1,12 +1,22 @@
-#include "catch/catch.hpp"
+#include <cstddef>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
-#include "enum_conversions.h"
+#include "bodypart.h"
+#include "catch/catch.hpp"
+#include "character_id.h"
+#include "event.h"
 #include "game.h"
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "output.h"
 #include "player_helpers.h"
+#include "pldata.h"
+#include "type_id.h"
+
+class event_bus;
 
 template<event_type Type, typename... Args>
 void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )

@@ -1,7 +1,9 @@
 #include "translations.h"
 
-#include <clocale>
 #include <array>
+#include <clocale>
+#include <cstdlib>
+#include <functional>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
@@ -11,22 +13,23 @@
 #endif
 
 #include <algorithm>
-#include <set>
-#include <string>
 #include <map>
 #include <memory>
 #include <ostream>
+#include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "cursesdef.h"
 #include "json.h"
 #include "name.h"
 #include "output.h"
 #include "path_info.h"
 #include "rng.h"
 #include "text_style_check.h"
-#include "cursesdef.h"
-#include "cata_utility.h"
 
 extern bool test_mode;
 
@@ -42,11 +45,13 @@ static void reload_names()
 static bool sanity_checked_genders = false;
 
 #if defined(LOCALIZE)
-#include "options.h"
 #include "debug.h"
+#include "options.h"
 #include "ui.h"
 #if defined(_WIN32)
+#if 1 // Prevent IWYU reordering platform_win.h below mmsystem.h
 #   include "platform_win.h"
+#endif
 #   include "mmsystem.h"
 #endif
 

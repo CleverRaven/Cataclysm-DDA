@@ -672,7 +672,7 @@
     "//": "Reagents you'd use in crafting a wide variety of things, including alchemy and rituals.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "item": "mercury", "prob": 15, "charges_min": 50 } ]
+    "items": [ { "item": "mercury", "prob": 15, "charges-min": 50 } ]
   },
   {
     "id": "science",

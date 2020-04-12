@@ -60,7 +60,6 @@
     "name": "liquid mercury",
     "ammo_type": "mercury",
     "description": "Elemental liquid mercury.  Known for its use in thermometers.",
-    "charges": 1,
     "volume": "1 ml",
     "phase": "liquid",
     "container": "flask_glass",

@@ -1,54 +1,70 @@
 #include "activity_handlers.h" // IWYU pragma: associated
 
-#include <climits>
 #include <algorithm>
-#include <list>
-#include <iostream>
-#include <vector>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
 #include <iterator>
+#include <list>
 #include <memory>
+#include <set>
 #include <string>
+#include <tuple>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
-#include "construction.h"
+#include "avatar_action.h"
+#include "calendar.h"
+#include "character.h"
 #include "clzones.h"
+#include "colony.h"
+#include "construction.h"
+#include "creature.h"
 #include "debug.h"
 #include "enums.h"
 #include "field.h"
+#include "field_type.h"
 #include "fire.h"
+#include "flat_set.h"
 #include "game.h"
-#include "iuse.h"
+#include "game_constants.h"
 #include "iexamine.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_location.h"
+#include "itype.h"
+#include "iuse.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
+#include "point.h"
 #include "requirements.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
+#include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "calendar.h"
-#include "character.h"
-#include "game_constants.h"
-#include "inventory.h"
-#include "line.h"
-#include "units.h"
-#include "flat_set.h"
-#include "int_id.h"
-#include "item_location.h"
-#include "point.h"
-#include "string_id.h"
+#include "weather.h"
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
@@ -73,6 +89,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_nausea( "nausea" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
@@ -111,8 +128,6 @@ static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_POWERED( "POWERED" );
 static const std::string flag_TREE( "TREE" );
-
-struct construction_category;
 
 void cancel_aim_processing();
 //Generic activity: maximum search distance for zones, constructions, etc.
@@ -614,7 +629,7 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
 
 void activity_on_turn_wear( player_activity &act, player &p )
 {
-    // ACT_WEAR has item_location targets, and int quatities
+    // ACT_WEAR has item_location targets, and int quantities
     while( p.moves > 0 && !act.targets.empty() ) {
         item_location target = std::move( act.targets.back() );
         int quantity = act.values.back();
@@ -740,7 +755,7 @@ void activity_on_turn_pickup()
     if( !g->u.activity.coords.empty() && g->u.activity.coords.at( 0 ) != g->u.pos() ) {
         g->u.cancel_activity();
         if( g->u.is_player() ) {
-            g->u.add_msg_if_player( _( "Moving cancelled auto-pickup." ) );
+            g->u.add_msg_if_player( _( "Moving canceled auto-pickup." ) );
         }
         return;
     }
@@ -777,92 +792,6 @@ void activity_on_turn_pickup()
     }
 }
 
-// I'd love to have this not duplicate so much code from Pickup::pick_one_up(),
-// but I don't see a clean way to do that.
-static void move_items( player &p, const tripoint &relative_dest, bool to_vehicle,
-                        std::vector<item_location> &targets, std::vector<int> &quantities )
-{
-    const tripoint dest = relative_dest + p.pos();
-
-    while( p.moves > 0 && !targets.empty() ) {
-        item_location target = std::move( targets.back() );
-        int quantity = quantities.back();
-        targets.pop_back();
-        quantities.pop_back();
-
-        if( !target ) {
-            debugmsg( "Lost target item of ACT_MOVE_ITEMS" );
-            continue;
-        }
-
-        // Don't need to make a copy here since movement can't be canceled
-        item &leftovers = *target;
-        // Make a copy to be put in the destination location
-        item newit = leftovers;
-
-        // Handle charges, quantity == 0 means move all
-        if( quantity != 0 && newit.count_by_charges() ) {
-            newit.charges = std::min( newit.charges, quantity );
-            leftovers.charges -= quantity;
-        } else {
-            leftovers.charges = 0;
-        }
-
-        // Check that we can pick it up.
-        if( !newit.made_of_from_type( LIQUID ) ) {
-            // This is for hauling across zlevels, remove when going up and down stairs
-            // is no longer teleportation
-            if( newit.is_owned_by( p, true ) ) {
-                newit.set_owner( p );
-            } else {
-                continue;
-            }
-            const tripoint src = target.position();
-            int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            p.mod_moves( -Pickup::cost_to_move_item( p, newit ) * distance );
-            if( to_vehicle ) {
-                put_into_vehicle_or_drop( p, item_drop_reason::deliberate, { newit }, dest );
-            } else {
-                drop_on_map( p, item_drop_reason::deliberate, { newit }, dest );
-            }
-            // If we picked up a whole stack, remove the leftover item
-            if( leftovers.charges <= 0 ) {
-                target.remove_item();
-            }
-        }
-    }
-}
-
-/*      values explanation
- *      0: items to a vehicle?
- *      1: amount 0 <-+
- *      2: amount 1   |
- *      n: ^----------+
- *
- *      targets correspond to amounts
- */
-void activity_on_turn_move_items( player_activity &act, player &p )
-{
-    // Drop activity if we don't know destination coordinates or have target items.
-    if( act.coords.empty() || act.targets.empty() ) {
-        act.set_to_null();
-        return;
-    }
-
-    // Move activity has source square, target square,
-    // item_locations of targets, and quantities of same.
-    const tripoint relative_dest = act.coords.front();
-    const bool to_vehicle = act.values.front();
-
-    // *puts on 3d glasses from 90s cereal box*
-    move_items( p, relative_dest, to_vehicle, act.targets, act.values );
-
-    if( act.targets.empty() ) {
-        // Nuke the current activity, leaving the backlog alone.
-        act.set_to_null();
-    }
-}
-
 static double get_capacity_fraction( int capacity, int volume )
 {
     // fraction of capacity the item would occupy
@@ -883,7 +812,7 @@ static int move_cost_inv( const item &it, const tripoint &src, const tripoint &d
     const int MAX_COST = 500;
 
     // it seems that pickup cost is flat 100
-    // in function pick_one_up, varible moves_taken has initial value of 100
+    // in function pick_one_up, variable moves_taken has initial value of 100
     // and never changes until it is finally used in function
     // remove_from_map_or_vehicle
     const int pickup_cost = 100;
@@ -1707,7 +1636,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         }
     }
     add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_spots, combined_spots );
-    // if the requirements arent available, then stop.
+    // if the requirements aren't available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
                                   activity_to_restore, pickup_task, src_loc ) ) {
         return requirement_map;
@@ -2060,7 +1989,7 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
         item &it = *item_iter;
         for( auto elem : mental_map_2 ) {
             if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
-                // construction/crafting tasks want the requred item moved near the work spot.
+                // construction/crafting tasks want the required item moved near the work spot.
                 if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
                     move_item( p, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
                                g->m.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
@@ -2254,8 +2183,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                     route = g->m.route( p.pos(), src_loc, p.get_pathfinding_settings(),
                                         p.get_path_avoid() );
                 } else {
-                    // immpassable source tile (locker etc.),
-                    // get route to nerest adjacent tile instead
+                    // impassable source tile (locker etc.),
+                    // get route to nearest adjacent tile instead
                     route = route_adjacent( p, src_loc );
                     adjacent = true;
                 }
@@ -2782,7 +2711,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                            reason == NEEDS_CHOPPING || reason == NEEDS_BUTCHERING || reason == NEEDS_BIG_BUTCHERING ||
                            reason == NEEDS_TREE_CHOPPING || reason == NEEDS_VEH_DECONST || reason == NEEDS_VEH_REPAIR ||
                            reason == NEEDS_MINING;
-        // is it even worth fetching anything if there isnt enough nearby?
+        // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
                                       act_id, tool_pickup, src_loc ) ) {
             p.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
@@ -2912,7 +2841,8 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         p.activity = player_activity();
         item *best_rod = p.best_quality_item( qual_FISHING );
         p.assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0,
-                           p.get_item_position( best_rod ), best_rod->tname() );
+                           0, best_rod->tname() );
+        p.activity.targets.push_back( item_location( p, best_rod ) );
         p.activity.coord_set = g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );
         return false;
     } else if( reason == NEEDS_MINING ) {
@@ -2951,7 +2881,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
     std::unordered_set<tripoint> src_set = generic_multi_activity_locations( p, activity_to_restore );
     // now we have our final set of points
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-    // now loop through the work-spot tiles and judge whether its worth travelling to it yet
+    // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
     for( const tripoint &src : src_sorted ) {
         const tripoint &src_loc = g->m.getlocal( src );
@@ -3118,6 +3048,79 @@ static cata::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoin
     return {};
 }
 
+bool find_auto_consume( player &p, const bool food )
+{
+    // return false if there is no point searching again while the activity is still happening.
+    if( p.is_npc() ) {
+        return false;
+    }
+    if( p.has_effect( effect_nausea ) ) {
+        return true;
+    }
+    static const std::string flag_MELTS( "MELTS" );
+    static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
+    const tripoint pos = p.pos();
+    zone_manager &mgr = zone_manager::get_manager();
+    zone_type_id consume_type_zone( "" );
+    if( food ) {
+        consume_type_zone = zone_type_id( "AUTO_EAT" );
+    } else {
+        consume_type_zone = zone_type_id( "AUTO_DRINK" );
+    }
+    const std::unordered_set<tripoint> &dest_set = mgr.get_near( consume_type_zone, g->m.getabs( pos ),
+            ACTIVITY_SEARCH_DISTANCE );
+    if( dest_set.empty() ) {
+        return false;
+    }
+    for( const tripoint loc : dest_set ) {
+        if( loc.z != p.pos().z ) {
+            continue;
+        }
+        map_stack food_there = g->m.i_at( g->m.getlocal( loc ) );
+        for( item &it : food_there ) {
+            item &comest = p.get_consumable_from( it );
+            if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
+                p.fun_for( comest ).first < -5 ) {
+                // not good eatings.
+                continue;
+            }
+            if( !p.can_consume( it ) ) {
+                continue;
+            }
+            if( food && p.compute_effective_nutrients( comest ).kcal < 50 ) {
+                // not filling enough
+                continue;
+            }
+            if( !p.will_eat( comest, false ).success() ) {
+                // wont like it, cannibal meat etc
+                continue;
+            }
+            if( !it.is_owned_by( p, true ) ) {
+                // it aint ours.
+                continue;
+            }
+            if( !food && comest.get_comestible()->quench < 15 ) {
+                // not quenching enough
+                continue;
+            }
+            if( !food && it.is_watertight_container() && it.contents_made_of( SOLID ) ) {
+                // its frozen
+                continue;
+            }
+            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
+                         g->m.getlocal( loc ) ), 1 ) );
+            item_location item_loc( map_cursor( g->m.getlocal( loc ) ), &it );
+            avatar_action::eat( g->u, item_loc );
+            // eat() may have removed the item, so check its still there.
+            if( item_loc.get_item() && item_loc->is_container() ) {
+                item_loc->on_contents_changed();
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
@@ -3139,7 +3142,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         }
     }
 
-    // Special case: fire containers allow burning logs, so use them as fuel iif fire is contained
+    // Special case: fire containers allow burning logs, so use them as fuel if fire is contained
     bool contained = g->m.has_flag_furn( TFLAG_FIRE_CONTAINER, *best_fire );
     fire_data fd( 1, contained );
     time_duration fire_age = g->m.get_field_age( *best_fire, fd_fire );

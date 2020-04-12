@@ -62,17 +62,6 @@
   },
   {
     "type": "effect_type",
-    "id": "protect_env",
-    "name": [ "Environmental Protection" ],
-    "desc": [ "You are protected by an energy field." ],
-    "apply_message": "You are protected by an energy field.",
-    "remove_message": "Your energy field fades.",
-    "rating": "good",
-    "show_in_info": true,
-    "base_mods": {  }
-  },
-  {
-    "type": "effect_type",
     "id": "armor_frost",
     "name": [ "Frost Armor" ],
     "desc": [ "Covers you in a thin layer of magical ice to protect you from harm." ],

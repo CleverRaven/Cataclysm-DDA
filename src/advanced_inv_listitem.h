@@ -5,6 +5,8 @@
 #include <list>
 #include <string>
 
+#include "units.h"
+
 // see item_factory.h
 class item;
 class item_category;

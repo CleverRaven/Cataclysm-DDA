@@ -1,7 +1,8 @@
 #include <algorithm> // std::find
 #include <cstdio> // log redirection
-#include <cstdlib> // abort
 #include <functional> // std::greater
+#include <initializer_list>
+#include <iterator>
 #include <utility> // std::move
 #include <vector> // range-insert testing
 

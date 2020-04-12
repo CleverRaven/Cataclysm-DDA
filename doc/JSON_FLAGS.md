@@ -391,6 +391,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```TORCH``` Light a torch.
 - ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - ```TOWEL``` Dry your character using the item as towel.
+- ```TOW_ATTACH``` This is a tow cable, activate it to attach it to a vehicle.
 - ```TURRET``` Activate a turret.
 - ```WASH_ALL_ITEMS``` Wash items with FILTHY flag.
 - ```WASH_HARD_ITEMS``` Wash hard items with FILTHY flag.
@@ -678,6 +679,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
 - ```REQUIRES_TINDER``` ... Requires tinder to be present on the tile this item tries to start a fire on.
 - ```SLEEP_AID``` ... This item helps in sleeping.
+- ```SLEEP_IGNORE``` ... This item is not shown as before-sleep warning.
 - ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "NEEDS_UNFOLD".
 - ```TACK``` ... Item can be used as tack for a mount.
 - ```TIE_UP``` ... Item can be used to tie up a creature.

@@ -5,20 +5,20 @@
 #include <functional>
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "calendar.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
-class recipe;
 class item;
+class recipe;
+template <typename T> class string_id;
 
 struct time_info_t {
     // Absolute floor on the time taken to attack.

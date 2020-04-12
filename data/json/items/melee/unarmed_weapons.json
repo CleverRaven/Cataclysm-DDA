@@ -13,6 +13,7 @@
     "cutting": 6,
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ],
     "price": 20000,
+    "price_postapoc": 250,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   },
   {
@@ -26,6 +27,7 @@
     "volume": "100 ml",
     "weight": "300 g",
     "bashing": 2,
+    "price_postapoc": 250,
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
@@ -39,6 +41,7 @@
     "material": "brass",
     "weight": "320 g",
     "bashing": 6,
+    "price_postapoc": 250,
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
   },
   {
@@ -53,6 +56,7 @@
     "weight": "1150 g",
     "cutting": 16,
     "to_hit": 2,
+    "price_postapoc": 500,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "UNARMED_WEAPON" ],
     "techniques": [ "WBLOCK_1" ]
@@ -69,6 +73,7 @@
     "weight": "430 g",
     "bashing": 4,
     "cutting": 6,
+    "price_postapoc": 50,
     "flags": [ "UNARMED_WEAPON" ]
   },
   {
@@ -82,6 +87,7 @@
     "volume": "250 ml",
     "weight": "430 g",
     "bashing": 8,
+    "price_postapoc": 50,
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "UNARMED_WEAPON" ]
   },
@@ -92,6 +98,7 @@
     "description": "A short and sharp double-edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",
     "weight": "168 g",
     "to_hit": 2,
+    "price_postapoc": 50,
     "color": "dark_gray",
     "symbol": "{",
     "material": [ "steel" ],

@@ -1,79 +1,84 @@
 #include "faction_camp.h" // IWYU pragma: associated
 
-#include <cstddef>
 #include <algorithm>
-#include <string>
-#include <vector>
+#include <cstddef>
 #include <list>
 #include <map>
 #include <memory>
 #include <set>
+#include <string>
 #include <unordered_set>
+#include <vector>
 
 #include "activity_handlers.h"
 #include "avatar.h"
-#include "bionics.h"
+#include "basecamp.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
+#include "colony.h"
+#include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "editmap.h"
+#include "enums.h"
+#include "faction.h"
 #include "game.h"
+#include "game_constants.h"
 #include "iexamine.h"
 #include "input.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
+#include "item_stack.h"
 #include "itype.h"
-#include "line.h"
 #include "kill_tracker.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "player_activity.h"
+#include "point.h"
 #include "recipe.h"
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
-#include "string_input_popup.h"
-#include "translations.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_range.h"
-#include "basecamp.h"
-#include "calendar.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "enums.h"
-#include "faction.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player_activity.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_input_popup.h"
+#include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "weighted_list.h"
-#include "type_id.h"
-#include "colony.h"
-#include "item_stack.h"
-#include "point.h"
+#include "value_ptr.h"
+#include "veh_type.h"
+#include "vehicle.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
+#include "weighted_list.h"
+
+class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
@@ -149,7 +154,7 @@ struct miss_data {
 recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_options,
                               const std::string &option );
 
-// enventually this will move to JSON
+// eventually this will move to JSON
 std::map<std::string, miss_data> miss_info = {{
         {
             "_faction_upgrade_camp", {
@@ -173,10 +178,10 @@ std::map<std::string, miss_data> miss_info = {{
             }
         },
         {
-            "travelling", {
-                "Travelling", to_translation( "Travelling" ),
-                to_translation( "Busy travelling!\n" ),
-                "Recall ally from travelling", to_translation( "Recall ally from travelling" )
+            "traveling", {
+                "Traveling", to_translation( "Traveling" ),
+                to_translation( "Busy traveling!\n" ),
+                "Recall ally from traveling", to_translation( "Recall ally from traveling" )
             }
         },
         {
@@ -3873,7 +3878,7 @@ bool basecamp::distribute_food()
         for( item &i : initial_items ) {
             if( i.is_container() && i.get_contained().is_food() ) {
                 auto comest = i.get_contained();
-                i.contents.clear();
+                i.contents.clear_items();
                 //NPCs are lazy bastards who leave empties all around the camp fire
                 tripoint litter_spread = p_litter;
                 litter_spread.x += rng( -3, 3 );

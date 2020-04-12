@@ -4,21 +4,20 @@
 
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "calendar.h"
 #include "io_tags.h"
 #include "monster.h"
-#include "string_id.h"
-#include "type_id.h"
 #include "point.h"
+#include "type_id.h"
 
+class JsonIn;
+class JsonObject;
+class JsonOut;
 // from overmap.h
 class overmap;
-class JsonObject;
-class JsonIn;
-class JsonOut;
 struct MonsterGroupEntry;
 
 using FreqDef = std::vector<MonsterGroupEntry>;

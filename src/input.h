@@ -2,6 +2,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include <algorithm>
 #include <cstddef>
 #include <functional>
 #include <map>
@@ -9,8 +10,8 @@
 #include <vector>
 
 #if defined(__ANDROID__)
-#include <list>
 #include <algorithm>
+#include <list>
 #endif
 
 #include "point.h"

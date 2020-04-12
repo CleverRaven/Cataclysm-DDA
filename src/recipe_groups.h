@@ -2,13 +2,13 @@
 #ifndef RECIPE_GROUPS_H
 #define RECIPE_GROUPS_H
 
-#include <string>
 #include <map>
+#include <string>
 
-#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
+class translation;
 
 namespace recipe_group
 {

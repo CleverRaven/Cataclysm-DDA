@@ -240,9 +240,10 @@ ELSE()
     IF (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
         SET(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     ENDIF()
+    SET(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -fsigned-char")
     # Compact the whitespace in the warning string
     string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS} ${CATA_OTHER_FLAGS}")
     SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 ENDIF()
 

@@ -2,56 +2,58 @@
 #ifndef NPC_H
 #define NPC_H
 
+#include <algorithm>
+#include <array>
+#include <functional>
+#include <iosfwd>
+#include <iterator>
+#include <list>
 #include <map>
-#include <memory>
 #include <set>
 #include <string>
-#include <vector>
-#include <array>
-#include <iosfwd>
-#include <list>
 #include <unordered_map>
 #include <utility>
-#include <functional>
+#include <vector>
 
+#include "auto_pickup.h"
 #include "calendar.h"
-#include "faction.h"
-#include "line.h"
-#include "lru_cache.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "player.h"
+#include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "enums.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "inventory.h"
+#include "item.h"
 #include "item_location.h"
+#include "line.h"
+#include "lru_cache.h"
+#include "memory_fast.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
+#include "point.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
-#include "material.h"
+#include "translations.h"
 #include "type_id.h"
-#include "int_id.h"
-#include "item.h"
-#include "point.h"
-#include "memory_fast.h"
-#include "sounds.h"
+#include "units.h"
 
-namespace auto_pickup
-{
-class npc_settings;
-} // namespace auto_pickup
-struct bionic_data;
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
-struct overmap_location;
-class Character;
 class mission;
-class vehicle;
-struct pathfinding_settings;
 class monfaction;
+class monster;
 class npc_class;
+class vehicle;
+struct bionic_data;
 struct mission_type;
+struct overmap_location;
+struct pathfinding_settings;
 
 enum game_message_type : int;
 class gun_mode;
@@ -129,7 +131,7 @@ class job_data
             { activity_id( "ACT_TIDY_UP" ), 0 },
         };
     public:
-        bool set_task_priority( const activity_id task, int new_priority ) {
+        bool set_task_priority( const activity_id &task, int new_priority ) {
             auto it = task_priorities.find( task );
             if( it != task_priorities.end() ) {
                 task_priorities[task] = new_priority;
@@ -150,7 +152,7 @@ class job_data
             }
             return false;
         }
-        int get_priority_of_job( const activity_id req_job ) const {
+        int get_priority_of_job( const activity_id &req_job ) const {
             auto it = task_priorities.find( req_job );
             if( it != task_priorities.end() ) {
                 return it->second;
@@ -889,7 +891,7 @@ class npc : public player
 
         bool is_hallucination() const override; // true if the NPC isn't actually real
 
-        // Ally of or travelling with p
+        // Ally of or traveling with p
         bool is_friendly( const player &p ) const;
         // Leading the player
         bool is_leader() const;
