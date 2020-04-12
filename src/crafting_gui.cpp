@@ -768,7 +768,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
         } else if( action == "HELP_RECIPE" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!  Press [ESC]!" ) );
+                popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
                 recalc = true;
                 continue;
             }
@@ -848,7 +848,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             recalc = true;
         } else if( action == "CYCLE_BATCH" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!  Press [ESC]!" ) );
+                popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
                 recalc = true;
                 continue;
             }
@@ -865,7 +865,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             keepline = true;
             recalc = true;
             if( current.empty() ) {
-                popup( _( "Nothing selected!  Press [ESC]!" ) );
+                popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
                 continue;
             }
             if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
@@ -875,7 +875,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
         } else if( action == "HIDE_SHOW_RECIPE" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!  Press [ESC]!" ) );
+                popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
                 recalc = true;
                 continue;
             }
@@ -888,7 +888,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             recalc = true;
         } else if( action == "RELATED_RECIPES" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!  Press [ESC]!" ) );
+                popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
                 recalc = true;
                 continue;
             }
