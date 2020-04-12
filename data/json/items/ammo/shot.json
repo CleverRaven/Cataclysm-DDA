@@ -145,7 +145,13 @@
     "price": 1000,
     "price_postapoc": 1600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "proportional": { "damage": { "damage_type": "stab", "amount": 0.2 }, "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2, "range": 0.5 },
+    "proportional": {
+      "damage": { "damage_type": "bullet", "amount": 0.2 },
+      "recoil": 0.6,
+      "loudness": 0.8,
+      "dispersion": 1.2,
+      "range": 0.5
+    },
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {

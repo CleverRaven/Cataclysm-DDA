@@ -153,7 +153,7 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": 5,
+      "ranged_damage": { "damage_type": "bullet", "amount": 5 },
       "dispersion": 425,
       "durability": 7,
       "clip_size": 12,

@@ -123,7 +123,7 @@
     "to_hit": -1,
     "bashing": 9,
     "material": [ "steel", "plastic" ],
-    "ranged_damage": 5,
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 425,
     "sight_dispersion": 500,
     "durability": 7,
