@@ -2037,7 +2037,7 @@ void player::process_one_effect( effect &it, bool is_new )
     // Handle painkillers
     val = get_effect( "PKILL", reduced );
     if( val != 0 ) {
-        mod = it.get_addict_mod( "PKILL", addiction_level( ADD_PKILLER ) );
+        mod = it.get_addict_mod( "PKILL", addiction_level( add_type::PKILLER ) );
         if( is_new || it.activated( calendar::turn, "PKILL", val, reduced, mod ) ) {
             mod_painkiller( bound_mod_to_vals( get_painkiller(), val, it.get_max_val( "PKILL", reduced ), 0 ) );
         }
@@ -4317,7 +4317,7 @@ int player::sleep_spot( const tripoint &p ) const
     int sleepy = static_cast<int>( comfort_info.level );
     bool watersleep = has_trait( trait_WATERSLEEP );
 
-    if( has_addiction( ADD_SLEEP ) ) {
+    if( has_addiction( add_type::SLEEP ) ) {
         sleepy -= 4;
     }
     if( has_trait( trait_INSOMNIA ) ) {

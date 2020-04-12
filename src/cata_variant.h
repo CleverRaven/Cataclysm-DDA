@@ -13,13 +13,13 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "hash_utils.h"
+#include "pldata.h"
 #include "type_id.h"
 
 class JsonIn;
 class JsonOut;
 template <typename E> struct enum_traits;
 
-enum add_type : int;
 enum body_part : int;
 enum class mutagen_technique : int;
 enum hp_part : int;

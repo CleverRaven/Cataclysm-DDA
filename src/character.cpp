@@ -9490,7 +9490,7 @@ int Character::heartrate_bpm() const
     heartbeat += average_heartbeat * stim_modifer;
     if( get_effect_dur( effect_cig ) > 0_turns ) {
         //Nicotine-induced tachycardia
-        if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( ADD_CIG ) + 1 ) ) {
+        if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( add_type::CIG ) + 1 ) ) {
             heartbeat += average_heartbeat * 0.4;
         } else {
             heartbeat += average_heartbeat * 0.1;
