@@ -4008,49 +4008,49 @@ void game::mon_info_update( )
             // for compatibility with old code, see diagram below, it explains the values for index,
             // also might need revisiting one z-levels are in.
             switch( dir_to_mon ) {
-                case ABOVENORTHWEST:
-                case NORTHWEST:
-                case BELOWNORTHWEST:
+                case direction::ABOVENORTHWEST:
+                case direction::NORTHWEST:
+                case direction::BELOWNORTHWEST:
                     index = 7;
                     break;
-                case ABOVENORTH:
-                case NORTH:
-                case BELOWNORTH:
+                case direction::ABOVENORTH:
+                case direction::NORTH:
+                case direction::BELOWNORTH:
                     index = 0;
                     break;
-                case ABOVENORTHEAST:
-                case NORTHEAST:
-                case BELOWNORTHEAST:
+                case direction::ABOVENORTHEAST:
+                case direction::NORTHEAST:
+                case direction::BELOWNORTHEAST:
                     index = 1;
                     break;
-                case ABOVEWEST:
-                case WEST:
-                case BELOWWEST:
+                case direction::ABOVEWEST:
+                case direction::WEST:
+                case direction::BELOWWEST:
                     index = 6;
                     break;
-                case ABOVECENTER:
-                case CENTER:
-                case BELOWCENTER:
+                case direction::ABOVECENTER:
+                case direction::CENTER:
+                case direction::BELOWCENTER:
                     index = 8;
                     break;
-                case ABOVEEAST:
-                case EAST:
-                case BELOWEAST:
+                case direction::ABOVEEAST:
+                case direction::EAST:
+                case direction::BELOWEAST:
                     index = 2;
                     break;
-                case ABOVESOUTHWEST:
-                case SOUTHWEST:
-                case BELOWSOUTHWEST:
+                case direction::ABOVESOUTHWEST:
+                case direction::SOUTHWEST:
+                case direction::BELOWSOUTHWEST:
                     index = 5;
                     break;
-                case ABOVESOUTH:
-                case SOUTH:
-                case BELOWSOUTH:
+                case direction::ABOVESOUTH:
+                case direction::SOUTH:
+                case direction::BELOWSOUTH:
                     index = 4;
                     break;
-                case ABOVESOUTHEAST:
-                case SOUTHEAST:
-                case BELOWSOUTHEAST:
+                case direction::ABOVESOUTHEAST:
+                case direction::SOUTHEAST:
+                case direction::BELOWSOUTHEAST:
                     index = 3;
                     break;
             }
@@ -9337,7 +9337,7 @@ point game::place_player( const tripoint &dest_loc )
 
     //Auto pulp or butcher and Auto foraging
     if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0  && !u.is_mounted() ) {
-        static const direction adjacentDir[8] = { NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
+        static const direction adjacentDir[8] = { direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST };
 
         const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
         if( forage_type != "off" ) {

@@ -527,8 +527,8 @@ struct dangerous_sound {
     int volume;
 };
 
-const direction npc_threat_dir[8] = { NORTHWEST, NORTH, NORTHEAST, EAST,
-                                      SOUTHEAST, SOUTH, SOUTHWEST, WEST
+const direction npc_threat_dir[8] = { direction::NORTHWEST, direction::NORTH, direction::NORTHEAST, direction::EAST,
+                                      direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST
                                     };
 
 struct healing_options {

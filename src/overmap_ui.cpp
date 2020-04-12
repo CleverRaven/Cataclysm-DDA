@@ -810,28 +810,28 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         std::string marker_sym = " ";
 
         switch( direction_from( center.xy(), target.xy() ) ) {
-            case NORTH:
+            case direction::NORTH:
                 marker_sym = "^";
                 break;
-            case NORTHEAST:
+            case direction::NORTHEAST:
                 marker_sym = LINE_OOXX_S;
                 break;
-            case EAST:
+            case direction::EAST:
                 marker_sym = ">";
                 break;
-            case SOUTHEAST:
+            case direction::SOUTHEAST:
                 marker_sym = LINE_XOOX_S;
                 break;
-            case SOUTH:
+            case direction::SOUTH:
                 marker_sym = "v";
                 break;
-            case SOUTHWEST:
+            case direction::SOUTHWEST:
                 marker_sym = LINE_XXOO_S;
                 break;
-            case WEST:
+            case direction::WEST:
                 marker_sym = "<";
                 break;
-            case NORTHWEST:
+            case direction::NORTHWEST:
                 marker_sym = LINE_OXXO_S;
                 break;
             default:

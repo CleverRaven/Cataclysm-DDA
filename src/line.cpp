@@ -294,31 +294,31 @@ unsigned make_xyz( const tripoint &p )
     int octant = atan2( p.x, p.y ) / sixteenth_arc;
     switch( octant ) {
         case 0:
-            return SOUTH + vertical_position;
+            return direction::SOUTH + vertical_position;
         case 1:
         case 2:
-            return SOUTHEAST + vertical_position;
+            return direction::SOUTHEAST + vertical_position;
         case 3:
         case 4:
-            return EAST + vertical_position;
+            return direction::EAST + vertical_position;
         case 5:
         case 6:
-            return NORTHEAST + vertical_position;
+            return direction::NORTHEAST + vertical_position;
         case -1:
         case -2:
-            return SOUTHWEST + vertical_position;
+            return direction::SOUTHWEST + vertical_position;
         case -3:
         case -4:
-            return WEST + vertical_position;
+            return direction::WEST + vertical_position;
         case -5:
         case -6:
-            return NORTHWEST + vertical_position;
+            return direction::NORTHWEST + vertical_position;
         case 7:
         case 8:
         case -7:
         case -8:
         default:
-            return NORTH + vertical_position;
+            return direction::NORTH + vertical_position;
     }
 }
 
@@ -389,23 +389,41 @@ direction direction_from( const tripoint &p, const tripoint &q )
 point direction_XY( const direction dir )
 {
     switch( dir % 9 ) {
-        case NORTHWEST:
+        case direction::NORTHWEST:
+        case direction::ABOVENORTHWEST:
+        case direction::BELOWNORTHWEST:
             return point_north_west;
-        case NORTH:
+        case direction::NORTH:
+        case direction::ABOVENORTH:
+        case direction::BELOWNORTH:
             return point_north;
-        case NORTHEAST:
+        case direction::NORTHEAST:
+        case direction::ABOVENORTHEAST:
+        case direction::BELOWNORTHEAST:
             return point_north_east;
-        case WEST:
+        case direction::WEST:
+        case direction::ABOVEWEST:
+        case direction::BELOWWEST:
             return point_west;
-        case CENTER:
+        case direction::CENTER:
+        case direction::ABOVECENTER:
+        case direction::BELOWCENTER:
             return point_zero;
-        case EAST:
+        case direction::EAST:
+        case direction::ABOVEEAST:
+        case direction::BELOWEAST:
             return point_east;
-        case SOUTHWEST:
+        case direction::SOUTHWEST:
+        case direction::ABOVESOUTHWEST:
+        case direction::BELOWSOUTHWEST:
             return point_south_west;
-        case SOUTH:
+        case direction::SOUTH:
+        case direction::ABOVESOUTH:
+        case direction::BELOWSOUTH:
             return point_south;
-        case SOUTHEAST:
+        case direction::SOUTHEAST:
+        case direction::ABOVESOUTHEAST:
+        case direction::BELOWSOUTHEAST:
             return point_south_east;
     }
 
@@ -422,33 +440,33 @@ std::string direction_name_impl( const direction dir, const bool short_name )
         std::array < pair_t, size + 1 > result;
 
         //~ abbreviated direction names and long direction names
-        result[NORTH]          = pair_t {translate_marker( "N    " ), translate_marker( "north" )};
-        result[NORTHEAST]      = pair_t {translate_marker( "NE   " ), translate_marker( "northeast" )};
-        result[EAST]           = pair_t {translate_marker( "E    " ), translate_marker( "east" )};
-        result[SOUTHEAST]      = pair_t {translate_marker( "SE   " ), translate_marker( "southeast" )};
-        result[SOUTH]          = pair_t {translate_marker( "S    " ), translate_marker( "south" )};
-        result[SOUTHWEST]      = pair_t {translate_marker( "SW   " ), translate_marker( "southwest" )};
-        result[WEST]           = pair_t {translate_marker( "W    " ), translate_marker( "west" )};
-        result[NORTHWEST]      = pair_t {translate_marker( "NW   " ), translate_marker( "northwest" )};
-        result[ABOVENORTH]     = pair_t {translate_marker( "UP_N " ), translate_marker( "north and above" )};
-        result[ABOVENORTHEAST] = pair_t {translate_marker( "UP_NE" ), translate_marker( "northeast and above" )};
-        result[ABOVEEAST]      = pair_t {translate_marker( "UP_E " ), translate_marker( "east and above" )};
-        result[ABOVESOUTHEAST] = pair_t {translate_marker( "UP_SE" ), translate_marker( "southeast and above" )};
-        result[ABOVESOUTH]     = pair_t {translate_marker( "UP_S " ), translate_marker( "south and above" )};
-        result[ABOVESOUTHWEST] = pair_t {translate_marker( "UP_SW" ), translate_marker( "southwest and above" )};
-        result[ABOVEWEST]      = pair_t {translate_marker( "UP_W " ), translate_marker( "west and above" )};
-        result[ABOVENORTHWEST] = pair_t {translate_marker( "UP_NW" ), translate_marker( "northwest and above" )};
-        result[BELOWNORTH]     = pair_t {translate_marker( "DN_N " ), translate_marker( "north and below" )};
-        result[BELOWNORTHEAST] = pair_t {translate_marker( "DN_NE" ), translate_marker( "northeast and below" )};
-        result[BELOWEAST]      = pair_t {translate_marker( "DN_E " ), translate_marker( "east and below" )};
-        result[BELOWSOUTHEAST] = pair_t {translate_marker( "DN_SE" ), translate_marker( "southeast and below" )};
-        result[BELOWSOUTH]     = pair_t {translate_marker( "DN_S " ), translate_marker( "south and below" )};
-        result[BELOWSOUTHWEST] = pair_t {translate_marker( "DN_SW" ), translate_marker( "southwest and below" )};
-        result[BELOWWEST]      = pair_t {translate_marker( "DN_W " ), translate_marker( "west and below" )};
-        result[BELOWNORTHWEST] = pair_t {translate_marker( "DN_NW" ), translate_marker( "northwest and below" )};
-        result[ABOVECENTER]    = pair_t {translate_marker( "UP_CE" ), translate_marker( "above" )};
-        result[CENTER]         = pair_t {translate_marker( "CE   " ), translate_marker( "center" )};
-        result[BELOWCENTER]    = pair_t {translate_marker( "DN_CE" ), translate_marker( "below" )};
+        result[static_cast<size_t>( direction::NORTH )]          = pair_t {translate_marker( "N    " ), translate_marker( "north" )};
+        result[static_cast<size_t>( direction::NORTHEAST )]      = pair_t {translate_marker( "NE   " ), translate_marker( "northeast" )};
+        result[static_cast<size_t>( direction::EAST )]           = pair_t {translate_marker( "E    " ), translate_marker( "east" )};
+        result[static_cast<size_t>( direction::SOUTHEAST )]      = pair_t {translate_marker( "SE   " ), translate_marker( "southeast" )};
+        result[static_cast<size_t>( direction::SOUTH )]          = pair_t {translate_marker( "S    " ), translate_marker( "south" )};
+        result[static_cast<size_t>( direction::SOUTHWEST )]      = pair_t {translate_marker( "SW   " ), translate_marker( "southwest" )};
+        result[static_cast<size_t>( direction::WEST )]           = pair_t {translate_marker( "W    " ), translate_marker( "west" )};
+        result[static_cast<size_t>( direction::NORTHWEST )]      = pair_t {translate_marker( "NW   " ), translate_marker( "northwest" )};
+        result[static_cast<size_t>( direction::ABOVENORTH )]     = pair_t {translate_marker( "UP_N " ), translate_marker( "north and above" )};
+        result[static_cast<size_t>( direction::ABOVENORTHEAST )] = pair_t {translate_marker( "UP_NE" ), translate_marker( "northeast and above" )};
+        result[static_cast<size_t>( direction::ABOVEEAST )]      = pair_t {translate_marker( "UP_E " ), translate_marker( "east and above" )};
+        result[static_cast<size_t>( direction::ABOVESOUTHEAST )] = pair_t {translate_marker( "UP_SE" ), translate_marker( "southeast and above" )};
+        result[static_cast<size_t>( direction::ABOVESOUTH )]     = pair_t {translate_marker( "UP_S " ), translate_marker( "south and above" )};
+        result[static_cast<size_t>( direction::ABOVESOUTHWEST )] = pair_t {translate_marker( "UP_SW" ), translate_marker( "southwest and above" )};
+        result[static_cast<size_t>( direction::ABOVEWEST )]      = pair_t {translate_marker( "UP_W " ), translate_marker( "west and above" )};
+        result[static_cast<size_t>( direction::ABOVENORTHWEST )] = pair_t {translate_marker( "UP_NW" ), translate_marker( "northwest and above" )};
+        result[static_cast<size_t>( direction::BELOWNORTH )]     = pair_t {translate_marker( "DN_N " ), translate_marker( "north and below" )};
+        result[static_cast<size_t>( direction::BELOWNORTHEAST )] = pair_t {translate_marker( "DN_NE" ), translate_marker( "northeast and below" )};
+        result[static_cast<size_t>( direction::BELOWEAST )]      = pair_t {translate_marker( "DN_E " ), translate_marker( "east and below" )};
+        result[static_cast<size_t>( direction::BELOWSOUTHEAST )] = pair_t {translate_marker( "DN_SE" ), translate_marker( "southeast and below" )};
+        result[static_cast<size_t>( direction::BELOWSOUTH )]     = pair_t {translate_marker( "DN_S " ), translate_marker( "south and below" )};
+        result[static_cast<size_t>( direction::BELOWSOUTHWEST )] = pair_t {translate_marker( "DN_SW" ), translate_marker( "southwest and below" )};
+        result[static_cast<size_t>( direction::BELOWWEST )]      = pair_t {translate_marker( "DN_W " ), translate_marker( "west and below" )};
+        result[static_cast<size_t>( direction::BELOWNORTHWEST )] = pair_t {translate_marker( "DN_NW" ), translate_marker( "northwest and below" )};
+        result[static_cast<size_t>( direction::ABOVECENTER )]    = pair_t {translate_marker( "UP_CE" ), translate_marker( "above" )};
+        result[static_cast<size_t>( direction::CENTER )]         = pair_t {translate_marker( "CE   " ), translate_marker( "center" )};
+        result[static_cast<size_t>( direction::BELOWCENTER )]    = pair_t {translate_marker( "DN_CE" ), translate_marker( "below" )};
 
         result[size] = pair_t {"BUG.  (line.cpp:direction_name)", "BUG.  (line.cpp:direction_name)"};
         return result;

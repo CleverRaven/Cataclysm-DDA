@@ -2426,16 +2426,16 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
     int xmov = 0;
     int ymov = 0;
     switch( dir ) {
-        case NORTH:
+        case direction::NORTH:
             ymov = -1;
             break;
-        case SOUTH:
+        case direction::SOUTH:
             ymov = 1;
             break;
-        case WEST:
+        case direction::WEST:
             xmov = -1;
             break;
-        case EAST:
+        case direction::EAST:
             xmov = 1;
             break;
         default:
@@ -2445,10 +2445,10 @@ bool map::is_last_ter_wall( const bool no_furn, const point &p,
     int y2 = p.y;
     bool result = true;
     bool loop = true;
-    while( ( loop ) && ( ( dir == NORTH && y2 >= 0 ) ||
-                         ( dir == SOUTH && y2 < max.y ) ||
-                         ( dir == WEST  && x2 >= 0 ) ||
-                         ( dir == EAST  && x2 < max.x ) ) ) {
+    while( ( loop ) && ( ( dir == direction::NORTH && y2 >= 0 ) ||
+                         ( dir == direction::SOUTH && y2 < max.y ) ||
+                         ( dir == direction::WEST  && x2 >= 0 ) ||
+                         ( dir == direction::EAST  && x2 < max.x ) ) ) {
         if( no_furn && has_furn( point( x2, y2 ) ) ) {
             loop = false;
             result = false;
