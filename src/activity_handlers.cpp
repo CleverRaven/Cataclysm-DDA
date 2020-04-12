@@ -2542,32 +2542,37 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
         return;
     }
 
-    const ter_id type = g->m.ter( act->placement );
-    ter_id new_type;
+    const ter_id ter_type = g->m.ter( act->placement );
+    const furn_id furn_type = g->m.furn( act->placement );
+    ter_id new_ter_type;
+    furn_id new_furn_type;
     std::string open_message;
-    if( type == t_chaingate_l ) {
-        new_type = t_chaingate_c;
+    if( ter_type == t_chaingate_l ) {
+        new_ter_type = t_chaingate_c;
         open_message = _( "With a satisfying click, the chain-link gate opens." );
-    } else if( type == t_door_locked || type == t_door_locked_alarm ||
-               type == t_door_locked_interior ) {
-        new_type = t_door_c;
+    } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
+               ter_type == t_door_locked_interior ) {
+        new_ter_type = t_door_c;
         open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( type == t_door_locked_peep ) {
-        new_type = t_door_c_peep;
+    } else if( ter_type == t_door_locked_peep ) {
+        new_ter_type = t_door_c_peep;
         open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( type == t_door_metal_pickable ) {
-        new_type = t_door_metal_c;
+    } else if( ter_type == t_door_metal_pickable ) {
+        new_ter_type = t_door_metal_c;
         open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( type == t_door_bar_locked ) {
-        new_type = t_door_bar_o;
+    } else if( ter_type == t_door_bar_locked ) {
+        new_ter_type = t_door_bar_o;
         //Bar doors auto-open (and lock if closed again) so show a different message)
         open_message = _( "The door swings open…" );
+    } else if( furn_type == f_gunsafe_ml ) {
+        new_furn_type = f_safe_o;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
     } else {
         act->set_to_null();
     }
 
     bool destroy = false;
-  
+
     /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
@@ -2575,12 +2580,17 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
                     ( std::pow( 1.3, p->get_skill_level( skill_mechanics ) ) +
                       it->get_quality( LOCKPICK ) - it->damage() / 2000 ) +
                     p->dex_cur / 4;
-    int door_roll = rng( 1, 120 );
-    if( pick_roll >= door_roll ) {
-        p->practice( skill_lockpick, door_roll );
-        g->m.ter_set( act->placement, new_type );
+    int lock_roll = rng( 1, 120 );
+    if( pick_roll >= lock_roll ) {
+        p->practice( skill_lockpick, lock_roll );
+        g->m.has_furn( act->placement ) ?
+        g->m.furn_set( act->placement, new_furn_type ) :
+        g->m.ter_set( act->placement, new_ter_type );
         p->add_msg_if_player( m_good, open_message );
-    } else if( door_roll > ( 1.5 * pick_roll ) ) {
+    } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
+        p->add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
+        g->m.furn_set( act->placement, furn_str_id( "f_gunsafe_mj" ) );
+    } else if( lock_roll > ( 1.5 * pick_roll ) ) {
         if( it->inc_damage() ) {
             p->add_msg_if_player( m_bad,
                                   _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
@@ -2592,7 +2602,7 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
     } else {
         p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
     }
-    if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
+    if( ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
         if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
