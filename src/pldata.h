@@ -10,8 +10,6 @@ class JsonIn;
 class JsonOut;
 template <typename E> struct enum_traits;
 
-using dis_type = std::string;
-
 enum character_type : int {
     PLTYPE_CUSTOM,
     PLTYPE_RANDOM,
