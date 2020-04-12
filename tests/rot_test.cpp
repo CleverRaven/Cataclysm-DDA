@@ -23,6 +23,12 @@ TEST_CASE( "Rate of rotting" )
         // In preserving containers and in freezer the item should not rot at all
         // Item in freezer should not be frozen.
 
+        // Items created at turn zero are handled differently, so ensure we're
+        // not there.
+        if( calendar::turn <= calendar::start_of_cataclysm ) {
+            calendar::turn = calendar::start_of_cataclysm + 1_minutes;
+        }
+
         item normal_item( "meat_cooked" );
 
         item freeze_item( "offal_canned" );
