@@ -25,7 +25,7 @@
     "description": "This is a kit with all the specialized knifes you would need for deboning, skinning and preparing the cuts of meat from an animal.",
     "copy-from": "base_kitchen_knife",
     "looks_like": "knife_butcher",
-    "weight": "1010 g",
+    "weight": "1170 g",
     "volume": "800 ml",
     "price": 8000,
     "price_postapoc": 150,
