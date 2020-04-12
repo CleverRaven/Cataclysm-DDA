@@ -1983,6 +1983,24 @@ static void draw_bowel( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
+static void draw_graphical_clock_wide( const avatar &, const catacurses::window &w )
+{
+    werase( w );
+
+    // display sky
+    if( g->get_levz() >= 0 ) {
+        wmove( w, point( 1, 0 ) );
+        draw_time_graphic( w );
+    } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
+        mvwprintz( w, point( 1, 0 ), c_light_gray, _( "[   ?   ]" ) );
+    }
+    // display moon
+    nc_color clr = c_white;
+    print_colored_text( w, point( 15, 0 ), clr, c_white, get_moon_graphic() );
+    wrefresh( w );
+}
+
 // ============
 // INITIALIZERS
 // ============
@@ -2111,6 +2129,8 @@ static std::vector<window_panel> initialize_default_label_panels()
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 44, false ) );
     ret.emplace_back( window_panel( draw_bowel, translate_marker("Excrement Needs"), 1, 44, true ) );
+    ret.emplace_back( window_panel( draw_graphical_clock_wide, translate_marker("Graphical Clock"), 1, 44, true ) );
+
 
     return ret;
 }

@@ -300,10 +300,6 @@ weather_type weather_generator::get_variant_modded_weather_conditions( const w_p
     if( 90 < w.humidity && w.pressure < 1003) {
         r = WEATHER_LIGHTNING;
     }
-    if( 99 < w.humidity && w.pressure < 1003) {
-        // eye of the storm ;)
-        r = WEATHER_SUNNY;
-    }
 
     if( w.temperature <= 32 ) {
         if( r == WEATHER_DRIZZLE ) {
@@ -317,6 +313,9 @@ weather_type weather_generator::get_variant_modded_weather_conditions( const w_p
                 r = WEATHER_SNOW;
             }
         }
+    } else if( 99 < w.humidity && w.pressure < 1003) {
+        // eye of the storm ;)
+        r = WEATHER_SUNNY;
     }
 
 
