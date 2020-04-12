@@ -174,8 +174,8 @@ class MapgenRemovePartHandler : public RemovePartHandler
         }
         void add_item_or_charges( const tripoint &loc, item it ) override {
             if( !m.inbounds( loc ) ) {
-                debugmsg( "Tried to put item %s on invalid tile %d,%d,%d during mapgen!", it.tname(), loc.x, loc.y,
-                          loc.z );
+                debugmsg( "Tried to put item %s on invalid tile %s during mapgen!",
+                          it.tname(), loc.to_string() );
                 tripoint copy = loc;
                 m.clip_to_bounds( copy );
                 assert( m.inbounds( copy ) ); // prevent infinite recursion
