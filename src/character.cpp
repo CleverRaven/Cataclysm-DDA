@@ -6888,6 +6888,12 @@ units::mass Character::bionics_weight() const
     return bio_weight;
 }
 
+void Character::reset_chargen_attributes()
+{
+    init_age = 25;
+    init_height = 175;
+}
+
 int Character::base_age() const
 {
     return init_age;

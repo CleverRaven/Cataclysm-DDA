@@ -1579,6 +1579,8 @@ class Character : public Creature, public visitable<Character>
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
+        // Reset age and height to defaults for consistent test results
+        void reset_chargen_attributes();
         // age in years, determined at character creation
         int base_age() const;
         void mod_base_age( int mod );
