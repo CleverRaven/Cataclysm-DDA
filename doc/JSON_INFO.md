@@ -1239,6 +1239,7 @@ an `event_statistic`.  For example:
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
 "cut_dmg_bonus": 3, // Bonus to unarmed cut damage (default: 0)
+"pierce_dmg_bonus": 3, // Bonus to unarmed pierce damage (default: 0.0)
 "bash_dmg_bonus": 3, // Bonus to unarmed bash damage (default: 0)
 "rand_cut_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed cut damage between min and max.
 "rand_bash_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed bash damage between min and max.
