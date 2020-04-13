@@ -55,7 +55,7 @@ void clear_character( player &dummy, bool debug_storage )
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
     dummy.inv.clear();
     dummy.remove_weapon();
-    dummy.empty_traits();
+    dummy.clear_mutations();
 
     // Prevent spilling, but don't cause encumbrance
     if( debug_storage && !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {

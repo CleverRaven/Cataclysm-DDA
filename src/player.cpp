@@ -290,7 +290,7 @@ player::player()
     next_expected_position = cata::nullopt;
     death_drops = true;
 
-    empty_traits();
+    clear_mutations();
 
     nv_cached = false;
     volume = 0;

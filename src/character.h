@@ -1449,8 +1449,8 @@ class Character : public Creature, public visitable<Character>
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
-        /** Empties the trait list */
-        void empty_traits();
+        /** Empties the trait and mutations lists */
+        void clear_mutations();
         /**
          * Adds mandatory scenario and profession traits unless you already have them
          * And if you do already have them, refunds the points for the trait
