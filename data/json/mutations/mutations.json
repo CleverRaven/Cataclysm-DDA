@@ -371,7 +371,7 @@
     "id": "DEFT",
     "name": { "str": "Deft" },
     "points": 1,
-    "description": "While you're not any better at melee combat, you are better at slightly better at dodging and recovering from a miss, and will be able to attempt another strike faster.",
+    "description": "While you're not any better at melee combat, you are slightly better at dodging and recovering from a miss, and will be able to attempt another strike faster.",
     "starting_trait": true,
     "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE" ]
   },
