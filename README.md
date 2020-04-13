@@ -1,7 +1,7 @@
 
 # Cataclysm-DDA_variant_jp
 
-プルリクのテスト。
+プルリクのテスト。その２．
 
 English version (broken english warning!!)
 
