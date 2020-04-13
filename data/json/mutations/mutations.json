@@ -1088,6 +1088,7 @@
     "points": -1,
     "description": "Unimplemented. To be removed after 0.F. to preserve save compatibility.",
     "starting_trait": false,
+    "player_display": false,
     "valid": false
   },
   {
