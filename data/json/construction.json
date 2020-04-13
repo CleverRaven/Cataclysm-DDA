@@ -3633,7 +3633,7 @@
     "type": "construction",
     "id": "constr_metal_grate_window_curtain_no_glass",
     "description": "Build Metal Grate Over a Window Without Glass",
-    "//": "Step 4: Build curtain over metal grate with a curtain",
+    "//": "Step 4: Build curtain over metal grate",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
