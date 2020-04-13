@@ -325,8 +325,7 @@
     "fun": -2,
     "smoking_result": "dry_veggy",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", 18 ], [ "iron", 5 ], [ "calcium", 8 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 18 ], [ "iron", 5 ], [ "calcium", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -345,8 +344,7 @@
     "volume": "250 ml",
     "fun": -8,
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -825,7 +823,6 @@
     "fun": -10,
     "healthy": -2,
     "//": "Fiddleheads that haven't been boiled can make you sick.",
-    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ]
   }
 ]

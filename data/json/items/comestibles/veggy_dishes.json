@@ -671,8 +671,7 @@
     "price": 110,
     "price_postapoc": 50,
     "flags": [ "EATEN_HOT" ],
-    "fun": 2,
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "fun": 2
   },
   {
     "type": "COMESTIBLE",
@@ -686,7 +685,6 @@
     "price_postapoc": 50,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "rot_spawn": "GROUP_ROTTING_PLANT",
     "//": "From Oregon Trail. Be prepared to lose it as soon as your wagon tips over."
   },
   {
@@ -823,8 +821,7 @@
     "volume": "120 ml",
     "fun": 1,
     "healthy": 1,
-    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -844,7 +841,6 @@
     "volume": "240 ml",
     "fun": 5,
     "healthy": 1,
-    "vitamins": [ [ "vitC", 32 ], [ "vitA", 40 ], [ "calcium", 4 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
+    "vitamins": [ [ "vitC", 32 ], [ "vitA", 40 ], [ "calcium", 4 ] ]
   }
 ]

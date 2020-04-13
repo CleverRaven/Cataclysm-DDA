@@ -463,9 +463,7 @@
     "price_postapoc": 100,
     "volume": "250 ml",
     "fun": 1,
-    "flags": [ "EATEN_HOT" ],
-    "rot_spawn": "GROUP_ROTTING_PLANT",
-    "rot_spawn_chance": 5
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "type": "COMESTIBLE",
