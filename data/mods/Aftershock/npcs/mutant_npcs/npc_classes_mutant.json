@@ -396,7 +396,9 @@
     "traits": [
       { "group": "trait_mutant_npc_common" },
       { "group": "trait_group_mastodon" },
-      { "distribution": [ { "group": "trait_group_mastodon_nonthres" }, { "group": "trait_group_mastodon_postthres" } ] }
+      {
+        "distribution": [ { "group": "trait_group_mastodon_nonthres" }, { "group": "trait_group_mastodon_postthres" } ]
+      }
     ]
   }
 ]
