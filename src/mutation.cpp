@@ -134,36 +134,39 @@ void Character::toggle_trait( const trait_id &trait_ )
     }
     if( miter == my_mutations.end() ) {
         set_mutation( trait );
-        mutation_effect( trait );
     } else {
         unset_mutation( trait );
-        mutation_loss_effect( trait );
     }
 }
 
-void Character::set_mutation( const trait_id &flag )
+void Character::set_mutation( const trait_id &trait )
 {
-    const auto iter = my_mutations.find( flag );
-    if( iter == my_mutations.end() ) {
-        my_mutations[flag]; // Creates a new entry with default values
-        cached_mutations.push_back( &flag.obj() );
-    } else {
+    const auto iter = my_mutations.find( trait );
+    if( iter != my_mutations.end() ) {
         return;
     }
+    my_mutations.emplace( trait, trait_data{} );
+    cached_mutations.push_back( &trait.obj() );
+    mutation_effect( trait );
     recalc_sight_limits();
     reset_encumbrance();
 }
 
-void Character::unset_mutation( const trait_id &flag )
+void Character::unset_mutation( const trait_id &trait_ )
 {
-    const auto iter = my_mutations.find( flag );
+    // Take copy of argument because it might be a reference into a container
+    // we're about to erase from.
+    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
+    const trait_id trait = trait_;
+    const auto iter = my_mutations.find( trait );
     if( iter == my_mutations.end() ) {
         return;
     }
-    const mutation_branch &mut = *flag;
+    const mutation_branch &mut = *trait;
     cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
                             cached_mutations.end() );
     my_mutations.erase( iter );
+    mutation_loss_effect( trait );
     recalc_sight_limits();
     reset_encumbrance();
 }
@@ -1017,8 +1020,6 @@ bool Character::mutate_towards( const trait_id &mut )
         }
     }
 
-    set_mutation( mut );
-
     bool mutation_replaced = false;
 
     game_message_type rating;
@@ -1044,8 +1045,6 @@ bool Character::mutate_towards( const trait_id &mut )
 
         g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing );
-        mutation_loss_effect( replacing );
-        mutation_effect( mut );
         mutation_replaced = true;
     }
     if( replacing2 ) {
@@ -1065,8 +1064,6 @@ bool Character::mutate_towards( const trait_id &mut )
                                replace_mdata.name(), mdata.name() );
         g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing2 );
-        mutation_loss_effect( replacing2 );
-        mutation_effect( mut );
         mutation_replaced = true;
     }
     for( const auto &i : canceltrait ) {
@@ -1089,8 +1086,6 @@ bool Character::mutate_towards( const trait_id &mut )
                                cancel_mdata.name(), mdata.name() );
         g->events().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
         unset_mutation( i );
-        mutation_loss_effect( i );
-        mutation_effect( mut );
         mutation_replaced = true;
     }
     if( !mutation_replaced ) {
@@ -1109,8 +1104,9 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "<npcname> gains a mutation called %s!" ),
                                mdata.name() );
         g->events().send<event_type::gains_mutation>( getID(), mdata.id );
-        mutation_effect( mut );
     }
+
+    set_mutation( mut );
 
     set_highest_cat_level();
     drench_mut_calc();
@@ -1220,8 +1216,6 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                                    mdata.name(), replace_mdata.name() );
         }
         set_mutation( replacing );
-        mutation_loss_effect( mut );
-        mutation_effect( replacing );
         mutation_replaced = true;
     }
     if( replacing2 ) {
@@ -1242,8 +1236,6 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                                    mdata.name(), replace_mdata.name() );
         }
         set_mutation( replacing2 );
-        mutation_loss_effect( mut );
-        mutation_effect( replacing2 );
         mutation_replaced = true;
     }
     if( !mutation_replaced ) {
@@ -1262,7 +1254,6 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                                    _( "<npcname> loses their %s mutation." ),
                                    mdata.name() );
         }
-        mutation_loss_effect( mut );
     }
 
     set_highest_cat_level();
