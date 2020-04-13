@@ -145,6 +145,7 @@ struct mutation_branch {
         float str_modifier = 0.0f;
         //melee bonuses
         int cut_dmg_bonus = 0;
+        float pierce_dmg_bonus = 0.0;
         std::pair<int, int> rand_cut_bonus;
         int bash_dmg_bonus = 0;
         std::pair<int, int> rand_bash_bonus;

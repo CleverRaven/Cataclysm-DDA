@@ -91,9 +91,6 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const trait_id trait_CLAWS( "CLAWS" );
-static const trait_id trait_CLAWS_RETRACT( "CLAWS_RETRACT" );
-static const trait_id trait_CLAWS_ST( "CLAWS_ST" );
 static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
@@ -860,9 +857,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average,
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             for( const std::pair< const trait_id, trait_data > &mut : my_mutations ) {
-                if( mut.first->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut.first ) ) {
-                    continue;
-                }
+
                 float unarmed_bonus = 0.0f;
                 const int bash_bonus = mut.first->bash_dmg_bonus;
                 if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 && bash_bonus > 0 ) {
@@ -944,9 +939,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
                 per_hand += 2;
             }
             for( const std::pair< const trait_id, trait_data > &mut : my_mutations ) {
-                if( mut.first->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut.first ) ) {
-                    continue;
-                }
+
                 float unarmed_bonus = 0.0f;
                 const int cut_bonus = mut.first->cut_dmg_bonus;
                 if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
@@ -1010,25 +1003,17 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool /*average*/,
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
-            if( has_trait( trait_CLAWS ) || has_active_mutation( trait_CLAWS_RETRACT ) ) {
-                per_hand += 3;
-            }
 
-            if( has_trait( trait_NAILS ) ) {
-                per_hand += .5;
+            for( const std::pair< const trait_id, trait_data > &mut : my_mutations ) {
+                per_hand += mut.first->pierce_dmg_bonus;
+
+                if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
+                    per_hand += std::min( unarmed_skill / 2, 4 );
+                }
             }
 
             if( has_bionic( bionic_id( "bio_razors" ) ) ) {
                 per_hand += 2;
-            }
-
-            if( has_trait( trait_THORNS ) ) {
-                per_hand += 2;
-            }
-
-            if( has_trait( trait_CLAWS_ST ) ) {
-                /** @EFFECT_UNARMED increases stabbing damage with CLAWS_ST */
-                per_hand += 3 + unarmed_skill / 2.0;
             }
 
             cut_dam += per_hand; // First hand
