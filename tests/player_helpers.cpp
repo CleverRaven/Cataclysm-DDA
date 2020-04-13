@@ -62,6 +62,13 @@ void clear_character( player &dummy, bool debug_storage )
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
 
+    // Clear stomach and then eat a nutritious meal to normalize stomach
+    // contents (needs to happen before clear_morale).
+    dummy.stomach.empty();
+    dummy.guts.empty();
+    item food( "debug_nutrition" );
+    dummy.eat( food );
+
     dummy.empty_skills();
     dummy.clear_morale();
     dummy.clear_bionics();
