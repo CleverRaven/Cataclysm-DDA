@@ -76,6 +76,20 @@ struct mut_attack {
     bool hardcoded_effect = false;
 };
 
+struct mut_transform {
+
+    trait_id target;
+
+    /** displayed if player sees transformation with %s replaced by item name */
+    translation msg_transform;
+    /** used to set the active property of the transformed @ref target */
+    bool active = false;
+    /** subtracted from @ref Creature::moves when transformation is successful */
+    int moves = 0;
+    mut_transform();
+    bool load( const JsonObject &jsobj, const std::string &member );
+};
+
 struct mutation_branch {
         trait_id id;
         bool was_loaded = false;
@@ -150,6 +164,8 @@ struct mutation_branch {
         cata::optional<int> scent_intensity;
         cata::optional<int> scent_mask;
         int bleed_resist = 0;
+
+        cata::value_ptr<mut_transform> transform;
 
         /**Map of crafting skills modifiers, can be negative*/
         std::map<skill_id, int> craft_skill_bonus;

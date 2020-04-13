@@ -260,6 +260,20 @@ void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
     trait_factory.load( jo, src );
 }
 
+mut_transform::mut_transform() : target(), msg_transform(), active( false ), moves( 0 ) {}
+
+bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    assign( j, "target", target );
+    assign( j, "msg_transform", msg_transform );
+    assign( j, "active", active );
+    assign( j, "moves", moves );
+
+    return true;
+}
+
 void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
@@ -292,6 +306,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         auto si = jo.get_object( "ranged_mutation" );
         optional( si, was_loaded, "type", ranged_mutation );
         optional( si, was_loaded, "message", raw_ranged_mutation_message );
+    }
+    if( jo.has_object( "transform" ) ) {
+        transform = cata::make_value<mut_transform>();
+        transform->load( jo, "transform" );
     }
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 
@@ -533,6 +551,12 @@ void mutation_branch::check_consistency()
         for( const std::string &type : mdata.types ) {
             if( !mutation_type_exists( type ) ) {
                 debugmsg( "mutation %s refers to undefined mutation type %s", mid.c_str(), type );
+            }
+        }
+        if( mid->transform ) {
+            const trait_id tid = mid->transform->target;
+            if( !tid.is_valid() ) {
+                debugmsg( "mutation %s transform uses undefined target %s", mid.c_str(), tid.c_str() );
             }
         }
         for( const std::pair<species_id, int> elem : an_id ) {
