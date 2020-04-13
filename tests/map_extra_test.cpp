@@ -18,7 +18,7 @@ TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap]" )
     const std::vector<tripoint> bridges = overmap_buffer.find_all( origin, find_params );
 
     // The rest of this check is pointless if there are no bridges.
-    REQUIRE( bridges.size() > 0 );
+    REQUIRE( !bridges.empty() );
 
     // For every single bridge we found, run mapgen (which will select and apply a map extra).
     for( const tripoint &p : bridges ) {
