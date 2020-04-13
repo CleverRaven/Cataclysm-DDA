@@ -654,7 +654,7 @@ class Character : public Creature, public visitable<Character>
         trait_id trait_by_invlet( int ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
-        void toggle_trait( const trait_id &flag );
+        void toggle_trait( const trait_id & );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
         void set_mutation( const trait_id &flag );
         void unset_mutation( const trait_id &flag );

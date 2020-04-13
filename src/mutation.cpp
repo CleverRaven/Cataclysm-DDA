@@ -115,21 +115,29 @@ bool Character::has_base_trait( const trait_id &b ) const
     return my_traits.find( b ) != my_traits.end();
 }
 
-void Character::toggle_trait( const trait_id &flag )
+void Character::toggle_trait( const trait_id &trait_ )
 {
-    const auto titer = my_traits.find( flag );
+    // Take copy of argument because it might be a reference into a container
+    // we're about to erase from.
+    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
+    const trait_id trait = trait_;
+    const auto titer = my_traits.find( trait );
+    const auto miter = my_mutations.find( trait );
     if( titer == my_traits.end() ) {
-        my_traits.insert( flag );
+        my_traits.insert( trait );
     } else {
         my_traits.erase( titer );
     }
-    const auto miter = my_mutations.find( flag );
+    if( ( titer == my_traits.end() ) != ( miter == my_mutations.end() ) ) {
+        debugmsg( "my_traits and my_mutations were out of sync for %s\n", trait.str() );
+        return;
+    }
     if( miter == my_mutations.end() ) {
-        set_mutation( flag );
-        mutation_effect( flag );
+        set_mutation( trait );
+        mutation_effect( trait );
     } else {
-        unset_mutation( flag );
-        mutation_loss_effect( flag );
+        unset_mutation( trait );
+        mutation_loss_effect( trait );
     }
 }
 
