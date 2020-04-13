@@ -8077,7 +8077,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         int charges_remaining = charges;
-        const int rounds_exploded = rng( 1, charges_remaining/2 );
+        const int rounds_exploded = rng( 1, charges_remaining / 2 );
         // Yank the exploding item off the map for the duration of the explosion
         // so it doesn't blow itself up.
         const islot_ammo &ammo_type = *type->ammo;
@@ -8088,7 +8088,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         }
         if( ammo_type.cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.
-            explosion_handler::explosion( p, 3.0f*sqrtf( sqrtf( rounds_exploded / 25.0f ) ), 0.0f, false, 0 );
+            explosion_handler::explosion( p, 3.0f * sqrtf( sqrtf( rounds_exploded / 25.0f ) ), 0.0f, false, 0 );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
