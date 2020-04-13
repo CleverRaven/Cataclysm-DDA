@@ -297,6 +297,7 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_DEFT( "DEFT" );
 
 static const std::string flag_ACTIVE_CLOAKING( "ACTIVE_CLOAKING" );
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
@@ -5778,7 +5779,11 @@ float Character::get_dodge_base() const
 {
     /** @EFFECT_DEX increases dodge base */
     /** @EFFECT_DODGE increases dodge_base */
-    return get_dex() / 2.0f + get_skill_level( skill_dodge );
+    if( has_trait( trait_DEFT ) ) {
+        return ( get_dex() / 2.0f + get_skill_level( skill_dodge ) ) * 1.1;
+    } else {
+        return get_dex() / 2.0f + get_skill_level( skill_dodge );
+    }
 }
 float Character::get_hit_base() const
 {
