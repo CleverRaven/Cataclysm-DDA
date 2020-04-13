@@ -1317,8 +1317,8 @@ void player::disp_info()
     // Post-humanity trumps your pre-Cataclysm life.
     if( crossed_threshold() ) {
         std::string race;
-        for( auto &mut : my_mutations ) {
-            const auto &mdata = mut.first.obj();
+        for( const trait_id &mut : get_mutations() ) {
+            const mutation_branch &mdata = mut.obj();
             if( mdata.threshold ) {
                 race = mdata.name();
                 break;
