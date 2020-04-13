@@ -2298,7 +2298,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_SCORES:
-                show_scores_ui( stats(), get_kill_tracker() );
+                show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
                 break;
 
             case ACTION_FACTIONS:
