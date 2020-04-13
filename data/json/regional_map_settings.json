@@ -489,7 +489,6 @@
           "mx_drugdeal": 30,
           "mx_supplydrop": 10,
           "mx_portal": 5,
-          "mx_minefield": 80,
           "mx_crater": 10,
           "mx_portal_in": 4,
           "mx_roadworks": 100,
@@ -499,6 +498,7 @@
           "mx_prison_bus": 15
         }
       },
+      "bridge": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "build": {
         "chance": 90,
         "extras": {
