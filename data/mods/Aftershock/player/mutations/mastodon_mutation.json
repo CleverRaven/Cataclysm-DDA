@@ -86,7 +86,7 @@
     "changes_to": [ "SMELLY2" ],
     "types": [ "SCENT" ],
     "scent_intensity": 800,
-    "social_modifiers": { "persuade": -5 },
+    "social_modifiers": { "persuade": -5, "intimidate": -5 },
     "category": [ "MASTODON" ]
   },
   {
@@ -476,7 +476,6 @@
     "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],
     "types": [ "HANDS" ],
     "cancels": [ "TALONS" ],
-    "changes_to": [ "PAWS_LARGE" ],
     "category": [ "MASTODON" ]
   },
   {
