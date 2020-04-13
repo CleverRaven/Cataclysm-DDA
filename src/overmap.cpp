@@ -2252,24 +2252,11 @@ void overmap::place_forest_trailheads()
         return;
     }
 
-    // Add the roads out of the overmap and cities to our collection, which
-    // we'll then use to connect our trailheads to the rest of the road network.
-    std::vector<tripoint> &roads_out = connections_out[string_id<overmap_connection>( "local_road" )];
-    std::vector<point> road_points;
-    road_points.reserve( roads_out.size() + cities.size() );
-    for( const auto &elem : roads_out ) {
-        road_points.emplace_back( elem.xy() );
-    }
-    for( const auto &elem : cities ) {
-        road_points.emplace_back( elem.pos.x, elem.pos.y );
-    }
-
     // Trailheads may be placed if all of the following are true:
     // 1. we're at a forest_trail_end_north/south/west/east,
-    // 2. the next two overmap terrains continuing in the direction
-    //    of the trail are fields
-    // 3. we're within trailhead_road_distance from an existing road
-    // 4. rng rolls a success for our trailhead_chance from the configuration
+    // 2. we're within trailhead_road_distance from an existing road
+    // 3. rng rolls a success for our trailhead_chance from the configuration
+    // 4. the trailhead special we've picked can be placed in the selected location
 
     const auto trailhead_close_to_road = [&]( const tripoint & trailhead ) {
         bool close = false;
@@ -2284,16 +2271,15 @@ void overmap::place_forest_trailheads()
         return close;
     };
 
-    const auto try_place_trailhead = [&]( const tripoint & trail_end, const point & offset,
-    const std::string & suffix ) {
-        const tripoint trailhead = trail_end + offset;
-        const tripoint road = trailhead + offset;
-        const oter_id &oter_potential_trailhead = ter( trailhead );
-        const oter_id &oter_potential_road = ter( road );
-        if( oter_potential_trailhead == "field" && oter_potential_road == "field" &&
-            one_in( settings.forest_trail.trailhead_chance ) && trailhead_close_to_road( trailhead ) ) {
-            ter_set( trailhead, oter_id( "trailhead" + suffix ) );
-            road_points.emplace_back( road.x, road.y );
+    const auto try_place_trailhead_special = [&]( const tripoint & trail_end,
+    const om_direction::type & dir ) {
+        const tripoint potential_trailhead = trail_end + om_direction::displace( dir, 1 );
+        overmap_special_id trailhead = settings.forest_trail.trailheads.pick();
+        if( one_in( settings.forest_trail.trailhead_chance ) &&
+            trailhead_close_to_road( potential_trailhead ) &&
+            can_place_special( *trailhead, potential_trailhead, dir, false ) ) {
+            const city &nearest_city = get_nearest_city( potential_trailhead );
+            place_special( *trailhead, potential_trailhead, dir, nearest_city, false, false );
         }
     };
 
@@ -2301,25 +2287,10 @@ void overmap::place_forest_trailheads()
         for( int j = 2; j < OMAPY - 2; j++ ) {
             const tripoint p( i, j, 0 );
             oter_id oter = ter( p );
-            if( oter == "forest_trail_end_north" ) {
-                try_place_trailhead( p, point_north, "_north" );
-            } else if( oter == "forest_trail_end_south" ) {
-                try_place_trailhead( p, point_south, "_south" );
-            } else if( oter == "forest_trail_end_west" ) {
-                try_place_trailhead( p, point_west, "_west" );
-            } else if( oter == "forest_trail_end_east" ) {
-                try_place_trailhead( p, point_east, "_east" );
-            } else {
-                continue;
+            if( is_ot_match( "forest_trail_end", oter, ot_match_type::prefix ) ) {
+                try_place_trailhead_special( p, oter->get_dir() );
             }
         }
-    }
-
-    // If we actually added some trailheads...
-    if( road_points.size() > roads_out.size() ) {
-        // ...then connect our road points with local_road connections.
-        const string_id<overmap_connection> local_road( "local_road" );
-        connect_closest_points( road_points, 0, *local_road );
     }
 }
 
