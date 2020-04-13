@@ -19,6 +19,14 @@
 
 class vehicle;
 
+// Remove all vehicles from the map
+void clear_vehicles()
+{
+    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+        g->m.destroy_vehicle( veh.v );
+    }
+}
+
 void wipe_map_terrain()
 {
     const int mapsize = g->m.getmapsize() * SEEX;
@@ -30,9 +38,7 @@ void wipe_map_terrain()
             }
         }
     }
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
-        g->m.destroy_vehicle( veh.v );
-    }
+    clear_vehicles();
     g->m.invalidate_map_cache( 0 );
     g->m.build_map_cache( 0, true );
 }
@@ -95,17 +101,6 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint &st
     monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
     assert( added );
     return *added;
-}
-
-// Remove all vehicles from the map
-void clear_vehicles()
-{
-    VehicleList vehs = g->m.get_vehicles();
-    vehicle *veh_ptr;
-    for( auto &vehs_v : vehs ) {
-        veh_ptr = vehs_v.v;
-        g->m.destroy_vehicle( veh_ptr );
-    }
 }
 
 // Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given
