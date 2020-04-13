@@ -41,7 +41,7 @@ branches:
 # - CMAKE=1
 # - SANITIZE=address
 # - LOCALIZE=0
-# - A clang-tidy run
+# - A clang-tidy run (now switched to GitHub workflow)
 # - Tests with important mods enabled (Magiclysm, RL_Classes)
 # We try to minimize the number of builds subject to those constraints.
 
@@ -116,14 +116,6 @@ jobs:
       os: osx
       osx_image: xcode10.1
       compiler: clang
-
-    - env: CLANG=clang++-8 TILES=1 SOUND=1 CXXFLAGS=-Wno-unused-command-line-argument CMAKE=1 CATA_CLANG_TIDY=plugin
-      name: "Clang-tidy CMake build with Tiles and Sound"
-      compiler: clang
-      addons: &clang8
-        apt:
-          packages: ["clang-8", "libclang-8-dev", "llvm-8-dev", "llvm-8-tools", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "libpulse-dev", "libpulse0=1:8.0-0ubuntu3.10", "libpulse-mainloop-glib0=1:8.0-0ubuntu3.10"]
-          sources: [*apt_sources, llvm-toolchain-xenial-8]
 
     # Finally check the compiler variants
     - stage: compilers
