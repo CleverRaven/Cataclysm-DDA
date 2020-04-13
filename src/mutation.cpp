@@ -497,6 +497,7 @@ void Character::activate_mutation( const trait_id &mut )
 
     if( mdata.transform ) {
         const cata::value_ptr<mut_transform> trans = mdata.transform;
+        mod_moves( - trans->moves );
         switch_mutations( mut, trans->target, trans->active );
         return;
     }
@@ -629,6 +630,7 @@ void Character::deactivate_mutation( const trait_id &mut )
     const mutation_branch &mdata = mut.obj();
     if( mdata.transform ) {
         const cata::value_ptr<mut_transform> trans = mdata.transform;
+        mod_moves( -trans->moves );
         switch_mutations( mut, trans->target, trans->active );
     }
 }
