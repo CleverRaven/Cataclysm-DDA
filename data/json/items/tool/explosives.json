@@ -1020,7 +1020,7 @@
     "category": "weapons",
     "name": { "str": "bootleg pipe bomb" },
     "looks_like": "pipebomb",
-    "description": "This is a section of a pipe filled with military explosives.  Use this item to pull the pin, which gives you five turns to get away from it before it detonates.",
+    "description": "This is a section of a pipe filled with military explosives.  Use this item to pull the pin, which gives you six seconds to get away from it before it detonates.",
     "weight": "710 g",
     "//": "Only one third (410 g) of a whole pipe is being used",
     "volume": "500 ml",
