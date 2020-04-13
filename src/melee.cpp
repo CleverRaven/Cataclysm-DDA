@@ -1004,10 +1004,10 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool /*average*/,
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
 
-            for( const std::pair< const trait_id, trait_data > &mut : my_mutations ) {
-                per_hand += mut.first->pierce_dmg_bonus;
+            for( const trait_id &mut : get_mutations() ) {
+                per_hand += mut->pierce_dmg_bonus;
 
-                if( mut.first->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
+                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
                     per_hand += std::min( unarmed_skill / 2, 4 );
                 }
             }
