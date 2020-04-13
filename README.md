@@ -1,6 +1,8 @@
 
 # Cataclysm-DDA_variant_jp
 
+プルリクのテスト。
+
 English version (broken english warning!!)
 
 [https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_jp/README_en.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_jp/README_en.md)
