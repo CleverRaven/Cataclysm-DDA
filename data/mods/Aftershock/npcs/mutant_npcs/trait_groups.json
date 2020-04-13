@@ -957,9 +957,7 @@
     "traits": [
       { "trait": "THRESH_MASTODON" },
       { "distribution": [ { "trait": "ELEPHANTINE" }, { "trait": "ELEPHANTINE_OK" } ] },
-      { "trait": "CHITIN_FUR3" },
       { "trait": "MUT_TANK2", "prob": 50 },
-      { "trait": "POISONOUS2", "prob": 50 },
       { "trait": "GIGANTIC", "prob": 20 },
       { "trait": "GIGANTIC_OK", "prob": 20 },
       { "trait": "TUSKS_POINTED", "prob": 50 },

@@ -192,7 +192,7 @@
     "ident": "afs_mastadon_swat",
     "name": "Uplifted Enforcer",
     "description": "You are an uplifted elephant hybrid, a precisely engineered enforcer creature created by combining human, elephant and mastodon DNA.   Unlike most of your war-minded kin,  you sought a peaceful retirement after completing your compulsive service period, and even earned the right to be considered a full citizen. Now, with the end of the world in the horizon, it seems that your combat skills might come useful once again.",
-    "points": 10,
+    "points": 13,
     "skills": [
       { "level": 6, "name": "gun" },
       { "level": 4, "name": "shotgun" },
@@ -200,7 +200,7 @@
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "bashing" }
     ],
-    "traits": [ "PROF_SWAT", "trait_group_mastodon_postthres" ],
+    "traits": [ "PROF_SWAT", "UPLIFTED", "THRESH_MASTODON", "MUT_TANK", "TUSKS" ],
     "//": "Placeholder profession until mutant NPCs merged and post thresh MASTODON distribution table can be added. Need to add XL gear for MASTODON's in more items.",
     "items": {
       "both": {
