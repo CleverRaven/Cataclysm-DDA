@@ -295,6 +295,7 @@
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "tieclip",
+    "use_action": { "type": "picklock", "pick_quality": 1 },
     "color": "brown"
   },
   {
@@ -793,6 +794,7 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
+    "use_action": { "type": "picklock", "pick_quality": 1 },
     "flags": [ "FANCY" ]
   },
   {
@@ -1090,6 +1092,7 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
+    "use_action": { "type": "picklock", "pick_quality": 1 },
     "flags": [ "FANCY" ]
   },
   {
@@ -1216,6 +1219,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
+    "use_action": { "type": "picklock", "pick_quality": 1 },
     "flags": [ "FANCY" ]
   },
   {
