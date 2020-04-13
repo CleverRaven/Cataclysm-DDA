@@ -76,6 +76,16 @@ void clear_fields( const int zlevel )
     }
 }
 
+void clear_items( const int zlevel )
+{
+    const int mapsize = g->m.getmapsize() * SEEX;
+    for( int x = 0; x < mapsize; ++x ) {
+        for( int y = 0; y < mapsize; ++y ) {
+            g->m.i_clear( { x, y, zlevel } );
+        }
+    }
+}
+
 void clear_map()
 {
     // Clearing all z-levels is rather slow, so just clear the ones I know the
@@ -87,6 +97,9 @@ void clear_map()
     clear_npcs();
     clear_creatures();
     g->m.clear_traps();
+    for( int z = -2; z <= 0; ++z ) {
+        clear_items( z );
+    }
 }
 
 void clear_map_and_put_player_underground()
