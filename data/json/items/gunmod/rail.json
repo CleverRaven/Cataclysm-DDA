@@ -16,7 +16,7 @@
       "ammo": "bolt",
       "skill": "rifle",
       "range": 8,
-      "ranged_damage": { "damage_type": "stab", "amount": 10 },
+      "ranged_damage": { "damage_type": "stab", "amount": 3 },
       "dispersion": 180,
       "durability": 10,
       "clip_size": 1

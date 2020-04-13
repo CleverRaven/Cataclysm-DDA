@@ -1352,19 +1352,19 @@ struct dps_comp_data {
     bool evaluate;
 };
 
-const std::map<std::string, dps_comp_data> dps_comp_monsters = {
-    { _( "Vs. Armored" ), { mtype_id( "mon_zombie_soldier" ), true, true } },
-    { _( "Best" ), { mtype_id( "debug_mon" ), true, false } },
-    { _( "Vs. Mixed" ), { mtype_id( "mon_zombie_survivor" ), false, true } },
-    { _( "Vs. Agile" ), { mtype_id( "mon_zombie_smoker" ), true, true } }
+static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monsters = {
+    { to_translation( "Best" ), { mtype_id( "debug_mon" ), true, false } },
+    { to_translation( "Vs. Agile" ), { mtype_id( "mon_zombie_smoker" ), true, true } },
+    { to_translation( "Vs. Armored" ), { mtype_id( "mon_zombie_soldier" ), true, true } },
+    { to_translation( "Vs. Mixed" ), { mtype_id( "mon_zombie_survivor" ), false, true } },
 };
 
 std::map<std::string, double> item::dps( const player &guy ) const
 {
     std::map<std::string, double> results;
-    for( const std::pair<std::string, dps_comp_data> &comp_mon : dps_comp_monsters ) {
+    for( const std::pair<translation, dps_comp_data> &comp_mon : dps_comp_monsters ) {
         monster test_mon = monster( comp_mon.second.mon_id );
-        results[ comp_mon.first ] = effective_dps( guy, test_mon );
+        results[ comp_mon.first.translated() ] = effective_dps( guy, test_mon );
     }
     return results;
 }
@@ -1816,7 +1816,10 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_RECOIL ) ) {
             info.emplace_back( "AMMO", _( "Recoil: " ), "",
-                               iteminfo::lower_is_better, ammo.recoil );
+                               iteminfo::lower_is_better | iteminfo::no_newline, ammo.recoil );
+        }
+        if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
+            info.emplace_back( "AMMO", space + _( "Critical multiplier: " ), ammo.critical_multiplier );
         }
     }
 
@@ -1905,6 +1908,13 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
     }
     info.back().bNewLine = true;
+
+    if( mod->ammo_required() && curammo->ammo->critical_multiplier != 1.0 ) {
+        if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
+            info.push_back( iteminfo( "GUN", _( "Critical multiplier: " ), "<num>",
+                                      iteminfo::no_flags, curammo->ammo->critical_multiplier ) );
+        }
+    }
 
     int max_gun_range = loaded_mod->gun_range( &g->u );
     if( max_gun_range > 0 && parts->test( iteminfo_parts::GUN_MAX_RANGE ) ) {
@@ -3158,14 +3168,14 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       iteminfo::lower_is_better, attack_time() ) );
             info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
             const std::map<std::string, double> &dps_data = dps();
-            for( const std::pair<std::string, double> &dps_entry : dps_data ) {
-                const auto &ref_data = dps_comp_monsters.find( dps_entry.first );
-                if( ( ref_data == dps_comp_monsters.end() ) || !ref_data->second.display ) {
+            for( const std::pair<translation, dps_comp_data> &ref_data : dps_comp_monsters ) {
+                const auto dps_entry = dps_data.find( ref_data.first.translated() );
+                if( ( dps_entry == dps_data.end() ) || !ref_data.second.display ) {
                     continue;
                 }
-                info.emplace_back( "BASE", space + dps_entry.first + ": ", "",
+                info.emplace_back( "BASE", space + dps_entry->first + ": ", "",
                                    iteminfo::no_newline | iteminfo::is_decimal,
-                                   dps_entry.second );
+                                   dps_entry->second );
             }
         }
     }
@@ -8638,7 +8648,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     time_point time;
-    item_internal::scoped_goes_bad_cache _( this );
+    item_internal::scoped_goes_bad_cache _cache( this );
     const bool process_rot = goes_bad();
 
     if( process_rot ) {

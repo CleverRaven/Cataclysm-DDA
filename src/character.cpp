@@ -4572,6 +4572,11 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             mod_stored_kcal( digested_to_body.nutr.kcal );
             vitamins_mod( digested_to_body.nutr.vitamins, false );
         }
+        if( !foodless && rates.hunger > 0.0f ) {
+            mod_hunger( roll_remainder( rates.hunger * five_mins ) );
+            // instead of hunger keeping track of how you're living, burn calories instead
+            mod_stored_kcal( -roll_remainder( five_mins * kcal_per_time ) );
+        }
     }
     if( stomach.time_since_ate() > 10_minutes ) {
         if( stomach.contains() >= stomach_capacity && get_hunger() > -61 ) {
@@ -4593,11 +4598,6 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             } else if( get_hunger() < 0 ) {
                 set_hunger( 0 );
             }
-        }
-        if( !foodless && rates.hunger > 0.0f ) {
-            mod_hunger( roll_remainder( rates.hunger * five_mins ) );
-            // instead of hunger keeping track of how you're living, burn calories instead
-            mod_stored_kcal( -roll_remainder( five_mins * kcal_per_time ) );
         }
     } else
         // you fill up when you eat fast, but less so than if you eat slow
@@ -6888,6 +6888,12 @@ units::mass Character::bionics_weight() const
     return bio_weight;
 }
 
+void Character::reset_chargen_attributes()
+{
+    init_age = 25;
+    init_height = 175;
+}
+
 int Character::base_age() const
 {
     return init_age;
@@ -6908,7 +6914,7 @@ int Character::age() const
 std::string Character::age_string() const
 {
     //~ how old the character is in years. try to limit number of characters to fit on the screen
-    std::string unformatted = _( "aged %d" );
+    std::string unformatted = _( "%d years" );
     return string_format( unformatted, age() );
 }
 

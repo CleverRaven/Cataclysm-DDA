@@ -66,6 +66,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.clear_morale();
     dummy.clear_bionics();
     dummy.activity.set_to_null();
+    dummy.reset_chargen_attributes();
     dummy.set_pain( 0 );
 
     // Restore all stamina and go to walk mode
@@ -84,6 +85,8 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.set_dex_bonus( 0 );
     dummy.set_int_bonus( 0 );
     dummy.set_per_bonus( 0 );
+
+    dummy.cash = 0;
 
     const tripoint spot( 60, 60, 0 );
     g->place_player( spot );

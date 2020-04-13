@@ -271,14 +271,13 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     center_print( w_stats, 0, h_light_gray, _( title_STATS ) );
 
     // Clear bonus/penalty menu.
-    mvwprintz( w_stats, point( 0, 7 ), c_light_gray, std::string( 26, ' ' ) );
     mvwprintz( w_stats, point( 0, 8 ), c_light_gray, std::string( 26, ' ' ) );
-
     nc_color col_temp = c_light_gray;
 
     if( line == 0 ) {
         // Display information on player strength in appropriate window
-        mvwprintz( w_stats, point( 1, 2 ), h_light_gray, _( "Strength:" ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_stats, point( 1, 1 ), h_light_gray, _( "Strength:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Strength affects your melee damage, the amount of weight you can carry, your total HP, "
@@ -292,7 +291,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                             string_format( _( "Melee damage: <color_white>%.1f</color>" ), you.bonus_damage( false ) ) );
     } else if( line == 1 ) {
         // Display information on player dexterity in appropriate window
-        mvwprintz( w_stats, point( 1, 3 ), h_light_gray, _( "Dexterity:" ) );
+        mvwprintz( w_stats, point( 1, 2 ), h_light_gray, _( "Dexterity:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
@@ -307,22 +306,22 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                                            you.throw_dispersion_per_dodge( false ) ) );
     } else if( line == 2 ) {
         // Display information on player intelligence in appropriate window
-        mvwprintz( w_stats, point( 1, 4 ), h_light_gray, _( "Intelligence:" ) );
+        mvwprintz( w_stats, point( 1, 3 ), h_light_gray, _( "Intelligence:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Intelligence is less important in most situations, but it is vital for more complex tasks like "
                            "electronics crafting.  It also affects how much skill you can pick up from reading a book." ) );
-        print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
-        print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
-                            string_format( _( "Crafting bonus: <color_white>%d%%</color>" ), you.get_int() ) );
         if( you.rust_rate() ) {
-            print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
+            print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
                                 string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate() ) );
         }
+        print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
+                            string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
+        print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
+                            string_format( _( "Crafting bonus: <color_white>%d%%</color>" ), you.get_int() ) );
     } else if( line == 3 ) {
         // Display information on player perception in appropriate window
-        mvwprintz( w_stats, point( 1, 5 ), h_light_gray, _( "Perception:" ) );
+        mvwprintz( w_stats, point( 1, 4 ), h_light_gray, _( "Perception:" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Perception is the most important stat for ranged combat.  It's also used for "
@@ -334,8 +333,8 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                                 string_format( _( "Aiming penalty: <color_white>%+d</color>" ), -you.ranged_per_mod() ) );
         }
     } else if( line == 4 ) {
-        mvwprintz( w_stats, point( 1, 6 ), h_light_gray, _( "Weight:" ) );
-        mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 6 ), h_light_gray,
+        mvwprintz( w_stats, point( 1, 5 ), h_light_gray, _( "Weight:" ) );
+        mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), h_light_gray,
                    you.get_weight_string() );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
@@ -344,6 +343,24 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                                              "  Having too much, or too little, can be unhealthy." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.get_weight_description() );
+    } else if( line == 5 ) {
+        mvwprintz( w_stats, point( 1, 6 ), h_light_gray, _( "Height:" ) );
+        mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), h_light_gray,
+                   you.height_string() );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                                          _( "Your height.  Simply how tall you are." ) );
+        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
+                        you.height_string() );
+    } else if( line == 6 ) {
+        mvwprintz( w_stats, point( 1, 7 ), h_light_gray, _( "Age:" ) );
+        mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), h_light_gray,
+                   you.age_string() );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                                          _( "This is how old you are." ) );
+        fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
+                        you.age_string() );
     }
     wrefresh( w_stats );
     wrefresh( w_info );
@@ -351,12 +368,12 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
     action = ctxt.handle_input();
     if( action == "DOWN" ) {
         line++;
-        if( line == 5 ) {
+        if( line == 7 ) {
             line = 0;
         }
     } else if( action == "UP" ) {
         if( line == 0 ) {
-            line = 4;
+            line = 6;
         } else {
             line--;
         }
@@ -372,13 +389,20 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                you.is_player() ) {
         g->u.upgrade_stat_prompt( static_cast<Character::stat>( line ) );
     }
-    mvwprintz( w_stats, point( 1, 2 ), c_light_gray, _( "Strength:" ) );
-    mvwprintz( w_stats, point( 1, 3 ), c_light_gray, _( "Dexterity:" ) );
-    mvwprintz( w_stats, point( 1, 4 ), c_light_gray, _( "Intelligence:" ) );
-    mvwprintz( w_stats, point( 1, 5 ), c_light_gray, _( "Perception:" ) );
-    mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Weight:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 6 ), c_light_gray,
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w_stats, point( 1, 1 ), c_light_gray, _( "Strength:" ) );
+    mvwprintz( w_stats, point( 1, 2 ), c_light_gray, _( "Dexterity:" ) );
+    mvwprintz( w_stats, point( 1, 3 ), c_light_gray, _( "Intelligence:" ) );
+    mvwprintz( w_stats, point( 1, 4 ), c_light_gray, _( "Perception:" ) );
+    mvwprintz( w_stats, point( 1, 5 ), c_light_gray, _( "Weight:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), c_light_gray,
                you.get_weight_string() );
+    mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Height:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), c_light_gray,
+               you.height_string() );
+    mvwprintz( w_stats, point( 1, 7 ), c_light_gray, _( "Age:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), c_light_gray,
+               you.age_string() );
     wrefresh( w_stats );
 }
 
@@ -949,13 +973,19 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         mvwprintz( w_stats, point( 21, line_n ), c_light_gray, "(%2d)", max );
     };
 
-    display_stat( _( "Strength:" ), you.get_str(), you.get_str_base(), 2 );
-    display_stat( _( "Dexterity:" ), you.get_dex(), you.get_dex_base(), 3 );
-    display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 4 );
-    display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 5 );
-    mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Weight:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 6 ), c_light_gray,
+    display_stat( _( "Strength:" ), you.get_str(), you.get_str_base(), 1 );
+    display_stat( _( "Dexterity:" ), you.get_dex(), you.get_dex_base(), 2 );
+    display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 3 );
+    display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 4 );
+    mvwprintz( w_stats, point( 1, 5 ), c_light_gray, _( "Weight:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), c_light_gray,
                you.get_weight_string() );
+    mvwprintz( w_stats, point( 1, 6 ), c_light_gray, _( "Height:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), c_light_gray,
+               you.height_string() );
+    mvwprintz( w_stats, point( 1, 7 ), c_light_gray, _( "Age:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), c_light_gray,
+               you.age_string() );
 
     wrefresh( w_stats );
 
@@ -1294,19 +1324,17 @@ void player::disp_info()
                 break;
             }
         }
-        //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name, 4s age (years), 5s height
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s | %4$s | %5$s" ), name,
-                   male ? _( "Male" ) : _( "Female" ), race, age_string(), height_string() );
+        //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
+        mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ), race );
     } else if( prof == nullptr || prof == profession::generic() ) {
         // Regular person. Nothing interesting.
-        //~ player info window: 1s - name, 2s - gender, 3s - age, 4s - height '|' - field separator.
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s | %4$s" ), name,
-                   male ? _( "Male" ) : _( "Female" ),
-                   age_string(), height_string() );
+        //~ player info window: 1s - name, 2s - gender '|' - field separator.
+        mvwprintw( w_tip, point_zero, _( " %1$s | %2$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ) );
     } else {
-        mvwprintw( w_tip, point_zero, _( "%1$s | %2$s | %3$s | %4$s | %5$s" ), name,
-                   male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ),
-                   age_string(), height_string() );
+        mvwprintw( w_tip, point_zero, _( " %1$s | %2$s | %3$s" ), name,
+                   male ? _( "Male" ) : _( "Female" ), prof->gender_appropriate_name( male ) );
     }
 
     input_context ctxt( "PLAYER_INFO" );
@@ -1318,8 +1346,8 @@ void player::disp_info()
     ctxt.register_action( "HELP_KEYBINDINGS" );
     std::string action;
 
-    right_print( w_tip, 0, +4, c_white, string_format(
-                     _( "< [<color_yellow>%s</color>] keybindings >" ),
+    right_print( w_tip, 0, 0, c_white, string_format(
+                     _( "[<color_yellow>%s</color>]" ),
                      ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
     wrefresh( w_tip );
 
