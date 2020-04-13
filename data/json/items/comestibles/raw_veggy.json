@@ -787,4 +787,25 @@
     "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   }
+  {
+    "type": "COMESTIBLE",
+    "id": "bell_pepper",
+    "name": { "str": "bell pepper" },
+    "weight": "113 g",
+    "color": "green",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 2,
+    "healthy": 1,
+    "calories": 31,
+    "description": "A green bell pepper. They could be cooked.",
+    "price": 20,
+    "material": "veggy",
+    "volume": "40 mL",
+    "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_results": "dry_veggy",
+    "charges": 4,
+    "vitamins": [ [ "potassium", 2 ], [ "vitC", 12 ], [ "vitA", 8 ],
+    "fun": -5
+  },
 ]
