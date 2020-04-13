@@ -109,7 +109,7 @@ class RemovePartHandler
         virtual ~RemovePartHandler() = default;
 
         virtual void unboard( const tripoint &loc ) = 0;
-        virtual void add_item_or_charges( const tripoint &loc, item it ) = 0;
+        virtual void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) = 0;
         virtual void set_transparency_cache_dirty( int z ) = 0;
         virtual void removed( vehicle &veh, int part ) = 0;
         virtual void spawn_animal_from_part( item &base, const tripoint &loc ) = 0;
@@ -123,7 +123,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void unboard( const tripoint &loc ) override {
             g->m.unboard_vehicle( loc );
         }
-        void add_item_or_charges( const tripoint &loc, item it ) override {
+        void add_item_or_charges( const tripoint &loc, item it, bool /*permit_oob*/ ) override {
             g->m.add_item_or_charges( loc, std::move( it ) );
         }
         void set_transparency_cache_dirty( const int z ) override {
@@ -172,14 +172,16 @@ class MapgenRemovePartHandler : public RemovePartHandler
             // Ignored. Will almost certainly not be called anyway, because
             // there are no creatures that could have been mounted during mapgen.
         }
-        void add_item_or_charges( const tripoint &loc, item it ) override {
+        void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) override {
             if( !m.inbounds( loc ) ) {
-                debugmsg( "Tried to put item %s on invalid tile %d,%d,%d during mapgen!", it.tname(), loc.x, loc.y,
-                          loc.z );
+                if( !permit_oob ) {
+                    debugmsg( "Tried to put item %s on invalid tile %s during mapgen!",
+                              it.tname(), loc.to_string() );
+                }
                 tripoint copy = loc;
                 m.clip_to_bounds( copy );
                 assert( m.inbounds( copy ) ); // prevent infinite recursion
-                add_item_or_charges( copy, std::move( it ) );
+                add_item_or_charges( copy, std::move( it ), false );
                 return;
             }
             m.add_item_or_charges( loc, std::move( it ) );
@@ -1894,7 +1896,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         if( part_flag( p, parent_flag ) ) {
             int dep = part_with_feature( p, child_flag, false );
             if( dep >= 0 && !magic ) {
-                handler.add_item_or_charges( part_loc, parts[dep].properties_to_item() );
+                handler.add_item_or_charges( part_loc, parts[dep].properties_to_item(), false );
                 remove_part( dep, handler );
                 return true;
             }
@@ -1964,7 +1966,12 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         // TODO: fix this ^^
         tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
         if( !magic ) {
-            handler.add_item_or_charges( dest, i );
+            // This new point might be out of the map bounds.  It's not
+            // reasonable to try to spawn it outside the currently valid map,
+            // so we pass true here to cause such points to be clamped to the
+            // valid bounds without printing an error (as would normally
+            // occur).
+            handler.add_item_or_charges( dest, i, true );
         }
     }
     refresh();
