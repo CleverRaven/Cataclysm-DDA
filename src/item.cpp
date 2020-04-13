@@ -8638,7 +8638,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     time_point time;
-    item_internal::scoped_goes_bad_cache _( this );
+    item_internal::scoped_goes_bad_cache _cache( this );
     const bool process_rot = goes_bad();
 
     if( process_rot ) {
