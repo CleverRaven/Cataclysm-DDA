@@ -6,6 +6,7 @@
 #include "game_constants.h"
 #include "options.h"
 #include "player.h"
+#include "player_helpers.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -78,6 +79,19 @@ static int bmr_at_act_level( player &dummy, float activity_level )
     return dummy.get_bmr();
 }
 
+// Return player `height()` with a given base height and size trait (SMALL, MEDIUM, LARGE, HUGE).
+static int height_with_base_and_size( player &dummy, int base_height, std::string size_trait )
+{
+    clear_character( dummy );
+    dummy.mod_base_height( base_height - dummy.base_height() );
+
+    // MEDIUM is not an actual trait; just ignore it
+    if( size_trait == "SMALL" || size_trait == "LARGE" || size_trait == "HUGE" ) {
+        dummy.toggle_trait( trait_id( size_trait ) );
+    }
+
+    return dummy.height();
+}
 
 TEST_CASE( "body mass index determines weight description", "[biometrics][bmi][weight]" )
 {
@@ -200,77 +214,194 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
     CHECK( max_healthy_at_bmi( dummy, 42.0f ) == -200 );
 }
 
+TEST_CASE( "character height and body size mutations", "[biometrics][height][mutation]" )
+{
+    // If character is 175cm starting height, they are 15cm shorter than the upper threshold for
+    // MEDIUM size (which is 190cm). If they mutate to LARGE size, their height will be at the same
+    // relationship to the upper threshold, 240cm - 15cm = 225cm.
+    //
+    // In general, mutating to another size simply adjusts the return value of `Character::height()`
+    // in relationship to the original starting height.
 
-TEST_CASE( "size determines height and body weight", "[biometrics][height][bodyweight]" )
+    avatar dummy;
+    clear_character( dummy );
+
+    GIVEN( "character height started at 175cm" ) {
+        int init_height = 175;
+        dummy.mod_base_height( init_height - dummy.base_height() );
+        REQUIRE( dummy.base_height() == init_height );
+
+        WHEN( "they are normal-sized (MEDIUM)" ) {
+            REQUIRE( dummy.get_size() == MS_MEDIUM );
+
+            THEN( "height is initial height" ) {
+                CHECK( dummy.height() == init_height );
+            }
+        }
+
+        WHEN( "they become SMALL" ) {
+            set_single_trait( dummy, "SMALL" );
+            REQUIRE( dummy.get_size() == MS_SMALL );
+
+            THEN( "they are 50cm shorter" ) {
+                CHECK( dummy.height() == init_height - 50 );
+            }
+        }
+
+        WHEN( "they become LARGE" ) {
+            set_single_trait( dummy, "LARGE" );
+            REQUIRE( dummy.get_size() == MS_LARGE );
+
+            THEN( "they are 50cm taller" ) {
+                CHECK( dummy.height() == init_height + 50 );
+            }
+        }
+
+        WHEN( "they become HUGE" ) {
+            set_single_trait( dummy, "HUGE" );
+            REQUIRE( dummy.get_size() == MS_HUGE );
+
+            THEN( "they are 100cm taler" ) {
+                CHECK( dummy.height() == init_height + 100 );
+            }
+        }
+    }
+
+    // More generally
+
+    GIVEN( "character height strarted at 160cm" ) {
+        CHECK( height_with_base_and_size( dummy, 160, "MEDIUM" ) == 160 );
+        // Always 30 cm shorter than max for each size class
+        CHECK( height_with_base_and_size( dummy, 160, "SMALL" ) == 110 );
+        CHECK( height_with_base_and_size( dummy, 160, "LARGE" ) == 210 );
+        CHECK( height_with_base_and_size( dummy, 160, "HUGE" ) == 260 );
+    }
+
+    SECTION( "character height started at 190cm" ) {
+        CHECK( height_with_base_and_size( dummy, 190, "MEDIUM" ) == 190 );
+        // Always at maximum height for each size class
+        CHECK( height_with_base_and_size( dummy, 190, "SMALL" ) == 140 );
+        CHECK( height_with_base_and_size( dummy, 190, "LARGE" ) == 240 );
+        CHECK( height_with_base_and_size( dummy, 190, "HUGE" ) == 290 );
+    }
+}
+
+TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 {
     avatar dummy;
-
-    // NOTE: As of this writing, Character `init_height` is hard-coded to 175 (cm) in the class
-    // definition in character.h, as a protected member with no functions to access it. Calling
-    // `height()` now is an indirect way to verify it before continuing.
-    REQUIRE( dummy.height() == 175 );
+    clear_character( dummy );
 
     // Body weight is calculated as ( BMI * (height/100)^2 ). At any given height, body weight
     // varies based on body mass index (which in turn depends on the amount of stored calories).
 
-    GIVEN( "character is normal-sized (medium)" ) {
-        REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL" ) ) );
-        REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
-        REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
-        REQUIRE( dummy.get_size() == MS_MEDIUM );
+    // Check bodyweights at each size for two different heights:
+    // 175cm (original default) and 190cm (maximum for MEDIUM sized human)
 
-        THEN( "height is 175cm" ) {
-            CHECK( dummy.height() == 175 );
+    GIVEN( "character height started at 175cm" ) {
+        dummy.mod_base_height( 175 - dummy.base_height() );
+        REQUIRE( dummy.base_height() == 175 );
+
+        WHEN( "character is normal-sized (medium)" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
+            REQUIRE( dummy.get_size() == MS_MEDIUM );
+
+
+            THEN( "bodyweight varies from ~49-107kg" ) {
+                // BMI [16-35] is "Emaciated/Underweight" to "Obese/Very Obese"
+                CHECK( bodyweight_kg_at_bmi( dummy, 16.0 ) == Approx( 49.0 ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 25.0 ) == Approx( 76.6 ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 35.0 ) == Approx( 107.2 ).margin( 0.1f ) );
+            }
         }
-        THEN( "bodyweight varies from ~49-107kg" ) {
-            // BMI [16-35] is "Emaciated/Underweight" to "Obese/Very Obese"
-            CHECK( bodyweight_kg_at_bmi( dummy, 16.0 ) == Approx( 49.0 ).margin( 0.1f ) );
-            CHECK( bodyweight_kg_at_bmi( dummy, 25.0 ) == Approx( 76.6 ).margin( 0.1f ) );
-            CHECK( bodyweight_kg_at_bmi( dummy, 35.0 ) == Approx( 107.2 ).margin( 0.1f ) );
+
+        WHEN( "character is small" ) {
+            set_single_trait( dummy, "SMALL" );
+            REQUIRE( dummy.get_size() == MS_SMALL );
+
+            THEN( "bodyweight varies from ~25-55kg" ) {
+                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 25.0f ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 39.1f ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 54.7f ).margin( 0.1f ) );
+            }
+        }
+
+        WHEN( "character is large" ) {
+            set_single_trait( dummy, "LARGE" );
+            REQUIRE( dummy.get_size() == MS_LARGE );
+
+            THEN( "bodyweight varies from ~81-177kg" ) {
+                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 81.0f ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 126.6f ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 177.2f ).margin( 0.1f ) );
+            }
+        }
+
+        WHEN( "character is huge" ) {
+            set_single_trait( dummy, "HUGE" );
+            REQUIRE( dummy.get_size() == MS_HUGE );
+
+            THEN( "bodyweight varies from ~121-265kg" ) {
+                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 121.0f ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 189.1f ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 264.7f ).margin( 0.1f ) );
+            }
         }
     }
 
-    GIVEN( "character is small" ) {
-        set_single_trait( dummy, "SMALL" );
-        REQUIRE( dummy.get_size() == MS_SMALL );
+    GIVEN( "character height started at 190cm" ) {
+        dummy.mod_base_height( 190 - dummy.base_height() );
+        REQUIRE( dummy.base_height() == 190 );
 
-        THEN( "height is 125cm" ) {
-            CHECK( dummy.height() == 125 );
+        WHEN( "character is normal-sized (medium)" ) {
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
+            REQUIRE( dummy.get_size() == MS_MEDIUM );
+
+
+            THEN( "bodyweight varies from ~57-126kg" ) {
+                CHECK( bodyweight_kg_at_bmi( dummy, 16.0 ) == Approx( 57.8 ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 25.0 ) == Approx( 90.3 ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 35.0 ) == Approx( 126.3 ).margin( 0.1f ) );
+            }
         }
-        THEN( "bodyweight varies from ~25-55kg" ) {
-            CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 25.0f ).margin( 0.1f ) );
-            CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 39.1f ).margin( 0.1f ) );
-            CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 54.7f ).margin( 0.1f ) );
+
+        WHEN( "character is small" ) {
+            set_single_trait( dummy, "SMALL" );
+            REQUIRE( dummy.get_size() == MS_SMALL );
+
+            THEN( "bodyweight varies from ~31-68kg" ) {
+                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 31.4f ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 49.0f ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 68.6f ).margin( 0.1f ) );
+            }
+        }
+
+        WHEN( "character is large" ) {
+            set_single_trait( dummy, "LARGE" );
+            REQUIRE( dummy.get_size() == MS_LARGE );
+
+            THEN( "bodyweight varies from ~92-201kg" ) {
+                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 92.16f ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 144.0f ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 201.6f ).margin( 0.1f ) );
+            }
+        }
+
+        WHEN( "character is huge" ) {
+            set_single_trait( dummy, "HUGE" );
+            REQUIRE( dummy.get_size() == MS_HUGE );
+
+            THEN( "bodyweight varies from ~134-294kg" ) {
+                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 134.6f ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 210.2f ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 294.3f ).margin( 0.1f ) );
+            }
         }
     }
 
-    GIVEN( "character is large" ) {
-        set_single_trait( dummy, "LARGE" );
-        REQUIRE( dummy.get_size() == MS_LARGE );
-
-        THEN( "height is 225cm" ) {
-            CHECK( dummy.height() == 225 );
-        }
-        THEN( "bodyweight varies from ~81-177kg" ) {
-            CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 81.0f ).margin( 0.1f ) );
-            CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 126.6f ).margin( 0.1f ) );
-            CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 177.2f ).margin( 0.1f ) );
-        }
-    }
-
-    GIVEN( "character is huge" ) {
-        set_single_trait( dummy, "HUGE" );
-        REQUIRE( dummy.get_size() == MS_HUGE );
-
-        THEN( "height is 275cm" ) {
-            CHECK( dummy.height() == 275 );
-        }
-        THEN( "bodyweight varies from ~121-265kg" ) {
-            CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 121.0f ).margin( 0.1f ) );
-            CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 189.1f ).margin( 0.1f ) );
-            CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 264.7f ).margin( 0.1f ) );
-        }
-    }
 }
 
 TEST_CASE( "activity level reset, increase and decrease", "[biometrics][activity]" )
