@@ -53,7 +53,7 @@ TEST_CASE( "mx_minefield theoretical spawn", "[map_extra][overmap]" )
     // It does this for four rotations, with the road on the north, south, east,
     // and west of the target point.
     const auto setup_terrain_and_generate = [&]( const tripoint & center,
-                                                 om_direction::type bridge_direction ) {
+    om_direction::type bridge_direction ) {
         om.ter_set( center, bridge );
         om.ter_set( center + om_direction::displace( bridge_direction, 1 ), bridge );
         om.ter_set( center + om_direction::displace( om_direction::opposite( bridge_direction ), 1 ),
