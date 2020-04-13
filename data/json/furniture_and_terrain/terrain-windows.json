@@ -855,7 +855,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [  "TRANSPARENT","NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT" ],
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
     "deconstruct": {
@@ -964,15 +964,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "open": "t_single_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1173,15 +1165,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "open": "t_reinforced_single_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1382,15 +1366,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "open": "t_double_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1591,15 +1567,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "open": "t_reinforced_double_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1800,15 +1768,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "open": "t_triple_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2009,15 +1969,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "open": "t_reinforced_triple_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2218,15 +2170,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "open": "t_quadruple_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2427,15 +2371,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "open": "t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2628,15 +2564,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "open": "t_plastic_window_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2837,15 +2765,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "open": "t_reinforced_plastic_window_with_curtain_open_window_closed",
     "deconstruct": {
@@ -3078,15 +2998,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "open": "t_tempered_glass_with_curtain_open_window_closed",
     "deconstruct": {
