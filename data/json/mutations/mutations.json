@@ -17,8 +17,7 @@
     "name": { "str": "Weak Photophore" },
     "points": 1,
     "description": "A photophore has grown from your head, you can make it glow softly.  This will make you very visible in the dark, ideal to attract a partner during mating season.",
-    "active": true,
-    "transform": { "target": "BIOLUM1_active", "msg_transform": "You turn your photophore ON.", "active": true, "moves": 100 },
+    "transform": { "target": "BIOLUM1_active", "msg_transform": "You turn your photophore ON.", "active": true },
     "encumbrance_covered": [ [ "HEAD", 5 ] ],
     "changes_to": [ "BIOLUM2" ],
     "category": [ "ELFA", "INSECT", "FISH" ]
@@ -26,15 +25,14 @@
   {
     "type": "mutation",
     "id": "BIOLUM1_active",
-    "name": { "str": "Weak Photophore (active)" },
+    "name": { "str": "Weak Photophore" },
     "copy-from": "BIOLUM1",
-    "points": 1,
+    "valid": false,
     "description": "Your photophore is glowing softly.  This is making you very visible in the dark.",
-    "active": true,
     "cost": 1,
     "time": 810000,
     "hunger": true,
-    "transform": { "target": "BIOLUM1", "msg_transform": "You turn your photophore OFF.", "active": false, "moves": 100 },
+    "transform": { "target": "BIOLUM1", "msg_transform": "You turn your photophore OFF.", "active": false },
     "lumination": [ [ "HEAD", 8 ] ]
   },
   {
@@ -43,13 +41,22 @@
     "name": { "str": "Photophore" },
     "points": 2,
     "description": "Your can make your photophore glow brightly.",
-    "active": true,
+    "transform": { "target": "BIOLUM2_active", "msg_transform": "You turn your photophore ON.", "active": true },
+    "encumbrance_covered": [ [ "HEAD", 5 ] ],
+    "prereqs": [ "BIOLUM1" ],
+    "category": [ "ELFA", "INSECT", "FISH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOLUM2_active",
+    "name": { "str": "Photophore" },
+    "copy-from": "BIOLUM2",
+    "valid": false,
+    "description": "Your photophore is glowing brightly.",
     "cost": 1,
     "time": 405000,
     "hunger": true,
-    "encumbrance_covered": [ [ "HEAD", 5 ] ],
-    "prereqs": [ "BIOLUM1" ],
-    "category": [ "ELFA", "INSECT", "FISH" ],
+    "transform": { "target": "BIOLUM2", "msg_transform": "You turn your photophore OFF.", "active": false },
     "lumination": [ [ "HEAD", 20 ] ]
   },
   {
