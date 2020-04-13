@@ -801,4 +801,16 @@
     "vitamins": [ [ "vitC", 32 ], [ "vitA", 40 ], [ "calcium", 4 ] ],
     "rot_spawn": "GROUP_ROTTING_PLANT"
   }
+  {
+    "type": "COMESTIBLE",
+    "id": "cooked_bell_pepper",
+    "name": { "str": "cooked bell pepper" },
+    "copy-from": "bell_pepper",
+    "color": "green",
+    "spoils_in": "2 days",
+    "description": "A cored and cooked bell pepper. It is far more enjoyable now the seeds are removed.",
+    "price": 0,
+    "delete": { "flags": [ "RAW" ] },
+    "fun": 1
+  },
 ]
