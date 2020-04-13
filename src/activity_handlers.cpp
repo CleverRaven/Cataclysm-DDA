@@ -2585,7 +2585,7 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
         p->practice( skill_lockpick, lock_roll );
         g->m.has_furn( act->placement ) ?
         g->m.furn_set( act->placement, new_furn_type ) :
-        g->m.ter_set( act->placement, new_ter_type );
+        static_cast<void>( g->m.ter_set( act->placement, new_ter_type ) );
         p->add_msg_if_player( m_good, open_message );
     } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         p->add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
