@@ -3619,7 +3619,7 @@
     "type": "construction",
     "id": "constr_metal_grate_window_curtain",
     "description": "Build Metal Grate Over a Window",
-    "//": "Step 3: Build curtain over metal grate with curtain",
+    "//": "Step 3: Build curtain over metal grate",
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
