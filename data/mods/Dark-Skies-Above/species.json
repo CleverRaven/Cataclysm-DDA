@@ -13,6 +13,13 @@
   },
   {
     "type": "SPECIES",
+    "id": "BIOCRYSTAL",
+    "description": "a fusion of flesh and mineral",
+    "footsteps": "shuffling.",
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "REAVER",
     "description": "an alien combat mutant",
     "footsteps": "the scrabbling of something unearthly."

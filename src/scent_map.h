@@ -3,19 +3,22 @@
 #define SCENT_H
 
 #include <array>
+#include <set>
 #include <string>
+#include <vector>
 
 #include "calendar.h"
 #include "enums.h" // IWYU pragma: keep
 #include "game_constants.h"
+#include "json.h"
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
 static constexpr int SCENT_MAP_Z_REACH = 1;
 
-class map;
 class game;
+class map;
 
 namespace catacurses
 {

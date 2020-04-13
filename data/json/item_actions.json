@@ -751,6 +751,11 @@
   },
   {
     "type": "item_action",
+    "id": "FITNESS_CHECK",
+    "name": "Check health metrics"
+  },
+  {
+    "type": "item_action",
     "id": "deploy_tent",
     "name": { "str": "Put up" }
   },

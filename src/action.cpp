@@ -1,7 +1,7 @@
 #include "action.h"
 
-#include <climits>
 #include <algorithm>
+#include <climits>
 #include <istream>
 #include <iterator>
 #include <memory>
@@ -9,10 +9,15 @@
 
 #include "avatar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "character.h"
+#include "creature.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
 #include "input.h"
+#include "item.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -21,19 +26,16 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
+#include "ret_val.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "item.h"
-#include "ret_val.h"
-#include "type_id.h"
-#include "point.h"
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );

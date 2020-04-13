@@ -2,17 +2,16 @@
 #ifndef CLOTHING_MOD_H
 #define CLOTHING_MOD_H
 
+#include <algorithm>
+#include <array>
 #include <cstddef>
 #include <string>
 #include <vector>
-#include <array>
 
 #include "type_id.h"
 
 class JsonObject;
-class player;
 class item;
-
 template<typename T> struct enum_traits;
 
 enum clothing_mod_type : int {

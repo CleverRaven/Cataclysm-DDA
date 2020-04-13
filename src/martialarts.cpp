@@ -1,35 +1,39 @@
 #include "martialarts.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <map>
-#include <string>
-#include <array>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
+#include "character.h"
+#include "character_martial_arts.h"
+#include "color.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "enums.h"
 #include "game.h"
-#include "map.h"
 #include "generic_factory.h"
 #include "input.h"
+#include "item.h"
 #include "itype.h"
 #include "json.h"
+#include "map.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "item.h"
-#include "pimpl.h"
-#include "pldata.h"
-#include "enums.h"
-#include "optional.h"
+#include "value_ptr.h"
 
 static const skill_id skill_unarmed( "unarmed" );
 

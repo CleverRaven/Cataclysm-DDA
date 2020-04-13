@@ -2,45 +2,49 @@
 
 #include "monster.h" // IWYU pragma: associated
 
-#include <cstdlib>
-#include <cmath>
 #include <algorithm>
+#include <cfloat>
+#include <cmath>
+#include <cstdlib>
+#include <iterator>
+#include <list>
 #include <memory>
 #include <ostream>
-#include <list>
-#include <cfloat>
+#include <unordered_map>
 
 #include "avatar.h"
 #include "bionics.h"
+#include "cata_utility.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "field.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mattack_common.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
 #include "mtype.h"
-#include "creature_tracker.h"
 #include "npc.h"
+#include "pathfinding.h"
+#include "pimpl.h"
+#include "player.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "tileray.h"
 #include "translations.h"
 #include "trap.h"
-#include "vpart_position.h"
-#include "tileray.h"
 #include "vehicle.h"
-#include "cata_utility.h"
-#include "game_constants.h"
-#include "mattack_common.h"
-#include "pathfinding.h"
-#include "player.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "pimpl.h"
-#include "string_formatter.h"
+#include "vpart_position.h"
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_countdown( "countdown" );
@@ -1583,7 +1587,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                 factor = 1;
                 break;
         }
-        // TODO: make this take terrain type into account so diggers travelling under sand will create mounds of sand etc.
+        // TODO: make this take terrain type into account so diggers traveling under sand will create mounds of sand etc.
         if( one_in( factor ) ) {
             g->m.ter_set( pos(), t_dirtmound );
         }

@@ -6,16 +6,16 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "color.h"
 #include "harvest.h"
 #include "input.h"
 #include "map.h"
 #include "mapdata.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "ui_manager.h"
-#include "color.h"
-#include "translations.h"
 #include "string_id.h"
+#include "translations.h"
+#include "ui_manager.h"
 
 static const skill_id skill_survival( "survival" );
 

@@ -2,29 +2,28 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
-#include <cstddef>
 #include <climits>
+#include <cstddef>
 #include <set>
-#include <vector>
-#include <memory>
 #include <string>
 #include <unordered_set>
+#include <vector>
 
 #include "activity_actor.h"
 #include "clone_ptr.h"
 #include "enums.h"
 #include "item_location.h"
-#include "point.h"
 #include "memory_fast.h"
+#include "optional.h"
+#include "point.h"
 #include "type_id.h"
 
-class avatar;
-class player;
 class Character;
 class JsonIn;
 class JsonOut;
-class activity_type;
+class avatar;
 class monster;
+class player;
 class translation;
 
 class player_activity
@@ -42,7 +41,10 @@ class player_activity
         int moves_left = 0;
         /** An activity specific value. */
         int index = 0;
-        /** An activity specific value. */
+        /**
+         *   An activity specific value.
+         *   DO NOT USE FOR ITEM INDEX
+        */
         int position = 0;
         /** An activity specific value. */
         std::string name;
@@ -114,6 +116,9 @@ class player_activity
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+        // used to migrate the item indices to item_location
+        // obsolete after 0.F stable
+        void migrate_item_position( Character &guy );
         /** Convert from the old enumeration to the new string_id */
         void deserialize_legacy_type( int legacy_type, activity_id &dest );
 

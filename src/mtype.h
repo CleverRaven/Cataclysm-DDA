@@ -4,15 +4,16 @@
 
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 
+#include "calendar.h"
 #include "color.h"
-#include "optional.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
+#include "optional.h"
 #include "pathfinding.h"
 #include "translations.h"
 #include "type_id.h"
@@ -20,9 +21,9 @@
 
 class Creature;
 class monster;
-template <typename E> struct enum_traits;
 struct dealt_projectile_attack;
 struct species_type;
+template <typename E> struct enum_traits;
 
 enum body_part : int;
 enum m_size : int;

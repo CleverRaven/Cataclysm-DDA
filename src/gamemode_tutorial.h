@@ -2,10 +2,14 @@
 #ifndef GAMEMODE_TUTORIAL_H
 #define GAMEMODE_TUTORIAL_H
 
-#include "gamemode.h"
-#include "enum_conversions.h"
-
+#include <functional>
+#include <iosfwd>
 #include <map>
+
+#include "enums.h"
+#include "gamemode.h"
+
+template <typename E> struct enum_traits;
 
 enum special_game_id : int;
 enum action_id : int;
@@ -67,7 +71,5 @@ struct tutorial_game : public special_game {
 
         std::map<tut_lesson, bool> tutorials_seen;
 };
-
-class JsonObject;
 
 #endif // GAMEMODE_TUTORIAL_H

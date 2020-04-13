@@ -1,11 +1,13 @@
 #include "vehicle_selector.h"
 
+#include <algorithm>
 #include <memory>
 
 #include "game.h"
 #include "map.h"
-#include "vpart_position.h"
 #include "optional.h"
+#include "point.h"
+#include "vpart_position.h"
 
 vehicle_selector::vehicle_selector( const tripoint &pos, int radius, bool accessible,
                                     bool visibility_only )

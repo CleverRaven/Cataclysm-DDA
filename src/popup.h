@@ -4,13 +4,15 @@
 
 #include <cstddef>
 #include <functional>
+#include <memory>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
+#include "color.h"
 #include "cursesdef.h"
 #include "input.h"
-#include "color.h"
+#include "point.h"
 #include "string_formatter.h"
 
 class ui_adaptor;

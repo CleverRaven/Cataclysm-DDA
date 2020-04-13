@@ -219,6 +219,7 @@
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
+      "lake_depth": -5,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [
         { "om_terrain": "island_forest", "om_terrain_match_type": "TYPE", "alias": "forest" },
@@ -472,7 +473,8 @@
           "mx_casings": 20,
           "mx_corpses": 3,
           "mx_nest_wasp": 2,
-          "mx_mass_grave": 5
+          "mx_mass_grave": 5,
+          "mx_grave": 5
         }
       },
       "road": {
@@ -641,6 +643,12 @@
         "house_dogs": 50,
         "house_gardener": 50,
         "house_inner_garden": 50,
+        "urban_1_house": 50,
+        "urban_2_house": 50,
+        "urban_3_house": 50,
+        "urban_4_house_basement": 50,
+        "urban_5_house": 50,
+        "urban_6_house": 50,
         "emptyresidentiallot": 20,
         "house_vacant": 20,
         "house_vacant2": 20,
@@ -687,6 +695,8 @@
       "shops": {
         "bus_station": 200,
         "city_block_2": 300,
+        "urban_13_dense_house_apt_house": 300,
+        "urban_14_dense_house_mart_food": 200,
         "town_hall": 150,
         "craft_shop": 200,
         "craft_shop_1": 200,

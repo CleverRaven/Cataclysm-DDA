@@ -2,12 +2,13 @@
 #ifndef STRING_INPUT_POPUP_H
 #define STRING_INPUT_POPUP_H
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <map>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
@@ -103,7 +104,7 @@ class string_input_popup // NOLINT(cata-xy)
         }
         /**
          * Set / get the text that can be modified by the user.
-         * Note that cancelling the query makes this an empty string.
+         * Note that canceling the query makes this an empty string.
          * It's optional default is an empty string.
          */
         /**@{*/
@@ -252,7 +253,7 @@ class string_input_popup // NOLINT(cata-xy)
          * Edit values in place. This combines: calls to @ref text to set the
          * current value, @ref query to get user input and setting the
          * value back into the parameter object (when the popup was not
-         * canceled). Cancelling the popup keeps the value unmodified.
+         * canceled). Canceling the popup keeps the value unmodified.
          */
         /**@{*/
         void edit( std::string &value );

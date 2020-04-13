@@ -1,68 +1,77 @@
 #include "npc.h"
 
+#include <algorithm>
+#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
-#include <algorithm>
 #include <functional>
 #include <limits>
+#include <memory>
 
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "basecamp.h"
+#include "bodypart.h"
+#include "character.h"
+#include "character_id.h"
+#include "character_martial_arts.h"
+#include "clzones.h"
+#include "compatibility.h"
 #include "coordinate_conversions.h"
+#include "damage.h"
+#include "debug.h"
 #include "effect.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
+#include "faction.h"
+#include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
+#include "magic.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_iterator.h"
-#include "memorial_logger.h"
+#include "mapdata.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "mission.h"
+#include "monster.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "skill.h"
-#include "sounds.h"
-#include "string_formatter.h"
-#include "text_snippets.h"
-#include "trait_group.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "bodypart.h"
-#include "cata_utility.h"
-#include "character.h"
-#include "damage.h"
-#include "debug.h"
-#include "faction.h"
-#include "game_constants.h"
-#include "item.h"
-#include "iuse.h"
-#include "math_defines.h"
-#include "monster.h"
 #include "pathfinding.h"
 #include "player_activity.h"
+#include "pldata.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "skill.h"
+#include "sounds.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "text_snippets.h"
 #include "tileray.h"
+#include "trait_group.h"
 #include "translations.h"
 #include "units.h"
+#include "value_ptr.h"
+#include "veh_type.h"
+#include "vehicle.h"
 #include "visitable.h"
-#include "int_id.h"
-#include "pldata.h"
-#include "clzones.h"
-#include "enums.h"
-#include "flat_set.h"
-#include "stomach.h"
+#include "vpart_position.h"
 
 static const activity_id ACT_READ( "ACT_READ" );
 
@@ -111,7 +120,6 @@ static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 static const std::string flag_NPC_SAFE( "NPC_SAFE" );
 
-class basecamp;
 class monfaction;
 
 void starting_clothes( npc &who, const npc_class_id &type, bool male );
@@ -1146,12 +1154,12 @@ bool npc::wield( item &it )
         assert( !maybe_holster.is_null() );
         if( &maybe_holster != &it && maybe_holster.is_holster() ) {
             assert( !maybe_holster.contents.empty() );
-            const size_t old_size = maybe_holster.contents.size();
+            const size_t old_size = maybe_holster.contents.num_item_stacks();
             invoke_item( &maybe_holster );
             // TODO: change invoke_item to somehow report this change
             // HACK: test whether wielding the item from the holster has been done.
             // (Wielding may be prevented by various reasons: see player::wield_contained)
-            if( old_size != maybe_holster.contents.size() ) {
+            if( old_size != maybe_holster.contents.num_item_stacks() ) {
                 return true;
             }
         }

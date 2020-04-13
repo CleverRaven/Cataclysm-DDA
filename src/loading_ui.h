@@ -3,7 +3,6 @@
 #define LOADING_UI_H
 
 #include <memory>
-#include <vector>
 #include <string>
 
 class background_pane;

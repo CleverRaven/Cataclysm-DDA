@@ -288,7 +288,7 @@
   {
     "type": "furniture",
     "id": "f_punching_bag",
-    "aliases": "f_floor_canvas",
+    "alias": "f_floor_canvas",
     "looks_like": "f_floor_canvas",
     "name": "heavy punching bag",
     "description": "Punch Punch!  Exercise those arms!  Main selling point: it doesn't fight back!",

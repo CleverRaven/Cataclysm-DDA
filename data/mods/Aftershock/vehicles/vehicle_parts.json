@@ -232,16 +232,6 @@
     ]
   },
   {
-    "id": "afs_roof_external_tank",
-    "copy-from": "external_tank_small",
-    "type": "vehicle_part",
-    "name": { "str": "roof-mounted external tank (200L)" },
-    "item": "55gal_drum",
-    "location": "on_roof",
-    "extend": { "flags": [ "ON_ROOF" ] },
-    "size": 200000
-  },
-  {
     "id": "afs_mounted_external_tank",
     "copy-from": "external_tank_small",
     "type": "vehicle_part",

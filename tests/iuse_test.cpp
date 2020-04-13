@@ -1,13 +1,17 @@
+#include <array>
+#include <cstdlib>
+#include <memory>
+#include <string>
+
 #include "avatar.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
-#include "point.h"
-#include "string_id.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 static const std::string flag_WET( "WET" );
 

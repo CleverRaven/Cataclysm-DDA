@@ -3,29 +3,31 @@
 #include <algorithm>
 #include <cmath>
 #include <numeric>
+#include <sstream>
 
-#include "calendar.h"
-#include "debug.h"
-#include "game_constants.h"
-#include "item.h"
-#include "itype.h"
-#include "output.h"
-#include "skill.h"
-#include "uistate.h"
-#include "string_formatter.h"
 #include "assign.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "construction.h"
+#include "debug.h"
+#include "flat_set.h"
+#include "game_constants.h"
+#include "item.h"
+#include "itype.h"
 #include "json.h"
 #include "mapgen_functions.h"
 #include "optional.h"
+#include "output.h"
 #include "player.h"
+#include "skill.h"
+#include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "string_id.h"
-#include "flat_set.h"
+#include "uistate.h"
 #include "units.h"
+#include "value_ptr.h"
 
 extern bool test_mode;
 

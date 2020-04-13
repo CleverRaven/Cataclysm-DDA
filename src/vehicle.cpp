@@ -5,29 +5,37 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
-#include <complex>
 #include <cmath>
+#include <complex>
+#include <cstdint>
 #include <cstdlib>
+#include <list>
+#include <memory>
 #include <numeric>
 #include <queue>
 #include <set>
 #include <sstream>
 #include <unordered_map>
-#include <memory>
-#include <list>
+#include <unordered_set>
 
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "clzones.h"
-#include "flag.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "faction.h"
+#include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
@@ -35,29 +43,26 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
+#include "math_defines.h"
 #include "messages.h"
+#include "monster.h"
 #include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
+#include "string_id.h"
 #include "submap.h"
 #include "translations.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
 #include "weather.h"
-#include "field.h"
-#include "math_defines.h"
-#include "pimpl.h"
-#include "player.h"
-#include "player_activity.h"
-#include "pldata.h"
-#include "rng.h"
 #include "weather_gen.h"
-#include "options.h"
-#include "enums.h"
-#include "monster.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -104,7 +109,7 @@ class RemovePartHandler
         virtual ~RemovePartHandler() = default;
 
         virtual void unboard( const tripoint &loc ) = 0;
-        virtual void add_item_or_charges( const tripoint &loc, item it ) = 0;
+        virtual void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) = 0;
         virtual void set_transparency_cache_dirty( int z ) = 0;
         virtual void removed( vehicle &veh, int part ) = 0;
         virtual void spawn_animal_from_part( item &base, const tripoint &loc ) = 0;
@@ -118,7 +123,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void unboard( const tripoint &loc ) override {
             g->m.unboard_vehicle( loc );
         }
-        void add_item_or_charges( const tripoint &loc, item it ) override {
+        void add_item_or_charges( const tripoint &loc, item it, bool /*permit_oob*/ ) override {
             g->m.add_item_or_charges( loc, std::move( it ) );
         }
         void set_transparency_cache_dirty( const int z ) override {
@@ -167,14 +172,16 @@ class MapgenRemovePartHandler : public RemovePartHandler
             // Ignored. Will almost certainly not be called anyway, because
             // there are no creatures that could have been mounted during mapgen.
         }
-        void add_item_or_charges( const tripoint &loc, item it ) override {
+        void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) override {
             if( !m.inbounds( loc ) ) {
-                debugmsg( "Tried to put item %s on invalid tile %d,%d,%d during mapgen!", it.tname(), loc.x, loc.y,
-                          loc.z );
+                if( !permit_oob ) {
+                    debugmsg( "Tried to put item %s on invalid tile %s during mapgen!",
+                              it.tname(), loc.to_string() );
+                }
                 tripoint copy = loc;
                 m.clip_to_bounds( copy );
                 assert( m.inbounds( copy ) ); // prevent infinite recursion
-                add_item_or_charges( copy, std::move( it ) );
+                add_item_or_charges( copy, std::move( it ), false );
                 return;
             }
             m.add_item_or_charges( loc, std::move( it ) );
@@ -637,8 +644,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 
 void vehicle::activate_magical_follow()
 {
-    for( size_t e = 0; e < parts.size(); e++ ) {
-        vehicle_part &vp = parts[ e ];
+    for( vehicle_part &vp : parts ) {
         if( vp.info().fuel_type == fuel_type_mana ) {
             vp.enabled = true;
             is_following = true;
@@ -1009,8 +1015,8 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         int roll = dice( 1, 1000 );
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
-            float dist =  damage_size == 0.0f ? 1.0f :
-                          clamp( 1.0f - trig_dist( damage_origin, part.precalc[0] ) / damage_size, 0.0f, 1.0f );
+            double dist = damage_size == 0.0 ? 1.0 :
+                          clamp( 1.0 - trig_dist( damage_origin, part.precalc[0] ) / damage_size, 0.0, 1.0 );
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
             if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
                                                hp_percent_loss_max * dist ) * part.info().durability ), DT_BASH ) ) {
@@ -1890,7 +1896,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         if( part_flag( p, parent_flag ) ) {
             int dep = part_with_feature( p, child_flag, false );
             if( dep >= 0 && !magic ) {
-                handler.add_item_or_charges( part_loc, parts[dep].properties_to_item() );
+                handler.add_item_or_charges( part_loc, parts[dep].properties_to_item(), false );
                 remove_part( dep, handler );
                 return true;
             }
@@ -1960,7 +1966,12 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         // TODO: fix this ^^
         tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
         if( !magic ) {
-            handler.add_item_or_charges( dest, i );
+            // This new point might be out of the map bounds.  It's not
+            // reasonable to try to spawn it outside the currently valid map,
+            // so we pass true here to cause such points to be clamped to the
+            // valid bounds without printing an error (as would normally
+            // occur).
+            handler.add_item_or_charges( dest, i, true );
         }
     }
     refresh();
@@ -2778,7 +2789,7 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
 }
 
 // another NPC probably removed a part in the time it took to walk here and start the activity.
-// as the part index was first "chosen" before the NPC started travelling here.
+// as the part index was first "chosen" before the NPC started traveling here.
 // therefore the part index is now invalid shifted by one or two ( depending on how many other NPCs working on this vehicle )
 // so loop over the part indexes in reverse order to get the next one down that matches the part type we wanted to remove
 int vehicle::get_next_shifted_index( int original_index, player &p )
@@ -5169,11 +5180,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
     item itm_copy = itm;
 
     if( itm_copy.is_bucket_nonempty() ) {
-        for( auto &elem : itm_copy.contents ) {
-            g->m.add_item_or_charges( global_part_pos3( part ), elem );
-        }
-
-        itm_copy.contents.clear();
+        itm_copy.contents.spill_contents( global_part_pos3( part ) );
     }
 
     const vehicle_stack::iterator new_pos = p.items.insert( itm_copy );
@@ -5273,7 +5280,7 @@ void vehicle::place_spawn_items()
                                           !e.magazine_current();
 
                         if( spawn_mag ) {
-                            e.contents.emplace_back( e.magazine_default(), e.birthday() );
+                            e.put_in( item( e.magazine_default(), e.birthday() ) );
                         }
                         if( spawn_ammo ) {
                             e.ammo_set( e.ammo_default() );
@@ -6128,7 +6135,7 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         }
     }
 
-    int target_part = random_entry( pl );
+    int target_part = part_info( p ).rotor_diameter() ? p : random_entry( pl );
 
     // door motor mechanism is protected by closed doors
     if( part_flag( target_part, "DOOR_MOTOR" ) ) {

@@ -1,52 +1,56 @@
 #include "game_inventory.h"
 
-#include <cmath>
+#include <algorithm>
+#include <bitset>
 #include <climits>
 #include <cstddef>
 #include <functional>
-#include <bitset>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 #include "avatar.h"
-#include "game.h"
 #include "bionics.h"
-#include "inventory_ui.h"
-#include "item.h"
-#include "itype.h"
-#include "iuse_actor.h"
-#include "map.h"
-#include "options.h"
-#include "output.h"
-#include "player.h"
-#include "recipe_dictionary.h"
-#include "skill.h"
-#include "string_formatter.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "color.h"
 #include "compatibility.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "game.h"
 #include "input.h"
 #include "inventory.h"
+#include "inventory_ui.h"
+#include "item.h"
 #include "item_location.h"
+#include "itype.h"
 #include "iuse.h"
+#include "iuse_actor.h"
+#include "map.h"
 #include "optional.h"
+#include "options.h"
+#include "output.h"
+#include "player.h"
 #include "player_activity.h"
+#include "point.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "skill.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "type_id.h"
-#include "point.h"
+#include "value_ptr.h"
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -78,8 +82,6 @@ static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
 static const std::string flag_NO_PACKED( "NO_PACKED" );
 static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
-
-class Character;
 
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
@@ -1151,8 +1153,9 @@ class weapon_inventory_preset: public inventory_selector_preset
 
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
-                    if( loc->ammo_data()->ammo->prop_damage ) {
-                        const float ammo_mult = *loc->ammo_data()->ammo->prop_damage;
+                    if( loc->ammo_data()->ammo->damage.damage_units.front().unconditional_damage_mult != 1.0f ) {
+                        const float ammo_mult =
+                            loc->ammo_data()->ammo->damage.damage_units.front().unconditional_damage_mult;
 
                         return string_format( "%s<color_light_gray>*</color>%s <color_light_gray>=</color> %s",
                                               get_damage_string( basic_damage, true ),
@@ -1530,7 +1533,7 @@ void game_menus::inv::swap_letters( player &p )
         [ &p ]( const std::string::value_type & elem ) {
             if( p.inv.assigned_invlet.count( elem ) ) {
                 return c_yellow;
-            } else if( p.invlet_to_position( elem ) != INT_MIN ) {
+            } else if( p.invlet_to_item( elem ) != nullptr ) {
                 return c_white;
             } else {
                 return c_dark_gray;
@@ -1701,21 +1704,16 @@ class bionic_install_preset: public inventory_selector_preset
             const int difficulty = loc.get_item()->type->bionic->difficulty;
             int chance_of_failure = 100;
             player &installer = p;
-            const int assist_bonus = installer.get_effect_int( effect_assisted );
 
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
                                        skill_electronics,
                                        -1 );
 
-            if( ( get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
-                                                   ( 4.0 * difficulty ) );
-                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
@@ -1801,7 +1799,6 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             const int difficulty = loc.get_item()->type->bionic->difficulty;
             int chance_of_failure = 100;
             player &installer = p;
-            const int assist_bonus = installer.get_effect_int( effect_assisted );
 
             // Override player's skills with surgeon skill
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
@@ -1809,14 +1806,10 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                                        skill_electronics,
                                        20 );
 
-            if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
-                                                   ( 4.0 * difficulty ) );
-                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
@@ -1893,21 +1886,16 @@ class bionic_uninstall_preset : public inventory_selector_preset
             const int difficulty = loc.get_item()->type->bionic->difficulty + 2;
             int chance_of_failure = 100;
             player &installer = p;
-            const int assist_bonus = installer.get_effect_int( effect_assisted );
 
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
                                        skill_electronics,
                                        -1 );
 
-            if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
-                                                   ( 4.0 * difficulty ) );
-                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );

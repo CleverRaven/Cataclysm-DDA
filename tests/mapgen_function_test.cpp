@@ -1,6 +1,6 @@
-#include "mapgen.h"
-
 #include "catch/catch.hpp"
+#include "mapgen.h"
+#include "type_id.h"
 
 TEST_CASE( "connects_to", "[mapgen][connects]" )
 {

@@ -259,7 +259,7 @@ char inventory::find_usable_cached_invlet( const std::string &item_type )
             continue;
         }
         // Check if anything is using this invlet.
-        if( g->u.invlet_to_position( invlet ) != INT_MIN ) {
+        if( g->u.invlet_to_item( invlet ) != nullptr ) {
             continue;
         }
         return invlet;
@@ -338,8 +338,9 @@ void inventory::restack( player &p )
         std::list<item> &stack = *iter;
         item &topmost = stack.front();
 
-        const int ipos = p.invlet_to_position( topmost.invlet );
-        if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
+        const item *invlet_item = p.invlet_to_item( topmost.invlet );
+        if( !inv_chars.valid( topmost.invlet ) || ( invlet_item != nullptr &&
+                position_by_item( invlet_item ) != idx ) ) {
             assign_empty_invlet( topmost, p );
             for( auto &stack_iter : stack ) {
                 stack_iter.invlet = topmost.invlet;
@@ -1093,7 +1094,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
     if( newit.invlet ) {
         char tmp_invlet = newit.invlet;
         newit.invlet = '\0';
-        if( g->u.invlet_to_position( tmp_invlet ) == INT_MIN ) {
+        if( g->u.invlet_to_item( tmp_invlet ) == nullptr ) {
             newit.invlet = tmp_invlet;
         }
     }
