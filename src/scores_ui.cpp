@@ -47,6 +47,8 @@ void show_scores_ui( stats_tracker &stats, const kill_tracker &kills )
     input_context ctxt( "SCORES" );
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     catacurses::window w_view = catacurses::newwin( getmaxy( w ) - 4, getmaxx( w ) - 1,
@@ -87,13 +89,13 @@ void show_scores_ui( stats_tracker &stats, const kill_tracker &kills )
 
         const std::string action = ctxt.handle_input();
         new_tab = false;
-        if( action == "RIGHT" ) {
+        if( action == "RIGHT" || action == "NEXT_TAB" ) {
             tab = static_cast<tab_mode>( static_cast<int>( tab ) + 1 );
             if( tab >= tab_mode::num_tabs ) {
                 tab = tab_mode::first_tab;
             }
             new_tab = true;
-        } else if( action == "LEFT" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" ) {
             tab = static_cast<tab_mode>( static_cast<int>( tab ) - 1 );
             if( tab < tab_mode::first_tab ) {
                 tab = static_cast<tab_mode>( static_cast<int>( tab_mode::num_tabs ) - 1 );
@@ -103,9 +105,7 @@ void show_scores_ui( stats_tracker &stats, const kill_tracker &kills )
             view.scroll_down();
         } else if( action == "UP" ) {
             view.scroll_up();
-        } else if( action == "CONFIRM" ) {
-            break;
-        } else if( action == "QUIT" ) {
+        } else if( action == "CONFIRM" || action == "QUIT" ) {
             break;
         }
     }
