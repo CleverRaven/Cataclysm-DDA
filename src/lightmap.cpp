@@ -1,42 +1,43 @@
 #include "lightmap.h" // IWYU pragma: associated
 #include "shadowcasting.h" // IWYU pragma: associated
 
-#include <cstdint>
-#include <cstdlib>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
 #include <memory>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "colony.h"
+#include "field.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
-#include "math_defines.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_defines.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "optional.h"
+#include "player.h"
+#include "point.h"
+#include "string_formatter.h"
 #include "submap.h"
+#include "tileray.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
-#include "calendar.h"
-#include "field.h"
-#include "item.h"
-#include "line.h"
-#include "optional.h"
-#include "player.h"
-#include "string_formatter.h"
-#include "tileray.h"
-#include "type_id.h"
-#include "colony.h"
-#include "item_stack.h"
-#include "point.h"
 
 static const bionic_id bio_night( "bio_night" );
 
@@ -1014,7 +1015,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         float away = start - ( -distance + 0.5f ) / ( -distance -
                      0.5f ); //The distance between our first leadingEdge and start
 
-        //We initialise delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
+        //We initialize delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
         delta.x = -distance + std::max( static_cast<int>( std::ceil( away * ( -distance - 0.5f ) ) ), 0 );
 
         for( ; delta.x <= 0; delta.x++ ) {

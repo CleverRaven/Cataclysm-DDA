@@ -19,7 +19,11 @@
     "//": "rotor diameter is in meters",
     "rotor_diameter": 15,
     "//": "difficulty is artificially high to prevent homemade helicopters - for the moment",
-    "difficulty": 30,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 30 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] },
+      "removal": { "skills": [ [ "mechanics", 30 ] ], "time": "2 h", "using": [ [ "vehicle_weld_removal", 4 ] ] },
+      "repair": { "skills": [ [ "mechanics", 30 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] }
+    },
     "durability": 450,
     "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "damage_modifier": 80,
@@ -35,7 +39,11 @@
     "//": "rotor diameter is in meters",
     "rotor_diameter": 8,
     "//": "difficulty is artificially high to prevent homemade helicopters - for the moment",
-    "difficulty": 30,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 30 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] },
+      "removal": { "skills": [ [ "mechanics", 30 ] ], "time": "2 h", "using": [ [ "vehicle_weld_removal", 4 ] ] },
+      "repair": { "skills": [ [ "mechanics", 30 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] }
+    },
     "durability": 100,
     "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "damage_modifier": 80,

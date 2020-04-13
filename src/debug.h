@@ -188,28 +188,6 @@ bool debug_has_error_been_observed();
 // See documentation at the top.
 std::ostream &DebugLog( DebugLevel, DebugClass );
 
-// OStream operators                                                {{{1
-// ---------------------------------------------------------------------
-
-template<typename C, typename A>
-std::ostream &operator<<( std::ostream &out, const std::vector<C, A> &elm )
-{
-    bool first = true;
-    for( typename std::vector<C>::const_iterator
-         it = elm.begin(),
-         end = elm.end();
-         it != end; ++it ) {
-        if( first ) {
-            first = false;
-        } else {
-            out << ",";
-        }
-        out << *it;
-    }
-
-    return out;
-}
-
 /**
  * Extended debugging mode, can be toggled during game.
  * If enabled some debug message in the normal player message log are shown,

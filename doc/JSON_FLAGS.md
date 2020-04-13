@@ -679,6 +679,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
 - ```REQUIRES_TINDER``` ... Requires tinder to be present on the tile this item tries to start a fire on.
 - ```SLEEP_AID``` ... This item helps in sleeping.
+- ```SLEEP_IGNORE``` ... This item is not shown as before-sleep warning.
 - ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "NEEDS_UNFOLD".
 - ```TACK``` ... Item can be used as tack for a mount.
 - ```TIE_UP``` ... Item can be used to tie up a creature.
@@ -1002,7 +1003,10 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```ACID_BARF``` Barfs corroding, blinding acid.
 - ```ACID``` Spit acid.
 - ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
-- ```BIO_OP_TAKEDOWN``` Attack with special martial art takedown maneuverer.
+- ```BIO_OP_BIOJUTSU``` Attack with a random special martial art maneuver.
+- ```BIO_OP_TAKEDOWN``` Attack with special martial art takedown maneuver.
+- ```BIO_OP_DISARM``` Attack with a special martial art disarm maneuver.
+- ```BIO_OP_IMPALE``` Attack with a strong martial art maneuver.
 - ```BITE``` Bite attack that can cause deep infected wounds.
 - ```BMG_TUR``` Barrett .50BMG rifle fires.
 - ```BOOMER_GLOW``` Spit glowing bile.

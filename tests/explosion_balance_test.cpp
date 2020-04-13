@@ -1,25 +1,26 @@
-#include <sstream>
 #include <algorithm>
+#include <cstddef>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "catch/catch.hpp"
+#include "creature.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "test_statistics.h"
-#include "vehicle.h"
-#include "veh_type.h"
-#include "vpart_position.h"
-#include "creature.h"
-#include "string_id.h"
-#include "type_id.h"
 #include "point.h"
+#include "string_id.h"
+#include "test_statistics.h"
+#include "type_id.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 enum class outcome_type {
     Kill, Casualty

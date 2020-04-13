@@ -3,18 +3,17 @@
 #define SOUNDS_H
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
-#include "enum_traits.h"
-
+class Creature;
+class JsonObject;
+class item;
 class monster;
 class player;
-class Creature;
-class item;
-class JsonObject;
 class translation;
 struct tripoint;
+template <typename E> struct enum_traits;
 
 namespace sounds
 {

@@ -25,7 +25,7 @@
     "id": "toastem2",
     "name": "toast-em",
     "copy-from": "toastem",
-    "description": "Dry toaster pastries, usually coated with solid frosting, these are blueberry flavored!",
+    "description": "Dry toaster pastries, usually coated with solid frosting.  These are blueberry flavored!",
     "fun": 15
   },
   {
@@ -918,6 +918,18 @@
     "healthy": -2,
     "description": "A heavily processed sausage, dipped in batter and deep-fried.  Cooked, this corn dog now tastes much better, but will spoil.",
     "fun": 18
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "corndogs_homemade",
+    "name": "homemade corn dog",
+    "copy-from": "corndogs_frozen",
+    "spoils_in": "1 day",
+    "healthy": -2,
+    "charges": 1,
+    "description": "A homemade sausage, dipped in batter and deep fried.  Cooked, this corn dog now tastes much better, but will spoil.",
+    "fun": 18,
+    "calories": 250
   },
   {
     "type": "COMESTIBLE",

@@ -3,14 +3,16 @@
 #include <vector>
 
 #include "avatar.h"
-#include "calendar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "player_helpers.h"
 #include "options_helpers.h"
-#include "recipe_dictionary.h"
+#include "recipe.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 static void test_info_equals( const item &i, const iteminfo_query &q,
                               const std::string &reference )
@@ -53,7 +55,8 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary
 {
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_CATEGORY, iteminfo_parts::BASE_MATERIAL,
                                 iteminfo_parts::BASE_VOLUME, iteminfo_parts::BASE_WEIGHT,
-                                iteminfo_parts::DESCRIPTION } );
+                                iteminfo_parts::DESCRIPTION
+                              } );
 
     override_option opt( "USE_METRIC_WEIGHTS", "lbs" );
     SECTION( "volume, weight, category, material, description" ) {
@@ -137,8 +140,13 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
 
 TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
+    // new DPS calculations depend on the avatar's stats, so make sure they're consistent
+    clear_avatar();
+    REQUIRE( g->u.get_str() == 8 );
+    REQUIRE( g->u.get_dex() == 8 );
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_DAMAGE, iteminfo_parts::BASE_TOHIT,
-                                iteminfo_parts::BASE_MOVES } );
+                                iteminfo_parts::BASE_MOVES
+                              } );
 
     SECTION( "bash damage" ) {
         test_info_equals(
@@ -147,7 +155,10 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>7</color>"
             "  To-hit bonus: <color_c_yellow>-2</color>\n"
             "Moves per attack: <color_c_yellow>79</color>\n"
-            "Damage per second: <color_c_yellow>8.86</color>\n" );
+            "Typical damage per second:\n"
+            "  Best: <color_c_yellow>8.84</color>"
+            "  Vs. Agile: <color_c_yellow>4.62</color>"
+            "  Vs. Armored: <color_c_yellow>1.35</color>" );
     }
 
     SECTION( "bash and cut damage" ) {
@@ -158,7 +169,10 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  Cut: <color_c_yellow>5</color>"
             "  To-hit bonus: <color_c_yellow>+2</color>\n"
             "Moves per attack: <color_c_yellow>145</color>\n"
-            "Damage per second: <color_c_yellow>17.24</color>\n" );
+            "Typical damage per second:\n"
+            "  Best: <color_c_yellow>11.64</color>"
+            "  Vs. Agile: <color_c_yellow>6.08</color>"
+            "  Vs. Armored: <color_c_yellow>4.45</color>" );
     }
 
     SECTION( "bash and pierce damage" ) {
@@ -169,7 +183,10 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  Pierce: <color_c_yellow>8</color>"
             "  To-hit bonus: <color_c_yellow>+1</color>\n"
             "Moves per attack: <color_c_yellow>100</color>\n"
-            "Damage per second: <color_c_yellow>12.00</color>\n" );
+            "Typical damage per second:\n"
+            "  Best: <color_c_yellow>11.33</color>"
+            "  Vs. Agile: <color_c_yellow>5.93</color>"
+            "  Vs. Armored: <color_c_yellow>1.24</color>" );
     }
 
     SECTION( "no damage" ) {
@@ -194,7 +211,8 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
 {
     iteminfo_query q = q_vec( { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,
                                 iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH,
-                                iteminfo_parts::ARMOR_ENCUMBRANCE, iteminfo_parts::ARMOR_PROTECTION } );
+                                iteminfo_parts::ARMOR_ENCUMBRANCE, iteminfo_parts::ARMOR_PROTECTION
+                              } );
 
     SECTION( "shows coverage, encumbrance, and protection for armor with coverage" ) {
         test_info_equals(
@@ -249,12 +267,15 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
 
     SECTION( "weapon damage including floating-point multiplier" ) {
         iteminfo_query q = q_vec( { iteminfo_parts::GUN_DAMAGE, iteminfo_parts::GUN_DAMAGE_AMMOPROP,
-                                    iteminfo_parts::GUN_DAMAGE_TOTAL, iteminfo_parts::GUN_ARMORPIERCE } );
+                                    iteminfo_parts::GUN_DAMAGE_TOTAL, iteminfo_parts::GUN_ARMORPIERCE,
+                                    iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER
+                                  } );
         test_info_equals(
             item( "test_compbow" ), q,
             "--\n"
             "<color_c_white>Ranged damage</color>:"
             " <color_c_yellow>18</color>*<color_c_yellow>1.50</color> = <color_c_yellow>27</color>\n"
+            "Critical multiplier: <color_c_yellow>10</color>\n"
             "Armor-pierce: <color_c_yellow>0</color>\n" );
     }
 
@@ -298,7 +319,8 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
     iteminfo_query q = q_vec( { iteminfo_parts::AMMO_REMAINING_OR_TYPES, iteminfo_parts::AMMO_DAMAGE_VALUE,
                                 iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL, iteminfo_parts::AMMO_DAMAGE_AP,
                                 iteminfo_parts::AMMO_DAMAGE_RANGE, iteminfo_parts::AMMO_DAMAGE_DISPERSION,
-                                iteminfo_parts::AMMO_DAMAGE_RECOIL } );
+                                iteminfo_parts::AMMO_DAMAGE_RECOIL, iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER
+                              } );
 
     SECTION( "simple item with ammo damage" ) {
         test_info_equals(
@@ -307,14 +329,15 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
             "<color_c_white>Ammunition type</color>: rocks\n"
             "Damage: <color_c_yellow>7</color>  Armor-pierce: <color_c_yellow>0</color>\n"
             "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>14</color>\n"
-            "Recoil: <color_c_yellow>0</color>\n" );
+            "Recoil: <color_c_yellow>0</color>  Critical multiplier: <color_c_yellow>2</color>\n" );
     }
 }
 
 TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
 {
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_VITAMINS,
-                                iteminfo_parts::FOOD_QUENCH } );
+                                iteminfo_parts::FOOD_QUENCH
+                              } );
     SECTION( "fixed nutrient values in regular item" ) {
         item i( "icecream" );
         test_info_equals(

@@ -1,9 +1,10 @@
 #include "text_snippets.h"
 
+#include <cstddef>
 #include <random>
-#include <iterator>
 #include <utility>
 
+#include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "rng.h"
@@ -167,7 +168,7 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
     }
 }
 
-snippet_id snippet_library::migrate_hash_to_id( const int hash )
+snippet_id snippet_library::migrate_hash_to_id( const int old_hash )
 {
     if( !hash_to_id_migration.has_value() ) {
         hash_to_id_migration.emplace();
@@ -178,7 +179,7 @@ snippet_id snippet_library::migrate_hash_to_id( const int hash )
             }
         }
     }
-    const auto it = hash_to_id_migration->find( hash );
+    const auto it = hash_to_id_migration->find( old_hash );
     if( it == hash_to_id_migration->end() ) {
         return snippet_id::NULL_ID();
     }

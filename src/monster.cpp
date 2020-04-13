@@ -1,26 +1,34 @@
 #include "monster.h"
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 #include <memory>
 #include <tuple>
 #include <unordered_map>
 
 #include "avatar.h"
+#include "character.h"
+#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
+#include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "item.h"
+#include "item_group.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mattack_common.h"
 #include "melee.h"
 #include "messages.h"
 #include "mission.h"
@@ -29,29 +37,23 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "morale_types.h"
-#include "mutation.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
-#include "character.h"
-#include "compatibility.h"
-#include "game_constants.h"
-#include "mattack_common.h"
-#include "pimpl.h"
-#include "player.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "flat_set.h"
 #include "weather.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
@@ -2819,16 +2821,6 @@ void monster::on_hit( Creature *source, body_part,
 
     check_dead_state();
     // TODO: Faction relations
-}
-
-body_part monster::get_random_body_part( bool ) const
-{
-    return bp_torso;
-}
-
-std::vector<body_part> monster::get_all_body_parts( bool ) const
-{
-    return std::vector<body_part>( 1, bp_torso );
 }
 
 int monster::get_hp_max( hp_part ) const

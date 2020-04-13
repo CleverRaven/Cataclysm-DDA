@@ -3,21 +3,19 @@
 #define REGIONAL_SETTINGS_H
 
 #include <map>
-#include <memory>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <set>
 
 #include "enums.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "omdata.h"
-#include "weather_gen.h"
-#include "weighted_list.h"
-#include "int_id.h"
 #include "string_id.h"
 #include "type_id.h"
-#include "memory_fast.h"
+#include "weather_gen.h"
+#include "weighted_list.h"
 
 class JsonObject;
 
@@ -193,6 +191,7 @@ struct shore_extendable_overmap_terrain_alias {
 struct overmap_lake_settings {
     double noise_threshold_lake = 0.25;
     int lake_size_min = 20;
+    int lake_depth = -5;
     std::vector<std::string> unfinalized_shore_extendable_overmap_terrain;
     std::vector<oter_id> shore_extendable_overmap_terrain;
     std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;

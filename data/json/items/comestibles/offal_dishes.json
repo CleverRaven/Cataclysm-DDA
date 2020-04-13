@@ -258,5 +258,23 @@
     "charges": 6,
     "calories": 400,
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "sausage_casings",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": "sausage casing",
+    "name_plural": "sausage casings",
+    "description": "Sausage casings made from animal intestines.  Ready to be used for forming meat products.",
+    "color": "red",
+    "material": "flesh",
+    "charges": 60
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "homemade_hotdogs",
+    "name": "homemade hot dog",
+    "name_plural": "homemade hot dogs",
+    "copy-from": "hotdogs_frozen"
   }
 ]

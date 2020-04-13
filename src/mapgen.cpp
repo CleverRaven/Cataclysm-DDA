@@ -1,41 +1,49 @@
 #include "mapgen.h"
 
-#include <cassert>
-#include <cstdlib>
 #include <algorithm>
-#include <list>
-#include <memory>
-#include <sstream>
 #include <array>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
 #include <functional>
 #include <iterator>
+#include <list>
+#include <map>
+#include <memory>
 #include <set>
+#include <sstream>
 #include <stdexcept>
 #include <unordered_map>
-#include <cmath>
 
+#include "calendar.h"
+#include "catacharset.h"
+#include "character_id.h"
 #include "clzones.h"
-#include "generic_factory.h"
+#include "common_types.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "drawing_primitives.h"
 #include "enums.h"
-#include "faction.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
+#include "generic_factory.h"
+#include "int_id.h"
+#include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
-#include "mapgendata.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
+#include "mapgendata.h"
 #include "mapgenformat.h"
 #include "mission.h"
 #include "mongroup.h"
@@ -46,28 +54,22 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "player.h"
+#include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "submap.h"
 #include "text_snippets.h"
+#include "tileray.h"
 #include "translations.h"
 #include "trap.h"
+#include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "calendar.h"
-#include "common_types.h"
-#include "field.h"
-#include "game_constants.h"
-#include "item.h"
-#include "string_id.h"
-#include "tileray.h"
 #include "weighted_list.h"
-#include "material.h"
-#include "int_id.h"
-#include "colony.h"
-#include "pimpl.h"
-#include "point.h"
 
 static const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
@@ -352,7 +354,8 @@ static mapgen_factory oter_mapgen;
 /*
  * stores function ref and/or required data
  */
-std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> > nested_mapgen;
+std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
+        nested_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> > update_mapgen;
 
 /*
@@ -363,8 +366,8 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
     oter_mapgen.setup();
     // Not really calculate weights, but let's keep it here for now
     for( auto &pr : nested_mapgen ) {
-        for( std::unique_ptr<mapgen_function_json_nested> &ptr : pr.second ) {
-            ptr->setup();
+        for( weighted_object<int, std::shared_ptr<mapgen_function_json_nested>> &ptr : pr.second ) {
+            ptr.obj->setup();
         }
     }
     for( auto &pr : update_mapgen ) {
@@ -380,7 +383,7 @@ void check_mapgen_definitions()
     oter_mapgen.check_consistency();
     for( auto &oter_definition : nested_mapgen ) {
         for( auto &mapgen_function_ptr : oter_definition.second ) {
-            mapgen_function_ptr->check( oter_definition.first );
+            mapgen_function_ptr.obj->check( oter_definition.first );
         }
     }
     for( auto &oter_definition : update_mapgen ) {
@@ -449,10 +452,10 @@ static void load_nested_mapgen( const JsonObject &jio, const std::string &id_bas
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
         if( jio.has_object( "object" ) ) {
+            int weight = jio.get_int( "weight", 1000 );
             JsonObject jo = jio.get_object( "object" );
             std::string jstr = jo.str();
-            nested_mapgen[id_base].push_back(
-                std::make_unique<mapgen_function_json_nested>( jstr ) );
+            nested_mapgen[id_base].add( std::make_shared<mapgen_function_json_nested>( jstr ), weight );
         } else {
             debugmsg( "Nested mapgen: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
         }
@@ -1529,14 +1532,14 @@ class jmapgen_make_rubble : public jmapgen_piece
 class jmapgen_computer : public jmapgen_piece
 {
     public:
-        std::string name;
+        translation name;
         translation access_denied;
         int security;
         std::vector<computer_option> options;
         std::vector<computer_failure> failures;
         bool target;
         jmapgen_computer( const JsonObject &jsi ) {
-            name = jsi.get_string( "name" );
+            jsi.read( "name", name );
             jsi.read( "access_denied", access_denied );
             security = jsi.get_int( "security", 0 );
             target = jsi.get_bool( "target", false );
@@ -1556,7 +1559,8 @@ class jmapgen_computer : public jmapgen_piece
             const int ry = y.get();
             dat.m.ter_set( point( rx, ry ), t_console );
             dat.m.furn_set( point( rx, ry ), f_null );
-            computer *cpu = dat.m.add_computer( tripoint( rx, ry, dat.m.get_abs_sub().z ), name, security );
+            computer *cpu = dat.m.add_computer( tripoint( rx, ry, dat.m.get_abs_sub().z ), name.translated(),
+                                                security );
             for( const auto &opt : options ) {
                 cpu->add_option( opt );
             }
@@ -1826,12 +1830,12 @@ class jmapgen_nested : public jmapgen_piece
             }
 
             // A second roll? Let's allow it for now
-            const auto &ptr = random_entry_ref( iter->second );
+            const auto &ptr = iter->second.pick();
             if( ptr == nullptr ) {
                 return;
             }
 
-            ptr->nest( dat, point( x.get(), y.get() ) );
+            ( *ptr )->nest( dat, point( x.get(), y.get() ) );
         }
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             const weighted_int_list<std::string> &selected_entries = neighbors.test(
@@ -1848,8 +1852,8 @@ class jmapgen_nested : public jmapgen_piece
                 if( iter == nested_mapgen.end() ) {
                     return false;
                 }
-                for( auto &nest : iter->second ) {
-                    if( nest->has_vehicle_collision( dat, {x, y} ) ) {
+                for( const auto &nest : iter->second ) {
+                    if( nest.obj->has_vehicle_collision( dat, { x, y } ) ) {
                         return true;
                     }
                 }
@@ -5983,7 +5987,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
     for( auto e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-                e->contents.emplace_back( e->magazine_default(), e->birthday() );
+                e->put_in( item( e->magazine_default(), e->birthday() ) );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default(), e->ammo_capacity() );

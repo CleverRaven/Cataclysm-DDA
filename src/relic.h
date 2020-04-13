@@ -2,14 +2,14 @@
 #ifndef RELIC_H
 #define RELIC_H
 
-#include "magic.h"
-#include "magic_enchantment.h"
-
 #include <string>
 #include <vector>
 
+#include "magic.h"
+#include "magic_enchantment.h"
+#include "translations.h"
+
 class Creature;
-class islot_relic;
 class JsonIn;
 class JsonObject;
 class JsonOut;
