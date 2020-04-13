@@ -166,6 +166,8 @@ struct mutation_branch {
         cata::optional<int> scent_mask;
         int bleed_resist = 0;
 
+        int butchering_quality = 0;
+
         cata::value_ptr<mut_transform> transform;
 
         /**Map of crafting skills modifiers, can be negative*/

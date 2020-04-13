@@ -386,6 +386,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
     optional( jo, was_loaded, "can_heal_with", can_heal_with );
 
+    optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
+
     optional( jo, was_loaded, "allowed_category", allowed_category );
 
     optional( jo, was_loaded, "mana_modifier", mana_modifier, 0 );
