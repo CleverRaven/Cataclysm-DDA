@@ -126,7 +126,7 @@ static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SMALL2( "SMALL2" );
 
-static const quality_id LOCKPICK( "LOCKPICK" );
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
@@ -1072,7 +1072,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         return is_allowed;
     };
 
-    const cata::optional<tripoint> pnt_ =  choose_adjacent_highlight(
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -1096,7 +1096,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     /** @EFFECT_DEX speeds up door lock picking */
     /** @EFFECT_LOCKPICK speeds up door lock picking */
     const int duration = std::max( 0,
-                                   to_moves<int>( 10_minutes - time_duration::from_minutes( it.get_quality( LOCKPICK ) ) ) -
+                                   to_moves<int>( 10_minutes - time_duration::from_minutes( it.get_quality( qual_LOCKPICK ) ) ) -
                                    ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 2300 );
     p.practice( skill_lockpick, std::pow( 2, p.get_skill_level( skill_lockpick ) ) + 1 );
 

@@ -221,7 +221,7 @@ static const skill_id skill_survival( "survival" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
-static const quality_id LOCKPICK( "LOCKPICK" );
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 
@@ -2578,7 +2578,7 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
     /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
     int pick_roll = std::pow( 1.5, p->get_skill_level( skill_lockpick ) ) *
                     ( std::pow( 1.3, p->get_skill_level( skill_mechanics ) ) +
-                      it->get_quality( LOCKPICK ) - it->damage() / 2000 ) +
+                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000 ) +
                     p->dex_cur / 4;
     int lock_roll = rng( 1, 120 );
     if( pick_roll >= lock_roll ) {
