@@ -1003,7 +1003,10 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```ACID_BARF``` Barfs corroding, blinding acid.
 - ```ACID``` Spit acid.
 - ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
-- ```BIO_OP_TAKEDOWN``` Attack with special martial art takedown maneuverer.
+- ```BIO_OP_BIOJUTSU``` Attack with a random special martial art maneuver.
+- ```BIO_OP_TAKEDOWN``` Attack with special martial art takedown maneuver.
+- ```BIO_OP_DISARM``` Attack with a special martial art disarm maneuver.
+- ```BIO_OP_IMPALE``` Attack with a strong martial art maneuver.
 - ```BITE``` Bite attack that can cause deep infected wounds.
 - ```BMG_TUR``` Barrett .50BMG rifle fires.
 - ```BOOMER_GLOW``` Spit glowing bile.
