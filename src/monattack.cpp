@@ -5242,7 +5242,7 @@ bool mattack::bio_op_impale( monster *z )
         return true;
     }
 
-    body_part hit = target->get_random_body_part();
+    body_part hit = target->get_random_body_part()->token;
 
     t_dam = foe->deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
 
