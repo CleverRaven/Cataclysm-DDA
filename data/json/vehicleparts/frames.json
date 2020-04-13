@@ -59,7 +59,7 @@
   {
     "abstract": "frame_wood",
     "type": "vehicle_part",
-    "name": "wooden frame",
+    "name": { "str": "wooden frame" },
     "item": "frame_wood",
     "location": "structure",
     "color": "brown",

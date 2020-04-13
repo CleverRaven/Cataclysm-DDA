@@ -4,7 +4,6 @@
 
 #include <unordered_map>
 
-#include "int_id.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -12,7 +11,8 @@ class JsonObject;
 enum mf_attitude {
     MFA_BY_MOOD = 0,    // Hostile if angry
     MFA_NEUTRAL,        // Neutral even when angry
-    MFA_FRIENDLY        // Friendly
+    MFA_FRIENDLY,       // Friendly
+    MFA_HATE            // Attacks on sight
 };
 
 using mfaction_att_map = std::unordered_map< mfaction_id, mf_attitude >;
@@ -37,4 +37,3 @@ class monfaction
 };
 
 #endif
-

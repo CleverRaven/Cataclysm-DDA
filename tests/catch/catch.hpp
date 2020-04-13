@@ -2251,7 +2251,7 @@ namespace Catch {
         {}
     };
 
-    // Specialised comparison functions to handle equality comparisons between ints and pointers (NULL deduces as an int)
+    // Specialized comparison functions to handle equality comparisons between ints and pointers (NULL deduces as an int)
     template<typename LhsT, typename RhsT>
     auto compareEqual( LhsT const& lhs, RhsT const& rhs ) -> bool { return static_cast<bool>(lhs == rhs); }
     template<typename T>
@@ -3523,7 +3523,7 @@ namespace Matchers {
             bool match(std::vector<T> const &v) const override {
                 // !TBD: This currently works if all elements can be compared using !=
                 // - a more general approach would be via a compare template that defaults
-                // to using !=. but could be specialised for, e.g. std::vector<T> etc
+                // to using !=. but could be specialized for, e.g. std::vector<T> etc
                 // - then just call that directly
                 if (m_comparator.size() != v.size())
                     return false;
@@ -11682,7 +11682,7 @@ namespace Catch {
         mutable RunTests::InWhatOrder m_currentSortOrder = RunTests::InDeclarationOrder;
         mutable std::vector<TestCase> m_sortedFunctions;
         std::size_t m_unnamedCount = 0;
-        std::ios_base::Init m_ostreamInit; // Forces cout/ cerr to be initialised
+        std::ios_base::Init m_ostreamInit; // Forces cout/ cerr to be initialized
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -13512,6 +13512,29 @@ namespace Catch {
 
 namespace Catch {
 
+    struct CompareTestsUsingRandom {
+        explicit CompareTestsUsingRandom( std::mt19937& rng ) {
+            std::uniform_int_distribution<uint64_t> dist;
+            basis = dist( rng );
+        }
+
+        uint64_t basis;
+
+        uint64_t fnv_1a_hash( std::string const& s ) const {
+            static constexpr uint64_t prime = 1099511628211;
+            uint64_t hash = basis;
+            for( const char c : s ) {
+                hash ^= c;
+                hash *= prime;
+            }
+            return hash;
+        }
+
+        bool operator()( TestCase const& l, TestCase const& r ) const {
+            return fnv_1a_hash( l.name ) < fnv_1a_hash( r.name );
+        }
+    };
+
     std::vector<TestCase> sortTests( IConfig const& config, std::vector<TestCase> const& unsortedTestCases ) {
 
         std::vector<TestCase> sorted = unsortedTestCases;
@@ -13522,7 +13545,7 @@ namespace Catch {
                 break;
             case RunTests::InRandomOrder:
                 seedRng( config );
-                std::shuffle( sorted.begin(), sorted.end(), rng() );
+                std::sort( sorted.begin(), sorted.end(), CompareTestsUsingRandom( rng() ) );
                 break;
             case RunTests::InDeclarationOrder:
                 // already in declaration order

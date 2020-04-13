@@ -156,7 +156,7 @@
   {
     "id": "mon_darkman",
     "type": "MONSTER",
-    "name": "wraith",
+    "name": { "str": "wraith" },
     "description": "A gigantic shadow, chaotically changing in shape and volume.  Two piercing orbs of light dominate what can only be described as its head.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -404,7 +404,7 @@
   {
     "id": "mon_headless_dog_thing",
     "type": "MONSTER",
-    "name": "tentacle dog",
+    "name": { "str": "tentacle dog" },
     "description": "A dog's body with a mass of ropey, black tentacles reaching out from its head.",
     "default_faction": "mutant",
     "bodytype": "dog",
@@ -742,7 +742,7 @@
   {
     "id": "mon_thing",
     "type": "MONSTER",
-    "name": "thing",
+    "name": { "str": "thing" },
     "description": "An amorphous black creature, detaching and sprouting tentacles without any apparent pause.",
     "default_faction": "mutant",
     "bodytype": "blob",
@@ -796,7 +796,7 @@
   {
     "id": "mon_yugg",
     "type": "MONSTER",
-    "name": "yugg",
+    "name": { "str": "yugg" },
     "description": "This is a huge, slimy worm-like creature.  Its pale, flattened head drips an oily mucus as it breaches the ground, searching for prey.  Its pinkish mouth opens and closes, revealing long fangs glistening with ropey strands of saliva, which leave smoldering stains wherever they drip.  The mere sight of its putrid whitish visage is enough to loose prehistoric terrors within the darkest recesses of your mind.",
     "default_faction": "nether",
     "bodytype": "snake",

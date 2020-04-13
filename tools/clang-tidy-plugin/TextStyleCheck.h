@@ -1,12 +1,18 @@
 #ifndef CATA_TOOLS_CLANG_TIDY_TEXTSTYLECHECK_H
 #define CATA_TOOLS_CLANG_TIDY_TEXTSTYLECHECK_H
 
+#include <ClangTidyOptions.h>
+#include <clang/ASTMatchers/ASTMatchFinder.h>
+#include <llvm/ADT/StringRef.h>
+
 #include "ClangTidy.h"
 
 namespace clang
 {
 namespace tidy
 {
+class ClangTidyContext;
+
 namespace cata
 {
 

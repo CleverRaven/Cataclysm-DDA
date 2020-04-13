@@ -1,12 +1,49 @@
-#include "avatar.h"
-#include "character.h"
-#include "cata_string_consts.h"
-#include "game.h"
-#include "map.h"
-#include "morale.h"
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
+#include "game.h"
+#include "item.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "morale_types.h"
+#include "point.h"
+#include "type_id.h"
+
+static const std::string flag_ALLERGEN_JUNK( "ALLERGEN_JUNK" );
+static const std::string flag_CANNIBALISM( "CANNIBALISM" );
+static const std::string flag_EATEN_HOT( "EATEN_HOT" );
+static const std::string flag_HOT( "HOT" );
+static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
+
+static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
+static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
+static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
+static const trait_id trait_BADTEMPER( "BADTEMPER" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_CLAWS( "CLAWS" );
+static const trait_id trait_FAT( "FAT" );
+static const trait_id trait_HIBERNATE( "HIBERNATE" );
+static const trait_id trait_LACTOSE( "LACTOSE" );
+static const trait_id trait_LARGE( "LARGE" );
+static const trait_id trait_MEATARIAN( "MEATARIAN" );
+static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
+static const trait_id trait_PROJUNK( "PROJUNK" );
+static const trait_id trait_PROJUNK2( "PROJUNK2" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_TABLEMANNERS( "TABLEMANNERS" );
+static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
+static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
+static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
+static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
 // Test cases for `Character::modify_morale` defined in `src/consumption.cpp`
 
@@ -330,6 +367,70 @@ TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
                 dummy.clear_morale();
                 dummy.modify_morale( necco );
                 CHECK( dummy.has_morale( MORALE_NO_DIGEST ) <= -25 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" )
+{
+    avatar dummy;
+
+    item &caff_gum = dummy.i_add( item( "caff_gum" ) );
+
+    // This is a regression test for gum having "junk" material, and being
+    // treated as junk food (despite not being ingested). At the time of
+    // writing this test, gum and caffeinated gum are made of "junk", and thus
+    // are treated as junk food, but might not always be so. Here we set the
+    // relevant flags to cover the scenario we're interested in, namely any
+    // comestible having both "junk" and "no ingest" flags.
+    caff_gum.set_flag( "ALLERGEN_JUNK" );
+    caff_gum.set_flag( "NO_INGEST" );
+
+    REQUIRE( caff_gum.has_flag( "ALLERGEN_JUNK" ) );
+    REQUIRE( caff_gum.has_flag( "NO_INGEST" ) );
+
+    GIVEN( "character has a sweet tooth" ) {
+        dummy.toggle_trait( trait_PROJUNK );
+        REQUIRE( dummy.has_trait( trait_PROJUNK ) );
+
+        THEN( "they do not get an extra morale bonus for chewing gum" ) {
+            dummy.clear_morale();
+            dummy.modify_morale( caff_gum );
+            CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) == 0 );
+
+            AND_THEN( "they still enjoy it" ) {
+                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
+            }
+        }
+    }
+
+    GIVEN( "character is sugar-loving" ) {
+        dummy.toggle_trait( trait_PROJUNK2 );
+        REQUIRE( dummy.has_trait( trait_PROJUNK2 ) );
+
+        THEN( "they do not get an extra morale bonus for chewing gum" ) {
+            dummy.clear_morale();
+            dummy.modify_morale( caff_gum );
+            CHECK( dummy.has_morale( MORALE_SWEETTOOTH ) == 0 );
+
+            AND_THEN( "they still enjoy it" ) {
+                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
+            }
+        }
+    }
+
+    GIVEN( "character has junk food intolerance" ) {
+        dummy.toggle_trait( trait_ANTIJUNK );
+        REQUIRE( dummy.has_trait( trait_ANTIJUNK ) );
+
+        THEN( "they do not get a morale penalty for chewing gum" ) {
+            dummy.clear_morale();
+            dummy.modify_morale( caff_gum );
+            CHECK( dummy.has_morale( MORALE_ANTIJUNK ) == 0 );
+
+            AND_THEN( "they still enjoy it" ) {
+                CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
             }
         }
     }

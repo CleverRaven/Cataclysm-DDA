@@ -16,7 +16,8 @@
     "cutting": 18,
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "price": 2000
+    "price": 2000,
+    "price_postapoc": 500
   },
   {
     "type": "GENERIC",
@@ -31,6 +32,7 @@
     "bashing": 4,
     "cutting": 8,
     "to_hit": 1,
+    "price_postapoc": 10,
     "flags": [ "SPEAR" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ]
@@ -42,6 +44,7 @@
     "description": "A stout pole with an improvised grip and a fire-hardened point.",
     "weight": "898 g",
     "to_hit": 1,
+    "price_postapoc": 50,
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
@@ -62,6 +65,7 @@
     "weight": "3013 g",
     "volume": "3250 ml",
     "price": 16000,
+    "price_postapoc": 50,
     "bashing": 2,
     "cutting": 16,
     "material": [ "steel", "wood" ],
@@ -80,6 +84,7 @@
     "weight": "1487 g",
     "volume": "1250 ml",
     "price": 400,
+    "price_postapoc": 50,
     "to_hit": 1,
     "bashing": 4,
     "cutting": 13,
@@ -99,6 +104,7 @@
     "weight": "1487 g",
     "volume": "1250 ml",
     "price": 700,
+    "price_postapoc": 150,
     "to_hit": 1,
     "bashing": 4,
     "cutting": 15,
@@ -118,6 +124,7 @@
     "weight": "1487 g",
     "volume": "1250 ml",
     "price": 12000,
+    "price_postapoc": 500,
     "to_hit": 1,
     "bashing": 4,
     "cutting": 17,
@@ -137,6 +144,7 @@
     "weight": "1814 g",
     "volume": "1500 ml",
     "price": 1400,
+    "price_postapoc": 750,
     "to_hit": 1,
     "bashing": 2,
     "cutting": 19,
@@ -154,6 +162,7 @@
     "weight": "1650 g",
     "//": "Block 2 until we re-implement defensive-disarm, I'm afraid.",
     "to_hit": 1,
+    "price_postapoc": 750,
     "color": "brown",
     "symbol": "/",
     "material": [ "wood", "steel" ],
@@ -172,6 +181,7 @@
     "description": "A stout wooden pole with a spearhead worked from copper.",
     "weight": "1450 g",
     "to_hit": 1,
+    "price_postapoc": 1250,
     "color": "light_red",
     "symbol": "/",
     "material": [ "copper", "wood" ],
@@ -190,6 +200,7 @@
     "description": "A stout wooden pole with a hand-forged steel spearhead.",
     "weight": "1498 g",
     "to_hit": 2,
+    "price_postapoc": 5500,
     "color": "light_gray",
     "symbol": "/",
     "material": [ "steel", "wood" ],
@@ -209,6 +220,7 @@
     "description": "A stout metal pole with a sharp point.",
     "weight": "1398 g",
     "to_hit": 1,
+    "price_postapoc": 50,
     "color": "light_gray",
     "symbol": "/",
     "material": [ "steel" ],
@@ -228,7 +240,7 @@
     "name": { "str": "sharpened rebar" },
     "description": "A somewhat sharpened piece of rebar, it is still better at bashing than stabbing but the added flexibility is nice.",
     "price": 500,
-    "price_postapoc": 2000,
+    "price_postapoc": 50,
     "material": "iron",
     "weight": "908 g",
     "volume": "1500 ml",
@@ -245,6 +257,7 @@
     "description": "An ancient Chinese spear, typically with a tassel just below the spearhead.  One of the four major weapons in folklore, alongside the dao sabre, jian sword, and gun staff.",
     "weight": "1398 g",
     "to_hit": 2,
+    "price_postapoc": 3500,
     "color": "light_gray",
     "symbol": "/",
     "material": [ "steel", "wood" ],
@@ -272,6 +285,7 @@
     "bashing": 16,
     "cutting": 36,
     "to_hit": 2,
+    "price_postapoc": 10000,
     "qualities": [ [ "COOK", 1 ], [ "BUTCHER", -70 ] ]
   },
   {
@@ -290,6 +304,7 @@
     "bashing": 15,
     "cutting": 2,
     "to_hit": 2,
+    "price_postapoc": 500,
     "category": "weapons"
   },
   {
@@ -308,7 +323,8 @@
     "volume": "2500 ml",
     "bashing": 8,
     "cutting": 30,
-    "to_hit": 2
+    "to_hit": 2,
+    "price_postapoc": 8000
   },
   {
     "type": "GENERIC",
@@ -326,7 +342,8 @@
     "cutting": 37,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "price": 80000
+    "price": 80000,
+    "price_postapoc": 9500
   },
   {
     "type": "GENERIC",
@@ -344,7 +361,8 @@
     "to_hit": 2,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
     "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "price": 8000
+    "price": 8000,
+    "price_postapoc": 1500
   },
   {
     "type": "GENERIC",
@@ -361,7 +379,8 @@
     "cutting": 1,
     "to_hit": -1,
     "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "price": 8000
+    "price": 8000,
+    "price_postapoc": 500
   },
   {
     "type": "GENERIC",
@@ -380,6 +399,7 @@
     "flags": [ "STAB", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
     "price": 8000,
+    "price_postapoc": 4500,
     "qualities": [ [ "COOK", 1 ], [ "CUT", 1 ], [ "BUTCHER", -24 ] ]
   },
   {
@@ -399,6 +419,7 @@
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 11 } ],
     "flags": [ "SPEAR", "SHEATH_SPEAR", "JAVELIN" ],
     "price": 4000,
+    "price_postapoc": 250,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -418,6 +439,7 @@
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 17 } ],
     "flags": [ "SPEAR", "NONCONDUCTIVE", "SHEATH_SPEAR", "JAVELIN" ],
     "price": 9000,
+    "price_postapoc": 500,
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -429,6 +451,7 @@
     "weight": "2500 g",
     "volume": "3500 ml",
     "price": 40000,
+    "price_postapoc": 5000,
     "to_hit": -2,
     "bashing": 8,
     "cutting": 25,
@@ -448,6 +471,7 @@
     "weight": "2000 g",
     "volume": "3500 ml",
     "price": 4000,
+    "price_postapoc": 500,
     "to_hit": -2,
     "bashing": 6,
     "cutting": 15,
@@ -468,6 +492,7 @@
     "weight": "2500 g",
     "volume": "3500 ml",
     "price": 40000,
+    "price_postapoc": 1250,
     "to_hit": -2,
     "bashing": 8,
     "cutting": 25,
@@ -487,6 +512,7 @@
     "weight": "3013 g",
     "volume": "3250 ml",
     "price": 16000,
+    "price_postapoc": 2500,
     "to_hit": 1,
     "bashing": 2,
     "cutting": 26,
@@ -505,6 +531,7 @@
     "weight": "1598 g",
     "volume": "3500 ml",
     "price": 10000,
+    "price_postapoc": 3500,
     "to_hit": 2,
     "bashing": 5,
     "cutting": 27,
@@ -524,6 +551,7 @@
     "weight": "3175 g",
     "volume": "3750 ml",
     "price": 50000,
+    "price_postapoc": 3500,
     "to_hit": 2,
     "bashing": 16,
     "cutting": 20,
@@ -541,6 +569,7 @@
     "weight": "1098 g",
     "volume": "1250 ml",
     "price": 1300,
+    "price_postapoc": 50,
     "to_hit": 1,
     "bashing": 5,
     "cutting": 14,

@@ -36,5 +36,18 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_OTHER",
     "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "result": "manatouched_serum",
+    "qualities": [ { "id": "MAGIC_MUTAGEN", "level": 2 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CONCENTRATE", "level": 1 } ],
+    "components": [ [ [ "crystallized_mana", 20 ] ], [ [ "mana_potion", 4 ] ] ],
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "skills_required": [ "spellcraft", 6 ],
+    "time": "4 h",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_OTHER",
+    "autolearn": true
   }
 ]

@@ -2,8 +2,9 @@
 #ifndef OVERMAP_LOCATION_H
 #define OVERMAP_LOCATION_H
 
-#include <vector>
+#include <algorithm>
 #include <string>
+#include <vector>
 
 #include "int_id.h"
 #include "string_id.h"

@@ -1,8 +1,13 @@
 #include "mapgendata.h"
 
-#include "regional_settings.h"
+#include "debug.h"
+#include "int_id.h"
 #include "map.h"
+#include "mapdata.h"
+#include "omdata.h"
 #include "overmapbuffer.h"
+#include "point.h"
+#include "regional_settings.h"
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
@@ -126,14 +131,6 @@ bool mapgendata::is_groundcover( const ter_id &iid ) const
     }
 
     return false;
-}
-
-bool mapgendata::has_basement() const
-{
-    const std::vector<std::string> &all_basements = region.city_spec.basements.all;
-    return std::any_of( all_basements.begin(), all_basements.end(), [this]( const std::string & b ) {
-        return t_below == oter_id( b );
-    } );
 }
 
 ter_id mapgendata::groundcover()

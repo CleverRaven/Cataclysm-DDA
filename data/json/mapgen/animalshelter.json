@@ -7,68 +7,100 @@
   {
     "id": "animalshelter_softdrug",
     "type": "item_group",
-    "items": [
-      [ "bandages", 50 ],
-      [ "saline", 20 ],
-      [ "vitamins", 15 ],
-      [ "calcium_tablet", 15 ],
-      [ "nyquil", 5 ],
-      [ "disinfectant", 15 ],
-      [ "elec_hairtrimmer", 15 ],
-      [ "survnote", 5 ],
-      [ "mask_dust", 65 ],
-      [ "glasses_safety", 10 ],
-      [ "towel", 50 ],
-      [ "scissors", 50 ],
-      [ "soap", 20 ],
-      [ "chem_hydrogen_peroxide", 10 ],
-      [ "stethoscope", 50 ],
-      [ "gloves_medical", 50 ],
-      [ "hacksaw", 5 ],
-      [ "gloves_rubber", 25 ],
-      [ "bag_plastic", 20 ],
-      [ "string_6", 5 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bandages", "prob": 50 },
+      { "item": "saline", "prob": 20 },
+      { "item": "vitamins", "prob": 15 },
+      { "item": "calcium_tablet", "prob": 15 },
+      { "item": "nyquil", "prob": 5 },
+      { "item": "disinfectant", "prob": 15 },
+      { "item": "elec_hairtrimmer", "prob": 15 },
+      { "item": "survnote", "prob": 5 },
+      { "item": "mask_dust", "prob": 65 },
+      { "item": "glasses_safety", "prob": 10 },
+      { "item": "towel", "prob": 50 },
+      { "item": "scissors", "prob": 50 },
+      { "item": "soap", "prob": 20 },
+      { "item": "chem_hydrogen_peroxide", "prob": 10 },
+      { "item": "stethoscope", "prob": 50 },
+      { "item": "gloves_medical", "prob": 50 },
+      { "item": "hacksaw", "prob": 5 },
+      { "item": "gloves_rubber", "prob": 25 },
+      { "item": "bag_plastic", "prob": 20 },
+      { "item": "string_6", "prob": 5 }
     ]
   },
   {
     "id": "animalshelter_utility",
     "type": "item_group",
-    "items": [
-      [ "dog_whistle", 10 ],
-      [ "pet_carrier", 30 ],
+    "subtype": "distribution",
+    "entries": [
+      { "item": "dog_whistle", "prob": 10 },
+      { "item": "pet_carrier", "prob": 30 },
       { "item": "dogfood", "prob": 50, "container-item": "can_medium" },
       { "item": "catfood", "prob": 50, "container-item": "can_food" },
-      [ "towel", 20 ],
-      [ "soap", 10 ],
-      [ "gloves_medical", 20 ],
-      [ "rag", 15 ],
-      [ "bag_plastic", 20 ],
-      [ "jerky", 40 ],
-      [ "rope_6", 15 ]
+      { "item": "towel", "prob": 20 },
+      { "item": "soap", "prob": 10 },
+      { "item": "gloves_medical", "prob": 20 },
+      { "item": "rag", "prob": 15 },
+      { "item": "bag_plastic", "prob": 20 },
+      { "item": "jerky", "prob": 40 },
+      { "item": "rope_6", "prob": 15 }
     ]
   },
   {
     "id": "animalshelter_hardrug",
     "type": "item_group",
-    "items": [
-      [ "syringe", 10 ],
-      [ "antifungal", 30 ],
-      [ "antiparasitic", 30 ],
-      [ "antibiotics", 20 ],
-      [ "saline", 15 ],
-      [ "medical_tape", 35 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "syringe", "prob": 10 },
+      { "item": "antifungal", "prob": 30 },
+      { "item": "antiparasitic", "prob": 30 },
+      { "item": "antibiotics", "prob": 20 },
+      { "item": "saline", "prob": 15 },
+      { "item": "medical_tape", "prob": 35 }
     ]
   },
   {
     "id": "animalshelter_toys",
     "type": "item_group",
-    "items": [ [ "baseball", 30 ], [ "bone", 20 ], [ "bowl_plastic", 10 ], [ "rope_6", 5 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "baseball", "prob": 30 },
+      { "item": "bone", "prob": 20 },
+      { "item": "bowl_plastic", "prob": 10 },
+      { "item": "rope_6", "prob": 5 }
+    ]
   },
   {
     "name": "GROUP_ANIMALSHELTER_CATS",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [ { "monster": "mon_cat", "freq": 250, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_cat", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_tabby", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat_tabby_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_longhair", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_longhair_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_siamese", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_siamese_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_persian", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_persian_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_calico", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_calico_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_maine_coon", "freq": 20, "cost_multiplier": 0 },
+      { "monster": "mon_cat_maine_coon_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_bengal", "freq": 20, "cost_multiplier": 0 },
+      { "monster": "mon_cat_bengal_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_devon_rex", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_cat_devon_rex_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_sphynx", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_cat_sphynx_kitten", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_chonker", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_cat_chonker_kitten", "freq": 5, "cost_multiplier": 0 }
+    ]
   },
   {
     "name": "GROUP_ANIMALSHELTER_DOGS",

@@ -175,7 +175,7 @@
   {
     "id": "mon_zombie_snotgobbler",
     "type": "MONSTER",
-    "name": "snotgobbler",
+    "name": { "str": "snotgobbler" },
     "description": "This swollen, gooey looking mutant child looks bad, even for a zombie.  Maybe that's why it seems to want a hug so badly.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -208,7 +208,7 @@
   {
     "id": "mon_zombie_sproglodyte",
     "type": "MONSTER",
-    "name": "sproglodyte",
+    "name": { "str": "sproglodyte" },
     "description": "This crouching child-mutant's face is dominated by a pair of huge black eyes and its fingertips end in sharp claws.",
     "default_faction": "zombie",
     "bodytype": "human",

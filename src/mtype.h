@@ -4,15 +4,16 @@
 
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
+#include <vector>
 
+#include "calendar.h"
 #include "color.h"
-#include "optional.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
+#include "optional.h"
 #include "pathfinding.h"
 #include "translations.h"
 #include "type_id.h"
@@ -20,9 +21,9 @@
 
 class Creature;
 class monster;
-template <typename E> struct enum_traits;
 struct dealt_projectile_attack;
 struct species_type;
+template <typename E> struct enum_traits;
 
 enum body_part : int;
 enum m_size : int;
@@ -165,6 +166,7 @@ enum m_flag : int {
     MF_PET_HARNESSABLE,     // This monster can be harnessed when tamed.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
+    MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
     MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move

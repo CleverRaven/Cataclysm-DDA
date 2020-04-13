@@ -1,16 +1,25 @@
-#include <cstdio>
+#include <memory>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "cata_string_consts.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
-#include "game.h"
+#include "debug.h"
 #include "item.h"
 #include "itype.h"
-#include "morale.h"
-#include "player_helpers.h"
-#include "skill.h"
+#include "morale_types.h"
 #include "type_id.h"
+#include "value_ptr.h"
+
+class player;
+
+static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
 TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {

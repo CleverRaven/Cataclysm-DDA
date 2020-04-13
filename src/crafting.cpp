@@ -1,74 +1,108 @@
 #include "crafting.h"
 
-#include <climits>
-#include <cstdlib>
 #include <algorithm>
+#include <cassert>
+#include <climits>
 #include <cmath>
-#include <string>
+#include <cstdlib>
 #include <functional>
 #include <limits>
 #include <map>
 #include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "colony.h"
+#include "color.h"
 #include "craft_command.h"
 #include "crafting_gui.h"
 #include "debug.h"
+#include "enums.h"
+#include "faction.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_stack.h"
 #include "itype.h"
+#include "iuse.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "mutation.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "recipe_dictionary.h"
-#include "requirements.h"
-#include "rng.h"
-#include "translations.h"
-#include "ui.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
-#include "vpart_position.h"
-#include "veh_type.h"
-#include "cata_utility.h"
-#include "color.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "item_stack.h"
-#include "line.h"
-#include "map_selector.h"
-#include "mapdata.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
+#include "point.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
+#include "requirements.h"
 #include "ret_val.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
-#include "units.h"
+#include "translations.h"
 #include "type_id.h"
-#include "clzones.h"
-#include "colony.h"
-#include "flat_set.h"
-#include "iuse.h"
-#include "point.h"
+#include "ui.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
 #include "weather.h"
-#include "cata_string_consts.h"
+
+static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
+
+static const efftype_id effect_contacts( "contacts" );
+
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_tailor( "tailor" );
+
+static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+
+static const std::string flag_BLIND_EASY( "BLIND_EASY" );
+static const std::string flag_BLIND_HARD( "BLIND_HARD" );
+static const std::string flag_BYPRODUCT( "BYPRODUCT" );
+static const std::string flag_COOKED( "COOKED" );
+static const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
+static const std::string flag_FIT( "FIT" );
+static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
+static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
+static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
+static const std::string flag_NO_RESIZE( "NO_RESIZE" );
+static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
+static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
+static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
+static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
+static const std::string flag_UNCRAFT_SINGLE_CHARGE( "UNCRAFT_SINGLE_CHARGE" );
+static const std::string flag_VARSIZE( "VARSIZE" );
 
 class basecamp;
 
@@ -704,7 +738,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     float best_bench_multi = 0.0;
     tripoint target = loc;
     for( const tripoint &adj : g->m.points_in_radius( pos(), 1 ) ) {
-        if( const cata::optional<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
+        if( const cata::value_ptr<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
             if( wb->multiplier > best_bench_multi ) {
                 best_bench_multi = wb->multiplier;
                 target = adj;
@@ -1151,11 +1185,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
             newit_counter++;
         }
 
-        if( food_contained.goes_bad() ) {
-            food_contained.set_relative_rot( relative_rot );
-        }
-
         if( food_contained.has_temperature() ) {
+            if( food_contained.goes_bad() ) {
+                food_contained.set_relative_rot( relative_rot );
+            }
             if( should_heat ) {
                 food_contained.heat_up();
             } else {
@@ -1167,7 +1200,6 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 //
                 // Temperature is not functional for non-foods
                 food_contained.set_item_temperature( 293.15 );
-                food_contained.reset_temp_check();
             }
         }
 
@@ -1189,15 +1221,14 @@ void player::complete_craft( item &craft, const tripoint &loc )
     if( making.has_byproducts() ) {
         std::vector<item> bps = making.create_byproducts( batch_size );
         for( auto &bp : bps ) {
-            if( bp.goes_bad() ) {
-                bp.set_relative_rot( relative_rot );
-            }
             if( bp.has_temperature() ) {
+                if( bp.goes_bad() ) {
+                    bp.set_relative_rot( relative_rot );
+                }
                 if( should_heat ) {
                     bp.heat_up();
                 } else {
                     bp.set_item_temperature( 293.15 );
-                    bp.reset_temp_check();
                 }
             }
             bp.set_owner( get_faction()->id );
@@ -1542,11 +1573,11 @@ static void empty_buckets( player &p )
         return it.is_bucket_nonempty() && &it != &p.weapon;
     }, INT_MAX );
     for( auto &it : buckets ) {
-        for( const item &in : it.contents ) {
-            drop_or_handle( in, p );
+        for( const item *in : it.contents.all_items_top() ) {
+            drop_or_handle( *in, p );
         }
 
-        it.contents.clear();
+        it.contents.clear_items();
         drop_or_handle( it, p );
     }
 }
@@ -2175,14 +2206,13 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
             const item_comp &comp = altercomps.front();
             int compcount = comp.count;
             item newit( comp.type, calendar::turn );
-            // Counted-by-charge items that can be disassembled individually
-            // have their component count multiplied by the number of charges.
-            if( dis_item.count_by_charges() && dis.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
-                compcount *= std::min( dis_item.charges, dis.create_result().charges );
-            }
             //If ammo, overwrite component count with selected quantity of ammo
             if( dis_item.is_ammo() ) {
                 compcount *= activity.position;
+            } else if( dis_item.count_by_charges() && dis.has_flag( flag_UNCRAFT_SINGLE_CHARGE ) ) {
+                // Counted-by-charge items that can be disassembled individually
+                // have their component count multiplied by the number of charges.
+                compcount *= std::min( dis_item.charges, dis.create_result().charges );
             }
             const bool is_liquid = newit.made_of( LIQUID );
             if( uncraft_liquids_contained && is_liquid && newit.charges != 0 ) {
@@ -2304,14 +2334,13 @@ void drop_or_handle( const item &newit, player &p )
 
 void remove_ammo( item &dis_item, player &p )
 {
-    for( auto iter = dis_item.contents.begin(); iter != dis_item.contents.end(); ) {
-        if( iter->is_irremovable() ) {
-            iter++;
-            continue;
+    dis_item.remove_items_with( [&p]( const item & it ) {
+        if( it.is_irremovable() ) {
+            return false;
         }
-        drop_or_handle( *iter, p );
-        iter = dis_item.contents.erase( iter );
-    }
+        drop_or_handle( it, p );
+        return true;
+    } );
 
     if( dis_item.has_flag( flag_NO_UNLOAD ) ) {
         return;

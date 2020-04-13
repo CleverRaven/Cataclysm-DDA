@@ -4,28 +4,30 @@
 
 #include <map>
 #include <set>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
-#include <memory>
-#include <string>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
-#include "string_id.h"
 #include "hash_utils.h"
+#include "memory_fast.h"
+#include "optional.h"
+#include "point.h"
 #include "translations.h"
 #include "type_id.h"
-#include "point.h"
 
-class nc_color;
 class JsonObject;
-class player;
-struct dream;
 class Trait_group;
 class item;
+class nc_color;
+class player;
+struct dream;
+template <typename E> struct enum_traits;
+template <typename T> class string_id;
 
 using itype_id = std::string;
 class JsonArray;
@@ -228,6 +230,8 @@ struct mutation_branch {
         float mana_regen_multiplier = 1.0f;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
+        /** mutation enchantments */
+        std::vector<enchantment_id> enchantments;
     private:
         std::string raw_spawn_item_message;
     public:
@@ -464,6 +468,13 @@ bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
+
+bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
+bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
+bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
+bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
+bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
+bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
 
 enum class mutagen_technique : int {
     consumed_mutagen,

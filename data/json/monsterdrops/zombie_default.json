@@ -111,7 +111,7 @@
       { "group": "homebooks", "prob": 30 },
       { "group": "alcohol_bottled_canned", "prob": 10 },
       { "group": "vending_drink_items", "prob": 25 },
-      { "item": "laptop", "prob": 10 },
+      { "item": "laptop", "prob": 10, "charges-min": 0, "charges-max": 500 },
       { "item": "eink_tablet_pc", "prob": 10, "charges-min": 0, "charges-max": 50 },
       { "item": "vibrator", "prob": 5, "charges-min": 0, "charges-max": 50 },
       { "item": "teleumbrella", "prob": 10 },

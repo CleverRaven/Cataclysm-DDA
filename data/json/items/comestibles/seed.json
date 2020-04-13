@@ -400,7 +400,7 @@
     "type": "COMESTIBLE",
     "id": "marloss_seed",
     "category": "seeds",
-    "name": { "str": "marloss seed" },
+    "name": { "str": "Marloss seed" },
     "weight": "177 g",
     "color": "cyan",
     "addiction_type": "marloss_b",
@@ -577,6 +577,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_raw_burdock",
+    "copy-from": "seed",
+    "name": { "str": "burdock seeds", "str_pl": "burdock seeds" },
+    "color": "green",
+    "description": "Some burdock seeds.",
+    "charges": 2,
+    "seed_data": { "plant_name": "burdock", "fruit": "raw_burdock", "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_rhubarb",
     "copy-from": "seed",
     "name": { "str": "rhubarb stems", "str_pl": "rhubarb stems" },
@@ -735,5 +745,19 @@
     "name": { "str": "chamomile seeds", "str_pl": "chamomile seeds" },
     "description": "Some chamomile seeds.",
     "seed_data": { "plant_name": "chamomile", "fruit": "chamomile", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_mustard",
+    "copy-from": "seed",
+    "name": { "str": "mustard seeds", "str_pl": "mustard seeds" },
+    "weight": "2 g",
+    "color": "yellow",
+    "use_action": "SEED",
+    "fun": -3,
+    "description": "Some mustard seeds.  Could be ground into mustard powder.",
+    "price": 100,
+    "charges": 2,
+    "seed_data": { "plant_name": "mustard", "fruit": "seed_mustard", "byproducts": [ "withered" ], "grow": "91 days" }
   }
 ]

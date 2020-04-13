@@ -48,6 +48,7 @@
       { "monster": "mon_skitterbot", "freq": 1, "cost_multiplier": 0, "pack_size": [ 8, 12 ] },
       { "monster": "mon_secubot", "freq": 1, "cost_multiplier": 10 },
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_bio_op2", "freq": 25, "cost_multiplier": 5, "starts": 1440 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_electric", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_necro", "freq": 15, "cost_multiplier": 15 },
@@ -81,6 +82,7 @@
       { "monster": "mon_skitterbot", "freq": 10, "cost_multiplier": 1, "pack_size": [ 8, 12 ] },
       { "monster": "mon_blob_small", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_bio_op2", "freq": 25, "cost_multiplier": 5, "starts": 1440 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_brute_shocker", "freq": 5, "cost_multiplier": 5 }
     ]
@@ -101,6 +103,7 @@
       { "monster": "mon_secubot", "freq": 1, "cost_multiplier": 10 },
       { "monster": "mon_talon_m202a1", "freq": 1, "cost_multiplier": 15 },
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_bio_op2", "freq": 25, "cost_multiplier": 5, "starts": 1440 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 8 },
       { "monster": "mon_zombie_electric", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_necro", "freq": 15, "cost_multiplier": 15 },
@@ -147,6 +150,7 @@
       { "monster": "mon_skitterbot", "freq": 10, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
       { "monster": "mon_secubot", "freq": 2, "cost_multiplier": 5 },
       { "monster": "mon_zombie_bio_op", "freq": 10, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_bio_op2", "freq": 25, "cost_multiplier": 5, "starts": 1440 },
       { "monster": "mon_zombie", "freq": 40, "cost_multiplier": 1, "pack_size": [ 2, 7 ] },
       { "monster": "mon_zombie_fat", "freq": 40, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zombie_tough", "freq": 20, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },

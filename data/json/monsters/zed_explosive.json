@@ -167,7 +167,7 @@
     "//": "Heads up: these zombies are pending removal sometime before 0.E.",
     "id": "mon_zombie_grenadier",
     "type": "MONSTER",
-    "name": "zombie grenadier",
+    "name": { "str": "zombie grenadier" },
     "description": "Once a soldier, it is dressed head to toe in combat gear.  Its hands constantly fumble at its many pouches.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -214,7 +214,7 @@
   {
     "id": "mon_zombie_grenadier_elite",
     "type": "MONSTER",
-    "name": "zombie elite grenadier",
+    "name": { "str": "zombie elite grenadier" },
     "description": "Once a soldier, it is dressed head to toe in combat gear and wearing a MOLLE pack.  Its hands quickly open and close its many pouches.",
     "default_faction": "zombie",
     "bodytype": "human",

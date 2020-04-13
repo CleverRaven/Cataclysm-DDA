@@ -2,45 +2,70 @@
 
 #include "monster.h" // IWYU pragma: associated
 
-#include <cstdlib>
-#include <cmath>
 #include <algorithm>
+#include <cfloat>
+#include <cmath>
+#include <cstdlib>
+#include <iterator>
+#include <list>
 #include <memory>
 #include <ostream>
-#include <list>
+#include <unordered_map>
 
 #include "avatar.h"
 #include "bionics.h"
+#include "cata_utility.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "field.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mattack_common.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
 #include "mtype.h"
-#include "creature_tracker.h"
 #include "npc.h"
+#include "pathfinding.h"
+#include "pimpl.h"
+#include "player.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "tileray.h"
 #include "translations.h"
 #include "trap.h"
-#include "vpart_position.h"
-#include "tileray.h"
 #include "vehicle.h"
-#include "cata_utility.h"
-#include "game_constants.h"
-#include "mattack_common.h"
-#include "pathfinding.h"
-#include "player.h"
-#include "int_id.h"
-#include "string_id.h"
-#include "pimpl.h"
-#include "string_formatter.h"
-#include "cata_string_consts.h"
+#include "vpart_position.h"
+
+static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_countdown( "countdown" );
+static const efftype_id effect_docile( "docile" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_no_sight( "no_sight" );
+static const efftype_id effect_operating( "operating" );
+static const efftype_id effect_pacified( "pacified" );
+static const efftype_id effect_pushed( "pushed" );
+static const efftype_id effect_stunned( "stunned" );
+
+static const species_id FUNGUS( "FUNGUS" );
+static const species_id INSECT( "INSECT" );
+static const species_id SPIDER( "SPIDER" );
+static const species_id ZOMBIE( "ZOMBIE" );
+
+static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
+static const std::string flag_LIQUID( "LIQUID" );
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -241,16 +266,16 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
 {
     const auto d = rl_dist_fast( pos(), c.pos() );
     if( d <= 0 ) {
-        return INT_MAX;
+        return FLT_MAX;
     }
 
     // Check a very common and cheap case first
     if( !smart && d >= best ) {
-        return INT_MAX;
+        return FLT_MAX;
     }
 
     if( !sees( c ) ) {
-        return INT_MAX;
+        return FLT_MAX;
     }
 
     if( !smart ) {
@@ -268,7 +293,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
         return int( d ) / power;
     }
 
-    return INT_MAX;
+    return FLT_MAX;
 }
 
 void monster::plan()
@@ -369,6 +394,7 @@ void monster::plan()
         }
         // Switch targets if closer and hostile or scarier than current target
         if( ( rating < dist && fleeing ) ||
+            ( faction_att == MFA_HATE ) ||
             ( rating < dist && attitude( &who ) == MATT_ATTACK ) ||
             ( !fleeing && fleeing_from ) ) {
             target = &who;
@@ -462,7 +488,7 @@ void monster::plan()
                     wandf = 2;
                     target = nullptr;
                     // Swarm to the furthest ally you can see
-                } else if( rating < INT_MAX && rating > dist && wandf <= 0 ) {
+                } else if( rating < FLT_MAX && rating > dist && wandf <= 0 ) {
                     target = &mon;
                     dist = rating;
                 }
@@ -1561,7 +1587,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                 factor = 1;
                 break;
         }
-        // TODO: make this take terrain type into account so diggers travelling under sand will create mounds of sand etc.
+        // TODO: make this take terrain type into account so diggers traveling under sand will create mounds of sand etc.
         if( one_in( factor ) ) {
             g->m.ter_set( pos(), t_dirtmound );
         }
@@ -1763,7 +1789,6 @@ void monster::stumble()
 
     if( g->m.has_zlevels() ) {
         tripoint below( posx(), posy(), posz() - 1 );
-        tripoint above( posx(), posy(), posz() + 1 );
         if( g->m.valid_move( pos(), below, false, true ) ) {
             valid_stumbles.push_back( below );
         }
