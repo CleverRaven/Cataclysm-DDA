@@ -2711,11 +2711,12 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 
 void Character::empty_traits()
 {
-    for( auto &mut : my_mutations ) {
-        on_mutation_loss( mut.first );
+    while( !my_traits.empty() ) {
+        toggle_trait( *my_traits.begin() );
     }
-    my_traits.clear();
-    my_mutations.clear();
+    while( !my_mutations.empty() ) {
+        unset_mutation( my_mutations.begin()->first );
+    }
     cached_mutations.clear();
 }
 
