@@ -157,14 +157,13 @@ void Character::set_mutation( const trait_id &flag )
 void Character::unset_mutation( const trait_id &flag )
 {
     const auto iter = my_mutations.find( flag );
-    if( iter != my_mutations.end() ) {
-        my_mutations.erase( iter );
-        const mutation_branch &mut = *flag;
-        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
-                                cached_mutations.end() );
-    } else {
+    if( iter == my_mutations.end() ) {
         return;
     }
+    const mutation_branch &mut = *flag;
+    cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
+                            cached_mutations.end() );
+    my_mutations.erase( iter );
     recalc_sight_limits();
     reset_encumbrance();
 }
