@@ -1285,7 +1285,6 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         return false;
     }
     assert( !sitem->items.empty() );
-    const bool by_charges = sitem->items.front()->count_by_charges();
     int amount_to_move = 0;
     if( !query_charges( destarea, *sitem, action, amount_to_move ) ) {
         return false;
