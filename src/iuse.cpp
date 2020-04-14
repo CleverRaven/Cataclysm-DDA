@@ -440,9 +440,9 @@ static int alcohol( player &p, const item &it, const int strength )
                    36_seconds, 1_minutes, 1_minutes ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
-        p.stomach.mod_nutr( -( abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
+        p.stomach.mod_nutr( -( std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
-        p.mod_stim( abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
+        p.mod_stim( std::abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
         duration -= alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
@@ -5707,7 +5707,7 @@ int iuse::towel_common( player *p, item *it, bool t )
         }
 
         // dry off from being wet
-    } else if( abs( p->has_morale( MORALE_WET ) ) ) {
+    } else if( std::abs( p->has_morale( MORALE_WET ) ) ) {
         p->rem_morale( MORALE_WET );
         p->body_wetness.fill( 0 );
         p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),
@@ -9312,7 +9312,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     if( it->typeId() == "weather_reader" ) {
         int vehwindspeed = 0;
         if( optional_vpart_position vp = g->m.veh_at( p->pos() ) ) {
-            vehwindspeed = abs( vp->vehicle().velocity / 100 ); // For mph
+            vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */

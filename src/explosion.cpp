@@ -868,7 +868,8 @@ fragment_cloud shrapnel_calc( const fragment_cloud &initial,
     // SWAG coefficient of drag.
     constexpr float Cd = 0.5;
     fragment_cloud new_cloud;
-    new_cloud.velocity = initial.velocity * exp( -cloud.velocity * ( ( Cd * fragment_area * distance ) /
+    new_cloud.velocity = initial.velocity * std::exp( -cloud.velocity * ( (
+                             Cd * fragment_area * distance ) /
                          ( 2.0 * fragment_mass ) ) );
     // Two effects, the accumulated proportion of blocked fragments,
     // and the inverse-square dilution of fragments with distance.

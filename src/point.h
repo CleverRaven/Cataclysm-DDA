@@ -313,12 +313,12 @@ std::vector<point> closest_points_first( const point &center, int min_dist, int 
 
 inline point abs( const point &p )
 {
-    return point( abs( p.x ), abs( p.y ) );
+    return point( std::abs( p.x ), std::abs( p.y ) );
 }
 
 inline tripoint abs( const tripoint &p )
 {
-    return tripoint( abs( p.x ), abs( p.y ), abs( p.z ) );
+    return tripoint( std::abs( p.x ), std::abs( p.y ), std::abs( p.z ) );
 }
 
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };

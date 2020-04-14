@@ -976,10 +976,10 @@ void avatar::store( JsonOut &json ) const
     json.member( "focus_pool", focus_pool );
 
     // stats through kills
-    json.member( "str_upgrade", abs( str_upgrade ) );
-    json.member( "dex_upgrade", abs( dex_upgrade ) );
-    json.member( "int_upgrade", abs( int_upgrade ) );
-    json.member( "per_upgrade", abs( per_upgrade ) );
+    json.member( "str_upgrade", std::abs( str_upgrade ) );
+    json.member( "dex_upgrade", std::abs( dex_upgrade ) );
+    json.member( "int_upgrade", std::abs( int_upgrade ) );
+    json.member( "per_upgrade", std::abs( per_upgrade ) );
 
     // targeting
     if( activity.id() == ACT_AIM ) {

@@ -335,7 +335,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
     }
 
-    if( veh0 != nullptr && abs( veh0->velocity ) > 100 ) {
+    if( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) {
         if( veh1 == nullptr ) {
             if( query_yn( _( "Dive from moving vehicle?" ) ) ) {
                 g->moving_vehicle_dismount( dest_loc );
@@ -619,7 +619,7 @@ void avatar_action::autoattack( avatar &you, map &m )
     } );
 
     const tripoint diff = best.pos() - you.pos();
-    if( abs( diff.x ) <= 1 && abs( diff.y ) <= 1 && diff.z == 0 ) {
+    if( std::abs( diff.x ) <= 1 && std::abs( diff.y ) <= 1 && diff.z == 0 ) {
         move( you, m, tripoint( diff.xy(), 0 ) );
         return;
     }

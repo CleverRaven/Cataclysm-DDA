@@ -496,7 +496,7 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
-        get_power_level() > units::from_kilojoule( abs( comest.get_comestible_fun() ) ) &&
+        get_power_level() > units::from_kilojoule( std::abs( comest.get_comestible_fun() ) ) &&
         fun < 0 ) {
         fun = 0;
     }
@@ -1033,7 +1033,7 @@ void Character::modify_stimulation( const islot_comestible &comest )
 {
     const int current_stim = get_stim();
     if( comest.stim != 0 &&
-        ( abs( current_stim ) < ( abs( comest.stim ) * 3 ) ||
+        ( std::abs( current_stim ) < ( std::abs( comest.stim ) * 3 ) ||
           sgn( current_stim ) != sgn( comest.stim ) ) ) {
         if( comest.stim < 0 ) {
             set_stim( std::max( comest.stim * 3, current_stim + comest.stim ) );

@@ -318,7 +318,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                         }
                     }
 
-                } else if( one_in( 4 + ( abs( x - cx ) + ( abs( y -
+                } else if( one_in( 4 + ( std::abs( x - cx ) + ( std::abs( y -
                                          cy ) ) ) ) ) { // 1 in 10 chance of being wreckage anyway
                     m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                     if( !one_in( 3 ) ) {
@@ -350,8 +350,8 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     int x_offset = veh->dir_vec().x * x_length / 2;
     int y_offset = veh->dir_vec().y * y_length / 2;
 
-    int x_min = abs( bbox.p1.x ) + 0;
-    int y_min = abs( bbox.p1.y ) + 0;
+    int x_min = std::abs( bbox.p1.x ) + 0;
+    int y_min = std::abs( bbox.p1.y ) + 0;
 
     int x_max = SEEX * 2 - bbox.p2.x - 1;
     int y_max = SEEY * 2 - bbox.p2.y - 1;

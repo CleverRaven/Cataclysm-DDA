@@ -1378,9 +1378,10 @@ float npc::vehicle_danger( int radius ) const
             vehicle_part last_part = wrapped_veh.v->parts.back();
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
-            double normal = sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) * ( by - ay ) ) );
-            int closest = static_cast<int>( abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) *
-                                                 ( bx - ax ) ) / normal );
+            double normal = std::sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) *
+                                       ( by - ay ) ) );
+            int closest = static_cast<int>( std::abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) *
+                                            ( bx - ax ) ) / normal );
 
             if( size > closest ) {
                 danger = i;
@@ -2256,7 +2257,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     if( per <= 1 ) {
         visibility_cap = INT_MAX;
     } else {
-        visibility_cap = round( dist * dist / 20.0 / ( per - 1 ) );
+        visibility_cap = std::round( dist * dist / 20.0 / ( per - 1 ) );
     }
 
     const auto trait_str = visible_mutations( visibility_cap );

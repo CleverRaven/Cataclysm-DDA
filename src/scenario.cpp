@@ -110,7 +110,7 @@ const scenario *scenario::weighted_random()
     while( true ) {
         const scenario &scen = random_entry_ref( list );
 
-        if( x_in_y( 2, abs( scen.point_cost() ) + 2 ) ) {
+        if( x_in_y( 2, std::abs( scen.point_cost() ) + 2 ) ) {
             return &scen;
         }
         // else reroll in the while loop.

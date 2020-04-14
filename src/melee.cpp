@@ -357,7 +357,7 @@ void player::roll_all_damage( bool crit, damage_instance &di, bool average, cons
 
 static void melee_train( player &p, int lo, int hi, const item &weap )
 {
-    p.practice( skill_melee, ceil( rng( lo, hi ) / 2.0 ), hi );
+    p.practice( skill_melee, std::ceil( rng( lo, hi ) / 2.0 ), hi );
 
     // allocate XP proportional to damage stats
     // Pure unarmed needs a special case because it has 0 weapon damage
@@ -1149,7 +1149,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
         }
 
         // If we have negative weighting then roll to see if it's valid this time
-        if( tec.weighting < 0 && !one_in( abs( tec.weighting ) ) ) {
+        if( tec.weighting < 0 && !one_in( std::abs( tec.weighting ) ) ) {
             continue;
         }
 
@@ -1401,7 +1401,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
                 g->is_dangerous_tile( prev_pos ) || // Tile contains fire, etc
                 ( to_swimmable && to_deepwater ) || // Dive into deep water
                 is_mounted() ||
-                ( veh0 != nullptr && abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
+                ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
                 ( veh0 != nullptr && veh0->player_in_control( g->u ) ) || // Player is driving
                 has_effect( effect_amigara );
 
