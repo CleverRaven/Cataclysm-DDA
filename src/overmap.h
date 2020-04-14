@@ -1,6 +1,6 @@
 #pragma once
-#ifndef OVERMAP_H
-#define OVERMAP_H
+#ifndef CATA_SRC_OVERMAP_H
+#define CATA_SRC_OVERMAP_H
 
 #include <algorithm>
 #include <array>
@@ -528,4 +528,4 @@ int oter_get_rotation( const oter_id &oter );
 * Return the directional suffix or "" if there isn't one.
 */
 std::string oter_get_rotation_string( const oter_id &oter );
-#endif
+#endif // CATA_SRC_OVERMAP_H

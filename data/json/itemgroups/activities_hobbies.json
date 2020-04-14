@@ -209,6 +209,7 @@
       [ "bolt_cf", 5 ],
       [ "bbgun", 10 ],
       [ "crossbow", 2 ],
+      [ "compcrossbow", 2 ],
       [ "mag_survival", 40 ],
       [ "textbook_survival", 20 ],
       [ "modern_tanner", 8 ],

@@ -1098,7 +1098,7 @@ void monster::footsteps( const tripoint &p )
 tripoint monster::scent_move()
 {
     // TODO: Remove when scentmap is 3D
-    if( abs( posz() - g->get_levz() ) > SCENT_MAP_Z_REACH ) {
+    if( std::abs( posz() - g->get_levz() ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
 
@@ -1498,7 +1498,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                                                g->m.has_flag( TFLAG_NO_FLOOR, p ) ? calc_climb_cost( pos(), destination ) : calc_movecost( pos(),
                                                        destination ) );
         if( cost > 0.0f ) {
-            moves -= static_cast<int>( ceil( cost ) );
+            moves -= static_cast<int>( std::ceil( cost ) );
         } else {
             return false;
         }
@@ -1606,7 +1606,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     if( has_flag( MF_SLUDGETRAIL ) ) {
         for( const tripoint &sludge_p : g->m.points_in_radius( pos(), 1 ) ) {
-            const int fstr = 3 - ( abs( sludge_p.x - posx() ) + abs( sludge_p.y - posy() ) );
+            const int fstr = 3 - ( std::abs( sludge_p.x - posx() ) + std::abs( sludge_p.y - posy() ) );
             if( fstr >= 2 ) {
                 g->m.add_field( sludge_p, fd_sludge, fstr );
             }
@@ -1685,7 +1685,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         // Pushing forward is easier than pushing aside
-        const int direction_penalty = abs( dx - dir.x ) + abs( dy - dir.y );
+        const int direction_penalty = std::abs( dx - dir.x ) + std::abs( dy - dir.y );
         if( direction_penalty > 2 ) {
             continue;
         }

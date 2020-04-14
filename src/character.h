@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef CATA_SRC_CHARACTER_H
+#define CATA_SRC_CHARACTER_H
 
 #include <array>
 #include <bitset>
@@ -654,10 +654,10 @@ class Character : public Creature, public visitable<Character>
         trait_id trait_by_invlet( int ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
-        void toggle_trait( const trait_id &flag );
+        void toggle_trait( const trait_id & );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
-        void set_mutation( const trait_id &flag );
-        void unset_mutation( const trait_id &flag );
+        void set_mutation( const trait_id & );
+        void unset_mutation( const trait_id & );
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
@@ -1449,8 +1449,8 @@ class Character : public Creature, public visitable<Character>
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
-        /** Empties the trait list */
-        void empty_traits();
+        /** Empties the trait and mutations lists */
+        void clear_mutations();
         /**
          * Adds mandatory scenario and profession traits unless you already have them
          * And if you do already have them, refunds the points for the trait
@@ -1583,12 +1583,14 @@ class Character : public Creature, public visitable<Character>
         void reset_chargen_attributes();
         // age in years, determined at character creation
         int base_age() const;
+        void set_base_age( int age );
         void mod_base_age( int mod );
         // age in years
         int age() const;
         std::string age_string() const;
         // returns the height in cm
         int base_height() const;
+        void set_base_height( int height );
         void mod_base_height( int mod );
         std::string height_string() const;
         // returns the height of the player character in cm
@@ -2075,4 +2077,4 @@ struct enum_traits<Character::stat> {
 };
 /**Get translated name of a stat*/
 std::string get_stat_name( Character::stat Stat );
-#endif
+#endif // CATA_SRC_CHARACTER_H

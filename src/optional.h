@@ -1,6 +1,6 @@
 #pragma once
-#ifndef OPTIONAL_H
-#define OPTIONAL_H
+#ifndef CATA_SRC_OPTIONAL_H
+#define CATA_SRC_OPTIONAL_H
 
 #include <cassert>
 #include <initializer_list>
@@ -254,4 +254,4 @@ constexpr bool operator!=( const optional<T> &lhs, const optional<U> &rhs )
 
 } // namespace cata
 
-#endif
+#endif // CATA_SRC_OPTIONAL_H

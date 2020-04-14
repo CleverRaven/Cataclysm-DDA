@@ -74,9 +74,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
     const int sy = ( dy == 0 ? 0 : sgn( dy ) );
     const int sz = ( dz == 0 ? 0 : sgn( dz ) );
     // Absolute values of slope components, x2 to avoid rounding errors.
-    const int ax = abs( dx ) * 2;
-    const int ay = abs( dy ) * 2;
-    const int az = abs( dz ) * 2;
+    const int ax = std::abs( dx ) * 2;
+    const int ay = std::abs( dy ) * 2;
+    const int az = std::abs( dz ) * 2;
 
     tripoint cur( loc1 );
 
@@ -568,12 +568,12 @@ std::vector<point> squares_in_direction( const point &p1, const point &p2 )
 
 float rl_vec2d::magnitude() const
 {
-    return sqrt( x * x + y * y );
+    return std::sqrt( x * x + y * y );
 }
 
 float rl_vec3d::magnitude() const
 {
-    return sqrt( x * x + y * y + z * z );
+    return std::sqrt( x * x + y * y + z * z );
 }
 
 rl_vec2d rl_vec2d::normalized() const
@@ -637,8 +637,8 @@ bool rl_vec2d::is_null() const
 point rl_vec2d::as_point() const
 {
     return point(
-               round( x ),
-               round( y )
+               std::round( x ),
+               std::round( y )
            );
 }
 
@@ -650,9 +650,9 @@ bool rl_vec3d::is_null() const
 tripoint rl_vec3d::as_point() const
 {
     return tripoint(
-               round( x ),
-               round( y ),
-               round( z )
+               std::round( x ),
+               std::round( y ),
+               std::round( z )
            );
 }
 

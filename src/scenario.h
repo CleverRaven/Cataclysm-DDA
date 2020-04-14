@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SCENARIO_H
-#define SCENARIO_H
+#ifndef CATA_SRC_SCENARIO_H
+#define CATA_SRC_SCENARIO_H
 
 #include <algorithm>
 #include <set>
@@ -125,4 +125,4 @@ struct scen_blacklist {
 
 void reset_scenarios_blacklist();
 
-#endif
+#endif // CATA_SRC_SCENARIO_H

@@ -1137,7 +1137,7 @@ void player::hardcoded_effects( effect &it )
         }
 
         bool woke_up = false;
-        int tirednessVal = rng( 5, 200 ) + rng( 0, abs( get_fatigue() * 2 * 5 ) );
+        int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( get_fatigue() * 2 * 5 ) );
         if( !is_blind() && !has_effect( effect_narcosis ) ) {
             if( !has_trait(
                     trait_SEESLEEP ) ) { // People who can see while sleeping are acclimated to the light.

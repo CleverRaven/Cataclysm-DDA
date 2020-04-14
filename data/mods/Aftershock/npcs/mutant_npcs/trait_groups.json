@@ -917,8 +917,55 @@
       { "trait": "SAVANT", "prob": 10 },
       { "trait": "SCHIZOPHRENIC", "prob": 10 },
       { "trait": "SQUEAMISH", "prob": 10 },
-      { "trait": "TRIGGERHAPPY", "prob": 10 },
       { "group": "Appearance_demographics", "prob": 100 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_mastodon",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "PATCHFUR", "prob": 50 },
+      { "trait": "LEATHER_FEET", "prob": 50 },
+      { "trait": "SKINFOLDS", "prob": 50 },
+      { "trait": "HAULER", "prob": 50 },
+      { "trait": "WEAKJOINTS", "prob": 50 },
+      { "trait": "UPLIFTED" },
+      { "trait": "ELEPHANTINE_SMELL", "prob": 50 },
+      { "trait": "SPECAILIZED_DIET", "prob": 50 },
+      { "trait": "ELEPHANTINE_SMELL", "prob": 50 },
+      { "trait": "CRUSHINGFEET", "prob": 50 },
+      { "trait": "HERBIVORE", "prob": 50 },
+      { "trait": "FACEBUMPS", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_mastodon_nonthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "MUT_TANK", "prob": 50 },
+      { "trait": "TUSKS", "prob": 50 },
+      { "distribution": [ { "trait": "SHORTFUR" }, { "trait": "MEDIUMFUR" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_mastodon_postthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_MASTODON" },
+      { "distribution": [ { "trait": "ELEPHANTINE" }, { "trait": "ELEPHANTINE_OK" } ] },
+      { "trait": "MUT_TANK2", "prob": 50 },
+      { "trait": "GIGANTIC", "prob": 20 },
+      { "trait": "GIGANTIC_OK", "prob": 20 },
+      { "trait": "TUSKS_POINTED", "prob": 50 },
+      {
+        "distribution": [
+          { "trait": "TRUMPET" },
+          { "collection": [ { "trait": "BIG_FOOD" }, { "trait": "LARGE_DIET" }, { "trait": "FLUSH" } ] }
+        ]
+      }
     ]
   }
 ]

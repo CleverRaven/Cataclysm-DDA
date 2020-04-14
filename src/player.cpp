@@ -290,8 +290,6 @@ player::player()
     next_expected_position = cata::nullopt;
     death_drops = true;
 
-    empty_traits();
-
     nv_cached = false;
     volume = 0;
 
@@ -484,7 +482,7 @@ int player::kcal_speed_penalty()
         // TODO: get speed penalties for being too fat, too
         return 0;
     } else {
-        return round( multi_lerp( starv_thresholds, get_bmi() ) );
+        return std::round( multi_lerp( starv_thresholds, get_bmi() ) );
     }
 }
 
@@ -695,7 +693,7 @@ double player::recoil_vehicle() const
 
     if( in_vehicle ) {
         if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
-            return static_cast<double>( abs( vp->vehicle().velocity ) ) * 3 / 100;
+            return static_cast<double>( std::abs( vp->vehicle().velocity ) ) * 3 / 100;
         }
     }
     return 0;
@@ -792,8 +790,8 @@ bool player::has_opposite_trait( const trait_id &flag ) const
             return true;
         }
     }
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        for( const trait_id &canceled_trait : mut.first->cancels ) {
+    for( const trait_id &mut : get_mutations() ) {
+        for( const trait_id &canceled_trait : mut->cancels ) {
             if( canceled_trait == flag ) {
                 return true;
             }
@@ -4075,9 +4073,9 @@ int player::book_fun_for( const item &book, const player &p ) const
     if( ( p.has_trait( trait_CANNIBAL ) || p.has_trait( trait_PSYCHOPATH ) ||
           p.has_trait( trait_SAPIOVORE ) ) &&
         book.typeId() == "cookbook_human" ) {
-        fun_bonus = abs( fun_bonus );
+        fun_bonus = std::abs( fun_bonus );
     } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        fun_bonus = abs( fun_bonus * 3 );
+        fun_bonus = std::abs( fun_bonus * 3 );
     }
 
     if( has_trait( trait_LOVES_BOOKS ) ) {
@@ -4899,8 +4897,8 @@ action_id player::get_next_auto_move_direction()
 
     // Make sure the direction is just one step and that
     // all diagonal moves have 0 z component
-    if( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ||
-        ( abs( dp.z ) != 0 && ( abs( dp.x ) != 0 || abs( dp.y ) != 0 ) ) ) {
+    if( std::abs( dp.x ) > 1 || std::abs( dp.y ) > 1 || std::abs( dp.z ) > 1 ||
+        ( std::abs( dp.z ) != 0 && ( std::abs( dp.x ) != 0 || std::abs( dp.y ) != 0 ) ) ) {
         // Should never happen, but check just in case
         return ACTION_NULL;
     }
@@ -5173,9 +5171,10 @@ float player::hearing_ability() const
 
 std::string player::visible_mutations( const int visibility_cap ) const
 {
-    const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
-    [visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
-        const auto &mut_branch = pr.first.obj();
+    const std::vector<trait_id> &my_muts = get_mutations();
+    const std::string trait_str = enumerate_as_string( my_muts.begin(), my_muts.end(),
+    [visibility_cap ]( const trait_id & pr ) -> std::string {
+        const auto &mut_branch = pr.obj();
         // Finally some use for visibility trait of mutations
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {
@@ -5247,7 +5246,7 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
                 }
             }
         }
-        bool in_range = round( rl_dist_exact( pos(), critter.pos() ) ) <= range;
+        bool in_range = std::round( rl_dist_exact( pos(), critter.pos() ) ) <= range;
         // TODO: get rid of fake npcs (pos() check)
         bool valid_target = this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::A_FRIENDLY;
         return valid_target && in_range && can_see;
@@ -5258,7 +5257,7 @@ std::vector<Creature *> player::get_hostile_creatures( int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
         // Fixes circular distance range for ranged attacks
-        float dist_to_creature = round( rl_dist_exact( pos(), critter.pos() ) );
+        float dist_to_creature = std::round( rl_dist_exact( pos(), critter.pos() ) );
         return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
         dist_to_creature <= range && critter.attitude_to( *this ) == A_HOSTILE
         && sees( critter );

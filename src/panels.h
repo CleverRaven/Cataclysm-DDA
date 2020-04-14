@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PANELS_H
-#define PANELS_H
+#ifndef CATA_SRC_PANELS_H
+#define CATA_SRC_PANELS_H
 
 #include <cstddef>
 #include <functional>
@@ -98,4 +98,4 @@ class panel_manager
 
 };
 
-#endif //PANELS_H
+#endif // CATA_SRC_PANELS_H

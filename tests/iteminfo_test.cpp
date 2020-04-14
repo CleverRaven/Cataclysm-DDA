@@ -17,7 +17,7 @@
 static void test_info_equals( const item &i, const iteminfo_query &q,
                               const std::string &reference )
 {
-    g->u.empty_traits();
+    g->u.clear_mutations();
     std::vector<iteminfo> info_v;
     std::string info = i.info( info_v, &q, 1 );
     CHECK( info == reference );
@@ -26,7 +26,7 @@ static void test_info_equals( const item &i, const iteminfo_query &q,
 static void test_info_contains( const item &i, const iteminfo_query &q,
                                 const std::string &reference )
 {
-    g->u.empty_traits();
+    g->u.clear_mutations();
     std::vector<iteminfo> info_v;
     std::string info = i.info( info_v, &q, 1 );
     using Catch::Matchers::Contains;
@@ -515,7 +515,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
 {
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES } );
     const recipe *purtab = &recipe_id( "pur_tablets" ).obj();
-    g->u.empty_traits();
+    g->u.clear_mutations();
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
         item &iodine = g->u.i_add( item( "iodine" ) );

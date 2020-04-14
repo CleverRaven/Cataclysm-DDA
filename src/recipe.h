@@ -1,6 +1,6 @@
 #pragma once
-#ifndef RECIPE_H
-#define RECIPE_H
+#ifndef CATA_SRC_RECIPE_H
+#define CATA_SRC_RECIPE_H
 
 #include <cstddef>
 #include <functional>
@@ -226,4 +226,4 @@ class recipe
         std::vector<std::pair<requirement_id, int>> reqs_blueprint;
 };
 
-#endif // RECIPE_H
+#endif // CATA_SRC_RECIPE_H

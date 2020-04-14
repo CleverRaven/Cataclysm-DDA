@@ -55,12 +55,19 @@ void clear_character( player &dummy, bool debug_storage )
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
     dummy.inv.clear();
     dummy.remove_weapon();
-    dummy.empty_traits();
+    dummy.clear_mutations();
 
     // Prevent spilling, but don't cause encumbrance
     if( debug_storage && !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
+
+    // Clear stomach and then eat a nutritious meal to normalize stomach
+    // contents (needs to happen before clear_morale).
+    dummy.stomach.empty();
+    dummy.guts.empty();
+    item food( "debug_nutrition" );
+    dummy.eat( food );
 
     dummy.empty_skills();
     dummy.clear_morale();
@@ -72,6 +79,7 @@ void clear_character( player &dummy, bool debug_storage )
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
     dummy.set_movement_mode( CMM_WALK );
+    dummy.reset_activity_level();
 
     // Make sure we don't carry around weird effects.
     dummy.clear_effects();

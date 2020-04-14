@@ -182,7 +182,7 @@ void Character::suffer_water_damage( const mutation_branch &mdata )
                                    _( "<npcname>'s %s is damaged by the water." ),
                                    body_part_name( bp ) );
         } else if( dmg < 0 && hp_cur[bp_to_hp( bp )] != hp_max[bp_to_hp( bp )] ) {
-            heal( bp, abs( dmg ) );
+            heal( bp, std::abs( dmg ) );
             add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
                                    _( "<npcname>'s %s is healed by the water." ),
                                    body_part_name( bp ) );
@@ -912,7 +912,7 @@ void Character::suffer_from_other_mutations()
             if( bp == bp_head ) {
                 continue;
             }
-            int sores_pain = 5 + 0.4 * abs( encumb( bp ) );
+            int sores_pain = 5 + 0.4 * std::abs( encumb( bp ) );
             if( get_pain() < sores_pain ) {
                 set_pain( sores_pain );
             }
@@ -1599,8 +1599,8 @@ void Character::mend( int rate_multiplier )
 
     // Very hungry starts lowering the chance
     // square rooting the value makes the numbers drop off faster when below 1
-    healing_factor *= sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
-                            ( get_healthy_kcal() ) );
+    healing_factor *= std::sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
+                                 ( get_healthy_kcal() ) );
     // Similar for thirst - starts at very thirsty, drops to 0 ~halfway between two last statuses
     healing_factor *= 1.0f - clamp( ( get_thirst() - 80.0f ) / 300.0f, 0.0f, 1.0f );
 

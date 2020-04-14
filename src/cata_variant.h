@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_VARIANT_H
-#define CATA_VARIANT_H
+#ifndef CATA_SRC_CATA_VARIANT_H
+#define CATA_SRC_CATA_VARIANT_H
 
 #include <array>
 #include <cstddef>
@@ -349,4 +349,4 @@ struct hash<cata_variant> {
 
 } // namespace std
 
-#endif // CATA_VARIANT_H
+#endif // CATA_SRC_CATA_VARIANT_H

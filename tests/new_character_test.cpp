@@ -51,7 +51,7 @@ static std::vector<trait_id> next_subset( const std::vector<trait_id> &set )
 
 static bool try_set_traits( const std::vector<trait_id> &traits )
 {
-    g->u.empty_traits();
+    g->u.clear_mutations();
     g->u.add_traits(); // mandatory prof/scen traits
     for( const trait_id &tr : traits ) {
         if( g->u.has_conflicting_trait( tr ) || !g->scen->traitquery( tr ) ) {

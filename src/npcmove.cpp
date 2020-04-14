@@ -1351,7 +1351,7 @@ npc_action npc::method_of_attack()
             return npc_reach_attack;
         }
     } else {
-        if( reach_range > 1 && reach_range >= round( trig_dist( pos(), tar ) ) &&
+        if( reach_range > 1 && reach_range >= std::round( trig_dist( pos(), tar ) ) &&
             clear_shot_reach( pos(), tar ) ) {
             add_msg( m_debug, "%s is trying a reach attack", disp_name() );
             return npc_reach_attack;
@@ -2063,7 +2063,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         }
 
         int ally_angle = coord_to_angle( pos(), ally.pos() );
-        int angle_diff = abs( ally_angle - target_angle );
+        int angle_diff = std::abs( ally_angle - target_angle );
         angle_diff = std::min( 360 - angle_diff, angle_diff );
         if( angle_diff < safe_angle_ally ) {
             // TODO: Disable NPC whining is it's other NPC who prevents aiming
@@ -2308,7 +2308,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
                                                 diag ) * 100.0 / mounted_creature->get_speed();
             const double encumb_moves = get_weight() / 4800.0_gram;
-            moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
+            moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
             if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
                 mounted_creature->use_mech_power( -1 );
             }
@@ -2429,9 +2429,9 @@ void npc::avoid_friendly_fire()
     }
 
     float friend_count = ai_cache.friends.size();
-    center.x = round( center.x / friend_count );
-    center.y = round( center.y / friend_count );
-    center.z = round( center.z / friend_count );
+    center.x = std::round( center.x / friend_count );
+    center.y = std::round( center.y / friend_count );
+    center.z = std::round( center.z / friend_count );
 
     std::vector<tripoint> candidates = closest_tripoints_first( pos(), 1 );
     candidates.erase( candidates.begin() );
@@ -2494,7 +2494,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
             continue;
         }
 
-        const int dst = abs( p.x - pt.x ) + abs( p.y - pt.y ) + abs( p.z - pt.z );
+        const int dst = std::abs( p.x - pt.x ) + std::abs( p.y - pt.y ) + std::abs( p.z - pt.z );
         const int val = dst * 1000 / cost;
         if( val > best && can_move_to( p, no_bash_atk ) ) {
             best_pos = p;

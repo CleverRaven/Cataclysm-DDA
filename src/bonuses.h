@@ -1,6 +1,6 @@
 #pragma once
-#ifndef BONUSES_H
-#define BONUSES_H
+#ifndef CATA_SRC_BONUSES_H
+#define CATA_SRC_BONUSES_H
 
 #include <map>
 #include <vector>
@@ -89,4 +89,4 @@ class bonus_container
         bonus_map bonuses_mult;
 };
 
-#endif
+#endif // CATA_SRC_BONUSES_H
