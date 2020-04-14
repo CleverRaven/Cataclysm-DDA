@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CONDITION_H
-#define CONDITION_H
+#ifndef CATA_SRC_CONDITION_H
+#define CATA_SRC_CONDITION_H
 
 #include <functional>
 #include <string>
@@ -152,4 +152,4 @@ extern template void read_condition<mission_goal_condition_context>( const JsonO
         std::function<bool( const mission_goal_condition_context & )> &condition, bool default_val );
 #endif
 
-#endif
+#endif // CATA_SRC_CONDITION_H

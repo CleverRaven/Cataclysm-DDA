@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONSTERGENERATOR_H
-#define MONSTERGENERATOR_H
+#ifndef CATA_SRC_MONSTERGENERATOR_H
+#define CATA_SRC_MONSTERGENERATOR_H
 
 #include <map>
 #include <memory>
@@ -113,4 +113,4 @@ class MonsterGenerator
 
 void load_monster_adjustment( const JsonObject &jsobj );
 
-#endif
+#endif // CATA_SRC_MONSTERGENERATOR_H

@@ -781,7 +781,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Avoid awarding tons of xp for lucky throws against hard to hit targets
     const float range_factor = std::min<float>( range, skill_lvl + 3 );
     // We're aiming to get a damaging hit, not just an accurate one - reward proper weapons
-    const float damage_factor = 5.0f * sqrt( proj.impact.total_damage() / 5.0f );
+    const float damage_factor = 5.0f * std::sqrt( proj.impact.total_damage() / 5.0f );
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
@@ -1487,11 +1487,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
         // The range > 1 check ensures that you can always at least hit adjacent squares.
-        if( trigdist && range > 1 && round( trig_dist( src, dst ) ) > range ) {
+        if( trigdist && range > 1 && std::round( trig_dist( src, dst ) ) > range ) {
             bool cont = true;
             tripoint cp = dst;
             for( size_t i = 0; i < ret.size() && cont; i++ ) {
-                if( round( trig_dist( src, ret[i] ) ) > range ) {
+                if( std::round( trig_dist( src, ret[i] ) ) > range ) {
                     ret.resize( i );
                     cont = false;
                 } else {
@@ -2039,11 +2039,11 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
         // The range > 1 check ensures that you can always at least hit adjacent squares.
-        if( trigdist && range > 1 && round( trig_dist( src, dst ) ) > range ) {
+        if( trigdist && range > 1 && std::round( trig_dist( src, dst ) ) > range ) {
             bool cont = true;
             tripoint cp = dst;
             for( size_t i = 0; i < ret.size() && cont; i++ ) {
-                if( round( trig_dist( src, ret[i] ) ) > range ) {
+                if( std::round( trig_dist( src, ret[i] ) ) > range ) {
                     ret.resize( i );
                     cont = false;
                 } else {

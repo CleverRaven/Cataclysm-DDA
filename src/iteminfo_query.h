@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEMINFO_QUERY_H
-#define ITEMINFO_QUERY_H
+#ifndef CATA_SRC_ITEMINFO_QUERY_H
+#define CATA_SRC_ITEMINFO_QUERY_H
 
 #include <cstddef>
 #include <bitset>
@@ -253,4 +253,4 @@ class iteminfo_query : public iteminfo_query_base
         static const iteminfo_query anyflags;
 };
 
-#endif
+#endif // CATA_SRC_ITEMINFO_QUERY_H

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEM_CONTENTS_H
-#define ITEM_CONTENTS_H
+#ifndef CATA_SRC_ITEM_CONTENTS_H
+#define CATA_SRC_ITEM_CONTENTS_H
 
 #include <cstddef>
 #include <functional>
@@ -103,4 +103,4 @@ class item_contents
         std::list<item> items;
 };
 
-#endif
+#endif // CATA_SRC_ITEM_CONTENTS_H

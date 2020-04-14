@@ -1023,9 +1023,9 @@ action_id input_context::display_menu( const bool permit_execute_action )
     size_t legwidth = 0;
     string_input_popup spopup;
     const auto recalc_size = [&]( ui_adaptor & ui ) {
-        int maxwidth = max( FULL_SCREEN_WIDTH, TERMX );
+        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
         width = min( 80, maxwidth );
-        int maxheight = max( FULL_SCREEN_HEIGHT, TERMY );
+        int maxheight = std::max( FULL_SCREEN_HEIGHT, TERMY );
         height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
         w_help = catacurses::newwin( height - 2, width - 2,

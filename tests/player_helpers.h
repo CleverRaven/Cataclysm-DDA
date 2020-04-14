@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PLAYER_HELPERS_H
-#define PLAYER_HELPERS_H
+#ifndef CATA_TESTS_PLAYER_HELPERS_H
+#define CATA_TESTS_PLAYER_HELPERS_H
 
 #include <string>
 
@@ -19,4 +19,4 @@ void process_activity( player &dummy );
 npc &spawn_npc( const point &, const std::string &npc_class );
 void give_and_activate_bionic( player &, bionic_id const & );
 
-#endif
+#endif // CATA_TESTS_PLAYER_HELPERS_H

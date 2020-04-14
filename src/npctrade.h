@@ -1,6 +1,6 @@
 #pragma once
-#ifndef NPCTRADE_H
-#define NPCTRADE_H
+#ifndef CATA_SRC_NPCTRADE_H
+#define CATA_SRC_NPCTRADE_H
 
 #include <cstddef>
 #include <vector>
@@ -102,4 +102,4 @@ std::vector<item_pricing> init_selling( npc &p );
 std::vector<item_pricing> init_buying( player &buyer, player &seller, bool is_npc );
 } // namespace npc_trading
 
-#endif
+#endif // CATA_SRC_NPCTRADE_H

@@ -1,5 +1,5 @@
-#ifndef CATA_CLONE_PTR_H
-#define CATA_CLONE_PTR_H
+#ifndef CATA_SRC_CLONE_PTR_H
+#define CATA_SRC_CLONE_PTR_H
 
 #include <memory>
 
@@ -62,4 +62,4 @@ class clone_ptr
 
 } // namespace cata
 
-#endif // CATA_CLONE_PTR_H
+#endif // CATA_SRC_CLONE_PTR_H

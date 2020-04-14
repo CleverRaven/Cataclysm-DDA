@@ -1283,7 +1283,7 @@ std::string ma_technique::get_description() const
                                ( 100 * ( weighting - 1 ) ) ) + "\n";
     } else if( weighting < -1 ) {
         dump += string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%s</stat>" ),
-                               abs( weighting ) ) + "\n";
+                               std::abs( weighting ) ) + "\n";
     }
 
     if( crit_ok ) {

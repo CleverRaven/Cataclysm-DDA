@@ -410,5 +410,2029 @@
         { "item": "bedroom", "x": 2, "y": [ 3, 4 ], "chance": 55, "repeat": [ 1, 4 ] }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basement",
+    "nested_mapgen_id": "room_6x6_junk_S",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|qz Q|",
+        "|q zQ|",
+        "|Uz 6|",
+        "|U  6|",
+        "||++||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        " ": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "Q": "t_thconc_floor",
+        "6": "t_thconc_floor",
+        "z": "t_thconc_floor",
+        "q": "t_thconc_floor"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basement",
+    "nested_mapgen_id": "room_6x6_junk_E",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|qzQQ|",
+        "|q   +",
+        "|Uz 6|",
+        "|U z6|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        " ": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "Q": "t_thconc_floor",
+        "6": "t_thconc_floor",
+        "z": "t_thconc_floor",
+        "q": "t_thconc_floor"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basement",
+    "nested_mapgen_id": "room_6x6_junk_W",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|qqzQ|",
+        "+   Q|",
+        "|Uz 6|",
+        "|U z6|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        " ": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "Q": "t_thconc_floor",
+        "6": "t_thconc_floor",
+        "z": "t_thconc_floor",
+        "q": "t_thconc_floor"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_weed_N",
+    "//": "an grow area for various recreations",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||+||||",
+        "|RRR UUU|",
+        "|Q     Q|",
+        "|Q QQQ Q|",
+        "|Q hTh Q|",
+        "|Q hTh Q|",
+        "|Q     Q|",
+        "|HWX XCA|",
+        "|||||||||"
+      ],
+      "terrain": {
+        "|": "t_wall_w",
+        "+": "t_door_c",
+        " ": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "X": "t_linoleum_gray",
+        "W": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
+        "H": "t_linoleum_gray",
+        "h": "t_linoleum_gray",
+        "U": "t_linoleum_gray",
+        "A": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "T": "t_linoleum_gray"
+      },
+      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
+      "furniture": {
+        "T": "f_workbench",
+        "h": "f_chair",
+        "R": "f_rack",
+        "A": "f_air_filter",
+        "C": "f_air_conditioner",
+        "H": "f_water_heater",
+        "W": "f_water_purifier",
+        "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
+        "U": "f_utility_shelf"
+      },
+      "items": {
+        "T": [ { "item": "supplies_farming", "chance": 70 }, { "item": "weed_farm", "chance": 50 } ],
+        "R": [ { "item": "weed_farm", "chance": 70 } ],
+        "U": [ { "item": "home_hw", "chance": 50 } ],
+        "X": [
+          { "item": "supplies_farming", "chance": 50 },
+          { "item": "cleaning", "chance": 50 },
+          { "item": "chem_home", "chance": 50 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_weed_S",
+    "//": "an grow area for various recreations",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||||",
+        "|RRR UUU|",
+        "|Q     Q|",
+        "|Q QQQ Q|",
+        "|Q hTh Q|",
+        "|Q hTh Q|",
+        "|Q     Q|",
+        "|HWX XCA|",
+        "||||+||||"
+      ],
+      "terrain": {
+        "|": "t_wall_w",
+        "+": "t_door_c",
+        " ": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "X": "t_linoleum_gray",
+        "W": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
+        "H": "t_linoleum_gray",
+        "h": "t_linoleum_gray",
+        "U": "t_linoleum_gray",
+        "A": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "T": "t_linoleum_gray"
+      },
+      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
+      "furniture": {
+        "T": "f_workbench",
+        "h": "f_chair",
+        "R": "f_rack",
+        "A": "f_air_filter",
+        "C": "f_air_conditioner",
+        "H": "f_water_heater",
+        "W": "f_water_purifier",
+        "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
+        "U": "f_utility_shelf"
+      },
+      "items": {
+        "T": [ { "item": "supplies_farming", "chance": 70 }, { "item": "weed_farm", "chance": 50 } ],
+        "R": [ { "item": "weed_farm", "chance": 70 } ],
+        "U": [ { "item": "home_hw", "chance": 50 } ],
+        "X": [
+          { "item": "supplies_farming", "chance": 50 },
+          { "item": "cleaning", "chance": 50 },
+          { "item": "chem_home", "chance": 50 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_weed_E",
+    "//": "an grow area for various recreations",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||||",
+        "|RRR UUU|",
+        "|Q     Q|",
+        "|Q QQQ Q|",
+        "|Q hTh  +",
+        "|Q hTh Q|",
+        "|Q     Q|",
+        "|HWX XCA|",
+        "|||||||||"
+      ],
+      "terrain": {
+        "|": "t_wall_w",
+        "+": "t_door_c",
+        " ": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "X": "t_linoleum_gray",
+        "W": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
+        "H": "t_linoleum_gray",
+        "h": "t_linoleum_gray",
+        "U": "t_linoleum_gray",
+        "A": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "T": "t_linoleum_gray"
+      },
+      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
+      "furniture": {
+        "T": "f_workbench",
+        "h": "f_chair",
+        "R": "f_rack",
+        "A": "f_air_filter",
+        "C": "f_air_conditioner",
+        "H": "f_water_heater",
+        "W": "f_water_purifier",
+        "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
+        "U": "f_utility_shelf"
+      },
+      "items": {
+        "T": [ { "item": "supplies_farming", "chance": 70 }, { "item": "weed_farm", "chance": 50 } ],
+        "R": [ { "item": "weed_farm", "chance": 70 } ],
+        "U": [ { "item": "home_hw", "chance": 50 } ],
+        "X": [
+          { "item": "supplies_farming", "chance": 50 },
+          { "item": "cleaning", "chance": 50 },
+          { "item": "chem_home", "chance": 50 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_weed_W",
+    "//": "an grow area for various recreations",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||||",
+        "|RRR UUU|",
+        "|Q     Q|",
+        "|Q QQQ Q|",
+        "+  hTh Q|",
+        "|Q hTh Q|",
+        "|Q     Q|",
+        "|HWX XCA|",
+        "|||||||||"
+      ],
+      "terrain": {
+        "|": "t_wall_w",
+        "+": "t_door_c",
+        " ": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "X": "t_linoleum_gray",
+        "W": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
+        "H": "t_linoleum_gray",
+        "h": "t_linoleum_gray",
+        "U": "t_linoleum_gray",
+        "A": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "T": "t_linoleum_gray"
+      },
+      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } },
+      "furniture": {
+        "T": "f_workbench",
+        "h": "f_chair",
+        "R": "f_rack",
+        "A": "f_air_filter",
+        "C": "f_air_conditioner",
+        "H": "f_water_heater",
+        "W": "f_water_purifier",
+        "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
+        "U": "f_utility_shelf"
+      },
+      "items": {
+        "T": [ { "item": "supplies_farming", "chance": 70 }, { "item": "weed_farm", "chance": 50 } ],
+        "R": [ { "item": "weed_farm", "chance": 70 } ],
+        "U": [ { "item": "home_hw", "chance": 50 } ],
+        "X": [
+          { "item": "supplies_farming", "chance": 50 },
+          { "item": "cleaning", "chance": 50 },
+          { "item": "chem_home", "chance": 50 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_recroom_N",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||+||||",
+        "|HHH...=|",
+        "|Hl....x|",
+        "|%.....=|",
+        "|.A.A..&|",
+        "|JJ5JJ  |",
+        "|       |",
+        "|mVJ14 T|",
+        "|||||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        ".": "t_carpet_green",
+        "H": "t_carpet_green",
+        "l": "t_carpet_green",
+        "A": "t_carpet_green",
+        "=": "t_carpet_green",
+        "x": "t_carpet_green",
+        "%": "t_carpet_green",
+        "&": "t_carpet_green"
+      },
+      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_recroom_N",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||+||||",
+        "|A.....=|",
+        "|..ee..x|",
+        "|A.ee..=|",
+        "|..ee..&|",
+        "|......%|",
+        "|Hll.E..|",
+        "|HHHHsyT|",
+        "|||||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        ".": "t_carpet_green",
+        "H": "t_carpet_green",
+        "l": "t_carpet_green",
+        "A": "t_carpet_green",
+        "=": "t_carpet_green",
+        "x": "t_carpet_green",
+        "%": "t_carpet_green",
+        "E": "t_carpet_green",
+        "T": "t_carpet_green",
+        "y": "t_carpet_green",
+        "s": "t_carpet_green",
+        "e": "t_carpet_green",
+        "&": "t_carpet_green"
+      },
+      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_recroom_S",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||||",
+        "|HHH...=|",
+        "|Hl....x|",
+        "|%.....=|",
+        "|.A.A..&|",
+        "|JJ5JJ  |",
+        "|       |",
+        "|mVJ14 T|",
+        "||||||+||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        ".": "t_carpet_green",
+        "H": "t_carpet_green",
+        "l": "t_carpet_green",
+        "A": "t_carpet_green",
+        "=": "t_carpet_green",
+        "x": "t_carpet_green",
+        "%": "t_carpet_green",
+        "&": "t_carpet_green"
+      },
+      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_recroom_S",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||||",
+        "|A.....=|",
+        "|..ee..x|",
+        "|A.ee..=|",
+        "|..ee..&|",
+        "|......%|",
+        "|Hll.E..|",
+        "|HHHHs.T|",
+        "||||||+||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        ".": "t_floor",
+        "H": "t_floor",
+        "l": "t_floor",
+        "A": "t_floor",
+        "=": "t_floor",
+        "x": "t_floor",
+        "%": "t_floor",
+        "E": "t_floor",
+        "T": "t_floor",
+        "y": "t_floor",
+        "s": "t_floor",
+        "e": "t_floor",
+        "&": "t_floor"
+      },
+      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_recroom_E",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||||",
+        "|HHH...=|",
+        "|Hl....x|",
+        "|%.....=|",
+        "|.A.A..&|",
+        "|JJ5JJ  +",
+        "|       |",
+        "|mVJ14 T|",
+        "|||||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        ".": "t_carpet_green",
+        "H": "t_carpet_green",
+        "l": "t_carpet_green",
+        "A": "t_carpet_green",
+        "=": "t_carpet_green",
+        "x": "t_carpet_green",
+        "%": "t_carpet_green",
+        "&": "t_carpet_green"
+      },
+      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_recroom_E",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||||",
+        "|A.....=|",
+        "|..ee..x|",
+        "|A.ee..=|",
+        "|..ee..&|",
+        "|.......+",
+        "|Hll.E.%|",
+        "|HHHHsyT|",
+        "|||||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        ".": "t_carpet_red",
+        "H": "t_carpet_red",
+        "l": "t_carpet_red",
+        "A": "t_carpet_red",
+        "=": "t_carpet_red",
+        "x": "t_carpet_red",
+        "%": "t_carpet_red",
+        "E": "t_carpet_red",
+        "T": "t_carpet_red",
+        "y": "t_carpet_red",
+        "s": "t_carpet_red",
+        "e": "t_carpet_red",
+        "&": "t_carpet_red"
+      },
+      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_recroom_W",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||||",
+        "|HHH...=|",
+        "|Hl....x|",
+        "|%.....=|",
+        "+.A.A..&|",
+        "|JJ5JJ  |",
+        "|       |",
+        "|mVJ14 T|",
+        "|||||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        ".": "t_carpet_green",
+        "H": "t_carpet_green",
+        "l": "t_carpet_green",
+        "A": "t_carpet_green",
+        "=": "t_carpet_green",
+        "x": "t_carpet_green",
+        "%": "t_carpet_green",
+        "&": "t_carpet_green"
+      },
+      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_9x9_recroom_W",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||||",
+        "|A.....=|",
+        "|..ee..x|",
+        "|A.ee..=|",
+        "+..ee..&|",
+        "|......%|",
+        "|Hll.E..|",
+        "|HHHHsyT|",
+        "|||||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        ".": "t_carpet_green",
+        "H": "t_carpet_green",
+        "l": "t_carpet_green",
+        "A": "t_carpet_green",
+        "=": "t_carpet_green",
+        "x": "t_carpet_green",
+        "%": "t_carpet_green",
+        "E": "t_carpet_green",
+        "T": "t_carpet_green",
+        "y": "t_carpet_green",
+        "s": "t_carpet_green",
+        "e": "t_carpet_green",
+        "&": "t_carpet_green"
+      },
+      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "place_loot": [ { "item": "stereo", "x": 7, "y": 2, "chance": 100 }, { "item": "laptop", "x": 5, "y": 5, "chance": 60 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_9x9_cellar_E",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#########",
+        "#aaaaaaa#",
+        "#c..A..b#",
+        "#c.....b#",
+        "#c.HXW..+",
+        "#c.....f#",
+        "#c.e.r.f#",
+        "#eeerrrr#",
+        "#########"
+      ],
+      "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor" },
+      "furniture": {
+        "a": "f_rack_wood",
+        "A": "f_stool",
+        "r": "f_rack_wood",
+        "c": "f_rack_wood",
+        "e": "f_rack_wood",
+        "f": "f_table",
+        "H": "f_fvat_empty",
+        "b": "f_sofa",
+        "X": "f_wood_keg",
+        "W": "f_wood_keg"
+      },
+      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 1000 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 1000 ] } },
+      "items": {
+        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 2, 8 ] },
+        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 2, 8 ] },
+        "c": { "item": "condiments", "chance": 50, "repeat": [ 2, 8 ] },
+        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 2, 8 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_9x9_cellar_W",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#########",
+        "#aaaaaaa#",
+        "#b.A...c#",
+        "#b..H..c#",
+        "+...X..c#",
+        "#f..W..c#",
+        "#f.....c#",
+        "#eeerrrr#",
+        "#########"
+      ],
+      "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor" },
+      "furniture": {
+        "a": "f_rack_wood",
+        "A": "f_stool",
+        "r": "f_rack_wood",
+        "c": "f_rack_wood",
+        "e": "f_rack_wood",
+        "f": "f_table",
+        "H": "f_fvat_empty",
+        "b": "f_sofa",
+        "X": "f_wood_keg",
+        "W": "f_wood_keg"
+      },
+      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 1000 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 1000 ] } },
+      "items": {
+        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 2, 8 ] },
+        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 2, 8 ] },
+        "c": { "item": "SUS_pantry", "chance": 50, "repeat": [ 2, 8 ] },
+        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 2, 8 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_9x9_cellar_S",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#########",
+        "#aaaaaaa#",
+        "#b.A...c#",
+        "#b..f..c#",
+        "#W..f..c#",
+        "#X..f..c#",
+        "#H...h.c#",
+        "#eee.rrr#",
+        "####+####"
+      ],
+      "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor" },
+      "furniture": {
+        "a": "f_rack_wood",
+        "A": "f_stool",
+        "r": "f_rack_wood",
+        "c": "f_rack_wood",
+        "e": "f_rack_wood",
+        "f": "f_table",
+        "h": "f_chair",
+        "H": "f_fvat_empty",
+        "b": "f_sofa",
+        "X": "f_wood_keg",
+        "W": "f_wood_keg"
+      },
+      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 1000 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 1000 ] } },
+      "items": {
+        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 2, 8 ] },
+        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 2, 8 ] },
+        "c": { "item": "SUS_pantry", "chance": 50, "repeat": [ 2, 8 ] },
+        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 2, 8 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_9x9_cellar_N",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "####+####",
+        "#aaa.aaa#",
+        "#b.A...c#",
+        "#b..f..c#",
+        "#H..f..c#",
+        "#X..fA.c#",
+        "#W.....c#",
+        "#eeerrrr#",
+        "#########"
+      ],
+      "terrain": { "+": "t_door_locked", "#": "t_wall_w", ".": "t_thconc_floor" },
+      "furniture": {
+        "a": "f_rack_wood",
+        "A": "f_stool",
+        "r": "f_rack_wood",
+        "c": "f_rack_wood",
+        "e": "f_rack_wood",
+        "f": "f_table",
+        "H": "f_fvat_empty",
+        "b": "f_sofa",
+        "X": "f_wood_keg",
+        "W": "f_wood_keg"
+      },
+      "liquids": { "X": { "liquid": "vinegar", "amount": [ 100, 1000 ] }, "W": { "liquid": "burdock_wine", "amount": [ 100, 1000 ] } },
+      "items": {
+        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 2, 8 ] },
+        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 2, 8 ] },
+        "c": { "item": "SUS_pantry", "chance": 50, "repeat": [ 2, 8 ] },
+        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 2, 8 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_office_E",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|PPTE|",
+        "|r   +",
+        "|rh y:",
+        "|rrYR|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_office_W",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|PPTE|",
+        "+    |",
+        ":rh Y|",
+        "|rrrR|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_brewer_W",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|THHs|",
+        "+    |",
+        "|   $|",
+        "|%%0!|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "|": "t_wall_wood" },
+      "furniture": { "%": "f_rack_wood", "$": "f_fvat_empty", "0": "f_wood_keg", "!": "f_wood_keg" },
+      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 1000 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 1000 ] } },
+      "items": {
+        "%": [
+          { "item": "liqstore_brew", "chance": 50, "repeat": [ 2, 8 ] },
+          { "item": "misc_alcohol", "chance": 100, "repeat": [ 2, 8 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_brewer_E",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|THHs|",
+        "|    +",
+        "| A $|",
+        "|%%0!|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "|": "t_wall_wood" },
+      "furniture": { "%": "f_rack_wood", "$": "f_fvat_empty", "0": "f_wood_keg", "!": "f_wood_keg" },
+      "liquids": { "0": { "liquid": "hb_beer", "amount": [ 10, 1000 ] }, "!": { "liquid": "dandelion_wine", "amount": [ 10, 1000 ] } },
+      "items": {
+        "%": [
+          { "item": "liqstore_brew", "chance": 50, "repeat": [ 2, 8 ] },
+          { "item": "misc_alcohol", "chance": 100, "repeat": [ 2, 8 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_brewer_N",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||+||",
+        "|%  0|",
+        "|%  $|",
+        "|E  !|",
+        "|~,ss|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "|": "t_wall_wood" },
+      "furniture": { "%": "f_rack_wood", "$": "f_fvat_empty", "0": "f_wood_keg", ",": "f_still", "~": "f_ash", "!": "f_wood_keg" },
+      "liquids": { "0": { "liquid": "moonshine", "amount": [ 100, 1000 ] }, "!": { "liquid": "mead", "amount": [ 100, 1000 ] } },
+      "items": {
+        "%": [
+          { "item": "liqstore_brew", "chance": 50, "repeat": [ 2, 8 ] },
+          { "item": "misc_alcohol", "chance": 50, "repeat": [ 2, 8 ] }
+        ]
+      },
+      "place_items": [
+        { "chance": 75, "item": "moonshine_brew", "x": 1, "y": 1 },
+        { "chance": 75, "item": "moonshine_brew", "x": 1, "y": 1 },
+        { "chance": 55, "item": "honey_bottled", "x": 1, "y": 1 },
+        { "chance": 75, "item": "bottle_glass", "x": [ 3, 4 ], "y": 4, "repeat": [ 3, 24 ] },
+        { "chance": 55, "item": "winemaking_beginner", "x": 1, "y": 2 },
+        { "chance": 55, "item": "brewing_cookbook", "x": 1, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_brewer_S",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|%~,s|",
+        "|%  s|",
+        "|E  !|",
+        "|  0$|",
+        "||+|||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "|": "t_wall_wood" },
+      "furniture": { "%": "f_rack_wood", "$": "f_fvat_empty", "0": "f_wood_keg", ",": "f_still", "~": "f_ash", "!": "f_wood_keg" },
+      "liquids": { "0": { "liquid": "moonshine", "amount": [ 100, 1000 ] }, "!": { "liquid": "mead", "amount": [ 100, 1000 ] } },
+      "items": {
+        "%": [
+          { "item": "liqstore_brew", "chance": 50, "repeat": [ 2, 8 ] },
+          { "item": "misc_alcohol", "chance": 50, "repeat": [ 2, 8 ] }
+        ]
+      },
+      "place_items": [
+        { "chance": 75, "item": "moonshine_brew", "x": 1, "y": 1 },
+        { "chance": 75, "item": "moonshine_brew", "x": 1, "y": 1 },
+        { "chance": 55, "item": "honey_bottled", "x": 1, "y": 1 },
+        { "chance": 75, "item": "bottle_glass", "x": [ 3, 4 ], "y": 4, "repeat": [ 3, 24 ] },
+        { "chance": 55, "item": "winemaking_beginner", "x": 1, "y": 2 },
+        { "chance": 55, "item": "brewing_cookbook", "x": 1, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_guns_N",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||+||",
+        "|%  !|",
+        "|,  ~|",
+        "|= h~|",
+        "|$Y ~|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "|": "t_wall_b",
+        " ": "t_carpet_green",
+        "%": "t_carpet_green",
+        "$": "t_carpet_green",
+        "=": "t_carpet_green",
+        ",": "t_carpet_green",
+        "~": "t_carpet_green",
+        "Y": "t_carpet_green",
+        "h": "t_carpet_green",
+        "P": "t_carpet_green",
+        "!": "t_carpet_green"
+      },
+      "furniture": {
+        "%": "f_glass_cabinet",
+        "$": "f_glass_cabinet",
+        "0": "f_displaycase",
+        "=": "f_displaycase",
+        ",": "f_displaycase",
+        "~": "f_workbench",
+        "!": "f_bookcase"
+      },
+      "items": {
+        "%": [
+          { "item": "guns_rifle_common", "chance": 60, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_rifle_rare", "chance": 30, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_pistol_common", "chance": 70, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_pistol_rare", "chance": 30, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
+        ],
+        "$": [
+          { "item": "guns_smg_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_smg_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_shotgun_common", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_shotgun_rare_static", "chance": 20, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_obscure", "chance": 20, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
+        ],
+        ",": [
+          { "item": "mags_pistol_rare", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "mags_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "mags_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] }
+        ],
+        "=": [
+          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
+        ],
+        "~": [
+          { "item": "museum_guns", "chance": 10 },
+          { "item": "tools_common", "chance": 60 },
+          { "item": "gunmod_rare", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "gunmod_common", "chance": 20, "repeat": [ 1, 2 ] }
+        ],
+        "!": [ { "item": "book_gunref", "chance": 40, "repeat": [ 1, 2 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_guns_S",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|%Y !|",
+        "|,  ~|",
+        "|= h~|",
+        "|$  ~|",
+        "|||+||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "|": "t_wall_wood",
+        " ": "t_carpet_red",
+        "%": "t_carpet_red",
+        "$": "t_carpet_red",
+        "=": "t_carpet_red",
+        ",": "t_carpet_red",
+        "~": "t_carpet_red",
+        "Y": "t_carpet_red",
+        "h": "t_carpet_red",
+        "P": "t_carpet_red",
+        "!": "t_carpet_red"
+      },
+      "furniture": { "%": "f_rack_wood", "$": "f_rack_wood", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
+      "items": {
+        "%": [
+          { "item": "guns_rifle_common", "chance": 60, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_rifle_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_pistol_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_pistol_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] }
+        ],
+        "$": [
+          { "item": "guns_smg_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_smg_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_shotgun_common", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_shotgun_rare_static", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_obscure", "chance": 20, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
+        ],
+        ",": [
+          { "item": "mags_pistol_rare", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "mags_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "mags_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] }
+        ],
+        "=": [
+          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
+        ],
+        "~": [
+          { "item": "museum_guns", "chance": 10 },
+          { "item": "tools_common", "chance": 60 },
+          { "item": "gunmod_rare", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "gunmod_common", "chance": 20, "repeat": [ 1, 2 ] }
+        ],
+        "!": [ { "item": "book_gunref", "chance": 40, "repeat": [ 1, 2 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_guns_E",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|% P!|",
+        "|,   +",
+        "|= h~:",
+        "|$Y ~:",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "|": "t_wall_b",
+        " ": "t_carpet_yellow",
+        "%": "t_carpet_yellow",
+        "$": "t_carpet_yellow",
+        "=": "t_carpet_yellow",
+        ",": "t_carpet_yellow",
+        "~": "t_carpet_yellow",
+        "Y": "t_carpet_yellow",
+        "h": "t_carpet_yellow",
+        "P": "t_carpet_yellow",
+        "!": "t_carpet_yellow"
+      },
+      "furniture": { "%": "f_rack_wood", "$": "f_rack_wood", "=": "f_table", ",": "f_table", "~": "f_workbench", "!": "f_bookcase" },
+      "items": {
+        "%": [
+          { "item": "guns_rifle_common", "chance": 60, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_rifle_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_pistol_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_pistol_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] }
+        ],
+        "$": [
+          { "item": "guns_smg_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_smg_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_shotgun_common", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_shotgun_rare_static", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_obscure", "chance": 20, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
+        ],
+        ",": [
+          { "item": "mags_pistol_rare", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "mags_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "mags_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] }
+        ],
+        "=": [
+          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
+        ],
+        "~": [
+          { "item": "museum_guns", "chance": 10 },
+          { "item": "tools_common", "chance": 60 },
+          { "item": "gunmod_rare", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "gunmod_common", "chance": 20, "repeat": [ 1, 2 ] }
+        ],
+        "!": [ { "item": "book_gunref", "chance": 60, "repeat": [ 1, 2 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for basements",
+    "nested_mapgen_id": "room_6x6_guns_W",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||",
+        "|%,=!|",
+        "+   ~|",
+        "|Y h~|",
+        "|$  ~|",
+        "||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        " ": "t_floor",
+        "%": "t_floor",
+        "$": "t_floor",
+        "=": "t_floor",
+        ",": "t_floor",
+        "~": "t_floor",
+        "Y": "t_floor",
+        "h": "t_floor",
+        "P": "t_floor",
+        "!": "t_floor"
+      },
+      "furniture": {
+        "%": "f_glass_cabinet",
+        "$": "f_glass_cabinet",
+        "=": "f_table",
+        ",": "f_table",
+        "~": "f_workbench",
+        "!": "f_bookcase"
+      },
+      "items": {
+        "%": [
+          { "item": "guns_rifle_common", "chance": 60, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_rifle_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_pistol_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_pistol_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] }
+        ],
+        "$": [
+          { "item": "guns_smg_rare", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_smg_common", "chance": 50, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_shotgun_common", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_shotgun_rare_static", "chance": 30, "magazine": 100, "repeat": [ 1, 2 ] },
+          { "item": "guns_obscure", "chance": 20, "ammo": 100, "magazine": 100, "repeat": [ 1, 2 ] }
+        ],
+        ",": [
+          { "item": "mags_pistol_rare", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "mags_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "mags_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] }
+        ],
+        "=": [
+          { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_reloaded", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_smg_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_pistol_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_rifle_common", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "ammo_pistol_reloaded", "chance": 60, "repeat": [ 1, 2 ] }
+        ],
+        "~": [
+          { "item": "museum_guns", "chance": 10 },
+          { "item": "tools_common", "chance": 60 },
+          { "item": "gunmod_rare", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "gunmod_common", "chance": 20, "repeat": [ 1, 2 ] }
+        ],
+        "!": [ { "item": "book_gunref", "chance": 60, "repeat": [ 1, 2 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "7x7_tent_indoors",
+    "//": "a tent for basements, indoor scenarios",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  K    ",
+        " G %%% ",
+        "   &=% ",
+        "   %%% ",
+        "   G   ",
+        "   0 G ",
+        "     K "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        " ": "t_carpet_green",
+        "K": "t_carpet_green",
+        "G": "t_carpet_green",
+        "%": "t_carpet_green",
+        "=": "t_carpet_green",
+        "&": "t_carpet_green",
+        "0": "t_carpet_green"
+      },
+      "furniture": { "%": "f_canvas_wall", "=": "f_groundsheet", "&": "f_canvas_door", "0": "f_brazier" },
+      "place_items": [
+        { "item": "snacks", "x": 5, "y": 6, "chance": 75 },
+        { "item": "snacks", "x": 2, "y": 0, "chance": 75 },
+        { "item": "camping", "x": 4, "y": 2, "chance": 30, "repeat": [ 1, 3 ] },
+        { "item": "stash_wood", "x": 4, "y": 4, "chance": 100, "repeat": [ 6, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_7x7_recroom_N",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||+|||",
+        "|y   =|",
+        "|H   x|",
+        "|H   x|",
+        "| h  =|",
+        "|Trr %|",
+        "|||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        " ": "t_carpet_green",
+        "y": "t_carpet_green",
+        "H": "t_carpet_green",
+        "h": "t_carpet_green",
+        "r": "t_carpet_green",
+        "%": "t_carpet_green",
+        "T": "t_carpet_green",
+        "=": "t_carpet_green",
+        "R": "t_carpet_green",
+        "x": "t_carpet_green"
+      },
+      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "=": "f_speaker_cabinet" },
+      "place_loot": [
+        { "item": "stereo", "x": 5, "y": 2, "chance": 100 },
+        { "item": "television", "x": 5, "y": 3, "chance": 75 },
+        { "item": "laptop", "x": 2, "y": 5, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_7x7_recroom_N",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|::!::|",
+        "|T   =|",
+        "|&A  x|",
+        "|s A x|",
+        "|&A A=|",
+        "|Y%s%y|",
+        "|||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "!": "t_door_glass_c",
+        " ": "t_carpet_purple",
+        "y": "t_carpet_purple",
+        "&": "t_carpet_purple",
+        "A": "t_carpet_purple",
+        "Y": "t_carpet_purple",
+        "%": "t_carpet_purple",
+        "T": "t_carpet_purple",
+        "=": "t_carpet_purple",
+        "x": "t_carpet_purple"
+      },
+      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "place_loot": [ { "item": "stereo", "x": 5, "y": 2, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_7x7_recroom_S",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||",
+        "|y   =|",
+        "|H   x|",
+        "|H   x|",
+        "| h  =|",
+        "|Trr %|",
+        "||||+||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        " ": "t_carpet_green",
+        "y": "t_carpet_green",
+        "H": "t_carpet_green",
+        "h": "t_carpet_green",
+        "r": "t_carpet_green",
+        "T": "t_carpet_green",
+        "=": "t_carpet_green",
+        "%": "t_carpet_green",
+        "R": "t_carpet_green",
+        "x": "t_carpet_green"
+      },
+      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "=": "f_speaker_cabinet" },
+      "place_loot": [
+        { "item": "stereo", "x": 5, "y": 2, "chance": 100 },
+        { "item": "television", "x": 5, "y": 3, "chance": 75 },
+        { "item": "laptop", "x": 2, "y": 5, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_7x7_recroom_S",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||",
+        "|T%s%=|",
+        "|&A  x|",
+        "|s A x|",
+        "|&A A=|",
+        "|Y   y|",
+        "|::!::|"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "!": "t_door_glass_c",
+        " ": "t_carpet_green",
+        "y": "t_carpet_green",
+        "&": "t_carpet_green",
+        "A": "t_carpet_green",
+        "Y": "t_carpet_green",
+        "%": "t_carpet_green",
+        "T": "t_carpet_green",
+        "=": "t_carpet_green",
+        "x": "t_carpet_green"
+      },
+      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "place_loot": [ { "item": "stereo", "x": 5, "y": 2, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_7x7_recroom_E",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||",
+        "|x  HH|",
+        "|x  lH|",
+        "|=    +",
+        "| h  Y|",
+        "|Trr%=|",
+        "|||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        " ": "t_carpet_green",
+        "y": "t_carpet_green",
+        "H": "t_carpet_green",
+        "h": "t_carpet_green",
+        "r": "t_carpet_green",
+        "T": "t_carpet_green",
+        "=": "t_carpet_green",
+        "Y": "t_carpet_green",
+        "%": "t_carpet_green",
+        "l": "t_carpet_green",
+        "R": "t_carpet_green",
+        "x": "t_carpet_green"
+      },
+      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "=": "f_speaker_cabinet" },
+      "place_loot": [
+        { "item": "stereo", "x": 1, "y": 1, "chance": 100 },
+        { "item": "television", "x": 1, "y": 2, "chance": 75 },
+        { "item": "laptop", "x": 2, "y": 5, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_7x7_recroom_E",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||",
+        "|T%s%A:",
+        "|&A A :",
+        "|s    !",
+        "|&A   :",
+        "|Y=x=y:",
+        "|||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "!": "t_door_glass_c",
+        " ": "t_carpet_red",
+        "y": "t_carpet_red",
+        "&": "t_carpet_red",
+        "A": "t_carpet_red",
+        "Y": "t_carpet_red",
+        "%": "t_carpet_red",
+        "T": "t_carpet_red",
+        "=": "t_carpet_red",
+        "x": "t_carpet_red"
+      },
+      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "place_loot": [ { "item": "stereo", "x": 3, "y": 5, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_7x7_recroom_W",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||",
+        "|x =HH|",
+        "|x  lH|",
+        "+    =|",
+        "| h   |",
+        "|Trr %|",
+        "|||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        " ": "t_carpet_green",
+        "y": "t_carpet_green",
+        "H": "t_carpet_green",
+        "l": "t_carpet_green",
+        "T": "t_carpet_green",
+        "=": "t_carpet_green",
+        "h": "t_carpet_green",
+        "r": "t_carpet_green",
+        "%": "t_carpet_green",
+        "R": "t_carpet_green",
+        "x": "t_carpet_green"
+      },
+      "furniture": { "%": [ "f_floor_canvas", "f_arcade_machine", "f_pinball_machine" ], "=": "f_speaker_cabinet" },
+      "place_loot": [
+        { "item": "stereo", "x": 1, "y": 1, "chance": 100 },
+        { "item": "television", "x": 1, "y": 2, "chance": 75 },
+        { "item": "laptop", "x": 2, "y": 5, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "room_7x7_recroom_W",
+    "//": "an entertainment area for various recreations",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||",
+        ":T%s% |",
+        ": A A&|",
+        "!    s|",
+        ":   A&|",
+        ":Y=x=y|",
+        "|||||||"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "!": "t_door_glass_c",
+        " ": "t_carpet_red",
+        "y": "t_carpet_red",
+        "&": "t_carpet_red",
+        "A": "t_carpet_red",
+        "Y": "t_carpet_red",
+        "%": "t_carpet_red",
+        "T": "t_carpet_red",
+        "=": "t_carpet_red",
+        "x": "t_carpet_red"
+      },
+      "furniture": { "%": "f_arcade_machine", "=": "f_speaker_cabinet", "&": "f_pinball_machine" },
+      "place_loot": [ { "item": "stereo", "x": 3, "y": 5, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_holdout_N",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "%% %%",
+        "%   %",
+        "%  G%",
+        "%=KK%",
+        "%%%%%"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { "%": "f_earthbag_wall" },
+      "traps": { "=": "tr_rollmat" },
+      "place_loot": [
+        { "item": "sleeping_bag", "x": 1, "y": 3, "chance": 100, "repeat": [ 1, 2 ] },
+        { "group": "alcohol_bottled_canned", "x": [ 2, 3 ], "y": 3, "chance": 80 },
+        { "group": "stash_food", "x": [ 2, 3 ], "y": 3, "chance": 30, "repeat": [ 2, 3 ] },
+        { "group": "roof_holdout", "x": [ 2, 3 ], "y": 3, "chance": 70, "repeat": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_holdout_S",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "%%%%%",
+        "%GKK%",
+        "%   %",
+        "%=  %",
+        "%% %%"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { "%": "f_earthbag_wall" },
+      "traps": { "=": "tr_rollmat" },
+      "place_loot": [
+        { "item": "sleeping_bag", "x": 1, "y": 3, "chance": 100, "repeat": [ 1, 2 ] },
+        { "group": "alcohol_bottled_canned", "x": [ 2, 3 ], "y": 1, "chance": 80 },
+        { "group": "stash_food", "x": [ 2, 3 ], "y": 1, "chance": 30, "repeat": [ 2, 3 ] },
+        { "group": "roof_holdout", "x": [ 2, 3 ], "y": 1, "chance": 70, "repeat": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_holdout_E",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "%%%%%",
+        "%GKK%",
+        "%    ",
+        "%=  %",
+        "%%%%%"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { "%": "f_sandbag_wall" },
+      "traps": { "=": "tr_rollmat" },
+      "place_loot": [
+        { "item": "sleeping_bag", "x": 1, "y": 3, "chance": 100, "repeat": [ 1, 2 ] },
+        { "group": "alcohol_bottled_canned", "x": [ 2, 3 ], "y": 1, "chance": 80 },
+        { "group": "stash_food", "x": [ 2, 3 ], "y": 1, "chance": 30, "repeat": [ 2, 3 ] },
+        { "group": "roof_holdout", "x": [ 2, 3 ], "y": 1, "chance": 70, "repeat": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_holdout_W",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "%%%%%",
+        "%GKK%",
+        "    %",
+        "%=  %",
+        "%%%%%"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "furniture": { "%": "f_sandbag_wall" },
+      "traps": { "=": "tr_rollmat" },
+      "place_loot": [
+        { "item": "sleeping_bag", "x": 1, "y": 3, "chance": 100, "repeat": [ 1, 2 ] },
+        { "group": "alcohol_bottled_canned", "x": [ 2, 3 ], "y": 1, "chance": 80 },
+        { "group": "stash_food", "x": [ 2, 3 ], "y": 1, "chance": 30, "repeat": [ 2, 3 ] },
+        { "group": "roof_holdout", "x": [ 2, 3 ], "y": 1, "chance": 70, "repeat": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_sauna_N",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "%%&:%",
+        "%i  %",
+        "%i 0%",
+        "%iii%",
+        "%%%%%"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor", " ": "t_floor", "0": "t_floor" },
+      "furniture": { "0": "f_brazier" },
+      "place_loot": [
+        { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
+        { "item": "charcoal", "x": 3, "y": 2, "chance": 100, "repeat": [ 3, 10 ] },
+        { "item": "bucket", "x": 3, "y": 1, "chance": 100 },
+        { "item": "water_clean", "x": 1, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_sauna_S",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "%%%%%",
+        "%iii%",
+        "%i 0%",
+        "%i  %",
+        "%%&:%"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor", " ": "t_floor", "0": "t_floor" },
+      "furniture": { "0": "f_brazier" },
+      "place_loot": [
+        { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
+        { "item": "charcoal", "x": 3, "y": 2, "chance": 100, "repeat": [ 3, 10 ] },
+        { "item": "bucket", "x": 3, "y": 3, "chance": 100 },
+        { "item": "water_clean", "x": 1, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_sauna_E",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "%%%%%",
+        "%i0 :",
+        "%i  &",
+        "%iii%",
+        "%%%%%"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor", " ": "t_floor", "0": "t_floor" },
+      "furniture": { "0": "f_brazier" },
+      "place_loot": [
+        { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
+        { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
+        { "item": "bucket", "x": 3, "y": 1, "chance": 100 },
+        { "item": "water_clean", "x": 1, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_sauna_W",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "%%%%%",
+        ": 0i%",
+        "&  i%",
+        "%iii%",
+        "%%%%%"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "%": "t_wall_wood", "&": "t_door_glass_c", "i": "t_floor", " ": "t_floor", "0": "t_floor" },
+      "furniture": { "0": "f_brazier" },
+      "place_loot": [
+        { "item": "towel", "x": 3, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
+        { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
+        { "item": "bucket", "x": 1, "y": 1, "chance": 100 },
+        { "item": "water_clean", "x": 3, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_pool",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "y   y",
+        " === ",
+        " === ",
+        " === ",
+        "y   y"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": { "=": "t_water_pool", " ": "t_floor_blue", "y": "t_floor_blue" },
+      "furniture": { "y": [ "f_indoor_plant_y", "f_indoor_plant" ] },
+      "place_loot": [ { "item": "towel", "x": 0, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_gym_N",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "% ccc",
+        "     ",
+        "  = =",
+        "= =  ",
+        "B  B "
+      ],
+      "terrain": {
+        " ": "t_carpet_purple",
+        "!": "t_carpet_purple",
+        "@": "t_carpet_purple",
+        "V": "t_carpet_purple",
+        "B": "t_carpet_purple",
+        "c": "t_carpet_purple",
+        "%": "t_carpet_purple",
+        "O": "t_carpet_purple",
+        "=": "t_carpet_purple"
+      },
+      "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
+      "traps": { "=": "tr_rollmat" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_gym_S",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "B  B ",
+        "  =  ",
+        "=  = ",
+        "     ",
+        "ccc %"
+      ],
+      "terrain": {
+        " ": "t_carpet_green",
+        "!": "t_carpet_green",
+        "@": "t_carpet_green",
+        "V": "t_carpet_green",
+        "B": "t_carpet_green",
+        "c": "t_carpet_green",
+        "O": "t_carpet_green",
+        "%": "t_carpet_green",
+        "=": "t_carpet_green"
+      },
+      "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
+      "traps": { "=": "tr_rollmat" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_gym_E",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "% ccc",
+        "     ",
+        " =  =",
+        "   = ",
+        "B  B "
+      ],
+      "terrain": {
+        " ": "t_carpet_yellow",
+        "!": "t_carpet_yellow",
+        "@": "t_carpet_yellow",
+        "V": "t_carpet_yellow",
+        "B": "t_carpet_yellow",
+        "c": "t_carpet_yellow",
+        "%": "t_carpet_yellow",
+        "O": "t_carpet_yellow",
+        "=": "t_carpet_yellow"
+      },
+      "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
+      "traps": { "=": "tr_rollmat" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_gym_W",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "B  B ",
+        "  =  ",
+        "=  = ",
+        "     ",
+        "cc  %"
+      ],
+      "terrain": {
+        " ": "t_carpet_red",
+        "!": "t_carpet_red",
+        "@": "t_carpet_red",
+        "V": "t_carpet_red",
+        "B": "t_carpet_red",
+        "c": "t_carpet_red",
+        "O": "t_carpet_red",
+        "%": "t_carpet_red",
+        "=": "t_carpet_red"
+      },
+      "furniture": { "%": "f_floor_canvas", "c": "f_bench", "B": "f_bigmirror" },
+      "traps": { "=": "tr_rollmat" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_gym_N",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "        ",
+        " ! @ V  ",
+        "        ",
+        "1    c  ",
+        "     c  ",
+        "       =",
+        "      = ",
+        "      B "
+      ],
+      "terrain": {
+        " ": "t_carpet_purple",
+        "!": "t_carpet_purple",
+        "@": "t_carpet_purple",
+        "V": "t_carpet_purple",
+        "B": "t_carpet_purple",
+        "c": "t_carpet_purple",
+        "O": "t_carpet_purple",
+        "=": "t_carpet_purple"
+      },
+      "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
+      "traps": { "=": "tr_rollmat" },
+      "nested": { "1": { "chunks": [ [ "5x5_sauna_N", 50 ], [ "5x5_pool", 50 ], [ "5x5_gym_N", 250 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_gym_S",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "B  1    ",
+        " =c     ",
+        "= c     ",
+        "        ",
+        "        ",
+        "        ",
+        " ! @ V  ",
+        "        "
+      ],
+      "terrain": {
+        " ": "t_carpet_green",
+        "!": "t_carpet_green",
+        "@": "t_carpet_green",
+        "V": "t_carpet_green",
+        "B": "t_carpet_green",
+        "c": "t_carpet_green",
+        "O": "t_carpet_green",
+        "=": "t_carpet_green"
+      },
+      "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
+      "traps": { "=": "tr_rollmat" },
+      "nested": { "1": { "chunks": [ [ "5x5_sauna_S", 50 ], [ "5x5_pool", 50 ], [ "5x5_gym_S", 250 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_gym_E",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "        ",
+        " ! @ V  ",
+        "        ",
+        "1       ",
+        "        ",
+        "       =",
+        "      = ",
+        "      B "
+      ],
+      "terrain": {
+        " ": "t_carpet_yellow",
+        "!": "t_carpet_yellow",
+        "@": "t_carpet_yellow",
+        "V": "t_carpet_yellow",
+        "B": "t_carpet_yellow",
+        "c": "t_carpet_yellow",
+        "O": "t_carpet_yellow",
+        "=": "t_carpet_yellow"
+      },
+      "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
+      "traps": { "=": "tr_rollmat" },
+      "nested": { "1": { "chunks": [ [ "5x5_sauna_E", 50 ], [ "5x5_pool", 50 ], [ "5x5_gym_E", 250 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_gym_W",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "B  1    ",
+        " =      ",
+        "=       ",
+        "        ",
+        "        ",
+        "        ",
+        " ! @ V c",
+        "       c"
+      ],
+      "terrain": {
+        " ": "t_carpet_red",
+        "!": "t_carpet_red",
+        "@": "t_carpet_red",
+        "V": "t_carpet_red",
+        "B": "t_carpet_red",
+        "c": "t_carpet_red",
+        "O": "t_carpet_red",
+        "=": "t_carpet_red"
+      },
+      "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
+      "traps": { "=": "tr_rollmat" },
+      "nested": { "1": { "chunks": [ [ "5x5_sauna_W", 50 ], [ "5x5_pool", 50 ], [ "5x5_gym_W", 250 ] ] } }
+    }
   }
 ]

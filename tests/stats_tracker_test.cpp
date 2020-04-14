@@ -245,6 +245,9 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         b.send( avatar_zombie_kill );
         REQUIRE( achievement_completed != nullptr );
         CHECK( achievement_completed->id.str() == "achievement_kill_zombie" );
+        CHECK( a.ui_text_for( achievement_completed ) ==
+               "<color_c_light_green>One down, billions to go…</color>\n"
+               "  <color_c_green>1/1 Number of zombies killed</color>\n" );
     }
 }
 
