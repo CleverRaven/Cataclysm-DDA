@@ -2676,7 +2676,7 @@ void game::death_screen()
 {
     gamemode->game_over();
     Messages::display_messages();
-    show_scores_ui( stats(), get_kill_tracker() );
+    show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
     disp_NPC_epilogues();
     follower_ids.clear();
     display_faction_epilogues();

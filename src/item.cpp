@@ -572,7 +572,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( ammo == "null" && ammo_types().empty() ) || is_money() ) {
+    if( ( ( ammo == "null" || ammo == "NULL" ) && ammo_types().empty() ) || is_money() ) {
         if( ( is_tool() || is_gun() ) && magazine_integral() ) {
             curammo = nullptr;
             charges = std::min( qty, ammo_capacity() );
@@ -8048,7 +8048,10 @@ bool item::allow_crafting_component() const
     // fixes #18886 - turret installation may require items with irremovable mods
     if( is_gun() ) {
         bool valid = true;
-        visit_items( [&valid]( const item * it ) {
+        visit_items( [&]( const item * it ) {
+            if( this == it ) {
+                return VisitResponse::NEXT;
+            }
             if( !( it->is_magazine() || ( it->is_gunmod() && it->is_irremovable() ) ) ) {
                 valid = false;
                 return VisitResponse::ABORT;
