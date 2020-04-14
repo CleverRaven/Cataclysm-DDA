@@ -6,6 +6,8 @@
 
 English version (broken english warning!!)
 
+プルリクテストその５
+
 [https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_jp/README_en.md](https://github.com/roloa/Cataclysm-DDA_variant/blob/variant_jp/README_en.md)
 
 ## これはなに？
