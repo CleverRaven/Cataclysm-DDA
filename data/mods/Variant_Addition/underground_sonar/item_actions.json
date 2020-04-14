@@ -1,0 +1,7 @@
+[
+  {
+    "type": "item_action",
+    "id": "UNDERGROUND_SONAR",
+    "name": { "str": "detect cave" }
+  }
+]
