@@ -1563,7 +1563,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
 
     if( parts->test( iteminfo_parts::MED_PORTIONS ) ) {
         info.push_back( iteminfo( "MED", _( "Portions: " ),
-                                  abs( static_cast<int>( med_item->charges ) * batch ) ) );
+                                  std::abs( static_cast<int>( med_item->charges ) * batch ) ) );
     }
 
     if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
@@ -1620,7 +1620,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( parts->test( iteminfo_parts::FOOD_PORTIONS ) ) {
         info.push_back( iteminfo( "FOOD", _( "Portions: " ),
-                                  abs( static_cast<int>( food_item->charges ) * batch ) ) );
+                                  std::abs( static_cast<int>( food_item->charges ) * batch ) ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
         ( debug || ( g != nullptr && ( g->u.has_trait( trait_CARNIVORE ) ||
@@ -2008,7 +2008,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     return e.second.qty > 1 && !e.second.melee();
     } ) ) {
         info.emplace_back( "GUN", _( "Recommended strength (burst): " ), "",
-                           iteminfo::lower_is_better, ceil( mod->type->weight / 333.0_gram ) );
+                           iteminfo::lower_is_better, std::ceil( mod->type->weight / 333.0_gram ) );
     }
 
     if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
@@ -6519,7 +6519,7 @@ double item::calculate_by_enchantment( const Character &owner, double modify,
     modify += add_value;
     modify *= mult_value;
     if( round_value ) {
-        modify = round( modify );
+        modify = std::round( modify );
     }
     return modify;
 }
@@ -6538,7 +6538,7 @@ double item::calculate_by_enchantment_wield( double modify, enchantment::mod val
     modify += add_value;
     modify *= mult_value;
     if( round_value ) {
-        modify = round( modify );
+        modify = std::round( modify );
     }
     return modify;
 }
@@ -6852,7 +6852,7 @@ int item::gun_recoil( const player &p, bool bipod ) const
     handling /= 10;
 
     // algorithm is biased so heavier weapons benefit more from improved handling
-    handling = pow( wt, 0.8 ) * pow( handling, 1.2 );
+    handling = std::pow( wt, 0.8 ) * std::pow( handling, 1.2 );
 
     int qty = type->gun->recoil;
     if( ammo_data() ) {
@@ -8806,7 +8806,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
         // Was solid.
         new_item_temperature = ( - temperature_difference
-                                 * exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass * specific_heat_solid ) )
+                                 * std::exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass * specific_heat_solid ) )
                                  + env_temperature );
         new_specific_energy = new_item_temperature * specific_heat_solid;
         if( new_item_temperature > freezing_temperature + 0.5 ) {
@@ -8815,7 +8815,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
             // Calculate how long the item was solid
             // and apply rest of the time as melting
             extra_time = to_turns<int>( time_delta )
-                         - log( - temperature_difference / ( freezing_temperature - env_temperature ) )
+                         - std::log( - temperature_difference / ( freezing_temperature - env_temperature ) )
                          * ( mass * specific_heat_solid / conductivity_term );
             new_specific_energy = completely_frozen_specific_energy
                                   + conductivity_term
@@ -8833,8 +8833,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     } else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
         // Was liquid.
         new_item_temperature = ( - temperature_difference
-                                 * exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass *
-                                         specific_heat_liquid ) )
+                                 * std::exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass *
+                                             specific_heat_liquid ) )
                                  + env_temperature );
         new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid +
                               completely_liquid_specific_energy;
@@ -8844,7 +8844,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
             // Calculate how long the item was liquid
             // and apply rest of the time as freezing
             extra_time = to_turns<int>( time_delta )
-                         - log( - temperature_difference / ( freezing_temperature - env_temperature ) )
+                         - std::log( - temperature_difference / ( freezing_temperature - env_temperature ) )
                          * ( mass * specific_heat_liquid / conductivity_term );
             new_specific_energy = completely_liquid_specific_energy
                                   + conductivity_term
@@ -8872,8 +8872,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
                          *
                          ( completely_liquid_specific_energy - 0.00001 * specific_energy );
             new_item_temperature = ( ( freezing_temperature - env_temperature )
-                                     * exp( - extra_time * conductivity_term / ( mass *
-                                             specific_heat_liquid ) )
+                                     * std::exp( - extra_time * conductivity_term / ( mass *
+                                                 specific_heat_liquid ) )
                                      + env_temperature );
             new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid +
                                   completely_liquid_specific_energy;
@@ -8885,8 +8885,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
                          *
                          ( completely_frozen_specific_energy - 0.00001 * specific_energy );
             new_item_temperature = ( ( freezing_temperature - env_temperature )
-                                     * exp( -  extra_time * conductivity_term / ( mass *
-                                             specific_heat_solid ) )
+                                     * std::exp( -  extra_time * conductivity_term / ( mass *
+                                                 specific_heat_solid ) )
                                      + env_temperature );
             new_specific_energy = new_item_temperature * specific_heat_solid;
         }

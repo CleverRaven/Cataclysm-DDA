@@ -1702,9 +1702,9 @@ std::string points_left::to_string()
                    _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
                    stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
                    trait_points >= 0 ? '+' : '-',
-                   trait_points_left() >= 0 ? "light_gray" : "red", abs( trait_points ),
+                   trait_points_left() >= 0 ? "light_gray" : "red", std::abs( trait_points ),
                    skill_points >= 0 ? '+' : '-',
-                   skill_points_left() >= 0 ? "light_gray" : "red", abs( skill_points ),
+                   skill_points_left() >= 0 ? "light_gray" : "red", std::abs( skill_points ),
                    is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
     } else if( limit == ONE_POOL ) {
         return string_format( _( "Points left: %4d" ), skill_points_left() );

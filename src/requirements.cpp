@@ -117,7 +117,7 @@ std::string tool_comp::to_string( const int batch, const int ) const
                                          count * batch ),
                               item::nname( type ), count * batch );
     } else {
-        return item::nname( type, abs( count ) );
+        return item::nname( type, std::abs( count ) );
     }
 }
 
@@ -828,7 +828,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
         }
         // This item can be used for the quality requirement, same as above for specific
         // tools applies.
-        if( !crafting_inv.has_quality( qr->type, qr->level, qr->count + abs( comp.count ) ) ) {
+        if( !crafting_inv.has_quality( qr->type, qr->level, qr->count + std::abs( comp.count ) ) ) {
             comp.available = a_insufficent;
         }
     }

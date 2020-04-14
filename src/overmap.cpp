@@ -2763,22 +2763,22 @@ void overmap::place_river( point pa, point pb )
         }
         if( pb.x > x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < pb.x - x ||
                           ( rng( 0, int( OMAPX * .2 ) - 1 ) > pb.x - x &&
-                            rng( 0, int( OMAPY * .2 ) - 1 ) > abs( pb.y - y ) ) ) ) {
+                            rng( 0, int( OMAPY * .2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
             x++;
         }
         if( pb.x < x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < x - pb.x ||
                           ( rng( 0, int( OMAPX * .2 ) - 1 ) > x - pb.x &&
-                            rng( 0, int( OMAPY * .2 ) - 1 ) > abs( pb.y - y ) ) ) ) {
+                            rng( 0, int( OMAPY * .2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
             x--;
         }
         if( pb.y > y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < pb.y - y ||
                           ( rng( 0, int( OMAPY * .2 ) - 1 ) > pb.y - y &&
-                            rng( 0, int( OMAPX * .2 ) - 1 ) > abs( x - pb.x ) ) ) ) {
+                            rng( 0, int( OMAPX * .2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
             y++;
         }
         if( pb.y < y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < y - pb.y ||
                           ( rng( 0, int( OMAPY * .2 ) - 1 ) > y - pb.y &&
-                            rng( 0, int( OMAPX * .2 ) - 1 ) > abs( x - pb.x ) ) ) ) {
+                            rng( 0, int( OMAPX * .2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
             y--;
         }
         x += rng( -1, 1 );
@@ -2800,7 +2800,7 @@ void overmap::place_river( point pa, point pb )
                 // We don't want our riverbanks touching the edge of the map for many reasons
                 if( inbounds( tripoint( x + j, y + i, 0 ), 1 ) ||
                     // UNLESS, of course, that's where the river is headed!
-                    ( abs( pb.y - ( y + i ) ) < 4 && abs( pb.x - ( x + j ) ) < 4 ) ) {
+                    ( std::abs( pb.y - ( y + i ) ) < 4 && std::abs( pb.x - ( x + j ) ) < 4 ) ) {
                     tripoint p( x + j, y + i, 0 );
                     if( !inbounds( p ) ) {
                         continue;
@@ -3939,7 +3939,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
                     if( !inbounds( nearby_pos ) ) {
                         continue;
                     }
-                    if( one_in( 1 + abs( x ) + abs( y ) ) && elem.can_be_placed_on( ter( nearby_pos ) ) ) {
+                    if( one_in( 1 + std::abs( x ) + std::abs( y ) ) && elem.can_be_placed_on( ter( nearby_pos ) ) ) {
                         ter_set( nearby_pos, tid );
                     }
                 }

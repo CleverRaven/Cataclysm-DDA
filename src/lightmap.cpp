@@ -1444,8 +1444,8 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
 void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                            const tripoint &s, const tripoint &e, float luminance )
 {
-    int ax = abs( e.x - s.x ) * 2;
-    int ay = abs( e.y - s.y ) * 2;
+    int ax = std::abs( e.x - s.x ) * 2;
+    int ay = std::abs( e.y - s.y ) * 2;
     int dx = ( s.x < e.x ) ? 1 : -1;
     int dy = ( s.y < e.y ) ? 1 : -1;
     int x = s.x;

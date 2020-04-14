@@ -1053,13 +1053,13 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         line++;
     }
     if( you.get_thirst() > 40 ) {
-        pen = abs( player::thirst_speed_penalty( you.get_thirst() ) );
+        pen = std::abs( player::thirst_speed_penalty( you.get_thirst() ) );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
         line++;
     }
     if( you.kcal_speed_penalty() < 0 ) {
-        pen = abs( you.kcal_speed_penalty() );
+        pen = std::abs( you.kcal_speed_penalty() );
         const std::string inanition = you.get_bmi() < character_weight_category::underweight ?
                                       _( "Starving" ) : _( "Underfed" );
         //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
@@ -1372,8 +1372,8 @@ void player::disp_info()
         nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
         mvwprintz( w_speed, point( 1, line ), col, "%s", speed_effect.first );
         mvwprintz( w_speed, point( 21, line ), col, ( speed_effect.second > 0 ? "+" : "-" ) );
-        mvwprintz( w_speed, point( abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
-                   abs( speed_effect.second ) );
+        mvwprintz( w_speed, point( std::abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
+                   std::abs( speed_effect.second ) );
         line++;
     }
 

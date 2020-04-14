@@ -685,11 +685,9 @@ int Character::sight_range( int light_level ) const
      * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
-    int range = static_cast<int>( -log( get_vision_threshold( static_cast<int>( g->m.ambient_light_at(
-                                            pos() ) ) ) /
-                                        static_cast<float>( light_level ) ) *
+    int range = static_cast<int>( -std::log( get_vision_threshold( static_cast<int>
+                                  ( g->m.ambient_light_at( pos() ) ) ) / static_cast<float>( light_level ) ) *
                                   ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
-    // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
 
     // Clamp to [1, sight_max].
     return clamp( range, 1, sight_max );
@@ -1687,7 +1685,7 @@ void Character::recalc_sight_limits()
 static float threshold_for_range( float range )
 {
     constexpr float epsilon = 0.01f;
-    return LIGHT_AMBIENT_MINIMAL / exp( range * LIGHT_TRANSPARENCY_OPEN_AIR ) - epsilon;
+    return LIGHT_AMBIENT_MINIMAL / std::exp( range * LIGHT_TRANSPARENCY_OPEN_AIR ) - epsilon;
 }
 
 float Character::get_vision_threshold( float light_level ) const
@@ -2616,8 +2614,8 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     }
     // Exclude wielded item if using lifting tool
     if( weaponweight + ret > weight_capacity() ) {
-        const float liftrequirement = ceil( units::to_gram<float>( weaponweight ) / units::to_gram<float>
-                                            ( TOOL_LIFT_FACTOR ) );
+        const float liftrequirement = std::ceil( units::to_gram<float>( weaponweight ) /
+                                      units::to_gram<float>( TOOL_LIFT_FACTOR ) );
         if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
             ret += weaponweight;
         }
@@ -4454,7 +4452,7 @@ void Character::update_health( int external_modifiers )
     // For small differences, it changes 4 points per day
     // For large ones, up to ~40% of the difference per day
     int health_change = effective_healthy_mod - get_healthy() + external_modifiers;
-    mod_healthy( sgn( health_change ) * std::max( 1, abs( health_change ) / 10 ) );
+    mod_healthy( sgn( health_change ) * std::max( 1, std::abs( health_change ) / 10 ) );
 
     // And healthy_mod decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
@@ -5133,7 +5131,7 @@ void Character::update_bodytemp()
     int vehwindspeed = 0;
     const optional_vpart_position vp = g->m.veh_at( pos() );
     if( vp ) {
-        vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
+        vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
@@ -5247,8 +5245,8 @@ void Character::update_bodytemp()
             frostbite_timer[bp] -= std::max( 5, h_radiation );
         }
         // 111F (44C) is a temperature in which proteins break down: https://en.wikipedia.org/wiki/Burn
-        blister_count += h_radiation - 111 > 0 ? std::max( static_cast<int>( sqrt( h_radiation - 111 ) ),
-                         0 ) : 0;
+        blister_count += h_radiation - 111 > 0 ?
+                         std::max( static_cast<int>( std::sqrt( h_radiation - 111 ) ), 0 ) : 0;
 
         const bool pyromania = has_trait( trait_PYROMANIA );
         // BLISTERS : Skin gets blisters from intense heat exposure.
@@ -5414,7 +5412,8 @@ void Character::update_bodytemp()
             rounding_error = 1;
         }
         if( temp_cur[bp] != temp_conv[bp] ) {
-            temp_cur[bp] = static_cast<int>( temp_difference * exp( -0.002 ) + temp_conv[bp] + rounding_error );
+            temp_cur[bp] = static_cast<int>( temp_difference * std::exp( -0.002 ) + temp_conv[bp] +
+                                             rounding_error );
         }
         // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
@@ -5428,7 +5427,8 @@ void Character::update_bodytemp()
             }
             if( temp_before != temp_conv[bp] ) {
                 temp_difference = temp_before - temp_conv[bp];
-                temp_cur[bp] = static_cast<int>( temp_difference * exp( -0.002 ) + temp_conv[bp] + rounding_error );
+                temp_cur[bp] = static_cast<int>( temp_difference * std::exp( -0.002 ) + temp_conv[bp] +
+                                                 rounding_error );
             }
         }
         int temp_after = temp_cur[bp];
@@ -6874,7 +6874,7 @@ std::string Character::get_weight_description() const
 
 units::mass Character::bodyweight() const
 {
-    return units::from_kilogram( get_bmi() * pow( height() / 100.0f, 2 ) );
+    return units::from_kilogram( get_bmi() * std::pow( height() / 100.0f, 2 ) );
 }
 
 units::mass Character::bionics_weight() const
@@ -6978,9 +6978,9 @@ int Character::get_bmr() const
     Values are for males, and average!
     */
     const int equation_constant = 5;
-    return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>
-                 ( bodyweight() / 100.0 ) +
-                 ( 6.25 * height() ) - ( 5 * age() ) + equation_constant ) );
+    return std::ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>
+                      ( bodyweight() / 100.0 ) +
+                      ( 6.25 * height() ) - ( 5 * age() ) + equation_constant ) );
 }
 
 void Character::increase_activity_level( float new_level )
@@ -8734,7 +8734,7 @@ void Character::apply_persistent_morale()
         }
         // The penalty starts at 1 at min_time and scales up to max_unhappiness at max_time.
         const float t = ( total_time - min_time ) / ( max_time - min_time );
-        const int pen = ceil( lerp_clamped( 0, max_unhappiness, t ) );
+        const int pen = std::ceil( lerp_clamped( 0, max_unhappiness, t ) );
         if( pen > 0 ) {
             add_morale( MORALE_PERM_NOMAD, -pen, -pen, 1_minutes, 1_minutes, true );
         }
@@ -9297,7 +9297,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
             qty -= std::min( qty, bio );
         }
 
-        int adv = charges_of( "adv_UPS_off", static_cast<int>( ceil( qty * 0.6 ) ) );
+        int adv = charges_of( "adv_UPS_off", static_cast<int>( std::ceil( qty * 0.6 ) ) );
         if( adv > 0 ) {
             std::list<item> found = use_charges( "adv_UPS_off", adv );
             res.splice( res.end(), found );
@@ -9503,7 +9503,7 @@ int Character::heartrate_bpm() const
     //Based on get_max_healthy that already has bmi factored
     const int healthy = get_max_healthy();
     //a bit arbitary formula that can use some love
-    float healthy_modifier = -0.05f * round( healthy / 20.0f );
+    float healthy_modifier = -0.05f * std::round( healthy / 20.0f );
     heartbeat += average_heartbeat * healthy_modifier;
     //Pain simply adds 2% per point after it reaches 5 (that's arbitary)
     const int cur_pain = get_perceived_pain();

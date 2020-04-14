@@ -4210,7 +4210,7 @@ float vehicle::strain() const
     if( velocity < sv && velocity > -sv ) {
         return 0;
     } else {
-        return static_cast<float>( abs( velocity ) - sv ) / static_cast<float>( mv - sv );
+        return static_cast<float>( std::abs( velocity ) - sv ) / static_cast<float>( mv - sv );
     }
 }
 
@@ -4679,7 +4679,7 @@ void vehicle::update_alternator_load()
         }
         alternator_load =
             engine_vpower
-            ? 1000 * ( abs( alternators_power ) + abs( extra_drag ) ) / engine_vpower
+            ? 1000 * ( std::abs( alternators_power ) + std::abs( extra_drag ) ) / engine_vpower
             : 0;
     } else {
         alternator_load = 0;
@@ -4752,7 +4752,7 @@ void vehicle::power_parts()
         charge_battery( delta_energy_bat );
     } else if( epower < 0 ) {
         // draw epower deficit from battery
-        battery_deficit = discharge_battery( abs( delta_energy_bat ) );
+        battery_deficit = discharge_battery( std::abs( delta_energy_bat ) );
     }
 
     if( battery_deficit != 0 ) {
@@ -5304,7 +5304,7 @@ void vehicle::gain_moves()
         }
         of_turn = 1 + of_turn_carry;
         const int vslowdown = slowdown( velocity );
-        if( vslowdown > abs( velocity ) ) {
+        if( vslowdown > std::abs( velocity ) ) {
             if( cruise_on && cruise_velocity && pl_control ) {
                 velocity = velocity > 0 ? 1 : -1;
             } else {
@@ -5689,8 +5689,8 @@ void vehicle::refresh_pivot() const
                   xc_numerator, xc_denominator, yc_numerator, yc_denominator );
         pivot_cache = local_center_of_mass();
     } else {
-        pivot_cache.x = round( xc_numerator / xc_denominator );
-        pivot_cache.y = round( yc_numerator / yc_denominator );
+        pivot_cache.x = std::round( xc_numerator / xc_denominator );
+        pivot_cache.y = std::round( yc_numerator / yc_denominator );
     }
 }
 
@@ -5857,8 +5857,8 @@ void vehicle::set_tow_directions()
 {
     const int length = mount_max.x - mount_min.x + 1;
     const point mount_of_tow = parts[get_tow_part()].mount;
-    const point normalized_tow_mount = point( abs( mount_of_tow.x - mount_min.x ),
-                                       abs( mount_of_tow.y - mount_min.y ) );
+    const point normalized_tow_mount = point( std::abs( mount_of_tow.x - mount_min.x ),
+                                       std::abs( mount_of_tow.y - mount_min.y ) );
     if( length >= 3 ) {
         const int trisect = length / 3;
         if( normalized_tow_mount.x <= trisect ) {
@@ -6655,7 +6655,7 @@ void vehicle::update_time( const time_point &update_to )
             continue;
         }
 
-        double area = pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
+        double area = std::pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
         int qty = roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining() : 0 );
         int cost_to_purify = c_qty * item::find_type( "water_purifier" )->charges_to_use();
@@ -6773,12 +6773,12 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     const float x = xf / mass_cache;
     const float y = yf / mass_cache;
     if( use_precalc ) {
-        mass_center_precalc.x = round( x );
-        mass_center_precalc.y = round( y );
+        mass_center_precalc.x = std::round( x );
+        mass_center_precalc.y = std::round( y );
         mass_center_precalc_dirty = false;
     } else {
-        mass_center_no_precalc.x = round( x );
-        mass_center_no_precalc.y = round( y );
+        mass_center_no_precalc.x = std::round( x );
+        mass_center_no_precalc.y = std::round( y );
         mass_center_no_precalc_dirty = false;
     }
 }
