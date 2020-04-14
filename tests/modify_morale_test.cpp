@@ -1,11 +1,18 @@
-#include "avatar.h"
-#include "character.h"
-#include "game.h"
-#include "map.h"
-#include "morale.h"
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
+#include "game.h"
+#include "item.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "morale_types.h"
+#include "point.h"
+#include "type_id.h"
 
 static const std::string flag_ALLERGEN_JUNK( "ALLERGEN_JUNK" );
 static const std::string flag_CANNIBALISM( "CANNIBALISM" );

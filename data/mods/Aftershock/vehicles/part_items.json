@@ -68,5 +68,16 @@
     "bashing": 2,
     "category": "veh_parts",
     "price": 60000
+  },
+  {
+    "type": "GENERIC",
+    "id": "solar_panel_v3",
+    "name": "quantum solar panel",
+    "description": "This solar panel is obviously cutting-edge technology and given where you found it, should probably provide a LOT of power.  It's covered in strange-looking material, but the covering looks rather fragile; it doesn't look like it could support a reinforcing sheet, either.",
+    "to_hit": -5,
+    "material": [ "glass", "steel" ],
+    "volume": "4500 ml",
+    "price": 900000,
+    "copy-from": "solar_panel"
   }
 ]

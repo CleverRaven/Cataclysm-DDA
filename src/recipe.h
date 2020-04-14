@@ -1,21 +1,22 @@
 #pragma once
-#ifndef RECIPE_H
-#define RECIPE_H
+#ifndef CATA_SRC_RECIPE_H
+#define CATA_SRC_RECIPE_H
 
 #include <cstddef>
+#include <functional>
 #include <map>
 #include <set>
-#include <vector>
-#include <functional>
 #include <string>
 #include <utility>
+#include <vector>
 
+#include "optional.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
 
-class item;
 class JsonObject;
+class item;
 class time_duration;
 
 using itype_id = std::string; // From itype.h
@@ -225,4 +226,4 @@ class recipe
         std::vector<std::pair<requirement_id, int>> reqs_blueprint;
 };
 
-#endif // RECIPE_H
+#endif // CATA_SRC_RECIPE_H

@@ -108,6 +108,8 @@
       [ "40_speedloader6", 10 ],
       [ "glock17_17", 14 ],
       [ "glock17_22", 6 ],
+      [ "px4mag", 55 ],
+      [ "px4_40mag", 6 ],
       [ "glockmag", 33 ],
       [ "glock40mag", 7 ],
       [ "m1911mag", 25 ],
@@ -154,10 +156,12 @@
       [ "22_speedloader8", 15 ],
       [ "44_speedloader6", 15 ],
       [ "454_speedloader5", 5 ],
+      [ "454_speedloader6", 5 ],
       [ "500_speedloader5", 5 ],
       [ "8x40_speedloader5", 5 ],
       [ "glock_drum_50rd", 5 ],
       [ "glock_drum_100rd", 5 ],
+      [ "90two40mag", 5 ],
       [ "deaglemag", 40 ],
       [ "fn57mag", 80 ],
       [ "glockbigmag", 60 ],
@@ -216,7 +220,8 @@
       [ "stanag10", 30 ],
       [ "ruger30", 20 ],
       [ "stanag30", 10 ],
-      [ "ar10mag_20rd", 30 ]
+      [ "ar10mag_20rd", 30 ],
+      [ "akmag30", 25 ]
     ]
   },
   {
@@ -230,8 +235,10 @@
     "id": "mags_rifle_rare",
     "//": "Aftermarket or otherwise uncommon rifle magazines excluding milspec.",
     "items": [
-      [ "akmbigmag", 5 ],
-      [ "akmmag", 25 ],
+      [ "akmag10", 40 ],
+      [ "akmag20", 40 ],
+      [ "akmag40", 40 ],
+      [ "akdrum75", 30 ],
       [ "falmag", 100 ],
       [ "falbigmag", 50 ],
       [ "g3mag", 80 ],

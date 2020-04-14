@@ -1,12 +1,12 @@
 #pragma once
-#ifndef RNG_H
-#define RNG_H
+#ifndef CATA_SRC_RNG_H
+#define CATA_SRC_RNG_H
 
 #include <array>
 #include <functional>
-#include <random>
 #include <iosfwd>
 #include <iterator>
+#include <random>
 #include <type_traits>
 
 #include "optional.h"
@@ -160,8 +160,8 @@ inline V random_entry_removed( C &container )
     return result;
 }
 class map;
-struct tripoint;
 class tripoint_range;
+struct tripoint;
 
 /// Returns a range enclosing all valid points of the map.
 tripoint_range points_in_range( const map &m );
@@ -172,4 +172,4 @@ cata::optional<tripoint> random_point( const tripoint_range &range,
 cata::optional<tripoint> random_point( const map &m,
                                        const std::function<bool( const tripoint & )> &predicate );
 
-#endif
+#endif // CATA_SRC_RNG_H

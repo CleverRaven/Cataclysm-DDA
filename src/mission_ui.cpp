@@ -1,22 +1,23 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <map>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 #include "avatar.h"
-#include "mission.h"
 #include "calendar.h"
+#include "color.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
-#include "input.h"
-#include "output.h"
-#include "npc.h"
-#include "color.h"
 #include "debug.h"
+#include "input.h"
+#include "mission.h"
+#include "npc.h"
+#include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 void game::list_missions()

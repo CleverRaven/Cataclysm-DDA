@@ -1,37 +1,34 @@
-#include <cstdio>
-#include <cstdlib>
-#include <sstream>
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
-#include "game.h"
-#include "itype.h"
-#include "map.h"
-#include "map_helpers.h"
-#include "map_iterator.h"
-#include "test_statistics.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_range.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "enums.h"
-#include "game_constants.h"
+#include "game.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
-#include "mapdata.h"
-#include "units.h"
-#include "type_id.h"
+#include "map.h"
+#include "map_helpers.h"
 #include "point.h"
+#include "test_statistics.h"
+#include "type_id.h"
+#include "units.h"
+#include "veh_type.h"
+#include "vehicle.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 using efficiency_stat = statistics<int>;
 
@@ -43,28 +40,15 @@ static void clear_game( const ter_id &terrain )
     calendar::turn = 0;
     clear_creatures();
     clear_npcs();
+    clear_vehicles();
 
     // Move player somewhere safe
-    CHECK( !g->u.in_vehicle );
+    REQUIRE_FALSE( g->u.in_vehicle );
     g->u.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
     g->u.add_effect( effect_blind, 1_turns, num_bp, true );
 
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
-        g->m.furn_set( p, furn_id( "f_null" ) );
-        g->m.ter_set( p, terrain );
-        g->m.trap_set( p, trap_id( "tr_null" ) );
-        g->m.i_clear( p );
-    }
-
-    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint_zero, tripoint( MAPSIZE * SEEX,
-            MAPSIZE * SEEY, 0 ) ) ) {
-        g->m.destroy_vehicle( veh.v );
-    }
-
-    g->m.invalidate_map_cache( 0 );
-    g->m.build_map_cache( 0, true );
+    build_test_map( terrain );
 }
 
 // Returns how much fuel did it provide

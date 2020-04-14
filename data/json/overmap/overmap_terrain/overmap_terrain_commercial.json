@@ -3272,5 +3272,75 @@
     "name": "urban city block",
     "copy-from": "generic_city_building",
     "color": "light_blue"
+  },
+  {
+    "id": "urban_14_1",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "id": "urban_14_2",
+    "type": "overmap_terrain",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "id": "urban_14_3",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_14_4",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_14_5",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_14_6",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_14_7",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_14_8",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_14_9",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_14_10",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_14_11",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_14_12",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_14_13",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
+  },
+  {
+    "id": "urban_14_14",
+    "type": "overmap_terrain",
+    "copy-from": "urban_13_3"
   }
 ]

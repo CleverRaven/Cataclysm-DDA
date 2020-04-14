@@ -1,19 +1,20 @@
 #include "weather_gen.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
+#include <ostream>
 #include <random>
 #include <string>
-#include <chrono>
 
-#include "game_constants.h"
 #include "cata_utility.h"
+#include "game_constants.h"
 #include "json.h"
 #include "math_defines.h"
+#include "point.h"
 #include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"
-#include "point.h"
 
 namespace
 {
@@ -145,7 +146,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         10 * ( -seasonality + 2 );
 
     // Wind power
-    W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 )  / pow( ( P + W ) / 1014.78, rng( 9,
+    W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 )  / std::pow( ( P + W ) / 1014.78, rng( 9,
                                        base_wind_distrib_peaks ) ) +
                                        -cyf / base_wind_season_variation * rng( 1, 2 ) ) );
     // Initial static variable

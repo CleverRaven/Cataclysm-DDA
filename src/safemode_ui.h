@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SAFEMODE_UI_H
-#define SAFEMODE_UI_H
+#ifndef CATA_SRC_SAFEMODE_UI_H
+#define CATA_SRC_SAFEMODE_UI_H
 
 #include <string>
 #include <unordered_map>
@@ -114,4 +114,4 @@ class safemode
 
 safemode &get_safemode();
 
-#endif
+#endif // CATA_SRC_SAFEMODE_UI_H

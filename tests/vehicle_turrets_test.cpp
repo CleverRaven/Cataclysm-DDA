@@ -4,21 +4,21 @@
 #include <utility>
 #include <vector>
 
+#include "ammo.h"
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "ammo.h"
 #include "game.h"
-#include "itype.h"
-#include "map.h"
-#include "veh_type.h"
-#include "vehicle.h"
 #include "item.h"
 #include "item_location.h"
-#include "optional.h"
-#include "string_id.h"
-#include "units.h"
-#include "type_id.h"
+#include "itype.h"
+#include "map.h"
 #include "point.h"
+#include "string_id.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "veh_type.h"
+#include "vehicle.h"
 
 static std::vector<const vpart_info *> turret_types()
 {

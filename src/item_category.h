@@ -1,16 +1,19 @@
 #pragma once
-#ifndef ITEM_CATEGORY_H
-#define ITEM_CATEGORY_H
+#ifndef CATA_SRC_ITEM_CATEGORY_H
+#define CATA_SRC_ITEM_CATEGORY_H
 
+#include <algorithm>
 #include <string>
+#include <vector>
 
 #include "flat_set.h"
 #include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
-class item;
+class JsonIn;
 class JsonObject;
+class item;
 
 // this is a helper struct with rules for picking a zone
 struct zone_priority_data {
@@ -79,5 +82,5 @@ class item_category
         void load( const JsonObject &jo, const std::string & );
 };
 
-#endif
+#endif // CATA_SRC_ITEM_CATEGORY_H
 

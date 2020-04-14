@@ -1,24 +1,29 @@
 #include "mapdata.h"
 
-#include <unordered_map>
 #include <algorithm>
+#include <cstdlib>
 #include <iterator>
 #include <map>
+#include <memory>
+#include <unordered_map>
 #include <utility>
 
+#include "assign.h"
 #include "calendar.h"
 #include "color.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "int_id.h"
 #include "item_group.h"
+#include "json.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
-#include "assign.h"
-#include "json.h"
 
 static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_TRANSPARENT( "TRANSPARENT" );
@@ -28,8 +33,8 @@ namespace
 
 const units::volume DEFAULT_MAX_VOLUME_IN_SQUARE = units::from_liter( 1000 );
 
-generic_factory<ter_t> terrain_data( "terrain", "id", "aliases" );
-generic_factory<furn_t> furniture_data( "furniture", "id", "aliases" );
+generic_factory<ter_t> terrain_data( "terrain" );
+generic_factory<furn_t> furniture_data( "furniture" );
 
 } // namespace
 
@@ -965,7 +970,8 @@ furn_id f_null,
         f_brazier,
         f_firering,
         f_tourist_table,
-        f_camp_chair;
+        f_camp_chair,
+        f_sign;
 
 void set_furn_ids()
 {
@@ -1080,6 +1086,7 @@ void set_furn_ids()
     f_firering = furn_id( "f_firering" );
     f_tourist_table = furn_id( "f_tourist_table" );
     f_camp_chair = furn_id( "f_camp_chair" );
+    f_sign = furn_id( "f_sign" );
 }
 
 size_t ter_t::count()
@@ -1289,6 +1296,9 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     if( jo.has_object( "plant_data" ) ) {
         plant = cata::make_value<plant_data>();
         plant->load( jo, "plant_data" );
+    }
+    if( jo.has_float( "surgery_skill_multiplier" ) ) {
+        surgery_skill_multiplier = cata::make_value<float>( jo.get_float( "surgery_skill_multiplier" ) );
     }
 }
 

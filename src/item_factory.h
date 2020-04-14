@@ -1,30 +1,28 @@
 #pragma once
-#ifndef ITEM_FACTORY_H
-#define ITEM_FACTORY_H
+#ifndef CATA_SRC_ITEM_FACTORY_H
+#define CATA_SRC_ITEM_FACTORY_H
 
 #include <functional>
 #include <list>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <iosfwd>
-#include <set>
 #include <utility>
+#include <vector>
 
-#include "itype.h"
 #include "item.h"
-#include "item_category.h"
+#include "itype.h"
 #include "iuse.h"
 #include "type_id.h"
 
 class Item_group;
 class Item_spawn_data;
+class relic;
 
 namespace cata
 {
-template <typename T> class optional;
 template <typename T> class value_ptr;
 }  // namespace cata
 
@@ -35,8 +33,8 @@ using Group_tag = std::string;
 using Item_list = std::vector<item>;
 
 class Item_factory;
-class JsonObject;
 class JsonArray;
+class JsonObject;
 
 extern std::unique_ptr<Item_factory> item_controller;
 
@@ -371,4 +369,4 @@ class Item_factory
         std::set<std::string> repair_actions;
 };
 
-#endif
+#endif // CATA_SRC_ITEM_FACTORY_H

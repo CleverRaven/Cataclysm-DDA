@@ -19,9 +19,9 @@ then
     exit 1
 fi
 
-if [ $# != 1 ]
+if [ $# -lt 1 ]
 then
-    printf "Usage: %s RNG_SEED\n" "$0" >&2
+    printf "Usage: %s RNG_SEED [OPTIONS...]\n" "$0" >&2
     exit 1
 fi
 
@@ -32,6 +32,10 @@ then
 fi
 
 export rng_seed=$1
+
+shift
+
+export REDUCE_TESTS_EXTRA_OPTS="$*"
 
 # For some reason the following cata_test command returns 140, rather than 0 (success).
 # Not sure why.
