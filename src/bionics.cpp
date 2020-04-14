@@ -341,10 +341,6 @@ bool Character::activate_bionic( int b, bool eff_only )
         return false;
     }
 
-    if( !bio.id->enchantments.empty() ) {
-        recalculate_enchantment_cache();
-    }
-
     // Special compatibility code for people who updated saves with their claws out
     if( ( weapon.typeId() == static_cast<std::string>( bio_claws_weapon ) &&
           bio.id == bio_claws_weapon ) ||
@@ -380,6 +376,9 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
         if( bio.info().charge_time > 0 ) {
             bio.charge_timer = bio.info().charge_time;
+        }
+        if( !bio.id->enchantments.empty() ) {
+            recalculate_enchantment_cache();
         }
     }
 
@@ -981,6 +980,9 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     reset_encumbrance();
     reset();
+    if( !bio.id->enchantments.empty() ) {
+        recalculate_enchantment_cache();
+    }
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
     if( !bio.info().fake_item.empty() ) {
