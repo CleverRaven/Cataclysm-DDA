@@ -1290,7 +1290,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
 void avatar_action::unload( avatar &you )
 {
     item_location loc = g->inv_map_splice( [&you]( const item & it ) {
-        return you.rate_action_unload( it ) == HINT_GOOD;
+        return you.rate_action_unload( it ) == hint_rating::good;
     }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
 
     if( !loc ) {

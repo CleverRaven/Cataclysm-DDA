@@ -3422,14 +3422,14 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
 hint_rating Character::rate_action_change_side( const item &it ) const
 {
     if( !is_worn( it ) ) {
-        return HINT_IFFY;
+        return hint_rating::iffy;
     }
 
     if( !it.is_sided() ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
-    return HINT_GOOD;
+    return hint_rating::good;
 }
 
 bool Character::change_side( item &it, bool interactive )

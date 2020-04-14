@@ -3097,13 +3097,13 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
 
 hint_rating player::rate_action_wear( const item &it ) const
 {
-    // TODO: flag already-worn items as HINT_IFFY
+    // TODO: flag already-worn items as hint_rating::iffy
 
     if( !it.is_armor() ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
-    return can_wear( it ).success() ? HINT_GOOD : HINT_IFFY;
+    return can_wear( it ).success() ? hint_rating::good : hint_rating::iffy;
 }
 
 bool player::can_reload( const item &it, const itype_id &ammo ) const
@@ -3383,14 +3383,14 @@ player::wear( item &to_wear, bool interactive )
 hint_rating player::rate_action_takeoff( const item &it ) const
 {
     if( !it.is_armor() ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     if( is_worn( it ) ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     }
 
-    return HINT_IFFY;
+    return hint_rating::iffy;
 }
 
 ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
@@ -3659,19 +3659,19 @@ void player::use_wielded()
 
 hint_rating player::rate_action_reload( const item &it ) const
 {
-    hint_rating res = HINT_CANT;
+    hint_rating res = hint_rating::cant;
 
     // Guns may contain additional reloadable mods so check these first
     for( const auto mod : it.gunmods() ) {
         switch( rate_action_reload( *mod ) ) {
-            case HINT_GOOD:
-                return HINT_GOOD;
+            case hint_rating::good:
+                return hint_rating::good;
 
-            case HINT_CANT:
+            case hint_rating::cant:
                 continue;
 
-            case HINT_IFFY:
-                res = HINT_IFFY;
+            case hint_rating::iffy:
+                res = hint_rating::iffy;
         }
     }
 
@@ -3679,89 +3679,89 @@ hint_rating player::rate_action_reload( const item &it ) const
         return res;
     }
 
-    return can_reload( it ) ? HINT_GOOD : HINT_IFFY;
+    return can_reload( it ) ? hint_rating::good : hint_rating::iffy;
 }
 
 hint_rating player::rate_action_unload( const item &it ) const
 {
     if( ( it.is_container() || it.is_bandolier() ) && !it.contents.empty() &&
         it.can_unload_liquid() ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     }
 
     if( it.has_flag( "NO_UNLOAD" ) ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     if( it.magazine_current() ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     }
 
     for( auto e : it.gunmods() ) {
         if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
             ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
-            return HINT_GOOD;
+            return hint_rating::good;
         }
     }
 
     if( it.ammo_types().empty() ) {
-        return HINT_CANT;
+        return hint_rating::cant;
     }
 
     if( it.ammo_remaining() > 0 || it.casings_count() > 0 ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     }
 
     if( it.ammo_capacity() > 0 ) {
-        return HINT_IFFY;
+        return hint_rating::iffy;
     }
 
-    return HINT_CANT;
+    return hint_rating::cant;
 }
 
 hint_rating player::rate_action_mend( const item &it ) const
 {
     // TODO: check also if item damage could be repaired via a tool
     if( !it.faults.empty() ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     }
-    return it.faults_potential().empty() ? HINT_CANT : HINT_IFFY;
+    return it.faults_potential().empty() ? hint_rating::cant : hint_rating::iffy;
 }
 
 hint_rating player::rate_action_disassemble( const item &it )
 {
     if( can_disassemble( it, crafting_inventory() ).success() ) {
-        return HINT_GOOD; // possible
+        return hint_rating::good; // possible
 
     } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
-        return HINT_IFFY; // potentially possible but we currently lack requirements
+        return hint_rating::iffy; // potentially possible but we currently lack requirements
 
     } else {
-        return HINT_CANT; // never possible
+        return hint_rating::cant; // never possible
     }
 }
 
 hint_rating player::rate_action_use( const item &it ) const
 {
     if( it.is_tool() ) {
-        return it.ammo_sufficient() ? HINT_GOOD : HINT_IFFY;
+        return it.ammo_sufficient() ? hint_rating::good : hint_rating::iffy;
 
     } else if( it.is_gunmod() ) {
         /** @EFFECT_GUN >0 allows rating estimates for gun modifications */
         if( get_skill_level( skill_gun ) == 0 ) {
-            return HINT_IFFY;
+            return hint_rating::iffy;
         } else {
-            return HINT_GOOD;
+            return hint_rating::good;
         }
     } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
-        return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
+        return hint_rating::iffy; //the rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
     } else if( it.type->has_use() ) {
-        return HINT_GOOD;
+        return hint_rating::good;
     } else if( !it.is_container_empty() ) {
         return rate_action_use( it.get_contained() );
     }
 
-    return HINT_CANT;
+    return hint_rating::cant;
 }
 
 void player::use( int inventory_position )
