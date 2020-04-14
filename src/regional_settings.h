@@ -157,6 +157,7 @@ struct forest_trail_settings {
     bool clear_trail_terrain = false;
     std::map<std::string, int> unfinalized_trail_terrain;
     weighted_int_list<ter_id> trail_terrain;
+    building_bin trailheads;
 
     void finalize();
     forest_trail_settings() = default;

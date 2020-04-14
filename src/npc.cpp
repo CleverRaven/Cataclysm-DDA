@@ -421,7 +421,7 @@ void npc::randomize( const npc_class_id &type )
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
     has_new_items = true;
-    empty_traits();
+    clear_mutations();
 
     // Add fixed traits
     for( const auto &tid : trait_group::traits_from( myclass->traits ) ) {
