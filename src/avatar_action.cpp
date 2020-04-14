@@ -928,7 +928,6 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
 
     you.moves -= reload_time;
 
-    // TODO: add check for TRIGGERHAPPY
     int shots_fired = you.fire_gun( trajectory.back(), gun.qty, *gun );
 
     // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
@@ -999,7 +998,6 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
         wrefresh( g->w_terrain );
         g->draw_panels();
 
-        // TODO: add check for TRIGGERHAPPY
         turret.fire( you, trajectory.back() );
     }
     g->reenter_fullscreen();

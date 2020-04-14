@@ -62,17 +62,6 @@
   },
   {
     "type": "effect_type",
-    "id": "armor_frost",
-    "name": [ "Frost Armor" ],
-    "desc": [ "Covers you in a thin layer of magical ice to protect you from harm." ],
-    "apply_message": "You are protected by Frost Armor.",
-    "remove_message": "Your Frost Armor melts away.",
-    "rating": "good",
-    "show_in_info": true,
-    "base_mods": {  }
-  },
-  {
-    "type": "effect_type",
     "id": "bio_boost",
     "name": [ "Grotesque Enhancement" ],
     "desc": [ "Your body ripples with writhing alien muscles, your limbs lengthen, and your eyes glow with a faint green." ],

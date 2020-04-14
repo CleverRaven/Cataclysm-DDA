@@ -387,6 +387,25 @@
     }
   },
   {
+    "id": "armor_frost",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "frost armor", "str_pl": "frost armor" },
+    "description": "A thin layer of magical ice, covering the entire body.",
+    "weight": "5000 g",
+    "volume": "5 L",
+    "material": [ "steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "coverage": 100,
+    "encumbrance": 10,
+    "warmth": 0,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+  },
+  {
     "id": "aura_stoneskin",
     "type": "ARMOR",
     "category": "armor",
