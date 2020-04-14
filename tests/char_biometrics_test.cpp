@@ -57,7 +57,7 @@ static float bodyweight_kg_at_bmi( player &dummy, float bmi )
 // Clear player traits and give them a single trait by name
 static void set_single_trait( player &dummy, std::string trait_name )
 {
-    dummy.empty_traits();
+    dummy.clear_mutations();
     dummy.toggle_trait( trait_id( trait_name ) );
     REQUIRE( dummy.has_trait( trait_id( trait_name ) ) );
 }
@@ -363,7 +363,7 @@ TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabo
     // Metabolic base rate uses PLAYER_HUNGER_RATE from game_balance.json, described as "base hunger
     // rate per 5 minutes". With no metabolism-affecting mutations, metabolism should be this value.
     const float normal_metabolic_rate = get_option<float>( "PLAYER_HUNGER_RATE" );
-    dummy.empty_traits();
+    dummy.clear_mutations();
     CHECK( dummy.metabolic_rate_base() == normal_metabolic_rate );
 
     // The remaining checks assume the configured base rate is 1.0; if this is ever changed in the

@@ -2709,13 +2709,14 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
     return result;
 }
 
-void Character::empty_traits()
+void Character::clear_mutations()
 {
-    for( auto &mut : my_mutations ) {
-        on_mutation_loss( mut.first );
+    while( !my_traits.empty() ) {
+        toggle_trait( *my_traits.begin() );
     }
-    my_traits.clear();
-    my_mutations.clear();
+    while( !my_mutations.empty() ) {
+        unset_mutation( my_mutations.begin()->first );
+    }
     cached_mutations.clear();
 }
 
@@ -2915,7 +2916,7 @@ void reset_scenario( avatar &u, const scenario *scen )
             u.toggle_trait( t );
         }
     }
-    u.empty_traits();
+    u.clear_mutations();
     u.recalc_hp();
     u.empty_skills();
     u.add_traits();
