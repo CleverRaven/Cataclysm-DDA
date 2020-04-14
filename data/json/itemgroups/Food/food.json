@@ -315,7 +315,7 @@
       { "item": "garlic", "prob": 3 },
       { "item": "pine_nuts", "prob": 2 },
       { "item": "carrot", "prob": 3 },
-      { "item": "bell_pepper", "prob": 7}
+      { "item": "bell_pepper", "prob": 7 }
     ]
   },
   {

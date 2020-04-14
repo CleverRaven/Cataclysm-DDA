@@ -110,10 +110,10 @@
     "time": "10 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1} ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "bell_pepper", 1 ] ] ]
-  },
+  }
   {
     "type": "recipe",
     "result": "meat_cooked",
