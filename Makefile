@@ -451,6 +451,11 @@ ifeq ($(NATIVE), osx)
       LDFLAGS += -L$(LIBSDIR)/gettext/lib
       CXXFLAGS += -I$(LIBSDIR)/gettext/include
     endif
+    ifeq ($(BREWGETTEXT), 1)
+      # recent versions of brew will not allow you to link
+      LDFLAGS += -L/usr/local/opt/gettext/lib
+      CXXFLAGS += -I/usr/local/opt/gettext/include
+    endif
     ifeq ($(MACPORTS), 1)
       ifneq ($(TILES), 1)
         CXXFLAGS += -I$(shell ncursesw6-config --includedir)
