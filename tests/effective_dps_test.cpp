@@ -134,9 +134,9 @@ TEST_CASE( "effective damage per second", "[effective][dps]" )
             CHECK( good_sword.effective_dps( dummy, mummy ) == Approx( 33.0f ).epsilon( 0.15f ) );
         }
 
-        SECTION( "STR 8, DEX 8" ) {
+        SECTION( "STR 8, DEX 10" ) {
             dummy.str_max = 8;
-            dummy.dex_max = 8;
+            dummy.dex_max = 10;
 
             CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 25.0f ).epsilon( 0.15f ) );
             CHECK( normal_sword.effective_dps( dummy, mummy ) == Approx( 32.0f ).epsilon( 0.15f ) );
@@ -159,7 +159,6 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
     avatar &dummy = g->u;
     clear_character( dummy );
 
-    monster mummy( mtype_id( "debug_mon" ) );
     monster soldier( mtype_id( "mon_zombie_soldier" ) );
     monster smoker( mtype_id( "mon_zombie_smoker" ) );
     monster survivor( mtype_id( "mon_zombie_survivor" ) );
