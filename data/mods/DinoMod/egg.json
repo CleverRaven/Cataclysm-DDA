@@ -108,7 +108,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_dimorphodon",
-    "name": "parasaurolophus egg",
+    "name": "dimorphodon egg",
     "copy-from": "egg_dino"
   },
   {
