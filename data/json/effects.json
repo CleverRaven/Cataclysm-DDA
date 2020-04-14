@@ -1823,6 +1823,13 @@
   },
   {
     "type": "effect_type",
+    "id": "invisibility",
+    "name": [ "Invisible" ],
+    "desc": [ "You are invisible." ],
+    "flags": [ "EFFECT_INVISIBILITY" ]
+  },
+  {
+    "type": "effect_type",
     "id": "panacea",
     "name": [ "Panacea" ],
     "desc": [ "You feel incredible! You could take on the world!" ],

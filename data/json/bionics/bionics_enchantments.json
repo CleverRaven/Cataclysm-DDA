@@ -1,0 +1,10 @@
+[
+  {
+    "type": "enchantment",
+    "id": "BE_NIGHT_EMITTER",
+    "condition": "ALWAYS",
+    "emitter": "emit_shock_burst",
+     "values": [ { "value": "STRENGTH", "multiply": 1.1, "add": 25 } ],
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ]
+  }
+]
