@@ -428,8 +428,7 @@
     "range": 80,
     "dispersion": 5,
     "recoil": 30,
-    "effects": [ "CUSTOM_EXPLOSION", "TRAIL" ],
-    "explosion": { "power": 16000, "distance_factor": 0.5 }
+    "effects": [ "120mmHEAT_EXPLOSIVE", "TRAIL" ]
   },
   {
     "type": "AMMO",

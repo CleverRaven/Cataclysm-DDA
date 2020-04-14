@@ -46,7 +46,7 @@
     "id": "20x66_exp",
     "copy-from": "20x66_shot",
     "type": "AMMO",
-    "name": { "str": "20x66mm explosive" },
+30    "name": { "str": "20x66mm explosive" },
     "description": "20x66mm caseless shotgun rounds, explosive projectile type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 10000,
     "price_postapoc": 8000,
@@ -54,7 +54,7 @@
     "range": 20,
     "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 4 },
     "dispersion": 120,
-    "effects": [ "COOKOFF", "EXPLOSIVE_SMALL", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "20x66_EXPLOSIVE", "NEVER_MISFIRES" ]
   },
   {
     "id": "20x66_flare",
@@ -96,7 +96,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 5,
     "proportional": { "damage": { "damage_type": "stab", "amount": 0.25, "armor_penetration": 0.25 } },
-    "extend": { "effects": [ "FRAG" ] }
+    "extend": { "effects": [ "20x66_FRAG" ] }
   },
   {
     "id": "20x66_inc",

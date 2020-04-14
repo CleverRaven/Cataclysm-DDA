@@ -38,7 +38,7 @@
     "weight": "230 g",
     "damage": { "damage_type": "stab", "amount": 200, "armor_penetration": 30 },
     "casing": "40x46mm_m118_casing",
-    "extend": { "effects": [ "EXPLOSIVE", "FRAG" ] }
+    "extend": { "effects": [ "m433_EXPLOSIVE" ] }
   },
   {
     "id": "40x46mm_m576",
