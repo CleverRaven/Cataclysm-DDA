@@ -81,9 +81,9 @@
     "color": "dark_gray",
     "flags": [ "TINDER", "FLAMMABLE" ],
     "intelligence": 6,
-    "time": 35,
+    "time": "35 m",
     "chapters": 30,
-    "//": "TODO for this item fun should be conditional",
+    "//": "TODO fun should be conditional for this item",
     "fun": 1
   },
   {
@@ -95,7 +95,8 @@
     "weight": "200 g",
     "volume": "400 ml",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price": -351, "price_post": -800, "time": -4, "chapters": -8, "intelligence": -1 }
+    "time": "11 m",
+    "relative": { "price": -351, "price_post": -800, "chapters": -8, "intelligence": -1 }
   },
   {
     "abstract": "paperback_romance_lnl",
@@ -143,7 +144,8 @@
     "name": "Satire Template",
     "description": "template for mass produced satirical fiction",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "intelligence": 3, "price": 249, "time": 5 }
+    "time": "20 m",
+    "relative": { "intelligence": 3, "price": 249 }
   },
   {
     "abstract": "book_nonf_zine",
@@ -158,7 +160,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "time": 7,
+    "time": "7 m",
     "fun": 1
   },
   {
@@ -167,6 +169,7 @@
     "name": "News Magazine Template",
     "description": "template for news magazine",
     "copy-from": "book_nonf_zine",
-    "relative": { "intelligence": 1, "time": 1 }
+    "time": "11 m",
+    "relative": { "intelligence": 1 }
   }
 ]
