@@ -119,9 +119,9 @@ class advanced_inventory
         /**
          *  a smaller chunk of display()
          */
-        void start_activity( const aim_location destarea, const aim_location srcarea,
+        void start_activity( aim_location destarea, aim_location srcarea,
                              advanced_inv_listitem *sitem, int &amount_to_move,
-                             const bool from_vehicle, const bool to_vehicle ) const;
+                             bool from_vehicle, bool to_vehicle ) const;
 
         /**
          * returns whether the display loop exits or not
@@ -160,7 +160,7 @@ class advanced_inventory
          * stored in ret), false otherwise.
          */
         bool get_square( const std::string &action, aim_location &ret );
-        void change_square( const aim_location changeSquare, advanced_inventory_pane &dpane,
+        void change_square( aim_location changeSquare, advanced_inventory_pane &dpane,
                             advanced_inventory_pane &spane );
         /**
          * Show the sort-by menu and change the sorting of this pane accordingly.
