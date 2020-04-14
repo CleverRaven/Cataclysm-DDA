@@ -220,7 +220,8 @@
       [ "stanag10", 30 ],
       [ "ruger30", 20 ],
       [ "stanag30", 10 ],
-      [ "ar10mag_20rd", 30 ]
+      [ "ar10mag_20rd", 30 ],
+      [ "akmag30", 25 ]
     ]
   },
   {
@@ -234,8 +235,10 @@
     "id": "mags_rifle_rare",
     "//": "Aftermarket or otherwise uncommon rifle magazines excluding milspec.",
     "items": [
-      [ "akmbigmag", 5 ],
-      [ "akmmag", 25 ],
+      [ "akmag10", 40 ],
+      [ "akmag20", 40 ],
+      [ "akmag40", 40 ],
+      [ "akdrum75", 30 ],
       [ "falmag", 100 ],
       [ "falbigmag", 50 ],
       [ "g3mag", 80 ],
