@@ -143,10 +143,7 @@
     "power": -75,
     "damage_modifier": 10,
     "folded_volume": 7,
-    "breaks_into": [
-      { "item": "steel_chunk", "count": [ 0, 1 ] },
-      { "item": "scrap", "count": [ 2, 4 ] }
-    ],
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 1 ] }, { "item": "scrap", "count": [ 2, 4 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
