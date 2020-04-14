@@ -811,7 +811,7 @@
     "description": "A cored and cooked bell pepper. It is far more enjoyable now the seeds are removed.",
     "price": 0,
     "delete": { "flags": [ "RAW" ] },
-    "fun": 1
+    "fun": 1,
     "rot_spawn": "GROUP_ROTTING_PLANT"
-  },
+  }
 ]
