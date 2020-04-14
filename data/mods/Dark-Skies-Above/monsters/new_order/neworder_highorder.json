@@ -16,7 +16,7 @@
     "symbol": "W",
     "luminance": 60,
     "color": "white",
-    "aggression": 40,
+    "aggression": 5,
     "morale": 10,
     "melee_skill": 6,
     "melee_dice": 5,
@@ -27,6 +27,7 @@
     "armor_acid": 10,
     "path_settings": { "max_dist": 30 },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ], [ "turret_searchlight", 1 ] ] },
+    "anger_triggers": [ "HURT", "PLAYER_WEAK", "STALK" ],
     "fear_triggers": [ "HURT" ],
     "special_attacks": [
       [ "PARROT", 20 ],
