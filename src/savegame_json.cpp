@@ -521,6 +521,7 @@ void Character::load( const JsonObject &data )
         if( mid.is_valid() ) {
             on_mutation_gain( mid );
             cached_mutations.push_back( &mid.obj() );
+            ++it;
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
             it = my_mutations.erase( it );
