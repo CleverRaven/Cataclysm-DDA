@@ -11,7 +11,6 @@
       { "group": "tobacco_products", "prob": 161 },
       { "item": "sponge", "prob": 10 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
-      { "item": "rm99_pistol", "prob": 1 },
       { "item": "rm103a_pistol", "prob": 1 },
       { "item": "rm228", "prob": 2 },
       { "item": "vibrator", "prob": 3 },
