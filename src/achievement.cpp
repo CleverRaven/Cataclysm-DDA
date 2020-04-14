@@ -143,6 +143,7 @@ class requirement_watcher : stat_watcher
     public:
         requirement_watcher( achievement_tracker &tracker, const achievement_requirement &req,
                              stats_tracker &stats ) :
+            current_value_( req.statistic->value( stats ) ),
             tracker_( &tracker ),
             requirement_( &req ) {
             stats.add_watcher( req.statistic, this );
@@ -153,60 +154,24 @@ class requirement_watcher : stat_watcher
         bool is_satisfied( stats_tracker &stats ) {
             return requirement_->satisifed_by( requirement_->statistic->value( stats ) );
         }
+
+        std::string ui_text() const {
+            bool is_satisfied = requirement_->satisifed_by( current_value_ );
+            nc_color c = is_satisfied ? c_green : c_yellow;
+            int current = current_value_.get<int>();
+            std::string result = string_format( _( "%s/%s " ), current, requirement_->target );
+            result += requirement_->statistic->description();
+            return colorize( result, c );
+        }
     private:
+        cata_variant current_value_;
         achievement_tracker *tracker_;
         const achievement_requirement *requirement_;
 };
 
-class achievement_tracker
-{
-    public:
-        // Non-movable because requirement_watcher stores a pointer to us
-        achievement_tracker( const achievement_tracker & ) = delete;
-        achievement_tracker &operator=( const achievement_tracker & ) = delete;
-
-        achievement_tracker( const achievement &a, achievements_tracker &tracker,
-                             stats_tracker &stats ) :
-            achievement_( &a ),
-            tracker_( &tracker ) {
-            for( const achievement_requirement &req : a.requirements() ) {
-                watchers_.push_back( std::make_unique<requirement_watcher>( *this, req, stats ) );
-            }
-
-            for( const std::unique_ptr<requirement_watcher> &watcher : watchers_ ) {
-                bool is_satisfied = watcher->is_satisfied( stats );
-                sorted_watchers_[is_satisfied].insert( watcher.get() );
-            }
-        }
-
-        void set_requirement( requirement_watcher *watcher, bool is_satisfied ) {
-            if( !sorted_watchers_[is_satisfied].insert( watcher ).second ) {
-                // No change
-                return;
-            }
-
-            // Remove from other; check for completion.
-            sorted_watchers_[!is_satisfied].erase( watcher );
-            assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
-
-            if( sorted_watchers_[false].empty() ) {
-                tracker_->report_achievement( achievement_, achievement_completion::completed );
-            }
-        }
-    private:
-        const achievement *achievement_;
-        achievements_tracker *tracker_;
-        std::vector<std::unique_ptr<requirement_watcher>> watchers_;
-
-        // sorted_watchers_ maintains two sets of watchers, categorised by
-        // whether they watch a satisfied or unsatisfied requirement.  This
-        // allows us to check whether the achievment is met on each new stat
-        // value in O(1) time.
-        std::array<std::unordered_set<requirement_watcher *>, 2> sorted_watchers_;
-};
-
 void requirement_watcher::new_value( const cata_variant &new_value, stats_tracker & )
 {
+    current_value_ = new_value;
     tracker_->set_requirement( this, requirement_->satisifed_by( new_value ) );
 }
 
@@ -242,6 +207,61 @@ void achievement_state::deserialize( JsonIn &jsin )
     JsonObject jo = jsin.get_object();
     jo.read( "completion", completion );
     jo.read( "last_state_change", last_state_change );
+}
+
+achievement_tracker::achievement_tracker( const achievement &a, achievements_tracker &tracker,
+        stats_tracker &stats ) :
+    achievement_( &a ),
+    tracker_( &tracker )
+{
+    for( const achievement_requirement &req : a.requirements() ) {
+        watchers_.push_back( std::make_unique<requirement_watcher>( *this, req, stats ) );
+    }
+
+    for( const std::unique_ptr<requirement_watcher> &watcher : watchers_ ) {
+        bool is_satisfied = watcher->is_satisfied( stats );
+        sorted_watchers_[is_satisfied].insert( watcher.get() );
+    }
+}
+
+void achievement_tracker::set_requirement( requirement_watcher *watcher, bool is_satisfied )
+{
+    if( !sorted_watchers_[is_satisfied].insert( watcher ).second ) {
+        // No change
+        return;
+    }
+
+    // Remove from other; check for completion.
+    sorted_watchers_[!is_satisfied].erase( watcher );
+    assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
+
+    if( sorted_watchers_[false].empty() ) {
+        tracker_->report_achievement( achievement_, achievement_completion::completed );
+    }
+}
+
+std::string achievement_tracker::ui_text( const achievement_state *state ) const
+{
+    auto color_from_completion = []( achievement_completion comp ) {
+        switch( comp ) {
+            case achievement_completion::pending:
+                return c_yellow;
+            case achievement_completion::completed:
+                return c_light_green;
+            case achievement_completion::last:
+                break;
+        }
+        debugmsg( "Invalid achievement_completion" );
+        abort();
+    };
+
+    achievement_completion comp = state ? state->completion : achievement_completion::pending;
+    nc_color c = color_from_completion( comp );
+    std::string result = colorize( achievement_->description(), c ) + "\n";
+    for( const std::unique_ptr<requirement_watcher> &watcher : watchers_ ) {
+        result += "  " + watcher->ui_text() + "\n";
+    }
+    return result;
 }
 
 achievements_tracker::achievements_tracker(
@@ -287,6 +307,30 @@ void achievements_tracker::report_achievement( const achievement *a, achievement
     }
 }
 
+achievement_completion achievements_tracker::is_completed( const string_id<achievement> &id ) const
+{
+    auto it = achievements_status_.find( id );
+    if( it == achievements_status_.end() ) {
+        return achievement_completion::pending;
+    }
+    return it->second.completion;
+}
+
+std::string achievements_tracker::ui_text_for( const achievement *ach ) const
+{
+    auto state_it = achievements_status_.find( ach->id );
+    const achievement_state *state = nullptr;
+    if( state_it != achievements_status_.end() ) {
+        state = &state_it->second;
+    }
+    auto watcher_it = watchers_.find( ach->id );
+    if( watcher_it == watchers_.end() ) {
+        return colorize( ach->description() + _( "\nInternal error: achievement lacks watcher." ),
+                         c_red );
+    }
+    return watcher_it->second.ui_text( state );
+}
+
 void achievements_tracker::clear()
 {
     watchers_.clear();
@@ -325,6 +369,8 @@ void achievements_tracker::deserialize( JsonIn &jsin )
 void achievements_tracker::init_watchers()
 {
     for( const achievement *a : valid_achievements() ) {
-        watchers_.emplace_back( *a, *this, *stats_ );
+        watchers_.emplace(
+            std::piecewise_construct, std::forward_as_tuple( a->id ),
+            std::forward_as_tuple( *a, *this, *stats_ ) );
     }
 }
