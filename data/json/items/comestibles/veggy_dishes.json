@@ -842,7 +842,6 @@
     "fun": 5,
     "healthy": 1,
     "vitamins": [ [ "vitC", 32 ], [ "vitA", 40 ], [ "calcium", 4 ] ],
-    "rot_spawn": "GROUP_ROTTING_PLANT"
   },
   {
     "type": "COMESTIBLE",
@@ -855,7 +854,6 @@
     "price": 0,
     "delete": { "flags": [ "RAW" ] },
     "fun": 1,
-    "rot_spawn": "GROUP_ROTTING_PLANT"
     "vitamins": [ [ "vitC", 32 ], [ "vitA", 40 ], [ "calcium", 4 ] ]
   }
 ]
