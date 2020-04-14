@@ -3580,6 +3580,29 @@
   },
   {
     "type": "vehicle_part",
+    "id": "alternator_turret_mount",
+    "name": { "str": "fan belt turret mount" },
+    "symbol": "X",
+    "color": "light_gray",
+    "broken_symbol": "X",
+    "broken_color": "light_gray",
+    "damage_modifier": 80,
+    "durability": 100,
+    "//": "~8hp drain at 100% efficiency",
+    "power": -5968,
+    "description": "A rotating turret mount for a crank-driven weapon, mounted via a series of gears where an alternator is supposed to be.",
+    "item": "alternator_turret_mount",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "90 m", "using": [ [ "welding_standard", 30 ] ] },
+      "removal": { "skills": [ [ "mechanics", 8 ] ], "time": "150 m", "using": [ [ "vehicle_weld_removal", 5 ] ] },
+      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "TURRET_MOUNT", "ALTERNATOR" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 10, 20 ] } ],
+    "damage_reduction": { "all": 30 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "controls_turret",
     "name": { "str": "turret control unit" },
     "symbol": "$",

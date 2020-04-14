@@ -49,6 +49,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "ballista-bolt",
+    "name": "ballista bolts",
+    "default": "ballista_bolt"
+  },
+  {
+    "type": "ammunition_type",
     "id": "arrow",
     "name": "arrows",
     "default": "arrow_wood"

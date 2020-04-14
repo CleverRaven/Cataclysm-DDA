@@ -64,6 +64,25 @@
     }
   },
   {
+    "id": "mounted_ballista",
+    "symbol": "t",
+    "durability": 400,
+    "damage_modifier": 80,
+    "type": "vehicle_part",
+    "name": { "str": "mounted siege ballista" },
+    "item": "siege_ballista",
+    "looks-like": "crossbow",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "location": "center",
+    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 2 }, { "item": "2x4", "count": 2 } ],
+    "flags": [ "TURRET" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ], [ "fabrication", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ] }
+    }
+  },
+  {
     "id": "mounted_coilgun",
     "copy-from": "turret",
     "type": "vehicle_part",
