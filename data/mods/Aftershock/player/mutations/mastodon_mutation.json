@@ -1,5 +1,25 @@
 [
   {
+    "type": "mutation_category",
+    "id": "MASTODON",
+    "name": "Mastodon",
+    "threshold_mut": "THRESH_MASTODON",
+    "mutagen_message": "You feel a desire to trumpet and toot.",
+    "iv_message": "You heart races, and you glance around for poachers.",
+    "memorial_message": "Went extinct."
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_MASTODON",
+    "name": { "str": "Killophant" },
+    "points": 1,
+    "description": "Your species was created as the ultimate shock troop.  Inherit the earth, pedigree your ancestors, crush the foe.",
+    "valid": false,
+    "profession": true,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
     "type": "mutation",
     "id": "UPLIFTED",
     "name": "Uplifted",
@@ -519,16 +539,5 @@
     "changes_to": [ "SNARL" ],
     "category": [ "MASTODON" ],
     "social_modifiers": { "lie": -30, "intimidate": 10 }
-  },
-  {
-    "type": "mutation",
-    "id": "THRESH_MASTODON",
-    "name": { "str": "Killophant" },
-    "points": 1,
-    "description": "Your species was created as the ultimate shock troop.  Inherit the earth, pedigree your ancestors, crush the foe.",
-    "valid": false,
-    "profession": true,
-    "purifiable": false,
-    "threshold": true
   }
 ]
