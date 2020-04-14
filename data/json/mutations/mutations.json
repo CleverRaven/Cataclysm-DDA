@@ -943,7 +943,7 @@
     "description": "Your skin is fragile. Cutting and bash damage is slightly increased for you.",
     "starting_trait": true,
     "cancels": [ "THICKSKIN" ],
-    "armor": [ { "parts": "ALL", "cut": -1,"bash": -1 } ]
+    "armor": [ { "parts": "ALL", "cut": -1, "bash": -1 } ]
   },
   {
     "type": "mutation",
