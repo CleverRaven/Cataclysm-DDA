@@ -145,7 +145,7 @@
   {
     "id": "m430a1_EXPLOSIVE",
     "type": "ammo_effect",
-    "explosion": { "power": 75, "shrapnel": { "casing_mass": 250, "fragment_mass": 0.15 } }
+    "explosion": { "power": 72, "shrapnel": { "casing_mass": 250, "fragment_mass": 0.15 } }
   },
   {
     "id": "m433_EXPLOSIVE",
@@ -178,7 +178,7 @@
     "explosion": { "power": 1995, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.3 } }
   },
   {
-    "id": "TBG-7V_EXPLOSIVE",
+    "id": "TBG7V_EXPLOSIVE",
     "type": "ammo_effect",
     "explosion": { "power": 66, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.3 } }
   },
