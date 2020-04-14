@@ -26,7 +26,7 @@ tileray::tileray( int adir ): direction( adir )
 void tileray::init( const point &ad )
 {
     delta = ad;
-    abs_d = std::abs( delta );
+    abs_d = abs( delta );
     if( delta == point_zero ) {
         direction = 0;
     } else {
@@ -49,7 +49,7 @@ void tileray::init( int adir )
     float direction_radians = static_cast<float>( direction ) * M_PI / 180.0;
     rl_vec2d delta_f( cos( direction_radians ), sin( direction_radians ) );
     delta = ( delta_f * 100 ).as_point();
-    abs_d = std::abs( delta );
+    abs_d = abs( delta );
     steps = 0;
     infinite = true;
 }
