@@ -19,6 +19,10 @@
 
 class faction;
 
+class advanced_inv_listitem;
+class advanced_inv_area;
+class advanced_inventory_pane;
+
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -202,6 +206,10 @@ class avatar : public player
         void toggle_crouch_mode();
 
         bool wield( item &target ) override;
+
+        /** gets the inventory from the avatar that is interactible via advanced inventory management */
+        std::vector<advanced_inv_listitem> get_AIM_inventory( const advanced_inventory_pane &pane,
+                advanced_inv_area &square );
 
         using Character::invoke_item;
         bool invoke_item( item *, const tripoint &pt ) override;

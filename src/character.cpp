@@ -944,6 +944,11 @@ bool Character::is_on_ground() const
     return get_working_leg_count() < 2 || has_effect( effect_downed );
 }
 
+bool Character::can_stash( const item &it )
+{
+    return best_pocket( it, nullptr ) != nullptr;
+}
+
 void Character::cancel_stashed_activity()
 {
     stashed_outbounds_activity = player_activity();

@@ -1687,6 +1687,7 @@ class Character : public Creature, public visitable<Character>
         void set_stashed_activity( const player_activity &act,
                                    const player_activity &act_back = player_activity() );
         bool has_stashed_activity() const;
+        bool can_stash( const item &it );
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */

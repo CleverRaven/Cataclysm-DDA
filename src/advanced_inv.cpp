@@ -1321,6 +1321,10 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             }
         }
     } else {
+        if( destarea == AIM_INVENTORY && !g->u.can_stash( *sitem->items.front() ) ) {
+            popup( _( "You have no space for %s" ), sitem->items.front()->tname() );
+            return false;
+        }
         // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
         // Make sure advanced inventory is reopened after activity completion.
         do_return_entry();
