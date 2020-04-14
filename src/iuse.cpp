@@ -9720,6 +9720,25 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+int iuse::underground_sonar( player *p, item *, bool, const tripoint &pt )
+{
+
+    if( pt.z == -10){
+        // bottom of the map
+        p->add_msg_if_player( m_neutral, _( "No response from device." ) );
+        return 0;
+    }
+    tripoint under_foot(pt.x, pt.y, pt.z - 1);
+
+    if ( g->m.passable( under_foot ) ){
+        p->add_msg_if_player( m_good, _( "Device detected underground space!" ) );
+    } else {
+        p->add_msg_if_player( m_neutral, _( "No response from device." ) );
+    }
+
+    return 0;
+}
+
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const
 {
     if( actor != nullptr ) {

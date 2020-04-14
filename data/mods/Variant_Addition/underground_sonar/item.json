@@ -1,0 +1,15 @@
+[
+  {
+    "id": "underground_sonar_device",
+    "type": "TOOL",
+    "name": { "str": "Underground Sonar Device" },
+    "description": "Detect underground space.",
+    "weight": "1000 g",
+    "volume": "1000 ml",
+    "price": 10000,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "use_action": "UNDERGROUND_SONAR"
+  }
+]
