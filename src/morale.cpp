@@ -1032,12 +1032,12 @@ void player_morale::update_masochist_bonus()
     int bonus = 0;
 
     if( any_masochist ) {
-        bonus = perceived_pain / 2.5;
+        bonus = perceived_pain;
         if( amateur_masochist ) {
-            bonus = std::min( bonus, 25 );
+            bonus = std::min( bonus, 20 );
         }
         if( took_prozac ) {
-            bonus = bonus / 3;
+            bonus = bonus / 2;
         }
     }
     set_permanent( MORALE_PERM_MASOCHIST, bonus );
