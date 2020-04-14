@@ -18,6 +18,6 @@
     "damage": { "damage_type": "stab", "amount": 2400, "armor_penetration": 600 },
     "range": 100,
     "recoil": 6000,
-    "effects": [ "ATGMHEAT_EXPLOSIVE", "NEVER_MISFIRES" ]
+    "effects": [ "EXPLOSIVE_ATGMHEAT", "NEVER_MISFIRES" ]
   }
 ]

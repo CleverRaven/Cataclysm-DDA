@@ -128,77 +128,77 @@
     "explosion": { "power": 185, "shrapnel": { "casing_mass": 212, "fragment_mass": 0.05 } }
   },
   {
-    "id": "20x66_FRAG",
+    "id": "FRAG_20x66",
     "type": "ammo_effect",
     "explosion": { "power": 40, "shrapnel": { "casing_mass": 15, "fragment_mass": 0.15 } }
   },
   {
-    "id": "20x66_EXPLOSIVE",
+    "id": "EXPLOSIVE_20x66",
     "type": "ammo_effect",
     "explosion": { "power": 60 }
   },
   {
-    "id": "HESHOT_EXPLOSIVE",
+    "id": "EXPLOSIVE_HESHOT",
     "type": "ammo_effect",
     "explosion": { "power": 60 }
   },
   {
-    "id": "m430a1_EXPLOSIVE",
+    "id": "EXPLOSIVE_m430a1",
     "type": "ammo_effect",
     "explosion": { "power": 72, "shrapnel": { "casing_mass": 250, "fragment_mass": 0.15 } }
   },
   {
-    "id": "m433_EXPLOSIVE",
+    "id": "EXPLOSIVE_m433",
     "type": "ammo_effect",
     "explosion": { "power": 42, "shrapnel": { "casing_mass": 198, "fragment_mass": 0.15 } }
   },
   {
-    "id": "HOMEMADE_EXPLOSIVE",
+    "id": "EXPLOSIVE_HOMEMADE",
     "type": "ammo_effect",
     "explosion": { "power": 400, "shrapnel": { "casing_mass": 680, "fragment_mass": 0.3 } }
   },
   {
-    "id": "66mmHEAT_EXPLOSIVE",
+    "id": "EXPLOSIVE_66mmHEAT",
     "type": "ammo_effect",
     "explosion": { "power": 400, "shrapnel": { "casing_mass": 680, "fragment_mass": 0.3 } }
   },
   {
-    "id": "OG7V_EXPLOSIVE",
+    "id": "EXPLOSIVE_OG7V",
     "type": "ammo_effect",
     "explosion": { "power": 266, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.15 } }
   },
   {
-    "id": "PG7VL_EXPLOSIVE",
+    "id": "EXPLOSIVE_PG7VL",
     "type": "ammo_effect",
     "explosion": { "power": 598, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.3 } }
   },
   {
-    "id": "PG7VR_EXPLOSIVE",
+    "id": "EXPLOSIVE_PG7VR",
     "type": "ammo_effect",
     "explosion": { "power": 1995, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.3 } }
   },
   {
-    "id": "TBG7V_EXPLOSIVE",
+    "id": "EXPLOSIVE_TBG7V",
     "type": "ammo_effect",
     "explosion": { "power": 66, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.3 } }
   },
   {
-    "id": "84x246HE_EXPLOSIVE",
+    "id": "EXPLOSIVE_84x246HE",
     "type": "ammo_effect",
     "explosion": { "power": 665, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.15 } }
   },
   {
-    "id": "84x246HEDP_EXPLOSIVE",
+    "id": "EXPLOSIVE_84x246HEDP",
     "type": "ammo_effect",
     "explosion": { "power": 798, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.3 } }
   },
   {
-    "id": "ATGMHEAT_EXPLOSIVE",
+    "id": "EXPLOSIVE_ATGMHEAT",
     "type": "ammo_effect",
     "explosion": { "power": 5985, "shrapnel": { "casing_mass": 18000, "fragment_mass": 1.0 } }
   },
   {
-    "id": "120mmHEAT_EXPLOSIVE",
+    "id": "EXPLOSIVE_120mmHEAT",
     "type": "ammo_effect",
     "explosion": { "power": 7980, "shrapnel": { "casing_mass": 8725, "fragment_mass": 1.0 } }
   },
