@@ -341,6 +341,10 @@ bool Character::activate_bionic( int b, bool eff_only )
         return false;
     }
 
+    if( !bio.id->enchantments.empty() ) {
+        recalculate_enchantment_cache();
+    }
+
     // Special compatibility code for people who updated saves with their claws out
     if( ( weapon.typeId() == static_cast<std::string>( bio_claws_weapon ) &&
           bio.id == bio_claws_weapon ) ||
@@ -2434,6 +2438,9 @@ void Character::add_bionic( const bionic_id &b )
 
     reset_encumbrance();
     recalc_sight_limits();
+    if( !b->enchantments.empty() ) {
+        recalculate_enchantment_cache();
+    }
 }
 
 void Character::remove_bionic( const bionic_id &b )
@@ -2454,6 +2461,9 @@ void Character::remove_bionic( const bionic_id &b )
     *my_bionics = new_my_bionics;
     reset_encumbrance();
     recalc_sight_limits();
+    if( !b->enchantments.empty() ) {
+        recalculate_enchantment_cache();
+    }
 }
 
 int player::num_bionics() const
