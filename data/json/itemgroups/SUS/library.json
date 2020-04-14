@@ -462,6 +462,7 @@
       { "item": "mag_unarmed", "prob": 1 },
       { "item": "mag_throwing", "prob": 1 },
       { "item": "mag_archery", "prob": 1 },
+      { "item": "mag_bashing", "prob": 1 },
       { "item": "mag_gaming", "prob": 2 }
     ]
   },
