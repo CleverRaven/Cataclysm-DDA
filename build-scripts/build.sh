@@ -15,6 +15,13 @@ function run_tests
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
 
+# If building on macOS we need to set these so our builds can find the Homebrew version of gettext.
+if [ "$TRAVIS_OS_NAME" == "osx" ]
+then
+    set -x LDFLAGS "-L/usr/local/opt/gettext/lib"
+    set -x CPPFLAGS "-I/usr/local/opt/gettext/include"
+fi
+
 if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
