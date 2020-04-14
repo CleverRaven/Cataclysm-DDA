@@ -2569,6 +2569,8 @@ void load_bionic( const JsonObject &jsobj )
 
     new_bionic.weight_capacity_modifier = jsobj.get_float( "weight_capacity_modifier", 1.0 );
 
+    assign( jsobj, "enchantments", new_bionic.enchantments );
+
     assign( jsobj, "weight_capacity_bonus", new_bionic.weight_capacity_bonus, false, 0_gram );
     assign( jsobj, "exothermic_power_gen", new_bionic.exothermic_power_gen );
     assign( jsobj, "power_gen_emission", new_bionic.power_gen_emission );
@@ -2636,6 +2638,11 @@ void check_bionics()
             if( !mid.is_valid() ) {
                 debugmsg( "Bionic %s cancels undefined mutation %s",
                           bio.first.c_str(), mid.c_str() );
+            }
+        }
+        for( const enchantment_id &eid : bio.first->enchantments ) {
+            if( !eid.is_valid() ) {
+                debugmsg( "Bionic %s uses undefined enchantment %s", bio.first.c_str(), eid.c_str() );
             }
         }
         for( const bionic_id &bid : bio.second.included_bionics ) {

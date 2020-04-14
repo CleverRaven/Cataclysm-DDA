@@ -1544,6 +1544,8 @@ void Character::process_turn()
         }
     }
 
+    enchantment_cache.activate_passive( *this );
+
     Creature::process_turn();
 }
 
@@ -7939,6 +7941,20 @@ void Character::recalculate_enchantment_cache()
         }
 
         for( const enchantment_id &ench_id : mut.enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this ) ) {
+                enchantment_cache.force_add( ench );
+            }
+        }
+    }
+
+    for( const bionic &bio : *my_bionics ) {
+        const bionic_id &bid = bio.id;
+        if( bid->toggled && !bio.powered ) {
+            continue;
+        }
+
+        for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this ) ) {
                 enchantment_cache.force_add( ench );
