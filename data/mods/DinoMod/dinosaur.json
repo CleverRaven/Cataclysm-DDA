@@ -99,6 +99,48 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_pachycephalosaurus",
+    "name": { "str": "Pachycephalosaurus", "str_pl": "Pachycephalosaurus" },
+    "species": "DINOSAUR",
+    "default_faction": "pachycephalosaurus",
+    "symbol": "D",
+    "color": "light_green_yellow",
+    "volume": "450000 ml",
+    "weight": "450 kg",
+    "material": "flesh",
+    "aggression": -40,
+    "morale": -10,
+    "speed": 150,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "dodge": 3,
+    "armor_bash": 2,
+    "armor_cut": 1,
+    "hp": 40,
+    "death_function": [ "NORMAL" ],
+    "description": "A feathered bipedal dinosaur, standing as tall as a human.  It looks like a reptilian ostrich with a round hard-looking domed head.",
+    "reproduction": { "baby_egg": "egg_pachycephalosaurus", "baby_count": 3, "baby_timer": 12 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GOODHEARING",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PET_MOUNTABLE",
+      "CATTLEFODDER",
+      "PET_WONT_FOLLOW",
+      "WARM"
+    ],
+    "harvest": "dino_feather_leather",
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FIRE" ],
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_spinosaurus",
     "name": { "str": "Spinosaurus", "str_pl": "Spinosaurus" },
     "species": "DINOSAUR",
@@ -596,6 +638,13 @@
     "upgrades": { "age_grow": 20, "into": "mon_gallimimus" }
   },
   {
+    "id": "mon_pachycephalosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light green and yellow hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_pachycephalosaurus" }
+  },
+  {
     "id": "mon_spinosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -686,6 +735,7 @@
     "monsters": [
       { "monster": "mon_compsognathus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_pachycephalosaurus", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
       { "monster": "mon_tyrannosaurus", "freq": 1, "cost_multiplier": 40 },
       { "monster": "mon_triceratops", "freq": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
@@ -761,6 +811,13 @@
         "freq": 20,
         "cost_multiplier": 0,
         "pack_size": [ 4, 8 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_pachycephalosaurus",
+        "freq": 10,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 2 ],
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
