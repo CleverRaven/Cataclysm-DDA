@@ -228,7 +228,13 @@
     "difficulty": 1,
     "no_material_scaling": true,
     "item_quantity": 12,
-    "mod_value": [ { "type": "encumbrance", "value": 3, "round_up": true }, { "type": "warmth", "value": 10, "round_up": true } ]
+    "//": "arms are about 50% of the surface area of an average person's torso, estimate forearms are about 20%...",
+    "//": "this doesn't hold for sleeves that aren't part of a torso item, but probably good enough",
+    "mod_value": [
+      { "type": "encumbrance", "value": 3, "round_up": true },
+      { "type": "coverage", "value": 20, "round_up": true },
+      { "type": "warmth", "value": 10, "round_up": true }
+    ]
   },
   {
     "type": "clothing_mod",
@@ -243,7 +249,13 @@
     "max_coverage": 100,
     "item_quantity": 0,
     "no_material_scaling": true,
-    "mod_value": [ { "type": "encumbrance", "value": -2, "round_up": false }, { "type": "warmth", "value": -5, "round_up": false } ]
+    "//": "arms are about 50% of the surface area of an average person's torso, estimate forearms are about 20%...",
+    "//": "this doesn't hold for sleeves that aren't part of a torso item, but probably good enough",
+    "mod_value": [
+      { "type": "encumbrance", "value": -2, "round_up": false },
+      { "type": "coverage", "value": -20, "round_up": false },
+      { "type": "warmth", "value": -5, "round_up": false }
+    ]
   },
   {
     "type": "clothing_mod",
@@ -255,7 +267,8 @@
     "//": "this should target most full gloves and exclude liners, wraps, thin gloves, and crafted fingerless variants",
     "valid_parts": [ "HANDS" ],
     "exclude_flags": [ "SKINTIGHT" ],
-    "min_coverage": 100,
+    "apply_flags": [ "ALLOWS_NATURAL_ATTACKS" ],
+    "min_coverage": 90,
     "difficulty": 1,
     "no_material_scaling": true,
     "item_quantity": 0,
@@ -263,6 +276,7 @@
       { "type": "bash", "value": -1, "round_up": false, "proportion": [ "thickness" ] },
       { "type": "cut", "value": -1, "round_up": false, "proportion": [ "thickness" ] },
       { "type": "encumbrance", "value": -4, "round_up": false },
+      { "type": "coverage", "value": -25, "round_up": false, "proportion": [ "coverage" ] },
       { "type": "warmth", "value": -15, "round_up": false }
     ]
   },
