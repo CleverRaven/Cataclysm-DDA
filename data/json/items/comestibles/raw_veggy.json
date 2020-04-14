@@ -801,10 +801,10 @@
     "description": "A green bell pepper. They could be cooked.",
     "price": 20,
     "material": "veggy",
-    "volume": "40 mL",
+    "volume": "250 ml",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_results": "dry_veggy",
-    "vitamins": [ [ "potassium", 2 ], [ "vitC", 12 ], [ "vitA", 8 ],
+    "vitamins": [ [ "calcium", 2 ], [ "vitC", 12 ], [ "vitA", 8 ] ],
     "fun": -5
-  },
+  }
 ]
