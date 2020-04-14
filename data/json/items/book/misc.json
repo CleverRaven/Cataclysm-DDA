@@ -140,7 +140,8 @@
   {
     "id": "book_nonf_zine_news_anlyst",
     "type": "BOOK",
-    "name": "The Analyst",
+    "name": { "str": "The Analyst", "str_pl": "issues of The Analyst" },
+    "//": "ie The Economist",
     "description": "This news magazine has been described as \"a kind of Reader's Digest for America's corporate elite.\"  These concerns are, of course, behind us now.",
     "copy-from": "book_nonf_zine_news_tpl"
   },
@@ -236,7 +237,8 @@
     "name": { "str": "coming of age novel" },
     "copy-from": "novel_coa",
     "description": "A graphic novel about a young girl living in Iran during the 1980's, seeing the world change around her as Iraq invaded her country.",
-    "relative": { "time": -4, "chapters": -2, "fun": 1 }
+    "time": "16 m",
+    "relative": { "chapters": -2, "fun": 1 }
   },
   {
     "id": "novel_crime",
@@ -255,7 +257,8 @@
     "name": { "str": "crime novel" },
     "copy-from": "novel_crime",
     "description": "A story about three people in the fictional city of Los Santos, a gangster, an upper-class man, and a psychopath, eventually banding together to pull-off the biggest heist in the city's history",
-    "relative": { "time": -3, "chapters": -3 }
+    "time": "18 m",
+    "relative": { "chapters": -3 }
   },
   {
     "id": "novel_crime_murdergrape",
@@ -269,8 +272,9 @@
     "type": "BOOK",
     "name": { "str": "Midnight Cop", "str_pl": "copies of Midnight Cop" },
     "description": "In this bare-knuckled potboiler, a ruthless police detective schemes to shut down local crime lords by pitting them against each other.  When long-simmering resentments finally flare the city learns why they call it \"the dead of night.\"",
+    "time": "24 m",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "time": 5, "chapters": -8 }
+    "relative": { "chapters": -8 }
   },
   {
     "id": "novel_drama",
@@ -406,7 +410,7 @@
     "name": "Love and Circuses",
     "description": "The passionate saga of two Boston politicians fiercely battling each other for the mayor's office, and for Lydia's hand in marriage.",
     "copy-from": "paperback_romance_spb",
-    "relative": { "chapters": 2, "time": 3, "weight": 111 }
+    "relative": { "chapters": 2, "weight": 111 }
   },
   {
     "id": "paperback_romance_cloven",
@@ -538,7 +542,8 @@
     "description": "A paperback edition of Kurt Vonnegut's fourth novel, in which the threat of nuclear destruction isn't much of an influence on human nature.",
     "weight": "360 g",
     "copy-from": "book_fict_soft_satire_tpl",
-    "relative": { "chapters": 111, "fun": -1, "time": -19 }
+    "time": "1 m",
+    "relative": { "chapters": 111, "fun": -1 }
   },
   {
     "id": "novel_scifi",
@@ -815,7 +820,8 @@
     "name": { "str": "war novel" },
     "copy-from": "novel_war",
     "description": "A story about a Bosnian citizen who goes through many hardships and near death during the breakup of Yugoslavia.",
-    "relative": { "time": -4, "chapters": -4 }
+    "time": "16 m",
+    "relative": { "chapters": -4 }
   },
   {
     "id": "novel_western",
@@ -1121,7 +1127,7 @@
     "id": "priest_diary",
     "type": "BOOK",
     "name": { "str": "priest's diary", "str_pl": "priests' diaries" },
-    "description": "A small book filled with journal entries in Latin.",
+    "description": "A small book filled with journal entries in Latin.  You can read Latin, right?",
     "weight": "340 g",
     "volume": "750 ml",
     "price": 1500,

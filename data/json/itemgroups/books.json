@@ -661,6 +661,7 @@
       { "item": "mag_glam", "prob": 60 },
       { "item": "mag_beauty", "prob": 50 },
       { "item": "mag_news", "prob": 35 },
+      { "item": "book_nonf_zine_news_anlyst", "prob": 35 },
       { "item": "news_regional", "prob": 15 }
     ]
   },
