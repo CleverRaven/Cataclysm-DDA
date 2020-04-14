@@ -23,7 +23,7 @@ void bresenham( const point &p1, const point &p2, int t,
     const int sx = ( d.x == 0 ) ? 0 : sgn( d.x );
     const int sy = ( d.y == 0 ) ? 0 : sgn( d.y );
     // Absolute values of slopes x2 to avoid rounding errors.
-    const point a = std::abs( d ) * 2;
+    const point a = abs( d ) * 2;
 
     point cur = p1;
 
@@ -264,7 +264,7 @@ float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 )
 
 int manhattan_dist( const point &loc1, const point &loc2 )
 {
-    const point d = std::abs( loc1 - loc2 );
+    const point d = abs( loc1 - loc2 );
     return d.x + d.y;
 }
 
