@@ -790,8 +790,8 @@ bool player::has_opposite_trait( const trait_id &flag ) const
             return true;
         }
     }
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        for( const trait_id &canceled_trait : mut.first->cancels ) {
+    for( const trait_id &mut : get_mutations() ) {
+        for( const trait_id &canceled_trait : mut->cancels ) {
             if( canceled_trait == flag ) {
                 return true;
             }
@@ -5171,9 +5171,10 @@ float player::hearing_ability() const
 
 std::string player::visible_mutations( const int visibility_cap ) const
 {
-    const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
-    [visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
-        const auto &mut_branch = pr.first.obj();
+    const std::vector<trait_id> &my_muts = get_mutations();
+    const std::string trait_str = enumerate_as_string( my_muts.begin(), my_muts.end(),
+    [visibility_cap ]( const trait_id & pr ) -> std::string {
+        const auto &mut_branch = pr.obj();
         // Finally some use for visibility trait of mutations
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {

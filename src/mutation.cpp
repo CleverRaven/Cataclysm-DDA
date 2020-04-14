@@ -99,8 +99,8 @@ bool Character::has_trait( const trait_id &b ) const
 bool Character::has_trait_flag( const std::string &b ) const
 {
     // UGLY, SLOW, should be cached as my_mutation_flags or something
-    for( const auto &mut : my_mutations ) {
-        auto &mut_data = mut.first.obj();
+    for( const trait_id &mut : get_mutations() ) {
+        const mutation_branch &mut_data = mut.obj();
         if( mut_data.flags.count( b ) > 0 ) {
             return true;
         }
@@ -400,8 +400,8 @@ bool Character::is_category_allowed( const std::string &category ) const
 
 bool Character::is_weak_to_water() const
 {
-    for( const auto &mut : my_mutations ) {
-        if( mut.first.obj().weakness_to_water > 0 ) {
+    for( const trait_id &mut : get_mutations() ) {
+        if( mut.obj().weakness_to_water > 0 ) {
             return true;
         }
     }
@@ -623,7 +623,7 @@ void Character::deactivate_mutation( const trait_id &mut )
 
 trait_id Character::trait_by_invlet( const int ch ) const
 {
-    for( auto &mut : my_mutations ) {
+    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
         if( mut.second.key == ch ) {
             return mut.first;
         }

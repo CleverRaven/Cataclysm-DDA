@@ -3010,7 +3010,7 @@ std::vector<std::string> Character::get_overlay_ids() const
     }
 
     // then get mutations
-    for( const auto &mut : my_mutations ) {
+    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
         overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
         mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
@@ -3745,14 +3745,14 @@ int Character::encumb( body_part bp ) const
 }
 
 static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
-                                   const mutation_branch &mut,
+                                   const trait_id &mut,
                                    const body_part_set &oversize )
 {
-    for( const auto &enc : mut.encumbrance_always ) {
+    for( const std::pair<body_part, int> &enc : mut->encumbrance_always ) {
         vals[enc.first].encumbrance += enc.second;
     }
 
-    for( const auto &enc : mut.encumbrance_covered ) {
+    for( const std::pair<body_part, int> &enc : mut->encumbrance_covered ) {
         if( !oversize.test( enc.first ) ) {
             vals[enc.first].encumbrance += enc.second;
         }
@@ -3777,8 +3777,8 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
 
     // Lower penalty for bps covered only by XL armor
     const auto oversize = exclusive_flag_coverage( flag_OVERSIZE );
-    for( const auto &mut_pair : my_mutations ) {
-        apply_mut_encumbrance( vals, *mut_pair.first, oversize );
+    for( const trait_id &mut : get_mutations() ) {
+        apply_mut_encumbrance( vals, mut, oversize );
     }
 }
 
@@ -6337,7 +6337,7 @@ float Character::active_light() const
     lumination = static_cast<float>( maxlum );
 
     float mut_lum = 0.0f;
-    for( const auto &mut : my_mutations ) {
+    for( const std::pair<trait_id, trait_data> &mut : my_mutations ) {
         if( mut.second.powered ) {
             float curr_lum = 0.0f;
             for( const auto elem : mut.first->lumination ) {
@@ -6442,8 +6442,8 @@ bool Character::pour_into( vehicle &veh, item &liquid )
 resistances Character::mutation_armor( body_part bp ) const
 {
     resistances res;
-    for( auto &iter : my_mutations ) {
-        res += iter.first->damage_resistance( bp );
+    for( const trait_id &iter : get_mutations() ) {
+        res += iter->damage_resistance( bp );
     }
 
     return res;
@@ -7852,10 +7852,10 @@ void Character::set_highest_cat_level()
     mutation_category_level.clear();
 
     // For each of our mutations...
-    for( const std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
+    for( const trait_id &mut : get_mutations() ) {
         // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
         std::unordered_map<trait_id, int> dependency_map;
-        build_mut_dependency_map( mut.first, dependency_map, 0 );
+        build_mut_dependency_map( mut, dependency_map, 0 );
 
         // Then use the map to set the category levels
         for( const std::pair<const trait_id, int> &i : dependency_map ) {
@@ -7877,8 +7877,8 @@ void Character::drench_mut_calc()
         int neutral = 0;
         int good = 0;
 
-        for( const auto &iter : my_mutations ) {
-            const mutation_branch &mdata = iter.first.obj();
+        for( const trait_id &iter : get_mutations() ) {
+            const mutation_branch &mdata = iter.obj();
             const auto wp_iter = mdata.protection.find( bp );
             if( wp_iter != mdata.protection.end() ) {
                 ignored += wp_iter->second.x;
@@ -8392,8 +8392,8 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 
 bool Character::crossed_threshold() const
 {
-    for( const std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
-        if( mut.first->threshold ) {
+    for( const trait_id &mut : get_mutations() ) {
+        if( mut->threshold ) {
             return true;
         }
     }
@@ -8794,16 +8794,17 @@ void Character::check_and_recover_morale()
 {
     player_morale test_morale;
 
-    for( const auto &wit : worn ) {
+    for( const item &wit : worn ) {
         test_morale.on_item_wear( wit );
     }
 
-    for( const auto &mut : my_mutations ) {
-        test_morale.on_mutation_gain( mut.first );
+    for( const trait_id &mut : get_mutations() ) {
+        test_morale.on_mutation_gain( mut );
     }
 
-    for( auto &elem : *effects ) {
-        for( auto &_effect_it : elem.second ) {
+    for( std::pair<const efftype_id, std::unordered_map<body_part, effect, std::hash<int>>> &elem :
+         *effects ) {
+        for( std::pair<const body_part, effect> &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
             test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
         }
@@ -9165,9 +9166,8 @@ int Character::floor_warmth( const tripoint &pos ) const
 int Character::bodytemp_modifier_traits( bool overheated ) const
 {
     int mod = 0;
-    for( auto &iter : my_mutations ) {
-        mod += overheated ? iter.first->bodytemp_min :
-               iter.first->bodytemp_max;
+    for( const trait_id &iter : get_mutations() ) {
+        mod += overheated ? iter->bodytemp_min : iter->bodytemp_max;
     }
     return mod;
 }
@@ -9175,8 +9175,8 @@ int Character::bodytemp_modifier_traits( bool overheated ) const
 int Character::bodytemp_modifier_traits_floor() const
 {
     int mod = 0;
-    for( auto &iter : my_mutations ) {
-        mod += iter.first->bodytemp_sleep;
+    for( const trait_id &iter : get_mutations() ) {
+        mod += iter->bodytemp_sleep;
     }
     return mod;
 }

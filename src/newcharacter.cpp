@@ -218,8 +218,8 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     int num_btraits = 0;
     int tries = 0;
     add_traits( points ); // adds mandatory profession/scenario traits.
-    for( const auto &mut : my_mutations ) {
-        const mutation_branch &mut_info = mut.first.obj();
+    for( const trait_id &mut : get_mutations() ) {
+        const mutation_branch &mut_info = mut.obj();
         if( mut_info.profession ) {
             continue;
         }
@@ -2719,7 +2719,7 @@ std::vector<trait_id> Character::get_base_traits() const
 std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
-    for( auto &t : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         if( include_hidden || t.first.obj().player_display ) {
             result.push_back( t.first );
         }
