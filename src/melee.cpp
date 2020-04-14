@@ -2195,46 +2195,18 @@ double player::weapon_value( const item &weap, int ammo ) const
 
 double player::melee_value( const item &weap ) const
 {
-    double my_value = 0;
-
-    damage_instance non_crit;
-    roll_all_damage( false, non_crit, true, weap );
-    float avg_dmg = non_crit.total_damage();
-
-    const int accuracy = weap.type->m_to_hit + get_hit_weapon( weap );
-    if( accuracy < 0 ) {
-        // Heavy penalty
-        my_value += accuracy * 5;
-    } else if( accuracy <= 5 ) {
-        // Big bonus
-        my_value += accuracy * 3;
-    } else {
-        // Small bonus above that
-        my_value += 15 + ( accuracy - 5 );
-    }
-
-    int move_cost = attack_speed( weap );
-    static const matec_id rapid_strike( "RAPID" );
-    if( weap.has_technique( rapid_strike ) ) {
-        move_cost /= 2;
-        avg_dmg *= 0.66;
-    }
-
-    const int arbitrary_dodge_target = 5;
-    double crit_ch = crit_chance( accuracy, arbitrary_dodge_target, weap );
-    my_value += crit_ch * 10; // Criticals are worth more than just extra damage
-    if( crit_ch > 0.1 ) {
-        damage_instance crit;
-        roll_all_damage( true, crit, true, weap );
-        // Note: intentionally doesn't include rapid attack bonus in criticals
-        avg_dmg = ( 1.0 - crit_ch ) * avg_dmg + crit.total_damage() * crit_ch;
-    }
-
-    my_value += avg_dmg * 100 / move_cost;
+    // start with average effective dps against a range of enemies
+    double my_value = weap.average_dps( *this );
 
     float reach = weap.reach_range( *this );
+    // value reach weapons more
     if( reach > 1.0f ) {
-        my_value *= 1.0f + 0.5f * ( sqrtf( reach ) - 1.0f );
+        my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
+    }
+
+    // value style weapons more
+    if( !martial_arts_data.enumerate_known_styles( weap.type->get_id() ).empty() ) {
+        my_value *= 1.5;
     }
 
     add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id(), my_value );
@@ -2392,6 +2364,7 @@ void melee::clear_stats()
     melee_stats.crit_count = 0;
     melee_stats.double_crit_chance = 0.0;
     melee_stats.crit_chance = 0.0;
+    melee_stats.actual_crit_count = 0;
     melee_stats.damage_amount = 0;
 }
 
