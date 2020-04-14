@@ -290,7 +290,7 @@
     "id": "THICKSKIN",
     "name": { "str": "Thick-Skinned" },
     "points": 1,
-    "description": "Your skin is tough. Cutting and bash damage is slightly reduced for you. There's a small chance you don't cut yourself on sharp terrain.",
+    "description": "Your skin is tough.  Cutting and bash damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
     "starting_trait": true,
     "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR" ],
     "cancels": [ "THINSKIN" ],
