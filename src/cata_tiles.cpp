@@ -165,15 +165,15 @@ formatted_text::formatted_text( const std::string &text, const int color,
         case direction::NORTHWEST:
         case direction::WEST:
         case direction::SOUTHWEST:
-            alignment = TEXT_ALIGNMENT_RIGHT;
+            alignment = text_alignment::right;
             break;
         case direction::NORTH:
         case direction::CENTER:
         case direction::SOUTH:
-            alignment = TEXT_ALIGNMENT_CENTER;
+            alignment = text_alignment::center;
             break;
         default:
-            alignment = TEXT_ALIGNMENT_LEFT;
+            alignment = text_alignment::left;
             break;
     }
 }
