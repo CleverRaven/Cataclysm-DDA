@@ -48,7 +48,16 @@
     "armor_cut": 12,
     "luminance": 10,
     "vision_night": 5,
-    "special_attacks": [ [ "TAZER", 12 ], { "id": "tool_slash" }, { "type": "spell", "spell_data": { "id": "dks_cameraflash" }, "cooldown": 40, "monster_message": "%1$s blinds %3$s with its integrated camera!" } ],
+    "special_attacks": [
+      [ "TAZER", 12 ],
+      { "id": "tool_slash" },
+      {
+        "type": "spell",
+        "spell_data": { "id": "dks_cameraflash" },
+        "cooldown": 40,
+        "monster_message": "%1$s blinds %3$s with its integrated camera!"
+      }
+    ],
     "path_settings": { "max_dist": 5 },
     "anger_triggers": [ "HURT", "PLAYER_WEAK", "STALK" ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
