@@ -1583,12 +1583,14 @@ class Character : public Creature, public visitable<Character>
         void reset_chargen_attributes();
         // age in years, determined at character creation
         int base_age() const;
+        void set_base_age( int age );
         void mod_base_age( int mod );
         // age in years
         int age() const;
         std::string age_string() const;
         // returns the height in cm
         int base_height() const;
+        void set_base_height( int height );
         void mod_base_height( int mod );
         std::string height_string() const;
         // returns the height of the player character in cm

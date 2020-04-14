@@ -2295,9 +2295,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     catacurses::window w_age;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_name = catacurses::newwin( 2, 42, point( 2, 5 ) );
+        w_name = catacurses::newwin( 3, 42, point( 2, 5 ) );
         w_gender = catacurses::newwin( 2, 33, point( 46, 5 ) );
-        w_location = catacurses::newwin( 1, TERMX - 3, point( 2, 7 ) );
+        w_location = catacurses::newwin( 2, 60, point( 100, 5 ) );
         w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
         w_traits = catacurses::newwin( TERMY - 10, 24, point( 22, 9 ) );
         w_scenario = catacurses::newwin( 1, TERMX - 47, point( 46, 9 ) );
@@ -2318,7 +2318,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     input_context ctxt( "NEW_CHAR_DESCRIPTION" );
     ctxt.register_cardinal();
     ctxt.register_action( "SAVE_TEMPLATE" );
-    ctxt.register_action( "PICK_RANDOM_NAME" );
+    ctxt.register_action( "RANDOMIZE_CHAR_DESCRIPTION" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
@@ -2326,7 +2326,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     ctxt.register_action( "CHOOSE_LOCATION" );
     ctxt.register_action( "REROLL_CHARACTER" );
     ctxt.register_action( "REROLL_CHARACTER_WITH_SCENARIO" );
-    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
 
     uilist select_location;
@@ -2489,8 +2489,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         if( !MAP_SHARING::isSharing() ) { // no random names when sharing maps
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             fold_and_print( w_name, point( 0, 1 ), ( TERMX / 2 ), c_light_gray,
-                            _( "Press <color_light_green>%s</color> to pick a random name." ),
-                            ctxt.get_desc( "PICK_RANDOM_NAME" ) );
+                            _( "Press <color_light_green>%s</color> to edit.\nPress <color_light_green>%s</color> to randomize description." ),
+                            ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
         }
         wrefresh( w_name );
 
@@ -2510,13 +2510,13 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         const std::string location_prompt = string_format(
                                                 _( "Press <color_light_green>%s</color> to select location." ),
                                                 ctxt.get_desc( "CHOOSE_LOCATION" ) );
-        const int prompt_offset = utf8_width( location_prompt );
+
         werase( w_location );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_location, point( 0, 1 ), ( TERMX / 2 ), c_light_gray, location_prompt );
-        mvwprintz( w_location, point( prompt_offset - 10, 0 ), c_light_gray, _( "Starting location:" ) );
+        mvwprintz( w_location, point( 0, 0 ), c_light_gray, _( "Starting location:" ) );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
-        mvwprintz( w_location, point( prompt_offset + utf8_width( _( "Starting location:" ) ) - 9, 0 ),
+        mvwprintz( w_location, point( utf8_width( _( "Starting location:" ) ) + 1, 0 ),
                    you.random_start_location ? c_red : c_light_green,
                    you.random_start_location ? remove_color_tags( random_start_location_text ) :
                    string_format( remove_color_tags( START_LOC_TEXT_TEMPLATE ),
@@ -2646,10 +2646,14 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             if( const auto name = query_for_template_name() ) {
                 you.save_template( *name, points );
             }
-        } else if( action == "PICK_RANDOM_NAME" ) {
+        } else if( action == "RANDOMIZE_CHAR_DESCRIPTION" ) {
             if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
                 you.pick_name();
+                no_name_entered = you.name.empty();
             }
+            you.set_base_age( rng( 16, 55 ) );
+            you.set_base_height( rng( 145, 200 ) );
+            you.male = one_in( 2 );
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
         } else if( action == "CHOOSE_LOCATION" ) {
@@ -2665,28 +2669,42 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     }
                 }
             }
-        } else if( action == "ANY_INPUT" &&
+        } else if( action == "CONFIRM" &&
                    // Don't edit names when sharing maps
-                   !MAP_SHARING::isSharing() && current_selector == char_creation::NAME ) {
-            const int ch = ctxt.get_raw_input().get_first_input();
-            utf8_wrapper wrap( you.name );
-            if( ch == KEY_BACKSPACE ) {
-                if( !wrap.empty() ) {
-                    wrap.erase( wrap.length() - 1, 1 );
-                    you.name = wrap.str();
+                   !MAP_SHARING::isSharing() ) {
+
+            string_input_popup popup;
+            switch( current_selector ) {
+                case char_creation::NAME: {
+                    popup.title( _( "Enter name.  Cancel to delete all." ) )
+                    .text( you.name )
+                    .only_digits( false );
+                    you.name = popup.query_string();
+                    no_name_entered = you.name.empty();
+                    break;
                 }
-            } else if( ch == KEY_F( 2 ) ) {
-                utf8_wrapper tmp( get_input_string_from_file() );
-                if( !tmp.empty() && tmp.length() + wrap.length() < 30 ) {
-                    you.name.append( tmp.str() );
+                case char_creation::AGE: {
+                    popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
+                    .text( string_format( "%d", you.base_age() ) )
+                    .only_digits( true );
+                    const int result = popup.query_int();
+                    if( result != 0 ) {
+                        you.set_base_age( clamp( popup.query_int(), 16, 55 ) );
+                    }
+                    break;
                 }
-            } else if( ch == '\n' ) {
-                // nope, we ignore this newline, don't want it in char names
-            } else {
-                wrap.append( ctxt.get_raw_input().text );
-                you.name = wrap.str();
+                case char_creation::HEIGHT: {
+                    popup.title( _( "Enter height in centimeters.  Minimum 145, maximum 200" ) )
+                    .text( string_format( "%d", you.base_height() ) )
+                    .only_digits( true );
+                    const int result = popup.query_int();
+                    if( result != 0 ) {
+                        you.set_base_height( clamp( popup.query_int(), 145, 200 ) );
+                    }
+                    break;
+                }
             }
-            no_name_entered = false;
+
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             return tab_direction::QUIT;
         }
