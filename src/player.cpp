@@ -1840,11 +1840,16 @@ void player::process_items()
         weapon = item();
     }
 
-    std::vector<item *> inv_active = inv.active_items();
-    for( item *tmp_it : inv_active ) {
-        if( tmp_it->process( this, pos(), false ) ) {
-            inv.remove_item( tmp_it );
+    std::vector<item *> removed_items;
+    for( item *it : all_items_ptr() ) {
+        if( it->needs_processing() ) {
+            if( it->process( this, pos(), false ) ) {
+                removed_items.push_back( it );
+            }
         }
+    }
+    for( item *removed : removed_items ) {
+        remove_item( *removed );
     }
 
     // worn items

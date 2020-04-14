@@ -8353,8 +8353,16 @@ uint64_t item::make_component_hash() const
 
 bool item::needs_processing() const
 {
-    return active || has_flag( flag_RADIO_ACTIVATION ) || has_flag( flag_ETHEREAL_ITEM ) ||
-           is_artifact() || is_food();
+    bool need_process = false;
+    visit_items( [&need_process]( const item * it ) {
+        if( it->active || it->has_flag( flag_RADIO_ACTIVATION ) || it->has_flag( flag_ETHEREAL_ITEM ) ||
+            it->is_artifact() || it->is_food() ) {
+            need_process = true;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return need_process;
 }
 
 int item::processing_speed() const
