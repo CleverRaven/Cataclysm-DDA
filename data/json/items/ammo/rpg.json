@@ -57,7 +57,7 @@
     "range": 30,
     "dispersion": 50,
     "recoil": 450,
-    "effects": [ "COOKOFF", TBG-7V_EXPLOSIVE, "TRAIL", "NEVER_MISFIRES", "NAPALM_TBG7V" ]
+    "effects": [ "COOKOFF", "TBG-7V_EXPLOSIVE", "TRAIL", "NEVER_MISFIRES", "NAPALM_TBG7V" ]
   },
   {
     "type": "AMMO",

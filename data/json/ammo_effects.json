@@ -41,6 +41,11 @@
     "explosion": { "power": 360, "distance_factor": 0.8, "fire": true }
   },
   {
+    "id": "NAPALM_TBG7V",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4 }
+  },
+  {
     "id": "PYROPHORIC",
     "type": "ammo_effect",
     "aoe": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "radius": 3 },
@@ -158,17 +163,17 @@
     "explosion": { "power": 400, "shrapnel": { "casing_mass": 680, "fragment_mass": 0.3 } }
   },
   {
-    "id": "OG-7V_EXPLOSIVE",
+    "id": "OG7V_EXPLOSIVE",
     "type": "ammo_effect",
     "explosion": { "power": 266, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.15 } }
   },
   {
-    "id": "PG-7VL_EXPLOSIVE",
+    "id": "PG7VL_EXPLOSIVE",
     "type": "ammo_effect",
     "explosion": { "power": 598, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.3 } }
   },
   {
-    "id": "PG-7VR_EXPLOSIVE",
+    "id": "PG7VR_EXPLOSIVE",
     "type": "ammo_effect",
     "explosion": { "power": 1995, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.3 } }
   },
