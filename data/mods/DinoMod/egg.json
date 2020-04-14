@@ -107,6 +107,12 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_dimorphodon",
+    "name": "parasaurolophus egg",
+    "copy-from": "egg_dino"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_dilophosaurus",
     "name": "dilophosaurus egg",
     "copy-from": "egg_dino"
