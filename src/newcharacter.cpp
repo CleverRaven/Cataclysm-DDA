@@ -2514,7 +2514,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         werase( w_location );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_location, point( 0, 1 ), ( TERMX / 2 ), c_light_gray, location_prompt );
-        mvwprintz( w_location, point( 0, 0 ), c_light_gray, _( "Starting location:" ) );
+        mvwprintz( w_location, point_zero, c_light_gray, _( "Starting location:" ) );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, point( utf8_width( _( "Starting location:" ) ) + 1, 0 ),
                    you.random_start_location ? c_red : c_light_green,
