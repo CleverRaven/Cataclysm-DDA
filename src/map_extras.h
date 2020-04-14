@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAP_EXTRAS_H
-#define MAP_EXTRAS_H
+#ifndef CATA_SRC_MAP_EXTRAS_H
+#define CATA_SRC_MAP_EXTRAS_H
 
 #include <cstdint>
 #include <string>
@@ -81,4 +81,4 @@ const generic_factory<map_extra> &mapExtraFactory();
 
 } // namespace MapExtras
 
-#endif
+#endif // CATA_SRC_MAP_EXTRAS_H

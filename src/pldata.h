@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PLDATA_H
-#define PLDATA_H
+#ifndef CATA_SRC_PLDATA_H
+#define CATA_SRC_PLDATA_H
 
 #include <string>
 
@@ -62,4 +62,4 @@ class addiction
         void deserialize( JsonIn &jsin );
 };
 
-#endif
+#endif // CATA_SRC_PLDATA_H

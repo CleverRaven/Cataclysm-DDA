@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ACTIVITY_TYPE_H
-#define ACTIVITY_TYPE_H
+#ifndef CATA_SRC_ACTIVITY_TYPE_H
+#define CATA_SRC_ACTIVITY_TYPE_H
 
 #include <string>
 
@@ -85,4 +85,4 @@ class activity_type
         static void reset();
 };
 
-#endif
+#endif // CATA_SRC_ACTIVITY_TYPE_H

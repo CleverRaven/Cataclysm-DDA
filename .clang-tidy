@@ -55,7 +55,7 @@ readability-*,\
 -readability-redundant-declaration,\
 "
 WarningsAsErrors: '*'
-HeaderFilterRegex: '(src|test).*'
+HeaderFilterRegex: '(src|test|tools).*'
 FormatStyle:     none
 CheckOptions:
   - key: readability-uppercase-literal-suffix.NewSuffixes

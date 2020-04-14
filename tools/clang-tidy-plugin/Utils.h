@@ -1,5 +1,5 @@
-#ifndef CATA_TOOLS_CLANG_TIDY_UTILS_H
-#define CATA_TOOLS_CLANG_TIDY_UTILS_H
+#ifndef CATA_TOOLS_CLANG_TIDY_PLUGIN_UTILS_H
+#define CATA_TOOLS_CLANG_TIDY_PLUGIN_UTILS_H
 
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/ASTTypeTraits.h>
@@ -143,4 +143,4 @@ class NameConvention
 } // namespace tidy
 } // namespace clang
 
-#endif // CATA_TOOLS_CLANG_TIDY_UTILS_H
+#endif // CATA_TOOLS_CLANG_TIDY_PLUGIN_UTILS_H

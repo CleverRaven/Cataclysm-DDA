@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MATTACK_ACTORS_H
-#define MATTACK_ACTORS_H
+#ifndef CATA_SRC_MATTACK_ACTORS_H
+#define CATA_SRC_MATTACK_ACTORS_H
 
 #include <climits>
 #include <map>
@@ -192,4 +192,4 @@ class gun_actor : public mattack_actor
         std::unique_ptr<mattack_actor> clone() const override;
 };
 
-#endif
+#endif // CATA_SRC_MATTACK_ACTORS_H

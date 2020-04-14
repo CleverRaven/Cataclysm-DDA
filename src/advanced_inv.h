@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ADVANCED_INV_H
-#define ADVANCED_INV_H
+#ifndef CATA_SRC_ADVANCED_INV_H
+#define CATA_SRC_ADVANCED_INV_H
 
 #include <array>
 #include <cctype>
@@ -197,4 +197,4 @@ class advanced_inventory
                             const std::string &action, int &amount );
 };
 
-#endif
+#endif // CATA_SRC_ADVANCED_INV_H

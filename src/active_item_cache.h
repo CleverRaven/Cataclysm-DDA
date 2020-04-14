@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ACTIVE_ITEM_CACHE_H
-#define ACTIVE_ITEM_CACHE_H
+#ifndef CATA_SRC_ACTIVE_ITEM_CACHE_H
+#define CATA_SRC_ACTIVE_ITEM_CACHE_H
 
 #include <iosfwd>
 #include <list>
@@ -84,4 +84,4 @@ class active_item_cache
         void rotate_locations( int turns, const point &dim );
 };
 
-#endif
+#endif // CATA_SRC_ACTIVE_ITEM_CACHE_H
