@@ -7935,7 +7935,7 @@ bool item::allow_crafting_component() const
     if( is_gun() ) {
         bool valid = true;
         visit_items( [&]( const item * it ) {
-            if (this == it) {
+            if ( this == it ) {
                 return VisitResponse::NEXT;
             }
             if( !( it->is_magazine() || ( it->is_gunmod() && it->is_irremovable() ) ) ) {
