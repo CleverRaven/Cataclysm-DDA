@@ -3074,7 +3074,7 @@ bool player::takeoff( int pos )
     return takeoff( i_at( pos ) );
 }
 
-bool player::add_or_drop_with_msg( item &it, const bool unloading )
+bool player::add_or_drop_with_msg( item &it, const bool unloading, const item *avoid )
 {
     if( it.made_of( LIQUID ) ) {
         liquid_handler::consume_liquid( it, 1 );
@@ -3088,7 +3088,7 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
     } else {
-        auto &ni = this->i_add( it );
+        auto &ni = this->i_add( it, true, avoid );
         add_msg( _( "You put the %s in your inventory." ), ni.tname() );
         add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname() );
     }
@@ -3111,7 +3111,7 @@ bool player::unload( item &it )
         bool changed = false;
         for( item *contained : it.contents.all_items_top() ) {
             int old_charges = contained->charges;
-            const bool consumed = this->add_or_drop_with_msg( *contained, true );
+            const bool consumed = this->add_or_drop_with_msg( *contained, true, &it );
             changed = changed || consumed || contained->charges != old_charges;
             if( consumed ) {
                 this->mod_moves( -this->item_handling_cost( *contained ) );
@@ -3211,12 +3211,15 @@ bool player::unload( item &it )
         } );
 
     } else if( target->ammo_remaining() ) {
-        int qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
-        if( qty > 0 ) {
-            add_msg( _( "You recover %i unused plutonium." ), qty );
-        } else {
-            add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
-            return false;
+        int qty = target->ammo_remaining();
+
+        if( target->ammo_current() == "plut_cell" ) {
+            if( qty / PLUTONIUM_CHARGES > 0 ) {
+                add_msg( _( "You recover %i unused plutonium." ), qty / PLUTONIUM_CHARGES );
+            } else {
+                add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
+                return false;
+            }
         }
 
         // Construct a new ammo item and try to drop it
@@ -3239,10 +3242,6 @@ bool player::unload( item &it )
 
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
-
-        if( target->ammo_current() == "plut_cell" ) {
-            qty *= PLUTONIUM_CHARGES;
-        }
 
         target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
     }

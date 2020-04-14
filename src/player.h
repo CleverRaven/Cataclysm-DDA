@@ -433,8 +433,11 @@ class player : public Character
         bool takeoff( item &it, std::list<item> *res = nullptr );
         bool takeoff( int pos );
 
-        /** So far only called by unload() from game.cpp */
-        bool add_or_drop_with_msg( item &it, bool unloading = false );
+        /**
+          * So far only called by unload() from game.cpp
+          * @avoid - do not put @it into @avoid
+          */
+        bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr );
 
         bool unload( item &it );
 

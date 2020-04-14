@@ -2198,10 +2198,13 @@ int Character::i_add_to_container( const item &it, const bool unloading )
     return charges;
 }
 
-item_pocket *Character::best_pocket( const item &it )
+item_pocket *Character::best_pocket( const item &it, const item *avoid )
 {
     item_pocket *ret = weapon.best_pocket( it );
     for( item &worn_it : worn ) {
+        if( &worn_it == avoid ) {
+            continue;
+        }
         item_pocket *internal_pocket = worn_it.best_pocket( it );
         if( internal_pocket != nullptr ) {
             if( ret == nullptr ) {
@@ -2216,7 +2219,7 @@ item_pocket *Character::best_pocket( const item &it )
     return ret;
 }
 
-item &Character::i_add( item it, bool  /* should_stack */ )
+item &Character::i_add( item it, bool  /* should_stack */, const item *avoid )
 {
     itype_id item_type_id = it.typeId();
     last_item = item_type_id;
@@ -2231,7 +2234,7 @@ item &Character::i_add( item it, bool  /* should_stack */ )
             break;
         }
     }
-    item_pocket *pocket = best_pocket( it );
+    item_pocket *pocket = best_pocket( it, avoid );
     if( pocket == nullptr ) {
         if( !has_weapon() ) {
             weapon = it;

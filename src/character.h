@@ -874,8 +874,11 @@ class Character : public Creature, public visitable<Character>
         int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
-
-        item_pocket *best_pocket( const item &it );
+        /**
+          * What is the best pocket to put @it into?
+          * the pockets in @avoid do not count
+          */
+        item_pocket *best_pocket( const item &it, const item *avoid );
     protected:
         void do_skill_rust();
         /** Applies stat mods to character. */
@@ -1249,7 +1252,8 @@ class Character : public Creature, public visitable<Character>
          * @return Remaining charges which could not be stored in a container.
          */
         int i_add_to_container( const item &it, bool unloading );
-        item &i_add( item it, bool should_stack = true );
+        /** @avoid is the item to not put @it into */
+        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
