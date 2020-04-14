@@ -271,7 +271,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     return r;
 }
 
-weather_type weather_generator::get_variant_modded_weather_conditions( const w_point &w ) const
+weather_type weather_generator::get_variant_modded_weather_conditions( const w_point & ) const
 {
     // rainbw!!!
     return WEATHER_RAINBOW;
