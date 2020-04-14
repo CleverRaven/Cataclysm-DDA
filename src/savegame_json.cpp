@@ -516,13 +516,14 @@ void Character::load( const JsonObject &data )
     } else {
         data.read( "mutations", my_mutations );
     }
-    for( const trait_id mid : get_mutations() ) {
+    for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
+        const trait_id &mid = it->first;
         if( mid.is_valid() ) {
             on_mutation_gain( mid );
             cached_mutations.push_back( &mid.obj() );
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
-            my_mutations.erase( mid );
+            it = my_mutations.erase( it );
         }
     }
     size_class = calculate_size( *this );
