@@ -836,7 +836,7 @@
     "quench": 2,
     "healthy": 1,
     "calories": 31,
-    "description": "A green bell pepper. They could be cooked.",
+    "description": "A green bell pepper. It could be cooked.",
     "price": 20,
     "material": "veggy",
     "volume": "250 ml",
@@ -845,4 +845,5 @@
     "fun": -5,
     "vitamins": [ [ "calcium", 2 ], [ "vitC", 12 ], [ "vitA", 8 ] ]
   }
+]
 ]
