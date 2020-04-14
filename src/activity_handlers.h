@@ -1,18 +1,20 @@
 #pragma once
-#ifndef ACTIVITY_HANDLERS_H
-#define ACTIVITY_HANDLERS_H
+#ifndef CATA_SRC_ACTIVITY_HANDLERS_H
+#define CATA_SRC_ACTIVITY_HANDLERS_H
 
 #include <functional>
+#include <list>
 #include <map>
 #include <unordered_set>
 #include <vector>
-#include <list>
 
-#include "player_activity.h"
+#include "optional.h"
+#include "type_id.h"
 
-class player;
 class Character;
 class item;
+class player;
+class player_activity;
 struct tripoint;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
@@ -95,13 +97,13 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type 
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
-void activity_on_turn_move_items( player_activity &act, player &p );
 void activity_on_turn_move_loot( player_activity &act, player &p );
 //return true if there is an activity that can be done potentially, return false if no work can be found.
 bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );
 void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_pickup();
 void activity_on_turn_wear( player_activity &act, player &p );
+bool find_auto_consume( player &p, bool food );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
 enum class item_drop_reason {
@@ -274,4 +276,4 @@ finish_functions;
 
 } // namespace activity_handlers
 
-#endif
+#endif // CATA_SRC_ACTIVITY_HANDLERS_H

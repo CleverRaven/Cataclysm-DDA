@@ -1,28 +1,30 @@
 #include "magic_teleporter_list.h"
 
-#include <cstddef>
-#include <map>
 #include <algorithm>
+#include <map>
 #include <memory>
 #include <utility>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "color.h"
 #include "coordinate_conversions.h"
 #include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
-#include "messages.h"
 #include "map_iterator.h"
+#include "messages.h"
 #include "output.h"
 #include "panels.h"
-#include "string_input_popup.h"
-#include "ui.h"
-#include "color.h"
 #include "string_formatter.h"
+#include "string_input_popup.h"
 #include "translations.h"
+#include "type_id.h"
+#include "ui.h"
 
 static bool popup_string( std::string &result, std::string &title )
 {

@@ -204,7 +204,7 @@
     "name": "Eldritch",
     "points": 3,
     "description": "You have a sinister aspect to your demeanor, no longer part of this world.  You feel no sorrow at the deaths of humans and your brain now processes combat skills more efficiently as you mentally dissect your opponents.",
-    "social_modifiers": { "intimidate": 3 },
+    "social_modifiers": { "intimidate": 3, "persuade": -10, "lie": -12 },
     "purifiable": false,
     "flags": [ "PRED1" ],
     "prereqs": [ "THRESH_YUGGOTH" ],
@@ -244,7 +244,8 @@
     "points": 1,
     "description": "You are offputting to others.  You're mannerisms have changed as if human interaction is becoming foreign.",
     "category": [ "MIGO" ],
-    "social_modifiers": { "intimidate": 15 }
+    "social_modifiers": { "persuade": -15, "lie": -10 },
+    "ugliness": 2
   },
   {
     "type": "mutation",
@@ -272,5 +273,11 @@
     "description": "You can now breathe the gasses the mi-go thrive in.",
     "starting_trait": false,
     "category": [ "MIGO" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SHOUT1",
+    "copy-from": "SHOUT1",
+    "extend": { "category": [ "MIGO" ] }
   }
 ]

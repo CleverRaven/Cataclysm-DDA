@@ -8,6 +8,7 @@
     "volume": "250 ml",
     "weight": "1 g",
     "price": 120,
+    "price_postapoc": 25,
     "charges": 4,
     "stack_size": 100,
     "material": "veggy",
@@ -672,6 +673,7 @@
     "calories": 78,
     "description": "Some fried seeds of a sunflower, pumpkin or other plant.  Quite nutritious and tasty.",
     "price": 80,
+    "price_postapoc": 50,
     "material": "veggy",
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
@@ -695,6 +697,7 @@
     "calories": 9,
     "description": "Coffee pods taken from a Kentucky coffeetree.  If washed thoroughly and roasted, you could use them to make a dark and bitter brew much like coffee.",
     "price": 100,
+    "price_postapoc": 50,
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
@@ -745,5 +748,19 @@
     "name": { "str": "chamomile seeds", "str_pl": "chamomile seeds" },
     "description": "Some chamomile seeds.",
     "seed_data": { "plant_name": "chamomile", "fruit": "chamomile", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_mustard",
+    "copy-from": "seed",
+    "name": { "str": "mustard seeds", "str_pl": "mustard seeds" },
+    "weight": "2 g",
+    "color": "yellow",
+    "use_action": "SEED",
+    "fun": -3,
+    "description": "Some mustard seeds.  Could be ground into mustard powder.",
+    "price": 100,
+    "charges": 2,
+    "seed_data": { "plant_name": "mustard", "fruit": "seed_mustard", "byproducts": [ "withered" ], "grow": "91 days" }
   }
 ]

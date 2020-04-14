@@ -1,16 +1,15 @@
-#include <ctime>
+#include <algorithm>
 #include <chrono>
 #include <cstdio>
-#include <algorithm>
 #include <cstdlib>
+#include <ctime>
 #include <memory>
-#include <type_traits>
 #include <vector>
 
 #include "catch/catch.hpp"
 #include "line.h"
-#include "rng.h"
 #include "point.h"
+#include "rng.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 // Compare all future line_to implementations to the canonical one.
@@ -20,8 +19,8 @@ static std::vector <point> canonical_line_to(
     std::vector<point> ret;
     const int dx = x2 - x1;
     const int dy = y2 - y1;
-    const int ax = abs( dx ) << 1;
-    const int ay = abs( dy ) << 1;
+    const int ax = std::abs( dx ) << 1;
+    const int ay = std::abs( dy ) << 1;
     int sx = SGN( dx );
     int sy = SGN( dy );
     if( dy == 0 ) {
@@ -39,10 +38,10 @@ static std::vector <point> canonical_line_to(
     int xmax = ( x1 > x2 ? x1 : x2 );
     int ymax = ( y1 > y2 ? y1 : y2 );
 
-    xmin -= abs( dx );
-    ymin -= abs( dy );
-    xmax += abs( dx );
-    ymax += abs( dy );
+    xmin -= std::abs( dx );
+    ymin -= std::abs( dy );
+    xmax += std::abs( dx );
+    ymax += std::abs( dy );
 
     if( ax == ay ) {
         do {
@@ -395,8 +394,8 @@ TEST_CASE( "line_to_boundaries" )
 {
     for( int i = -60; i < 60; ++i ) {
         for( int j = -60; j < 60; ++j ) {
-            const int ax = abs( i ) * 2;
-            const int ay = abs( j ) * 2;
+            const int ax = std::abs( i ) * 2;
+            const int ay = std::abs( j ) * 2;
             const int dominant = std::max( ax, ay );
             const int minor = std::min( ax, ay );
             const int ideal_start_offset = minor - ( dominant / 2 );

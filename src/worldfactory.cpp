@@ -1,8 +1,8 @@
 #include "worldfactory.h"
 
-#include <cstdio>
 #include <algorithm>
 #include <array>
+#include <cstdio>
 #include <cstdlib>
 #include <fstream>
 #include <iterator>
@@ -14,11 +14,12 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "char_validity_check.h"
+#include "color.h"
 #include "cursesdef.h"
-#include "cursesport.h"
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
+#include "game.h"
 #include "ime.h"
 #include "input.h"
 #include "json.h"
@@ -26,12 +27,11 @@
 #include "name.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "game.h"
-#include "string_id.h"
 
 using namespace std::placeholders;
 

@@ -181,5 +181,63 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [ [ "afs_titanium_tooth", 25 ] ]
+  },
+  {
+    "id": "swat_gear",
+    "type": "item_group",
+    "items": [
+      { "item": "xlswat_armor", "prob": 12 },
+      { "item": "xlballistic_vest_empty", "prob": 6 },
+      { "item": "xlballistic_vest_esapi", "prob": 3 },
+      { "item": "xlboots_combat", "prob": 15 },
+      { "item": "xlgloves_tactical", "prob": 10 },
+      { "item": "tripaw_xlgloves_tactical", "prob": 8 }
+    ]
+  },
+  {
+    "id": "mil_armor",
+    "type": "item_group",
+    "items": [
+      { "item": "xlballistic_vest_empty", "prob": 6 },
+      { "item": "xlballistic_vest_esapi", "prob": 3 },
+      { "item": "xlboots_combat", "prob": 15 },
+      { "item": "xlgloves_tactical", "prob": 10 },
+      { "item": "tripaw_xlgloves_tactical", "prob": 8 }
+    ]
+  },
+  {
+    "id": "rare",
+    "type": "item_group",
+    "items": [
+      { "item": "xlswat_armor", "prob": 60 },
+      { "item": "xlballistic_vest_empty", "prob": 65 },
+      { "item": "xlballistic_vest_esapi", "prob": 39 },
+      { "item": "xlboots_combat", "prob": 70 },
+      { "item": "xlgloves_tactical", "prob": 50 },
+      { "item": "tripaw_xlgloves_tactical", "prob": 48 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_ganger",
+    "//": "Guns commonly carried by gangers and underworld types.",
+    "items": [
+      { "group": "guns_pistol_common", "prob": 100 },
+      { "group": "guns_improvised", "prob": 20 },
+      { "group": "guns_cop", "prob": 5 },
+      { "group": "guns_pistol_obscure", "prob": 40 }
+    ]
+  },
+  {
+    "id": "science",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "solar_panel_v3", 1 ] ]
+  },
+  {
+    "id": "crate_sports",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ [ "q_solarpack", 1 ] ]
   }
 ]

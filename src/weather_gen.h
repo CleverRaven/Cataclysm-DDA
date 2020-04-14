@@ -1,6 +1,6 @@
 #pragma once
-#ifndef WEATHER_GEN_H
-#define WEATHER_GEN_H
+#ifndef CATA_SRC_WEATHER_GEN_H
+#define CATA_SRC_WEATHER_GEN_H
 
 #include <string>
 
@@ -67,4 +67,4 @@ class weather_generator
         static weather_generator load( const JsonObject &jo );
 };
 
-#endif
+#endif // CATA_SRC_WEATHER_GEN_H

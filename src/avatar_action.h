@@ -1,8 +1,6 @@
 #pragma once
-#ifndef AVATAR_ACTION_H
-#define AVATAR_ACTION_H
-
-#include <climits>
+#ifndef CATA_SRC_AVATAR_ACTION_H
+#define CATA_SRC_AVATAR_ACTION_H
 
 #include "optional.h"
 #include "point.h"
@@ -13,7 +11,6 @@ class item;
 class item_location;
 class map;
 class turret_data;
-struct targeting_data;
 
 namespace avatar_action
 {
@@ -80,4 +77,4 @@ void use_item( avatar &you, item_location &loc );
 void use_item( avatar &you );
 } // namespace avatar_action
 
-#endif // !AVATAR_MOVE_H
+#endif // CATA_SRC_AVATAR_ACTION_H

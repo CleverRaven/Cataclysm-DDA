@@ -1197,7 +1197,7 @@
       ],
       "place_vehicles": [
         { "vehicle": "ambulance", "x": 37, "y": 18, "chance": 80, "rotation": 180 },
-        { "vehicle": "helicopter_wreck_3a", "x": 50, "y": 32, "chance": 33, "rotation": 270 },
+        { "vehicle": "helicopter_blackhawk_3a", "x": 50, "y": 32, "chance": 5, "rotation": 270 },
         { "vehicle": "military_vehicles", "x": 5, "y": 61, "chance": 25, "rotation": 180, "status": 1 },
         { "vehicle": "military_vehicles", "x": 7, "y": 54, "chance": 25, "rotation": 180, "status": 1 },
         { "vehicle": "portable_generator", "x": 76, "y": 12, "chance": 50, "status": 1 }

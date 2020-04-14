@@ -470,7 +470,7 @@
     "value": 200000,
     "urgent": true,
     "start": {
-      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 18, "min_distance": 5 },
+      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 18, "min_distance": 5, "z": 0 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_jabberwock", "x": 11, "y": 11, "target": true } ] }
     },
     "end": { "effect": "npc_thankful" },
@@ -608,7 +608,7 @@
     "difficulty": 5,
     "value": 70000,
     "start": {
-      "assign_mission_target": { "om_terrain": "cabin", "reveal_radius": 2, "random": true, "search_range": 80 },
+      "assign_mission_target": { "om_terrain": "cabin", "reveal_radius": 2, "random": true, "search_range": 80, "z": 0 },
       "effect": "follow",
       "update_mapgen": { "place_npcs": [ { "class": "tracker_gunslinger", "x": 11, "y": 11, "target": true } ] }
     },

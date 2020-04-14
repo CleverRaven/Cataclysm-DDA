@@ -34,7 +34,8 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "10 m",
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [ [ "concrete_book", 4 ] ],
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ] ] ]
   },
@@ -3217,8 +3218,9 @@
     "skills_required": [ "cooking", 2 ],
     "difficulty": 3,
     "time": "1 h",
+    "autolearn": false,
     "batch_time_factors": [ 75, 4 ],
-    "autolearn": true,
+    "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_limestone", 50 ] ] ]
   },
@@ -3231,7 +3233,8 @@
     "skills_required": [ "cooking", 3 ],
     "difficulty": 4,
     "time": "1 h 30 m",
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [ [ "concrete_book", 4 ] ],
     "batch_time_factors": [ 75, 3 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ] ] ]
@@ -3388,19 +3391,21 @@
     "time": "10 m",
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "bag_plastic", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "plastic_chunk",
-    "id_suffix": "from_cash_cards",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "time": "10 m",
-    "autolearn": true,
-    "tools": [ [ [ "surface_heat", 6, "LIST" ], [ "soldering_iron", 10 ] ] ],
-    "components": [ [ [ "cash_card", 9 ], [ "plastic_straw", 2 ] ] ]
+    "components": [
+      [
+        [ "stopcock", 11 ],
+        [ "button_plastic", 3 ],
+        [ "bottle_folding", 4 ],
+        [ "plastic_straw", 3 ],
+        [ "plastic_knife", 2 ],
+        [ "plastic_spoon", 2 ],
+        [ "plastic_fork", 2 ],
+        [ "plastic_six_dice", 11 ],
+        [ "bag_zipper", 25 ],
+        [ "cup_plastic", 25 ],
+        [ "bag_plastic", 10 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -3942,7 +3947,8 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "10 m",
-    "autolearn": true,
+    "autolearn": false,
+    "book_learn": [ [ "concrete_book", 2 ] ],
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ] ]
   },
@@ -4157,14 +4163,15 @@
   {
     "type": "recipe",
     "result": "neoprene",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_OTHER",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "25 m",
     "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
+    "result_mult": 9,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "hotplate", 100 ], [ "toolset", 100 ] ] ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "sheet_metal", -1 ] ] ],
     "components": [
       [ [ "chem_ethanol", 50 ], [ "denat_alcohol", 50 ] ],
       [ [ "copper_scrap_equivalent", 2, "LIST" ] ],
@@ -4536,5 +4543,29 @@
       [ [ "hose", 1 ] ],
       [ [ "condom", 1 ], [ "balloon", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "tempered_glass_sheet",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
+    "components": [ [ [ "glass_shard", 400 ], [ "flask_glass", 126 ], [ "jar_glass", 42 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rigid_plastic_sheet",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
+    "components": [ [ [ "plastic_chunk", 200 ] ] ]
   }
 ]

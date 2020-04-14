@@ -1,20 +1,18 @@
 #pragma once
-#ifndef MAPGEN_FUNCTIONS_H
-#define MAPGEN_FUNCTIONS_H
+#ifndef CATA_SRC_MAPGEN_FUNCTIONS_H
+#define CATA_SRC_MAPGEN_FUNCTIONS_H
 
+#include <functional>
 #include <map>
 #include <string>
-#include <functional>
 #include <utility>
 
 #include "type_id.h"
 
-struct tripoint;
-struct point;
-class time_point;
 class map;
 class mapgendata;
 class mission;
+struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint &map_pos3, mission *miss )>;
 class JsonObject;
@@ -92,4 +90,4 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat );
 
-#endif
+#endif // CATA_SRC_MAPGEN_FUNCTIONS_H

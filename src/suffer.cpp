@@ -1,46 +1,47 @@
-#include "character.h"
-
-#include <cctype>
 #include <algorithm>
+#include <array>
+#include <cctype>
 #include <cmath>
 #include <cstdlib>
-#include <iterator>
+#include <list>
 #include <map>
+#include <memory>
 #include <string>
-#include <limits>
-#include <bitset>
-#include <exception>
 #include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
-#include "activity_handlers.h"
 #include "addiction.h"
 #include "avatar.h"
-#include "bionics.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
-#include "catacharset.h"
+#include "character.h"
 #include "effect.h"
 #include "enums.h"
-#include "field.h"
-#include "int_id.h"
+#include "event.h"
+#include "event_bus.h"
+#include "field_type.h"
 #include "game.h"
+#include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "itype.h"
-#include "iuse_actor.h"
-#include "magic.h"
 #include "map.h"
-#include "material.h"
-#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
-#include "morale.h"
+#include "monster.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "name.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
-#include "output.h"
-#include "recipe.h"
+#include "overmapbuffer.h"
+#include "pldata.h"
+#include "point.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -50,15 +51,9 @@
 #include "teleport.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "visitable.h"
-#include "vitamin.h"
-#include "vpart_position.h"
-#include "vpart_range.h"
 #include "weather.h"
-#include "weather_gen.h"
 
 static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
@@ -187,7 +182,7 @@ void Character::suffer_water_damage( const mutation_branch &mdata )
                                    _( "<npcname>'s %s is damaged by the water." ),
                                    body_part_name( bp ) );
         } else if( dmg < 0 && hp_cur[bp_to_hp( bp )] != hp_max[bp_to_hp( bp )] ) {
-            heal( bp, abs( dmg ) );
+            heal( bp, std::abs( dmg ) );
             add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
                                    _( "<npcname>'s %s is healed by the water." ),
                                    body_part_name( bp ) );
@@ -917,7 +912,7 @@ void Character::suffer_from_other_mutations()
             if( bp == bp_head ) {
                 continue;
             }
-            int sores_pain = 5 + 0.4 * abs( encumb( bp ) );
+            int sores_pain = 5 + 0.4 * std::abs( encumb( bp ) );
             if( get_pain() < sores_pain ) {
                 set_pain( sores_pain );
             }
@@ -1604,8 +1599,8 @@ void Character::mend( int rate_multiplier )
 
     // Very hungry starts lowering the chance
     // square rooting the value makes the numbers drop off faster when below 1
-    healing_factor *= sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
-                            ( get_healthy_kcal() ) );
+    healing_factor *= std::sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
+                                 ( get_healthy_kcal() ) );
     // Similar for thirst - starts at very thirsty, drops to 0 ~halfway between two last statuses
     healing_factor *= 1.0f - clamp( ( get_thirst() - 80.0f ) / 300.0f, 0.0f, 1.0f );
 
