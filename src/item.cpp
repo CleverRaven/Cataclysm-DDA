@@ -8002,6 +8002,7 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
 {
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
+    std::vector<item *> removed_items;
     // First, check contents
     visit_items(
     [&]( item * a ) {
@@ -8010,11 +8011,15 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
             return VisitResponse::NEXT;
         }
         if( a->use_amount_internal( it, quantity, used, filter ) ) {
-            this->remove_item( *a );
+            removed_items.emplace_back( a );
             return VisitResponse::SKIP;
         }
         return VisitResponse::NEXT;
     } );
+
+    for( item *remove : removed_items ) {
+        remove_item( *remove );
+    }
 
     if( quantity != old_quantity ) {
         on_contents_changed();
