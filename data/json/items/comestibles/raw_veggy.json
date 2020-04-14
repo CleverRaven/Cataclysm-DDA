@@ -823,7 +823,7 @@
     "fun": -10,
     "healthy": -2,
     "//": "Fiddleheads that haven't been boiled can make you sick.",
-    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ],
+    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
