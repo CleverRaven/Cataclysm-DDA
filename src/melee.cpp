@@ -283,13 +283,13 @@ float Character::get_hit_weapon( const item &weap ) const
     }
 
     /** @EFFECT_MELEE improves hit chance for all items (including non-weapons) */
-    return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f );
+    return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f ) + weap.type->m_to_hit;
 }
 
 float Character::get_melee_hit_base() const
 {
     // Character::get_hit_base includes stat calculations already
-    return Character::get_hit_base() + get_hit_weapon( used_weapon() );
+    return Character::get_hit_base() + get_hit_weapon( used_weapon() ) + mabuff_tohit_bonus();
 }
 
 float Character::hit_roll() const
@@ -474,6 +474,9 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         const bool seen = g->u.sees( t );
         // Start of attacks.
         const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
+        if( critical_hit ) {
+            melee::melee_stats.actual_crit_count += 1;
+        }
         damage_instance d;
         roll_all_damage( critical_hit, d, false, cur_weapon );
 
@@ -543,6 +546,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             }
             sfx::generate_melee_sound( pos(), t.pos(), true, t.is_monster(), material );
             int dam = dealt_dam.total_damage();
+            melee::melee_stats.damage_amount += dam;
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
             if( !has_active_bionic( bio_cqb ) ) {
@@ -752,9 +756,12 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
         // Because chance_double already removed the triples with -( 3 * chance_triple ),
         // chance_triple and chance_double are mutually exclusive probabilities and can just
         // be added together.
+        melee::melee_stats.double_crit_count += 1;
+        melee::melee_stats.double_crit_chance += chance_double + chance_triple;
         return chance_triple + chance_double;
     }
-
+    melee::melee_stats.crit_count += 1;
+    melee::melee_stats.crit_chance += chance_triple;
     return chance_triple;
 }
 
@@ -2372,6 +2379,23 @@ float melee::melee_hit_range( float accuracy )
     return normal_roll( accuracy * 5, 25.0f );
 }
 
+melee_statistic_data melee::get_stats()
+{
+    return melee_stats;
+}
+
+void melee::clear_stats()
+{
+    melee_stats.attack_count = 0;
+    melee_stats.hit_count = 0;
+    melee_stats.double_crit_count = 0;
+    melee_stats.crit_count = 0;
+    melee_stats.double_crit_chance = 0.0;
+    melee_stats.crit_chance = 0.0;
+    melee_stats.damage_amount = 0;
+}
+
 namespace melee
 {
+melee_statistic_data melee_stats;
 } // namespace melee
