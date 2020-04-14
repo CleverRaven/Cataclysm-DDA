@@ -17,8 +17,7 @@
     "ammo": "nail",
     "skill": "rifle",
     "range": 12,
-    "ranged_damage": 4,
-    "pierce": 20,
+    "ranged_damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 20 },
     "dispersion": 180,
     "durability": 5,
     "ups_charges": 5,
@@ -82,7 +81,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "nail", [ "nailmag" ] ] ],
-    "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": 4 },
+    "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
     "proportional": { "price": 3, "dispersion": 0.5 }
   }
 ]

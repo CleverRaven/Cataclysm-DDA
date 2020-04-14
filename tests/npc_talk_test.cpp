@@ -28,6 +28,7 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "string_id.h"
+#include "stringmaker.h"
 #include "type_id.h"
 
 static const efftype_id effect_gave_quest_item( "gave_quest_item" );
@@ -72,6 +73,7 @@ static void gen_response_lines( dialogue &d, size_t expected_count )
             printf( "response: %s\n", response.text.c_str() );
         }
     }
+    CAPTURE( d.responses );
     REQUIRE( d.responses.size() == expected_count );
 }
 

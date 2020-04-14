@@ -919,8 +919,8 @@ double player::crafting_success_roll( const recipe &making ) const
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        for( const std::pair<const skill_id, int> &skib : mut.first->craft_skill_bonus ) {
+    for( const trait_id &mut : get_mutations() ) {
+        for( const std::pair<const skill_id, int> &skib : mut->craft_skill_bonus ) {
             if( making.skill_used == skib.first ) {
                 skill_dice += skib.second;
             }
@@ -1122,7 +1122,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 const double learning_speed =
                     std::max( get_skill_level( making.skill_used ), 1 ) *
                     std::max( get_int(), 1 );
-                const double time_to_learn = 1000 * 8 * pow( difficulty, 4 ) / learning_speed;
+                const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
                 if( x_in_y( making.time, time_to_learn ) ) {
                     learn_recipe( &making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
@@ -1185,11 +1185,10 @@ void player::complete_craft( item &craft, const tripoint &loc )
             newit_counter++;
         }
 
-        if( food_contained.goes_bad() ) {
-            food_contained.set_relative_rot( relative_rot );
-        }
-
         if( food_contained.has_temperature() ) {
+            if( food_contained.goes_bad() ) {
+                food_contained.set_relative_rot( relative_rot );
+            }
             if( should_heat ) {
                 food_contained.heat_up();
             } else {
@@ -1201,7 +1200,6 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 //
                 // Temperature is not functional for non-foods
                 food_contained.set_item_temperature( 293.15 );
-                food_contained.reset_temp_check();
             }
         }
 
@@ -1223,15 +1221,14 @@ void player::complete_craft( item &craft, const tripoint &loc )
     if( making.has_byproducts() ) {
         std::vector<item> bps = making.create_byproducts( batch_size );
         for( auto &bp : bps ) {
-            if( bp.goes_bad() ) {
-                bp.set_relative_rot( relative_rot );
-            }
             if( bp.has_temperature() ) {
+                if( bp.goes_bad() ) {
+                    bp.set_relative_rot( relative_rot );
+                }
                 if( should_heat ) {
                     bp.heat_up();
                 } else {
                     bp.set_item_temperature( 293.15 );
-                    bp.reset_temp_check();
                 }
             }
             bp.set_owner( get_faction()->id );
@@ -1409,7 +1406,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
 
     for( const auto &component : components ) {
         itype_id type = component.type;
-        int count = ( component.count > 0 ) ? component.count * batch : abs( component.count );
+        int count = ( component.count > 0 ) ? component.count * batch : std::abs( component.count );
 
         if( item::count_by_charges( type ) && count > 0 ) {
             int map_charges = map_inv.charges_of( type, INT_MAX, filter );
@@ -1606,7 +1603,7 @@ std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &
     const tripoint &loc = origin;
     const bool by_charges = item::count_by_charges( selected_comp.type ) && selected_comp.count > 0;
     // Count given to use_amount/use_charges, changed by those functions!
-    int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : abs(
+    int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : std::abs(
                          selected_comp.count );
     // First try to get everything from the map, than (remaining amount) from player
     if( is.use_from & use_from_map ) {

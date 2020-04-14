@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MORALE_H
-#define MORALE_H
+#ifndef CATA_SRC_MORALE_H
+#define CATA_SRC_MORALE_H
 
 #include <algorithm>
 #include <functional>
@@ -208,4 +208,4 @@ class player_morale
         int perceived_pain;
 };
 
-#endif
+#endif // CATA_SRC_MORALE_H

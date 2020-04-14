@@ -601,9 +601,6 @@ void player::power_bionics()
         const std::string action = ctxt.handle_input();
         const int ch = ctxt.get_raw_input().get_first_input();
         bionic *tmp = nullptr;
-        bool confirmCheck = false;
-        bool toggle_safe_fuel = false;
-        bool toggle_auto_start = false;
 
         if( action == "DOWN" ) {
             if( static_cast<size_t>( cursor ) < current_bionic_list->size() - 1 ) {
@@ -691,14 +688,6 @@ void player::power_bionics()
             // switches between activation and examination
             menu_mode = menu_mode == ACTIVATING ? EXAMINING : ACTIVATING;
         } else if( action == "TOGGLE_SAFE_FUEL" ) {
-            toggle_safe_fuel = true;
-        } else if( action == "TOGGLE_AUTO_START" ) {
-            toggle_auto_start = true;
-        } else if( action == "CONFIRM" || action == "QUIT" ) {
-            confirmCheck = true;
-        }
-
-        if( toggle_safe_fuel ) {
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
@@ -708,11 +697,8 @@ void player::power_bionics()
                 } else {
                     popup( _( "You can't toggle fuel saving mode on a non-fueled CBM." ) );
                 }
-
             }
-        }
-
-        if( toggle_auto_start ) {
+        } else if( action == "TOGGLE_AUTO_START" ) {
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
@@ -723,10 +709,7 @@ void player::power_bionics()
                     popup( _( "You can't toggle auto start mode on a non-fueled CBM." ) );
                 }
             }
-        }
-
-        //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
-        if( confirmCheck ) {
+        } else if( action == "CONFIRM" || action == "ANY_INPUT" ) {
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( action == "CONFIRM" && !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
@@ -754,9 +737,8 @@ void player::power_bionics()
                 }
             }
             if( !tmp ) {
-                // entered a key that is not mapped to any bionic,
-                // -> leave screen
-                break;
+                // entered a key that is not mapped to any bionic
+                continue;
             }
             bio_last = tmp;
             const bionic_id &bio_id = tmp->id;
@@ -814,6 +796,8 @@ void player::power_bionics()
                     }
                 }
             }
+        } else if( action == "QUIT" ) {
+            break;
         }
     }
 }

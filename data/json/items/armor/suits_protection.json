@@ -15,10 +15,9 @@
     "color": "light_red",
     "covers": [ "LEGS", "TORSO", "ARMS" ],
     "coverage": 100,
-    "encumbrance": 30,
-    "storage": "4 L",
+    "encumbrance": 20,
     "warmth": 35,
-    "material_thickness": 3,
+    "material_thickness": 7,
     "environmental_protection": 9,
     "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
   },
@@ -38,9 +37,9 @@
     "color": "light_red",
     "covers": [ "HEAD", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 100,
-    "encumbrance": 45,
+    "encumbrance": 35,
     "warmth": 50,
-    "material_thickness": 3,
+    "material_thickness": 7,
     "environmental_protection": 20,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
   },
@@ -750,7 +749,7 @@
     "encumbrance": 25,
     "storage": "5 L",
     "warmth": 35,
-    "material_thickness": 7,
+    "material_thickness": 11,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 4,
     "flags": [ "POCKETS", "STURDY" ]

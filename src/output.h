@@ -1,6 +1,6 @@
 #pragma once
-#ifndef OUTPUT_H
-#define OUTPUT_H
+#ifndef CATA_SRC_OUTPUT_H
+#define CATA_SRC_OUTPUT_H
 
 #include <algorithm>
 #include <cassert>
@@ -983,4 +983,4 @@ std::string colorize_symbols( const std::string &str, F color_of )
     return res;
 }
 
-#endif
+#endif // CATA_SRC_OUTPUT_H

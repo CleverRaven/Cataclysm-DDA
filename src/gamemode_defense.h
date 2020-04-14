@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GAMEMODE_DEFENSE_H
-#define GAMEMODE_DEFENSE_H
+#ifndef CATA_SRC_GAMEMODE_DEFENSE_H
+#define CATA_SRC_GAMEMODE_DEFENSE_H
 
 #include <string>
 #include <vector>
@@ -131,4 +131,4 @@ struct defense_game : public special_game {
         overmap_special_id defloc_special;
 };
 
-#endif // GAMEMODE_DEFENSE_H
+#endif // CATA_SRC_GAMEMODE_DEFENSE_H

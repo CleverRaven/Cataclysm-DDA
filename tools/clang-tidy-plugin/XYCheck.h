@@ -1,5 +1,5 @@
-#ifndef CATA_TOOLS_CLANG_TIDY_XYCHECK_H
-#define CATA_TOOLS_CLANG_TIDY_XYCHECK_H
+#ifndef CATA_TOOLS_CLANG_TIDY_PLUGIN_XYCHECK_H
+#define CATA_TOOLS_CLANG_TIDY_PLUGIN_XYCHECK_H
 
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <llvm/ADT/StringRef.h>
@@ -29,4 +29,4 @@ class XYCheck : public ClangTidyCheck
 } // namespace tidy
 } // namespace clang
 
-#endif // CATA_TOOLS_CLANG_TIDY_XYCHECK_H
+#endif // CATA_TOOLS_CLANG_TIDY_PLUGIN_XYCHECK_H

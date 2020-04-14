@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ANATOMY_H
-#define ANATOMY_H
+#ifndef CATA_SRC_ANATOMY_H
+#define CATA_SRC_ANATOMY_H
 
 #include <algorithm>
 #include <string>
@@ -59,4 +59,4 @@ class anatomy
 
 extern anatomy_id human_anatomy;
 
-#endif
+#endif // CATA_SRC_ANATOMY_H

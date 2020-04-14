@@ -191,8 +191,8 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     const int range = sp.range() + 1;
     const int initial_angle = coord_to_angle( source, target );
     std::set<tripoint> end_points;
-    for( int angle = initial_angle - floor( aoe_radius / 2.0 );
-         angle <= initial_angle + ceil( aoe_radius / 2.0 ); angle++ ) {
+    for( int angle = initial_angle - std::floor( aoe_radius / 2.0 );
+         angle <= initial_angle + std::ceil( aoe_radius / 2.0 ); angle++ ) {
         tripoint potential;
         calc_ray_end( angle, range, source, potential );
         end_points.emplace( potential );
@@ -793,7 +793,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
     const mtype_id mon_id( sp.effect_data() );
     std::set<tripoint> area = spell_effect_area( sp, target, spell_effect_blast, caster );
     // this should never be negative, but this'll keep problems from happening
-    size_t num_mons = abs( sp.damage() );
+    size_t num_mons = std::abs( sp.damage() );
     const time_duration summon_time = sp.duration_turns();
     while( num_mons > 0 && !area.empty() ) {
         const size_t mon_spot = rng( 0, area.size() - 1 );

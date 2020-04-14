@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITYPE_H
-#define ITYPE_H
+#ifndef CATA_SRC_ITYPE_H
+#define CATA_SRC_ITYPE_H
 
 #include <array>
 #include <map>
@@ -711,6 +711,17 @@ struct islot_ammo : common_ranged_data {
     bool special_cookoff = false;
 
     /**
+     * If set, ammo does not give a flat damage, instead it multiplies the base
+     * damage of the gun by this value.
+     */
+    cata::optional<float> prop_damage;
+
+    /**
+     * The damage multiplier to apply after a critical hit.
+     */
+    float critical_multiplier = 2.0;
+
+    /**
      * Some combat ammo might not have a damage or prop_damage value
      * Set this to make it show as combat ammo anyway
      */
@@ -1081,4 +1092,4 @@ struct itype {
         virtual ~itype() = default;
 };
 
-#endif
+#endif // CATA_SRC_ITYPE_H

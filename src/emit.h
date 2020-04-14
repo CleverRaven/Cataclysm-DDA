@@ -1,6 +1,6 @@
 #pragma once
-#ifndef EMIT_H
-#define EMIT_H
+#ifndef CATA_SRC_EMIT_H
+#define CATA_SRC_EMIT_H
 
 #include <map>
 #include <string>
@@ -71,4 +71,4 @@ class emit
         std::string field_name;
 };
 
-#endif
+#endif // CATA_SRC_EMIT_H

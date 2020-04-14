@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ASSIGN_H
-#define ASSIGN_H
+#ifndef CATA_SRC_ASSIGN_H
+#define CATA_SRC_ASSIGN_H
 
 #include <algorithm>
 #include <map>
@@ -871,4 +871,4 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
 
     return true;
 }
-#endif
+#endif // CATA_SRC_ASSIGN_H

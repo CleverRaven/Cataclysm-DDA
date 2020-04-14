@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONSTER_H
-#define MONSTER_H
+#ifndef CATA_SRC_MONSTER_H
+#define CATA_SRC_MONSTER_H
 
 #include <bitset>
 #include <climits>
@@ -568,4 +568,4 @@ class monster : public Creature
         void process_one_effect( effect &it, bool is_new ) override;
 };
 
-#endif
+#endif // CATA_SRC_MONSTER_H

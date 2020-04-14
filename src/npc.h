@@ -1,6 +1,6 @@
 #pragma once
-#ifndef NPC_H
-#define NPC_H
+#ifndef CATA_SRC_NPC_H
+#define CATA_SRC_NPC_H
 
 #include <algorithm>
 #include <array>
@@ -1429,4 +1429,4 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();
 
-#endif
+#endif // CATA_SRC_NPC_H

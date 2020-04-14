@@ -1,6 +1,6 @@
 #pragma once
-#ifndef UNITS_H
-#define UNITS_H
+#ifndef CATA_SRC_UNITS_H
+#define CATA_SRC_UNITS_H
 
 #include <algorithm>
 #include <cctype>
@@ -775,4 +775,4 @@ void dump_to_json_string( T t, JsonOut &jsout,
     jsout.write( str );
 }
 
-#endif
+#endif // CATA_SRC_UNITS_H

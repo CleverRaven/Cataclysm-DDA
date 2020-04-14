@@ -1,5 +1,5 @@
-#ifndef RANGED_H
-#define RANGED_H
+#ifndef CATA_SRC_RANGED_H
+#define CATA_SRC_RANGED_H
 
 #include <vector>
 
@@ -111,4 +111,4 @@ class target_handler
 
 int range_with_even_chance_of_good_hit( int dispersion );
 
-#endif // RANGED_H
+#endif // CATA_SRC_RANGED_H

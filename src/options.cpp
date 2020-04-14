@@ -1520,6 +1520,12 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "LOOKAROUND_POSITION", "interface", translate_marker( "Look around position" ),
+         translate_marker( "Switch between look around panel being left or right." ),
+    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } },
+    "right"
+       );
+
     add( "PICKUP_POSITION", "interface", translate_marker( "Pickup position" ),
          translate_marker( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
     { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) }, { "overlapping", translate_marker( "Overlapping" ) } },
