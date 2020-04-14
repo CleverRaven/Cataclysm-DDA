@@ -940,7 +940,7 @@
     "id": "THINSKIN",
     "name": { "str": "Thin-Skinned" },
     "points": -1,
-    "description": "Your skin is fragile. Cutting and bash damage is slightly increased for you.",
+    "description": "Your skin is fragile.  Cutting and bash damage is slightly increased for you.",
     "starting_trait": true,
     "cancels": [ "THICKSKIN" ],
     "armor": [ { "parts": "ALL", "cut": -1, "bash": -1 } ]
