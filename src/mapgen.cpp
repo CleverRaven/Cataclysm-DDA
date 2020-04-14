@@ -354,7 +354,8 @@ static mapgen_factory oter_mapgen;
 /*
  * stores function ref and/or required data
  */
-std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> > nested_mapgen;
+std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
+        nested_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> > update_mapgen;
 
 /*
@@ -365,8 +366,8 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
     oter_mapgen.setup();
     // Not really calculate weights, but let's keep it here for now
     for( auto &pr : nested_mapgen ) {
-        for( std::unique_ptr<mapgen_function_json_nested> &ptr : pr.second ) {
-            ptr->setup();
+        for( weighted_object<int, std::shared_ptr<mapgen_function_json_nested>> &ptr : pr.second ) {
+            ptr.obj->setup();
         }
     }
     for( auto &pr : update_mapgen ) {
@@ -382,7 +383,7 @@ void check_mapgen_definitions()
     oter_mapgen.check_consistency();
     for( auto &oter_definition : nested_mapgen ) {
         for( auto &mapgen_function_ptr : oter_definition.second ) {
-            mapgen_function_ptr->check( oter_definition.first );
+            mapgen_function_ptr.obj->check( oter_definition.first );
         }
     }
     for( auto &oter_definition : update_mapgen ) {
@@ -451,10 +452,10 @@ static void load_nested_mapgen( const JsonObject &jio, const std::string &id_bas
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
         if( jio.has_object( "object" ) ) {
+            int weight = jio.get_int( "weight", 1000 );
             JsonObject jo = jio.get_object( "object" );
             std::string jstr = jo.str();
-            nested_mapgen[id_base].push_back(
-                std::make_unique<mapgen_function_json_nested>( jstr ) );
+            nested_mapgen[id_base].add( std::make_shared<mapgen_function_json_nested>( jstr ), weight );
         } else {
             debugmsg( "Nested mapgen: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
         }
@@ -1829,12 +1830,12 @@ class jmapgen_nested : public jmapgen_piece
             }
 
             // A second roll? Let's allow it for now
-            const auto &ptr = random_entry_ref( iter->second );
+            const auto &ptr = iter->second.pick();
             if( ptr == nullptr ) {
                 return;
             }
 
-            ptr->nest( dat, point( x.get(), y.get() ) );
+            ( *ptr )->nest( dat, point( x.get(), y.get() ) );
         }
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
             const weighted_int_list<std::string> &selected_entries = neighbors.test(
@@ -1851,8 +1852,8 @@ class jmapgen_nested : public jmapgen_piece
                 if( iter == nested_mapgen.end() ) {
                     return false;
                 }
-                for( auto &nest : iter->second ) {
-                    if( nest->has_vehicle_collision( dat, {x, y} ) ) {
+                for( const auto &nest : iter->second ) {
+                    if( nest.obj->has_vehicle_collision( dat, { x, y } ) ) {
                         return true;
                     }
                 }

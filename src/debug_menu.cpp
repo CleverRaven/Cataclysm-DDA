@@ -101,8 +101,8 @@ static const trait_id trait_ASTHMA( "ASTHMA" );
 
 class vehicle;
 
-extern std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>>>
-nested_mapgen;
+extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
+        nested_mapgen;
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
@@ -416,8 +416,11 @@ void spawn_nested_mapgen()
         target_map.load( abs_sub, true );
         const tripoint local_ms = target_map.getlocal( abs_ms );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
-        const auto &ptr = random_entry_ref( nested_mapgen[nest_str[nest_choice]] );
-        ptr->nest( md, local_ms.xy() );
+        const auto &ptr = nested_mapgen[nest_str[nest_choice]].pick();
+        if( ptr == nullptr ) {
+            return;
+        }
+        ( *ptr )->nest( md, local_ms.xy() );
         target_map.save();
         g->load_npcs();
         g->m.invalidate_map_cache( g->get_levz() );

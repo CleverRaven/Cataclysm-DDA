@@ -1934,10 +1934,10 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     g->m.furn_set( examp, f_egg_sacke );
     int monster_count = 0;
     if( one_in( 2 ) ) {
-        for( const tripoint &p : closest_tripoints_first( examp, 1 ) ) {
+        for( const tripoint &nearby_pos : closest_tripoints_first( examp, 1 ) ) {
             if( !one_in( 3 ) ) {
                 continue;
-            } else if( g->place_critter_at( montype, p ) ) {
+            } else if( g->place_critter_at( montype, nearby_pos ) ) {
                 monster_count++;
             }
         }

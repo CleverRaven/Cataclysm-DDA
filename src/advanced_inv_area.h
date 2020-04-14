@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ADVANCED_INV_AREA_H
-#define ADVANCED_INV_AREA_H
+#ifndef CATA_SRC_ADVANCED_INV_AREA_H
+#define CATA_SRC_ADVANCED_INV_AREA_H
 
 #include "point.h"
 #include "units.h"
@@ -108,4 +108,4 @@ class advanced_inv_area
             return veh != nullptr && vstor >= 0;
         }
 };
-#endif
+#endif // CATA_SRC_ADVANCED_INV_AREA_H

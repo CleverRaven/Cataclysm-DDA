@@ -8,6 +8,7 @@
  *  Distributed under the Boost Software License, Version 1.0. (See accompanying
  *  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
+// NOLINTNEXTLINE(cata-header-guard)
 #ifndef TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
 #define TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
 // start catch.hpp
@@ -13512,6 +13513,29 @@ namespace Catch {
 
 namespace Catch {
 
+    struct CompareTestsUsingRandom {
+        explicit CompareTestsUsingRandom( std::mt19937& rng ) {
+            std::uniform_int_distribution<uint64_t> dist;
+            basis = dist( rng );
+        }
+
+        uint64_t basis;
+
+        uint64_t fnv_1a_hash( std::string const& s ) const {
+            static constexpr uint64_t prime = 1099511628211;
+            uint64_t hash = basis;
+            for( const char c : s ) {
+                hash ^= c;
+                hash *= prime;
+            }
+            return hash;
+        }
+
+        bool operator()( TestCase const& l, TestCase const& r ) const {
+            return fnv_1a_hash( l.name ) < fnv_1a_hash( r.name );
+        }
+    };
+
     std::vector<TestCase> sortTests( IConfig const& config, std::vector<TestCase> const& unsortedTestCases ) {
 
         std::vector<TestCase> sorted = unsortedTestCases;
@@ -13522,7 +13546,7 @@ namespace Catch {
                 break;
             case RunTests::InRandomOrder:
                 seedRng( config );
-                std::shuffle( sorted.begin(), sorted.end(), rng() );
+                std::sort( sorted.begin(), sorted.end(), CompareTestsUsingRandom( rng() ) );
                 break;
             case RunTests::InDeclarationOrder:
                 // already in declaration order

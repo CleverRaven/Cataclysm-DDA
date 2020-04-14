@@ -19,7 +19,7 @@
     "bashing": 5,
     "to_hit": -1,
     "range": 8,
-    "ranged_damage": 1,
+    "ranged_damage": { "damage_type": "stab", "amount": 1 },
     "dispersion": 150,
     "durability": 7,
     "clip_size": 50,

@@ -234,7 +234,8 @@
     "id": "archery",
     "subtype": "distribution",
     "entries": [
-      { "item": "crossbow", "prob": 80 },
+      { "item": "crossbow", "prob": 70 },
+      { "item": "compcrossbow", "prob": 10 },
       { "item": "bullet_crossbow", "prob": 10 },
       { "item": "hand_crossbow", "prob": 10 },
       { "item": "longbow", "prob": 40 },

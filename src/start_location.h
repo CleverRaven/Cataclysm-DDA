@@ -1,6 +1,6 @@
 #pragma once
-#ifndef START_LOCATION_H
-#define START_LOCATION_H
+#ifndef CATA_SRC_START_LOCATION_H
+#define CATA_SRC_START_LOCATION_H
 
 #include <algorithm>
 #include <cstddef>
@@ -89,4 +89,4 @@ const std::vector<start_location> &get_all();
 
 } // namespace start_locations
 
-#endif // START_LOCATION_H
+#endif // CATA_SRC_START_LOCATION_H

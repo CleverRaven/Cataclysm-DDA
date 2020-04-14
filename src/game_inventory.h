@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GAME_INVENTORY_H
-#define GAME_INVENTORY_H
+#ifndef CATA_SRC_GAME_INVENTORY_H
+#define CATA_SRC_GAME_INVENTORY_H
 
 #include <functional>
 #include <list>
@@ -118,4 +118,4 @@ item_location sterilize_cbm( player &p );
 
 } // namespace game_menus
 
-#endif // GAME_INVENTORY_H
+#endif // CATA_SRC_GAME_INVENTORY_H

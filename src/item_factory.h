@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEM_FACTORY_H
-#define ITEM_FACTORY_H
+#ifndef CATA_SRC_ITEM_FACTORY_H
+#define CATA_SRC_ITEM_FACTORY_H
 
 #include <functional>
 #include <list>
@@ -369,4 +369,4 @@ class Item_factory
         std::set<std::string> repair_actions;
 };
 
-#endif
+#endif // CATA_SRC_ITEM_FACTORY_H

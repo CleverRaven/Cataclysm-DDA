@@ -1481,8 +1481,8 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->add_msg_if_player( m_good,
                               _( "As, in time, shall we adapt to better welcome those who have not received us." ) );*/
         fungal_effects fe( *g, g->m );
-        for( const tripoint &pos : g->m.points_in_radius( p->pos(), 3 ) ) {
-            fe.marlossify( pos );
+        for( const tripoint &nearby_pos : g->m.points_in_radius( p->pos(), 3 ) ) {
+            fe.marlossify( nearby_pos );
         }
         p->rem_addiction( ADD_MARLOSS_R );
         p->rem_addiction( ADD_MARLOSS_B );
@@ -4444,6 +4444,44 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
             }
         }
 
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::fitness_check( player *p, item *it, bool, const tripoint & )
+{
+    if( p->has_trait( trait_ILLITERATE ) ) {
+        p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
+        return 0;
+    } else {
+        //What else should block using f-band?
+        const int bpm = p->heartrate_bpm();
+        p->add_msg_if_player( _( "You check your health metrics on your %s." ), it->tname() );
+        //Maybe should pick better words
+        p->add_msg_if_player( _( "Your %s displays your heart's BPM:  %i." ), it->tname(), bpm );
+        if( bpm > 179 ) {
+            p->add_msg_if_player( _( "Your %s shows warning:  'Slow down!  "
+                                     "Your pulse is getting too high, champion!'" ), it->tname() );
+        }
+        const std::string exercise = p->activity_level_str();
+        if( exercise == "NO_EXERCISE" ) {
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
+                                     "'You are not really active today.  Try going for a walk!'." ), it->tname() );
+        } else if( exercise == "LIGHT_EXERCISE" ) {
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
+                                     "'Good start!  Keep it up and move more.'" ), it->tname() );
+        } else if( exercise == "MODERATE_EXERCISE" ) {
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
+                                     "'Doing good!  Don't stop, push the limit!'" ), it->tname() );
+        } else if( exercise == "ACTIVE_EXERCISE" ) {
+            //Ad will most likely need to go
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  'Great job!  "
+                                     "Take a break from workout and refresh with a bottle of sport drink!'" ), it->tname() );
+        } else {
+            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
+                                     "'You are too active!  Avoid overexertion for your safety and health.'" ), it->tname() );
+        }
+        //TODO add whatever else makes sense (sleep quality, health level approximation?)
     }
     return it->type->charges_to_use();
 }
@@ -8547,7 +8585,6 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             } else {
                 meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
                                            g->weather.get_temperature( pos ) ) ) );
-                meal.reset_temp_check();
             }
 
             it->active = false;
@@ -8740,8 +8777,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     return 0;
                 }
 
-                for( auto it : reqs->get_components() ) {
-                    p->consume_items( it, 1, filter );
+                for( auto component : reqs->get_components() ) {
+                    p->consume_items( component, 1, filter );
                 }
 
                 it->set_var( "RECIPE", meal->ident().str() );

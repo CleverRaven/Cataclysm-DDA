@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SCENT_H
-#define SCENT_H
+#ifndef CATA_SRC_SCENT_MAP_H
+#define CATA_SRC_SCENT_MAP_H
 
 #include <array>
 #include <set>
@@ -85,4 +85,4 @@ class scent_map
         }
 };
 
-#endif
+#endif // CATA_SRC_SCENT_MAP_H

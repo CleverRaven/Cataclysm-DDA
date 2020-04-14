@@ -1,6 +1,6 @@
 #pragma once
-#ifndef AVATAR_H
-#define AVATAR_H
+#ifndef CATA_SRC_AVATAR_H
+#define CATA_SRC_AVATAR_H
 
 #include <cstddef>
 #include <string>
@@ -290,4 +290,4 @@ struct points_left {
     std::string to_string();
 };
 
-#endif
+#endif // CATA_SRC_AVATAR_H

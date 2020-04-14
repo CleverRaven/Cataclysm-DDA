@@ -70,10 +70,10 @@ static const std::string flag_CONSOLE( "CONSOLE" );
 
 static catacurses::window init_window()
 {
-    const int width = std::min( FULL_SCREEN_WIDTH, TERMX );
-    const int height = std::min( FULL_SCREEN_HEIGHT, TERMY );
-    const int x = ( TERMX - width ) / 2;
-    const int y = ( TERMY - height ) / 2;
+    const int width = FULL_SCREEN_WIDTH;
+    const int height = FULL_SCREEN_HEIGHT;
+    const int x = std::max( 0, ( TERMX - width ) / 2 );
+    const int y = std::max( 0, ( TERMY - height ) / 2 );
     return catacurses::newwin( height, width, point( x, y ) );
 }
 
@@ -85,6 +85,20 @@ computer_session::computer_session( computer &comp ) : comp( comp ),
 
 void computer_session::use()
 {
+    ui_adaptor ui;
+    ui.on_screen_resize( [this]( ui_adaptor & ui ) {
+        const int width = getmaxx( win );
+        const int height = getmaxy( win );
+        const int x = std::max( 0, ( TERMX - width ) / 2 );
+        const int y = std::max( 0, ( TERMY - height ) / 2 );
+        win = catacurses::newwin( height, width, point( x, y ) );
+        ui.position_from_window( win );
+    } );
+    ui.mark_resize();
+    ui.on_redraw( [this]( const ui_adaptor & ) {
+        refresh();
+    } );
+
     // Login
     print_line( _( "Logging into %s…" ), comp.name );
     if( comp.security > 0 ) {
@@ -140,6 +154,7 @@ void computer_session::use()
             computer_menu.addentry( i, true, MENU_AUTOASSIGN, comp.options[i].name );
         }
 
+        ui_manager::redraw();
         computer_menu.query();
         if( computer_menu.ret < 0 || static_cast<size_t>( computer_menu.ret ) >= comp.options.size() ) {
             break;
@@ -640,7 +655,7 @@ void computer_session::action_amigara_log()
     print_gibberish_line();
     print_newline();
     print_error( _( "FILE CORRUPTED, PRESS ANY KEY…" ) );
-    inp_mngr.wait_for_any_key();
+    query_any();
     reset_terminal();
 }
 
@@ -663,12 +678,12 @@ void computer_session::action_complete_disable_external_power()
             print_error( _( "--ACCESS GRANTED--" ) );
             print_error( _( "Mission Complete!" ) );
             miss->step_complete( 1 );
-            inp_mngr.wait_for_any_key();
+            query_any();
             return;
         }
     }
     print_error( _( "ACCESS DENIED" ) );
-    inp_mngr.wait_for_any_key();
+    query_any();
 }
 
 void computer_session::action_repeater_mod()
@@ -682,7 +697,7 @@ void computer_session::action_repeater_mod()
                 print_error( _( "Repeater mod installed…" ) );
                 print_error( _( "Mission Complete!" ) );
                 g->u.use_amount( "radio_repeater_mod", 1 );
-                inp_mngr.wait_for_any_key();
+                query_any();
                 comp.options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
                 break;
@@ -690,7 +705,7 @@ void computer_session::action_repeater_mod()
         }
     } else {
         print_error( _( "You do not have a repeater mod to install…" ) );
-        inp_mngr.wait_for_any_key();
+        query_any();
     }
 }
 
@@ -711,7 +726,7 @@ void computer_session::action_download_software()
     } else {
         print_error( _( "USB drive required!" ) );
     }
-    inp_mngr.wait_for_any_key();
+    query_any();
 }
 
 void computer_session::action_blood_anal()
@@ -1338,7 +1353,7 @@ void computer_session::failure_destroy_blood()
             }
         }
     }
-    inp_mngr.wait_for_any_key();
+    query_any();
 }
 
 void computer_session::failure_destroy_data()
@@ -1361,7 +1376,7 @@ void computer_session::failure_destroy_data()
             }
         }
     }
-    inp_mngr.wait_for_any_key();
+    query_any();
 }
 
 void computer_session::action_emerg_ref_center()
@@ -1417,6 +1432,12 @@ template<typename ...Args>
 bool computer_session::query_any( const std::string &text, Args &&... args )
 {
     print_indented_line( 0, width, text, std::forward<Args>( args )... );
+    return query_any();
+}
+
+bool computer_session::query_any()
+{
+    ui_manager::redraw();
     inp_mngr.wait_for_any_key();
     return true;
 }
@@ -1443,10 +1464,8 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
                          ctxt.describe_key_and_name( "NO", allow_key ),
                          ctxt.describe_key_and_name( "QUIT", allow_key ) );
 
-    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
-
     do {
+        ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( allow_key( ctxt.get_raw_input() ) ) {
             if( action == "YES" ) {
@@ -1495,7 +1514,6 @@ void computer_session::print_indented_line( const int indent, const int text_wid
          it < folded.end(); ++it ) {
         lines.emplace_back( indent, *it );
     }
-    refresh();
 }
 
 template<typename ...Args>
@@ -1543,7 +1561,6 @@ void computer_session::print_gibberish_line()
 void computer_session::reset_terminal()
 {
     lines.clear();
-    refresh();
 }
 
 void computer_session::print_newline()
@@ -1556,5 +1573,4 @@ void computer_session::print_newline()
         lines.erase( lines.begin(), lines.end() - ( uheight - 1 ) );
     }
     lines.emplace_back();
-    refresh();
 }

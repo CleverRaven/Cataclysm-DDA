@@ -1086,8 +1086,9 @@
     "id": "TRIGGERHAPPY",
     "name": { "str": "Trigger Happy" },
     "points": -1,
-    "description": "On rare occasion, you will go full-auto when you intended to fire a single shot.  This has no effect when firing semi-automatic firearms.",
-    "starting_trait": true,
+    "description": "Unimplemented.  To be removed after 0.F. to preserve save compatibility.",
+    "starting_trait": false,
+    "player_display": false,
     "valid": false
   },
   {

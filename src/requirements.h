@@ -1,6 +1,6 @@
 #pragma once
-#ifndef REQUIREMENTS_H
-#define REQUIREMENTS_H
+#ifndef CATA_SRC_REQUIREMENTS_H
+#define CATA_SRC_REQUIREMENTS_H
 
 #include <algorithm>
 #include <functional>
@@ -457,4 +457,4 @@ class deduped_requirement_data
         std::vector<requirement_data> alternatives_;
 };
 
-#endif
+#endif // CATA_SRC_REQUIREMENTS_H

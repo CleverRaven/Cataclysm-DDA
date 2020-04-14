@@ -33,8 +33,7 @@ struct recipe_group_data {
     void check() const;
 };
 
-generic_factory<recipe_group_data> recipe_groups_data( "recipe group type", "name",
-        "other_handles" );
+generic_factory<recipe_group_data> recipe_groups_data( "recipe group type" );
 
 } // namespace
 

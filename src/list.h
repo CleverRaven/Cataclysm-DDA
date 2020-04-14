@@ -21,8 +21,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 
 #pragma once
-#ifndef LIST_H
-#define LIST_H
+#ifndef CATA_SRC_LIST_H
+#define CATA_SRC_LIST_H
 
 #define LIST_BLOCK_MIN static_cast<group_size_type>((sizeof(node) * 8 > (sizeof(*this) + sizeof(group)) * 2) ? 8 : (((sizeof(*this) + sizeof(group)) * 2) / sizeof(node)) + 1)
 #define LIST_BLOCK_MAX 2048
@@ -2467,4 +2467,4 @@ inline void swap( list<swap_element_type, swap_element_allocator_type> &a,
 #undef LIST_ALLOCATE_INITIALIZATION
 #undef LIST_DEALLOCATE
 
-#endif // LIST_H
+#endif // CATA_SRC_LIST_H
