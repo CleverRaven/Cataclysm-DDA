@@ -95,7 +95,7 @@
     "time": "5 m",
     "autolearn": true,
     "using": [ [ "volatile_explosive", 5 ], [ "stable_explosive", 145 ] ],
-    "components": [ [ "jug_plastic", 1 ], [ [ "fuse", 1 ] ] ]
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -107,7 +107,7 @@
     "time": "5 m",
     "autolearn": true,
     "using": [ [ "volatile_explosive", 150 ] ],
-    "components": [ [ "jug_plastic", 1 ], [ [ "fuse", 1 ] ] ]
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
     "result": "flashbang",
