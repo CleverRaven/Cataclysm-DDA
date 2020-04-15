@@ -188,6 +188,8 @@ Everywhere else   | Predominately 9mm and 223. Always with standard magazine  | 
 ## Archery damage
 Bow damage is based on the momentum achieved in the projectile.  Since arrows and bolts have sharp cutting surfaces, the penetration and therefore damage achieved is based on the projectile's capacity for slicing through tissues.  The arrow has a modifier based on construction, material and design, most critically centered around the effectiveness of the head.  Base damage is calculated from momentum by taking momentum in Slug-foot-seconds, multiplying by 150 and subtracting 32. This was arrived at by taking well-regarded bowhunting guidelines and determining the damage numbers necessary for a kill of various game on a critical hit, see tests/archery_damage_test.cpp for details.
 
+NOTE: The above formula is deprecated. Updated formula: Damage = 30 x Slug-ft x (0.5-1.75 projectile multiplier) x (1, 10x crit multiplier)
+
 ## Ammo stats
 The damage (**Dmg**) of firearm ammunition is the square root of a round's muzzle energy in joules (**Energy, J**) rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below.
 
