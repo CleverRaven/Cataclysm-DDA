@@ -436,9 +436,20 @@ void game::init_ui( const bool resized )
     static bool first_init = true;
 
     if( first_init ) {
-        catacurses::clear();
-
-        // print an intro screen, making sure the terminal is the correct size
+#if !(defined(_WIN32) || defined(TILES))
+        // Check whether LC_CTYPE supports the UTF-8 encoding
+        // and show a warning if it doesn't
+        if( std::strcmp( nl_langinfo( CODESET ), "UTF-8" ) != 0 ) {
+            const char *unicode_error_msg =
+                _( "You don't seem to have a valid Unicode locale. You may see some weird "
+                   "characters (e.g. empty boxes or question marks). You have been warned." );
+            catacurses::erase();
+            const int maxx = getmaxx( catacurses::stdscr );
+            fold_and_print( catacurses::stdscr, point_zero, maxx, c_white, unicode_error_msg );
+            catacurses::refresh();
+            inp_mngr.wait_for_any_key();
+        }
+#endif
 
         first_init = false;
 
@@ -11324,7 +11335,7 @@ void intro()
     int maxx = getmaxx( catacurses::stdscr );
     const int minHeight = FULL_SCREEN_HEIGHT;
     const int minWidth = FULL_SCREEN_WIDTH;
-    catacurses::window tmp = catacurses::newwin( minHeight, minWidth, point_zero );
+    catacurses::window &tmp = catacurses::stdscr;
 
     while( maxy < minHeight || maxx < minWidth ) {
         werase( tmp );
@@ -11352,24 +11363,7 @@ void intro()
         maxx = getmaxx( catacurses::stdscr );
     }
     werase( tmp );
-
-#if !(defined(_WIN32) || defined(TILES))
-    // Check whether LC_CTYPE supports the UTF-8 encoding
-    // and show a warning if it doesn't
-    if( std::strcmp( nl_langinfo( CODESET ), "UTF-8" ) != 0 ) {
-        const char *unicode_error_msg =
-            _( "You don't seem to have a valid Unicode locale. You may see some weird "
-               "characters (e.g. empty boxes or question marks). You have been warned." );
-        fold_and_print( tmp, point_zero, maxx, c_white, unicode_error_msg, minWidth, minHeight,
-                        maxx, maxy );
-        wrefresh( tmp );
-        inp_mngr.wait_for_any_key();
-        werase( tmp );
-    }
-#endif
-
     wrefresh( tmp );
-    catacurses::erase();
 }
 
 void game::process_artifact( item &it, player &p )
