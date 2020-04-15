@@ -253,7 +253,7 @@ struct formatted_text {
         : text( text ), color( color ), alignment( alignment ) {
     }
 
-    formatted_text( const std::string &text, int color, direction direction );
+    formatted_text( const std::string &text, int color, direction text_direction );
 };
 
 /** type used for color blocks overlays.

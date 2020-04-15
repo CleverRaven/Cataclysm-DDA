@@ -543,10 +543,12 @@ static std::pair<int, int> temp_delta( const avatar &u )
     int current_bp_extreme = 0;
     int conv_bp_extreme = 0;
     for( int i = 0; i < num_bp; i++ ) {
-        if( abs( u.temp_cur[i] - BODYTEMP_NORM ) > abs( u.temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
+        if( std::abs( u.temp_cur[i] - BODYTEMP_NORM ) >
+            std::abs( u.temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
             current_bp_extreme = i;
         }
-        if( abs( u.temp_conv[i] - BODYTEMP_NORM ) > abs( u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
+        if( std::abs( u.temp_conv[i] - BODYTEMP_NORM ) >
+            std::abs( u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
             conv_bp_extreme = i;
         }
     }
@@ -846,7 +848,7 @@ static nc_color safe_color()
 
 static int get_int_digits( const int &digits )
 {
-    int temp = abs( digits );
+    int temp = std::abs( digits );
     if( digits > 0 ) {
         return static_cast<int>( log10( static_cast<double>( temp ) ) ) + 1;
     } else if( digits < 0 ) {

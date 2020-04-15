@@ -19,8 +19,6 @@
 
 class faction;
 
-enum character_type : int;
-
 class JsonIn;
 class JsonObject;
 class JsonOut;

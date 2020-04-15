@@ -925,7 +925,7 @@ bool vehicle::start_engine( const int e )
     }
 
     const double dmg = parts[engines[e]].damage_percent();
-    const int engine_power = abs( part_epower_w( engines[e] ) );
+    const int engine_power = std::abs( part_epower_w( engines[e] ) );
     const double cold_factor = engine_cold_factor( e );
     const int start_moves = engine_start_time( e );
 
@@ -1259,7 +1259,7 @@ void vehicle::transform_terrain()
                 g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
             }
         } else {
-            const int speed = abs( velocity );
+            const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
             damage( vp.part_index(), v_damage, DT_BASH, false );
             sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
