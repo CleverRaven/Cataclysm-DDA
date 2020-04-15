@@ -349,6 +349,12 @@ void enchantment::force_add( const enchantment &rhs )
 
     hit_you_effect.insert( hit_you_effect.end(), rhs.hit_you_effect.begin(), rhs.hit_you_effect.end() );
 
+    ench_effects.insert( rhs.ench_effects.begin(), rhs.ench_effects.end() );
+
+    if( rhs.emitter ) {
+        emitter = rhs.emitter;
+    }
+
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
          rhs.intermittent_activation ) {
         for( const fake_spell &fake : act_pair.second ) {
