@@ -237,8 +237,6 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 
 static const faction_id your_followers( "your_followers" );
 
-void intro();
-
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
@@ -471,8 +469,11 @@ void game::init_ui( const bool resized )
         get_options().save();
     }
 #else
+    // in ncurses_def.cpp
+    void ensure_term_size();
+
     ( void ) resized;
-    intro();
+    ensure_term_size();
 
     TERMY = getmaxy( catacurses::stdscr );
     TERMX = getmaxx( catacurses::stdscr );
@@ -11327,43 +11328,6 @@ void game::autosave()
         return;
     }
     quicksave();    //Driving checks are handled by quicksave()
-}
-
-void intro()
-{
-    int maxy = getmaxy( catacurses::stdscr );
-    int maxx = getmaxx( catacurses::stdscr );
-    const int minHeight = FULL_SCREEN_HEIGHT;
-    const int minWidth = FULL_SCREEN_WIDTH;
-    catacurses::window &tmp = catacurses::stdscr;
-
-    while( maxy < minHeight || maxx < minWidth ) {
-        werase( tmp );
-        if( maxy < minHeight && maxx < minWidth ) {
-            fold_and_print( tmp, point_zero, maxx, c_white,
-                            _( "Whoa!  Your terminal is tiny!  This game requires a minimum terminal size of "
-                               "%dx%d to work properly.  %dx%d just won't do.  Maybe a smaller font would help?" ),
-                            minWidth, minHeight, maxx, maxy );
-        } else if( maxx < minWidth ) {
-            fold_and_print( tmp, point_zero, maxx, c_white,
-                            _( "Oh!  Hey, look at that.  Your terminal is just a little too narrow.  This game "
-                               "requires a minimum terminal size of %dx%d to function.  It just won't work "
-                               "with only %dx%d.  Can you stretch it out sideways a bit?" ),
-                            minWidth, minHeight, maxx, maxy );
-        } else {
-            fold_and_print( tmp, point_zero, maxx, c_white,
-                            _( "Woah, woah, we're just a little short on space here.  The game requires a "
-                               "minimum terminal size of %dx%d to run.  %dx%d isn't quite enough!  Can you "
-                               "make the terminal just a smidgen taller?" ),
-                            minWidth, minHeight, maxx, maxy );
-        }
-        wrefresh( tmp );
-        inp_mngr.wait_for_any_key();
-        maxy = getmaxy( catacurses::stdscr );
-        maxx = getmaxx( catacurses::stdscr );
-    }
-    werase( tmp );
-    wrefresh( tmp );
 }
 
 void game::process_artifact( item &it, player &p )
