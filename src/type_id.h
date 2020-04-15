@@ -1,9 +1,12 @@
 #pragma once
-#ifndef TYPE_ID_H
-#define TYPE_ID_H
+#ifndef CATA_SRC_TYPE_ID_H
+#define CATA_SRC_TYPE_ID_H
 
 #include "int_id.h"
 #include "string_id.h"
+
+class activity_type;
+using activity_id = string_id<activity_type>;
 
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
@@ -14,6 +17,10 @@ using ammo_effect_str_id = string_id<ammo_effect>;
 
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
+
+struct body_part_type;
+using bodypart_id = int_id<body_part_type>;
+using bodypart_str_id = string_id<body_part_type>;
 
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
@@ -26,6 +33,9 @@ using efftype_id = string_id<effect_type>;
 
 class scent_type;
 using scenttype_id = string_id<scent_type>;
+
+class disease_type;
+using diseasetype_id = string_id<disease_type>;
 
 class emit;
 using emit_id = string_id<emit>;
@@ -160,4 +170,4 @@ struct construction;
 using construction_id = int_id<construction>;
 using construction_str_id = string_id<construction>;
 
-#endif // TYPE_ID_H
+#endif // CATA_SRC_TYPE_ID_H

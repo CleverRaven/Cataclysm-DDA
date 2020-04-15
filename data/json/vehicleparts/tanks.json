@@ -2,7 +2,7 @@
   {
     "id": "tank_little",
     "type": "vehicle_part",
-    "name": "vehicle tank (2L)",
+    "name": { "str": "vehicle tank (2L)" },
     "item": "metal_tank_little",
     "location": "fuel_source",
     "symbol": "O",
@@ -11,7 +11,7 @@
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 2000,
     "damage_modifier": 80,
-    "folded_volume": 8,
+    "folded_volume": "2 L",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
     "requirements": {
       "install": {
@@ -28,7 +28,7 @@
   {
     "id": "tank_small",
     "type": "vehicle_part",
-    "name": "vehicle tank (10L)",
+    "name": { "str": "vehicle tank (10L)" },
     "item": "jerrycan",
     "location": "fuel_source",
     "symbol": "O",
@@ -53,7 +53,7 @@
   {
     "id": "tank_medium",
     "type": "vehicle_part",
-    "name": "vehicle tank (20L)",
+    "name": { "str": "vehicle tank (20L)" },
     "item": "jerrycan_big",
     "location": "fuel_source",
     "symbol": "O",
@@ -82,7 +82,7 @@
   {
     "id": "tank",
     "type": "vehicle_part",
-    "name": "vehicle tank (60L)",
+    "name": { "str": "vehicle tank (60L)" },
     "item": "metal_tank",
     "location": "fuel_source",
     "symbol": "O",
@@ -111,7 +111,7 @@
   {
     "id": "external_tank_small",
     "type": "vehicle_part",
-    "name": "external tank (100L)",
+    "name": { "str": "external tank (100L)" },
     "item": "30gal_drum",
     "location": "structure",
     "symbol": "O",
@@ -129,18 +129,39 @@
     "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
+    "id": "afs_small_roof_external_tank",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": { "str": "roof-mounted external tank (100L)" },
+    "looks_like": "afs_roof_external_tank",
+    "item": "30gal_drum",
+    "location": "on_roof",
+    "extend": { "flags": [ "ON_ROOF" ] },
+    "size": 100000
+  },
+  {
     "id": "external_tank",
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
-    "name": "external tank (200L)",
+    "name": { "str": "external tank (200L)" },
     "item": "55gal_drum",
     "size": 200000,
     "damage_reduction": { "all": 30, "stab": 12 }
   },
   {
+    "id": "afs_roof_external_tank",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": { "str": "roof-mounted external tank (200L)" },
+    "item": "55gal_drum",
+    "location": "on_roof",
+    "extend": { "flags": [ "ON_ROOF" ] },
+    "size": 200000
+  },
+  {
     "id": "tank_barrel",
     "type": "vehicle_part",
-    "name": "wooden barrel (100L)",
+    "name": { "str": "wooden barrel (100L)" },
     "item": "wooden_barrel",
     "location": "center",
     "symbol": "O",
@@ -166,9 +187,9 @@
   {
     "id": "tank_30gal_drum",
     "type": "vehicle_part",
-    "name": "steel drum (100L)",
+    "name": { "str": "steel drum (100L)" },
     "item": "30gal_drum",
-    "location": "center",
+    "location": "fuel_source",
     "symbol": "0",
     "color": "dark_gray",
     "broken_color": "red",
@@ -192,7 +213,7 @@
     "id": "tank_55gal_drum",
     "copy-from": "tank_30gal_drum",
     "type": "vehicle_part",
-    "name": "steel drum (200L)",
+    "name": { "str": "steel drum (200L)" },
     "item": "55gal_drum",
     "size": 200000,
     "breaks_into": [
@@ -206,7 +227,7 @@
   {
     "id": "fuel_bunker",
     "type": "vehicle_part",
-    "name": "fuel bunker",
+    "name": { "str": "fuel bunker" },
     "item": "fuel_bunker",
     "location": "fuel_source",
     "symbol": "O",

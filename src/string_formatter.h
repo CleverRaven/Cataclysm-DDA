@@ -1,6 +1,6 @@
 #pragma once
-#ifndef STRING_FORMATTER_H
-#define STRING_FORMATTER_H
+#ifndef CATA_SRC_STRING_FORMATTER_H
+#define CATA_SRC_STRING_FORMATTER_H
 
 #include <cstddef>
 #include <string>
@@ -265,13 +265,13 @@ class string_formatter
             // long long int and use the "ll" modifier all the time. This will print the
             // expected value all the time, even when the original modifier did not match.
             if( consume_next_input_if( 'l' ) ) {
-                if( consume_next_input_if( 'l' ) ) {
-                }
+                consume_next_input_if( 'l' );
             } else if( consume_next_input_if( 'h' ) ) {
-                if( consume_next_input_if( 'h' ) ) {
-                }
+                consume_next_input_if( 'h' );
             } else if( consume_next_input_if( 'z' ) ) {
+                // done with it
             } else if( consume_next_input_if( 't' ) ) {
+                // done with it
             }
             const char c = consume_next_input();
             current_format.push_back( c );
@@ -369,7 +369,7 @@ class string_formatter
          * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
          * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
          * @throws std::exception if the format is invalid / does not match the arguments, but that's
-         * not guaranteed - technically it's undefined behaviour.
+         * not guaranteed - technically it's undefined behavior.
          */
         // Implemented in output.cpp
         static std::string raw_string_format( const char *format, ... ) PRINTF_LIKE( 1, 2 );
@@ -425,4 +425,4 @@ string_format( T &&format, Args &&...args )
 }
 /**@}*/
 
-#endif
+#endif // CATA_SRC_STRING_FORMATTER_H

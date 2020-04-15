@@ -1,14 +1,14 @@
 #include "craft_command.h"
 
+#include <algorithm>
 #include <climits>
 #include <cstdlib>
-#include <algorithm>
 #include <limits>
 #include <list>
-#include <map>
-#include <utility>
 
+#include "crafting.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
@@ -18,9 +18,10 @@
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
-#include "uistate.h"
 #include "type_id.h"
-#include "cata_string_consts.h"
+#include "uistate.h"
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
@@ -291,7 +292,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
     for( const auto &item_sel : item_selections ) {
         itype_id type = item_sel.comp.type;
         const item_comp component = item_sel.comp;
-        const int count = component.count > 0 ? component.count * batch_size : abs( component.count );
+        const int count = component.count > 0 ? component.count * batch_size : std::abs( component.count );
 
         if( item::count_by_charges( type ) && count > 0 ) {
             switch( item_sel.use_from ) {

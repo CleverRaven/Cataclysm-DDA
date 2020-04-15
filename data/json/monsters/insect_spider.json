@@ -2,7 +2,7 @@
   {
     "id": "mon_dark_wyrm",
     "type": "MONSTER",
-    "name": "dark wyrm",
+    "name": { "str": "dark wyrm" },
     "description": "A huge mutated worm found deep underground.  It has a gaping round mouth lined with dagger-like teeth, and its flesh is slick with bubbling blue slime.",
     "default_faction": "mutant",
     "bodytype": "snake",
@@ -29,7 +29,7 @@
   {
     "id": "mon_graboid",
     "type": "MONSTER",
-    "name": "graboid",
+    "name": { "str": "graboid" },
     "description": "A monstrous beast the size of a semi truck with a tripartite mouth that opens to reveal hundreds of writhing tongues with razor sharp edges.  It keeps most of its enormous body hidden underground.",
     "default_faction": "worm",
     "bodytype": "snake",
@@ -56,7 +56,7 @@
   {
     "id": "mon_halfworm",
     "type": "MONSTER",
-    "name": "half worm",
+    "name": { "str": "half worm" },
     "description": "A squiggling severed portion of a wounded giant worm.",
     "default_faction": "worm",
     "bodytype": "snake",
@@ -82,7 +82,7 @@
   {
     "id": "mon_worm",
     "type": "MONSTER",
-    "name": "giant worm",
+    "name": { "str": "giant worm" },
     "description": "An enormous, mutated creature that might once have been a nightcrawler.  It possesses a large fanged mouth and a long slender body that comes up to your shoulder, with even more surely hiding underground.",
     "default_faction": "worm",
     "bodytype": "snake",

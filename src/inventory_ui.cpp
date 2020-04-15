@@ -3,44 +3,47 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
+#include "colony.h"
+#include "debug.h"
 #include "game.h"
 #include "ime.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
+#include "item_stack.h"
+#include "line.h"
 #include "map.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"
+#include "point.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "type_id.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "vpart_position.h"
-#include "character.h"
-#include "debug.h"
-#include "inventory.h"
-#include "line.h"
-#include "optional.h"
 #include "visitable.h"
-#include "colony.h"
-#include "item_stack.h"
-#include "point.h"
+#include "vpart_position.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
-#include <set>
-#include <string>
-#include <vector>
-#include <map>
-#include <limits>
-#include <numeric>
 #include <algorithm>
 #include <iterator>
+#include <limits>
+#include <map>
+#include <numeric>
+#include <set>
+#include <string>
 #include <type_traits>
+#include <vector>
 
 /** The maximum distance from the screen edge, to snap a window to it */
 static const size_t max_win_snap_distance = 4;
@@ -340,7 +343,8 @@ void inventory_column::select( size_t new_index, scroll_direction dir )
         }
 
         selected_index = new_index;
-        page_offset = selected_index - selected_index % entries_per_page;
+        page_offset = ( new_index == static_cast<size_t>( -1 ) ) ?
+                      0 : selected_index - selected_index % entries_per_page;
     }
 }
 
@@ -361,7 +365,7 @@ size_t inventory_column::next_selectable_index( size_t index, scroll_direction d
     } while( new_index != index && !entries[new_index].is_selectable() );
 
     if( !entries[new_index].is_selectable() ) {
-        return -1;
+        return static_cast<size_t>( -1 );
     }
 
     return new_index;
@@ -1830,6 +1834,9 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
 
 item_location inventory_pick_selector::execute()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     bool need_refresh = true;
     while( true ) {
         update( need_refresh );
@@ -1897,6 +1904,9 @@ inventory_compare_selector::inventory_compare_selector( player &p ) :
 
 std::pair<const item *, const item *> inventory_compare_selector::execute()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     bool need_refresh = true;
     while( true ) {
         update( need_refresh );
@@ -1974,6 +1984,9 @@ inventory_iuse_selector::inventory_iuse_selector(
 {}
 drop_locations inventory_iuse_selector::execute()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int count = 0;
     bool need_refresh = true;
     while( true ) {
@@ -2096,6 +2109,9 @@ void inventory_drop_selector::process_selected( int &count,
 
 drop_locations inventory_drop_selector::execute()
 {
+    // FIXME: temporarily disable redrawing of lower UIs before this UI is migrated to `ui_adaptor`
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+
     int count = 0;
     bool need_refresh = true;
     while( true ) {

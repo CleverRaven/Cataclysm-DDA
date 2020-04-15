@@ -1,6 +1,6 @@
 #pragma once
-#ifndef LIGHTMAP_H
-#define LIGHTMAP_H
+#ifndef CATA_SRC_LIGHTMAP_H
+#define CATA_SRC_LIGHTMAP_H
 
 #include <cmath>
 
@@ -35,4 +35,4 @@ enum lit_level {
     LL_BLANK // blank space, not an actual light level
 };
 
-#endif
+#endif // CATA_SRC_LIGHTMAP_H

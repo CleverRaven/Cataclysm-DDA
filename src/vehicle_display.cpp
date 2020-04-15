@@ -443,11 +443,11 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             if( debug_mode ) {
                 wprintz( win, tank_color, _( ", %d %s(%4.2f%%)/hour, %s until %s" ),
                          rate, units, 100.0 * rate  / cap,
-                         to_string_clipped( 60_minutes * tank_use / abs( rate ) ), tank_goal );
+                         to_string_clipped( 60_minutes * tank_use / std::abs( rate ) ), tank_goal );
             } else {
                 wprintz( win, tank_color, _( ", %3.1f%% / hour, %s until %s" ),
                          100.0 * rate  / cap,
-                         to_string_clipped( 60_minutes * tank_use / abs( rate ) ), tank_goal );
+                         to_string_clipped( 60_minutes * tank_use / std::abs( rate ) ), tank_goal );
             }
         }
     }

@@ -1,5 +1,5 @@
-#ifndef CATA_TOOLS_CLANG_TIDY_NOSTATICGETTEXTCHECK_H
-#define CATA_TOOLS_CLANG_TIDY_NOSTATICGETTEXTCHECK_H
+#ifndef CATA_TOOLS_CLANG_TIDY_PLUGIN_NOSTATICGETTEXTCHECK_H
+#define CATA_TOOLS_CLANG_TIDY_PLUGIN_NOSTATICGETTEXTCHECK_H
 
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <llvm/ADT/StringRef.h>
@@ -8,7 +8,6 @@
 
 namespace clang
 {
-class CompilerInstance;
 
 namespace tidy
 {
@@ -30,4 +29,4 @@ class NoStaticGettextCheck : public ClangTidyCheck
 } // namespace tidy
 } // namespace clang
 
-#endif // CATA_TOOLS_CLANG_TIDY_NOSTATICGETTEXTCHECK_H
+#endif // CATA_TOOLS_CLANG_TIDY_PLUGIN_NOSTATICGETTEXTCHECK_H

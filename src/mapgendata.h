@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAPGENDATA_H
-#define MAPGENDATA_H
+#ifndef CATA_SRC_MAPGENDATA_H
+#define CATA_SRC_MAPGENDATA_H
 
 #include "type_id.h"
 #include "calendar.h"
@@ -136,7 +136,6 @@ class mapgendata
         void square_groundcover( int x1, int y1, int x2, int y2 );
         ter_id groundcover();
         bool is_groundcover( const ter_id &iid ) const;
-        bool has_basement() const;
 };
 
-#endif
+#endif // CATA_SRC_MAPGENDATA_H

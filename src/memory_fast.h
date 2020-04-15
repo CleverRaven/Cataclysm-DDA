@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SINGLETHREADED_PTRS_H
-#define SINGLETHREADED_PTRS_H
+#ifndef CATA_SRC_MEMORY_FAST_H
+#define CATA_SRC_MEMORY_FAST_H
 
 #include <memory>
 
@@ -22,4 +22,4 @@ template<typename T, typename... Args> shared_ptr_fast<T> make_shared_fast(
 }
 #endif
 
-#endif
+#endif // CATA_SRC_MEMORY_FAST_H

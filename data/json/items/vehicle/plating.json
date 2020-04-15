@@ -19,7 +19,7 @@
   {
     "type": "GENERIC",
     "id": "sheet_metal_lit",
-    "name": "wired sheet metal",
+    "name": { "str": "wired sheet metal", "str_pl": "wired sheet metal" },
     "description": "Sheet metal that has had light housing wired into it.",
     "weight": "6200 g",
     "to_hit": -2,
@@ -34,7 +34,7 @@
   {
     "type": "GENERIC",
     "id": "wood_plate",
-    "name": "wooden armor kit",
+    "name": { "str": "wooden armor kit" },
     "description": "A bundle of two by fours prepared to be used as vehicle armor.",
     "weight": "5600 g",
     "to_hit": -8,

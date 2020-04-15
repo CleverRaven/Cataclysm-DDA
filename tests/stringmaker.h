@@ -4,6 +4,7 @@
 
 #include "catch/catch.hpp"
 #include "cata_variant.h"
+#include "dialogue.h"
 #include "item.h"
 
 // StringMaker specializations for Cata types for reporting via Catch2 macros
@@ -44,6 +45,13 @@ template<>
 struct StringMaker<time_duration> {
     static std::string convert( const time_duration &d ) {
         return string_format( "time_duration( %d ) [%s]", to_turns<int>( d ), to_string( d ) );
+    }
+};
+
+template<>
+struct StringMaker<talk_response> {
+    static std::string convert( const talk_response &r ) {
+        return string_format( "talk_response( text=\"%s\" )", r.text );
     }
 };
 

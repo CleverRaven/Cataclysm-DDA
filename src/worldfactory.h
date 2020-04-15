@@ -1,6 +1,6 @@
 #pragma once
-#ifndef WORLDFACTORY_H
-#define WORLDFACTORY_H
+#ifndef CATA_SRC_WORLDFACTORY_H
+#define CATA_SRC_WORLDFACTORY_H
 
 #include <cstddef>
 #include <functional>
@@ -43,6 +43,7 @@ class save_t
         bool operator!=( const save_t &rhs ) const {
             return !operator==( rhs );
         }
+        save_t( const save_t & ) = default;
         save_t &operator=( const save_t & ) = default;
 };
 
@@ -134,9 +135,12 @@ class worldfactory
         void load_last_world_info();
 
         std::string pick_random_name();
-        int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world );
-        int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world );
-        int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world );
+        int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world,
+                                       const std::function<bool()> &on_quit );
+        int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
+                                            const std::function<bool()> &on_quit );
+        int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world,
+                                       const std::function<bool()> &on_quit );
 
         void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp );
         void draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
@@ -148,7 +152,8 @@ class worldfactory
         pimpl<mod_manager> mman;
         pimpl<mod_ui> mman_ui;
 
-        using worldgen_display = std::function<int ( const catacurses::window &, WORLDPTR )>;
+        using worldgen_display = std::function<int ( const catacurses::window &, WORLDPTR,
+                                 const std::function<bool()> )>;
 
         std::vector<worldgen_display> tabs;
 };
@@ -160,4 +165,4 @@ void load_external_option( const JsonObject &jo );
 
 extern std::unique_ptr<worldfactory> world_generator;
 
-#endif
+#endif // CATA_SRC_WORLDFACTORY_H

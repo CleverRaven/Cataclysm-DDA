@@ -2,7 +2,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Jenny",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Jenny Forcette is an experienced mechanical engineer.  Like the other refugees in the center, she's terrified of the outside world.  Unlike many, she has some ideas what to do about it.",
@@ -374,7 +374,7 @@
   {
     "id": "MISSION_REFUGEE_Jenny_GET_MOTOR",
     "type": "mission_definition",
-    "name": "Find an electric motor",
+    "name": { "str": "Find an electric motor" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -396,7 +396,7 @@
   {
     "id": "MISSION_REFUGEE_Jenny_GET_TANK",
     "type": "mission_definition",
-    "name": "Bring back a 60L metal tank",
+    "name": { "str": "Bring back a 60L metal tank" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",

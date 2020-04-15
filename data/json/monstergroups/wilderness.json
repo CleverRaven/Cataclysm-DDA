@@ -94,6 +94,8 @@
       { "monster": "mon_zombear", "freq": 4, "cost_multiplier": 10, "starts": 2160 },
       { "monster": "mon_bobcat", "freq": 7, "cost_multiplier": 2 },
       { "monster": "mon_bobcat", "freq": 13, "cost_multiplier": 2, "conditions": [ "DAWN", "DUSK" ] },
+      { "monster": "mon_boar_wild", "freq": 2, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_boar_wild", "freq": 4, "cost_multiplier": 2, "pack_size": [ 1, 4 ], "conditions": [ "DAY" ] },
       { "monster": "mon_cat", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_cat", "freq": 15, "cost_multiplier": 1, "conditions": [ "DAWN", "DUSK" ] },
       { "monster": "mon_cat", "freq": 1, "cost_multiplier": 1, "pack_size": [ 2, 8 ] },

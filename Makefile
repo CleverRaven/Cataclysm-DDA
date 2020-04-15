@@ -47,6 +47,10 @@
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 #  make localization LANGUAGES=all
 #  (for every .po file in lang/po)
+#  Special note for MinGW: due to a libintl bug (https://savannah.gnu.org/bugs/index.php?58006),
+#  using English without a `.mo` file would cause significant slow down on MinGW
+#  targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`.
+#  `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
 # Enable sanitizer (address, undefined, etc.)
 #  make SANITIZE=address
 # Change mapsize (reality bubble size)
@@ -129,7 +133,7 @@ export CCACHE_COMMENTS=1
 # Explicitly let 'char' to be 'signed char' to fix #18776
 OTHERS += -fsigned-char
 
-VERSION = 0.D
+VERSION = 0.E
 
 TARGET_NAME = cataclysm
 TILES_TARGET_NAME = $(TARGET_NAME)-tiles
@@ -171,10 +175,12 @@ ifdef MSYSTEM
 endif
 
 # Determine JSON formatter binary name
+JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
 ifeq ($(MSYS2), 1)
   JSON_FORMATTER_BIN=tools/format/json_formatter.exe
-else
-  JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
+endif
+ifneq (,$(findstring mingw32,$(CROSS)))
+  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
 endif
 
 # Enable backtrace by default
@@ -445,6 +451,11 @@ ifeq ($(NATIVE), osx)
       LDFLAGS += -L$(LIBSDIR)/gettext/lib
       CXXFLAGS += -I$(LIBSDIR)/gettext/include
     endif
+    ifeq ($(BREWGETTEXT), 1)
+      # recent versions of brew will not allow you to link
+      LDFLAGS += -L/usr/local/opt/gettext/lib
+      CXXFLAGS += -I/usr/local/opt/gettext/include
+    endif
     ifeq ($(MACPORTS), 1)
       ifneq ($(TILES), 1)
         CXXFLAGS += -I$(shell ncursesw6-config --includedir)
@@ -524,7 +535,6 @@ ifeq ($(shell git rev-parse --is-inside-work-tree),true)
 endif
 
 PKG_CONFIG = $(CROSS)pkg-config
-SDL2_CONFIG = $(CROSS)sdl2-config
 
 ifeq ($(SOUND), 1)
   ifneq ($(TILES),1)
@@ -591,14 +601,14 @@ ifdef TILES
       endif
     endif
   else # not osx
-    CXXFLAGS += $(shell $(SDL2_CONFIG) --cflags)
+    CXXFLAGS += $(shell $(PKG_CONFIG) sdl2 --cflags)
     CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_image --cflags)
     CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --cflags)
 
     ifdef STATIC
-      LDFLAGS += $(shell $(SDL2_CONFIG) --static-libs)
+      LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --static --libs)
     else
-      LDFLAGS += $(shell $(SDL2_CONFIG) --libs)
+      LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --libs)
     endif
 
     LDFLAGS += -lSDL2_ttf -lSDL2_image
@@ -659,8 +669,8 @@ else
 
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(HAVE_PKGCONFIG),1)
-    CXXFLAGS += $(shell pkg-config --cflags $(NCURSES_PREFIX))
-    LDFLAGS += $(shell pkg-config --libs $(NCURSES_PREFIX))
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags $(NCURSES_PREFIX))
+    LDFLAGS += $(shell $(PKG_CONFIG) --libs $(NCURSES_PREFIX))
   else
     ifeq ($(HAVE_NCURSES5CONFIG),1)
       CXXFLAGS += $(shell $(NCURSES_PREFIX)5-config --cflags)
@@ -842,7 +852,7 @@ version:
 	@( VERSION_STRING=$(VERSION) ; \
             [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9A-Z]*.[0-9A-Z]*" ) && VERSION_STRING=$$GITVERSION ; \
             [ -e "$(SRC_DIR)/version.h" ] && OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h|cut -d '"' -f2) ; \
-            if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee $(SRC_DIR)/version.h ; fi \
+            if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then printf '// NOLINT(cata-header-guard)\n#define VERSION "%s"\n' "$$VERSION_STRING" | tee $(SRC_DIR)/version.h ; fi \
          )
 
 # Unconditionally create the object dir on every invocation.

@@ -1,14 +1,19 @@
+#include <array>
+#include <cstdlib>
+#include <memory>
+#include <string>
+
 #include "avatar.h"
 #include "bodypart.h"
-#include "cata_string_consts.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
-#include "point.h"
-#include "string_id.h"
 #include "type_id.h"
+#include "value_ptr.h"
+
+static const std::string flag_WET( "WET" );
 
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
@@ -293,21 +298,18 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
     REQUIRE( dummy.get_stim() == 0 );
     REQUIRE( dummy.get_rad() == 0 );
 
-    SECTION( "caffeine reduces fatigue, but does not give stimulant effect" ) {
+    SECTION( "coffee reduces fatigue, but does not give stimulant effect" ) {
         item &coffee = dummy.i_add( item( "coffee", 0, item::default_charges_tag{} ) );
-        dummy.invoke_item( &coffee );
-        CHECK( dummy.get_fatigue() == fatigue_before - 3 * coffee.get_comestible()->stim );
-        CHECK( dummy.get_stim() == 0 );
+        dummy.consume_item( coffee );
+        CHECK( dummy.get_fatigue() == fatigue_before - coffee.get_comestible()->fatigue_mod );
+        CHECK( dummy.get_stim() == coffee.get_comestible()->stim );
     }
 
-    SECTION( "atomic caffeine greatly reduces fatigue, but may also irradiate you" ) {
+    SECTION( "atomic caffeine greatly reduces fatigue, and increases stimulant effect" ) {
         item &atomic_coffee = dummy.i_add( item( "atomic_coffee", 0, item::default_charges_tag{} ) );
-        dummy.invoke_item( &atomic_coffee );
-        CHECK( dummy.get_fatigue() == fatigue_before - 12 * atomic_coffee.get_comestible()->stim );
-        CHECK( dummy.get_stim() == 0 );
-        // irradiation is random, between 0 and 8
-        CHECK( dummy.get_rad() >= 0 );
-        CHECK( dummy.get_rad() <= 8 );
+        dummy.consume_item( atomic_coffee );
+        CHECK( dummy.get_fatigue() == fatigue_before - atomic_coffee.get_comestible()->fatigue_mod );
+        CHECK( dummy.get_stim() == atomic_coffee.get_comestible()->stim );
     }
 }
 
@@ -414,7 +416,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
     GIVEN( "avatar is boomered and wet" ) {
         dummy.add_effect( efftype_id( "boomered" ), 1_hours );
         dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
-        REQUIRE( abs( dummy.has_morale( MORALE_WET ) ) );
+        REQUIRE( std::abs( dummy.has_morale( MORALE_WET ) ) );
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
@@ -422,7 +424,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
             THEN( "it removes the boomered effect, but not the wetness" ) {
                 CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
-                CHECK( abs( dummy.has_morale( MORALE_WET ) ) );
+                CHECK( std::abs( dummy.has_morale( MORALE_WET ) ) );
 
                 AND_THEN( "the towel becomes soiled" ) {
                     CHECK( towel.typeId() == "towel_soiled" );

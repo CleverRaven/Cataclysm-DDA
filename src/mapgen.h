@@ -1,27 +1,27 @@
 #pragma once
-#ifndef MAPGEN_H
-#define MAPGEN_H
+#ifndef CATA_SRC_MAPGEN_H
+#define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
-#include <map>
 #include <memory>
 #include <string>
-#include <vector>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
+#include "memory_fast.h"
+#include "point.h"
 #include "regional_settings.h"
 #include "type_id.h"
-#include "memory_fast.h"
 
-class time_point;
-struct point;
 class JsonArray;
+class JsonMember;
 class JsonObject;
-class mission;
-struct tripoint;
 class map;
-template <typename T> struct weighted_int_list;
 class mapgendata;
+class mission;
+template <typename T> struct weighted_int_list;
+
 using building_gen_pointer = void ( * )( mapgendata & );
 
 //////////////////////////////////////////////////////////////////////////
@@ -181,19 +181,46 @@ class jmapgen_place
 
 using palette_id = std::string;
 
+// Strong typedef for strings used as map/palette keys
+// Each key should be a UTF-8 string displayed in only one column (i.e.
+// utf8_width of 1) but can contain multiple Unicode code points.
+class map_key
+{
+    public:
+        map_key( const std::string & );
+        map_key( const JsonMember & );
+
+        friend bool operator==( const map_key &l, const map_key &r ) {
+            return l.str == r.str;
+        }
+
+        std::string str;
+};
+
+namespace std
+{
+template<>
+struct hash<map_key> {
+    size_t operator()( const map_key &k ) const noexcept {
+        return hash<std::string> {}( k.str );
+    }
+};
+} // namespace std
+
 class mapgen_palette
 {
     public:
         palette_id id;
         /**
-         * The mapping from character code (key) to a list of things that should be placed. This is
+         * The mapping from character (key) to a list of things that should be placed. This is
          * similar to objects, but it uses key to get the actual position where to place things
          * out of the json "bitmap" (which is used to paint the terrain/furniture).
          */
-        using placing_map = std::map< int, std::vector< shared_ptr_fast<const jmapgen_piece> > >;
+        using placing_map =
+            std::unordered_map<map_key, std::vector< shared_ptr_fast<const jmapgen_piece>>>;
 
-        std::map<int, ter_id> format_terrain;
-        std::map<int, furn_id> format_furniture;
+        std::unordered_map<map_key, ter_id> format_terrain;
+        std::unordered_map<map_key, furn_id> format_furniture;
         placing_map format_placings;
 
         template<typename PieceType>
@@ -371,21 +398,24 @@ class mapgen_function_json_nested : public mapgen_function_json_base
  * Load mapgen function of any type from a json object
  */
 std::shared_ptr<mapgen_function> load_mapgen_function( const JsonObject &jio,
-        const std::string &id_base, int default_idx, const point &offset = point_zero );
+        const std::string &id_base, const point &offset );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
- * for oter_mapgen / oter_mapgen_weights key, multiple possible ( ie, [ "house", "house_base" ] )
+ * for oter_mapgen / oter_mapgen_weights key, multiple possible ( i.e., [ "house_w_1", "duplex" ] )
  */
 void load_mapgen( const JsonObject &jo );
 void reset_mapgens();
-/*
- * stores function ref and/or required data
+/**
+ * Attempts to register the build-in function @p key as mapgen for the overmap terrain @p key.
+ * If there is no matching function, it does nothing (no error message) and returns -1.
+ * Otherwise it returns the index of the added entry in the vector of @ref oter_mapgen.
  */
-extern std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
-/*
- * random selector list for the nested vector above, as per individual mapgen_function_::weight value
+// @TODO this should go away. It is only used for old build-in mapgen. Mapgen should be done via JSON.
+int register_mapgen_function( const std::string &key );
+/**
+ * Check that @p key is present in @ref oter_mapgen.
  */
-extern std::map<std::string, std::map<int, int> > oter_mapgen_weights;
+bool has_mapgen_for( const std::string &key );
 /*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
@@ -423,19 +453,19 @@ enum room_type {
 bool connects_to( const oter_id &there, int dir );
 void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down = false );
 // wrappers for map:: functions
-void line( map *m, const ter_id &type, int x1, int y1, int x2, int y2 );
-void line_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 );
+void line( map *m, const ter_id &type, const point &p1, const point &p2 );
+void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
 void fill_background( map *m, const ter_id &type );
 void fill_background( map *m, ter_id( *f )() );
-void square( map *m, const ter_id &type, int x1, int y1, int x2, int y2 );
-void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 );
-void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 );
-void square_furn( map *m, const furn_id &type, int x1, int y1, int x2, int y2 );
-void rough_circle( map *m, const ter_id &type, int x, int y, int rad );
-void rough_circle_furn( map *m, const furn_id &type, int x, int y, int rad );
+void square( map *m, const ter_id &type, const point &p1, const point &p2 );
+void square( map *m, ter_id( *f )(), const point &p1, const point &p2 );
+void square( map *m, const weighted_int_list<ter_id> &f, const point &p1, const point &p2 );
+void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
+void rough_circle( map *m, const ter_id &type, const point &, int rad );
+void rough_circle_furn( map *m, const furn_id &type, const point &, int rad );
 void circle( map *m, const ter_id &type, double x, double y, double rad );
-void circle( map *m, const ter_id &type, int x, int y, int rad );
-void circle_furn( map *m, const furn_id &type, int x, int y, int rad );
-void add_corpse( map *m, int x, int y );
+void circle( map *m, const ter_id &type, const point &, int rad );
+void circle_furn( map *m, const furn_id &type, const point &, int rad );
+void add_corpse( map *m, const point & );
 
-#endif
+#endif // CATA_SRC_MAPGEN_H

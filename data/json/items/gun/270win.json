@@ -9,6 +9,7 @@
     "weight": "3410 g",
     "volume": "2202 ml",
     "price": 112600,
+    "price_postapoc": 2750,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
