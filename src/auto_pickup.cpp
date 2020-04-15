@@ -551,11 +551,11 @@ void player_settings::add_rule( const item *it )
 void player_settings::remove_rule( const item *it )
 {
     const std::string sRule = it->tname( 1, false );
-    for( auto it = character_rules.begin();
-         it != character_rules.end(); ++it ) {
-        if( sRule.length() == it->sRule.length() &&
-            ci_find_substr( sRule, it->sRule ) != -1 ) {
-            character_rules.erase( it );
+    for( rule_list::iterator candidate = character_rules.begin();
+         candidate != character_rules.end(); ++candidate ) {
+        if( sRule.length() == candidate->sRule.length() &&
+            ci_find_substr( sRule, candidate->sRule ) != -1 ) {
+            character_rules.erase( candidate );
             invalidate();
             break;
         }

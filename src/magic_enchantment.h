@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAGIC_ENCHANTMENT_H
-#define MAGIC_ENCHANTMENT_H
+#ifndef CATA_SRC_MAGIC_ENCHANTMENT_H
+#define CATA_SRC_MAGIC_ENCHANTMENT_H
 
 #include <algorithm>
 #include <map>
@@ -171,4 +171,4 @@ class enchantment
                                      const fake_spell &sp ) const;
 };
 
-#endif
+#endif // CATA_SRC_MAGIC_ENCHANTMENT_H

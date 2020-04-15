@@ -1,6 +1,6 @@
 #pragma once
-#ifndef LINE_H
-#define LINE_H
+#ifndef CATA_SRC_LINE_H
+#define CATA_SRC_LINE_H
 
 #include <cmath>
 #include <functional>
@@ -32,7 +32,7 @@ constexpr double ARCMIN( double v )
 inline double iso_tangent( double distance, double vertex )
 {
     // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
-    return sqrt( 2 * pow( distance, 2 ) * ( 1 - cos( ARCMIN( vertex ) ) ) );
+    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - cos( ARCMIN( vertex ) ) ) );
 }
 
 //! This compile-time usable function combines the sign of each (x, y, z) component into a single integer
@@ -50,7 +50,7 @@ inline constexpr unsigned make_xyz_unit( const int x, const int y, const int z )
 // This more general version of this function gives correct values for larger inputs.
 unsigned make_xyz( const tripoint & );
 
-enum direction : unsigned {
+enum class direction : unsigned {
     ABOVENORTHWEST = make_xyz_unit( -1, -1, -1 ),
     NORTHWEST      = make_xyz_unit( -1, -1,  0 ),
     BELOWNORTHWEST = make_xyz_unit( -1, -1,  1 ),
@@ -81,6 +81,42 @@ enum direction : unsigned {
     SOUTHEAST      = make_xyz_unit( 1,  1,  0 ),
     BELOWSOUTHEAST = make_xyz_unit( 1,  1,  1 ),
 };
+
+template< class T >
+constexpr inline direction operator%( const direction &lhs, const T &rhs )
+{
+    return static_cast<direction>( static_cast<T>( lhs ) % rhs );
+}
+
+template< class T >
+constexpr inline T operator+( const direction &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) + rhs;
+}
+
+template< class T >
+constexpr inline bool operator==( const direction &lhs, const T &rhs )
+{
+    return static_cast<T>( lhs ) == rhs;
+}
+
+template< class T >
+constexpr inline bool operator==( const T &lhs, const direction &rhs )
+{
+    return operator==( rhs, lhs );
+}
+
+template< class T >
+constexpr inline bool operator!=( const T &lhs, const direction &rhs )
+{
+    return !operator==( rhs, lhs );
+}
+
+template< class T >
+constexpr inline bool operator!=( const direction &lhs, const T &rhs )
+{
+    return !operator==( lhs, rhs );
+}
 
 direction direction_from( const point &p ) noexcept;
 direction direction_from( const tripoint &p ) noexcept;
@@ -115,9 +151,9 @@ extern bool trigdist;
 
 inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
-    return sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
-                 ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
-                 ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
+    return std::sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
+                      ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
+                      ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
 }
 inline float trig_dist( const point &loc1, const point &loc2 )
 {
@@ -175,7 +211,7 @@ struct FastDistanceApproximation {
         }
         inline operator int() const {
             if( trigdist ) {
-                return sqrt( value );
+                return std::sqrt( value );
             }
             return value;
         }
@@ -282,4 +318,4 @@ struct rl_vec3d {
     rl_vec3d operator+ ( const rl_vec3d &rhs ) const;
 };
 
-#endif
+#endif // CATA_SRC_LINE_H

@@ -48,7 +48,7 @@ void item_contents::handle_liquid_or_spill( Character &guy )
             liquid_handler::handle_all_liquid( liquid, 1 );
         } else {
             item i_copy( *iter );
-            items.erase( iter );
+            iter = items.erase( iter );
             guy.i_add_or_drop( i_copy );
         }
     }

@@ -4757,6 +4757,42 @@
   },
   {
     "type": "overmap_special",
+    "id": "trailhead_basic",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "trailhead_north" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "city_sizes": [ 1, -1 ],
+    "//": "These actually get placed by some C++ trailhead placement code, so [0, 0] occurrences is deliberate.",
+    "occurrences": [ 0, 0 ],
+    "locations": [ "field" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "trailhead_outhouse",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "trailhead_outhouse_z0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "trailhead_outhouse_z1_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "city_sizes": [ 1, -1 ],
+    "//": "These actually get placed by some C++ trailhead placement code, so [0, 0] occurrences is deliberate.",
+    "occurrences": [ 0, 0 ],
+    "locations": [ "field" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "trailhead_shack",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "trailhead_shack_z0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "trailhead_shack_z1_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "city_sizes": [ 1, -1 ],
+    "//": "These actually get placed by some C++ trailhead placement code, so [0, 0] occurrences is deliberate.",
+    "occurrences": [ 0, 0 ],
+    "locations": [ "field" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Island",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },

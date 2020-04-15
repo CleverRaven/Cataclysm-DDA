@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CONSTRUCTION_H
-#define CONSTRUCTION_H
+#ifndef CATA_SRC_CONSTRUCTION_H
+#define CATA_SRC_CONSTRUCTION_H
 
 #include <algorithm>
 #include <functional>
@@ -126,4 +126,4 @@ void finalize_constructions();
 void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
                                       std::map<furn_id, int>> &changed_ids,
                                       build_reqs &total_reqs );
-#endif
+#endif // CATA_SRC_CONSTRUCTION_H

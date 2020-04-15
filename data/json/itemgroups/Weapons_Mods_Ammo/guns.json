@@ -10,6 +10,8 @@
       { "item": "glock_31", "prob": 15, "charges-min": 0, "charges-max": 15 },
       { "item": "m1911", "prob": 50, "charges-min": 0, "charges-max": 7 },
       { "item": "m9", "prob": 30, "charges-min": 0, "charges-max": 15 },
+      { "item": "px4", "prob": 24, "charges-min": 0, "charges-max": 15 },
+      { "item": "px4_40", "prob": 20, "charges-min": 0, "charges-max": 14 },
       { "item": "ruger_lcr_38", "prob": 10, "charges-min": 0, "charges-max": 5 },
       { "item": "sig_mosquito", "prob": 15, "charges-min": 0, "charges-max": 10 },
       { "item": "sw_22", "prob": 15, "charges-min": 0, "charges-max": 10 },
@@ -82,6 +84,8 @@
     "id": "guns_pistol_rare",
     "//": "Less common pistols including those only used by police/paramilitary forces.",
     "items": [
+      { "item": "90two", "prob": 25, "charges-min": 0, "charges-max": 15 },
+      { "item": "90two40", "prob": 10, "charges-min": 0, "charges-max": 12 },
       { "item": "bond_410", "prob": 20, "charges-min": 0, "charges-max": 2 },
       { "item": "deagle_44", "prob": 35, "charges-min": 0, "charges-max": 8 },
       { "item": "m1911a1_38super", "prob": 25, "charges-min": 0, "charges-max": 9 },
@@ -93,7 +97,8 @@
       { "item": "sw_500", "prob": 25, "charges-min": 0, "charges-max": 5 },
       { "item": "sw629", "prob": 40, "charges-min": 0, "charges-max": 6 },
       { "item": "usp_45", "prob": 70, "charges-min": 0, "charges-max": 12 },
-      { "item": "usp_9mm", "prob": 120, "charges-min": 0, "charges-max": 15 }
+      { "item": "usp_9mm", "prob": 120, "charges-min": 0, "charges-max": 15 },
+      { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -112,7 +117,8 @@
       { "item": "sw_500", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "sw629", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "usp_45", "prob": 70, "charges-min": 0, "charges-max": 0 },
-      { "item": "usp_9mm", "prob": 120, "charges-min": 0, "charges-max": 0 }
+      { "item": "usp_9mm", "prob": 120, "charges-min": 0, "charges-max": 0 },
+      { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -269,7 +275,8 @@
       { "item": "ruger_mini", "prob": 60, "charges-min": 0, "charges-max": 5 },
       { "item": "sks", "prob": 40, "charges-min": 0, "charges-max": 10 },
       { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 3 },
-      { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 7 }
+      { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 7 },
+      { "item": "aksemi", "prob": 35, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -292,7 +299,8 @@
       { "item": "ruger_mini", "prob": 60, "charges-min": 0, "charges-max": 0 },
       { "item": "sks", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 0 },
-      { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 0 }
+      { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "aksemi", "prob": 35, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -398,6 +406,7 @@
       { "item": "bh_m89", "prob": 20, "charges-min": 0, "charges-max": 7 },
       { "item": "bfg50", "prob": 5, "charges-min": 0, "charges-max": 1 },
       { "item": "carbine_flintlock", "prob": 140 },
+      { "item": "famas", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "rifle_flintlock", "prob": 180 },
       { "item": "oa93", "prob": 3, "charges-min": 0, "charges-max": 30 },
       { "item": "steyr_aug", "prob": 40, "charges-min": 0, "charges-max": 30 },
@@ -459,6 +468,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 7 },
+      { "item": "ksg-25", "prob": 8, "charges-min": 0, "charges-max": 12 },
       { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 16 },
       { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 9 },
@@ -747,7 +757,8 @@
       { "item": "shotgun_s", "prob": 10 },
       { "item": "shotgun_d", "prob": 10, "charges-min": 0, "charges-max": 2 },
       { "item": "sten", "prob": 20, "charges-min": 0, "charges-max": 32 },
-      { "item": "sks", "prob": 10, "charges-min": 0, "charges-max": 10 }
+      { "item": "sks", "prob": 10, "charges-min": 0, "charges-max": 10 },
+      { "item": "aksemi", "prob": 5, "charges-min": 0, "charges-max": 30 }
     ]
   }
 ]

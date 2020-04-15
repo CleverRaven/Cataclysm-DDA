@@ -782,7 +782,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         int vehwindspeed = 0;
         if( optional_vpart_position vp = g->m.veh_at( pos() ) ) {
             // vehicle velocity in mph
-            vehwindspeed = abs( vp->vehicle().velocity / 100 );
+            vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
@@ -1095,7 +1095,7 @@ bool Character::burn_fuel( int b, bool start )
                             const optional_vpart_position vp = g->m.veh_at( pos() );
                             if( vp ) {
                                 // vehicle velocity in mph
-                                vehwindspeed = abs( vp->vehicle().velocity / 100 );
+                                vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
                             }
                             const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
                                                      overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
@@ -1175,7 +1175,7 @@ void Character::passive_power_gen( int b )
             const optional_vpart_position vp = g->m.veh_at( pos() );
             if( vp ) {
                 // vehicle velocity in mph
-                vehwindspeed = abs( vp->vehicle().velocity / 100 );
+                vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
             }
             const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
                                      overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
@@ -1553,13 +1553,14 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful removal.  We use this to determine consequences for failing.
-    success = abs( success );
+    success = std::abs( success );
 
     // failure level is decided by how far off the character was from a successful removal, and
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
-    const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    const int failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty /
+                              adjusted_skill ) );
     const int fail_type = std::min( 5, failure_level );
 
     if( fail_type <= 0 ) {
@@ -1617,13 +1618,14 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
 
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful removal.  We use this to determine consequences for failing.
-    success = abs( success );
+    success = std::abs( success );
 
     // failure level is decided by how far off the monster was from a successful removal, and
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
-    const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    const int failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty /
+                              adjusted_skill ) );
     const int fail_type = std::min( 5, failure_level );
 
     bool u_see = sees( patient );
@@ -1780,7 +1782,7 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
     // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
     // curve flattens out just above 80%
     chance_of_success = static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                          ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                                          ( skill_difficulty_parameter + std::sqrt( 1 / skill_difficulty_parameter ) ) );
 
     return chance_of_success;
 }
@@ -2258,13 +2260,13 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
-    success = abs( success );
+    success = std::abs( success );
 
     // failure level is decided by how far off the character was from a successful install, and
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
-    int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    int failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
     bool drop_cbm = false;
     add_msg( m_neutral, _( "The installation is a failure." ) );

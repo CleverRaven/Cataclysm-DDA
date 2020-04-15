@@ -1,6 +1,6 @@
 #pragma once
-#ifndef IUSE_H
-#define IUSE_H
+#ifndef CATA_SRC_IUSE_H
+#define CATA_SRC_IUSE_H
 
 #include <memory>
 #include <string>
@@ -138,6 +138,7 @@ class iuse
         int dive_tank( player *, item *, bool, const tripoint & );
         int gasmask( player *, item *, bool, const tripoint & );
         int portable_game( player *, item *, bool, const tripoint & );
+        int fitness_check( player *p, item *it, bool, const tripoint & );
         int vibe( player *, item *, bool, const tripoint & );
         int hand_crank( player *, item *, bool, const tripoint & );
         int vortex( player *, item *, bool, const tripoint & );
@@ -330,4 +331,4 @@ struct use_function {
         void dump_info( const item &, std::vector<iteminfo> & ) const;
 };
 
-#endif
+#endif // CATA_SRC_IUSE_H

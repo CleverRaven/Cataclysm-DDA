@@ -770,6 +770,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "awl_steel", "prob": 5 },
+      { "item": "loom_frame", "prob": 1 },
+      { "item": "shed_stick", "prob": 1 },
       { "item": "inhaler", "prob": 14 },
       { "item": "eyedrops", "prob": 25 },
       { "item": "television", "prob": 10 },
@@ -1058,6 +1060,7 @@
       [ "throwing_axe", 25 ],
       [ "binoculars", 50 ],
       [ "crossbow", 20 ],
+      [ "compcrossbow", 20 ],
       [ "rapier", 1 ],
       [ "rapier_fake", 10 ],
       [ "cavalry_sabre", 1 ],

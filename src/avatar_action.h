@@ -1,6 +1,6 @@
 #pragma once
-#ifndef AVATAR_ACTION_H
-#define AVATAR_ACTION_H
+#ifndef CATA_SRC_AVATAR_ACTION_H
+#define CATA_SRC_AVATAR_ACTION_H
 
 #include "optional.h"
 #include "point.h"
@@ -77,4 +77,4 @@ void use_item( avatar &you, item_location &loc );
 void use_item( avatar &you );
 } // namespace avatar_action
 
-#endif // !AVATAR_MOVE_H
+#endif // CATA_SRC_AVATAR_ACTION_H

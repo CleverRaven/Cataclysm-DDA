@@ -1037,8 +1037,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 // apply skill before converting to items, but only if mass_ratio is defined
                 roll *= roll_drops();
                 monster_weight_remaining -= roll;
-                roll = ceil( static_cast<double>( roll ) /
-                             to_gram( item::find_type( entry.drop )->weight ) );
+                roll = std::ceil( static_cast<double>( roll ) /
+                                  to_gram( item::find_type( entry.drop )->weight ) );
             } else {
                 monster_weight_remaining -= roll * to_gram( ( item::find_type( entry.drop ) )->weight );
             }
@@ -1051,9 +1051,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
-                }
-                if( obj.goes_bad() ) {
-                    obj.set_rot( corpse_item->get_rot() );
+                    if( obj.goes_bad() ) {
+                        obj.set_rot( corpse_item->get_rot() );
+                    }
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -1071,9 +1071,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
-                }
-                if( obj.goes_bad() ) {
-                    obj.set_rot( corpse_item->get_rot() );
+                    if( obj.goes_bad() ) {
+                        obj.set_rot( corpse_item->get_rot() );
+                    }
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -1090,9 +1090,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 obj.set_mtype( &mt );
                 if( obj.has_temperature() ) {
                     obj.set_item_temperature( 0.00001 * corpse_item->temperature );
-                }
-                if( obj.goes_bad() ) {
-                    obj.set_rot( corpse_item->get_rot() );
+                    if( obj.goes_bad() ) {
+                        obj.set_rot( corpse_item->get_rot() );
+                    }
                 }
                 for( const std::string &flg : entry.flags ) {
                     obj.set_flag( flg );
@@ -3665,7 +3665,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     const double current_progress = old_counter * base_total_moves / 10000000.0 +
                                     delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    pc->counter = round( current_progress / base_total_moves * 10000000.0 );
+    pc->counter = std::round( current_progress / base_total_moves * 10000000.0 );
 
     p->set_moves( 0 );
 
@@ -3787,7 +3787,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     const double current_progress = craft->item_counter * base_total_moves / 10'000'000.0 +
                                     delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    craft->item_counter = round( current_progress / base_total_moves * 10'000'000.0 );
+    craft->item_counter = std::round( current_progress / base_total_moves * 10'000'000.0 );
     p->set_moves( 0 );
 
     // This is to ensure we don't over count skill steps

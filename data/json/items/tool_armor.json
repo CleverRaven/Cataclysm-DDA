@@ -307,6 +307,24 @@
     "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
   },
   {
+    "type": "TOOL_ARMOR",
+    "id": "fitness_band",
+    "name": "fitness band",
+    "category": "clothing",
+    "volume": "100 ml",
+    "description": "A fitness band that can track your heartbeat, exercise level and also has a clock.  Activate to see your metrics.",
+    "weight": "30 g",
+    "to_hit": -1,
+    "color": "light_gray",
+    "covers": [ "HAND_EITHER" ],
+    "price": 5000,
+    "material": [ "plastic" ],
+    "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "coverage": 15,
+    "symbol": "[",
+    "use_action": "FITNESS_CHECK"
+  },
+  {
     "id": "holo_cloak",
     "type": "TOOL_ARMOR",
     "name": { "str": "hologram cloak" },
@@ -2937,6 +2955,7 @@
     "copy-from": "electric_blanket",
     "warmth": 90,
     "power_draw": 100000,
+    "revert_to": "electric_blanket",
     "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" },
     "magazine_well": 2
   },

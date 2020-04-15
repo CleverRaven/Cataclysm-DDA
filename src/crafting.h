@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CRAFTING_H
-#define CRAFTING_H
+#ifndef CATA_SRC_CRAFTING_H
+#define CATA_SRC_CRAFTING_H
 
 #include <list>
 
@@ -23,4 +23,4 @@ void remove_ammo( item &dis_item, player &p );
 // same as above but for each item in the list
 void remove_ammo( std::list<item> &dis_items, player &p );
 
-#endif
+#endif // CATA_SRC_CRAFTING_H

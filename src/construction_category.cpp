@@ -55,7 +55,7 @@ const string_id<construction_category> &int_id<construction_category>::id() cons
 
 void construction_category::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "name", _name );
 }
 
 size_t construction_category::count()

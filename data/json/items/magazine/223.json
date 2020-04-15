@@ -12,6 +12,23 @@
     "linkage": "ammolink223"
   },
   {
+    "id": "famasmag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "MAS 223 magazine" },
+    "description": "A 25-round magazine for the MAS 223.  It resembles a STANAG magazine but is not compatible nor interchangeable.",
+    "weight": "340 g",
+    "volume": "480 ml",
+    "price": 115000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "223",
+    "capacity": 25,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
     "id": "ruger5",
     "looks_like": "stanag30",
     "type": "MAGAZINE",

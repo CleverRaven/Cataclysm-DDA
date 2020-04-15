@@ -1,6 +1,6 @@
 #pragma once
-#ifndef TIME_SPEC_H
-#define TIME_SPEC_H
+#ifndef CATA_SRC_POSIX_TIME_H
+#define CATA_SRC_POSIX_TIME_H
 
 // Compatibility header.  On POSIX, just include <ctime>.  On Windows, provide
 // our own nanosleep implementation.
@@ -48,4 +48,4 @@ nanosleep( const struct timespec *requested_delay,
            struct timespec *remaining_delay );
 
 #endif
-#endif
+#endif // CATA_SRC_POSIX_TIME_H

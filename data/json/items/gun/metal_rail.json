@@ -18,7 +18,7 @@
     "ammo": "metal_rail",
     "skill": "rifle",
     "range": 40,
-    "ranged_damage": 40,
+    "ranged_damage": { "damage_type": "stab", "amount": 40 },
     "dispersion": 100,
     "durability": 7,
     "clip_size": 10,

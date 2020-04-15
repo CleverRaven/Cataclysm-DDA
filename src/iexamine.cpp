@@ -1690,7 +1690,7 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
         p.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
         if( one_in( 20 ) ) {
-            p.add_addiction( ADD_PKILLER, 1 );
+            p.add_addiction( add_type::PKILLER, 1 );
         }
     }
     if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
@@ -1824,7 +1824,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     for( const auto &entry : harvest ) {
         float min_num = entry.base_num.first + lev * entry.scale_num.first;
         float max_num = entry.base_num.second + lev * entry.scale_num.second;
-        int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
+        int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
         if( roll >= 1 ) {
             got_anything = true;
             for( int i = 0; i < roll; i++ ) {
@@ -1934,10 +1934,10 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     g->m.furn_set( examp, f_egg_sacke );
     int monster_count = 0;
     if( one_in( 2 ) ) {
-        for( const tripoint &p : closest_tripoints_first( examp, 1 ) ) {
+        for( const tripoint &nearby_pos : closest_tripoints_first( examp, 1 ) ) {
             if( !one_in( 3 ) ) {
                 continue;
-            } else if( g->place_critter_at( montype, p ) ) {
+            } else if( g->place_critter_at( montype, nearby_pos ) ) {
                 monster_count++;
             }
         }

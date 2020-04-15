@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ACTIVITY_HANDLERS_H
-#define ACTIVITY_HANDLERS_H
+#ifndef CATA_SRC_ACTIVITY_HANDLERS_H
+#define CATA_SRC_ACTIVITY_HANDLERS_H
 
 #include <functional>
 #include <list>
@@ -276,4 +276,4 @@ finish_functions;
 
 } // namespace activity_handlers
 
-#endif
+#endif // CATA_SRC_ACTIVITY_HANDLERS_H
