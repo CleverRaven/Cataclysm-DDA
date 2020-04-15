@@ -428,6 +428,12 @@ void game::load_data_from_dir( const std::string &path, const std::string &src, 
 #define MINIMAP_HEIGHT 7
 #define MINIMAP_WIDTH 7
 
+#if !(defined(_WIN32) || defined(TILES))
+// in ncurses_def.cpp
+void check_encoding();
+void ensure_term_size();
+#endif
+
 void game::init_ui( const bool resized )
 {
     // clear the screen
@@ -435,9 +441,6 @@ void game::init_ui( const bool resized )
 
     if( first_init ) {
 #if !(defined(_WIN32) || defined(TILES))
-        // in ncurses_def.cpp
-        void check_encoding();
-
         check_encoding();
 #endif
 
@@ -461,9 +464,6 @@ void game::init_ui( const bool resized )
         get_options().save();
     }
 #else
-    // in ncurses_def.cpp
-    void ensure_term_size();
-
     ( void ) resized;
     ensure_term_size();
 
