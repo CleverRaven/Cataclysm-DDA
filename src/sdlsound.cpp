@@ -206,6 +206,9 @@ void play_music( const std::string &playlist )
         playlist_indexes.push_back( i );
     }
     if( list.shuffle ) {
+        // Son't need to worry about the determinism check here because it only
+        // affects audio, not game logic.
+        // NOLINTNEXTLINE(cata-determinism)
         static auto eng = cata_default_random_engine(
                               std::chrono::system_clock::now().time_since_epoch().count() );
         std::shuffle( playlist_indexes.begin(), playlist_indexes.end(), eng );

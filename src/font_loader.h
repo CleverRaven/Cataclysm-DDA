@@ -1,6 +1,6 @@
 #pragma once
-#ifndef FONT_LOADER_H
-#define FONT_LOADER_H
+#ifndef CATA_SRC_FONT_LOADER_H
+#define CATA_SRC_FONT_LOADER_H
 
 #include <algorithm>
 #include <fstream>
@@ -99,4 +99,4 @@ class font_loader
         }
 };
 
-#endif
+#endif // CATA_SRC_FONT_LOADER_H

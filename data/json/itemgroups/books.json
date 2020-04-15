@@ -139,7 +139,8 @@
       { "item": "textbook_mechanics", "prob": 12 },
       { "item": "textbook_biodiesel", "prob": 10 },
       { "item": "book_icef", "prob": 8 },
-      { "item": "textbook_fabrication", "prob": 12 }
+      { "item": "textbook_fabrication", "prob": 12 },
+      { "item": "concrete_book", "prob": 12 }
     ]
   },
   {
@@ -391,6 +392,7 @@
       { "item": "textbook_fabrication", "prob": 12 },
       { "item": "welding_book", "prob": 2 },
       { "item": "glassblowing_book", "prob": 2 },
+      { "item": "concrete_book", "prob": 2 },
       { "item": "textbook_tailor", "prob": 12 },
       { "item": "recipe_fauxfur", "prob": 4 },
       { "item": "recipe_bows", "prob": 4 },

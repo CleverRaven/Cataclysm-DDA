@@ -1,71 +1,82 @@
 #include "bionics.h"
 
+#include <algorithm> //std::min
+#include <array>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
-#include <algorithm> //std::min
-#include <array>
+#include <forward_list>
 #include <iterator>
 #include <list>
 #include <memory>
-#include <forward_list>
+#include <type_traits>
 
 #include "action.h"
+#include "assign.h"
 #include "avatar.h"
 #include "avatar_action.h"
-#include "assign.h"
 #include "ballistics.h"
+#include "basecamp.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_martial_arts.h"
+#include "colony.h"
+#include "color.h"
+#include "compatibility.h"
+#include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h"
+#include "enum_conversions.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field.h"
+#include "field_type.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "input.h"
+#include "int_id.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "json.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
+#include "memorial_logger.h"
 #include "messages.h"
+#include "monster.h"
 #include "morale_types.h"
 #include "mutation.h"
+#include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "memorial_logger.h"
-#include "npc.h"
+#include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "point.h"
 #include "projectile.h"
+#include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
+#include "teleport.h"
 #include "translations.h"
 #include "ui.h"
+#include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
-#include "calendar.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "damage.h"
-#include "enums.h"
-#include "line.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "pldata.h"
-#include "units.h"
-#include "colony.h"
-#include "inventory.h"
-#include "item_location.h"
-#include "monster.h"
-#include "point.h"
-#include "teleport.h"
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
@@ -771,7 +782,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         int vehwindspeed = 0;
         if( optional_vpart_position vp = g->m.veh_at( pos() ) ) {
             // vehicle velocity in mph
-            vehwindspeed = abs( vp->vehicle().velocity / 100 );
+            vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
@@ -1084,7 +1095,7 @@ bool Character::burn_fuel( int b, bool start )
                             const optional_vpart_position vp = g->m.veh_at( pos() );
                             if( vp ) {
                                 // vehicle velocity in mph
-                                vehwindspeed = abs( vp->vehicle().velocity / 100 );
+                                vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
                             }
                             const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
                                                      overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
@@ -1164,7 +1175,7 @@ void Character::passive_power_gen( int b )
             const optional_vpart_position vp = g->m.veh_at( pos() );
             if( vp ) {
                 // vehicle velocity in mph
-                vehwindspeed = abs( vp->vehicle().velocity / 100 );
+                vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
             }
             const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
                                      overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
@@ -1542,13 +1553,14 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful removal.  We use this to determine consequences for failing.
-    success = abs( success );
+    success = std::abs( success );
 
     // failure level is decided by how far off the character was from a successful removal, and
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
-    const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    const int failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty /
+                              adjusted_skill ) );
     const int fail_type = std::min( 5, failure_level );
 
     if( fail_type <= 0 ) {
@@ -1606,13 +1618,14 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
 
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful removal.  We use this to determine consequences for failing.
-    success = abs( success );
+    success = std::abs( success );
 
     // failure level is decided by how far off the monster was from a successful removal, and
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
-    const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    const int failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty /
+                              adjusted_skill ) );
     const int fail_type = std::min( 5, failure_level );
 
     bool u_see = sees( patient );
@@ -1769,7 +1782,7 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
     // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
     // curve flattens out just above 80%
     chance_of_success = static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                          ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                                          ( skill_difficulty_parameter + std::sqrt( 1 / skill_difficulty_parameter ) ) );
 
     return chance_of_success;
 }
@@ -2247,13 +2260,13 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
-    success = abs( success );
+    success = std::abs( success );
 
     // failure level is decided by how far off the character was from a successful install, and
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
-    int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    int failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
     bool drop_cbm = false;
     add_msg( m_neutral, _( "The installation is a failure." ) );

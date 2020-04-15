@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEM_LOCATION_H
-#define ITEM_LOCATION_H
+#ifndef CATA_SRC_ITEM_LOCATION_H
+#define CATA_SRC_ITEM_LOCATION_H
 
 #include <memory>
 #include <string>
@@ -91,4 +91,4 @@ class item_location
         std::shared_ptr<impl> ptr;
 };
 
-#endif
+#endif // CATA_SRC_ITEM_LOCATION_H

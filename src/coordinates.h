@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COORDINATES_H
-#define COORDINATES_H
+#ifndef CATA_SRC_COORDINATES_H
+#define CATA_SRC_COORDINATES_H
 
 #include <cstdlib>
 
@@ -94,4 +94,4 @@ struct real_coords {
         return point( abs_om.x * subs_in_om * tiles_in_sub, abs_om.y * subs_in_om * tiles_in_sub );
     }
 };
-#endif
+#endif // CATA_SRC_COORDINATES_H

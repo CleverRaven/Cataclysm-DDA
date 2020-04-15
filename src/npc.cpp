@@ -1,68 +1,77 @@
 #include "npc.h"
 
+#include <algorithm>
+#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
-#include <algorithm>
 #include <functional>
 #include <limits>
+#include <memory>
 
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "basecamp.h"
+#include "bodypart.h"
+#include "character.h"
+#include "character_id.h"
+#include "character_martial_arts.h"
+#include "clzones.h"
+#include "compatibility.h"
 #include "coordinate_conversions.h"
+#include "damage.h"
+#include "debug.h"
 #include "effect.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
+#include "faction.h"
+#include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
+#include "magic.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_iterator.h"
-#include "memorial_logger.h"
+#include "mapdata.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "mission.h"
+#include "monster.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "skill.h"
-#include "sounds.h"
-#include "string_formatter.h"
-#include "text_snippets.h"
-#include "trait_group.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "bodypart.h"
-#include "cata_utility.h"
-#include "character.h"
-#include "damage.h"
-#include "debug.h"
-#include "faction.h"
-#include "game_constants.h"
-#include "item.h"
-#include "iuse.h"
-#include "math_defines.h"
-#include "monster.h"
 #include "pathfinding.h"
 #include "player_activity.h"
+#include "pldata.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "skill.h"
+#include "sounds.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "text_snippets.h"
 #include "tileray.h"
+#include "trait_group.h"
 #include "translations.h"
 #include "units.h"
+#include "value_ptr.h"
+#include "veh_type.h"
+#include "vehicle.h"
 #include "visitable.h"
-#include "int_id.h"
-#include "pldata.h"
-#include "clzones.h"
-#include "enums.h"
-#include "flat_set.h"
-#include "stomach.h"
+#include "vpart_position.h"
 
 static const activity_id ACT_READ( "ACT_READ" );
 
@@ -111,7 +120,6 @@ static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 static const std::string flag_NPC_SAFE( "NPC_SAFE" );
 
-class basecamp;
 class monfaction;
 
 void starting_clothes( npc &who, const npc_class_id &type, bool male );
@@ -413,7 +421,7 @@ void npc::randomize( const npc_class_id &type )
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
     has_new_items = true;
-    empty_traits();
+    clear_mutations();
 
     // Add fixed traits
     for( const auto &tid : trait_group::traits_from( myclass->traits ) ) {
@@ -1370,9 +1378,10 @@ float npc::vehicle_danger( int radius ) const
             vehicle_part last_part = wrapped_veh.v->parts.back();
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
-            double normal = sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) * ( by - ay ) ) );
-            int closest = static_cast<int>( abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) *
-                                                 ( bx - ax ) ) / normal );
+            double normal = std::sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) *
+                                       ( by - ay ) ) );
+            int closest = static_cast<int>( std::abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) *
+                                            ( bx - ax ) ) / normal );
 
             if( size > closest ) {
                 danger = i;
@@ -2248,7 +2257,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     if( per <= 1 ) {
         visibility_cap = INT_MAX;
     } else {
-        visibility_cap = round( dist * dist / 20.0 / ( per - 1 ) );
+        visibility_cap = std::round( dist * dist / 20.0 / ( per - 1 ) );
     }
 
     const auto trait_str = visible_mutations( visibility_cap );
@@ -3150,8 +3159,8 @@ void npc::set_attitude( npc_attitude new_attitude )
 
 npc_follower_rules::npc_follower_rules()
 {
-    engagement = ENGAGE_CLOSE;
-    aim = AIM_WHEN_CONVENIENT;
+    engagement = combat_engagement::CLOSE;
+    aim = aim_rule::WHEN_CONVENIENT;
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
 

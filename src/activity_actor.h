@@ -1,7 +1,10 @@
 #pragma once
-#ifndef ACTIVITY_ACTOR_H
-#define ACTIVITY_ACTOR_H
+#ifndef CATA_SRC_ACTIVITY_ACTOR_H
+#define CATA_SRC_ACTIVITY_ACTOR_H
 
+#include <algorithm>
+#include <memory>
+#include <unordered_map>
 #include <vector>
 
 #include "clone_ptr.h"
@@ -9,6 +12,9 @@
 #include "point.h"
 #include "type_id.h"
 
+class Character;
+class JsonIn;
+class JsonOut;
 class player_activity;
 
 class activity_actor
@@ -114,4 +120,4 @@ deserialize_functions;
 void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout );
 void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin );
 
-#endif // ACTIVITY_ACTOR_H
+#endif // CATA_SRC_ACTIVITY_ACTOR_H

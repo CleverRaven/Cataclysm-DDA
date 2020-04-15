@@ -1,19 +1,21 @@
 #pragma once
-#ifndef START_LOCATION_H
-#define START_LOCATION_H
+#ifndef CATA_SRC_START_LOCATION_H
+#define CATA_SRC_START_LOCATION_H
 
+#include <algorithm>
 #include <cstddef>
 #include <set>
-#include <vector>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "enums.h"
 #include "translations.h"
 #include "type_id.h"
 
-class tinymap;
-class player;
 class JsonObject;
+class player;
+class tinymap;
 struct tripoint;
 
 class start_location
@@ -87,4 +89,4 @@ const std::vector<start_location> &get_all();
 
 } // namespace start_locations
 
-#endif // START_LOCATION_H
+#endif // CATA_SRC_START_LOCATION_H

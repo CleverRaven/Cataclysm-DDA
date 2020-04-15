@@ -1,6 +1,6 @@
 #pragma once
-#ifndef FACTION_CAMP_H
-#define FACTION_CAMP_H
+#ifndef CATA_SRC_FACTION_CAMP_H
+#define CATA_SRC_FACTION_CAMP_H
 
 #include <string>
 #include <vector>
@@ -53,4 +53,4 @@ std::vector<std::pair<std::string, tripoint>> om_building_region( const tripoint
 /// Returns the x and y coordinates of ( omt_tar - omt_pos ), clamped to [-1, 1]
 point om_simple_dir( const tripoint &omt_pos, const tripoint &omt_tar );
 } // namespace talk_function
-#endif
+#endif // CATA_SRC_FACTION_CAMP_H

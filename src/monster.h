@@ -1,10 +1,10 @@
 #pragma once
-#ifndef MONSTER_H
-#define MONSTER_H
+#ifndef CATA_SRC_MONSTER_H
+#define CATA_SRC_MONSTER_H
 
+#include <bitset>
 #include <climits>
 #include <cstddef>
-#include <bitset>
 #include <functional>
 #include <map>
 #include <set>
@@ -12,36 +12,34 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "character_id.h"
-#include "creature.h"
-#include "enums.h"
-#include "bodypart.h"
 #include "color.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
+#include "enums.h"
 #include "item.h"
 #include "mtype.h"
 #include "optional.h"
 #include "pldata.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
-#include "point.h"
 #include "value_ptr.h"
 
-class JsonObject;
-class JsonIn;
-class JsonOut;
-class player;
 class Character;
+class JsonIn;
+class JsonObject;
+class JsonOut;
 class effect;
+class player;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
 enum class mon_trigger;
-
-class monster;
 
 class mon_special_attack
 {
@@ -570,4 +568,4 @@ class monster : public Creature
         void process_one_effect( effect &it, bool is_new ) override;
 };
 
-#endif
+#endif // CATA_SRC_MONSTER_H

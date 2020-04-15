@@ -1,19 +1,21 @@
 #include "projectile.h"
 
+#include <algorithm>
 #include <memory>
 #include <utility>
+#include <vector>
 
 #include "ammo_effect.h"
 #include "explosion.h"
-#include "field.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "rng.h"
+#include "string_id.h"
 
 projectile::projectile() :
-    speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )
+    speed( 0 ), range( 0 ), critical_multiplier( 2.0 ), drop( nullptr ), custom_explosion( nullptr )
 { }
 
 projectile::~projectile() = default;
@@ -31,6 +33,7 @@ projectile &projectile::operator=( const projectile &other )
     speed = other.speed;
     range = other.range;
     proj_effects = other.proj_effects;
+    critical_multiplier = other.critical_multiplier;
     set_drop( other.get_drop() );
     set_custom_explosion( other.get_custom_explosion() );
 

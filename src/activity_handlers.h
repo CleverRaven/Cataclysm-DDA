@@ -1,18 +1,20 @@
 #pragma once
-#ifndef ACTIVITY_HANDLERS_H
-#define ACTIVITY_HANDLERS_H
+#ifndef CATA_SRC_ACTIVITY_HANDLERS_H
+#define CATA_SRC_ACTIVITY_HANDLERS_H
 
 #include <functional>
+#include <list>
 #include <map>
 #include <unordered_set>
 #include <vector>
-#include <list>
 
-#include "player_activity.h"
+#include "optional.h"
+#include "type_id.h"
 
-class player;
 class Character;
 class item;
+class player;
+class player_activity;
 struct tripoint;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
@@ -274,4 +276,4 @@ finish_functions;
 
 } // namespace activity_handlers
 
-#endif
+#endif // CATA_SRC_ACTIVITY_HANDLERS_H

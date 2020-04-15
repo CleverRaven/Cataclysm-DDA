@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ENUM_BITSET_H
-#define ENUM_BITSET_H
+#ifndef CATA_SRC_ENUM_BITSET_H
+#define CATA_SRC_ENUM_BITSET_H
 
 #include <bitset>
 #include <type_traits>
@@ -79,4 +79,4 @@ class enum_bitset
         std::bitset<enum_bitset<E>::size()> bits;
 };
 
-#endif // ENUM_BITSET_H
+#endif // CATA_SRC_ENUM_BITSET_H

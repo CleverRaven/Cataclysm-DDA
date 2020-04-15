@@ -365,7 +365,8 @@
       "trail_width_offset_min": 1,
       "trail_width_offset_max": 3,
       "clear_trail_terrain": false,
-      "trail_terrain": { "t_dirt": 1 }
+      "trail_terrain": { "t_dirt": 1 },
+      "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "map_extras": {
       "forest": {
@@ -489,7 +490,6 @@
           "mx_drugdeal": 30,
           "mx_supplydrop": 10,
           "mx_portal": 5,
-          "mx_minefield": 80,
           "mx_crater": 10,
           "mx_portal_in": 4,
           "mx_roadworks": 100,
@@ -499,6 +499,7 @@
           "mx_prison_bus": 15
         }
       },
+      "bridge": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "build": {
         "chance": 90,
         "extras": {
@@ -647,6 +648,8 @@
         "urban_2_house": 50,
         "urban_3_house": 50,
         "urban_4_house_basement": 50,
+        "urban_5_house": 50,
+        "urban_6_house": 50,
         "emptyresidentiallot": 20,
         "house_vacant": 20,
         "house_vacant2": 20,
@@ -693,6 +696,8 @@
       "shops": {
         "bus_station": 200,
         "city_block_2": 300,
+        "urban_13_dense_house_apt_house": 300,
+        "urban_14_dense_house_mart_food": 200,
         "town_hall": 150,
         "craft_shop": 200,
         "craft_shop_1": 200,

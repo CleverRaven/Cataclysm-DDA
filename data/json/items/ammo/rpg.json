@@ -9,14 +9,15 @@
     "description": "93mm single-stage high-explosive ammunition for the RPG-7.",
     "material": [ "steel", "powder" ],
     "volume": "1750 ml",
+    "price_postapoc": 2000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "2600 g",
     "ammo_type": "RPG-7",
-    "damage": 3000,
-    "pierce": 750,
+    "damage": { "damage_type": "stab", "amount": 3000, "armor_penetration": 750 },
     "range": 60,
     "dispersion": 75,
     "recoil": 450,
-    "effects": [ "COOKOFF", "EXPLOSIVE", "TRAIL", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_PG7VL", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
@@ -28,14 +29,15 @@
     "description": "64mm/105mm high-explosive tandem ammunition for the RPG-7.",
     "material": [ "steel", "powder" ],
     "volume": "2250 ml",
+    "price_postapoc": 3000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "4500 g",
     "ammo_type": "RPG-7",
-    "damage": 3250,
-    "pierce": 1450,
-    "range": 30,
+    "damage": { "damage_type": "stab", "amount": 3250, "armor_penetration": 1450 },
+    "range": 60,
     "dispersion": 75,
     "recoil": 450,
-    "effects": [ "COOKOFF", "EXPLOSIVE", "TRAIL", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_PG7VR", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
@@ -47,14 +49,15 @@
     "description": "105mm thermobaric ammunition for the RPG-7.",
     "material": [ "plastic", "powder" ],
     "volume": "2250 ml",
+    "price_postapoc": 4000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "4500 g",
     "ammo_type": "RPG-7",
-    "damage": 150,
-    "pierce": 10,
-    "range": 30,
+    "damage": { "damage_type": "stab", "amount": 150, "armor_penetration": 10 },
+    "range": 60,
     "dispersion": 50,
     "recoil": 450,
-    "effects": [ "COOKOFF", "TRAIL", "NEVER_MISFIRES", "NAPALM_BIG" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_TBG7V", "TRAIL", "NEVER_MISFIRES", "NAPALM_TBG7V" ]
   },
   {
     "type": "AMMO",
@@ -66,13 +69,14 @@
     "description": "40mm high-explosive fragmentation antipersonnel ammunition for the RPG-7.",
     "material": [ "steel", "powder" ],
     "volume": "1 L",
+    "price_postapoc": 1500,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "2000 g",
     "ammo_type": "RPG-7",
-    "damage": 80,
-    "pierce": 10,
-    "range": 45,
+    "damage": { "damage_type": "stab", "amount": 80, "armor_penetration": 10 },
+    "range": 60,
     "dispersion": 50,
     "recoil": 350,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "FRAG" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "EXPLOSIVE_OG7V" ]
   }
 ]

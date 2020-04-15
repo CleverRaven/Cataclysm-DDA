@@ -1,11 +1,16 @@
 #pragma once
-#ifndef DISEASE_H
-#define DISEASE_H
+#ifndef CATA_SRC_DISEASE_H
+#define CATA_SRC_DISEASE_H
+
+#include <set>
+#include <string>
+#include <vector>
 
 #include "bodypart.h"
-#include "effect.h"
-#include "type_id.h"
+#include "calendar.h"
 #include "json.h"
+#include "optional.h"
+#include "type_id.h"
 
 class disease_type
 {
@@ -29,5 +34,5 @@ class disease_type
         efftype_id symptoms;
 
 };
-#endif
+#endif // CATA_SRC_DISEASE_H
 

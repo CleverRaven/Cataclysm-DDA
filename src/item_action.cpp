@@ -10,24 +10,29 @@
 #include <utility>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "clone_ptr.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "iuse.h"
 #include "json.h"
 #include "output.h"
 #include "player.h"
 #include "ret_val.h"
+#include "string_formatter.h"
 #include "translations.h"
-#include "ui.h"
-#include "calendar.h"
-#include "catacharset.h"
-#include "cursesdef.h"
-#include "iuse.h"
 #include "type_id.h"
+#include "ui.h"
+
+class Character;
 
 static const std::string errstring( "ERROR" );
 
@@ -273,7 +278,11 @@ void game::item_action_menu()
         }
 
         const auto method = elem.second->get_use( elem.first );
-        return std::make_tuple( method->get_type(), method->get_name(), ss );
+        if( method ) {
+            return std::make_tuple( method->get_type(), method->get_name(), ss );
+        } else {
+            return std::make_tuple( errstring, std::string( "NO USE FUNCTION" ), ss );
+        }
     } );
     // Sort mapped actions.
     sort_menu( menu_items.begin(), menu_items.end() );

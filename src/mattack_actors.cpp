@@ -1,29 +1,30 @@
 #include "mattack_actors.h"
 
 #include <algorithm>
+#include <limits>
 #include <memory>
 
 #include "avatar.h"
-#include "game.h"
-#include "generic_factory.h"
-#include "gun_mode.h"
-#include "line.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "messages.h"
-#include "monster.h"
-#include "npc.h"
-#include "sounds.h"
-#include "translations.h"
 #include "calendar.h"
 #include "creature.h"
 #include "enums.h"
+#include "game.h"
+#include "generic_factory.h"
+#include "gun_mode.h"
 #include "item.h"
 #include "json.h"
-#include "player.h"
-#include "rng.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "material.h"
+#include "messages.h"
+#include "monster.h"
+#include "npc.h"
+#include "player.h"
 #include "point.h"
+#include "rng.h"
+#include "sounds.h"
+#include "translations.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );

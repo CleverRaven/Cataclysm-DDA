@@ -1,17 +1,24 @@
 #pragma once
-#ifndef ITEM_CONTENTS_H
-#define ITEM_CONTENTS_H
+#ifndef CATA_SRC_ITEM_CONTENTS_H
+#define CATA_SRC_ITEM_CONTENTS_H
 
-#include "point.h"
+#include <cstddef>
+#include <functional>
+#include <list>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "visitable.h"
 
-#include <list>
-
 class Character;
+class JsonIn;
+class JsonOut;
 class item;
+struct tripoint;
 
 using itype_id = std::string;
 
@@ -96,4 +103,4 @@ class item_contents
         std::list<item> items;
 };
 
-#endif
+#endif // CATA_SRC_ITEM_CONTENTS_H

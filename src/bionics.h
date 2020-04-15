@@ -1,26 +1,28 @@
 #pragma once
-#ifndef BIONICS_H
-#define BIONICS_H
+#ifndef CATA_SRC_BIONICS_H
+#define CATA_SRC_BIONICS_H
 
 #include <cstddef>
 #include <map>
 #include <set>
-#include <vector>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
-#include "string_id.h"
+#include "flat_set.h"
+#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
-class player;
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
+class player;
+
 using itype_id = std::string;
 
 struct bionic_data {
@@ -211,4 +213,4 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty );
 std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &bios,
         const trait_id &tid );
 
-#endif
+#endif // CATA_SRC_BIONICS_H

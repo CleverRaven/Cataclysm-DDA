@@ -5,23 +5,25 @@
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "catch/catch.hpp"
 #include "game.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
+#include "optional.h"
 #include "player.h"
+#include "point.h"
 #include "rng.h"
+#include "type_id.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "calendar.h"
-#include "inventory.h"
-#include "item.h"
-#include "optional.h"
-#include "type_id.h"
-#include "point.h"
 
 template <typename T>
 static int count_items( const T &src, const itype_id &id )

@@ -1,19 +1,25 @@
 #pragma once
-#ifndef CATA_VARIANT_H
-#define CATA_VARIANT_H
+#ifndef CATA_SRC_CATA_VARIANT_H
+#define CATA_SRC_CATA_VARIANT_H
 
 #include <array>
-#include <cassert>
+#include <cstddef>
+#include <functional>
+#include <string>
+#include <type_traits>
 #include <utility>
 
 #include "character_id.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "enum_traits.h"
 #include "hash_utils.h"
+#include "pldata.h"
 #include "type_id.h"
 
-enum add_type : int;
+class JsonIn;
+class JsonOut;
+template <typename E> struct enum_traits;
+
 enum body_part : int;
 enum class mutagen_technique : int;
 enum hp_part : int;
@@ -343,4 +349,4 @@ struct hash<cata_variant> {
 
 } // namespace std
 
-#endif // CATA_VARIANT_H
+#endif // CATA_SRC_CATA_VARIANT_H

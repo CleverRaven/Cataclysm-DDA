@@ -1,24 +1,22 @@
 #pragma once
-#ifndef MORALE_H
-#define MORALE_H
+#ifndef CATA_SRC_MORALE_H
+#define CATA_SRC_MORALE_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
-#include <vector>
-#include <algorithm>
-#include <array>
 #include <string>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
-#include "string_id.h"
 #include "type_id.h"
 
-class item;
 class JsonIn;
-class JsonOut;
 class JsonObject;
+class JsonOut;
+class item;
 struct itype;
 struct morale_mult;
 
@@ -210,4 +208,4 @@ class player_morale
         int perceived_pain;
 };
 
-#endif
+#endif // CATA_SRC_MORALE_H

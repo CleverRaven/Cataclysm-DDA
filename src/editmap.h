@@ -1,6 +1,6 @@
 #pragma once
-#ifndef EDITMAP_H
-#define EDITMAP_H
+#ifndef CATA_SRC_EDITMAP_H
+#define CATA_SRC_EDITMAP_H
 
 #include <functional>
 #include <map>
@@ -98,4 +98,4 @@ class editmap
         ~editmap();
 };
 
-#endif
+#endif // CATA_SRC_EDITMAP_H

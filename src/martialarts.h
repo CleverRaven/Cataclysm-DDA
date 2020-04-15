@@ -1,25 +1,25 @@
 #pragma once
-#ifndef MARTIALARTS_H
-#define MARTIALARTS_H
+#ifndef CATA_SRC_MARTIALARTS_H
+#define CATA_SRC_MARTIALARTS_H
 
+#include <algorithm>
 #include <cstddef>
-#include <map>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "bonuses.h"
 #include "calendar.h"
-#include "string_id.h"
+#include "input.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "input.h"
 
 enum damage_type : int;
+class Character;
 class JsonObject;
 class effect;
-class Character;
 class item;
 struct itype;
 
@@ -297,4 +297,4 @@ std::string martialart_difficulty( const matype_id &mstyle );
 std::vector<matype_id> all_martialart_types();
 std::vector<matype_id> autolearn_martialart_types();
 
-#endif
+#endif // CATA_SRC_MARTIALARTS_H

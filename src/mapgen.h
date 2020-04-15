@@ -1,27 +1,27 @@
 #pragma once
-#ifndef MAPGEN_H
-#define MAPGEN_H
+#ifndef CATA_SRC_MAPGEN_H
+#define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
-#include <map>
 #include <memory>
 #include <string>
-#include <vector>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
+#include "memory_fast.h"
+#include "point.h"
 #include "regional_settings.h"
 #include "type_id.h"
-#include "memory_fast.h"
 
-class time_point;
-struct point;
 class JsonArray;
+class JsonMember;
 class JsonObject;
-class mission;
-struct tripoint;
 class map;
-template <typename T> struct weighted_int_list;
 class mapgendata;
+class mission;
+template <typename T> struct weighted_int_list;
+
 using building_gen_pointer = void ( * )( mapgendata & );
 
 //////////////////////////////////////////////////////////////////////////
@@ -468,4 +468,4 @@ void circle( map *m, const ter_id &type, const point &, int rad );
 void circle_furn( map *m, const furn_id &type, const point &, int rad );
 void add_corpse( map *m, const point & );
 
-#endif
+#endif // CATA_SRC_MAPGEN_H

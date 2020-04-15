@@ -1,18 +1,19 @@
 #include "item.h"
 
-#include <cctype>
-#include <cstdlib>
 #include <algorithm>
 #include <array>
 #include <cassert>
+#include <cctype>
+#include <cmath>
+#include <cstdlib>
 #include <iomanip>
 #include <iterator>
-#include <set>
-#include <sstream>
-#include <bitset>
-#include <cmath>
 #include <limits>
 #include <locale>
+#include <memory>
+#include <set>
+#include <sstream>
+#include <tuple>
 
 #include "advanced_inv.h"
 #include "ammo.h"
@@ -20,6 +21,12 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "character.h"
+#include "character_id.h"
+#include "character_martial_arts.h"
+#include "clothing_mod.h"
+#include "color.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "damage.h"
@@ -28,37 +35,51 @@
 #include "effect.h" // for weed_msg
 #include "enums.h"
 #include "explosion.h"
+#include "faction.h"
 #include "fault.h"
-#include "field.h"
+#include "field_type.h"
 #include "fire.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gun_mode.h"
-#include "handle_liquid.h"
 #include "iexamine.h"
+#include "int_id.h"
+#include "inventory.h"
 #include "item_category.h"
 #include "item_factory.h"
+#include "item_group.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
+#include "line.h"
+#include "magic.h"
 #include "map.h"
 #include "martialarts.h"
 #include "material.h"
 #include "messages.h"
 #include "mtype.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "overmapbuffer.h"
 #include "overmap.h"
+#include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
 #include "projectile.h"
 #include "ranged.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
+#include "relic.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "rng.h"
 #include "skill.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
@@ -68,23 +89,7 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "catacharset.h"
-#include "character.h"
-#include "color.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item_group.h"
-#include "iuse.h"
-#include "line.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "recipe.h"
-#include "rng.h"
 #include "weather_gen.h"
-#include "clzones.h"
-#include "faction.h"
-#include "magic.h"
-#include "clothing_mod.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
@@ -235,6 +240,8 @@ static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 static const std::string flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
 static const std::string flag_WET( "WET" );
 static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
+
+static const matec_id rapid_strike( "RAPID" );
 
 class npc_class;
 
@@ -565,7 +572,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( ammo == "null" && ammo_types().empty() ) || is_money() ) {
+    if( ( ( ammo == "null" || ammo == "NULL" ) && ammo_types().empty() ) || is_money() ) {
         if( ( is_tool() || is_gun() ) && magazine_integral() ) {
             curammo = nullptr;
             charges = std::min( qty, ammo_capacity() );
@@ -1036,12 +1043,9 @@ void item::clear_vars()
 static int get_ranged_pierce( const common_ranged_data &ranged )
 {
     if( ranged.damage.empty() ) {
-        if( ranged.legacy_pierce ) {
-            return ranged.legacy_pierce;
-        } else {
-            return 0;
-        }
+        return 0;
     }
+
     return ranged.damage.damage_units.front().res_pen;
 }
 
@@ -1260,6 +1264,116 @@ static void insert_separation_line( std::vector<iteminfo> &info )
     }
 }
 
+/*
+ * 0 based lookup table of accuracy - monster defense converted into number of hits per 1000
+ * attacks
+ * data painstakingly looked up at http://onlinestatbook.com/2/calculators/normal_dist.html
+ */
+static const double hits_by_accuracy[41] = {
+    0.0,    0.1,   0.2,   0.3,   0.7, // -20 to -16
+    1.3,    2.6,   4.7,   8.2,  13.9, // -15 to -11
+    22.8,   35.9,  54.8,  80.8, 115.1, // -10 to -6
+    158.7, 211.9, 274.3, 344.6, 420.7, // -5 to -1
+    500,  // 0
+    579.3, 655.4, 725.7, 788.1, 841.3, // 1 to 5
+    884.9, 919.2, 945.2, 964.1, 977.2, // 6 to 10
+    986.1, 991.8, 995.3, 997.4, 998.7, // 11 to 15
+    999.3, 999.7, 999.8, 999.9, 1000.0 // 16 to 20
+};
+
+double item::effective_dps( const player &guy, monster &mon ) const
+{
+    const float mon_dodge = mon.get_dodge();
+    float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
+    base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bp_torso ) / 100.0f );
+    float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0;
+    constexpr double hit_trials = 1000.0;
+    // a hit occurs when a normal distribution with a mean value of base_hit * 5 and a
+    // standard deviation of 25, minus 5 * monster defense, is greater than 0
+    // to shorten the lookup table, divide everything by 5 and simplify
+    // hit occurs when normal( acc - monster_defense, 5 ) > 0
+    const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
+                                   -20 ) + 20;
+    double num_hits = hits_by_accuracy[ rng_mean ];
+    double moves_per_attack = guy.attack_speed( *this );
+    // attacks that miss do no damage but take time
+    double total_moves = ( hit_trials - num_hits ) * moves_per_attack;
+    double total_damage = 0.0;
+    double num_crits = std::min( hit_trials * guy.crit_chance( base_hit * 5.0,
+                                 mon_dodge * 5.0, *this ), num_hits );
+    // critical hits are counted separately
+    num_hits -= num_crits;
+
+    // sum average damage past armor and return the number of moves required to achieve
+    // that damage
+    const auto calc_effective_damage = [ &, moves_per_attack]( int num_hits, bool crit,
+    const player & guy, monster & mon ) {
+        damage_instance base_damage;
+        guy.roll_all_damage( crit, base_damage, true, *this );
+        damage_instance dealt_damage = base_damage;
+        mon.absorb_hit( bp_torso, dealt_damage );
+        double damage_per_hit = 0;
+        for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
+            damage_per_hit += dmg_unit.amount + dmg_unit.damage_multiplier;
+        }
+        double subtotal_damage = damage_per_hit * num_hits;
+        double subtotal_moves = moves_per_attack * num_hits;
+
+        if( has_technique( rapid_strike ) ) {
+            damage_instance dealt_rs_damage = base_damage;
+            for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
+                dmg_unit.damage_multiplier *= 0.66;
+            }
+            mon.absorb_hit( bp_torso, dealt_rs_damage );
+            double rs_damage_per_hit = 0;
+            for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
+                rs_damage_per_hit += dmg_unit.amount + dmg_unit.damage_multiplier;
+            }
+            // assume half of hits turn into rapid strikes
+            subtotal_moves *= 0.5;
+            subtotal_damage *= 0.5;
+            subtotal_moves += moves_per_attack * num_hits * 0.33;
+            subtotal_damage += rs_damage_per_hit * num_hits * 0.5;
+        }
+        return std::make_pair( subtotal_moves, subtotal_damage );
+    };
+    std::pair<double, double> summary = calc_effective_damage( num_hits, false, guy, mon );
+    total_moves += summary.first;
+    total_damage += summary.second;
+    summary = calc_effective_damage( num_crits, true, guy, mon );
+    total_moves += summary.first;
+    total_damage += summary.second;
+    return total_damage * to_moves<double>( 1_seconds ) / total_moves;
+}
+
+struct dps_comp_data {
+    mtype_id mon_id;
+    bool display;
+    bool evaluate;
+};
+
+static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monsters = {
+    { to_translation( "Best" ), { mtype_id( "debug_mon" ), true, false } },
+    { to_translation( "Vs. Agile" ), { mtype_id( "mon_zombie_smoker" ), true, true } },
+    { to_translation( "Vs. Armored" ), { mtype_id( "mon_zombie_soldier" ), true, true } },
+    { to_translation( "Vs. Mixed" ), { mtype_id( "mon_zombie_survivor" ), false, true } },
+};
+
+std::map<std::string, double> item::dps( const player &guy ) const
+{
+    std::map<std::string, double> results;
+    for( const std::pair<translation, dps_comp_data> &comp_mon : dps_comp_monsters ) {
+        monster test_mon = monster( comp_mon.second.mon_id );
+        results[ comp_mon.first.translated() ] = effective_dps( guy, test_mon );
+    }
+    return results;
+}
+
+std::map<std::string, double> item::dps() const
+{
+    return dps( g->u );
+}
+
 void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool debug /* debug */ ) const
 {
@@ -1401,11 +1515,11 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.push_back( iteminfo( "BASE", _( "last rot: " ),
                                           "", iteminfo::lower_is_better,
                                           to_turn<int>( food->last_rot_check ) ) );
+            }
+            if( food && food->has_temperature() ) {
                 info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                           "", iteminfo::lower_is_better,
                                           to_turn<int>( food->last_temp_check ) ) );
-            }
-            if( food && food->has_temperature() ) {
                 info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
                                           food->temperature ) );
                 info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "",
@@ -1449,7 +1563,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
 
     if( parts->test( iteminfo_parts::MED_PORTIONS ) ) {
         info.push_back( iteminfo( "MED", _( "Portions: " ),
-                                  abs( static_cast<int>( med_item->charges ) * batch ) ) );
+                                  std::abs( static_cast<int>( med_item->charges ) * batch ) ) );
     }
 
     if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
@@ -1506,7 +1620,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( parts->test( iteminfo_parts::FOOD_PORTIONS ) ) {
         info.push_back( iteminfo( "FOOD", _( "Portions: " ),
-                                  abs( static_cast<int>( food_item->charges ) * batch ) ) );
+                                  std::abs( static_cast<int>( food_item->charges ) * batch ) ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
         ( debug || ( g != nullptr && ( g->u.has_trait( trait_CARNIVORE ) ||
@@ -1677,21 +1791,18 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     const islot_ammo &ammo = *ammo_data()->ammo;
-    if( !ammo.damage.empty() || ammo.prop_damage || ammo.force_stat_display ) {
-        if( !ammo.damage.empty() ) {
+    if( !ammo.damage.empty() || ammo.force_stat_display ) {
+        if( !ammo.damage.empty() && ammo.damage.damage_units.front().amount > 0 ) {
             if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
                 info.emplace_back( "AMMO", _( "Damage: " ), "",
                                    iteminfo::no_newline, ammo.damage.total_damage() );
             }
-        } else if( ammo.prop_damage ) {
+        } else {
             if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
                 info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
                                    iteminfo::no_newline | iteminfo::is_decimal,
-                                   *ammo.prop_damage );
+                                   ammo.damage.damage_units.front().unconditional_damage_mult );
             }
-        } else {
-            info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
-                               iteminfo::no_newline | iteminfo::is_decimal, 1.0 );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
             info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );
@@ -1705,7 +1816,10 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_RECOIL ) ) {
             info.emplace_back( "AMMO", _( "Recoil: " ), "",
-                               iteminfo::lower_is_better, ammo.recoil );
+                               iteminfo::lower_is_better | iteminfo::no_newline, ammo.recoil );
+        }
+        if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
+            info.emplace_back( "AMMO", space + _( "Critical multiplier: " ), ammo.critical_multiplier );
         }
     }
 
@@ -1770,12 +1884,14 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->ammo_required() ) {
         // ammo_damage, sum_of_damage, and ammo_mult not shown so don't need to translate.
-        if( curammo->ammo->prop_damage ) {
+        float dmg_mult = 1.0f;
+        for( const damage_unit &dmg : curammo->ammo->damage.damage_units ) {
+            dmg_mult *= dmg.unconditional_damage_mult;
+        }
+        if( dmg_mult != 1.0f ) {
             if( parts->test( iteminfo_parts::GUN_DAMAGE_AMMOPROP ) ) {
-                info.push_back(
-                    iteminfo( "GUN", "ammo_mult", "*",
-                              iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
-                              *curammo->ammo->prop_damage ) );
+                info.push_back( iteminfo( "GUN", "ammo_mult", "*",
+                                          iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal, dmg_mult ) );
             }
         } else {
             if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
@@ -1792,6 +1908,13 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
     }
     info.back().bNewLine = true;
+
+    if( mod->ammo_required() && curammo->ammo->critical_multiplier != 1.0 ) {
+        if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
+            info.push_back( iteminfo( "GUN", _( "Critical multiplier: " ), "<num>",
+                                      iteminfo::no_flags, curammo->ammo->critical_multiplier ) );
+        }
+    }
 
     int max_gun_range = loaded_mod->gun_range( &g->u );
     if( max_gun_range > 0 && parts->test( iteminfo_parts::GUN_MAX_RANGE ) ) {
@@ -1885,7 +2008,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     return e.second.qty > 1 && !e.second.melee();
     } ) ) {
         info.emplace_back( "GUN", _( "Recommended strength (burst): " ), "",
-                           iteminfo::lower_is_better, ceil( mod->type->weight / 333.0_gram ) );
+                           iteminfo::lower_is_better, std::ceil( mod->type->weight / 333.0_gram ) );
     }
 
     if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
@@ -3043,14 +3166,17 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
                                       iteminfo::lower_is_better, attack_time() ) );
-            double dps = ( dmg_bash + dmg_cut + dmg_stab ) * to_moves<int>( 1_seconds ) /
-                         static_cast<double>( attack_time() );
-            static const matec_id rapid_strike( "RAPID" );
-            if( has_technique( rapid_strike ) ) {
-                dps *= 100.0 / 66;
+            info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
+            const std::map<std::string, double> &dps_data = dps();
+            for( const std::pair<translation, dps_comp_data> &ref_data : dps_comp_monsters ) {
+                const auto dps_entry = dps_data.find( ref_data.first.translated() );
+                if( ( dps_entry == dps_data.end() ) || !ref_data.second.display ) {
+                    continue;
+                }
+                info.emplace_back( "BASE", space + dps_entry->first + ": ", "",
+                                   iteminfo::no_newline | iteminfo::is_decimal,
+                                   dps_entry->second );
             }
-            info.push_back( iteminfo( "BASE", _( "Damage per second: " ), "",
-                                      iteminfo::is_decimal, dps ) );
         }
     }
 
@@ -3953,8 +4079,7 @@ void item::handle_pickup_ownership( Character &c )
                     }
                 }
                 if( !guard_chosen ) {
-                    int random_index = rand() % witnesses.size();
-                    witnesses[random_index]->witness_thievery( &*this );
+                    random_entry( witnesses )->witness_thievery( &*this );
                 }
             }
             set_owner( c );
@@ -5085,9 +5210,6 @@ int get_hourly_rotpoints_at_temp( const int temp )
 
 void item::calc_rot( time_point time, int temp )
 {
-    if( !goes_bad() ) {
-        return;
-    }
     // Avoid needlessly calculating already rotten things.  Corpses should
     // always rot away and food rots away at twice the shelf life.  If the food
     // is in a sealed container they won't rot away, this avoids needlessly
@@ -5101,6 +5223,7 @@ void item::calc_rot( time_point time, int temp )
         last_rot_check = time;
         return;
     }
+
     // rot modifier
     float factor = 1.0;
     if( is_corpse() && has_flag( flag_FIELD_DRESS ) ) {
@@ -5111,7 +5234,7 @@ void item::calc_rot( time_point time, int temp )
     }
 
     if( item_tags.count( "COLD" ) ) {
-        temp = temperatures::fridge;
+        temp = std::min( temperatures::fridge, temp );
     }
 
     // simulation of different age of food at the start of the game and good/bad storage
@@ -6395,7 +6518,7 @@ double item::calculate_by_enchantment( const Character &owner, double modify,
     modify += add_value;
     modify *= mult_value;
     if( round_value ) {
-        modify = round( modify );
+        modify = std::round( modify );
     }
     return modify;
 }
@@ -6414,7 +6537,7 @@ double item::calculate_by_enchantment_wield( double modify, enchantment::mod val
     modify += add_value;
     modify *= mult_value;
     if( round_value ) {
-        modify = round( modify );
+        modify = std::round( modify );
     }
     return modify;
 }
@@ -6690,16 +6813,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
     }
 
     if( with_ammo && ammo_data() ) {
-        if( ammo_data()->ammo->prop_damage ) {
-            for( damage_unit &elem : ret.damage_units ) {
-                if( elem.type == DT_STAB ) {
-                    elem.amount *= *ammo_data()->ammo->prop_damage;
-                    elem.res_pen = ammo_data()->ammo->legacy_pierce;
-                }
-            }
-        } else {
-            ret.add( ammo_data()->ammo->damage );
-        }
+        ret.add( ammo_data()->ammo->damage );
     }
 
     int item_damage = damage_level( 4 );
@@ -6737,7 +6851,7 @@ int item::gun_recoil( const player &p, bool bipod ) const
     handling /= 10;
 
     // algorithm is biased so heavier weapons benefit more from improved handling
-    handling = pow( wt, 0.8 ) * pow( handling, 1.2 );
+    handling = std::pow( wt, 0.8 ) * std::pow( handling, 1.2 );
 
     int qty = type->gun->recoil;
     if( ammo_data() ) {
@@ -7367,14 +7481,13 @@ const use_function *item::get_use_internal( const std::string &use_name ) const
 
 item *item::get_usable_item( const std::string &use_name )
 {
-    if( type != nullptr && type->get_use( use_name ) != nullptr ) {
-        return this;
-    }
-
     item *ret = nullptr;
-    contents.visit_contents(
-    [&ret, &use_name]( item * it, item * ) {
-        if( it->get_use( use_name ) != nullptr ) {
+    visit_items(
+    [&ret, &use_name]( item * it ) {
+        if( it == nullptr ) {
+            return VisitResponse::SKIP;
+        }
+        if( it->get_use_internal( use_name ) ) {
             ret = it;
             return VisitResponse::ABORT;
         }
@@ -7888,6 +8001,7 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
 {
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
+    std::vector<item *> removed_items;
     // First, check contents
     visit_items(
     [&]( item * a ) {
@@ -7896,11 +8010,15 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
             return VisitResponse::NEXT;
         }
         if( a->use_amount_internal( it, quantity, used, filter ) ) {
-            this->remove_item( *a );
+            removed_items.emplace_back( a );
             return VisitResponse::SKIP;
         }
         return VisitResponse::NEXT;
     } );
+
+    for( item *remove : removed_items ) {
+        remove_item( *remove );
+    }
 
     if( quantity != old_quantity ) {
         on_contents_changed();
@@ -7934,7 +8052,10 @@ bool item::allow_crafting_component() const
     // fixes #18886 - turret installation may require items with irremovable mods
     if( is_gun() ) {
         bool valid = true;
-        visit_items( [&valid]( const item * it ) {
+        visit_items( [&]( const item * it ) {
+            if( this == it ) {
+                return VisitResponse::NEXT;
+            }
             if( !( it->is_magazine() || ( it->is_gunmod() && it->is_irremovable() ) ) ) {
                 valid = false;
                 return VisitResponse::ABORT;
@@ -8534,8 +8655,10 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     }
 
     time_point time;
-    item_internal::scoped_goes_bad_cache _( this );
-    if( goes_bad() ) {
+    item_internal::scoped_goes_bad_cache _cache( this );
+    const bool process_rot = goes_bad();
+
+    if( process_rot ) {
         time = std::min( last_rot_check, last_temp_check );
     } else {
         time = last_temp_check;
@@ -8563,7 +8686,7 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
         }
 
         // Process the past of this item since the last time it was processed
-        while( time < now - 1_hours ) {
+        while( now - time > 1_hours ) {
             // Get the environment temperature
             time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
             time += time_delta;
@@ -8607,8 +8730,8 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
                 calc_temp( env_temperature, insulation, time );
             }
 
-            // Calculate item rot from item temperature
-            if( time - last_rot_check > smallest_interval ) {
+            // Calculate item rot
+            if( process_rot && time - last_rot_check > smallest_interval ) {
                 calc_rot( time, env_temperature );
 
                 if( has_rotten_away() || ( is_corpse() && rot > 10_days ) ) {
@@ -8623,7 +8746,9 @@ void item::process_temperature_rot( float insulation, const tripoint &pos,
     // and items that are held near the player
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now );
-        calc_rot( now, temp );
+        if( process_rot ) {
+            calc_rot( now, temp );
+        }
         return;
     }
 
@@ -8680,7 +8805,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     if( 0.00001 * specific_energy < completely_frozen_specific_energy ) {
         // Was solid.
         new_item_temperature = ( - temperature_difference
-                                 * exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass * specific_heat_solid ) )
+                                 * std::exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass * specific_heat_solid ) )
                                  + env_temperature );
         new_specific_energy = new_item_temperature * specific_heat_solid;
         if( new_item_temperature > freezing_temperature + 0.5 ) {
@@ -8689,7 +8814,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
             // Calculate how long the item was solid
             // and apply rest of the time as melting
             extra_time = to_turns<int>( time_delta )
-                         - log( - temperature_difference / ( freezing_temperature - env_temperature ) )
+                         - std::log( - temperature_difference / ( freezing_temperature - env_temperature ) )
                          * ( mass * specific_heat_solid / conductivity_term );
             new_specific_energy = completely_frozen_specific_energy
                                   + conductivity_term
@@ -8707,8 +8832,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
     } else if( 0.00001 * specific_energy > completely_liquid_specific_energy ) {
         // Was liquid.
         new_item_temperature = ( - temperature_difference
-                                 * exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass *
-                                         specific_heat_liquid ) )
+                                 * std::exp( - to_turns<int>( time_delta ) * conductivity_term / ( mass *
+                                             specific_heat_liquid ) )
                                  + env_temperature );
         new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid +
                               completely_liquid_specific_energy;
@@ -8718,7 +8843,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
             // Calculate how long the item was liquid
             // and apply rest of the time as freezing
             extra_time = to_turns<int>( time_delta )
-                         - log( - temperature_difference / ( freezing_temperature - env_temperature ) )
+                         - std::log( - temperature_difference / ( freezing_temperature - env_temperature ) )
                          * ( mass * specific_heat_liquid / conductivity_term );
             new_specific_energy = completely_liquid_specific_energy
                                   + conductivity_term
@@ -8746,8 +8871,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
                          *
                          ( completely_liquid_specific_energy - 0.00001 * specific_energy );
             new_item_temperature = ( ( freezing_temperature - env_temperature )
-                                     * exp( - extra_time * conductivity_term / ( mass *
-                                             specific_heat_liquid ) )
+                                     * std::exp( - extra_time * conductivity_term / ( mass *
+                                                 specific_heat_liquid ) )
                                      + env_temperature );
             new_specific_energy = ( new_item_temperature - freezing_temperature ) * specific_heat_liquid +
                                   completely_liquid_specific_energy;
@@ -8759,8 +8884,8 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
                          *
                          ( completely_frozen_specific_energy - 0.00001 * specific_energy );
             new_item_temperature = ( ( freezing_temperature - env_temperature )
-                                     * exp( -  extra_time * conductivity_term / ( mass *
-                                             specific_heat_solid ) )
+                                     * std::exp( -  extra_time * conductivity_term / ( mass *
+                                                 specific_heat_solid ) )
                                      + env_temperature );
             new_specific_energy = new_item_temperature * specific_heat_solid;
         }

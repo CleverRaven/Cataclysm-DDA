@@ -1,8 +1,9 @@
 #include "avatar_action.h"
 
-#include <cstdlib>
 #include <algorithm>
-#include <functional>
+#include <climits>
+#include <cstdlib>
+#include <map>
 #include <memory>
 #include <ostream>
 #include <set>
@@ -12,42 +13,49 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
 #include "creature.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
-#include "input.h"
+#include "gun_mode.h"
+#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_iterator.h"
+#include "mapdata.h"
+#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "player_activity.h"
 #include "projectile.h"
 #include "ranged.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "bodypart.h"
-#include "cursesdef.h"
-#include "debug.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "gun_mode.h"
-#include "int_id.h"
-#include "inventory.h"
-#include "item_location.h"
-#include "mtype.h"
-#include "player_activity.h"
-#include "ret_val.h"
-#include "rng.h"
+
+class player;
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 
@@ -327,7 +335,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
     }
 
-    if( veh0 != nullptr && abs( veh0->velocity ) > 100 ) {
+    if( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) {
         if( veh1 == nullptr ) {
             if( query_yn( _( "Dive from moving vehicle?" ) ) ) {
                 g->moving_vehicle_dismount( dest_loc );
@@ -611,7 +619,7 @@ void avatar_action::autoattack( avatar &you, map &m )
     } );
 
     const tripoint diff = best.pos() - you.pos();
-    if( abs( diff.x ) <= 1 && abs( diff.y ) <= 1 && diff.z == 0 ) {
+    if( std::abs( diff.x ) <= 1 && std::abs( diff.y ) <= 1 && diff.z == 0 ) {
         move( you, m, tripoint( diff.xy(), 0 ) );
         return;
     }
@@ -920,7 +928,6 @@ void avatar_action::aim_do_turn( avatar &you, map &m )
 
     you.moves -= reload_time;
 
-    // TODO: add check for TRIGGERHAPPY
     int shots_fired = you.fire_gun( trajectory.back(), gun.qty, *gun );
 
     // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
@@ -991,7 +998,6 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
         wrefresh( g->w_terrain );
         g->draw_panels();
 
-        // TODO: add check for TRIGGERHAPPY
         turret.fire( you, trajectory.back() );
     }
     g->reenter_fullscreen();

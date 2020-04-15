@@ -66,6 +66,7 @@
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
     "price": 387,
+    "price_postapoc": 300,
     "material": [ "powder", "junk" ],
     "primary_material": "powder",
     "volume": "250 ml",
@@ -83,6 +84,7 @@
     "container": "bottle_plastic_small",
     "description": "Known as nonpareils, sprinkles, jimmies, sugar strands or 'hundreds-and-thousands', these colorful balls, rods or flakes of sugar and starch are intended for use decorating soft surfaces of sweets.  Like sugar, they are bad for your teeth and surprisingly not very tasty on their own.",
     "price": 399,
+    "price_postapoc": 200,
     "calories": 20,
     "charges": 66
   },
@@ -98,6 +100,7 @@
     "calories": 9,
     "description": "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, fireweed, and burdock.",
     "price": 190,
+    "price_postapoc": 50,
     "material": "veggy",
     "volume": "250 ml",
     "charges": 20,
@@ -113,6 +116,7 @@
     "name": { "str": "soy sauce", "str_pl": "soy sauce" },
     "description": "Salty fermented soybean sauce.",
     "price": 190,
+    "price_postapoc": 25,
     "weight": "24 g",
     "volume": "250 ml",
     "calories": 17,
@@ -140,7 +144,8 @@
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "price": 0
+    "price": 0,
+    "price_postapoc": 10
   },
   {
     "id": "mustard_powder",

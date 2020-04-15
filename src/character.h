@@ -1,65 +1,75 @@
 #pragma once
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef CATA_SRC_CHARACTER_H
+#define CATA_SRC_CHARACTER_H
 
-#include <cstddef>
-#include <bitset>
-#include <map>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
 #include <array>
+#include <bitset>
+#include <climits>
+#include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <limits>
 #include <list>
+#include <map>
 #include <set>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "creature.h"
-#include "game_constants.h"
-#include "inventory.h"
-#include "pimpl.h"
-#include "pldata.h"
-#include "visitable.h"
 #include "color.h"
+#include "creature.h"
 #include "damage.h"
 #include "enums.h"
+#include "flat_set.h"
+#include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
-#include "optional.h"
-#include "overmapbuffer.h"
-#include "player_activity.h"
-#include "stomach.h"
-#include "string_formatter.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "units.h"
-#include "weighted_list.h"
-#include "point.h"
+#include "item_location.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "memory_fast.h"
+#include "monster.h"
+#include "mtype.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "point.h"
+#include "ret_val.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "type_id.h"
+#include "units.h"
+#include "visitable.h"
+#include "weighted_list.h"
 
-struct pathfinding_settings;
-class item_location;
+class JsonIn;
+class JsonObject;
+class JsonOut;
 class SkillLevel;
 class SkillLevelMap;
-
-class JsonObject;
-class JsonIn;
-class JsonOut;
-class vehicle;
-struct mutation_branch;
 class bionic_collection;
-class player_morale;
-struct points_left;
 class faction;
-struct construction;
-
+class player;
+class player_morale;
+class vehicle;
 struct bionic;
+struct construction;
+struct dealt_projectile_attack;
+struct islot_comestible;
+struct itype;
+struct mutation_branch;
+struct needs_rates;
+struct pathfinding_settings;
+struct points_left;
+template <typename E> struct enum_traits;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -737,10 +747,10 @@ class Character : public Creature, public visitable<Character>
         trait_id trait_by_invlet( int ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
-        void toggle_trait( const trait_id &flag );
+        void toggle_trait( const trait_id & );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
-        void set_mutation( const trait_id &flag );
-        void unset_mutation( const trait_id &flag );
+        void set_mutation( const trait_id & );
+        void unset_mutation( const trait_id & );
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
@@ -1191,6 +1201,11 @@ class Character : public Creature, public visitable<Character>
          */
         std::list<item> remove_worn_items_with( std::function<bool( item & )> filter );
 
+        /** Return the item pointer of the item with given invlet, return nullptr if
+         * the player does not have such an item with that invlet. Don't use this on npcs.
+         * Only use the invlet in the user interface, otherwise always use the item position. */
+        item *invlet_to_item( int invlet );
+
         // Returns the item with a given inventory position.
         item &i_at( int position );
         const item &i_at( int position ) const;
@@ -1527,8 +1542,8 @@ class Character : public Creature, public visitable<Character>
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
-        /** Empties the trait list */
-        void empty_traits();
+        /** Empties the trait and mutations lists */
+        void clear_mutations();
         /**
          * Adds mandatory scenario and profession traits unless you already have them
          * And if you do already have them, refunds the points for the trait
@@ -1657,6 +1672,20 @@ class Character : public Creature, public visitable<Character>
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
+        // Reset age and height to defaults for consistent test results
+        void reset_chargen_attributes();
+        // age in years, determined at character creation
+        int base_age() const;
+        void set_base_age( int age );
+        void mod_base_age( int mod );
+        // age in years
+        int age() const;
+        std::string age_string() const;
+        // returns the height in cm
+        int base_height() const;
+        void set_base_height( int height );
+        void mod_base_height( int mod );
+        std::string height_string() const;
         // returns the height of the player character in cm
         int height() const;
         // returns bodyweight of the Character
@@ -1965,6 +1994,7 @@ class Character : public Creature, public visitable<Character>
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
         void apply_wetness_morale( int temperature );
+        int heartrate_bpm() const;
 
     protected:
         Character();
@@ -1998,6 +2028,8 @@ class Character : public Creature, public visitable<Character>
         int healthy;
         int healthy_mod;
 
+        /** age in years at character creation */
+        int init_age = 25;
         /**height at character creation*/
         int init_height = 175;
         /** Size class of character. */
@@ -2138,4 +2170,4 @@ struct enum_traits<Character::stat> {
 };
 /**Get translated name of a stat*/
 std::string get_stat_name( Character::stat Stat );
-#endif
+#endif // CATA_SRC_CHARACTER_H

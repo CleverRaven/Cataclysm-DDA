@@ -1,26 +1,25 @@
 #pragma once
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef CATA_SRC_ITEM_H
+#define CATA_SRC_ITEM_H
 
-#include <cstdint>
+#include <algorithm>
 #include <climits>
+#include <cstdint>
+#include <functional>
 #include <list>
 #include <map>
 #include <set>
 #include <string>
-#include <vector>
-#include <functional>
-#include <memory>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "calendar.h"
-#include "value_ptr.h"
 #include "cata_utility.h"
 #include "craft_command.h"
-#include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "gun_mode.h"
 #include "io_tags.h"
 #include "item_contents.h"
 #include "item_location.h"
@@ -31,35 +30,35 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "visitable.h"
-#include "gun_mode.h"
 
-class item;
-class material_type;
-struct mtype;
-class faction;
-class nc_color;
+class Character;
 class JsonIn;
-class JsonOut;
 class JsonObject;
-class iteminfo_query;
-template<typename T>
-class ret_val;
+class JsonOut;
+class faction;
 class gun_type_type;
 class gunmod_location;
-class Character;
+class item;
+class iteminfo_query;
+class material_type;
+class nc_color;
 class player;
 class recipe;
 class relic;
-struct tripoint;
-struct itype;
 struct islot_comestible;
+struct itype;
+struct mtype;
+struct tripoint;
+template<typename T>
+class ret_val;
 
 using bodytype_id = std::string;
 using faction_id = string_id<faction>;
+class item_category;
 struct islot_armor;
 struct use_function;
-class item_category;
 
 enum art_effect_passive : int;
 enum phase_id : int;
@@ -69,10 +68,10 @@ enum class side : int;
 class body_part_set;
 
 using itype_id = std::string;
-struct fire_data;
+class map;
 struct damage_instance;
 struct damage_unit;
-class map;
+struct fire_data;
 
 enum damage_type : int;
 enum clothing_mod_type : int;
@@ -561,6 +560,17 @@ class item : public visitable<item>
         /** All damage types this item deals when thrown (no skill modifiers etc. applied). */
         damage_instance base_damage_thrown() const;
 
+        /**
+        * Calculate the item's effective damage per second past armor when wielded by a
+         * character against a monster.
+         */
+        double effective_dps( const player &guy, monster &mon ) const;
+        /**
+         * calculate effective dps against a stock set of monsters.  by default, assume g->u
+         * is wielding
+         */
+        std::map<std::string, double> dps( const player &guy ) const;
+        std::map<std::string, double> dps() const;
         /**
          * Whether the character needs both hands to wield this item.
          */
@@ -2248,4 +2258,4 @@ inline bool is_crafting_component( const item &component )
            !component.is_filthy();
 }
 
-#endif
+#endif // CATA_SRC_ITEM_H
