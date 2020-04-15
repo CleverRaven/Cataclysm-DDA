@@ -435,18 +435,10 @@ void game::init_ui( const bool resized )
 
     if( first_init ) {
 #if !(defined(_WIN32) || defined(TILES))
-        // Check whether LC_CTYPE supports the UTF-8 encoding
-        // and show a warning if it doesn't
-        if( std::strcmp( nl_langinfo( CODESET ), "UTF-8" ) != 0 ) {
-            const char *unicode_error_msg =
-                _( "You don't seem to have a valid Unicode locale. You may see some weird "
-                   "characters (e.g. empty boxes or question marks). You have been warned." );
-            catacurses::erase();
-            const int maxx = getmaxx( catacurses::stdscr );
-            fold_and_print( catacurses::stdscr, point_zero, maxx, c_white, unicode_error_msg );
-            catacurses::refresh();
-            inp_mngr.wait_for_any_key();
-        }
+        // in ncurses_def.cpp
+        void check_encoding();
+
+        check_encoding();
 #endif
 
         first_init = false;

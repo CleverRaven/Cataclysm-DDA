@@ -13,6 +13,7 @@
 #include <curses.h>
 #endif
 
+#include <langinfo.h>
 #include <stdexcept>
 
 #include "cursesdef.h"
@@ -364,6 +365,7 @@ bool nc_color::is_blink() const
 }
 
 void ensure_term_size();
+void check_encoding();
 
 void ensure_term_size()
 {
@@ -398,6 +400,27 @@ void ensure_term_size()
         getch();
         maxy = getmaxy( catacurses::stdscr );
         maxx = getmaxx( catacurses::stdscr );
+    }
+}
+
+void check_encoding()
+{
+    // Check whether LC_CTYPE supports the UTF-8 encoding
+    // and show a warning if it doesn't
+    if( std::strcmp( nl_langinfo( CODESET ), "UTF-8" ) != 0 ) {
+        // do not use ui_adaptor here to avoid re-entry
+        int key = ERR;
+        do {
+            const char *unicode_error_msg =
+                _( "You don't seem to have a valid Unicode locale. You may see some weird "
+                   "characters (e.g. empty boxes or question marks). You have been warned." );
+            catacurses::erase();
+            const int maxx = getmaxx( catacurses::stdscr );
+            fold_and_print( catacurses::stdscr, point_zero, maxx, c_white, unicode_error_msg );
+            catacurses::refresh();
+            // do not use input_manager or input_context here to avoid re-entry
+            key = getch();
+        } while( key == KEY_RESIZE || key == KEY_MOUSE );
     }
 }
 
