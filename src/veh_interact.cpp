@@ -682,6 +682,7 @@ bool veh_interact::can_install_part()
         }
     }
 
+    // Make sure there are no turrets installed here.
     if( sel_vpart_info->has_flag( "TURRET" ) || sel_vpart_info->has_flag( "POWERED_TURRET" ) ) {
         if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_turret();
@@ -691,6 +692,20 @@ bool veh_interact::can_install_part()
             fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red,
                             _( "Can't install turret on another turret." ) );
             wrefresh( w_msg );
+            return false;
+        }
+    }
+
+    // Make sure there are no alternators installed here.
+    if (sel_vpart_info->has_flag("ALTERNATOR") || sel_vpart_info->has_flag("POWERED_TURRET_MOUNT")) {
+        if (std::any_of(parts_here.begin(), parts_here.end(), [&](const int e) {
+            return veh->parts[e].is_alternator();
+        })) {
+            werase(w_msg);
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            fold_and_print(w_msg, point(1, 0), getmaxx(w_msg) - 2, c_light_red,
+                _("Can't install alternator on another alternator."));
+            wrefresh(w_msg);
             return false;
         }
     }

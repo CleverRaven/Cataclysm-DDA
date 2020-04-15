@@ -482,6 +482,11 @@ bool vehicle_part::is_battery() const
     return base.is_magazine() && base.ammo_types().count( ammotype( "battery" ) );
 }
 
+bool vehicle_part::is_alternator() const
+{
+    return ( info().has_flag( VPFLAG_ALTERNATOR ) || info().has_flag( VPFLAG_POWERED_TURRET_MOUNT ) );
+}
+
 bool vehicle_part::is_reactor() const
 {
     return info().has_flag( VPFLAG_REACTOR );

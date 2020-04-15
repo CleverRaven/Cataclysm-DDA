@@ -2534,7 +2534,7 @@
     "reversible": true,
     "decomp_learn": 6,
     "book_learn": [ [ "recipe_bows", 6 ], [ "textbook_weapwest", 6 ] ],
-    "tools": [ [ "welding_standard", 3 ] , [ "blacksmithing_standard", 4 ] ],
+    "using": [ [ "welding_standard", 3 ] , [ "blacksmithing_standard", 4 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "HAMMER", "level": 1 },
