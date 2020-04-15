@@ -2549,7 +2549,7 @@
       [ [ "wire", 20 ] ],
       [ [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ],
-      [ [ "steel_standard", 40, "LIST" ] ],
+      [ [ "steel_standard", 4, "LIST" ] ],
       [ [ "nail", 60 ] ],
       [ [ "pipe", 8 ] ]
     ]
