@@ -73,24 +73,27 @@
     "name": "10 Cool Things About Being A Ring Bearer",
     "//": "This book belongs to two genres: wedding and kids",
     "description": "This book is for the delightful little ring bearer in your wedding.  The author depicts the responsibility and the honor in being a ring bearer your little angel will cherish.",
+    "time": "15 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": -17, "intelligence": -2, "time": -5 }
+    "relative": { "chapters": -17, "intelligence": -2 }
   },
   {
     "id": "book_nonf_soft_parent_howtogen",
     "type": "BOOK",
     "name": "How to Raise a Gentleman: A Civilized Guide to Parenting",
     "description": "A revised edition for parents who hope their little boy children will grow up to be the kind of men who know which fork to use, how to treat others, and generally make their parents proud.",
+    "time": "15 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": -4, "time": -5 }
+    "relative": { "chapters": -4 }
   },
   {
     "id": "book_nonf_soft_safety_radiaea",
     "type": "BOOK",
     "name": "International Approaches to Securing Radioactive Sources Against Terrorism",
     "description": "This book presents how to enhance cooperation and assistance between countries in support of International Atomic Energy Agency efforts to secure radioactive sources against the threat of terrorism.",
+    "time": "11 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": 31, "time": -12 }
+    "relative": { "chapters": 31 }
   },
   {
     "id": "book_nonf_hard_psych_forpsych",
@@ -100,8 +103,9 @@
     "weight": "2835 g",
     "volume": "3673 ml",
     "fun": -2,
+    "time": "22 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": -9, "intelligence": 2, "time": 2 }
+    "relative": { "chapters": -9, "intelligence": 2 }
   },
   {
     "id": "book_nonf_hard_psych_grconres",
@@ -110,8 +114,9 @@
     "description": "The back cover of this hardbound book reads: \"Why should professionals care about reflective practice?  How do its principles and methods increase competence?  What characteristics distinguish reflective practitioners?\"",
     "weight": "494 g",
     "volume": "761 ml",
+    "time": "25 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": -6, "fun": -1, "intelligence": 3, "time": 5 }
+    "relative": { "chapters": -6, "fun": -1, "intelligence": 3 }
   },
   {
     "id": "book_nonf_hard_psych_moodalm",
@@ -120,8 +125,9 @@
     "description": "The Oxbridge Handbook of Mood Ailments provides detailed coverage of the characterization, understanding, and treatment of affective disorders.  It provides coverage of unipolar depression, bipolar disorder, and known variants of these illnesses.",
     "weight": "1152 g",
     "volume": "1647 ml",
+    "time": "40 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": 6, "fun": -1, "intelligence": 4, "time": 20 }
+    "relative": { "chapters": 6, "fun": -1, "intelligence": 4 }
   },
   {
     "id": "book_nonf_hard_psych_phonodis",
@@ -130,8 +136,9 @@
     "description": "Studying the phonologies of children with non-organic speech disorders, this volume details the latest findings in optimality theory, phonological acquisition and disorders.  It is intended for linguists and psychologists.",
     "weight": "730 g",
     "volume": "1038 ml",
+    "time": "30 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": -7, "fun": -2, "intelligence": 5, "time": "10 m" }
+    "relative": { "chapters": -7, "fun": -2, "intelligence": 5 }
   },
   {
     "id": "book_nonf_hard_psych_thergar",
@@ -141,8 +148,9 @@
     "description": "This book addresses how to design therapeutic gardens.  It illustrates a variety of landscape designs appropriate for public spaces that promote mental health.",
     "weight": "1043 g",
     "volume": "1110 ml",
+    "time": "18 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "chapters": -6, "fun": -1, "intelligence": 3, "time": -2 }
+    "relative": { "chapters": -6, "fun": -1, "intelligence": 3 }
   },
   {
     "id": "book_nonf_soft_psych_adrugds",
@@ -151,8 +159,9 @@
     "description": "This softcover reprint covers an array of topics in pharmacology.  The physicochemical concepts of the refinement of bioresponsive drug delivery are presented in detail alongside a variety of current approaches employed in the development of zero order release systems.",
     "weight": "773 g",
     "volume": "964 ml",
+    "time": "30 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": 2, "fun": -1, "intelligence": 5, "time": 10 }
+    "relative": { "chapters": 2, "fun": -1, "intelligence": 5 }
   },
   {
     "id": "book_nonf_soft_psych_arteatds",
@@ -171,8 +180,9 @@
     "description": "This scholarly work considers the role that games play in psychological experiences and mental health.  Chapters examine the factors that compel individual gamers to select and identify with particular games and characters, as well as the different play styles, genres, and archetypes common in video games.",
     "weight": "295 g",
     "volume": "442 ml",
+    "time": "30 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": -3, "fun": -2, "intelligence": 2, "time": "10 m" }
+    "relative": { "chapters": -3, "fun": -2, "intelligence": 2 }
   },
   {
     "id": "book_nonf_soft_psych_paranoia",
@@ -181,8 +191,9 @@
     "description": "This book is an analysis of the use and misuse of paranoia throughout history and in contemporary society.  The impact of paranoia on societies is explored in detail.",
     "weight": "522 g",
     "volume": "759 ml",
+    "time": "25 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": -6, "fun": -1, "intelligence": 3, "time": "5 m" }
+    "relative": { "chapters": -6, "fun": -1, "intelligence": 3 }
   },
   {
     "id": "book_nonf_soft_psych_psycolo",
@@ -191,8 +202,9 @@
     "description": "Freud referred to women's sexuality as a \"dark continent\" for psychoanalysis, drawing on colonial use of the same phrase to refer to Africa.  This book details how the problematic universalism of psychoanalysis led theorists to reject its relevance for postcolonial critique.",
     "weight": "454 g",
     "volume": "734 ml",
+    "time": "30 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "fun": -1, "intelligence": 3, "time": "10 m" }
+    "relative": { "fun": -1, "intelligence": 3 }
   },
   {
     "id": "book_nonf_soft_psych_psycstlk",
@@ -201,7 +213,8 @@
     "description": "This book explores stalking from social, psychiatric, psychological and behavioral perspectives.  Topics include psychiatric diagnoses, offender-victim typologies, cyberstalking, false victimization syndrome, erotomania, domestic violence, the stalking of public figures, and many other aspects of stalking.",
     "weight": "400 g",
     "volume": "521 ml",
+    "time": "18 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "chapters": 3, "intelligence": 2, "time": "-2 m" }
+    "relative": { "chapters": 3, "intelligence": 2 }
   }
 ]
