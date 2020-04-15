@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "item.h"
+#include "line.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -26,7 +27,6 @@
 
 struct input_event;
 
-enum direction : unsigned;
 namespace catacurses
 {
 class window;
@@ -839,7 +839,14 @@ class scrollingcombattext
             private:
                 point pos;
                 direction oDir;
-                direction oUp, oUpRight, oRight, oDownRight, oDown, oDownLeft, oLeft, oUpLeft;
+                direction oUp;
+                direction oUpRight;
+                direction oRight;
+                direction oDownRight;
+                direction oDown;
+                direction oDownLeft;
+                direction oLeft;
+                direction oUpLeft;
                 point dir;
                 int iStep;
                 int iStepOffset;
