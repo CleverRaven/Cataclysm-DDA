@@ -2,7 +2,7 @@
   {
     "abstract": "book_fict_soft_tpl",
     "type": "BOOK",
-    "name": { "str": "paperback abstract" },
+    "name": { "str": "paperback novel", "str_pl": "paperbacks" },
     "description": "An ordinary paperback book.  Or is it?  It is.",
     "weight": "400 g",
     "volume": "700 ml",
@@ -65,6 +65,25 @@
     "weight": "1100 g",
     "copy-from": "book_nonf_hard_tpl",
     "relative": { "intelligence": -1, "price_postapoc": -1600, "chapters": 2 }
+  },
+  {
+    "abstract": "book_nonf_hard_dodge_tpl",
+    "type": "BOOK",
+    "name": "dodge skillbook abstract",
+    "description": "An ordinary book.  Or is it?  It is.",
+    "weight": "600 g",
+    "volume": "1 L",
+    "price": 1000,
+    "price_postapoc": 5000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "story_book",
+    "color": "light_blue",
+    "flags": [ "TINDER", "FLAMMABLE" ],
+    "skill": "dodge",
+    "intelligence": 4,
+    "time": "10 m",
+    "fun": -1
   },
   {
     "abstract": "paperback_occult",
@@ -160,7 +179,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "time": "7 m",
+    "time": "8 m",
     "fun": 1
   },
   {
@@ -171,5 +190,35 @@
     "copy-from": "book_nonf_zine",
     "time": "11 m",
     "relative": { "intelligence": 1 }
+  },
+  {
+    "abstract": "book_magazine",
+    "//": "this is the original version of book_nonf_zine",
+    "type": "BOOK",
+    "name": { "str": "readable magazine" },
+    "weight": "70 g",
+    "volume": "250 ml",
+    "material": "paper",
+    "symbol": "?",
+    "color": "pink",
+    "max_level": 1,
+    "intelligence": 5,
+    "time": "8 m",
+    "fun": 1
+  },
+  {
+    "abstract": "book_martial",
+    "type": "GENERIC",
+    "category": "books",
+    "name": { "str": "martial art manual" },
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": 20000,
+    "material": "paper",
+    "symbol": "?",
+    "color": "green",
+    "use_action": "MA_MANUAL",
+    "time": "10 m",
+    "book_data": { "intelligence": 9 }
   }
 ]
