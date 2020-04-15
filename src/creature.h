@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CREATURE_H
-#define CREATURE_H
+#ifndef CATA_SRC_CREATURE_H
+#define CATA_SRC_CREATURE_H
 
 #include <climits>
 #include <map>
@@ -840,4 +840,4 @@ class Creature
         int pain;
 };
 
-#endif
+#endif // CATA_SRC_CREATURE_H

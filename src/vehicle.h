@@ -1,6 +1,6 @@
 #pragma once
-#ifndef VEHICLE_H
-#define VEHICLE_H
+#ifndef CATA_SRC_VEHICLE_H
+#define CATA_SRC_VEHICLE_H
 
 #include <array>
 #include <climits>
@@ -1903,4 +1903,4 @@ class vehicle
         unsigned char vehicle_noise = 0;
 };
 
-#endif
+#endif // CATA_SRC_VEHICLE_H

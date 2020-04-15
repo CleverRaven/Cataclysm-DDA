@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SDL_WRAPPERS_H
-#define SDL_WRAPPERS_H
+#ifndef CATA_SRC_SDL_WRAPPERS_H
+#define CATA_SRC_SDL_WRAPPERS_H
 
 // IWYU pragma: begin_exports
 #if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -135,4 +135,4 @@ inline bool operator!=( const SDL_Rect &lhs, const SDL_Rect &rhs )
 
 /**@}*/
 
-#endif
+#endif // CATA_SRC_SDL_WRAPPERS_H

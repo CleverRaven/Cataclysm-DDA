@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ENUMS_H
-#define ENUMS_H
+#ifndef CATA_SRC_ENUMS_H
+#define CATA_SRC_ENUMS_H
 
 template<typename T> struct enum_traits;
 
@@ -282,4 +282,4 @@ struct game_message_params {
     game_message_flags flags;
 };
 
-#endif
+#endif // CATA_SRC_ENUMS_H

@@ -3,7 +3,7 @@
     "abstract": "afs_scrap_1",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": "ur-scrap",
+    "name": { "str": "ur-scrap" },
     "description": "A small techno doodad.",
     "looks_like": "e_scrap",
     "price": 500,
@@ -17,7 +17,7 @@
   {
     "type": "GENERIC",
     "abstract": "afs_scrap_2",
-    "name": "ur-scrap",
+    "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
     "price": 5000,
     "price_postapoc": 10000
@@ -25,7 +25,7 @@
   {
     "type": "GENERIC",
     "abstract": "afs_scrap_3",
-    "name": "ur-scrap",
+    "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
     "price": 5000,
     "price_postapoc": 50000
@@ -33,7 +33,7 @@
   {
     "type": "GENERIC",
     "abstract": "afs_scrap_4",
-    "name": "ur-scrap",
+    "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
     "price": 50000,
     "price_postapoc": 100000
@@ -41,7 +41,7 @@
   {
     "type": "GENERIC",
     "abstract": "afs_scrap_5",
-    "name": "ur-scrap",
+    "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
     "price": 500000,
     "price_postapoc": 1000000

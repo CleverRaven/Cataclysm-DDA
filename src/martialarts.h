@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MARTIALARTS_H
-#define MARTIALARTS_H
+#ifndef CATA_SRC_MARTIALARTS_H
+#define CATA_SRC_MARTIALARTS_H
 
 #include <algorithm>
 #include <cstddef>
@@ -297,4 +297,4 @@ std::string martialart_difficulty( const matype_id &mstyle );
 std::vector<matype_id> all_martialart_types();
 std::vector<matype_id> autolearn_martialart_types();
 
-#endif
+#endif // CATA_SRC_MARTIALARTS_H

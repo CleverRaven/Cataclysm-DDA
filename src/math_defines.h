@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_MATH_DEFINES_H
-#define CATA_MATH_DEFINES_H
+#ifndef CATA_SRC_MATH_DEFINES_H
+#define CATA_SRC_MATH_DEFINES_H
 
 // On Visual Studio math.h only provides the defines (M_PI, etc.) if
 // _USE_MATH_DEFINES is defined before including it.
@@ -29,4 +29,4 @@
 #define M_SQRT2 1.41421356237309504880
 #endif
 
-#endif // CATA_MATH_DEFINES_H
+#endif // CATA_SRC_MATH_DEFINES_H

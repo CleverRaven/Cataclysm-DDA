@@ -873,6 +873,7 @@ void Item_factory::init()
     add_iuse( "PLANTBLECH", &iuse::plantblech );
     add_iuse( "POISON", &iuse::poison );
     add_iuse( "PORTABLE_GAME", &iuse::portable_game );
+    add_iuse( "FITNESS_CHECK", &iuse::fitness_check );
     add_iuse( "PORTAL", &iuse::portal );
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFIER", &iuse::purifier );
@@ -1490,7 +1491,8 @@ void Item_factory::load( islot_ammo &slot, const JsonObject &jo, const std::stri
     assign( jo, "count", slot.def_charges, strict, 1 );
     assign( jo, "loudness", slot.loudness, strict, 0 );
     assign( jo, "effects", slot.ammo_effects, strict );
-
+    assign( jo, "prop_damage", slot.prop_damage, strict );
+    assign( jo, "critical_multiplier", slot.critical_multiplier, strict );
     assign( jo, "show_stats", slot.force_stat_display, strict );
 }
 

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MESSAGES_H
-#define MESSAGES_H
+#ifndef CATA_SRC_MESSAGES_H
+#define CATA_SRC_MESSAGES_H
 
 #include <cstddef>
 #include <string>
@@ -71,4 +71,4 @@ inline void add_msg( const game_message_params &params, const char *const msg, A
     return add_msg( params, string_format( msg, std::forward<Args>( args )... ) );
 }
 
-#endif
+#endif // CATA_SRC_MESSAGES_H

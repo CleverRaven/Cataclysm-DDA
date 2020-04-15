@@ -1,6 +1,6 @@
 #pragma once
-#ifndef NPCTALK_H
-#define NPCTALK_H
+#ifndef CATA_SRC_NPCTALK_H
+#define CATA_SRC_NPCTALK_H
 
 #include "type_id.h"
 
@@ -95,4 +95,4 @@ time_duration calc_skill_training_time( const npc &p, const skill_id &skill );
 int calc_skill_training_cost( const npc &p, const skill_id &skill );
 time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ );
 int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ );
-#endif
+#endif // CATA_SRC_NPCTALK_H

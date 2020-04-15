@@ -1,6 +1,6 @@
 #pragma once
-#ifndef IUSE_ACTOR_H
-#define IUSE_ACTOR_H
+#ifndef CATA_SRC_IUSE_ACTOR_H
+#define CATA_SRC_IUSE_ACTOR_H
 
 #include <climits>
 #include <map>
@@ -1208,4 +1208,4 @@ class sew_advanced_actor : public iuse_actor
         int use( player &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
-#endif
+#endif // CATA_SRC_IUSE_ACTOR_H

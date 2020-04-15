@@ -337,7 +337,8 @@
       { "item": "sf_watch", "prob": 5 },
       { "item": "pocketwatch", "prob": 30 },
       { "item": "diving_watch", "prob": 20 },
-      { "item": "game_watch", "prob": 20 }
+      { "item": "game_watch", "prob": 20 },
+      { "item": "fitness_band", "prob": 10 }
     ]
   },
   {
@@ -514,7 +515,8 @@
       { "item": "aspirin", "prob": 30 },
       { "item": "water_clean", "prob": 30 },
       { "item": "sports_drink", "prob": 30 },
-      { "item": "1st_aid", "prob": 20 }
+      { "item": "1st_aid", "prob": 20 },
+      { "item": "fitness_band", "prob": 5 }
     ]
   },
   {

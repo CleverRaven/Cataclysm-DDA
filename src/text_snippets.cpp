@@ -158,7 +158,9 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
         return cata::nullopt;
     }
     const size_t count = it->second.ids.size() + it->second.no_id.size();
-    std::mt19937 generator( seed );
+    // This engine is deterministcally seeded, so acceptable.
+    // NOLINTNEXTLINE(cata-determinism)
+    cata_default_random_engine generator( seed );
     std::uniform_int_distribution<size_t> dis( 0, count - 1 );
     const size_t index = dis( generator );
     if( index < it->second.ids.size() ) {
@@ -168,7 +170,7 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
     }
 }
 
-snippet_id snippet_library::migrate_hash_to_id( const int hash )
+snippet_id snippet_library::migrate_hash_to_id( const int old_hash )
 {
     if( !hash_to_id_migration.has_value() ) {
         hash_to_id_migration.emplace();
@@ -179,7 +181,7 @@ snippet_id snippet_library::migrate_hash_to_id( const int hash )
             }
         }
     }
-    const auto it = hash_to_id_migration->find( hash );
+    const auto it = hash_to_id_migration->find( old_hash );
     if( it == hash_to_id_migration->end() ) {
         return snippet_id::NULL_ID();
     }

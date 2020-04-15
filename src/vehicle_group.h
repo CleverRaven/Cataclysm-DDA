@@ -1,6 +1,6 @@
 #pragma once
-#ifndef VEHICLE_GROUP_H
-#define VEHICLE_GROUP_H
+#ifndef CATA_SRC_VEHICLE_GROUP_H
+#define CATA_SRC_VEHICLE_GROUP_H
 
 #include <string>
 #include <unordered_map>
@@ -189,4 +189,4 @@ class VehicleSpawn
         static FunctionMap builtin_functions;
 };
 
-#endif
+#endif // CATA_SRC_VEHICLE_GROUP_H

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SKILL_H
-#define SKILL_H
+#ifndef CATA_SRC_SKILL_H
+#define CATA_SRC_SKILL_H
 
 #include <functional>
 #include <map>
@@ -249,4 +249,4 @@ class SkillDisplayType
 
 double price_adjustment( int );
 
-#endif
+#endif // CATA_SRC_SKILL_H
