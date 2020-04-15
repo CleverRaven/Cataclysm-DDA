@@ -486,6 +486,25 @@
   },
   {
     "type": "recipe",
+    "result": "alternator_turret_mount",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "fabrication", 6 ],
+    "difficulty": 7,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 3 ], [ "steel_standard", 2 ], [ "soldering_standard", 10 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [ [ [ "pipe", 3 ] ], [ [ "motor_tiny", 2 ] ], [ [ "spring", 1 ] ], [ [ "cable", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "turret_controls",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",

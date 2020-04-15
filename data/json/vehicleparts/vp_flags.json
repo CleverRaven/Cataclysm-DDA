@@ -153,6 +153,20 @@
     "requires_flag": "TURRET_MOUNT"
   },
   {
+    "id": "POWERED_TURRET",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "A heavy weapon mounted in a turret.  It siphons mechanical power from an engine and is mounted on a quarterpanel rather than the roof.  It can be fired from the vehicle controls.",
+    "requires_flag": "POWERED_TURRET_MOUNT"
+  },
+  {
+    "id": "POWERED_TURRET_MOUNT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "A mount for a mechanically-powered turret, which siphons mechanical power from an engine via the fan belt where an alternator would normally go.",
+    "requires_flag": "E_ALTERNATOR"
+  },
+  {
     "id": "TURRET_CONTROLS",
     "type": "json_flag",
     "context": [ "vehicle_part" ],

@@ -3593,11 +3593,11 @@
     "description": "A rotating turret mount for a crank-driven weapon, mounted via a series of gears where an alternator is supposed to be.",
     "item": "alternator_turret_mount",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "90 m", "using": [ [ "welding_standard", 30 ] ] },
-      "removal": { "skills": [ [ "mechanics", 8 ] ], "time": "150 m", "using": [ [ "vehicle_weld_removal", 5 ] ] },
-      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [ [ "mechanics", 7 ] ], "time": "90 m", "using": [ [ "welding_standard", 30 ] ] },
+      "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "150 m", "using": [ [ "vehicle_weld_removal", 30 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "30 m", "using": [ [ "welding_standard", 30 ] ] }
     },
-    "flags": [ "TURRET_MOUNT", "ALTERNATOR" ],
+    "flags": [ "POWERED_TURRET_MOUNT", "ALTERNATOR" ],
     "breaks_into": [ { "item": "scrap", "count": [ 10, 20 ] } ],
     "damage_reduction": { "all": 30 }
   },

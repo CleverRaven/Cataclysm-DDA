@@ -57,16 +57,5 @@
     "weight": "48000 g",
     "volume": "7500 ml",
     "price": 30000
-  },
-  {
-    "id": "alternator_turret_mount",
-    "copy-from": "vehicle_alternator",
-    "type": "GENERIC",
-    "looks-like": "turret_mount",
-    "name": { "str": "fan-belt turret assembly" },
-    "description": "A collection of gears, chains, and other parts that an insane person could use to mount a crank-driven weapon on a vehicle where a mere mortal would put an alternator.",
-    "weight": "30000 g",
-    "volume": "20000 ml",
-    "price": 30000
   }
 ]

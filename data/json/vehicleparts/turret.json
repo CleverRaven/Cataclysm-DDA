@@ -76,7 +76,7 @@
     "broken_color": "magenta",
     "location": "center",
     "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 2 }, { "item": "2x4", "count": 2 } ],
-    "flags": [ "TURRET" ],
+    "flags": [ [ "POWERED_TURRET" ] ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ], [ "fabrication", 6 ] ] },
       "removal": { "skills": [ [ "mechanics", 6 ] ] }

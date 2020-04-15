@@ -2524,6 +2524,38 @@
   },
   {
     "type": "recipe",
+    "result": "siege_ballista",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 6 ],
+    "difficulty": 7,
+    "time": "3 h",
+    "reversible": true,
+    "decomp_learn": 6,
+    "book_learn": [ [ "recipe_bows", 6 ], [ "textbook_weapwest", 6 ] ],
+    "tools": [ [ "welding_standard", 3 ] , [ "blacksmithing_standard", 4 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SAW_W", "level": 1 }
+    ],
+    "components": [
+      [ [ "2x4", 8 ], [ "stick", 16 ] ],
+      [ [ "rope_superior_short", 4, "LIST" ] ],
+      [ [ "wire", 20 ] ],
+      [ [ "foot_crank", 1 ] ],
+      [ [ "spring", 4 ] ],
+      [ [ "steel_standard", 40, "LIST" ] ],
+      [ [ "nail", 60 ] ],
+      [ [ "pipe", 8 ] ]
+    ]
+  },  
+  {
+    "type": "recipe",
     "result": "rep_crossbow",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",

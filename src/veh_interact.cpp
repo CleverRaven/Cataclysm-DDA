@@ -682,7 +682,7 @@ bool veh_interact::can_install_part()
         }
     }
 
-    if( sel_vpart_info->has_flag( "TURRET" ) ) {
+    if( sel_vpart_info->has_flag( "TURRET" ) || sel_vpart_info->has_flag( "POWERED_TURRET" ) ) {
         if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->parts[e].is_turret();
         } ) ) {
