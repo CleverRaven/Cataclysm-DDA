@@ -235,91 +235,95 @@ void catacurses::init_interface()
 
 input_event input_manager::get_input_event()
 {
-    previously_pressed_key = 0;
-    const int key = getch();
-    if( key != ERR ) {
-        int newch;
-        // Clear the buffer of characters that match the one we're going to act on.
-        set_timeout( 0 );
-        do {
-            newch = getch();
-        } while( newch != ERR && newch == key );
-        reset_timeout();
-        // If we read a different character than the one we're going to act on, re-queue it.
-        if( newch != ERR && newch != key ) {
-            ungetch( newch );
-        }
-    }
+    int key = ERR;
     input_event rval;
-    if( key == ERR ) {
-        if( input_timeout > 0 ) {
-            rval.type = CATA_INPUT_TIMEOUT;
-        } else {
-            rval.type = CATA_INPUT_ERROR;
+    do {
+        previously_pressed_key = 0;
+        key = getch();
+        if( key != ERR ) {
+            int newch;
+            // Clear the buffer of characters that match the one we're going to act on.
+            set_timeout( 0 );
+            do {
+                newch = getch();
+            } while( newch != ERR && newch == key );
+            reset_timeout();
+            // If we read a different character than the one we're going to act on, re-queue it.
+            if( newch != ERR && newch != key ) {
+                ungetch( newch );
+            }
         }
-        // ncurses mouse handling
-    } else if( key == KEY_RESIZE ) {
-        catacurses::resizeterm();
-    } else if( key == KEY_MOUSE ) {
-        MEVENT event;
-        if( getmouse( &event ) == OK ) {
-            rval.type = CATA_INPUT_MOUSE;
-            rval.mouse_pos = point( event.x, event.y ) - point( VIEW_OFFSET_X, VIEW_OFFSET_Y );
-            if( event.bstate & BUTTON1_CLICKED ) {
-                rval.add_input( MOUSE_BUTTON_LEFT );
-            } else if( event.bstate & BUTTON3_CLICKED ) {
-                rval.add_input( MOUSE_BUTTON_RIGHT );
-            } else if( event.bstate & REPORT_MOUSE_POSITION ) {
-                rval.add_input( MOUSE_MOVE );
-                if( input_timeout > 0 ) {
-                    // Mouse movement seems to clear ncurses timeout
-                    set_timeout( input_timeout );
+        rval = input_event();
+        if( key == ERR ) {
+            if( input_timeout > 0 ) {
+                rval.type = CATA_INPUT_TIMEOUT;
+            } else {
+                rval.type = CATA_INPUT_ERROR;
+            }
+            // ncurses mouse handling
+        } else if( key == KEY_RESIZE ) {
+            catacurses::resizeterm();
+        } else if( key == KEY_MOUSE ) {
+            MEVENT event;
+            if( getmouse( &event ) == OK ) {
+                rval.type = CATA_INPUT_MOUSE;
+                rval.mouse_pos = point( event.x, event.y ) - point( VIEW_OFFSET_X, VIEW_OFFSET_Y );
+                if( event.bstate & BUTTON1_CLICKED ) {
+                    rval.add_input( MOUSE_BUTTON_LEFT );
+                } else if( event.bstate & BUTTON3_CLICKED ) {
+                    rval.add_input( MOUSE_BUTTON_RIGHT );
+                } else if( event.bstate & REPORT_MOUSE_POSITION ) {
+                    rval.add_input( MOUSE_MOVE );
+                    if( input_timeout > 0 ) {
+                        // Mouse movement seems to clear ncurses timeout
+                        set_timeout( input_timeout );
+                    }
+                } else {
+                    rval.type = CATA_INPUT_ERROR;
                 }
             } else {
                 rval.type = CATA_INPUT_ERROR;
             }
         } else {
-            rval.type = CATA_INPUT_ERROR;
+            if( key == 127 ) { // == Unicode DELETE
+                previously_pressed_key = KEY_BACKSPACE;
+                return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
+            }
+            rval.type = CATA_INPUT_KEYBOARD;
+            rval.text.append( 1, static_cast<char>( key ) );
+            // Read the UTF-8 sequence (if any)
+            if( key < 127 ) {
+                // Single byte sequence
+            } else if( 194 <= key && key <= 223 ) {
+                rval.text.append( 1, static_cast<char>( getch() ) );
+            } else if( 224 <= key && key <= 239 ) {
+                rval.text.append( 1, static_cast<char>( getch() ) );
+                rval.text.append( 1, static_cast<char>( getch() ) );
+            } else if( 240 <= key && key <= 244 ) {
+                rval.text.append( 1, static_cast<char>( getch() ) );
+                rval.text.append( 1, static_cast<char>( getch() ) );
+                rval.text.append( 1, static_cast<char>( getch() ) );
+            } else {
+                // Other control character, etc. - no text at all, return an event
+                // without the text property
+                previously_pressed_key = key;
+                return input_event( key, CATA_INPUT_KEYBOARD );
+            }
+            // Now we have loaded an UTF-8 sequence (possibly several bytes)
+            // but we should only return *one* key, so return the code point of it.
+            const uint32_t cp = UTF8_getch( rval.text );
+            if( cp == UNKNOWN_UNICODE ) {
+                // Invalid UTF-8 sequence, this should never happen, what now?
+                // Maybe return any error instead?
+                previously_pressed_key = key;
+                return input_event( key, CATA_INPUT_KEYBOARD );
+            }
+            previously_pressed_key = cp;
+            // for compatibility only add the first byte, not the code point
+            // as it would  conflict with the special keys defined by ncurses
+            rval.add_input( key );
         }
-    } else {
-        if( key == 127 ) { // == Unicode DELETE
-            previously_pressed_key = KEY_BACKSPACE;
-            return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
-        }
-        rval.type = CATA_INPUT_KEYBOARD;
-        rval.text.append( 1, static_cast<char>( key ) );
-        // Read the UTF-8 sequence (if any)
-        if( key < 127 ) {
-            // Single byte sequence
-        } else if( 194 <= key && key <= 223 ) {
-            rval.text.append( 1, static_cast<char>( getch() ) );
-        } else if( 224 <= key && key <= 239 ) {
-            rval.text.append( 1, static_cast<char>( getch() ) );
-            rval.text.append( 1, static_cast<char>( getch() ) );
-        } else if( 240 <= key && key <= 244 ) {
-            rval.text.append( 1, static_cast<char>( getch() ) );
-            rval.text.append( 1, static_cast<char>( getch() ) );
-            rval.text.append( 1, static_cast<char>( getch() ) );
-        } else {
-            // Other control character, etc. - no text at all, return an event
-            // without the text property
-            previously_pressed_key = key;
-            return input_event( key, CATA_INPUT_KEYBOARD );
-        }
-        // Now we have loaded an UTF-8 sequence (possibly several bytes)
-        // but we should only return *one* key, so return the code point of it.
-        const uint32_t cp = UTF8_getch( rval.text );
-        if( cp == UNKNOWN_UNICODE ) {
-            // Invalid UTF-8 sequence, this should never happen, what now?
-            // Maybe return any error instead?
-            previously_pressed_key = key;
-            return input_event( key, CATA_INPUT_KEYBOARD );
-        }
-        previously_pressed_key = cp;
-        // for compatibility only add the first byte, not the code point
-        // as it would  conflict with the special keys defined by ncurses
-        rval.add_input( key );
-    }
+    } while( key == KEY_RESIZE );
 
     return rval;
 }
