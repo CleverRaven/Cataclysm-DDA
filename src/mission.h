@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MISSION_H
-#define MISSION_H
+#ifndef CATA_SRC_MISSION_H
+#define CATA_SRC_MISSION_H
 
 #include <algorithm>
 #include <functional>
@@ -474,4 +474,4 @@ struct enum_traits<mission::mission_status> {
     static constexpr mission::mission_status last = mission::mission_status::num_mission_status;
 };
 
-#endif
+#endif // CATA_SRC_MISSION_H

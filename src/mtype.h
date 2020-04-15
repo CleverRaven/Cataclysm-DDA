@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MTYPE_H
-#define MTYPE_H
+#ifndef CATA_SRC_MTYPE_H
+#define CATA_SRC_MTYPE_H
 
 #include <map>
 #include <set>
@@ -392,4 +392,4 @@ struct mtype {
 
 mon_effect_data load_mon_effect_data( const JsonObject &e );
 
-#endif
+#endif // CATA_SRC_MTYPE_H

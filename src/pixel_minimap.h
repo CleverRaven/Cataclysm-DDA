@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MINIMAP_H
-#define MINIMAP_H
+#ifndef CATA_SRC_PIXEL_MINIMAP_H
+#define CATA_SRC_PIXEL_MINIMAP_H
 
 #include <map>
 #include <memory>
@@ -90,4 +90,4 @@ class pixel_minimap
         std::map<tripoint, submap_cache> cache;
 };
 
-#endif // MINIMAP_H
+#endif // CATA_SRC_PIXEL_MINIMAP_H

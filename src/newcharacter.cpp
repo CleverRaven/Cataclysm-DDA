@@ -130,7 +130,7 @@ void Character::pick_name( bool bUseDefault )
 static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
                                   const avatar &u )
 {
-    if( type == PLTYPE_NOW || type == PLTYPE_FULL_RANDOM ) {
+    if( type == character_type::NOW || type == character_type::FULL_RANDOM ) {
         return random_entry( styles );
     }
     if( styles.size() == 1 ) {
@@ -218,8 +218,8 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     int num_btraits = 0;
     int tries = 0;
     add_traits( points ); // adds mandatory profession/scenario traits.
-    for( const auto &mut : my_mutations ) {
-        const mutation_branch &mut_info = mut.first.obj();
+    for( const trait_id &mut : get_mutations() ) {
+        const mutation_branch &mut_info = mut.obj();
         if( mut_info.profession ) {
             continue;
         }
@@ -372,28 +372,29 @@ bool avatar::create( character_type type, const std::string &tempname )
     prof = profession::generic();
     g->scen = scenario::generic();
 
-    const bool interactive = type != PLTYPE_NOW && type != PLTYPE_FULL_RANDOM;
+    const bool interactive = type != character_type::NOW &&
+                             type != character_type::FULL_RANDOM;
 
     int tab = 0;
     points_left points = points_left();
 
     switch( type ) {
-        case PLTYPE_CUSTOM:
+        case character_type::CUSTOM:
             break;
-        case PLTYPE_RANDOM:
+        case character_type::RANDOM:
             //random scenario, default name if exist
             randomize( true, points );
             tab = NEWCHAR_TAB_MAX;
             break;
-        case PLTYPE_NOW:
+        case character_type::NOW:
             //default world, fixed scenario, random name
             randomize( false, points, true );
             break;
-        case PLTYPE_FULL_RANDOM:
+        case character_type::FULL_RANDOM:
             //default world, random scenario, random name
             randomize( true, points, true );
             break;
-        case PLTYPE_TEMPLATE:
+        case character_type::TEMPLATE:
             if( !load_template( tempname, points ) ) {
                 return false;
             }
@@ -414,7 +415,7 @@ bool avatar::create( character_type type, const std::string &tempname )
                              "Continue anyways?" ), name );
     };
 
-    const bool allow_reroll = type == PLTYPE_RANDOM;
+    const bool allow_reroll = type == character_type::RANDOM;
     tab_direction result = tab_direction::QUIT;
     do {
         if( !interactive ) {
@@ -2514,7 +2515,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         werase( w_location );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_location, point( 0, 1 ), ( TERMX / 2 ), c_light_gray, location_prompt );
-        mvwprintz( w_location, point( 0, 0 ), c_light_gray, _( "Starting location:" ) );
+        mvwprintz( w_location, point_zero, c_light_gray, _( "Starting location:" ) );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, point( utf8_width( _( "Starting location:" ) ) + 1, 0 ),
                    you.random_start_location ? c_red : c_light_green,
@@ -2719,7 +2720,7 @@ std::vector<trait_id> Character::get_base_traits() const
 std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
-    for( auto &t : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         if( include_hidden || t.first.obj().player_display ) {
             result.push_back( t.first );
         }

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef INPUT_H
-#define INPUT_H
+#ifndef CATA_SRC_INPUT_H
+#define CATA_SRC_INPUT_H
 
 #include <algorithm>
 #include <cstddef>
@@ -742,4 +742,4 @@ bool gamepad_available();
 // rotate a delta direction clockwise
 void rotate_direction_cw( int &dx, int &dy );
 
-#endif
+#endif // CATA_SRC_INPUT_H

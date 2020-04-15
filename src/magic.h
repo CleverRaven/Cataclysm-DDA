@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAGIC_H
-#define MAGIC_H
+#ifndef CATA_SRC_MAGIC_H
+#define CATA_SRC_MAGIC_H
 
 #include <functional>
 #include <map>
@@ -609,4 +609,4 @@ struct area_expander {
     void sort_descending();
 };
 
-#endif
+#endif // CATA_SRC_MAGIC_H

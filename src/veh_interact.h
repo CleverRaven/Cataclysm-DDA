@@ -1,6 +1,6 @@
 #pragma once
-#ifndef VEH_INTERACT_H
-#define VEH_INTERACT_H
+#ifndef CATA_SRC_VEH_INTERACT_H
+#define CATA_SRC_VEH_INTERACT_H
 
 #include <cstddef>
 #include <functional>
@@ -225,4 +225,4 @@ class veh_interact
         bool can_self_jack();
 };
 
-#endif
+#endif // CATA_SRC_VEH_INTERACT_H

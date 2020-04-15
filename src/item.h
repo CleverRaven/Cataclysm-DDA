@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef CATA_SRC_ITEM_H
+#define CATA_SRC_ITEM_H
 
 #include <algorithm>
 #include <climits>
@@ -2258,4 +2258,4 @@ inline bool is_crafting_component( const item &component )
            !component.is_filthy();
 }
 
-#endif
+#endif // CATA_SRC_ITEM_H

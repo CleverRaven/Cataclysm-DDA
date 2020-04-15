@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PROFESSION_H
-#define PROFESSION_H
+#ifndef CATA_SRC_PROFESSION_H
+#define CATA_SRC_PROFESSION_H
 
 #include <algorithm>
 #include <list>
@@ -25,8 +25,6 @@ using itype_id = std::string;
 class JsonObject;
 class avatar;
 class player;
-
-enum add_type : int;
 
 class profession
 {
@@ -134,4 +132,4 @@ class profession
         std::set<trait_id> get_forbidden_traits() const;
 };
 
-#endif
+#endif // CATA_SRC_PROFESSION_H

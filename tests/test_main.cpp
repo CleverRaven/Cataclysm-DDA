@@ -142,7 +142,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->load_world_modfiles( ui );
 
     g->u = avatar();
-    g->u.create( PLTYPE_NOW );
+    g->u.create( character_type::NOW );
 
     g->m = map( get_option<bool>( "ZLEVELS" ) );
 

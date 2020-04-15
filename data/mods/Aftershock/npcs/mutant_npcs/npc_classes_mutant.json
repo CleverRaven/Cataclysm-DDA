@@ -381,5 +381,24 @@
       { "group": "trait_group_raptor" },
       { "distribution": [ { "group": "trait_group_raptor_nonthres" }, { "group": "trait_group_raptor_postthres" } ] }
     ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_MASTODON",
+    "name": "Mastodon Uplift",
+    "job_description": "Humans created me.  Let's see what I can be on my own.",
+    "skills": [
+      { "skill": "survival", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 6, 10 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 6, 10 ] } }
+    ],
+    "bonus_str": 3,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "trait_group_mastodon" },
+      {
+        "distribution": [ { "group": "trait_group_mastodon_nonthres" }, { "group": "trait_group_mastodon_postthres" } ]
+      }
+    ]
   }
 ]

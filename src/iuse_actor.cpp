@@ -1446,7 +1446,7 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     const int moves_base = moves_cost_by_fuel( pos );
     const double moves_per_turn = to_moves<double>( 1_turns );
     const int min_moves = std::min<int>(
-                              moves_base, sqrt( 1 + moves_base / moves_per_turn ) * moves_per_turn );
+                              moves_base, std::sqrt( 1 + moves_base / moves_per_turn ) * moves_per_turn );
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player

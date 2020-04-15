@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITYPE_H
-#define ITYPE_H
+#ifndef CATA_SRC_ITYPE_H
+#define CATA_SRC_ITYPE_H
 
 #include <array>
 #include <map>
@@ -135,7 +135,7 @@ struct islot_comestible {
         int addict = 0;
 
         /** effects of addiction */
-        add_type add = ADD_NULL;
+        add_type add = add_type::NONE;
 
         /** stimulant effect */
         int stim = 0;
@@ -1092,4 +1092,4 @@ struct itype {
         virtual ~itype() = default;
 };
 
-#endif
+#endif // CATA_SRC_ITYPE_H

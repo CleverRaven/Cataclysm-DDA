@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SDLTILES_H
-#define CATA_SDLTILES_H
+#ifndef CATA_SRC_SDLTILES_H
+#define CATA_SRC_SDLTILES_H
 
 #include <array>
 #if defined(TILES)
@@ -42,4 +42,4 @@ window_dimensions get_window_dimensions( const catacurses::window &win );
 
 #endif // TILES
 
-#endif // CATA_SDLTILES_H
+#endif // CATA_SRC_SDLTILES_H
