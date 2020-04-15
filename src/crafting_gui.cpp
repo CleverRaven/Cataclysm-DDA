@@ -213,8 +213,6 @@ const recipe *select_crafting_recipe( int &batch_size )
 
         w_head = catacurses::newwin( headHeight, width, point( wStart, 0 ) );
         w_subhead = catacurses::newwin( subHeadHeight, width, point( wStart, 3 ) );
-        w_data = catacurses::newwin( dataHeight, width, point( wStart,
-                                     headHeight + subHeadHeight ) );
 
         if( isWide ) {
             item_info_width = width - FULL_SCREEN_WIDTH - 2;
@@ -228,6 +226,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             item_info_width = 0;
             w_iteminfo = {};
         }
+
+        w_data = catacurses::newwin( dataHeight, width - item_info_width,
+                                     point( wStart, headHeight + subHeadHeight ) );
 
         ui.position( point( wStart, 0 ), point( width, TERMY ) );
     } );
@@ -360,6 +361,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         mvwputch( w_data, point( 0, dataHeight - 1 ), BORDER_COLOR, LINE_XXOO ); // |_
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
+        cata::optional<point> cursor_pos;
         int recmin = 0, recmax = current.size();
         if( recmax > dataLines ) {
             if( line <= recmin + dataHalfLines ) {
@@ -369,8 +371,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                     }
                     mvwprintz( w_data, point( 2, i - recmin ), c_dark_gray, "" ); // Clear the line
-                    nc_color col = i == line ? available[i].selected_color() : available[i].color();
-                    mvwprintz( w_data, point( 2, i - recmin ), col, utf8_truncate( tmp_name, 28 ) );
+                    const bool highlight = i == line;
+                    const nc_color col = highlight ? available[i].selected_color() : available[i].color();
+                    const point print_from( 2, i - recmin );
+                    if( highlight ) {
+                        cursor_pos = print_from;
+                    }
+                    mvwprintz( w_data, print_from, col, utf8_truncate( tmp_name, 28 ) );
                 }
             } else if( line >= recmax - dataHalfLines ) {
                 for( int i = recmax - dataLines; i < recmax; ++i ) {
@@ -379,8 +386,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                     }
                     mvwprintz( w_data, point( 2, dataLines + i - recmax ), c_light_gray, "" ); // Clear the line
-                    nc_color col = i == line ? available[i].selected_color() : available[i].color();
-                    mvwprintz( w_data, point( 2, dataLines + i - recmax ), col,
+                    const bool highlight = i == line;
+                    const nc_color col = highlight ? available[i].selected_color() : available[i].color();
+                    const point print_from( 2, dataLines + i - recmax );
+                    if( highlight ) {
+                        cursor_pos = print_from;
+                    }
+                    mvwprintz( w_data, print_from, col,
                                utf8_truncate( tmp_name, 28 ) );
                 }
             } else {
@@ -390,8 +402,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                         tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                     }
                     mvwprintz( w_data, point( 2, dataHalfLines + i - line ), c_light_gray, "" ); // Clear the line
-                    nc_color col = i == line ? available[i].selected_color() : available[i].color();
-                    mvwprintz( w_data, point( 2, dataHalfLines + i - line ), col,
+                    const bool highlight = i == line;
+                    const nc_color col = highlight ? available[i].selected_color() : available[i].color();
+                    const point print_from( 2, dataHalfLines + i - line );
+                    if( highlight ) {
+                        cursor_pos = print_from;
+                    }
+                    mvwprintz( w_data, print_from, col,
                                utf8_truncate( tmp_name, 28 ) );
                 }
             }
@@ -401,8 +418,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( batch ) {
                     tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                 }
-                nc_color col = i == line ? available[i].selected_color() : available[i].color();
-                mvwprintz( w_data, point( 2, i ), col, utf8_truncate( tmp_name, 28 ) );
+                const bool highlight = i == line;
+                const nc_color col = highlight ? available[i].selected_color() : available[i].color();
+                const point print_from( 2, i );
+                if( highlight ) {
+                    cursor_pos = print_from;
+                }
+                mvwprintz( w_data, print_from, col, utf8_truncate( tmp_name, 28 ) );
             }
         }
 
@@ -467,8 +489,6 @@ const recipe *select_crafting_recipe( int &batch_size )
             const int xpos = 30;
 
             if( display_mode == 0 ) {
-                const int width = getmaxx( w_data ) - xpos - item_info_width;
-
                 auto player_skill = g->u.get_skill_level( current[line]->skill_used );
                 std::string difficulty_color =
                     current[ line ]->difficulty > player_skill ? "yellow" : "green";
@@ -483,7 +503,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                    ( !current[line]->skill_used ? "" : primary_skill_level )
                                  ) );
 
-                ypos += fold_and_print( w_data, point( xpos, ypos ), width, col,
+                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                         _( "Other skills: %s" ),
                                         current[line]->required_skills_string( &g->u ) );
 
@@ -551,7 +571,6 @@ const recipe *select_crafting_recipe( int &batch_size )
         }
 
         draw_scrollbar( w_data, line, dataLines, recmax, point_zero );
-        wrefresh( w_data );
 
         if( isWide && !current.empty() ) {
             item_info_data data = item_info_data_from_recipe( current[line], count, item_info_scroll );
@@ -561,6 +580,12 @@ const recipe *select_crafting_recipe( int &batch_size )
             data.use_full_win = true;
             draw_item_info( w_iteminfo, data );
         }
+
+        if( cursor_pos ) {
+            // place the cursor at the selected item name as expected by screen readers
+            wmove( w_data, cursor_pos.value() );
+        }
+        wrefresh( w_data );
     } );
 
     do {

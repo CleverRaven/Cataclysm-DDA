@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "pldata.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
@@ -14,7 +15,6 @@
 class JsonObject;
 class profession;
 
-enum add_type : int;
 template<typename T>
 class generic_factory;
 

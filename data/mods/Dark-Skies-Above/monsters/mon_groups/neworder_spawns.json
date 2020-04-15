@@ -1,25 +1,14 @@
 [
   {
-    "name": "GROUP_PARK_SCENIC",
     "type": "monstergroup",
-    "default": "mon_null",
+    "name": "GROUP_ZOMBIE",
+    "default": "dks_mon_stray_burnt",
     "monsters": [
-      { "monster": "dks_neworder_knight", "freq": 50, "cost_multiplier": 5, "pack_size": [ 2, 5 ] },
-      { "monster": "dks_neworder_pyro", "freq": 25, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
-      { "monster": "dks_neworder_cop", "freq": 5, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_dks_emissary", "freq": 1, "starts": 24, "cost_multiplier": 20 },
-      { "monster": "mon_dks_emissary_plague", "freq": 1, "starts": 36, "cost_multiplier": 25 },
-      { "monster": "mon_dks_emissary_flame", "freq": 1, "starts": 48, "cost_multiplier": 30 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_POLICE",
-    "default": "mon_null",
-    "monsters": [
-      { "monster": "dks_neworder_knight", "freq": 40, "cost_multiplier": 10, "pack_size": [ 2, 5 ] },
-      { "monster": "dks_neworder_cop", "freq": 10, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_dks_emissary", "freq": 1, "cost_multiplier": 40 }
+      { "monster": "mon_dks_glowdrone", "freq": 20, "cost_multiplier": 5, "starts": 360 },
+      { "monster": "mon_dks_scidrone", "freq": 20, "cost_multiplier": 10, "starts": 1080 },
+      { "monster": "mon_dks_scidrone", "freq": 20, "cost_multiplier": 15, "pack_size": [ 1, 3 ], "starts": 1440 },
+      { "monster": "mon_dks_emissary", "freq": 10, "cost_multiplier": 20, "starts": 1440 },
+      { "monster": "mon_dks_emissary_flame", "freq": 10, "cost_multiplier": 30, "starts": 2880 }
     ]
   },
   {
@@ -28,8 +17,11 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "dks_neworder_scout", "freq": 1, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_dks_emissary", "freq": 1, "starts": 24, "cost_multiplier": 20 }
+      { "monster": "mon_dks_glowdrone", "freq": 1, "cost_multiplier": 10, "starts": 360 },
+      { "monster": "mon_dks_scidrone", "freq": 1, "cost_multiplier": 15, "starts": 1080 },
+      { "monster": "mon_dks_emissary", "freq": 1, "cost_multiplier": 20, "starts": 1440 },
+      { "monster": "mon_dks_emissary", "freq": 1, "cost_multiplier": 15, "starts": 2160 },
+      { "monster": "mon_dks_emissary_plague", "freq": 1, "cost_multiplier": 20, "starts": 2160 }
     ]
   },
   {
@@ -38,45 +30,43 @@
     "//": "50% chance military zombie or robot",
     "default": "mon_null",
     "monsters": [
-      { "monster": "dks_neworder_knight", "freq": 35, "cost_multiplier": 1 },
-      { "monster": "dks_neworder_cop", "freq": 10, "cost_multiplier": 50 },
-      { "monster": "mon_dks_emissary", "freq": 5, "cost_multiplier": 50 },
+      { "monster": "mon_dks_glowdrone", "freq": 10, "cost_multiplier": 10 },
+      { "monster": "mon_dks_emissary", "freq": 5, "cost_multiplier": 20 },
       { "monster": "mon_dks_emissary_plague", "freq": 5, "cost_multiplier": 50 }
     ]
   },
   {
     "name": "GROUP_MIL_WEAK",
     "type": "monstergroup",
-    "default": "dks_neworder_knight",
+    "default": "mon_null",
     "monsters": [
-      { "monster": "dks_neworder_knight", "freq": 150, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
-      { "monster": "dks_neworder_cop", "freq": 200, "cost_multiplier": 30 },
+      { "monster": "mon_dks_glowdrone", "freq": 50, "cost_multiplier": 10 },
+      { "monster": "mon_dks_scidrone", "freq": 20, "cost_multiplier": 10 },
       { "monster": "mon_dks_emissary", "freq": 5, "cost_multiplier": 20 }
     ]
   },
   {
     "name": "GROUP_MIL_STRONG",
     "type": "monstergroup",
-    "default": "dks_neworder_knight",
+    "default": "mon_null",
     "monsters": [
-      { "monster": "dks_neworder_knight", "freq": 100, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
-      { "monster": "dks_neworder_knight", "freq": 150, "cost_multiplier": 2, "pack_size": [ 2, 6 ] },
-      { "monster": "dks_neworder_cop", "freq": 100, "cost_multiplier": 30 },
-      { "monster": "mon_dks_emissary", "freq": 5, "cost_multiplier": 1 },
-      { "monster": "mon_dks_emissary_plague", "freq": 5, "cost_multiplier": 5 },
-      { "monster": "mon_dks_emissary_flame", "freq": 5, "cost_multiplier": 20 }
+      { "monster": "mon_dks_glowdrone", "freq": 50, "cost_multiplier": 10 },
+      { "monster": "mon_dks_scidrone", "freq": 20, "cost_multiplier": 10 },
+      { "monster": "mon_dks_emissary", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_dks_emissary_plague", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_dks_emissary_flame", "freq": 10, "cost_multiplier": 20 }
     ]
   },
   {
     "name": "GROUP_MIL_BASE",
     "type": "monstergroup",
-    "default": "dks_neworder_knight",
+    "default": "mon_null",
     "monsters": [
-      { "monster": "dks_neworder_knight", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "dks_neworder_cop", "freq": 15, "cost_multiplier": 5 },
-      { "monster": "mon_dks_emissary", "freq": 1, "cost_multiplier": 1 },
-      { "monster": "mon_dks_emissary_plague", "freq": 1, "cost_multiplier": 5 },
-      { "monster": "mon_dks_emissary_flame", "freq": 1, "cost_multiplier": 20 }
+      { "monster": "mon_dks_glowdrone", "freq": 50, "cost_multiplier": 10 },
+      { "monster": "mon_dks_scidrone", "freq": 20, "cost_multiplier": 10 },
+      { "monster": "mon_dks_emissary", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_dks_emissary_plague", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_dks_emissary_flame", "freq": 5, "cost_multiplier": 20 }
     ]
   }
 ]

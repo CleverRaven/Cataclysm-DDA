@@ -2381,6 +2381,16 @@
   },
   {
     "type": "recipe",
+    "result": "taint_tornado",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "drink_sewerbrew",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "plastic_chunk",
     "id_suffix": "from_cash_cards",
     "obsolete": true

@@ -9,10 +9,6 @@
 #include <unistd.h>
 #endif
 
-#if defined(_WIN32)
-#include "platform_win.h"
-#endif
-
 namespace clang
 {
 namespace tidy
