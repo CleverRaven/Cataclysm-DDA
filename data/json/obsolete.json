@@ -85,6 +85,60 @@
     "difficulty": 3
   },
   {
+    "id": "fertilizer_bomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "fertilizer bomb" },
+    "description": "This is a volatile homemade explosive.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+    "weight": "1133 g",
+    "volume": "750 ml",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "plastic", "powder" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 125 },
+    "use_action": {
+      "target": "fertilizer_bomb_act",
+      "msg": "You light the %s.",
+      "target_charges": 10,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "fertilizer_bomb_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "fertilizer bomb (lit)", "str_pl": "fertilizer bombs (lit)" },
+    "description": "The fuse on this fertilizer bomb is lit and hissing.  It'll explode any moment now.",
+    "weight": "1133 g",
+    "volume": "750 ml",
+    "price": 0,
+    "to_hit": -3,
+    "bashing": 4,
+    "material": [ "plastic", "powder" ],
+    "symbol": "*",
+    "color": "red",
+    "initial_charges": 10,
+    "max_charges": 10,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 125 },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+      "explosion": { "power": 175 }
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "bio_blaster",
     "type": "bionic",
     "name": { "str": "Fusion Blaster Arm" },
@@ -164,6 +218,11 @@
     ],
     "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NEVER_JAMS" ],
     "flags": [ "NO_UNLOAD" ]
+  },
+  {
+    "type": "recipe",
+    "result": "fertilizer_bomb",
+    "obsolete": true
   },
   {
     "id": "ftk93",
