@@ -566,6 +566,8 @@ bool avatar::create( character_type type, const std::string &tempname )
             items_identified.insert( it.typeId() );
         }
     }
+    // move items from the inventory. eventually the inventory should not contain items at all.
+    migrate_items_to_storage();
 
     std::vector<addiction> prof_addictions = prof->addictions();
     for( std::vector<addiction>::const_iterator iter = prof_addictions.begin();

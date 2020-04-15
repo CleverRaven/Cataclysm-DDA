@@ -1574,6 +1574,8 @@ void Character::expose_to_disease( const diseasetype_id dis_type )
 
 void Character::process_turn()
 {
+    migrate_items_to_storage();
+
     for( bionic &i : *my_bionics ) {
         if( i.incapacitated_time > 0_turns ) {
             i.incapacitated_time -= 1_turns;
@@ -9393,6 +9395,15 @@ void Character::fall_asleep( const time_duration &duration )
         }
     }
     add_effect( effect_sleep, duration );
+}
+
+void Character::migrate_items_to_storage()
+{
+    inv.visit_items( [&]( const item *it ) {
+        i_add( *it );
+        return VisitResponse::SKIP;
+    } );
+    inv.clear();
 }
 
 std::string Character::is_snuggling() const

@@ -880,6 +880,9 @@ class Character : public Creature, public visitable<Character>
           */
         item_pocket *best_pocket( const item &it, const item *avoid );
     protected:
+        /** used for profession spawning and save migration for nested containers. remove after 0.F */
+        void migrate_items_to_storage();
+
         void do_skill_rust();
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );
