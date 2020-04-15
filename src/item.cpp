@@ -4079,8 +4079,7 @@ void item::handle_pickup_ownership( Character &c )
                     }
                 }
                 if( !guard_chosen ) {
-                    int random_index = rand() % witnesses.size();
-                    witnesses[random_index]->witness_thievery( &*this );
+                    random_entry( witnesses )->witness_thievery( &*this );
                 }
             }
             set_owner( c );
