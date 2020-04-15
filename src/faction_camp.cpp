@@ -1843,7 +1843,10 @@ void basecamp::job_assignment_ui()
                     uilist smenu;
                     smenu.text = _( "Assign job priority ( 0 to disable )" );
                     int count = 0;
-                    std::vector<activity_id> job_vec = cur_npc->job.get_prioritised_vector();
+                    std::vector<activity_id> job_vec;
+                    if( cur_npc ) {
+                        job_vec = cur_npc->job.get_prioritised_vector();
+                    }
                     smenu.addentry( count, true, 'C', _( "Clear all priorities" ) );
                     count++;
                     for( const activity_id &elem : job_vec ) {
