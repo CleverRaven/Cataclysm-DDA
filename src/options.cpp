@@ -1,11 +1,14 @@
 #include "options.h"
 
-#include <climits>
-#include <type_traits>
 #include <cfloat>
+#include <climits>
+#include <iterator>
+#include <stdexcept>
 
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
@@ -17,6 +20,7 @@
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
 #include "sdlsound.h"
 #include "sdltiles.h"
@@ -26,7 +30,6 @@
 #include "translations.h"
 #include "ui_manager.h"
 #include "worldfactory.h"
-#include "color.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -38,11 +41,11 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <exception>
 #include <locale>
 #include <memory>
 #include <sstream>
 #include <string>
-#include <exception>
 
 bool trigdist;
 bool use_tiles;
@@ -1356,6 +1359,10 @@ void options_manager::add_options_interface()
     { { "c", translate_marker( "Cup" ) }, { "l", translate_marker( "Liter" ) }, { "qt", translate_marker( "Quart" ) } },
     "l"
        );
+    add( "DISTANCE_UNITS", "interface", translate_marker( "Distance units" ),
+         translate_marker( "Metric or Imperial" ),
+    { { "metric", translate_marker( "Metric" ) }, { "imperial", translate_marker( "Imperial" ) } },
+    "imperial" );
 
     add( "24_HOUR", "interface", translate_marker( "Time format" ),
          translate_marker( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
@@ -1511,6 +1518,12 @@ void options_manager::add_options_interface()
          translate_marker( "Suppress \"unknown command\" messages" ),
          translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
          false
+       );
+
+    add( "LOOKAROUND_POSITION", "interface", translate_marker( "Look around position" ),
+         translate_marker( "Switch between look around panel being left or right." ),
+    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } },
+    "right"
        );
 
     add( "PICKUP_POSITION", "interface", translate_marker( "Pickup position" ),
@@ -1861,6 +1874,12 @@ void options_manager::add_options_graphics()
        );
 #endif
 
+#if defined(SDL_HINT_RENDER_BATCHING)
+    add( "RENDER_BATCHING", "graphics", translate_marker( "Allow render batching" ),
+         translate_marker( "Use render batching for 2D render API to make it more efficient.  Requires restart." ),
+         true, COPT_CURSES_HIDE
+       );
+#endif
     add( "FRAMEBUFFER_ACCEL", "graphics", translate_marker( "Software framebuffer acceleration" ),
          translate_marker( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
          false, COPT_CURSES_HIDE
@@ -2519,7 +2538,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 WOPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
             }
         }
-
 
         iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;

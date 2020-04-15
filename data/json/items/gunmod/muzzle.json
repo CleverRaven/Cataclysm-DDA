@@ -120,7 +120,6 @@
     "price": 0,
     "material": [ "superalloy", "ceramic" ],
     "mod_targets": [ "rifle" ],
-    "damage_modifier": 0,
     "handling_modifier": 0,
     "proportional": { "loudness_modifier": 2 },
     "flags": [ "IRREMOVABLE" ]

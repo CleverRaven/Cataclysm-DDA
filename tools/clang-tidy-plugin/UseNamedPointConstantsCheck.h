@@ -1,5 +1,5 @@
-#ifndef CATA_TOOLS_CLANG_TIDY_USENAMESPOINTCONSTANTSCHECK_H
-#define CATA_TOOLS_CLANG_TIDY_USENAMESPOINTCONSTANTSCHECK_H
+#ifndef CATA_TOOLS_CLANG_TIDY_PLUGIN_USENAMEDPOINTCONSTANTSCHECK_H
+#define CATA_TOOLS_CLANG_TIDY_PLUGIN_USENAMEDPOINTCONSTANTSCHECK_H
 
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <llvm/ADT/StringRef.h>
@@ -8,7 +8,6 @@
 
 namespace clang
 {
-class CompilerInstance;
 
 namespace tidy
 {
@@ -31,4 +30,4 @@ class UseNamedPointConstantsCheck : public ClangTidyCheck
 } // namespace tidy
 } // namespace clang
 
-#endif // CATA_TOOLS_CLANG_TIDY_USENAMESPOINTCONSTANTSCHECK_H
+#endif // CATA_TOOLS_CLANG_TIDY_PLUGIN_USENAMEDPOINTCONSTANTSCHECK_H

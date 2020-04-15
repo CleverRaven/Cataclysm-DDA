@@ -365,6 +365,7 @@
       [ "heavy_flashlight", 10 ],
       [ "jumper_cable", 20 ],
       [ "jumper_cable_heavy", 10 ],
+      [ "hd_tow_cable", 5 ],
       [ "pliers", 10 ],
       [ "battery_motorbike", 10 ],
       [ "battery_car", 10 ],
@@ -689,7 +690,8 @@
       [ "bottle_glass", 150 ],
       [ "pipe_glass", 10 ],
       [ "jar_glass", 120 ],
-      [ "flask_glass", 60 ]
+      [ "flask_glass", 60 ],
+      [ "tempered_glass_sheet", 5 ]
     ]
   },
   {
@@ -944,7 +946,9 @@
     "type": "item_group",
     "items": [
       [ "awl_bone", 50 ],
+      { "item": "loom_frame", "prob": 10 },
       [ "primitive_knife", 50 ],
+      { "item": "shed_stick", "prob": 10 },
       [ "primitive_axe", 50 ],
       [ "primitive_shovel", 50 ],
       [ "primitive_hammer", 50 ],
@@ -1321,6 +1325,7 @@
       [ "saddle", 8 ],
       [ "wheel", 10 ],
       [ "wheel_wide", 10 ],
+      [ "hd_tow_cable", 2 ],
       [ "wheel_bicycle", 10 ],
       [ "wheel_motorbike", 10 ],
       [ "wheel_small", 10 ],

@@ -1,23 +1,21 @@
 #pragma once
-#ifndef REGIONAL_SETTINGS_H
-#define REGIONAL_SETTINGS_H
+#ifndef CATA_SRC_REGIONAL_SETTINGS_H
+#define CATA_SRC_REGIONAL_SETTINGS_H
 
 #include <map>
-#include <memory>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <set>
 
 #include "enums.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "omdata.h"
-#include "weather_gen.h"
-#include "weighted_list.h"
-#include "int_id.h"
 #include "string_id.h"
 #include "type_id.h"
-#include "memory_fast.h"
+#include "weather_gen.h"
+#include "weighted_list.h"
 
 class JsonObject;
 
@@ -159,6 +157,7 @@ struct forest_trail_settings {
     bool clear_trail_terrain = false;
     std::map<std::string, int> unfinalized_trail_terrain;
     weighted_int_list<ter_id> trail_terrain;
+    building_bin trailheads;
 
     void finalize();
     forest_trail_settings() = default;
@@ -193,6 +192,7 @@ struct shore_extendable_overmap_terrain_alias {
 struct overmap_lake_settings {
     double noise_threshold_lake = 0.25;
     int lake_size_min = 20;
+    int lake_depth = -5;
     std::vector<std::string> unfinalized_shore_extendable_overmap_terrain;
     std::vector<oter_id> shore_extendable_overmap_terrain;
     std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;
@@ -259,4 +259,4 @@ void reset_region_settings();
 void load_region_overlay( const JsonObject &jo );
 void apply_region_overlay( const JsonObject &jo, regional_settings &region );
 
-#endif
+#endif // CATA_SRC_REGIONAL_SETTINGS_H

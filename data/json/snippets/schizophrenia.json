@@ -114,7 +114,15 @@
   {
     "type": "snippet",
     "category": "schizo_formication",
-    "text": [ "Your skin feels itchy.", "You feel larvae wriggling beneath the skin.", "You feel bugs crawling on you." ]
+    "text": [
+      "Your skin feels itchy.",
+      "You can feel something wriggling underneath your skin.",
+      "You can feel insects crawling all over you.",
+      "You feel larvae wriggling beneath the skin.",
+      "You feel itchy all over.",
+      "You feel like you're covered in bugs.",
+      "You feel bugs crawling on you."
+    ]
   },
   {
     "type": "snippet",

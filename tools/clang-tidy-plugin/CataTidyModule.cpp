@@ -2,6 +2,7 @@
 
 #include "ClangTidyModule.h"
 #include "ClangTidyModuleRegistry.h"
+#include "HeaderGuardCheck.h"
 #include "JsonTranslationInputCheck.h"
 #include "NoLongCheck.h"
 #include "NoStaticGettextCheck.h"
@@ -26,6 +27,7 @@ class CataModule : public ClangTidyModule
 {
     public:
         void addCheckFactories( ClangTidyCheckFactories &CheckFactories ) override {
+            CheckFactories.registerCheck<CataHeaderGuardCheck>( "cata-header-guard" );
             CheckFactories.registerCheck<JsonTranslationInputCheck>( "cata-json-translation-input" );
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<NoStaticGettextCheck>( "cata-no-static-gettext" );

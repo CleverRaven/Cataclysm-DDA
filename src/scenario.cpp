@@ -12,6 +12,7 @@
 #include "profession.h"
 #include "translations.h"
 #include "rng.h"
+#include "start_location.h"
 
 namespace
 {
@@ -109,7 +110,7 @@ const scenario *scenario::weighted_random()
     while( true ) {
         const scenario &scen = random_entry_ref( list );
 
-        if( x_in_y( 2, abs( scen.point_cost() ) + 2 ) ) {
+        if( x_in_y( 2, std::abs( scen.point_cost() ) + 2 ) ) {
             return &scen;
         }
         // else reroll in the while loop.
@@ -383,6 +384,21 @@ std::string scenario::prof_count_str() const
 std::string scenario::start_name() const
 {
     return _start_name.translated();
+}
+
+
+int scenario::start_location_count() const
+{
+    return _allowed_locs.size();
+}
+
+int scenario::start_location_targets_count() const
+{
+    int cnt = 0;
+    for( const auto &sloc : _allowed_locs ) {
+        cnt += sloc.obj().targets_count();
+    }
+    return cnt;
 }
 
 bool scenario::traitquery( const trait_id &trait ) const

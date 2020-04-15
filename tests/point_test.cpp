@@ -1,8 +1,8 @@
+#include <string>
+#include <vector>
+
 #include "catch/catch.hpp"
-
 #include "point.h"
-
-#include "stringmaker.h"
 
 TEST_CASE( "rectangle_containment", "[point]" )
 {

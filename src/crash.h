@@ -1,8 +1,8 @@
 #pragma once
-#ifndef CRASH_H
-#define CRASH_H
+#ifndef CATA_SRC_CRASH_H
+#define CATA_SRC_CRASH_H
 
 // Initialize crash handlers for windows
 void init_crash_handlers();
 
-#endif
+#endif // CATA_SRC_CRASH_H

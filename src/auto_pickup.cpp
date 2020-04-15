@@ -1,18 +1,20 @@
 #include "auto_pickup.h"
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
 #include <functional>
-#include <map>
 #include <memory>
 #include <utility>
 
 #include "avatar.h"
 #include "cata_utility.h"
+#include "color.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
 #include "input.h"
+#include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
@@ -20,13 +22,12 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "item.h"
 
 using namespace auto_pickup;
 
@@ -550,11 +551,11 @@ void player_settings::add_rule( const item *it )
 void player_settings::remove_rule( const item *it )
 {
     const std::string sRule = it->tname( 1, false );
-    for( auto it = character_rules.begin();
-         it != character_rules.end(); ++it ) {
-        if( sRule.length() == it->sRule.length() &&
-            ci_find_substr( sRule, it->sRule ) != -1 ) {
-            character_rules.erase( it );
+    for( rule_list::iterator candidate = character_rules.begin();
+         candidate != character_rules.end(); ++candidate ) {
+        if( sRule.length() == candidate->sRule.length() &&
+            ci_find_substr( sRule, candidate->sRule ) != -1 ) {
+            character_rules.erase( candidate );
             invalidate();
             break;
         }

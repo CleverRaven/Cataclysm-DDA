@@ -17,8 +17,10 @@ Use the `Home` key to return to the top.
     + [Other formatting](#other-formatting)
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
   * [`data/json/` JSONs](#datajson-jsons)
+    + [Body_parts](#body_parts)
     + [Bionics](#bionics)
     + [Dreams](#dreams)
+    + [Disease](#disease_type)
     + [Item Groups](#item-groups)
     + [Item Category](#item-category)
     + [Materials](#materials)
@@ -188,6 +190,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | default_blacklist.json      | a standard blacklist of joke monsters
 | doll_speech.json            | talk doll speech messages
 | dreams.json                 | dream text and linked mutation categories
+| disease.json                | disease definitions
 | effects.json                | common effects and their effects
 | emit.json                   | smoke and gas emissions
 | flags.json                  | common flags and their descriptions
@@ -369,6 +372,52 @@ This section describes each json file and their contents. Each json has their ow
 
 ## `data/json/` JSONs
 
+### Body_parts
+
+| Identifier        | Description
+|---                |---
+| id                | Unique ID. Must be one continuous word, use underscores if necessary.
+| name              | In-game name displayed.
+| accusative        | Accusative form for this bodypart.
+| heading           | How it's displayed in headings.
+| heading_multiple  | Plural form of heading.
+| hp_bar_ui_text    | How it's displayed next to the hp bar in the panel.
+| main_part         | What is the main part this one is attached to. (If this is a main part it's attached to itself)
+| opposite_part     | What is the opposite part ot this one in case of a pair.
+| hit_size          | Size of the body part when doing an unweighted selection.
+| hit_size_relative | Hit sizes for attackers who are smaller, equal in size, and bigger.
+| hit_difficulty    | How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
+| stylish_bonus     | Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
+| hot_morale_mod    | Mood effect of being too hot on this part. (default: `0`)
+| cold_morale_mod   | Mood effect of being too cold on this part. (default: `0`)
+| squeamish_penalty | Mood effect of wearing filthy clothing on this part. (default: `0`)
+| bionic_slots      | How many bionic slots does this part have.
+
+```C++
+  {
+    "id": "torso",
+    "type": "body_part",
+    "name": "torso",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "torso" },
+    "heading": "Torso",
+    "heading_multiple": "Torso",
+    "hp_bar_ui_text": "TORSO",
+    "encumbrance_text": "Dodging and melee is hampered.",
+    "main_part": "torso",
+    "opposite_part": "torso",
+    "hit_size": 45,
+    "hit_size_relative": [ 20, 33.33, 36.57 ],
+    "hit_difficulty": 1,
+    "side": "both",
+    "legacy_id": "TORSO",
+    "stylish_bonus": 6,
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
+    "squeamish_penalty": 6,
+    "bionic_slots": 80
+  }
+```
+
 ### Bionics
 
 | Identifier                  | Description
@@ -455,6 +504,34 @@ When adding a new bionic, if it's not included with another one, you must also a
     "category" : "MUTCAT_BIRD",
     "strength" : 1
 }
+```
+
+### Disease
+
+| Identifier         | Description
+|---                 |---
+| id                 | Unique ID. Must be one continuous word, use underscores if necessary.
+| min_duration       | The minimum duration the disease can last. Uses strings "x m", "x s","x d".
+| max_duration       | The maximum duration the disease can last.
+| min_intensity      | The minimum intensity of the effect applied by the disease
+| max_intensity      | The maximum intensity of the effect.
+| health_threshold   | The amount of health above which one is immune to the disease. Must be between -200 and 200. (optional )
+| symptoms           | The effect applied by the disease.
+| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to num_bp)
+
+
+```json
+  {
+    "type": "disease_type",
+    "id": "bad_food",
+    "min_duration": "6 m",
+    "max_duration": "1 h",
+    "min_intensity": 1,
+    "max_intensity": 1,
+    "affected_bodyparts": [ "TORSO" ],
+    "health_threshold": 100,
+    "symptoms": "foodpoison"
+  }
 ```
 
 ### Item Groups
@@ -976,22 +1053,82 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
   }
 ```
 
-### Scores
+### Scores and achievements
 
 Scores are defined in two or three steps based on *events*.  To see what events
 exist and what data they contain, read [`event.h`](../src/event.h).
 
-* First, optionally, define an `event_transformation` which converts events as
-  generated in-game into a format more suitable for your purpose.
-* Second, define an `event_statistic` which summarizes a collection of events
-  into a single value (usually a number, but other types of value are
-  possible).
-* Third, define a `score` which uses such a statistic.
+Each event contains a certain set of fields.  Each field has a string key and a
+`cata_variant` value.  The fields should provide all the relevant information
+about the event.
+
+For example, consider the `gains_skill_level` event.  You can see this
+specification for it in `event.h`:
+
+```C++
+template<>
+struct event_spec<event_type::gains_skill_level> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "skill", cata_variant_type::skill_id },
+            { "new_level", cata_variant_type::int_ },
+        }
+    };
+};
+```
+
+From this, you can see that this event type has three fields:
+* `character`, with the id of the character gaining the level.
+* `skill`, with the id of the skill gained.
+* `new_level`, with the integer level newly acquired in that skill.
+
+Events are generated by the game when in-game circumstances dictate.  These
+events can be transformed and summarized in various ways.  There are three
+concepts involved: event streams, event statistics, and scores.
+
+* Each `event_type` defined by the game generates an event stream.
+* Further event streams can be defined in json by applying an
+  `event_transformation` to an existing event stream.
+* An `event_statistic` summarizes an event stream into a single value (usually
+  a number, but other types of value are possible).
+* A `score` uses such a statistic to define an in-game score which players can
+  see.
 
 #### `event_transformation`
 
-Currently the only available transformation is to filter the set of events
-based on certain constraints.
+An `event_transformation` can modify an event stream, producing another event
+stream.
+
+The input stream to be transformed is specified either as an `"event_type"`, to
+use one of the built-in event type streams, or an `"event_transformation"`,
+to use another json-defined transformed event stream.
+
+Any or all of the following alterations can be made to the event stream:
+
+* Add new fields to each event based on event field transformations.  The event
+  field transformations can be found in
+  [`event_field_transformation.cpp`](../src/event_field_transformation.cpp).
+* Filter events based on the values they contain to produce a stream containing
+  some subset of the input stream.
+* Drop some fields which are not of interest in the output stream.
+
+Here are examples of each modification:
+
+```C++
+"id": "avatar_kills_with_species",
+"type": "event_transformation",
+"event_type": "character_kills_monster", // Transformation acts upon events of this type
+"new_fields": { // A dictionary of new fields to add to the event
+    // The key is the new field name; the value should be a dictionary of one element
+    "species": {
+        // The key specifies the event_field_transformation to apply; the value specifies
+        // the input field whose value should be provided to that transformation.
+        // So, in this case, we are adding a new field 'species' which will
+        // contain the species of the victim of this kill event.
+        "species_of_monster": "victim_type"
+    }
+}
+```
 
 ```C++
 "id": "moves_on_horse",
@@ -1004,15 +1141,20 @@ based on certain constraints.
     // "equals_statistic" specifies that the value must match the value of some statistic (see below)
     "mount" : { "equals": "mon_horse" }
 }
+// Since we are filtering to only those events where 'mount' is 'mon_horse', we
+// might as well drop the 'mount' field, since it provides no useful information.
+"drop_fields" : [ "mount" ]
 ```
 
 #### `event_statistic`
 
-A statistic must specify a source of events via one of the following:
+As with `event_transformation`, an `event_statistic` requires an input event
+stream.  That input stream can be specified in the same was as for
+`event_transformation`, via one of the following two entries:
 
 ```C++
-"event_type" : "avatar_moves" // Consider all moves of this type
-"event_transformation" : "moves_on_horse" // Consider moves resulting from this transformation
+"event_type" : "avatar_moves" // Events of this built-in type
+"event_transformation" : "moves_on_horse" // Events resulting from this json-defined transformation
 ```
 
 Then it specifies a particular `stat_type` and potentially additional details
@@ -1036,6 +1178,11 @@ given field for that unique event:
 "field": "avatar_id"
 ```
 
+Regardless of `stat_type`, each `event_statistic` can also have:
+```C++
+"description": "Number of things" // Intended for use in describing achievement requirements.
+```
+
 #### `score`
 
 Scores simply associate a description to an event for formatting in tabulations
@@ -1050,6 +1197,28 @@ Note that even though most statistics yield an integer, you should still use
 "type": "score",
 "description": "Headshots: %s",
 "statistic": "avatar_num_headshots"
+```
+
+#### `achievement`
+
+Achievements are goals for the player to aspire to, in the usual sense of the
+term as popularised in other games.
+
+An achievement is specified via requirements, each of which is a constraint on
+an `event_statistic`.  For example:
+
+```C++
+{
+  "id": "achievement_kill_zombie",
+  "type": "achievement",
+  // The achievement description is used for the UI.
+  "description": "One down, billions to go\u2026",
+  "requirements": [
+    // Each requirement must specify the statistic being constrained, and the
+    // constraint in terms of a comparison against some target value.
+    { "event_statistic": "num_avatar_zombie_kills", "is": ">=", "target": 1 }
+  ]
+},
 ```
 
 ### Skills
@@ -1220,7 +1389,7 @@ Vehicle components when installed on a vehicle.
 ### Part Resistance
 
 ```C++
-"all" : 0.0f,        // Initial value of all resistances, overriden by more specific types
+"all" : 0.0f,        // Initial value of all resistances, overridden by more specific types
 "physical" : 10,     // Initial value for bash, cut and stab
 "non_physical" : 10, // Initial value for acid, heat, cold, electricity and biological
 "biological" : 0.2f, // Resistances to specific types. Those override the general ones.
@@ -1603,7 +1772,7 @@ CBMs can be defined like this:
 "freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
-"contamination": 5,         // (Optional) Probability to get food poisoning from this comestible. Values must be in the [0, 100] range.
+"contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 ```
 
 ### Containers
@@ -2398,6 +2567,11 @@ Strength required to move the furniture around. Negative values indicate an unmo
 #### `plant_data`
 
 (Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag.
+
+#### `surgery_skill_multiplier`
+
+(Optional) Surgery skill multiplier (float) applied by this furniture to survivor standing next to it for the purpose of surgery.
+
 
 ### Terrain
 

@@ -189,7 +189,7 @@ void tileray::advance( int num )
     if( num == 0 ) {
         return;
     }
-    int anum = abs( num );
+    int anum = std::abs( num );
     steps = anum;
     const bool vertical = mostly_vertical();
     if( direction % 90 ) {

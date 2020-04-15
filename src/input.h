@@ -1,7 +1,8 @@
 #pragma once
-#ifndef INPUT_H
-#define INPUT_H
+#ifndef CATA_SRC_INPUT_H
+#define CATA_SRC_INPUT_H
 
+#include <algorithm>
 #include <cstddef>
 #include <functional>
 #include <map>
@@ -9,8 +10,8 @@
 #include <vector>
 
 #if defined(__ANDROID__)
-#include <list>
 #include <algorithm>
+#include <list>
 #endif
 
 #include "point.h"
@@ -741,4 +742,4 @@ bool gamepad_available();
 // rotate a delta direction clockwise
 void rotate_direction_cw( int &dx, int &dy );
 
-#endif
+#endif // CATA_SRC_INPUT_H

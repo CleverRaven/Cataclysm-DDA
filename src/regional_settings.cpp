@@ -2,11 +2,14 @@
 
 #include <algorithm>
 #include <map>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <utility>
 
 #include "debug.h"
+#include "enum_conversions.h"
+#include "int_id.h"
 #include "json.h"
 #include "options.h"
 #include "rng.h"
@@ -219,6 +222,19 @@ static void load_forest_trail_settings( const JsonObject &jo,
                 forest_trail_settings.unfinalized_trail_terrain[member.name()] = member.get_int();
             }
         }
+
+        if( !forest_trail_settings_jo.has_object( "trailheads" ) ) {
+            if( !overlay ) {
+                forest_trail_settings_jo.throw_error( "trailheads required" );
+            }
+        } else {
+            for( const JsonMember member : forest_trail_settings_jo.get_object( "trailheads" ) ) {
+                if( member.is_comment() ) {
+                    continue;
+                }
+                forest_trail_settings.trailheads.add( overmap_special_id( member.name() ), member.get_int() );
+            }
+        }
     }
 }
 
@@ -306,6 +322,8 @@ static void load_overmap_lake_settings( const JsonObject &jo,
                                        overmap_lake_settings.noise_threshold_lake, !overlay );
         read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_size_min",
                                     overmap_lake_settings.lake_size_min, !overlay );
+        read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_depth",
+                                    overmap_lake_settings.lake_depth, !overlay );
 
         if( !overmap_lake_settings_jo.has_array( "shore_extendable_overmap_terrain" ) ) {
             if( !overlay ) {
@@ -324,13 +342,12 @@ static void load_overmap_lake_settings( const JsonObject &jo,
                 overmap_lake_settings_jo.throw_error( "shore_extendable_overmap_terrain_aliases required" );
             }
         } else {
-            oter_str_id alias;
-            for( JsonObject jo :
+            for( JsonObject alias_entry :
                  overmap_lake_settings_jo.get_array( "shore_extendable_overmap_terrain_aliases" ) ) {
                 shore_extendable_overmap_terrain_alias alias;
-                jo.read( "om_terrain", alias.overmap_terrain );
-                jo.read( "alias", alias.alias );
-                alias.match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                alias_entry.read( "om_terrain", alias.overmap_terrain );
+                alias_entry.read( "alias", alias.alias );
+                alias.match_type = alias_entry.get_enum_value<ot_match_type>( "om_terrain_match_type",
                                    ot_match_type::contains );
                 overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back( alias );
             }
@@ -889,6 +906,8 @@ void forest_trail_settings::finalize()
         }
         trail_terrain.add( tid.id(), pr.second );
     }
+
+    trailheads.finalize();
 }
 
 void overmap_lake_settings::finalize()
@@ -1035,7 +1054,7 @@ void building_bin::finalize()
         return;
     }
     if( unfinalized_buildings.empty() ) {
-        debugmsg( "There must be at least one house, shop, and park for each regional map setting used." );
+        debugmsg( "There must be at least one entry in this building bin." );
         return;
     }
 

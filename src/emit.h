@@ -1,12 +1,11 @@
 #pragma once
-#ifndef EMIT_H
-#define EMIT_H
+#ifndef CATA_SRC_EMIT_H
+#define CATA_SRC_EMIT_H
 
 #include <map>
 #include <string>
 
 #include "field_type.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -72,4 +71,4 @@ class emit
         std::string field_name;
 };
 
-#endif
+#endif // CATA_SRC_EMIT_H

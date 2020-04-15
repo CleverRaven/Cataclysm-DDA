@@ -1,14 +1,14 @@
 #pragma once
-#ifndef PLDATA_H
-#define PLDATA_H
+#ifndef CATA_SRC_PLDATA_H
+#define CATA_SRC_PLDATA_H
 
 #include <string>
 
 #include "calendar.h"
-#include "enum_traits.h"
 
 class JsonIn;
 class JsonOut;
+template <typename E> struct enum_traits;
 
 using dis_type = std::string;
 
@@ -62,4 +62,4 @@ class addiction
         void deserialize( JsonIn &jsin );
 };
 
-#endif
+#endif // CATA_SRC_PLDATA_H

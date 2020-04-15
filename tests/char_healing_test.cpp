@@ -1,14 +1,16 @@
-#include "avatar.h"
-#include "options.h"
-#include "type_id.h"
+#include <string>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
+#include "options.h"
+#include "player.h"
+#include "type_id.h"
 
 // Empty `dummy` of all traits, and give them a single trait with name `trait_name`
 static void give_one_trait( player &dummy, const std::string trait_name )
 {
     const trait_id trait( trait_name );
-    dummy.empty_traits();
+    dummy.clear_mutations();
     dummy.toggle_trait( trait );
     REQUIRE( dummy.has_trait( trait ) );
 }
@@ -27,7 +29,7 @@ TEST_CASE( "traits and mutations affecting healing rate", "[heal][trait][mutatio
     REQUIRE( dummy.get_healthy() == 0 );
 
     GIVEN( "no traits" ) {
-        dummy.empty_traits();
+        dummy.clear_mutations();
 
         THEN( "there are no healing modifiers from mutations" ) {
             CHECK( dummy.mutation_value( "healing_resting" ) == 0.0f );

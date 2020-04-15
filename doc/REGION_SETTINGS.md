@@ -137,6 +137,7 @@ are interpreted.
 | ------------------------------------------ | --------------------------------------------------------------------------- |
 | `noise_threshold_lake`                     | [0, 1], x > value spawns a `lake_surface` or `lake_shore`.                  |
 | `lake_size_min`                            | Minimum size of the lake in overmap terrains for it to actually spawn.      |
+| `lake_depth`                               | Depth of lakes, expressed in Z-levels (e.g. -1 to -10).                     |
 | `shore_extendable_overmap_terrain`         | List of overmap terrains that can be extended to the shore if adjacent.     |
 | `shore_extendable_overmap_terrain_aliases` | Overmap terrains to treat as different overmap terrain for extending shore. |
 
@@ -147,6 +148,7 @@ are interpreted.
 	"overmap_lake_settings": {
 		"noise_threshold_lake": 0.25,
 		"lake_size_min": 20,
+		"lake_depth": -5,
 		"shore_extendable_overmap_terrain": ["forest_thick", "forest_water", "field"],
 		"shore_extendable_overmap_terrain_aliases": [
 			{ "om_terrain": "forest", "om_terrain_match_type": "TYPE", "alias": "forest_thick" }
@@ -368,6 +370,7 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 | `trail_width_offset_max`   | Trail width is mapgen offset by `rng(trail_width_offset_min, trail_width_offset_max)`.      |
 | `clear_trail_terrain`      | Clear all previously defined `trail_terrain`.                                               |
 | `trail_terrain`            | Weighted list of terrain that will used for the trail.                                      |
+| `trailheads`               | Weighted list of overmap specials / city buildings that will be placed as trailheads.       |
 
 ### Example
 
@@ -388,6 +391,9 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 		"clear_trail_terrain": false,
 		"trail_terrain": {
 			"t_dirt": 1
+		},
+		"trailheads": {
+			"trailhead_basic": 50
 		}
 	}
 }

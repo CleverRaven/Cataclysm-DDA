@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_VALUE_PTR_H
-#define CATA_VALUE_PTR_H
+#ifndef CATA_SRC_VALUE_PTR_H
+#define CATA_SRC_VALUE_PTR_H
 
 #include <memory>
 
@@ -55,4 +55,4 @@ value_ptr<T> make_value( Args &&...args )
 
 } // namespace cata
 
-#endif // CATA_VALUE_PTR_H
+#endif // CATA_SRC_VALUE_PTR_H

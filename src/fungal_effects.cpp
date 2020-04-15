@@ -1,14 +1,20 @@
 #include "fungal_effects.h"
 
-#include <memory>
 #include <algorithm>
+#include <memory>
 #include <ostream>
 #include <string>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "creature.h"
-#include "field.h"
+#include "debug.h"
+#include "enums.h"
+#include "field_type.h"
 #include "game.h"
+#include "item.h"
+#include "item_stack.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -16,18 +22,11 @@
 #include "monster.h"
 #include "mtype.h"
 #include "player.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "enums.h"
-#include "item.h"
-#include "item_stack.h"
+#include "point.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "colony.h"
-#include "debug.h"
-#include "point.h"
-#include "string_formatter.h"
 
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_stunned( "stunned" );

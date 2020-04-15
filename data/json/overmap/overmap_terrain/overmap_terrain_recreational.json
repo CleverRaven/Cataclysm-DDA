@@ -569,6 +569,102 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "luna_park_0_0_0",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "luna park",
+    "sym": "P",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "luna_park_1_0_0",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "luna park",
+    "sym": "P",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "luna_park_2_0_0",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "luna park",
+    "sym": "P",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "luna_park_0_1_0",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "luna park",
+    "sym": "P",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "luna_park_1_1_0",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "luna park",
+    "sym": "P",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "luna_park_2_1_0",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "luna park",
+    "sym": "P",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "luna_park_0_0_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "luna park",
+    "sym": "P",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "luna_park_1_0_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "luna park",
+    "sym": "P",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "luna_park_2_0_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "luna park",
+    "sym": "P",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "luna_park_0_1_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "luna park",
+    "sym": "P",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "luna_park_1_1_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "luna park",
+    "sym": "P",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "luna_park_2_1_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "luna park",
+    "sym": "P",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "golfcourse_00",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "golf course",
