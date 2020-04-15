@@ -21,7 +21,7 @@
     "id": "butchering_kit",
     "name": { "str": "butchering kit", "str_pl": "butchering kits" },
     "type": "TOOL",
-    "description": "This is a kit with all the specialized knifes you would need for deboning, skinning and preparing the cuts of meat from an animal.",
+    "description": "This is a kit containing all the specialized knives you need to debone, skin, and prepare cuts of meat from an animal.",
     "copy-from": "base_kitchen_knife",
     "looks_like": "knife_butcher",
     "weight": "1170 g",
