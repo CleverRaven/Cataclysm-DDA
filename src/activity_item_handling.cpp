@@ -1141,11 +1141,11 @@ static activity_reason_info find_base_construction(
 static std::string random_string( size_t length )
 {
     auto randchar = []() -> char {
-        const char charset[] =
+        static constexpr char charset[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         "abcdefghijklmnopqrstuvwxyz";
-        const size_t max_index = ( sizeof( charset ) - 1 );
-        return charset[rand() % max_index];
+        static constexpr size_t num_chars = sizeof( charset ) - 1;
+        return charset[rng( 0, num_chars - 1 )];
     };
     std::string str( length, 0 );
     std::generate_n( str.begin(), length, randchar );
