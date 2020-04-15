@@ -241,7 +241,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
                                "ALWAYS" ) );
 
     for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
-        ench_effects.emplace( jsobj.get_string( "effect" ), jsobj.get_int( "intensity" ) );
+        ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
 
     if( jo.has_array( "values" ) ) {
